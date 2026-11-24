@@ -2,7 +2,101 @@
 
 Pre-grader, 2026-11-24. Fails quote the line and give the rule; no new wording is suggested. Verdicts carry by exact text; lines not judged before were read blind (chunk LA, 131 lines, calibration 8/8, with 30 earlier-graded lines mixed in).
 
-## story/w-loading at `0080313e` (newest): 202 of 212 pass
+## story/w-loading at `37a2a25e` (newest), on the owner's real grades: 21 of 77 pass
+
+- **New calibration (Nov 24, after the CTO's line 7140453049 on #9750):** the planted lines are now the owner's own grades, not obviously broken lines. There are 13 lines he graded bad: today's born, school and "usual problems" loading lines, the housemate's "So the President wants… I'm glad she said it out loud", "I'd push back on her there", the four work replies offered together, and four from his Nov 12 notes. There are 6 he graded fine. This chunk (P2) failed all 13 bad lines and passed all 6 good ones. The reader's brief states his four Nov 24 patterns as rules: quips with no referent, a policy's catalog name in speech, four replies with one answer, and narration that restates the screen.
+- Every line of the bank was read fresh. Nothing was carried from the earlier reads, which used the old calibration.
+- **47 of the 56 fails are twins.** The bank holds several lines that say the same fact the same way ("You started school in…", "{school-place} is where you started school…", "In {school-year} you began school…"). The reader kept one line per fact and failed the rest, as the owner's "one answer four ways" rule asks. If you cut a kept line, its twins need a fresh read.
+- The other fails are quips laid on a record fact, lines that assume what the record doesn't hold (a school-age child on every move, a two-way race), and record wording ("a resident of", "your file").
+- Not played.
+
+### Passing lines
+
+- `outline-loading.lost.you-ran-for-lost-office-in-lost-year-lost-votes-people-voted-for-you-and-the-oth`: "You ran for {lost-office} in {lost-year}. {lost-votes} people voted for you, and the other side got {winner-votes}."
+- `outline-loading.moved.loading-story-work-took-your-household-out-of-in-was-where-the-job-was`: "Work took your household out of {moved-from} in {moved-year}. {moved-to} was where the job was."
+- `outline-loading.born.before-you-had-a-word-to-say-a-clerk-had-a-form-for-born-year-with-your-name-on`: "Before you had a word to say, a clerk had a form for {born-year} with your name on it."
+- `outline-loading.job.first-job-year-was-the-first-year-anyone-paid-you-to-show-up`: "{first-job-year} was the first year anyone paid you to show up."
+- `outline-loading.school.by-school-year-you-were-in-school-in-school-place-learning-to-read-and-to-wait-i`: "By {school-year} you were in school in {school-place}, learning to read and to wait in line."
+- `outline-loading.school.your-first-school-was-in-school-place-and-you-started-there-in-school-year`: "Your first school was in {school-place}, and you started there in {school-year}."
+- `outline-loading.moved.in-moved-year-the-family-packed-up-in-moved-from-and-unpacked-in-moved-to`: "In {moved-year} the family packed up in {moved-from} and unpacked in {moved-to}."
+- `outline-loading.moved.the-family-s-mail-started-going-to-moved-to-in-moved-year`: "The family's mail started going to {moved-to} in {moved-year}."
+- `outline-loading.moved.you-were-still-too-young-for-school-when-the-family-left-moved-from-for-moved-to`: "You were still too young for school when the family left {moved-from} for {moved-to} in {moved-year}."
+- `outline-loading.college.you-finished-school-and-started-college-in-the-same-year-college-year`: "You finished school and started college in the same year, {college-year}."
+- `outline-loading.now.most-of-what-happens-in-place-happens-without-you`: "Most of what happens in {place} happens without you."
+- `outline-loading.now.you-have-no-job-in-place-yet`: "You have no job in {place} yet."
+- `outline-loading.finished.you-finished-high-school-in-finished-year`: "You finished high school in {finished-year}."
+- `outline-loading.college.you-started-college-in-college-year`: "You started college in {college-year}."
+- `outline-loading.college.you-enrolled-in-college-in-college-year-and-tuition-came-with-it`: "You enrolled in college in {college-year}, and tuition came with it."
+- `outline-loading.born.you-were-born-in-born-year`: "You were born in {born-year}."
+- `outline-loading.moved.you-moved-from-moved-from-to-moved-to-in-moved-year`: "You moved from {moved-from} to {moved-to} in {moved-year}."
+- `outline-loading.moved.the-move-to-moved-to-came-in-moved-year`: "The move to {moved-to} came in {moved-year}."
+- `outline-loading.lost.you-ran-for-lost-office-in-lost-year-and-lost`: "You ran for {lost-office} in {lost-year} and lost."
+- `outline-loading.now.you-live-alone-in-place`: "You live alone in {place}."
+- `outline-loading.now.your-household-has-lived-in-place-since-here-since-year`: "Your household has lived in {place} since {here-since-year}."
+
+### Failing lines: twins (47)
+
+- `outline-loading.lost.the-lost-office-race-in-lost-year-went-to-the-other-candidate-winner-votes-votes`: "The {lost-office} race in {lost-year} went to the other candidate, {winner-votes} votes to your {lost-votes}." — cut: Says the same loss and counts as P2-001 in other words.
+- `outline-loading.lost.lost-year-put-your-name-on-a-ballot-for-lost-office-you-got-lost-votes-votes-and`: "{lost-year} put your name on a ballot for {lost-office}. You got {lost-votes} votes, and the winner got {winner-votes}." — cut: Twin of P2-001, and a year that puts a name on a ballot reads composed.
+- `outline-loading.lost.in-lost-year-lost-votes-people-marked-your-name-for-lost-office-winner-votes-mar`: "In {lost-year}, {lost-votes} people marked your name for {lost-office}. {winner-votes} marked someone else." — cut: Twin of P2-001, and 'marked someone else' blurs who won when more than two ran.
+- `outline-loading.lost.you-have-already-lost-an-election-lost-office-lost-year-lost-votes-votes-against`: "You have already lost an election: {lost-office}, {lost-year}, {lost-votes} votes against {winner-votes}." — cut: Reads as a colon list of record fields, not a story, and twins P2-001.
+- `outline-loading.lost.lost-year-lost-office-winner-votes-voters-chose-the-winner-and-lost-votes-chose`: "{lost-year}, {lost-office}: {winner-votes} voters chose the winner, and {lost-votes} chose you." — cut: Colon-led field list that says what P2-001 says.
+- `outline-loading.school.loading-story-put-you-in-a-classroom-in-and-the-state-took-attendance`: "{school-year} put you in a classroom in {school-place}, and the state took attendance." — cut: Classroom-plus-the-state twin of P2-083 and P2-028; the year as the actor reads composed.
+- `outline-loading.school.loading-story-when-came-around-counted-heads-and-yours-was-one-of-them`: "When {school-year} came around, {school-place} counted heads, and yours was one of them." — rewrite: 'Counted heads, and yours was one of them' is a wisecrack on a bare enrollment fact and twins P2-008.
+- `outline-loading.moved.loading-story-with-a-job-waiting-in-you-left-and-set-up-in`: "With a job waiting, in {moved-year} you left {moved-from} and set up in {moved-to}." — cut: Same work move as P2-010, with an awkward order of clauses.
+- `outline-loading.lost.loading-story-the-count-for-came-in-at-for-you-and-for-the-winner-that-was`: "The count for {lost-office} came in at {lost-votes} for you and {winner-votes} for the winner. That was {lost-year}." — cut: Twin of P2-001 with the year tacked on as an afterthought.
+- `outline-loading.lost.in-lost-year-lost-office-went-to-the-other-candidate-winner-votes-votes-to-lost`: "In {lost-year}, {lost-office} went to the other candidate, {winner-votes} votes to {lost-votes}." — cut: Twin of P2-001, and 'the other candidate' assumes a two-way race.
+- `outline-loading.lost.once-in-lost-year-you-ran-for-lost-office-the-count-read-lost-votes-for-you-and`: "Once, in {lost-year}, you ran for {lost-office}. The count read {lost-votes} for you and {winner-votes} for the winner." — cut: Same loss and counts as P2-001; the 'Once' adds no new fact.
+- `outline-loading.lost.lost-year-the-voters-of-the-district-picked-someone-else-for-lost-office-winner`: "{lost-year}: the voters of the district picked someone else for {lost-office}, {winner-votes} to {lost-votes}." — rewrite: Colon-led list that twins P2-001, and 'the district' is false for a town-wide office.
+- `outline-loading.born.your-birth-in-born-year-went-into-a-national-count-that-adds-up-every-certificat`: "Your birth in {born-year} went into a national count that adds up every certificate the states file. You were one line in it." — cut: Explains the vital-records count at length and says what P2-022 says about the paperwork.
+- `outline-loading.school.school-place-had-a-classroom-for-you-in-school-year-and-a-teacher-with-a-list-of`: "{school-place} had a classroom for you in {school-year}, and a teacher with a list of names." — cut: A classroom and a list of names twins P2-008 and P2-028 on attendance.
+- `outline-loading.school.school-place-enrolled-you-in-school-year-after-that-attendance-counted`: "{school-place} enrolled you in {school-year}. After that, attendance counted." — cut: 'After that, attendance counted' is vague and twins P2-008.
+- `outline-loading.born.you-were-born-in-born-year-and-the-state-recorded-it`: "You were born in {born-year}, and the state recorded it." — cut: Twin of P2-076 with a bare recorded-by-the-state tag.
+- `outline-loading.born.the-state-has-a-certificate-for-you-from-born-year`: "The state has a certificate for you from {born-year}." — cut: Another certificate line that says what P2-022 and P2-076 say.
+- `outline-loading.born.in-born-year-a-certificate-was-filled-out-with-your-name-on-it`: "In {born-year} a certificate was filled out with your name on it." — cut: Certificate twin of P2-022, flatter.
+- `outline-loading.born.in-born-year-you-were-born-and-the-paperwork-followed`: "In {born-year} you were born, and the paperwork followed." — cut: 'The paperwork followed' twins P2-022 and P2-033.
+- `outline-loading.born.born-year-is-the-year-on-your-birth-certificate`: "{born-year} is the year on your birth certificate." — cut: Certificate twin; adds nothing past the year.
+- `outline-loading.born.your-file-starts-in-born-year-with-a-birth-certificate`: "Your file starts in {born-year}, with a birth certificate." — cut: 'Your file' with a certificate twins P2-022 and P2-041.
+- `outline-loading.lost.the-lost-year-election-for-lost-office-went-to-someone-else-winner-votes-votes-t`: "The {lost-year} election for {lost-office} went to someone else, {winner-votes} votes to {lost-votes}." — cut: Same sentence as P2-002 and P2-013.
+- `outline-loading.born.your-first-official-document-is-from-born-year-the-birth-certificate`: "Your first official document is from {born-year}: the birth certificate." — cut: Certificate twin of P2-022 and P2-037.
+- `outline-loading.school.school-in-school-place-began-in-school-year-with-a-lunch-line-and-a-bell`: "School in {school-place} began in {school-year}, with a lunch line and a bell." — cut: 'A lunch line and a bell' is composed texture that twins P2-029.
+- `outline-loading.moved.you-were-a-resident-of-moved-from-until-moved-year-when-the-family-moved-to-move`: "You were a resident of {moved-from} until {moved-year}, when the family moved to {moved-to}." — cut: Stiff 'a resident of' that says what P2-081 says.
+- `outline-loading.moved.a-job-took-the-family-from-moved-from-to-moved-to-in-moved-year`: "A job took the family from {moved-from} to {moved-to} in {moved-year}." — cut: Same work move as P2-010.
+- `outline-loading.moved.in-moved-year-the-family-went-where-the-work-was-moved-to`: "In {moved-year} the family went where the work was: {moved-to}." — cut: Same work move as P2-010, and it drops where they left.
+- `outline-loading.moved.the-move-from-moved-from-to-moved-to-came-in-moved-year-before-you-started-schoo`: "The move from {moved-from} to {moved-to} came in {moved-year}, before you started school." — cut: Twin of P2-049.
+- `outline-loading.moved.in-moved-year-the-family-moved-to-moved-to-you-had-not-started-school-yet`: "In {moved-year} the family moved to {moved-to}. You had not started school yet." — cut: Twin of P2-049, in two flat sentences.
+- `outline-loading.college.in-college-year-you-graduated-and-started-college-one-right-after-the-other`: "In {college-year} you graduated and started college, one right after the other." — cut: Twin of P2-052, and 'graduated' does not say from what.
+- `outline-loading.finished.in-finished-year-you-graduated-from-high-school`: "In {finished-year} you graduated from high school." — cut: Twin of P2-062.
+- `outline-loading.finished.high-school-ended-for-you-in-finished-year-with-a-diploma`: "High school ended for you in {finished-year}, with a diploma." — cut: Twin of P2-062 with a tag that says what a diploma is.
+- `outline-loading.finished.your-diploma-is-from-finished-year`: "Your diploma is from {finished-year}." — cut: Twin of P2-062.
+- `outline-loading.finished.finished-year-is-the-year-you-finished-high-school`: "{finished-year} is the year you finished high school." — cut: Twin of P2-062.
+- `outline-loading.finished.you-got-your-high-school-diploma-in-finished-year`: "You got your high school diploma in {finished-year}." — cut: Twin of P2-062.
+- `outline-loading.college.in-college-year-you-enrolled-in-college`: "In {college-year} you enrolled in college." — cut: Twin of P2-069.
+- `outline-loading.college.college-began-for-you-in-college-year`: "College began for you in {college-year}." — cut: Twin of P2-069.
+- `outline-loading.college.you-were-a-college-student-from-college-year`: "You were a college student from {college-year}." — cut: Stiff twin of P2-069 that reads as if college ended.
+- `outline-loading.born.your-birth-is-on-record-from-born-year`: "Your birth is on record from {born-year}." — cut: Twin of P2-076 in record wording.
+- `outline-loading.school.you-started-school-in-school-place-in-school-year`: "You started school in {school-place} in {school-year}." — cut: Twin of P2-032.
+- `outline-loading.school.in-school-year-you-began-school-in-school-place`: "In {school-year} you began school in {school-place}." — cut: Twin of P2-032.
+- `outline-loading.school.school-place-is-where-you-started-school-in-school-year`: "{school-place} is where you started school, in {school-year}." — cut: Twin of P2-032.
+- `outline-loading.moved.in-moved-year-the-household-moved-from-moved-from-to-moved-to`: "In {moved-year} the household moved from {moved-from} to {moved-to}." — cut: Twin of P2-081.
+- `outline-loading.moved.in-moved-year-you-left-moved-from-and-moved-to-moved-to`: "In {moved-year} you left {moved-from} and moved to {moved-to}." — cut: Twin of P2-081.
+- `outline-loading.lost.in-lost-year-you-were-a-candidate-for-lost-office-and-the-other-candidate-won`: "In {lost-year} you were a candidate for {lost-office}, and the other candidate won." — cut: Twin of P2-089, and 'the other candidate' assumes a two-way race.
+- `outline-loading.job.you-were-hired-for-the-first-time-in-first-job-year`: "You were hired for the first time in {first-job-year}." — cut: Twin of P2-025.
+- `outline-loading.job.your-first-job-started-in-first-job-year`: "Your first job started in {first-job-year}." — cut: Twin of P2-025 and P2-092.
+
+### Failing lines: other (9)
+
+- `outline-loading.school.a-birthday-decided-it-as-it-does-everywhere-by-school-year-you-were-old-enough-f`: "A birthday decided it, as it does everywhere: by {school-year} you were old enough for {school-place}, and the calendar said so." — rewrite: 'As it does everywhere' and 'the calendar said so' are composed texture around one fact.
+- `outline-loading.moved.moving-from-moved-from-to-moved-to-in-moved-year-came-with-a-stack-of-address-ch`: "Moving from {moved-from} to {moved-to} in {moved-year} came with a stack of address changes, and a school district to tell." — rewrite: Assumes a school-age child on every move, and 'a school district to tell' reads awkward.
+- `outline-loading.moved.once-the-family-reached-moved-to-in-moved-year-the-district-there-had-a-place-fo`: "Once the family reached {moved-to} in {moved-year}, the district there had a place for you, because it always does." — rewrite: 'Because it always does' is a tag with no point, and it assumes a school-age child.
+- `outline-loading.school.from-school-year-on-school-place-decided-when-you-ate-lunch`: "From {school-year} on, {school-place} decided when you ate lunch." — rewrite: The town did not decide when the player ate lunch; the school did, so the quip lands on the wrong actor.
+- `outline-loading.born.you-were-born-in-born-year-everything-else-in-your-file-comes-after-that`: "You were born in {born-year}. Everything else in your file comes after that." — rewrite: 'Everything else in your file' points at a file the player was never shown.
+- `outline-loading.now.three-governments-cover-place-the-town-state-and-the-country-you-have-a-say-in-a`: "Three governments cover {place}: the town, {state} and the country. You have a say in all three." — rewrite: Leaves out the county, so 'three governments' is false where a county governs, and it explains rather than tells.
+- `outline-loading.now.you-know-your-way-around-place-and-so-does-everyone-who-has-been-there-longer`: "You know your way around {place}, and so does everyone who has been there longer." — rewrite: A wisecrack with no point, and 'there' for the place the player lives is wrong.
+- `outline-loading.now.someone-in-place-runs-the-town-and-you-can-find-out-who`: "Someone in {place} runs the town, and you can find out who." — rewrite: 'Someone runs the town' hides an official the records name, and 'the town' is wrong for a city.
+- `outline-loading.now.you-share-the-house-in-place-with-kids-and-with-grown-ups-much-older-than-you`: "You share the house in {place} with kids and with grown-ups much older than you." — rewrite: 'Kids and grown-ups much older than you' is awkward and vague, and 'the house' assumes a house.
+
+## story/w-loading at `0080313e`: 202 of 212 pass
 
 - Since 5f0e9b99: the 5 failed "now" lines were cut, and 11 new "now" lines were added on the household and the player's job: lives-with-younger, lives-with-older, here-since-year and no-job-now (the 9 the Story lead named), and 2 on lives-alone. The 11 were read blind in chunk NK with W6's batch 4 (calibration 8/8; 17 of 30 earlier-graded lines got the same verdict again, the lowest agreement this evening, so a single verdict here is one reader's call). 1 of the 11 passes.
 - Most fails say the household in record words ("someone younger than eighteen", "a household of one", "a good deal older") as a bare fact, in one repeated shape ("Someone in your household in {place} is…").
