@@ -16,6 +16,7 @@
  * stable pick by the speaker's voice chooses.
  */
 import { P } from "../core2/parameters";
+import officeTalk from "../../data/english/parts/scene-talk-office.json" with { type: "json" };
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
 import moveSetsFile from "../../data/english/scene-move-sets.json" with { type: "json" };
@@ -102,7 +103,10 @@ export interface BankPart {
   piece?: { of: string; part: LinePart; required?: boolean };
 }
 
-const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
+const PARTS = [
+  ...sceneTalkBank.parts,
+  ...officeTalk.parts,
+] as unknown as BankPart[];
 /** What play may say: a part the owner's grades hold back is not. */
 const SHIPPED = admittedParts(PARTS);
 const SHIPPED_KEYS = new Set(SHIPPED.map((part) => part.key));

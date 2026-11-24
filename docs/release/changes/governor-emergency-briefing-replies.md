@@ -1,6 +1,8 @@
 ---
 id: governor-emergency-briefing-replies
-impact: none
+impact: patch
+section: Changed
+title: Governors have more ways to answer an emergency briefing.
 ---
 
-Draft replies for the governor accepting an emergency declaration, awaiting the Story lead's connection to the scene engine and played review.
+A department head can ask for a declaration in the governor's first briefing about a disaster. The governor can sign and ask who will notify the counties, or decline and explain the decision in person.

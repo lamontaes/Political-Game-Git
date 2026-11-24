@@ -34,6 +34,7 @@ import outlineTalkJson from "../../data/english/parts/outline-talk.json" with { 
 import outlineNewsJson from "../../data/english/parts/outline-news.json" with { type: "json" };
 import openingSpeechJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
 import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
+import officeTalk from "../../data/english/parts/scene-talk-office.json" with { type: "json" };
 import sceneTalkJson from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
 import speechStagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
@@ -123,6 +124,10 @@ const BANKS: Record<
     slots?: Record<string, string>;
   },
   "person-history": personHistoryJson as unknown as {
+    parts: RawPiece[];
+    slots?: Record<string, string>;
+  },
+  "scene-talk-office": officeTalk as unknown as {
     parts: RawPiece[];
     slots?: Record<string, string>;
   },
@@ -217,6 +222,7 @@ const BANK_ENFORCEMENT: Readonly<Record<string, Tie>> = {
   conversation: "subject",
   "bring-it-up": "subject",
   "scene-talk": "scene",
+  "scene-talk-office": "scene",
   "scene-words": "scene",
   headlines: "document",
   news: "document",
