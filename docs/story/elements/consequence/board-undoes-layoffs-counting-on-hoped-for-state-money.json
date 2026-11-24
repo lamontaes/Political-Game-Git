@@ -1,0 +1,50 @@
+{
+  "id": "board-undoes-layoffs-counting-on-hoped-for-state-money",
+  "kind": "consequence",
+  "summary": "A school board approves a budget that reverses layoffs by counting on new state money that has not been promised.",
+  "realLife": "A city school board narrowly passed its chief's budget with an amendment that reversed hundreds of school layoffs, counting on about a hundred fifty million dollars more from the state than the district had projected. The chief warned against it and recalled a past veto that forced layoffs at her own school. A union leader said the state would be pressed. The district said short-term borrowing for payroll was now in doubt; the state's next session was months off.",
+  "sources": [
+    "Chalkbeat Chicago (Chicago, Illinois), 'Seeking to reverse layoffs, Chicago school board approves budget, assuming more state money will come', Jul 31, 2026: https://www.chalkbeat.org/chicago/2026/07/31/seeking-to-reverse-layoffs-chicago-school-board-approves-budget-assuming-more-state-money-will-come/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": [
+    "news"
+  ],
+  "slots": [
+    "count",
+    "body"
+  ],
+  "gates": [],
+  "weights": {
+    "budget": 0.7,
+    "schools": 0.6
+  },
+  "inGame": "a district's budget with a revenue line that depends on a state decision; borrowing for payroll; needs: an assumed-revenue line and a payroll-borrowing check",
+  "issues": [
+    "budget:schools"
+  ],
+  "turns": [
+    {
+      "name": "the state money arrives",
+      "pulledBy": "a state session that adds school aid",
+      "writes": "the revenue line is met and the layoffs stay undone",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the state money does not arrive",
+      "pulledBy": "a state session that adds no school aid",
+      "writes": "the district must cut mid-year and the layoffs return",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the lender will not lend on the assumption",
+      "pulledBy": "a credit check before the payroll date",
+      "writes": "the board must pass a second budget without the assumed money",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
