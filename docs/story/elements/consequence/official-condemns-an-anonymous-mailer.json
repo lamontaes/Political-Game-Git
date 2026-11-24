@@ -1,0 +1,30 @@
+{
+  "id": "official-condemns-an-anonymous-mailer",
+  "kind": "consequence",
+  "summary": "A mayor or an election authority says an anonymous mailer against a candidate breaks the rules.",
+  "realLife": "Sandy's mayor called anonymous mailers illegal, and a Sonoma council candidate reported a postcard to the state's practices commission.",
+  "sources": [
+    "KSL, Sandy calling for an end to illegal mailers targeting a candidate for City Council: https://www.ksl.com/article/50762369/sandy-calling-for-an-end-to-illegal-mailers-targeting-a-candidate-for-city-council",
+    "Sonoma Index-Tribune, anonymous Sonoma council mailer 'violates election code': https://www.sonomanews.com/article/news/anonymous-sonoma-council-mailer-violates-election-code/"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office", "name"],
+  "gates": [],
+  "weights": {
+    "news": 0.9
+  },
+  "inGame": "needs: an election-rules complaint step and an anonymous sender; the press engine can print the condemnation",
+  "usedBy": ["news"],
+  "turns": [
+    {
+      "turn": "The authority takes no action",
+      "pull": "a thin rule",
+      "writes": "a quiet week and a stronger rival"
+    },
+    {
+      "turn": "The sender is found and named",
+      "pull": "a records trail",
+      "writes": "a news story and a sender's apology"
+    }
+  ]
+}
