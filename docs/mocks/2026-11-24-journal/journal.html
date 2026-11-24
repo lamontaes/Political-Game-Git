@@ -1,114 +1,420 @@
 <!doctype html>
 <html lang="en-US">
-<head>
-<meta charset="utf-8">
-<title>Journal: a page of the story (mock, Nov 24)</title>
-<meta name="viewport" content="width=1440">
-<style>
-@font-face { font-family: "Cinzel"; font-weight: 800; src: url("fonts/cinzel-800.ttf") format("truetype"); }
-@font-face { font-family: "Andada Pro"; font-weight: 400; src: url("fonts/andada-pro-400.ttf") format("truetype"); }
-@font-face { font-family: "Andada Pro"; font-style: italic; font-weight: 400; src: url("fonts/andada-pro-400-italic.ttf") format("truetype"); }
-@font-face { font-family: "Andada Pro"; font-weight: 600; src: url("fonts/andada-pro-600.ttf") format("truetype"); }
-@font-face { font-family: "Fira Sans"; font-weight: 400; src: url("fonts/fira-sans-400.ttf") format("truetype"); }
-@font-face { font-family: "Fira Sans"; font-weight: 500; src: url("fonts/fira-sans-500.ttf") format("truetype"); }
-@font-face { font-family: "Fira Sans"; font-weight: 600; src: url("fonts/fira-sans-600.ttf") format("truetype"); }
-@font-face { font-family: "Playfair Display"; font-weight: 600; src: url("fonts/playfair-display-600.ttf") format("truetype"); }
-:root {
-  --text: #f2ede4; --text-2: rgba(242,237,228,.78); --text-3: rgba(242,237,228,.55);
-  --gold: #d6bd84; --brass-hi: #f3dba7; --brass: #9c8350;
-  --title: "Cinzel", Georgia, serif; --ui: "Fira Sans", system-ui, sans-serif; --story: "Andada Pro", Georgia, serif;
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; background: #0f0e0c; }
-/* The game's 1440 by 900 screen: the room, then the one dark panel with its brass edge. */
-#stage { position: relative; width: 1440px; height: 900px; overflow: hidden; margin: 0 auto;
-  background: url("img/home-kitchen__midday.jpg") center / cover; color: var(--text);
-  font: 400 15px/1.4 var(--ui); font-variant-numeric: lining-nums tabular-nums; }
-#sheet { position: absolute; left: 124px; top: 24px; width: 1292px; height: 850px; isolation: isolate;
-  border: 2.5px solid transparent; border-image: url("img/panel.png") 64 fill / 40px stretch;
-  backdrop-filter: blur(7px); box-shadow: 0 12px 28px rgba(0,0,0,.5); text-shadow: 0 1px 2px rgba(0,0,0,.55);
-  padding: 22px 26px; display: flex; flex-direction: column; }
-#sheet::before { content: ""; position: absolute; inset: 4px; z-index: -1; background: rgba(14,13,11,.42); }
-#sheet-head { display: flex; justify-content: space-between; align-items: flex-start; height: 56px; }
-#sheet-head h1 { margin: 0; font: 800 34px/1.3 var(--title); font-variant-caps: small-caps; letter-spacing: .02em; color: var(--brass-hi); }
-#close { width: 34px; height: 34px; margin-top: 4px; }
-#close path { stroke: var(--text); stroke-width: 2; fill: none; }
-#book { flex: 1; min-height: 0; display: grid; grid-template-columns: 296px 1fr; column-gap: 34px; padding-top: 14px; }
-/* The list of chapters, beside the page it opens. */
-#chapters h2 { margin: 6px 0 14px 12px; font: 800 16px/1.3 var(--title); font-variant-caps: all-small-caps; letter-spacing: .08em; color: var(--gold); }
-.pick { display: flex; justify-content: space-between; gap: 12px; padding: 9px 12px; margin-bottom: 2px;
-  font: 600 15px/1.3 var(--ui); color: var(--text); border-radius: 3px; cursor: pointer; }
-.pick span { font: 400 14px/1.3 var(--ui); color: var(--text-2); }
-.pick.on { background: linear-gradient(90deg, rgba(156,131,80,.42), rgba(156,131,80,.16)); box-shadow: 0 0 14px rgba(232,196,120,.18); }
-/* The page: two facing pages, each with a picture that fades into the panel, the story set like a book. */
-#page { min-width: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; align-items: start; }
-.leaf { min-width: 0; }
-.fade { display: block; width: 100%; object-fit: cover;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent), linear-gradient(180deg, transparent, #000 10%, #000 84%, transparent);
-  -webkit-mask-composite: source-in; mask-composite: intersect;
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent), linear-gradient(180deg, transparent, #000 10%, #000 84%, transparent); }
-#hero { height: 360px; object-position: 50% 62%; }
-#pic2 { height: 250px; object-position: center 58%; }
-.leaf h2 { margin: 6px 0 12px; font: 800 28px/1.3 var(--title); font-variant-caps: small-caps; letter-spacing: .02em; color: var(--brass-hi); }
-.leaf p { margin: 0 0 12px; font: 400 18px/1.6 var(--story); color: var(--text); text-wrap: pretty; }
-.leaf p.first::first-letter { float: left; font: 800 54px/.9 var(--title); color: var(--brass-hi); padding: 4px 8px 0 0; }
-.leaf .gap { height: 12px; }
-.bust { position: relative; overflow: hidden; border-radius: 50% / 42%;
-  background: radial-gradient(ellipse at 50% 55%, rgba(243,219,167,.34), rgba(243,219,167,0) 70%); }
-.bust img { position: absolute; left: 50%; transform: translateX(-50%);
-  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 94%); mask-image: linear-gradient(180deg, #000 60%, transparent 94%); }
-.aside { display: block; float: right; width: 112px; height: 124px; margin: 2px 0 6px 16px; shape-outside: ellipse(); }
-.aside img { top: -6px; width: 100px; }
-.who { display: block; clear: none; font: 600 14px/1.3 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
-#me { margin: 26px 0 0 12px; width: 220px; height: 230px; }
-#me img { top: -8px; width: 190px; }
-/* The room's rail at the left, as in the game; the Journal's button is lit. */
-#rail { position: absolute; left: 24px; top: 280px; display: grid; gap: 10px; }
-#rail i { width: 52px; height: 52px; border-radius: 50%; background: rgba(20,19,17,.82); box-shadow: inset 0 0 0 2px rgba(214,189,132,.8), 0 3px 8px rgba(0,0,0,.5); display: grid; place-items: center; }
-#rail i.on { background: radial-gradient(circle, rgba(156,131,80,.65), rgba(20,19,17,.85)); }
-#rail svg { width: 24px; height: 24px; fill: none; stroke: var(--text); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-</style>
-</head>
-<body>
-<div id="stage">
-  <nav id="rail" aria-label="menus">
-    <i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/></svg></i>
-    <i><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></i>
-    <i><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></i>
-    <i><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 2 3 3 7 3s7-1 7-3V6M5 12c0 2 3 3 7 3s7-1 7-3"/></svg></i>
-    <i><svg viewBox="0 0 24 24"><path d="M12 4v16M5 20h14M4 8h16M6 8l-3 7h6zM18 8l-3 7h6z"/></svg></i>
-    <i><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="1"/><path d="M8 9h8M8 13h8M8 16h5"/></svg></i>
-    <i><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6M12 20c0-4 3-6 6-6s4 2 4 6"/></svg></i>
-    <i><svg viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14M15 6v14"/></svg></i>
-    <i class="on"><svg viewBox="0 0 24 24"><path d="M12 6c-2-2-5-2-8-1v13c3-1 6-1 8 1 2-2 5-2 8-1V5c-3-1-6-1-8 1zM12 6v13"/></svg></i>
-  </nav>
-  <section id="sheet" class="panel">
-    <div id="sheet-head">
-      <h1>Journal</h1>
-      <svg id="close" viewBox="0 0 34 34" aria-label="Close"><path d="M9 9l16 16M25 9L9 25"/></svg>
-    </div>
-    <div id="book">
-      <nav id="chapters" aria-label="chapters">
-        <h2>My story</h2>
-        <div class="pick">Latimer <span>2007 to 2012</span></div>
-        <div class="pick">Latimer Public Schools <span>2013 to 2024</span></div>
-        <div class="pick on">Starting out <span>2025</span></div>
-        <div id="me" class="bust"><img src="img/me.png" alt=""></div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Journal: a page of the story (mock, Nov 24)</title>
+    <meta name="viewport" content="width=1440" />
+    <style>
+      @font-face {
+        font-family: "Cinzel";
+        font-weight: 800;
+        src: url("fonts/cinzel-800.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Andada Pro";
+        font-weight: 400;
+        src: url("fonts/andada-pro-400.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Andada Pro";
+        font-style: italic;
+        font-weight: 400;
+        src: url("fonts/andada-pro-400-italic.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Andada Pro";
+        font-weight: 600;
+        src: url("fonts/andada-pro-600.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Fira Sans";
+        font-weight: 400;
+        src: url("fonts/fira-sans-400.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Fira Sans";
+        font-weight: 500;
+        src: url("fonts/fira-sans-500.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Fira Sans";
+        font-weight: 600;
+        src: url("fonts/fira-sans-600.ttf") format("truetype");
+      }
+      @font-face {
+        font-family: "Playfair Display";
+        font-weight: 600;
+        src: url("fonts/playfair-display-600.ttf") format("truetype");
+      }
+      :root {
+        --text: #f2ede4;
+        --text-2: rgba(242, 237, 228, 0.78);
+        --text-3: rgba(242, 237, 228, 0.55);
+        --gold: #d6bd84;
+        --brass-hi: #f3dba7;
+        --brass: #9c8350;
+        --title: "Cinzel", Georgia, serif;
+        --ui: "Fira Sans", system-ui, sans-serif;
+        --story: "Andada Pro", Georgia, serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #0f0e0c;
+      }
+      /* The game's 1440 by 900 screen: the room, then the one dark panel with its brass edge. */
+      #stage {
+        position: relative;
+        width: 1440px;
+        height: 900px;
+        overflow: hidden;
+        margin: 0 auto;
+        background: url("img/home-kitchen__midday.jpg") center / cover;
+        color: var(--text);
+        font: 400 15px/1.4 var(--ui);
+        font-variant-numeric: lining-nums tabular-nums;
+      }
+      #sheet {
+        position: absolute;
+        left: 124px;
+        top: 24px;
+        width: 1292px;
+        height: 850px;
+        isolation: isolate;
+        border: 2.5px solid transparent;
+        border-image: url("img/panel.png") 64 fill / 40px stretch;
+        backdrop-filter: blur(7px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+        padding: 22px 26px;
+        display: flex;
+        flex-direction: column;
+      }
+      #sheet::before {
+        content: "";
+        position: absolute;
+        inset: 4px;
+        z-index: -1;
+        background: rgba(14, 13, 11, 0.42);
+      }
+      #sheet-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        height: 56px;
+      }
+      #sheet-head h1 {
+        margin: 0;
+        font: 800 34px/1.3 var(--title);
+        font-variant-caps: small-caps;
+        letter-spacing: 0.02em;
+        color: var(--brass-hi);
+      }
+      #close {
+        width: 34px;
+        height: 34px;
+        margin-top: 4px;
+      }
+      #close path {
+        stroke: var(--text);
+        stroke-width: 2;
+        fill: none;
+      }
+      #book {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 296px 1fr;
+        column-gap: 34px;
+        padding-top: 14px;
+      }
+      /* The list of chapters, beside the page it opens. */
+      #chapters h2 {
+        margin: 6px 0 14px 12px;
+        font: 800 16px/1.3 var(--title);
+        font-variant-caps: all-small-caps;
+        letter-spacing: 0.08em;
+        color: var(--gold);
+      }
+      .pick {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 9px 12px;
+        margin-bottom: 2px;
+        font: 600 15px/1.3 var(--ui);
+        color: var(--text);
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .pick span {
+        font: 400 14px/1.3 var(--ui);
+        color: var(--text-2);
+      }
+      .pick.on {
+        background: linear-gradient(
+          90deg,
+          rgba(156, 131, 80, 0.42),
+          rgba(156, 131, 80, 0.16)
+        );
+        box-shadow: 0 0 14px rgba(232, 196, 120, 0.18);
+      }
+      /* The page: two facing pages, each with a picture that fades into the panel, the story set like a book. */
+      #page {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 40px;
+        align-items: start;
+      }
+      .leaf {
+        min-width: 0;
+      }
+      .fade {
+        display: block;
+        width: 100%;
+        object-fit: cover;
+        -webkit-mask-image:
+          linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent),
+          linear-gradient(180deg, transparent, #000 10%, #000 84%, transparent);
+        -webkit-mask-composite: source-in;
+        mask-composite: intersect;
+        mask-image:
+          linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent),
+          linear-gradient(180deg, transparent, #000 10%, #000 84%, transparent);
+      }
+      #hero {
+        height: 360px;
+        object-position: 50% 62%;
+      }
+      #pic2 {
+        height: 250px;
+        object-position: center 58%;
+      }
+      .leaf h2 {
+        margin: 6px 0 12px;
+        font: 800 28px/1.3 var(--title);
+        font-variant-caps: small-caps;
+        letter-spacing: 0.02em;
+        color: var(--brass-hi);
+      }
+      .leaf p {
+        margin: 0 0 12px;
+        font: 400 18px/1.6 var(--story);
+        color: var(--text);
+        text-wrap: pretty;
+      }
+      .leaf p.first::first-letter {
+        float: left;
+        font: 800 54px/0.9 var(--title);
+        color: var(--brass-hi);
+        padding: 4px 8px 0 0;
+      }
+      .leaf .gap {
+        height: 12px;
+      }
+      .bust {
+        position: relative;
+        overflow: hidden;
+        border-radius: 50% / 42%;
+        background: radial-gradient(
+          ellipse at 50% 55%,
+          rgba(243, 219, 167, 0.34),
+          rgba(243, 219, 167, 0) 70%
+        );
+      }
+      .bust img {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 94%);
+        mask-image: linear-gradient(180deg, #000 60%, transparent 94%);
+      }
+      .aside {
+        display: block;
+        float: right;
+        width: 112px;
+        height: 124px;
+        margin: 2px 0 6px 16px;
+        shape-outside: ellipse();
+      }
+      .aside img {
+        top: -6px;
+        width: 100px;
+      }
+      .who {
+        display: block;
+        clear: none;
+        font: 600 14px/1.3 var(--ui);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--gold);
+      }
+      #me {
+        margin: 26px 0 0 12px;
+        width: 220px;
+        height: 230px;
+      }
+      #me img {
+        top: -8px;
+        width: 190px;
+      }
+      /* The room's rail at the left, as in the game; the Journal's button is lit. */
+      #rail {
+        position: absolute;
+        left: 24px;
+        top: 280px;
+        display: grid;
+        gap: 10px;
+      }
+      #rail i {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: rgba(20, 19, 17, 0.82);
+        box-shadow:
+          inset 0 0 0 2px rgba(214, 189, 132, 0.8),
+          0 3px 8px rgba(0, 0, 0, 0.5);
+        display: grid;
+        place-items: center;
+      }
+      #rail i.on {
+        background: radial-gradient(
+          circle,
+          rgba(156, 131, 80, 0.65),
+          rgba(20, 19, 17, 0.85)
+        );
+      }
+      #rail svg {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: var(--text);
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stage">
+      <nav id="rail" aria-label="menus">
+        <i
+          ><svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c1-5 4-7 8-7s7 2 8 7" /></svg
+        ></i>
+        <i
+          ><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" /></svg
+        ></i>
+        <i
+          ><svg viewBox="0 0 24 24">
+            <rect x="4" y="5" width="16" height="15" rx="1" />
+            <path d="M4 10h16M9 3v4M15 3v4" /></svg
+        ></i>
+        <i
+          ><svg viewBox="0 0 24 24">
+            <ellipse cx="12" cy="6" rx="7" ry="3" />
+            <path
+              d="M5 6v12c0 2 3 3 7 3s7-1 7-3V6M5 12c0 2 3 3 7 3s7-1 7-3"
+            /></svg
+        ></i>
+        <i
+          ><svg viewBox="0 0 24 24">
+            <path d="M12 4v16M5 20h14M4 8h16M6 8l-3 7h6zM18 8l-3 7h6z" /></svg
+        ></i>
+        <i
+          ><svg viewBox="0 0 24 24">
+            <rect x="5" y="4" width="14" height="16" rx="1" />
+            <path d="M8 9h8M8 13h8M8 16h5" /></svg
+        ></i>
+        <i
+          ><svg viewBox="0 0 24 24">
+            <circle cx="8" cy="9" r="3" />
+            <circle cx="16" cy="9" r="3" />
+            <path
+              d="M2 20c0-4 3-6 6-6s6 2 6 6M12 20c0-4 3-6 6-6s4 2 4 6"
+            /></svg
+        ></i>
+        <i
+          ><svg viewBox="0 0 24 24">
+            <path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14M15 6v14" /></svg
+        ></i>
+        <i class="on"
+          ><svg viewBox="0 0 24 24">
+            <path
+              d="M12 6c-2-2-5-2-8-1v13c3-1 6-1 8 1 2-2 5-2 8-1V5c-3-1-6-1-8 1zM12 6v13"
+            /></svg
+        ></i>
       </nav>
-      <article id="page">
-        <div class="leaf">
-          <img id="hero" class="fade" src="img/us-capitol-exterior__midday.jpg" alt="">
-          <h2>Starting out</h2>
-          <p class="first">The week of January 20 started in the kitchen. My dad, Gene, turned the television up for President Cunningham's inaugural address, and most of it was about the cost of healthcare. My mom, Ruth, said we would hear about every bill that mattered by spring, and Dad said he would believe it when the premiums came down. I had turned eighteen that fall and had never voted, so I listened to all of it.</p>
+      <section id="sheet" class="panel">
+        <div id="sheet-head">
+          <h1>Journal</h1>
+          <svg id="close" viewBox="0 0 34 34" aria-label="Close">
+            <path d="M9 9l16 16M25 9L9 25" />
+          </svg>
         </div>
-        <div class="leaf">
-          <img id="pic2" class="fade" src="img/city-hall-hallway__midday.jpg" alt="">
-          <p>On Monday, the 27th, I walked into City Hall and asked the clerk, Ms. Doss, what it took to run for the council. She slid a packet across the counter with a form, a fee schedule and the date filing opens, June 21. I read it twice on the steps outside and went home to ask Dad who in the neighborhood might sign my petition.</p>
-          <p><span class="bust aside"><img src="img/frederick.png" alt=""></span>The next Monday I started knocking on doors in my own district. After two hours I came across a man mowing his lawn, shook his hand and told him I was running for city council. He said his name was Frederick and that nobody had asked him about the race before. We talked until his mower ran out of gas, and he took one of my cards.</p>
+        <div id="book">
+          <nav id="chapters" aria-label="chapters">
+            <h2>My story</h2>
+            <div class="pick">Latimer <span>2007 to 2012</span></div>
+            <div class="pick">
+              Latimer Public Schools <span>2013 to 2024</span>
+            </div>
+            <div class="pick on">Starting out <span>2025</span></div>
+            <div id="me" class="bust"><img src="img/me.png" alt="" /></div>
+          </nav>
+          <article id="page">
+            <div class="leaf">
+              <img
+                id="hero"
+                class="fade"
+                src="img/us-capitol-exterior__midday.jpg"
+                alt=""
+              />
+              <h2>Starting out</h2>
+              <p class="first">
+                The week of January 20 started in the kitchen. My dad, Gene,
+                turned the television up for President Cunningham's inaugural
+                address, and most of it was about the cost of healthcare. My
+                mom, Ruth, said we would hear about every bill that mattered by
+                spring, and Dad said he would believe it when the premiums came
+                down. I had turned eighteen that fall and had never voted, so I
+                listened to all of it.
+              </p>
+            </div>
+            <div class="leaf">
+              <img
+                id="pic2"
+                class="fade"
+                src="img/city-hall-hallway__midday.jpg"
+                alt=""
+              />
+              <p>
+                On Monday, the 27th, I walked into City Hall and asked the
+                clerk, Ms. Doss, what it took to run for the council. She slid a
+                packet across the counter with a form, a fee schedule and the
+                date filing opens, June 21. I read it twice on the steps outside
+                and went home to ask Dad who in the neighborhood might sign my
+                petition.
+              </p>
+              <p>
+                <span class="bust aside"
+                  ><img src="img/frederick.png" alt="" /></span
+                >The next Monday I started knocking on doors in my own district.
+                After two hours I came across a man mowing his lawn, shook his
+                hand and told him I was running for city council. He said his
+                name was Frederick and that nobody had asked him about the race
+                before. We talked until his mower ran out of gas, and he took
+                one of my cards.
+              </p>
+            </div>
+          </article>
         </div>
-      </article>
+      </section>
     </div>
-  </section>
-</div>
-</body>
+  </body>
 </html>
