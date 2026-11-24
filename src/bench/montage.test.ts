@@ -323,6 +323,12 @@ it.each(["a", "b"])(
           `${where}: part ${at} names ${id}`,
         ).toContain(id);
     });
+    // A cutaway is heard on a set: the speaker stands on the strip only in
+    // the beats that show him in the room (CTO, Nov 24).
+    for (const beat of beats.filter((row) =>
+      ["america", "state", "home"].includes(row.kind),
+    ))
+      expect(beat.inRoom, `${where}: ${beat.kind}`).toBe(false);
     // The President is the large bust on the beats that show him working.
     for (const beat of beats.filter((row) =>
       ["chamber", "window", "desk"].includes(row.kind),

@@ -110,6 +110,12 @@ try {
     // 09:40Z). The cutaways between (the country along a route, the state's
     // capitol) are the owner's montage and keep their pictures.
     for (const [at, beat] of beats.entries())
+      if (beat.backdrop.startsWith("train-depot"))
+        assert.ok(
+          !beat.strip.includes(beat.who.trim()),
+          `part ${at + 1}: ${beat.who} stands on the strip in the America cutaway as well as on the set`,
+        );
+    for (const [at, beat] of beats.entries())
       if (beat.backdrop === beats.at(-1).backdrop)
         assert.ok(
           !beat.strip.includes(beat.who.trim()),
