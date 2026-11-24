@@ -1,0 +1,34 @@
+{
+  "id": "bubble-worry-answered-early-by-an-official",
+  "kind": "move",
+  "summary": "The worry that it is a bubble is answered early, first in a paraphrase, then in a quote.",
+  "realLife": "An official said it was not Wall Street speculation and named who was moving in.",
+  "sources": [
+    "Ocala Gazette, 'Housing boom', Nov. 27, 2020: https://www.ocalagazette.com/housing-boom/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.8
+  },
+  "inGame": "the official's stated reasons; the national economy read (`money-economy` module)",
+  "turns": [
+    {
+      "name": "the official says it is a bubble",
+      "pulledBy": "a town with speculative buying",
+      "writes": "the quote warns of a correction",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "no one addresses it",
+      "pulledBy": "a town with steady demand",
+      "writes": "the story does not raise the question",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

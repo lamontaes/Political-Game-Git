@@ -2,8 +2,9 @@
   "id": "lobbyist-meets-member-outside-the-chamber",
   "kind": "moment",
   "summary": "A lobbyist waits to speak with a member as the member passes through the hall.",
-  "realLife": "owner, Oct 27: A lobbyist can be a counterpart in an unplanned encounter at the seat of government.",
+  "realLife": "The Connecticut Health Policy Project described how advocates waited outside the chamber for lawmakers. Registered lobbyists had to stay behind designated ropes, and a visitor could send a note inside through a staffed desk.",
   "sources": [
+    "https://cthealthpolicy.org/resources-2/advocacy-tool-box/navigating-capitol/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L60"
   ],
   "inGame": "The lobby-remembers situation supplies the lobbyist encounter; a hallway setting must fit the recorded circumstance.",
@@ -18,6 +19,12 @@
       "what": "The member asks the lobbyist to send the material to the office after session.",
       "pulledBy": "The floor bell cuts short the hallway encounter.",
       "writesBack": "The office expects a document on the named bill."
+    },
+    {
+      "turn": "partial",
+      "what": "The lobbyist hands over a district map before the voting bell draws the member back inside.",
+      "pulledBy": "The map is available at the door and the member has time to take it but cannot hear the presentation.",
+      "writesBack": "The office files the map and logs the requested discussion as pending."
     }
   ]
 }

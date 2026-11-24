@@ -1,0 +1,43 @@
+{
+  "id": "a-spouse-handles-the-kids-while-the-legislature-sits",
+  "kind": "situation",
+  "summary": "A senator's husband handled preschool, karate and a newborn at home while she was at the capital, and said it was not easy.",
+  "realLife": "A California senator's husband handled child care in Los Angeles while the Legislature met in Sacramento, driving a son to preschool and karate and caring for a newborn. An assemblyman drove two hours home to San Jose nightly during session and said the cost to a spouse and family could be painful. The article notes most lawmakers now keep their families in the district because spouses have careers.",
+  "sources": [
+    "https://law-journals-books.vlex.com/vid/when-public-service-tests-family-ties-53983802"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the spouse}", "{the household}", "{the capital}"],
+  "gates": [
+    "A seat is held at a capital away from home.",
+    "The household has a young child and the spouse is the home parent."
+  ],
+  "weights": [
+    "Distance and commute",
+    "Age of children",
+    "Spouse's own work",
+    "Money for childcare"
+  ],
+  "inGame": "A legislature sitting away from home, a household with a young child and a spouse as the home parent can carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The official commutes home every night and sees the children daily.",
+      "pulledBy": "A short drive.",
+      "writesBack": "Fewer nights at the capital; tired days at work."
+    },
+    {
+      "turn": "neutral",
+      "what": "The spouse manages and says little.",
+      "pulledBy": "A steady household.",
+      "writesBack": "A routine home note."
+    },
+    {
+      "turn": "late",
+      "what": "The spouse tells the official, after the session, that it was too much.",
+      "pulledBy": "A hard session.",
+      "writesBack": "A home talk; the official weighs not running again."
+    }
+  ]
+}

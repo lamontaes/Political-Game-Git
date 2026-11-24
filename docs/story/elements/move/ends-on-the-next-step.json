@@ -20,12 +20,17 @@
     {
       "name": "ends on the vote count",
       "pulledBy": "a close vote with nothing scheduled after",
-      "writes": "the last line is the margin"
+      "writes": "the last line is the margin",
+      "requiresFacts": ["by-one"],
+      "excludesFacts": []
     },
     {
       "name": "ends on a reaction",
       "pulledBy": "an official or resident with a strong word",
-      "writes": "the last line is their quote"
+      "writes": "the last line is their quote",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
-  ]
+  ],
+  "inGame": "`roll-call-next`, `signed-next` and `committee-next` rows; the next meeting in `meetings-week`"
 }

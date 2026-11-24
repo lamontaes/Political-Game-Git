@@ -24,5 +24,20 @@
   "weights": {
     "all": 0.05
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Nothing to build: no signpost piece exists, and the research says it should stay rare.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A signpost before each point (Let me turn to).",
+      "pulledBy": "a meticulous speaker in a long state address",
+      "writesBack": "The speech is easier to follow and the paper quotes the signposts as headings."
+    },
+    {
+      "turn": "neutral",
+      "what": "One signpost, before the second point.",
+      "pulledBy": "a state kind with a `second` point",
+      "writesBack": "The second point is marked as new."
+    }
+  ]
 }

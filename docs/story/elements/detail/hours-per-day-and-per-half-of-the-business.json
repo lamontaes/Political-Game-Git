@@ -18,12 +18,16 @@
     {
       "name": "one line of hours",
       "pulledBy": "a shop with simple hours",
-      "writes": "the story says it is open daily"
+      "writes": "the story says it is open daily",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "hours not set",
       "pulledBy": "a business still hiring",
-      "writes": "the story says hours will be posted"
+      "writes": "the story says hours will be posted",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

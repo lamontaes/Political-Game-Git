@@ -1,0 +1,38 @@
+{
+  "id": "everyone-stops-what-they-are-doing-to-hear-the-address",
+  "kind": "situation",
+  "summary": "On the night of a major address, people leave public places to get home to a set in time.",
+  "realLife": "A civics narrative says that before a December 1940 chat, people left movies and restaurants to be home by nine to listen.",
+  "sources": [
+    "https://billofrightsinstitute.org/activities/you-felt-he-was-talking-to-you-handout-a-narrative/"
+  ],
+  "fits": ["home", "speeches", "news"],
+  "slots": ["{the address}", "{the household}", "{the neighbors}"],
+  "gates": ["A national address is aired in the evening."],
+  "weights": [
+    "How serious the news is.",
+    "Whether people trust the president."
+  ],
+  "inGame": "The President's address watched at home and the town emptying early could carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Nobody tunes in and the street is busy.",
+      "pulledBy": "Disinterest.",
+      "writesBack": "Lowers the address's reach."
+    },
+    {
+      "turn": "neutral",
+      "what": "Some watch and some do not.",
+      "pulledBy": "Mixed trust.",
+      "writesBack": "Writes a partial reach."
+    },
+    {
+      "turn": "partial",
+      "what": "Only the older members of the house listen.",
+      "pulledBy": "Age.",
+      "writesBack": "Writes viewing for those members."
+    }
+  ]
+}

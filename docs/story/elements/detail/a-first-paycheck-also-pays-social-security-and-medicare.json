@@ -1,0 +1,31 @@
+{
+  "id": "a-first-paycheck-also-pays-social-security-and-medicare",
+  "kind": "detail",
+  "summary": "Employers also withhold Social Security and Medicare taxes from the wages of a new worker.",
+  "realLife": "Employers generally must withhold Social Security and Medicare taxes from employees' wages and pay the employer's share.",
+  "sources": [
+    "Internal Revenue Service, Understanding employment taxes: https://www.irs.gov/businesses/small-businesses-self-employed/understanding-employment-taxes"
+  ],
+  "fits": ["loading"],
+  "slots": ["first-job-year"],
+  "gates": [],
+  "weights": {
+    "first-job-year": 0.5
+  },
+  "inGame": "the payroll taxes the taxes module takes from wages. needs: a payroll tax line on the first paycheck.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Self-employed work, where the person pays both shares.",
+      "pulledBy": "an own-account job record",
+      "writesBack": "a self-employment tax instead"
+    },
+    {
+      "turn": "neutral",
+      "what": "A payroll job where it happens without notice.",
+      "pulledBy": "the paycheck row",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}

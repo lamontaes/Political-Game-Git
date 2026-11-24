@@ -1,0 +1,47 @@
+{
+  "id": "only-some-get-written-notice",
+  "kind": "detail",
+  "summary": "Fewer than half of laid-off workers get written notice ahead of time.",
+  "realLife": "The survey found about 45 percent had written advance notice; plant closings had the most (about 58 percent), then abolished positions (about 42) and too little work (about 32).",
+  "sources": [
+    "Bureau of Labor Statistics, Worker Displacement news release (Jan 2023 to Dec 2025): https://www.bls.gov/news.release/disp.nr0.htm"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-ended event could carry a notice flag by reason; no notice or WARN records exist, so it needs: advance-notice field on the job-ended event. Scene: needs a producer for layoff-terms.",
+  "turns": [
+    {
+      "turn": "notice-given-weeks-ahead",
+      "summary": "The employer gives written notice weeks before the job ends, so the person has time to plan.",
+      "pulledBy": [
+        "a careful or fair boss",
+        "a large employer",
+        "a layoff event announced in advance"
+      ],
+      "writesBack": "A note in the journal, the person's mood steadier, and an earlier start on the job search."
+    },
+    {
+      "turn": "told-the-same-day",
+      "summary": "The person hears about the cut the same day it takes effect, with nothing in writing.",
+      "pulledBy": [
+        "a blunt or rushed boss",
+        "a small employer short of money",
+        "a sudden layoff event"
+      ],
+      "writesBack": "Trust in the employer drops, the mood turns sour, and coworkers talk about it."
+    },
+    {
+      "turn": "rumor-first-then-notice",
+      "summary": "Coworkers hear rumors for days before the written notice finally arrives.",
+      "pulledBy": [
+        "a guarded boss",
+        "coworkers who talk",
+        "who is watching the workplace"
+      ],
+      "writesBack": "Worry spreads, ties among coworkers tighten, and a journal note records the wait."
+    }
+  ]
+}

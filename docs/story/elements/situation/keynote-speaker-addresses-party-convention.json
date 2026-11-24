@@ -2,8 +2,9 @@
   "id": "keynote-speaker-addresses-party-convention",
   "kind": "situation",
   "summary": "A delegate audience hears the player build a keynote around the occasion and their own record.",
-  "realLife": "owner, Nov 14: A party convention keynote can give the speaker room to develop an argument.",
+  "realLife": "Barack Obama’s aides recalled that after he was chosen to give the 2004 Democratic convention keynote, he reserved the drafting for himself and set out to connect his family’s experience to the country’s.",
   "sources": [
+    "https://www.chicagomag.com/chicago-magazine/june-2007/the-speech/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L203"
   ],
   "inGame": "needs: a convention keynote occasion available to the speech planner.",
@@ -18,6 +19,12 @@
       "what": "The speaker shortens the keynote to the event and one episode they witnessed.",
       "pulledBy": "The convention is running late and the chair asks for a shorter address.",
       "writesBack": "The record retains the speaker's selected episode."
+    },
+    {
+      "turn": "late",
+      "what": "A county delegate writes afterward to ask about the hometown mentioned in the keynote.",
+      "pulledBy": "The delegate heard the address and the speaker has agreed to receive convention mail.",
+      "writesBack": "The speaker’s office attaches the delegate’s question to the speech file."
     }
   ]
 }

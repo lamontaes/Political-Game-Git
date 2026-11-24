@@ -1,0 +1,34 @@
+{
+  "id": "official-quoted-from-an-earlier-chat",
+  "kind": "voice",
+  "summary": "When nobody is quoted from the event itself, an official is quoted from an earlier interview.",
+  "realLife": "One story carried its only quote from the mayor in an earlier chat with the paper, dated in the text.",
+  "sources": [
+    "ALXnow (Alexandria, Virginia), 'Dozens attend second Alexandria City Council Town Hall of the year', June 13, 2025: https://www.alxnow.com/2025/06/13/dozens-attend-second-alexandria-city-council-town-hall-of-the-year/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "town-hall": 0.5
+  },
+  "inGame": "the \"interview\" record and an official's stated reasons; needs: a quote kept from an event",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a quote from the event",
+      "pulledBy": "an official who spoke up in the room",
+      "writes": "the story quotes the event",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "no quote at all",
+      "pulledBy": "an official who declined",
+      "writes": "the story says they did not comment",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
+    }
+  ]
+}

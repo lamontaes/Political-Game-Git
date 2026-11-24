@@ -25,5 +25,20 @@
     "inaugural": 0.47,
     "state": 0.41
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Outline moves `creed`, `stand` and `today` open a theme point (data/english/outlines.json shapes creed-then-pledge, today-then-stand); the claim is the speaker's belief or stance record on the policy question.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The point opens on context or a fact before any claim, as a State of the State budget point does.",
+      "pulledBy": "a speaker high in analytical or meticulous; a point with a measure to cite (context-years, context-name)",
+      "writesBack": "The listener hears the claim later; the news story quotes the fact, not the claim."
+    },
+    {
+      "turn": "late",
+      "what": "The claim comes only after a callback to the speech's own earlier words.",
+      "pulledBy": "the point follows a point already said (told-theme)",
+      "writesBack": "The earlier line gets said twice, so it must be one the speaker wants repeated."
+    }
+  ]
 }

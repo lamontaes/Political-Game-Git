@@ -17,5 +17,20 @@
     "inaugural": 0.33,
     "state": 0.33
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "needs: a planner move that repeats one phrase through the speech. `theme-name` and `theme-short` exist, but each is allowed one mention per address (budgets in data/english/outlines.json).",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No refrain: each point stands alone.",
+      "pulledBy": "the default today (theme-short is said once)",
+      "writesBack": "Nothing for the listener to repeat back."
+    },
+    {
+      "turn": "partial",
+      "what": "The refrain appears twice, at the open and the close.",
+      "pulledBy": "a speaker high in persistent; needs a slot allowed to repeat",
+      "writesBack": "The close can return to the opening line."
+    }
+  ]
 }

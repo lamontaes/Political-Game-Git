@@ -1,0 +1,34 @@
+{
+  "id": "pattern-lede-names-the-places",
+  "kind": "move",
+  "summary": "The lede names several places where the same thing happened, then says what.",
+  "realLife": "A roundup opened on three cities where officials facing controversy had lost.",
+  "sources": [
+    "The Atlanta Journal-Constitution, 'Controversies cost small city mayoral candidates in municipal election', Nov. 2025: https://www.ajc.com/news/2025/11/controversies-cost-small-city-mayoral-candidates-in-municipal-election",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place", "number"],
+  "gates": [],
+  "weights": {
+    "election": 0.8
+  },
+  "inGame": "`election-result` across several places in the nation module; needs: a roll across places",
+  "turns": [
+    {
+      "name": "a lede on one place",
+      "pulledBy": "a single close race",
+      "writes": "the lede names the race and the margin",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a lede on the winners",
+      "pulledBy": "a pattern of upsets",
+      "writes": "the lede names who won",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}
