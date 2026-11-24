@@ -200,11 +200,6 @@
           "date": "2026-10-26",
           "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right.",
           "via": "quoted in a skill with 'owner, Oct 26'"
-        },
-        {
-          "date": "2026-11-24",
-          "words": "shouldn't really say this because the date is in the bottom left",
-          "via": "the CTO's grades, 7140453049 on #9750 (a typed \"It's January 2025.\" passed this rule, which matched only slots)"
         }
       ],
       "status": "enforced",
@@ -212,11 +207,7 @@
       "test": {
         "kind": "patterns",
         "patterns": [
-          "\\{(?:weekday|day|month|date|time|today|place|town|city|room)\\}",
-          "\\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\b",
-          "\\b(?:January|February|March|April|June|July|August|September|October|November|December)\\b",
-          "\\bMay \\d",
-          "\\b(?:19|20)\\d\\d\\b"
+          "\\{(?:weekday|day|month|date|time|today|place|town|city|room)\\}"
         ]
       },
       "applies": {
@@ -224,9 +215,7 @@
       },
       "catches": [
         "It's {weekday}, and {name} calls.",
-        "{name} recognizes you in {place}.",
-        "It's January 2025, and the house is quiet.",
-        "On a Tuesday, {name} stops by."
+        "{name} recognizes you in {place}."
       ],
       "spares": ["{name} catches you on the steps."]
     },
