@@ -9,7 +9,7 @@ Pre-grader, 2026-11-24. Story lead's PR #10390 at `6dda0573` (W2's `e1c25ca1` me
   - a single office is its title in lower case ("mayor");
   - a seat on a town body with more than one seat is the whole body ("the Mutual Village Council");
   - a district seat is "state representative in District 38".
-- **The main cause: 29 of the 46 fails are the {office} fill.** Lines that use {office} as the thing won, earned, wanted, feared or started ("win {office}", "{office} is yours", "You earned {office}", "as {office}", "{office} starts tomorrow") read wrong with a title and are false with a body: the player won one seat, not the council. What reads with every fill is "run for {office}" and "the race for {office}". Those lines pass.
+- **The main cause: 24 of the 46 fails are mainly the {office} fill, and several more fail on it in part.** Lines that use {office} as the thing won, earned, wanted, feared or started ("win {office}", "{office} is yours", "You earned {office}", "as {office}", "{office} starts tomorrow") read wrong with a title and are false with a body: the player won one seat, not the council. What reads with every fill is "run for {office}" and "the race for {office}". Those lines pass.
 
 ## As played
 
