@@ -54,7 +54,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["birth-is-a-form-the-state-keeps"]
     },
     {
       "key": "loading-steps.people.deciding-who-lives-next-door-to-whom-in-place-bad-news-for-somebody",
@@ -86,7 +87,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hometown-question-has-one-factual-answer"]
     },
     {
       "key": "loading-steps.past.working-out-who-left-place-and-who-never-did",
@@ -278,7 +280,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
       "key": "loading-steps.government.telling-the-people-in-charge-in-place-that-they-are-in-charge",
@@ -310,7 +313,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["introduce-the-official-who-administers-the-oath"]
     },
     {
       "key": "loading-steps.government.handing-out-government-contracts-in-state",
@@ -374,7 +378,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["registering-is-a-form-at-the-motor-vehicle-office"]
     },
     {
       "key": "loading-steps.elections.drawing-district-lines-in-state-somebody-will-complain-about-them",
@@ -406,7 +411,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["school-nurse-in-health-budget"]
     },
     {
       "key": "loading-steps.budgets.estimating-the-revenue-in-state-with-optimism",
@@ -470,7 +476,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["oath-waits-for-speaker"]
     },
     {
       "key": "loading-steps.legislature.counting-votes-in-state-before-anyone-has-cast-one",
@@ -534,7 +541,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["pattern-a18-the-appointment-with-a-string-on-it"]
     },
     {
       "key": "loading-steps.cabinet.choosing-who-runs-the-roads-and-the-schools-in-state",
@@ -582,7 +590,8 @@
       ],
       "origin": "authored",
       "author": "the loading and history writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["fact-sheet-after-presidents-statement"]
     },
     {
       "key": "loading-steps.workings.opening-the-newspaper-in-place",
