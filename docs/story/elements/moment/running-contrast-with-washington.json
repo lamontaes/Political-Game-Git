@@ -13,5 +13,20 @@
   "weights": {
     "state": 0.1
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "The `contrast` move and the other-side fact exist for the stand; federal-level marks a federal kind. needs: a state-against-federal fact for a governor.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Cooperation with the federal government is the theme.",
+      "pulledBy": "a governor of the president's party",
+      "writesBack": "The paper reports a partnership."
+    },
+    {
+      "turn": "neutral",
+      "what": "Washington is not mentioned.",
+      "pulledBy": "a local issue year",
+      "writesBack": "The speech stays on the state."
+    }
+  ]
 }

@@ -25,5 +25,20 @@
     "state": 0.24,
     "inaugural": 0.14
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Partly: pieces can follow a named move through `after`, and `told-theme` marks that the stand was said. needs: a piece that repeats an earlier sentence's slot value on purpose (the planner counts slot mentions in its budgets but gives a piece no access to earlier text).",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No callback: every point opens fresh, so nothing links them.",
+      "pulledBy": "a speaker low in persistence; a short speech",
+      "writesBack": "The speech reads as separate points; the news story quotes whichever is first."
+    },
+    {
+      "turn": "partial",
+      "what": "The callback is to the theme's name, not to a sentence.",
+      "pulledBy": "theme-short already said once (budget)",
+      "writesBack": "The point reuses the short name only where the budget allows."
+    }
+  ]
 }
