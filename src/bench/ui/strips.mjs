@@ -197,11 +197,11 @@ export function peopleSentence(people) {
   return line;
 }
 
-/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }; a value may be a node (a name that opens its card). */
-export function dotRows(rows) {
+/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }; a value may be a node (a name that opens its card). `oneLine` keeps each label and figure whole on its row, for a date and a name that must not break. */
+export function dotRows(rows, { oneLine = false } = {}) {
   return el(
     "div",
-    { className: "dotrows" },
+    { className: oneLine ? "dotrows one-line" : "dotrows" },
     ...rows.map((row) =>
       el(
         "div",
@@ -315,7 +315,7 @@ export function voteRows(rows) {
       const node = typedRow(row.title, row.result, row.when);
       if (!row.onOpen) return node;
       // A row with a paper behind it opens it: a button for the pointer and the keyboard.
-      node.classList.add("pick");
+      node.classList.add("open-row");
       node.tabIndex = 0;
       node.setAttribute("role", "button");
       node.addEventListener("click", row.onOpen);
