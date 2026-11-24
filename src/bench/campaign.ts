@@ -202,8 +202,9 @@ export function campaignView(core: CoreState, personId: string) {
         petition: petitionView(api, filing.id),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
         causes,
-        // The sample a poll asks, so the screen's Poll button and the price below agree.
+        // The sample a poll asks, so the screen's Poll act and its price agree.
         pollSample: POLL_SAMPLE,
+        pollPrice: pollPrice(core, filing),
         // Where the race stands, in the English engine's words, from the contest's records.
         standing: raceStanding(
           core,
@@ -517,7 +518,6 @@ export function raceStanding(
   const mine = causes.find((who) => who.you);
   const others = causes.filter((who) => !who.you);
   const id = filing.id;
-  const perInterview = campaignParameter("pollCostPerInterviewMinor");
   const line = (
     move: string,
     recordId: string,
@@ -610,11 +610,21 @@ export function raceStanding(
           ),
         ]
       : []),
-    line("poll-cost", id, {
-      sample: POLL_SAMPLE,
-      cost: dollarsOf(POLL_SAMPLE * perInterview),
-    }),
   ];
+}
+
+/**
+ * What a poll costs, said on the Poll act where it is bought (playtest
+ * sitting C13: the price read as the race's summary when it closed the
+ * standing lines). The sample is the one the Poll act asks.
+ */
+export function pollPrice(core: CoreState, filing: FilingRow): string {
+  return standingLine(core.seed, filing.personId, "poll-cost", filing.id, {
+    sample: POLL_SAMPLE,
+    cost: dollarsOf(
+      POLL_SAMPLE * campaignParameter("pollCostPerInterviewMinor"),
+    ),
+  });
 }
 
 const summary = (causes: readonly CauseRow[]) => ({

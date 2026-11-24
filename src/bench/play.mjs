@@ -2064,6 +2064,7 @@ async function campaignParts() {
     contest,
     campaign,
     pollSample,
+    pollPrice,
     petition,
     outings,
     standing,
@@ -2257,7 +2258,9 @@ async function campaignParts() {
         group: T.groupAsk,
         title: controls.campaignActs[kind],
         picture: pictures?.[kind],
-        load: async () => ({}),
+        // A poll's price is said where it is bought, not among where the race stands.
+        load: async () =>
+          kind === "poll" && pollPrice ? { does: [pollPrice] } : {},
         // stopgapId: SG-PLAY-campaign-acts-buttons
         go: go(() => act(kind, extra)),
       })),
