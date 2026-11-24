@@ -52,9 +52,12 @@
     "sponsor": "who brought the bill, by name or as a party, from the bill's sponsor record",
     "reason-for": "what supporters said for it, as a clause, from the members' recorded reasons",
     "reason-against": "what opponents said against it, as a clause, from the members' recorded reasons",
-    "takes-effect": "when it takes effect, said as a phrase that follows 'takes effect' (on July 1, once the mayor signs it)",
+    "takes-effect": "when it takes effect, a bare spoken date that follows 'takes effect on' (July 1, 2025)",
     "next-step": "what it still needs, as a noun phrase after 'still needs' (a vote in the other chamber)",
-    "lone-voter": "the one member on the losing side of the vote, by name, where only one was (from the roll call)"
+    "lone-voter": "the one member on the losing side of the vote, by name, where only one was (from the roll call)",
+    "voted-against": "the one member who voted against a bill that carried, by name (from the roll call)",
+    "against-party": "the party label where everyone who voted against shares one party (Republican, Democratic)",
+    "next-body": "the chamber that still takes up a bill that passed one chamber, by name (United States Senate)"
   },
   "maxWords": 30,
   "parts": [
@@ -2517,7 +2520,7 @@
       "key": "outline-news.effect.news-roll-call-effect-takes",
       "move": "effect",
       "kind": "written",
-      "text": "It takes effect {takes-effect}.",
+      "text": "It takes effect on {takes-effect}.",
       "uses": [
         {
           "subject": "news-roll-call",
@@ -2536,13 +2539,13 @@
       "key": "outline-news.effect.news-roll-call-effect-next",
       "move": "effect",
       "kind": "written",
-      "text": "It still needs {next-step}.",
+      "text": "It still needs a vote in the {next-body}.",
       "uses": [
         {
           "subject": "news-roll-call",
           "role": "effect",
           "tie": "record",
-          "requiresFacts": ["passed", "next-step"]
+          "requiresFacts": ["passed", "next-step", "next-body"]
         }
       ],
       "after": ["margin", "who", "why"],
@@ -2581,6 +2584,46 @@
           "role": "who",
           "tie": "record",
           "requiresFacts": ["lone-voter", "failed"]
+        }
+      ],
+      "after": ["margin"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["dissenter-from-the-winning-bloc"]
+    },
+    {
+      "key": "outline-news.who.news-roll-call-who-alone",
+      "move": "who",
+      "kind": "written",
+      "text": "{voted-against} cast the one vote against it.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "who",
+          "tie": "record",
+          "requiresFacts": ["voted-against", "against-alone"],
+          "excludesFacts": ["no-dissent", "failed"]
+        }
+      ],
+      "after": ["margin"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["dissenter-from-the-winning-bloc"]
+    },
+    {
+      "key": "outline-news.who.news-roll-call-who-bloc",
+      "move": "who",
+      "kind": "written",
+      "text": "Every vote against came from the {against-party} side of the {body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "who",
+          "tie": "record",
+          "requiresFacts": ["body", "against-bloc", "against-party"],
+          "excludesFacts": ["no-dissent"]
         }
       ],
       "after": ["margin"],

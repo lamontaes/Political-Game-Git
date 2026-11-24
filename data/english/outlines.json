@@ -640,7 +640,8 @@
       "budgets": {
         "*": 2,
         "sponsor": 1,
-        "lone-voter": 1
+        "lone-voter": 1,
+        "voted-against": 1
       },
       "sections": [
         {
