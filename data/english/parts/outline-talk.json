@@ -4829,26 +4829,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-talk.why-first.talk-address-point-place-is-where-i-live-so-i-listened-for-said",
-      "move": "why-first",
-      "kind": "spoken",
-      "text": "{place} is where I live, so I listened for {said}.",
-      "uses": [
-        {
-          "subject": "talk-address-point",
-          "role": "why-first",
-          "tie": "stand",
-          "requiresFacts": ["why-view", "place", "said"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-anxious", "personality-v1:facet-humble"],
-      "elements": ["parents-who-value-passing-on-politics-talk-weekly"],
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-talk.why.talk-address-point-it-s-what-i-see-out-the-window-in-place-that-s-all",
       "move": "why",
       "kind": "spoken",
