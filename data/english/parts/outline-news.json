@@ -2232,6 +2232,222 @@
       "author": "the news writer",
       "date": "2026-11-24",
       "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-count-led-enough",
+      "move": "lede",
+      "kind": "written",
+      "text": "{count} in the {body} was enough for the {law} on {date}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["law", "body", "count", "date", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-count-led-not-enough",
+      "move": "lede",
+      "kind": "written",
+      "text": "{count} in the {body} was not enough for the {law} on {date}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["law", "body", "count", "date", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-came-out-with-vote-behind",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {law} came out of the {body} on {date} with a {count} vote behind it.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["law", "body", "count", "date", "passed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-roll-call-left-with-vote-against",
+      "move": "lede",
+      "kind": "written",
+      "text": "The {law} left the {body} on {date} with {count} against it.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": ["law", "body", "count", "date", "failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-address-took-office-on-the-side-of",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} took office on {date} on the side of {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "about",
+            "inaugural",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-address-began-the-term-in-favor",
+      "move": "lede",
+      "kind": "written",
+      "text": "On {date}, {name} began the term in favor of {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "about",
+            "inaugural",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-address-began-the-term-against",
+      "move": "lede",
+      "kind": "written",
+      "text": "On {date}, {name} began the term against {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "about",
+            "inaugural",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-address-began-as-president-opposed",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} began as president on {date} opposed to {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "about",
+            "inaugural",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-address-went-before-both-houses-for",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} went before both houses on {date} in favor of {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "about",
+            "joint-session",
+            "president-for"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
+    },
+    {
+      "key": "outline-news.lede.news-address-went-before-both-houses-against",
+      "move": "lede",
+      "kind": "written",
+      "text": "{name} went before both houses on {date} against {about}.",
+      "uses": [
+        {
+          "subject": "news-address",
+          "role": "lede",
+          "tie": "record",
+          "requiresFacts": [
+            "name",
+            "date",
+            "about",
+            "joint-session",
+            "president-against"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["lede-names-the-body-that-acted"]
     }
   ]
 }
