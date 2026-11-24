@@ -1,0 +1,15 @@
+{
+  "id": "lobbyist-meets-member-outside-the-chamber",
+  "kind": "moment",
+  "summary": "A lobbyist waits to speak with a member as the member passes through the hall.",
+  "realLife": "owner, Oct 27: A lobbyist can be a counterpart in an unplanned encounter at the seat of government.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L60"
+  ],
+  "inGame": "The lobby-remembers situation supplies the lobbyist encounter; a hallway setting must fit the recorded circumstance.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{member}", "{lobbyist}", "{issue}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "charge-a-group-with-investigating-a-question",
+  "kind": "move",
+  "summary": "Members set a research question for a new group before asking it to report back.",
+  "realLife": "owner, Nov 8: Forming a committee or task force to learn about an issue can be a scene.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L109"
+  ],
+  "inGame": "The study-formed situation and the legislature’s study committee record supply the charge.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{chair}", "{group}", "{question}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

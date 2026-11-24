@@ -1,0 +1,15 @@
+{
+  "id": "state-the-political-consequence-openly",
+  "kind": "voice",
+  "summary": "A counterpart tells a member directly what political support they will withdraw if they disagree.",
+  "realLife": "owner, Nov 8: An explicit warning can change the tenor of a political negotiation.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L54"
+  ],
+  "inGame": "needs: a known political commitment the counterpart can withdraw.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{member}", "{counterpart}", "{request}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

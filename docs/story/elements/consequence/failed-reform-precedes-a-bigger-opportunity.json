@@ -1,0 +1,15 @@
+{
+  "id": "failed-reform-precedes-a-bigger-opportunity",
+  "kind": "consequence",
+  "summary": "Someone whose effort to change policy failed gets a chance at a larger job.",
+  "realLife": "owner, Nov 8: A political setback can precede an upward move.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L128"
+  ],
+  "inGame": "needs: distinguish a later appointment or candidacy from success on the earlier proposal.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{person}", "{proposal}", "{office}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

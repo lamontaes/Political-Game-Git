@@ -1,0 +1,15 @@
+{
+  "id": "listener-stays-in-the-background",
+  "kind": "detail",
+  "summary": "Someone else is present at the desk while the official and visitor speak to each other.",
+  "realLife": "owner, Nov 16: Distinguish a silent person in the room from the person taking the speaking turn.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L279"
+  ],
+  "inGame": "needs: identify a present non-speaker in the scene cast before referring to their presence.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{official}", "{visitor}", "{listener}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

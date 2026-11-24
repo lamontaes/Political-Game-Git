@@ -1,0 +1,15 @@
+{
+  "id": "education-strike-in-an-otherwise-good-term",
+  "kind": "situation",
+  "summary": "An education dispute brings strikers out during a term that has gone well in other areas.",
+  "realLife": "owner, Nov 8: A generally successful term can still leave one group with grounds for a strike.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L105"
+  ],
+  "inGame": "needs: read the education-specific grievance and the term’s other outcomes alongside the recorded strike.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{officeholder}", "{industry}", "{action}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

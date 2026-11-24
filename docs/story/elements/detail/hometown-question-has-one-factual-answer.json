@@ -1,0 +1,15 @@
+{
+  "id": "hometown-question-has-one-factual-answer",
+  "kind": "detail",
+  "summary": "Asked where they come from, a person answers with the place in their history.",
+  "realLife": "owner, Nov 10: An ordinary factual question can have one truthful reply.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L229"
+  ],
+  "inGame": "The biography’s hometown can supply the answer when the question refers to that place.",
+  "fits": ["journal", "home", "work-community"],
+  "slots": ["{person}", "{hometown}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

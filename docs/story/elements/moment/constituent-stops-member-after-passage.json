@@ -1,0 +1,15 @@
+{
+  "id": "constituent-stops-member-after-passage",
+  "kind": "moment",
+  "summary": "A constituent recognizes a member on the street and asks about a law that just passed.",
+  "realLife": "owner, Oct 27: A new law can prompt a resident to approach an officeholder in public.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L60"
+  ],
+  "inGame": "The constituent-stop situation and the law’s jurisdiction establish who can ask about which law.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{member}", "{constituent}", "{law}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

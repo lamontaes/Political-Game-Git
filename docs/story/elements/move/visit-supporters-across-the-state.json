@@ -1,0 +1,15 @@
+{
+  "id": "visit-supporters-across-the-state",
+  "kind": "move",
+  "summary": "A candidate for statewide office travels to another part of the state to maintain a relationship there.",
+  "realLife": "owner, Nov 8: A statewide campaign can follow the candidate’s work on relationships from place to place.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L128"
+  ],
+  "inGame": "needs: record the campaign stop and earlier relationship in the same scene.",
+  "fits": ["journal", "campaign", "speeches"],
+  "slots": ["{candidate}", "{supporter}", "{place}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

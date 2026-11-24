@@ -1,0 +1,15 @@
+{
+  "id": "first-campaign-call-to-a-donor",
+  "kind": "moment",
+  "summary": "A first-time candidate makes a personal call to someone who might help fund the race.",
+  "realLife": "owner, Nov 8: A first campaign includes the work of talking to potential donors.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L128"
+  ],
+  "inGame": "The donor-ask situation supplies the request; first-campaign wording requires candidacy history.",
+  "fits": ["journal", "campaign", "speeches"],
+  "slots": ["{candidate}", "{donor}", "{contest}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "friendship-began-on-the-job",
+  "kind": "detail",
+  "summary": "A call from a close friend recalls how both people came to know each other through work.",
+  "realLife": "owner, Nov 16: An established friendship can be introduced by its origin at work.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L192"
+  ],
+  "inGame": "needs: a work-origin record for the current friendship.",
+  "fits": ["journal", "home", "work-community"],
+  "slots": ["{friend}", "{job}", "{player}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}
