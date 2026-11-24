@@ -1,0 +1,15 @@
+{
+  "id": "extra-day-for-relocation-or-contract",
+  "kind": "detail",
+  "summary": "Moving across the country or a complicated contract earns a request for a day or two more.",
+  "realLife": "Guidance says a polite request for an extra 24 to 48 hours is usually accepted when relocation or a complex contract is involved.",
+  "sources": [
+    "Duke University career blog, how to evaluate a job offer and ask for time: https://careerhub.students.duke.edu/blog/2024/11/01/how-to-evaluate-a-job-offer-and-ask-for-time-to-think-about-it/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["deadline", "employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Needs: relocation and contract terms on an offer; the person's job record carries only employer, position, workplace and pay."
+}

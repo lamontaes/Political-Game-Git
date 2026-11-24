@@ -1,0 +1,15 @@
+{
+  "id": "one-to-one-meeting-builds-network",
+  "kind": "consequence",
+  "summary": "A first-week one-on-one with the manager is followed by a bigger work network and more teamwork.",
+  "realLife": "A Microsoft analysis of about 3,000 new hires, as summarized by Atlassian, linked a first-week manager one-on-one to a larger internal network, better meetings and more collaboration.",
+  "sources": [
+    "Atlassian Work Life, starting a new job and first week success: https://www.atlassian.com/blog/teamwork/starting-a-new-job-and-first-week-success"
+  ],
+  "fits": ["work-community"],
+  "slots": ["position", "workplace", "tenure"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Needs: a tie-growth read tied to tenure; the coworker ties between people at one workplace can carry it, aged by tenure in the job record (employer, position, workplace, pay, tenure) in the jobs module."
+}

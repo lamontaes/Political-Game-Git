@@ -1,0 +1,15 @@
+{
+  "id": "veterans-with-a-job-lined-up",
+  "kind": "situation",
+  "summary": "A quarter of veterans have a civilian job lined up before they leave service, and about half start looking right away.",
+  "realLife": "Pew found 25 percent had a job lined up, 48 percent searched immediately and 21 percent searched after a delay. Among post-9/11 veterans without a job, 57 percent found one within six months.",
+  "sources": [
+    "Pew Research Center, The transition to post-military employment (2019): https://www.pewresearch.org/social-trends/2019/09/10/the-transition-to-post-military-employment/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "tenure"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Needs: military service as a job record; leaving a job and searching can ride on the jobs module."
+}

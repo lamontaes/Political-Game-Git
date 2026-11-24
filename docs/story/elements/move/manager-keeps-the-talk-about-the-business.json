@@ -1,0 +1,15 @@
+{
+  "id": "manager-keeps-the-talk-about-the-business",
+  "kind": "move",
+  "summary": "The manager tells the person the cut is about the business, not their work.",
+  "realLife": "HR guidance says the message in a layoff meeting should center on the business reason, not the individual's performance, and careless remarks can leave the person feeling more wronged.",
+  "sources": [
+    "SHRM, Layoffs require communication, compassion, compliance: https://www.shrm.org/mena/topics-tools/news/talent-acquisition/layoffs-require-communication-compassion-compliance"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-ended event for a layoff, with the manager's traits deciding tone; the person's reaction by their traits."
+}

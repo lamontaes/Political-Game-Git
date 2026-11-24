@@ -1,0 +1,15 @@
+{
+  "id": "start-date-is-negotiable",
+  "kind": "detail",
+  "summary": "Start date is one of the terms that can be bargained along with pay and leave.",
+  "realLife": "A career office notes that start dates, leave and benefits can be negotiated with salary, and the agreed start date should be restated in the written acceptance.",
+  "sources": [
+    "UW-Madison SuccessWorks, accepting and negotiating your offer: https://successworks.wisc.edu/accepting-and-negotiating-your-offer/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["tenure", "employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Tenure begins at the job record's start date; the start date slot can be set when a person is hired."
+}

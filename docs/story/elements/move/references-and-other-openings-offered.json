@@ -1,0 +1,15 @@
+{
+  "id": "references-and-other-openings-offered",
+  "kind": "move",
+  "summary": "The employer offers a written reference and to consider the person for other openings.",
+  "realLife": "An HR article advises written job references, outplacement help for r\u00e9sum\u00e9s and networking, and consideration for other company openings. It also notes the WARN Act requires 60 days' notice for a mass layoff.",
+  "sources": [
+    "Workforce magazine, A humane approach to layoffs: https://workforce.com/news/a-humane-approach-to-layoffs"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: references; other openings inside the same employer can ride on the jobs module's open positions."
+}

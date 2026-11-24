@@ -1,0 +1,15 @@
+{
+  "id": "counter-pay-above-or-near-average",
+  "kind": "move",
+  "summary": "The candidate counters pay a modest amount above the offer, then stays quiet to let the employer answer.",
+  "realLife": "Campus career advice says to counter about 10 to 20 percent higher if pay is below average for the area, and 5 to 10 percent if it is at or above average, then stay silent so the employer responds first.",
+  "sources": [
+    "UW-Madison SuccessWorks, accepting and negotiating your offer: https://successworks.wisc.edu/accepting-and-negotiating-your-offer/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["pay", "employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Pay in the job record (employer, position, workplace, pay, tenure) in the jobs module; the counter would move pay on a new job record. Needs: an offer negotiation step."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "remaining-staff-are-gathered-after-layoffs",
+  "kind": "consequence",
+  "summary": "After the individual meetings, the employer meets with everyone left to acknowledge the loss.",
+  "realLife": "HR guidance advises a meeting with all remaining staff after notifications, since survivors may grieve and feel uncertain, and acknowledging their feelings.",
+  "sources": [
+    "SHRM, Layoffs require communication, compassion, compliance: https://www.shrm.org/mena/topics-tools/news/talent-acquisition/layoffs-require-communication-compassion-compliance"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "New-coworker and job-ended events at one workplace; remaining coworkers' mood can read from the count of ended jobs."
+}

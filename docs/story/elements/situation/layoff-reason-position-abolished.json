@@ -1,0 +1,15 @@
+{
+  "id": "layoff-reason-position-abolished",
+  "kind": "situation",
+  "summary": "Most long-tenured job losses come from a position or shift being cut, a plant closing, or too little work.",
+  "realLife": "A national survey of displaced workers found that for those with three or more years at a job, 44 percent lost it because the position or shift was abolished, 33 percent because the plant or company closed or moved, and 23 percent for too little work.",
+  "sources": [
+    "Bureau of Labor Statistics, Worker Displacement news release (Jan 2023 to Dec 2025): https://www.bls.gov/news.release/disp.nr0.htm"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position", "tenure"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-ended event (a layoff) written by the jobs module, with the reason picked from the employer's records and the person's job record (employer, position, workplace, pay, tenure) in the jobs module."
+}

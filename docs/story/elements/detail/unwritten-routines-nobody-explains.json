@@ -1,0 +1,15 @@
+{
+  "id": "unwritten-routines-nobody-explains",
+  "kind": "detail",
+  "summary": "The team has habits nobody writes down, like when people arrive, leave or gather for breakfast.",
+  "realLife": "Career guidance for new hires says team routines often go unstated, and that watching colleagues and asking them directly avoids awkward surprises. Examples are arrival and departure times and group meals.",
+  "sources": [
+    "Atlassian Work Life, starting a new job and first week success: https://www.atlassian.com/blog/teamwork/starting-a-new-job-and-first-week-success"
+  ],
+  "fits": ["work-community"],
+  "slots": ["workplace", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Needs: a per-workplace habits record; today it can ride on the job record (employer, position, workplace, pay, tenure) in the jobs module and coworker ties, and be told by a senior coworker when the new-coworker event fires."
+}

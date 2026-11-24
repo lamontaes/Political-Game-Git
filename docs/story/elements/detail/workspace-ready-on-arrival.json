@@ -1,0 +1,15 @@
+{
+  "id": "workspace-ready-on-arrival",
+  "kind": "detail",
+  "summary": "A desk, login and supplies are already set up when the new hire walks in.",
+  "realLife": "Newcomers who found their workspace prepared on arrival adjusted to the job earlier in one study of new hires. A workspace not ready is a common small sign that nobody expected them.",
+  "sources": [
+    "Portland State University scholarly record, Day 1 newcomer resources and adjustment study: https://pdxscholar.library.pdx.edu/busadmin_fac/198"
+  ],
+  "fits": ["work-community"],
+  "slots": ["workplace", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Carried by the job record (employer, position, workplace, pay, tenure) in the jobs module and the workplace record; a ready or missing desk can be read from the employer's size and the new-coworker event."
+}

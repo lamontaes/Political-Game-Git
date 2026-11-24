@@ -1,0 +1,15 @@
+{
+  "id": "agreement-cannot-waive-unemployment-benefits",
+  "kind": "detail",
+  "summary": "A severance paper cannot take away unemployment, wage or vested retirement benefits.",
+  "realLife": "The EEOC says to check that the agreement does not waive the right to file a charge, rights arising after signing, or release unemployment, workers' compensation, wage, COBRA or vested retirement benefits.",
+  "sources": [
+    "U.S. EEOC, Q&A on waivers of discrimination claims in severance agreements: https://www.eeoc.gov/laws/guidance/qa-understanding-waivers-discrimination-claims-employee-severance-agreements"
+  ],
+  "fits": ["work-community"],
+  "slots": ["pay", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: severance agreements; unemployment pay can ride on the job-ended event."
+}

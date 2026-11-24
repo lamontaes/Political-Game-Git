@@ -1,0 +1,15 @@
+{
+  "id": "ask-for-more-time-in-writing",
+  "kind": "move",
+  "summary": "A worker given an agreement in a rush asks for more time in writing and marks the deadlines.",
+  "realLife": "The EEOC advises noting the deadline as soon as you get the agreement, asking for clarification of confusing terms, requesting more time in writing if rushed, and considering a lawyer.",
+  "sources": [
+    "U.S. EEOC, Q&A on waivers of discrimination claims in severance agreements: https://www.eeoc.gov/laws/guidance/qa-understanding-waivers-discrimination-claims-employee-severance-agreements"
+  ],
+  "fits": ["work-community"],
+  "slots": ["deadline"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: severance agreements; the request is a choice on the termination meeting."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "severance-review-period-21-or-45-days",
+  "kind": "situation",
+  "summary": "Workers 40 or older get 21 days to consider a severance offer, or 45 in a group layoff.",
+  "realLife": "The EEOC explains that older workers must get at least 21 days, or 45 for group programs, and may sign earlier only if it is truly their choice. After signing they have 7 days to change their mind.",
+  "sources": [
+    "U.S. EEOC, Q&A on waivers of discrimination claims in severance agreements: https://www.eeoc.gov/laws/guidance/qa-understanding-waivers-discrimination-claims-employee-severance-agreements"
+  ],
+  "fits": ["work-community"],
+  "slots": ["deadline", "pay"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: severance agreements and the revocation window; the person's age is on the person record."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "employers-stop-searching-once-accepted",
+  "kind": "consequence",
+  "summary": "Once someone accepts, the employer stops its search, so backing out later leaves a hole.",
+  "realLife": "A career office points out that employers end their search after an acceptance, so withdrawing later wastes their time and can damage the candidate's reputation.",
+  "sources": [
+    "UW-Madison SuccessWorks, accepting and negotiating your offer: https://successworks.wisc.edu/accepting-and-negotiating-your-offer/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Needs: a vacancy record that closes on acceptance; the jobs module's hire event can carry the closing."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "retiring-teacher-finds-her-classroom-bare",
+  "kind": "moment",
+  "summary": "A teacher on her last day walks into her emptied classroom after three decades and cries, then her principal hugs her.",
+  "realLife": "A local news story describes a retiring sign language teacher entering her room for the last time, finding few traces of her 30-plus years, and weeping; her principal hugged her and the senior class president had thanked her at graduation the day before.",
+  "sources": [
+    "WPTV news story, last day of school for a retiring high school teacher: https://wptv.com/news/education/last-day-of-school-brings-fond-memories-for-retiring-william-t-dwyer-high-school-teacher"
+  ],
+  "fits": ["work-community"],
+  "slots": ["position", "workplace", "tenure", "school"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-ended event for retirement, tenure from the job record (employer, position, workplace, pay, tenure) in the jobs module, and the player's tie to the person (coworker or former student)."
+}

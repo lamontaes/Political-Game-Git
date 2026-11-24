@@ -1,0 +1,15 @@
+{
+  "id": "young-and-non-college-lean-on-family-ties",
+  "kind": "detail",
+  "summary": "Younger job seekers and those without a college degree more often say friends and family were their best route.",
+  "realLife": "The same survey found these groups more likely to rank friends or family first, while college graduates and older seekers leaned on professional contacts.",
+  "sources": [
+    "Pew Research Center, The Internet and Job Seeking (2015 survey report): https://www.pewresearch.org/internet/2015/11/19/1-the-internet-and-job-seeking/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Person's age and schooling on their record choose which tie to ask; the job-lost call is the carrier."
+}

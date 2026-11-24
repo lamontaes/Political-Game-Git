@@ -1,0 +1,15 @@
+{
+  "id": "invite-a-colleague-to-lunch-first",
+  "kind": "move",
+  "summary": "The newcomer invites a colleague to lunch instead of waiting to be asked.",
+  "realLife": "First-week guidance says to look for a buddy or mentor and to invite coworkers to lunch rather than wait for an invitation. Follow-up questions about what the coworker just said read as more engaged.",
+  "sources": [
+    "Atlassian Work Life, starting a new job and first week success: https://www.atlassian.com/blog/teamwork/starting-a-new-job-and-first-week-success"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "New-coworker event plus the person's tie to the player (coworker) and traits such as shy or outgoing; no lunch mechanic, so it needs: a meal or break scene hook."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "workers-told-to-use-services-while-pay-lasts",
+  "kind": "move",
+  "summary": "Laid-off workers are urged to start using help while severance or benefits are still coming.",
+  "realLife": "The federal rapid response page advises using services while still employed or while severance, unemployment benefits or other resources are still available.",
+  "sources": [
+    "U.S. Department of Labor, Rapid Response page for workers facing layoffs: https://www.dol.gov/agencies/eta/layoffs/workers"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "pay"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Needs: severance payments, which the game does not have; unemployment pay can ride on the job-ended event."
+}

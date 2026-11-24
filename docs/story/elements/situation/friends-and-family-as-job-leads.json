@@ -1,0 +1,15 @@
+{
+  "id": "friends-and-family-as-job-leads",
+  "kind": "situation",
+  "summary": "Most job seekers turn first to close friends and family, then to work contacts and friends of friends.",
+  "realLife": "A 2015 Pew survey of recent job seekers found 66 percent used close friends or family, 63 percent professional contacts and 55 percent acquaintances. For 20 percent close friends or family were the most important source.",
+  "sources": [
+    "Pew Research Center, The Internet and Job Seeking (2015 survey report): https://www.pewresearch.org/internet/2015/11/19/1-the-internet-and-job-seeking/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-lost call from a friend or relative; the tie to the player (friend, relative, coworker) decides who is asked and who passes on a lead."
+}

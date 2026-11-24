@@ -1,0 +1,15 @@
+{
+  "id": "laid-off-worker-stunned-and-distrustful",
+  "kind": "consequence",
+  "summary": "A person laid off without warning feels stunned and later distrusts the employer.",
+  "realLife": "An example in a workforce article shows a worker stunned at a conference-room meeting and later distrustful after learning a poor review had been used to justify the layoff. Remaining staff watch how coworkers were treated and rumors spread when communication is poor.",
+  "sources": [
+    "Workforce magazine, A humane approach to layoffs: https://workforce.com/news/a-humane-approach-to-layoffs"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-ended event raises or lowers the person's trust through traits and the tie to the employer; coworker reactions follow through ties."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "acceptance-restates-the-terms",
+  "kind": "move",
+  "summary": "The candidate accepts in writing and lists the agreed pay, title and start date.",
+  "realLife": "Advice is to send a written acceptance thanking the employer and listing salary, title, start date and any extras. If nothing is heard back, follow up by phone.",
+  "sources": [
+    "UW-Madison SuccessWorks, accepting and negotiating your offer: https://successworks.wisc.edu/accepting-and-negotiating-your-offer/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["pay", "position", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Becomes the person's new job record (employer, position, workplace, pay, tenure) in the jobs module when hired; the player-side step is a decision to take the job."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "only-some-get-written-notice",
+  "kind": "detail",
+  "summary": "Fewer than half of laid-off workers get written notice ahead of time.",
+  "realLife": "The survey found about 45 percent had written advance notice; plant closings had the most (about 58 percent), then abolished positions (about 42) and too little work (about 32).",
+  "sources": [
+    "Bureau of Labor Statistics, Worker Displacement news release (Jan 2023 to Dec 2025): https://www.bls.gov/news.release/disp.nr0.htm"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-ended event could carry a notice flag by reason; no notice or WARN records exist, so it needs: advance-notice field on the job-ended event."
+}

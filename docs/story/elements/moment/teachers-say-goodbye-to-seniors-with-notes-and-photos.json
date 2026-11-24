@@ -1,0 +1,15 @@
+{
+  "id": "teachers-say-goodbye-to-seniors-with-notes-and-photos",
+  "kind": "moment",
+  "summary": "Teachers say goodbye to graduating students with personal notes, advice walls, photo booths and a short speech with snacks.",
+  "realLife": "An education article lists five ways: a note to each student on something specific, an advice wall of sticky notes, a photo booth with prints, a class poem and a farewell speech with treats.",
+  "sources": [
+    "Edutopia, five ways to say goodbye to graduating students: https://www.edutopia.org/blog/five-ways-to-say-goodbye-graduating-students-rebecca-alber/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["school", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "A school and graduation or last day at school; the tie between the player and the teacher decides who gives a note."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "severance-paid-as-salary-continuation",
+  "kind": "situation",
+  "summary": "Some employers pay severance as continuing salary, even if the person finds new work, so they do not delay the search.",
+  "realLife": "HR guidance describes packages with severance pay, outplacement, continued health benefits and priority for internal openings, and suggests salary continuation continuing even after a new job starts.",
+  "sources": [
+    "SHRM, Layoffs require communication, compassion, compliance: https://www.shrm.org/mena/topics-tools/news/talent-acquisition/layoffs-require-communication-compassion-compliance"
+  ],
+  "fits": ["work-community"],
+  "slots": ["pay", "employer", "tenure"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: severance payments; the jobs module has pay on the job record but no severance flow."
+}
