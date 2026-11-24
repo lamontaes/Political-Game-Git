@@ -1,0 +1,29 @@
+{
+  "id": "a-nominating-committee-picks-a-replacement",
+  "kind": "situation",
+  "summary": "A committee, not the voters, names the replacement candidate on the ballot.",
+  "realLife": "A Columbus nominating committee chose ballot replacements for retiring council members.",
+  "sources": [
+    "WOSU, nominating committee picks ballot replacement for retiring Columbus council members: https://wosu.org/politics/2021-04-20/nominating-committee-picks-ballot-replacement-for-retiring-columbus-city-council-members"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["office", "party"],
+  "gates": [],
+  "weights": {
+    "party-recruit": 0.8
+  },
+  "inGame": "party-asked record; needs: a nominating committee step",
+  "turns": [
+    {
+      "turn": "The committee splits its vote",
+      "pull": "two strong names",
+      "writes": "writes a hard feeling"
+    },
+    {
+      "turn": "The committee picks the incumbent's favorite",
+      "pull": "loyalty",
+      "writes": "writes an inherited-seat story"
+    }
+  ],
+  "usedBy": ["party-recruit"]
+}
