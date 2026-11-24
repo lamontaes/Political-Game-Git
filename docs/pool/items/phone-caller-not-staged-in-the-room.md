@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-carryover-n16-44
-pr:
+pr: #10334
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Carryover screens, Nov 23 sitting (N16-44)
+merged-at: 2026-11-24T06:45:27.314Z
 ---
 
 **What.** From the Nov 16 recording: in a scene whose setting is a call, the caller stands in the player's room, beside them. A call and a letter are between two people who are not in one room.
