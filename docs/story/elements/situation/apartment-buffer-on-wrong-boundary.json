@@ -1,0 +1,23 @@
+{
+  "id": "apartment-buffer-on-wrong-boundary",
+  "kind": "situation",
+  "summary": "An old policy about where apartments belong becomes the sticking point for a particular parcel.",
+  "realLife": "Opponents of Lincoln Green cited a village policy favoring apartments between houses and incompatible uses. The proposed site did not border industry or commerce.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf"
+  ],
+  "inGame": "needs: a permit case record with parcel, neighboring use, policy. The board can read the zoning map aloud when the builder asks which boundary fails the policy.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{parcel}", "{neighboring_use}", "{policy}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A member finds a commercial parcel on the boundary staff described as residential.",
+      "pulledBy": "The current map records a change since the staff report was written.",
+      "writesBack": "The board requests a corrected map before relying on the buffer policy."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "minority-report-goes-to-trustees",
+  "kind": "move",
+  "summary": "Two commissioners who lose a recommendation vote put their own reasons before the people who have the final say.",
+  "realLife": "Two Arlington Heights plan commissioners opposed the recommendation to reject Lincoln Green and submitted a minority report supporting rezoning before the trustees considered the project.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf"
+  ],
+  "inGame": "needs: a permit case record with commissioner, report, project. A trustee can ask a dissenter to explain the case for the site.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{commissioner}", "{report}", "{project}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The dissent reaches a trustee after the agenda packet goes out.",
+      "pulledBy": "The dissenters finish writing before the trustees vote.",
+      "writesBack": "The clerk circulates the signed report as a supplement."
+    }
+  ]
+}

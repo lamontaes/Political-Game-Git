@@ -1,0 +1,23 @@
+{
+  "id": "public-path-between-tide-and-seawall",
+  "kind": "detail",
+  "summary": "Two features someone can point to on the beach define the strip of land at issue in a permit.",
+  "realLife": "Coastal staff proposed letting the public walk across the Nollans’ lot between the mean high tide line and the seawall to ease passage between two public recreation areas.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep483/usrep483825/usrep483825.pdf"
+  ],
+  "inGame": "needs: a permit case record with shore, seawall, public place. A resident can ask whether a proposed route runs along the shore or leads down to it.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{shore}", "{seawall}", "{public_place}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The proposed route reaches a seawall that cuts off passage at high water.",
+      "pulledBy": "The shoreline survey identifies a break in the route at that tide.",
+      "writesBack": "Staff flag the gap on the access map."
+    }
+  ]
+}

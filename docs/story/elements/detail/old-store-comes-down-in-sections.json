@@ -1,0 +1,23 @@
+{
+  "id": "old-store-comes-down-in-sections",
+  "kind": "detail",
+  "summary": "A shopkeeper’s construction plan shows the old shop coming down a piece at a time.",
+  "realLife": "Florence Dolan proposed building a larger store across the parcel from the existing one and dismantling the old building in sections as work progressed.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep512/usrep512374/usrep512374.pdf"
+  ],
+  "inGame": "needs: a permit case record with shop, owner, site plan. A hearing question about the sequence can draw out which building occupies the site at each stage.",
+  "fits": ["office", "journal", "news", "home", "work-community"],
+  "slots": ["{shop}", "{owner}", "{site_plan}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "A supplier asks which entrance to use during demolition.",
+      "pulledBy": "A delivery is scheduled while both building footprints are occupied.",
+      "writesBack": "The owner marks the loading entrance on the phasing plan."
+    }
+  ]
+}

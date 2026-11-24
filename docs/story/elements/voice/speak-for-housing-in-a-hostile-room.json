@@ -1,0 +1,23 @@
+{
+  "id": "speak-for-housing-in-a-hostile-room",
+  "kind": "voice",
+  "summary": "Someone who favors an integrated housing proposal speaks after hearing neighbors argue against it.",
+  "realLife": "Individuals and representatives of community groups spoke for Lincoln Green during crowded meetings where many attendees openly opposed it. Speakers on both sides discussed who would live there.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf"
+  ],
+  "inGame": "needs: a permit case record with speaker, proposal, meeting. A community member can explain at home why they wanted support for the project on the record.",
+  "fits": ["office", "journal", "news", "home", "work-community"],
+  "slots": ["{speaker}", "{proposal}", "{meeting}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A supporter gives the clerk a letter when their work shift keeps them from speaking.",
+      "pulledBy": "The clerk accepts written submissions before the hearing closes.",
+      "writesBack": "The letter enters the record under the sender's name."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "bring-staff-changes-to-hearing",
+  "kind": "move",
+  "summary": "An applicant arrives at the hearing with the changes town staff asked for already drawn in.",
+  "realLife": "Before the Arlington Heights hearings the housing group consulted village staff about fire and building requirements and incorporated every change staff recommended.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf"
+  ],
+  "inGame": "needs: a permit case record with applicant, plan, revision. A commissioner can ask which objections remain after staff review.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{applicant}", "{plan}", "{revision}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Staff catch an exit blocked by the last revision.",
+      "pulledBy": "The architect moved a wall after the fire review.",
+      "writesBack": "The applicant withdraws that sheet for correction."
+    }
+  ]
+}

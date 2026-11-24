@@ -1,0 +1,23 @@
+{
+  "id": "owners-say-the-skyline-already-changed",
+  "kind": "voice",
+  "summary": "The owner points to a tower already in the skyline as a reason to allow another one.",
+  "realLife": "Penn Central argued that the Pan Am Building had already changed the outline behind Grand Central and that the proposed tower might give the terminal a better backdrop.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep438/usrep438104/usrep438104.pdf"
+  ],
+  "inGame": "needs: a permit case record with owner, existing building, proposal. A question about the existing tower lets the applicant state its own argument.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{owner}", "{existing_building}", "{proposal}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A commissioner accepts the owner's skyline argument for the distant view alone.",
+      "pulledBy": "The hearing includes photographs from both ends of the approach.",
+      "writesBack": "The finding names the closer view that still concerns the board."
+    }
+  ]
+}

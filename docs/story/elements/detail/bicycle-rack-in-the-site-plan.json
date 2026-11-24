@@ -1,0 +1,23 @@
+{
+  "id": "bicycle-rack-in-the-site-plan",
+  "kind": "detail",
+  "summary": "A small mark on a shop drawing becomes evidence in a dispute about traffic.",
+  "realLife": "Tigard’s commissioners pointed to the proposed bike rack outside Dolan’s store when explaining why customers or employees might use a path beside the property.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep512/usrep512374/usrep512374.pdf"
+  ],
+  "inGame": "needs: a permit case record with shop, drawing, path. A commissioner can ask whether the rack shows how many car trips the path would replace.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{shop}", "{drawing}", "{path}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The applicant's traffic count shows most cyclists already arrive by bicycle.",
+      "pulledBy": "The survey distinguishes current trips from trips expected after expansion.",
+      "writesBack": "The board revises its estimate of car trips the path would replace."
+    }
+  ]
+}

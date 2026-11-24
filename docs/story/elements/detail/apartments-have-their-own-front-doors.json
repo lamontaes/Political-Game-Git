@@ -1,0 +1,23 @@
+{
+  "id": "apartments-have-their-own-front-doors",
+  "kind": "detail",
+  "summary": "A builder brings a drawing that answers a neighbor’s question about what an apartment looks like from the street.",
+  "realLife": "Lincoln Green’s plans gave each apartment an outside entrance and placed plantings along the edge facing existing homes.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf"
+  ],
+  "inGame": "needs: a permit case record with drawing, building, neighbor. A neighbor can point to their own house on the drawing and ask what they would see.",
+  "fits": ["office", "journal", "news", "home", "work-community"],
+  "slots": ["{drawing}", "{building}", "{neighbor}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The drawing settles the question about front doors but leaves a neighbor looking straight into the parking lot.",
+      "pulledBy": "The neighbor's house faces the other edge of the site.",
+      "writesBack": "The minutes identify the edge that still needs screening."
+    }
+  ]
+}

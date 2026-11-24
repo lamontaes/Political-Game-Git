@@ -1,0 +1,23 @@
+{
+  "id": "count-dedicated-land-toward-open-space",
+  "kind": "move",
+  "summary": "A city credits land it asks an owner to dedicate against another requirement on the same permit.",
+  "realLife": "Tigard allowed Dolan to count the proposed dedication toward the open space and landscaping required for her redevelopment.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep512/usrep512374/usrep512374.pdf"
+  ],
+  "inGame": "needs: a permit case record with parcel, dedication, requirement. The applicant can ask how much additional land the landscaping rule still requires.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{parcel}", "{dedication}", "{requirement}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The dedication meets the area requirement but leaves too little planting along the street.",
+      "pulledBy": "The ordinance measures street frontage separately.",
+      "writesBack": "The applicant submits a planting strip on the street side."
+    }
+  ]
+}
