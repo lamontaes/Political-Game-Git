@@ -252,6 +252,27 @@ export function composeScene(
           // opens with today (Words lead, Nov 15).
           const happened = happenedSaid(fromRecord());
           if (happened) facts.happened = happened;
+          // The night of an address: who gave it, from the address's own
+          // record, so the arrival says what is on the news instead of the
+          // date the clock already shows (owner, Oct 26 and Nov 23, P7).
+          const cause = core.durableLog.get(moment.causeId as never)?.facts as
+            Readonly<Record<string, unknown>> | undefined;
+          const giverId = cause?.[ADDRESS_FACT.speaker];
+          const giver =
+            typeof giverId === "string"
+              ? core.people.get(giverId as PersonId)
+              : undefined;
+          if (giver) {
+            facts["speech-giver"] = {
+              text: `${giver.givenName} ${giver.familyName}`,
+              sourceRecordIds: [moment.causeId, giver.id],
+            };
+            if (cause?.[ADDRESS_FACT.kind] === "inaugural")
+              facts["inaugural-night"] = {
+                text: "yes",
+                sourceRecordIds: [moment.causeId],
+              };
+          }
           if (meeting) {
             // The first time: what they are, when the player has not met them (rule 136).
             const what =

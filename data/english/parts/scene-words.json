@@ -34,7 +34,8 @@
     "rival": "A rival in the race by full name, from the filing or message record.",
     "landlord": "The landlord who evicted the household, from the eviction record.",
     "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions",
-    "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a bill by its name); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays."
+    "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a bill by its name); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays.",
+    "speech-giver": "who gave the address the household watched, by full name, from the address's record"
   },
   "maxWords": 10,
   "mining": {
@@ -131,7 +132,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -211,7 +213,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -231,7 +234,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -251,7 +255,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -272,7 +277,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -293,7 +299,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -314,7 +321,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -334,7 +342,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -354,7 +363,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -374,7 +384,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -394,7 +405,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -414,7 +426,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -434,7 +447,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -9009,6 +9023,79 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.the-news-is-replaying-s-first-speech-as-president",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "The news is replaying {speech-giver}'s first speech as President.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver", "inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "scene-words.arrival-home-alone.supper-s-cleared-and-the-news-runs-s-speech-from-noon",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "Supper's cleared, and the news runs {speech-giver}'s speech from noon.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver", "inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "scene-words.arrival-home-alone.somebody-turns-the-tv-up-for-taking-the-oath",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "Somebody turns the TV up for {speech-giver} taking the oath.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver", "inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "scene-words.arrival-home-alone.the-news-is-running-s-speech-to-congress",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "The news is running {speech-giver}'s speech to Congress.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver"],
+          "excludesFacts": ["inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24"
     }
   ]
 }

@@ -29,7 +29,6 @@ import { applyCoreEvent, coreAPI } from "../core2/state";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { tellInaugural } from "./inaugural-telling";
-import { gameStartDate } from "../core2/game-start";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
   composeAddress,
@@ -275,7 +274,7 @@ function composeAddressOf(
       core,
       president,
       official,
-      `${INAUGURATION_EVENT}:${official.serviceStart}`,
+      `${INAUGURATION_EVENT}:${core.date}`,
     );
     return told
       ? {
@@ -825,15 +824,11 @@ export function composeOpeningStory(
   if (!player || !official || !president) return null;
   // Inaugural only when the offices engine recorded the taking of office
   // today (recordInauguration); every other opening is the address to Congress.
-  // The game opens on Inauguration Day (owner, Nov 8: "inagural is fine"),
-  // and the offices engine dates the President's taking office the day the
-  // world opened, two months before it (SG-WORDS-inauguration-dated-at-world-open).
-  const kind: OpeningSpeechKind =
-    core.eventIds.has(`${INAUGURATION_EVENT}:${core.date}`) ||
-    // stopgapId: SG-WORDS-inauguration-dated-at-world-open
-    (core.date === gameStartDate() && official.serviceStart === core.date)
-      ? "inaugural"
-      : "state-of-the-union";
+  const kind: OpeningSpeechKind = core.eventIds.has(
+    `${INAUGURATION_EVENT}:${core.date}`,
+  )
+    ? "inaugural"
+    : "state-of-the-union";
   const composed = composeAddressOf(core, president, official, kind);
   if (!composed?.sentences.length) return null;
   const { sentences, addressKind, story, theme, asks, points } = composed;
