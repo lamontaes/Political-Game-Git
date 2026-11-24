@@ -1,0 +1,38 @@
+{
+  "id": "captions-on-the-affiliate-feed",
+  "kind": "move",
+  "summary": "An aide asks a broadcaster in {place} to carry captions with the mayor's remarks.",
+  "realLife": "City officials asked television networks to caption the mayor's Sandy briefings.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
+  ],
+  "fits": [
+    "office",
+    "news",
+    "journal",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A local broadcaster carries the live briefing."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a local broadcaster carries the live briefing.",
+  "turns": [
+    {
+      "turn": "the-station-confirms-captions",
+      "pulledBy": "The station confirms captions.",
+      "what": "List that feed as captioned.",
+      "writesBack": "The broadcast listing names the station carrying captions."
+    },
+    {
+      "turn": "the-station-has-yet-to-confirm",
+      "pulledBy": "The station has yet to confirm.",
+      "what": "Keep caption availability open on the broadcast list.",
+      "writesBack": "Caption coverage remains unverified."
+    }
+  ]
+}

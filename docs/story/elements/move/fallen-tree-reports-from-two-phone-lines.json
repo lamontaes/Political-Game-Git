@@ -1,0 +1,38 @@
+{
+  "id": "fallen-tree-reports-from-two-phone-lines",
+  "kind": "move",
+  "summary": "A cleanup coordinator in {place} receives reports about fallen trees from both city phone lines.",
+  "realLife": "The city's analysts connected tree reports from 311 and 911 to help allocate cleanup crews.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=14"
+  ],
+  "fits": [
+    "office",
+    "news",
+    "journal",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "The two reporting services share incident information with cleanup staff."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the two reporting services share incident information with cleanup staff.",
+  "turns": [
+    {
+      "turn": "both-records-identify-the-same-tree",
+      "pulledBy": "Both records identify the same tree.",
+      "what": "Link the reports to the same cleanup job.",
+      "writesBack": "One job retains both original reports."
+    },
+    {
+      "turn": "the-addresses-differ",
+      "pulledBy": "The addresses differ.",
+      "what": "Keep separate jobs until a crew verifies the locations.",
+      "writesBack": "Each address keeps its own provisional job."
+    }
+  ]
+}

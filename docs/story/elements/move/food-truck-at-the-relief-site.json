@@ -1,0 +1,38 @@
+{
+  "id": "food-truck-at-the-relief-site",
+  "kind": "move",
+  "summary": "A recovery director in {place} works with a local food truck to get hot meals to storm survivors.",
+  "realLife": "The Mayor's Fund partnered with the city's food truck association and coordinated locations with recovery officials.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=28"
+  ],
+  "fits": [
+    "office",
+    "news",
+    "journal",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A relief partner has a truck and a confirmed serving location."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a relief partner has a truck and a confirmed serving location.",
+  "turns": [
+    {
+      "turn": "the-operator-confirms-service-today",
+      "pulledBy": "The operator confirms service today.",
+      "what": "Publish the location and meal period.",
+      "writesBack": "The truck stop appears on the day's meal schedule."
+    },
+    {
+      "turn": "the-truck-cannot-make-the-stop",
+      "pulledBy": "The truck cannot make the stop.",
+      "what": "Remove the stop from today's list and seek another meal site.",
+      "writesBack": "The canceled stop comes off the public schedule."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "evacuees-on-a-friends-couch",
+  "kind": "detail",
+  "summary": "The shelter count in {place} leaves out a family sleeping at a friend's house.",
+  "realLife": "Far more surveyed Zone A evacuees stayed with friends than used a city shelter.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=12"
+  ],
+  "fits": [
+    "office",
+    "news",
+    "journal",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A household reports staying with friends and the public count covers shelters only."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a household reports staying with friends and the public count covers shelters only.",
+  "turns": [
+    {
+      "turn": "a-separate-household-survey-is-available",
+      "pulledBy": "A separate household survey is available.",
+      "what": "Compare the two measures with their populations labeled.",
+      "writesBack": "The briefing reports shelter use and survey findings separately."
+    },
+    {
+      "turn": "only-shelter-registrations-exist",
+      "pulledBy": "Only shelter registrations exist.",
+      "what": "Report shelter use and leave total departures unestimated.",
+      "writesBack": "The shelter tally stays labeled as such."
+    }
+  ]
+}

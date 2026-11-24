@@ -1,0 +1,39 @@
+{
+  "id": "hot-meals-after-city-site-closes",
+  "kind": "consequence",
+  "summary": "A resident asks {person} where to get dinner after the city's storm meal site closes.",
+  "realLife": "Local nonprofits and food banks continued to serve hot food after municipal sites and the food truck partnership wound down.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=28"
+  ],
+  "fits": [
+    "office",
+    "news",
+    "journal",
+    "work-community",
+    "home"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [
+    "A municipal meal site has closed and local partners report their service status."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a municipal meal site has closed and local partners report their service status.",
+  "turns": [
+    {
+      "turn": "a-partner-confirms-dinner-service",
+      "pulledBy": "A partner confirms dinner service.",
+      "what": "Refer the resident to that location and time.",
+      "writesBack": "The resident has a confirmed dinner referral."
+    },
+    {
+      "turn": "no-partner-has-confirmed-service",
+      "pulledBy": "No partner has confirmed service.",
+      "what": "Send the unmet meal request to the recovery coordinator.",
+      "writesBack": "The need remains open at the recovery desk."
+    }
+  ]
+}

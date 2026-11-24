@@ -1,0 +1,38 @@
+{
+  "id": "evacuation-bus-awaits-road-clearance",
+  "kind": "situation",
+  "summary": "A family in {place} asks whether the evacuation bus can still reach their building.",
+  "realLife": "Housing officials and police provided buses and moved residents until road conditions became unsafe for responders.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=11"
+  ],
+  "fits": [
+    "office",
+    "news",
+    "journal",
+    "work-community"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [
+    "A local evacuation transport service has a current route status."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a local evacuation transport service has a current route status.",
+  "turns": [
+    {
+      "turn": "the-dispatcher-confirms-the-pickup",
+      "pulledBy": "The dispatcher confirms the pickup.",
+      "what": "Give the family the time and meeting point.",
+      "writesBack": "The family has a confirmed pickup."
+    },
+    {
+      "turn": "the-route-is-suspended",
+      "pulledBy": "The route is suspended.",
+      "what": "Report the stranded household to the transport coordinator.",
+      "writesBack": "The coordinator has an unresolved transport request."
+    }
+  ]
+}
