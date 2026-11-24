@@ -4994,6 +4994,66 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5071,6 +5131,66 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5148,6 +5268,66 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5225,6 +5405,66 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice"
         }
       ],
       "elements": ["budget-leaves-executives-desk"],
@@ -5313,6 +5553,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5377,6 +5637,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5441,6 +5721,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5505,6 +5805,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today"
         }
       ],
       "elements": ["budget-leaves-executives-desk"],
@@ -5542,6 +5862,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5606,6 +5946,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5670,6 +6030,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5734,6 +6114,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice"
         }
       ],
       "elements": ["budget-leaves-executives-desk"],
@@ -5771,6 +6171,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5835,6 +6255,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5899,6 +6339,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part"
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -5963,6 +6423,26 @@
           "key": "cut-heard",
           "requiresFacts": ["line", "still-needed"],
           "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part"
         }
       ],
       "elements": ["budget-leaves-executives-desk"],
@@ -6215,6 +6695,228 @@
         "key": "cut-heard"
       },
       "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.council-took-about-original-cut-out-of-line-that-day-i-ve-brought-the-request-down-to-about-still-needed",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Council took about {original-cut} out of {line} that day. I've brought the request down to about {still-needed}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "original-cut"],
+          "after": "scene-talk-office.reply-ask.take-me-back-to-the-first-vote-how-big-was-the-original-cut-to-line"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "original-cut"],
+          "after": "scene-talk-office.reply-ask.what-did-line-lose-on-that-first-vote-before-any-money-came-back"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.we-lost-original-percent-percent-on-the-first-vote-the-money-council-put-back-later-is-why-i-m-asking-for-less-today",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We lost {original-percent} percent on the first vote. The money council put back later is why I'm asking for less today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "original-percent"],
+          "after": "scene-talk-office.reply-ask.take-me-back-to-the-first-vote-how-big-was-the-original-cut-to-line"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "original-percent"],
+          "after": "scene-talk-office.reply-ask.what-did-line-lose-on-that-first-vote-before-any-money-came-back"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.about-restored-amount-is-back-in-the-account-for-line-that-leaves-about-still-needed-for-us-to-settle",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {restored-amount} is back in the account for {line}. That leaves about {still-needed} for us to settle.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"],
+          "after": "scene-talk-office.reply-ask.how-much-has-gone-back-into-line-since-the-cut"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"],
+          "after": "scene-talk-office.reply-ask.which-part-of-the-request-can-i-cross-off-my-copy"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.you-can-take-about-restored-amount-off-the-old-request-council-has-covered-that-part",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "You can take about {restored-amount} off the old request. Council has covered that part.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"],
+          "after": "scene-talk-office.reply-ask.how-much-has-gone-back-into-line-since-the-cut"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"],
+          "after": "scene-talk-office.reply-ask.which-part-of-the-request-can-i-cross-off-my-copy"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.put-about-still-needed-down-for-line-that-accounts-for-the-money-we-already-got-back",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Put about {still-needed} down for {line}. That accounts for the money we already got back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-ask.how-much-would-it-take-now-to-get-line-back-where-it-was"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-ask.what-figure-would-you-put-on-an-amendment-to-restore-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.about-still-needed-on-this-amendment-if-you-use-the-amount-from-the-first-vote-you-ll-count-the-same-money-twice",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {still-needed} on this amendment. If you use the amount from the first vote, you'll count the same money twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-ask.how-much-would-it-take-now-to-get-line-back-where-it-was"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-ask.what-figure-would-you-put-on-an-amendment-to-restore-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
     }
   ]
 }
