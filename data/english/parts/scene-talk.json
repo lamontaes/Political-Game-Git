@@ -14212,6 +14212,85 @@
       ]
     },
     {
+      "key": "scene-talk.reply-decline.i-m-staying-neutral-in-the-race-for-office-i-m-saying-so-to-everyone-who-asks",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm staying neutral in the race for {office}. I'm saying so to everyone who asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.reply-agree.you-have-my-endorsement-for-office-you-can-say-so",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You have my endorsement for {office}. You can say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-telling-me-plainly-about-office",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for telling me plainly about {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-endorsement",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": ["official-declines-to-endorse"]
+    },
+    {
       "key": "scene-talk.state-tell.the-body-sent-bill-to-a-study-committee-i-asked-for-people-who-voted-against-it-will-you-sit-on-it",
       "move": "state-tell",
       "kind": "spoken",
@@ -35046,6 +35125,269 @@
         "a-gift-comes-with-a-call-about-a-bill",
         "early-money-comes-from-people-you-know",
         "first-time-candidate-leads-fundraising"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-gave-to-the-campaign-and-calls-about-bill-the-call-comes-near-the-end-of-th",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} gave to the campaign and calls about {bill}. The call comes near the end of the day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-left-a-message-about-bill-you-call-back-and-name-answers-on-the-first-ring",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} left a message about {bill}. You call back and {name} answers on the first ring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.my-check-came-in-last-month-where-do-you-stand-on-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My check came in last month. Where do you stand on {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["gift", "donor-bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-m-calling-about-bill-i-d-like-you-to-vote-yes",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm calling about {bill}. I'd like you to vote yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["donor-bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-gave-the-most-of-anyone-to-your-campaign-i-m-asking-about-bill-for-that-reason",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I gave the most of anyone to your campaign. I'm asking about {bill} for that reason.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["gift-biggest", "donor-bill"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "one-donor-writes-a-very-large-check",
+        "contributions-show-what-is-at-stake"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.my-gift-was-small-i-m-still-asking-you-to-read-bill-before-it-moves",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My gift was small. I'm still asking you to read {bill} before it moves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["gift-smallest", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "one-donor-writes-a-very-large-check",
+        "contributions-show-what-is-at-stake"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.we-talked-about-bill-before-has-your-answer-changed",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We talked about {bill} before. Has your answer changed?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["donor-bill", "asked-before"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.people-at-employer-depend-on-bill-can-you-meet-with-us-this-week",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People at {employer} depend on {bill}. Can you meet with us this week?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["employer", "donor-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "challenger-names-the-incumbent-donors",
+        "a-gift-comes-with-a-call-about-a-bill"
+      ]
+    },
+    {
+      "key": "scene-talk.state-request.i-care-about-about-what-are-you-doing-about-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I care about {about}. What are you doing about it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["about", "gift"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "one-donor-writes-a-very-large-check",
+        "contributions-show-what-is-at-stake"
       ]
     },
     {
@@ -84844,6 +85186,110 @@
       ]
     },
     {
+      "key": "scene-talk.state-request.i-have-saturdays-free-can-i-take-a-list-of-voters-for-office",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I have Saturdays free. Can I take a list of voters for {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.state-request.i-can-make-calls-from-home-for-office-what-day-should-i-start",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can make calls from home for {office}. What day should I start?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.good-i-ll-send-you-a-list-and-a-script-for-office-this-week",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Good. I'll send you a list and a script for {office} this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-ask.how-many-hours-a-week-can-you-give-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How many hours a week can you give {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-help",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-meets-you-at-the-door-of-the-party-meeting-and-shakes-your-hand",
       "move": "narrate-narrate",
       "kind": "written",
@@ -85566,6 +86012,85 @@
         "organizer-names-the-original-volunteers",
         "volunteer-comes-in-out-of-character"
       ]
+    },
+    {
+      "key": "scene-talk.state-request.i-ll-set-the-weekly-schedule-for-office-you-tell-me-what-you-can-t-do",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'll set the weekly schedule for {office}. You tell me what you can't do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      },
+      "elements": ["campaign-manager-is-someone-close"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-do-in-the-first-week-of-office",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you do in the first week of {office}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": ["campaign-manager-is-someone-close"]
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-list-every-event-for-office-until-the-vote-then-i-d-ask-you-which-ones-matter",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd list every event for {office} until the vote. Then I'd ask you which ones matter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "offer-to-run",
+          "key": "favor-asked",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["office"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "elements": ["campaign-manager-is-someone-close"]
     },
     {
       "key": "scene-talk.state-request.no-one-in-the-party-has-filed-for-office-i-want-it-to-be-you",
