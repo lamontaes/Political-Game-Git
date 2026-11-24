@@ -12,6 +12,7 @@
 export type MunicipalElectionTiming =
   | "even-year-november-consolidated"
   | "odd-year-november-consolidated"
+  | "annual-november-general"
   | "even-year-june-consolidated"
   | "even-year-august-consolidated"
   | "even-year-may-consolidated"

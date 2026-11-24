@@ -24,6 +24,7 @@ import {
   MUNICIPAL_RULE_PACKS,
   municipalRulePackFor,
 } from "./municipal-election-rule-packs";
+import { municipalClassTimingForPlace } from "./municipal-class-form";
 import type {
   MunicipalElectionTiming,
   MunicipalRecallDoctrine,
@@ -31,7 +32,10 @@ import type {
 } from "./municipal-election-rules";
 
 export type MunicipalBallotRuleBasis =
-  "state-law-unverified" | "local-choice-estimated" | "national-estimated";
+  | "state-law-unverified"
+  | "class-law"
+  | "local-choice-estimated"
+  | "national-estimated";
 
 /**
  * The modal value: the one with the most weight, ties going to the earliest
@@ -67,6 +71,10 @@ export function resolveMunicipalElectionTiming(
   placeKey: string,
 ): ResolvedMunicipalElectionTiming | null {
   const usps = stateUsps.toUpperCase();
+  // The town's class's form in its state's law, where it sets when the class
+  // votes (a New Jersey borough: every year at the general election).
+  const own = municipalClassTimingForPlace(placeKey);
+  if (own) return { timing: own, basis: "class-law" };
   const rule = municipalRulePackFor(usps)?.electionTiming;
   if (!rule) return null;
   if (rule.kind === "known")
@@ -75,8 +83,6 @@ export function resolveMunicipalElectionTiming(
   if (rule.statutoryDefault)
     return { timing: rule.statutoryDefault, basis: "state-law-unverified" };
   if (rule.options.length === 0) return null;
-  // No town's own choice is read yet; the key stays so a read one can apply.
-  void placeKey;
   const counts = nationalTimingCounts();
   return {
     timing: modalValue(

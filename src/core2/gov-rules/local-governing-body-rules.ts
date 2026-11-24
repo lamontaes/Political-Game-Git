@@ -9,6 +9,7 @@ import {
   primaryReading,
   type MunicipalGovernment,
 } from "./municipal-government";
+import { municipalClassForm } from "./municipal-class-form";
 import {
   modalShare,
   typicalShares,
@@ -25,11 +26,14 @@ export {
  * How big a town's governing body is and how long its terms run, for every
  * town with a government of its own, and which towns those facts were read for.
  *
- * Two kinds of answer, never mixed up:
+ * Three kinds of answer, never mixed up:
  *
  * - **Read.** The game has compiled this town's own government, and its
  *   reading states the number of seats or the term. That is the town's rule.
- * - **Typical.** Nothing about this town has been read. Rather than leave a
+ * - **Class law.** The town's own government is not read, but its state's
+ *   law sets the council of its class (a New Jersey borough, a Wisconsin
+ *   village): `municipal-class-form.ts`.
+ * - **Typical.** Nothing about this town or its class has been read. Rather than leave a
  *   gap, the town is given the modal value of the national shares of
  *   municipal councils in ICMA's 2018 Municipal Form of Government Survey,
  *   as ChatGPT reported them on 2026-09-22 (answer to
@@ -99,6 +103,9 @@ export function localGoverningBodyRules(
       ? reading.bodySize
       : null;
   const readYears = government ? readTerm(government) : null;
+  // Unread, the town takes its class's form in its state's law before the
+  // national mode (C9: a New Jersey borough's six council members).
+  const form = municipalClassForm(unit);
   const typical = typicalShares();
   return {
     unitId: unit.id,
@@ -106,11 +113,15 @@ export function localGoverningBodyRules(
     seats:
       readSeats !== null
         ? { value: readSeats, basis: "read" }
-        : modalShare(typical.seats),
+        : form
+          ? { value: form.seats, basis: "class-law" }
+          : modalShare(typical.seats),
     termYears:
       readYears !== null
         ? { value: readYears, basis: "read" }
-        : modalShare(typical.termYears),
+        : form?.termYears !== undefined
+          ? { value: form.termYears, basis: "class-law" }
+          : modalShare(typical.termYears),
   };
 }
 

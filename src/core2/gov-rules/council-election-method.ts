@@ -4,7 +4,8 @@
  * large. Ported from the old engine's `living-world/town-wards.ts`
  * (`councilWardPlan`); that file now reads this one.
  *
- * Where a compiled charter states its council composition, that is used.
+ * Where a compiled charter states its council composition, that is used;
+ * else the form its class has in its state's law (`municipal-class-form.ts`).
  * Otherwise the council is estimated at large (owner rulings, Oct 15), with
  * the national shares of the ICMA 2018 survey as the source
  * (data/research/local-government/council-election-methods.json).
@@ -12,6 +13,10 @@
 import methods from "../../../data/research/local-government/council-election-methods.json" with { type: "json" };
 import type { GovernmentUnitIdentity } from "../reference/government-units";
 import { localGoverningBodyRules } from "./local-governing-body-rules";
+import {
+  municipalClassForm,
+  municipalClassSource,
+} from "./municipal-class-form";
 import {
   municipalGovernmentForUnit,
   primaryReading,
@@ -21,7 +26,7 @@ export interface CouncilElectionMethod {
   readonly seats: number;
   readonly wardSeats: number;
   readonly atLargeSeats: number;
-  readonly basis: "charter" | "estimated";
+  readonly basis: "charter" | "class-law" | "estimated";
   /**
    * What the place calls a seat's part of town: "ward" only where its own
    * charter says ward seats, else "district" (owner ruling, Oct 15).
@@ -67,6 +72,18 @@ export function councilElectionMethod(
   if (seats === null || seats < 1) return null;
   const charter = charterMethod(unit, seats);
   if (charter) return charter;
+  // Its class's form in its state's law, where that elects the whole
+  // council at large (a New Jersey borough's six members).
+  const form = municipalClassForm(unit);
+  if (form?.atLarge)
+    return {
+      seats,
+      wardSeats: 0,
+      atLargeSeats: seats,
+      basis: "class-law",
+      seatTerm: "district",
+      citation: municipalClassSource(form),
+    };
   // No record of how this council is elected: it is estimated at large, the
   // way most councils are (owner rulings, Oct 15, OWNER-DECISIONS.md "Town
   // council seats"), and marked as an estimate with its source.
