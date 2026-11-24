@@ -35,6 +35,12 @@ import type { OfficeLevel } from "./offices-local";
 import type { CoreAPI } from "./types";
 import localRecords from "./data/campaigns/local-question-records.json" with { type: "json" };
 import officeAreas from "./data/campaigns/office-areas.json" with { type: "json" };
+import lineAreas from "./data/campaigns/budget-line-areas.json" with { type: "json" };
+
+/** The question families a local budget line is about (budget-line-areas.json); a line not listed is set by every body that votes a budget. */
+const LINE_AREAS = lineAreas.lines as Readonly<
+  Record<string, readonly string[]>
+>;
 
 /** Row offices' own work: the policy areas and budget lines they can act on (office-areas.json). A kind not here runs on what its government may decide. */
 const OFFICE_WORK = officeAreas.kinds as Readonly<
@@ -134,12 +140,21 @@ export function contestStands(
       ? `office-work:${office.kind}`
       : `body-decides:${office.level}`) as StandReason,
   }));
+  // The families of question this government's state law lets it decide.
+  const mayAreas = new Set(
+    PLATFORM_QUESTIONS.filter((question) =>
+      levelMayDecide(api, office.level, question),
+    ).map(areaOf),
+  );
   const lines = budgetPositions(api, office.level)
-    .filter(
-      (position) =>
-        !work ||
-        work.budgetLines.includes(position.slice("budget-line:".length)),
-    )
+    .filter((position) => {
+      const line = position.slice("budget-line:".length);
+      if (work) return work.budgetLines.includes(line);
+      // A body that votes the budget sets a line only where its state's law
+      // lets it decide something in the line's family.
+      const areas = LINE_AREAS[line];
+      return !areas || areas.some((area) => mayAreas.has(area));
+    })
     .map((position) => ({
       position,
       reason: (work

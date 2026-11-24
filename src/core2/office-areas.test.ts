@@ -15,6 +15,10 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import officeAreas from "./data/campaigns/office-areas.json" with { type: "json" };
+import budgetLineAreas from "./data/campaigns/budget-line-areas.json" with { type: "json" };
+import { PLATFORM_QUESTIONS } from "./campaign-data";
+import { levelMayDecide } from "./modules/world-legislating";
+import type { OfficeLevel } from "./offices-local";
 import {
   contestPositions,
   contestStands,
@@ -120,5 +124,80 @@ it(`a row office's stands are its own work, each with its reason (seed ${seed})`
   }
   throw new Error(
     `No drawn place held a county row office contest (seed ${seed}): ${passedOver.join("; ")}`,
+  );
+}, 600_000);
+
+/**
+ * A council or board runs on a budget line only where its state's law lets
+ * its government decide something in the line's family (the CTO, Nov 24: a New
+ * Jersey borough runs no schools or hospitals; the state's home-rule and
+ * Dillon's Rule record says what a body decides). Drawn places, each one
+ * building a world and reading every local body seat's offered stands; a place
+ * whose bodies hold no line of a family their state lets them decide nothing in
+ * is passed over by name, and the test fails by name when no drawn place holds
+ * the case.
+ */
+it(`a body seat offers a budget line only where its state lets it decide in the line's family (seed ${seed})`, () => {
+  const lines = budgetLineAreas.lines as Record<string, string[]>;
+  const passedOver: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw++) {
+    const place = drawPlace(
+      draw === 0 ? seed : `${seed}:${draw}`,
+      "budget-line-areas",
+    );
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(world.core);
+    const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+    const bodies = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).filter((contest) => {
+      const office = offices.get(contest.officeId) as unknown as {
+        kind: string;
+        level: string;
+      };
+      return (
+        ["council", "board", "county-board", "township-board"].includes(
+          office.kind,
+        ) && !["state", "federal"].includes(office.level)
+      );
+    });
+    let judged = 0;
+    for (const contest of bodies) {
+      const office = offices.get(contest.officeId) as unknown as {
+        level: OfficeLevel;
+      };
+      const decides = new Set(
+        PLATFORM_QUESTIONS.filter((question) =>
+          levelMayDecide(api, office.level, question),
+        ).map((question) => question.split(":")[1]!.split(".")[0]!),
+      );
+      const lacking = Object.entries(lines).filter(
+        ([, families]) => !families.some((family) => decides.has(family)),
+      );
+      if (!lacking.length) continue;
+      judged += 1;
+      const offered = contestPositions(api, contest);
+      for (const [line, families] of lacking)
+        expect(
+          offered,
+          `${place.name} (${place.key}, seed ${place.seed}) ${contest.officeId}: offers ${line} though its state lets it decide nothing in ${families.join(", ")}`,
+        ).not.toContain(`budget-line:${line}`);
+    }
+    if (judged) {
+      process.stdout.write(
+        `budget-line areas: ${place.name} (${place.key}, seed ${place.seed}), ${judged} body seats checked; passed over: ${passedOver.join("; ") || "none"}\n`,
+      );
+      return;
+    }
+    passedOver.push(`${place.name} (${place.key}): no body lacking a family`);
+  }
+  throw new Error(
+    `No drawn place held a body that lacks a line's family (seed ${seed}): ${passedOver.join("; ")}`,
   );
 }, 600_000);
