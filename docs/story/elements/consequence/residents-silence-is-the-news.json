@@ -1,0 +1,30 @@
+{
+  "id": "residents-silence-is-the-news",
+  "kind": "consequence",
+  "summary": "When residents do not speak at a hearing, the paper says so and it is the story.",
+  "realLife": "A county budget hearing story led on the fact that nobody came to speak.",
+  "sources": [
+    "Marion County Record (Kansas), county approves a $31.5 million budget with no objection: https://www.marionrecord.com/direct/no_objection_as_county_approves_31_5_million_budget_+5653budget+4e6f206f626a656374696f6e20617320636f756e747920617070726f766573202433312e35206d696c6c696f6e2062756467657420",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["place", "date"],
+  "gates": [],
+  "weights": {
+    "conditions": 0.6,
+    "vote": 0.5
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a packed room",
+      "pulledBy": "a hot issue",
+      "writes": "the lede counts the crowd"
+    },
+    {
+      "name": "one voice",
+      "pulledBy": "a lone resident",
+      "writes": "the lede names the one who spoke"
+    }
+  ]
+}
