@@ -16463,138 +16463,6 @@
     ]
   },
   {
-    "key": "scene-talk.reply-deflect.no-question-yet-on-bill-i-m-waiting-to-hear-who-gets-left-holding-the-last-bag",
-    "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "No question yet on {bill}. I'm waiting to hear who gets left holding the last bag.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-for",
-          "bill"
-        ],
-        "after": "scene-talk.state-tell.i-favor-ending-the-deposit-before-we-re-done-i-want-the-grocer-who-pays-the-last-customer-a-refund-to-know-where-to-send-the-claim-for-that-money"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-for",
-          "bill"
-        ],
-        "after": "scene-talk.state-tell.presiding-i-ll-vote-to-end-the-deposit-but-who-s-holding-the-money-when-the-last-customer-leaves-the-shopper-has-a-refund-and-the-grocer-has-a-bag-of-glass-we-still-owe-that-grocer-a-way-to-settle-up"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-for",
-          "bill"
-        ],
-        "after": "scene-talk.state-tell.there-s-still-some-unfinished-business-on-bill-close-the-return-counter-by-all-means-keep-the-dealer-s-claim-open-long-enough-to-get-the-money-back-into-the-till"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-for",
-          "bill"
-        ],
-        "after": "scene-talk.state-tell.i-support-bill-name-a-grocer-who-pays-the-last-refund-out-of-the-register-should-be-able-to-hand-in-the-claim-the-next-morning-and-get-paid"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-for",
-          "bill"
-        ],
-        "after": "scene-talk.state-tell.where-s-the-last-refund-coming-from-presiding-the-store-pays-it-over-the-counter-voting-to-end-the-deposit-doesn-t-excuse-us-from-seeing-that-money-through-to-the-dealer-who-advanced-it"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-for",
-          "bill"
-        ],
-        "after": "scene-talk.state-tell.take-bill-all-the-way-through-closing-time-a-customer-gets-a-refund-the-grocer-puts-the-empties-out-back-the-distributor-hasn-t-come-yet-i-favor-repeal-and-a-chance-for-that-grocer-to-collect"
-      }
-    ],
-    "bearing": "calm",
-    "tag": {
-      "move": "deflect",
-      "key": "honor"
-    },
-    "date": "2026-11-24",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "elements": ["dealer-settles-after-customer-deadline"]
-  },
-  {
-    "key": "scene-talk.follow-accept.the-grocer-presiding-if-the-customer-gets-paid-and-the-store-has-nobody-left-to-bill",
-    "kind": "spoken",
-    "move": "follow-accept",
-    "text": "The grocer, {presiding}, if the customer gets paid and the store has nobody left to bill.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "follow",
-        "move": "accept",
-        "role": "asker",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-for",
-          "presiding"
-        ],
-        "after": "scene-talk.reply-deflect.no-question-yet-on-bill-i-m-waiting-to-hear-who-gets-left-holding-the-last-bag"
-      }
-    ],
-    "bearing": "calm",
-    "tag": {
-      "move": "accept",
-      "key": "honor"
-    },
-    "date": "2026-11-24",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "elements": ["dealer-settles-after-customer-deadline"]
-  },
-  {
     "key": "scene-talk.reply-deflect.i-ll-wait-presiding-i-m-thinking-of-the-unopened-bottles-at-home",
     "kind": "spoken",
     "move": "reply-deflect",
@@ -17261,10 +17129,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-deflect.what-the-students-can-promise-interests-me-presiding-i-ll-leave-the-floor-to-the-member",
+    "key": "scene-talk.reply-deflect.the-address-for-that-claim-presiding-i-d-like-to-hear-the-rest-of-that",
     "kind": "spoken",
     "move": "reply-deflect",
-    "text": "What the students can promise interests me, {presiding}. I'll leave the floor to the member.",
+    "text": "The address for that claim, {presiding}. I'd like to hear the rest of that.",
     "uses": [
       {
         "subject": "scene",
@@ -17278,8 +17146,56 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.state-tell.i-support-repeal-and-i-think-we-owe-a-straight-answer-to-a-club-that-raises-trip-money-with-cans-the-scrap-dealer-may-pay-less-a-club-planning-its-next-trip-needs-time-to-allow-for-that"
-      },
+        "after": "scene-talk.state-tell.i-favor-ending-the-deposit-before-we-re-done-i-want-the-grocer-who-pays-the-last-customer-a-refund-to-know-where-to-send-the-claim-for-that-money"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-accept.before-bill-takes-effect-i-d-have-the-distributor-give-each-store-a-name-and-an-address-a-cashier-shouldn-t-have-to-hunt-for-either-after-paying-somebody",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "Before {bill} takes effect, I'd have the distributor give each store a name and an address. A cashier shouldn't have to hunt for either after paying somebody.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-deflect.the-address-for-that-claim-presiding-i-d-like-to-hear-the-rest-of-that"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.keep-the-floor-presiding-i-m-picturing-the-store-at-the-instant-the-customer-walks-away",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "Keep the floor, {presiding}. I'm picturing the store at the instant the customer walks away.",
+    "uses": [
       {
         "subject": "scene",
         "step": "reply",
@@ -17292,8 +17208,428 @@
           "speaks-for",
           "presiding"
         ],
+        "after": "scene-talk.state-tell.presiding-i-ll-vote-to-end-the-deposit-but-who-s-holding-the-money-when-the-last-customer-leaves-the-shopper-has-a-refund-and-the-grocer-has-a-bag-of-glass-we-still-owe-that-grocer-a-way-to-settle-up"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-accept.right-then-the-customer-s-square-and-the-till-is-short-i-d-leave-the-claim-open-under-bill-so-the-grocer-can-collect-after-the-doors-close",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "Right then the customer's square and the till is short. I'd leave the claim open under {bill} so the grocer can collect after the doors close.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-deflect.keep-the-floor-presiding-i-m-picturing-the-store-at-the-instant-the-customer-walks-away"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.i-m-with-you-as-far-as-closing-the-counter-presiding-go-on-about-the-claim",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "I'm with you as far as closing the counter, {presiding}. Go on about the claim.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-still-some-unfinished-business-on-bill-close-the-return-counter-by-all-means-keep-the-dealer-s-claim-open-long-enough-to-get-the-money-back-into-the-till"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-accept.a-shop-can-take-down-the-sign-and-still-have-a-refund-on-its-books-under-bill-i-d-keep-somebody-at-the-distributor-s-desk-to-receive-that-claim",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "A shop can take down the sign and still have a refund on its books. Under {bill} I'd keep somebody at the distributor's desk to receive that claim.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-deflect.i-m-with-you-as-far-as-closing-the-counter-presiding-go-on-about-the-claim"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.tomorrow-morning-is-the-part-i-d-like-the-member-to-finish-presiding",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "Tomorrow morning is the part I'd like the member to finish, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-support-bill-name-a-grocer-who-pays-the-last-refund-out-of-the-register-should-be-able-to-hand-in-the-claim-the-next-morning-and-get-paid"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-accept.imagine-opening-the-till-for-breakfast-trade-and-finding-yesterday-s-refund-slip-i-d-want-bill-to-leave-time-to-turn-that-slip-in",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "Imagine opening the till for breakfast trade and finding yesterday's refund slip. I'd want {bill} to leave time to turn that slip in.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-deflect.tomorrow-morning-is-the-part-i-d-like-the-member-to-finish-presiding"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.let-the-member-finish-tracing-that-money-presiding-i-ve-only-heard-how-it-leaves-the-register",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "Let the member finish tracing that money, {presiding}. I've only heard how it leaves the register.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.where-s-the-last-refund-coming-from-presiding-the-store-pays-it-over-the-counter-voting-to-end-the-deposit-doesn-t-excuse-us-from-seeing-that-money-through-to-the-dealer-who-advanced-it"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-accept.it-comes-back-when-the-distributor-settles-with-the-store-i-d-give-the-grocer-a-date-in-bill-they-can-circle-separately-from-the-customer-s-last-day",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "It comes back when the distributor settles with the store. I'd give the grocer a date in {bill} they can circle separately from the customer's last day.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-deflect.let-the-member-finish-tracing-that-money-presiding-i-ve-only-heard-how-it-leaves-the-register"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.the-glass-is-still-out-back-let-s-stay-there-a-minute-presiding",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "The glass is still out back. Let's stay there a minute, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.take-bill-all-the-way-through-closing-time-a-customer-gets-a-refund-the-grocer-puts-the-empties-out-back-the-distributor-hasn-t-come-yet-i-favor-repeal-and-a-chance-for-that-grocer-to-collect"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.follow-accept.suppose-the-truck-comes-after-the-last-return-day-under-bill-i-d-let-the-driver-collect-that-glass-and-the-shop-collect-what-it-paid-out-on-it",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "Suppose the truck comes after the last return day under {bill}. I'd let the driver collect that glass and the shop collect what it paid out on it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-deflect.the-glass-is-still-out-back-let-s-stay-there-a-minute-presiding"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["dealer-settles-after-customer-deadline"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.i-m-listening-for-what-you-d-tell-the-kids-while-bill-is-still-up-here-and-they-re-already-planning",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "I'm listening for what you'd tell the kids while {bill} is still up here and they're already planning.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.state-tell.i-support-repeal-and-i-think-we-owe-a-straight-answer-to-a-club-that-raises-trip-money-with-cans-the-scrap-dealer-may-pay-less-a-club-planning-its-next-trip-needs-time-to-allow-for-that"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-accept.ask-what-the-yard-will-pay-before-setting-the-fare-presiding-if-it-s-less-than-the-refund-was-there-s-still-time-to-pick-a-closer-place",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "Ask what the yard will pay before setting the fare, {presiding}. If it's less than the refund was, there's still time to pick a closer place.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-deflect.i-m-listening-for-what-you-d-tell-the-kids-while-bill-is-still-up-here-and-they-re-already-planning"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.hold-my-question-on-bill-i-d-like-to-hear-what-goes-on-the-bus-form",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "Hold my question on {bill}. I'd like to hear what goes on the bus form.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "deflect",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
         "after": "scene-talk.state-tell.a-school-club-can-count-a-refund-before-it-books-a-bus-presiding-scrap-is-worth-what-a-buyer-will-pay-that-day-which-may-be-less-i-m-voting-for-repeal-and-i-think-the-kids-deserve-to-know-that-before-they-set-the-fare"
-      },
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-accept.there-s-a-spot-for-what-each-kid-owes-presiding-i-d-leave-that-blank-until-the-club-gets-an-offer-for-the-cans",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "There's a spot for what each kid owes, {presiding}. I'd leave that blank until the club gets an offer for the cans.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-deflect.hold-my-question-on-bill-i-d-like-to-hear-what-goes-on-the-bus-form"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.let-the-member-finish-presiding-i-m-thinking-about-the-kid-who-already-promised-to-go",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "Let the member finish, {presiding}. I'm thinking about the kid who already promised to go.",
+    "uses": [
       {
         "subject": "scene",
         "step": "reply",
@@ -17307,7 +17643,55 @@
           "presiding"
         ],
         "after": "scene-talk.state-tell.i-ll-vote-for-bill-would-i-tell-a-club-to-keep-collecting-cans-on-the-promise-that-the-scrap-will-pay-for-the-same-trip-i-wouldn-t-they-could-come-up-short"
-      },
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-accept.that-s-who-i-d-tell-first-if-bill-passes-and-the-club-might-come-up-short-nobody-should-find-out-when-they-re-bringing-their-permission-slip-back",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "That's who I'd tell first if {bill} passes and the club might come up short. Nobody should find out when they're bringing their permission slip back.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-deflect.let-the-member-finish-presiding-i-m-thinking-about-the-kid-who-already-promised-to-go"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.go-on-about-the-garage-presiding-they-have-the-cans-already",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "Go on about the garage, {presiding}. They have the cans already.",
+    "uses": [
       {
         "subject": "scene",
         "step": "reply",
@@ -17321,7 +17705,55 @@
           "presiding"
         ],
         "after": "scene-talk.state-tell.put-yourself-in-the-club-treasurer-s-shoes-the-cans-are-in-a-garage-the-bus-company-wants-a-deposit-and-the-scrap-price-could-leave-you-short-i-support-bill-name-but-i-d-tell-the-club-that-before-it-reserves-the-bus"
-      },
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-accept.they-do-the-bus-company-still-wants-money-if-we-pass-bill-i-d-ask-the-yard-for-a-price-before-the-treasurer-signs-anything",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "They do. The bus company still wants money. If we pass {bill}, I'd ask the yard for a price before the treasurer signs anything.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "bill"
+        ],
+        "after": "scene-talk.reply-deflect.go-on-about-the-garage-presiding-they-have-the-cans-already"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.while-we-consider-bill-the-club-has-a-budget-to-finish-i-ll-hear-the-member-out-on-that",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "While we consider {bill}, the club has a budget to finish. I'll hear the member out on that.",
+    "uses": [
       {
         "subject": "scene",
         "step": "reply",
@@ -17332,10 +17764,58 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "presiding"
+          "bill"
         ],
         "after": "scene-talk.state-tell.leave-the-trip-money-out-of-the-club-budget-until-somebody-gets-a-scrap-price-that-s-what-i-d-tell-a-student-if-we-pass-bill-i-favor-repeal-but-i-d-hate-to-see-a-kid-promise-the-class-a-trip-on-the-old-refund"
-      },
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "deflect",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-accept.i-d-put-the-cans-down-as-something-the-club-owns-presiding-i-d-wait-to-enter-a-dollar-amount-until-there-s-a-buyer-willing-to-pay-it",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "I'd put the cans down as something the club owns, {presiding}. I'd wait to enter a dollar amount until there's a buyer willing to pay it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-deflect.while-we-consider-bill-the-club-has-a-budget-to-finish-i-ll-hear-the-member-out-on-that"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "accept",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-deflect.i-ll-listen-presiding-a-student-can-carry-the-same-bag-to-either-counter",
+    "kind": "spoken",
+    "move": "reply-deflect",
+    "text": "I'll listen, {presiding}. A student can carry the same bag to either counter.",
+    "uses": [
       {
         "subject": "scene",
         "step": "reply",
@@ -17362,10 +17842,10 @@
     "elements": ["refund-pays-for-school-club"]
   },
   {
-    "key": "scene-talk.follow-accept.a-trip-takes-a-firm-price-a-pile-of-cans-gives-them-a-chance-at-one-i-d-want-the-club-to-know-the-difference-before-we-act-on-bill",
+    "key": "scene-talk.follow-accept.yes-and-come-home-with-a-different-amount-if-bill-goes-through-i-d-have-somebody-take-a-bag-to-the-yard-before-the-club-promises-a-trip",
     "kind": "spoken",
     "move": "follow-accept",
-    "text": "A trip takes a firm price. A pile of cans gives them a chance at one. I'd want the club to know the difference before we act on {bill}.",
+    "text": "Yes, and come home with a different amount. If {bill} goes through, I'd have somebody take a bag to the yard before the club promises a trip.",
     "uses": [
       {
         "subject": "scene",
@@ -17379,7 +17859,7 @@
           "speaks-for",
           "bill"
         ],
-        "after": "scene-talk.reply-deflect.what-the-students-can-promise-interests-me-presiding-i-ll-leave-the-floor-to-the-member"
+        "after": "scene-talk.reply-deflect.i-ll-listen-presiding-a-student-can-carry-the-same-bag-to-either-counter"
       }
     ],
     "bearing": "calm",
