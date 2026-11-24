@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
+/* global document, fetch, getComputedStyle, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, MutationObserver, Image */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow } from "./ui/button.mjs";
@@ -285,7 +285,8 @@ function drawTalkStrip() {
       ? [
           bustStrip({
             people: shown,
-            speakingId: talkPersonId ?? undefined,
+            // Nobody on the strip speaks while the narrator does: all stand small.
+            speakingId: talkPersonId ?? null,
             onCard: openCard,
           }),
         ]
@@ -699,9 +700,21 @@ $("journal-note-close").addEventListener("click", () =>
 async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
-  ).catch(() => []);
-  const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
-  $("journal-line").textContent = line;
+  ).catch(() => null);
+  // A read that failed leaves the pop-up as it is: only a Journal that is really empty takes
+  // a waiting pop-up down (N16-24, "I didn't even get to see the journal stuff there").
+  if (!chapters) return;
+  const newest = chapters.at(-1)?.lines.at(-1);
+  const line = newest?.text ?? "";
+  // A line that follows another ("Two years after that, ...") is shown with the line it
+  // follows, from its own link record, so a pop-up never opens on "that" with nothing before
+  // it (owner, Nov 23, P20).
+  const lead = newest?.link?.earlierId
+    ? chapters
+        .flatMap((chapter) => chapter.lines)
+        .find((earlier) => earlier.id === newest.link.earlierId)
+    : undefined;
+  $("journal-line").textContent = lead?.text ? `${lead.text} ${line}` : line;
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
   else if (line !== shownJournalLine) {
@@ -6963,6 +6976,46 @@ document.addEventListener("fullscreenchange", () => {
 
 fitUiScale();
 window.addEventListener("resize", fitUiScale);
+
+// A dock that comes into view under a resting pointer (the click that began the
+// life, a scene that ends, a sheet that closes) shows no hover light until the
+// pointer moves: nothing glows on its own (owner, Nov 23, N8-P12). It watches
+// every panel that hides the dock, not only the rail's own `hidden`.
+{
+  const dock = $("dock");
+  const dockShown = () =>
+    !$("rings").hidden && getComputedStyle($("rings")).display !== "none";
+  let wasShown = dockShown();
+  const unsettle = () => dock.classList.remove("settling");
+  const watch = () => {
+    const shown = dockShown();
+    if (shown && !wasShown) {
+      dock.classList.add("settling");
+      window.addEventListener("pointermove", unsettle, {
+        once: true,
+        capture: true,
+      });
+    }
+    wasShown = shown;
+  };
+  const observer = new MutationObserver(watch);
+  for (const id of [
+    "rings",
+    "game",
+    "talk",
+    "meeting",
+    "desk",
+    "election-day",
+    "returns",
+    "ballot",
+    "sheet",
+  ])
+    if ($(id))
+      observer.observe($(id), {
+        attributes: true,
+        attributeFilter: ["hidden", "class"],
+      });
+}
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with

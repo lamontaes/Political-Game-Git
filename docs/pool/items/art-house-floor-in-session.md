@@ -5,10 +5,10 @@ area: art
 kind: feature
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10311
 after:
 blocked-on:
 lead: play
@@ -17,6 +17,7 @@ effort: medium
 root: design-director-on-core2
 source: playtest Nov 23 row C19 ("The House chamber is empty during the address")
 checked: sonnet 2026-11-23
+merged-at: 2026-11-24T06:46:28.888Z
 ---
 
 **What.** The address opens in the House chamber and the picture is the empty room, with only the speaker's bust on the strip. The owner reported it on Nov 23. The painted room needs the members in their rows, which no session may draw into it while rooms are paintings with busts. Seen: on the address's first Continue in a new life.

@@ -285,6 +285,11 @@ ol {
   --bust: 140px;
   position: relative;
   pointer-events: none;
+  /* The strip is as wide as the people on it (owner, Nov 16: "one person,
+     shorten the strip"), centered where it lies. */
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 .bust-strip .busts-glass {
   position: absolute;
@@ -325,14 +330,17 @@ ol {
     transparent 88%
   );
 }
+/* The label stands above the people, at the strip's left end, so it never lies over a name. */
 .bust-strip .busts-label {
   position: absolute;
-  left: 11%;
-  bottom: 9px;
+  left: 0;
+  bottom: 100%;
+  padding-bottom: 4px;
   font: var(--group-font);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 .bust-strip .busts-row {
   position: relative;
@@ -417,13 +425,20 @@ ol {
 .bust-strip .busts-person.speaking {
   --mine: calc(var(--bust) * 1.16);
 }
+/* Silent people are never shown big (owner, Nov 16): only the speaker is. */
+.bust-strip .busts-person.quiet {
+  --mine: calc(var(--bust) * 0.5);
+}
+.bust-strip .busts-person.quiet .busts-name {
+  font-size: var(--t-label);
+}
 .bust-strip .busts-person.speaking .busts-face {
   filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.4));
 }
 .bust-strip .busts-person.speaking .busts-name {
   font-size: var(--t-ui);
 }
-.bust-strip .busts-person.quiet .busts-face {
+.bust-strip[data-speaker="1"] .busts-person.quiet .busts-face {
   filter: brightness(0.72) saturate(0.85);
 }
 .bust-strip .busts-person.quiet .busts-name {
@@ -526,14 +541,8 @@ ol {
   right: 0;
   bottom: 100%;
 }
-#talk-strip .bust-strip[data-count="1"] {
-  --bust: 200px;
-}
-#talk-strip .bust-strip[data-count="2"] {
-  --bust: 180px;
-}
 #talk-strip .bust-strip {
-  --bust: 150px;
+  --bust: 190px;
 }
 #stage.cut {
   animation: cut 0.6s ease-out;
@@ -788,6 +797,19 @@ select:focus-visible {
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+/* Under a resting pointer on load nothing lights (play.mjs, the dock's settle). */
+#dock.settling .ring:hover,
+#dock.settling .action:hover:not(:disabled) {
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--key);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+#dock.settling .action:hover:not(:disabled) {
+  color: var(--text-strong);
 }
 /* A story the player has not read yet: a dot on the News icon. */
 .ring.unread::after {
@@ -1955,6 +1977,13 @@ body:not(.dev) .dev-only {
   flex: 0 1 auto;
   max-width: none;
 }
+/* Patch notes: a long list of builds beside a long page of notes. It takes the window's whole
+   height (owner, Nov 23, P1: "why are there 4 scroll wheel bars?" with free space under it), and
+   only the list's own box and the page scroll in it. */
+#game #sheet.options-sheet:has(.roster-screen.patch-notes) {
+  height: calc(var(--vh) - 2 * var(--gutter));
+}
+
 .option-setting {
   display: grid;
   grid-template-columns: minmax(100px, 1fr) 2fr;
@@ -4175,6 +4204,11 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
+/* The patch notes list is the pager's own box and scrolls there; the list around it is no second scroll. */
+.roster-screen.patch-notes > .pick-list.roster {
+  max-height: none;
+  overflow: visible;
+}
 /* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
 .roster-screen.patch-notes .roster-page,
 .roster-screen.journal .roster-page {
@@ -4182,6 +4216,10 @@ details.entry[open] {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+/* Patch notes hold the whole window: the page runs to the panel's foot. */
+.roster-screen.patch-notes .roster-page {
+  max-height: calc(var(--vh) - 172px);
 }
 .travel-left {
   min-height: 0;
@@ -4221,6 +4259,7 @@ details.entry[open] {
 }
 .travel-tile b {
   position: absolute;
+  z-index: 1;
   left: 10px;
   bottom: 8px;
   right: 10px;
@@ -4228,11 +4267,25 @@ details.entry[open] {
   color: #fff7e2;
   text-shadow: 0 1px 4px #000;
 }
+/* The name sits above the shade, and the shade is dark enough under it to read on a bright picture
+   (owner, Nov 23, C14: "tile names are faint on bright pictures"). */
 .travel-tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 45%, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.78));
+}
+/* The campaign trail has fifteen or so tiles: they take the panel's width in more columns and a
+   shorter tile, so the trail fits its panel and nothing scrolls (owner, Nov 23, C14: "the panel scrolls"). */
+#sheet-body.place-view .travel-screen {
+  width: 100%;
+  grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
+}
+#sheet-body.place-view .travel-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+#sheet-body.place-view .travel-tile {
+  height: 84px;
 }
 #sheet-body .travel-tile:hover,
 #sheet-body .travel-tile:focus-visible,
@@ -5143,6 +5196,11 @@ select.release-pick {
 .ring[data-name]:focus-visible::before {
   opacity: 1;
   transition-delay: 0.25s;
+}
+/* Under a resting pointer the name stays down too, until the pointer moves (play.mjs, the dock's settle). */
+#dock.settling .ring[data-name]:hover::before {
+  opacity: 0;
+  transition-delay: 0s;
 }
 /* In a scene or a talk the player card and the menu buttons are gone, never dimmed (owner,
    Nov 7); the talk box takes the stage. */
