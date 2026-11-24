@@ -467,6 +467,11 @@ export function printItem(
     receivedCounted: 0,
     interviewId: options.interviewId ?? null,
   };
+  // The printed record is kept before anyone reads it: a reader who has it the
+  // day it is printed (its subject, or the player, who reads what they follow
+  // at once) hears it inside printStory, and what they learn from it reads
+  // this record (a letter teaches its writer's stand, view-learned.ts).
+  ctx.save(story);
   const received = printStory(
     api,
     {
