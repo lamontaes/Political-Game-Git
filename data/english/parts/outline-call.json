@@ -2775,10 +2775,10 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.call.spoken-get-involved-in-before-somebody-tells-you-that-you-have-to",
+      "key": "outline-call.call.spoken-get-involved-where-gets-decided-before-somebody-tells-you-that-you-have-to",
       "move": "call",
       "kind": "spoken",
-      "text": "Get involved in {theme-short} before somebody tells you that you have to.",
+      "text": "Get involved where {theme-short} gets decided, before somebody tells you that you have to.",
       "uses": [
         {
           "subject": "inaugural",
