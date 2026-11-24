@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10391
 after:
 blocked-on:
 lead: play
@@ -17,6 +17,7 @@ effort: medium
 root: design-director-on-core2
 source: CTO send-back (comment 7125269509), owner Nov 23: the speech plays with cutaways to the President at work in the Oval Office
 checked: sonnet 2026-11-24
+merged-at: 2026-11-24T11:47:12.282Z
 ---
 
 **What.** The inaugural's first part staged the speech inside the Oval Office with the Speaker and Vice President standing there, while its greeting addresses the Chief Justice and Congress. The owner said the speech plays with cutaways to the President at work in the Oval Office. The speech belongs at the Capitol and the Oval Office is a cutaway of the President alone at the desk. Seen: at the first Continue of a new life's opening address.
