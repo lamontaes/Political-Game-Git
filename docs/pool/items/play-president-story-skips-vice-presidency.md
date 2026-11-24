@@ -28,7 +28,7 @@ claimed-at:
 
 **Time box.** 1 hour.
 
-**Rules.** Everything comes from the simulation: the lines are the term records already kept; no line is typed or reworded.
+**Rules.** No hand-written player text in code: the lines come from the term records already kept, and no line is typed or reworded.
 
 **Done when.** A second session builds a world with buildBenchWorld in a drawn place, vacates the president's seat, runs to the succession, opens the new President's card in the screenshot and finds the vice presidency among the history lines by its term record id.
 
