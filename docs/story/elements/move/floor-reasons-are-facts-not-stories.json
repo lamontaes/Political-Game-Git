@@ -29,5 +29,6 @@
       "pulledBy": "a member with a long record",
       "writes": "a vote named"
     }
-  ]
+  ],
+  "issues": ["law:minimum-wage", "law:property-tax"]
 }

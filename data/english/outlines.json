@@ -1291,6 +1291,12 @@
     "self": {
       "subject": "I",
       "object": "me"
+    },
+    "letterDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "spread": "14 to 45",
+      "note": "How many days back a relative's letter (family.contact) is still this evening's news for the entry."
     }
   }
 }

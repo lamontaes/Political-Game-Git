@@ -911,10 +911,10 @@
       }
     },
     {
-      "key": "news.life-death.name-age-of-place-has-died-the-date-was-date",
+      "key": "news.life-death.name-age-of-place-died-on-date",
       "move": "life-death",
       "kind": "written",
-      "text": "{name}, {age}, of {place}, has died. The date was {date}.",
+      "text": "{name}, {age}, of {place}, died on {date}.",
       "uses": [
         {
           "move": "life-death",

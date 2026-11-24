@@ -8,6 +8,7 @@
  * every report line of the drawn worlds that argued it). The speaker's
  * traits decide, never a draw.
  */
+import { P } from "../core2/parameters";
 import speechOutlines from "./data/speech-outlines.json";
 
 const WORDINGS = (
@@ -35,8 +36,8 @@ const lean = (
   facets: readonly string[],
 ) =>
   facets.reduce(
-    (sum, facet) => sum + (traits[`personality-v1:facet-${facet}`] ?? 0),
-    0,
+    (sum, facet) => sum + (traits[`personality-v1:facet-${facet}`] ?? P.zero),
+    P.zero,
   );
 
 /**
@@ -50,8 +51,8 @@ export function themeNameBy(
 ): string | null {
   const wordings = WORDINGS[family];
   if (!wordings?.length) return null;
-  let best = 0;
-  let bestLean = 0;
+  let best = P.zero;
+  let bestLean = P.zero;
   REGISTERS.forEach((facets, at) => {
     const here = lean(traits, facets);
     if (at < wordings.length && here > bestLean) {

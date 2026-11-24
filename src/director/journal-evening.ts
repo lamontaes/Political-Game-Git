@@ -38,8 +38,8 @@ import { themeNameBy } from "./theme-words";
 
 /** The most housemates a diary entry names one by one before it says "the whole house". */
 const WATCHERS_NAMED = JOURNAL_EVENING.watchersNamed;
-/** Days back a relative's letter is still this evening's news (a month). */
-const LETTER_DAYS = 30;
+/** Days back a relative's letter is still this evening's news. */
+const LETTER_DAYS = JOURNAL_EVENING.letterDays;
 /** The player in a list of watchers, as subject and as object. */
 const SELF = JOURNAL_EVENING.self;
 
@@ -117,7 +117,7 @@ export function eveningTelling(
   } else facts.alone = fact("yes", [story.id, personId]);
   // How many watched, in words ("five"), from the household's members.
   if (others.length)
-    facts["watchers-count"] = fact(countSaid(others.length + 1), named);
+    facts["watchers-count"] = fact(countSaid(others.length + P.one), named);
   // The theme of the point the speech argued, as the address said it.
   const family = story.points[P.zero]?.family ?? story.theme;
   const themeName = family ? themeNameBy(me.traits, family) : null;
@@ -158,8 +158,8 @@ export function eveningTelling(
       if (stakes) {
         facts.stakes = fact(stakes, [`question:${point.question}`]);
         facts["stakes-clause"] = fact(
-          stakes.charAt(0).toLowerCase() +
-            stakes.slice(1).replace(/[.!?]$/, ""),
+          stakes.charAt(P.zero).toLowerCase() +
+            stakes.slice(P.one).replace(/[.!?]$/, ""),
           [`question:${point.question}`],
         );
       }
@@ -194,11 +194,11 @@ export function eveningTelling(
     core,
     personId,
     FAMILY_CONTACT,
-    addDays(makeIsoDate(story.date), -LETTER_DAYS),
+    addDays(makeIsoDate(story.date), -LETTER_DAYS.value),
     story.date,
   )
     .filter((row) => row.personIds.at(P.zero) === personId)
-    .at(-1);
+    .at(-P.one);
   const writerId = letter?.facts?.writerId as PersonId | undefined;
   const writer = writerId ? core.people.get(writerId) : undefined;
   if (letter && writer) {

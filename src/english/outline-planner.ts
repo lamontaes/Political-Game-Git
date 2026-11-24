@@ -143,6 +143,7 @@ export const JOURNAL_EVENING = (
     journalEvening: {
       watchersNamed: { value: number };
       self: { subject: string; object: string };
+      letterDays: { value: number };
     };
   }
 ).journalEvening;

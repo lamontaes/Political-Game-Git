@@ -1,0 +1,31 @@
+{
+  "id": "bring-revenue-officials-to-deposit-transition",
+  "kind": "move",
+  "summary": "The staff handling a repeal bring the people collecting the charge into the same discussion as the stores paying refunds.",
+  "realLife": "Delaware environmental staff consulted retailers, manufacturers, consumers, distributors and revenue officials as the state left the deposit system.",
+  "sources": [
+    "https://documents.dnrec.delaware.gov/dwhs/Recycling/RPAC/Tenth-Annual-Report.pdf#page=20",
+    "https://legis.delaware.gov/BillDetail?legislationId=19844"
+  ],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{retailer}", "{official}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: recorded transition meeting and collection responsibilities.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "Before launch, the participants work through who takes the deposit and who pays it back.",
+      "pulledBy": "The deposit starts before staff have issued collection instructions.",
+      "writesBack": "The meeting identifies which business handles each payment."
+    },
+    {
+      "turn": "opposite",
+      "what": "At repeal, the participants work through which office handles the replacement fee and which claims remain payable.",
+      "pulledBy": "Repeal leaves claims outstanding while a fee begins.",
+      "writesBack": "The guidance gives separate contacts for fees and refunds."
+    }
+  ]
+}
