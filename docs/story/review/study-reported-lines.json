@@ -903,5 +903,107 @@
       "report-options-without-endorsement",
       "charge-a-group-with-investigating-a-question"
     ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-chaired-it-you-and-members-had-just-as-much-say-on-bill-as-i-did",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I chaired it. You and {members} had just as much say on {bill} as I did.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": [
+          "bill",
+          "asker-chairs",
+          "members"
+        ],
+        "after": "scene-talk.reply-ask.when-you-say-the-committee-whose-views-on-bill-went-into-that-finding"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.members-served-with-us-if-you-want-to-know-how-they-ll-vote-on-bill-you-d-have-to-ask-them",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "{members} served with us. If you want to know how they'll vote on {bill}, you'd have to ask them.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": [
+          "bill",
+          "asker-chairs",
+          "members"
+        ],
+        "after": "scene-talk.reply-ask.who-else-had-a-say-in-the-recommendation-on-bill"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-start-with-members-they-can-tell-you-in-their-own-words-what-they-made-of-bill",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I'd start with {members}. They can tell you in their own words what they made of {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": [
+          "bill",
+          "asker-chairs",
+          "members"
+        ],
+        "after": "scene-talk.reply-ask.who-else-had-a-say-in-the-recommendation-on-bill"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "report-options-without-endorsement",
+      "charge-a-group-with-investigating-a-question"
+    ]
   }
 ]
