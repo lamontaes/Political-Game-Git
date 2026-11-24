@@ -26,5 +26,6 @@
       "pulledBy": "The map is available at the door and the member has time to take it but cannot hear the presentation.",
       "writesBack": "The office files the map and logs the requested discussion as pending."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -25,5 +25,6 @@
       "pulledBy": "One volunteer has yet to complete instruction.",
       "writesBack": "The schedule shows a later visit with both reviewers assigned."
     }
-  ]
+  ],
+  "issues": ["budget:federal:medicare"]
 }

@@ -5,7 +5,7 @@
   "kinds": {
     "inaugural": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -163,7 +163,7 @@
     },
     "state-of-the-union": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -327,7 +327,7 @@
     },
     "state-of-the-state": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -655,7 +655,7 @@
     },
     "town-address": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -811,7 +811,7 @@
     },
     "campaign-speech": {
       "surface": "dialogue",
-      "bridges": true,
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -1265,7 +1265,7 @@
       "moves": ["moved"]
     },
     "anchor-then-stand": {
-      "moves": ["anchor", "stand", "stand-reason?", "long-view?"]
+      "moves": ["anchor", "stand?", "stand-reason?", "long-view?"]
     },
     "contrast-stand-reason": {
       "moves": [

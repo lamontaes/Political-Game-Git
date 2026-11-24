@@ -25,5 +25,6 @@
       "pulledBy": "Leadership attributed the lost vote to a private conversation.",
       "writesBack": "The public dispute follows the recorded vote."
     }
-  ]
+  ],
+  "issues": ["question:us-policy-positions:labor-workforce.paid-family-leave"]
 }

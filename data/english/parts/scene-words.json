@@ -538,10 +538,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door",
+      "key": "scene-words.arrival-other-home-other.you-knock-and-name-opens-the-door",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you knock, and {name} opens the door.",
+      "text": "You knock, and {name} opens the door.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -555,13 +555,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-ring-the-bell-and-name-answers",
+      "key": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you ring the bell, and {name} answers.",
+      "text": "You ring the bell, and {name} answers.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -575,13 +576,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-walk-up-the-drive-and-name-waves-you-in",
+      "key": "scene-words.arrival-other-home-other.you-walk-up-the-drive-and-name-waves-you-in",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you walk up the drive, and {name} waves you in.",
+      "text": "You walk up the drive, and {name} waves you in.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -595,13 +597,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-walk-up-to-a-house-and-ring-the-bell",
+      "key": "scene-words.arrival-other-home-alone.you-ring-twice",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you walk up to a house and ring the bell.",
+      "text": "You ring twice.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -615,13 +618,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-climb-a-porch-and-knock",
+      "key": "scene-words.arrival-other-home-alone.you-knock-twice",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you climb a porch and knock.",
+      "text": "You knock twice.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -635,13 +639,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-cross-a-yard-to-a-front-door",
+      "key": "scene-words.arrival-other-home-alone.you-step-up",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you cross a yard to a front door.",
+      "text": "You step up.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -655,7 +660,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
       "key": "scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line",

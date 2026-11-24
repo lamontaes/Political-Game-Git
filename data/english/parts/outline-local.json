@@ -3706,43 +3706,6 @@
       "issues": ["budget:parks"]
     },
     {
-      "key": "outline-local.stand.every-dollar-for-new-roads-in-is-a-dollar-not-spent-patching-the-ones-",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Every dollar for new roads in {realm-name} is a dollar not spent patching the ones we have. I'm against the increase.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:highways",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-against",
-            "policy:budget:highways",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:highways"]
-    },
-    {
       "key": "outline-local.stand.i-won-t-add-to-the-school-budget-in-unless-the-money-reaches-the-class",
       "move": "stand",
       "kind": "spoken",
@@ -3778,43 +3741,6 @@
       "date": "2026-11-24",
       "elements": ["stump-platform-as-a-topic-by-topic-list"],
       "issues": ["budget:schools"]
-    },
-    {
-      "key": "outline-local.stand.people-who-finish-their-time-in-come-home-to-no-job-no-id-and-no-place",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "People who finish their time in {realm-name} come home to no job, no ID and no place to stay. I'd spend more to help them start over.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:budget:corrections",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "stance-for",
-            "policy:budget:corrections",
-            "realm-name"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:corrections"]
     },
     {
       "key": "outline-local.stand.a-bigger-jail-in-costs-more-every-year-to-run-i-d-put-that-money-into-",
@@ -3891,35 +3817,6 @@
       "issues": ["budget:naturalResources"]
     },
     {
-      "key": "outline-local.stand.a-call-to-the-police-in-shouldn-t-wait-twenty-minutes-i-d-pay-for-more",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "A call to the police in {realm-name} shouldn't wait twenty minutes. I'd pay for more officers on the night shift.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["stance-for", "policy:budget:police", "realm-name"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "campaign-speech",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["stance-for", "policy:budget:police", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today", "contrast"],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["stump-platform-as-a-topic-by-topic-list"],
-      "issues": ["budget:police"]
-    },
-    {
       "key": "outline-local.stand.when-an-officer-in-is-accused-of-misconduct-someone-outside-the-depart",
       "move": "stand",
       "kind": "spoken",
@@ -3983,30 +3880,6 @@
       "issues": ["none"]
     },
     {
-      "key": "outline-local.report.most-of-the-calls-i-got-this-year-were-about",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Most of the calls I got this year were about {theme-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
-      "issues": ["none"]
-    },
-    {
       "key": "outline-local.report.money-was-tight-and-i-still-wouldn-t-cut",
       "move": "report",
       "kind": "spoken",
@@ -4046,30 +3919,6 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
-      "issues": ["none"]
-    },
-    {
-      "key": "outline-local.report.if-you-asked-me-what-this-year-was-about-in-i-d-say",
-      "move": "report",
-      "kind": "spoken",
-      "text": "If you asked me what this year was about in {realm-name}, I'd say {theme-name}.",
-      "uses": [
-        {
-          "subject": "town-address",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "theme-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-charming",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "elements": ["mayor-small-town-history-as-the-frame"],
       "issues": ["none"]
     },
     {

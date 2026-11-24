@@ -98,6 +98,8 @@ export interface OpeningSentence {
   readonly facts: readonly string[];
   /** The bank pieces it was joined from, by key. */
   readonly pieces: readonly string[];
+  /** The outline section it was told in ("greeting", "occasion", "story", ...), where the one planner told it. */
+  readonly section?: string;
   /** What each of those facts said in the sentence, the figure or name filled in. */
   readonly values: Readonly<Record<string, string>>;
   /** A slot's bare name where the fact keeps one ("Jose Salgado" for "Jose Salgado, the town clerk,"). */
