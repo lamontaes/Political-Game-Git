@@ -22,6 +22,13 @@ try {
   await page.locator(".bsdept").first().waitFor();
   await page.locator(".bsdept").first().click();
   await page.waitForTimeout(800);
+  // Budgets shows this year beside last as figures, never as little charts (owner, Nov 5; the CTO's
+  // 06:46Z catch): no history line is drawn on the department page or the government's totals.
+  assert.equal(
+    await page.locator("#sheet svg.trend-line").count(),
+    0,
+    "Budgets draws a little chart",
+  );
   // A history of two years, drawn with an options object that names no amount reader of its own
   // (what the Budgets lines pass), draws a line and throws nothing.
   const drawn = await page.evaluate(async () => {

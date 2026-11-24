@@ -25,5 +25,10 @@
   "weights": {
     "life": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "issues": [
+    "law:social-security-full-retirement-age",
+    "law:social-security-earliest-claim-age",
+    "budget:federal:socialSecurity"
+  ]
 }
