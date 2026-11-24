@@ -69,7 +69,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-has-that-one-right",
@@ -88,7 +89,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-fair-minded"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-good-it-s-about-time-somebody-tried-to",
@@ -111,7 +113,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-good-i-don-t-think-we-should-either",
@@ -131,7 +134,8 @@
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-can-keep-that-one-i-don-t-want-it",
@@ -150,7 +154,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-cocky"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-think-we-should-and-is-wrong-to-fight-it",
@@ -178,7 +183,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-go-back-and-forth-on-that-one-whatever-says",
@@ -197,7 +203,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-who-know-more-make-the-talk-count"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-don-t-know-yet-let-s-see-what-does-with-it",
@@ -219,7 +226,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-who-know-more-make-the-talk-count"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-i-m-with-on",
@@ -237,7 +245,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-if-can-really-good-for",
@@ -265,7 +274,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-has-wrong",
@@ -286,7 +296,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-i-can-t-tell-yet-where-i-am-on",
@@ -304,7 +315,8 @@
       "lean": ["personality-v1:facet-guarded", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-who-know-more-make-the-talk-count"]
     },
     {
       "key": "outline-talk.why.talk-address-point-i-work-at-i-hear-that-part-differently",
@@ -324,7 +336,8 @@
       "lean": ["personality-v1:facet-work-centered"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["bus-money-becomes-breakfast-money"]
     },
     {
       "key": "outline-talk.why.talk-address-point-at-we-live-with-that-every-day",
@@ -344,7 +357,8 @@
       "lean": ["personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.why.talk-address-point-since-let-me-go-i-listen-to-that-part",
@@ -363,7 +377,8 @@
       "lean": ["personality-v1:facet-sensitive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["laid-off-worker-stunned-and-distrustful"]
     },
     {
       "key": "outline-talk.why.talk-address-point-with-what-everything-costs-in-i-notice-that-part",
@@ -385,7 +400,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["bus-money-becomes-breakfast-money"]
     },
     {
       "key": "outline-talk.why.talk-address-point-too-many-people-in-need-work-to-let-that-go",
@@ -404,7 +420,8 @@
       "lean": ["personality-v1:facet-supportive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.why.talk-address-point-rent-in-is-what-everybody-talks-about",
@@ -423,7 +440,8 @@
       "lean": ["personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["bus-money-becomes-breakfast-money"]
     },
     {
       "key": "outline-talk.why.talk-address-point-it-s-not-about-us-it-s-what-s-right-for",
@@ -445,7 +463,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-i-work-at-so-i-listened-when-got-to",
@@ -467,7 +486,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-since-let-me-go-i-listened-hard-when-got-to",
@@ -494,7 +514,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["laid-off-worker-stunned-and-distrustful"]
     },
     {
       "key": "outline-talk.why-first.talk-address-point-money-s-tight-here-so-i-listened-when-got-to",
@@ -515,7 +536,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["bus-money-becomes-breakfast-money"]
     },
     {
       "key": "outline-talk.verdict-after.talk-address-point-and-i-don-t-buy-it-not-from",
@@ -534,7 +556,8 @@
       "lean": ["personality-v1:facet-skeptical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.verdict-after.talk-address-point-i-still-can-t-tell-if-means-it",
@@ -553,7 +576,8 @@
       "lean": ["personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-who-know-more-make-the-talk-count"]
     },
     {
       "key": "outline-talk.ask.talk-address-point-what-d-you-think",
@@ -571,7 +595,8 @@
       "lean": ["personality-v1:facet-curious", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.ask.talk-address-point-am-i-wrong",
@@ -592,7 +617,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.ask.talk-address-point-where-are-you-on",
@@ -614,7 +640,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-finally-said-what-i-ve-been-thinking",
@@ -633,7 +660,8 @@
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-that-s-the-wrong-call-and-ought-to-know-better",
@@ -655,7 +683,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-could-go-either-way-gets-the-last-word-anyway",
@@ -674,7 +703,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-who-know-more-make-the-talk-count"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-i-d-want-to-hear-more-from-first",
@@ -696,7 +726,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-who-know-more-make-the-talk-count"]
     },
     {
       "key": "outline-talk.verdict-cold.talk-address-point-ask-me-about-again-in-a-month",
@@ -717,7 +748,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-who-know-more-make-the-talk-count"]
     },
     {
       "key": "outline-talk.why.talk-address-point-i-just-think-it-s-the-right-thing-for",
@@ -736,7 +768,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.why.talk-address-point-prices-in-being-what-they-are-that-part-hit-home",
@@ -758,7 +791,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["bus-money-becomes-breakfast-money"]
     },
     {
       "key": "outline-talk.ask.talk-address-point-you",
@@ -776,7 +810,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-curious"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-good-i-d-hate-to-lose-said",
@@ -804,7 +839,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-good-that-law-never-did-any-favors",
@@ -828,7 +864,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-skeptical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.why.talk-address-point-it-just-isn-t-right-for-the-way-i-see-it",
@@ -847,7 +884,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parents-split-on-party-argue-at-supper"]
     },
     {
       "key": "outline-talk.why.talk-address-point-somebody-has-to-think-about-what-that-does-to",
@@ -869,7 +907,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"]
     },
     {
       "key": "outline-talk.verdict.talk-address-point-finally-somebody-who-sees-the-way-i-do-said",
