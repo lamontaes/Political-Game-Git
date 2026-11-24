@@ -1688,7 +1688,11 @@ export function composeJournal(
         ) ??
         render(
           { part: "first-title" },
-          place ? { ...facts, place } : facts,
+          // The chapter is titled by where its stretch of life was lived:
+          // the moment's own place where it names one (where they were
+          // born), else where they live now (CTO, Nov 24: two chapters both
+          // named for the town, the first opening on another).
+          place ? { place, ...facts } : facts,
           `${moment.id}:title`,
           sourceIds,
         );
