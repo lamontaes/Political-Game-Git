@@ -83,9 +83,6 @@ export function caseFacts(
   if (!row) return facts;
   const ids = [caseId];
   const said = (text: string) => ({ text, sourceRecordIds: ids });
-  facts[
-    row.problem === "paid-under-minimum-wage" ? "problem-wage" : "problem-work"
-  ] = said("yes");
   const agency = (rules.agencyByProblem.value as Record<string, string>)[
     row.problem
   ];
@@ -96,11 +93,13 @@ export function caseFacts(
     daysSaid(Math.max(P.one, daysBetweenText(cause.date, row.respondBy))),
   );
   if (row.problem === "paid-under-minimum-wage") {
+    facts["problem-wage"] = said("yes");
     const hourly = Number(row.facts.hourlyMinor ?? P.zero);
     const floor = Number(row.facts.floorMinor ?? P.zero);
     if (hourly > P.zero) facts.pay = said(dollars(hourly));
     if (floor > P.zero) facts.floor = said(dollars(floor));
-  } else {
+  } else if (row.problem === "looking-for-work") {
+    facts["problem-work"] = said("yes");
     const loss = lastLayoff(core, askerId, cause.date);
     const org = loss ? core.organizations.get(loss.organizationId) : undefined;
     if (loss) {
