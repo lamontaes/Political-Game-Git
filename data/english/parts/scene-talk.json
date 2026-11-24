@@ -65291,6 +65291,310 @@
       "elements": ["acceptance-restates-the-terms"]
     },
     {
+      "key": "scene-talk.reply-agree.yes-i-ll-take-at-and-i-can-start-whenever-you-need-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'll take {position} at {employer}, and I can start whenever you need me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-take-it-an-hour-is-fair-for",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll take it. {pay} an hour is fair for {position}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["pay", "position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-grateful-but-i-have-to-pass-on-at",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm grateful, but I have to pass on {position} at {employer}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-take-at-an-hour-it-doesn-t-cover-what-i-d-be-giving-up",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take {position} at {pay} an hour. It doesn't cover what I'd be giving up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["pay", "position"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-my-hours-be-as-i-have-things-at-home-i-can-t-move",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would my hours be as {position}? I have things at home I can't move.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-take-if-i-can-start-after-the-first-of-the-month",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll take {position} if I can start after the first of the month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.good-i-ll-send-the-paperwork-to-your-house-this-week",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. I'll send the {position} paperwork to your house this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "after": "agree",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-the-offer-for-stays-open-until-if-you-change-your-mind",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. The offer for {position} stays open until {deadline} if you change your mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "after": "decline",
+          "requiresFacts": ["deadline", "position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-days-at-and-i-ll-put-your-limits-in-writing-before-you-sign",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly days at {employer}, and I'll put your limits in writing before you sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "after": "ask",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-works-for-we-ll-set-the-start-date-around-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That works for {employer}. We'll set the start date around you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "after": "offer",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
       "key": "scene-talk.reply-agree.count-me-in",
       "move": "reply-agree",
       "kind": "spoken",
