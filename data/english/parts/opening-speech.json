@@ -5010,7 +5010,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -5033,7 +5033,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -5056,7 +5056,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -5079,7 +5079,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-leads"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -5102,7 +5102,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-first"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -5125,7 +5125,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-second"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -5148,7 +5148,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-third"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -5171,7 +5171,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-first"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -5194,7 +5194,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-second"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -5217,7 +5217,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-third"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -5240,7 +5240,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-line"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "polished",
@@ -5263,7 +5263,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["rank-line"],
-          "tie": "law"
+          "tie": "frame"
         }
       ],
       "voice": "plain",
@@ -5286,7 +5286,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "ask",
@@ -5341,7 +5341,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "polished",
@@ -5364,7 +5364,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -5387,7 +5387,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after"],
-          "tie": "law"
+          "tie": "stand"
         }
       ],
       "voice": "plain",
@@ -5410,7 +5410,7 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["belief", "belief-after", "belief-sentence"],
-          "tie": "law"
+          "tie": "stand"
         },
         {
           "move": "ask",
@@ -5465,7 +5465,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-against"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": ["plain", "polished"],
@@ -5486,7 +5486,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-against"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -5507,7 +5507,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-against"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": "plain",
@@ -5528,7 +5528,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-for"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": "polished",
@@ -5549,7 +5549,7 @@
           "role": "close",
           "choice": "close",
           "requiresFacts": ["asked", "asked-about", "asked-for"],
-          "tie": "frame"
+          "tie": "law"
         }
       ],
       "voice": "plain",
