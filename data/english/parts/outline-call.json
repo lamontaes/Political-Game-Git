@@ -53,7 +53,10 @@
     "realm-name": "the state, as the speech names it, from the speech's facts",
     "nation": "the country as a national speaker names it (speech-outlines.json nationWords: \"America\"), for the national kinds only",
     "disaster-states": "the states the year's declared disasters of one kind struck, named in words (\"Texas, Louisiana and Mississippi\"), for a federal speaker, from the national events engine (address-story.ts)",
-    "disaster-where": "the state the year's worst declared disaster struck, from the national events engine (address-story.ts)"
+    "disaster-where": "the state the year's worst declared disaster struck, from the national events engine (address-story.ts)",
+    "anchor-name": "the town resident with the largest burden on record for the address's theme, by full name (address-anchor.ts)",
+    "anchor-first": "the same resident's first name (address-anchor.ts)",
+    "anchor-town": "the town the resident lives in (address-anchor.ts)"
   },
   "maxWords": 30,
   "parts": [
@@ -8975,6 +8978,1539 @@
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
       "elements": ["point-opens-calling-back"]
+    },
+    {
+      "key": "outline-call.anchor.anchorname-of-anchortown-has-no-health-insurance-and-every-time",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} of {anchor-town} has no health insurance, and every time {anchor-first} gets sick it is a choice between a doctor and the rent.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.in-anchortown-anchorname-goes-without-a-doctor-because-there-is",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "In {anchor-town}, {anchor-name} goes without a doctor because there is no coverage, and {anchor-first} is not the only one.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.ask-anchorname-in-anchortown-what-it-means-to-have-no",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Ask {anchor-name} in {anchor-town} what it means to have no insurance, and {anchor-first} will tell you it means putting things off until they can't be put off.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-lives-in-anchortown-without-health-insurance-and-the-decision",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} lives in {anchor-town} without health insurance, and the decision that matters most to {anchor-first} is made far from home.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-in-anchortown-is-sick-and-the-care-anchorfirst-needs",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} is sick, and the care {anchor-first} needs is the care {anchor-first} keeps putting off.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.right-now-anchorname-in-anchortown-is-fighting-an-illness-and",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Right now {anchor-name} in {anchor-town} is fighting an illness and a bill at the same time.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-sick"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-sick"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-sick"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-of-anchortown-has-been-sick-for-a-long-while",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} of {anchor-town} has been sick for a long while, and {anchor-first} does not need a speech; {anchor-first} needs an answer.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-in-anchortown-needs-care-that-no-one-in-the",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} needs care that no one in the family can pay for alone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.for-anchorname-of-anchortown-getting-care-means-a-family-member",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "For {anchor-name} of {anchor-town}, getting care means a family member gives up a day's work to take {anchor-first} there.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-in-anchortown-is-waiting-on-care-that-other-people",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} is waiting on care that other people can reach and {anchor-first} cannot.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-of-anchortown-works-hard-for-the-lowest-pay-in",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} of {anchor-town} works hard for the lowest pay in town, and {anchor-first} is not asking for a favor.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-pay",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-pay",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-pay",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.in-anchortown-anchorname-earns-the-least-of-anyone-in-town",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "In {anchor-town}, {anchor-name} earns the least of anyone in town, and still gets up and goes to work.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.anchorname-in-anchortown-does-honest-work-for-the-smallest-pay",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} does honest work for the smallest pay in town.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.out-of-all-that-the-thing-people-keep-returning-to",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Out of all that, the thing people keep returning to is {theme-short}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["point-opens-calling-back"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.if-this-year-taught-us-one-thing-it-is-that",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "If this year taught us one thing, it is that {theme-short} cannot be left to chance.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.think-about-what-that-means-for-themeshort-because-it-changes",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Think about what that means for {theme-short}, because it changes the question.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["point-opens-calling-back"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.you-can-feel-it-most-in-themeshort-and-that-is",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "You can feel it most in {theme-short}, and that is where I want to spend the next few minutes.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.whatever-else-we-do-we-owe-people-a-straight-answer",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Whatever else we do, we owe people a straight answer on {theme-short}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.that-is-the-backdrop-and-themeshort-is-the-part-of",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "That is the backdrop, and {theme-short} is the part of it I can actually move.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["point-opens-calling-back"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.which-makes-themeshort-less-of-a-debate-and-more-of",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Which makes {theme-short} less of a debate and more of a duty.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.all-of-that-leaves-one-question-standing-what-are-we",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "All of that leaves one question standing: what are we going to do about {theme-short}?",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.hard-years-sharpen-what-matters-and-for-most-people-that",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Hard years sharpen what matters, and for most people that is {theme-short}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.i-did-not-choose-the-year-we-had-but-i",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "I did not choose the year we had, but I do choose how we answer on {theme-short}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "run",
+        "run-meaning",
+        "disaster",
+        "disaster-meaning",
+        "disaster-help"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.i-could-stop-there-but-the-people-of-nation-have",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "I could stop there, but the people of {nation} have more than one worry.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.i-could-stop-there-but-the-people-of-realmname-have",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "I could stop there, but the people of {realm-name} have more than one worry.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.setting-that-aside-for-a-moment-there-is-another-matter",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Setting that aside for a moment, there is another matter I owe {nation} an answer on.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.setting-that-aside-for-a-moment-there-is-another-matter",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Setting that aside for a moment, there is another matter I owe {realm-name} an answer on.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.not-everything-nation-faces-fits-in-one-speech-so-let",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Not everything {nation} faces fits in one speech, so let me say the other half.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.not-everything-realmname-faces-fits-in-one-speech-so-let",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Not everything {realm-name} faces fits in one speech, so let me say the other half.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.look-at-it-from-a-different-side-and-nation-has",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Look at it from a different side and {nation} has a second problem waiting.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.look-at-it-from-a-different-side-and-realmname-has",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Look at it from a different side and {realm-name} has a second problem waiting.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.a-stand-on-one-issue-is-not-enough-for-nation",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "A stand on one issue is not enough for {nation}, and I know it.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.a-stand-on-one-issue-is-not-enough-for-realmname",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "A stand on one issue is not enough for {realm-name}, and I know it.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.while-we-are-on-what-nation-needs-i-should-say",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "While we are on what {nation} needs, I should say what comes next.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.while-we-are-on-what-realmname-needs-i-should-say",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "While we are on what {realm-name} needs, I should say what comes next.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.that-settled-there-is-a-harder-question-in-front-of",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "That settled, there is a harder question in front of {nation}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.that-settled-there-is-a-harder-question-in-front-of",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "That settled, there is a harder question in front of {realm-name}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.plenty-in-nation-agree-on-that-much-and-plenty-split",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Plenty in {nation} agree on that much, and plenty split on what comes next.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.plenty-in-realmname-agree-on-that-much-and-plenty-split",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Plenty in {realm-name} agree on that much, and plenty split on what comes next.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.every-family-in-nation-has-a-second-worry-and-it",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Every family in {nation} has a second worry, and it is rarely far from the first.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.every-family-in-realmname-has-a-second-worry-and-it",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Every family in {realm-name} has a second worry, and it is rarely far from the first.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.different-people-in-nation-would-put-that-second-so-let",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Different people in {nation} would put that second, so let me speak to the first they name.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.bridge.different-people-in-realmname-would-put-that-second-so-let",
+      "move": "bridge",
+      "kind": "spoken",
+      "text": "Different people in {realm-name} would put that second, so let me speak to the first they name.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "bridge",
+          "tie": "record",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "after": [
+        "stand",
+        "stand-reason",
+        "pledge",
+        "answer",
+        "value",
+        "acknowledge",
+        "long-view",
+        "today",
+        "creed"
+      ],
+      "elements": ["turn-word-joins"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
     }
   ]
 }
