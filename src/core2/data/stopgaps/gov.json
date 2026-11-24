@@ -2140,5 +2140,16 @@
     "status": "resolved",
     "resolvedAt": "2026-11-18",
     "resolvedBy": "Elections"
+  },
+  {
+    "id": "SG-GOV-board-chair-beside-presiding-executive",
+    "kind": "missing-data",
+    "file": "src/core2/modules/leadership.ts",
+    "line": 187,
+    "whatItFakes": "Every county and township board elects a chair from its members, as Arizona's does (A.R.S. sec. 11-216(A)). Where state law has the county's executive preside over the body (a Texas county judge over the commissioners court, an Arkansas county judge over the quorum court, a Kentucky judge/executive over the fiscal court), a member is still elected chair, and no state's own title for the post (chairman, president, director) is read.",
+    "why": "The leadership engine organizes a body from its own members; the county executive office's presidesOverBody mark (src/core2/gov-rules/county-governing-body-rules.ts) is not read by it yet, and county-governing-bodies.json holds no presiding title per state.",
+    "addedBy": "Elections",
+    "addedAt": "2026-11-24",
+    "replacement": "Each state's row in data/research/local-government/county-governing-bodies.json carries its presiding title and who presides, read from statute; where the executive presides, the chair post is that executive's, and the news reads the post's title from the record."
   }
 ]
