@@ -8,6 +8,29 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `8416afbf`, `data/englis
 - **Played:** at `8416afbf` through `scripts/words/speech-sheets.ts` (the local head's address and a town member's campaign speech in its three drawn places: Rainelle, Midway, Washington County): 34 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
+## story/w-stand-close at `059a6d3e` (newest): the 12 issue-first stand lines, 10 of 12 pass
+
+- The 12 lines new since 7dfd9789 (rent stabilization, property tax growth and the minimum wage, two for and two against each). **Calibration (new, Nov 24):** the reader's chunk planted 19 of the owner's own grades: 13 he graded bad today and on Nov 12 (the born, school and "usual problems" loading lines; "So the President wants a higher top income tax rate. I'm glad she said it out loud."; "I'd push back on her there."; the four work replies offered together; "Good. We'll watch what it does to…"; "Go on and enjoy what's left of tonight."; "What do you do?"; "I'll check on you again this morning.") and 6 he graded fine. This chunk (P1) failed all 13 bad lines and passed 5 of the 6 good ones. It counts only because it caught every bad one. Every line was read fresh, with nothing carried from earlier reads.
+- Not played.
+
+### Failing lines
+
+- `outline-local.stand.a-cap-on-rents-sounds-kind-but-needs-more-homes-not-fewer-landlords-fi` (stand): "A cap on rents sounds kind, but {realm-name} needs more homes, not fewer landlords fixing them. I'm against it." — AI-sounding: 'Not fewer landlords fixing them' is a composed contrast that does not say what it means.
+- `outline-local.stand.i-m-not-for-raising-the-minimum-wage-if-it-costs-the-corner-store-in-i` (stand): "I'm not for raising the minimum wage if it costs the corner store in {realm-name} its only part-timer." — stance-is-plainly-for-or-against: 'Not for... if it costs' is a conditional, not a plain against, and the corner store is a stock image.
+
+### Passing lines
+
+- `outline-local.stand.families-in-shouldn-t-be-priced-out-of-their-own-homes-i-d-cap-how-muc`: "Families in {realm-name} shouldn't be priced out of their own homes. I'd cap how much rent can go up in a year."
+- `outline-local.stand.renters-in-should-know-what-next-year-s-rent-will-be-i-m-for-a-cap-on-`: "Renters in {realm-name} should know what next year's rent will be. I'm for a cap on the yearly increase."
+- `outline-local.stand.i-d-rather-build-new-homes-in-than-put-a-cap-on-rents`: "I'd rather build new homes in {realm-name} than put a cap on rents."
+- `outline-local.stand.no-one-in-should-be-taxed-out-of-the-house-they-own-i-m-for-a-cap-on-h`: "No one in {realm-name} should be taxed out of the house they own. I'm for a cap on how fast property taxes can grow."
+- `outline-local.stand.a-neighbor-on-a-fixed-income-shouldn-t-lose-a-home-in-to-a-tax-bill-i-`: "A neighbor on a fixed income shouldn't lose a home in {realm-name} to a tax bill. I'd cap the yearly increase."
+- `outline-local.stand.a-cap-on-property-taxes-sounds-good-until-the-plows-and-the-schools-in`: "A cap on property taxes sounds good until the plows and the schools in {realm-name} go short. I'm against it."
+- `outline-local.stand.i-won-t-cap-property-taxes-in-and-then-cut-the-services-people-count-o`: "I won't cap property taxes in {realm-name} and then cut the services people count on."
+- `outline-local.stand.a-full-day-s-work-in-should-pay-enough-to-live-on-i-m-for-raising-the-`: "A full day's work in {realm-name} should pay enough to live on. I'm for raising the minimum wage."
+- `outline-local.stand.people-in-work-full-time-and-still-need-a-second-job-i-d-raise-the-min`: "People in {realm-name} work full time and still need a second job. I'd raise the minimum wage."
+- `outline-local.stand.a-higher-minimum-wage-hits-the-small-shops-in-first-i-m-against-it`: "A higher minimum wage hits the small shops in {realm-name} first. I'm against it."
+
 ## Play findings (whole speeches, not one line)
 
 - No grammar or fact faults in the six speeches at this head, and the three campaign speeches now close on three different send-offs.

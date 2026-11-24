@@ -1,211 +1,176 @@
 # Pre-grade: Writer Home (talk at home)
 
-Pre-grader, 2026-11-24. Branch `story/w-talk` at `629d5922`, every line authored by this writer at that head (182 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+## story/w-talk at `56f20feb` (newest): the {said} lines, 54 of 130 pass
 
-- **Result:** 181 of 182 pass (99%); 1 fail.
-- **Calibration:** C4 8/8, D1 8/8, M1 8/8, NB 8/8, O1 8/8, Q1 8/8, TK 8/8, TL 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
-- **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
-- **Played:** the packet script at `104bd27d` (the writer's previous head; lines changed since then show only as read) on six places (Meadow UT aecea4, Chipley FL 66265b, Bethel ME bd3806, Whitmore Village HI 2d2283, Roberts ID 3c42e6, Oakton VA d8e52e): 9 of these lines played.
-- Fails quote the line and give his rule or words; no new wording is suggested.
+Pre-grader, 2026-11-24. Every line in outline-talk.json at this head that uses {said} (130 lines).
+
+- **Calibration (new, Nov 24):** the reader's chunk planted 19 of the owner's own grades: 13 he graded bad today and on Nov 12 (the born, school and "usual problems" loading lines; "So the President wants a higher top income tax rate. I'm glad she said it out loud."; "I'd push back on her there."; the four work replies offered together; "Good. We'll watch what it does to…"; "Go on and enjoy what's left of tonight."; "What do you do?"; "I'll check on you again this morning.") and 6 he graded fine. This chunk (P1) failed all 13 bad lines and passed 5 of the 6 good ones. It counts only because it caught every bad one. Every line was read fresh, with nothing carried from earlier reads.
+- **The reader was told how {said} fills,** from `data/english/question-names.json` at this head: a short spoken name per policy question, such as "gas hookups", "the retirement age", "the air", "trains", "rents", "immigration" or "bus fares".
+- **Your question: does the topic name plus a for/against verb read like a person?** Mostly no. A bare topic does not say which side someone is on: "{president} came out against immigration", "is all in on the air", "is dead set against rents", "wants nothing to do with the retirement age". Each says the President took a side without saying what the side is: against more immigration or less, raising the retirement age or lowering it. 31 of the fails are this (stance-is-plainly-for-or-against). The lines that pass use the topic as a topic, not as a position: "You heard what {president} said about {said}.", "Where are you on {said}?", "I'm with {president-object} on {said}.", "{president} has {said} wrong.", "I work at {employer}, so I listened when {president} got to {said}."
+- 32 more fails are twins: siblings in the same move that say the same thing ("came right out for", "is all in on", "went on about… for a while").
+- Not played.
 
 ## Failing lines by rule
 
-### no-reply-asks-what-the-listener-cannot-know (1)
+### variants-differ-in-what-they-say (32)
 
-- `outline-talk.why-first.talk-address-point-place-is-where-i-live-so-i-listened-for-said`: "{place} is where I live, so I listened for {said}." — Telling a housemate where they both live is pointless, and living in a town does not explain listening for one subject, so the 'so' is a non sequitur.
+- `outline-talk.lead.talk-address-point-went-on-about-for-a-while` (lead): "{president} went on about {said} for a while." — variants-differ-in-what-they-say: Says the same as P1-004 (the President spent a while on the topic) in different words.
+- `outline-talk.lead.talk-address-point-so-means-to-keep-said` (lead): "So {president} means to keep {said}." — variants-differ-in-what-they-say: Twin of P1-089 ('wants to keep'), opened with a filler 'So'.
+- `outline-talk.lead.talk-address-point-wants-to-undo-said` (lead): "{president} wants to undo {said}." — variants-differ-in-what-they-say: 'Wants to undo' says the same as P1-090, P1-091 and P1-097 side by side.
+- `outline-talk.verdict-cold.talk-address-point-on-i-side-with-said` (verdict-cold): "On {said}, I side with {president-object}." — variants-differ-in-what-they-say: Same as P1-006 ('I'm with the President on...') reworded.
+- `outline-talk.ask.talk-address-point-where-do-you-come-down-on` (ask): "Where do you come down on {said}?" — variants-differ-in-what-they-say: Twin of P1-016 ('Where are you on...').
+- `outline-talk.verdict-cold.talk-address-point-nothing-said-on-sat-right-with-me` (verdict-cold): "Nothing {president} said on {said} sat right with me." — variants-differ-in-what-they-say: Says the same as P1-042 ('not buying what the President said').
+- `outline-talk.verdict-cold.talk-address-point-i-haven-t-made-up-my-mind-on` (verdict-cold): "I haven't made up my mind on {said}." — variants-differ-in-what-they-say: Twin of P1-008 ('can't tell yet where I am').
+- `outline-talk.verdict.talk-address-point-on-said-i-m-right-there-with-president-object` (verdict): "On {said}, I'm right there with {president-object}." — variants-differ-in-what-they-say: Twin of P1-114 and P1-006 ('I'm with / side with the President on...').
+- `outline-talk.verdict.talk-address-point-i-m-sorry-but-president-is-wrong-on-said` (verdict): "I'm sorry, but {president} is wrong on {said}." — variants-differ-in-what-they-say: Same as P1-007 and P1-108 (the President is wrong on it), with a stock 'I'm sorry, but'.
+- `outline-talk.verdict-cold.talk-address-point-i-m-with-president-object-all-the-way-on-said` (verdict-cold): "I'm with {president-object} all the way on {said}." — variants-differ-in-what-they-say: Twin of P1-006 with 'all the way' added.
+- `outline-talk.verdict-cold.talk-address-point-president-got-said-wrong-as-i-see-it` (verdict-cold): "{president} got {said} wrong, as I see it." — variants-differ-in-what-they-say: Twin of P1-007 ('has {said} wrong') with 'as I see it' padding.
+- `outline-talk.why-first.talk-address-point-place-has-too-few-jobs-so-i-listened-close-to-said` (why-first): "{place} has too few jobs, so I listened close to {said}." — variants-differ-in-what-they-say: Says the same as P1-053 (too few jobs in town, so I paid attention).
+- `outline-talk.verdict-after.talk-address-point-that-s-why-i-m-behind-president-object-on-said` (verdict-after): "That's why I'm behind {president-object} on {said}." — variants-differ-in-what-they-say: Twin of P1-054 ('Which is why I'd back the President').
+- `outline-talk.why-first.talk-address-point-i-can-only-judge-said-by-how-place-has-been-going` (why-first): "I can only judge {said} by how {place} has been going." — variants-differ-in-what-they-say: Same as P1-071 (judging the topic by how the town is going).
+- `outline-talk.ask.talk-address-point-how-did-said-sit-with-you` (ask): "How did {said} sit with you?" — variants-differ-in-what-they-say: Twin of P1-078 ('What did you make of...').
+- `outline-talk.lead.talk-address-point-president-wants-to-end-said` (lead): "{president} wants to end {said}." — variants-differ-in-what-they-say: Twin of P1-091, P1-097 and P1-098 (end, roll back, repeal, put an end to).
+- `outline-talk.lead.talk-address-point-president-wants-to-protect-said` (lead): "{president} wants to protect {said}." — variants-differ-in-what-they-say: Twin of P1-089 and P1-093 (keep, protect, defend).
+- `outline-talk.lead.talk-address-point-president-plans-to-stand-behind-said` (lead): "{president} plans to stand behind {said}." — variants-differ-in-what-they-say: 'Plans to stand behind' is a stiff twin of P1-089 and P1-093.
+- `outline-talk.lead.talk-address-point-president-made-a-point-of-backing-said` (lead): "{president} made a point of backing {said}." — variants-differ-in-what-they-say: Twin of P1-093 ('made a point of backing').
+- `outline-talk.lead.talk-address-point-president-wants-to-put-an-end-to-said` (lead): "{president} wants to put an end to {said}." — variants-differ-in-what-they-say: Twin of P1-090 ('wants to put an end to' / 'wants to end').
+- `outline-talk.lead.talk-address-point-president-made-a-point-of-attacking-said` (lead): "{president} made a point of attacking {said}." — variants-differ-in-what-they-say: Twin of the repeal leads, and 'made a point of attacking' reads stiff.
+- `outline-talk.verdict.talk-address-point-i-m-against-what-president-said-on-said` (verdict): "I'm against what {president} said on {said}." — variants-differ-in-what-they-say: Twin of P1-042 and P1-134 ('against what the President said on').
+- `outline-talk.verdict.talk-address-point-i-can-t-stand-behind-president-object-on-said` (verdict): "I can't stand behind {president-object} on {said}." — variants-differ-in-what-they-say: Twin of P1-038 ('can't get behind / stand behind').
+- `outline-talk.ask.talk-address-point-what-was-your-take-on-said` (ask): "What was your take on {said}?" — variants-differ-in-what-they-say: Twin of P1-078 ('What did you make of...').
+- `outline-talk.ask.talk-address-point-how-do-you-feel-about-what-president-said-on-said` (ask): "How do you feel about what {president} said on {said}?" — variants-differ-in-what-they-say: Twin of P1-078 and P1-118, and stiff.
+- `outline-talk.lead.talk-address-point-you-listened-to-president-on-said-didn-t-you` (lead): "You listened to {president} on {said}, didn't you?" — variants-differ-in-what-they-say: Twin of P1-044 ('You were listening when...').
+- `outline-talk.lead.talk-address-point-there-it-is-president-wants-to-keep-said` (lead): "There it is: {president} wants to keep {said}." — variants-differ-in-what-they-say: Twin of P1-089 with a 'There it is:' tag.
+- `outline-talk.verdict.talk-address-point-here-s-where-president-and-i-split-said` (verdict): "Here's where {president} and I split: {said}." — variants-differ-in-what-they-say: Twin of P1-109 ('far apart' / 'split'), in a composed colon shape.
+- `outline-talk.ask.talk-address-point-tell-me-if-i-m-pushing-i-only-want-to-know-where-you-land-on-said` (ask): "Tell me if I'm pushing. I only want to know where you land on {said}." — variants-differ-in-what-they-say: Says the same as P1-137 (am I pushing?) and P1-016.
+- `outline-talk.verdict-after.talk-address-point-we-don-t-have-to-settle-said-to-get-through-supper` (verdict-after): "We don't have to settle {said} to get through supper." — variants-differ-in-what-they-say: Twin of P1-139 (we'll still get through supper).
+- `outline-talk.why-first.talk-address-point-before-president-even-got-to-said-i-was-thinking-about-place` (why-first): "Before {president} even got to {said}, I was thinking about {place}." — variants-differ-in-what-they-say: Twin of P1-077 (thinking about the town while the President talked).
+- `outline-talk.heard.talk-address-point-i-ll-admit-i-watched-your-face-when-said-came-up` (heard): "I'll admit I watched your face when {said} came up." — variants-differ-in-what-they-say: Twin of P1-045 (watching the listener react).
 
-## As played
+### stance-is-plainly-for-or-against (31)
 
-- pass: `outline-talk.ask.talk-address-point-where-do-you-come-down-on` → **6.16**   says: The President says a higher federal minimum wage stays right where it is. If you ask me, he chose the right fight. Where do you come down on the minimum wage?
-- pass: `outline-talk.verdict-cold.talk-address-point-nothing-said-on-sat-right-with-me` → **3.17**   says: Nothing the President said on the minimum wage sat right with me. Spend a day in Bethel and you'd see the problem.
-- pass: `outline-talk.why-first.talk-address-point-what-president-said-on-said-fits-the-way-place-actually-is` → **1.16**   says: What the President said on taxes on the rich fits the way Meadow actually is. And I think she has it right.
-- pass: `outline-talk.verdict-after.talk-address-point-that-s-why-i-m-behind-president-object-on-about` → **2.30**   says: I can only judge interest rates on loans by how Chipley has been going. That's why I'm behind the President on a cap on consumer loan interest.
-- pass: `outline-talk.why.talk-address-point-spend-a-day-in-place-and-you-d-see-the-problem` → **3.17**   says: Nothing the President said on the minimum wage sat right with me. Spend a day in Bethel and you'd see the problem.
-- pass: `outline-talk.why-first.talk-address-point-i-can-only-judge-said-by-how-place-has-been-going` → **2.30**   says: I can only judge interest rates on loans by how Chipley has been going. That's why I'm behind the President on a cap on consumer loan interest.
-- pass: `outline-talk.verdict.talk-address-point-if-you-ask-me-president-chose-the-right-fight` → **6.16**   says: The President says a higher federal minimum wage stays right where it is. If you ask me, he chose the right fight. Where do you come down on the minimum wage?
-- pass: `outline-talk.lead.talk-address-point-president-backs-about` → **1.12** I won't pretend everyone backs a higher top income tax rate. Meet the doubters halfway and listen to them.
-- pass: `conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on` → **2.25**   reply 2: Honestly, it bothers me more than I let on.
+- `outline-talk.lead.talk-address-point-sounds-like-is-going-to-push-said` (lead): "Sounds like {president} is going to push {said}." — stance-is-plainly-for-or-against: 'Push' plus a bare topic fill ('the retirement age', 'the air') never says what the President is pushing for, so the stand points at nothing named.
+- `outline-talk.lead.talk-address-point-so-is-dead-set-against-said` (lead): "So {president} is dead set against {said}." — stance-is-plainly-for-or-against: 'Dead set against' a topic name like 'rents' or 'the retirement age' does not say what the President opposes.
+- `outline-talk.lead.talk-address-point-wants-nothing-to-do-with-said` (lead): "{president} wants nothing to do with {said}." — stance-is-plainly-for-or-against: 'Wants nothing to do with' a topic fill leaves the President's actual position unnamed.
+- `outline-talk.lead.talk-address-point-is-all-in-on-said` (lead): "{president} is all in on {said}." — stance-is-plainly-for-or-against: 'All in on' a topic fill like 'the air' or 'rents' does not say what the President is for.
+- `outline-talk.lead.talk-address-point-came-right-out-for-said` (lead): "{president} came right out for {said}." — stance-is-plainly-for-or-against: 'Came right out for' a bare topic does not name the position, and it twins P1-081.
+- `outline-talk.lead.talk-address-point-came-out-against-said` (lead): "{president} came out against {said}." — stance-is-plainly-for-or-against: 'Came out against' a topic such as 'immigration' or 'the retirement age' leaves the actual stand unclear.
+- `outline-talk.verdict-cold.talk-address-point-good-on-for-saying-no-to-said` (verdict-cold): "Good on {president-object} for saying no to {said}." — stance-is-plainly-for-or-against: 'Saying no to' a topic fill does not say what was refused.
+- `outline-talk.verdict-cold.talk-address-point-is-wrong-to-fight-said` (verdict-cold): "{president} is wrong to fight {said}." — stance-is-plainly-for-or-against: 'Wrong to fight' a bare topic leaves unclear what the President is fighting.
+- `outline-talk.lead.talk-address-point-nobody-is-getting-out-of-said` (lead): "Nobody is getting {said} out of {president}." — stance-is-plainly-for-or-against: 'Nobody is getting {said} out of the President' is a quip that, with a topic fill, never says what the President refuses.
+- `outline-talk.lead.talk-address-point-said-no-to-flat-out-said` (lead): "{president} said no to {said}, flat out." — stance-is-plainly-for-or-against: 'Said no to {said}, flat out' with a topic fill names no actual position.
+- `outline-talk.lead.talk-address-point-you-catch-that-shut-the-door-on-said` (lead): "You catch that? {president} shut the door on {said}." — stance-is-plainly-for-or-against: 'Shut the door on' a topic fill is a stance that points at nothing named.
+- `outline-talk.verdict-cold.talk-address-point-is-after-and-i-m-glad-somebody-is-said` (verdict-cold): "{president} is after {said}, and I'm glad somebody is." — stance-is-plainly-for-or-against: 'Is after {said}' with a topic fill does not say what the President is after.
+- `outline-talk.lead.talk-address-point-president-came-out-in-favor-of-said` (lead): "{president} came out in favor of {said}." — stance-is-plainly-for-or-against: 'Came out in favor of' a topic fill names no position, and twins P1-018 and P1-101.
+- `outline-talk.lead.talk-address-point-president-said-yes-to-said` (lead): "{president} said yes to {said}." — stance-is-plainly-for-or-against: 'Said yes to the retirement age' does not say what the President said yes to.
+- `outline-talk.lead.talk-address-point-president-is-backing-said` (lead): "{president} is backing {said}." — stance-is-plainly-for-or-against: 'Is backing' a bare topic leaves the position unclear and twins P1-100.
+- `outline-talk.lead.talk-address-point-president-is-firmly-for-said` (lead): "{president} is firmly for {said}." — stance-is-plainly-for-or-against: 'Firmly for' a topic fill names no position; twin of the other for-leads.
+- `outline-talk.lead.talk-address-point-president-is-firmly-against-said` (lead): "{president} is firmly against {said}." — stance-is-plainly-for-or-against: 'Firmly against' a topic fill names no position; twin of P1-019.
+- `outline-talk.lead.talk-address-point-president-is-opposed-to-said` (lead): "{president} is opposed to {said}." — stance-is-plainly-for-or-against: 'Is opposed to' a topic fill names no position; twin of P1-019 and P1-087.
+- `outline-talk.lead.talk-address-point-president-backs-said` (lead): "{president} backs {said}." — stance-is-plainly-for-or-against: 'Backs' a topic fill names no position; twin of P1-083.
+- `outline-talk.lead.talk-address-point-president-spoke-in-favor-of-said` (lead): "{president} spoke in favor of {said}." — stance-is-plainly-for-or-against: 'Spoke in favor of' a topic fill names no position; twin of P1-081.
+- `outline-talk.lead.talk-address-point-president-argued-for-said` (lead): "{president} argued for {said}." — stance-is-plainly-for-or-against: 'Argued for' a topic fill names no position; twin of P1-103.
+- `outline-talk.lead.talk-address-point-president-made-the-case-for-said` (lead): "{president} made the case for {said}." — stance-is-plainly-for-or-against: 'Made the case for' a topic fill names no position; twin of P1-102.
+- `outline-talk.lead.talk-address-point-president-argued-against-said` (lead): "{president} argued against {said}." — stance-is-plainly-for-or-against: 'Argued against' a topic fill names no position; twin of P1-105 and P1-106.
+- `outline-talk.lead.talk-address-point-president-spoke-against-said` (lead): "{president} spoke against {said}." — stance-is-plainly-for-or-against: 'Spoke against' a topic fill names no position; twin of P1-104.
+- `outline-talk.lead.talk-address-point-president-made-the-case-against-said` (lead): "{president} made the case against {said}." — stance-is-plainly-for-or-against: 'Made the case against' a topic fill names no position; twin of P1-104.
+- `outline-talk.lead.talk-address-point-president-rejected-said` (lead): "{president} rejected {said}." — stance-is-plainly-for-or-against: 'Rejected the air' or 'rejected rents' says nothing a player can tie to a position.
+- `outline-talk.verdict.talk-address-point-that-s-a-no-from-me-on-said` (verdict): "That's a no from me on {said}." — stance-is-plainly-for-or-against: 'A no from me on the retirement age' does not say what the speaker is refusing.
+- `outline-talk.lead.talk-address-point-did-you-hear-president-come-out-for-said` (lead): "Did you hear {president} come out for {said}?" — stance-is-plainly-for-or-against: 'Come out for' a topic fill names no position.
+- `outline-talk.lead.talk-address-point-you-heard-president-back-said-right` (lead): "You heard {president} back {said}, right?" — stance-is-plainly-for-or-against: 'Back {said}' with a topic fill names no position.
+- `outline-talk.lead.talk-address-point-did-president-really-just-say-no-to-said` (lead): "Did {president} really just say no to {said}?" — stance-is-plainly-for-or-against: 'Say no to' a topic fill names no position.
+- `outline-talk.lead.talk-address-point-here-we-go-president-came-out-against-said` (lead): "Here we go: {president} came out against {said}." — stance-is-plainly-for-or-against: 'Came out against' a topic fill names no position, and 'Here we go:' is a tag.
+
+### AI-sounding (4)
+
+- `outline-talk.why-first.talk-address-point-what-president-said-on-said-fits-the-way-place-actually-is` (why-first): "What {president} said on {said} fits the way {place} actually is." — AI-sounding: 'Fits the way {place} actually is' is vague, composed phrasing with no concrete fact from the place.
+- `outline-talk.why-first.talk-address-point-what-president-said-on-said-isn-t-how-place-works` (why-first): "What {president} said on {said} isn't how {place} works." — AI-sounding: 'Isn't how {place} works' is vague and says no concrete fact; twin of P1-067's shape.
+- `outline-talk.lead.talk-address-point-president-sided-with-those-who-want-to-keep-said` (lead): "{president} sided with those who want to keep {said}." — AI-sounding: 'Sided with those who want to keep' is stiff and a twin of P1-089.
+- `outline-talk.verdict.talk-address-point-i-d-be-lying-if-i-said-president-had-me-on-said` (verdict): "I'd be lying if I said {president} had me on {said}." — AI-sounding: 'I'd be lying if I said...had me on' is a stock, composed phrasing and twins P1-134.
+
+### false for its facts (2)
+
+- `outline-talk.lead.talk-address-point-of-everything-picked-to-lead-with-said` (lead): "Of everything, {president} picked {said} to lead with." — false for its facts: Claims the President led with the topic, which its requirements (president-for) do not establish.
+- `outline-talk.lead.talk-address-point-out-of-the-whole-speech-gave-the-most-time` (lead): "Out of the whole speech, {president} gave {said} the most time." — false for its facts: Claims the topic got the most time in the speech, which its requirements do not record.
+
+### It. What is it? (2)
+
+- `outline-talk.verdict.talk-address-point-i-ve-been-waiting-for-somebody-to-say-that-said` (verdict): "I've been waiting for somebody to say that about {said}." — It. What is it?: 'Say that about {said}' points 'that' at the President's statement without saying what it was.
+- `outline-talk.ask.talk-address-point-would-you-say-the-same-about-said` (ask): "Would you say the same about {said}?" — It. What is it?: 'The same' points at nothing named.
+
+### no-filler (1)
+
+- `outline-talk.lead.talk-address-point-funny-i-never-expected-to-bring-up-at-all-said` (lead): "Funny, I never expected {president} to bring up {said} at all." — no-filler: 'Funny,' opener and an invented surprise with no record behind it; a quip with no referent.
+
+### no-pointing-at-the-unnamed (1)
+
+- `outline-talk.verdict.talk-address-point-hard-to-nod-along-when-president-talks-said-about-like-that` (verdict): "Hard to nod along when {president} talks about {said} like that." — no-pointing-at-the-unnamed: 'Like that' points at a way of talking the line never names.
+
+### quips that mean nothing (1)
+
+- `outline-talk.verdict.talk-address-point-president-and-i-agree-on-said-for-a-change` (verdict): "{president} and I agree on {said}, for a change." — quips that mean nothing: 'For a change' implies a history of disagreement no record holds.
+
+### line-fits-the-roles-in-its-situation (1)
+
+- `outline-talk.lead.talk-address-point-anyone-else-hear-president-on-said-or-was-it-just-me` (lead): "Anyone else hear {president} on {said}, or was it just me?" — line-fits-the-roles-in-its-situation: 'Or was it just me?' makes no sense to a housemate who watched the same address.
+
+### person-said-by-role-pronoun-or-relationship (1)
+
+- `outline-talk.lead.talk-address-point-you-d-think-president-would-skip-said-but-president-came-out-against-it` (lead): "You'd think {president} would skip {said}, but {president} came out against it." — person-said-by-role-pronoun-or-relationship: Says the President twice, ends on an unclear 'it', and claims an expectation with no record.
 
 ## Passing lines
 
-- `outline-talk.lead.talk-address-point-notice-how-fast-got-to`: "Notice how fast {president} got to {about}."
-- `outline-talk.lead.talk-address-point-of-everything-picked-to-lead-with`: "Of everything, {president} picked {about} to lead with."
-- `outline-talk.lead.talk-address-point-funny-i-never-expected-to-bring-up-at-all`: "Funny, I never expected {president} to bring up {about} at all."
-- `outline-talk.lead.talk-address-point-nobody-is-getting-out-of`: "Nobody is getting {about} out of {president}."
-- `outline-talk.lead.talk-address-point-said-no-to-flat-out`: "{president} said no to {about}, flat out."
-- `outline-talk.lead.talk-address-point-you-catch-that-shut-the-door-on`: "You catch that? {president} shut the door on {about}."
-- `outline-talk.lead.talk-address-point-if-gets-a-say-is-on-its-way-out`: "If {president} gets a say, {about} is on its way out."
-- `outline-talk.lead.talk-address-point-if-gets-a-say-are-on-their-way-out`: "If {president} gets a say, {about} are on their way out."
-- `outline-talk.lead.talk-address-point-out-of-the-whole-speech-gave-the-most-time`: "Out of the whole speech, {president} gave {said} the most time."
-- `outline-talk.verdict.talk-address-point-i-ve-been-waiting-for-somebody-to-say-that-about`: "I've been waiting for somebody to say that about {about}."
-- `outline-talk.verdict.talk-address-point-finally-somebody-who-sees-the-way-i-do`: "Finally, somebody who sees {about} the way I do."
-- `outline-talk.verdict.talk-address-point-i-can-t-get-behind-on`: "I can't get behind {president-object} on {about}."
-- `outline-talk.verdict.talk-address-point-can-sell-to-somebody-else`: "{president} can sell {about} to somebody else."
-- `outline-talk.verdict.talk-address-point-half-of-me-nods-along-with-and-half-of-me-doesn-t`: "Half of me nods along with {president-object}, and half of me doesn't."
-- `outline-talk.verdict-cold.talk-address-point-on-i-side-with`: "On {about}, I side with {president-object}."
-- `outline-talk.verdict-cold.talk-address-point-i-m-not-buying-what-said-on`: "I'm not buying what {president} said on {said}."
-- `outline-talk.why.talk-address-point-ask-anybody-at-and-they-d-tell-you-the-same`: "Ask anybody at {employer} and they'd tell you the same."
-- `outline-talk.ask.talk-address-point-where-do-you-come-down-on`: "Where do you come down on {said}?"
-- `outline-talk.heard.talk-address-point-you-were-listening-when-got-to-weren-t-you`: "You were listening when {president} got to {said}, weren't you?"
-- `outline-talk.heard.talk-address-point-i-saw-you-look-up-when-mentioned`: "I saw you look up when {president} mentioned {said}."
-- `outline-talk.heard.talk-address-point-caught-your-ear-right`: "{said} caught your ear, right?"
-- `outline-talk.verdict-cold.talk-address-point-is-after-and-i-m-glad-somebody-is`: "{president} is after {about}, and I'm glad somebody is."
-- `outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on`: "I like where {president} landed on {said}."
-- `outline-talk.verdict-cold.talk-address-point-is-where-loses-me`: "{said} is where {president} loses me."
-- `outline-talk.verdict-cold.talk-address-point-nothing-said-on-sat-right-with-me`: "Nothing {president} said on {said} sat right with me."
-- `outline-talk.verdict-cold.talk-address-point-i-haven-t-made-up-my-mind-on`: "I haven't made up my mind on {said}."
-- `outline-talk.why-first.talk-address-point-rent-in-was-on-my-mind-when-got-to`: "Rent in {place} was on my mind when {president} got to {said}."
-- `outline-talk.why-first.talk-address-point-work-is-thin-in-so-had-my-full-attention`: "Work is thin in {place}, so {said} had my full attention."
-- `outline-talk.verdict-after.talk-address-point-so-i-m-with`: "So I'm with {president-object}."
-- `outline-talk.verdict-after.talk-address-point-which-is-why-i-d-back-on`: "Which is why I'd back {president-object} on {about}."
-- `outline-talk.verdict-after.talk-address-point-didn-t-win-me-over-though`: "{president} didn't win me over, though."
-- `outline-talk.verdict-after.talk-address-point-i-m-still-sorting-out-where-i-land-on`: "I'm still sorting out where I land on {said}."
-- `outline-talk.verdict-after.talk-address-point-maybe-wins-me-over-but-not-tonight`: "Maybe {president-object} wins me over, but not tonight."
-- `outline-talk.ask.talk-address-point-tell-me-i-m-not-the-only-one-thinking-about`: "Tell me I'm not the only one thinking about {said}."
-- `outline-talk.lead.talk-address-point-about-got-a-flat-no-from-president`: "{about} got a flat no from {president}."
-- `outline-talk.lead.talk-address-point-president-called-about-a-mistake-and-said-it-should-end`: "{president} called {about} a mistake and said it should end."
-- `outline-talk.verdict.talk-address-point-i-d-have-said-the-same-if-i-were-president-object`: "I'd have said the same, if I were {president-object}."
-- `outline-talk.verdict.talk-address-point-for-once-i-agree-with-president-object`: "For once, I agree with {president-object}."
-- `outline-talk.verdict.talk-address-point-i-don-t-always-like-what-president-says-but-that-was-fair`: "I don't always like what {president} says, but that was fair."
-- `outline-talk.verdict.talk-address-point-you-won-t-hear-me-complain-about-president-object-on-that`: "You won't hear me complain about {president-object} on that."
-- `outline-talk.verdict.talk-address-point-president-has-my-support-on-that-one`: "{president} has my support on that one."
-- `outline-talk.verdict.talk-address-point-on-about-i-m-right-there-with-president-object`: "On {about}, I'm right there with {president-object}."
-- `outline-talk.verdict.talk-address-point-president-lost-me-on-about`: "{president} lost me on {about}."
-- `outline-talk.verdict.talk-address-point-i-can-t-agree-with-president-object-on-that`: "I can't agree with {president-object} on that."
-- `outline-talk.verdict.talk-address-point-i-like-most-of-what-president-says-but-not-about`: "I like most of what {president} says, but not {about}."
-- `outline-talk.verdict.talk-address-point-i-m-sorry-but-president-is-wrong-on-about`: "I'm sorry, but {president} is wrong on {about}."
-- `outline-talk.verdict.talk-address-point-i-d-push-back-on-president-object-about-about`: "I'd push back on {president-object} about {about}."
-- `outline-talk.verdict.talk-address-point-hard-to-nod-along-when-president-talks-about-about-like-that`: "Hard to nod along when {president} talks about {about} like that."
-- `outline-talk.verdict-cold.talk-address-point-where-president-won-me-over-was-said`: "Where {president} won me over was {said}."
-- `outline-talk.verdict-cold.talk-address-point-i-m-with-president-object-all-the-way-on-said`: "I'm with {president-object} all the way on {said}."
-- `outline-talk.verdict-cold.talk-address-point-i-m-not-with-president-object-on-said`: "I'm not with {president-object} on {said}."
-- `outline-talk.verdict-cold.talk-address-point-president-got-said-wrong-as-i-see-it`: "{president} got {said} wrong, as I see it."
-- `outline-talk.why-first.talk-address-point-what-president-said-on-said-fits-the-way-place-actually-is`: "What {president} said on {said} fits the way {place} actually is."
-- `outline-talk.why-first.talk-address-point-what-president-said-on-said-isn-t-how-place-works`: "What {president} said on {said} isn't how {place} works."
-- `outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place`: "I made up my mind about {said} just from looking around {place}."
-- `outline-talk.why-first.talk-address-point-place-has-too-few-jobs-so-i-listened-close-to-said`: "{place} has too few jobs, so I listened close to {said}."
-- `outline-talk.verdict-after.talk-address-point-that-s-why-i-m-behind-president-object-on-about`: "That's why I'm behind {president-object} on {about}."
-- `outline-talk.verdict-after.talk-address-point-that-puts-me-on-president-s-side`: "That puts me on {president}'s side."
-- `outline-talk.verdict-after.talk-address-point-hard-to-argue-with-president-object-after-that`: "Hard to argue with {president-object} after that."
-- `outline-talk.verdict-after.talk-address-point-that-s-why-i-can-t-back-president-object-on-about`: "That's why I can't back {president-object} on {about}."
-- `outline-talk.verdict-after.talk-address-point-president-hasn-t-settled-it-for-me-yet`: "{president} hasn't settled it for me yet."
-- `outline-talk.why.talk-address-point-look-around-place-and-tell-me-it-s-wrong`: "Look around {place} and tell me it's wrong."
-- `outline-talk.why.talk-address-point-folks-in-place-would-back-it-i-think`: "Folks in {place} would back it, I think."
-- `outline-talk.why.talk-address-point-spend-a-day-in-place-and-you-d-see-it-too`: "Spend a day in {place} and you'd see it too."
-- `outline-talk.why.talk-address-point-look-around-place-and-tell-me-it-s-right`: "Look around {place} and tell me it's right."
-- `outline-talk.why.talk-address-point-folks-in-place-wouldn-t-stand-for-it-i-think`: "Folks in {place} wouldn't stand for it, I think."
-- `outline-talk.why.talk-address-point-spend-a-day-in-place-and-you-d-see-the-problem`: "Spend a day in {place} and you'd see the problem."
-- `outline-talk.why.talk-address-point-money-is-the-first-thing-i-think-about-and-place-isn-t-cheap`: "Money is the first thing I think about, and {place} isn't cheap."
-- `outline-talk.verdict.talk-address-point-credit-to-president-object-that-took-some-nerve`: "Credit to {president-object}: that took some nerve."
-- `outline-talk.verdict.talk-address-point-i-ll-give-president-object-that-one-without-arguing`: "I'll give {president-object} that one without arguing."
-- `outline-talk.verdict.talk-address-point-that-sounded-like-president-meant-it-and-i-m-with-president-object`: "That sounded like {president} meant it, and I'm with {president-object}."
-- `outline-talk.verdict.talk-address-point-somebody-had-to-say-it-and-president-said-it-well`: "Somebody had to say it, and {president} said it well."
-- `outline-talk.verdict.talk-address-point-what-president-wants-and-what-i-want-are-two-different-things`: "What {president} wants and what I want are two different things."
-- `outline-talk.why-first.talk-address-point-i-can-only-judge-said-by-how-place-has-been-going`: "I can only judge {said} by how {place} has been going."
-- `outline-talk.why-first.talk-address-point-when-president-got-to-said-i-thought-about-the-people-i-know-in-place`: "When {president} got to {said}, I thought about the people I know in {place}."
-- `outline-talk.why.talk-address-point-i-m-thinking-about-the-people-here-in-place-mostly`: "I'm thinking about the people here in {place}, mostly."
-- `outline-talk.why.talk-address-point-it-comes-down-to-what-i-see-in-place-every-day`: "It comes down to what I see in {place} every day."
-- `outline-talk.why.talk-address-point-that-s-how-it-looks-from-place-anyway`: "That's how it looks from {place}, anyway."
-- `outline-talk.why.talk-address-point-i-d-say-it-differently-if-i-lived-anywhere-but-place`: "I'd say it differently if I lived anywhere but {place}."
-- `outline-talk.why.talk-address-point-ask-around-place-you-ll-hear-it-too`: "Ask around {place}. You'll hear it too."
-- `outline-talk.ask.talk-address-point-what-did-you-make-of-said`: "What did you make of {said}?"
-- `outline-talk.ask.talk-address-point-how-did-said-sit-with-you`: "How did {said} sit with you?"
-- `outline-talk.ask.talk-address-point-did-president-lose-you-anywhere-on-said`: "Did {president} lose you anywhere on {said}?"
-- `outline-talk.verdict.talk-address-point-if-president-keeps-talking-like-that-i-m-in`: "If {president} keeps talking like that, I'm in."
-- `outline-talk.verdict.talk-address-point-i-m-relieved-president-said-it-honestly`: "I'm relieved {president} said it, honestly."
-- `outline-talk.verdict.talk-address-point-put-me-down-as-agreeing-with-president-object`: "Put me down as agreeing with {president-object}."
-- `outline-talk.verdict.talk-address-point-if-you-ask-me-president-chose-the-right-fight`: "If you ask me, {president} chose the right fight."
-- `outline-talk.verdict.talk-address-point-that-s-not-how-i-d-have-put-it-but-president-is-right`: "That's not how I'd have put it, but {president} is right."
-- `outline-talk.verdict.talk-address-point-i-heard-president-out-and-it-doesn-t-change-my-mind`: "I heard {president} out, and it doesn't change my mind."
-- `outline-talk.verdict.talk-address-point-the-other-side-has-the-better-argument-and-president-knows-it`: "The other side has the better argument, and {president} knows it."
-- `outline-talk.lead.talk-address-point-president-came-out-in-favor-of-about`: "{president} came out in favor of {about}."
-- `outline-talk.lead.talk-address-point-president-said-yes-to-about`: "{president} said yes to {about}."
-- `outline-talk.lead.talk-address-point-president-is-backing-about`: "{president} is backing {about}."
-- `outline-talk.lead.talk-address-point-president-is-firmly-for-about`: "{president} is firmly for {about}."
-- `outline-talk.lead.talk-address-point-president-is-firmly-against-about`: "{president} is firmly against {about}."
-- `outline-talk.lead.talk-address-point-president-is-opposed-to-about`: "{president} is opposed to {about}."
-- `outline-talk.lead.talk-address-point-president-wants-to-keep-about`: "{president} wants to keep {about}."
-- `outline-talk.lead.talk-address-point-president-wants-to-end-about`: "{president} wants to end {about}."
-- `outline-talk.lead.talk-address-point-president-wants-to-roll-back-about`: "{president} wants to roll back {about}."
-- `outline-talk.lead.talk-address-point-president-wants-to-protect-about`: "{president} wants to protect {about}."
-- `outline-talk.lead.talk-address-point-president-is-defending-about`: "{president} is defending {about}."
-- `outline-talk.lead.talk-address-point-president-sided-with-those-who-want-to-keep-about`: "{president} sided with those who want to keep {about}."
-- `outline-talk.lead.talk-address-point-president-plans-to-stand-behind-about`: "{president} plans to stand behind {about}."
-- `outline-talk.lead.talk-address-point-president-made-a-point-of-backing-about`: "{president} made a point of backing {about}."
-- `outline-talk.lead.talk-address-point-president-wants-to-repeal-about`: "{president} wants to repeal {about}."
-- `outline-talk.lead.talk-address-point-president-wants-to-put-an-end-to-about`: "{president} wants to put an end to {about}."
-- `outline-talk.lead.talk-address-point-president-made-a-point-of-attacking-about`: "{president} made a point of attacking {about}."
-- `outline-talk.lead.talk-address-point-president-backs-about`: "{president} backs {about}."
-- `outline-talk.lead.talk-address-point-president-spoke-in-favor-of-about`: "{president} spoke in favor of {about}."
-- `outline-talk.lead.talk-address-point-president-argued-for-about`: "{president} argued for {about}."
-- `outline-talk.lead.talk-address-point-president-made-the-case-for-about`: "{president} made the case for {about}."
-- `outline-talk.lead.talk-address-point-president-argued-against-about`: "{president} argued against {about}."
-- `outline-talk.lead.talk-address-point-president-spoke-against-about`: "{president} spoke against {about}."
-- `outline-talk.lead.talk-address-point-president-made-the-case-against-about`: "{president} made the case against {about}."
-- `outline-talk.lead.talk-address-point-president-rejected-about`: "{president} rejected {about}."
-- `outline-talk.verdict.talk-address-point-no-i-disagree-with-president-object-there`: "No. I disagree with {president-object} there."
-- `outline-talk.verdict.talk-address-point-i-d-say-president-has-that-wrong`: "I'd say {president} has that wrong."
-- `outline-talk.verdict.talk-address-point-i-think-president-is-making-a-mistake-on-about`: "I think {president} is making a mistake on {about}."
-- `outline-talk.verdict.talk-address-point-on-about-president-and-i-are-far-apart`: "On {about}, {president} and I are far apart."
-- `outline-talk.verdict.talk-address-point-i-m-against-what-president-said-on-about`: "I'm against what {president} said on {about}."
-- `outline-talk.verdict.talk-address-point-president-says-one-thing-and-i-believe-the-opposite`: "{president} says one thing, and I believe the opposite."
-- `outline-talk.verdict.talk-address-point-i-wish-president-saw-about-the-way-i-do`: "I wish {president} saw {about} the way I do."
-- `outline-talk.verdict.talk-address-point-i-m-not-convinced-by-president-object-at-all`: "I'm not convinced by {president-object} at all."
-- `outline-talk.verdict.talk-address-point-president-made-the-case-and-i-m-still-not-buying-it`: "{president} made the case, and I'm still not buying it."
-- `outline-talk.verdict.talk-address-point-i-can-t-stand-behind-president-object-on-about`: "I can't stand behind {president-object} on {about}."
-- `outline-talk.verdict.talk-address-point-that-s-a-no-from-me-on-about`: "That's a no from me on {about}."
-- `outline-talk.verdict.talk-address-point-president-sounded-sure-and-i-still-say-no`: "{president} sounded sure, and I still say no."
-- `outline-talk.verdict.talk-address-point-i-ll-give-president-object-credit-for-trying-but-i-disagree`: "I'll give {president-object} credit for trying, but I disagree."
-- `outline-talk.verdict.talk-address-point-i-side-with-president-object-on-about`: "I side with {president-object} on {about}."
-- `outline-talk.verdict.talk-address-point-i-m-glad-president-came-down-where-i-did-on-about`: "I'm glad {president} came down where I did on {about}."
-- `outline-talk.verdict.talk-address-point-president-and-i-agree-on-about-for-a-change`: "{president} and I agree on {about}, for a change."
-- `outline-talk.verdict.talk-address-point-that-s-where-i-stand-too-and-i-m-glad-president-said-it`: "That's where I stand too, and I'm glad {president} said it."
-- `outline-talk.verdict.talk-address-point-i-trust-president-object-on-that-one`: "I trust {president-object} on that one."
-- `outline-talk.ask.talk-address-point-did-you-catch-what-president-said-on-said`: "Did you catch what {president} said on {said}?"
-- `outline-talk.ask.talk-address-point-what-was-your-take-on-said`: "What was your take on {said}?"
-- `outline-talk.ask.talk-address-point-would-you-say-the-same-about-said`: "Would you say the same about {said}?"
-- `outline-talk.ask.talk-address-point-how-do-you-feel-about-what-president-said-on-said`: "How do you feel about what {president} said on {said}?"
-- `outline-talk.ask.talk-address-point-anything-president-said-on-said-change-your-mind`: "Anything {president} said on {said} change your mind?"
-- `outline-talk.lead.talk-address-point-did-you-hear-president-come-out-for-about`: "Did you hear {president} come out for {about}?"
-- `outline-talk.lead.talk-address-point-you-heard-president-back-about-right`: "You heard {president} back {about}, right?"
-- `outline-talk.lead.talk-address-point-did-president-really-just-say-no-to-about`: "Did {president} really just say no to {about}?"
-- `outline-talk.lead.talk-address-point-anyone-else-hear-president-on-about-or-was-it-just-me`: "Anyone else hear {president} on {about}, or was it just me?"
-- `outline-talk.lead.talk-address-point-you-listened-to-president-on-said-didn-t-you`: "You listened to {president} on {said}, didn't you?"
-- `outline-talk.lead.talk-address-point-here-we-go-president-came-out-against-about`: "Here we go: {president} came out against {about}."
-- `outline-talk.lead.talk-address-point-there-it-is-president-wants-to-keep-about`: "There it is: {president} wants to keep {about}."
-- `outline-talk.lead.talk-address-point-you-d-think-president-would-skip-about-but-president-came-out-against-it`: "You'd think {president} would skip {about}, but {president} came out against it."
-- `outline-talk.verdict.talk-address-point-you-know-where-i-stand-with-president-object-on-that`: "You know where I stand: with {president-object} on that."
-- `outline-talk.verdict.talk-address-point-here-s-where-president-and-i-split-about`: "Here's where {president} and I split: {about}."
-- `outline-talk.verdict.talk-address-point-i-can-t-pretend-to-like-what-president-said-on-about`: "I can't pretend to like what {president} said on {about}."
-- `outline-talk.verdict.talk-address-point-i-d-be-lying-if-i-said-president-had-me-on-about`: "I'd be lying if I said {president} had me on {about}."
-- `outline-talk.verdict.talk-address-point-i-d-hoped-for-something-different-from-president-object-on-about`: "I'd hoped for something different from {president-object} on {about}."
-- `outline-talk.ask.talk-address-point-do-you-mind-talking-about-said-or-should-i-drop-it`: "Do you mind talking about {said}, or should I drop it?"
-- `outline-talk.ask.talk-address-point-tell-me-if-i-m-pushing-i-only-want-to-know-where-you-land-on-said`: "Tell me if I'm pushing. I only want to know where you land on {said}."
-- `outline-talk.verdict-after.talk-address-point-you-can-disagree-with-me-about-about-and-we-ll-still-eat-supper`: "You can disagree with me about {about}, and we'll still eat supper."
-- `outline-talk.verdict-after.talk-address-point-i-won-t-bring-up-about-again-if-it-bothers-you`: "I won't bring up {about} again if it bothers you."
-- `outline-talk.verdict-after.talk-address-point-we-don-t-have-to-settle-about-to-get-through-supper`: "We don't have to settle {about} to get through supper."
-- `outline-talk.verdict-after.talk-address-point-say-what-you-think-about-about-i-d-rather-hear-it-than-guess`: "Say what you think about {about}. I'd rather hear it than guess."
-- `outline-talk.why-first.talk-address-point-before-president-even-got-to-said-i-was-thinking-about-place`: "Before {president} even got to {said}, I was thinking about {place}."
-- `outline-talk.why.talk-address-point-it-s-what-i-see-out-the-window-in-place-that-s-all`: "It's what I see out the window in {place}, that's all."
-- `outline-talk.heard.talk-address-point-i-ll-admit-i-watched-your-face-when-said-came-up`: "I'll admit I watched your face when {said} came up."
-- `outline-talk.heard.talk-address-point-neither-of-us-missed-said-did-we`: "Neither of us missed {said}, did we?"
-- `conversation.own-view-answer-disagree.i-ve-gone-back-and-forth-on-myself`: "I've gone back and forth on {about} myself."
-- `conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on`: "Honestly, {about} bothers me more than I let on."
-- `conversation.own-view-answer-agree.maybe-i-ve-been-too-quick-on`: "Maybe I've been too quick on {about}."
-- `conversation.own-view-answer-agree.i-hadn-t-looked-at-that-way-before`: "I hadn't looked at {about} that way before."
-- `conversation.own-view-answer-disagree.i-m-on-the-other-side-of`: "I'm on the other side of {about}."
-- `conversation.own-view-answer-agree.we-see-eye-to-eye-on`: "We see eye to eye on {about}."
-- `conversation.own-view-answer-agree.i-d-have-said-the-same-about`: "I'd have said the same about {about}."
-- `conversation.own-view-answer-private.we-don-t-need-to-get-into`: "We don't need to get into {about}."
-- `conversation.own-view-answer-why.what-got-you-there-on`: "What got you there on {about}?"
-- `conversation.own-view-take-core.agree-then-that-s-two-of-us-on-about`: "Then that's two of us on {about}."
-- `conversation.own-view-take-core.agree-good-i-wasn-t-sure-anyone-else-saw-about-that-way`: "Good. I wasn't sure anyone else saw {about} that way."
-- `conversation.own-view-take-core.agree-then-we-can-stop-dancing-around-about`: "Then we can stop dancing around {about}."
-- `conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about`: "I figured you'd say that about {about}."
-- `conversation.own-view-take-core.agree-then-we-re-on-the-same-side-of-about-at-least`: "Then we're on the same side of {about}, at least."
-- `conversation.own-view-take-core.agree-funny-i-thought-you-d-push-back-on-about`: "Funny. I thought you'd push back on {about}."
-- `conversation.own-view-take-core.disagree-fair-enough-we-don-t-have-to-agree-on-about`: "Fair enough. We don't have to agree on {about}."
-- `conversation.own-view-take-core.disagree-huh-i-didn-t-know-you-felt-that-way-about-about`: "Huh. I didn't know you felt that way about {about}."
-- `conversation.own-view-take-core.disagree-we-ll-never-settle-about-at-this-table`: "We'll never settle {about} at this table."
-- `conversation.own-view-take-core.disagree-i-ll-think-about-what-you-said-on-about`: "I'll think about what you said on {about}."
-- `conversation.own-view-take-core.disagree-then-i-guess-about-is-one-we-disagree-on`: "Then I guess {about} is one we disagree on."
+- `outline-talk.lead.talk-address-point-spent-a-good-while-on` (lead): "{president} spent a good while on {said}."
+- `outline-talk.heard.talk-address-point-you-heard-what-said-about` (heard): "You heard what {president} said about {said}."
+- `outline-talk.verdict-cold.talk-address-point-i-m-with-on` (verdict-cold): "I'm with {president-object} on {said}."
+- `outline-talk.verdict-cold.talk-address-point-has-wrong` (verdict-cold): "{president} has {said} wrong."
+- `outline-talk.verdict-cold.talk-address-point-i-can-t-tell-yet-where-i-am-on` (verdict-cold): "I can't tell yet where I am on {said}."
+- `outline-talk.why-first.talk-address-point-i-work-at-so-i-listened-when-got-to` (why-first): "I work at {employer}, so I listened when {president} got to {said}."
+- `outline-talk.why-first.talk-address-point-since-let-me-go-i-listened-hard-when-got-to` (why-first): "Since {employer} let me go, I listened hard when {president} got to {said}."
+- `outline-talk.why-first.talk-address-point-money-s-tight-here-so-i-listened-when-got-to` (why-first): "Money's tight here, so I listened when {president} got to {said}."
+- `outline-talk.ask.talk-address-point-where-are-you-on` (ask): "Where are you on {said}?"
+- `outline-talk.verdict-cold.talk-address-point-ask-me-about-again-in-a-month` (verdict-cold): "Ask me about {said} again in a month."
+- `outline-talk.verdict.talk-address-point-good-i-d-hate-to-lose-said` (verdict): "Good. I'd hate to lose {said}."
+- `outline-talk.lead.talk-address-point-notice-how-fast-got-to-said` (lead): "Notice how fast {president} got to {said}."
+- `outline-talk.verdict.talk-address-point-finally-somebody-who-sees-the-way-i-do-said` (verdict): "Finally, somebody who sees {said} the way I do."
+- `outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said` (verdict): "I can't get behind {president-object} on {said}."
+- `outline-talk.verdict.talk-address-point-can-sell-to-somebody-else-said` (verdict): "{president} can sell {said} to somebody else."
+- `outline-talk.verdict-cold.talk-address-point-i-m-not-buying-what-said-on` (verdict-cold): "I'm not buying what {president} said on {said}."
+- `outline-talk.heard.talk-address-point-you-were-listening-when-got-to-weren-t-you` (heard): "You were listening when {president} got to {said}, weren't you?"
+- `outline-talk.heard.talk-address-point-i-saw-you-look-up-when-mentioned` (heard): "I saw you look up when {president} mentioned {said}."
+- `outline-talk.heard.talk-address-point-caught-your-ear-right` (heard): "{said} caught your ear, right?"
+- `outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on` (verdict-cold): "I like where {president} landed on {said}."
+- `outline-talk.verdict-cold.talk-address-point-is-where-loses-me` (verdict-cold): "{said} is where {president} loses me."
+- `outline-talk.why-first.talk-address-point-rent-in-was-on-my-mind-when-got-to` (why-first): "Rent in {place} was on my mind when {president} got to {said}."
+- `outline-talk.why-first.talk-address-point-work-is-thin-in-so-had-my-full-attention` (why-first): "Work is thin in {place}, so {said} had my full attention."
+- `outline-talk.verdict-after.talk-address-point-which-is-why-i-d-back-on-said` (verdict-after): "Which is why I'd back {president-object} on {said}."
+- `outline-talk.verdict-after.talk-address-point-i-m-still-sorting-out-where-i-land-on` (verdict-after): "I'm still sorting out where I land on {said}."
+- `outline-talk.ask.talk-address-point-tell-me-i-m-not-the-only-one-thinking-about` (ask): "Tell me I'm not the only one thinking about {said}."
+- `outline-talk.lead.talk-address-point-president-called-said-a-mistake-and-said-it-should-end` (lead): "{president} called {said} a mistake and said it should end."
+- `outline-talk.verdict.talk-address-point-president-lost-me-on-said` (verdict): "{president} lost me on {said}."
+- `outline-talk.verdict.talk-address-point-i-like-most-of-what-president-says-but-not-said` (verdict): "I like most of what {president} says, but not {said}."
+- `outline-talk.verdict-cold.talk-address-point-where-president-won-me-over-was-said` (verdict-cold): "Where {president} won me over was {said}."
+- `outline-talk.verdict-cold.talk-address-point-i-m-not-with-president-object-on-said` (verdict-cold): "I'm not with {president-object} on {said}."
+- `outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place` (why-first): "I made up my mind about {said} just from looking around {place}."
+- `outline-talk.verdict-after.talk-address-point-that-s-why-i-can-t-back-president-object-on-said` (verdict-after): "That's why I can't back {president-object} on {said}."
+- `outline-talk.why-first.talk-address-point-when-president-got-to-said-i-thought-about-the-people-i-know-in-place` (why-first): "When {president} got to {said}, I thought about the people I know in {place}."
+- `outline-talk.ask.talk-address-point-what-did-you-make-of-said` (ask): "What did you make of {said}?"
+- `outline-talk.ask.talk-address-point-did-president-lose-you-anywhere-on-said` (ask): "Did {president} lose you anywhere on {said}?"
+- `outline-talk.lead.talk-address-point-president-wants-to-keep-said` (lead): "{president} wants to keep {said}."
+- `outline-talk.lead.talk-address-point-president-wants-to-roll-back-said` (lead): "{president} wants to roll back {said}."
+- `outline-talk.lead.talk-address-point-president-is-defending-said` (lead): "{president} is defending {said}."
+- `outline-talk.lead.talk-address-point-president-wants-to-repeal-said` (lead): "{president} wants to repeal {said}."
+- `outline-talk.verdict.talk-address-point-i-think-president-is-making-a-mistake-on-said` (verdict): "I think {president} is making a mistake on {said}."
+- `outline-talk.verdict.talk-address-point-on-said-president-and-i-are-far-apart` (verdict): "On {said}, {president} and I are far apart."
+- `outline-talk.verdict.talk-address-point-i-wish-president-saw-said-the-way-i-do` (verdict): "I wish {president} saw {said} the way I do."
+- `outline-talk.verdict.talk-address-point-i-side-with-president-object-on-said` (verdict): "I side with {president-object} on {said}."
+- `outline-talk.verdict.talk-address-point-i-m-glad-president-came-down-where-i-did-on-said` (verdict): "I'm glad {president} came down where I did on {said}."
+- `outline-talk.ask.talk-address-point-did-you-catch-what-president-said-on-said` (ask): "Did you catch what {president} said on {said}?"
+- `outline-talk.ask.talk-address-point-anything-president-said-on-said-change-your-mind` (ask): "Anything {president} said on {said} change your mind?"
+- `outline-talk.verdict.talk-address-point-i-can-t-pretend-to-like-what-president-said-on-said` (verdict): "I can't pretend to like what {president} said on {said}."
+- `outline-talk.verdict.talk-address-point-i-d-hoped-for-something-different-from-president-object-on-said` (verdict): "I'd hoped for something different from {president-object} on {said}."
+- `outline-talk.ask.talk-address-point-do-you-mind-talking-about-said-or-should-i-drop-it` (ask): "Do you mind talking about {said}, or should I drop it?"
+- `outline-talk.verdict-after.talk-address-point-you-can-disagree-with-me-said-about-and-we-ll-still-eat-supper` (verdict-after): "You can disagree with me about {said}, and we'll still eat supper."
+- `outline-talk.verdict-after.talk-address-point-i-won-t-bring-up-said-again-if-it-bothers-you` (verdict-after): "I won't bring up {said} again if it bothers you."
+- `outline-talk.verdict-after.talk-address-point-say-what-you-think-said-about-i-d-rather-hear-it-than-guess` (verdict-after): "Say what you think about {said}. I'd rather hear it than guess."
+- `outline-talk.heard.talk-address-point-neither-of-us-missed-said-did-we` (heard): "Neither of us missed {said}, did we?"
