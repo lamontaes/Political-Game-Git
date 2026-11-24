@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{worker}",
-    "{colleague}",
-    "{convention}"
-  ],
-  "gates": [
-    "The campaign has designated a contact desk."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{worker}", "{colleague}", "{convention}"],
+  "gates": ["The campaign has designated a contact desk."],
   "weights": [],
   "usedBy": []
 }

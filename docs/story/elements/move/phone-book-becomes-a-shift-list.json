@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{supervisor}",
-    "{volunteer}",
-    "{county}"
-  ],
-  "gates": [
-    "A telephone directory is available to campaign volunteers."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{supervisor}", "{volunteer}", "{county}"],
+  "gates": ["A telephone directory is available to campaign volunteers."],
   "weights": [],
   "usedBy": []
 }

@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{worker}",
-    "{party}",
-    "{roster}"
-  ],
-  "gates": [
-    "A returning worker expected a place on the roster."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{worker}", "{party}", "{roster}"],
+  "gates": ["A returning worker expected a place on the roster."],
   "weights": [],
   "usedBy": []
 }

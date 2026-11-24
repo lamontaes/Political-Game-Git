@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{volunteer}",
-    "{publication}",
-    "{county}"
-  ],
-  "gates": [
-    "The campaign has copies available to distribute."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{volunteer}", "{publication}", "{county}"],
+  "gates": ["The campaign has copies available to distribute."],
   "weights": [],
   "usedBy": []
 }

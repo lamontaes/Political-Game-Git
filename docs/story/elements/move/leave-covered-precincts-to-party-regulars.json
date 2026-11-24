@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{organizer}",
-    "{precinct}",
-    "{party}"
-  ],
-  "gates": [
-    "A party organization and volunteer operation share territory."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{organizer}", "{precinct}", "{party}"],
+  "gates": ["A party organization and volunteer operation share territory."],
   "weights": [],
   "usedBy": []
 }

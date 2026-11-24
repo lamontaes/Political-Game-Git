@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{organizer}",
-    "{opponent}",
-    "{organization}"
-  ],
-  "gates": [
-    "The opponent has an established record with the organization."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{organizer}", "{opponent}", "{organization}"],
+  "gates": ["The opponent has an established record with the organization."],
   "weights": [],
   "usedBy": []
 }

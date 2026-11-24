@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{organizer}",
-    "{volunteers}",
-    "{county}"
-  ],
-  "gates": [
-    "The organizer witnessed the campaign’s beginnings."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{organizer}", "{volunteers}", "{county}"],
+  "gates": ["The organizer witnessed the campaign’s beginnings."],
   "weights": [],
   "usedBy": []
 }

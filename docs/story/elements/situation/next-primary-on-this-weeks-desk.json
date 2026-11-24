@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{scheduler}",
-    "{primary}",
-    "{next_primary}"
-  ],
-  "gates": [
-    "The election calendar overlaps campaign assignments."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{scheduler}", "{primary}", "{next_primary}"],
+  "gates": ["The election calendar overlaps campaign assignments."],
   "weights": [],
   "usedBy": []
 }

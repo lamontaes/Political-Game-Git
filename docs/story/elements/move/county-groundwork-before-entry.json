@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{organizer}",
-    "{county}",
-    "{candidate}"
-  ],
-  "gates": [
-    "Entry into the primary is under consideration."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{organizer}", "{county}", "{candidate}"],
+  "gates": ["Entry into the primary is under consideration."],
   "weights": [],
   "usedBy": []
 }

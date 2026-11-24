@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{worker}",
-    "{union}",
-    "{county}"
-  ],
-  "gates": [
-    "The worker belongs to a union and holds a campaign role."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{worker}", "{union}", "{county}"],
+  "gates": ["The worker belongs to a union and holds a campaign role."],
   "weights": [],
   "usedBy": []
 }

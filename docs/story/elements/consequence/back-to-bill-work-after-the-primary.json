@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "office",
-    "home"
-  ],
-  "slots": [
-    "{staffer}",
-    "{chamber}",
-    "{bill}"
-  ],
-  "gates": [
-    "The staffer has a legislative job to return to."
-  ],
+  "fits": ["journal", "news", "speeches", "office", "home"],
+  "slots": ["{staffer}", "{chamber}", "{bill}"],
+  "gates": ["The staffer has a legislative job to return to."],
   "weights": [],
   "usedBy": []
 }

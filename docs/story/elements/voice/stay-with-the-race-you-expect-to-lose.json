@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{organizer}",
-    "{candidate}",
-    "{primary}"
-  ],
-  "gates": [
-    "The organizer privately expects defeat."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{organizer}", "{candidate}", "{primary}"],
+  "gates": ["The organizer privately expects defeat."],
   "weights": [],
   "usedBy": []
 }

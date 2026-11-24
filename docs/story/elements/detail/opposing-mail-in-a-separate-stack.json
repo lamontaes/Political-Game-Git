@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "office",
-    "home"
-  ],
-  "slots": [
-    "{member}",
-    "{staffer}",
-    "{bill}"
-  ],
-  "gates": [
-    "Constituent letters have been sorted by position."
-  ],
+  "fits": ["journal", "news", "speeches", "office", "home"],
+  "slots": ["{member}", "{staffer}", "{bill}"],
+  "gates": ["Constituent letters have been sorted by position."],
   "weights": [],
   "usedBy": []
 }

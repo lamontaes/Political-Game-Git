@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{organizer}",
-    "{candidate}",
-    "{place}"
-  ],
-  "gates": [
-    "The candidate has appeared in the same area before."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{organizer}", "{candidate}", "{place}"],
+  "gates": ["The candidate has appeared in the same area before."],
   "weights": [],
   "usedBy": []
 }

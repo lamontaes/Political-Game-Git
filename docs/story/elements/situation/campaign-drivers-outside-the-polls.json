@@ -6,21 +6,9 @@
   "sources": [
     "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
   ],
-  "fits": [
-    "journal",
-    "news",
-    "speeches",
-    "campaign",
-    "work-community"
-  ],
-  "slots": [
-    "{driver}",
-    "{worker}",
-    "{polling_place}"
-  ],
-  "gates": [
-    "Election-day party work is permitted and scheduled."
-  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{driver}", "{worker}", "{polling_place}"],
+  "gates": ["Election-day party work is permitted and scheduled."],
   "weights": [],
   "usedBy": []
 }
