@@ -25,5 +25,6 @@
       "pulledBy": "The bill text changes after the evening discussion.",
       "writesBack": "The morning notes replace the answer on that clause."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

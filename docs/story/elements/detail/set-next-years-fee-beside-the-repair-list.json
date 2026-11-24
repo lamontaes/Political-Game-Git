@@ -1,0 +1,32 @@
+{
+  "id": "set-next-years-fee-beside-the-repair-list",
+  "kind": "detail",
+  "summary": "{director} lays the course maintenance schedule beside the proposed fee receipts.",
+  "realLife": "Portland asked parks staff to identify major maintenance needs over the next decade when reporting on the golf fund and its fees.",
+  "sources": [
+    "https://www.portland.gov/budget/2025-2026-budget/documents/fy-25-26-adopted-budget-amendment-full-list-changes-updated-june/download#page=66"
+  ],
+  "fits": ["office", "news", "journal", "campaign", "speeches"],
+  "slots": ["{director}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation", "budget:parks"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a dated maintenance estimate and receipts at each proposed fee level.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "The increase would cover only the first repair.",
+      "what": "The director identifies which work could proceed.",
+      "writesBack": "The capital forecast leaves the later jobs outstanding."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "The council reduces prices but wants the same work done.",
+      "what": "The director prices the missing contribution.",
+      "writesBack": "The hearing record names the unfunded repair."
+    }
+  ]
+}

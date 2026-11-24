@@ -27,5 +27,6 @@
       "pulledBy": "Interpretation covers the presentation but ends before questions.",
       "writesBack": "The meeting record includes a pending list for translated answers."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

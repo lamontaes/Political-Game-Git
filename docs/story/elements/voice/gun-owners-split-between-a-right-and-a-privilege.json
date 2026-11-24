@@ -1,0 +1,48 @@
+{
+  "id": "gun-owners-split-between-a-right-and-a-privilege",
+  "kind": "voice",
+  "summary": "People who own guns disagree among themselves, one calling it a right that must not change and another a privilege that can be licensed.",
+  "realLife": "In interviews with gun owners after a school shooting, one said the right to bear arms should never change and that armed teachers would deter attackers. Another said school shootings are rare and the attacks are unstoppable. A third called ownership a privilege and would accept age limits, checks and a driver-style test, while doubting they would work at scale. A fourth wanted vetting for AR-15-style rifles and national standards. Three of the five doubted new laws would stop attacks.",
+  "sources": [
+    "https://www.michiganpublic.org/2022-05-28/what-some-gun-owners-are-saying-in-the-wake-of-americas-latest-mass-shooting (NPR piece of five gun owners, via a member station)"
+  ],
+  "fits": ["home"],
+  "slots": ["{the speaker}", "{the listener}", "{the rule}"],
+  "gates": [
+    "the speaker owns a gun",
+    "a shooting is in the news",
+    "the listener is a neighbor, relative or fellow owner"
+  ],
+  "weights": [
+    "whether the speaker has children in school",
+    "how the speaker came to own the gun",
+    "the speaker's trust of the police"
+  ],
+  "inGame": "reads the speaker's stand on carry permits, purchase age and storage with its reason, and the household's gun ownership; needs: ownership kept on a household record",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the owner accepts a check",
+      "what": "He says he would take a background check or a class.",
+      "pulledBy": "a shooting near his own town",
+      "writesBack": "his stand on a permit or age rule moves to yes with the event as the reason"
+    },
+    {
+      "turn": "the owner holds the line",
+      "what": "He says people will do harm if they want to.",
+      "pulledBy": "the shooting changes nothing in his own life",
+      "writesBack": "the stand stays the same; a record of the argument is kept"
+    },
+    {
+      "turn": "the parent asks the storage question",
+      "what": "He says guns in a home must be locked.",
+      "pulledBy": "a child in the home",
+      "writesBack": "the stand on storage rules moves to yes"
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:justice-public-safety.child-access-prevention",
+    "question:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+    "question:us-policy-positions:justice-public-safety.raise-handgun-purchase-age"
+  ]
+}

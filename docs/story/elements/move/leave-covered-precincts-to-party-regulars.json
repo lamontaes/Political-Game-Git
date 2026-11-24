@@ -25,5 +25,6 @@
       "pulledBy": "Each roster assumed the other office had claimed it.",
       "writesBack": "The next shift gets a new assignment with a named lead."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

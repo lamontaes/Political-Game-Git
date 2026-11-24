@@ -1,0 +1,28 @@
+{
+  "id": "give-part-of-your-turn-to-another-member",
+  "kind": "voice",
+  "summary": "A member uses some of their own speaking time to let a colleague make a case.",
+  "realLife": "During the King County Council endorsement debate, Art Chippendale spoke for a candidate and yielded part of his time to Chris Porter.",
+  "sources": ["https://34dems.org/2023-08-09-membership-meeting/"],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{member}", "{colleague}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the speaking order, remaining time and the person recognized to use it.",
+  "turns": [
+    {
+      "turn": "time-remains",
+      "what": "The colleague takes the microphone.",
+      "pulledBy": "The chair confirms that time remains on the original turn.",
+      "writesBack": "The shared turn ends at the original deadline."
+    },
+    {
+      "turn": "time-used",
+      "what": "The colleague asks for a separate turn.",
+      "pulledBy": "The original speaker has used the allotted time.",
+      "writesBack": "The chair uses the existing speaking list to decide when they can speak."
+    }
+  ]
+}

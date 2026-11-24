@@ -26,5 +26,6 @@
       "pulledBy": "The clerk has published a newer version since the hallway conversation.",
       "writesBack": "The negotiators close the request against the earlier text and turn to the remaining clauses."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

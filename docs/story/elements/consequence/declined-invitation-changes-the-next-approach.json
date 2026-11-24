@@ -1,0 +1,31 @@
+{
+  "id": "declined-invitation-changes-the-next-approach",
+  "kind": "consequence",
+  "summary": "After the player declines an invitation, someone can approach them later about a different opportunity.",
+  "realLife": "Malvina Harlan recalled that her husband John declined a diplomatic post because he wanted to stay in the United States. President Hayes later nominated him to the Supreme Court.",
+  "sources": [
+    "https://supremecourthistory.org/wp-content/uploads/2025/02/Volume-26-Number-2-2001.pdf",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L186"
+  ],
+  "inGame": "needs: the particular refusal read by the cause of a later, different invitation.",
+  "fits": ["journal", "office", "news", "home"],
+  "slots": ["{player}", "{inviter}", "{opportunity}"],
+  "gates": ["The earlier invitation was declined."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The organizer asks the same person again after their evening shift ends.",
+      "pulledBy": "The first refusal was about work hours and the new invitation falls on a day off.",
+      "writesBack": "The later invitation keeps its own answer and date."
+    },
+    {
+      "turn": "partial",
+      "what": "The resident who declined to travel for the party agrees to cover the sign-in table at the local meeting.",
+      "pulledBy": "The organizer remembers the travel constraint and has a vacant shift within walking distance.",
+      "writesBack": "The roster lists one local shift and leaves the earlier traveling assignment declined."
+    }
+  ],
+  "issues": ["none"]
+}

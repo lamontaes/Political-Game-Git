@@ -1,0 +1,30 @@
+{
+  "id": "loser-concedes-with-a-joke-and-says-the-work-goes-on",
+  "kind": "voice",
+  "summary": "A losing candidate concedes at the party with a joke, thanks groups by name, and says the work is not over.",
+  "realLife": "At a hotel party a mayoral runner-up congratulated the winner, teased about local speech, thanked the unions and family who backed her, and told supporters the civic work continued.",
+  "sources": [
+    "Boston.com, mayoral runner-up concedes, Nov. 2, 2021: https://www.boston.com/news/politics/2021/11/02/annissa-essaibi-george-concedes-michelle-wu/"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office", "place"],
+  "gates": [],
+  "inGame": "race result read at the party; supporters' groups from the campaign record",
+  "weights": {
+    "loss": 0.7
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "She keeps it light and warm",
+      "pulledBy": "a gracious, humorous speaker",
+      "writesBack": "a concession the room applauds"
+    },
+    {
+      "turn": "She skips the fight of the last weeks and speaks only of thanks",
+      "pulledBy": "a wish to end on peace",
+      "writesBack": "a speech without the issues that split the race"
+    }
+  ]
+}
