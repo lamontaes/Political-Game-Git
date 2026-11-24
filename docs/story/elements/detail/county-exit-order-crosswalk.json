@@ -1,7 +1,7 @@
 {
   "id": "county-exit-order-crosswalk",
   "kind": "detail",
-  "summary": "The clerk in {place} finds the county beside the date of the proclamation that put it under drought emergency powers.",
+  "summary": "The clerk in {place} checks the county against the termination schedule and the original drought proclamation.",
   "realLife": "California's September 2024 termination listed nineteen counties under three earlier proclamation dates and ended related provisions in the listed jurisdictions.",
   "sources": [
     "https://www.gov.ca.gov/wp-content/uploads/2024/09/9.4.24-Drought-termination-proclamation.pdf#page=1"

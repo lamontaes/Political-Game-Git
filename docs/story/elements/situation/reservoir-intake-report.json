@@ -9,12 +9,12 @@
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{place}"],
   "gates": [
-    "A supplier record identifies an intake and a dated level observation on a comparable scale."
+    "A supplier record identifies a reservoir intake elevation and a dated water level for the same reservoir using the same reference elevation."
   ],
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: a supplier record identifies an intake and a dated level observation on a comparable scale.",
+  "inGame": "needs: a supplier record identifies a reservoir intake elevation and a dated water level for the same reservoir using the same reference elevation.",
   "turns": [
     {
       "turn": "measured",

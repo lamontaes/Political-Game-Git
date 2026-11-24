@@ -1,7 +1,7 @@
 {
   "id": "deepened-well-missing-log",
   "kind": "detail",
-  "summary": "The well at {place} has been deepened, but the county's file still has the old depth.",
+  "summary": "After a driller deepens the well at {place}, the county clerk looks for its new depth in the well log.",
   "realLife": "California enlisted counties and groundwater agencies to help get drillers' logs in promptly for new wells and wells drilled deeper.",
   "sources": [
     "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=3"

@@ -9,12 +9,12 @@
   "fits": ["office", "journal", "news", "work-community", "home", "speeches"],
   "slots": ["{place}"],
   "gates": [
-    "A regional agricultural study records the period and the employment evidence available."
+    "A dated regional drought study or study request identifies idle agricultural land and treats employment as a question to examine."
   ],
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: a regional agricultural study records the period and the employment evidence available.",
+  "inGame": "needs: a dated regional drought study or study request identifies idle agricultural land and treats employment as a question to examine.",
   "turns": [
     {
       "turn": "estimated",

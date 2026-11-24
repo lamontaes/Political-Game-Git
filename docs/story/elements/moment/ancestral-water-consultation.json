@@ -9,12 +9,12 @@
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
   "gates": [
-    "A tribal consultation record distinguishes an affected resource from the administrative boundary."
+    "A consultation file identifies a cultural resource in the tribe's ancestral lands, the relevant administrative boundary and the status of outreach."
   ],
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: a tribal consultation record distinguishes an affected resource from the administrative boundary.",
+  "inGame": "needs: a consultation file identifies a cultural resource in the tribe's ancestral lands, the relevant administrative boundary and the status of outreach.",
   "turns": [
     {
       "turn": "response",

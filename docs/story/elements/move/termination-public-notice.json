@@ -9,12 +9,12 @@
   "fits": ["office", "journal", "news", "work-community", "home"],
   "slots": ["{person}"],
   "gates": [
-    "A signed termination has a filing record or an identifiable public notice channel."
+    "A signed termination has an effective date and a record of the filing or public notice process."
   ],
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: a signed termination has a filing record or an identifiable public notice channel.",
+  "inGame": "needs: a signed termination has an effective date and a record of the filing or public notice process.",
   "turns": [
     {
       "turn": "published",

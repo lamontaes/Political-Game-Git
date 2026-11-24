@@ -9,12 +9,12 @@
   "fits": ["office", "journal", "news"],
   "slots": ["{place}"],
   "gates": [
-    "The same locality has separate hazard records with dated authorities."
+    "The locality has dated authorities for two hazards and a request whose governing authority needs checking."
   ],
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: the same locality has separate hazard records with dated authorities.",
+  "inGame": "needs: the locality has dated authorities for two hazards and a request whose governing authority needs checking.",
   "turns": [
     {
       "turn": "identified",

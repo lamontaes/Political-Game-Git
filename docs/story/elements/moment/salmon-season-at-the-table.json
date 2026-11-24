@@ -9,12 +9,12 @@
   "fits": ["office", "journal", "news", "work-community", "speeches"],
   "slots": ["{place}"],
   "gates": [
-    "An actual meeting agenda or attendance record identifies the represented groups."
+    "A fishery meeting agenda identifies commercial, recreational and tribal participants or invitees, and its minutes establish who attended or spoke."
   ],
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: an actual meeting agenda or attendance record identifies the represented groups.",
+  "inGame": "needs: a fishery meeting agenda identifies commercial, recreational and tribal participants or invitees, and its minutes establish who attended or spoke.",
   "turns": [
     {
       "turn": "heard",

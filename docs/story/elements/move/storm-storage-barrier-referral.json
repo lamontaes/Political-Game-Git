@@ -9,12 +9,12 @@
   "fits": ["office", "journal", "news"],
   "slots": ["{person}"],
   "gates": [
-    "An agency review identifies a specific barrier and who has authority to change it."
+    "A review prepared in anticipation of a storm names an obstacle to storing excess flows, the jurisdiction and the agency responsible for the referral."
   ],
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: an agency review identifies a specific barrier and who has authority to change it.",
+  "inGame": "needs: a review prepared in anticipation of a storm names an obstacle to storing excess flows, the jurisdiction and the agency responsible for the referral.",
   "turns": [
     {
       "turn": "administrative",
