@@ -1,0 +1,31 @@
+{
+  "id": "maintenance-manual-retires-a-reusable-part",
+  "kind": "consequence",
+  "summary": "A safety recommendation changes what a mechanic may put back into service.",
+  "realLife": "After the transportation board investigated the Mutiny Bay seaplane crash, De Havilland Canada revised the maintenance manual so mechanics replace a lock ring each time they take the assembly apart.",
+  "sources": [
+    "https://www.ntsb.gov/investigations/Pages/safety-recommendations.aspx"
+  ],
+  "fits": ["office", "work-community", "news", "journal", "speeches"],
+  "slots": ["{manufacturer}", "{part}", "{mechanic}"],
+  "gates": [
+    "The manufacturer has issued the revised maintenance instructions."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an operator's maintenance rule and adoption date linked to a safety recommendation.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "One operator adopts the replacement rule across its own fleet.",
+      "pulledBy": "Its shop can obtain replacements before the manufacturer revises the manual.",
+      "writesBack": "The operator's work orders change first."
+    },
+    {
+      "turn": "late",
+      "what": "A shop takes an assembly out of service while it waits for the replacement.",
+      "pulledBy": "The revised manual applies and no replacement is in stock.",
+      "writesBack": "The maintenance log records the equipment idle."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "decision-maker-named-with-background",
+  "kind": "detail",
+  "summary": "A short paragraph names who decides and what they did before.",
+  "realLife": "The commissioner who decides the permit was named with earlier jobs.",
+  "sources": [
+    "Patch (South Brunswick, New Jersey), 'Protestors Rally Against South Brunswick Data Center' (page title: 'At Packed Church, Protestors Turn Up Pressure On South Brunswick Data Center'), Nov. 8, 2026: https://patch.com/new-jersey/southbrunswick/packed-church-protestors-turn-pressure-south-brunswick-data-center",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {
+    "public-action": 0.7
+  },
+  "inGame": "the officials table and the executive office",
+  "turns": [
+    {
+      "name": "decision made by a body",
+      "pulledBy": "a board decision",
+      "writes": "the paragraph names the board and its members"
+    },
+    {
+      "name": "decision-maker unknown",
+      "pulledBy": "a case not yet assigned",
+      "writes": "the story says it is not known who decides"
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,30 @@
+{
+  "id": "ends-on-a-short-spoken-line",
+  "kind": "voice",
+  "summary": "The story ends on a short line the honoree says, with no wrap-up from the writer.",
+  "realLife": "The last line was the clerk's goodbye to a granddaughter.",
+  "sources": [
+    "Patch (Clark, New Jersey), 'Clark Bids Farewell To Municipal Clerk Edith Merkel After 24 Years Of Service', May 19, 2026: https://patch.com/new-jersey/clark/clark-bids-farewell-municipal-clerk-edith-merkel-after-24-years-service",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "retirement": 0.8
+  },
+  "inGame": "the filled-in honoree's family; needs: a quote kept from the honoree",
+  "turns": [
+    {
+      "name": "ends on the date",
+      "pulledBy": "a plain notice",
+      "writes": "the last line is when she leaves"
+    },
+    {
+      "name": "ends on the mayor",
+      "pulledBy": "a story with a strong tribute",
+      "writes": "the last line is the mayor's"
+    }
+  ],
+  "usedBy": []
+}
