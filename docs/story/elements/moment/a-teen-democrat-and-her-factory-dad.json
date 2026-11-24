@@ -1,0 +1,42 @@
+{
+  "id": "a-teen-democrat-and-her-factory-dad",
+  "kind": "moment",
+  "summary": "A seventeen-year-old and her Trump-voting father disagree on nearly everything and put the relationship first.",
+  "realLife": "An Iowa teen who volunteered for a Democratic campaign and her father, a factory worker who voted for the other side, disagreed on immigration, the economy, the border wall and guns. They agreed on gay marriage. She said she would not let politics come between them. He said he would back her if she ran for office, but would not vote for her if their views differed, and that people should love each other while they can.",
+  "sources": [
+    "https://www.foxnews.com/politics/a-divided-house-still-standing-dad-and-daughter-navigate-differences-over-trump"
+  ],
+  "fits": ["home", "work-community"],
+  "slots": ["{the teen}", "{the parent}", "{the question}"],
+  "gates": [
+    "Parent and teen have different stands, each with a reason from work or money.",
+    "They share a home."
+  ],
+  "weights": [
+    "The parent's work and what the economy means to the household.",
+    "The teen's activism.",
+    "A strong parent-child tie."
+  ],
+  "inGame": "Each person's stand on a policy question with the reason on record (work or money), the tie between the two, and a quarrel record read by the home talk scene. The shared stand on one question fits the stand records.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The father forbids the campaign work and a quarrel starts.",
+      "pulledBy": "A controlling trait.",
+      "writesBack": "Quarrel record."
+    },
+    {
+      "turn": "neutral",
+      "what": "They never speak of it and each keeps their views.",
+      "pulledBy": "Low conflict.",
+      "writesBack": "None."
+    },
+    {
+      "turn": "late",
+      "what": "The father's job is cut and his view shifts on one question.",
+      "pulledBy": "Layoff at his plant.",
+      "writesBack": "His stand changes with the reason on record."
+    }
+  ]
+}

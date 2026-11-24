@@ -1,0 +1,41 @@
+{
+  "id": "most-families-avoid-politics-when-few-agree",
+  "kind": "detail",
+  "summary": "Surveyed adults avoid political talk with family far more when few relatives share their views.",
+  "realLife": "A Pew survey from 2018 found about six in ten Americans said their family was fine with political talk and about four in ten tried to avoid it. Where almost everyone agreed, over eight in ten said talk was fine. Where almost no one agreed, under three in ten said so.",
+  "sources": [
+    "https://www.pewresearch.org/short-reads/2018/11/20/most-say-their-family-is-ok-with-discussing-politics-but-it-helps-if-the-family-agrees/markdown"
+  ],
+  "fits": ["home", "journal"],
+  "slots": ["{the household}", "{the extended family}"],
+  "gates": [
+    "The family's members have recorded stands on a question.",
+    "A count of how many relatives share the person's stand can be taken."
+  ],
+  "weights": [
+    "Share of relatives who agree with the person.",
+    "How often the family meets."
+  ],
+  "inGame": "Each person's stand is on record, so a family's agreement share can be read; the avoidance would be a choice about whether to bring up the question.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The person with few allies still raises it.",
+      "pulledBy": "A high-conviction trait.",
+      "writesBack": "A quarrel record."
+    },
+    {
+      "turn": "neutral",
+      "what": "Politics is neither raised nor avoided on purpose.",
+      "pulledBy": "Low interest.",
+      "writesBack": "No record written."
+    },
+    {
+      "turn": "partial",
+      "what": "They avoid one question but talk about others.",
+      "pulledBy": "One shared cause.",
+      "writesBack": "A narrow topic ban noted."
+    }
+  ]
+}

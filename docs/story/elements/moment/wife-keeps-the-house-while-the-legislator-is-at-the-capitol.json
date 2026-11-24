@@ -1,0 +1,44 @@
+{
+  "id": "wife-keeps-the-house-while-the-legislator-is-at-the-capitol",
+  "kind": "moment",
+  "summary": "A legislator's wife carries the children and the house through the week while he is at the capitol, and helps him campaign.",
+  "realLife": "An Indiana former legislator and teacher said his wife was very supportive and worked hard to help him campaign. When the General Assembly met in Indianapolis, he stayed there during the week and she carried most of the responsibility for the children at home. Because the legislature was part time, he went back to his teaching job when the session ended.",
+  "sources": [
+    "https://ilohi.ihb.in.gov/wp-content/uploads/2022/09/Dave-Cheatham-Transcript.pdf"
+  ],
+  "fits": ["home", "office", "work-community"],
+  "slots": ["{the official}", "{the spouse}", "{the children}", "{the job}"],
+  "gates": [
+    "The official holds a seat that sits away from home.",
+    "The official has a spouse and children in the household.",
+    "The official keeps a day job between sessions."
+  ],
+  "weights": [
+    "Distance from home to the capitol.",
+    "Session length.",
+    "Whether the spouse works.",
+    "Whether grandparents are near."
+  ],
+  "inGame": "Marriage, household members, a young child at home, an official's seat and a job kept between sessions could carry it; the capitol-week split needs a nights-away count tied to session days.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family moves to the capital for the session and the spouse leaves her own routine.",
+      "pulledBy": "A short distance to the capital, no spouse job.",
+      "writesBack": "Household moves for the session; spouse job paused."
+    },
+    {
+      "turn": "late",
+      "what": "After several terms the spouse says she cannot keep carrying the house alone.",
+      "pulledBy": "Years of long sessions, children reaching hard ages.",
+      "writesBack": "Quarrel on record; official files for fewer terms."
+    },
+    {
+      "turn": "neutral",
+      "what": "The week splits cleanly and the routine holds from year to year.",
+      "pulledBy": "Steady help from kin, calm children.",
+      "writesBack": "No change; a steady-routine note."
+    }
+  ]
+}

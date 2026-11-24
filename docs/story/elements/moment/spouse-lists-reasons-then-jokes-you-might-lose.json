@@ -1,0 +1,44 @@
+{
+  "id": "spouse-lists-reasons-then-jokes-you-might-lose",
+  "kind": "moment",
+  "summary": "A spouse argues against the run, reason by reason, and finally gives in with a dry joke.",
+  "realLife": "When Barack Obama said he wanted to run for the U.S. Senate in 2004, Michelle Obama argued against it and listed her reasons. She gave in with the line that maybe he would lose. Years later she wrote that the talks before his presidential run were angry and tearful in places and hopeful in others.",
+  "sources": [
+    "https://rollcall.com/2008/10/06/portrait-of-a-lady/",
+    "https://www.michiganpublic.org/2018-12-09/absolutely-brutal-why-white-house-runs-arent-for-everyone"
+  ],
+  "fits": ["home", "journal", "campaign"],
+  "slots": ["{the spouse}", "{the player}"],
+  "gates": [
+    "The player has a spouse on record.",
+    "The spouse has reasons on record, such as distrust of politics or a heavy workload."
+  ],
+  "weights": [
+    "Spouse's trust in politics.",
+    "Tie strength.",
+    "Spouse's humor.",
+    "Money pressure."
+  ],
+  "inGame": "Spouse as household member with a tie value; the family-filing scene can show the reaction when the player files.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The spouse does not give in, and the player must choose between the race and the marriage's peace.",
+      "pulledBy": "Low trust in politics, strained tie.",
+      "writesBack": "A grudge or worry on the spouse; the tie drops if the player files anyway."
+    },
+    {
+      "turn": "partial",
+      "what": "The spouse agrees only for one race, with a limit stated.",
+      "pulledBy": "Spouse wants a stable job at home.",
+      "writesBack": "A conditional promise recorded for the next decision to run."
+    },
+    {
+      "turn": "late",
+      "what": "The spouse comes around only after the first poll or a good event.",
+      "pulledBy": "Early success, a respected endorser.",
+      "writesBack": "The tie recovers slowly after the first month of campaigning."
+    }
+  ]
+}

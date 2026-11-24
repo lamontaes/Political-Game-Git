@@ -1,0 +1,33 @@
+{
+  "id": "married-legislators-keep-two-homes-near-each-other",
+  "kind": "consequence",
+  "summary": "Two married legislators keep separate homes near each other, and one later retires after redistricting puts them in different districts.",
+  "realLife": "Two married Minnesota legislators kept separate homes, he in a St. Paul apartment near hers, and one later retired after redistricting put them in different districts. He said that children starting school was a reason to want one home for the family.",
+  "sources": ["https://www.governing.com/archive/Spouse-Representatives.html"],
+  "fits": ["home", "journal", "office"],
+  "slots": ["{the spouse}", "{the other seat}", "{the child}"],
+  "gates": [
+    "{the spouse} holds a seat on a body that sits away from home.",
+    "Both partners hold seats, or one is about to give theirs up."
+  ],
+  "weights": [
+    "Whether a young child is about to start school.",
+    "Whether the districts are redrawn so the two no longer share one."
+  ],
+  "inGame": "Households and partnerships, two seats held by members of one household, a young child at home. needs: redistricting that ends a shared district.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The couple keep one family home and one of them commutes to the capital.",
+      "pulledBy": "A young child at home and the cost of a second home.",
+      "writesBack": "One household, one seat at a distance."
+    },
+    {
+      "turn": "late",
+      "what": "Redistricting puts them in different districts and one retires.",
+      "pulledBy": "The new map and the household's wishes.",
+      "writesBack": "A seat given up and the household's job record."
+    }
+  ]
+}

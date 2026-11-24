@@ -1,0 +1,42 @@
+{
+  "id": "a-daughter-does-lessons-in-the-capitol-office",
+  "kind": "detail",
+  "summary": "A legislator who took her late husband's seat brought her sixth-grade daughter to do schoolwork in her Capitol office.",
+  "realLife": "A Minnesota representative, a teacher who succeeded her late husband, kept her twelve-year-old daughter with her at the Capitol instead of leaving her at home about a hundred miles away. She wove lessons into long days. She said they spent more time together than many mothers and preteens.",
+  "sources": [
+    "https://law-journals-books.vlex.com/vid/wearing-two-hats-legislator-parent-53983806"
+  ],
+  "fits": ["home", "journal", "office"],
+  "slots": ["{the child}", "{the office}", "{the capitol}"],
+  "gates": [
+    "A seat is held far from the household's town.",
+    "A child under fourteen is in the household."
+  ],
+  "weights": [
+    "Distance from home",
+    "Absence of another caregiver",
+    "Trait: devoted parent"
+  ],
+  "inGame": "A child at home, a legislature sitting away from home and the player's office as a place can carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The child stays with a grandparent at home.",
+      "pulledBy": "A grandparent who lives nearby.",
+      "writesBack": "A kin tie used for care; less time with the child."
+    },
+    {
+      "turn": "partial",
+      "what": "The child comes only for the last weeks of the session.",
+      "pulledBy": "School calendar.",
+      "writesBack": "A shorter stay recorded."
+    },
+    {
+      "turn": "late",
+      "what": "The child tires of the Capitol and asks to go home.",
+      "pulledBy": "Boredom, missed friends.",
+      "writesBack": "A talk scene; the parent considers a move home."
+    }
+  ]
+}
