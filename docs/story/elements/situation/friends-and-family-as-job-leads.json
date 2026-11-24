@@ -1,0 +1,38 @@
+{
+  "id": "friends-and-family-as-job-leads",
+  "kind": "situation",
+  "summary": "Most job seekers turn first to close friends and family, then to work contacts and friends of friends.",
+  "realLife": "A 2015 Pew survey of recent job seekers found 66 percent used close friends or family, 63 percent professional contacts and 55 percent acquaintances. For 20 percent close friends or family were the most important source.",
+  "sources": [
+    "Pew Research Center, The Internet and Job Seeking (2015 survey report): https://www.pewresearch.org/internet/2015/11/19/1-the-internet-and-job-seeking/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Job-lost call from a friend or relative; the tie to the player (friend, relative, coworker) decides who is asked and who passes on a lead.",
+  "turns": [
+    {
+      "turn": "close-friend-has-no-lead",
+      "summary": "The close friend has nothing, but points to someone who might.",
+      "pulledBy": ["a warm friend", "a friend with a small circle"],
+      "writesBack": "A tie to a friend of a friend forms, and the search widens."
+    },
+    {
+      "turn": "old-boss-offers-a-lead",
+      "summary": "A former boss, not a friend, passes on an opening.",
+      "pulledBy": [
+        "a former boss with a good tie",
+        "a good note on the job record"
+      ],
+      "writesBack": "The tie to the old boss warms, and a lead leads to an interview."
+    },
+    {
+      "turn": "relative-leans-on-the-player",
+      "summary": "A relative asks the player for a lead instead of offering one.",
+      "pulledBy": ["a relative in need", "the player's standing in town"],
+      "writesBack": "A favor is asked, and the player's tie to the relative is tested."
+    }
+  ]
+}

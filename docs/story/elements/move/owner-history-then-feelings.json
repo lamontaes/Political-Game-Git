@@ -1,0 +1,31 @@
+{
+  "id": "owner-history-then-feelings",
+  "kind": "move",
+  "summary": "A closing or opening story runs on the owner's history in their own voice, then their feelings, then their next step.",
+  "realLife": "About half of a business-closing story is history alternating paraphrase and quote, then mixed feelings, then plans.",
+  "sources": [
+    "KTOO (Juneau), a family-run downtown shop is closing its doors: https://www.ktoo.org/2025/12/24/after-more-than-50-years-a-family-run-shop-in-downtown-juneau-is-closing-its-doors/",
+    "Juneau Empire, Ron's Apothecary Shoppe closing after nearly 50 years: https://juneauempire.com/news/rons-apothecary-shoppe-closing-on-dec-6-after-nearly-50-years-as-co-owners-retire",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["owner", "subject", "industry"],
+  "gates": [],
+  "weights": {
+    "closing": 1.0,
+    "opening": 0.8
+  },
+  "usedBy": ["organization.opened"],
+  "turns": [
+    {
+      "name": "owner's next step only",
+      "pulledBy": "an owner who will not talk about the past",
+      "writes": "the story gives the date and the plan"
+    },
+    {
+      "name": "customers speak",
+      "pulledBy": "a shop with many regulars",
+      "writes": "the story lets a customer speak before the owner does"
+    }
+  ]
+}

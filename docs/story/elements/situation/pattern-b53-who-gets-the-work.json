@@ -1,0 +1,39 @@
+{
+  "id": "pattern-b53-who-gets-the-work",
+  "kind": "situation",
+  "summary": "Who gets the work: {the project} was contracted before you took office, and almost none of the work goes to {the left out}.",
+  "realLife": "In 1975 Atlanta's mayor halted work and withheld payment on the airport expansion to bring minority firms into its contracts. Despite pushback from business and state leaders, work resumed with a required minority share, and by 1980 minority firms did about a quarter of the work.",
+  "sources": [
+    "https://ajc.com/news/atlanta-black-history/how-maynard-jackson-jr-broke-the-good-old-boys-grip-on-city-funds/XGXLGKHP2VAUND7QRRBES5LKDM",
+    "https://en.wikipedia.org/wiki/Maynard_Jackson"
+  ],
+  "fits": ["journal", "office"],
+  "slots": ["the project", "the left out"],
+  "gates": [
+    "You hold an executive office.",
+    "{the project} is on record with contracts {the left out} had no part in."
+  ],
+  "weights": [
+    "How big the project is.",
+    "Business leaders' ties.",
+    "Your promises."
+  ],
+  "pattern": "B53",
+  "choices": [
+    "stop the work until the contracts are redone",
+    "set a share for new contracts only",
+    "let it go ahead and fight later",
+    "negotiate with the business leaders"
+  ],
+  "branches": [
+    {
+      "when": "business and state leaders push back",
+      "then": "Lawsuits threaten, and the work sits idle."
+    },
+    {
+      "when": "the work resumes with a share",
+      "then": "Years later, the share of work those firms did is the record."
+    }
+  ],
+  "usedBy": []
+}

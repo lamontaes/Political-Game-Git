@@ -1,0 +1,30 @@
+{
+  "id": "business-closes-story",
+  "kind": "situation",
+  "summary": "A local business closes and the paper tells it through the owner.",
+  "realLife": "Two business-closing stories, 16 to 21 paragraphs, mostly the owner's history, feelings and next step.",
+  "sources": [
+    "KTOO (Juneau), a family-run downtown shop is closing its doors: https://www.ktoo.org/2025/12/24/after-more-than-50-years-a-family-run-shop-in-downtown-juneau-is-closing-its-doors/",
+    "Juneau Empire, Ron's Apothecary Shoppe closing after nearly 50 years: https://juneauempire.com/news/rons-apothecary-shoppe-closing-on-dec-6-after-nearly-50-years-as-co-owners-retire",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["subject", "owner", "place"],
+  "gates": [],
+  "weights": {
+    "closing": 1.0
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "a business that is sold",
+      "pulledBy": "an owner who retires and a buyer who steps in",
+      "writes": "the story says it will reopen under new hands"
+    },
+    {
+      "name": "a closing nobody notices",
+      "pulledBy": "a shop with few customers",
+      "writes": "a short notice instead of a story"
+    }
+  ]
+}

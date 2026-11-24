@@ -1,0 +1,35 @@
+{
+  "id": "pattern-a21-the-leaders-pick-alone",
+  "kind": "situation",
+  "summary": "The leaders pick alone: In {club}, the leaders choose the endorsements while newcomers set up chairs, and you ask for a say.",
+  "realLife": "In the 1950s she left Brooklyn's Bedford-Stuyvesant Political League after clashing with its leader over giving women members a say, and joined the Unity Democratic Club.",
+  "sources": ["https://en.wikipedia.org/wiki/Shirley_Chisholm"],
+  "fits": ["campaign", "journal", "office", "work-community"],
+  "slots": ["club", "club leader", "rival leader"],
+  "gates": [
+    "You belong to {club}.",
+    "{club}'s endorsements are made by its leaders alone."
+  ],
+  "weights": ["Traits that speak up.", "How long you have been in {club}."],
+  "pattern": "A21",
+  "choices": [
+    "ask out loud for the members to vote",
+    "keep quiet and keep working",
+    "leave for the rival club"
+  ],
+  "branches": [
+    {
+      "when": "you are told no in front of everyone",
+      "then": "The sharp answer is earned now, and the room watches what you do next."
+    },
+    {
+      "when": "the rival club takes you in",
+      "then": "{rival leader} gives you real work, a tie that matters when that seat opens."
+    },
+    {
+      "when": "two others stand with you",
+      "then": "The leader gives in, or the three of you leave together."
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,42 @@
+{
+  "id": "pattern-c41-run-again-or-step-aside",
+  "kind": "situation",
+  "summary": "Run again or step aside: Your numbers are low, the next race is a year off, and {close tie} asks whether you want another term.",
+  "realLife": "One life: With her popularity down after Hurricane Katrina, she announced in 2007 that she would not seek re-election as Louisiana governor. Bobby Jindal, whom she had beaten in 2003, succeeded her. Another: With polls showing few voters thought he deserved re-election, he announced his retirement in 2011. Another: He did not seek a second Senate term and backed a successor who lost the seat.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kathleen_Blanco",
+    "https://en.wikipedia.org/wiki/Joe_Lieberman",
+    "https://en.wikipedia.org/wiki/John_Edwards"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "speeches"],
+  "slots": ["close tie", "chosen successor"],
+  "gates": ["You hold an office and could run again."],
+  "weights": [
+    "Your approval.",
+    "Age and health.",
+    "What you still want to do.",
+    "Who would replace you."
+  ],
+  "pattern": "C41",
+  "choices": [
+    "run again",
+    "announce you will not run, and govern",
+    "retire and back {chosen successor}",
+    "leave for another job"
+  ],
+  "branches": [
+    {
+      "when": "you announce early",
+      "then": "You spend the rest of the term governing, and the rival you beat years ago takes the office after you."
+    },
+    {
+      "when": "a poll says few think you deserve another term",
+      "then": "You retire, and your farewell speech is the last record of your time."
+    },
+    {
+      "when": "you back {chosen successor}",
+      "then": "{chosen successor} loses, and the seat goes to the other party."
+    }
+  ],
+  "usedBy": []
+}
