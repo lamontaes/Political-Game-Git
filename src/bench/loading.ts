@@ -6,6 +6,7 @@ import type { GroundedEnglishFact } from "../english/grounded-english";
 import { tell, type TellingInput } from "../english/outline-planner";
 import type { CoreState, PersonId } from "../core2/types";
 import { governmentMap } from "./map";
+import { centuryOf, historyMode } from "../core2/electorate-century";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
 const SECTION_YEAR: Readonly<Record<string, string>> = {
@@ -45,12 +46,19 @@ export function loadingTelling(
     const place = id ? corePlaceByJurisdictionId(id as never) : undefined;
     return place ? spoken(place) : undefined;
   };
+  // The day each part of the life began, for reading who held the White
+  // House then (presidencyParty below).
+  const days: Record<string, { date: string; id: string }> = {};
   for (const event of events) {
     const at = `${event.life}/${event.what}`;
-    if (at === "born/born") put("born-year", yearOf(event.date), event.id);
+    if (at === "born/born") {
+      put("born-year", yearOf(event.date), event.id);
+      days.born ??= { date: event.date, id: event.id };
+    }
     if (at === "school/started" && !facts["school-year"]) {
       const where = placeSaid(event.placeId);
       if (where) {
+        days.school ??= { date: event.date, id: event.id };
         put("school-year", yearOf(event.date), event.id);
         put("school-place", where, event.id);
       }
@@ -59,6 +67,7 @@ export function loadingTelling(
       const from = placeSaid(String(event.facts?.fromPlaceId ?? ""));
       const to = placeSaid(String(event.facts?.toPlaceId ?? ""));
       if (from && to && from !== to) {
+        days.moved ??= { date: event.date, id: event.id };
         put("moved-year", yearOf(event.date), event.id);
         put("moved-from", from, event.id);
         put("moved-to", to, event.id);
@@ -93,6 +102,24 @@ export function loadingTelling(
         put("lost-same-year", "yes", event.id);
     }
   }
+  // The family moved before the child started school: the school's own
+  // start came at the new home, so the move is part of why it is where it is.
+  if (days.moved && days.school && days.moved.date < days.school.date)
+    put("moved-before-school", "yes", days.moved.id);
+  // Who held the White House when each part of the life began, from the
+  // history the world ran from 1925 (the century's presidency rows). The
+  // century holds a party and no name, so the story says the party. A fact
+  // is set only where the century ran that election.
+  for (const [part, day] of Object.entries({
+    ...days,
+    start: { date: core.date, id: person.householdId },
+  })) {
+    const held = presidencyParty(core, day.date);
+    if (held) {
+      put(`${part}-president-party`, held.party, held.rowId);
+      if (held.again) put(`${part}-party-again`, "yes", held.rowId);
+    }
+  }
   const home = corePlaceByJurisdictionId(person.placeId as never);
   put("start-year", yearOf(core.date), person.householdId);
   put(
@@ -117,6 +144,25 @@ export function loadingTelling(
     knower: playerId as EntityId,
     traits: {},
   };
+}
+
+/**
+ * The party in the White House on a day, and whether it had held it a term or
+ * more before that (the party's straight terms, never said as a count), from
+ * the century's presidency row whose term spans the day. Nothing where the
+ * world did not run the century ("today" history) or the day falls outside it.
+ */
+function presidencyParty(
+  core: CoreState,
+  date: string,
+): { party: string; again: boolean; rowId: string } | null {
+  if (historyMode(core.seed) !== "century") return null;
+  const row = centuryOf(core.seed, core.startedAt).presidencies.find(
+    (r) => r.termStart <= date && date < r.termEnd,
+  );
+  return row
+    ? { party: row.winnerParty, again: row.partyTerms > 1, rowId: row.id }
+    : null;
 }
 
 /** Each sentence of the told loading story, at its record's year. */
