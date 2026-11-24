@@ -3035,16 +3035,32 @@ async function personCardNode(
       })),
     );
   if (!stillWanted()) return null;
+  // A card with little to tell stands a smaller bust, so the panel is not
+  // mostly empty (Replay on #10337, Nov 24: "no empty half"); the weight is
+  // the records' own count of lines and rows.
+  const weight =
+    (c.history?.length ?? 0) +
+    recordRows.length +
+    sharedLines.length +
+    (people ? 1 : 0) +
+    (c.view || c.viewUnknown ? 1 : 0);
+  // The bust stands smaller as the card has less to tell, so the panel stays
+  // the height of its text; a long card keeps the full bust.
+  const bustColumn = devModeOn()
+    ? PERSON_CARD_BUST
+    : (CARD_BUSTS.find((step) => weight <= step.weight)?.bust ??
+      PERSON_CARD_BUST);
   const node = stripScreen({
     name: c.name,
     role,
     nameBeside: true,
     // The approved card's bust stands as tall as its sections (pl-people).
-    bustColumn: PERSON_CARD_BUST,
+    bustColumn,
     ...(c.face ? { underBust: whoSections } : {}),
     face: c.face ?? null,
     columns: secondColumn.length ? [firstColumn, secondColumn] : [firstColumn],
   });
+  node.style.setProperty("--card-bust", `${bustColumn}px`);
   fitCard(node);
   return { name: c.name, node };
 }
@@ -3082,22 +3098,59 @@ async function fitCard(root) {
           column.getBoundingClientRect().top,
       ),
     );
-  if (back && filled(front) * 2 < filled(back)) {
+  const leftHeight = filled(root.querySelector(".mx3left"));
+  if (
+    back &&
+    filled(front) * 2 < filled(back) &&
+    filled(back) > leftHeight * 0.8
+  ) {
     front.append(...back.children);
     back.remove();
     split.classList.add("one");
   }
+  // A bust column taller than the story beside it leaves the rest of the card
+  // empty (the Replay's President and sheriff, Nov 24: "no empty half"): the
+  // story and the people line are set a little larger, up to a third, until
+  // the column ends with the bust.
+  const marks = ".mxbust, p, .dotrow, h3, .perk";
+  const bottomOf = (selector) =>
+    Math.max(
+      0,
+      ...[...root.querySelectorAll(selector)].map(
+        (mark) => mark.getBoundingClientRect().bottom,
+      ),
+    );
+  const lastColumn = ".mx3cols > .mx3col:last-child";
   const runsPast = () =>
     [...root.querySelectorAll(".mx3left, .mx3col")].some((column) =>
-      [...column.querySelectorAll(".mxbust, p, .dotrow, h3, .perk")].some(
+      [...column.querySelectorAll(marks)].some(
         (mark) => mark.getBoundingClientRect().bottom > limit,
       ),
     );
+  if (!runsPast())
+    for (
+      let scale = 1.04;
+      scale <= 1.36 &&
+      bottomOf(`${lastColumn} :is(${marks})`) + 40 <
+        bottomOf(`.mx3left :is(${marks})`);
+      scale += 0.04
+    ) {
+      root.style.setProperty("--card-scale", String(scale));
+      if (runsPast()) {
+        root.style.setProperty("--card-scale", String(scale - 0.04));
+        break;
+      }
+    }
   for (let scale = 0.96; runsPast() && scale >= 0.7; scale -= 0.04)
     root.style.setProperty("--card-scale", String(scale));
 }
 /** The person card's bust column, in pixels: --card-bust in play.css. */
 const PERSON_CARD_BUST = 380;
+/** A card of this many lines and rows or fewer stands this bust column, in pixels. */
+const CARD_BUSTS = [
+  { weight: 11, bust: 290 },
+  { weight: 18, bust: 340 },
+];
 async function showPerson(person) {
   const request = ++personRequest;
   const opener = document.activeElement;
