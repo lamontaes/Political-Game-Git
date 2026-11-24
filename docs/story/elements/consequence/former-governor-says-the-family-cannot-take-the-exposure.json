@@ -1,0 +1,42 @@
+{
+  "id": "former-governor-says-the-family-cannot-take-the-exposure",
+  "kind": "consequence",
+  "summary": "A well-liked politician decides not to run because the race would expose his family's private lives.",
+  "realLife": "Former Massachusetts Governor Deval Patrick passed on a 2020 presidential run. He said the process is cruel and that the exposure of families was the deciding factor for him and his wife, noting that every family has private matters.",
+  "sources": [
+    "https://www.michiganpublic.org/2018-12-09/absolutely-brutal-why-white-house-runs-arent-for-everyone"
+  ],
+  "fits": ["home", "news", "journal"],
+  "slots": ["{the spouse}", "{the family secret}"],
+  "gates": [
+    "The household has a private matter on record, such as an illness or a past arrest.",
+    "The player is considering a larger race."
+  ],
+  "weights": [
+    "How private the family is.",
+    "Spouse's tolerance for exposure.",
+    "Press attention on the player."
+  ],
+  "inGame": "Household records of private matters and a filing decision; the choice not to file writes a decision on the player.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family chooses to be open about the matter and the player runs.",
+      "pulledBy": "Spouse's candor, strong tie.",
+      "writesBack": "The matter becomes public record; the player files."
+    },
+    {
+      "turn": "neutral",
+      "what": "The family says it is fine and no one thinks further of it.",
+      "pulledBy": "Low stakes.",
+      "writesBack": "No change."
+    },
+    {
+      "turn": "late",
+      "what": "The matter surfaces mid-campaign and the family regrets not discussing it first.",
+      "pulledBy": "Press digging.",
+      "writesBack": "A scandal story and a strained tie."
+    }
+  ]
+}

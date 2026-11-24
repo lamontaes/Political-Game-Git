@@ -1,0 +1,37 @@
+{
+  "id": "father-and-daughter-who-would-rather-not-talk-politics",
+  "kind": "consequence",
+  "summary": "A daughter avoids politics with her father, who wants to talk, and each misreads the other.",
+  "realLife": "On a StoryCorps recording, a liberal woman and her conservative father in construction disagreed on most issues. She avoided the topic and got upset, while he wanted to talk. He asked questions because he valued her opinion, not to win, which surprised her.",
+  "sources": [
+    "https://www.mprnews.org/story/2016/11/04/npr-election-family-feud"
+  ],
+  "fits": ["home"],
+  "slots": ["{the daughter}", "{the father}", "{the topic}"],
+  "gates": [
+    "Kin ties exist between a parent and an adult child with different leanings."
+  ],
+  "weights": ["Each one's agreeableness.", "How often they visit."],
+  "inGame": "A family quarrel between kin and a lean difference could carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "They stop calling for a season.",
+      "pulledBy": "Hot tempers.",
+      "writesBack": "Lowers the tie."
+    },
+    {
+      "turn": "neutral",
+      "what": "They talk sports instead.",
+      "pulledBy": "A wish to keep peace.",
+      "writesBack": "Nothing written."
+    },
+    {
+      "turn": "partial",
+      "what": "He explains why he asks and she softens.",
+      "pulledBy": "A visit, a quiet hour.",
+      "writesBack": "Raises the tie a little."
+    }
+  ]
+}
