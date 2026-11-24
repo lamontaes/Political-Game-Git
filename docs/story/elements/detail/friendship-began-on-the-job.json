@@ -11,5 +11,13 @@
   "slots": ["{friend}", "{job}", "{player}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The two remember meeting at work and disagree about which shift it was.",
+      "pulledBy": "Their job dates overlap but neither kept the old roster.",
+      "writesBack": "The workplace remains established and the shift stays uncertain."
+    }
+  ]
 }

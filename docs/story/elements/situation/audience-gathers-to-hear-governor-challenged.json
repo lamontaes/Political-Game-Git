@@ -11,5 +11,13 @@
   "slots": ["{speaker}", "{governor}", "{issue}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The player arrives in time for the questions after the speech.",
+      "pulledBy": "A prior commitment ran past the advertised start.",
+      "writesBack": "Their recollection covers the exchange they heard."
+    }
+  ]
 }

@@ -11,5 +11,13 @@
   "slots": ["{applicant}", "{employer}", "{job}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The employer calls to invite the applicant for another interview.",
+      "pulledBy": "The application passed its first review and the hiring decision is open.",
+      "writesBack": "The application advances to an interview with no offer recorded."
+    }
+  ]
 }

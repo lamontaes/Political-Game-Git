@@ -11,5 +11,13 @@
   "slots": ["{partner}", "{player}", "{earlier_talk}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The couple recalls the earlier argument and agrees to try the change they discussed then.",
+      "pulledBy": "Both still want to stay together and the practical option remains available.",
+      "writesBack": "A new household agreement follows the earlier conversation."
+    }
+  ]
 }

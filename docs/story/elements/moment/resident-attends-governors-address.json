@@ -11,5 +11,13 @@
   "slots": ["{resident}", "{governor}", "{issue}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The resident leaves after the governor discusses the issue that brought them there.",
+      "pulledBy": "Their work shift starts before the address ends.",
+      "writesBack": "The resident can describe the portion they heard."
+    }
+  ]
 }

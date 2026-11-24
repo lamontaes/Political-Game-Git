@@ -11,5 +11,13 @@
   "slots": ["{member}", "{constituent}", "{law}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The constituent comes to office hours with the notice they received after passage.",
+      "pulledBy": "The street conversation left the effective date uncertain.",
+      "writesBack": "The follow-up ties the question to a dated notice."
+    }
+  ]
 }

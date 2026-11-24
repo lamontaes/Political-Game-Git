@@ -11,5 +11,13 @@
   "slots": ["{member}", "{lobbyist}", "{issue}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The member asks the lobbyist to send the material to the office after session.",
+      "pulledBy": "The floor bell cuts short the hallway encounter.",
+      "writesBack": "The office expects a document on the named bill."
+    }
+  ]
 }

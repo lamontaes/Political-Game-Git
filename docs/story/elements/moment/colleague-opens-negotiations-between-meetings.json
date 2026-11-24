@@ -11,5 +11,13 @@
   "slots": ["{member}", "{colleague}", "{bill}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member hears which provision is disputed and asks for the text at their desk.",
+      "pulledBy": "The next meeting is starting and the colleague has no copy along.",
+      "writesBack": "The open request identifies the provision to review."
+    }
+  ]
 }

@@ -11,5 +11,13 @@
   "slots": ["{candidate}", "{supporter}", "{place}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The candidate reschedules the visit with the same host.",
+      "pulledBy": "A chamber sitting conflicts with the original travel day.",
+      "writesBack": "The itinerary carries a new date for the existing commitment."
+    }
+  ]
 }

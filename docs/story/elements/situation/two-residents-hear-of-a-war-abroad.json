@@ -11,5 +11,13 @@
   "slots": ["{resident}", "{contact}", "{news}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "One resident tells the other where the report came from and asks to talk later.",
+      "pulledBy": "The second resident wants to contact family before discussing it.",
+      "writesBack": "The encounter ends with a source and a request for privacy."
+    }
+  ]
 }

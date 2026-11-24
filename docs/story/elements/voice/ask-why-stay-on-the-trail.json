@@ -11,5 +11,13 @@
   "slots": ["{candidate}", "{office}", "{campaign}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The candidate decides to end the run after reflecting on the demands of the job.",
+      "pulledBy": "The office would require a commitment the candidate no longer wants to make.",
+      "writesBack": "The private decision precedes the campaign's public announcement."
+    }
+  ]
 }

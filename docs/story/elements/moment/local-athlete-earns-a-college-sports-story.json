@@ -11,5 +11,13 @@
   "slots": ["{athlete}", "{place}", "{outlet}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The paper holds the story until the college confirms the athlete is on the roster.",
+      "pulledBy": "The family has announced plans and the roster has yet to be published.",
+      "writesBack": "The published story uses the confirmed entry date."
+    }
+  ]
 }

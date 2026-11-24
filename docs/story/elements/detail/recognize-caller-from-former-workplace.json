@@ -11,5 +11,13 @@
   "slots": ["{caller}", "{workplace}", "{player}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The player asks the caller for a reminder and recognizes the old workplace when they name it.",
+      "pulledBy": "The number is unfamiliar and the two have been out of touch.",
+      "writesBack": "The connection is reestablished through the caller's introduction."
+    }
+  ]
 }

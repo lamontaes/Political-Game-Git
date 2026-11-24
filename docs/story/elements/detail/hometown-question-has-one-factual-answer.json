@@ -11,5 +11,13 @@
   "slots": ["{person}", "{hometown}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The person names their birthplace and then the town where they grew up.",
+      "pulledBy": "Their history records an early move and the question could refer to either place.",
+      "writesBack": "The listener learns which place belongs to each part of the person's history."
+    }
+  ]
 }

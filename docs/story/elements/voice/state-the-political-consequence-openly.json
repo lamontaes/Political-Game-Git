@@ -11,5 +11,13 @@
   "slots": ["{member}", "{counterpart}", "{request}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The counterpart says their existing support will stand despite the disagreement.",
+      "pulledBy": "Their endorsement was based on an earlier commitment independent of this vote.",
+      "writesBack": "The endorsement remains in place after the dispute."
+    }
+  ]
 }

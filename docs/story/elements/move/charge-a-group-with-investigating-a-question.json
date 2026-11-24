@@ -11,5 +11,13 @@
   "slots": ["{chair}", "{group}", "{question}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "Members narrow the charge to the question their records can answer.",
+      "pulledBy": "The original request also covered an issue outside the group's authority.",
+      "writesBack": "The adopted charge names the narrower question and its reporting date."
+    }
+  ]
 }

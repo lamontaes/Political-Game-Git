@@ -11,5 +11,13 @@
   "slots": ["{officeholder}", "{industry}", "{action}"],
   "gates": [],
   "weights": [],
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The education dispute reaches a settlement after the term ends.",
+      "pulledBy": "The negotiating parties are still meeting when the successor takes office.",
+      "writesBack": "The strike and settlement fall under different terms."
+    }
+  ]
 }
