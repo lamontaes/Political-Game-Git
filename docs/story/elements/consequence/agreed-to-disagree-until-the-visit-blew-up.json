@@ -1,0 +1,42 @@
+{
+  "id": "agreed-to-disagree-until-the-visit-blew-up",
+  "kind": "consequence",
+  "summary": "A mother and daughter who had agreed to disagree fought over a candidate's character and the mother left hours early.",
+  "realLife": "A North Carolina mother and daughter had settled on agreeing to disagree after 2016. During a visit before the 2020 vote a fight about a candidate's character grew, and the daughter told her mother to leave. The mother left hours early. A week after the election the daughter sent a message, and the mother answered that they had many things to talk about, though politics was not one of them.",
+  "sources": [
+    "https://www.wral.com/families-have-been-torn-apart-by-politics-what-happens-to-them-now/19403081/"
+  ],
+  "fits": ["home"],
+  "slots": ["{the parent}", "{the grown child}", "{the candidate}"],
+  "gates": [
+    "The two are on record with opposite stands on {the candidate}.",
+    "A prior agreement to avoid the subject exists."
+  ],
+  "weights": [
+    "Strength of feeling before a vote.",
+    "Love and a wish to reconnect after it.",
+    "How long the visit lasts."
+  ],
+  "inGame": "A quarrel record, then a reconciliation scene, with a topic-ban note; needs: an agreement-to-avoid record that can be broken.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No message is sent and the silence keeps going.",
+      "pulledBy": "Hurt pride.",
+      "writesBack": "Quarrel stays open."
+    },
+    {
+      "turn": "partial",
+      "what": "The reply comes but only about family news.",
+      "pulledBy": "Mother sets the terms.",
+      "writesBack": "Tie partly restored."
+    },
+    {
+      "turn": "late",
+      "what": "Contact returns only at a holiday months later.",
+      "pulledBy": "Calendar.",
+      "writesBack": "Reconciliation scene late."
+    }
+  ]
+}

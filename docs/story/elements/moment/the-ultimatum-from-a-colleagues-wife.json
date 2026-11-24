@@ -1,0 +1,43 @@
+{
+  "id": "the-ultimatum-from-a-colleagues-wife",
+  "kind": "moment",
+  "summary": "A colleague's wife told him to choose between the office and the family, and he resigned.",
+  "realLife": "A former mayor recalled a fellow officeholder whose wife did not understand what the job demanded. She gave him a choice between her and the family or the office. He chose to resign.",
+  "sources": [
+    "https://www.deseret.com/2014/3/2/20536371/politicians-wrestle-with-work-life-balance-in-the-public-eye"
+  ],
+  "fits": ["home", "journal", "office", "news"],
+  "slots": ["{the colleague}", "{the spouse}", "{the seat}"],
+  "gates": [
+    "A named officeholder with a spouse sits on the same body.",
+    "The body has met late or on weekends for months."
+  ],
+  "weights": [
+    "Hours of meetings",
+    "Spouse's patience",
+    "Trait: loyal to family",
+    "Pay of the seat"
+  ],
+  "inGame": "A body member with a spouse, kin ties, and a seat can be vacated; the office-doubt scene and a resignation can carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The colleague stays and the marriage ends.",
+      "pulledBy": "Pride, a long career in the seat.",
+      "writesBack": "Household splits; the seat stays held."
+    },
+    {
+      "turn": "neutral",
+      "what": "The spouse says it once and the two settle on fewer evenings out.",
+      "pulledBy": "Trust, a spouse with their own job.",
+      "writesBack": "A shorter meeting load on the member's calendar."
+    },
+    {
+      "turn": "late",
+      "what": "The resignation comes after the next election year.",
+      "pulledBy": "A pending bill the member wants to finish.",
+      "writesBack": "A vacancy record at a later date; the household stays together."
+    }
+  ]
+}
