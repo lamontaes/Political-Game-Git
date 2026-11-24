@@ -1,0 +1,22 @@
+{
+  "id": "school-pickup-complaint",
+  "kind": "moment",
+  "summary": "A neighbor raises {issue} while {person} is picking up a child.",
+  "realLife": "Councilor McClure described fielding questions about town business at school pickup.",
+  "sources": [
+    "https://www.creators.com/read/my-so-called-millennial-life/08/24/from-stranger-to-councilor"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "home"
+  ],
+  "slots": [
+    "{issue}",
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

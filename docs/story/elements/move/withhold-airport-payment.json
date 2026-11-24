@@ -1,0 +1,22 @@
+{
+  "id": "withhold-airport-payment",
+  "kind": "move",
+  "summary": "{person} holds up payment on a public project over who gets the contracts.",
+  "realLife": "Atlanta mayor Maynard Jackson withheld airport expansion payments while seeking work for minority contractors.",
+  "sources": [
+    "https://ajc.com/news/atlanta-black-history/how-maynard-jackson-jr-broke-the-good-old-boys-grip-on-city-funds/XGXLGKHP2VAUND7QRRBES5LKDM",
+    "https://en.wikipedia.org/wiki/Maynard_Jackson"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

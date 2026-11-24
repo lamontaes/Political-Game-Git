@@ -1,0 +1,21 @@
+{
+  "id": "dreading-the-next-meeting",
+  "kind": "consequence",
+  "summary": "The prospect of another meeting makes {person} anxious long before it begins.",
+  "realLife": "Herkenroder said the strain of Flint council meetings affected her health and helped her decide to leave.",
+  "sources": [
+    "https://www.eastvillagemagazine.org/?p=38277"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "home"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

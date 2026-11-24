@@ -1,0 +1,22 @@
+{
+  "id": "write-down-the-street-complaint",
+  "kind": "move",
+  "summary": "{person} takes down the complaint about {issue} and promises to look into it.",
+  "realLife": "McClure described listening to residents and making a note when they approached her away from town hall.",
+  "sources": [
+    "https://www.creators.com/read/my-so-called-millennial-life/08/24/from-stranger-to-councilor"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}",
+    "{issue}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "credit-across-party-lines-after-storm",
+  "kind": "voice",
+  "summary": "In the closing days of an election, {person} publicly credits a president from the other party for storm relief.",
+  "realLife": "New Jersey governor Chris Christie praised Barack Obama’s response to the storm just before the 2012 election.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Chris_Christie"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

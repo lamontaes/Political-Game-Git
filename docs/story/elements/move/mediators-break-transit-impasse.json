@@ -1,0 +1,21 @@
+{
+  "id": "mediators-break-transit-impasse",
+  "kind": "move",
+  "summary": "After days without service in {place}, transit workers accept a settlement put forward by mediators.",
+  "realLife": "New York’s transit union accepted a mediated package after the 1966 shutdown lasted nearly two weeks.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1966_New_York_City_transit_strike"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

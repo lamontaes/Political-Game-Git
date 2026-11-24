@@ -1,0 +1,21 @@
+{
+  "id": "resignation-after-budget-vote",
+  "kind": "move",
+  "summary": "{person} holds back a resignation announcement until the budget vote is over.",
+  "realLife": "Flint council president Allie Herkenroder delayed telling people she would resign because she wanted the budget vote to go ahead.",
+  "sources": [
+    "https://www.eastvillagemagazine.org/?p=38277"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

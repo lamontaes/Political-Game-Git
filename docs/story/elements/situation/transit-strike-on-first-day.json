@@ -1,0 +1,21 @@
+{
+  "id": "transit-strike-on-first-day",
+  "kind": "situation",
+  "summary": "A transit strike greets {person} on the first day in office.",
+  "realLife": "New York City transit workers walked out as John Lindsay took office in 1966.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1966_New_York_City_transit_strike"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

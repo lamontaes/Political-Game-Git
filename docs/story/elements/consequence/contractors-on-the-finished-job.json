@@ -1,0 +1,22 @@
+{
+  "id": "contractors-on-the-finished-job",
+  "kind": "consequence",
+  "summary": "When the work is done in {place}, the contracts show who actually got a share.",
+  "realLife": "By 1980 minority firms had performed roughly a quarter of Atlanta’s airport expansion work after Jackson pressed for their inclusion.",
+  "sources": [
+    "https://ajc.com/news/atlanta-black-history/how-maynard-jackson-jr-broke-the-good-old-boys-grip-on-city-funds/XGXLGKHP2VAUND7QRRBES5LKDM",
+    "https://en.wikipedia.org/wiki/Maynard_Jackson"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "records-clause-in-executive-order",
+  "kind": "detail",
+  "summary": "The order on the desk gives the committee access to the records it needs from {office}.",
+  "realLife": "Truman’s order on equality in the armed services directed federal personnel to provide documents the committee requested.",
+  "sources": [
+    "https://www.archives.gov/milestone-documents/executive-order-9981"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{office}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

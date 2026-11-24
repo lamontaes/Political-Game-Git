@@ -1,0 +1,22 @@
+{
+  "id": "zoning-left-out-of-order",
+  "kind": "detail",
+  "summary": "An order curbs a ward member’s say over permits in {place} but leaves zoning decisions alone.",
+  "realLife": "Chicago mayor Lori Lightfoot limited aldermen’s influence over licensing and permitting while leaving zoning outside her inaugural order.",
+  "sources": [
+    "https://www.wbez.org/chicago/2019/05/20/lightfoot-inauguration",
+    "https://www.wbez.org/chicago/2019/07/01/how-far-should-mayor-lightfoot-go-to-curb-chicago-aldermen"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}
