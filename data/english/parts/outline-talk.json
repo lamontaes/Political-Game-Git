@@ -4642,6 +4642,451 @@
       "date": "2026-11-24",
       "after": ["lead", "heard"],
       "elements": ["pattern-a47-the-first-word-on-the-address"]
+    },
+    {
+      "key": "outline-talk.ask.talk-address-point-i-m-asking-because-i-want-your-view-on-said-not-to-trap-you",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm asking because I want your view on {said}, not to trap you.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand",
+          "requiresFacts": ["said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-curious"],
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["verdict", "why", "verdict-after"]
+    },
+    {
+      "key": "outline-talk.ask.talk-address-point-do-you-mind-talking-about-said-or-should-i-drop-it",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Do you mind talking about {said}, or should I drop it?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand",
+          "requiresFacts": ["said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-sensitive"],
+      "elements": ["most-families-avoid-politics-when-few-agree"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["verdict", "why", "verdict-after"]
+    },
+    {
+      "key": "outline-talk.ask.talk-address-point-tell-me-if-i-m-pushing-i-only-want-to-know-where-you-land-on-said",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Tell me if I'm pushing. I only want to know where you land on {said}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand",
+          "requiresFacts": ["said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-curious"],
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["verdict", "why", "verdict-after"]
+    },
+    {
+      "key": "outline-talk.ask.talk-address-point-what-would-you-say-to-someone-at-this-table-who-saw-said-the-other-way",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "What would you say to someone at this table who saw {said} the other way?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand",
+          "requiresFacts": ["said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-analytical"
+      ],
+      "elements": ["parents-split-on-party-argue-at-supper"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["verdict", "why", "verdict-after"]
+    },
+    {
+      "key": "outline-talk.ask.talk-address-point-if-we-disagreed-on-said-could-we-still-have-supper",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "If we disagreed on {said}, could we still have supper?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand",
+          "requiresFacts": ["said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-approval-seeking"
+      ],
+      "elements": [
+        "agreed-to-disagree-until-the-visit-blew-up",
+        "parents-split-on-party-argue-at-supper"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["verdict", "why", "verdict-after"]
+    },
+    {
+      "key": "outline-talk.ask.talk-address-point-what-did-you-hear-in-said-that-i-missed",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "What did you hear in {said} that I missed?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "ask",
+          "tie": "stand",
+          "requiresFacts": ["said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-curious", "personality-v1:facet-humble"],
+      "elements": ["parents-who-know-more-make-the-talk-count"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["verdict", "why", "verdict-after"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-you-can-disagree-with-me-about-about-and-we-ll-still-eat-supper",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "You can disagree with me about {about}, and we'll still eat supper.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["about"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-friendly"
+      ],
+      "elements": [
+        "agreed-to-disagree-until-the-visit-blew-up",
+        "parents-split-on-party-argue-at-supper"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-i-won-t-bring-up-about-again-if-it-bothers-you",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "I won't bring up {about} again if it bothers you.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["about"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-sensitive"],
+      "elements": [
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving",
+        "most-families-avoid-politics-when-few-agree"
+      ],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-we-don-t-have-to-settle-about-to-get-through-supper",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "We don't have to settle {about} to get through supper.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["about"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-calm",
+        "personality-v1:facet-light-hearted"
+      ],
+      "elements": ["agreed-to-disagree-until-the-visit-blew-up"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"]
+    },
+    {
+      "key": "outline-talk.verdict-after.talk-address-point-say-what-you-think-about-about-i-d-rather-hear-it-than-guess",
+      "move": "verdict-after",
+      "kind": "spoken",
+      "text": "Say what you think about {about}. I'd rather hear it than guess.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "verdict-after",
+          "tie": "stand",
+          "requiresFacts": ["about"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-curious", "personality-v1:facet-sincere"],
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["why-first"]
+    },
+    {
+      "key": "outline-talk.why-first.talk-address-point-before-president-even-got-to-said-i-was-thinking-about-place",
+      "move": "why-first",
+      "kind": "spoken",
+      "text": "Before {president} even got to {said}, I was thinking about {place}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why-first",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place", "president", "said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
+      "elements": ["parents-who-know-more-make-the-talk-count"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.why-first.talk-address-point-i-paid-attention-to-said-because-place-is-where-i-live",
+      "move": "why-first",
+      "kind": "spoken",
+      "text": "I paid attention to {said} because {place} is where I live.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why-first",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place", "said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "elements": ["parents-who-value-passing-on-politics-talk-weekly"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.why-first.talk-address-point-i-hear-said-differently-when-i-see-how-it-lands-in-place",
+      "move": "why-first",
+      "kind": "spoken",
+      "text": "I hear {said} differently when I see how it lands in {place}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why-first",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place", "said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sensitive"
+      ],
+      "elements": ["parents-who-know-more-make-the-talk-count"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.why-first.talk-address-point-for-me-said-is-about-place-not-about-the-speech",
+      "move": "why-first",
+      "kind": "spoken",
+      "text": "For me, {said} is about {place}, not about the speech.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why-first",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place", "said"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sincere"],
+      "elements": ["parents-who-value-passing-on-politics-talk-weekly"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-i-m-not-trying-to-win-anything-it-s-what-i-see-in-place",
+      "move": "why",
+      "kind": "spoken",
+      "text": "I'm not trying to win anything. It's what I see in {place}.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["verdict", "verdict-cold"]
+    },
+    {
+      "key": "outline-talk.why.talk-address-point-it-s-what-i-see-out-the-window-in-place-that-s-all",
+      "move": "why",
+      "kind": "spoken",
+      "text": "It's what I see out the window in {place}, that's all.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "why",
+          "tie": "stand",
+          "requiresFacts": ["why-view", "place"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-informal"],
+      "elements": ["parents-who-value-passing-on-politics-talk-weekly"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24",
+      "after": ["verdict", "verdict-cold"]
+    },
+    {
+      "key": "outline-talk.heard.talk-address-point-we-both-heard-said-so-i-don-t-have-to-explain-it",
+      "move": "heard",
+      "kind": "spoken",
+      "text": "We both heard {said}, so I don't have to explain it.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "heard",
+          "tie": "stand",
+          "requiresFacts": ["said", "president", "point-heard"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-calm"],
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.heard.talk-address-point-i-ll-admit-i-watched-your-face-when-said-came-up",
+      "move": "heard",
+      "kind": "spoken",
+      "text": "I'll admit I watched your face when {said} came up.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "heard",
+          "tie": "stand",
+          "requiresFacts": ["said", "point-heard"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-curious",
+        "personality-v1:facet-sensitive"
+      ],
+      "elements": ["a-parent-asks-your-view-to-know-you-not-to-win"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.heard.talk-address-point-you-were-right-here-for-said-so-you-know-what-i-mean",
+      "move": "heard",
+      "kind": "spoken",
+      "text": "You were right here for {said}, so you know what I mean.",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "heard",
+          "tie": "stand",
+          "requiresFacts": ["said", "point-heard"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-talk.heard.talk-address-point-neither-of-us-missed-said-did-we",
+      "move": "heard",
+      "kind": "spoken",
+      "text": "Neither of us missed {said}, did we?",
+      "uses": [
+        {
+          "subject": "talk-address-point",
+          "role": "heard",
+          "tie": "stand",
+          "requiresFacts": ["said", "point-heard"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-light-hearted",
+        "personality-v1:facet-friendly"
+      ],
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"],
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-24"
     }
   ]
 }
