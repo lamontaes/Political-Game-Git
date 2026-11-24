@@ -31178,57 +31178,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-ll-be-there",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll be there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "invite-debate",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "rescue-ask",
-          "key": "threat",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.put-me-down",
       "move": "reply-agree",
       "kind": "spoken",
@@ -32252,68 +32201,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.count-on-me",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Count on me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "outcome": "resolved",
-          "requiresFacts": ["school", "school-short"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "offer-help",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "answer",
-          "onlyWhen": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.reply-promise.i-ll-speak",
       "move": "reply-promise",
       "kind": "spoken",
@@ -32353,49 +32240,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-promise",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I promise.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "funeral-cause",
-          "key": "loss"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "press",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "owed-apology",
-          "key": "routine",
-          "onlyWhen": ["payment"]
-        }
-      ],
-      "bearing": "solemn",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -33900,70 +33744,6 @@
         }
       ],
       "bearing": "contrite",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.that-s-kind",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "That's kind.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "breakup-tell",
-          "key": "loss",
-          "after": "apologize"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "requiresFacts": ["school", "school-short"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "promise",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "promise",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "promise",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -35512,41 +35292,6 @@
         }
       ],
       "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "diploma"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-help",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll help.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "diploma-home",
-          "key": "diploma",
-          "requiresFacts": ["school", "school-short"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "answer",
-          "onlyWhen": ["employer"]
-        }
-      ],
-      "bearing": "tender",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-18",
@@ -41008,32 +40753,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-sit-down-with-you-and-go-over-how-employer-runs",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll sit down with you and go over how {employer} runs.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "press",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.you-re-right-come-find-me-and-i-ll-go-over-the-basics-of-employer",
       "move": "reply-agree",
       "kind": "spoken",
@@ -41082,32 +40801,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "deflect",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-show-you-who-s-who-at-employer-starting-with-the-people-you-ll-need-most",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll show you who's who at {employer}, starting with the people you'll need most.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "answer",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
         "key": "arrival"
       }
     },
@@ -41347,56 +41040,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-make-sure-you-meet-everyone-at-employer-and-learn-how-things-run",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll make sure you meet everyone at {employer} and learn how things run.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-walk-you-through-employer-myself-and-introduce-you-to-the-people-who-matter",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll walk you through {employer} myself and introduce you to the people who matter.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
         "key": "arrival"
       }
     },
@@ -54816,67 +54459,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.count-on-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "Count on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "press",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "layoff-terms",
-          "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-make-time",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll make time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "press",
-          "onlyWhen": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.yes-let-s",
       "move": "reply-agree",
       "kind": "spoken",
@@ -55293,119 +54875,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.which-day",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Which day?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "promise",
-          "onlyWhen": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.when-though",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "When, though?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "promise",
-          "onlyWhen": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.how-soon",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "How soon?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "promise",
-          "onlyWhen": ["employer"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "press",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-appreciate-it",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I appreciate it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "promise",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "layoff-terms",
-          "key": "loss",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
         "key": "arrival"
       }
     },
@@ -59210,68 +58679,6 @@
       "bearing": "glad",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-truly",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you, truly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "offer-to-run",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "outcome": "resolved"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "promise",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "thank",
@@ -68249,106 +67656,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.this-isn-t-what-i-was-told-about-the-job-as-position",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "This isn't what I was told about the job as {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.nobody-at-workplace-told-me-any-of-this",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "Nobody at {workplace} told me any of this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.i-m-here-to-work-not-be-tested-at-workplace",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "I'm here to work, not be tested at {workplace}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.that-s-not-what-i-was-promised-for-the-job-as-position",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "That's not what I was promised for the job as {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-thank.thank-you-for-showing-me-around-workplace",
       "move": "reply-thank",
       "kind": "spoken",
@@ -68795,81 +68102,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.that-s-not-how-we-do-things-at-workplace",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "That's not how we do things at {workplace}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.listen-first-then-argue-that-s-the-rule-at-workplace",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Listen first, then argue; that's the rule at {workplace}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "confront",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-confront.say-it-but-not-in-front-of-the-crew-at-workplace",
-      "move": "follow-confront",
-      "kind": "spoken",
-      "text": "Say it, but not in front of the crew at {workplace}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "confront",
         "key": "arrival"
       }
     },
@@ -71482,41 +70714,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-show-you",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll show you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "answer",
-          "onlyWhen": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "promise",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.close-press.think-it-over-i-m-glad-you-heard-me-out-after-away",
       "move": "close-press",
       "kind": "spoken",
@@ -73532,36 +72729,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "agree",
-        "key": "arrival"
-      },
-      "elements": [
-        "new-hire-first-week-talk",
-        "invite-a-colleague-to-lunch-first",
-        "new-hire-asks-for-an-introduction-note"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-introduce-you-to-the-people-who-matter-at-before-the-week-is-out",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll introduce you to the people who matter at {employer} before the week is out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "promise",
         "key": "arrival"
       },
       "elements": [
