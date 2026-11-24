@@ -4,6 +4,8 @@
   "summary": "A speech ends on, or moves through, a run of accomplishments.",
   "realLife": "Connecticut's governor joined budget points with Speaking of, and Florida's closed on a long list of wins; both are State of the State addresses.",
   "sources": [
+    "https://www.nbcconnecticut.com/news/local/read-the-governors-2024-state-of-the-state-address/3213365/",
+    "https://www.flgov.com/eog/news/press/2024/governor-ron-desantis-delivers-state-state-address",
     "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
   ],
   "fits": ["speeches"],

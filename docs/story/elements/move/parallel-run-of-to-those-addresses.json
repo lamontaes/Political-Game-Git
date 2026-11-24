@@ -4,8 +4,10 @@
   "summary": "A string of points that each open by addressing a different group.",
   "realLife": "Kennedy's inaugural has six in a row opening on the same address to a different set of nations; Reagan and Obama have shorter runs.",
   "sources": [
-    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)",
-    "https://www.presidency.ucsb.edu/documents/inaugural-address-2"
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-11",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-5",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
   ],
   "fits": ["speeches"],
   "slots": ["term-left", "the-disaster", "run-span"],

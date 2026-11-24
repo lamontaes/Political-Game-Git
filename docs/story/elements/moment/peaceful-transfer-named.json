@@ -4,8 +4,8 @@
   "summary": "The address names the peaceful transfer of power as something rare.",
   "realLife": "Bush opened on the peaceful transfer of authority being rare in history and common here.",
   "sources": [
-    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)",
-    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/"
+    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
   ],
   "fits": ["speeches"],
   "slots": ["term-left"],
