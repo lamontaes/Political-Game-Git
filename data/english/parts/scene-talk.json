@@ -11107,7 +11107,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.a-knot-of-workers-stands-together-with-their-tools-put-down-breaks-away-to",
@@ -11132,7 +11136,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.the-whole-shift-has-stopped-work-and-walks-out-in-front-of-them-to-ask-you",
@@ -11157,7 +11165,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.lowers-a-sign-about-and-crosses-the-sidewalk-to-you",
@@ -11182,7 +11194,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.the-chanting-about-breaks-off-when-spots-you-and-comes-over",
@@ -11207,7 +11223,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.only-a-handful-came-and-is-the-one-who-steps-up-to-you-about",
@@ -11232,7 +11252,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.leaves-the-picket-line-and-stops-in-front-of-you-ready-to-talk-about",
@@ -11257,7 +11281,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.state-ask.we-stopped-work-over-where-do-you-stand-on-it",
@@ -11282,7 +11310,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.state-ask.nobody-walks-off-a-job-for-fun-what-are-you-going-to-do-about",
@@ -11307,7 +11339,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.state-ask.there-are-only-a-few-of-us-on-this-line-but-is-real-will-you-say-where-you",
@@ -11332,7 +11368,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.state-ask.you-can-hear-the-answer-from-all-of-us-or-from-me-what-do-you-say-about",
@@ -11357,7 +11397,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.state-ask.we-ve-been-out-here-for-and-nobody-from-the-town-has-said-a-word-will-you",
@@ -11382,7 +11426,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-answer.i-m-with-you-on-and-i-ll-say-it-plainly-where-people-can-hear",
@@ -11407,7 +11455,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-answer.i-have-a-different-view-on-and-i-d-rather-tell-you-to-your-face",
@@ -11432,7 +11484,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-relent.you-ve-made-your-point-on-i-ll-take-it-back-with-me-and-push-on-it",
@@ -11457,7 +11513,11 @@
       "tag": {
         "move": "relent",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-relent.i-didn-t-know-had-gotten-this-far-i-ll-look-into-it-this-week",
@@ -11482,7 +11542,11 @@
       "tag": {
         "move": "relent",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-offer.send-two-of-your-people-to-talk-with-me-about-and-i-ll-listen-to-all-of-it",
@@ -11507,7 +11571,11 @@
       "tag": {
         "move": "offer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-deflect.i-can-t-settle-standing-on-a-sidewalk-with-everyone-watching",
@@ -11532,7 +11600,11 @@
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-deflect.that-s-not-something-i-can-answer-alone-other-people-have-a-say-on",
@@ -11557,7 +11629,11 @@
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-leave.i-have-to-go-i-won-t-forget-what-you-said-about",
@@ -11582,7 +11658,11 @@
       "tag": {
         "move": "leave",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.reply-answer.i-m-with-the-workers-on-and-i-ll-say-it-where-the-people-who-run-this-place",
@@ -11607,7 +11687,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.reply-answer.i-see-differently-than-the-line-does-and-i-d-rather-say-so-to-your-face",
@@ -11632,7 +11716,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.reply-relent.you-ve-made-your-point-on-i-ll-carry-it-to-the-table-and-push-on-it",
@@ -11657,7 +11745,11 @@
       "tag": {
         "move": "relent",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.reply-relent.i-didn-t-know-had-cost-people-this-much-i-ll-look-into-it-this-week",
@@ -11682,7 +11774,11 @@
       "tag": {
         "move": "relent",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.reply-offer.pick-two-people-from-the-line-to-sit-down-with-me-on-and-i-ll-listen-to-all",
@@ -11707,7 +11803,11 @@
       "tag": {
         "move": "offer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.reply-deflect.i-can-t-settle-next-to-a-picket-line-with-everyone-watching",
@@ -11732,7 +11832,11 @@
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.reply-deflect.that-s-not-mine-alone-to-answer-the-company-and-the-workers-both-have-a-say",
@@ -11757,7 +11861,11 @@
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.reply-leave.i-have-to-go-i-won-t-forget-what-the-line-told-me-about",
@@ -11782,7 +11890,11 @@
       "tag": {
         "move": "leave",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.follow-press.that-s-an-answer-to-nobody-what-happens-to-after-you-walk-away",
@@ -11818,7 +11930,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.follow-press.say-it-so-the-people-behind-me-hear-it-what-about",
@@ -11854,7 +11970,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.follow-plea.please-people-here-have-lost-real-pay-over",
@@ -11890,7 +12010,11 @@
       "tag": {
         "move": "plea",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.follow-plea.please-just-tell-us-something-we-can-take-back-about",
@@ -11926,7 +12050,11 @@
       "tag": {
         "move": "plea",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.then-that-s-a-start-on-we-ll-hold-you-to-what-you-said",
@@ -11962,7 +12090,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.alright-i-ll-tell-the-line-you-re-willing-to-talk-about",
@@ -11998,7 +12130,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.fair-enough-on-you-told-us-the-truth-and-that-counts-for-something",
@@ -12024,7 +12160,11 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.i-won-t-agree-on-but-i-respect-that-you-came-out-to-say-it",
@@ -12050,7 +12190,11 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "strike-over-break-times-and-safety",
+        "picket-line-jeers-those-who-cross"
+      ]
     },
     {
       "key": "scene-talk.close-thank.we-ll-be-here-when-you-have-something-on",
@@ -12076,7 +12220,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.close-warn.this-isn-t-over-on-the-town-will-hear-from-us-again",
@@ -12102,7 +12250,11 @@
       "tag": {
         "move": "warn",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.close-press.think-about-before-the-next-meeting-we-will",
@@ -12128,7 +12280,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "picket-line-jeers-those-who-cross",
+        "council-skips-the-speech-for-the-picket"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.stops-you-with-a-clipboard-and-a-flyer-about",
@@ -12152,7 +12308,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.turns-from-another-neighbor-and-holds-a-sheet-about-out-to-you",
@@ -12176,7 +12336,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.waves-a-folded-flyer-about-before-you-can-walk-past",
@@ -12200,7 +12364,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.a-pen-is-already-out-when-reaches-you-and-the-clipboard-says-across-the-top",
@@ -12224,7 +12392,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.steps-into-your-path-with-a-stack-of-flyers-about-under-one-arm",
@@ -12248,7 +12420,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.comes-up-with-a-coffee-in-one-hand-and-a-sign-up-sheet-for-in-the-other",
@@ -12272,7 +12448,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.you-can-tell-from-the-sheet-in-s-hand-that-this-is-about",
@@ -12296,7 +12476,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.slows-down-beside-you-a-button-about-pinned-to-a-jacket",
@@ -12320,7 +12504,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.open-greet.have-you-got-a-minute",
@@ -12344,7 +12532,11 @@
       "tag": {
         "move": "greet",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.open-greet.i-was-hoping-i-d-run-into-you",
@@ -12368,7 +12560,11 @@
       "tag": {
         "move": "greet",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.open-greet.i-ll-be-quick-i-promise",
@@ -12392,7 +12588,11 @@
       "tag": {
         "move": "greet",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.open-greet.you-re-just-who-i-wanted-to-see",
@@ -12416,7 +12616,11 @@
       "tag": {
         "move": "greet",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.open-greet.sorry-to-grab-you-like-this",
@@ -12440,7 +12644,11 @@
       "tag": {
         "move": "greet",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.open-greet.you-know-me-i-wouldn-t-ask-if-it-didn-t-matter",
@@ -12464,7 +12672,11 @@
       "tag": {
         "move": "greet",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.state-request.we-re-meeting-about-at-the-next-posted-meeting-and-i-d-like-you-in-the-room",
@@ -12488,7 +12700,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.state-request.the-town-s-body-takes-up-soon-a-few-of-us-are-going-to-stand-up-in-front-of",
@@ -12512,7 +12728,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.state-request.you-ve-seen-what-does-to-people-around-here-come-to-the-meeting-and-say-so",
@@ -12536,7 +12756,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.state-request.nobody-in-that-room-hears-about-unless-somebody-shows-up-will-you-come-to-t",
@@ -12560,7 +12784,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.state-request.we-have-the-speakers-for-what-we-re-short-on-is-people-in-the-chairs",
@@ -12584,7 +12812,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.state-request.i-m-asking-everybody-i-trust-to-come-to-the-meeting-on-you-re-on-that-list",
@@ -12608,7 +12840,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.what-would-you-need-me-to-do-about",
@@ -12632,7 +12868,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.who-else-is-going-to-speak-up-for",
@@ -12656,7 +12896,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.why-come-to-me-about",
@@ -12680,7 +12924,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.put-me-down-i-ll-be-at-the-meeting-about",
@@ -12704,7 +12952,11 @@
       "tag": {
         "move": "agree",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.i-ll-come-to-the-meeting-about-tell-me-the-hour-and-i-ll-clear-it",
@@ -12728,7 +12980,11 @@
       "tag": {
         "move": "agree",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.alright-one-meeting-and-then-i-ll-see-where-i-stand-on",
@@ -12752,7 +13008,11 @@
       "tag": {
         "move": "agree",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.you-can-count-on-me-to-show-up-about",
@@ -12776,7 +13036,11 @@
       "tag": {
         "move": "agree",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.i-m-glad-someone-s-working-on-it-isn-t-my-fight",
@@ -12800,7 +13064,11 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.i-don-t-see-the-way-you-do-so-i-d-be-sitting-in-the-wrong-chair",
@@ -12824,7 +13092,11 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.i-can-t-go-to-meetings-about-when-i-haven-t-made-up-my-mind",
@@ -12848,7 +13120,11 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.not-about-ask-me-about-the-next-thing",
@@ -12872,7 +13148,11 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-deflect.my-calendar-is-a-mess-this-month-and-the-meeting-about-is-when-let-me-look",
@@ -12896,7 +13176,11 @@
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-deflect.send-me-the-details-on-and-i-ll-think-about-it",
@@ -12920,7 +13204,11 @@
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-deflect.maybe-i-have-to-see-what-else-is-on-the-week-of-the-meeting-about",
@@ -12944,7 +13232,11 @@
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.reply-leave.i-have-to-be-somewhere-good-luck-with-what-you-re-doing-about",
@@ -12968,7 +13260,11 @@
       "tag": {
         "move": "leave",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.mostly-sitting-there-and-being-counted-at-the-meeting-about-if-you-want-to",
@@ -12993,7 +13289,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.some-of-the-people-who-live-next-door-to-and-two-who-work-on-it-all-day",
@@ -13018,7 +13318,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.because-you-listen-when-it-s-your-turn-to-talk-about-and-that-s-rarer-than",
@@ -13043,7 +13347,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.good-i-ll-write-your-name-down-for-the-meeting-about-now",
@@ -13068,7 +13376,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.that-s-all-i-need-on-bring-somebody-if-you-can",
@@ -13093,7 +13405,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-having-you-there-at-the-meeting-about-makes-the-rest-of-them-brav",
@@ -13118,7 +13434,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-press.i-m-not-asking-you-to-agree-with-every-word-on-come-hear-it",
@@ -13152,7 +13472,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-press.what-happens-with-lands-on-your-street-too-whether-you-re-in-the-room-or-no",
@@ -13186,7 +13510,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-press.then-come-and-tell-us-where-we-re-wrong-about-we-d-rather-hear-it-than-gues",
@@ -13220,7 +13548,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.fair-enough-if-you-change-your-mind-about-the-door-stays-open",
@@ -13254,7 +13586,11 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.i-understand-i-ll-leave-a-flyer-about-in-case",
@@ -13288,7 +13624,11 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.alright-i-won-t-push-on",
@@ -13322,7 +13662,11 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.close-thank.see-you-at-the-meeting-about-then",
@@ -13347,7 +13691,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.close-thank.i-ll-tell-the-others-you-re-coming-to-the-meeting-about",
@@ -13372,7 +13720,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.close-promise.i-ll-text-you-the-time-for-the-meeting-about",
@@ -13397,7 +13749,11 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.close-promise.i-ll-save-you-a-seat-near-the-front-for-the-meeting-about",
@@ -13422,7 +13778,11 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.close-press.think-about-we-meet-again-every-week",
@@ -13447,7 +13807,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.close-warn.suit-yourself-we-ll-be-there-about-either-way-and-so-will-the-other-side",
@@ -13472,7 +13836,11 @@
       "tag": {
         "move": "warn",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.close-accept.go-ahead-i-ll-put-a-flyer-about-in-your-mailbox",
@@ -13497,7 +13865,11 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "neighbor-asks-you-to-the-posted-meeting",
+        "neighbor-with-a-clipboard"
+      ]
     },
     {
       "key": "scene-talk.open-greet.governor-it-s-the-disaster",
@@ -63240,7 +63612,12 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.calls-from-with-an-answer-about-the-job",
@@ -63265,7 +63642,12 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.your-phone-shows-it-s-and-the-news-is-about-the-opening",
@@ -63290,7 +63672,12 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.at-has-the-offer-ready-and-says-so-before-anything-else",
@@ -63315,7 +63702,12 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.a-call-from-at-comes-in-about-the-job",
@@ -63340,7 +63732,12 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.state-request.picked-you-for-the-pay-is-an-hour-and-we-d-like-you-to-say-yes",
@@ -63365,7 +63762,12 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.state-request.the-job-at-is-yours-it-starts-at-an-hour-and-i-need-your-answer",
@@ -63390,7 +63792,12 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.state-request.everyone-on-the-hiring-side-agreed-on-you-for-will-you-take-it-at-an-hour",
@@ -63415,7 +63822,12 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.state-request.we-want-you-at-as-the-offer-is-an-hour-and-it-s-open-until",
@@ -63440,7 +63852,12 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.what-would-a-normal-week-as-at-look-like",
@@ -63465,7 +63882,12 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.is-the-an-hour-the-whole-offer-or-is-there-more-to-it-at",
@@ -63490,7 +63912,12 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.why-did-pick-me-for",
@@ -63515,7 +63942,12 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.i-ll-take-the-job-at-when-do-i-start",
@@ -63540,7 +63972,12 @@
       "tag": {
         "move": "agree",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.yes-to-at-an-hour-thank-you-for-picking-me",
@@ -63565,7 +64002,12 @@
       "tag": {
         "move": "agree",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.thank-you-but-an-hour-isn-t-enough-for-me-to-leave-what-i-have-for",
@@ -63590,7 +64032,12 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-decline.i-m-flattered-that-called-about-but-i-have-to-turn-it-down",
@@ -63615,7 +64062,12 @@
       "tag": {
         "move": "decline",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-stall.give-me-until-to-answer-i-want-to-talk-it-over-at-home",
@@ -63640,7 +64092,12 @@
       "tag": {
         "move": "stall",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-stall.it-s-a-real-offer-and-is-a-real-change-i-d-like-a-day-to-think",
@@ -63665,7 +64122,12 @@
       "tag": {
         "move": "stall",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.reply-leave.i-can-t-give-an-answer-on-the-phone-right-now-i-ll-call-back",
@@ -63690,7 +64152,12 @@
       "tag": {
         "move": "leave",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.most-weeks-at-are-steady-with-a-few-busy-stretches-sets-its-own-pace",
@@ -63716,7 +64183,12 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.the-an-hour-is-the-whole-number-to-start-where-it-goes-from-there-depends-o",
@@ -63742,7 +64214,12 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.you-came-across-as-someone-who-shows-up-and-needs-that-more-than-a-perfect",
@@ -63768,7 +64245,12 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.good-i-ll-tell-to-expect-you-and-we-ll-send-the-papers-over",
@@ -63794,7 +64276,12 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.that-s-the-answer-i-was-hoping-for-welcome-to",
@@ -63820,7 +64307,12 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.follow-press.before-you-close-the-door-think-about-the-job-one-more-time-won-t-hold-it-f",
@@ -63856,7 +64348,12 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.i-understand-if-at-ever-looks-different-to-you-call-me",
@@ -63892,7 +64389,12 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.close-promise.i-ll-send-the-offer-for-in-writing-today",
@@ -63918,7 +64420,12 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.close-press.call-back-before-if-the-answer-changes",
@@ -63944,7 +64451,12 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.at-waits-through-your-pause-on-the-line-before-going-on-with-the-offer",
@@ -68444,7 +68956,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.gives-your-first-minutes-at-one-look-and-starts-walking",
@@ -68469,7 +68986,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.a-badge-and-a-cup-of-coffee-are-waiting-on-the-counter-at-and-points-to-bot",
@@ -68494,7 +69016,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.falls-in-step-beside-you-inside-like-it-s-been-decided",
@@ -68519,7 +69046,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.is-rearranging-a-shelf-at-and-stops-when-you-appear",
@@ -68544,7 +69076,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.state-ask.what-did-you-do-before-this-job-as-at",
@@ -68569,7 +69106,12 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.state-ask.how-much-of-working-as-have-you-done-before",
@@ -68594,7 +69136,12 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.state-ask.is-there-anything-about-i-should-know-about-before-i-show-you-around",
@@ -68619,7 +69166,12 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.state-ask.where-did-you-work-last-before",
@@ -68644,7 +69196,12 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-answer.my-last-place-was-smaller-than-and-i-did-a-bit-of-everything-there",
@@ -68669,7 +69226,12 @@
       "tag": {
         "move": "answer",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-answer.i-ve-never-done-but-i-pick-things-up-fast-at",
@@ -68694,7 +69256,12 @@
       "tag": {
         "move": "answer",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.what-do-people-at-complain-about-and-what-do-they-like",
@@ -68719,7 +69286,12 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.who-has-been-here-the-longest-at-so-i-know-whom-to-ask",
@@ -68744,7 +69316,12 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-tell.i-took-this-job-at-because-i-needed-something-steady",
@@ -68769,7 +69346,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-tell.honestly-i-m-a-little-scared-of-messing-up-in-front-of-everyone-at",
@@ -68794,7 +69376,12 @@
       "tag": {
         "move": "tell",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-confront.nobody-mentioned-the-hours-at-when-i-took-the-job-as",
@@ -68819,7 +69406,12 @@
       "tag": {
         "move": "confront",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-thank.thank-you-for-spending-your-morning-on-me-at",
@@ -68844,7 +69436,12 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.reply-leave.i-think-i-have-what-i-need-i-ll-go-find-my-spot-at",
@@ -68869,7 +69466,12 @@
       "tag": {
         "move": "leave",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.good-enough-ask-when-you-re-stuck-and-nobody-at-will-mind",
@@ -68915,7 +69517,12 @@
       "tag": {
         "move": "accept",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.follow-warn.be-on-time-at-that-s-the-one-thing-people-here-notice-first",
@@ -68951,7 +69558,12 @@
       "tag": {
         "move": "warn",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.the-longest-serving-person-at-is-in-the-back-ask-them-anything-and-they-ll",
@@ -68977,7 +69589,12 @@
       "tag": {
         "move": "answer",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.people-complain-about-the-schedule-and-they-like-each-other-that-s-most-of",
@@ -69003,7 +69620,12 @@
       "tag": {
         "move": "answer",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.we-ll-get-you-settled-in-at-before-lunch-don-t-worry",
@@ -69029,7 +69651,12 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.close-promise.come-find-me-if-the-day-at-gets-away-from-you",
@@ -69055,7 +69682,12 @@
       "tag": {
         "move": "promise",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.close-accept.go-on-will-make-sense-by-the-end-of-the-week",
@@ -69081,7 +69713,12 @@
       "tag": {
         "move": "accept",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "workspace-ready-on-arrival",
+        "asking-questions-is-expected-early"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.has-set-aside-the-first-stretch-of-your-day-at-before-showing-you-anyone-el",
@@ -72379,7 +73016,8 @@
       "tag": {
         "move": "narrate",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-halls-of-have-gone-quiet-and-is-waiting-at-the-end-of-one",
@@ -72404,7 +73042,8 @@
       "tag": {
         "move": "narrate",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.state-ask.what-s-next-for-you-after",
@@ -72429,7 +73068,8 @@
       "tag": {
         "move": "ask",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.state-ask.is-today-really-your-last-day-at",
@@ -72454,7 +73094,8 @@
       "tag": {
         "move": "ask",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.reply-tell.i-m-not-sure-what-s-after-but-i-m-going-to-find-out",
@@ -72479,7 +73120,8 @@
       "tag": {
         "move": "tell",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.reply-tell.i-m-glad-to-be-done-with-and-a-little-scared",
@@ -72504,7 +73146,8 @@
       "tag": {
         "move": "tell",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-come-back-to-and-tell-you-how-it-goes",
@@ -72529,7 +73172,8 @@
       "tag": {
         "move": "promise",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.reply-deflect.let-s-not-make-this-a-big-goodbye-at",
@@ -72554,7 +73198,8 @@
       "tag": {
         "move": "deflect",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.follow-accept.okay-whatever-comes-after-i-hope-it-s-good",
@@ -72590,7 +73235,8 @@
       "tag": {
         "move": "accept",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.follow-thank.you-d-better-won-t-be-the-same-without-you",
@@ -72616,7 +73262,8 @@
       "tag": {
         "move": "thank",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.close-accept.take-care-had-you-for-a-while-and-that-counts",
@@ -72642,7 +73289,8 @@
       "tag": {
         "move": "accept",
         "key": "school-goodbye"
-      }
+      },
+      "elements": ["teachers-say-goodbye-to-seniors-with-notes-and-photos"]
     },
     {
       "key": "scene-talk.narrate-narrate.comes-over-while-you-carry-the-last-box-out-of",
@@ -72667,7 +73315,8 @@
       "tag": {
         "move": "narrate",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.narrate-narrate.the-shift-at-winds-down-and-saves-you-for-last",
@@ -72692,7 +73341,8 @@
       "tag": {
         "move": "narrate",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.state-ask.what-are-you-going-to-do-after",
@@ -72717,7 +73367,8 @@
       "tag": {
         "move": "ask",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.state-ask.your-last-day-as-where-do-you-go-from-here",
@@ -72742,7 +73393,8 @@
       "tag": {
         "move": "ask",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.reply-tell.i-don-t-know-yet-i-m-just-getting-out-of-with-my-head-up",
@@ -72767,7 +73419,8 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.reply-tell.i-have-an-idea-for-after-but-i-m-not-ready-to-say-it-out-loud",
@@ -72792,7 +73445,8 @@
       "tag": {
         "move": "tell",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-come-back-and-see-how-is-doing-without-me",
@@ -72817,7 +73471,8 @@
       "tag": {
         "move": "promise",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.reply-deflect.let-s-not-do-the-big-goodbye-at-i-ll-see-you-around",
@@ -72842,7 +73497,8 @@
       "tag": {
         "move": "deflect",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.follow-accept.fair-enough-whatever-you-do-after-i-hope-it-s-good",
@@ -72878,7 +73534,8 @@
       "tag": {
         "move": "accept",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.follow-thank.come-back-and-tell-us-everything-won-t-be-the-same",
@@ -72904,7 +73561,8 @@
       "tag": {
         "move": "thank",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.close-accept.take-care-out-there-won-t-forget-you",
@@ -72930,7 +73588,8 @@
       "tag": {
         "move": "accept",
         "key": "departure"
-      }
+      },
+      "elements": ["retiring-teacher-finds-her-classroom-bare"]
     },
     {
       "key": "scene-talk.narrate-narrate.slips-a-folded-note-into-your-hand-on-the-way-out-of",
@@ -73760,7 +74419,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.starts-at-this-week-and-you-re-the-first-person-they-ve-picked-to-talk-to",
@@ -73785,7 +74449,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.comes-by-your-station-at-with-a-hand-out",
@@ -73810,7 +74479,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.a-new-face-at-walks-over-during-a-slow-minute",
@@ -73835,7 +74509,12 @@
       "tag": {
         "move": "narrate",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.state-request.i-m-new-at-would-you-show-me-how-things-work-around-here",
@@ -73860,7 +74539,12 @@
       "tag": {
         "move": "request",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.state-request.first-week-at-and-everybody-says-you-know-the-place-can-i-ask-you-a-few-thi",
@@ -73885,7 +74569,12 @@
       "tag": {
         "move": "request",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.state-request.i-d-like-to-know-who-to-trust-at-could-you-point-me-the-right-way",
@@ -73910,7 +74599,12 @@
       "tag": {
         "move": "request",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.sure-ask-anything-about-and-i-ll-tell-you-what-i-know",
@@ -73935,7 +74629,12 @@
       "tag": {
         "move": "agree",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.reply-agree.happy-to-stick-with-me-at-until-lunch-and-i-ll-show-you-the-ropes",
@@ -73960,7 +74659,12 @@
       "tag": {
         "move": "agree",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-introduce-you-to-the-people-who-matter-at-before-the-week-is-out",
@@ -73985,7 +74689,12 @@
       "tag": {
         "move": "promise",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.what-did-you-do-before",
@@ -74010,7 +74719,12 @@
       "tag": {
         "move": "ask",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.reply-deflect.i-m-slammed-at-today-can-we-talk-after-the-shift",
@@ -74035,7 +74749,12 @@
       "tag": {
         "move": "deflect",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-that-already-makes-feel-less-strange",
@@ -74061,7 +74780,12 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.no-rush-i-ll-find-you-when-slows-down",
@@ -74097,7 +74821,12 @@
       "tag": {
         "move": "accept",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.i-was-at-a-smaller-shop-for-a-while-then-took-this-job-at",
@@ -74123,7 +74852,12 @@
       "tag": {
         "move": "answer",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.follow-press.even-five-minutes-helps-what-should-i-know-about-before-my-first-mistake",
@@ -74149,7 +74883,12 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.close-thank.i-ll-hold-you-to-that-and-thanks-already-seems-better",
@@ -74175,7 +74914,12 @@
       "tag": {
         "move": "thank",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.close-press.find-me-when-the-shift-at-is-quiet",
@@ -74201,7 +74945,12 @@
       "tag": {
         "move": "press",
         "key": "arrival"
-      }
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.starts-a-conversation-with-you-at-before-anyone-introduces-them",
@@ -83044,7 +83793,12 @@
       "tag": {
         "move": "narrate",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.waits-until-the-door-at-is-closed-before-saying-anything",
@@ -83069,7 +83823,12 @@
       "tag": {
         "move": "narrate",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.won-t-quite-meet-your-eyes-and-a-folder-with-your-name-sits-between-you",
@@ -83094,7 +83853,12 @@
       "tag": {
         "move": "narrate",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.the-meeting-at-is-short-and-has-already-planned-what-to-say",
@@ -83119,7 +83883,12 @@
       "tag": {
         "move": "narrate",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.state-deliver-news.i-have-bad-news-about-your-job-as-at-we-re-cutting-it-effective-this-month",
@@ -83144,7 +83913,12 @@
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.state-deliver-news.is-closing-your-position-at-the-terms-are-in-the-folder",
@@ -83169,7 +83943,12 @@
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.state-deliver-news.this-isn-t-about-how-you-did-as-has-to-cut-and-your-job-is-one-of-them",
@@ -83194,7 +83973,12 @@
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.is-this-about-my-work-as-or-about-the-money-at",
@@ -83219,7 +84003,12 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.how-long-do-i-have-before-i-clear-out-of",
@@ -83244,7 +84033,12 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.will-give-a-reference-for-the-next-job-as",
@@ -83269,7 +84063,12 @@
       "tag": {
         "move": "ask",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-bargain.add-more-to-the-terms-before-i-sign-anything-at-i-m-owed-that",
@@ -83294,7 +84093,12 @@
       "tag": {
         "move": "bargain",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-bargain.give-me-a-reference-and-a-longer-notice-at-and-i-ll-sign",
@@ -83319,7 +84123,12 @@
       "tag": {
         "move": "bargain",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-confront.you-re-telling-me-this-to-my-face-but-decided-it-behind-my-back",
@@ -83344,7 +84153,12 @@
       "tag": {
         "move": "confront",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-accept.i-d-have-liked-more-warning-but-i-ll-sign-and-go-from",
@@ -83369,7 +84183,12 @@
       "tag": {
         "move": "accept",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-accept.thank-you-for-telling-me-yourself-i-ll-clear-out-at-today",
@@ -83394,7 +84213,12 @@
       "tag": {
         "move": "accept",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.reply-leave.i-can-t-read-this-here-i-ll-take-the-folder-from-and-call-you",
@@ -83419,7 +84243,12 @@
       "tag": {
         "move": "leave",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.it-s-the-money-at-not-your-work-that-s-the-truth",
@@ -83445,7 +84274,12 @@
       "tag": {
         "move": "answer",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.you-can-stay-at-through-the-end-of-the-week-and-then-it-s-over",
@@ -83471,7 +84305,12 @@
       "tag": {
         "move": "answer",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.yes-will-give-a-reference-for-i-ll-write-it-myself",
@@ -83497,7 +84336,12 @@
       "tag": {
         "move": "answer",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.i-ll-see-what-more-i-can-get-for-you-from-no-promises-but-i-ll-ask",
@@ -83523,7 +84367,12 @@
       "tag": {
         "move": "accept",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.follow-refuse.the-terms-at-are-what-they-are-i-can-t-change-them",
@@ -83549,7 +84398,12 @@
       "tag": {
         "move": "refuse",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.follow-apologize.i-m-sorry-i-know-what-you-gave-and-i-m-sorry-it-came-to-this",
@@ -83575,7 +84429,12 @@
       "tag": {
         "move": "apologize",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.follow-promise.i-ll-call-you-myself-the-day-sends-the-paperwork",
@@ -83601,7 +84460,12 @@
       "tag": {
         "move": "promise",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.close-thank.thank-you-for-hearing-it-out-at-it-wasn-t-easy-to-say",
@@ -83627,7 +84491,12 @@
       "tag": {
         "move": "thank",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.close-promise.you-ll-have-your-terms-from-in-writing-today",
@@ -83653,7 +84522,12 @@
       "tag": {
         "move": "promise",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.close-warn.read-the-terms-from-carefully-before-you-sign-them",
@@ -83679,7 +84553,12 @@
       "tag": {
         "move": "warn",
         "key": "loss"
-      }
+      },
+      "elements": [
+        "manager-keeps-the-talk-about-the-business",
+        "private-meeting-then-outplacement-help",
+        "severance-agreement-handed-over-at-meeting"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.takes-you-aside-at-and-says-it-s-about-the-business-not-about-you",
@@ -85136,7 +86015,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.texts-first-to-ask-if-you-can-talk-then-calls-before-you-answer",
@@ -85161,7 +86044,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.it-s-on-the-phone-and-sounds-like-someone-who-has-made-this-call-in-their-h",
@@ -85186,7 +86073,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.catches-you-between-other-things-to-talk-about-work-at",
@@ -85211,7 +86102,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.the-call-is-from-who-used-to-work-at",
@@ -85236,7 +86131,11 @@
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.state-request.cut-my-hours-and-then-cut-me-i-m-asking-everyone-i-know-about-work-as",
@@ -85261,7 +86160,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.state-request.i-don-t-like-asking-but-the-job-at-is-gone-and-i-need-to-hear-about-any-ope",
@@ -85286,7 +86189,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.state-request.they-let-me-go-from-last-week-do-you-know-anyone-who-needs-a",
@@ -85311,7 +86218,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.state-request.is-done-with-me-is-there-anywhere-you-could-point-me-for-work",
@@ -85336,7 +86247,11 @@
       "tag": {
         "move": "request",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.how-long-were-you-at-as",
@@ -85361,7 +86276,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.what-did-they-tell-you-when-they-let-you-go-from",
@@ -85386,7 +86305,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-ask.have-you-tried-the-other-places-that-hire-for",
@@ -85411,7 +86334,11 @@
       "tag": {
         "move": "ask",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-refuse.i-wish-i-had-a-name-for-you-in-work-but-i-don-t",
@@ -85436,7 +86363,11 @@
       "tag": {
         "move": "refuse",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-refuse.i-m-not-in-a-spot-to-recommend-anyone-for-right-now-i-m-sorry",
@@ -85461,7 +86392,11 @@
       "tag": {
         "move": "refuse",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-offer.come-by-this-week-and-i-ll-look-at-your-r-sum-for-work-with-you",
@@ -85486,7 +86421,11 @@
       "tag": {
         "move": "offer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-offer.tell-me-what-you-want-after-and-i-ll-keep-my-ears-open",
@@ -85511,7 +86450,11 @@
       "tag": {
         "move": "offer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.i-ll-ask-two-people-today-about-openings-for",
@@ -85536,7 +86479,11 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.reply-promise.you-gave-real-work-as-i-ll-say-that-to-anyone-who-asks",
@@ -85561,7 +86508,11 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.years-of-work-at-and-nobody-could-say-i-wasn-t-there",
@@ -85587,7 +86538,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.they-told-me-it-was-about-the-budget-and-that-was-that-i-cleared-out-the-sa",
@@ -85613,7 +86568,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.follow-answer.i-ve-tried-the-obvious-ones-nothing-yet-for-work",
@@ -85639,7 +86598,11 @@
       "tag": {
         "move": "answer",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.follow-thank.thank-you-that-means-more-than-you-know-after",
@@ -85675,7 +86638,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.follow-press.even-one-name-for-work-helps-can-you-think-of-anybody",
@@ -85701,7 +86668,11 @@
       "tag": {
         "move": "press",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.follow-plea.please-just-one-phone-call-to-someone-about-work",
@@ -85727,7 +86698,11 @@
       "tag": {
         "move": "plea",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.follow-accept.i-understand-thank-you-for-hearing-me-out-about",
@@ -85753,7 +86728,11 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.close-thank.thank-you-for-listening-about-i-ll-let-you-know-how-it-goes",
@@ -85779,7 +86758,11 @@
       "tag": {
         "move": "thank",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.close-promise.i-ll-call-you-when-i-hear-anything-about-work",
@@ -85805,7 +86788,11 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
-      }
+      },
+      "elements": [
+        "friends-and-family-as-job-leads",
+        "friends-or-relatives-used-by-about-one-in-four"
+      ]
     },
     {
       "key": "scene-talk.narrate-narrate.calls-and-says-they-ve-been-telling-nobody-at-about-this-yet",
