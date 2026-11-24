@@ -63,4 +63,4 @@ The Game UI Database (https://www.gameuidatabase.com) answers 403 from this cont
 
 ## Files
 
-`journal.html` (the mock), `journal-mock.png` (its picture), `fonts/` (the game's fonts with their licenses), `img/` (the panel art, four of the game's pictures and two pack figures).
+`journal.html` (the mock), `journal-mock.png` (its picture), `fonts/` (the game's fonts; their licenses are in `public/fonts/kit12`), `img/` (the panel art, four of the game's pictures and two pack figures).
