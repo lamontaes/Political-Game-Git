@@ -2740,5 +2740,503 @@
       "pattern-a13-your-first-night-in-the-party-s-room",
       "a-party-resolution-still-needs-a-law"
     ]
+  },
+  {
+    "key": "scene-talk.state-request.i-wonder-what-you-d-tell-somebody-who-missed-my-talk-about-prior-meeting-topic-come-sit-with-me-meeting-when-if-you-can-i-d-like-to-hear-what-stuck",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "I wonder what you'd tell somebody who missed my talk about {prior-meeting-topic}. Come sit with me {meeting-when} if you can. I'd like to hear what stuck.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["prior-meeting-topic", "meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.over-a-cup-of-coffee-maybe-i-ll-come-meeting-when-and-you-can-hear-the-short-version",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Over a cup of coffee, maybe. I'll come {meeting-when}, and you can hear the short version.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.i-wonder-what-you-d-tell-somebody-who-missed-my-talk-about-prior-meeting-topic-come-sit-with-me-meeting-when-if-you-can-i-d-like-to-hear-what-stuck"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.you-ll-have-to-count-me-out-meeting-when-i-heard-you-but-i-wouldn-t-try-to-repeat-it-for-somebody-else",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "You'll have to count me out {meeting-when}. I heard you, but I wouldn't try to repeat it for somebody else.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.i-wonder-what-you-d-tell-somebody-who-missed-my-talk-about-prior-meeting-topic-come-sit-with-me-meeting-when-if-you-can-i-d-like-to-hear-what-stuck"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.i-could-use-an-honest-answer-when-i-talked-about-prior-meeting-topic-where-did-i-lose-you-let-me-buy-you-a-coffee-meeting-when-and-you-can-tell-me",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "I could use an honest answer. When I talked about {prior-meeting-topic}, where did I lose you? Let me buy you a coffee {meeting-when} and you can tell me.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["prior-meeting-topic", "meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.black-coffee-for-me-i-ll-see-you-meeting-when-i-did-have-a-question-about-how-that-would-work",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Black coffee for me. I'll see you {meeting-when}. I did have a question about how that would work.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.i-could-use-an-honest-answer-when-i-talked-about-prior-meeting-topic-where-did-i-lose-you-let-me-buy-you-a-coffee-meeting-when-and-you-can-tell-me"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.keep-the-coffee-money-i-m-passing-meeting-when-and-it-was-your-conclusion-i-had-trouble-with",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Keep the coffee money. I'm passing {meeting-when}, and it was your conclusion I had trouble with.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.i-could-use-an-honest-answer-when-i-talked-about-prior-meeting-topic-where-did-i-lose-you-let-me-buy-you-a-coffee-meeting-when-and-you-can-tell-me"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.do-you-know-anybody-else-in-the-room-yet-you-heard-me-on-prior-meeting-topic-but-you-d-get-a-different-sort-of-conversation-sitting-beside-somebody-new-meeting-when",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Do you know anybody else in the room yet? You heard me on {prior-meeting-topic}, but you'd get a different sort of conversation sitting beside somebody new {meeting-when}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["prior-meeting-topic", "meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-d-like-that-come-find-me-meeting-when-and-introduce-me-to-somebody-who-sees-it-differently",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'd like that. Come find me {meeting-when} and introduce me to somebody who sees it differently.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.do-you-know-anybody-else-in-the-room-yet-you-heard-me-on-prior-meeting-topic-but-you-d-get-a-different-sort-of-conversation-sitting-beside-somebody-new-meeting-when"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.leave-me-off-the-list-meeting-when-meeting-a-roomful-of-people-still-feels-too-much-like-work",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Leave me off the list {meeting-when}. Meeting a roomful of people still feels too much like work.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.do-you-know-anybody-else-in-the-room-yet-you-heard-me-on-prior-meeting-topic-but-you-d-get-a-different-sort-of-conversation-sitting-beside-somebody-new-meeting-when"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.i-had-my-say-about-prior-meeting-topic-your-turn-if-you-want-it-could-you-come-meeting-when-with-one-question-you-d-actually-like-somebody-to-answer",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "I had my say about {prior-meeting-topic}. Your turn, if you want it. Could you come {meeting-when} with one question you'd actually like somebody to answer?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["prior-meeting-topic", "meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-can-bring-one-meeting-when-can-i-ask-it-in-my-own-words",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I can bring one {meeting-when}. Can I ask it in my own words?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.i-had-my-say-about-prior-meeting-topic-your-turn-if-you-want-it-could-you-come-meeting-when-with-one-question-you-d-actually-like-somebody-to-answer"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-sit-this-one-out-i-don-t-have-a-question-about-prior-meeting-topic-i-want-to-ask-a-whole-room",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll sit this one out. I don't have a question about {prior-meeting-topic} I want to ask a whole room.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["prior-meeting-topic"],
+        "after": "scene-talk.state-request.i-had-my-say-about-prior-meeting-topic-your-turn-if-you-want-it-could-you-come-meeting-when-with-one-question-you-d-actually-like-somebody-to-answer"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.suppose-somebody-walked-in-halfway-through-what-i-said-about-prior-meeting-topic-where-should-i-have-started-come-back-meeting-when-and-help-me-figure-that-out",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Suppose somebody walked in halfway through what I said about {prior-meeting-topic}. Where should I have started? Come back {meeting-when} and help me figure that out.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["prior-meeting-topic", "meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.start-with-who-it-affects-i-ll-come-meeting-when-and-tell-you-why-i-d-start-there",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Start with who it affects. I'll come {meeting-when} and tell you why I'd start there.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.suppose-somebody-walked-in-halfway-through-what-i-said-about-prior-meeting-topic-where-should-i-have-started-come-back-meeting-when-and-help-me-figure-that-out"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-won-t-make-it-meeting-when-my-advice-would-be-to-ask-somebody-who-s-hearing-it-for-the-first-time",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I won't make it {meeting-when}. My advice would be to ask somebody who's hearing it for the first time.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.suppose-somebody-walked-in-halfway-through-what-i-said-about-prior-meeting-topic-where-should-i-have-started-come-back-meeting-when-and-help-me-figure-that-out"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.the-meeting-is-meeting-when-if-you-come-early-we-can-talk-about-prior-meeting-topic-without-either-of-us-having-to-address-the-room-would-that-suit-you",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "The meeting is {meeting-when}. If you come early, we can talk about {prior-meeting-topic} without either of us having to address the room. Would that suit you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended"],
+        "requiresFacts": ["meeting-when", "prior-meeting-topic"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-i-d-rather-have-that-talk-with-you-before-the-party-meeting-gets-going",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Yes. I'd rather have that talk with you before the {party} meeting gets going.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["party"],
+        "after": "scene-talk.state-request.the-meeting-is-meeting-when-if-you-come-early-we-can-talk-about-prior-meeting-topic-without-either-of-us-having-to-address-the-room-would-that-suit-you"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.no-go-ahead-without-me-meeting-when-if-i-ever-take-that-up-with-you-i-d-like-other-people-there-to-hear-the-answer",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "No, go ahead without me {meeting-when}. If I ever take that up with you, I'd like other people there to hear the answer.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-attended", "prior-meeting-topic"],
+        "requiresFacts": ["meeting-when"],
+        "after": "scene-talk.state-request.the-meeting-is-meeting-when-if-you-come-early-we-can-talk-about-prior-meeting-topic-without-either-of-us-having-to-address-the-room-would-that-suit-you"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   }
 ]
