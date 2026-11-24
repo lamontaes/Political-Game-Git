@@ -116,14 +116,14 @@ function serviceStart(term: TermRow): string {
   return term.serviceStart ?? term.startDate;
 }
 
-interface Chamber {
+export interface Chamber {
   readonly office: PastOffice;
   readonly body: string;
   readonly members: readonly TermRow[];
   readonly seats: number;
 }
 
-function chambersOf(api: CoreAPI): readonly Chamber[] {
+export function chambersOf(api: CoreAPI): readonly Chamber[] {
   const out: Chamber[] = [];
   const seen = new Set<string>();
   for (const office of townOffices(api)) {
@@ -438,7 +438,7 @@ export function buildLawHistories(
           ? c.office.level === "state"
           : level === "county"
             ? c.office.kind === "county-board"
-            : c.office.kind === "council",
+            : c.office.kind === "council" || c.office.kind === "township-board",
     );
   const signerOf = (level: string): TermRow | undefined => {
     const kind = SIGNER_KINDS[level];
