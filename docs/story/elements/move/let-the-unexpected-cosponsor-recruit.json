@@ -1,0 +1,22 @@
+{
+  "id": "let-the-unexpected-cosponsor-recruit",
+  "kind": "move",
+  "summary": "A sponsor wins over a colleague whose endorsement carries weight with the remaining holdouts.",
+  "realLife": "A prosecutors’ group expected Joni Ernst’s support for military justice legislation to help bring additional senators aboard.",
+  "sources": [
+    "https://www.military.com/daily-news/2021/05/14/after-8-years-of-effort-senate-has-votes-it-needs-overhaul-military-sexual-assault-prosecutions.html"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{sponsor}",
+    "{colleague}",
+    "{bill}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

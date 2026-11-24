@@ -1,0 +1,22 @@
+{
+  "id": "find-a-sponsor-across-the-building",
+  "kind": "move",
+  "summary": "A sponsor finds a member in the other chamber who can carry the companion bill.",
+  "realLife": "House members interviewed by Roll Call described enlisting Senate partners, including a committee chairman, to move legislation to enactment.",
+  "sources": [
+    "https://rollcall.com/2019/09/09/how-a-handful-of-vulnerable-incumbents-got-bills-signed-into-law/"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{sponsor}",
+    "{senate_partner}",
+    "{bill}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

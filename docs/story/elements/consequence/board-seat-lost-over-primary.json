@@ -1,0 +1,22 @@
+{
+  "id": "board-seat-lost-over-primary",
+  "kind": "consequence",
+  "summary": "A board member loses an appointment after entering a race against the mayor’s preferred candidate.",
+  "realLife": "George Moscone removed Harvey Milk from the San Francisco permit appeals board after Milk entered a state Assembly primary.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Harvey_Milk"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{board}",
+    "{mayor}",
+    "{candidate}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,22 @@
+{
+  "id": "a-question-counted-as-a-pledge",
+  "kind": "voice",
+  "summary": "A member says the leadership counted a question about a bill as a promise to vote for it.",
+  "realLife": "Vermont leaders blamed Linda Joy Sullivan after a paid-leave veto override fell short, while Sullivan disputed that she had pledged her vote.",
+  "sources": [
+    "https://www.sevendaysvt.com/news/democratic-leaders-blame-squirrelly-legislator-for-override-fail-29604481/"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{member}",
+    "{leader}",
+    "{bill}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

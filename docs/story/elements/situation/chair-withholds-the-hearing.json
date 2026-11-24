@@ -1,0 +1,22 @@
+{
+  "id": "chair-withholds-the-hearing",
+  "kind": "situation",
+  "summary": "A sponsor must decide what to revise when a chair declines to schedule a hearing.",
+  "realLife": "California committee chairs could deny a bill a hearing, and one chair described the delay as time to repair a bill that might otherwise lose.",
+  "sources": [
+    "https://calmatters.org/politics/2019/04/california-legislators-killing-bills-committee-democrats/"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{sponsor}",
+    "{chair}",
+    "{bill}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

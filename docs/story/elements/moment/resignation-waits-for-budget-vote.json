@@ -1,0 +1,22 @@
+{
+  "id": "resignation-waits-for-budget-vote",
+  "kind": "moment",
+  "summary": "A council officer delays announcing a resignation until colleagues finish the budget vote.",
+  "realLife": "Flint council president Allie Herkenroder said she had waited to announce her departure because she wanted the council to finish its budget work.",
+  "sources": [
+    "https://www.eastvillagemagazine.org/?p=38277"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{member}",
+    "{council}",
+    "{budget}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

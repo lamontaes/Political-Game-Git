@@ -1,0 +1,23 @@
+{
+  "id": "broadcast-shift-between-races",
+  "kind": "situation",
+  "summary": "A former candidate builds a radio audience between campaigns.",
+  "realLife": "After two unsuccessful House campaigns, Mike Pence hosted a statewide radio show and later left it to run for Congress.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mike_Pence"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office",
+    "campaign"
+  ],
+  "slots": [
+    "{candidate}",
+    "{station}",
+    "{seat}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

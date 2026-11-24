@@ -1,0 +1,22 @@
+{
+  "id": "one-member-can-call-the-bill",
+  "kind": "situation",
+  "summary": "Members who want a floor vote must first get the one person authorized to call it to act.",
+  "realLife": "A House rule reserved the motion on a Senate funding measure to Eric Cantor or his designee during the 2013 shutdown.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Eric_Cantor"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{leader}",
+    "{bill}",
+    "{chamber}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

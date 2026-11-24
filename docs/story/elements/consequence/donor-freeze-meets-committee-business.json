@@ -1,0 +1,22 @@
+{
+  "id": "donor-freeze-meets-committee-business",
+  "kind": "consequence",
+  "summary": "Lobbyists ask clients to reconsider a donation freeze as the affected members stand to gain committee power.",
+  "realLife": "After companies paused donations over the election certification vote, lobbyists pointed out that the affected lawmakers could still chair committees.",
+  "sources": [
+    "https://popular.info/p/corporate-lobbyists-bite-back"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{industry}",
+    "{committee}",
+    "{member}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

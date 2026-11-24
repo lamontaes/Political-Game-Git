@@ -1,0 +1,22 @@
+{
+  "id": "vote-present-until-the-floor",
+  "kind": "move",
+  "summary": "A holdout lets a bill out of committee while reserving a demand for changes before the floor vote.",
+  "realLife": "Josh Brecheen switched to present in committee after talks on tax credits and work rules, although the text still lacked the changes he sought.",
+  "sources": [
+    "https://gaylordnews.net/9407/news/politics/one-big-beautiful-bill-advances-after-brecheen-flips"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{member}",
+    "{committee}",
+    "{provision}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

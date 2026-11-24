@@ -1,0 +1,22 @@
+{
+  "id": "contest-an-inactive-precinct-seat",
+  "kind": "move",
+  "summary": "A party worker files for a precinct post after seeing its duties go undone.",
+  "realLife": "Laura Loyacono sought a Kansas City precinct committee seat after noticing how little some incumbents did.",
+  "sources": [
+    "https://www.kcur.org/politics-elections-and-government/2024-07-15/kansas-citys-2024-ballots-include-hundreds-of-precinct-committee-members-heres-what-they-do"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office",
+    "campaign"
+  ],
+  "slots": [
+    "{precinct}",
+    "{party_worker}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

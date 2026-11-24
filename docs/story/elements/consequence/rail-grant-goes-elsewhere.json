@@ -1,0 +1,22 @@
+{
+  "id": "rail-grant-goes-elsewhere",
+  "kind": "consequence",
+  "summary": "A state that turns down a rail project still has repair bills on the existing line.",
+  "realLife": "After Scott Walker opposed Wisconsin’s federally funded rail project, other states received the grant money and Wisconsin paid for rail repairs.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Scott_Walker_(politician)"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{state}",
+    "{rail_line}",
+    "{grant}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

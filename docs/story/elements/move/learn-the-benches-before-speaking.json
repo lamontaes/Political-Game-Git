@@ -1,0 +1,23 @@
+{
+  "id": "learn-the-benches-before-speaking",
+  "kind": "move",
+  "summary": "A new member spends the first weeks learning who does the work on the floor.",
+  "realLife": "Al Smith took Tom Foley’s advice and watched his fellow New York assembly members before making himself heard.",
+  "sources": [
+    "https://thestrawfoot.com/2020/01/10/robert-caros-al-smith/",
+    "https://en.wikipedia.org/wiki/Al_Smith"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{member}",
+    "{mentor}",
+    "{chamber}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "oath-waits-for-speaker",
+  "kind": "detail",
+  "summary": "Incoming members sit through successive leadership ballots before anyone can administer their oath.",
+  "realLife": "The House members elected in 2022 waited through four days of voting for Speaker before taking office.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/January_2023_Speaker_of_the_United_States_House_of_Representatives_election"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{chamber}",
+    "{member}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

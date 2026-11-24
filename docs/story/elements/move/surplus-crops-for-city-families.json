@@ -1,0 +1,22 @@
+{
+  "id": "surplus-crops-for-city-families",
+  "kind": "move",
+  "summary": "A member takes a district hunger problem to a committee that handles farm surpluses.",
+  "realLife": "A rabbi helped Shirley Chisholm see what an agriculture assignment could do for hungry Brooklyn residents, and she worked with Bob Dole on food assistance.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Shirley_Chisholm"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "office"
+  ],
+  "slots": [
+    "{district}",
+    "{committee}",
+    "{food_program}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}
