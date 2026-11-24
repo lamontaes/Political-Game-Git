@@ -159,7 +159,7 @@
   --night-nation-gap: 28px;
   /* A row a player picks in a list beside its page. */
   /* The person card's bust column. */
-  --card-bust: 440px;
+  --card-bust: 380px;
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
@@ -2904,14 +2904,35 @@ body:not(.dev) .dev-only {
   max-height: none;
   margin: 0;
 }
-.roster-screen.people > .roster-page .strip-screen {
+.roster-screen.people > .roster-page .strip-screen:not(:has(.mxbust)) {
   grid-template-columns: 1fr;
 }
-.roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
+/* The approved person card (pl-people): the bust at the left, the name over
+   two columns of sections beside it, so no half of the card stands empty. The
+   one card layout, in the person's panel and in People alike (owner, Nov 23,
+   P14/P25): the left column is the bust's own width, so no bar runs under it. */
+.strip-screen.name-beside:has(.mxbust) {
   grid-template-columns: var(--card-bust) minmax(0, 1fr);
 }
-/* The approved person card (pl-people): the bust at the left, the name over
-   two columns of sections beside it, so no half of the card stands empty. */
+/* The name and the bust share a top line (owner, Nov 23, P15). */
+.strip-screen.name-beside .mxbanner {
+  padding: 0;
+}
+.strip-screen.name-beside .strip-name {
+  line-height: 1;
+}
+/* The story stands across the card's foot in columns of its own: the same
+   place on every card, never past the panel (owner, Nov 23, P24/P25). */
+.strip-screen .mx3foot {
+  grid-column: 1 / -1;
+}
+.strip-screen .mx3foot .secbody {
+  column-count: 3;
+  column-gap: 32px;
+}
+.strip-screen .mx3foot .secbody > * {
+  break-inside: avoid;
+}
 .strip-screen.name-beside .mx3cols {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
@@ -2938,7 +2959,6 @@ body:not(.dev) .dev-only {
 }
 /* A column with more sections than the panel holds (dev mode adds several)
    scrolls rather than being cut off. */
-.strip-screen.name-beside .mx3left,
 .strip-screen.name-beside .mx3col {
   overflow-y: auto;
   scrollbar-width: thin;

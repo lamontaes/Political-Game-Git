@@ -114,4 +114,34 @@ describe("one face part and one person card", () => {
     );
     expect(callers, "a deleted face part or card is called").toEqual([]);
   });
+  it("opens a person's card through one path and lays it out one way (Nov 23, P25)", () => {
+    // "It's in different format than the president": a card opened from a scene
+    // and one opened from Politics are two layouts for one control. The card is
+    // the strip screen built by personCardNode, shown by showPerson (its own
+    // panel) or People (beside the roster), and by nothing else.
+    const text = (file: string) => readFileSync(path.join(ROOT, file), "utf8");
+    const calls = (source: string, name: string) =>
+      source.split(new RegExp(`\\b${name}\\(`)).length - 1;
+    const withName = files.filter((file) => /\bnameBeside\b/.test(text(file)));
+    expect(
+      withName,
+      "the name-beside person card layout is drawn by strips.mjs and built once, in play.mjs personCardNode",
+    ).toEqual(["src/bench/play.mjs", "src/bench/ui/strips.mjs"]);
+    const play = text("src/bench/play.mjs");
+    expect(
+      (play.match(/nameBeside/g) ?? []).length,
+      "a second place builds a name-beside card",
+    ).toBe(1);
+    // Declaration, showPerson and the People screen: a fourth call is a new path.
+    expect(
+      calls(play, "personCardNode"),
+      "a screen builds a person card beside showPerson and People",
+    ).toBe(3);
+    expect(
+      (play.match(/\$\("person-facts"\)\.replaceChildren/g) ?? []).length,
+      "the person panel is filled by showPerson alone",
+    ).toBe(1);
+    // The story's old switch between two layouts is gone, and its slot is one.
+    expect(play).not.toMatch(/fitLifeStory|underBust/);
+  });
 });

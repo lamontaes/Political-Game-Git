@@ -2800,13 +2800,39 @@ async function personCardNode(
   const heading = (key, theyKey) =>
     pronoun ? fill(labels[key]) : labels[theyKey ?? key];
   const capital = (text) => text.charAt(0).toUpperCase() + text.slice(1);
-  const role = [
-    c.relation && capital(c.relation),
-    known?.party,
-    c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
-  ]
+  const role = [c.relation && capital(c.relation), known?.party]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // Who they are, from their records: age, home, work and each office held with
+  // its place and years (owner, Nov 23, P17, P23, P26). Each fact once; the
+  // story under it is told apart.
+  const yearsOf = (office) =>
+    office.to === null
+      ? `${labels.since} ${office.from}`
+      : office.to === office.from
+        ? String(office.from)
+        : `${office.from}\u2013${office.to}`;
+  const officeTitles = new Set((c.offices ?? []).map((o) => o.office));
+  const factRows = [
+    ...(c.age !== null && c.age !== undefined
+      ? [{ label: labels.age, value: String(c.age) }]
+      : []),
+    ...(c.home ? [{ label: labels.place, value: c.home }] : []),
+    ...(c.work?.title && !officeTitles.has(c.work.title)
+      ? [
+          {
+            label: labels.work,
+            value: [c.work.title, c.work.employer]
+              .filter(Boolean)
+              .join(" \u00b7 "),
+          },
+        ]
+      : []),
+    ...(c.offices ?? []).map((office) => ({
+      label: capital(office.office),
+      value: [office.place, yearsOf(office)].filter(Boolean).join(" \u00b7 "),
+    })),
+  ];
   const sharedLines = (c.shared ?? [])
     .filter((s) => labels.sharedWords?.[s.kind])
     .map((s) =>
@@ -2853,22 +2879,21 @@ async function personCardNode(
           })),
         )
     : [];
-  const people = peopleSentence(
-    (c.colleagues ?? []).map((k) => ({
+  const people = peopleSentence([
+    ...(c.family ?? []).map((k) => ({
+      name: k.name,
+      relation: k.relation,
+      onOpen: () => openOther({ personId: k.personId }),
+    })),
+    ...(c.colleagues ?? []).map((k) => ({
       name: k.name,
       relation: k.office,
       onOpen: () => openOther({ personId: k.personId }),
     })),
-  );
+  ]);
   const firstColumn = [
-    ...(c.summary?.length
-      ? [
-          stripSection(
-            1,
-            heading("whoIs", "whoAre"),
-            introText(c.summary.join(" ")),
-          ),
-        ]
+    ...(factRows.length
+      ? [stripSection(1, heading("whoIs", "whoAre"), dotRows(factRows))]
       : []),
     ...(c.traitLines?.length
       ? [
@@ -2921,14 +2946,11 @@ async function personCardNode(
         ]
       : []),
   ];
-  // Their life sits under the bust, in the bust's own column (owner on
-  // People, Nov 16: "still lots of empty space"); with no bust it takes the
-  // second column, beside who they are.
+  // Their life stands across the foot of the card in columns of its own, the
+  // same on every card (owner, Nov 23, P24/P25: one layout, never past the panel).
   const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
   const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
-  const underBust = c.face ? life : [];
   const secondColumn = [
-    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -2971,7 +2993,7 @@ async function personCardNode(
       nameBeside: true,
       // The approved card's bust stands as tall as its sections (pl-people).
       bustColumn: PERSON_CARD_BUST,
-      underBust,
+      foot: life,
       face: c.face ?? null,
       columns: secondColumn.length
         ? [firstColumn, secondColumn]
@@ -2980,26 +3002,11 @@ async function personCardNode(
   };
 }
 /** The person card's bust column, in pixels: --card-bust in play.css. */
-const PERSON_CARD_BUST = 440;
+const PERSON_CARD_BUST = 380;
 /** A card's life story section, marked so the card can set it in its second column. */
 function markLife(node) {
   node.dataset.life = "1";
   return node;
-}
-/**
- * A card never runs past its panel (owner's menu rule; CTO, Nov 18). The life
- * story sits under the bust; when it does not fit there it moves to the card's
- * second column, which has the room, and stays under the bust when the panel
- * holds it either way.
- */
-function fitLifeStory(facts) {
-  const life = facts.querySelector('[data-life="1"]');
-  if (!life || life.closest(".mx3col")) return;
-  const panel = $("person").getBoundingClientRect();
-  if (life.getBoundingClientRect().bottom <= panel.bottom - 8) return;
-  const columns = facts.querySelectorAll(".mx3col");
-  const target = columns[columns.length - 1];
-  if (target) target.append(life);
 }
 async function showPerson(person) {
   const request = ++personRequest;
@@ -3011,7 +3018,6 @@ async function showPerson(person) {
   $("person-name").textContent = card.name;
   $("person-facts").replaceChildren(card.node);
   show("person", true);
-  fitLifeStory($("person-facts"));
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
