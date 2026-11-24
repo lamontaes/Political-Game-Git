@@ -1,0 +1,31 @@
+{
+  "id": "two-kinds-of-cleaning-visit",
+  "kind": "detail",
+  "summary": "A resident and a supervisor mean different things by a cleaning visit at {place}.",
+  "realLife": "Seattle’s schedule distinguished a pressure-washed floor from a dry cleaning visit and called for a different mix in peak season.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "A cleaning schedule distinguishing the work expected on each visit."
+  ],
+  "weights": ["A complaint about the floor makes the visit type matter."],
+  "usedBy": [],
+  "inGame": "needs: visit type, last full wash, visit time and time of complaint.",
+  "turns": [
+    {
+      "turn": "dry",
+      "what": "The supervisor checks when the floor is due to be washed.",
+      "pulledBy": "The crew swept on its last round.",
+      "writesBack": "Record the wash separately."
+    },
+    {
+      "turn": "wet",
+      "what": "The supervisor asks what happened afterward.",
+      "pulledBy": "The floor was washed that morning.",
+      "writesBack": "Link the later complaint to its own time."
+    }
+  ]
+}

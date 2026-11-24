@@ -1,0 +1,31 @@
+{
+  "id": "shift-ends-before-last-stop",
+  "kind": "voice",
+  "summary": "A worker tells {person} which stop drops off the route when the shift ends.",
+  "realLife": "Seattle cleaning staff told auditors that some shifts ended before they could reach every restroom in their district.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A shift roster and a route with an uncompleted stop."],
+  "weights": [
+    "Travel time between assigned parks raises the chance of a missed stop."
+  ],
+  "usedBy": [],
+  "inGame": "needs: route order, shift end, stop completion and any relief assignment.",
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The worker asks dispatch to put it first tomorrow.",
+      "pulledBy": "The last park closes before the crew arrives.",
+      "writesBack": "Carry the stop to the next route sheet."
+    },
+    {
+      "turn": "covered",
+      "what": "The supervisor checks the second crew’s entry.",
+      "pulledBy": "A relief worker takes the last stop.",
+      "writesBack": "Credit the visit to the crew that made it."
+    }
+  ]
+}

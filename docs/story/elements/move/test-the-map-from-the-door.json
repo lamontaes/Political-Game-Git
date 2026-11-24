@@ -1,0 +1,31 @@
+{
+  "id": "test-the-map-from-the-door",
+  "kind": "move",
+  "summary": "{person} follows the link on a closure notice to check whether it helps a stranded visitor.",
+  "realLife": "A closure notice photographed by Seattle auditors included a QR code leading visitors to the city’s map of open restrooms.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A posted notice, its map link and a dated facility status."],
+  "weights": [
+    "A recently changed status makes a field check more informative."
+  ],
+  "usedBy": [],
+  "inGame": "needs: closure notice destination, mapped alternative and a time-stamped check.",
+  "turns": [
+    {
+      "turn": "verified",
+      "what": "Staff put its location directly on the sign too.",
+      "pulledBy": "The map offers a verified nearby alternative.",
+      "writesBack": "Save the updated notice."
+    },
+    {
+      "turn": "stale",
+      "what": "Staff verify both sites before revising directions.",
+      "pulledBy": "The map sends the visitor to another closure.",
+      "writesBack": "Open a correction for each stale listing."
+    }
+  ]
+}

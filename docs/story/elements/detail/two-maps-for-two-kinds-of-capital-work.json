@@ -1,0 +1,33 @@
+{
+  "id": "two-maps-for-two-kinds-of-capital-work",
+  "kind": "detail",
+  "summary": "{person} asks whether a dot on the project map means a renovation or a building opened for winter use.",
+  "realLife": "Seattle’s 2026 Park District board presentation distinguished completed restroom renovations from completed weatherization projects on its map.",
+  "sources": [
+    "https://www.seattle.gov/documents/departments/parkdistrict/2026_governing-board-files_park-district/2026-06-16_agenda-item-1_presentation_park-district-board.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A completion map with distinct categories and a facility project ledger."
+  ],
+  "weights": [
+    "A site appearing in a capital report can prompt questions about what residents gained."
+  ],
+  "usedBy": [],
+  "inGame": "needs: project ID, site ID, work category and completion date.",
+  "turns": [
+    {
+      "turn": "winter-only",
+      "what": "The director describes the winter service it enables.",
+      "pulledBy": "The dot records insulation only.",
+      "writesBack": "Keep the project under weatherization."
+    },
+    {
+      "turn": "both",
+      "what": "The presenter identifies both jobs.",
+      "pulledBy": "The facility also received a renovation.",
+      "writesBack": "Link the two completion records without counting one as the other."
+    }
+  ]
+}

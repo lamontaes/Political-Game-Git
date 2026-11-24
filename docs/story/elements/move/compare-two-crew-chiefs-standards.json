@@ -1,0 +1,33 @@
+{
+  "id": "compare-two-crew-chiefs-standards",
+  "kind": "move",
+  "summary": "{person} asks two supervisors how often the same floor should be washed.",
+  "realLife": "Seattle crew chiefs gave auditors substantially different answers about how frequently crews should wet-clean restroom floors.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "Two districts delivering the same service under a common procedure."
+  ],
+  "weights": [
+    "A resident crossing a district boundary is more likely to notice a difference."
+  ],
+  "usedBy": [],
+  "inGame": "needs: district procedures, crew instructions and available shift hours.",
+  "turns": [
+    {
+      "turn": "different",
+      "what": "They compare their route sheets in the meeting.",
+      "pulledBy": "The supervisors describe different instructions.",
+      "writesBack": "Flag the conflicting instructions for revision."
+    },
+    {
+      "turn": "same",
+      "what": "The director checks whether the crews have time to follow it.",
+      "pulledBy": "Both cite the same instruction.",
+      "writesBack": "Tie the capacity review to the written standard."
+    }
+  ]
+}

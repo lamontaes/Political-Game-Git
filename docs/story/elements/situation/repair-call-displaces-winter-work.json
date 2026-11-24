@@ -1,0 +1,31 @@
+{
+  "id": "repair-call-displaces-winter-work",
+  "kind": "situation",
+  "summary": "{person} watches a repair that cannot wait take the crew assigned to prepare another building for winter.",
+  "realLife": "Seattle maintenance staff told auditors that urgent work crowded out the insulation work needed to keep more restrooms open through winter.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A preventive job, an urgent work order and a shared trade crew."],
+  "weights": [
+    "A near-term freeze raises the cost of postponing preventive work."
+  ],
+  "usedBy": [],
+  "inGame": "needs: urgent order, assigned trade crew, insulation job date and seasonal opening plan.",
+  "turns": [
+    {
+      "turn": "covered",
+      "what": "The original crew stays on the insulation job.",
+      "pulledBy": "A second crew takes the repair.",
+      "writesBack": "Keep both assignments and completion dates."
+    },
+    {
+      "turn": "displaced",
+      "what": "The foreperson moves the insulation date.",
+      "pulledBy": "The same crew must take both jobs.",
+      "writesBack": "Update the winter opening forecast."
+    }
+  ]
+}

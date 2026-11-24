@@ -1,0 +1,33 @@
+{
+  "id": "resident-brings-the-winning-ballot-to-budget-review",
+  "kind": "moment",
+  "summary": "{person} brings the proposal residents chose to a hearing on what the department will actually receive.",
+  "realLife": "Seattle’s ordinance records a winning restroom proposal costed at $7.2 million and appropriates $2.2 million to the parks department’s capital program.",
+  "sources": [
+    "https://seattle.legistar.com/LegislationDetail.aspx?FullText=1&GUID=610D894E-9C83-4C16-9312-4F93FE485B0A&ID=6992988"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A winning public proposal and an enacted allocation for its project."
+  ],
+  "weights": [
+    "A large difference between those amounts gives the sponsor a reason to ask what can open."
+  ],
+  "usedBy": [],
+  "inGame": "needs: ballot proposal amount, receiving appropriation and funded scope.",
+  "turns": [
+    {
+      "turn": "narrow",
+      "what": "The department submits a narrower site list.",
+      "pulledBy": "The sponsor asks which sites the smaller amount can serve.",
+      "writesBack": "Attach it to the funding decision."
+    },
+    {
+      "turn": "expand",
+      "what": "The sponsor asks for a costed expansion.",
+      "pulledBy": "Council considers an additional appropriation.",
+      "writesBack": "Track the new request separately from the adopted amount."
+    }
+  ]
+}

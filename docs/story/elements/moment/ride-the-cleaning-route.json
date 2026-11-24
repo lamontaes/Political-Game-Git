@@ -1,0 +1,31 @@
+{
+  "id": "ride-the-cleaning-route",
+  "kind": "moment",
+  "summary": "{person} rides with the crew after the department cannot document its rounds.",
+  "realLife": "Seattle auditors accompanied cleaners in every maintenance district and observed forty cleanings when the department could not supply dependable visit counts.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A published service goal and an incomplete visit log."],
+  "weights": [
+    "A missing district makes an invitation from its crew more valuable."
+  ],
+  "usedBy": [],
+  "inGame": "needs: published target, assigned district, crew itinerary and an observer’s dated field notes.",
+  "turns": [
+    {
+      "turn": "ordinary",
+      "what": "The observer sees which stops the shift actually covers.",
+      "pulledBy": "A crew offers a seat on its regular run.",
+      "writesBack": "Attach the field notes to the route review."
+    },
+    {
+      "turn": "exception",
+      "what": "The observer requests an ordinary shift as well.",
+      "pulledBy": "The visit falls on a special cleanup day.",
+      "writesBack": "Keep the special run labeled separately."
+    }
+  ]
+}

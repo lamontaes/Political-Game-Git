@@ -1,0 +1,31 @@
+{
+  "id": "find-the-parks-money-on-the-capital-page",
+  "kind": "detail",
+  "summary": "A reader at {place} thinks money is missing until the clerk turns to the capital appropriation.",
+  "realLife": "The first table in Seattle’s participatory-budget ordinance showed a net reduction of $2.2 million and the next table assigned that amount to Parks.",
+  "sources": [
+    "https://seattle.legistar.com/LegislationDetail.aspx?FullText=1&GUID=610D894E-9C83-4C16-9312-4F93FE485B0A&ID=6992988"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["A transfer shown across two linked appropriation schedules."],
+  "weights": [
+    "A negative subtotal seen on its own makes a mistaken cut more likely."
+  ],
+  "usedBy": [],
+  "inGame": "needs: source and receiving entries in the same enacted appropriation.",
+  "turns": [
+    {
+      "turn": "matched",
+      "what": "The resident can trace the transfer to its destination.",
+      "pulledBy": "The clerk finds the matching capital entry.",
+      "writesBack": "Link both entries in the public answer."
+    },
+    {
+      "turn": "disputed",
+      "what": "The clerk refers the discrepancy to finance.",
+      "pulledBy": "The receiving entry differs from the transfer.",
+      "writesBack": "Keep the reconciliation open."
+    }
+  ]
+}

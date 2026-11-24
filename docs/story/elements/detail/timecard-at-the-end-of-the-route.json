@@ -1,0 +1,29 @@
+{
+  "id": "timecard-at-the-end-of-the-route",
+  "kind": "detail",
+  "summary": "At {place}, a worker has to reconstruct a day of park visits at a desktop after the shift’s fieldwork.",
+  "realLife": "Seattle’s maintenance crews entered time at a desktop after their rounds using separate codes for location, route and task.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["Time-entry rules and a shift containing multiple site visits."],
+  "weights": ["More stops make delayed entries harder to reconstruct."],
+  "usedBy": [],
+  "inGame": "needs: shift entry time, route codes and any contemporaneous stop list.",
+  "turns": [
+    {
+      "turn": "verified",
+      "what": "The supervisor checks a disputed entry against it.",
+      "pulledBy": "The worker saved a paper list of stops.",
+      "writesBack": "Correct the location on the timecard."
+    },
+    {
+      "turn": "uncertain",
+      "what": "The analyst can count hours but cannot identify the disputed stop.",
+      "pulledBy": "Only the shift total survives.",
+      "writesBack": "Mark that visit unverified."
+    }
+  ]
+}

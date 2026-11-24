@@ -1,0 +1,31 @@
+{
+  "id": "closure-sign-points-downhill",
+  "kind": "detail",
+  "summary": "A notice at {place} tells a visitor where to go while the nearest facility is being cleaned.",
+  "realLife": "The cover photograph of Seattle’s audit shows a temporary cleaning sign directing visitors to another restroom downhill.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["A temporary closure and a named alternative site."],
+  "weights": [
+    "A long walk makes directions and accessibility more consequential."
+  ],
+  "usedBy": [],
+  "inGame": "needs: closure notice, alternative site status and accessible route from the door.",
+  "turns": [
+    {
+      "turn": "reachable",
+      "what": "A visitor follows the sign and reports back.",
+      "pulledBy": "The alternate facility is open and reachable.",
+      "writesBack": "Attach the verified alternative to the notice."
+    },
+    {
+      "turn": "inaccessible",
+      "what": "Staff look for a reachable facility.",
+      "pulledBy": "The alternate route is inaccessible to the visitor.",
+      "writesBack": "Record the route limitation alongside the directions."
+    }
+  ]
+}
