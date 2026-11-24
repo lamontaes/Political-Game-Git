@@ -18,12 +18,16 @@
     {
       "name": "everything known",
       "pulledBy": "a business with a posted menu",
-      "writes": "the story gives the prices"
+      "writes": "the story gives the prices",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a delay",
       "pulledBy": "an opening pushed back",
-      "writes": "the story says why"
+      "writes": "the story says why",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

@@ -1,0 +1,43 @@
+{
+  "id": "son-emails-you-have-to-get-in",
+  "kind": "moment",
+  "summary": "A grown child, and then the whole family, tells the candidate in writing that he should run, yet he still declines.",
+  "realLife": "Mitt Romney said in 2016 that his wife and children urged him to run again for president, and one son emailed that he had to get in. Even with that pressure, he decided against an independent bid.",
+  "sources": [
+    "https://politicalwire.com/2016/06/30/romney-says-his-family-wanted-him-to-run/"
+  ],
+  "fits": ["home", "news", "campaign"],
+  "slots": ["{the grown child}", "{the spouse}"],
+  "gates": [
+    "The player has grown children and a spouse who support the run.",
+    "A party or donors have been asking."
+  ],
+  "weights": [
+    "Children's loyalty.",
+    "Player's age and past losses.",
+    "Odds as the player sees them."
+  ],
+  "inGame": "Kin ties to grown children and a filing decision about to happen; the family-filing scene can show the pull.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family does not want him to run, and the player is the one wanting to.",
+      "pulledBy": "Past loss, a spouse's fatigue.",
+      "writesBack": "A family-resistance record on the filing."
+    },
+    {
+      "turn": "neutral",
+      "what": "The family cheers and he files without a long talk.",
+      "pulledBy": "Eager player, family consensus.",
+      "writesBack": "Filing made; the household is listed as supporters."
+    },
+    {
+      "turn": "partial",
+      "what": "The family supports a smaller run, so he files for a lower office.",
+      "pulledBy": "Realistic odds.",
+      "writesBack": "Filing for the lesser seat."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,49 @@
+{
+  "id": "family-grief-sets-the-clock-on-a-run",
+  "kind": "situation",
+  "summary": "A family's mourning, a wary spouse and a sibling working the phones shape whether and when the player can say yes.",
+  "realLife": "As Joe Biden weighed a 2016 run after his son Beau's death, he said the question was whether his family could take on an arduous commitment. People close to Jill Biden said she shared his doubts though she would not block him. Another son contacted possible supporters, his sister was deeply involved, and a family friend expected a long, thoughtful process.",
+  "sources": [
+    "https://www.pbs.org/newshour/politics/vp-bidens-reluctance-run-2016-centers-family-concerns",
+    "https://www.cbsnews.com/baltimore/news/amid-grief-jill-biden-said-to-share-vps-hesitation-on-2016/"
+  ],
+  "fits": ["home", "news", "journal"],
+  "slots": [
+    "{the spouse}",
+    "{the sibling}",
+    "{the grown child}",
+    "{the deceased relative}"
+  ],
+  "gates": [
+    "A death in the household or close family in the last year.",
+    "The player is being urged to file."
+  ],
+  "weights": [
+    "Grief level of the household.",
+    "Sibling's closeness.",
+    "Spouse's wariness."
+  ],
+  "inGame": "Death records and mourning in the household, kin ties to a sibling and grown child, and the party asking a member to run.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family wants him to run to honor the dead, and urges him on.",
+      "pulledBy": "A late relative's known wish.",
+      "writesBack": "Higher filing intent; a stated purpose on the player."
+    },
+    {
+      "turn": "late",
+      "what": "The window closes while the family is still deciding.",
+      "pulledBy": "Slow grief, filing deadline.",
+      "writesBack": "The player does not file; the gap is remembered."
+    },
+    {
+      "turn": "partial",
+      "what": "The sibling takes on the groundwork while the player decides.",
+      "pulledBy": "Close sibling, cautious spouse.",
+      "writesBack": "A staffing tie from the sibling to a committee."
+    }
+  ],
+  "issues": ["none"]
+}

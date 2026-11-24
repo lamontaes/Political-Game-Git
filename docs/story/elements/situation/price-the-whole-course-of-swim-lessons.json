@@ -1,0 +1,32 @@
+{
+  "id": "price-the-whole-course-of-swim-lessons",
+  "kind": "situation",
+  "summary": "{parent} asks the parks office to price a whole sequence of lessons before committing a child to it.",
+  "realLife": "Portland used a ten-lesson swim course to show families how different discount levels changed the amount due.",
+  "sources": [
+    "https://www.portland.gov/parks/discount#:~:text=Swim%20Lessons%20cost"
+  ],
+  "fits": ["office", "home", "journal", "work-community", "news"],
+  "slots": ["{parent}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a course fee, number of lessons and the family's discount.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "The fee for the whole course rises beyond the family limit.",
+      "what": "The parent compares a later session with the one about to start.",
+      "writesBack": "The registration record shows whether the child enrolled."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "The lower fee covers the entire sequence within the family budget.",
+      "what": "The parent books the full course.",
+      "writesBack": "The receipt lists the session rather than a single visit."
+    }
+  ]
+}

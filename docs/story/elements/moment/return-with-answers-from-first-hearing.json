@@ -1,0 +1,33 @@
+{
+  "id": "return-with-answers-from-first-hearing",
+  "kind": "moment",
+  "summary": "Questions from the first hearing give the applicant a reason to come back before the same commissioners.",
+  "realLife": "The Arlington Heights Plan Commission scheduled two additional hearings in part to give the developer a chance to answer questions raised at the first.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf#page=18",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf#page=19"
+  ],
+  "inGame": "needs: a permit case record with applicant, question, next meeting. A commissioner who asked a question can recognize the answer at a later meeting.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{applicant}", "{question}", "{next_meeting}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The builder brings the traffic estimate but still owes an answer about school enrollment.",
+      "pulledBy": "The traffic engineer has replied and the school district has not.",
+      "writesBack": "The chair carries just the enrollment question forward."
+    },
+    {
+      "turn": "opposite",
+      "what": "At the next meeting the resident who asked about traffic says the answer covers the wrong street.",
+      "pulledBy": "The estimate counts the main entrance and the resident named the service entrance.",
+      "writesBack": "The minutes carry the service entrance forward as an open question."
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
+  ]
+}

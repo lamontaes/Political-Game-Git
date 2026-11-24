@@ -1,0 +1,35 @@
+{
+  "id": "maintenance-staff-at-design-review",
+  "kind": "move",
+  "summary": "{person} brings the people who will clean a new facility into the design discussion.",
+  "realLife": "Seattle Parks reported developing restroom design standards addressing material life, safe operations and how easily crews can maintain the building.",
+  "sources": [
+    "https://www.seattle.gov/documents/departments/parkdistrict/2026_governing-board-files_park-district/2026-06-16_agenda-item-1_presentation_park-district-board.pdf",
+    "https://www.seattle.gov/documents/departments/parkdistrict/projects/annualreports/2025_seattle_park_district_annual_report_ada.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A design under review and an operations assessment of its upkeep."
+  ],
+  "weights": [
+    "A replacement for a maintenance-heavy building makes crew experience more relevant."
+  ],
+  "usedBy": [],
+  "inGame": "needs: design version, proposed finish and an operations review or trial.",
+  "turns": [
+    {
+      "turn": "revise",
+      "what": "Designers request a different material.",
+      "pulledBy": "A proposed finish takes too long to clean.",
+      "writesBack": "Revise the finish schedule."
+    },
+    {
+      "turn": "retain",
+      "what": "The team keeps the finish.",
+      "pulledBy": "A sample passes the crew’s cleaning trial.",
+      "writesBack": "File the trial result with the specification."
+    }
+  ],
+  "issues": ["budget:parks"]
+}

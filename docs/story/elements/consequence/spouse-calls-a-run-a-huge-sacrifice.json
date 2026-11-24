@@ -1,0 +1,41 @@
+{
+  "id": "spouse-calls-a-run-a-huge-sacrifice",
+  "kind": "consequence",
+  "summary": "A spouse's open dread of the life, not the candidate's will, is what ends a presidential-size run before it starts.",
+  "realLife": "Mississippi Governor Haley Barbour's wife told reporters a presidential campaign horrified her and would be a huge sacrifice, since being first lady of the state was already heavy. After he had hired staff and visited early states, Barbour announced he would not run, saying he could not promise the fire for the long haul.",
+  "sources": ["https://www.thedailybeast.com/wives-who-said-no/"],
+  "fits": ["home", "news", "journal"],
+  "slots": ["{the spouse}", "{the staff}"],
+  "gates": [
+    "The player has an office with a spouse in the household.",
+    "A bigger race is open and staff or donors have been approached."
+  ],
+  "weights": [
+    "Spouse's distaste for public life.",
+    "Years the race would take.",
+    "How visible the spouse has already been."
+  ],
+  "inGame": "Household spouse and the party or donors asking a member to run; a filing that does not happen writes a decision record.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The spouse says yes at once and the run is announced sooner.",
+      "pulledBy": "Spouse's own appetite for the life, good finances.",
+      "writesBack": "Filing intent set; staff hired."
+    },
+    {
+      "turn": "late",
+      "what": "The spouse objects only after money has been spent and staff hired.",
+      "pulledBy": "Poor communication, tie strain.",
+      "writesBack": "Sunk campaign costs and a staff let-go record."
+    },
+    {
+      "turn": "partial",
+      "what": "The spouse agrees to a smaller race.",
+      "pulledBy": "Compromise, shorter commitment.",
+      "writesBack": "Player files for the lesser office."
+    }
+  ],
+  "issues": ["none"]
+}

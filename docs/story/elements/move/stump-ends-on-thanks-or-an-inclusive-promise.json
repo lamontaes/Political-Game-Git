@@ -29,5 +29,6 @@
       "pulledBy": "a candidate at a neighborhood stop",
       "writes": "the neighborhood is named"
     }
-  ]
+  ],
+  "issues": ["none"]
 }

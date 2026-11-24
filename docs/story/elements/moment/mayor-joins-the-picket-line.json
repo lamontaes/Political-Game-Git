@@ -32,5 +32,6 @@
       "pulledBy": ["donor ties", "other priorities"],
       "writesBack": "strikers' trust in the official falls"
     }
-  ]
+  ],
+  "issues": ["law:local-power:public-sector-collective-bargaining"]
 }

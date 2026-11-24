@@ -1,0 +1,28 @@
+{
+  "id": "divide-handling-allowance-between-store-and-distributor",
+  "kind": "move",
+  "summary": "A member separates the work of stamping containers from the work of taking them back.",
+  "realLife": "Campbell described distinct proposed payments for the grocer handling returns and the distributor marking packages. Resident Earl Lubensky favored compensating only the retailer.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{member}", "{distributor}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: proposed allowances and enacted version.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The sponsor asks each business to identify the job its payment covers.",
+      "pulledBy": "Members retain both allowances in an amendment.",
+      "writesBack": "The estimate shows a separate cost for each task."
+    },
+    {
+      "turn": "opposite",
+      "what": "A distributor brings the labeling invoice back to committee.",
+      "pulledBy": "Only the store allowance survives.",
+      "writesBack": "Distributors ask the sponsor who absorbs the marking expense."
+    }
+  ]
+}

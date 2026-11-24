@@ -7,6 +7,14 @@ name: Audit scan
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      # Story element and owner-idea files are research rows no client reads;
+      # a pull request that changes only these starts none of these checks
+      # (CTO order 7138036301 on #10377). validate.yml is left alone: its
+      # required checks must report on every pull request.
+      - "docs/story/elements/**"
+      - "docs/story/owner-ideas/**"
 
 permissions:
   contents: read
@@ -18,6 +26,7 @@ concurrency:
 jobs:
   audit-scan:
     name: audit scan
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

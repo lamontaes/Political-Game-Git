@@ -1,0 +1,28 @@
+{
+  "id": "hear-two-deposit-bills-take-two-rolls",
+  "kind": "moment",
+  "summary": "The chair hears one round of testimony on two related bills and calls a separate roll on each.",
+  "realLife": "Columbia's mayor took comments on the proposed election and replacement tax together. Both bills then lost on separate votes.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{chair}", "{bill}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: linked hearing and individual rolls.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The sponsor stays at the table while the clerk reads the surviving question.",
+      "pulledBy": "Only the election bill passes.",
+      "writesBack": "The clerk checks what question that bill actually sends to voters."
+    },
+    {
+      "turn": "opposite",
+      "what": "Someone in the gallery asks whether stores must still take bottles tomorrow.",
+      "pulledBy": "Both bills lose.",
+      "writesBack": "The old refund continues and the minutes carry two defeats."
+    }
+  ]
+}

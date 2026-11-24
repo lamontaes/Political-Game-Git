@@ -18,12 +18,16 @@
     {
       "name": "opens on the owner",
       "pulledBy": "a story about a person",
-      "writes": "the lede names the owner and the plan"
+      "writes": "the lede names the owner and the plan",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "opens on a delay",
       "pulledBy": "a pushed-back opening",
-      "writes": "the lede says the new date"
+      "writes": "the lede says the new date",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "usedBy": []

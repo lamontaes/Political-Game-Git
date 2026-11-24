@@ -1,6 +1,6 @@
 {
   "header": "The rules of the check-changes guard (scripts/guards/check-changes.mjs): what a pull request may not add to the checks that judge it. The guard reads this file from main, never from the pull request. A change it refuses needs a line on the crew issue, written by the CTO, that starts with the approval words and names the pull request by number.",
-  "crewIssue": 9747,
+  "crewIssue": 10377,
   "testFiles": "(\\.test\\.[cm]?[jt]sx?$|\\.node-test\\.[cm]?[jt]s$)",
   "counts": [
     {
