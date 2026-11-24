@@ -1,22 +1,14 @@
 # Pre-grade: Writer Home, scenes at home (scene-talk.json)
 
-Pre-grader, 2026-11-24. Branch `story/w-talk` at `65e044a3`, every line authored by this writer at that head (227 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
+Pre-grader, 2026-11-24. Branch `story/w-talk` at `9c7557bd`, every line authored by this writer at that head (225 lines). Verdicts carry over by exact text from earlier heads; lines not judged before were read new.
 
-- **Result:** 225 of 227 pass (99%); 2 fail.
+- **Result:** 225 of 225 pass (100%); 0 fail.
 - **Calibration:** T1 8/8, T2 8/8, T3 8/8, X1 8/8, Y1 8/8, Z1 8/8. Each reader's chunk had 8 of the owner's graded lines (4 passed, 4 rejected) planted unmarked; a chunk that missed one would have been rerun.
 - **Read by:** one blind reader per chunk of about 150 lines (Opus, medium), then the Pre-grader read every verdict against `data/english/line-rules.json`, `notes-not-rules.json`, the owner's grades and `OWNER-DECISIONS.md`.
 - **Played:** the six-place packet at this head is not in yet; lines were read as written.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
 ## Failing lines by rule
-
-### narration-assumes-no-reason (1)
-
-- `scene-talk.narrate-narrate.name-had-come-over-to-say-something-that-was-hard-to-say`: "{name} had come over to say something that was hard to say." — "Say something that was hard to say" repeats itself and tells the visitor's feeling, and it is the same opening move as Z1-004.
-
-### vary-the-shape (1)
-
-- `scene-talk.state-confront.i-know-the-meeting-ran-late-how-much-of-home-are-we-giving-up-for-place`: "I know the meeting ran late. How much of home are we giving up for {place}?" — Same shape as Z1-025 (the meeting ran late, then a question about the place), and "how much of home" is literary.
 
 ## Passing lines
 
