@@ -67,7 +67,7 @@ import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { clockLines } from "./ui/room.mjs";
 import { bustStrip } from "./ui/bust-strip.mjs";
-import { tvSet } from "./ui/tv-set.mjs";
+import { tvGlass, tvSet } from "./ui/tv-set.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -300,11 +300,18 @@ function drawTalkStrip() {
  * their name and Live over it. Anything else clears it.
  */
 let tvRequest = 0;
+/** The glass of the television the shown picture paints, when it paints one. */
+let backdropScreen;
+function setBackdrop(backdrop) {
+  $("backdrop").src = backdrop.url;
+  backdropScreen = backdrop.screen;
+}
 async function drawTv(speech, name, on) {
   const request = ++tvRequest;
   const set = $("tv");
   set.hidden = true;
   set.replaceChildren();
+  $("tv-screen")?.remove();
   if (!on || on.medium !== "television") return;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: speech.speakerId })}`,
@@ -319,6 +326,15 @@ async function drawTv(speech, name, on) {
     }),
   );
   set.hidden = false;
+  // A room that paints its own set shows the broadcast on it, not a blank or
+  // static screen (C18, Nov 23): the glass is the picture's own row.
+  if (backdropScreen)
+    $("stage").append(
+      tvGlass({
+        rect: backdropScreen,
+        speaker: { personId: speech.speakerId, name, face: c.face },
+      }),
+    );
 }
 
 // Each Continue clears the set before the next part draws its own, so the
@@ -453,7 +469,7 @@ async function renderScene({ keepBackdrop = false } = {}) {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   // The opening's staged story sets the backdrop itself; setting the room's
   // here first would load two pictures in a row (owner, Oct 28, point 2).
-  if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
+  if (!keepBackdrop) setBackdrop(scene.backdrop);
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawHere(scene, (p) => talkTo(p.personId));
@@ -892,7 +908,7 @@ function inMeeting() {
       $("meeting-adjourn").disabled = false;
       $("meeting-adjourn").textContent =
         (scene.seated ? words.adjourn : words.leave) ?? "";
-      $("backdrop").src = scene.backdrop.url;
+      setBackdrop(scene.backdrop);
       drawHere(scene);
       $("card-place").textContent = scene.title;
       $("meeting-title").textContent = scene.title;
@@ -1363,7 +1379,7 @@ function electionMorning(scene) {
         return (scene ? atThePolls(scene) : Promise.resolve()).then(resolve);
       setClock(day.at);
       if (scene) {
-        $("backdrop").src = scene.backdrop.url;
+        setBackdrop(scene.backdrop);
         drawHere(scene);
       }
       // The mock's line under the picture: the day, where it is spent, the hour.
@@ -1383,7 +1399,7 @@ function electionMorning(scene) {
             async () => {
               const done = await post("/api/election-day/canvass");
               if (done.scene) {
-                $("backdrop").src = done.scene.backdrop.url;
+                setBackdrop(done.scene.backdrop);
                 drawHere(done.scene);
               }
               if (done.line) say([done.line]);
@@ -1407,7 +1423,7 @@ function electionNight(night) {
   return new Promise((resolve) => {
     const labels = controls.returns ?? {};
     if (night.scene) {
-      $("backdrop").src = night.scene.backdrop.url;
+      setBackdrop(night.scene.backdrop);
       drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
@@ -1461,7 +1477,7 @@ function atThePolls(scene) {
     };
     const draw = (value) => {
       scene = value;
-      $("backdrop").src = scene.backdrop.url;
+      setBackdrop(scene.backdrop);
       drawHere(scene);
       $("ballot").replaceChildren(
         ballotPaper({
@@ -1770,7 +1786,7 @@ let counterTurn = 0;
 function renderFiling(value) {
   filing = value;
   if (!value) return;
-  $("backdrop").src = value.backdrop.url;
+  setBackdrop(value.backdrop);
   drawHere(value);
   show("talk", true);
   const clerkName = value.visit.clerkId
@@ -1968,7 +1984,7 @@ function playAsks({ asked, summary, scene }) {
   closeSheet();
   renderTalk(undefined);
   if (scene) {
-    $("backdrop").src = scene.backdrop.url;
+    setBackdrop(scene.backdrop);
     // Each person is heard by name and bust as they answer.
     drawHere();
   }
@@ -2164,7 +2180,7 @@ async function campaignParts() {
       // The doors and the calls are seen where they happen, with the people reached.
       if (result.scene || moment) closeSheet();
       if (result.scene) {
-        $("backdrop").src = result.scene.backdrop.url;
+        setBackdrop(result.scene.backdrop);
         drawHere(result.scene, (p) => talkTo(p.personId));
       }
       if (moment) await showStory(moment.recordId);
@@ -2214,7 +2230,7 @@ async function campaignParts() {
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
-        $("backdrop").src = result.scene.backdrop.url;
+        setBackdrop(result.scene.backdrop);
         drawHere(result.scene);
         return;
       }
@@ -2396,7 +2412,7 @@ async function campaignParts() {
                 campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
                 // A speech is seen where it was given, with the people it reached.
                 closeSheet();
-                $("backdrop").src = result.scene.backdrop.url;
+                setBackdrop(result.scene.backdrop);
                 drawHere(result.scene);
               },
             }),
@@ -2602,7 +2618,7 @@ async function showStory(momentId) {
   me.names = { ...me.names, ...story.names };
   // A scene opens over nothing: a menu or a person's card open when it comes due is closed.
   closeCards();
-  $("backdrop").src = story.backdrop.url;
+  setBackdrop(story.backdrop);
   drawHere(story);
   show("talk", true);
   setWho(null, null);
@@ -2634,7 +2650,7 @@ async function showStory(momentId) {
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
       if (beat) {
-        $("backdrop").src = beat.backdrop.url;
+        setBackdrop(beat.backdrop);
         drawHere(beat);
       }
       // A speaker heard on a broadcast is named, never drawn in the room
@@ -3074,7 +3090,7 @@ async function visit(organizationId) {
     `/api/goto/visit?org=${encodeURIComponent(organizationId)}`,
   );
   me.names = { ...me.names, ...v.names };
-  $("backdrop").src = v.backdrop.url;
+  setBackdrop(v.backdrop);
   drawHere(v, (p) => talkTo(p.personId));
   me.scene = v;
   $("card-place").textContent = v.name;
@@ -7082,7 +7098,7 @@ function rotateTitle(scenes, seconds) {
   }, seconds * 1000);
 }
 api("/api/title").then((title) => {
-  if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
+  if (!$("front").hidden) setBackdrop(title.backdrop);
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   titleSaves = title.saves ?? [];
