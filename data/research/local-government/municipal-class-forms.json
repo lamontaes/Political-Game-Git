@@ -135,7 +135,7 @@
           "directlyElected": true,
           "termYears": 4
         },
-        "citation": "Code of Ala. § 11-43-2(a): \"there shall be elected a mayor\" at the general election \"and quadrennially thereafter\"; (b): in cities and towns under 12,000, \"the legislative functions shall be exercised by the mayor and five aldermen\"; (d): \"The aldermen in the cities or towns shall be elected by the city or town at large at the general election held at the time provided by law, and quadrennially thereafter\", all at the one election. A town whose council chose wards (d), or that a local act changed, is not read; a city may be over 12,000 and is not read here.",
+        "citation": "Code of Ala. § 11-43-2(a): \"there shall be elected a mayor\" at the general election \"and quadrennially thereafter\"; (b): in cities and towns under 12,000, \"the legislative functions shall be exercised by the mayor and five aldermen\"; (d): \"The aldermen in the cities or towns shall be elected by the city or town at large at the general election held at the time provided by law, and quadrennially thereafter\", all at the one election. A town whose council chose to elect by district (d), or that a local act changed, is not read; a city may be over 12,000 and is not read here.",
         "url": "https://law.justia.com/codes/alabama/title-11/title-2/chapter-43/article-1/section-11-43-2"
       }
     },
@@ -249,7 +249,7 @@
           "title": "Mayor",
           "directlyElected": true
         },
-        "citation": "Miss. Code § 21-1-1: municipalities of \"less than two thousand and not less than three hundred inhabitants shall be classed as towns\"; § 21-3-7(1): in a municipality under 10,000 \"there shall be five (5) aldermen\", and \"All aldermen shall be selected by vote of the entire electorate of the municipality\", from wards or at large; § 21-3-3: \"The elective officers of all municipalities operating under a code charter shall be the mayor, the aldermen\". A town of 500 or fewer that chose three aldermen (21-3-7(3)), a town with its own charter, the terms and whether seats are ward seats are not read.",
+        "citation": "Miss. Code § 21-1-1: municipalities of \"less than two thousand and not less than three hundred inhabitants shall be classed as towns\"; § 21-3-7(1): in a municipality under 10,000 \"there shall be five (5) aldermen\", and \"All aldermen shall be selected by vote of the entire electorate of the municipality\", whether chosen by district or at large; § 21-3-3: \"The elective officers of all municipalities operating under a code charter shall be the mayor, the aldermen\". A town of 500 or fewer that chose three aldermen (21-3-7(3)), a town with its own charter, the terms and whether seats are district seats are not read.",
         "url": "https://law.justia.com/codes/mississippi/2019/title-21/chapter-3/section-21-3-7/"
       }
     }
