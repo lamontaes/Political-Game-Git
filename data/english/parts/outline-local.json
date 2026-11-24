@@ -3940,6 +3940,155 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
+    },
+    {
+      "key": "outline-local.report.what-did-do-this-year-a-lot-of-it-was-about",
+      "move": "report",
+      "kind": "spoken",
+      "text": "What did {realm-name} do this year? A lot of it was about {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["realm-name", "theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.you-saw-it-too-was-in-front-of-us-all-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "You saw it too: {theme-name} was in front of us all year.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["theme-name"],
+          "excludesFacts": ["theme-short-plural"]
+        }
+      ],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.we-spent-a-lot-of-this-year-on",
+      "move": "report",
+      "kind": "spoken",
+      "text": "We spent a lot of this year on {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.in-my-time-as-has-taken-more-of-my-attention-than-anything-else",
+      "move": "report",
+      "kind": "spoken",
+      "text": "In my time as {office-title}, {theme-name} has taken more of my attention than anything else.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "frame",
+          "requiresFacts": ["office-title", "theme-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.we-finished-the-year-with-money-to-spare-and-is-the-first-place-i-d-sp",
+      "move": "report",
+      "kind": "spoken",
+      "text": "We finished the year with money to spare, and {theme-name} is the first place I'd spend it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["theme-name", "condition-budget-ahead"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.the-books-held-steady-this-year-so-we-could-stay-with",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The books held steady this year, so we could stay with {theme-name}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["theme-name", "condition-budget-steady"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
+    },
+    {
+      "key": "outline-local.report.money-was-tight-this-year-and-felt-it",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Money was tight this year, and {theme-name} felt it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["theme-name", "condition-budget-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["mayor-tours-the-departments", "state-of-the-city-situation"]
     }
   ]
 }
