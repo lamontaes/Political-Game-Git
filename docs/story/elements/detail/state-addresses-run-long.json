@@ -1,0 +1,28 @@
+{
+  "id": "state-addresses-run-long",
+  "kind": "detail",
+  "summary": "A State of the State runs about three to five thousand words, an inaugural a few hundred to two thousand.",
+  "realLife": "The six State of the State texts ran from about 3,400 to 5,300 words; the six inaugurals from about 700 to 2,400.",
+  "sources": [
+    "https://avalon.law.yale.edu/19th_century/lincoln2.asp",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-8",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-11",
+    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-5",
+    "https://www.flgov.com/eog/news/press/2024/governor-ron-desantis-delivers-state-state-address",
+    "https://www.wsbtv.com/news/local/read-gov-brian-kemps-2024-state-state-address/ODQCKR5IUVEA3MLPWQCKFPVC6A/?outputType=amp",
+    "https://sltrib.com/news/politics/2024/01/18/read-gov-spencer-cox-discusses",
+    "https://ktar.com/arizona-news/read-full-transcript-of-arizona-gov-katie-hobbs-2024-state-of-the-state-address-2/5556443/",
+    "https://governor.state.nm.us/2024/01/16/new-mexico-is-made-to-lead-governor-delivers-second-state-of-the-state-address-announces-legislative-agenda",
+    "https://www.nbcconnecticut.com/news/local/read-the-governors-2024-state-of-the-state-address/3213365/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "state": 0.5
+  },
+  "usedBy": []
+}
