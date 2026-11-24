@@ -2949,6 +2949,27 @@
           },
           "opener": "boss",
           "opening": "deliver-news"
+        },
+        {
+          "match": {
+            "causeKind": "event:work.job-lost",
+            "selfNamed": true,
+            "causeFacts": [
+              {
+                "key": "decidedBy",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "work",
+          "causeRecord": "work.job-lost",
+          "bind": {
+            "worker": "subject",
+            "boss": "decider",
+            "coworkers": "coworkers"
+          },
+          "opener": "boss",
+          "opening": "deliver-news"
         }
       ],
       "yieldsTo": ["news-arrives"],
