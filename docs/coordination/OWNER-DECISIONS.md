@@ -30,6 +30,9 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - The story and English engine cover every situation across a life: before the first evening, campaigning, office, home, work and community.
   - That means all 89 scene types (only 9 composed in play on Nov 24) plus speeches, the Journal and the news, worked at once.
   - Eight Sonnet writers are scoped by area of life under the Story lead.
+- **About 8:51 a.m., depth, not breadth:** "And it doesn't matter if they have no lines. I'm complaining about the same stuff every playthrough. There needs to be more variety. Like a million times more variety. Like, oh my God. Depth, not breadth."
+  - Variety goes into everything a life already plays, with hundreds of versions per slot. Each is multiplied by the person's own voice, inserts from the records, the planner's shape and the situation.
+  - Empty scene types wait. The 89-type count is not the measure; distinct lines per slot and the sameness gate across many drawn lives are.
 
 ## Nov 24, 2026, about 8:30 a.m.: more Story sessions now (owner, verbatim; recorded by the CTO)
 
