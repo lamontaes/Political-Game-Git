@@ -1,0 +1,30 @@
+{
+  "id": "winning-portrait-needs-a-likeness-correction",
+  "kind": "consequence",
+  "summary": "The winning portrait goes forward with {liaison}'s objection attached to the recommendation.",
+  "realLife": "During debate on the highest-scoring design for physician Susan La Flesche Picotte, the liaison questioned the likeness and members unanimously requested a correction.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{liaison}"],
+  "gates": ["A liaison has reviewed the likeness on a scored portrait design."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: liaison objection and portrait recommendation.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The liaison accepts a revised likeness.",
+      "pulledBy": "The artist works from an authenticated photograph.",
+      "writesBack": "The correction is marked complete."
+    },
+    {
+      "turn": "partial",
+      "what": "The family disputes the new likeness too.",
+      "pulledBy": "A second reference image differs from the first.",
+      "writesBack": "The portrait returns for another review."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "use-the-earlier-scores-for-revised-drawings",
+  "kind": "move",
+  "summary": "When {design} comes back revised, the board votes on the changes using the scores already on file.",
+  "realLife": "Members had scored the Constitution and Bill of Rights platinum designs in October and recommended both revised drawings in February without scoring them again.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{design}"],
+  "gates": [
+    "The artist has returned revisions to designs the board scored at a prior meeting."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: prior scores and revised designs.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The board orders fresh scoring.",
+      "pulledBy": "The artist changed the central figure as well as the lettering.",
+      "writesBack": "A new tally supersedes the old one."
+    },
+    {
+      "turn": "partial",
+      "what": "One face clears while the other goes back.",
+      "pulledBy": "Only one revision answers the earlier request.",
+      "writesBack": "The series has one outstanding approval."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "the-common-reverse-returns-in-the-package",
+  "kind": "consequence",
+  "summary": "A proposal for {design} gets no second on its own and then passes as part of a set.",
+  "realLife": "John Saunders could not get a second on a shared World Cup reverse alone, but Arthur Bernstein included it with three fronts in a package that passed.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-08/7_22_2025_minutes_final.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{design}"],
+  "gates": [
+    "The same reverse could serve several coins whose fronts are ready for review."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: individual motion and later package vote.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The package draws a second on the reverse alone.",
+      "pulledBy": "Another member wants that decision settled first.",
+      "writesBack": "The common back gets a separate vote."
+    },
+    {
+      "turn": "partial",
+      "what": "One disputed front holds up the whole package.",
+      "pulledBy": "A member moves to remove that drawing.",
+      "writesBack": "The minutes show which designs still await action."
+    }
+  ],
+  "issues": ["none"]
+}

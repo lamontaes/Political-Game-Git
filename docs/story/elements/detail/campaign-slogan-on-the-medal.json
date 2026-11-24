@@ -1,0 +1,32 @@
+{
+  "id": "campaign-slogan-on-the-medal",
+  "kind": "detail",
+  "summary": "A line from {honoree}'s campaign displaces the quotation beneath the portrait.",
+  "realLife": "In reviewing Chisholm's medal, the committee recommended replacing a statement about change with the slogan she had run on.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{honoree}"],
+  "gates": [
+    "Members have a portrait design and two documented choices for its inscription."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: portrait inscription and alternative campaign wording.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The campaign line stays off the medal.",
+      "pulledBy": "The motion to substitute it fails.",
+      "writesBack": "The earlier inscription remains in the recommendation."
+    },
+    {
+      "turn": "partial",
+      "what": "The board asks to see the slogan on the reverse.",
+      "pulledBy": "The portrait side has little space.",
+      "writesBack": "Both placements go back to the artist."
+    }
+  ],
+  "issues": ["none"]
+}

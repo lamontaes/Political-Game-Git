@@ -1,0 +1,32 @@
+{
+  "id": "one-abstention-changes-the-scale",
+  "kind": "consequence",
+  "summary": "When {member} sits out one side of the coin, the best possible score changes for that side alone.",
+  "realLife": "Heidi Wastweet abstained on the front of the Eliza Johnson issue, reducing the available points for those designs from twenty-four to twenty-one.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2010_1119_minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{member}"],
+  "gates": [
+    "The committee scores each face separately and has recorded who participated."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: eligible scorers and abstentions by face.",
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "A member returns for the other face.",
+      "pulledBy": "The abstention applied to one portrait alone.",
+      "writesBack": "The second tally restores the full possible score."
+    },
+    {
+      "turn": "partial",
+      "what": "A second member also sits out.",
+      "pulledBy": "Another abstention is recorded before scoring.",
+      "writesBack": "The chair announces a new maximum."
+    }
+  ],
+  "issues": ["none"]
+}
