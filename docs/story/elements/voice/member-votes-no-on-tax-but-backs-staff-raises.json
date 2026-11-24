@@ -33,7 +33,7 @@
     },
     {
       "name": "a no that names renters",
-      "pulledBy": "a member whose ward has many renters",
+      "pulledBy": "a member whose district has many renters",
       "writes": "the story quotes the burden on renters as the reason for the no",
       "requiresFacts": [],
       "excludesFacts": []
