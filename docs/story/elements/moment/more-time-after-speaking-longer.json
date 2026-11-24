@@ -1,0 +1,29 @@
+{
+  "id": "more-time-after-speaking-longer",
+  "kind": "moment",
+  "summary": "A speaker asks twice how much time remains and hears a larger answer the second time.",
+  "realLife": "Riddick recalled laughter when Robert Kerr spoke some more and then received a higher remaining-time estimate from the desk.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=42"
+  ],
+  "fits": ["office", "journal", "speeches", "news"],
+  "slots": ["{speaker}", "{timekeeper}", "{chair}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: timed debate and two clock readings.",
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The chair corrects the figure before the next speaker.",
+      "pulledBy": "The timekeeper catches the mistake first.",
+      "writesBack": "The clock entry is corrected."
+    },
+    {
+      "turn": "opposite",
+      "what": "The clerk accounts for the increase.",
+      "pulledBy": "The manager has yielded extra time.",
+      "writesBack": "Both allocations appear in the debate record."
+    }
+  ]
+}

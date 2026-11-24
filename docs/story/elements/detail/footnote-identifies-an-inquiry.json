@@ -1,0 +1,29 @@
+{
+  "id": "footnote-identifies-an-inquiry",
+  "kind": "detail",
+  "summary": "A procedural reference tells readers whether an example came from a formal ruling or an answer to a question.",
+  "realLife": "Riddick said the footnotes in Senate Procedure distinguished replies to parliamentary inquiries from decisions on points of order.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=190"
+  ],
+  "fits": ["office", "journal", "speeches", "news"],
+  "slots": ["{member}", "{editor}", "{citation}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: precedent citation and the kind of proceeding.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member asks for a decided case.",
+      "pulledBy": "The cited passage turns out to be an inquiry.",
+      "writesBack": "The argument cites a different entry."
+    },
+    {
+      "turn": "partial",
+      "what": "The editor explains its use and origin.",
+      "pulledBy": "Several inquiries describe the same practice.",
+      "writesBack": "Readers can assess the authority for themselves."
+    }
+  ]
+}

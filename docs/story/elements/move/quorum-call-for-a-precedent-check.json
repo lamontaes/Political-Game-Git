@@ -1,0 +1,29 @@
+{
+  "id": "quorum-call-for-a-precedent-check",
+  "kind": "move",
+  "summary": "A pause in debate gives the desk time to verify the case behind a proposed ruling.",
+  "realLife": "Riddick described occasions when a quorum call gave the desk enough time to look up a precedent.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=41"
+  ],
+  "fits": ["office", "journal", "speeches"],
+  "slots": ["{member}", "{adviser}", "{precedent}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: floor pause and a pending procedural question.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The adviser sets the first citation aside.",
+      "pulledBy": "The precedent turns on different facts.",
+      "writesBack": "The chair hears a narrower answer."
+    },
+    {
+      "turn": "partial",
+      "what": "The adviser states which part is still unchecked.",
+      "pulledBy": "A member asks to end the pause early.",
+      "writesBack": "The chair decides whether to wait."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "oath-without-a-prompt-card",
+  "kind": "detail",
+  "summary": "The officer administering an oath has learned the words well enough to look at the person taking it.",
+  "realLife": "Riddick recalled that Agnew memorized the oath he administered to incoming senators.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=37"
+  ],
+  "fits": ["office", "journal", "speeches", "home"],
+  "slots": ["{officer}", "{incoming_member}", "{oath}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: swearing-in and the administering officer’s preparation.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The clerk supplies the ceremonial text.",
+      "pulledBy": "The officer asks to rehearse the opening.",
+      "writesBack": "The rehearsal stays in the preparation notes."
+    },
+    {
+      "turn": "opposite",
+      "what": "The clerk leaves the text open.",
+      "pulledBy": "A substitute takes the chair.",
+      "writesBack": "The substitute reads it at the ceremony."
+    }
+  ]
+}

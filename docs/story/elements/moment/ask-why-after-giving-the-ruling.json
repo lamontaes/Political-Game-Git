@@ -1,0 +1,29 @@
+{
+  "id": "ask-why-after-giving-the-ruling",
+  "kind": "moment",
+  "summary": "A new presiding officer uses a lull to ask the adviser why the chair just ruled as it did.",
+  "realLife": "Riddick described new senators discussing a ruling with the parliamentarian after delivering it when floor business allowed time.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=197"
+  ],
+  "fits": ["office", "journal", "speeches", "news"],
+  "slots": ["{presiding_officer}", "{adviser}", "{ruling}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a completed ruling and a lull at the desk.",
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The officer saves the question.",
+      "pulledBy": "Another point comes up immediately.",
+      "writesBack": "The adviser explains it after the sitting."
+    },
+    {
+      "turn": "partial",
+      "what": "The adviser shows which fact would change the ruling.",
+      "pulledBy": "The officer follows the first explanation with a hypothetical.",
+      "writesBack": "The officer takes a note for next time."
+    }
+  ]
+}

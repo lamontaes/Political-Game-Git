@@ -1,0 +1,29 @@
+{
+  "id": "one-reporter-cannot-cover-every-hearing",
+  "kind": "situation",
+  "summary": "A chamber editor has to ask committee clerks what happened in rooms the reporter could not reach.",
+  "realLife": "Floyd Riddick recalled relying on committee clerks for the Daily Digest because only one reporter was assigned to committees whose hearings overlapped.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=27"
+  ],
+  "fits": ["office", "journal", "speeches", "news"],
+  "slots": ["{editor}", "{clerk}", "{hearing}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: committee hearing and a clerk’s account.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A second hearing makes the print deadline.",
+      "pulledBy": "The clerk names a substitute to keep notes.",
+      "writesBack": "The editor credits the substitute."
+    },
+    {
+      "turn": "late",
+      "what": "The digest can establish the agenda but not the outcome.",
+      "pulledBy": "The clerk sends only the notice.",
+      "writesBack": "The decision awaits confirmation."
+    }
+  ]
+}

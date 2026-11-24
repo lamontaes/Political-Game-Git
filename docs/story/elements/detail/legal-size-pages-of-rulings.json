@@ -1,0 +1,29 @@
+{
+  "id": "legal-size-pages-of-rulings",
+  "kind": "detail",
+  "summary": "A new staff member learns the chamber from a predecessor’s typed case notes.",
+  "realLife": "Watkins assigned Riddick to read his accumulated notes on Senate precedents, typed on long sheets of paper.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=38"
+  ],
+  "fits": ["office", "journal", "speeches", "home"],
+  "slots": ["{assistant}", "{predecessor}", "{case}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: staff training and an indexed collection of rulings.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The supervisor explains the difference.",
+      "pulledBy": "The reader finds two similar cases.",
+      "writesBack": "A cross-reference joins the pages."
+    },
+    {
+      "turn": "late",
+      "what": "The reader marks it for discussion.",
+      "pulledBy": "A heading fails to explain a result.",
+      "writesBack": "The question goes into the next lesson."
+    }
+  ]
+}

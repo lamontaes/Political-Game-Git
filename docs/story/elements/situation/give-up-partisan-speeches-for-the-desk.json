@@ -1,0 +1,37 @@
+{
+  "id": "give-up-partisan-speeches-for-the-desk",
+  "kind": "situation",
+  "summary": "A prospective chamber adviser weighs a neutral staff career against speaking publicly on political questions.",
+  "realLife": "Riddick said he hesitated over the parliamentarian’s office because he spoke publicly about politics and had considered entering politics himself.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=43"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "speeches",
+    "news",
+    "home",
+    "campaign",
+    "work-community"
+  ],
+  "slots": ["{applicant}", "{office}", "{invitation}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: staff offer and prior public political activity.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The office interviews someone else.",
+      "pulledBy": "The applicant chooses elected politics.",
+      "writesBack": "The two career paths separate."
+    },
+    {
+      "turn": "partial",
+      "what": "A partisan speaking invitation arrives.",
+      "pulledBy": "The applicant accepts.",
+      "writesBack": "The new adviser declines it."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "coffee-before-taking-the-chair",
+  "kind": "moment",
+  "summary": "A new presiding officer comes in early to work through cases over coffee.",
+  "realLife": "Spiro Agnew spent available mornings early in his vice presidency discussing Senate precedents with Riddick over coffee.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=37"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "home"],
+  "slots": ["{presiding_officer}", "{adviser}", "{chamber}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: presiding assignment and a preparation meeting.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The lesson follows an actual objection.",
+      "pulledBy": "A member brings a question from yesterday.",
+      "writesBack": "The member returns with an answer."
+    },
+    {
+      "turn": "late",
+      "what": "The pair meet after the sitting.",
+      "pulledBy": "The morning schedule changes.",
+      "writesBack": "The officer brings questions from the floor."
+    }
+  ]
+}

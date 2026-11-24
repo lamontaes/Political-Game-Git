@@ -1,0 +1,29 @@
+{
+  "id": "retain-the-qualification-to-an-old-ruling",
+  "kind": "move",
+  "summary": "An editor explains how a later ruling narrowed an earlier precedent that still applies in other circumstances.",
+  "realLife": "Riddick described keeping both decisions when the later one modified only part of the earlier practice.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=191"
+  ],
+  "fits": ["office", "journal", "speeches", "news"],
+  "slots": ["{editor}", "{earlier_ruling}", "{later_ruling}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: two dated rulings on related questions.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The editor uses the current decision.",
+      "pulledBy": "The later decision replaced the practice entirely.",
+      "writesBack": "The obsolete instruction drops out."
+    },
+    {
+      "turn": "partial",
+      "what": "The editor adds that limit beside the old entry.",
+      "pulledBy": "The change applies only to one motion.",
+      "writesBack": "The earlier practice remains available elsewhere."
+    }
+  ]
+}
