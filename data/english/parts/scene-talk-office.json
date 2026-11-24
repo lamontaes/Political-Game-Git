@@ -7889,6 +7889,410 @@
         "key": "favor-asked"
       },
       "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.give-me-until-case-response-date-to-decide-whether-to-refer-the-difference-in-your-pay",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me until {case-response-date} to decide whether to refer the difference in your pay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.the-minimum-here-is-floor-i-d-like-them-to-check-why-i-m-getting-less"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.i-d-tell-them-floor-an-hour-you-can-see-why-i-came-in"
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.close-answer.then-case-response-date-is-when-this-office-decides-i-can-wait-for-that",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "Then {case-response-date} is when this office decides. I can wait for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.reply-leave.give-me-until-case-response-date-to-decide-whether-to-refer-the-difference-in-your-pay"
+        }
+      ],
+      "elements": ["one-stale-rate-leads-to-payroll-check"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.i-ve-heard-what-you-make-your-case-stays-open-here-until-we-decide-by-case-response-date",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've heard what you make. Your case stays open here until we decide, by {case-response-date}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.i-get-pay-an-hour-that-s-the-part-i-can-speak-for"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.put-down-pay-an-hour-for-me-i-can-t-speak-for-the-others"
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.close-answer.if-i-call-on-case-response-date-i-ll-ask-about-my-own-wages",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "If I call on {case-response-date}, I'll ask about my own wages.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.reply-leave.i-ve-heard-what-you-make-your-case-stays-open-here-until-we-decide-by-case-response-date"
+        }
+      ],
+      "elements": ["silent-employer-limits-coworker-findings"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.you-can-still-ask-agency-what-to-bring-our-deadline-to-decide-on-a-referral-is-case-response-date",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "You can still ask {agency} what to bring. Our deadline to decide on a referral is {case-response-date}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.i-could-give-them-my-hourly-rate-pay-and-ask-what-else-they-d-need-from-me"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.that-my-rate-is-pay-an-hour-then-i-d-ask-what-they-want-me-to-send"
+        }
+      ],
+      "elements": ["shift-texts-support-cash-pay-claim"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-ask-agency-about-the-records-while-i-m-waiting",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll ask {agency} about the records while I'm waiting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.reply-leave.you-can-still-ask-agency-what-to-bring-our-deadline-to-decide-on-a-referral-is-case-response-date"
+        }
+      ],
+      "elements": ["shift-texts-support-cash-pay-claim"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.i-can-t-answer-for-agency-about-names-we-have-until-case-response-date-to-decide-what-to-do-with-your-case",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't answer for {agency} about names. We have until {case-response-date} to decide what to do with your case.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.yes-i-want-to-file-with-agency-and-i-want-to-know-who-can-see-the-complaint"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.yes-please-ask-agency-who-gets-my-name-when-i-file"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.please-find-out-who-agency-shares-it-with-i-want-to-go-ahead-with-the-complaint"
+        }
+      ],
+      "elements": ["anonymous-worker-questions-tipped-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-ask-agency-who-sees-my-name-before-i-send-anything-myself",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll ask {agency} who sees my name before I send anything myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.reply-leave.i-can-t-answer-for-agency-about-names-we-have-until-case-response-date-to-decide-what-to-do-with-your-case"
+        }
+      ],
+      "elements": ["anonymous-worker-questions-tipped-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.case-response-date-is-our-deadline-to-decide-on-the-referral-the-rate-for-those-earlier-hours-is-a-separate-question",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "{case-response-date} is our deadline to decide on the referral. The rate for those earlier hours is a separate question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.whether-floor-was-already-the-minimum-when-i-worked-those-hours"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.i-want-the-minimum-for-the-days-i-earned-pay-an-hour"
+        }
+      ],
+      "elements": ["old-pay-period-needs-old-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-ll-keep-case-response-date-in-mind-when-i-check-back-about-the-referral",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I'll keep {case-response-date} in mind when I check back about the referral.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.reply-leave.case-response-date-is-our-deadline-to-decide-on-the-referral-the-rate-for-those-earlier-hours-is-a-separate-question"
+        }
+      ],
+      "elements": ["old-pay-period-needs-old-rate"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.the-office-has-until-case-response-date-to-decide-whether-to-refer-this-you-can-ask-agency-about-leaving-in-the-meantime",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "The office has until {case-response-date} to decide whether to refer this. You can ask {agency} about leaving in the meantime.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.whether-i-can-still-report-earning-pay-an-hour-once-i-work-somewhere-else"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.yes-could-agency-still-take-my-case-if-i-d-already-left"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.follow-answer.yes-i-d-still-want-agency-to-look-at-what-i-earned-here"
+        }
+      ],
+      "elements": ["repayment-list-misses-former-workers"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.close-answer.i-can-call-agency-about-changing-jobs-while-the-case-is-still-open-here",
+      "move": "close-answer",
+      "kind": "spoken",
+      "text": "I can call {agency} about changing jobs while the case is still open here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["problem-wage", "agency", "case-response-date"],
+          "after": "scene-talk-office.reply-leave.the-office-has-until-case-response-date-to-decide-whether-to-refer-this-you-can-ask-agency-about-leaving-in-the-meantime"
+        }
+      ],
+      "elements": ["repayment-list-misses-former-workers"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "bearing": "guarded"
     }
   ]
 }

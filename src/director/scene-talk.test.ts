@@ -244,6 +244,57 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     expect(seen.size).toBe(requests.length);
   });
 
+  it("offers to leave a wage case pending only with its recorded decision date", () => {
+    const type = types.find((row) => row.key === "office-hours")!;
+    const closes = officeBank.parts.filter((part) =>
+      part.uses.some(
+        (use) =>
+          use.step === "close" &&
+          use.requiresFacts?.includes("case-response-date"),
+      ),
+    );
+    expect(closes.length).toBeGreaterThan(0);
+    const seen = new Set<string>();
+    for (let draw = 0; draw < 500 && seen.size < closes.length; draw++) {
+      const dated = draw % 2 === 1;
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId, askedId, causeId: `wage-date-${draw}` },
+        type,
+        {
+          name: fact("Pat Rivera"),
+          agency: fact("the labor standards office"),
+          "problem-wage": fact("yes"),
+          pay: fact("nine dollars"),
+          floor: fact("ten dollars"),
+          ...(dated ? { "case-response-date": fact("January 27") } : {}),
+        },
+      );
+      expect(result.kind).toBe("composed");
+      if (result.kind !== "composed") continue;
+      const question = result.talk.tree.replies.find(
+        (row) => row.line.move === "ask",
+      );
+      const leave = question?.next?.replies.find(
+        (row) => row.line.move === "leave",
+      );
+      if (!dated) {
+        expect(leave).toBeUndefined();
+        continue;
+      }
+      expect(leave?.line.text).toContain("January 27");
+      expect(leave?.next?.end?.ending?.id).toBe("left-waiting");
+      const close = closes.find((row) =>
+        row.uses.some((use) => use.after === leave?.line.parts[0]),
+      );
+      expect(close).toBeDefined();
+      expect(leave?.next?.end?.close?.parts[0]).toBe(close?.key);
+      seen.add(close!.key);
+    }
+    expect(seen.size).toBe(closes.length);
+  });
+
   it("keeps the referral decision open after an unemployment paperwork question in an office without an aide", () => {
     const type = types.find((row) => row.key === "office-hours")!;
     for (let draw = 0; draw < 100; draw++) {
