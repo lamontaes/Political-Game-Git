@@ -1,0 +1,26 @@
+{
+  "id": "a-bus-driver-chairs-labor-outreach",
+  "kind": "situation",
+  "summary": "A union member takes the campaign’s labor job while leaders in the local movement remain cool to the candidate.",
+  "realLife": "Peters identified Greyhound driver Dan Moroney as the Kennedy campaign’s county labor co-chair.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{worker}",
+    "{union}",
+    "{county}"
+  ],
+  "gates": [
+    "The worker belongs to a union and holds a campaign role."
+  ],
+  "weights": [],
+  "usedBy": []
+}

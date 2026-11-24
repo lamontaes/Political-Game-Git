@@ -1,0 +1,26 @@
+{
+  "id": "old-friend-at-headquarters",
+  "kind": "detail",
+  "summary": "The person newcomers see at headquarters each morning is an old friend of the candidate.",
+  "realLife": "Vogelsinger identified Kennedy’s school friend Billings as the regular presence supervising visiting staff.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{friend}",
+    "{candidate}",
+    "{headquarters}"
+  ],
+  "gates": [
+    "A friend has responsibility for visiting staff."
+  ],
+  "weights": [],
+  "usedBy": []
+}

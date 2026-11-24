@@ -1,0 +1,26 @@
+{
+  "id": "pair-the-handout-with-a-profile",
+  "kind": "move",
+  "summary": "Two volunteers take charge of delivering the campaign paper together with a published profile of the candidate.",
+  "realLife": "Peters credited Rowan and Kennedy with distributing a tabloid and a magazine account across Kanawha County.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{volunteer}",
+    "{publication}",
+    "{county}"
+  ],
+  "gates": [
+    "The campaign has copies available to distribute."
+  ],
+  "weights": [],
+  "usedBy": []
+}

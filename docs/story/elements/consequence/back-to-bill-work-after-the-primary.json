@@ -1,0 +1,26 @@
+{
+  "id": "back-to-bill-work-after-the-primary",
+  "kind": "consequence",
+  "summary": "A campaign worker returns to the legislative office because the chamber is still sitting.",
+  "realLife": "Vogelsinger went back to Washington after West Virginia to work on legislation.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "office",
+    "home"
+  ],
+  "slots": [
+    "{staffer}",
+    "{chamber}",
+    "{bill}"
+  ],
+  "gates": [
+    "The staffer has a legislative job to return to."
+  ],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,26 @@
+{
+  "id": "staff-locator-cannot-find-the-candidate",
+  "kind": "situation",
+  "summary": "The convention worker responsible for finding people gets a call about someone who never checked in.",
+  "realLife": "Vogelsinger recalled losing track of colleagues while serving as the Kennedy convention locator.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{worker}",
+    "{colleague}",
+    "{convention}"
+  ],
+  "gates": [
+    "The campaign has designated a contact desk."
+  ],
+  "weights": [],
+  "usedBy": []
+}

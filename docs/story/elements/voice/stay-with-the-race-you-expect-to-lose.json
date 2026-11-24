@@ -1,0 +1,26 @@
+{
+  "id": "stay-with-the-race-you-expect-to-lose",
+  "kind": "voice",
+  "summary": "An organizer explains that loyalty kept them on the job when they thought the candidate would lose.",
+  "realLife": "Peters recalled staying on even while he doubted Kennedy could win the primary.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{organizer}",
+    "{candidate}",
+    "{primary}"
+  ],
+  "gates": [
+    "The organizer privately expects defeat."
+  ],
+  "weights": [],
+  "usedBy": []
+}

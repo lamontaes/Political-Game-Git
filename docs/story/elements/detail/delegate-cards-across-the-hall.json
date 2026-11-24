@@ -1,0 +1,26 @@
+{
+  "id": "delegate-cards-across-the-hall",
+  "kind": "detail",
+  "summary": "While the convention moves around them, workers keep a card file of delegates up to date.",
+  "realLife": "Vogelsinger remembered colleagues maintaining delegate cards opposite her convention desk.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{worker}",
+    "{delegate}",
+    "{convention}"
+  ],
+  "gates": [
+    "The campaign uses a paper delegate file."
+  ],
+  "weights": [],
+  "usedBy": []
+}

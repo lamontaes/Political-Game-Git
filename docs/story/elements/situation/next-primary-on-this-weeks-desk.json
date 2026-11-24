@@ -1,0 +1,26 @@
+{
+  "id": "next-primary-on-this-weeks-desk",
+  "kind": "situation",
+  "summary": "The person scheduling this week’s appearances also has to prepare for the primaries that follow.",
+  "realLife": "Vogelsinger recalled Robert Kennedy juggling Charleston scheduling and upcoming contests.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{scheduler}",
+    "{primary}",
+    "{next_primary}"
+  ],
+  "gates": [
+    "The election calendar overlaps campaign assignments."
+  ],
+  "weights": [],
+  "usedBy": []
+}

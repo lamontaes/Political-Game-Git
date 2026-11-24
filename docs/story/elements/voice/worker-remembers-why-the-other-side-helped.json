@@ -1,0 +1,26 @@
+{
+  "id": "worker-remembers-why-the-other-side-helped",
+  "kind": "voice",
+  "summary": "An organizer credits the opponent’s record when explaining why an endorsement proved hard to get.",
+  "realLife": "Peters attributed some labor opposition to Humphrey’s appeal to his legislative record.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{organizer}",
+    "{opponent}",
+    "{organization}"
+  ],
+  "gates": [
+    "The opponent has an established record with the organization."
+  ],
+  "weights": [],
+  "usedBy": []
+}

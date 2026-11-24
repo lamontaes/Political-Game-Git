@@ -1,0 +1,26 @@
+{
+  "id": "organizer-names-the-original-volunteers",
+  "kind": "voice",
+  "summary": "Asked who made the campaign possible, an organizer identifies the neighbors who started showing up first.",
+  "realLife": "Peters credited local Catholic volunteers with much of the county campaign’s early work.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{organizer}",
+    "{volunteers}",
+    "{county}"
+  ],
+  "gates": [
+    "The organizer witnessed the campaign’s beginnings."
+  ],
+  "weights": [],
+  "usedBy": []
+}

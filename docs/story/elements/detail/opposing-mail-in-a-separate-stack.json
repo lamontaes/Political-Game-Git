@@ -1,0 +1,26 @@
+{
+  "id": "opposing-mail-in-a-separate-stack",
+  "kind": "detail",
+  "summary": "A member sits down at a staff desk and discovers the stack of letters from people against the bill.",
+  "realLife": "Vogelsinger had sorted Kennedy’s mail by position when he started reading the opposition pile.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "office",
+    "home"
+  ],
+  "slots": [
+    "{member}",
+    "{staffer}",
+    "{bill}"
+  ],
+  "gates": [
+    "Constituent letters have been sorted by position."
+  ],
+  "weights": [],
+  "usedBy": []
+}

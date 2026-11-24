@@ -1,0 +1,26 @@
+{
+  "id": "regular-left-off-election-day-roster",
+  "kind": "consequence",
+  "summary": "A regular who expected an election-day shift feels slighted and stays home.",
+  "realLife": "Peters described being left off a faction’s work list as a blow to a regular’s pride.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{worker}",
+    "{party}",
+    "{roster}"
+  ],
+  "gates": [
+    "A returning worker expected a place on the roster."
+  ],
+  "weights": [],
+  "usedBy": []
+}

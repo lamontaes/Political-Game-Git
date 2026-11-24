@@ -1,0 +1,26 @@
+{
+  "id": "leaflets-at-the-candidates-stop",
+  "kind": "detail",
+  "summary": "A worker has to be at the meeting with the literature before the candidate gets there.",
+  "realLife": "Peters recalled assigning volunteers to hand out material at Kennedy’s county appearances.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{worker}",
+    "{meeting}",
+    "{candidate}"
+  ],
+  "gates": [
+    "A campaign appearance is scheduled."
+  ],
+  "weights": [],
+  "usedBy": []
+}

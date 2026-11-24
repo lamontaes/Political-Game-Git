@@ -1,0 +1,26 @@
+{
+  "id": "campaign-drivers-outside-the-polls",
+  "kind": "situation",
+  "summary": "The local party needs drivers to take people to vote and workers outside to check its lists.",
+  "realLife": "Peters distinguished Kanawha’s paid party workers from the officials administering the election inside.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{driver}",
+    "{worker}",
+    "{polling_place}"
+  ],
+  "gates": [
+    "Election-day party work is permitted and scheduled."
+  ],
+  "weights": [],
+  "usedBy": []
+}

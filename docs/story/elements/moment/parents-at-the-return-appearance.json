@@ -1,0 +1,26 @@
+{
+  "id": "parents-at-the-return-appearance",
+  "kind": "moment",
+  "summary": "At a return visit, an organizer recognizes a change in the audience because parents have started coming along.",
+  "realLife": "Peters remembered mainly teenagers at Kennedy’s first appearance and adults joining them later.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{organizer}",
+    "{candidate}",
+    "{place}"
+  ],
+  "gates": [
+    "The candidate has appeared in the same area before."
+  ],
+  "weights": [],
+  "usedBy": []
+}

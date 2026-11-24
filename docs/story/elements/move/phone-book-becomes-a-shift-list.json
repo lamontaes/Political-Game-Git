@@ -1,0 +1,26 @@
+{
+  "id": "phone-book-becomes-a-shift-list",
+  "kind": "move",
+  "summary": "A volunteer supervisor divides the local directory into an evening’s worth of calls for each caller.",
+  "realLife": "Peters credited Mrs. R. W. Bond with organizing volunteers to call the county’s listed numbers.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{supervisor}",
+    "{volunteer}",
+    "{county}"
+  ],
+  "gates": [
+    "A telephone directory is available to campaign volunteers."
+  ],
+  "weights": [],
+  "usedBy": []
+}

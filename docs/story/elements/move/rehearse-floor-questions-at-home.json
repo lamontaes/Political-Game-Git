@@ -1,0 +1,26 @@
+{
+  "id": "rehearse-floor-questions-at-home",
+  "kind": "move",
+  "summary": "Before a bill comes up, its sponsor and advisers spend a weekend trying out questions colleagues might ask.",
+  "realLife": "Vogelsinger took notes at Kennedy’s home as he rehearsed labor-bill questions with advisers.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "work-community"
+  ],
+  "slots": [
+    "{member}",
+    "{adviser}",
+    "{bill}"
+  ],
+  "gates": [
+    "Floor debate is approaching."
+  ],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,26 @@
+{
+  "id": "counsel-helps-finish-the-notes",
+  "kind": "moment",
+  "summary": "The note taker asks committee counsel for help turning an unfamiliar discussion into a briefing the sponsor can use.",
+  "realLife": "Dungan helped Vogelsinger assemble her notes for Kennedy after the rehearsal.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": [
+    "journal",
+    "news",
+    "speeches",
+    "office",
+    "home"
+  ],
+  "slots": [
+    "{staffer}",
+    "{counsel}",
+    "{bill}"
+  ],
+  "gates": [
+    "The staffer attended the briefing."
+  ],
+  "weights": [],
+  "usedBy": []
+}
