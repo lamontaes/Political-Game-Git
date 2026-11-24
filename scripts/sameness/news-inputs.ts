@@ -1,0 +1,85 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- reads recorded telling inputs */
+/**
+ * The news writer's gate inputs (the Story lead, Nov 24), built from the
+ * six packet worlds' inaugural inputs: the address story's facts are the
+ * address's own (the President, the stand, a line of the speech), and a
+ * vote story's are the same worlds' law names on a town body, counted three
+ * ways. Synthetic beyond the inaugural's facts, so they speak to sentence
+ * frames only, which is what the gate measures; a played vote record
+ * replaces them when the packet prints one.
+ * Run: node --import tsx scripts/sameness/news-inputs.ts
+ */
+import { readFileSync, writeFileSync } from "node:fs";
+
+const fact = (text: string) => ({ text, sourceRecordIds: ["record:gate"] });
+const rows: any[] = readFileSync(
+  "scripts/sameness/inputs/inaugural-six.jsonl",
+  "utf8",
+)
+  .trim()
+  .split("\n")
+  .map((line) => JSON.parse(line));
+const bodies = [
+  "Meadow Town Council",
+  "Chipley City Commission",
+  "Bethel Select Board",
+  "Whitmore Village Board",
+  "Roberts City Council",
+  "Fairfax County Board",
+];
+const counts = [
+  ["4 to 1", "passed", "by-one"],
+  ["5 to 0", "passed", "no-dissent"],
+  ["2 to 3", "failed", "by-one"],
+  ["4 to 1", "failed", "lone-vote"],
+  ["3 to 2", "passed", "by-one"],
+  ["1 to 4", "failed", "lone-vote"],
+];
+const address: string[] = [];
+const vote: string[] = [];
+rows.forEach((row, at) => {
+  const f = row.facts;
+  const name = f.speaker?.text ?? "the President";
+  const stance = f["stance-for"] ? "president-for" : "president-against";
+  address.push(
+    JSON.stringify({
+      facts: {
+        name: fact(name),
+        surname: fact(name.split(" ").at(-1)),
+        date: fact("January 20"),
+        about: f.about,
+        inaugural: fact("yes"),
+        [stance]: fact("yes"),
+        ...(f["belief-sentence"] ? { quote: f["belief-sentence"] } : {}),
+      },
+      traits: row.traits,
+      momentKey: `news-address:${row.worldSeed}`,
+      worldSeed: row.worldSeed,
+    }),
+  );
+  const [count, outcome, margin] = counts[at % counts.length]!;
+  vote.push(
+    JSON.stringify({
+      facts: {
+        body: fact(bodies[at % bodies.length]!),
+        law: f["law-name"] ?? fact("the ordinance"),
+        purpose: f.about,
+        count: fact(count!),
+        date: fact("January 14"),
+        [outcome!]: fact("yes"),
+        [margin!]: fact("yes"),
+      },
+      traits: row.traits,
+      momentKey: `news-roll-call:${row.worldSeed}`,
+      worldSeed: row.worldSeed,
+    }),
+  );
+});
+writeFileSync(
+  "scripts/sameness/inputs/news-address-six.jsonl",
+  `${address.join("\n")}\n`,
+);
+writeFileSync(
+  "scripts/sameness/inputs/news-roll-call-six.jsonl",
+  `${vote.join("\n")}\n`,
+);
