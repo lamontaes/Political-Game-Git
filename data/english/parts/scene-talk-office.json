@@ -198,10 +198,10 @@
       "elements": ["white-house-sends-phone-crew"]
     },
     {
-      "key": "scene-talk-office.reply-agree.declare-it-get-word-to-hospital-staff-who-live-near-the-disaster",
+      "key": "scene-talk-office.reply-agree.declare-it-call-the-hospitals-near-the-disaster-so-the-nurses-there-hear-it-from-us",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Declare it. Get word to hospital staff who live near the {disaster}.",
+      "text": "Declare it. Call the hospitals near the {disaster} so the nurses there hear it from us.",
       "uses": [
         {
           "subject": "scene",
