@@ -28,7 +28,12 @@ import { addressAiring } from "./address-airing";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { PRESIDENT_FACT } from "../core2/officials-president";
-import { tellInaugural } from "./inaugural-telling";
+import {
+  addressTelling,
+  presidentSpeaker,
+  toldSentences,
+  type AddressTellingKind,
+} from "./address-telling";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
   composeAddress,
@@ -64,7 +69,6 @@ import type { AddressKind } from "./address-kind";
 import {
   SHAPE,
   packet,
-  planSpeech,
   type Block,
   type Facts,
   type PlannedPoint,
@@ -260,7 +264,7 @@ function composeAddressOf(
   core: CoreState,
   president: PersonState,
   official: OfficialRow,
-  kind: OpeningSpeechKind,
+  kind: AddressTellingKind,
 ): {
   sentences: OpeningSentence[];
   addressKind: AddressKind;
@@ -269,34 +273,27 @@ function composeAddressOf(
   asks: readonly string[];
   points: readonly PlannedPoint[];
 } | null {
-  // The inaugural is told through the one outline planner (the Story lead,
-  // Nov 24); the other addresses wait their turn (SG-WORDS-addresses-await-outline).
-  if (kind === "inaugural") {
-    const told = tellInaugural(
-      core,
-      president,
-      official,
-      `${INAUGURATION_EVENT}:${core.date}`,
-    );
-    return told
-      ? {
-          sentences: told.sentences,
-          addressKind: told.plan.addressKind,
-          story: told.plan.story,
-          theme: told.plan.theme,
-          asks: told.plan.asks,
-          points: told.plan.points,
-        }
-      : null;
-  }
-  // stopgapId: SG-WORDS-addresses-await-outline
-  const plan = planSpeech(core, kind, {
-    person: president,
-    official,
-    jurisdiction: "US",
-    serviceStart: official.serviceStart,
-  });
-  const sentences = composeBlocks(core, president, plan.blocks);
+  // The inaugural and the State of the Union are told through the one
+  // outline planner (the Story lead, Nov 24). Where the State of the Union's
+  // outline bank cannot yet say a required section, the old composer stands
+  // in (SG-WORDS-addresses-await-outline).
+  const telling = addressTelling(
+    core,
+    kind,
+    presidentSpeaker(president, official),
+    kind === "inaugural"
+      ? `${INAUGURATION_EVENT}:${core.date}`
+      : `${OPENING_ADDRESS_EVENT}:${core.date}`,
+  );
+  const { plan } = telling;
+  const told = toldSentences(telling);
+  // The inaugural has no stand-in: its bank says every required section.
+  if (!told && kind !== "inaugural")
+    // stopgapId: SG-WORDS-addresses-await-outline
+    markWordsStopgap("SG-WORDS-addresses-await-outline");
+  const sentences =
+    told ??
+    (kind === "inaugural" ? null : composeBlocks(core, president, plan.blocks));
   return sentences
     ? {
         sentences,
@@ -826,7 +823,7 @@ export function composeOpeningStory(
   if (!player || !official || !president) return null;
   // Inaugural only when the offices engine recorded the taking of office
   // today (recordInauguration); every other opening is the address to Congress.
-  const kind: OpeningSpeechKind = core.eventIds.has(
+  const kind: AddressTellingKind = core.eventIds.has(
     `${INAUGURATION_EVENT}:${core.date}`,
   )
     ? "inaugural"
