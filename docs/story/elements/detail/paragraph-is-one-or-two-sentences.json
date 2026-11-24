@@ -28,12 +28,16 @@
     {
       "name": "a longer paragraph",
       "pulledBy": "a complicated process",
-      "writes": "one paragraph of three short sentences"
+      "writes": "one paragraph of three short sentences",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a one-line paragraph",
       "pulledBy": "a single fact",
-      "writes": "a line by itself"
+      "writes": "a line by itself",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "the planner's sentence budget in `outlines.json`; no record needed"

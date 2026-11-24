@@ -19,12 +19,16 @@
     {
       "name": "a packed room",
       "pulledBy": "a hot issue",
-      "writes": "the lede counts the crowd"
+      "writes": "the lede counts the crowd",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "one voice",
       "pulledBy": "a lone resident",
-      "writes": "the lede names the one who spoke"
+      "writes": "the lede names the one who spoke",
+      "requiresFacts": ["lone-vote"],
+      "excludesFacts": []
     }
   ],
   "inGame": "the public-comment `hearing` row; `conditions` rows with `nobody`; needs: an empty hearing as a record"

@@ -24,12 +24,16 @@
     {
       "name": "quote with no paraphrase first",
       "pulledBy": "an official who speaks in short plain lines",
-      "writes": "the story opens the paragraph on the quote"
+      "writes": "the story opens the paragraph on the quote",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "paraphrase only",
       "pulledBy": "an official who gave no usable words",
-      "writes": "the story paraphrases and stops"
+      "writes": "the story paraphrases and stops",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "the `interview` record and an official's stated reasons; needs: a quote kept from an event"

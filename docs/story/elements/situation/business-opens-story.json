@@ -19,12 +19,16 @@
     {
       "name": "a business that opens late",
       "pulledBy": "a delayed permit",
-      "writes": "the story says what held it up"
+      "writes": "the story says what held it up",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a business that opens and closes",
       "pulledBy": "a poor first season",
-      "writes": "a later closing story names the same owner"
+      "writes": "a later closing story names the same owner",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "`organization.opened` rows (subject, owner, place, industry); the organizations table"

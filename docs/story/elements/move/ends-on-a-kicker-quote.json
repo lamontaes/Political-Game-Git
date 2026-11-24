@@ -20,12 +20,16 @@
     {
       "name": "ends on the next step",
       "pulledBy": "a dated deliverable the body set",
-      "writes": "the last line is the date"
+      "writes": "the last line is the date",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "ends on a figure",
       "pulledBy": "a story that is mostly numbers",
-      "writes": "the last line is the number that matters"
+      "writes": "the last line is the number that matters",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "the `interview` record; needs: a quote kept from the person at the center"

@@ -20,12 +20,16 @@
     {
       "name": "a description instead of a name",
       "pulledBy": "a speaker the paper does not name",
-      "writes": "the attribution says what the speaker is"
+      "writes": "the attribution says what the speaker is",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a quote with no attribution in the line",
       "pulledBy": "a line carried by the headline",
-      "writes": "the attribution sits in the lede"
+      "writes": "the attribution sits in the lede",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "the quote and speaker on the address row (`quote`, `surname`); the `interview` record"

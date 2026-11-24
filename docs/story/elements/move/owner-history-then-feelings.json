@@ -20,12 +20,16 @@
     {
       "name": "owner's next step only",
       "pulledBy": "an owner who will not talk about the past",
-      "writes": "the story gives the date and the plan"
+      "writes": "the story gives the date and the plan",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "customers speak",
       "pulledBy": "a shop with many regulars",
-      "writes": "the story lets a customer speak before the owner does"
+      "writes": "the story lets a customer speak before the owner does",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "the filled-in owner's job history; `organization.closed` and `organization.opened` rows"

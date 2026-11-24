@@ -25,12 +25,16 @@
     {
       "name": "opens on the people affected",
       "pulledBy": "a measure that reaches many households and a body no one has heard of",
-      "writes": "the first sentence names who pays or gains, and the body follows"
+      "writes": "the first sentence names who pays or gains, and the body follows",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "opens on the date and place only",
       "pulledBy": "a meeting that held no vote",
-      "writes": "a meetings-week line instead of a vote story"
+      "writes": "a meetings-week line instead of a vote story",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "`roll-call`, `council-vote` and `committee` news rows (body, law, date, count); `law-took-effect`; the inaugural address row"

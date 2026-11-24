@@ -18,12 +18,16 @@
     {
       "name": "headline names the vote",
       "pulledBy": "a tight count",
-      "writes": "the headline carries the margin"
+      "writes": "the headline carries the margin",
+      "requiresFacts": ["by-one"],
+      "excludesFacts": []
     },
     {
       "name": "headline names the person",
       "pulledBy": "an official at the center",
-      "writes": "the headline is the person and the act"
+      "writes": "the headline is the person and the act",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "every news row's headline kind (`headlines.json` by kind); the one planner's headline shape"

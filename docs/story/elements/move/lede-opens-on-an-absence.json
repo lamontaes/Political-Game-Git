@@ -18,12 +18,16 @@
     {
       "name": "opens on a crowd",
       "pulledBy": "a hearing that drew more people than the room held",
-      "writes": "the lede counts the room"
+      "writes": "the lede counts the room",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "opens on one person who spoke",
       "pulledBy": "a hearing where a single resident came",
-      "writes": "the lede names that resident and what they asked"
+      "writes": "the lede names that resident and what they asked",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "`conditions` rows with `nobody`; the public-comment hearing row (`hearing`); needs: an empty hearing"

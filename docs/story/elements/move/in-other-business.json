@@ -21,12 +21,16 @@
     {
       "name": "side items open the story",
       "pulledBy": "a meeting whose main act was minor",
-      "writes": "the lede is the biggest of several items"
+      "writes": "the lede is the biggest of several items",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "no side items",
       "pulledBy": "a one-item special meeting",
-      "writes": "the story ends on the main act"
+      "writes": "the story ends on the main act",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ],
   "inGame": "`meetings-week` rows and a body's other acts the same day; needs: an agenda"
