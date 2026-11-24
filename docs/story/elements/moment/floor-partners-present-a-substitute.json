@@ -6,20 +6,9 @@
   "sources": [
     "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{leader}",
-    "{colleague}",
-    "{substitute}"
-  ],
-  "gates": [
-    "A negotiated substitute is ready for introduction."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{leader}", "{colleague}", "{substitute}"],
+  "gates": ["A negotiated substitute is ready for introduction."],
   "weights": [],
   "usedBy": []
 }

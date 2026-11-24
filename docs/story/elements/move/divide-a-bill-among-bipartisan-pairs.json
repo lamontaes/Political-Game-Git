@@ -6,20 +6,9 @@
   "sources": [
     "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{member}",
-    "{colleague}",
-    "{bill_title}"
-  ],
-  "gates": [
-    "The bill has multiple titles and support across parties."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{member}", "{colleague}", "{bill_title}"],
+  "gates": ["The bill has multiple titles and support across parties."],
   "weights": [],
   "usedBy": []
 }

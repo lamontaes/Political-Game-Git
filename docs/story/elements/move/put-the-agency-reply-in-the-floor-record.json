@@ -6,21 +6,9 @@
   "sources": [
     "https://www.govinfo.gov/content/pkg/GPO-CRECB-1966-pt13/pdf/GPO-CRECB-1966-pt13-4.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{member}",
-    "{agency}",
-    "{letter}"
-  ],
-  "gates": [
-    "The agency has answered the member in writing."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}", "{agency}", "{letter}"],
+  "gates": ["The agency has answered the member in writing."],
   "weights": [],
   "usedBy": []
 }

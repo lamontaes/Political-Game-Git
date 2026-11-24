@@ -6,21 +6,9 @@
   "sources": [
     "https://www.govinfo.gov/content/pkg/GPO-CRECB-1966-pt13/pdf/GPO-CRECB-1966-pt13-4.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{agency}",
-    "{hospital}",
-    "{hearing}"
-  ],
-  "gates": [
-    "Voluntary resolution has proved impossible."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{agency}", "{hospital}", "{hearing}"],
+  "gates": ["Voluntary resolution has proved impossible."],
   "weights": [],
   "usedBy": []
 }

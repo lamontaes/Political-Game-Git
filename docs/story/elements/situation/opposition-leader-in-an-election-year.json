@@ -6,17 +6,8 @@
   "sources": [
     "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{party_leader}",
-    "{president}",
-    "{bill}"
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{party_leader}", "{president}", "{bill}"],
   "gates": [
     "The president needs opposition votes during a presidential campaign."
   ],

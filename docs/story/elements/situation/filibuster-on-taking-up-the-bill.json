@@ -6,20 +6,9 @@
   "sources": [
     "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{chamber}",
-    "{motion}",
-    "{bill}"
-  ],
-  "gates": [
-    "The motion to proceed is debatable."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{chamber}", "{motion}", "{bill}"],
+  "gates": ["The motion to proceed is debatable."],
   "weights": [],
   "usedBy": []
 }

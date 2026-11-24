@@ -6,21 +6,9 @@
   "sources": [
     "https://irp.nih.gov/system/files/media/file/2022-01/v29i6-NIH-Catalyst_NOV-DEC-2021_1.pdf"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{researcher}",
-    "{partner}",
-    "{hospital}"
-  ],
-  "gates": [
-    "Volunteers have been trained for visits."
-  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{researcher}", "{partner}", "{hospital}"],
+  "gates": ["Volunteers have been trained for visits."],
   "weights": [],
   "usedBy": []
 }

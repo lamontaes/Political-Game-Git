@@ -6,20 +6,9 @@
   "sources": [
     "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{staffer}",
-    "{member}",
-    "{floor_manager}"
-  ],
-  "gates": [
-    "A revised bill needs support inside a divided caucus."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{staffer}", "{member}", "{floor_manager}"],
+  "gates": ["A revised bill needs support inside a divided caucus."],
   "weights": [],
   "usedBy": []
 }

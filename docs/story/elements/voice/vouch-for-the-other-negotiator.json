@@ -6,20 +6,9 @@
   "sources": [
     "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{sponsor}",
-    "{negotiator}",
-    "{bill}"
-  ],
-  "gates": [
-    "The negotiator’s intentions have become a public issue."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{sponsor}", "{negotiator}", "{bill}"],
+  "gates": ["The negotiator’s intentions have become a public issue."],
   "weights": [],
   "usedBy": []
 }

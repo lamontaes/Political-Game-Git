@@ -6,20 +6,9 @@
   "sources": [
     "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/cloture-and-final-passage-of-the-civil-rights-act-of-1964-essay.htm"
   ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches"
-  ],
-  "slots": [
-    "{leader}",
-    "{caucus}",
-    "{bill_title}"
-  ],
-  "gates": [
-    "The caucus has the revised text."
-  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{leader}", "{caucus}", "{bill_title}"],
+  "gates": ["The caucus has the revised text."],
   "weights": [],
   "usedBy": []
 }

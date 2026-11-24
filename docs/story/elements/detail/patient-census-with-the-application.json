@@ -3,24 +3,10 @@
   "kind": "detail",
   "summary": "An administrator must supply evidence about whom the hospital admits alongside its written admissions policy.",
   "realLife": "Federal reviewers requested both hospital census information and admissions policies when assessing discrimination.",
-  "sources": [
-    "https://www.gao.gov/assets/b-164031%284%29-096498.pdf"
-  ],
-  "fits": [
-    "office",
-    "journal",
-    "news",
-    "speeches",
-    "work-community"
-  ],
-  "slots": [
-    "{hospital}",
-    "{administrator}",
-    "{application}"
-  ],
-  "gates": [
-    "The facility is seeking certification."
-  ],
+  "sources": ["https://www.gao.gov/assets/b-164031%284%29-096498.pdf"],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{hospital}", "{administrator}", "{application}"],
+  "gates": ["The facility is seeking certification."],
   "weights": [],
   "usedBy": []
 }
