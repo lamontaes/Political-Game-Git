@@ -227,8 +227,6 @@ window.addEventListener("resize", clearDock);
 
 /** A click on anyone on a strip opens their card (P9), through the one showPerson. */
 const openCard = (person) => showPerson({ personId: person.personId });
-/** How many people stand on the talk box's strip at most (the owner's sizes: one, two and four). */
-const TALK_STRIP_PEOPLE = 4;
 /** Who is in the room now: the people the strip names, how many more, and what a click on one does. */
 let here = { people: [], more: 0 };
 /** What a click on a person in the room does when nobody talks: a way into a talk. */
