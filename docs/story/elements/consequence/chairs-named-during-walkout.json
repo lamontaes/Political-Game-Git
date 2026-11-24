@@ -25,5 +25,6 @@
       "pulledBy": "The council takes nominations separately.",
       "writesBack": "The minutes distinguish filled and vacant chairs."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

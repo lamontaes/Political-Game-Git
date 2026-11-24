@@ -30,5 +30,6 @@
       "pulledBy": "Its payment was missing from the first accounting.",
       "writesBack": "The corrected closeout names the firm and amount."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

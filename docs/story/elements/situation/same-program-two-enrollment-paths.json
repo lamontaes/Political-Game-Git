@@ -1,0 +1,32 @@
+{
+  "id": "same-program-two-enrollment-paths",
+  "kind": "situation",
+  "summary": "A rider in {place} already qualifies for a transit program and wants to know whether they must apply again to ride the regular bus.",
+  "realLife": "RideKC described automatic recognition of Freedom enrollment through an app account and an in-person proof requirement for participants without smartphones.",
+  "sources": ["https://ridekc.org/fares-passes/"],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "The rider has documented enrollment and the agency specifies different ways to establish fixed-route eligibility."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "inGame": "needs: the rider has documented enrollment and the agency specifies different ways to establish fixed-route eligibility.",
+  "turns": [
+    {
+      "turn": "linked",
+      "pulledBy": "The agency account recognizes the existing enrollment.",
+      "what": "Confirm the linked fixed-route benefit.",
+      "writesBack": "Retain the enrollment reference."
+    },
+    {
+      "turn": "in-person",
+      "pulledBy": "The rider needs the offline process.",
+      "what": "Give the person the current proof requirements and office location.",
+      "writesBack": "Track the referral without marking enrollment complete."
+    }
+  ]
+}

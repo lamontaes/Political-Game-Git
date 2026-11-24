@@ -27,5 +27,6 @@
       "pulledBy": "The answer depends on a measurement still being checked.",
       "writesBack": "The press office appends a dated technical answer."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

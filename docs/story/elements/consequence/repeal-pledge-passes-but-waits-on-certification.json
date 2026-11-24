@@ -1,0 +1,32 @@
+{
+  "id": "repeal-pledge-passes-but-waits-on-certification",
+  "kind": "consequence",
+  "summary": "A leader pledges in an address to end a policy that year; the repeal passes the same year but takes effect only after top officials certify readiness.",
+  "realLife": "In his January 27, 2010 State of the Union, Obama said he would work with Congress and the military to end the policy barring gay Americans from serving openly. He signed the Don't Ask, Don't Tell Repeal Act of 2010 (Public Law 111-321) on December 22, 2010. The old policy stayed in force until the president and two top defense officials certified readiness.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/node/287936",
+    "https://www.presidency.ucsb.edu/documents/remarks-signing-the-dont-ask-dont-tell-repeal-act-2010",
+    "Read the address for the pledge and the signing remarks for the date, the law number and the certification step."
+  ],
+  "fits": ["speeches", "news", "journal"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "The law engine's effective-date field with a certification condition and a promise row for the pledge. needs: a catalog policy for military service rules.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The bill fails in the year of the pledge and the policy stays.",
+      "pulledBy": "a divided legislature",
+      "writesBack": "The bill record shows a failed vote and the pledge stays open."
+    },
+    {
+      "turn": "partial",
+      "what": "The repeal passes but needs a later certification the officials delay.",
+      "pulledBy": "cautious military leadership",
+      "writesBack": "The law record shows the certification date still blank."
+    }
+  ]
+}
