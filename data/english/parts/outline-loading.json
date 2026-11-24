@@ -3594,6 +3594,196 @@
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.you-were-born-in-born-year-the-paperwork-took-longer-than-you-did",
+      "move": "born",
+      "kind": "written",
+      "text": "You were born in {born-year}. The paperwork took longer than you did.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.by-the-end-of-born-year-you-had-a-name-a-certificate-and-no-plans",
+      "move": "born",
+      "kind": "written",
+      "text": "By the end of {born-year} you had a name, a certificate and no plans.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.born-year-is-when-the-paperwork-on-you-begins-and-it-has-not-stopped",
+      "move": "born",
+      "kind": "written",
+      "text": "{born-year} is when the paperwork on you begins, and it has not stopped.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.born.your-first-official-document-is-from-born-year-the-birth-certificate",
+      "move": "born",
+      "kind": "written",
+      "text": "Your first official document is from {born-year}: the birth certificate.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year"]
+        }
+      ],
+      "elements": ["birth-is-a-form-the-state-keeps"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.school.school-in-school-place-began-in-school-year-with-a-lunch-line-and-a-bell",
+      "move": "school",
+      "kind": "written",
+      "text": "School in {school-place} began in {school-year}, with a lunch line and a bell.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "school",
+          "tie": "record",
+          "requiresFacts": ["school-year", "school-place"]
+        }
+      ],
+      "elements": ["school-is-assigned-by-address"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.in-moved-year-the-family-packed-up-in-moved-from-and-unpacked-in-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moved-year} the family packed up in {moved-from} and unpacked in {moved-to}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "elements": ["housing-is-the-top-reason-people-move"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.the-family-s-mail-started-going-to-moved-to-in-moved-year",
+      "move": "moved",
+      "kind": "written",
+      "text": "The family's mail started going to {moved-to} in {moved-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "elements": ["housing-is-the-top-reason-people-move"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.you-were-a-resident-of-moved-from-until-moved-year-when-the-family-moved-to-move",
+      "move": "moved",
+      "kind": "written",
+      "text": "You were a resident of {moved-from} until {moved-year}, when the family moved to {moved-to}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": ["moved-year", "moved-from", "moved-to"]
+        }
+      ],
+      "elements": ["housing-is-the-top-reason-people-move"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.a-job-took-the-family-from-moved-from-to-moved-to-in-moved-year",
+      "move": "moved",
+      "kind": "written",
+      "text": "A job took the family from {moved-from} to {moved-to} in {moved-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-for-work"
+          ]
+        }
+      ],
+      "elements": ["some-moves-are-for-a-job"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.in-moved-year-the-family-went-where-the-work-was-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moved-year} the family went where the work was: {moved-to}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-for-work"
+          ]
+        }
+      ],
+      "elements": ["some-moves-are-for-a-job"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
     }
   ]
 }
