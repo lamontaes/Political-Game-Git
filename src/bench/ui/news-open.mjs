@@ -2,7 +2,8 @@
 // Carolina case: News opened on an empty home paper while another outlet the
 // player follows had stories they had not read). The last tab the player chose
 // if it has something new; otherwise the outlet they follow with the newest
-// story they have not read; otherwise their home paper. A story is read once
+// story they have not read, else the first they follow; otherwise the outlet
+// with the newest story they heard, else their home paper. A story is read once
 // its outlet's page has been shown (`seen`, story ids). An outlet is one the
 // player follows when the press record says so (`why`), or when it printed a
 // story they heard: they hear what they follow (press.ts followersOf). The
@@ -18,6 +19,25 @@ export function openingTab(outlets, lastChosen, seen) {
   const unread = (outlet) => outlet.stories.filter((s) => !seen.has(s.id));
   if (lastChosen && outlets.has(lastChosen))
     if (unread(outlets.get(lastChosen)).length) return lastChosen;
+  // An outlet the player follows comes first (CTO, Nov 24: "News opens on the
+  // first outlet the player follows"): the one with the newest story they have
+  // not read, else the first of them (the home paper leads the tabs), whether or
+  // not it has printed anything: the household's own paper, never the newest
+  // story of an outlet it does not follow.
+  const mine = [...outlets].filter(([, outlet]) => outlet.why === "follows");
+  if (mine.length) {
+    let pick = null;
+    let latest = "";
+    for (const [key, outlet] of mine)
+      for (const story of unread(outlet)) {
+        const date = String(story.date ?? "");
+        if (pick === null || date > latest) {
+          latest = date;
+          pick = key;
+        }
+      }
+    return pick ?? mine[0][0];
+  }
   const followed = (key, outlet) =>
     outlet.why === "follows" ||
     (!NOT_OUTLETS.has(key) && outlet.stories.length > 0);
