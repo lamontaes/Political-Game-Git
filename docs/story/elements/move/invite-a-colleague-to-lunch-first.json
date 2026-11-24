@@ -1,0 +1,35 @@
+{
+  "id": "invite-a-colleague-to-lunch-first",
+  "kind": "move",
+  "summary": "The newcomer invites a colleague to lunch instead of waiting to be asked.",
+  "realLife": "First-week guidance says to look for a buddy or mentor and to invite coworkers to lunch rather than wait for an invitation. Follow-up questions about what the coworker just said read as more engaged.",
+  "sources": [
+    "Atlassian Work Life, starting a new job and first week success: https://www.atlassian.com/blog/teamwork/starting-a-new-job-and-first-week-success"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "New-coworker event plus the person's tie to the player (coworker) and traits such as shy or outgoing; no lunch mechanic, so it needs: a meal or break scene hook. Scene: needs a producer for first-day-ropes.",
+  "turns": [
+    {
+      "turn": "waits-to-be-asked",
+      "summary": "The newcomer eats alone at the desk and waits for an invitation.",
+      "pulledBy": ["a shy or guarded newcomer", "who is watching"],
+      "writesBack": "No tie forms yet, and the first week feels lonely."
+    },
+    {
+      "turn": "colleague-turns-it-down",
+      "summary": "The colleague already has plans or a lunch habit and politely declines.",
+      "pulledBy": ["a busy or guarded colleague", "a tie that is still thin"],
+      "writesBack": "A small sting, and the newcomer tries someone else."
+    },
+    {
+      "turn": "colleague-invites-first",
+      "summary": "A colleague invites the newcomer before they can ask.",
+      "pulledBy": ["a warm coworker", "the new-coworker event"],
+      "writesBack": "A friendly tie forms, and the newcomer owes a return lunch."
+    }
+  ]
+}
