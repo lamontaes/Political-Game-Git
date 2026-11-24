@@ -88,6 +88,7 @@ A merger started from `docs/pool/START-A-MERGER.md` gates the hour's bundle with
 ## Gotchas
 
 - Nov 18 (Fixer A, two hand-filed items): `npm run pool -- --check` refused `status: in-pr` with no `pr:` line, and a Cause that did not begin with `Found in code:`, `Measured:`, `Design:` or `Needs cause.`. File a hand-written item as `claimed` with `claimed-by: <branch>` until its pull request exists, then set `in-pr` and `pr:` in that pull request's own commit.
+- Nov 24, 01:00Z (Row screens, eight items): items pushed straight to main by `pool add` failed `npm run pool -- --check`, so `guard pool` went red on clean main and on every pull request until c2c6c0f6. Two causes: a Rules line that names a rule with no reason after it (write "<Rule>: <how it applies, six words or more>"), and a Files line naming a browser check not yet on main (add " (new)"). Run `npm run pool -- --check` on the item before any push to main.
 
 ## More in this folder
 
