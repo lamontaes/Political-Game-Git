@@ -5654,7 +5654,25 @@ const sheets = {
         rosterCols(
           // A candidate's name opens their card; there is no rally to go to
           // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
-          stripSection(1, labels.whoIsRunning, ...candidates),
+          // The candidates sit in one box that keeps whole candidates, so the last
+          // stand is never cut at the panel's foot; the rest is a scroll in the box.
+          stripSection(
+            1,
+            labels.whoIsRunning,
+            race.filers.length
+              ? pager({
+                  items: candidates,
+                  render: (node) => node,
+                  rows: Math.max(200, viewHeight() - 330),
+                  columns: 1,
+                  rowHeight: 1,
+                  gap: 0,
+                  growRows: true,
+                  wholeRows: true,
+                  className: "candidate-pager",
+                })
+              : candidates[0],
+          ),
           rosterSide(
             // An at-large race fills several seats at once.
             ...(race.seats > 1
@@ -5856,7 +5874,8 @@ const sheets = {
               entries: asked.asks.map((ask) => ({
                 key: ask.id,
                 label: ask.candidate,
-                aside: roundedMoney(ask.suggestedMinor),
+                // The office they run for, not a figure: the page has the sum.
+                aside: ask.race,
                 data: { ask: ask.id },
                 ask,
               })),

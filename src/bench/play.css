@@ -4934,6 +4934,18 @@ select.release-pick {
   font-variant-numeric: lining-nums tabular-nums;
   color: #f6dfae;
 }
+/* Tabular figures widen a space in the font: a name in a value reads as one word, spaced once. */
+.strip-screen .dotvalue .nm {
+  font-variant-numeric: lining-nums;
+}
+/* A stand wrapped over two lines keeps its For or Against on the last line, beside the leader. */
+.candidate .dotrow {
+  align-items: last baseline;
+}
+.candidate .dotvalue {
+  flex: none;
+  white-space: nowrap;
+}
 #person.dossier .sheet-head {
   position: absolute;
   top: 22px;
