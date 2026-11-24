@@ -138,3 +138,20 @@ Grade words: pass / fail (no open PR claims it) / open, fix in #N (not merged) /
 | --- | --- | --- | --- | --- | --- | --- |
 | C11, P28 (stances part) | stances are budget category names in capitals; "only the stands a candidate runs on, for a reason" | #10342, main 961c6f84 (played at 17df52dd) | Bloomsbury NJ, seed 1b2d739c-b56c-4851-ad0e-d8f9df313ff7 | **pass** (C11: sentence case) / **open, fix in #10363 (not merged)** (P28: the stances are still budget lines: "Elementary and secondary education: For", "Natural resources: For", "Other programs: For") | replay-m4camp-elections-after.png | After Announce, Elections lists Samir Spence, Announced, with three budget-line stances in sentence case. |
 | P35 (record part) | "The only other candidate is ..." | main 17df52dd | same | **pass in this world** (no one else filed, and the Campaign tab says "stays open until August 26, with no one else in") | replay-m4camp-announce.png | The two-candidate case did not come up in this world; the earlier world's mismatch stays "open, fix in claude/pt-stuck-p35". |
+
+## 08:00Z step 3: main 1ceba440 plus ten proven ready PRs merged locally, never pushed
+
+Local head cf1b9219 = origin/main 1ceba440 with #10338 (3a6892d5), #10375 (059b56d7), #10344 (23aebe42), #10314 (c1f8c01c), #10309 (0480c9c9), #10337 (449fee6f), #10363 (321f674d), #10373 (2e0b1b9d), #10346 (577cfd5a) and #10387 (da8b5d56) merged without conflict. Every line below is a local merge, not main. Places: Bloomsbury NJ f93564e3-c663-4d50-ac5c-2155d8c356dc; Amouli, American Samoa 2997d08a-3bb7-4d1f-a0d3-062d2b458ec5; Barahona, Puerto Rico fd9eb181-cf26-45c7-ab11-be6b66d9c30a (Governor and mayor scenes); creator draw Hawaii.
+
+| Row | PR and head | Grade | Picture | On screen |
+| --- | --- | --- | --- | --- |
+| P8 (Oval Office half) | #10344 + #10330, local | **pass** | replay-m5open-01.png (Amouli, AS) | The address opens in the Oval Office: the desk, flags and windows, the President large with the Speaker and Vice President small. |
+| N16-16 | #10375, local | **pass** | replay-m5nj-load-2.png (Bloomsbury NJ) | The New Jersey loading screen is a statehouse with a gold dome and flat streets, not a mountain capitol. |
+| P41 | #10387, local | **pass** | replay-m5trail-go-1.png | The first Go on Knock on doors plays a talk ("you ring the bell, and Larry Weber answers"), then a thank-you line, on Jan 21, 10:00 AM. |
+| P23, P25, P26, P17, P24 | #10337, local | **pass** (office with its place, age, home, story inside the box, no dead block); the spouse is a story line only ("He and Nora Velazquez split up in 1997") | replay-m5cards-member-card.png, replay-m5p9-1-card-first.png | Council member card: Age 57, Home Bloomsbury New Jersey, "Council member, Borough of Bloomsbury, Since 2022"; President card: Age 50, "President, United States, Since 2025". |
+| P28 | #10363, local | **pass** | replay-m5njc-elections.png | Candidates' stances are law and issue names with dotted rows and For ("Rent stabilization: For"); no capitals. |
+| C12 | #10373, local | **pass** | replay-m5njc-elections.png | The ballot lists Commissioner (District 4), County clerk and Sheriff; no county assessor or treasurer. |
+| N16-12 | #10314, local | **pass** | replay-m5cr-2-random.png | The creator's town list runs down the left column to the buttons; no empty block. |
+| N8-P41 | #10346, local | **fail** (one Week from Jan 28 to Feb 4 with a letter scene took 8.9 s on the clock; the 0.6 s first-talk claim was not measured) | replay-m5week-after.png | Week plays a letter scene then lands Feb 4, 7:00 AM. |
+| N16-27, C18 | #10309, local | **not reached** (the Governor's address showed the LIVE box and the household strip in the kitchen; this room has no television) | replay-m5w-2.png | WWHH-TV address with Governor Douglas Colón in LIVE; no TV in the room. |
+| C10 | #10338, local | **not reached** (the mayor card did not open in this run) | none | Not played. |
