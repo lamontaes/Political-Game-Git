@@ -1755,14 +1755,20 @@ function journalTold(
       // scene of it was with.
       moment.causeKind === SCHOOL_FINISHED;
     // A move the household made together is "we".
+    const age = ageAt(moment.date);
+    const young = age < P.votingAge;
+    // A child's own move is the household's: the moves engine moves a
+    // household and holds a mover back for the children at home, so a child
+    // never moves alone. The player's own ledger holds only their own move,
+    // so the same-day count never sees the others (W3, Nov 24: no drawn
+    // opener held a household move).
     const together =
+      (own && young && moment.causeKind === "moved") ||
       (selfCount ??
         (row.sameDay
           ? ownEvents.get(`${row.sameDay}|${moment.date}`)
           : undefined) ??
         one) > one;
-    const age = ageAt(moment.date);
-    const young = age < P.votingAge;
     let event: ReturnType<typeof render> = null;
     if (row.hasOwnLine && own) {
       const won = facts.winner?.text === personId;
