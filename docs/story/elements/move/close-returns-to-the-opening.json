@@ -1,0 +1,17 @@
+{
+  "id": "close-returns-to-the-opening",
+  "kind": "move",
+  "summary": "The close comes back to the speech's opening line or its own earlier theme.",
+  "realLife": "Four of twelve speeches ended on a callback: Bush, Cox, New Mexico, Connecticut.",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["theme-name", "theme-short"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.33,
+    "state": 0.33
+  },
+  "usedBy": []
+}

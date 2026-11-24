@@ -1,0 +1,18 @@
+{
+  "id": "speaker-who-asks-often",
+  "kind": "voice",
+  "summary": "A speaker who asks often pushes for things in most points; one who rarely asks leads with belief and image.",
+  "realLife": "Asks per speech varied from none to eight across twelve speakers.",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["about"],
+  "gates": [],
+  "weights": {
+    "assertive": 0.6,
+    "blunt": 0.5,
+    "humble": 0.2
+  },
+  "usedBy": []
+}

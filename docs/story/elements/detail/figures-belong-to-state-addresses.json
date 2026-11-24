@@ -1,0 +1,17 @@
+{
+  "id": "figures-belong-to-state-addresses",
+  "kind": "detail",
+  "summary": "State addresses carry figures in most points; the game says them in words, never as numbers.",
+  "realLife": "71% of State of the State points stated a figure, against 13% of inaugural points.",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "state": 0.71,
+    "inaugural": 0.13
+  },
+  "usedBy": []
+}

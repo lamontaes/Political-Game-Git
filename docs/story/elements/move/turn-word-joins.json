@@ -1,0 +1,17 @@
+{
+  "id": "turn-word-joins",
+  "kind": "move",
+  "summary": "A turn word (But, Now, And so, For) joins one point to the next.",
+  "realLife": "30% of State of the State points and 16% of inaugural points joined the next with a turn word.",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "state": 0.3,
+    "inaugural": 0.16
+  },
+  "usedBy": []
+}

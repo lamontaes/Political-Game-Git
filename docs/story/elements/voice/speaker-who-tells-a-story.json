@@ -1,0 +1,18 @@
+{
+  "id": "speaker-who-tells-a-story",
+  "kind": "voice",
+  "summary": "A speaker with a story to tell builds toward it; one without argues point by point.",
+  "realLife": "Three of twelve speeches put a story late that reframed the rest.",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["theme-short"],
+  "gates": [],
+  "weights": {
+    "sincere": 0.5,
+    "dramatic": 0.5,
+    "analytical": 0.2
+  },
+  "usedBy": []
+}

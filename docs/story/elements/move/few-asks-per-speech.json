@@ -1,0 +1,17 @@
+{
+  "id": "few-asks-per-speech",
+  "kind": "move",
+  "summary": "Few points end in an ask; how many asks a speech makes is the speaker's trait and the kind of speech.",
+  "realLife": "Only 15% of points ended in an ask, and asks per speech ran from none (Lincoln, Lujan Grisham) to eight (Hobbs).",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["about"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.11,
+    "state": 0.17
+  },
+  "usedBy": []
+}

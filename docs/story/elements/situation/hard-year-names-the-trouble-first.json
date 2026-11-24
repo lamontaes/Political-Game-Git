@@ -1,0 +1,17 @@
+{
+  "id": "hard-year-names-the-trouble-first",
+  "kind": "situation",
+  "summary": "In a hard run the address names the trouble before it names an act.",
+  "realLife": "Roosevelt, Reagan and Obama each spent early points on the trouble.",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-8"
+  ],
+  "fits": ["speeches"],
+  "slots": ["run-span"],
+  "gates": ["run-hard"],
+  "weights": {
+    "blunt": 0.6
+  },
+  "usedBy": []
+}

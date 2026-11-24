@@ -1,0 +1,17 @@
+{
+  "id": "late-story-reframes-the-speech",
+  "kind": "move",
+  "summary": "One story late in the speech reframes everything before it.",
+  "realLife": "Reagan closed on one young soldier's diary; Cox's story of a relative and Bush's letter from a friend did the same.",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-11"
+  ],
+  "fits": ["speeches"],
+  "slots": ["theme-short"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.25
+  },
+  "usedBy": []
+}

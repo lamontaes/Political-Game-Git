@@ -1,0 +1,16 @@
+{
+  "id": "inaugural-leans-on-belief-image-pledge",
+  "kind": "move",
+  "summary": "An inaugural point ends on a belief, an image or a pledge far more than on an ask.",
+  "realLife": "42% belief, 22% image and 18% pledge among the 76 inaugural points; 11% ended in an ask of the listeners.",
+  "sources": [
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["belief"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.82
+  },
+  "usedBy": []
+}
