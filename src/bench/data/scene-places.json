@@ -541,6 +541,7 @@
   "wantedPictures": {
     "about": "A picture a row names before it is painted: one line saying what it shows, so someone can paint or generate it from this list (docs/art/WANTED.md is built from it by npm run scene-pictures). An unpainted name in a list is skipped until it is painted; the next name in its list stands in. Adding the painting to art/backdrops/manifest.json is the whole change. A wanted picture may show only what the cause record makes true of that household.",
     "inaugural-stand": "The inaugural stand on the Capitol's west front on Inauguration Day: the platform with its podium, flags and bunting, the Chief Justice, the Speaker and the Vice President standing by, the crowd on the Mall below, at noon (an inauguration is at noon) and at night.",
+    "oval-office-south-lawn": "The Oval Office seen through its lit windows from the South Lawn at dusk, the President a figure at the window, for the inaugural address's first part (WANTED cto-28).",
     "oval-office-resolute": "The Resolute desk as a television address: the President seated facing the camera, flags and the window behind (WANTED cto-33).",
     "campaign-volunteer-table": "Volunteers signing up at a folding table in a storefront campaign office: clipboards, sign-up sheets and a stack of yard signs, by day.",
     "endorsement-meeting": "A candidate and one person they know talking across a small table about an endorsement, in a quiet corner of a coffee shop or a back room, by day.",
