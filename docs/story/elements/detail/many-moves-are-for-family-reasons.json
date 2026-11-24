@@ -13,5 +13,19 @@
     "household": 0.5
   },
   "inGame": "needs: a family reason on the move record, from the partnerships and care records.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A family reason keeps someone from moving: a parent who needs care stays.",
+      "pulledBy": "care records in the household",
+      "writesBack": "no move; a care line on the card"
+    },
+    {
+      "turn": "partial",
+      "what": "A move for family is also a move for a job.",
+      "pulledBy": "a spouse's job and a relative's offer",
+      "writesBack": "both facts set on the move record"
+    }
+  ]
 }

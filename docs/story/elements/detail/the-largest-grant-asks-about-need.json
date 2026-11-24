@@ -13,5 +13,19 @@
     "money": 0.6
   },
   "inGame": "needs: a need test on the aid award, read from the household's money records.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The household shows no need and the grant is refused.",
+      "pulledBy": "household income",
+      "writesBack": "a refused grant on the college record"
+    },
+    {
+      "turn": "partial",
+      "what": "Need is shown but only for part of the year.",
+      "pulledBy": "the household's income swing",
+      "writesBack": "a partial grant"
+    }
+  ]
 }

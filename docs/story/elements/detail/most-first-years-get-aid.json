@@ -13,5 +13,19 @@
     "money": 0.5
   },
   "inGame": "needs: an aid award on the college-started record.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The student gets no aid, because the family's income is too high or the forms were late.",
+      "pulledBy": "household income and a filing date",
+      "writesBack": "an unfunded first year on the record"
+    },
+    {
+      "turn": "late",
+      "what": "Aid arrives in the second year after a form is fixed.",
+      "pulledBy": "a form's correction",
+      "writesBack": "a second-year grant on the record"
+    }
+  ]
 }

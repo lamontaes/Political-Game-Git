@@ -13,5 +13,19 @@
     "conditions": 0.8
   },
   "inGame": "needs: a migration wave in the history run that a moved record can cite. Voice: plain and respectful, never dry.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A family stays in the South through the migration, by choice or by necessity.",
+      "pulledBy": "the history run's wave and the family's means",
+      "writesBack": "no move record; a stay told in the loading story if one fits"
+    },
+    {
+      "turn": "partial",
+      "what": "The family goes part of the way, to a nearer city first.",
+      "pulledBy": "the first city's job demand",
+      "writesBack": "two move records, told as two moves"
+    }
+  ]
 }

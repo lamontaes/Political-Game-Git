@@ -13,5 +13,19 @@
     "age": 0.6
   },
   "inGame": "the registration record; needs: the primary rule for 17-year-olds.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The person never registers, and the roll has no name.",
+      "pulledBy": "traits and interest",
+      "writesBack": "a missing registration the clerk reads at filing"
+    },
+    {
+      "turn": "late",
+      "what": "Registration happens in the last week before the deadline.",
+      "pulledBy": "a campaign's drive or a friend's nudge",
+      "writesBack": "a registration date near the deadline"
+    }
+  ]
 }

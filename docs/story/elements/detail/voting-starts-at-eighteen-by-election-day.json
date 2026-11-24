@@ -13,5 +13,19 @@
     "age": 0.7
   },
   "inGame": "the player's age at the opening (18 unless chosen) and the registration record.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The person turns eighteen the day after Election Day and waits a whole cycle.",
+      "pulledBy": "the birth date against the election day",
+      "writesBack": "the first vote is one cycle later"
+    },
+    {
+      "turn": "partial",
+      "what": "The person votes in a primary at seventeen where the state allows.",
+      "pulledBy": "the state's primary rule",
+      "writesBack": "a primary vote on the record"
+    }
+  ]
 }

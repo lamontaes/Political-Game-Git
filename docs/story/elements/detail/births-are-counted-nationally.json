@@ -13,5 +13,19 @@
     "year": 0.4
   },
   "inGame": "needs: a national births count read from the world's born records, for a line about being one of them.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The birth is counted with everyone else's and nothing about it is told.",
+      "pulledBy": "no pull",
+      "writesBack": "nothing written back"
+    },
+    {
+      "turn": "opposite",
+      "what": "The player was born abroad, so a different country's count holds the birth.",
+      "pulledBy": "the born record's place outside the country",
+      "writesBack": "the loading story says where the birth was filed"
+    }
+  ]
 }

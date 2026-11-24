@@ -13,5 +13,19 @@
     "year": 0.4
   },
   "inGame": "needs: a year-by-year graduation rate from the school engine.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The rate is falling in the player's years.",
+      "pulledBy": "the school engine's yearly result",
+      "writesBack": "the line says fewer finished"
+    },
+    {
+      "turn": "neutral",
+      "what": "The rate is steady and no one remarks.",
+      "pulledBy": "flat series",
+      "writesBack": "nothing written back"
+    }
+  ]
 }

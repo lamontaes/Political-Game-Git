@@ -13,5 +13,19 @@
     "state": 0.6
   },
   "inGame": "the player's state from the home place; needs: a region mover tendency in the migration data.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A region where moving is common, so the player's move is the usual thing.",
+      "pulledBy": "the region's place record",
+      "writesBack": "the line says the move was common"
+    },
+    {
+      "turn": "neutral",
+      "what": "A move within the same county, unremarkable.",
+      "pulledBy": "same-county ids",
+      "writesBack": "no move told"
+    }
+  ]
 }

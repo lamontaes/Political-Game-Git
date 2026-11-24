@@ -13,5 +13,19 @@
     "jobs": 0.7
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts: move/moved-in with pushedBy starting 'economy' sets the moved-for-work fact in loadingStory.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family refuses a job's move and stays, and the parent commutes or changes jobs.",
+      "pulledBy": "a parent's attachment to the town",
+      "writesBack": "no move record, a job change record instead"
+    },
+    {
+      "turn": "late",
+      "what": "The move for work comes after a layoff, not before it.",
+      "pulledBy": "a layoff row in the jobs module",
+      "writesBack": "the move record cites the layoff"
+    }
+  ]
 }

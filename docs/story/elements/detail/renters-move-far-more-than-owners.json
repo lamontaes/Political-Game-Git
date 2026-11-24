@@ -13,5 +13,19 @@
     "household": 0.6
   },
   "inGame": "needs: the moving household's tenure on the move record, which the housing module holds.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "An owner household sells and moves, which is rarer and costs more.",
+      "pulledBy": "the home sale record",
+      "writesBack": "the move record cites the sale"
+    },
+    {
+      "turn": "neutral",
+      "what": "A renter household moves because the lease ends and nothing else.",
+      "pulledBy": "a lease end date",
+      "writesBack": "nothing written back beyond the move"
+    }
+  ]
 }

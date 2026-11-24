@@ -13,5 +13,19 @@
     "state": 0.7
   },
   "inGame": "the player's state from the home place; needs: a state graduation tendency in the school module.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The state's rate is the lowest in the country and the class is small.",
+      "pulledBy": "the state's school record",
+      "writesBack": "the line does not boast; the card shows the place's rate"
+    },
+    {
+      "turn": "neutral",
+      "what": "The player's state sits in the middle of the range.",
+      "pulledBy": "state rank",
+      "writesBack": "nothing written back"
+    }
+  ]
 }

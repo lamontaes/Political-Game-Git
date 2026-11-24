@@ -13,5 +13,19 @@
     "year": 0.4
   },
   "inGame": "needs: a yearly moves count from the history run, for a line about how rare moving has become.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A world where moving rises: a boom town pulls many households in.",
+      "pulledBy": "the economy's job demand by place",
+      "writesBack": "more move records in that year, told as a wave"
+    },
+    {
+      "turn": "neutral",
+      "what": "The year of the move is an ordinary year and no one comments.",
+      "pulledBy": "no pull",
+      "writesBack": "nothing written back"
+    }
+  ]
 }

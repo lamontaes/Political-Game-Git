@@ -13,5 +13,19 @@
     "votes": 0.6
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (politics/lost). needs: the later win, as above.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A first race is won and a later one lost.",
+      "pulledBy": "the sequence of races",
+      "writesBack": "a lost record after a won one"
+    },
+    {
+      "turn": "neutral",
+      "what": "One loss, then a career outside politics.",
+      "pulledBy": "traits and jobs",
+      "writesBack": "nothing written back"
+    }
+  ]
 }

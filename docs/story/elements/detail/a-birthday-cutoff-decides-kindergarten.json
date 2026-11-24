@@ -13,5 +13,19 @@
     "year": 0.3
   },
   "inGame": "needs: an entry cutoff date in the school module, so a start year can be told as the date that made it.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A birthday just after the cutoff holds the child back a year, and they start with a younger class.",
+      "pulledBy": "the birth date against the school's date",
+      "writesBack": "school/started one year later, the oldest child in the class"
+    },
+    {
+      "turn": "partial",
+      "what": "A parent asks for an exception and the district grants or refuses it.",
+      "pulledBy": "the household's standing with the district",
+      "writesBack": "the record shows an early start or the refusal"
+    }
+  ]
 }

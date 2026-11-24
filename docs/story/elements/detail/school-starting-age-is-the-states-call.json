@@ -13,5 +13,19 @@
     "state": 0.7
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (school/started), and the player's state from the home place. needs: a state compulsory-age row in the school module.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family started the child early or late by their own choice, outside the state's usual age.",
+      "pulledBy": "household traits and money",
+      "writesBack": "the school/started record shows the other year"
+    },
+    {
+      "turn": "late",
+      "what": "School starts late because a move or illness kept the child out for a year.",
+      "pulledBy": "a move or a health record in that year",
+      "writesBack": "the school record starts a year after the cutoff"
+    }
+  ]
 }

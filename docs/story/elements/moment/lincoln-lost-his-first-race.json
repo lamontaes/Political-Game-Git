@@ -13,5 +13,19 @@
     "votes": 0.8
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (politics/lost, with votes and winnerVotes). needs: the finishing place among all candidates on that record.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The first run wins, and there is no loss to tell.",
+      "pulledBy": "the district's lean and the candidate's standing",
+      "writesBack": "a won record, told in another section"
+    },
+    {
+      "turn": "partial",
+      "what": "The loss is narrow, and the winner is a neighbor.",
+      "pulledBy": "the vote margin",
+      "writesBack": "a margin fact on the lost record"
+    }
+  ]
 }

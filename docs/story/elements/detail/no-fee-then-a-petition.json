@@ -13,5 +13,19 @@
     "money": 0.6
   },
   "inGame": "the petition and fee records the filing already keeps.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The candidate pays the fee and needs no petition.",
+      "pulledBy": "household money",
+      "writesBack": "a paid fee on the filing record"
+    },
+    {
+      "turn": "late",
+      "what": "The petition is short by days and the candidate goes out for more.",
+      "pulledBy": "the petition count against the date",
+      "writesBack": "a second petition round on the record"
+    }
+  ]
 }

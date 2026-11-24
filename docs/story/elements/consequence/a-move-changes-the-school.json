@@ -13,5 +13,19 @@
     "place": 0.5
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (move/moved-in, then school/started at the new place). needs: a school change tied to the move record.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family moves but the child stays at the old school with a relative or a transfer.",
+      "pulledBy": "a relative nearby and the district's rules",
+      "writesBack": "no school change on the move record"
+    },
+    {
+      "turn": "late",
+      "what": "The school change comes mid-year, and the child is the new kid in the middle of a term.",
+      "pulledBy": "the date of the move",
+      "writesBack": "a school/started record in the middle of a year"
+    }
+  ]
 }

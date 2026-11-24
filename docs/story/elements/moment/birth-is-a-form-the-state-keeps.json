@@ -13,5 +13,19 @@
     "state": 0.6
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (the born/born event, with its year).",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No certificate is on file where the player was born: a late or missing record has to be filled in later.",
+      "pulledBy": "the home place's records and the birth year",
+      "writesBack": "a delayed-registration note on the person's born record, told in the loading story"
+    },
+    {
+      "turn": "partial",
+      "what": "The certificate exists but the name or the date was entered wrong and corrected years later.",
+      "pulledBy": "a record fix on the person's file",
+      "writesBack": "a correction on the born record, which the card shows"
+    }
+  ]
 }

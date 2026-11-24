@@ -13,5 +13,19 @@
     "year": 0.4
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (school/finished, the year the diploma came).",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The student leaves without a diploma, and the cohort count shows them as not finished.",
+      "pulledBy": "school results and household money",
+      "writesBack": "no school/finished record; the no-diploma talk plays"
+    },
+    {
+      "turn": "late",
+      "what": "The diploma comes in the fifth year, after an illness or a move.",
+      "pulledBy": "a health or move record",
+      "writesBack": "a finished record one year late"
+    }
+  ]
 }

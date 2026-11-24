@@ -13,5 +13,19 @@
     "money": 0.7
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (school/college-started). needs: a student loan record opened at the start.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A family pays in full and no loan is opened.",
+      "pulledBy": "household money",
+      "writesBack": "no loan record; the line says who paid"
+    },
+    {
+      "turn": "partial",
+      "what": "A scholarship covers part and a loan covers the rest.",
+      "pulledBy": "a scholarship row and household money",
+      "writesBack": "both a grant and a loan on the college record"
+    }
+  ]
 }

@@ -13,5 +13,19 @@
     "law": 0.5
   },
   "inGame": "needs: a false-filing offense in the justice engine's list.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The declaration is true and nothing follows.",
+      "pulledBy": "the candidate's honesty",
+      "writesBack": "nothing written back"
+    },
+    {
+      "turn": "partial",
+      "what": "A mistake is corrected before the deadline without penalty.",
+      "pulledBy": "the clerk's review",
+      "writesBack": "a corrected filing on the record"
+    }
+  ]
 }

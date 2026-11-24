@@ -13,5 +13,19 @@
     "place": 0.5
   },
   "inGame": "needs: the same wave, read from the history run's moves.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A move east or back home instead of west.",
+      "pulledBy": "a return move after the wave",
+      "writesBack": "a moved-back record, told as a return"
+    },
+    {
+      "turn": "partial",
+      "what": "The family goes west and then moves again within the state.",
+      "pulledBy": "the second city's housing",
+      "writesBack": "two records, the later one told"
+    }
+  ]
 }

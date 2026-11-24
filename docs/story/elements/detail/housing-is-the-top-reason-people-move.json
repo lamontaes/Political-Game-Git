@@ -13,5 +13,19 @@
     "conditions": 0.6
   },
   "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (move/moved-in with its pushedBy fact). needs: a housing reason beside the economy one.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family stays put for years, and the move that is told never happens.",
+      "pulledBy": "owning the home and a steady job",
+      "writesBack": "no move event, so the loading story skips the section"
+    },
+    {
+      "turn": "partial",
+      "what": "The housing reason is one of several, with a job or family close behind.",
+      "pulledBy": "household money and a parent's job",
+      "writesBack": "a moved-for-work fact set beside the housing one"
+    }
+  ]
 }

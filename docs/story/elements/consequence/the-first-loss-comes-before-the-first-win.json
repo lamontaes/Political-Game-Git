@@ -13,5 +13,19 @@
     "votes": 0.5
   },
   "inGame": "needs: a later win after a lost race, told as the next section of the loading story.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The loss ends it, and the person never runs again.",
+      "pulledBy": "traits and money after the loss",
+      "writesBack": "no later race on the card"
+    },
+    {
+      "turn": "late",
+      "what": "The next run comes decades later.",
+      "pulledBy": "a career change and a later opening",
+      "writesBack": "a later race, told at its own year"
+    }
+  ]
 }

@@ -13,5 +13,19 @@
     "jobs": 0.8
   },
   "inGame": "needs: the same wave, with the city's job demand on the move record.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The city has no jobs left when the family arrives.",
+      "pulledBy": "the destination's job demand that year",
+      "writesBack": "a layoff or a job search on the card"
+    },
+    {
+      "turn": "late",
+      "what": "The family follows a relative who moved first.",
+      "pulledBy": "a relative's earlier move record",
+      "writesBack": "the move cites the relative"
+    }
+  ]
 }

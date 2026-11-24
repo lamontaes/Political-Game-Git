@@ -13,5 +13,19 @@
     "place": 0.5
   },
   "inGame": "the registrar's records and the driver's license record if the game keeps one; needs: the registration route on the record.",
-  "usedBy": []
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Registration happens by mail and no office visit is told.",
+      "pulledBy": "the route the state offers",
+      "writesBack": "a mail registration on the record"
+    },
+    {
+      "turn": "neutral",
+      "what": "The person registers when they get a license and does not notice.",
+      "pulledBy": "a license record",
+      "writesBack": "nothing told"
+    }
+  ]
 }
