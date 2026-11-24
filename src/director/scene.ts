@@ -282,6 +282,10 @@ export function composeScene(
               text: `${giver.givenName} ${giver.familyName}`,
               sourceRecordIds: [address.id, giver.id],
             };
+            facts["speech-giver-surname"] = {
+              text: giver.familyName,
+              sourceRecordIds: [address.id, giver.id],
+            };
             if (cause?.[ADDRESS_FACT.kind] === "inaugural")
               facts["inaugural-night"] = {
                 text: "yes",

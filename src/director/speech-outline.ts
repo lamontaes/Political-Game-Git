@@ -78,6 +78,7 @@ import {
   questionPoint,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+import { hasOutline } from "../english/outline-planner";
 import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
@@ -2012,6 +2013,7 @@ export function planSpeech(
 ): SpeechPlan {
   const row = outlineOf(kindKey);
   const kind = row.bank;
+  const told = hasOutline(kindKey);
   // A kind said at any level (a floor speech, a campaign speech) takes the
   // speaker's own level from their office row.
   const level = speaker.local?.level ?? row.level;
@@ -2891,8 +2893,11 @@ export function planSpeech(
     )
     // A section the bank has no piece for (one whose pieces carry nothing)
     // is left out before the paragraphs are counted, so the greeting joins
-    // what is actually said next.
-    .filter((draft) => draft.moves.some(Boolean));
+    // what is actually said next. A kind the one outline planner tells keeps
+    // every block: its words live in the outline bank, and the blocks carry
+    // the facts it says (the Story lead, Nov 24: with the old inaugural
+    // pieces deleted, every inaugural lost its stand).
+    .filter((draft) => told || draft.moves.some(Boolean));
   // The world's names and the theme's subjects, which every part may say.
   // A governor or a mayor says the place by name and the theme in words
   // (the words lead, Nov 12: "this state" eight times, the state's name never).

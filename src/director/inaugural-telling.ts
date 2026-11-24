@@ -34,20 +34,35 @@ import { planSpeech, termOf, type SpeechPlan } from "./speech-outline";
 
 type Facts = Record<string, GroundedEnglishFact>;
 
-const THEME_NAMES = (
-  speechOutlines as unknown as { themeNames: Record<string, string> }
-).themeNames;
+const THEME = speechOutlines as unknown as {
+  themeNames: Record<string, string>;
+  themeShort: Record<string, string>;
+};
 
 const fact = (text: string, ids: readonly string[]): GroundedEnglishFact => ({
   text,
   sourceRecordIds: ids as EntityId[],
 });
 
-/** Every fact the plan's blocks carry, the first block's value kept. */
+/**
+ * Every fact the plan's blocks carry, the first block's value kept, and of
+ * the points only the first: the inaugural argues one point, so its
+ * question, belief and law all come from one block (the Story lead, Nov 24:
+ * a stand on sentencing said with a belief about immigrants).
+ */
 function planFacts(plan: SpeechPlan): Facts {
   const all: Facts = {};
-  for (const block of plan.blocks)
+  // The planned first point, else (a crisis answered from the record) the
+  // first point block the plan holds.
+  const points = plan.blocks.filter((block) => block.key.startsWith("point-"));
+  const first =
+    points.find(
+      (block) => block.key === `point-${plan.points[P.zero]?.question}`,
+    ) ?? points[P.zero];
+  for (const block of plan.blocks) {
+    if (block.key.startsWith("point-") && block !== first) continue;
     for (const [key, row] of Object.entries(block.facts)) all[key] ??= row;
+  }
   return all;
 }
 
@@ -93,8 +108,11 @@ export function inauguralFacts(
   // names one subject and argues another (a crisis address answers with a
   // question outside its theme).
   const family = plan.points[P.zero]?.family ?? plan.theme;
-  const theme = family ? THEME_NAMES[family] : undefined;
+  const theme = family ? THEME.themeNames[family] : undefined;
   if (theme) facts["theme-name"] = fact(theme, ids);
+  const short = family ? THEME.themeShort[family] : undefined;
+  if (short) facts["theme-short"] = fact(short, ids);
+  else delete facts["theme-short"];
   const disaster = facts["story-disaster"];
   const said = disaster ? DISASTER_WORDS[disaster.text] : undefined;
   if (disaster && said)
@@ -175,6 +193,7 @@ function asOpening(
             stance: facts["stance-for"]
               ? ("for" as const)
               : ("against" as const),
+            inForce: !!facts["law-in-force"],
           },
         }
       : {}),

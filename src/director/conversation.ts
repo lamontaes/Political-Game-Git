@@ -3985,6 +3985,10 @@ function pointSubject(
   facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
+  // A law already in force is kept or undone, never passed (pre-grade, Nov
+  // 24: the speech defended the higher minimum wage and the housemate said
+  // it was about time somebody tried to raise it).
+  if (pick.point.inForce) mark("law-in-force", said);
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
   if (pick.reason === "work") {
     mark("why-work", pick.reasonIds);

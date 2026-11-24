@@ -80,6 +80,15 @@ describe("the address picks its kind and subjects from the world", () => {
     );
     expect(ADDRESS_KINDS, where).toContain(bad.addressKind);
     expect(ADDRESS_KINDS, where).toContain(good.addressKind);
+    // An inaugural whose plan chose a point says it (the Story lead, Nov 24:
+    // with the old inaugural pieces deleted, the planner dropped every block
+    // the bank held no piece for, and no inaugural said its stand).
+    for (const story of [bad, good])
+      if (story.speechKind === "inaugural" && story.points.length)
+        expect(
+          story.address.sentences.some((row) => row.stand),
+          `${where}: ${story.address.text}`,
+        ).toBe(true);
     // The areas the term read holds are claims the address cites by web row.
     const claims = (story: typeof bad) =>
       new Set(

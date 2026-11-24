@@ -109,6 +109,8 @@ export interface OpeningSentence {
     readonly about: string;
     readonly to: string;
     readonly stance: "for" | "against";
+    /** Whether the law the question is about is already in force. */
+    readonly inForce?: boolean;
   };
 }
 

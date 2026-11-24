@@ -1544,6 +1544,9 @@ export function composeJournal(
   // relative's, on the same day) opened last.
   const chapterOfContest = new Map<string, (typeof chapters)[number]>();
   let chapterKind: string | undefined;
+  // The town the first chapter is titled by when no record names where it
+  // was lived (born elsewhere, the birthplace not on record).
+  let rootsTitledBy: Facts[string] | undefined;
   const toldOnce = new Set<string>();
   const beatEntries = new Map<string, JournalLine>();
   // What each beat has told already, by its facts: the same parent going to
@@ -1678,6 +1681,8 @@ export function composeJournal(
     ) {
       chapterKind = turn ? row.kindPrefix : undefined;
       const place = placeName(person.placeId);
+      if (!chapters.length && !ownTitle && !facts.place && place)
+        rootsTitledBy = place;
       const title =
         ownTitle ??
         render(
@@ -2154,6 +2159,24 @@ export function composeJournal(
       sourceRecordIds: rendered.sourceRecordIds,
     });
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
+  }
+  // A first chapter titled by the town only for want of a birthplace is the
+  // time before the town once a later chapter is titled by it (pre-grade,
+  // Nov 24: "Whitmore Village, Hawaii" twice, the second opening on the move
+  // there).
+  const roots = chapters[zero];
+  if (
+    roots &&
+    rootsTitledBy &&
+    chapters.some((row) => row !== roots && row.title === roots.title)
+  ) {
+    const before = render(
+      { part: "first-title" },
+      { before: rootsTitledBy },
+      `${roots.key}:title`,
+      rootsTitledBy.sourceRecordIds,
+    );
+    if (before) roots.title = before.text;
   }
   // The opening evening, told as one diary entry (journal-evening.ts).
   const evening = eveningChapter(core, director, personId, through);

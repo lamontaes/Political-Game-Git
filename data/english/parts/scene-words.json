@@ -35,7 +35,8 @@
     "landlord": "The landlord who evicted the household, from the eviction record.",
     "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions",
     "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a bill by its name); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays.",
-    "speech-giver": "who gave the address the household watched, by full name, from the address's record"
+    "speech-giver": "who gave the address the household watched, by full name, from the address's record",
+    "speech-giver-surname": "the President who gave the inaugural the household watched, by family name after the title, from the address's record"
   },
   "maxWords": 10,
   "mining": {
@@ -8983,17 +8984,17 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-alone.it-s-the-news-replays-s-first-speech-as-president",
+      "key": "scene-words.arrival-home-alone.it-s-the-news-replays-president-s-noon-speech",
       "move": "arrival-home-alone",
       "kind": "written",
-      "text": "It's {landing}. The news replays {speech-giver}'s first speech as President.",
+      "text": "It's {landing}. The news replays President {speech-giver-surname}'s noon speech.",
       "uses": [
         {
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["speech-giver", "inaugural-night"]
+          "requiresFacts": ["speech-giver-surname", "inaugural-night"]
         }
       ],
       "origin": "authored",
@@ -9001,35 +9002,17 @@
       "date": "2026-11-24"
     },
     {
-      "key": "scene-words.arrival-home-alone.it-s-supper-s-cleared-and-s-speech-is-on",
+      "key": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president",
       "move": "arrival-home-alone",
       "kind": "written",
-      "text": "It's {landing}. Supper's cleared, and {speech-giver}'s speech is on.",
+      "text": "It's {landing}. The news is still on President {speech-giver-surname}.",
       "uses": [
         {
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["speech-giver", "inaugural-night"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "scene-words.arrival-home-alone.it-s-somebody-turns-the-tv-up-for-s-oath",
-      "move": "arrival-home-alone",
-      "kind": "written",
-      "text": "It's {landing}. Somebody turns the TV up for {speech-giver}'s oath.",
-      "uses": [
-        {
-          "move": "arrival-home-alone",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "alone",
-          "requiresFacts": ["speech-giver", "inaugural-night"]
+          "requiresFacts": ["speech-giver-surname", "inaugural-night"]
         }
       ],
       "origin": "authored",
