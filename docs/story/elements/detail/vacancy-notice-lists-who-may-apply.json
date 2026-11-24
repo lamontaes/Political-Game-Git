@@ -1,0 +1,29 @@
+{
+  "id": "vacancy-notice-lists-who-may-apply",
+  "kind": "detail",
+  "summary": "A vacancy notice states age, residency and employment rules for applicants.",
+  "realLife": "Lancaster's notice requires an applicant to be an adult, a city resident of at least a year, and not a city employee.",
+  "sources": [
+    "City of Lancaster (Pennsylvania), information about appointment to the vacant City Council position: https://cityoflancasterpa.com/city-council/vacancy/"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["office", "place"],
+  "gates": [],
+  "weights": {
+    "serve-sought": 0.8
+  },
+  "inGame": "checkEligibility and filingOfficeFor; the serve-asked prospect's residency record",
+  "turns": [
+    {
+      "turn": "The applicant fails a rule and is told so",
+      "pull": "the eligibility check",
+      "writes": "writes a plain refusal"
+    },
+    {
+      "turn": "The rule is waived",
+      "pull": "a charter that allows it",
+      "writes": "writes an exception line"
+    }
+  ],
+  "usedBy": ["serve-sought"]
+}

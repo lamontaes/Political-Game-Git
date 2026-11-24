@@ -1,0 +1,29 @@
+{
+  "id": "morning-after-the-loss-the-children-comfort-her",
+  "kind": "consequence",
+  "summary": "The morning after a loss, the children comfort the candidate in their own ways.",
+  "realLife": "The day after Michelle Nunn lost the 2014 Georgia Senate race, her nine-year-old daughter told her she was sorry she lost, and her eleven-year-old son proposed shopping and asked for a phone.",
+  "sources": [
+    "https://www.ajc.com/news/state--regional-govt--politics/her-political-career-michelle-nunn-leaves-the-pilot-light/7kf7g74859ttBkE9f5GMZO"
+  ],
+  "fits": ["home", "journal"],
+  "slots": ["{the child}", "{the loser}", "{the household}"],
+  "gates": ["An election result is on record as lost.", "Children at home."],
+  "weights": ["Close tie to the children.", "Loss margin."],
+  "inGame": "race-lost and family-loss after a lost race can carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The children are upset and ask why.",
+      "pulledBy": "Child age.",
+      "writesBack": "Child mood falls."
+    },
+    {
+      "turn": "partial",
+      "what": "One child comforts, the other asks about the money.",
+      "pulledBy": "Campaign debt.",
+      "writesBack": "Bills noted."
+    }
+  ]
+}

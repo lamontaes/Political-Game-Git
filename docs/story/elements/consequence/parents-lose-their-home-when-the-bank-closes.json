@@ -25,5 +25,9 @@
   "weights": {
     "life": 0.6
   },
-  "usedBy": []
+  "usedBy": [],
+  "issues": [
+    "budget:housing",
+    "question:us-policy-positions:housing-land-use.right-to-counsel-in-eviction"
+  ]
 }

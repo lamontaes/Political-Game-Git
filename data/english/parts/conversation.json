@@ -13101,17 +13101,17 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.government-news-say-core.who-spoke-on-said-when-i-keep-turning-it-over",
+      "key": "conversation.government-news-say-core.who-spoke-on-about-when-i-keep-turning-it-over",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "{who} spoke on {said} {when}. I keep turning it over.",
+      "text": "{who} spoke on {about} {when}. I keep turning it over.",
       "uses": [
         {
           "move": "government-news-say-core",
           "subject": "government-news-say",
           "role": "core",
           "stages": ["address"],
-          "requiresFacts": ["who", "said", "when"]
+          "requiresFacts": ["who", "about", "when"]
         }
       ],
       "bearing": "calm",
@@ -13120,17 +13120,17 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.government-news-say-core.i-heard-who-speak-on-said-when",
+      "key": "conversation.government-news-say-core.i-heard-who-speak-on-about-when",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "I heard {who} speak on {said} {when}.",
+      "text": "I heard {who} speak on {about} {when}.",
       "uses": [
         {
           "move": "government-news-say-core",
           "subject": "government-news-say",
           "role": "core",
           "stages": ["address"],
-          "requiresFacts": ["who", "said", "when"]
+          "requiresFacts": ["who", "about", "when"]
         }
       ],
       "bearing": "calm",
@@ -13139,17 +13139,17 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.government-news-say-core.who-had-a-lot-to-say-on-said-when",
+      "key": "conversation.government-news-say-core.who-had-a-lot-to-say-on-about-when",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "{who} had a lot to say on {said} {when}.",
+      "text": "{who} had a lot to say on {about} {when}.",
       "uses": [
         {
           "move": "government-news-say-core",
           "subject": "government-news-say",
           "role": "core",
           "stages": ["address"],
-          "requiresFacts": ["who", "said", "when"]
+          "requiresFacts": ["who", "about", "when"]
         }
       ],
       "bearing": "calm",
@@ -13158,17 +13158,17 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.government-news-say-core.who-brought-up-said-when-and-it-stuck-with-me",
+      "key": "conversation.government-news-say-core.who-brought-up-about-when-and-it-stuck-with-me",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "{who} brought up {said} {when}, and it stuck with me.",
+      "text": "{who} brought up {about} {when}, and it stuck with me.",
       "uses": [
         {
           "move": "government-news-say-core",
           "subject": "government-news-say",
           "role": "core",
           "stages": ["address"],
-          "requiresFacts": ["who", "said", "when"]
+          "requiresFacts": ["who", "about", "when"]
         }
       ],
       "bearing": "calm",
@@ -13196,17 +13196,17 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.government-news-say-core.the-town-hall-when-kept-coming-back-to-said",
+      "key": "conversation.government-news-say-core.the-town-hall-when-kept-coming-back-to-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "The town hall {when} kept coming back to {said}.",
+      "text": "The town hall {when} kept coming back to {about}.",
       "uses": [
         {
           "move": "government-news-say-core",
           "subject": "government-news-say",
           "role": "core",
           "stages": ["meeting"],
-          "requiresFacts": ["said", "when"]
+          "requiresFacts": ["about", "when"]
         }
       ],
       "bearing": "calm",
@@ -13215,17 +13215,17 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.government-news-say-core.there-was-a-town-hall-when-and-folks-argued-over-said",
+      "key": "conversation.government-news-say-core.there-was-a-town-hall-when-and-folks-argued-over-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "There was a town hall {when}, and folks argued over {said}.",
+      "text": "There was a town hall {when}, and folks argued over {about}.",
       "uses": [
         {
           "move": "government-news-say-core",
           "subject": "government-news-say",
           "role": "core",
           "stages": ["meeting"],
-          "requiresFacts": ["said", "when"]
+          "requiresFacts": ["about", "when"]
         }
       ],
       "bearing": "calm",
@@ -36880,27 +36880,6 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "conversation.own-view-take-core.agree-that-s-a-relief-on-about",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "That's a relief, on {about}.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["about"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "conversation.own-view-take-core.agree-then-we-re-on-the-same-side-of-about-at-least",
       "move": "own-view-take-core",
       "kind": "spoken",
@@ -36943,73 +36922,10 @@
       "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
-      "key": "conversation.own-view-take-core.agree-good-to-hear-about-about",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "Good to hear, about {about}.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["about"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
       "key": "conversation.own-view-take-core.disagree-fair-enough-we-don-t-have-to-agree-on-about",
       "move": "own-view-take-core",
       "kind": "spoken",
       "text": "Fair enough. We don't have to agree on {about}.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["about"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "conversation.own-view-take-core.disagree-then-we-see-about-differently-and-that-s-all-right",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "Then we see {about} differently, and that's all right.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["about"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "conversation.own-view-take-core.disagree-i-d-have-guessed-you-d-say-that-on-about",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "I'd have guessed you'd say that on {about}.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -37073,27 +36989,6 @@
       "move": "own-view-take-core",
       "kind": "spoken",
       "text": "I'll think about what you said on {about}.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["about"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the talk at home writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "conversation.own-view-take-core.disagree-all-right-but-i-haven-t-changed-my-mind-on-about",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "All right, but I haven't changed my mind on {about}.",
       "uses": [
         {
           "move": "own-view-take-core",

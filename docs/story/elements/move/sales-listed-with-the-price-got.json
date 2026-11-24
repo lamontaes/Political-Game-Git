@@ -25,5 +25,6 @@
       "pulledBy": "no sale on the job's record",
       "writesBack": "the entry says there was nothing to sell"
     }
-  ]
+  ],
+  "issues": ["none"]
 }

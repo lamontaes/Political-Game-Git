@@ -26,5 +26,20 @@
     "blunt": 0.5,
     "humble": 0.2
   },
-  "usedBy": []
+  "usedBy": [],
+  "inGame": "Personality facets pull shapes and pieces (`pull` in data/english/outlines.json, `lean` in the banks), so a speaker's traits set how often the `call` section is said.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A speaker who never asks.",
+      "pulledBy": "low assertive; high humble",
+      "writesBack": "The call section is skipped."
+    },
+    {
+      "turn": "neutral",
+      "what": "A speaker who asks once.",
+      "pulledBy": "most speakers",
+      "writesBack": "The ask is the quoted line."
+    }
+  ]
 }
