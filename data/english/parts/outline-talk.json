@@ -48,7 +48,9 @@
     "body": "the body that voted, as its record names it",
     "law": "the bill or law by its name, never its number",
     "purpose": "what the bill does, as a noun phrase from the bill catalog",
-    "count": "the vote count in words and figures (\"3 to 2\")"
+    "count": "the vote count in words and figures (\"3 to 2\")",
+    "reason-against": "the side against the question's own reason, in plain words (question-names.json reasons.against, via questionPlainWords)",
+    "reason-for": "the side for the question's own reason, in plain words (question-names.json reasons.for, via questionPlainWords)"
   },
   "maxWords": 30,
   "parts": [
