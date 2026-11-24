@@ -24966,7 +24966,8 @@
           "move": "request",
           "role": "asker",
           "requiresFacts": ["due"],
-          "excludesFacts": ["knocked-before"]
+          "excludesFacts": ["knocked-before"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "hopeful",
@@ -25135,10 +25136,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-i-ll-put-my-name-down-for-office",
+      "key": "scene-talk.reply-agree.fine-i-ll-put-my-name-down-good-luck-in-place",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fine. I'll put my name down for {office}.",
+      "text": "Fine. I'll put my name down. Good luck in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -25147,7 +25148,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["would-not-sign"]
         }
       ],
@@ -25161,10 +25162,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen",
+      "key": "scene-talk.reply-agree.sure-everybody-in-place-should-get-a-shot-give-me-the-pen",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure. Everybody should get a shot at {office}. Give me the pen.",
+      "text": "Sure. Everybody in {place} should get a shot. Give me the pen.",
       "uses": [
         {
           "subject": "scene",
@@ -25173,7 +25174,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["would-not-sign"]
         }
       ],
@@ -25187,10 +25188,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-i-ll-sign-for-office-right-here",
+      "key": "scene-talk.reply-agree.alright-i-ll-sign-right-here-before-vote-day",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. I'll sign for {office} right here.",
+      "text": "Alright. I'll sign right here, before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -25199,7 +25200,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["vote-day"],
           "excludesFacts": ["would-not-sign"]
         }
       ],
@@ -25213,10 +25214,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-came-back-okay-i-ll-sign-for-office",
+      "key": "scene-talk.reply-agree.you-came-back-to-place-okay-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You came back. Okay, I'll sign for {office}.",
+      "text": "You came back to {place}. Okay, I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -25225,7 +25226,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["knocked-before", "office"],
+          "requiresFacts": ["knocked-before", "place"],
           "excludesFacts": ["would-not-sign"]
         }
       ],
@@ -25341,10 +25342,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-for-office",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-good-luck-on-vote-day",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got my vote for {office}.",
+      "text": "You've got my vote. Good luck on {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -25353,7 +25354,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["vote-day"]
         }
       ],
       "bearing": "calm",
@@ -25391,10 +25392,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.okay-put-me-down-for-office",
+      "key": "scene-talk.reply-agree.okay-put-me-down-good-luck-in-place",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Okay. Put me down for {office}.",
+      "text": "Okay. Put me down. Good luck in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -25403,7 +25404,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "calm",
@@ -25416,10 +25417,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-came-back-you-ve-got-my-vote-for-office",
+      "key": "scene-talk.reply-agree.you-came-back-you-ve-got-my-vote-on-vote-day",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You came back. You've got my vote for {office}.",
+      "text": "You came back. You've got my vote on {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -25428,7 +25429,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["knocked-before", "office"]
+          "requiresFacts": ["knocked-before", "vote-day"]
         }
       ],
       "bearing": "calm",
@@ -25591,10 +25592,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-a-petition-for-office",
+      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-a-petition-in-place",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'd rather keep my name off a petition for {office}.",
+      "text": "I'd rather keep my name off a petition in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -25603,7 +25604,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["signed", "door-pressed"]
         }
       ],
@@ -25617,10 +25618,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-today-thanks-i-don-t-know-enough-about-the-race-for-office",
+      "key": "scene-talk.reply-decline.not-today-thanks-i-don-t-know-enough-about-the-race-before-vote-day",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not today, thanks. I don't know enough about the race for {office}.",
+      "text": "Not today, thanks. I don't know enough about the race before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -25629,7 +25630,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["vote-day"],
           "excludesFacts": ["signed", "door-pressed"]
         }
       ],
@@ -25643,10 +25644,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-ve-been-by-before-i-m-still-not-signing-for-office",
+      "key": "scene-talk.reply-decline.you-ve-been-by-before-i-m-still-not-signing-and-place-has-heard-it-from-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "You've been by before. I'm still not signing for {office}.",
+      "text": "You've been by before. I'm still not signing, and {place} has heard it from me.",
       "uses": [
         {
           "subject": "scene",
@@ -25655,7 +25656,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["knocked-before", "office"],
+          "requiresFacts": ["knocked-before", "place"],
           "excludesFacts": ["signed", "door-pressed"]
         }
       ],
@@ -25669,10 +25670,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-follow-the-race-for-office-i-won-t-sign",
+      "key": "scene-talk.reply-decline.i-don-t-follow-the-race-in-place-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't follow the race for {office}. I won't sign.",
+      "text": "I don't follow the race in {place}. I won't sign.",
       "uses": [
         {
           "subject": "scene",
@@ -25681,7 +25682,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["would-not-sign", "no-view", "office"],
+          "requiresFacts": ["would-not-sign", "no-view", "place"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -25695,10 +25696,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-promising-my-vote-for-office-yet",
+      "key": "scene-talk.reply-decline.i-m-not-promising-my-vote-before-vote-day-yet",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not promising my vote for {office} yet.",
+      "text": "I'm not promising my vote before {vote-day} yet.",
       "uses": [
         {
           "subject": "scene",
@@ -25707,7 +25708,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["vote-day"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -25721,10 +25722,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-haven-t-decided-who-gets-my-vote-for-office-ask-me-closer-to-vote-day",
+      "key": "scene-talk.reply-decline.i-haven-t-decided-who-gets-my-vote-ask-me-closer-to-vote-day",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I haven't decided who gets my vote for {office}. Ask me closer to {vote-day}.",
+      "text": "I haven't decided who gets my vote. Ask me closer to {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -25733,7 +25734,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office", "vote-day"],
+          "requiresFacts": ["vote-day"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -25774,10 +25775,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-follow-the-race-for-office-i-can-t-promise-anything",
+      "key": "scene-talk.reply-decline.i-don-t-follow-the-race-in-place-i-can-t-promise-anything",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't follow the race for {office}. I can't promise anything.",
+      "text": "I don't follow the race in {place}. I can't promise anything.",
       "uses": [
         {
           "subject": "scene",
@@ -25786,7 +25787,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["no-view", "office"],
+          "requiresFacts": ["no-view", "place"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -25852,10 +25853,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.my-answer-s-the-same-good-luck-in-the-race-for-office",
+      "key": "scene-talk.reply-decline.my-answer-s-the-same-good-luck-before-vote-day",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "My answer's the same. Good luck in the race for {office}.",
+      "text": "My answer's the same. Good luck before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -25865,7 +25866,7 @@
           "move": "decline",
           "role": "asked",
           "after": "press",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["vote-day"]
         },
         {
           "subject": "scene",
@@ -25940,10 +25941,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-said-no-good-luck-in-the-race-for-office",
+      "key": "scene-talk.reply-decline.i-said-no-good-luck-on-vote-day",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I said no. Good luck in the race for {office}.",
+      "text": "I said no. Good luck on {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -25953,7 +25954,7 @@
           "move": "decline",
           "role": "asked",
           "after": "press",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["vote-day"],
           "excludesFacts": ["signed"]
         }
       ],
@@ -25967,10 +25968,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-for-office",
+      "key": "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-before-vote-day",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I've heard you out. I'm still deciding my vote for {office}.",
+      "text": "I've heard you out. I'm still deciding my vote before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -25980,7 +25981,7 @@
           "move": "decline",
           "role": "asked",
           "after": "press",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["vote-day"]
         }
       ],
       "bearing": "guarded",
@@ -25993,10 +25994,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-have-to-go-good-luck-in-the-race-for-office",
+      "key": "scene-talk.reply-leave.i-have-to-go-good-luck-on-vote-day",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to go. Good luck in the race for {office}.",
+      "text": "I have to go. Good luck on {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -26005,7 +26006,7 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["vote-day"]
         },
         {
           "subject": "scene",
@@ -26077,10 +26078,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-ll-think-about-my-vote-for-office-come-back-later",
+      "key": "scene-talk.reply-deflect.i-ll-think-about-my-vote-come-back-before-vote-day",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I'll think about my vote for {office}. Come back later.",
+      "text": "I'll think about my vote. Come back before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -26089,7 +26090,7 @@
           "step": "reply",
           "move": "deflect",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["vote-day"]
         }
       ],
       "bearing": "guarded",
@@ -26102,10 +26103,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-s-one-more-name-for-my-run-for-office-thank-you",
+      "key": "scene-talk.follow-thank.that-s-one-more-name-for-the-sheet-thank-you-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's one more name for my run for {office}. Thank you.",
+      "text": "That's one more name for the sheet. Thank you, {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -26114,7 +26115,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "glad",
@@ -26127,10 +26128,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-that-helps-me-get-on-the-ballot-for-office",
+      "key": "scene-talk.follow-thank.thank-you-that-helps-me-get-on-the-ballot-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. That helps me get on the ballot for {office}.",
+      "text": "Thank you. That helps me get on the ballot in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -26139,7 +26140,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "glad",
@@ -26164,7 +26165,9 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "glad",
@@ -26177,10 +26180,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-for-hearing-me-out-again-i-m-running-for-office",
+      "key": "scene-talk.follow-thank.thank-you-for-hearing-me-out-again-i-m-running-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you for hearing me out again. I'm running for {office}.",
+      "text": "Thank you for hearing me out again. I'm running in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -26189,7 +26192,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["knocked-before", "office"]
+          "requiresFacts": ["knocked-before", "place"]
         }
       ],
       "bearing": "glad",
@@ -26327,10 +26330,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-thanks-for-hearing-me-out-on-the-race-for-office",
+      "key": "scene-talk.follow-accept.fair-enough-thanks-for-hearing-me-out-before-vote-day",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. Thanks for hearing me out on the race for {office}.",
+      "text": "Fair enough. Thanks for hearing me out before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -26339,7 +26342,7 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["vote-day"]
         }
       ],
       "bearing": "calm",
@@ -26364,7 +26367,9 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -26402,10 +26407,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-on-the-race-for-office",
+      "key": "scene-talk.follow-accept.understood-thanks-for-hearing-me-out-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Understood. Thanks for hearing me out on the race for {office}.",
+      "text": "Understood. Thanks for hearing me out, {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -26414,7 +26419,7 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "calm",
@@ -26560,10 +26565,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.it-only-puts-me-on-the-ballot-for-office-you-d-still-vote-your-own-way",
+      "key": "scene-talk.follow-press.it-only-puts-me-on-the-ballot-in-place-you-d-still-vote-your-own-way",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "It only puts me on the ballot for {office}. You'd still vote your own way.",
+      "text": "It only puts me on the ballot in {place}. You'd still vote your own way.",
       "uses": [
         {
           "subject": "scene",
@@ -26572,7 +26577,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "setsFacts": ["door-pressed"]
         }
       ],
@@ -26599,7 +26604,8 @@
           "move": "press",
           "role": "asker",
           "requiresFacts": ["due"],
-          "setsFacts": ["door-pressed"]
+          "setsFacts": ["door-pressed", "due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "hopeful",
@@ -26612,10 +26618,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-for-office",
+      "key": "scene-talk.follow-press.what-would-it-take-to-earn-your-vote-in-place",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "What would it take to earn your vote for {office}?",
+      "text": "What would it take to earn your vote in {place}?",
       "uses": [
         {
           "subject": "scene",
@@ -26624,7 +26630,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "setsFacts": ["door-pressed"]
         }
       ],
@@ -26711,7 +26717,9 @@
           "step": "follow",
           "move": "promise",
           "role": "asker",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -26724,10 +26732,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-come-back-and-ask-about-the-race-for-office",
+      "key": "scene-talk.follow-promise.i-ll-come-back-before-vote-day-and-ask-again",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll come back and ask about the race for {office}.",
+      "text": "I'll come back before {vote-day} and ask again.",
       "uses": [
         {
           "subject": "scene",
@@ -26736,7 +26744,7 @@
           "step": "follow",
           "move": "promise",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["vote-day"]
         },
         {
           "subject": "scene",
@@ -28756,7 +28764,9 @@
           "step": "state",
           "move": "request",
           "role": "asker",
-          "requiresFacts": ["due", "office", "knocked-before"]
+          "requiresFacts": ["due", "office", "knocked-before"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": []
         }
       ],
       "bearing": "hopeful",
@@ -28773,10 +28783,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.hand-me-the-pen-i-d-like-to-see-your-name-on-the-ballot-for-office",
+      "key": "scene-talk.reply-agree.hand-me-the-pen-i-d-like-to-see-your-name-on-the-ballot-in-place",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Hand me the pen. I'd like to see your name on the ballot for {office}.",
+      "text": "Hand me the pen. I'd like to see your name on the ballot in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -28785,7 +28795,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["would-not-sign"]
         }
       ],
@@ -28803,10 +28813,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.sure-people-here-should-get-to-choose-who-s-on-the-ballot-for-office-so-i-ll-sig",
+      "key": "scene-talk.reply-agree.sure-people-in-place-should-get-to-choose-who-s-on-the-ballot-so-i-ll-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Sure. People here should get to choose who's on the ballot for {office}, so I'll sign.",
+      "text": "Sure. People in {place} should get to choose who's on the ballot, so I'll sign.",
       "uses": [
         {
           "subject": "scene",
@@ -28815,7 +28825,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["would-not-sign"]
         }
       ],
@@ -28833,10 +28843,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.i-don-t-sign-things-at-the-door-and-that-includes-a-petition-for-office",
+      "key": "scene-talk.reply-decline.i-don-t-sign-things-at-the-door-not-even-a-petition-from-someone-in-place",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I don't sign things at the door, and that includes a petition for {office}.",
+      "text": "I don't sign things at the door, not even a petition from someone in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -28845,7 +28855,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["signed", "door-pressed"]
         }
       ],
@@ -28863,10 +28873,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.i-m-not-signing-for-office-ask-someone-who-knows-you-better",
+      "key": "scene-talk.reply-decline.i-m-not-signing-ask-someone-in-place-who-knows-you-better",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm not signing for {office}. Ask someone who knows you better.",
+      "text": "I'm not signing. Ask someone in {place} who knows you better.",
       "uses": [
         {
           "subject": "scene",
@@ -28875,7 +28885,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["signed", "door-pressed"]
         }
       ],
@@ -28893,10 +28903,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.my-name-s-on-enough-lists-i-ll-pass-on-the-petition-for-office",
+      "key": "scene-talk.reply-decline.my-name-s-on-enough-lists-in-place-i-ll-pass-on-the-petition",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "My name's on enough lists. I'll pass on the petition for {office}.",
+      "text": "My name's on enough lists in {place}. I'll pass on the petition.",
       "uses": [
         {
           "subject": "scene",
@@ -28905,7 +28915,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["signed", "door-pressed"]
         }
       ],
@@ -28923,10 +28933,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.i-m-backing-rival-for-office-so-i-can-t-put-my-name-on-yours",
+      "key": "scene-talk.reply-decline.i-m-backing-rival-so-i-can-t-put-my-name-on-yours",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm backing {rival} for {office}, so I can't put my name on yours.",
+      "text": "I'm backing {rival}, so I can't put my name on yours.",
       "uses": [
         {
           "subject": "scene",
@@ -28935,7 +28945,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["rival", "office"],
+          "requiresFacts": ["rival"],
           "excludesFacts": ["signed", "door-pressed"]
         }
       ],
@@ -28953,10 +28963,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.what-happens-to-my-name-once-i-sign-for-office-does-the-whole-town-see-it",
+      "key": "scene-talk.reply-ask.what-happens-to-my-name-once-i-sign-does-everyone-in-place-see-it",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What happens to my name once I sign for {office}? Does the whole town see it?",
+      "text": "What happens to my name once I sign? Does everyone in {place} see it?",
       "uses": [
         {
           "subject": "scene",
@@ -28965,7 +28975,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "curious",
@@ -28982,10 +28992,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-i-ll-find-the-rest-of-my-names-for-office-elsewhere",
+      "key": "scene-talk.follow-accept.i-understand-i-ll-find-the-rest-of-my-names-somewhere-else-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. I'll find the rest of my names for {office} elsewhere.",
+      "text": "I understand. I'll find the rest of my names somewhere else in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -28994,7 +29004,7 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "calm",
@@ -29011,10 +29021,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-press.i-m-on-the-ballot-for-office-only-if-people-like-you-sign-what-s-holding-you-bac",
+      "key": "scene-talk.follow-press.i-m-on-the-ballot-in-place-only-if-people-like-you-sign-what-s-holding-you-back",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'm on the ballot for {office} only if people like you sign. What's holding you back?",
+      "text": "I'm on the ballot in {place} only if people like you sign. What's holding you back?",
       "uses": [
         {
           "subject": "scene",
@@ -29023,7 +29033,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "curious",
@@ -29040,10 +29050,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.it-goes-on-the-sheet-that-puts-me-on-the-ballot-for-office-and-nowhere-else-i-kn",
+      "key": "scene-talk.follow-answer.it-goes-on-the-sheet-that-puts-me-on-the-ballot-and-nowhere-else-in-place-that-i-know-of",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It goes on the sheet that puts me on the ballot for {office}, and nowhere else I know of.",
+      "text": "It goes on the sheet that puts me on the ballot, and nowhere else in {place} that I know of.",
       "uses": [
         {
           "subject": "scene",
@@ -29052,8 +29062,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "scene-talk.reply-ask.what-happens-to-my-name-once-i-sign-for-office-does-the-whole-town-see-it"
+          "requiresFacts": ["place"],
+          "after": "scene-talk.reply-ask.what-happens-to-my-name-once-i-sign-does-everyone-in-place-see-it"
         }
       ],
       "bearing": "calm",
@@ -29070,10 +29080,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.it-s-a-name-on-a-petition-for-office-you-re-only-saying-i-should-get-a-chance-to",
+      "key": "scene-talk.follow-answer.it-s-a-name-on-a-petition-in-place-you-re-only-saying-i-should-get-a-chance-to-run",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's a name on a petition for {office}. You're only saying I should get a chance to run.",
+      "text": "It's a name on a petition in {place}. You're only saying I should get a chance to run.",
       "uses": [
         {
           "subject": "scene",
@@ -29082,8 +29092,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "scene-talk.reply-ask.what-happens-to-my-name-once-i-sign-for-office-does-the-whole-town-see-it"
+          "requiresFacts": ["place"],
+          "after": "scene-talk.reply-ask.what-happens-to-my-name-once-i-sign-does-everyone-in-place-see-it"
         }
       ],
       "bearing": "calm",
@@ -29100,10 +29110,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.alright-i-ll-sign-the-petition-for-office-you-ve-earned-it-by-coming-back",
+      "key": "scene-talk.reply-agree.alright-i-ll-sign-you-came-back-to-place-and-that-counts-for-something",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, I'll sign the petition for {office}. You've earned it by coming back.",
+      "text": "Alright, I'll sign. You came back to {place}, and that counts for something.",
       "uses": [
         {
           "subject": "scene",
@@ -29112,7 +29122,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office", "knocked-before"],
+          "requiresFacts": ["knocked-before", "place"],
           "excludesFacts": ["would-not-sign"]
         }
       ],
@@ -29130,10 +29140,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.still-no-on-the-petition-for-office-i-told-you-last-time",
+      "key": "scene-talk.reply-decline.still-no-on-the-petition-i-told-you-last-time-and-nothing-in-place-has-changed-that",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Still no on the petition for {office}. I told you last time.",
+      "text": "Still no on the petition. I told you last time, and nothing in {place} has changed that.",
       "uses": [
         {
           "subject": "scene",
@@ -29142,7 +29152,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office", "knocked-before"],
+          "requiresFacts": ["knocked-before", "place"],
           "excludesFacts": ["signed", "door-pressed"]
         }
       ],
@@ -29375,10 +29385,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.alright-if-you-re-out-knocking-for-office-you-ve-earned-my-vote",
+      "key": "scene-talk.reply-agree.alright-if-you-re-out-knocking-in-place-you-ve-earned-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. If you're out knocking for {office}, you've earned my vote.",
+      "text": "Alright. If you're out knocking in {place}, you've earned my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -29387,7 +29397,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "calm",
@@ -29435,10 +29445,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-me-for-office-tell-the-others-on-this-street-i-said-so",
+      "key": "scene-talk.reply-agree.you-ve-got-my-vote-tell-the-others-on-this-street-i-said-so-and-good-luck-in-place",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You've got me for {office}. Tell the others on this street I said so.",
+      "text": "You've got my vote. Tell the others on this street I said so, and good luck in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -29447,7 +29457,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "warm",
@@ -29465,10 +29475,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.you-came-back-and-that-counts-i-m-voting-for-you-for-office",
+      "key": "scene-talk.reply-agree.you-came-back-and-that-counts-i-m-voting-for-you-on-vote-day",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You came back, and that counts. I'm voting for you for {office}.",
+      "text": "You came back, and that counts. I'm voting for you on {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -29477,7 +29487,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["knocked-before", "office"]
+          "requiresFacts": ["knocked-before", "vote-day"]
         }
       ],
       "bearing": "warm",
@@ -29495,10 +29505,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.i-like-that-you-came-by-i-still-have-nothing-to-go-on-for-office",
+      "key": "scene-talk.reply-decline.i-like-that-you-came-by-i-still-know-nothing-about-the-race-in-place",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I like that you came by. I still have nothing to go on for {office}.",
+      "text": "I like that you came by. I still know nothing about the race in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -29507,7 +29517,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -29526,10 +29536,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.i-m-busy-and-the-race-for-office-isn-t-something-i-follow-maybe-closer-to-vote-d",
+      "key": "scene-talk.reply-decline.i-m-busy-and-the-race-isn-t-something-i-follow-maybe-closer-to-vote-day",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm busy, and the race for {office} isn't something I follow. Maybe closer to {vote-day}.",
+      "text": "I'm busy, and the race isn't something I follow. Maybe closer to {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -29538,7 +29548,7 @@
           "step": "reply",
           "move": "decline",
           "role": "asked",
-          "requiresFacts": ["office", "vote-day"],
+          "requiresFacts": ["vote-day"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -29617,10 +29627,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.i-ve-got-to-get-to-work-i-wish-you-luck-in-the-race-for-office",
+      "key": "scene-talk.reply-leave.i-ve-got-to-get-to-work-i-wish-you-luck-in-place",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I've got to get to work. I wish you luck in the race for {office}.",
+      "text": "I've got to get to work. I wish you luck in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -29629,7 +29639,7 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "guarded",
@@ -29647,10 +29657,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-stand-here-talking-the-race-for-office-isn-t-going-to-be-decided-on-my-p",
+      "key": "scene-talk.reply-leave.i-can-t-stand-here-talking-a-race-in-place-isn-t-going-to-be-decided-on-my-porch",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I can't stand here talking. The race for {office} isn't going to be decided on my porch.",
+      "text": "I can't stand here talking. A race in {place} isn't going to be decided on my porch.",
       "uses": [
         {
           "subject": "scene",
@@ -29659,7 +29669,7 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "guarded",
@@ -29677,10 +29687,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.why-should-i-pick-you-over-rival-for-office",
+      "key": "scene-talk.reply-ask.why-should-i-pick-you-over-rival",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Why should I pick you over {rival} for {office}?",
+      "text": "Why should I pick you over {rival}?",
       "uses": [
         {
           "subject": "scene",
@@ -29689,7 +29699,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["rival", "office"]
+          "requiresFacts": ["rival"]
         }
       ],
       "bearing": "curious",
@@ -29707,10 +29717,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.what-did-you-do-before-you-decided-to-run-for-office",
+      "key": "scene-talk.reply-ask.what-did-you-do-in-place-before-you-decided-to-run",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What did you do before you decided to run for {office}?",
+      "text": "What did you do in {place} before you decided to run?",
       "uses": [
         {
           "subject": "scene",
@@ -29719,7 +29729,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "curious",
@@ -29737,10 +29747,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.who-s-behind-your-run-for-office-tell-me-that-and-i-ll-listen",
+      "key": "scene-talk.reply-ask.who-s-behind-your-run-in-place-tell-me-that-and-i-ll-listen",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Who's behind your run for {office}? Tell me that, and I'll listen.",
+      "text": "Who's behind your run in {place}? Tell me that, and I'll listen.",
       "uses": [
         {
           "subject": "scene",
@@ -29749,7 +29759,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "curious",
@@ -29827,10 +29837,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-press.is-it-me-or-is-it-the-race-for-office-you-re-unsure-of",
+      "key": "scene-talk.follow-press.is-it-me-you-re-unsure-of-or-is-it-rival",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Is it me, or is it the race for {office} you're unsure of?",
+      "text": "Is it me you're unsure of, or is it {rival}?",
       "uses": [
         {
           "subject": "scene",
@@ -29839,7 +29849,7 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["rival"]
         }
       ],
       "bearing": "curious",
@@ -29945,10 +29955,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.i-thought-it-over-after-you-left-i-m-voting-for-you-for-office",
+      "key": "scene-talk.reply-agree.i-thought-it-over-after-you-left-i-m-voting-for-you-on-vote-day",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I thought it over after you left. I'm voting for you for {office}.",
+      "text": "I thought it over after you left. I'm voting for you on {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -29957,7 +29967,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office", "knocked-before"]
+          "requiresFacts": ["knocked-before", "vote-day"]
         }
       ],
       "bearing": "calm",
@@ -29974,10 +29984,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.i-asked-around-about-rival-and-about-you-you-get-my-vote-for-office",
+      "key": "scene-talk.reply-agree.i-asked-around-about-rival-and-about-you-you-get-my-vote",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I asked around about {rival} and about you. You get my vote for {office}.",
+      "text": "I asked around about {rival} and about you. You get my vote.",
       "uses": [
         {
           "subject": "scene",
@@ -30003,10 +30013,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.i-decided-to-go-with-rival-for-office-i-wanted-you-to-hear-it-from-me",
+      "key": "scene-talk.reply-decline.i-decided-to-go-with-rival-i-wanted-you-to-hear-it-from-me",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I decided to go with {rival} for {office}. I wanted you to hear it from me.",
+      "text": "I decided to go with {rival}. I wanted you to hear it from me.",
       "uses": [
         {
           "subject": "scene",
@@ -30062,10 +30072,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-i-ll-stop-troubling-you-about-office-after-today",
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-stop-troubling-you-before-vote-day",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. I'll stop troubling you about {office} after today.",
+      "text": "Fair enough. I'll stop troubling you before {vote-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -30074,7 +30084,7 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
-          "requiresFacts": ["office", "knocked-before"],
+          "requiresFacts": ["knocked-before", "vote-day"],
           "after": "decline"
         },
         {
@@ -53628,10 +53638,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.how-far-behind-is-the-petition-for-office",
+      "key": "scene-talk.reply-ask.how-far-behind-is-the-petition-on-due",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "How far behind is the petition for {office}?",
+      "text": "How far behind is the petition on {due}?",
       "uses": [
         {
           "subject": "scene",
@@ -53641,7 +53651,8 @@
           "move": "ask",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "curious",
@@ -53654,10 +53665,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-it-take-to-get-office-on-the-ballot",
+      "key": "scene-talk.reply-ask.what-would-it-take-to-get-on-the-ballot-in-place",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would it take to get {office} on the ballot?",
+      "text": "What would it take to get on the ballot in {place}?",
       "uses": [
         {
           "subject": "scene",
@@ -53667,7 +53678,7 @@
           "move": "ask",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "curious",
@@ -53693,7 +53704,8 @@
           "move": "ask",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "anxious",
@@ -53706,10 +53718,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-happens-to-my-run-for-office-if-it-stays-short",
+      "key": "scene-talk.reply-ask.what-happens-to-my-run-in-place-if-it-stays-short",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What happens to my run for {office} if it stays short?",
+      "text": "What happens to my run in {place} if it stays short?",
       "uses": [
         {
           "subject": "scene",
@@ -53719,7 +53731,7 @@
           "move": "ask",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "braced",
@@ -53732,10 +53744,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.then-i-ll-start-knocking-on-doors-for-office",
+      "key": "scene-talk.reply-promise.then-i-ll-start-knocking-on-doors-in-place",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Then I'll start knocking on doors for {office}.",
+      "text": "Then I'll start knocking on doors in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -53745,7 +53757,7 @@
           "move": "promise",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         },
         {
           "subject": "scene",
@@ -53778,10 +53790,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-get-the-names-for-office-count-me-in",
+      "key": "scene-talk.reply-promise.i-ll-get-the-names-in-place-count-me-in",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll get the names for {office}. Count me in.",
+      "text": "I'll get the names in {place}. Count me in.",
       "uses": [
         {
           "subject": "scene",
@@ -53791,7 +53803,7 @@
           "move": "promise",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         },
         {
           "subject": "scene",
@@ -53824,10 +53836,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.then-i-m-going-out-to-ask-people-to-sign-for-office",
+      "key": "scene-talk.reply-promise.then-i-m-going-out-to-ask-people-in-place-to-sign",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Then I'm going out to ask people to sign for {office}.",
+      "text": "Then I'm going out to ask people in {place} to sign.",
       "uses": [
         {
           "subject": "scene",
@@ -53837,7 +53849,7 @@
           "move": "promise",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         },
         {
           "subject": "scene",
@@ -53883,7 +53895,8 @@
           "move": "promise",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"]
         },
         {
           "subject": "scene",
@@ -53916,10 +53929,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.yes-i-want-office-on-the-ballot-so-i-ll-go-get-the-names",
+      "key": "scene-talk.reply-promise.yes-i-want-to-be-on-the-ballot-in-place-so-i-ll-go-get-the-names",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Yes. I want {office} on the ballot, so I'll go get the names.",
+      "text": "Yes. I want to be on the ballot in {place}, so I'll go get the names.",
       "uses": [
         {
           "subject": "scene",
@@ -53929,7 +53942,7 @@
           "move": "promise",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         },
         {
           "subject": "scene",
@@ -53962,10 +53975,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-can-t-get-out-and-canvass-for-office-just-now",
+      "key": "scene-talk.reply-deflect.i-can-t-get-out-and-canvass-in-place-just-now",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I can't get out and canvass for {office} just now.",
+      "text": "I can't get out and canvass in {place} just now.",
       "uses": [
         {
           "subject": "scene",
@@ -53975,7 +53988,7 @@
           "move": "deflect",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         },
         {
           "subject": "scene",
@@ -54008,10 +54021,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.let-me-think-about-office-and-the-sheets-first",
+      "key": "scene-talk.reply-deflect.let-me-think-about-the-sheets-first-i-ll-tell-you-before-due",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Let me think about {office} and the sheets first.",
+      "text": "Let me think about the sheets first. I'll tell you before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -54021,7 +54034,8 @@
           "move": "deflect",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"]
         },
         {
           "subject": "scene",
@@ -54054,10 +54068,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-m-not-ready-to-go-door-to-door-for-office-yet",
+      "key": "scene-talk.reply-deflect.i-m-not-ready-to-go-door-to-door-in-place-yet",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I'm not ready to go door to door for {office} yet.",
+      "text": "I'm not ready to go door to door in {place} yet.",
       "uses": [
         {
           "subject": "scene",
@@ -54067,7 +54081,7 @@
           "move": "deflect",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         },
         {
           "subject": "scene",
@@ -54100,10 +54114,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.i-need-to-think-about-whether-office-is-worth-the-knocking",
+      "key": "scene-talk.reply-deflect.i-need-to-think-about-whether-the-knocking-in-place-is-worth-it",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I need to think about whether {office} is worth the knocking.",
+      "text": "I need to think about whether the knocking in {place} is worth it.",
       "uses": [
         {
           "subject": "scene",
@@ -54113,7 +54127,7 @@
           "move": "deflect",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         },
         {
           "subject": "scene",
@@ -54159,7 +54173,8 @@
           "move": "deflect",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"]
         },
         {
           "subject": "scene",
@@ -54192,10 +54207,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-be-going-thanks-for-telling-me-about-office",
+      "key": "scene-talk.reply-leave.i-ll-be-going-thanks-for-telling-me-about-the-sheets-name",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll be going. Thanks for telling me about {office}.",
+      "text": "I'll be going. Thanks for telling me about the sheets, {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -54205,7 +54220,7 @@
           "move": "leave",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["name"]
         },
         {
           "subject": "scene",
@@ -54248,10 +54263,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-have-to-run-i-ll-keep-the-petition-for-office-in-mind",
+      "key": "scene-talk.reply-leave.i-have-to-run-i-ll-keep-the-petition-in-mind-until-due",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to run. I'll keep the petition for {office} in mind.",
+      "text": "I have to run. I'll keep the petition in mind until {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -54261,7 +54276,8 @@
           "move": "leave",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"]
         },
         {
           "subject": "scene",
@@ -54304,10 +54320,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.thank-you-for-the-word-on-office-i-need-to-go-now",
+      "key": "scene-talk.reply-leave.thank-you-for-the-word-name-i-need-to-go-now",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Thank you for the word on {office}. I need to go now.",
+      "text": "Thank you for the word, {name}. I need to go now.",
       "uses": [
         {
           "subject": "scene",
@@ -54317,7 +54333,7 @@
           "move": "leave",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["name"]
         },
         {
           "subject": "scene",
@@ -54360,10 +54376,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ve-got-to-go-thanks-for-the-warning-about-the-sheets-for-office",
+      "key": "scene-talk.reply-leave.i-ve-got-to-go-thanks-for-the-warning-about-the-sheets-name",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I've got to go. Thanks for the warning about the sheets for {office}.",
+      "text": "I've got to go. Thanks for the warning about the sheets, {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -54373,7 +54389,7 @@
           "move": "leave",
           "role": "asked",
           "after": "tell",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["name"]
         },
         {
           "subject": "scene",
@@ -54428,7 +54444,9 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -54453,7 +54471,9 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -54466,10 +54486,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.names-door-by-door-if-that-s-what-it-takes-to-get-office-on-the-ballot",
+      "key": "scene-talk.follow-answer.names-door-by-door-in-place-if-that-s-what-it-takes-to-get-on-the-ballot",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Names, door by door if that's what it takes to get {office} on the ballot.",
+      "text": "Names, door by door in {place} if that's what it takes to get on the ballot.",
       "uses": [
         {
           "subject": "scene",
@@ -54478,7 +54498,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "firm",
@@ -54491,10 +54511,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.if-it-stays-short-office-won-t-be-on-the-ballot",
+      "key": "scene-talk.follow-answer.if-it-stays-short-you-won-t-be-on-the-ballot-in-place",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "If it stays short, {office} won't be on the ballot.",
+      "text": "If it stays short, you won't be on the ballot in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -54503,7 +54523,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "solemn",
@@ -54516,10 +54536,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.the-sheets-for-office-don-t-fill-themselves-and-due-is-coming",
+      "key": "scene-talk.follow-press.the-sheets-don-t-fill-themselves-and-due-is-coming",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "The sheets for {office} don't fill themselves, and {due} is coming.",
+      "text": "The sheets don't fill themselves, and {due} is coming.",
       "uses": [
         {
           "subject": "scene",
@@ -54529,7 +54549,9 @@
           "move": "press",
           "role": "asker",
           "after": "deflect",
-          "requiresFacts": ["due", "office"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "firm",
@@ -54555,7 +54577,9 @@
           "move": "press",
           "role": "asker",
           "after": "deflect",
-          "requiresFacts": ["due"]
+          "requiresFacts": ["due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "guarded",
@@ -54568,10 +54592,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.waiting-makes-office-harder-to-reach",
+      "key": "scene-talk.follow-press.waiting-makes-the-ballot-in-place-harder-to-reach",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Waiting makes {office} harder to reach.",
+      "text": "Waiting makes the ballot in {place} harder to reach.",
       "uses": [
         {
           "subject": "scene",
@@ -54581,7 +54605,7 @@
           "move": "press",
           "role": "asker",
           "after": "deflect",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "braced",
@@ -54594,10 +54618,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-the-sheets-for-office-are-yours-to-fill",
+      "key": "scene-talk.follow-accept.okay-the-sheets-are-yours-to-fill-name",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. The sheets for {office} are yours to fill.",
+      "text": "Okay. The sheets are yours to fill, {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -54607,7 +54631,7 @@
           "move": "accept",
           "role": "asker",
           "after": "deflect",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["name"]
         }
       ],
       "bearing": "calm",
@@ -54620,10 +54644,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.understood-whether-to-run-for-office-is-your-call",
+      "key": "scene-talk.follow-accept.understood-whether-to-keep-running-in-place-is-your-call",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Understood. Whether to run for {office} is your call.",
+      "text": "Understood. Whether to keep running in {place} is your call.",
       "uses": [
         {
           "subject": "scene",
@@ -54633,7 +54657,7 @@
           "move": "accept",
           "role": "asker",
           "after": "deflect",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "calm",
@@ -54646,10 +54670,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fine-you-know-the-town-and-the-petition-for-office-is-yours",
+      "key": "scene-talk.follow-accept.fine-you-know-place-and-the-petition-is-yours",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fine. You know the town, and the petition for {office} is yours.",
+      "text": "Fine. You know {place}, and the petition is yours.",
       "uses": [
         {
           "subject": "scene",
@@ -54659,7 +54683,7 @@
           "move": "accept",
           "role": "asker",
           "after": "deflect",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "warm",
@@ -54672,10 +54696,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.good-bring-the-sheets-for-office-in-before-due",
+      "key": "scene-talk.follow-thank.good-bring-the-sheets-in-before-due",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. Bring the sheets for {office} in before {due}.",
+      "text": "Good. Bring the sheets in before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -54685,7 +54709,9 @@
           "move": "thank",
           "role": "asker",
           "after": "promise",
-          "requiresFacts": ["teller-clerk", "due", "office"]
+          "requiresFacts": ["teller-clerk", "due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -54698,10 +54724,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.good-we-ll-get-office-on-the-ballot-yet",
+      "key": "scene-talk.follow-thank.good-we-ll-get-you-on-the-ballot-in-place-yet",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. We'll get {office} on the ballot yet.",
+      "text": "Good. We'll get you on the ballot in {place} yet.",
       "uses": [
         {
           "subject": "scene",
@@ -54711,7 +54737,7 @@
           "move": "thank",
           "role": "asker",
           "after": "promise",
-          "requiresFacts": ["teller-helper", "office", "due"]
+          "requiresFacts": ["teller-helper", "due", "place"]
         }
       ],
       "bearing": "warm",
@@ -54737,7 +54763,9 @@
           "move": "thank",
           "role": "asker",
           "after": "promise",
-          "requiresFacts": ["teller-clerk", "due"]
+          "requiresFacts": ["teller-clerk", "due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -54750,10 +54778,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.good-that-s-what-the-petition-for-office-needs",
+      "key": "scene-talk.follow-thank.good-that-s-what-the-petition-in-place-needs",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. That's what the petition for {office} needs.",
+      "text": "Good. That's what the petition in {place} needs.",
       "uses": [
         {
           "subject": "scene",
@@ -54763,7 +54791,7 @@
           "move": "thank",
           "role": "asker",
           "after": "promise",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "glad",
@@ -54776,10 +54804,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-petition-for-office-lies-between-you-with-white-space-left-on-it",
+      "key": "scene-talk.narrate-narrate.the-petition-lies-between-you-with-white-space-left-on-it-name-doesn-t-touch-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The petition for {office} lies between you, with white space left on it.",
+      "text": "The petition lies between you, with white space left on it. {name} doesn't touch it.",
       "uses": [
         {
           "subject": "scene",
@@ -54788,7 +54816,7 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["name"]
         }
       ],
       "origin": "authored",
@@ -54800,10 +54828,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.a-few-names-are-on-the-petition-for-office-most-of-the-page-is-empty",
+      "key": "scene-talk.narrate-narrate.a-few-names-are-on-the-petition-in-front-of-name-most-of-the-page-is-empty",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "A few names are on the petition for {office}. Most of the page is empty.",
+      "text": "A few names are on the petition in front of {name}. Most of the page is empty.",
       "uses": [
         {
           "subject": "scene",
@@ -54812,7 +54840,8 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "requiresFacts": ["started", "office"]
+          "requiresFacts": ["name"],
+          "excludesFacts": []
         }
       ],
       "origin": "authored",
@@ -54824,10 +54853,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-petition-for-office-lies-blank-in-front-of-you",
+      "key": "scene-talk.narrate-narrate.the-petition-lies-blank-in-front-of-you-and-name",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The petition for {office} lies blank in front of you.",
+      "text": "The petition lies blank in front of you and {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -54836,7 +54865,7 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "requiresFacts": ["not-started", "office"]
+          "requiresFacts": ["not-started", "name"]
         }
       ],
       "origin": "authored",
@@ -54923,10 +54952,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-sheets-for-office-sit-open-on-the-counter-and-most-of-the-lines-are-still-em",
+      "key": "scene-talk.narrate-narrate.the-sheets-sit-open-on-the-counter-in-front-of-name-and-most-of-the-lines-are-still-empt",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "The sheets for {office} sit open on the counter, and most of the lines are still empty.",
+      "text": "The sheets sit open on the counter in front of {name}, and most of the lines are still empty.",
       "uses": [
         {
           "subject": "scene",
@@ -54935,7 +54964,7 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["name"]
         }
       ],
       "bearing": "calm",
@@ -54965,7 +54994,9 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["teller-clerk", "office", "not-started", "due"]
+          "requiresFacts": ["teller-clerk", "office", "not-started", "due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": []
         }
       ],
       "bearing": "calm",
@@ -54995,7 +55026,9 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["teller-clerk", "office", "due"]
+          "requiresFacts": ["teller-clerk", "office", "due"],
+          "setsFacts": ["due-said"],
+          "excludesFacts": []
         }
       ],
       "bearing": "firm",
@@ -55043,10 +55076,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-promise.give-me-the-sheets-i-ll-work-the-neighborhoods-this-week-for-office",
+      "key": "scene-talk.reply-promise.give-me-the-sheets-i-ll-work-the-neighborhoods-of-place-this-week",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Give me the sheets. I'll work the neighborhoods this week for {office}.",
+      "text": "Give me the sheets. I'll work the neighborhoods of {place} this week.",
       "uses": [
         {
           "subject": "scene",
@@ -55055,7 +55088,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "after": "tell"
         },
         {
@@ -55094,10 +55127,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-call-everyone-who-said-they-d-sign-for-office-starting-today",
+      "key": "scene-talk.reply-promise.i-ll-call-everyone-in-place-who-said-they-d-sign-starting-today",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll call everyone who said they'd sign for {office}, starting today.",
+      "text": "I'll call everyone in {place} who said they'd sign, starting today.",
       "uses": [
         {
           "subject": "scene",
@@ -55106,7 +55139,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "after": "tell"
         },
         {
@@ -55145,10 +55178,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-deflect.i-m-not-sure-office-is-the-right-race-for-me-yet-hold-the-sheets-until-i-am",
+      "key": "scene-talk.reply-deflect.i-m-not-sure-this-is-the-right-race-for-me-yet-hold-the-sheets-until-i-am-and-i-ll-tell-",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I'm not sure {office} is the right race for me yet. Hold the sheets until I am.",
+      "text": "I'm not sure this is the right race for me yet. Hold the sheets until I am, and I'll tell you before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -55157,8 +55190,9 @@
           "step": "reply",
           "move": "deflect",
           "role": "asked",
-          "requiresFacts": ["office"],
-          "after": "tell"
+          "requiresFacts": ["due"],
+          "after": "tell",
+          "setsFacts": ["due-said"]
         },
         {
           "subject": "scene",
@@ -55196,10 +55230,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-thank.that-s-what-i-hoped-get-the-sheets-for-office-full-and-bring-them-in",
+      "key": "scene-talk.follow-thank.that-s-what-i-hoped-get-the-sheets-full-and-bring-them-in-before-due",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's what I hoped. Get the sheets for {office} full and bring them in.",
+      "text": "That's what I hoped. Get the sheets full and bring them in before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -55208,8 +55242,10 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["office"],
-          "after": "promise"
+          "requiresFacts": ["due"],
+          "after": "promise",
+          "excludesFacts": ["due-said"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "glad",
@@ -55240,7 +55276,9 @@
           "move": "accept",
           "role": "asker",
           "requiresFacts": ["due"],
-          "after": "deflect"
+          "after": "deflect",
+          "excludesFacts": ["due-said"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -55258,10 +55296,10 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.a-stamp-comes-down-hard-on-the-first-page-your-filing-for-office-is-on-the-recor",
+      "key": "scene-talk.narrate-narrate.a-stamp-comes-down-hard-on-the-first-page-name-slides-the-folder-back-across-the-counter",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "A stamp comes down hard on the first page. Your filing for {office} is on the record now.",
+      "text": "A stamp comes down hard on the first page. {name} slides the folder back across the counter.",
       "uses": [
         {
           "subject": "scene",
@@ -55270,7 +55308,7 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["name"]
         }
       ],
       "bearing": "calm",
@@ -55288,10 +55326,10 @@
       ]
     },
     {
-      "key": "scene-talk.narrate-narrate.you-hand-over-the-folder-for-office-the-clerk-checks-every-page-before-saying-a",
+      "key": "scene-talk.narrate-narrate.you-hand-over-the-folder-clerk-checks-every-page-before-saying-a-word",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "You hand over the folder for {office}. The clerk checks every page before saying a word.",
+      "text": "You hand over the folder. {clerk} checks every page before saying a word.",
       "uses": [
         {
           "subject": "scene",
@@ -55300,7 +55338,7 @@
           "step": "narrate",
           "move": "narrate",
           "role": "narrator",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["clerk"]
         }
       ],
       "bearing": "calm",
@@ -55330,7 +55368,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["office", "signatures", "due"]
+          "requiresFacts": ["office", "signatures", "due"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -55360,7 +55399,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["office", "signatures", "due"]
+          "requiresFacts": ["office", "signatures", "due"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -55390,7 +55430,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["office", "signatures", "due"]
+          "requiresFacts": ["office", "signatures", "due"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -55420,7 +55461,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["office", "signatures", "due"]
+          "requiresFacts": ["office", "signatures", "due"],
+          "setsFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -55468,10 +55510,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.understood-i-ll-have-the-names-for-office-in-before-due",
+      "key": "scene-talk.reply-agree.understood-i-ll-have-the-names-in-before-due",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Understood. I'll have the names for {office} in before {due}.",
+      "text": "Understood. I'll have the names in before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -55480,7 +55522,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office", "due"]
+          "requiresFacts": ["due"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "calm",
@@ -55498,10 +55541,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.thanks-i-ll-start-collecting-for-office-today",
+      "key": "scene-talk.reply-agree.thanks-i-ll-start-collecting-names-in-place-today",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Thanks. I'll start collecting for {office} today.",
+      "text": "Thanks. I'll start collecting names in {place} today.",
       "uses": [
         {
           "subject": "scene",
@@ -55510,7 +55553,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "calm",
@@ -55528,10 +55571,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.who-counts-as-a-valid-signer-for-office-anyone-in-town",
+      "key": "scene-talk.reply-ask.who-counts-as-a-valid-signer-anyone-in-place",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Who counts as a valid signer for {office}? Anyone in town?",
+      "text": "Who counts as a valid signer? Anyone in {place}?",
       "uses": [
         {
           "subject": "scene",
@@ -55540,7 +55583,7 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "curious",
@@ -55558,10 +55601,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.what-happens-if-i-m-a-few-names-short-for-office-on-due",
+      "key": "scene-talk.reply-ask.what-happens-if-i-m-a-few-names-short-on-due",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What happens if I'm a few names short for {office} on {due}?",
+      "text": "What happens if I'm a few names short on {due}?",
       "uses": [
         {
           "subject": "scene",
@@ -55570,7 +55613,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["office", "due"]
+          "requiresFacts": ["due"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "curious",
@@ -55588,10 +55632,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.can-the-sheets-for-office-be-turned-in-early-a-few-at-a-time",
+      "key": "scene-talk.reply-ask.can-the-sheets-be-turned-in-early-a-few-at-a-time-before-due",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Can the sheets for {office} be turned in early, a few at a time?",
+      "text": "Can the sheets be turned in early, a few at a time, before {due}?",
       "uses": [
         {
           "subject": "scene",
@@ -55600,7 +55644,8 @@
           "step": "reply",
           "move": "ask",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["due"],
+          "excludesFacts": ["due-said"]
         }
       ],
       "bearing": "curious",
@@ -55618,10 +55663,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-confront.that-s-a-lot-to-ask-for-office-who-decided-how-many-names-it-takes",
+      "key": "scene-talk.reply-confront.that-s-a-lot-to-ask-in-place-who-decided-how-many-names-it-takes",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "That's a lot to ask for {office}. Who decided how many names it takes?",
+      "text": "That's a lot to ask in {place}. Who decided how many names it takes?",
       "uses": [
         {
           "subject": "scene",
@@ -55630,7 +55675,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "firm",
@@ -55648,10 +55693,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-confront.is-this-really-how-a-regular-person-gets-on-the-ballot-for-office",
+      "key": "scene-talk.reply-confront.is-this-really-how-a-regular-person-gets-on-the-ballot-in-place",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Is this really how a regular person gets on the ballot for {office}?",
+      "text": "Is this really how a regular person gets on the ballot in {place}?",
       "uses": [
         {
           "subject": "scene",
@@ -55660,7 +55705,7 @@
           "step": "reply",
           "move": "confront",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "firm",
@@ -55678,10 +55723,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.i-have-to-go-i-ll-bring-the-sheets-for-office-when-i-have-them",
+      "key": "scene-talk.reply-leave.i-have-to-go-i-ll-bring-the-sheets-back-before-due",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to go. I'll bring the sheets for {office} when I have them.",
+      "text": "I have to go. I'll bring the sheets back before {due}.",
       "uses": [
         {
           "subject": "scene",
@@ -55690,7 +55735,7 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["due"]
         }
       ],
       "bearing": "guarded",
@@ -55708,10 +55753,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-leave.i-ve-got-what-i-need-for-office-thank-you",
+      "key": "scene-talk.reply-leave.i-ve-got-what-i-need-to-start-in-place-thank-you",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I've got what I need for {office}. Thank you.",
+      "text": "I've got what I need to start in {place}. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -55720,7 +55765,7 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "guarded",
@@ -55738,10 +55783,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-thank.glad-to-have-your-papers-for-office-don-t-wait-on-the-names",
+      "key": "scene-talk.follow-thank.glad-to-have-your-papers-don-t-wait-on-the-names-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Glad to have your papers for {office}. Don't wait on the names.",
+      "text": "Glad to have your papers. Don't wait on the names in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -55750,7 +55795,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "after": "agree"
         }
       ],
@@ -55769,10 +55814,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.short-on-the-last-day-means-the-petition-for-office-doesn-t-count-i-can-t-bend-t",
+      "key": "scene-talk.follow-answer.short-on-the-last-day-means-the-petition-doesn-t-count-i-can-t-bend-that-for-anyone-in-p",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Short on the last day means the petition for {office} doesn't count. I can't bend that.",
+      "text": "Short on the last day means the petition doesn't count. I can't bend that for anyone in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -55781,7 +55826,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "after": "ask"
         }
       ],
@@ -55800,10 +55845,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.yes-you-can-bring-sheets-in-as-you-go-for-office-it-saves-a-rush-on-the-last-day",
+      "key": "scene-talk.follow-answer.yes-you-can-bring-sheets-in-as-you-go-it-saves-a-rush-on-the-last-day-in-place",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Yes, you can bring sheets in as you go for {office}. It saves a rush on the last day.",
+      "text": "Yes, you can bring sheets in as you go. It saves a rush on the last day in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -55812,7 +55857,7 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "after": "ask"
         }
       ],
@@ -55831,10 +55876,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-refuse.the-rule-for-office-is-set-by-the-state-not-by-me-i-can-only-tell-you-what-it-is",
+      "key": "scene-talk.follow-refuse.the-rule-is-set-by-the-state-not-by-me-i-only-take-the-sheets-in-place",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "The rule for {office} is set by the state, not by me. I can only tell you what it is.",
+      "text": "The rule is set by the state, not by me. I only take the sheets in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -55843,7 +55888,7 @@
           "step": "follow",
           "move": "refuse",
           "role": "asker",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "after": "confront"
         }
       ],
@@ -55862,10 +55907,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-refuse.i-understand-it-s-a-lot-the-requirement-for-office-stays-as-it-is",
+      "key": "scene-talk.follow-refuse.i-understand-it-s-a-lot-the-requirement-stays-as-it-is-for-everyone-in-place",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "I understand it's a lot. The requirement for {office} stays as it is.",
+      "text": "I understand it's a lot. The requirement stays as it is for everyone in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -55874,7 +55919,7 @@
           "step": "follow",
           "move": "refuse",
           "role": "asker",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "after": "confront"
         }
       ],
@@ -55893,10 +55938,10 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.alright-the-rule-for-office-is-the-rule-i-ll-work-with-it",
+      "key": "scene-talk.reply-agree.alright-the-rule-is-the-rule-i-ll-work-with-it-and-gather-names-in-place",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, the rule for {office} is the rule. I'll work with it.",
+      "text": "Alright, the rule is the rule. I'll work with it and gather names in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -55905,7 +55950,7 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["place"],
           "after": "refuse"
         }
       ],
@@ -95331,10 +95376,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-work-to-earn-it-in-the-race-for-office",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-work-to-earn-it-in-place",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll work to earn it in the race for {office}.",
+      "text": "Thank you. I'll work to earn it in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -95343,7 +95388,7 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "glad",
@@ -95391,10 +95436,10 @@
       ]
     },
     {
-      "key": "scene-talk.follow-answer.i-live-in-place-and-i-decided-it-was-time-to-run-for-office",
+      "key": "scene-talk.follow-answer.i-live-in-place-and-i-decided-it-was-time-to-run",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I live in {place}, and I decided it was time to run for {office}.",
+      "text": "I live in {place}, and I decided it was time to run.",
       "uses": [
         {
           "subject": "scene",
@@ -95403,8 +95448,8 @@
           "step": "follow",
           "move": "answer",
           "role": "asker",
-          "requiresFacts": ["office", "place"],
-          "after": "scene-talk.reply-ask.what-did-you-do-before-you-decided-to-run-for-office"
+          "requiresFacts": ["place"],
+          "after": "scene-talk.reply-ask.what-did-you-do-in-place-before-you-decided-to-run"
         }
       ],
       "bearing": "calm",
@@ -95418,6 +95463,37 @@
       "elements": [
         "door-ask-is-what-should-the-office-do",
         "door-on-a-small-town-street"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-come-back-when-you-have-all-signatures-names-and-we-ll-take-them-before-it-s-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. Come back when you have all {signatures} names, and we'll take them before it's due.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "follow-accept",
+          "role": "asker",
+          "requiresFacts": ["signatures"],
+          "after": "leave"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
+        "filing-the-first-time-is-new-to-the-clerk",
+        "petition-struck-names-decide-it"
       ]
     }
   ]

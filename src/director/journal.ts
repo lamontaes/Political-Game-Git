@@ -1905,7 +1905,7 @@ function journalTold(
     // illness), as the row says; never a race or their own child's birth.
     // Never "When I was 0": a moment in the first year of life is told
     // without its age (Oakwood, seed d3e8d77bc357f92b, W3 on Nov 24).
-    if (young && row.framesAge && age > 0) {
+    if (young && row.framesAge && age > zero) {
       const frame = render(
         { part: "memoir", field: "whenAge" },
         {
