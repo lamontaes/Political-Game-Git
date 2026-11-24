@@ -2467,24 +2467,11 @@ body:not(.dev) .dev-only {
   text-align: left;
   cursor: pointer;
 }
-/* A toast leaves by itself: it holds, then fades out over its last second. Its close
-   control and its story stay clickable for as long as it shows (ui/toast.mjs). */
+/* A toast stays until the player opens or closes it (ui/toast.mjs). */
 .toast {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
-}
-.toast.fading {
-  animation: toast-fade var(--toast-seconds) linear forwards;
-}
-@keyframes toast-fade {
-  0%,
-  88% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
 }
 #news-reader {
   inset: var(--gutter) var(--gutter) var(--gutter) calc(var(--gutter) + 300px);
