@@ -3293,6 +3293,710 @@
       }
     },
     {
+      "key": "news.conditions.the-jobless-rate-in-place-rose-to-percent-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "The jobless rate in {place} rose to {percent} from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-people-in-place-are-out-of-work-the-rate-is-percent-up-",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More people in {place} are out of work: the rate is {percent}, up from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-is-at-percent-unemployment-up-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} is at {percent} unemployment, up from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.the-share-of-place-workers-without-a-job-climbed-to-percent-",
+      "move": "conditions",
+      "kind": "written",
+      "text": "The share of {place} workers without a job climbed to {percent}, from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.the-jobless-rate-in-place-fell-to-percent-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "The jobless rate in {place} fell to {percent} from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-people-in-place-are-out-of-work-the-rate-is-percent-do",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer people in {place} are out of work: the rate is {percent}, down from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-is-at-percent-unemployment-down-from-from",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} is at {percent} unemployment, down from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.the-share-of-place-workers-without-a-job-dropped-to-percent-",
+      "move": "conditions",
+      "kind": "written",
+      "text": "The share of {place} workers without a job dropped to {percent}, from {from}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.break-ins-rose-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Break-ins rose in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.police-in-place-saw-more-break-ins-this-month-than-the-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Police in {place} saw more break-ins this month than the month before.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.there-were-more-burglaries-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "There were more burglaries in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.break-ins-fell-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Break-ins fell in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.police-in-place-saw-fewer-break-ins-this-month-than-the-mont",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Police in {place} saw fewer break-ins this month than the month before.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.there-were-fewer-burglaries-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "There were fewer burglaries in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["burglary", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.robberies-rose-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Robberies rose in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-more-robberies-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw more robberies this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-people-in-place-were-robbed-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More people in {place} were robbed this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.robberies-fell-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Robberies fell in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-fewer-robberies-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw fewer robberies this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-people-in-place-were-robbed-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer people in {place} were robbed this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["robbery", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.assaults-rose-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Assaults rose in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-assaults-were-reported-in-place-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More assaults were reported in {place} this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-a-rise-in-assaults-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw a rise in assaults this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.assaults-fell-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Assaults fell in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-assaults-were-reported-in-place-this-month-than-last",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer assaults were reported in {place} this month than last.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-a-drop-in-assaults-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw a drop in assaults this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["assault", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.vandalism-rose-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Vandalism rose in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.more-cases-of-vandalism-were-reported-in-place-than-last-mon",
+      "move": "conditions",
+      "kind": "written",
+      "text": "More cases of vandalism were reported in {place} than last month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-a-rise-in-vandalism-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw a rise in vandalism this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.vandalism-fell-in-place-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Vandalism fell in {place} this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.fewer-cases-of-vandalism-were-reported-in-place-than-last-mo",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Fewer cases of vandalism were reported in {place} than last month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.place-police-saw-a-drop-in-vandalism-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} police saw a drop in vandalism this month.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["vandalism", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.rate.the-federal-reserve-moved-its-rate-up-to-percent-on",
       "move": "rate",
       "kind": "written",
