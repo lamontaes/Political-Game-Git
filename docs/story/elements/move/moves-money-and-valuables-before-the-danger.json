@@ -1,0 +1,17 @@
+{
+  "id": "moves-money-and-valuables-before-the-danger",
+  "kind": "move",
+  "summary": "In a danger the writer moves what they own to a friend's house and sleeps near their work.",
+  "realLife": "In the Great Fire, Pepys moved his money and plate to a friend's house and slept in the office.",
+  "sources": [
+    "Diary of Samuel Pepys, September 1666 (the Great Fire), Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1666/September"
+  ],
+  "fits": ["journal"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "needs: a household emergency record (fire, flood) that moves what the person owns.",
+  "weights": {
+    "money": 0.5
+  },
+  "usedBy": []
+}

@@ -1,0 +1,17 @@
+{
+  "id": "children-going-to-school-noted",
+  "kind": "move",
+  "summary": "A diary notes in passing that the children went to school.",
+  "realLife": "Young recorded the children going to school among his other entries.",
+  "sources": [
+    "Kansas Historical Quarterly, A Hoosier in Kansas: the diary of Hiram H. Young, 1890 to 1891: https://www.kansashistory.gov/p/kansas-historical-quarterly-a-hoosier-in-kansas-2/13032"
+  ],
+  "fits": ["journal"],
+  "slots": ["school"],
+  "gates": [],
+  "inGame": "`school:`, `household:school-started:elementary`, `household:school-started:high`.",
+  "weights": {
+    "family": 0.5
+  },
+  "usedBy": []
+}

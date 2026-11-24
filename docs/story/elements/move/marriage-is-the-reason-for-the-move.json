@@ -1,0 +1,17 @@
+{
+  "id": "marriage-is-the-reason-for-the-move",
+  "kind": "move",
+  "summary": "A woman's move is given as following her engagement.",
+  "realLife": "Stohldorf moved to Minnesota in March 1914 when she became engaged.",
+  "sources": [
+    "University of Minnesota Morris, Zola Stohldorf oral history, about 1977: https://digitalcommons.morris.umn.edu/kmrs/87"
+  ],
+  "fits": ["journal"],
+  "slots": ["age_then"],
+  "gates": [],
+  "inGame": "`household:partners-met` and `moved` together; the `memoir-movedAge` line reads the age.",
+  "weights": {
+    "home": 0.6
+  },
+  "usedBy": []
+}

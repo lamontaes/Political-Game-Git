@@ -1,0 +1,17 @@
+{
+  "id": "ends-the-entry-on-bed",
+  "kind": "move",
+  "summary": "A diary entry often ends with the writer going to bed.",
+  "realLife": "Pepys ended coronation day by going to bed after the evening's drinking.",
+  "sources": [
+    "Diary of Samuel Pepys, April 1661 (coronation day, 23 April), Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1661/April"
+  ],
+  "fits": ["journal"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "The `ahead` move of the first evening ('Tomorrow...'); no record needed beyond the day.",
+  "weights": {
+    "night": 0.4
+  },
+  "usedBy": []
+}

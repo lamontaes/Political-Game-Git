@@ -1,0 +1,16 @@
+{
+  "id": "plain-first-person-past-tense-diary",
+  "kind": "voice",
+  "summary": "A diary states what happened in short past-tense statements by the writer: where they went, who they met, what they paid.",
+  "realLife": "Pepys's entries are first person and past tense, in short statements about where he went, who he saw and what he spent.",
+  "sources": [
+    "Diary of Samuel Pepys, May 1660, Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1660/May",
+    "Diary of Samuel Pepys, January 1660, Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1660/January"
+  ],
+  "fits": ["journal"],
+  "slots": [],
+  "gates": [],
+  "inGame": "The Journal's voice for every entry kind; the journal rows already read first person.",
+  "weights": {},
+  "usedBy": []
+}

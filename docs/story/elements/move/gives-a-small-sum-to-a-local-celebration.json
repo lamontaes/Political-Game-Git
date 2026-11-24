@@ -1,0 +1,17 @@
+{
+  "id": "gives-a-small-sum-to-a-local-celebration",
+  "kind": "move",
+  "summary": "A diary notes a small sum given toward a public celebration.",
+  "realLife": "On 29 May 1660 Pepys gave Deal's people twenty shillings for their bonfire.",
+  "sources": [
+    "Diary of Samuel Pepys, May 1660, Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1660/May"
+  ],
+  "fits": ["journal"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "needs: a record of a small gift to a public occasion; the money engine holds gifts to causes, not celebrations.",
+  "weights": {
+    "money": 0.3
+  },
+  "usedBy": []
+}

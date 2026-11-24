@@ -1,0 +1,17 @@
+{
+  "id": "sales-listed-with-the-price-got",
+  "kind": "move",
+  "summary": "A work entry lists what was sold and for how much.",
+  "realLife": "Hiram Young recorded crop and hog sales with the prices he got.",
+  "sources": [
+    "Kansas Historical Quarterly, A Hoosier in Kansas: the diary of Hiram H. Young, 1893: https://www.kansashistory.gov/p/a-hoosier-in-kansas-the-diary-of-hiram-h-young-4/13049"
+  ],
+  "fits": ["journal"],
+  "slots": ["wage", "employer"],
+  "gates": [],
+  "inGame": "`job-started`, `job-ended` and `unpaid-wages` rows; the pay is the wage record.",
+  "weights": {
+    "money": 0.6
+  },
+  "usedBy": []
+}
