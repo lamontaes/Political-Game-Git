@@ -3473,7 +3473,8 @@ function billEstimate(paper, section) {
   // again; a section that changes a rule and no amount says so.
   const shown = lines.filter(Boolean);
   return {
-    prose: shown.length || compare ? "" : (words.noFigure ?? ""),
+    // A section with no figure says nothing: no line, and the strip is hidden when it is empty.
+    prose: "",
     lines: shown,
     compare,
     // A phase-in's step: the paper lists every step beside the others, in order.
