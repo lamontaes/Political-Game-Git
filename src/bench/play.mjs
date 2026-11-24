@@ -7638,7 +7638,13 @@ async function enterAs(life, personId) {
  */
 function playLoadingStory(story) {
   const panel = $("loading-story");
-  const years = story?.years ?? [];
+  // The journal rolls: each year's lines are added under the heading, which
+  // names the newest year with something to tell. A year with nothing to
+  // tell (the start year, when no line falls in it) is counted past and never
+  // becomes the heading over older lines.
+  const years = (story?.years ?? []).filter(
+    (year) => year.lines.length || year.headlines.length,
+  );
   if (!years.length) return Promise.resolve();
   const journal = $("loading-journal");
   journal.replaceChildren();
