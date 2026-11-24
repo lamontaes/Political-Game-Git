@@ -1,7 +1,6 @@
 ---
 id: red-main-partnerships-opening-cash
-impact: patch
-section: Fixed
+impact: none
 ---
 
-A test of the partnership writer now checks that a union moves no money, rather than that every partner opens with none.
+The partnership writer test now checks that a union moves no money, not that every partner opens with none.
