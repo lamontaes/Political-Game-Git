@@ -3784,6 +3784,175 @@
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.you-were-still-too-young-for-school-when-the-family-left-moved-from-for-moved-to",
+      "move": "moved",
+      "kind": "written",
+      "text": "You were still too young for school when the family left {moved-from} for {moved-to} in {moved-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-before-school"
+          ]
+        }
+      ],
+      "elements": ["a-move-changes-the-school"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.the-move-from-moved-from-to-moved-to-came-in-moved-year-before-you-started-schoo",
+      "move": "moved",
+      "kind": "written",
+      "text": "The move from {moved-from} to {moved-to} came in {moved-year}, before you started school.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-before-school"
+          ]
+        }
+      ],
+      "elements": ["a-move-changes-the-school"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.in-moved-year-the-family-moved-to-moved-to-you-had-not-started-school-yet",
+      "move": "moved",
+      "kind": "written",
+      "text": "In {moved-year} the family moved to {moved-to}. You had not started school yet.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-before-school"
+          ]
+        }
+      ],
+      "elements": ["a-move-changes-the-school"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.you-moved-from-moved-from-to-moved-to-in-moved-year-before-your-first-day-of-sch",
+      "move": "moved",
+      "kind": "written",
+      "text": "You moved from {moved-from} to {moved-to} in {moved-year}, before your first day of school.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-before-school"
+          ]
+        }
+      ],
+      "elements": ["a-move-changes-the-school"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.moved.school-came-after-the-move-the-family-left-moved-from-for-moved-to-in-moved-year",
+      "move": "moved",
+      "kind": "written",
+      "text": "School came after the move: the family left {moved-from} for {moved-to} in {moved-year}, and the first classroom was a new one.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "moved",
+          "tie": "record",
+          "requiresFacts": [
+            "moved-year",
+            "moved-from",
+            "moved-to",
+            "moved-before-school"
+          ]
+        }
+      ],
+      "elements": ["a-move-changes-the-school"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.you-finished-school-and-started-college-in-the-same-year-college-year",
+      "move": "college",
+      "kind": "written",
+      "text": "You finished school and started college in the same year, {college-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year", "college-same-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.college-year-a-high-school-diploma-and-a-college-enrollment-in-the-same-year",
+      "move": "college",
+      "kind": "written",
+      "text": "{college-year}: a high school diploma and a college enrollment in the same year.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year", "college-same-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-loading.college.in-college-year-you-graduated-and-started-college-one-right-after-the-other",
+      "move": "college",
+      "kind": "written",
+      "text": "In {college-year} you graduated and started college, one right after the other.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "college",
+          "tie": "record",
+          "requiresFacts": ["college-year", "college-same-year"]
+        }
+      ],
+      "elements": ["college-is-paid-for-in-grants-and-loans"],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24"
     }
   ]
 }
