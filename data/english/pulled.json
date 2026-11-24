@@ -3,10 +3,35 @@
   "pulled": {
     "outline-talk.lead.talk-address-point-about-got-a-flat-no-from-president": [
       "plain-american-spelling-and-phrasing"
+    ],
+    "scene-talk-office.state-deliver-news.the-road-line-lost-cut-give-me-a-chance-to-price-the-work-under-the-pavement-before-you-call-that-a-saving": [
+      "plain-american-spelling-and-phrasing"
+    ],
+    "scene-talk-office.state-deliver-news.would-it-help-if-i-put-a-road-cross-section-beside-the-request-for-still-needed-you-could-see-which-costs-run-below-the-pavement": [
+      "plain-american-spelling-and-phrasing"
     ]
   },
-  "waiting": {},
+  "waiting": {
+    "scene-talk-office.follow-answer.i-d-start-with-a-cross-section-you-can-see-the-pavement-from-your-car-you-can-t-see-what-holds-it-up": [
+      "plain-american-spelling-and-phrasing"
+    ]
+  },
   "sample": {
+    "scene-talk-office.follow-accept.all-right-i-ll-have-to-price-a-shorter-stretch-if-the-work-underneath-still-has-to-be-done": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk-office.follow-accept.all-right-if-somebody-asks-why-their-block-has-to-wait-i-ll-make-sure-they-can-reach-you": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk-office.follow-accept.all-right-the-part-you-put-back-stays-in-our-plan-i-ll-take-the-balance-off-today-s-council-request": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk-office.follow-accept.then-i-ll-work-with-what-s-left-for-line": [
+      "alright-in-dialogue"
+    ],
+    "scene-talk-office.follow-accept.understood-i-ll-work-from-the-revised-budget-for-line": [
+      "alright-in-dialogue"
+    ],
     "scene-talk.close-accept.all-right-i-ll-go-and-i-won-t-push-in-place": [
       "alright-in-dialogue"
     ],

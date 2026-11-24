@@ -14,3 +14,5 @@ The scene introduction identifies the affected department. In the conversation, 
 When a vote empties the road account and it is still empty at the visit, the director can ask what to tell residents waiting for a paving date. The mayor can seek the full appropriation, leave the account empty, or offer half. A later deposit changes which conversation is available.
 
 After the mayor answers, the director can tell callers what happens before a paving date is set, keep an unfunded job off the bid calendar, or price the work that a smaller amendment could finish.
+
+The mayor can ask the director what can be priced before bids go out, how to distinguish a request from a scheduled job, or whether another fund can pay. The next choice responds to the director’s answer.
