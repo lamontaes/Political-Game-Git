@@ -657,13 +657,70 @@
     "MN": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/382.01",
+        "note": "Minn. Stat. 382.01: \"a county auditor, a county treasurer, sheriff, county recorder, county attorney, and coroner\" are filled \"by election every four years\", for a term of \"four years\", \"unless an office is consolidated with another county office or made appointive under chapter 375A or other general or special law\"; which counties did so was not read.",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/382.01",
+        "note": "Minn. Stat. 382.01: \"a county auditor, a county treasurer, sheriff, county recorder, county attorney, and coroner\" are filled \"by election every four years\", for a term of \"four years\", \"unless an office is consolidated with another county office or made appointive under chapter 375A or other general or special law\"; which counties did so was not read.",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/382.01",
+        "note": "Minn. Stat. 382.01: \"a county auditor, a county treasurer, sheriff, county recorder, county attorney, and coroner\" are filled \"by election every four years\", for a term of \"four years\", \"unless an office is consolidated with another county office or made appointive under chapter 375A or other general or special law\"; which counties did so was not read.",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/382.01",
+        "note": "Minn. Stat. 382.01: \"a county auditor, a county treasurer, sheriff, county recorder, county attorney, and coroner\" are filled \"by election every four years\", for a term of \"four years\", \"unless an office is consolidated with another county office or made appointive under chapter 375A or other general or special law\"; which counties did so was not read.",
+        "termYears": 4
       }
     },
     "MO": {
       "prosecutor": {
         "title": "Prosecuting attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://www.revisor.mo.gov/main/OneSection.aspx?section=56.010",
+        "note": "RSMo 56.010: \"there shall be elected in each county of this state a prosecuting attorney\", who \"shall hold his office for four years\".",
+        "termYears": 4
+      },
+      "sheriff": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=57.010",
+        "note": "RSMo 57.010 (effective Aug 28, 2025): \"the voters in every county in this state shall elect some suitable person sheriff\", at \"each general election held every four years thereafter\".",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/missouri/2017/title-vi/chapter-54/section-54.010/",
+        "note": "RSMo 54.010: counties of every class \"elect a county treasurer\" at a general election \"and every four years thereafter\"; a third or fourth class county with township organization elects \"a county collector-treasurer\" instead.",
+        "termYears": 4
+      },
+      "coroner": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/missouri/2018/title-vi/chapter-58/section-58.020/",
+        "note": "RSMo 58.020 (Justia 2018 copy, which notes a newer version exists): \"in each county in this state in which a coroner is to be elected\" the voters \"shall elect a coroner\", for \"a term of four years\". Which counties have no elected coroner was not read.",
+        "termYears": 4
+      },
+      "assessor": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/missouri/title-vi/chapter-53/section-53-010/",
+        "note": "RSMo 53.010: \"the qualified voters in each county in this state shall elect a county assessor\", for \"a term of four years\"; \"this section shall not apply to the City of St. Louis\".",
+        "termYears": 4
       }
     },
     "MS": {
@@ -821,7 +878,18 @@
     "NE": {
       "prosecutor": {
         "title": "County attorney",
-        "titleBasis": "estimated: the state's usual title, not yet read from its law"
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://codes.findlaw.com/ne/chapter-32-elections/ne-rev-st-sect-32-522/",
+        "note": "Neb. Rev. Stat. 32-522: \"Except as provided in section 23-1201.01, a county attorney shall be elected in each county\"; \"The term of the county attorney shall be four years\". Section 23-1201.01 was not read.",
+        "termYears": 4
+      },
+      "treasurer": {
+        "elected": true,
+        "basis": "read",
+        "sourceUrl": "https://law.justia.com/codes/nebraska/chapter-32/statute-32-521/",
+        "note": "Neb. Rev. Stat. 32-521: \"A county treasurer shall be elected in each county\"; \"The term of the county treasurer shall be four years\".",
+        "termYears": 4
       }
     },
     "NH": {
