@@ -28,5 +28,6 @@
       "pulledBy": "an item of procedure with no effect on residents",
       "writes": "the story ends on the next step instead"
     }
-  ]
+  ],
+  "inGame": "the bill's `purpose`, `law-reach` and `law-purpose` rows; needs: a household count"
 }

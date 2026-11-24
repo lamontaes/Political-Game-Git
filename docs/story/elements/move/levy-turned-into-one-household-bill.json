@@ -29,5 +29,6 @@
       "pulledBy": "a rate that did not change",
       "writes": "the story says the rate stayed where it was"
     }
-  ]
+  ],
+  "inGame": "`budget-adopted`, `budget-spending` and `law-amount` rows (measure, from, to); the household records for a typical bill; needs: a household example"
 }

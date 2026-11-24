@@ -25,5 +25,6 @@
       "pulledBy": "an official at the center",
       "writes": "the headline is the person and the act"
     }
-  ]
+  ],
+  "inGame": "every news row's headline kind (`headlines.json` by kind); the one planner's headline shape"
 }

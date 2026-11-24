@@ -26,5 +26,6 @@
       "pulledBy": "a business owner closing after many years",
       "writes": "the lede names the owner and the shop"
     }
-  ]
+  ],
+  "inGame": "`organization.closed` and `organization.opened` rows; the filled-in owner; needs: a scene at the shop"
 }

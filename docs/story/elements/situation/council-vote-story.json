@@ -26,5 +26,6 @@
       "pulledBy": "a body that tabled the item",
       "writes": "the story says it was delayed and until when"
     }
-  ]
+  ],
+  "inGame": "`roll-call`, `council-vote`, `member-vote` and `vote-margin` rows; the legislature module"
 }

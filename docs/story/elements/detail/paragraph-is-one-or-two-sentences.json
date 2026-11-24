@@ -35,5 +35,6 @@
       "pulledBy": "a single fact",
       "writes": "a line by itself"
     }
-  ]
+  ],
+  "inGame": "the planner's sentence budget in `outlines.json`; no record needed"
 }

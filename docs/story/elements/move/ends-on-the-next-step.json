@@ -27,5 +27,6 @@
       "pulledBy": "an official or resident with a strong word",
       "writes": "the last line is their quote"
     }
-  ]
+  ],
+  "inGame": "`roll-call-next`, `signed-next` and `committee-next` rows; the next meeting in `meetings-week`"
 }

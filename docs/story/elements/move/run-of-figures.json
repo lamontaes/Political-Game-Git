@@ -27,5 +27,6 @@
       "pulledBy": "a levy or rate",
       "writes": "the story gives the household example instead"
     }
-  ]
+  ],
+  "inGame": "`budget-line`, `budget-spending`, `law-amount` and `rate` rows; the jobs report rows"
 }

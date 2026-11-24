@@ -25,5 +25,6 @@
       "pulledBy": "a board that changed its mind after comment",
       "writes": "the story says what changed it"
     }
-  ]
+  ],
+  "inGame": "the `hearing` and `roll-call` rows for a school body; needs: public comment as a record"
 }

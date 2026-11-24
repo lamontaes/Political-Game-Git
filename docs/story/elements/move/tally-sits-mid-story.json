@@ -26,5 +26,6 @@
       "pulledBy": "a vote by voice or a consent item",
       "writes": "the story says the item passed without a count"
     }
-  ]
+  ],
+  "inGame": "`roll-call` and `vote-margin` rows (count, `by-one`, `lone-vote`, `no-dissent`)"
 }

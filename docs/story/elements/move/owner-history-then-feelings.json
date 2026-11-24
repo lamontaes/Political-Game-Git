@@ -27,5 +27,6 @@
       "pulledBy": "a shop with many regulars",
       "writes": "the story lets a customer speak before the owner does"
     }
-  ]
+  ],
+  "inGame": "the filled-in owner's job history; `organization.closed` and `organization.opened` rows"
 }

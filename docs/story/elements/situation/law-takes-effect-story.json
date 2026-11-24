@@ -26,5 +26,6 @@
       "pulledBy": "a repeal passed earlier",
       "writes": "the story says the old rule no longer applies"
     }
-  ]
+  ],
+  "inGame": "`law-took-effect`, `law`, `law-when` and `law-rule` news rows; the law-in-force table"
 }

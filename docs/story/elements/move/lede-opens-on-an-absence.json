@@ -25,5 +25,6 @@
       "pulledBy": "a hearing where a single resident came",
       "writes": "the lede names that resident and what they asked"
     }
-  ]
+  ],
+  "inGame": "`conditions` rows with `nobody`; the public-comment hearing row (`hearing`); needs: an empty hearing"
 }

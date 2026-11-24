@@ -32,5 +32,6 @@
       "pulledBy": "a meeting that held no vote",
       "writes": "a meetings-week line instead of a vote story"
     }
-  ]
+  ],
+  "inGame": "`roll-call`, `council-vote` and `committee` news rows (body, law, date, count); `law-took-effect`; the inaugural address row"
 }

@@ -26,5 +26,6 @@
       "pulledBy": "a poor first season",
       "writes": "a later closing story names the same owner"
     }
-  ]
+  ],
+  "inGame": "`organization.opened` rows (subject, owner, place, industry); the organizations table"
 }

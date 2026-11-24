@@ -26,5 +26,6 @@
       "pulledBy": "a measure that hits a group that did not show up",
       "writes": "the lede says who was not heard"
     }
-  ]
+  ],
+  "inGame": "`conditions` and `law-amount` rows (who a change reaches); needs: a count of households a measure reaches"
 }

@@ -26,5 +26,6 @@
       "pulledBy": "a repeal of one section",
       "writes": "the story says which part ended"
     }
-  ]
+  ],
+  "inGame": "`law-took-effect` with `ended`; the repeal rows in the law-in-force table"
 }
