@@ -1,0 +1,15 @@
+{
+  "id": "presidents-opening-speaks-beyond-the-town",
+  "kind": "voice",
+  "summary": "A president addresses listeners across the country without assuming they all live in the player’s town.",
+  "realLife": "owner, Nov 16: A national address should keep the speaker’s national audience in view.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L203"
+  ],
+  "inGame": "The inaugural outline selects the national occasion and its address parts.",
+  "fits": ["speeches", "news", "home", "journal"],
+  "slots": ["{president}", "{occasion}"],
+  "gates": ["The speaker is giving the national address."],
+  "weights": [],
+  "usedBy": []
+}

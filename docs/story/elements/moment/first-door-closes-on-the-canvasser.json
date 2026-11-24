@@ -1,0 +1,15 @@
+{
+  "id": "first-door-closes-on-the-canvasser",
+  "kind": "moment",
+  "summary": "A first-time canvasser begins a shift with a door shut in their face.",
+  "realLife": "owner, Nov 14: An abrupt rejection can be someone’s first experience knocking on doors.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: combine a first-outing fact with the resident ending the encounter.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{canvasser}", "{resident}"],
+  "gates": ["This is the canvasser’s first outing."],
+  "weights": [],
+  "usedBy": []
+}

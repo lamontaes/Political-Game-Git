@@ -1,0 +1,15 @@
+{
+  "id": "manager-explains-why-outstanding-votes-fall-short",
+  "kind": "voice",
+  "summary": "A manager explains why even the best possible remaining count would leave their candidate behind.",
+  "realLife": "owner, Nov 14: Answer the candidate’s question about returns with the arithmetic that settles this race.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: an upper bound on uncounted votes compared with the margin.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{manager}", "{contest}"],
+  "gates": ["The outstanding vote cannot cover the deficit."],
+  "weights": [],
+  "usedBy": []
+}

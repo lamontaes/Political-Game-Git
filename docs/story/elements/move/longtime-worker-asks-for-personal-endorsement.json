@@ -1,0 +1,15 @@
+{
+  "id": "longtime-worker-asks-for-personal-endorsement",
+  "kind": "move",
+  "summary": "A campaign worker asks the person they helped elect to back their own run.",
+  "realLife": "owner, Nov 14: Someone who has worked for the player may want an endorsement when they enter politics themselves.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: connect earlier campaign service to the endorsement-ask scene.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{worker}", "{candidate}", "{office}"],
+  "gates": ["The worker’s service and new candidacy are recorded."],
+  "weights": [],
+  "usedBy": []
+}

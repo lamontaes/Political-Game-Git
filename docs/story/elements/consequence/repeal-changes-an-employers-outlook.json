@@ -1,0 +1,15 @@
+{
+  "id": "repeal-changes-an-employers-outlook",
+  "kind": "consequence",
+  "summary": "A business affected by a law has a new decision to make after its repeal.",
+  "realLife": "owner, Nov 15: Follow a repeal through to the industry whose conditions it changes.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L179"
+  ],
+  "inGame": "needs: a played business decision tied to it. lawChain and the dev-law-industries repeal comparison trace a change.",
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{business}", "{law}", "{place}"],
+  "gates": ["A repeal has taken effect and a business impact is established."],
+  "weights": [],
+  "usedBy": []
+}

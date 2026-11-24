@@ -1,0 +1,15 @@
+{
+  "id": "payroll-change-at-a-named-local-industry",
+  "kind": "detail",
+  "summary": "A local industry’s payroll changes after a law takes effect, giving people a concrete effect to discuss.",
+  "realLife": "owner, Nov 15: A story about industry should use its local presence and the change in payroll.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L179"
+  ],
+  "inGame": "needs: a played payroll-attribution read. dev-law-industries compares business and industry figures under the changed law.",
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{industry}", "{place}", "{law}"],
+  "gates": ["The industry operates there and a payroll effect is supported."],
+  "weights": [],
+  "usedBy": []
+}

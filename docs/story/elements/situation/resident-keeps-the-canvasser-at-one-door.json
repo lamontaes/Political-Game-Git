@@ -1,0 +1,15 @@
+{
+  "id": "resident-keeps-the-canvasser-at-one-door",
+  "kind": "situation",
+  "summary": "One resident has so much to say that the canvasser is still there when they meant to move on.",
+  "realLife": "owner, Nov 14: A doorstep visit can last because the resident keeps talking.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: a resident’s extended turn in the door encounter.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{resident}", "{canvasser}"],
+  "gates": ["Both people are still at the door."],
+  "weights": [],
+  "usedBy": []
+}

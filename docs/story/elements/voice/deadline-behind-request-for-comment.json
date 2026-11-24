@@ -1,0 +1,15 @@
+{
+  "id": "deadline-behind-request-for-comment",
+  "kind": "voice",
+  "summary": "A reporter explains the deadline when asking a member to speak on the record.",
+  "realLife": "owner, Nov 14: A deadline can explain why the reporter needs the answer now.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: a story deadline available to the press interview.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{reporter}", "{outlet}", "{deadline}"],
+  "gates": ["The story has a recorded deadline."],
+  "weights": [],
+  "usedBy": []
+}

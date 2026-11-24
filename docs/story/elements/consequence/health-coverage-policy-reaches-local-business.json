@@ -1,0 +1,15 @@
+{
+  "id": "health-coverage-policy-reaches-local-business",
+  "kind": "consequence",
+  "summary": "A change to Medicaid has a different local story depending on the affected industry.",
+  "realLife": "owner, Nov 15: Connect Medicaid changes to the industries and places where they have an effect.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L179"
+  ],
+  "inGame": "needs: a played industry outcome traceable to the Medicaid change; the expansion-match law and law-industry comparison exist.",
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{industry}", "{place}", "{policy}"],
+  "gates": ["The coverage change has a supported local industry effect."],
+  "weights": [],
+  "usedBy": []
+}

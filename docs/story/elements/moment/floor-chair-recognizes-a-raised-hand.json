@@ -1,0 +1,15 @@
+{
+  "id": "floor-chair-recognizes-a-raised-hand",
+  "kind": "moment",
+  "summary": "The presiding officer calls on a member who has asked for the floor.",
+  "realLife": "owner, Nov 14: Let the player see how a colleague got the floor before hearing them speak.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: a floor-debate turn identifying the presiding officer and recognized speaker.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{chair}", "{member}", "{bill}"],
+  "gates": ["The member has sought recognition."],
+  "weights": [],
+  "usedBy": []
+}

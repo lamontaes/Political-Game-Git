@@ -1,0 +1,15 @@
+{
+  "id": "manager-agrees-to-wait-for-candidate",
+  "kind": "voice",
+  "summary": "When the candidate steps outside, the manager lets them know someone will be waiting on their return.",
+  "realLife": "owner, Nov 14: A manager’s reply can acknowledge the candidate’s need for a moment alone.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "The concession reply follows the player’s selected turn in the race-lost scene.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{candidate}", "{manager}"],
+  "gates": ["The candidate has just asked for time alone."],
+  "weights": [],
+  "usedBy": []
+}

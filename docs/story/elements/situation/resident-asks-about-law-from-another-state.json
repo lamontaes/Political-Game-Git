@@ -1,0 +1,17 @@
+{
+  "id": "resident-asks-about-law-from-another-state",
+  "kind": "situation",
+  "summary": "A resident raises a law they have heard about and the member explains where it applies.",
+  "realLife": "owner, Nov 14: A conversation about another state’s law needs to make clear why it matters here.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: a reason this resident raises an out-of-state law. lawInForce and the law chain identify the governing place.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{resident}", "{law}", "{jurisdiction}"],
+  "gates": [
+    "The law’s jurisdiction and the resident’s jurisdiction are known."
+  ],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "undialed-phone-after-the-last-returns",
+  "kind": "detail",
+  "summary": "The manager is holding the phone when the final returns come in and leaves the call to the candidate.",
+  "realLife": "owner, Nov 14: A manager can put the decision to concede in the candidate’s hands.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "The race-lost scene uses the contest result and the campaign manager.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{manager}", "{candidate}", "{contest}"],
+  "gates": ["The final returns show a loss and the call is still outstanding."],
+  "weights": [],
+  "usedBy": []
+}

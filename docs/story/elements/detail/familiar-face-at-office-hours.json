@@ -1,0 +1,15 @@
+{
+  "id": "familiar-face-at-office-hours",
+  "kind": "detail",
+  "summary": "At office hours, a member greets a constituent they already know by first name.",
+  "realLife": "owner, Nov 15: An established acquaintance can be recognized without a fresh introduction.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L159"
+  ],
+  "inGame": "The office-hours encounter draws its counterpart from the constituent case; earlier acquaintance is the required relationship read.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{member}", "{constituent}"],
+  "gates": ["The two have met and the member knows the constituent."],
+  "weights": [],
+  "usedBy": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "set-terms-before-speaking-to-the-paper",
+  "kind": "move",
+  "summary": "A member agrees to answer on condition that the reporter keep their name out of the story.",
+  "realLife": "owner, Nov 14: The player may distinguish speaking for attribution from speaking privately.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: an attribution decision retained by the story writer.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{member}", "{reporter}", "{story}"],
+  "gates": ["The interview permits an attribution agreement."],
+  "weights": [],
+  "usedBy": []
+}

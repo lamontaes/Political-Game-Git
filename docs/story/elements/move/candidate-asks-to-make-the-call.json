@@ -1,0 +1,15 @@
+{
+  "id": "candidate-asks-to-make-the-call",
+  "kind": "move",
+  "summary": "Having heard the returns, the candidate asks the manager to hand over the phone.",
+  "realLife": "owner, Nov 14: The candidate can decide they are ready to speak to the winner.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "The race-lost reply tree carries the candidate’s choice after the manager’s account.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{candidate}", "{manager}", "{winner}"],
+  "gates": ["The candidate accepts the result and chooses to call."],
+  "weights": [],
+  "usedBy": []
+}

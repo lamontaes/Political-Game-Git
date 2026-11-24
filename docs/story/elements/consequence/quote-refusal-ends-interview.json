@@ -1,0 +1,15 @@
+{
+  "id": "quote-refusal-ends-interview",
+  "kind": "consequence",
+  "summary": "When a reporter asks again for permission to quote, the member ends the conversation.",
+  "realLife": "owner, Nov 14: An earlier refusal should affect how the encounter ends if the reporter persists.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: carry the earlier refusal through the follow-up turn and end the interview.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{member}", "{reporter}", "{quote}"],
+  "gates": ["The member has already declined attribution in this interview."],
+  "weights": [],
+  "usedBy": []
+}

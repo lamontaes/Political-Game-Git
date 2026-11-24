@@ -1,0 +1,15 @@
+{
+  "id": "canvass-shift-with-no-conversation",
+  "kind": "situation",
+  "summary": "A petitioner finishes a round of door knocking without having a conversation worth recounting.",
+  "realLife": "owner, Nov 13: A signature-gathering shift can pass quietly despite real work at the doors.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L51"
+  ],
+  "inGame": "The campaign petition and signature-retention mechanics record activity independently of dialogue.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{petitioner}", "{place}"],
+  "gates": ["A canvassing shift has ended."],
+  "weights": [],
+  "usedBy": []
+}

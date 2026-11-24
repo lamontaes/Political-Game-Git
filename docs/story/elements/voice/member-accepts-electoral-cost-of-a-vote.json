@@ -1,0 +1,15 @@
+{
+  "id": "member-accepts-electoral-cost-of-a-vote",
+  "kind": "voice",
+  "summary": "Asked whether a vote could cost support, a member explains why they will stand by it.",
+  "realLife": "owner, Nov 14: A member can answer a question about electoral risk by naming the principle behind a vote.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "press-comment reads the vote and electorateSides for the underlying question.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{member}", "{bill}", "{question}"],
+  "gates": ["There is a recorded vote and evidence of electoral disagreement."],
+  "weights": [],
+  "usedBy": []
+}

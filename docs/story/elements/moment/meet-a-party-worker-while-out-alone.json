@@ -1,0 +1,17 @@
+{
+  "id": "meet-a-party-worker-while-out-alone",
+  "kind": "moment",
+  "summary": "During an ordinary trip, someone introduces themselves as a member of the local party committee.",
+  "realLife": "owner, Nov 15: A chance encounter can give an unaffiliated resident a first personal connection to the party.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L167"
+  ],
+  "inGame": "needs: a chance encounter tied to the party worker’s actual committee role.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{resident}", "{worker}", "{committee}"],
+  "gates": [
+    "The player is out alone and the other person belongs to the committee."
+  ],
+  "weights": [],
+  "usedBy": []
+}

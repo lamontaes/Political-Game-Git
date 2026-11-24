@@ -1,0 +1,15 @@
+{
+  "id": "rally-on-the-way-to-another-engagement",
+  "kind": "moment",
+  "summary": "Two people on their way to meet for coffee find a rally taking place downtown.",
+  "realLife": "owner, Nov 15: A planned outing can bring the player into contact with a public event already underway.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L167"
+  ],
+  "inGame": "needs: join a planned outing to an existing public-action rally at the same place and time.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{companion}", "{event}", "{place}"],
+  "gates": ["The route and time coincide with a recorded rally."],
+  "weights": [],
+  "usedBy": []
+}

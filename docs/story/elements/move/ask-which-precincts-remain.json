@@ -1,0 +1,15 @@
+{
+  "id": "ask-which-precincts-remain",
+  "kind": "move",
+  "summary": "Before making a concession call, a candidate asks which returns are still outstanding.",
+  "realLife": "owner, Nov 14: A losing candidate may ask the manager to identify what remains to count.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: individual outstanding precincts exposed to the concession dialogue.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{candidate}", "{manager}", "{precinct}"],
+  "gates": ["Outstanding returns are known."],
+  "weights": [],
+  "usedBy": []
+}

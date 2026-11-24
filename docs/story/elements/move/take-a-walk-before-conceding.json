@@ -1,0 +1,15 @@
+{
+  "id": "take-a-walk-before-conceding",
+  "kind": "move",
+  "summary": "The candidate asks for a little time alone before speaking with the winner.",
+  "realLife": "owner, Nov 14: A losing candidate can step outside to gather their thoughts.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: a recorded delay for a later callback. The race-lost conversation can represent the choice.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{candidate}", "{manager}"],
+  "gates": ["The candidate has deferred the call."],
+  "weights": [],
+  "usedBy": []
+}
