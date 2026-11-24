@@ -772,6 +772,100 @@ function seatResident(
   });
 }
 
+/** The town's council: the body a mayor it does not elect is chosen from. */
+function councilOf(api: CoreAPI, jurisdiction: string): OfficeInput | null {
+  return (
+    (
+      table(api, "offices").query("byJurisdiction", [
+        jurisdiction,
+      ]) as unknown as OfficeInput[]
+    ).find((o) => o.kind === "council") ?? null
+  );
+}
+
+/**
+ * A mayor the voters do not elect (the town's reading says the council
+ * chooses one of its own members): at the opening, the council member the
+ * opening seated first, which is the order it seats every office by (the
+ * best suited first, `suitedResidents`). The leadership engine then reads
+ * this holder as the council's president (`councilChosenMayor`), so the town
+ * has one person in that chair, not two.
+ */
+function seatCouncilChosenMayor(
+  api: CoreAPI,
+  worldSeed: string,
+  office: OfficeInput,
+  date: string,
+): void {
+  const seat = table(api, "seats").get(
+    `seat:${office.id.slice("office:".length)}:0`,
+  ) as unknown as SeatInput | undefined;
+  if (!seat) return;
+  const council = councilOf(api, office.jurisdiction);
+  const member = council
+    ? Array.from(
+        { length: council.seats },
+        (_, index) =>
+          (
+            table(api, "terms").query("bySeatStatus", [
+              `seat:${council.id.slice("office:".length)}:${index}`,
+              "serving",
+            ]) as unknown as TermRow[]
+          )[0],
+      ).find((t) => t?.personId && api.state.people.has(t.personId))
+    : undefined;
+  pastTerms(
+    api,
+    worldSeed,
+    office,
+    seat,
+    member
+      ? seatResident(
+          api,
+          office,
+          seat,
+          member.personId!,
+          date,
+          "in office at the opening",
+        )
+      : seatNamedOfficial(
+          api,
+          `${worldSeed}:${date}`,
+          office,
+          seat,
+          date,
+          "in office at the opening",
+        ),
+  );
+}
+
+/**
+ * The serving holder of a mayor's seat the council fills from among its own
+ * members, for the council in `councilOfficeId`; null where the town elects
+ * its mayor or the chair is empty.
+ */
+export function councilChosenMayor(
+  api: CoreAPI,
+  councilOfficeId: string,
+): string | null {
+  const council = table(api, "offices").get(councilOfficeId) as unknown as
+    OfficeInput | undefined;
+  if (council?.kind !== "council") return null;
+  const mayor = (
+    table(api, "offices").query("byJurisdiction", [
+      council.jurisdiction,
+    ]) as unknown as OfficeInput[]
+  ).find((o) => o.kind === "mayor" && !o.elected);
+  if (!mayor) return null;
+  const term = (
+    table(api, "terms").query("bySeatStatus", [
+      `seat:${mayor.id.slice("office:".length)}:0`,
+      "serving",
+    ]) as unknown as TermRow[]
+  )[0];
+  return term?.personId ?? null;
+}
+
 /**
  * Register the module and seat every office covering the town, as it stands
  * on `startDate`, the day the game starts (a world built with a warm-up opens
@@ -840,7 +934,8 @@ export function openOffices(
   recordInauguration(api, place.context.jurisdiction.id);
   const rule = municipalVacancyRule(stateKey.slice(3));
   const taken = new Set<string>();
-  for (const office of localOfficesForPlace(placeKey!)) {
+  const local = localOfficesForPlace(placeKey!);
+  for (const office of local) {
     const seats: SeatInput[] = Array.from(
       { length: office.seats },
       (_, index) => ({
@@ -857,6 +952,7 @@ export function openOffices(
       }),
     );
     putOffice(api, { office: { ...office, vacancyRule: rule }, seats });
+    // A mayor the council chooses is seated from the council, once it sits.
     if (!office.elected) continue;
     const residents = suitedResidents(
       api,
@@ -902,6 +998,9 @@ export function openOffices(
       );
     }
   }
+  for (const office of local)
+    if (!office.elected && office.kind === "mayor")
+      seatCouncilChosenMayor(api, worldSeed, office, date);
   // Every other state-level place (the 50 states, D.C. and the five
   // territories): its chambers, governor and statewide executives, each
   // holder a named official until the player meets or opens them.
@@ -2161,7 +2260,12 @@ export function seatWinner(
     reached: winner.reached,
     status: "serving",
   } as unknown as ModuleRow);
-  if (winner.vacancyId) vacancyFilled(api, winner.vacancyId, termId);
+  // A regular term's start leaves no unexpired term for a special election
+  // still waiting to fill: the new term fills the vacancy, and its special
+  // election, finding it filled, is not held.
+  const filledVacancy =
+    winner.vacancyId ?? awaitingVacancy(api, winner.seatId)?.id;
+  if (filledVacancy) vacancyFilled(api, filledVacancy, termId);
   api.emit({
     id: `took-office:${winner.seatId}:${date}`,
     date,

@@ -1,6 +1,7 @@
 // "Go to": the town's places from its organizations and the art library,
 // who works there, who's there now and what the player can do there.
 import { personWorkOf } from "../core2/person-work";
+import fundingData from "../core2/data/opening-income-funding.json" with { type: "json" };
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
@@ -19,6 +20,17 @@ const LISTED = 40;
 // Engineering sizes for a card's "who is there" line and the default hour.
 const PRESENT_NAMED = 2;
 const NOON = 12 * 60;
+
+/**
+ * The organization records that only move money (the retirement paying
+ * accounts and the outside payment flow), named by the one data file that
+ * makes them. They have no building and no staff, so they are not places a
+ * player can go.
+ */
+export const PAYER_RECORD_CLASSIFICATIONS: ReadonlySet<string> = new Set([
+  ...fundingData.eligiblePayerClassifications,
+  fundingData.contributorClassification,
+]);
 
 /** And the state's offices, where an officeholder's work takes them. */
 const STATE_OFFICES = new Set(["sector:state-government-office"]);
@@ -180,6 +192,10 @@ export function townPlaces(
         org.placeId === player.placeId || civic.has(org.name.toLowerCase()),
     )
     .flatMap((org) => {
+      // A payer record (the town's retirement-income paying account) holds
+      // money, not a building: never a place to go (owner, Nov 16:
+      // "Grano, North Dakota retirement-income paying account" was listed).
+      if (PAYER_RECORD_CLASSIFICATIONS.has(org.classification ?? "")) return [];
       const place = orgPlace(core, org.id);
       if (!place || !hasBackdrop(place)) return [];
       const { full, counted } = staffOf(core, org.id);

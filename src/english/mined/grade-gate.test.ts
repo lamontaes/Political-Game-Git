@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { heldByGrades } from "../english-grades";
-import {
-  BRING_BANK,
-  bringWordsFromBank,
-  SCENE_BANK,
-  sceneWordsFromBank,
-} from "./scene-bank";
+import { SCENE_BANK, sceneWordsFromBank } from "./scene-bank";
 import { JOURNAL_BANK, journalDataFromBank } from "./journal-bank";
 
 /**
@@ -36,7 +31,6 @@ describe("the grades gate the banks", () => {
   for (const [name, bank, words] of [
     ["scene-words.json", SCENE_BANK, sceneWordsFromBank],
     ["journal.json", JOURNAL_BANK, journalDataFromBank],
-    ["bring-it-up.json", BRING_BANK, bringWordsFromBank],
   ] as unknown as [string, Bank, Words][]) {
     it(`never offers a piece of ${name} the owner's grades reject`, () => {
       const play = offered(words());

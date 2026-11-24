@@ -29,7 +29,8 @@ try {
   await page.locator("#new-start").click();
   await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("[data-gender=female]").click();
-  await page.locator("#cr-random-name").click();
+  await page.locator("#cr-given").fill("Test");
+  await page.locator("#cr-family").fill("Person");
   await page.waitForFunction(() => document.getElementById("cr-given").value);
   await page.locator('[data-testid="state-search"]').fill(state);
   await page.locator("#cr-states button", { hasText: state }).first().click();
@@ -65,6 +66,14 @@ try {
           box.right <= window.innerWidth &&
           box.bottom <= window.innerHeight,
         journalScrollbar: getComputedStyle(journal).overflowY !== "hidden",
+        // The place's name on the card stays on one line (owner, Nov 23, P31).
+        titleLines: (() => {
+          const t = document.querySelector("#front > .title");
+          return Math.round(
+            t.getBoundingClientRect().height /
+              parseFloat(getComputedStyle(t).lineHeight),
+          );
+        })(),
         lines: document.querySelectorAll("#loading-journal p").length,
         year: document.getElementById("loading-year").textContent,
         // Anything drawn past the panel's foot or sides (the journal lets
@@ -86,6 +95,11 @@ try {
     console.log(`${width}x${height}`, JSON.stringify(fit));
     if (shots) await page.screenshot({ path: `${shots}/loading-${width}.png` });
     assert.ok(fit.inside, `${width}x${height}: the panel leaves the window`);
+    assert.equal(
+      fit.titleLines,
+      1,
+      `${width}x${height}: the place title wraps`,
+    );
     assert.deepEqual(fit.over, [], `${width}x${height}: drawn past the panel`);
     assert.ok(!fit.journalScrollbar, `${width}x${height}: the journal scrolls`);
     assert.equal(

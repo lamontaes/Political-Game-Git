@@ -9,6 +9,7 @@ import {
   creatorStates,
   creatorTowns,
   drawBirthday,
+  drawCharacter,
   drawName,
   readChosenPerson,
 } from "./creator";
@@ -17,11 +18,20 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
+  newGameFaces,
+  pickAppearance,
   portraitFace,
   lookFaces,
   readRecipe,
 } from "./appearance";
-import { bustChoices, bustOfLook, bustPerson, bustTopColors } from "./bust";
+import {
+  bustChoices,
+  bustFits,
+  bustOfLook,
+  bustPeople,
+  bustPerson,
+  bustTopColors,
+} from "./bust";
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -36,6 +46,41 @@ import { PARTIES_MODULE_ID } from "../core2/modules/parties";
 import { properName } from "../director/words";
 
 describe("the New game creator", () => {
+  // Nov 17: "a few different head shapes ... 2 or 3 more shades" (#10070).
+  it("offers a Head row beside Skin, and every skin on every head shape draws a look that fits", () => {
+    const his = drawnAppearance("male", "seed", 0);
+    const rows = appearanceRows(his, "male");
+    const head = rows.find((row) => row.id === "shape")!;
+    expect(rows.map((row) => row.id).slice(0, 2)).toEqual(["skin", "shape"]);
+    expect(head.options).toHaveLength(5);
+    expect(
+      head.options!.every((option) => option.picture === "head" && option.face),
+    ).toBe(true);
+    expect(rows.find((row) => row.id === "skin")!.options).toHaveLength(6);
+    for (const person of bustPeople().filter((row) => row.sex === "man")) {
+      const onSkin = pickAppearance(his, "male", "skin", person.id);
+      for (const option of head.options!) {
+        const look = pickAppearance(onSkin, "male", "shape", option.id);
+        // The look wears the head of its skin and shape, and fits at every age.
+        expect(bustFits(look), `${person.id} ${option.id}`).toBe(true);
+        const bust = bustOfLook(look, "everyday")!;
+        expect(bust.layers[0]).toContain(
+          `head-${option.id === "standard" ? "" : `${option.id}-`}${person.toneName}-adult`,
+        );
+        expect(bustOfLook(look, "everyday", true)).not.toBeNull();
+        // Every hairstyle, hair color and facial hair the rows then offer fits too.
+        for (const rowId of ["hair", "hair-color", "face"])
+          for (const choice of appearanceRows(look, "male").find(
+            (row) => row.id === rowId,
+          )!.options!)
+            expect(
+              bustFits(pickAppearance(look, "male", rowId, choice.id)),
+              `${person.id} ${option.id} ${rowId} ${choice.id}`,
+            ).toBe(true);
+      }
+    }
+  });
+
   it("draws a name before any gender is chosen, and again after", () => {
     const any = drawName("seed", 1);
     expect(any.givenName).not.toBe("");
@@ -91,6 +136,7 @@ describe("the New game creator", () => {
     const henley = { ...hers, top: "henley", topColor: "green" };
     expect(tabbed(henley, "female")).toEqual([
       "Skin",
+      "Head",
       "Hair",
       "Hair color",
       "everyday: Top",
@@ -105,6 +151,7 @@ describe("the New game creator", () => {
     const his = drawnAppearance("male", "seed", 0);
     expect(tabbed(his, "male")).toEqual([
       "Skin",
+      "Head",
       "Hair",
       "Hair color",
       "Facial hair",
@@ -421,7 +468,7 @@ it("names every skin, hairstyle, hair color and facial hair capitalized, like th
   }
 });
 
-describe("Random place in the creator", () => {
+describe("the place the creator's Random draws", () => {
   it("draws a state and one of its towns from all 56, the same for the same seed and press", () => {
     const first = creatorRandomPlace("seed-a", 1);
     expect(first.state.key).toMatch(/^us-/i);
@@ -442,5 +489,91 @@ describe("Random place in the creator", () => {
       ),
     );
     expect(keys.size).toBeGreaterThan(1);
+  });
+});
+
+describe("the creator's look as swatches and pictures (owner, Nov 17)", () => {
+  const look = (gender: string, draw: number) =>
+    lookForGender(drawnAppearance(gender, "creator-swatches", draw), gender);
+
+  it("offers every row as swatches (colors) or pictures (hair, facial hair, top), each with exactly one chosen", () => {
+    const seen = new Set<string>();
+    for (const gender of ["male", "female", "nonbinary"])
+      for (let draw = 0; draw < 12; draw += 1) {
+        for (const row of appearanceRows(look(gender, draw), gender)) {
+          expect(row.options.length, `${gender} ${row.id}`).toBeGreaterThan(1);
+          expect(
+            row.options.filter((option) => option.chosen).length,
+            `${gender} ${row.id}`,
+          ).toBe(1);
+          for (const option of row.options) {
+            seen.add(`${row.id}:${option.face ? "picture" : "swatch"}`);
+            // A swatch shows a real color, or none for "None"; a picture comes with its bust.
+            if (option.face)
+              expect(option.face.bust.layers.length).toBeGreaterThan(2);
+            else if (option.id !== "none")
+              expect(option.color, `${row.id} ${option.id}`).toMatch(
+                /^#[0-9a-f]{6}$/i,
+              );
+          }
+        }
+      }
+    for (const row of ["hair", "face", "top"])
+      expect(seen, row).toContain(`${row}:picture`);
+    for (const row of [
+      "skin",
+      "hair-color",
+      "top-color",
+      "shirt",
+      "tie",
+      "jacket",
+    ])
+      expect(seen, row).toContain(`${row}:swatch`);
+  });
+
+  it("picks an option by its id, the same as stepping to it", () => {
+    for (const gender of ["male", "female"]) {
+      const start = look(gender, 3);
+      for (const row of appearanceRows(start, gender)) {
+        const next =
+          row.options[
+            (row.options.findIndex((o) => o.chosen) + 1) % row.options.length
+          ]!;
+        expect(
+          pickAppearance(start, gender, row.id, next.id),
+          `${gender} ${row.id}`,
+        ).toEqual(moveAppearance(start, gender, row.id, 1));
+      }
+    }
+    expect(() =>
+      pickAppearance(look("male", 1), "male", "hair", "nope"),
+    ).toThrow();
+  });
+});
+
+describe("Random draws the whole character (owner, Nov 17)", () => {
+  it("draws a gender, a name for it, an adult birthday and a place, the same for the same seed and press", () => {
+    const first = drawCharacter("seed-whole", 1);
+    expect(["female", "male", "nonbinary"]).toContain(first.gender);
+    expect(first.name.givenName.length).toBeGreaterThan(0);
+    expect(first.birthday.age).toBeGreaterThanOrEqual(18);
+    expect(first.place.town.key.length).toBeGreaterThan(0);
+    expect(drawCharacter("seed-whole", 1)).toEqual(first);
+    const genders = new Set(
+      [1, 2, 3, 4, 5, 6, 7, 8].map(
+        (draw) => drawCharacter("seed-whole", draw).gender,
+      ),
+    );
+    expect(genders.size).toBeGreaterThan(1);
+  });
+});
+
+describe("New game's people differ each visit (owner, Nov 17)", () => {
+  it("draws the busts from the visit's seed", () => {
+    const layers = (seed: string) => JSON.stringify(newGameFaces(seed));
+    expect(layers("visit-1")).toBe(layers("visit-1"));
+    const visits = new Set(["a", "b", "c", "d", "e"].map(layers));
+    expect(visits.size).toBeGreaterThan(2);
+    expect(newGameFaces("visit-1").advanced.length).toBe(3);
   });
 });

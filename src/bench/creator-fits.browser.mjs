@@ -1,7 +1,7 @@
 /* global process, console, document, getComputedStyle, window */
 // The creator fits the window (screens-creator-look-stage-fits-900; kit13: no
 // scrolling inside a menu), on the bench (npm run bench) at 1440x900: New
-// game, Start a life, a random place, then a female and a male look drawn by
+// game, Start a life, the whole-character Random, then a female and a male look drawn by
 // the creator's own Random: the panel's top is at or below 0 and its bottom,
 // with Begin my life, at or above the window's edge, and nothing inside it
 // scrolls but the long town list under its search box. Run:
@@ -22,11 +22,12 @@ try {
   await page.goto(`${base}/play`);
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-place-random").click();
+  await page.locator("#cr-random").click();
   await page.locator("#cr-screen:not([hidden])").waitFor();
   for (const gender of ["female", "male"]) {
     await page.locator(`[data-gender=${gender}]`).click();
-    await page.locator("#cr-random-name").click();
+    await page.locator("#cr-given").fill("Test");
+    await page.locator("#cr-family").fill("Person");
     await page.waitForTimeout(1200);
     const fit = await page.evaluate(() => {
       const box = (id) => document.getElementById(id).getBoundingClientRect();

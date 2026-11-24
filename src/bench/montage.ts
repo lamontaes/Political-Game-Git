@@ -4,7 +4,7 @@ import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import montage from "./data/opening-montage.json" with { type: "json" };
 import { backdropFor, homeOf, peopleHere } from "./scene";
 
-/** A place painted in any light (the Oval Office address is painted at night only, the colonnade in the morning only). */
+/** A place painted in any light (some are painted in one light only). */
 const hasBackdrop = (place: string) =>
   (manifest.backdrops as readonly { place: string }[]).some(
     (record) => record.place === place,
@@ -19,8 +19,7 @@ const DATA = montage as unknown as {
   mostAmerica: number;
 };
 
-export type BeatKind =
-  "oval-desk" | "colonnade" | "officials" | "state" | "america" | "home";
+export type BeatKind = "chamber" | "officials" | "state" | "america" | "home";
 
 /** One part of the address, shown: its picture and who stands in it, officials with their office under their name. */
 export interface MontageBeat {
@@ -35,7 +34,7 @@ export interface MontageBeat {
 /**
  * The kind of each part of an address from its role: the desk first, home
  * last, and between them the beat its first sentence's level keys to
- * (occasion: the colonnade; country and people: America; congress, the Vice
+ * (occasion: the chamber; country and people: America; congress, the Vice
  * President: the officials; the states: the player's state; the families:
  * home). A varied
  * address still finds its beats, since they follow the role, not the position.
@@ -51,17 +50,30 @@ export function beatKinds(levels: readonly string[]): BeatKind[] {
   );
 }
 
-/** Each part's role: the level of its first sentence that is not the salutation. */
+/**
+ * Each part's role. The record's part numbers can skip (a block that said
+ * nothing leaves a gap), while the parts the player sees are the distinct
+ * numbers in order, so the role is read per distinct part, not by number
+ * (P8, Nov 23). A part's role is the level of its first sentence that is
+ * neither the salutation nor the occasion lead-in a point block may open
+ * with, so a stance part keys to its point's level; a part of nothing else
+ * is the occasion.
+ */
 export function partLevels(
   sentences: readonly { level: string; part: number }[],
   parts: number,
 ): string[] {
-  return Array.from(
-    { length: parts },
-    (_, part) =>
-      sentences.find((row) => row.part === part && row.level !== "salutation")
-        ?.level ?? "occasion",
-  );
+  const numbers = [...new Set(sentences.map((row) => row.part))];
+  return Array.from({ length: parts }, (_, at) => {
+    const rows = sentences.filter(
+      (row) => row.part === numbers[at] && row.level !== "salutation",
+    );
+    return (
+      rows.find((row) => row.level !== "occasion")?.level ??
+      rows[0]?.level ??
+      "occasion"
+    );
+  });
 }
 
 /**
@@ -89,7 +101,7 @@ export function namedInParts(
 
 /**
  * The address as its montage: one beat per part, each a picture with its
- * people from the records: the speaker at the desk and on the colonnade, the
+ * people from the records: the speaker in the chamber, the
  * player's own circle across the town, the key people (the Vice President,
  * the chambers' leaders, the player's governor) named by office in the
  * capitol hallway, and the household at home.
@@ -190,7 +202,7 @@ export function addressMontage(
       role?: string;
     }[] = [];
     const records: string[] = [];
-    if ((kind === "oval-desk" || kind === "colonnade") && speaker) {
+    if (kind === "chamber" && speaker) {
       cast.push({ id: speakerId, name: speaker, reason: "moment" });
       records.push(speakerId);
     } else if (kind === "officials") {
@@ -257,7 +269,7 @@ export function addressMontage(
         core,
         backdrop.file,
         cast,
-        kind === "oval-desk" ? speakerId : undefined,
+        kind === "chamber" ? speakerId : undefined,
       ).people,
       sourceRecordIds: records,
     };

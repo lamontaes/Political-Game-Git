@@ -24,5 +24,17 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
+  },
+  {
+    "id": "SG-LEGISLATURE-century-majority-files-little",
+    "kind": "partial-model",
+    "file": "src/core2/body-jurisdiction.test.ts",
+    "line": 39,
+    "whatItFakes": "The body-jurisdiction played-year check draws up to four towns and passes over, by name, each one whose chain of governments enacted no law in the year, instead of every drawn place enacting one.",
+    "why": "After the history from 1925 runs a century, the majority's agenda is already law, so it files almost nothing, and the minority's bills are refused a hearing by a leader whose traits refuse even his own party's bills; a drawn state can then go a year with no law enacted (CTO ruling, #9747 comment 7000923139, Nov 19, 2026).",
+    "addedBy": "Fixer (playtest crew)",
+    "addedAt": "2026-11-19",
+    "replacement": "Laws and effects' fix (#10238 and the majority's amount and funding bills): a majority whose agenda is law files changes to amounts and funding bills, and the leader carries his own party's bills, so every drawn state's chain enacts law in a year; then the check goes back to one drawn town and this row is resolved.",
+    "status": "open"
   }
 ]

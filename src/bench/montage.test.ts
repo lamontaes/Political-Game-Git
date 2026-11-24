@@ -1,7 +1,7 @@
 /**
  * The address's montage (owner, Oct 29 02:35): one beat per part of the
  * speech, each with its picture and people from the records. In places drawn
- * from all 56: the speaker at the desk and on the colonnade, the town's own
+ * from all 56: the speaker in the chamber, the town's own
  * people along a route, the key people named by office, and the household at
  * home (Words' address is 7 to 11 parts, each sentence carrying its level).
  */
@@ -18,10 +18,12 @@ const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`montage:${Date.now()}`).digest("hex");
 
-it("keys the beats to each part's role: the desk first, home last, the level between", () => {
+it("keys the beats to each part's role: the chamber first, home last, the level between", () => {
   expect(beatKinds(["salutation"])).toEqual(["home"]);
+  // The Player's address at #9995 (Nov 19): its stance part cuts away to
+  // America, and only its close is home.
   expect(beatKinds(["occasion", "country", "close"])).toEqual([
-    "oval-desk",
+    "chamber",
     "america",
     "home",
   ]);
@@ -38,8 +40,8 @@ it("keys the beats to each part's role: the desk first, home last, the level bet
       "close",
     ]),
   ).toEqual([
-    "oval-desk",
-    "colonnade",
+    "chamber",
+    "chamber",
     "america",
     "officials",
     "officials",
@@ -122,8 +124,8 @@ it.each(["a", "b", "c"])(
         expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
       expect(beat.backdrop.url, where).toContain("/art/backdrops/");
     }
-    // The speaker is the one at the desk (and on the colonnade when it cuts there).
-    for (const kind of ["oval-desk", "colonnade"])
+    // The speaker is the one in the chamber.
+    for (const kind of ["chamber"])
       for (const beat of beats.filter((row) => row.kind === kind))
         expect(
           beat.people.map((person) => person.personId),
@@ -158,6 +160,18 @@ it.each(["a", "b", "c"])(
         `${where}: ${beat.people.map((person) => `${person.role} ${person.name}`).join(", ")} over ${beat.backdrop.file}`,
       );
     }
+    // At home only the household listens: never the President among them
+    // (the Player's beat 4, #9995 Nov 19 09:40Z). The America cutaway keeps
+    // its own picture, the owner's montage (CTO, Nov 19 10:30Z).
+    for (const beat of beats.filter((row) => row.kind === "home"))
+      expect(
+        beat.people.map((person) => person.personId),
+        `${where}: home`,
+      ).not.toContain(story.president.id);
+    for (const beat of beats.filter((row) => row.kind === "america"))
+      expect(beat.backdrop.file, `${where}: america`).toMatch(
+        /^train-depot-platform/,
+      );
     // Home lists the people the player lives with (nobody, for someone who
     // lives alone), and never the player: the strip shows who else is there.
     const household = world.core.households.get(
@@ -167,5 +181,29 @@ it.each(["a", "b", "c"])(
     expect(home, where).not.toContain(world.playerId);
     for (const id of home)
       expect(household?.memberIds ?? [], where).toContain(id);
+  },
+);
+
+it.each(["a", "b"])(
+  "the address's middle parts cut away to America in the world's own address (draw %s)",
+  { timeout: 900_000 },
+  (draw) => {
+    setBookkeeping(false);
+    const place = drawPlace(`${runSeed}:america:${draw}`, "montage");
+    const where = `${place.name}, ${place.state} (${place.key}), seed ${place.seed}, run seed ${runSeed}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const address = world.director.ledger.opening!.address;
+    // One level per part the player sees, read from the record's sentences
+    // whatever numbers their parts carry (P8, Nov 23).
+    const levels = partLevels(address.sentences, address.parts.length);
+    const kinds = beatKinds(levels);
+    expect(kinds.length, where).toBe(address.parts.length);
+    expect(
+      kinds.slice(1, -1),
+      `${where}: middle beats ${kinds.join(", ")}`,
+    ).toContain("america");
   },
 );
