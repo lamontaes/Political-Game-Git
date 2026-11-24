@@ -532,9 +532,10 @@
     "region-pacific-islands": ["GU", "AS", "MP"]
   },
   "paintedScreens": {
-    "about": "Where a room picture paints a television set's glass, as [left, top, width, height] in percent of the picture (measured by eye on every light and condition of the picture, which share one camera). A broadcast heard in that room shows the speaker on the glass (drawTv). A picture with no row here paints no set; the living rooms of every dwelling were checked, the kitchens, bedrooms, regional houses and residences were not (stopgap SG-BENCH-painted-tv-rooms-checked).",
+    "about": "Where a room picture paints a television set's glass, as [left, top, width, height] in percent of the picture (measured by eye on every light and condition of the picture, which share one camera). A broadcast heard in that room shows the speaker on the glass (drawTv). A picture with no row here paints no set; every dwelling's living room was checked (the mobile home paints a flat-screen set too), the kitchens, bedrooms, regional houses and residences were not (stopgap SG-BENCH-painted-tv-rooms-checked).",
     "apartment-rundown-living": [69.2, 47, 4.8, 8.6],
-    "apartment-starter-living": [65.4, 42, 5.3, 16.5]
+    "apartment-starter-living": [65.4, 42, 5.3, 16.5],
+    "mobile-home": [45.6, 34.2, 9.5, 9.8]
   },
   "wantedPictures": {
     "about": "A picture a row names before it is painted: one line saying what it shows, so someone can paint or generate it from this list (docs/art/WANTED.md is built from it by npm run scene-pictures). An unpainted name in a list is skipped until it is painted; the next name in its list stands in. Adding the painting to art/backdrops/manifest.json is the whole change. A wanted picture may show only what the cause record makes true of that household.",
