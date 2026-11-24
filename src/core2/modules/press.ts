@@ -55,7 +55,9 @@ import {
   NATIONAL_ENGAGEMENT,
 } from "../electorate";
 import {
+  announcedIn,
   ballot,
+  inTheRace,
   ELECTIONS_MODULE_ID,
   standing,
   type ContestRow,
@@ -2386,7 +2388,7 @@ function arrangeWith(
   if (filing) {
     if (
       contestOf(api, filing.contestId).electionDate < api.state.date ||
-      !standing(filing)
+      !inTheRace(api, filing)
     )
       return declined("race-over");
     if (already(api, outletId, filing.id))
@@ -2412,13 +2414,19 @@ function arrangeWith(
       interest,
     );
   if (!interest && worth < bar) return declined("not-newsworthy");
-  return record(api, {
+  const arranged = record(api, {
     ...base,
     status: "invited",
     reason: null,
     interest,
     questions: interviewQuestions(api, speaker, outlet),
   });
+  // A paper that says yes to the candidate's own ask sits down with them: the
+  // same invitation event an outlet's own ask puts, which the director stages
+  // as the interview.
+  if (askedBy === "candidate" && arranged.status === "invited")
+    invitation(api, arranged);
+  return arranged;
 }
 
 /**
@@ -4515,7 +4523,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         refuse(api, row);
   if (!contests.length) return;
   const filings = contests
-    .flatMap((c) => ballot(api, c.id))
+    .flatMap((c) => [...ballot(api, c.id), ...announcedIn(api, c.id)])
     .map((f) => ({ f, worth: newsworthiness(api, f) }));
   // The player's invitations this week, put to them as one.
   const invitedThisWeek = new Map<string, InterviewRow[]>();

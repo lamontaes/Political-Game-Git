@@ -151,6 +151,12 @@ export interface Director {
   /** "live" or "skipping": while skipping, waiting scenes become journal lines. */
   setMode(mode: "live" | "skipping"): void;
   /**
+   * Stages today's scenes from circumstance now, as the day's close would, so
+   * a doors outing's porch scene comes on Go and not hours later. A cause that
+   * already staged a scene today stages no second one.
+   */
+  stageDoors(core: CoreState): void;
+  /**
    * The player's interrupt setting: the scene kinds allowed to stop their
    * day (situation-type keys), or null for every kind. Read by scheduling.
    */
@@ -2312,6 +2318,12 @@ export function createDirector(
     },
     setMode(next) {
       mode = next;
+    },
+    stageDoors(core) {
+      if (!started) return;
+      produceCircumstances(core);
+      registerInterrupts(core);
+      registerWaiting(core);
     },
     setSceneFilter(personId, allowedKinds, date) {
       if (!allowedKinds) {
