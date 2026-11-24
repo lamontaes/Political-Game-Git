@@ -54,7 +54,6 @@
     "reason-against": "what opponents said against it, as a clause, from the members' recorded reasons",
     "takes-effect": "when it takes effect, a bare spoken date that follows 'takes effect on' (July 1, 2025)",
     "next-step": "what it still needs, as a noun phrase after 'still needs' (a vote in the other chamber)",
-    "lone-voter": "the one member on the losing side of the vote, by name, where only one was (from the roll call)",
     "voted-against": "the one member who voted against a bill that carried, by name (from the roll call)",
     "against-party": "the party label where everyone who voted against shares one party (Republican, Democratic)",
     "next-body": "the chamber that still takes up a bill that passed one chamber, by name (United States Senate)"
@@ -2555,44 +2554,6 @@
       "elements": ["condition-explained-as-a-consequence"]
     },
     {
-      "key": "outline-news.who.news-roll-call-who-lone-against",
-      "move": "who",
-      "kind": "written",
-      "text": "{lone-voter} cast the one vote against it.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "who",
-          "tie": "record",
-          "requiresFacts": ["lone-voter", "passed"]
-        }
-      ],
-      "after": ["margin"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "elements": ["dissenter-from-the-winning-bloc"]
-    },
-    {
-      "key": "outline-news.who.news-roll-call-who-lone-for",
-      "move": "who",
-      "kind": "written",
-      "text": "{lone-voter} cast the one vote for it.",
-      "uses": [
-        {
-          "subject": "news-roll-call",
-          "role": "who",
-          "tie": "record",
-          "requiresFacts": ["lone-voter", "failed"]
-        }
-      ],
-      "after": ["margin"],
-      "origin": "authored",
-      "author": "the news writer",
-      "date": "2026-11-24",
-      "elements": ["dissenter-from-the-winning-bloc"]
-    },
-    {
       "key": "outline-news.who.news-roll-call-who-alone",
       "move": "who",
       "kind": "written",
@@ -2631,6 +2592,158 @@
       "author": "the news writer",
       "date": "2026-11-24",
       "elements": ["dissenter-from-the-winning-bloc"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-next-takes-up",
+      "move": "effect",
+      "kind": "written",
+      "text": "The {next-body} still has to take it up.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "next-step", "next-body"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-next-goes-to",
+      "move": "effect",
+      "kind": "written",
+      "text": "Next it goes to the {next-body}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "next-step", "next-body"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-starts",
+      "move": "effect",
+      "kind": "written",
+      "text": "It starts on {takes-effect}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "takes-effect"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.effect.news-roll-call-effect-in-force",
+      "move": "effect",
+      "kind": "written",
+      "text": "The date it starts is {takes-effect}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "effect",
+          "tie": "record",
+          "requiresFacts": ["passed", "takes-effect"]
+        }
+      ],
+      "after": ["margin", "who", "why"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["condition-explained-as-a-consequence"]
+    },
+    {
+      "key": "outline-news.why.news-roll-call-why-for-argued",
+      "move": "why",
+      "kind": "written",
+      "text": "Those for it argued {reason-for}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "why",
+          "tie": "record",
+          "requiresFacts": ["reason-for"]
+        }
+      ],
+      "after": ["margin", "who"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["member-votes-no-on-tax-but-backs-staff-raises"]
+    },
+    {
+      "key": "outline-news.why.news-roll-call-why-for-members",
+      "move": "why",
+      "kind": "written",
+      "text": "Members who voted yes said {reason-for}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "why",
+          "tie": "record",
+          "requiresFacts": ["reason-for"]
+        }
+      ],
+      "after": ["margin", "who"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["member-votes-no-on-tax-but-backs-staff-raises"]
+    },
+    {
+      "key": "outline-news.why.news-roll-call-why-against-argued",
+      "move": "why",
+      "kind": "written",
+      "text": "Those against it argued {reason-against}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "why",
+          "tie": "record",
+          "requiresFacts": ["reason-against"]
+        }
+      ],
+      "after": ["margin", "who"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["member-votes-no-on-tax-but-backs-staff-raises"]
+    },
+    {
+      "key": "outline-news.why.news-roll-call-why-against-members",
+      "move": "why",
+      "kind": "written",
+      "text": "Members who voted no said {reason-against}.",
+      "uses": [
+        {
+          "subject": "news-roll-call",
+          "role": "why",
+          "tie": "record",
+          "requiresFacts": ["reason-against"]
+        }
+      ],
+      "after": ["margin", "who"],
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-24",
+      "elements": ["member-votes-no-on-tax-but-backs-staff-raises"]
     }
   ]
 }
