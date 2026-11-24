@@ -189,6 +189,54 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     }
   });
 
+  it("closes an undecided return meeting on the governor's own instruction", () => {
+    const type = types.find((row) => row.key === "emergency-briefing")!;
+    for (const phase of ["midway", "last"]) {
+      const closes = officeBank.parts.filter((part) =>
+        part.uses.some(
+          (use) =>
+            use.step === "close" &&
+            use.requiresFacts?.includes(`return-${phase}`),
+        ),
+      );
+      expect(closes.length).toBeGreaterThan(0);
+      const seen = new Set<string>();
+      for (let draw = 0; draw < 250 && seen.size < closes.length; draw++) {
+        const res = composeSceneTalk(
+          core,
+          director,
+          {
+            askerId,
+            askedId,
+            causeId: `defer-${phase}-${draw}`,
+          },
+          type,
+          {
+            name: fact("Pat Rivera"),
+            disaster: fact("severe storm"),
+            deadline: fact("Friday"),
+            again: fact(""),
+            [`return-${phase}`]: fact(""),
+          },
+        );
+        expect(res.kind).toBe("composed");
+        if (res.kind !== "composed") continue;
+        const leave = res.talk.tree.replies.find(
+          (r) => r.line.move === "leave",
+        );
+        const end = leave?.next?.end;
+        expect(end?.ending?.id).toBe("left-there");
+        const match = closes.find((p) =>
+          p.uses.some((u) => u.after === leave?.line.parts[0]),
+        );
+        expect(match).toBeDefined();
+        expect(end?.close?.parts[0]).toBe(match?.key);
+        seen.add(match!.key);
+      }
+      expect(seen.size).toBe(closes.length);
+    }
+  });
+
   // The player asks a colleague for their vote the evening before the roll
   // (vote-sought): the narrator sets it from the player's side, never as the
   // colleague coming to the player's door, and a player asking several
