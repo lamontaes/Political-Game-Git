@@ -5493,12 +5493,22 @@ const sheets = {
                 closeSheet();
                 showPerson({ personId: f.cardId });
               },
-              more: f.stances.map((st) =>
-                row(
-                  policyLabel(st.question),
-                  st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
-                ),
-              ),
+              // Where they stand, as typed rows in the strip screens' own
+              // sentence case, not the capitals of a form's label (owner,
+              // Nov 23, C11 and P28).
+              more: f.stances.length
+                ? [
+                    dotRows(
+                      f.stances.map((st) => ({
+                        label: policyLabel(st.question),
+                        value:
+                          st.position > 0
+                            ? (stance.for ?? "")
+                            : (stance.against ?? ""),
+                      })),
+                    ),
+                  ]
+                : [],
             }),
           )
         : [prose(labels.noFilers, "record-empty")];
