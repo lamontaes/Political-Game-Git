@@ -1,0 +1,21 @@
+{
+  "id": "license-decisions-belong-to-regulator",
+  "kind": "voice",
+  "summary": "{person} explains in public who will decide the applications waiting on regulators' desks.",
+  "realLife": "Carter told the public that the independent NRC could decide pending plant licenses individually.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/node/248009"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

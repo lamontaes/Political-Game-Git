@@ -1,0 +1,20 @@
+{
+  "id": "governor-lifts-advisory",
+  "kind": "moment",
+  "summary": "Families who left {place} receive word that the governor has lifted the advisory.",
+  "realLife": "Pennsylvania lifted its precaution for pregnant residents and young children on April 9, ten days after Thornburgh announced it.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-96jhrg55895O/pdf/CHRG-96jhrg55895O.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

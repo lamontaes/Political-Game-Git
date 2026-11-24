@@ -1,0 +1,21 @@
+{
+  "id": "chair-authorized-to-speak-in-emergency",
+  "kind": "move",
+  "summary": "{person} proposes giving the commission chair authority to act for the full body in an emergency.",
+  "realLife": "Carter called for a stronger NRC chair with the ability to choose key staff and act for the commission when urgent decisions arose.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/node/248009"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

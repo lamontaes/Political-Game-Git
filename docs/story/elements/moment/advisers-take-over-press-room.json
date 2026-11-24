@@ -1,0 +1,20 @@
+{
+  "id": "advisers-take-over-press-room",
+  "kind": "moment",
+  "summary": "After {person} finishes speaking, policy and science advisers stay to answer reporters.",
+  "realLife": "Frank Press, Stuart Eizenstat, and John Deutch held the news conference following Carter's statement on the findings.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/node/248009"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

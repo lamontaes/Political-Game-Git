@@ -1,0 +1,20 @@
+{
+  "id": "county-learns-from-broadcast",
+  "kind": "consequence",
+  "summary": "Emergency staff in {place} have to follow news coverage after their state contact drops out of the briefings.",
+  "realLife": "The commission found that county and local responders came to depend largely on news reports after the state emergency director stopped attending the meetings.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-96jhrg55895O/pdf/CHRG-96jhrg55895O.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

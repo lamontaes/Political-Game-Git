@@ -1,0 +1,20 @@
+{
+  "id": "health-workers-leave-too",
+  "kind": "consequence",
+  "summary": "Some of the people who provide care in {place} leave alongside families covered by an advisory.",
+  "realLife": "The presidential commission found that health professionals were among those who left voluntarily during the weekend.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-96jhrg55895O/pdf/CHRG-96jhrg55895O.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{place}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

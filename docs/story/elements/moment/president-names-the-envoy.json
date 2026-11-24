@@ -1,0 +1,20 @@
+{
+  "id": "president-names-the-envoy",
+  "kind": "moment",
+  "summary": "When offered a senior official or a deputy, {person} asks for the senior official by name.",
+  "realLife": "Carter specifically requested Harold Denton when Hendrie discussed whom he could send to Pennsylvania.",
+  "sources": [
+    "https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/tr/2004/20040303a.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

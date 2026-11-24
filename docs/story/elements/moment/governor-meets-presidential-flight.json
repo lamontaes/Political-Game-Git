@@ -1,0 +1,20 @@
+{
+  "id": "governor-meets-presidential-flight",
+  "kind": "moment",
+  "summary": "{person} meets the president at the airfield and accompanies the president for the visit.",
+  "realLife": "Thornburgh met Carter's helicopter in Middletown and stayed with him during the trip.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/node/249528"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

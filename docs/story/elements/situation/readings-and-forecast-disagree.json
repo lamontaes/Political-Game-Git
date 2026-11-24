@@ -1,0 +1,20 @@
+{
+  "id": "readings-and-forecast-disagree",
+  "kind": "situation",
+  "summary": "Two advisers give {person} different advice because one is looking at today's readings and the other at what could happen overnight.",
+  "realLife": "Pennsylvania's radiation bureau saw no need to move residents on the existing measurements, while the federal regulator worried about a future release.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-96jhrg55895O/pdf/CHRG-96jhrg55895O.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

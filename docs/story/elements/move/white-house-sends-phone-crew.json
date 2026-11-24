@@ -1,0 +1,21 @@
+{
+  "id": "white-house-sends-phone-crew",
+  "kind": "move",
+  "summary": "After officials struggle to reach one another, {person} sends a crew to give them a dedicated phone line.",
+  "realLife": "Jimmy Carter offered White House communications staff after learning about the difficulty of getting calls through.",
+  "sources": [
+    "https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/tr/2004/20040303a.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

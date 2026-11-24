@@ -1,0 +1,20 @@
+{
+  "id": "fact-sheet-after-presidents-statement",
+  "kind": "detail",
+  "summary": "Reporters get a fact sheet on {issue} while staff prepare to take detailed questions.",
+  "realLife": "Carter announced a public fact sheet and a longer press briefing on the administration's response to the Kemeny report.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/node/248009"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{issue}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}

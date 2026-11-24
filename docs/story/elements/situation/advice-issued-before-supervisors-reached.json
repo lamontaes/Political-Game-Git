@@ -1,0 +1,20 @@
+{
+  "id": "advice-issued-before-supervisors-reached",
+  "kind": "situation",
+  "summary": "{person} receives advice from an agency whose own commissioners have yet to hear it.",
+  "realLife": "Federal regulatory staff recommended evacuation to Pennsylvania before they could consult the commissioners, according to an NRC historical presentation.",
+  "sources": [
+    "https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/tr/2004/20040303a.pdf"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news"
+  ],
+  "slots": [
+    "{person}"
+  ],
+  "gates": [],
+  "weights": [],
+  "usedBy": []
+}
