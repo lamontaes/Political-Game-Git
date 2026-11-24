@@ -19,12 +19,16 @@
     {
       "name": "a plat denied",
       "pulledBy": "a project that missed a requirement",
-      "writes": "the story says what was missing"
+      "writes": "the story says what was missing",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a plat approved with conditions",
       "pulledBy": "a project with open items",
-      "writes": "the story lists what must be done"
+      "writes": "the story lists what must be done",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

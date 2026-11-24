@@ -19,12 +19,16 @@
     {
       "name": "one link only",
       "pulledBy": "a single tie in the records",
-      "writes": "the story states the one tie"
+      "writes": "the story states the one tie",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "a tie the records do not show",
       "pulledBy": "a rumor with no record",
-      "writes": "the story says no record shows it"
+      "writes": "the story says no record shows it",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

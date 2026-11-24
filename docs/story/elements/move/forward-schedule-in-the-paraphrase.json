@@ -19,12 +19,16 @@
     {
       "name": "no more planned",
       "pulledBy": "a one-time event",
-      "writes": "the story says it will not repeat"
+      "writes": "the story says it will not repeat",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "more planned but undated",
       "pulledBy": "a series with no dates",
-      "writes": "the story says dates will come later"
+      "writes": "the story says dates will come later",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

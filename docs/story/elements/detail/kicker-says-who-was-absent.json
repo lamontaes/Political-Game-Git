@@ -19,12 +19,16 @@
     {
       "name": "everyone present",
       "pulledBy": "a full attendance",
-      "writes": "no absence line"
+      "writes": "no absence line",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the absent person answers later",
       "pulledBy": "an official who missed it and later spoke",
-      "writes": "a later story carries their word"
+      "writes": "a later story carries their word",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }

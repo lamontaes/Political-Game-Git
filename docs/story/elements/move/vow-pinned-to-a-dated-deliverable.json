@@ -19,12 +19,16 @@
     {
       "name": "the vow is kept",
       "pulledBy": "a deliverable handed in on time",
-      "writes": "a later story says it was delivered"
+      "writes": "a later story says it was delivered",
+      "requiresFacts": [],
+      "excludesFacts": []
     },
     {
       "name": "the vow is broken",
       "pulledBy": "a deadline passed with nothing delivered",
-      "writes": "a later story names the missed date"
+      "writes": "a later story names the missed date",
+      "requiresFacts": [],
+      "excludesFacts": []
     }
   ]
 }
