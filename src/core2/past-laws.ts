@@ -25,10 +25,13 @@ import catalog from "./data/legislature/bill-catalog.json" with { type: "json" }
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { questionAxis } from "./campaign-views";
 import { memberSupportAt } from "./officials-roster";
-import { LAWS_MODULE_ID } from "./modules/laws";
+import {
+  LAWS_MODULE_ID,
+  policyAuthority,
+  type PolicyLevel,
+} from "./modules/laws";
 import { centuryLaw } from "./modules/elections";
 import { members } from "./modules/legislature";
-import { levelMayDecide } from "./modules/world-legislating";
 import {
   RECORD_MODULE_ID,
   voteRecordId,
@@ -285,13 +288,18 @@ export function buildPriorTerms(
     // Only questions this chamber's level can decide: a county board never
     // voted on raising the federal minimum wage, whatever its members ran on.
     // The one authority for what a level may enact is the powers catalog
-    // through `levelMayDecide` (the check a body files by when it sits), not
-    // the bill catalog's own level lists: an amount's series speaks to the
-    // question of the state's tax code, so a borough's prior term must not
-    // vote on it.
+    // through `policyAuthority` (the check the live bill catalog applies),
+    // not the bill catalog's own level lists: an amount's series speaks to
+    // the question of the state's tax code, so a borough's prior term must
+    // not vote on it.
+    const level =
+      chamber.office.level === "township" ? "city" : chamber.office.level;
     const askable = CATALOG_QUESTIONS[
       catalogLevel(chamber.office.level)
-    ].filter((question) => levelMayDecide(api, chamber.office.level, question));
+    ].filter(
+      (question) =>
+        policyAuthority(api, question, level as PolicyLevel).allowed,
+    );
     const own = chamber.members
       .flatMap((term) => promised.get(term.personId!) ?? [])
       .filter((question) => askable.includes(question));
