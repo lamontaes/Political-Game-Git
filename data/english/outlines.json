@@ -221,7 +221,7 @@
       ]
     },
     "news-address-headline": {
-      "surface": "news",
+      "surface": "dialogue",
       "sections": [
         {
           "name": "headline",
@@ -231,7 +231,7 @@
       ]
     },
     "news-address": {
-      "surface": "news",
+      "surface": "dialogue",
       "budgets": {
         "*": 2,
         "name": 1
@@ -249,7 +249,7 @@
       ]
     },
     "news-roll-call-headline": {
-      "surface": "news",
+      "surface": "dialogue",
       "sections": [
         {
           "name": "headline",
@@ -259,7 +259,7 @@
       ]
     },
     "news-roll-call": {
-      "surface": "news",
+      "surface": "dialogue",
       "budgets": {
         "*": 2
       },
