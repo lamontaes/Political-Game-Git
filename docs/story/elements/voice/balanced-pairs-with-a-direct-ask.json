@@ -1,0 +1,31 @@
+{
+  "id": "balanced-pairs-with-a-direct-ask",
+  "kind": "voice",
+  "summary": "A speaker builds sentences in balanced pairs and then turns to the audience with a direct question or ask.",
+  "realLife": "Kennedy's inaugural, January 20, 1961, set one clause against its reverse, said the day was a celebration of freedom and not a victory of party, and turned to listeners with a direct request to join the effort.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "Read the full address and noted the balanced contrasts, the direct questions and the way it treats the party change."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "The `creed` and `close` sections, with sentence shape pulled by a speaker trait.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The speaker uses long, flat sentences and a general close.",
+      "pulledBy": "low assertive",
+      "writesBack": "The close section has no ask."
+    },
+    {
+      "turn": "neutral",
+      "what": "The speaker uses one balanced pair and then moves on.",
+      "pulledBy": "most speakers",
+      "writesBack": "The speech records the pair and nothing more."
+    }
+  ]
+}
