@@ -1,0 +1,30 @@
+{
+  "id": "paper-trail-link-by-link",
+  "kind": "move",
+  "summary": "The ties are shown one record at a time, each said where it came from.",
+  "realLife": "Campaign filings, state business records and a professional profile were walked through in turn to connect the chair to the firm.",
+  "sources": [
+    "Michigan Public, 'New Ottawa County board members award no-bid contract to law firm with ties to board chair', Jan. 10, 2023: https://www.michiganpublic.org/politics-government/2023-01-10/new-ottawa-county-board-members-award-no-bid-contract-to-law-firm-with-ties-to-board-chair",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "firm"],
+  "gates": [],
+  "weights": {
+    "exposed": 1.0
+  },
+  "inGame": "organizations and ownership rows, the family records (`relative`), the contracts award; needs: campaign finance rows",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "one link only",
+      "pulledBy": "a single tie in the records",
+      "writes": "the story states the one tie"
+    },
+    {
+      "name": "a tie the records do not show",
+      "pulledBy": "a rumor with no record",
+      "writes": "the story says no record shows it"
+    }
+  ]
+}

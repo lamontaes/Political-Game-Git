@@ -255,7 +255,10 @@ function townHead(
       personId: chosen.holder.personId as PersonId,
       serviceStart: chosen.holder.serviceStart ?? chosen.holder.startDate,
       jurisdiction: chosen.office.jurisdiction,
-      local: localSpeaker(core, chosen.holder, chosen.office, title),
+      local: {
+        ...localSpeaker(core, chosen.holder, chosen.office, title),
+        termId: chosen.holder.id,
+      },
       officeWords: officeWords(words) ? words : chosen.office.kind,
     };
   }
@@ -373,9 +376,9 @@ export function composeLocalAddress(
   // mayor's views, so a mayor has no stands to ask for).
   if (!plan.theme && !plan.asks.length) return null;
   const id = addressEventId(level, core.date);
-  // A State of the State is told through the one outline planner where its
-  // outline bank can say every required section; the old composer stands in
-  // until then, and for a mayor's address (SG-WORDS-addresses-await-outline).
+  // A State of the State and a mayor's address are told through the one
+  // outline planner where their outline banks can say every required section;
+  // the old composer stands in until then (SG-WORDS-addresses-await-outline).
   const told = isTold(subject)
     ? toldSentences(tellingOfPlan(core, subject, outlineSpeaker, plan, id))
     : null;

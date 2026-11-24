@@ -1,5 +1,6 @@
 import { STORIES } from "./address-story";
 import { partsOf, type TellingInput } from "../english/outline-planner";
+import type * as OutlinePlanner from "../english/outline-planner";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -16,32 +17,46 @@ import {
 import { composeOpeningStory } from "./opening-story";
 import { ADDRESS_KINDS } from "./address-kind";
 import { composeLocalAddress } from "./local-address";
+import { composeCampaignSpeech } from "./local-speeches";
+import { townSeats } from "../core2/modules/offices";
+import { headsLocalExecutive } from "../core2/offices-executives";
 import { WORDS_STOPGAP_HITS } from "./stopgaps";
 
 // Which kinds' outline banks the test lets say every required section: a
 // kind named here is told as the inaugural's bank tells it, the oath held, so
-// the route is seen without a line written for the kind. Off, the planner
-// reads the banks as they are.
-const banks = vi.hoisted(() => ({ say: new Set<string>() }));
+// the route is seen without a line written for the kind; a kind in `mute`
+// says nothing, so the fallback is seen whatever its bank holds. Off, the
+// planner reads the banks as they are.
+const banks = vi.hoisted(() => ({
+  say: new Set<string>(),
+  mute: new Set<string>(),
+}));
 vi.mock("../english/outline-planner", async (importOriginal) => {
-  const real =
-    await importOriginal<typeof import("../english/outline-planner")>();
+  const real = await importOriginal<typeof OutlinePlanner>();
   return {
     ...real,
     tell: (input: TellingInput) =>
-      banks.say.has(input.kind)
-        ? real.tell({
-            ...input,
-            kind: "inaugural",
-            facts: {
-              ...input.facts,
-              "took-oath": {
-                text: "yes",
-                sourceRecordIds: input.sourceRecordIds,
+      banks.mute.has(input.kind)
+        ? null
+        : banks.say.has(input.kind)
+          ? real.tell({
+              ...input,
+              kind: "inaugural",
+              facts: {
+                ...input.facts,
+                "took-oath": {
+                  text: "yes",
+                  sourceRecordIds: input.sourceRecordIds,
+                },
+                // The inaugural's oath pieces say the years left; a mayor with
+                // no term end on the record has none, so the bank stands in.
+                "term-left": input.facts["term-left"] ?? {
+                  text: "two years",
+                  sourceRecordIds: input.sourceRecordIds,
+                },
               },
-            },
-          })
-        : real.tell(input),
+            })
+          : real.tell(input),
   };
 });
 
@@ -210,6 +225,8 @@ describe("the State of the Union and the State of the State are told through the
 
   it("falls back to the old composer while the kind's outline bank cannot say a required section", () => {
     banks.say.clear();
+    // The kinds' banks say nothing here, whatever the writers have filled.
+    banks.mute = new Set(["state-of-the-union", "state-of-the-state"]);
     WORDS_STOPGAP_HITS.clear();
     const story = stateOfTheUnion();
     expect(story?.speechKind, where).toBe("state-of-the-union");
@@ -228,9 +245,11 @@ describe("the State of the Union and the State of the State are told through the
         local.sentences.flatMap((row) => row.pieces).some(outlinePiece),
         `${where}: ${local.text}`,
       ).toBe(false);
+    banks.mute.clear();
   });
 
   it("says the outline planner's sentences where the kind's bank can say it", () => {
+    banks.mute.clear();
     banks.say = new Set(["state-of-the-union", "state-of-the-state"]);
     try {
       WORDS_STOPGAP_HITS.clear();
@@ -248,6 +267,64 @@ describe("the State of the Union and the State of the State are told through the
           local.sentences.flatMap((row) => row.pieces).every(outlinePiece),
           `${where}: ${local.text}`,
         ).toBe(true);
+      expect(WORDS_STOPGAP_HITS.has("SG-WORDS-addresses-await-outline")).toBe(
+        false,
+      );
+    } finally {
+      banks.say = new Set();
+    }
+  });
+});
+
+describe("the mayor's address and the campaign speech are told through the one outline planner", () => {
+  const outlinePiece = (piece: string) =>
+    partsOf("inaugural").some((part) => part.key === piece);
+  const seat = townSeats(coreAPI(core)).find((row) =>
+    headsLocalExecutive(row.office.kind),
+  );
+  /** The player's campaign speech for the town's executive seat, where the platform gives one. */
+  const campaign = () =>
+    seat && world.playerId
+      ? composeCampaignSpeech(core, world.playerId, seat.office.id, null)
+      : null;
+
+  it("falls back to the old composer while the kind's outline bank cannot say a required section", () => {
+    banks.say.clear();
+    // The kinds' banks say nothing here, whatever the writers have filled.
+    banks.mute = new Set(["town-address", "campaign-speech"]);
+    try {
+      WORDS_STOPGAP_HITS.clear();
+      const town = composeLocalAddress(core, "town");
+      const speech = campaign();
+      for (const told of [town, speech])
+        if (told)
+          expect(
+            told.sentences.flatMap((row) => row.pieces).some(outlinePiece),
+            `${where}: ${told.sentences.map((row) => row.text).join(" ")}`,
+          ).toBe(false);
+      if (town || speech)
+        expect(WORDS_STOPGAP_HITS.has("SG-WORDS-addresses-await-outline")).toBe(
+          true,
+        );
+    } finally {
+      banks.mute.clear();
+    }
+  });
+
+  it("says the outline planner's sentences where the kind's bank can say it", () => {
+    banks.say = new Set(["town-address", "campaign-speech"]);
+    try {
+      WORDS_STOPGAP_HITS.clear();
+      const town = composeLocalAddress(core, "town");
+      const speech = campaign();
+      for (const told of [town, speech])
+        if (told) {
+          expect(told.sentences.length, where).toBeGreaterThan(0);
+          expect(
+            told.sentences.flatMap((row) => row.pieces).every(outlinePiece),
+            `${where}: ${told.sentences.map((row) => row.text).join(" ")}`,
+          ).toBe(true);
+        }
       expect(WORDS_STOPGAP_HITS.has("SG-WORDS-addresses-await-outline")).toBe(
         false,
       );

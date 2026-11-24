@@ -48,7 +48,8 @@
     "body": "the body that voted, as its record names it",
     "law": "the bill or law by its name, never its number",
     "purpose": "what the bill does, as a noun phrase from the bill catalog",
-    "count": "the vote count in words and figures (\"3 to 2\")"
+    "count": "the vote count in words and figures (\"3 to 2\")",
+    "body-word": "the body the governor reports to, said as people say it after 'the' (\"legislature\"), from the speech's facts"
   },
   "maxWords": 30,
   "parts": [
@@ -532,28 +533,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-theme.answer.inaugural-yes-and-i-ll-spend-getting-it-done-because",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "Yes, and I'll spend {term-left} getting it done, because {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-for", "term-left"]
-        }
-      ],
-      "after": ["question"],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-excitable"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-theme.stand-reason.inaugural-i-m-against-and-i-ll-tell-you-why",
       "move": "stand-reason",
       "kind": "spoken",
@@ -631,67 +610,6 @@
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-we-have-let-s-not-waste-the-first-afternoon",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "We have {term-left}. Let's not waste the first afternoon.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-light-hearted"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-thank-you-for-trusting-me-with",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thank you for trusting me with {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"]
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-the-next-will-go-fast-so-i-m-going-to-get-to-work",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The next {term-left} will go fast, so I'm going to get to work.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-work-centered"
-      ],
       "origin": "authored",
       "author": "the Story lead",
       "date": "2026-11-24"
@@ -1091,48 +1009,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-theme.send-off.inaugural-i-ll-see-you-out-there-over-the-next",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll see you out there over the next {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-the-clock-on-these-started-at-noon-and-it-doesn-t-stop",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The clock on these {term-left} started at noon, and it doesn't stop.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-theme.value.inaugural-you-ll-know-by-next-year-whether-i-meant-it-on",
       "move": "value",
       "kind": "spoken",
@@ -1338,28 +1214,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-theme.creed.inaugural-take-away-the-speeches-and-what-s-left-is-this",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "Take away the speeches, and what's left is this: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-theme.creed.inaugural-my-whole-case-rests-on-one-idea-that",
       "move": "creed",
       "kind": "spoken",
@@ -1379,52 +1233,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-where-do-i-stand-on-the-idea-that",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "Where do I stand? On the idea that {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-dramatic",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-on-my-list-first-is-and-i-won-t-drop-it-when-the-vote-gets-hard",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "On my list, first, is {about}, and I won't drop it when the vote gets hard.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-spend-what-influence-i-have-to-and-i-won-t-quit-at-the-first-no",
@@ -1447,7 +1257,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-count-on-a-veto-if-ever-reaches-me",
@@ -1470,53 +1281,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-expect-me-to-work-against-until-it-s-off-the-books",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Expect me to work against {law-name} until it's off the books.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-given-all-that-i-d-start-by-undoing",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Given all that, I'd start by undoing {law-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.stand.inaugural-which-is-why-comes-first-for-me",
@@ -1539,30 +1305,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-i-think-would-make-that-worse-not-better",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I think {about} would make that worse, not better.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-to-me-comes-down-to-this",
@@ -1586,7 +1330,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-devoted"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-can-t-back-since",
@@ -1610,262 +1355,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-keeping-makes-sense-to-me-since",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "Keeping {law-name} makes sense to me, since {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "belief", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-my-view-on-is-simple-it-has-to-go-because",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "My view on {law-name} is simple: it has to go, because {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "belief",
-            "stance-against",
-            "law-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-how-i-handle-is-how-you-should-judge-the-rest-of-me",
-      "move": "value",
-      "kind": "spoken",
-      "text": "How I handle {theme-short} is how you should judge the rest of me.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-if-gets-better-give-me-the-credit-if-it-doesn-t-the-blame",
-      "move": "value",
-      "kind": "spoken",
-      "text": "If {theme-short} gets better, give me the credit. If it doesn't, the blame.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-blunt"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-on-i-d-sooner-be-wrong-in-public-than-quiet-in-private",
-      "move": "value",
-      "kind": "spoken",
-      "text": "On {theme-short}, I'd sooner be wrong in public than quiet in private.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-keep-an-eye-on-this-year-and-tell-me-what-you-see",
-      "move": "value",
-      "kind": "spoken",
-      "text": "Keep an eye on {theme-short} this year, and tell me what you see.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-with-on-the-clock-i-plan-to-use-every-day",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "With {term-left} on the clock, I plan to use every day.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-let-s-find-out-what-we-can-do-in",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Let's find out what we can do in {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-light-hearted"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-i-m-grateful-for-the-chance-to-work-on-this-for",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'm grateful for the chance to work on this for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-i-hold-to-this-and-i-ll-say-it-plainly",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "I hold to this, and I'll say it plainly: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-if-you-want-one-sentence-about-me-it-s-that",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "If you want one sentence about me, it's that {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-proud"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-whatever-you-hear-from-me-over-it-comes-back-to-this",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "Whatever you hear from me over {term-left}, it comes back to this: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.creed.inaugural-plenty-of-people-disagree-with-me-but-i-still-say-that",
@@ -1887,7 +1378,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-anyone-who-comes-for-will-find-me-in-the-way",
@@ -1910,7 +1402,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-didn-t-come-here-to-watch-get-weakened",
@@ -1930,101 +1423,8 @@
       "lean": ["personality-v1:facet-devoted", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-repealing-is-a-job-i-m-taking-on-myself",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Repealing {law-name} is a job I'm taking on myself.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-there-s-a-fight-coming-over-and-i-won-t-duck-it",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "There's a fight coming over {law-name}, and I won't duck it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-argumentative"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-won-t-sign-and-i-won-t-pretend-otherwise",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I won't sign {about}, and I won't pretend otherwise.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-m-not-going-to-let-sit-in-a-drawer-for",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'm not going to let {about} sit in a drawer for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "term-left",
-            "stance-for",
-            "law-not-in-force"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-no-because",
@@ -2044,7 +1444,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-say-no-and-here-s-why",
@@ -2064,7 +1465,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-wouldn-t-since",
@@ -2084,7 +1486,8 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-yes-because",
@@ -2107,30 +1510,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-i-say-yes-and-the-reason-is-simple",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "I say yes, and the reason is simple: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-for"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-would-since",
@@ -2150,116 +1531,8 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-devoted"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-so-stays-and-i-ll-say-so-to-anyone-who-asks",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "So {law-name} stays, and I'll say so to anyone who asks.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-i-d-rather-fix-that-than-live-with",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I'd rather fix that than live with {law-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-i-mean-to-answer-that-with",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I mean to answer that with {about}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-adding-on-top-of-that-is-the-wrong-move",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Adding {about} on top of that is the wrong move.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-while-i-m-in-this-office-stays-on-the-books",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "While I'm in this office, {law-name} stays on the books.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-proud"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-put-me-down-as-a-no",
@@ -2279,7 +1552,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-put-me-down-as-a-yes",
@@ -2299,7 +1573,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-not-if-i-can-help-it-because",
@@ -2322,7 +1597,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-d-do-it-gladly-since",
@@ -2345,89 +1621,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-start-counting-the-from-now-because-i-already-have",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Start counting the {term-left} from now, because I already have.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-nobody-promised-would-be-easy-and-they-won-t-be",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Nobody promised {term-left} would be easy, and they won't be.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-whatever-comes-i-ll-be-at-my-desk-for",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Whatever comes, I'll be at my desk for {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-thanks-for-the-i-ll-try-to-earn-them",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thanks for the {term-left}. I'll try to earn them.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-strip-it-all-down-and-i-believe-one-thing",
@@ -2446,29 +1641,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-i-came-to-this-job-believing-that-and-i-still-do",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "I came to this job believing that {belief}, and I still do.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-devoted",
-        "personality-v1:facet-persistent"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-i-can-t-prove-it-to-everyone-but-i-m-sure-that",
@@ -2487,114 +1661,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-everything-else-i-say-follows-from-this",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "Everything else I say follows from this: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-people-have-told-me-i-m-wrong-about-this-i-still-think",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "People have told me I'm wrong about this. I still think {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-argumentative"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-if-i-had-to-put-my-view-on-a-card-it-would-say-that",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "If I had to put my view on a card, it would say that {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-light-hearted"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-i-m-a-plain-speaker-so-here-it-is",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "I'm a plain speaker, so here it is: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-what-do-i-stand-on",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "What do I stand on? {belief-sentence}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief-sentence"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-dramatic",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-i-ve-never-seen-a-reason-to-doubt-it",
@@ -2613,75 +1681,8 @@
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.creed.inaugural-you-ll-hear-me-say-it-for",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "You'll hear me say it for {term-left}: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "creed",
-          "tie": "stand",
-          "requiresFacts": ["belief", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-devoted"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-you-ll-see-in-every-budget-i-send-over",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "You'll see {about} in every budget I send over.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-ll-make-the-case-for-in-every-room-that-will-hear-it",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'll make the case for {about} in every room that will hear it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-if-stalls-i-ll-bring-it-back-and-then-i-ll-bring-it-back-again",
@@ -2704,7 +1705,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-the-test-of-my-first-year-is-whether-we-get-done",
@@ -2727,93 +1729,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-m-going-to-and-i-d-like-your-help",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'm going to {to}, and I'd like your help.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-wherever-i-m-asked-i-ll-say-we-should-and-i-ll-say-it-the-same-way-each-time",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Wherever I'm asked, I'll say we should {to}, and I'll say it the same way each time.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-persistent", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-ll-use-every-tool-i-have-to-keep-from-becoming-law",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'll use every tool I have to keep {about} from becoming law.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-competitive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-if-comes-up-for-a-vote-i-ll-be-against-it-and-i-ll-say-why",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "If {about} comes up for a vote, I'll be against it and I'll say why.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-my-door-is-open-on-a-lot-of-things-but-not-on",
@@ -2833,30 +1750,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-d-sooner-lose-a-fight-over-than-win-it-by-giving-in",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'd sooner lose a fight over {about} than win it by giving in.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-proud",
-        "personality-v1:facet-argumentative"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-anyone-planning-on-should-plan-on-talking-to-me-first",
@@ -2876,7 +1771,8 @@
       "lean": ["personality-v1:facet-assertive", "personality-v1:facet-cocky"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-stand-against-this-year-next-year-and-the-year-after",
@@ -2899,7 +1795,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-protect-from-anyone-who-wants-to-gut-it",
@@ -2922,7 +1819,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-there-is-no-deal-i-d-take-that-trades-away",
@@ -2942,50 +1840,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-proud"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-if-comes-under-attack-i-ll-be-the-first-to-answer",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "If {law-name} comes under attack, I'll be the first to answer.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-devoted"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-m-keeping-and-i-m-keeping-it-strong",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'm keeping {law-name}, and I'm keeping it strong.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-whoever-wants-to-change-will-have-to-get-past-me-first",
@@ -3008,7 +1864,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-for-all-of-i-ll-back-with-everything-i-ve-got",
@@ -3036,7 +1893,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-m-going-to-work-with-anyone-willing-to-rewrite",
@@ -3059,7 +1917,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-put-my-weight-behind-undoing",
@@ -3082,30 +1941,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-won-t-rest-while-is-still-on-the-books",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I won't rest while {law-name} is still on the books.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-at-the-top-of-my-list-to-repeal-is",
@@ -3125,7 +1962,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-go-after-one-section-at-a-time-if-i-have-to",
@@ -3148,7 +1986,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-nobody-should-expect-me-to-leave-alone",
@@ -3168,7 +2007,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-cocky"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-reason-enough-for-me-to-stand-behind",
@@ -3191,70 +2031,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-against-that-looks-like-the-thing-worth-keeping",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Against that, {law-name} looks like the thing worth keeping.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-i-won-t-let-that-talk-me-out-of",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I won't let that talk me out of {law-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-persistent",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-nothing-there-changes-my-mind-about",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Nothing there changes my mind about {law-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-reason-enough-for-me-to-want-gone",
@@ -3274,7 +2052,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-in-light-of-that-has-to-change",
@@ -3297,7 +2076,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-looking-at-that-i-can-t-defend",
@@ -3317,27 +2097,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-i-don-t-see-how-survives-a-look-at-that",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I don't see how {law-name} survives a look at that.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-why-i-m-pushing-for",
@@ -3360,27 +2121,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-put-that-next-to-and-i-think-the-choice-is-plain",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Put that next to {about}, and I think the choice is plain.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-d-say-that-s-the-best-argument-i-know-for",
@@ -3400,30 +2142,8 @@
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-seeing-that-i-want-to",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Seeing that, I want to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-why-i-m-against",
@@ -3443,30 +2163,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-put-that-next-to-and-i-think-the-risk-is-plain",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Put that next to {about}, and I think the risk is plain.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-guarded"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-d-say-that-s-the-best-argument-i-know-against",
@@ -3489,27 +2187,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-seeing-that-i-don-t-want-to",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "Seeing that, I don't want to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["today"],
-      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-back-and-here-s-the-reason",
@@ -3533,26 +2212,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-what-i-want-is-to-since",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "What I want is to {to}, since {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-for", "law-not-in-force", "belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-came-around-to-because",
@@ -3579,55 +2240,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-why-not-because",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "Why not {about}? Because {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-against",
-            "law-not-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-dramatic"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-i-m-not-going-to-support-and-the-reason-is-that",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "I'm not going to support {about}, and the reason is that {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-against",
-            "law-not-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-ve-thought-about-and-i-land-on-no-since",
@@ -3654,7 +2268,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-for-me-fails-on-one-point",
@@ -3678,7 +2293,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-keeping-comes-down-to-this",
@@ -3700,26 +2316,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-i-stand-by-since",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "I stand by {law-name}, since {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-proud"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-ve-looked-hard-at-and-i-d-keep-it-because",
@@ -3741,50 +2339,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-for-me-earns-its-place-on-one-point",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "For me, {law-name} earns its place on one point: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force", "belief"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-what-it-comes-down-to-on-is-that",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "What it comes down to on {law-name} is that {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "stance-against",
-            "law-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-can-t-defend-since",
@@ -3808,7 +2364,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-read-twice-and-i-d-repeal-it-because",
@@ -3835,31 +2392,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand-reason.inaugural-on-i-keep-landing-in-the-same-place",
-      "move": "stand-reason",
-      "kind": "spoken",
-      "text": "On {law-name}, I keep landing in the same place: {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand-reason",
-          "tie": "stand",
-          "requiresFacts": [
-            "law-name",
-            "stance-against",
-            "law-in-force",
-            "belief"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-persistent", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-don-t-think-so-since",
@@ -3879,93 +2413,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-not-in-my-view-and-the-reason-is-that",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "Not in my view, and the reason is that {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-against"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-my-vote-would-be-no-because",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "My vote would be no, because {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-against"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-no-i-ve-heard-the-other-side-out-and",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "No. I've heard the other side out, and {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-against"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-i-ll-tell-you-where-i-land-no-because",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "I'll tell you where I land: no, because {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-against"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-m-a-no-on-that",
@@ -3985,7 +2434,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-think-so-since",
@@ -4005,93 +2455,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-in-my-view-yes-and-the-reason-is-that",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "In my view, yes, and the reason is that {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-for"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-my-vote-would-be-yes-because",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "My vote would be yes, because {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-for"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-yes-i-ve-heard-the-other-side-out-and",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "Yes. I've heard the other side out, and {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-for"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.answer.inaugural-i-ll-tell-you-where-i-land-yes-because",
-      "move": "answer",
-      "kind": "spoken",
-      "text": "I'll tell you where I land: yes, because {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "answer",
-          "tie": "stand",
-          "requiresFacts": ["belief", "stance-for"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["question"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.answer.inaugural-i-m-a-yes-on-that",
@@ -4111,7 +2476,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-judge-me-on-first",
@@ -4129,26 +2495,6 @@
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-nobody-should-have-to-guess-where-i-am-on",
-      "move": "value",
-      "kind": "spoken",
-      "text": "Nobody should have to guess where I am on {theme-short}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24"
@@ -4217,26 +2563,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-theme.value.inaugural-i-ll-tell-you-plainly-how-is-going-good-or-bad",
-      "move": "value",
-      "kind": "spoken",
-      "text": "I'll tell you plainly how {theme-short} is going, good or bad.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-theme.value.inaugural-if-i-m-right-about-you-ll-see-it-if-i-m-wrong-you-ll-see-that-too",
       "move": "value",
       "kind": "spoken",
@@ -4252,69 +2578,6 @@
       ],
       "after": ["pledge", "stand", "answer", "stand-reason"],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-ask-me-about-in-a-year-and-i-ll-have-an-answer",
-      "move": "value",
-      "kind": "spoken",
-      "text": "Ask me about {theme-short} in a year, and I'll have an answer.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-i-won-t-dodge-a-question-on",
-      "move": "value",
-      "kind": "spoken",
-      "text": "I won't dodge a question on {theme-short}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-you-gave-me-a-say-on-and-i-intend-to-use-it",
-      "move": "value",
-      "kind": "spoken",
-      "text": "You gave me a say on {theme-short}, and I intend to use it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": ["personality-v1:facet-proud", "personality-v1:facet-ambitious"],
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24"
@@ -4366,29 +2629,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-theme.value.inaugural-the-work-on-won-t-be-glamorous-but-it-will-be-real",
-      "move": "value",
-      "kind": "spoken",
-      "text": "The work on {theme-short} won't be glamorous, but it will be real.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-theme.value.inaugural-whatever-else-happens-stays-near-the-top-of-my-list",
       "move": "value",
       "kind": "spoken",
@@ -4406,286 +2646,6 @@
       "lean": [
         "personality-v1:facet-devoted",
         "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-we-ve-got-to-do-this-right-so-let-s-get-going",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "We've got {term-left} to do this right, so let's get going.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-the-time-we-have-is-and-i-plan-to-use-it",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The time we have is {term-left}, and I plan to use it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-i-ll-be-here-for-working",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll be here for {term-left}, working.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-humble"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-see-you-at-the-end-of-and-we-ll-see-what-we-ve-done",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "See you at the end of {term-left}, and we'll see what we've done.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-competitive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-thank-you-for-the-next-i-don-t-take-them-for-granted",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thank you for the next {term-left}. I don't take them for granted.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-there-s-a-lot-to-do-in-let-s-start",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "There's a lot to do in {term-left}. Let's start.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-i-m-ready-for-i-hope-you-are-too",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'm ready for {term-left}. I hope you are too.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-excitable"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-here-s-to-of-getting-things-done",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Here's to {term-left} of getting things done.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-light-hearted",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-let-s-make-count",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Let's make {term-left} count.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-ambitious",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-i-can-t-promise-will-be-easy-i-can-promise-i-ll-show-up",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I can't promise {term-left} will be easy. I can promise I'll show up.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-time-to-get-to-work-we-have",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Time to get to work. We have {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.contrast.inaugural-some-people-want-to-and-they-re-sincere-about-it",
-      "move": "contrast",
-      "kind": "spoken",
-      "text": "Some people want to {other-side}, and they're sincere about it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-fair-minded", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.contrast.inaugural-the-other-way-is-to-and-plenty-of-people-believe-in-it",
-      "move": "contrast",
-      "kind": "spoken",
-      "text": "The other way is to {other-side}, and plenty of people believe in it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-fair-minded"
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
@@ -4711,25 +2671,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-theme.contrast.inaugural-i-ve-met-people-who-d-and-i-don-t-think-they-re-fools",
-      "move": "contrast",
-      "kind": "spoken",
-      "text": "I've met people who'd {other-side}, and I don't think they're fools.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-theme.contrast.inaugural-a-few-in-congress-would-tomorrow-if-they-could",
       "move": "contrast",
       "kind": "spoken",
@@ -4747,66 +2688,6 @@
         "personality-v1:facet-competitive",
         "personality-v1:facet-skeptical"
       ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.contrast.inaugural-there-s-a-camp-that-wants-to-and-they-ll-say-so-loudly",
-      "move": "contrast",
-      "kind": "spoken",
-      "text": "There's a camp that wants to {other-side}, and they'll say so loudly.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-argumentative",
-        "personality-v1:facet-dramatic"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.contrast.inaugural-i-understand-the-pull-of-wanting-to",
-      "move": "contrast",
-      "kind": "spoken",
-      "text": "I understand the pull of wanting to {other-side}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.contrast.inaugural-another-view-says-we-should",
-      "move": "contrast",
-      "kind": "spoken",
-      "text": "Another view says we should {other-side}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24"
@@ -4914,7 +2795,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-disagree-and-here-s-why",
@@ -4937,7 +2819,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-respect-that-but-i-think",
@@ -4960,7 +2843,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-can-t-go-along-with-that-since",
@@ -4980,50 +2864,8 @@
       "lean": ["personality-v1:facet-guarded", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-my-answer-to-them-is-that",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "My answer to them is that {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["contrast"],
-      "lean": ["personality-v1:facet-assertive", "personality-v1:facet-proud"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.stand.inaugural-they-re-wrong-about-this-i-think-because",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "They're wrong about this, I think, because {belief}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": ["belief"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["contrast"],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-cocky"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.question.inaugural-do-we-or-do-we-leave-things-as-they-are",
@@ -5064,47 +2906,6 @@
       "lean": [
         "personality-v1:facet-dramatic",
         "personality-v1:facet-charming"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.question.inaugural-ought-we",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Ought we {to}?",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["to"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-studious", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.question.inaugural-will-we-or-will-we-wait",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Will we {to}, or will we wait?",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["to"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-dramatic",
-        "personality-v1:facet-excitable"
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
@@ -5172,25 +2973,6 @@
         "personality-v1:facet-analytical",
         "personality-v1:facet-studious"
       ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.question.inaugural-can-we",
-      "move": "question",
-      "kind": "spoken",
-      "text": "Can we {to}?",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "question",
-          "tie": "stand",
-          "requiresFacts": ["to"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24"
@@ -5300,126 +3082,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-theme.today.inaugural-look-at-where-we-are",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Look at where we are. {today}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.today.inaugural-i-ll-start-with-where-things-are",
-      "move": "today",
-      "kind": "spoken",
-      "text": "I'll start with where things are. {today}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.today.inaugural-let-s-be-straight-about-it",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Let's be straight about it. {today}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.today.inaugural-let-me-say-it-as-i-see-it",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Let me say it as I see it: {today-clause}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today-clause"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.today.inaugural-as-matters-stand",
-      "move": "today",
-      "kind": "spoken",
-      "text": "As matters stand, {today-clause}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today-clause"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.today.inaugural-take-stock-for-a-moment",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Take stock for a moment: {today-clause}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today-clause"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-theme.today.inaugural-today",
       "move": "today",
       "kind": "spoken",
@@ -5436,7 +3098,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-theme.today.inaugural-the-way-i-see-it",
@@ -5455,51 +3118,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.today.inaugural-before-i-say-more-consider-this",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Before I say more, consider this: {today-clause}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today-clause"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-dramatic",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.today.inaugural-start-from-here",
-      "move": "today",
-      "kind": "spoken",
-      "text": "Start from here: {today-clause}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today-clause"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-theme.blessing.inaugural-thank-you-all",
@@ -5516,6 +3136,2189 @@
         }
       ],
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-start-on-tomorrow-morning-before-anything-else-is-on-my",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll start on {about} tomorrow morning, before anything else is on my desk.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-the-first-meeting-on-my-schedule-is-about",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The first meeting on my schedule is about {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-tomorrow-i-ll-call-the-people-in-congress-who-can-move-and-i",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Tomorrow I'll call the people in Congress who can move {about}, and I'll start with the ones who disagree.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-if-you-want-to-know-where-i-ll-be-tomorrow-i-ll-be-working-o",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "If you want to know where I'll be tomorrow, I'll be working on {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-find-out-this-week-who-in-congress-will-work-with-me-on",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll find out this week who in Congress will work with me on {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-my-staff-will-have-a-plan-for-on-my-desk-by-the-end-of-the-w",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "My staff will have a plan for {about} on my desk by the end of the week.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-over-the-next-few-weeks-i-ll-be-meeting-people-on-both-sides",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Over the next few weeks I'll be meeting people on both sides of {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-tomorrow-starts-with-and-i-m-glad-it-does",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Tomorrow starts with {about}, and I'm glad it does.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-meet-with-people-on-both-sides-of-this-week-starting-wi",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll meet with people on both sides of {about} this week, starting with the ones who disagree with me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-keep-the-people-who-disagree-with-me-about-in-the-room",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll keep the people who disagree with me about {about} in the room for every meeting.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-tomorrow-i-ll-call-the-members-of-the-who-can-move-and-i-ll",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Tomorrow I'll call the members of the {body-word} who can move {about}, and I'll start with the ones who disagree.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme", "body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-find-out-this-week-who-in-the-will-work-with-me-on",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll find out this week who in the {body-word} will work with me on {about}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme", "body-word"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-and-i-start-work-tomorrow-morning",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "{the-vice-president} and I start work tomorrow morning.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-blunt"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-and-i-will-meet-tomorrow-to-set-our-first-week-s-schedule",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "{the-vice-president} and I will meet tomorrow to set our first week's schedule.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-tomorrow-and-i-sit-down-with-congress",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Tomorrow {the-vice-president} and I sit down with Congress.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-see-you-at-work-tomorrow-along-with",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll see you at work tomorrow, along with {the-vice-president}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-god-bless-us",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "God bless us.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-god-bless-everyone",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "God bless everyone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-thank-you-america",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Thank you, America.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-thanks-everyone",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Thanks, everyone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-thank-you-again",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Thank you again.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-thank-you-friends",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Thank you, friends.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-godspeed-america",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Godspeed, America.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-dramatic"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-bless-you-all",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Bless you all.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-nurturing"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-god-bless-americans",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "God bless Americans.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": [],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-good-night-america",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Good night, America.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": ["evening"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": ["evening"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.blessing.spoken-good-night-everyone",
+      "move": "blessing",
+      "kind": "spoken",
+      "text": "Good night, everyone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": ["evening"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "blessing",
+          "tie": "frame",
+          "requiresFacts": ["evening"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-the-people-who-disagree-with-me-on-will-hear-from-my-office",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The people who disagree with me on {about} will hear from my office this week.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-ask-the-people-who-know-best-to-come-see-me-before-the",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll ask the people who know {about} best to come see me before the month is out.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-humble", "personality-v1:facet-studious"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-on-my-first-step-is-a-meeting-not-a-speech-and-it-s-tomorrow",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "On {about}, my first step is a meeting, not a speech, and it's tomorrow.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-tomorrow-i-ll-read-what-the-experts-have-written-on-and-then",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Tomorrow I'll read what the experts have written on {about}, and then I'll ask them questions.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-spend-part-of-tomorrow-with-people-who-ve-been-affected",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll spend part of tomorrow with people who've been affected by {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-somebody-in-my-office-will-be-reading-every-letter-about-sta",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Somebody in my office will be reading every letter about {about} starting tomorrow.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-call-the-leaders-of-both-parties-about-before-the-end-o",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll call the leaders of both parties about {about} before the end of the week.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-by-the-end-of-the-month-i-ll-have-a-list-of-what-can-move-on",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "By the end of the month I'll have a list of what can move on {about}, and what can't.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-the-first-memo-i-read-tomorrow-will-be-about",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The first memo I read tomorrow will be about {about}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-before-i-do-anything-on-i-ll-ask-the-people-it-affects-what",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Before I do anything on {about}, I'll ask the people it affects what they need.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-fair-minded"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-go-over-again-tomorrow-with-fresh-eyes-and-a-long-list",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll go over {about} again tomorrow with fresh eyes and a long list of questions.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-studious",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-next-week-i-ll-hold-a-meeting-on-and-anyone-with-a-stake-can",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Next week I'll hold a meeting on {about}, and anyone with a stake can come.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-state",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "told-theme"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-has-a-full-schedule-tomorrow-and-so-do-i",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "{the-vice-president} has a full schedule tomorrow, and so do I.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-and-i-will-go-over-the-week-s-calendar-tomorrow-morning",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "{the-vice-president} and I will go over the week's calendar tomorrow morning.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-i-ll-go-over-the-calendar-with-tomorrow-morning",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll go over the calendar with {the-vice-president} tomorrow morning.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-and-i-are-on-duty-from-tomorrow-morning",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "{the-vice-president} and I are on duty from tomorrow morning.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-tomorrow-morning-i-meet-with-to-start-on-the-list",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Tomorrow morning I meet with {the-vice-president} to start on the list.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": [
+        "closes-on-a-blessing-after-a-pledge",
+        "work-outlasts-the-term"
+      ]
+    },
+    {
+      "key": "outline-theme.send-off.spoken-my-first-call-tomorrow-is-to-and-then-we-start",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "My first call tomorrow is to {the-vice-president}, and then we start.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "elements": ["closes-on-a-blessing-after-a-pledge"]
+    },
+    {
+      "key": "outline-theme.creed.inaugural-i-ve-held-the-view-for-years-that",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I've held the view for years that {belief}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-devoted",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.creed.inaugural-i-think-i-always-have",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I think {belief}. I always have.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "creed",
+          "tie": "stand",
+          "requiresFacts": ["belief"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.pledge.inaugural-i-ll-sign-the-day-it-reaches-my-desk",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I'll sign {about} the day it reaches my desk.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.pledge.inaugural-send-me-and-you-ll-get-it-back-with-a-veto",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Send me {about} and you'll get it back with a veto.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["creed"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.pledge.inaugural-i-d-veto-if-it-reached-me",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I'd veto {about} if it reached me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["creed"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.pledge.inaugural-i-won-t-sign-anything-that-weakens",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "I won't sign anything that weakens {law-name}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.pledge.inaugural-anyone-who-wants-to-roll-back-will-be-arguing-with-me",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Anyone who wants to roll back {law-name} will be arguing with me.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-competitive",
+        "personality-v1:facet-proud"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.pledge.inaugural-send-me-a-bill-to-repeal-and-i-ll-sign-it",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Send me a bill to repeal {law-name} and I'll sign it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "pledge",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["creed"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-ambitious"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.stand.inaugural-i-m-for-and-i-d-sign-it",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm for {about}, and I'd sign it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.stand.inaugural-i-m-against-and-i-d-veto-it",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm against {about}, and I'd veto it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.stand.inaugural-i-m-for-and-that-doesn-t-change",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm for {law-name}, and that doesn't change.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-devoted", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.stand.inaugural-i-d-keep-just-as-it-is",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'd keep {law-name} just as it is.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.stand.inaugural-i-m-against-and-i-want-it-repealed",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm against {law-name}, and I want it repealed.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.stand.inaugural-i-d-sign-a-repeal-of-tomorrow",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'd sign a repeal of {law-name} tomorrow.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["today"],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-assertive"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.stand.inaugural-i-don-t-agree",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I don't agree. {belief-sentence}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.stand.inaugural-i-see-it-the-other-way",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I see it the other way. {belief-sentence}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
+    },
+    {
+      "key": "outline-theme.stand-reason.inaugural-i-m-against",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'm against {about}. {belief-sentence}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "about",
+            "stance-against",
+            "law-not-in-force",
+            "belief-sentence"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
+    },
+    {
+      "key": "outline-theme.stand-reason.inaugural-i-m-for-keeping",
+      "move": "stand-reason",
+      "kind": "spoken",
+      "text": "I'm for keeping {law-name}. {belief-sentence}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "stand-reason",
+          "tie": "stand",
+          "requiresFacts": [
+            "law-name",
+            "stance-for",
+            "law-in-force",
+            "belief-sentence"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
+    },
+    {
+      "key": "outline-theme.answer.inaugural-no",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "No. {belief-sentence}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-against"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["question"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.answer.inaugural-yes",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Yes. {belief-sentence}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "answer",
+          "tie": "stand",
+          "requiresFacts": ["belief-sentence", "stance-for"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["question"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
+    },
+    {
+      "key": "outline-theme.value.inaugural-on-i-expect-the-loudest-argument-and-i-m-ready-for-it",
+      "move": "value",
+      "kind": "spoken",
+      "text": "On {theme-short}, I expect the loudest argument, and I'm ready for it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-competitive"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.value.inaugural-of-everything-on-my-list-is-where-i-expect-to-be-tested-first",
+      "move": "value",
+      "kind": "spoken",
+      "text": "Of everything on my list, {theme-short} is where I expect to be tested first.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "value",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["pledge", "stand", "answer", "stand-reason"],
+      "lean": [
+        "personality-v1:facet-humble",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.today.inaugural-as-of-today",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As of today, {today-clause}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
+    },
+    {
+      "key": "outline-theme.today.inaugural-at-the-moment",
+      "move": "today",
+      "kind": "spoken",
+      "text": "At the moment, {today-clause}",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "today",
+          "tie": "stand",
+          "requiresFacts": ["today-clause"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
+    },
+    {
+      "key": "outline-theme.contrast.inaugural-some-people-argue-that-we-should",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "Some people argue that we should {other-side}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.contrast.inaugural-plenty-of-people-in-washington-want-to",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "Plenty of people in Washington want to {other-side}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-skeptical",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.contrast.inaugural-some-want-to-and-i-disagree",
+      "move": "contrast",
+      "kind": "spoken",
+      "text": "Some want to {other-side}, and I disagree.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "contrast",
+          "tie": "stand",
+          "requiresFacts": ["other-side"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.send-off.inaugural-thank-you-for-being-here-and-thank-you-to-for-standing-with-me-today",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Thank you for being here, and thank you to {the-vice-president} for standing with me today.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.send-off.inaugural-i-hope-to-sign-before-long",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I hope to sign {about} before long.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.send-off.inaugural-i-d-like-on-my-desk-before-long",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'd like {about} on my desk before long.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-ambitious",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.send-off.inaugural-i-hope-never-reaches-my-desk",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I hope {about} never reaches my desk.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.send-off.inaugural-i-ll-make-sure-keeps-working-for-as-long-as-i-m-here",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I'll make sure {law-name} keeps working for as long as I'm here.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-devoted"
+      ],
+      "origin": "authored",
+      "author": "the stand-and-close writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-theme.send-off.inaugural-before-i-m-through-i-d-like-repealed",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Before I'm through, I'd like {law-name} repealed.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["law-name", "stance-against", "law-in-force"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-ambitious"
+      ],
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24"

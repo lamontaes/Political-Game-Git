@@ -1,0 +1,31 @@
+{
+  "id": "plain-attribution",
+  "kind": "voice",
+  "summary": "A paper says who said it with the plain verb and the surname, after the quote.",
+  "realLife": "Reporters in the sample attribute with the plain verb and the person's name.",
+  "sources": [
+    "Chanute Tribune (Kansas), city to remove certain legal publications from the Tribune: https://www.chanute.com/article/598,city-of-chanute-to-remove-certain-legal-publications-from-the-tribune",
+    "Lawrence Journal-World, Douglas County commissioners approve the 2026 budget: https://www2.ljworld.com/news/county-government/2025/aug/27/douglas-county-commissioners-approve-budget-for-2026-with-lower-property-tax-rate-than-2025s",
+    "Jacksboro Newspapers (Texas), county adopts budget, tax rate increase: https://www.jacksboronewspapers.com/news/county-adopts-budget-tax-rate-increase",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["quote", "surname"],
+  "gates": [],
+  "weights": {
+    "address": 1.0
+  },
+  "usedBy": ["news-address"],
+  "turns": [
+    {
+      "name": "a description instead of a name",
+      "pulledBy": "a speaker the paper does not name",
+      "writes": "the attribution says what the speaker is"
+    },
+    {
+      "name": "a quote with no attribution in the line",
+      "pulledBy": "a line carried by the headline",
+      "writes": "the attribution sits in the lede"
+    }
+  ]
+}

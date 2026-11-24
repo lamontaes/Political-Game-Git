@@ -1,0 +1,17 @@
+{
+  "id": "thanks-the-outgoing-president",
+  "kind": "moment",
+  "summary": "The address thanks the person leaving office, then turns to the work.",
+  "realLife": "Reagan thanked President Carter for the orderly transfer before turning to inflation and deficits.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-11",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["president", "term-left"],
+  "gates": ["took-oath"],
+  "weights": {
+    "inaugural": 0.15
+  },
+  "usedBy": []
+}

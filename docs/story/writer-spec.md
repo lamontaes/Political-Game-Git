@@ -82,8 +82,12 @@ The shared element bank is `docs/story/elements/<kind>/<id>.json` (kinds: moment
 - **A line cites its elements** in its own field, the ids of the element files it draws on:
   `"elements": ["pattern-a01-brushed-off-by-the-body", "speaker-who-asks-often"]`
   The id is the file's name without `.json`, unique across kinds. A line with no real element behind it says so by having none, and that is a line to look at twice.
+- **A tag is a claim that the element stands behind the line** (the owner: "a line nothing real can stand behind is deleted, not reworded"). A moment, detail, situation or consequence element must back what the line says: its `realLife` holds the same kind of event or fact. A move or voice element must describe the very move this line makes in its slot (a report line is not tagged "opens on the occasion"). A tag matched by the line's kind alone is not a tie: leave the line untagged and look at it twice, rather than tag it loosely.
 - **Something real you find** goes into the bank first, in an `elements:` PR to main (docs only, 25 or more files, merged by the CTO), so every writer can use it the same hour. Search the bank for a match before adding one; add your evidence to a match instead of a twin.
 - **`usedBy`** stays as the element's author left it; nobody hand-edits it to list lines.
+- **Sources are the real thing** (the CTO, 7134833236): an element's `sources` name the real speech, paper, record or archive with its URL (presidency.ucsb.edu, a state archive, the paper's own page). Our own research notes may be one extra line, never the only one.
+- **Format before you push:** `npx prettier --write docs/story/elements`. An element PR that fails Prettier waits.
+- **The owner's words hold in elements too:** never "ward" in a summary or moment (the place's own word from its record, or "a council member").
 
 ## Checks before you post
 

@@ -1,0 +1,30 @@
+{
+  "id": "next-release-closes-the-story",
+  "kind": "detail",
+  "summary": "The story ends on when the next figures come out.",
+  "realLife": "A jobs story closed on the date of the next update with a link.",
+  "sources": [
+    "WNCT Greenville (Nexstar) via Yahoo News, 'Unemployment rates surge in 93 N.C. counties, highest in Edgecombe', July 2, 2025: https://www.yahoo.com/news/unemployment-rates-surge-93-n-160544749.html",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date"],
+  "gates": [],
+  "weights": {
+    "conditions": 0.7
+  },
+  "inGame": "`economy.state-jobs-report` next month's date; the calendar",
+  "usedBy": [],
+  "turns": [
+    {
+      "name": "no next date",
+      "pulledBy": "a one-time report",
+      "writes": "the story ends on the figure"
+    },
+    {
+      "name": "a revision",
+      "pulledBy": "a corrected report",
+      "writes": "the story says the earlier figure was revised"
+    }
+  ]
+}

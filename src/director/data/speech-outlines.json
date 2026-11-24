@@ -468,6 +468,11 @@
     "world": "the wider world",
     "trade": "trade"
   },
+  "nationWords": {
+    "about": "The country's name as a national address says it (the Story lead, Nov 24: a blessing or a send-off names the country, and no place record holds the nation's name). `nation` is the short name a speaker blesses; `nation-full` the formal one.",
+    "nation": "America",
+    "nation-full": "the United States"
+  },
   "todaySlots": ["", "-second", "-third"],
   "todaySlotsAbout": "The slot endings of the first, second and third wordings of how a question stands today ({today}, {today-second}, {today-third}); a slot name holds no digit, so the bank test's no-figure check reads its text. A fourth wording is not offered: the bank says three.",
   "pastWords": [
