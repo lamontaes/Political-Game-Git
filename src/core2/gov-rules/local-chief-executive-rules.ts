@@ -171,3 +171,21 @@ export function localChiefExecutiveRules(
       term !== null ? { value: term, basis: "read" } : MOST_COMMON_TERM,
   };
 }
+
+/**
+ * The town's elected vice mayor, where its reading names one (a Guam
+ * village's, 5 GCA sec. 40101): its title and term, the mayor's term where
+ * the reading gives none of its own. Null for every other town, since no
+ * vice mayor is assumed where none is read.
+ */
+export function localViceMayorRules(
+  unit: GovernmentUnitIdentity,
+): { readonly title: string; readonly termYears: number } | null {
+  if (unit.unitType !== "municipality" || !unit.functionalActive) return null;
+  const government = municipalGovernmentForUnit(unit);
+  const reading = government ? primaryReading(government) : null;
+  if (!reading?.viceMayor) return null;
+  const own = reading.terms.find((term) => /\bvice\b/i.test(term.seatClass));
+  const term = own?.years ?? readMayorTerm(reading);
+  return term ? { title: reading.viceMayor.title, termYears: term } : null;
+}

@@ -50,17 +50,30 @@ export function beatKinds(levels: readonly string[]): BeatKind[] {
   );
 }
 
-/** Each part's role: the level of its first sentence that is not the salutation. */
+/**
+ * Each part's role. The record's part numbers can skip (a block that said
+ * nothing leaves a gap), while the parts the player sees are the distinct
+ * numbers in order, so the role is read per distinct part, not by number
+ * (P8, Nov 23). A part's role is the level of its first sentence that is
+ * neither the salutation nor the occasion lead-in a point block may open
+ * with, so a stance part keys to its point's level; a part of nothing else
+ * is the occasion.
+ */
 export function partLevels(
   sentences: readonly { level: string; part: number }[],
   parts: number,
 ): string[] {
-  return Array.from(
-    { length: parts },
-    (_, part) =>
-      sentences.find((row) => row.part === part && row.level !== "salutation")
-        ?.level ?? "occasion",
-  );
+  const numbers = [...new Set(sentences.map((row) => row.part))];
+  return Array.from({ length: parts }, (_, at) => {
+    const rows = sentences.filter(
+      (row) => row.part === numbers[at] && row.level !== "salutation",
+    );
+    return (
+      rows.find((row) => row.level !== "occasion")?.level ??
+      rows[0]?.level ??
+      "occasion"
+    );
+  });
 }
 
 /**
@@ -187,10 +200,17 @@ export function addressMontage(
       reason: "you" | "household" | "moment";
       /** The office they are named by as the camera passes. */
       role?: string;
+      /** The address is a formal occasion for the people it names: they wear formal clothes (owner, Nov 23, P10). */
+      formal?: boolean;
     }[] = [];
     const records: string[] = [];
     if (kind === "chamber" && speaker) {
-      cast.push({ id: speakerId, name: speaker, reason: "moment" });
+      cast.push({
+        id: speakerId,
+        name: speaker,
+        reason: "moment",
+        formal: true,
+      });
       records.push(speakerId);
     } else if (kind === "officials") {
       const officials = key.slice(0, DATA.mostOfficials);
@@ -200,6 +220,7 @@ export function addressMontage(
           name: person.name,
           reason: "moment",
           role: person.officeTitle,
+          formal: true,
         });
         records.push(person.id, ...person.sourceRecordIds);
       }
@@ -212,13 +233,19 @@ export function addressMontage(
           name: person.name,
           reason: "moment",
           role: person.officeTitle,
+          formal: true,
         });
         records.push(person.id, ...person.sourceRecordIds);
       }
     } else if (kind === "america" && namedByPart.length) {
       // The people this part names, and no one else: no stranger stands in.
       for (const id of namedHere) {
-        cast.push({ id, name: named(id) ?? "", reason: "moment" });
+        cast.push({
+          id,
+          name: named(id) ?? "",
+          reason: "moment",
+          formal: true,
+        });
         records.push(id);
       }
     } else if (kind === "america") {
@@ -245,7 +272,12 @@ export function addressMontage(
     if (kind !== "home")
       for (const id of namedHere)
         if (!cast.some((row) => row.id === id)) {
-          cast.push({ id, name: named(id) ?? "", reason: "moment" });
+          cast.push({
+            id,
+            name: named(id) ?? "",
+            reason: "moment",
+            formal: true,
+          });
           records.push(id);
         }
     return {
