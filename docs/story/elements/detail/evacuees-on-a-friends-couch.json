@@ -6,15 +6,8 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=12"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
   "gates": [
     "A household reports staying with friends and the public count covers shelters only."
   ],

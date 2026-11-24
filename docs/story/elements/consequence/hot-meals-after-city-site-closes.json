@@ -6,16 +6,8 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=28"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{person}"],
   "gates": [
     "A municipal meal site has closed and local partners report their service status."
   ],

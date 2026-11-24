@@ -6,15 +6,8 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{person}"],
   "gates": [
     "The local outlet carries emergency information for a specific audience."
   ],

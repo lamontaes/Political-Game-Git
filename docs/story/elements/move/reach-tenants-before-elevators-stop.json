@@ -6,15 +6,8 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=11"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
   "gates": [
     "A building has a planned shutdown and a resident may need help leaving."
   ],

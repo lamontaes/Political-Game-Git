@@ -6,16 +6,8 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=10"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{person}"],
   "gates": [
     "The projection changed and the authorized official has the affected zone before them."
   ],

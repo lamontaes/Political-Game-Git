@@ -6,19 +6,9 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=12"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community",
-    "home"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "The resident personally gives elevation as a reason for staying."
-  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{person}"],
+  "gates": ["The resident personally gives elevation as a reason for staying."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: the resident personally gives elevation as a reason for staying.",

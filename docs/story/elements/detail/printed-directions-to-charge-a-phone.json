@@ -6,18 +6,9 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=9"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A posted notice gives a confirmed local charging location."
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A posted notice gives a confirmed local charging location."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a posted notice gives a confirmed local charging location.",

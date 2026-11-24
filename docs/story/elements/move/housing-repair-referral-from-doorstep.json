@@ -6,18 +6,9 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=29"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A storm outreach team can refer homes to a local repair program."
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A storm outreach team can refer homes to a local repair program."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a storm outreach team can refer homes to a local repair program.",

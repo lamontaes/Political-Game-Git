@@ -6,18 +6,9 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "The publisher uses an official local zone dataset."
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["The publisher uses an official local zone dataset."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: the publisher uses an official local zone dataset.",

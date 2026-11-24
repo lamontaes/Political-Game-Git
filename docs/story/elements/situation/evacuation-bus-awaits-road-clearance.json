@@ -6,18 +6,9 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=11"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A local evacuation transport service has a current route status."
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A local evacuation transport service has a current route status."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a local evacuation transport service has a current route status.",

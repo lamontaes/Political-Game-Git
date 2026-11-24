@@ -6,18 +6,9 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=9"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
-  "gates": [
-    "A recovery mailing list remains active and has a dated update."
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A recovery mailing list remains active and has a dated update."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: a recovery mailing list remains active and has a dated update.",

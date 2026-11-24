@@ -6,16 +6,8 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community",
-    "home"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{place}"],
   "gates": [
     "An authorized alert covers the visitor's location and the phone can receive it."
   ],

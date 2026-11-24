@@ -6,15 +6,8 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=9"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{place}"
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
   "gates": [
     "The official has a constituent report and an active emergency liaison."
   ],

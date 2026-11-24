@@ -6,18 +6,9 @@
   "sources": [
     "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
   ],
-  "fits": [
-    "office",
-    "news",
-    "journal",
-    "work-community"
-  ],
-  "slots": [
-    "{person}"
-  ],
-  "gates": [
-    "Two agency notices concern the same incident."
-  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{person}"],
+  "gates": ["Two agency notices concern the same incident."],
   "weights": [],
   "usedBy": [],
   "inGame": "needs: two agency notices concern the same incident.",
