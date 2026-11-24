@@ -15,6 +15,7 @@ import { jobTitleByKind } from "../core2/person-work";
 import { sayableJobTitle } from "../english/said-as";
 import { withArticle } from "../english/journal-words";
 import { employerWords } from "../director/words";
+import { schoolsAttended } from "../core2/past-school";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
 const SECTION_YEAR: Readonly<Record<string, string>> = {
@@ -111,6 +112,11 @@ export function loadingTelling(
         put("lost-same-year", "yes", event.id);
     }
   }
+  // The first school's name, from the school engine's own records, where it
+  // names one (a school with no name leaves the fact out).
+  const firstSchool = schoolsAttended(core, playerId)[0];
+  if (firstSchool?.name)
+    put("school-name", firstSchool.name, firstSchool.recordId);
   // The family moved before the child started school: the school's own
   // start came at the new home, so the move is part of why it is where it is.
   if (days.moved && days.school && days.moved.date < days.school.date)
@@ -126,11 +132,19 @@ export function loadingTelling(
         id: string;
         date: string;
         kind: string;
+        organizationId: string;
       }[]
     )
       .filter((row) => row.kind === "hire" && row.date <= core.date)
       .sort((x, y) => x.date.localeCompare(y.date) || x.id.localeCompare(y.id));
-    if (hires[0]) put("first-job-year", yearOf(hires[0].date), hires[0].id);
+    if (hires[0]) {
+      put("first-job-year", yearOf(hires[0].date), hires[0].id);
+      // The first employer's name, said as the world says an employer, where
+      // the organization still has a record to say it from.
+      const first = core.organizations.get(hires[0].organizationId as never);
+      const said = first ? employerWords(first) : null;
+      if (said) put("first-employer", said, first!.id);
+    }
   }
   // Who held the White House when each part of the life began, from the
   // history the world ran from 1925 (the century's presidency rows). The
