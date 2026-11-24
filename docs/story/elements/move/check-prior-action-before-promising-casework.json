@@ -1,0 +1,31 @@
+{
+  "id": "check-prior-action-before-promising-casework",
+  "kind": "move",
+  "summary": "An official checks whether anyone has acted on a constituent’s case before describing its status.",
+  "realLife": "Representative Frank Lucas’s Oklahoma office asks residents seeking agency help to identify an application, complaint or other written contact they have already made. Staff can inquire about a decision the agency still controls.",
+  "sources": [
+    "https://lucas.house.gov/agencies",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L160"
+  ],
+  "inGame": "needs: a matching earlier referral in the scene facts for a past-tense reply. The jobs engine records referrals.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{official}", "{constituent}", "{case}"],
+  "gates": ["The official can identify the constituent’s case."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The office finds the referral but cannot confirm that the agency received it.",
+      "pulledBy": "The case file contains a sent date and no acknowledgment.",
+      "writesBack": "The next task is to check receipt with the agency."
+    },
+    {
+      "turn": "opposite",
+      "what": "The envelope the visitor brings contains a blank application. The agency has no claim to look up yet.",
+      "pulledBy": "The visitor confirms they never sent the form and has no receipt or case number.",
+      "writesBack": "The caseworker gives the resident the filing address and records the visit as help with an application."
+    }
+  ],
+  "issues": ["none"]
+}
