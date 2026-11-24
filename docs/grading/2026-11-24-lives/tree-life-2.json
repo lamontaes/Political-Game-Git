@@ -1,0 +1,928 @@
+{
+ "head": "1ca359b2b6f7a259727fb19d81a8ef6f6e6d6d98",
+ "life": 2,
+ "policy": "blunt",
+ "place": "Towaoc, Colorado",
+ "seed": "9faf530e-a91b-477e-ada7-83f4eb91c79e",
+ "note": "story-scene trees come whole from the game's own story payload; conversation trees are branched from the same recorded request log rebuilt on the same seed, once per reply and per lie, to two levels",
+ "scenes": [
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_4bd565fab66e296c",
+   "otherId": "person_4bd565fab66e296c",
+   "scene": {
+    "n": 3,
+    "title": "Talk at home with Lara Richardson",
+    "when": "Monday, January 20, 20257:00 PM",
+    "here": "Lara Richardson, Kayla Richardson"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Lara Richardson",
+      "text": "I like where the President landed on Congress trading stocks.",
+      "piece": "outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on",
+      "elements": [
+       "pattern-a47-the-first-word-on-the-address"
+      ],
+      "issues": [],
+      "bank": "outline:talk-address-point",
+      "recordIds": [
+       "person_4bd565fab66e296c",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:government.ban-congressional-stock-trading",
+       "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+       "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+       "household_b6ee1470671d78dd",
+       "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:agree",
+      "move": "agree",
+      "text": "I'd have said the same, Mom.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-agree.i-d-have-said-the-same-name",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_b6ee1470671d78dd",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:government.ban-congressional-stock-trading",
+       "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+       "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_4bd565fab66e296c",
+       "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Lara Richardson",
+         "text": "I like where the President landed on Congress trading stocks.",
+         "piece": "outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_4bd565fab66e296c",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:government.ban-congressional-stock-trading",
+          "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+          "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+          "household_b6ee1470671d78dd",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+         ]
+        },
+        {
+         "who": "Piper Richardson",
+         "text": "I'd have said the same, Mom.",
+         "piece": "conversation.address-point-answer-agree.i-d-have-said-the-same-name",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_b6ee1470671d78dd",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:government.ban-congressional-stock-trading",
+          "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+          "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_4bd565fab66e296c",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+         ]
+        },
+        {
+         "who": "Lara Richardson",
+         "text": "Congress can bury it, for all I care.",
+         "piece": "conversation.address-point-back-core.decider-can-bury-it-for-all-i-care",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:government.ban-congressional-stock-trading",
+          "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+          "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_b6ee1470671d78dd",
+          "person_4bd565fab66e296c",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+          "kinship_22897fb990737e9b:past:person_4bd565fab66e296c",
+          "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:1:1:agree"
+         ]
+        },
+        {
+         "who": "Lara Richardson",
+         "text": "If a ban on stock trading by members of Congress is on the table, I'm out.",
+         "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_4bd565fab66e296c",
+          "person_4bd565fab66e296c"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "Honestly, it bothers me more than I let on.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_b6ee1470671d78dd",
+          "person_4bd568fab66e2e85",
+          "views:people:person_4bd565fab66e296c",
+          "person_4bd565fab66e296c"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Lara Richardson",
+            "text": "I like where the President landed on Congress trading stocks.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_4bd565fab66e296c",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "household_b6ee1470671d78dd",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+            ]
+           },
+           {
+            "who": "Piper Richardson",
+            "text": "I'd have said the same, Mom.",
+            "piece": "conversation.address-point-answer-agree.i-d-have-said-the-same-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_b6ee1470671d78dd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "Congress can bury it, for all I care.",
+            "piece": "conversation.address-point-back-core.decider-can-bury-it-for-all-i-care",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_b6ee1470671d78dd",
+             "person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "kinship_22897fb990737e9b:past:person_4bd565fab66e296c",
+             "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:1:1:agree"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "If a ban on stock trading by members of Congress is on the table, I'm out.",
+            "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_4bd565fab66e296c",
+             "person_4bd565fab66e296c"
+            ]
+           },
+           {
+            "who": "Piper Richardson",
+            "text": "Honestly, it bothers me more than I let on.",
+            "piece": "conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_b6ee1470671d78dd",
+             "person_4bd568fab66e2e85",
+             "views:people:person_4bd565fab66e296c",
+             "person_4bd565fab66e296c"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "I'll think about what you said on it.",
+            "piece": "conversation.own-view-take-core.disagree-i-ll-think-about-what-you-said-on-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd565fab66e296c",
+             "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:4:4:disagree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "We see eye to eye on it.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.we-see-eye-to-eye-on",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_b6ee1470671d78dd",
+          "person_4bd568fab66e2e85",
+          "views:people:person_4bd565fab66e296c",
+          "person_4bd565fab66e296c"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Lara Richardson",
+            "text": "I like where the President landed on Congress trading stocks.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_4bd565fab66e296c",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "household_b6ee1470671d78dd",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+            ]
+           },
+           {
+            "who": "Piper Richardson",
+            "text": "I'd have said the same, Mom.",
+            "piece": "conversation.address-point-answer-agree.i-d-have-said-the-same-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_b6ee1470671d78dd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "Congress can bury it, for all I care.",
+            "piece": "conversation.address-point-back-core.decider-can-bury-it-for-all-i-care",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_b6ee1470671d78dd",
+             "person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "kinship_22897fb990737e9b:past:person_4bd565fab66e296c",
+             "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:1:1:agree"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "If a ban on stock trading by members of Congress is on the table, I'm out.",
+            "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_4bd565fab66e296c",
+             "person_4bd565fab66e296c"
+            ]
+           },
+           {
+            "who": "Piper Richardson",
+            "text": "We see eye to eye on it.",
+            "piece": "conversation.own-view-answer-agree.we-see-eye-to-eye-on",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_b6ee1470671d78dd",
+             "person_4bd568fab66e2e85",
+             "views:people:person_4bd565fab66e296c",
+             "person_4bd565fab66e296c"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "Then we can stop dancing around it.",
+            "piece": "conversation.own-view-take-core.agree-then-we-can-stop-dancing-around-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd565fab66e296c",
+             "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:4:4:agree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:disagree",
+      "move": "disagree",
+      "text": "I think she has that wrong.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_b6ee1470671d78dd",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:government.ban-congressional-stock-trading",
+       "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+       "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_4bd565fab66e296c",
+       "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Lara Richardson",
+         "text": "I like where the President landed on Congress trading stocks.",
+         "piece": "outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_4bd565fab66e296c",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:government.ban-congressional-stock-trading",
+          "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+          "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+          "household_b6ee1470671d78dd",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+         ]
+        },
+        {
+         "who": "Piper Richardson",
+         "text": "I think she has that wrong.",
+         "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_b6ee1470671d78dd",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:government.ban-congressional-stock-trading",
+          "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+          "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_4bd565fab66e296c",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+         ]
+        },
+        {
+         "who": "Lara Richardson",
+         "text": "Fair enough. We don't have to agree, Piper.",
+         "piece": "conversation.address-point-back-disagree.fair-enough-we-don-t-have-to-agree-you",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:government.ban-congressional-stock-trading",
+          "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+          "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_b6ee1470671d78dd",
+          "person_4bd565fab66e296c",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+          "kinship_22897fb990737e9b:past:person_4bd565fab66e296c",
+          "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:1:1:disagree"
+         ]
+        },
+        {
+         "who": "Lara Richardson",
+         "text": "If a ban on stock trading by members of Congress is on the table, I'm out.",
+         "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_4bd565fab66e296c",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+          "person_4bd565fab66e296c"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "Honestly, it bothers me more than I let on.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_b6ee1470671d78dd",
+          "person_4bd568fab66e2e85",
+          "views:people:person_4bd565fab66e296c",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+          "person_4bd565fab66e296c"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Lara Richardson",
+            "text": "I like where the President landed on Congress trading stocks.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_4bd565fab66e296c",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "household_b6ee1470671d78dd",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+            ]
+           },
+           {
+            "who": "Piper Richardson",
+            "text": "I think she has that wrong.",
+            "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_b6ee1470671d78dd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "Fair enough. We don't have to agree, Piper.",
+            "piece": "conversation.address-point-back-disagree.fair-enough-we-don-t-have-to-agree-you",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_b6ee1470671d78dd",
+             "person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "kinship_22897fb990737e9b:past:person_4bd565fab66e296c",
+             "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "If a ban on stock trading by members of Congress is on the table, I'm out.",
+            "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "person_4bd565fab66e296c"
+            ]
+           },
+           {
+            "who": "Piper Richardson",
+            "text": "Honestly, it bothers me more than I let on.",
+            "piece": "conversation.own-view-answer-disagree.honestly-bothers-me-more-than-i-let-on",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_b6ee1470671d78dd",
+             "person_4bd568fab66e2e85",
+             "views:people:person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "person_4bd565fab66e296c"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "I'll think about what you said on it.",
+            "piece": "conversation.own-view-take-core.disagree-i-ll-think-about-what-you-said-on-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:4:4:disagree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "We see eye to eye on it.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.we-see-eye-to-eye-on",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_b6ee1470671d78dd",
+          "person_4bd568fab66e2e85",
+          "views:people:person_4bd565fab66e296c",
+          "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+          "person_4bd565fab66e296c"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Lara Richardson",
+            "text": "I like where the President landed on Congress trading stocks.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-i-like-where-landed-on",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_4bd565fab66e296c",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "household_b6ee1470671d78dd",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+            ]
+           },
+           {
+            "who": "Piper Richardson",
+            "text": "I think she has that wrong.",
+            "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_b6ee1470671d78dd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "Fair enough. We don't have to agree, Piper.",
+            "piece": "conversation.address-point-back-disagree.fair-enough-we-don-t-have-to-agree-you",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:government.ban-congressional-stock-trading",
+             "data/research/powers-catalog/catalog.json#campaign-finance/federal",
+             "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_b6ee1470671d78dd",
+             "person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "kinship_22897fb990737e9b:past:person_4bd565fab66e296c",
+             "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "If a ban on stock trading by members of Congress is on the table, I'm out.",
+            "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "person_4bd565fab66e296c"
+            ]
+           },
+           {
+            "who": "Piper Richardson",
+            "text": "We see eye to eye on it.",
+            "piece": "conversation.own-view-answer-agree.we-see-eye-to-eye-on",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_b6ee1470671d78dd",
+             "person_4bd568fab66e2e85",
+             "views:people:person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "person_4bd565fab66e296c"
+            ]
+           },
+           {
+            "who": "Lara Richardson",
+            "text": "Then we can stop dancing around it.",
+            "piece": "conversation.own-view-take-core.agree-then-we-can-stop-dancing-around-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_4bd565fab66e296c",
+             "kinship_22897fb990737e9b:past:person_4bd568fab66e2e85",
+             "conversation:person_4bd568fab66e2e85:person_4bd565fab66e296c:2025-01-20:4:4:agree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "door-signature",
+   "purpose": "ask-signature.plain",
+   "momentId": "person_4bd568fab66e2e85:2025-01-20:cause:person_5061d6b9717017c0:person_4bd568fab66e2e85:2025-01-20:1",
+   "scene": {
+    "n": 6,
+    "title": "Knock on doors",
+    "when": "Tuesday, January 21, 202510:00 AM",
+    "here": "Mary Merrill"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "Late in the morning on January 21st, you knock, and Mary Merrill opens the door.",
+     "piece": "scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door",
+     "elements": [],
+     "issues": [],
+     "recordIds": [
+      "person_4bd568fab66e2e85:2025-01-20:cause:person_5061d6b9717017c0:person_4bd568fab66e2e85:2025-01-20:1",
+      "person_5061d6b9717017c0",
+      "cause:person_5061d6b9717017c0:person_4bd568fab66e2e85:2025-01-20:1"
+     ]
+    }
+   ],
+   "opening": [
+    {
+     "who": "Piper Richardson",
+     "text": "My petition for commissioner in District 3 is due March 18, 2026. I'm Piper. Will you sign?",
+     "piece": "scene-talk.state-request.my-petition-for-office-is-due-due-i-m-self-will-you-sign",
+     "elements": [
+      "petition-the-hustle-before-the-deadline",
+      "door-on-a-small-town-street"
+     ],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [
+     {
+      "who": "Mary Merrill",
+      "text": "Sure. Everybody should get a shot at commissioner in District 3. Give me the pen.",
+      "piece": "scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen",
+      "elements": [],
+      "issues": []
+     }
+    ],
+    "choices": [
+     {
+      "text": "Thank you. That's one more before March 18, 2026.",
+      "who": "Piper Richardson",
+      "piece": "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [],
+       "choices": [],
+       "end": {
+        "outcome": "resolved"
+       }
+      }
+     },
+     {
+      "text": "What matters most to you in the race for commissioner in District 3?",
+      "who": "Piper Richardson",
+      "piece": "scene-talk.follow-ask.what-matters-most-to-you-in-the-race-for-office",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Mary Merrill",
+         "text": "Honestly, I haven't followed the race for commissioner in District 3.",
+         "piece": "scene-talk.reply-tell.honestly-i-haven-t-followed-the-race-for-office",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "I'll come back before March 18, 2026. Take your time.",
+         "who": "Piper Richardson",
+         "piece": "scene-talk.follow-promise.i-ll-come-back-before-due-take-your-time",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "That's fair. Thanks for being straight about the race for commissioner in District 3.",
+         "who": "Piper Richardson",
+         "piece": "scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

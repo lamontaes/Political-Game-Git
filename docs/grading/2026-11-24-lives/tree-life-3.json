@@ -1,0 +1,3061 @@
+{
+ "head": "1ca359b2b6f7a259727fb19d81a8ef6f6e6d6d98",
+ "life": 3,
+ "policy": "middle",
+ "place": "Hartford, Michigan",
+ "seed": "6cbdaccf-e733-4d22-82e6-4f694c416b8e",
+ "note": "story-scene trees come whole from the game's own story payload; conversation trees are branched from the same recorded request log rebuilt on the same seed, once per reply and per lie, to two levels",
+ "scenes": [
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_58594e88f9fa3710",
+   "otherId": "person_58594e88f9fa3710",
+   "scene": {
+    "n": 3,
+    "title": "Talk at home with Kevin Yates",
+    "when": "Monday, January 20, 20259:00 PM",
+    "here": "Kevin Yates, Jacqueline Yates, Joseph Yates"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Kevin Yates",
+      "text": "You heard the President: new borrowing should come with spending cuts to match. I can't get behind her on the national debt.",
+      "piece": "outline-talk.lead.talk-address-point-you-heard-president-reason-for, outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
+      "elements": [
+       "pattern-a47-the-first-word-on-the-address"
+      ],
+      "issues": [],
+      "bank": "outline:talk-address-point",
+      "recordIds": [
+       "person_58594e88f9fa3710",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+       "data/research/powers-catalog/catalog.json#borrowing/federal",
+       "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+       "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+       "household_62fbabe74f5081fd",
+       "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:agree",
+      "move": "agree",
+      "text": "I'm with you on that, Dad.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-agree.i-m-with-you-on-that-name",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+       "data/research/powers-catalog/catalog.json#borrowing/federal",
+       "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+       "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_58594e88f9fa3710",
+       "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Kevin Yates",
+         "text": "You heard the President: new borrowing should come with spending cuts to match. I can't get behind her on the national debt.",
+         "piece": "outline-talk.lead.talk-address-point-you-heard-president-reason-for, outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_58594e88f9fa3710",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "data/research/powers-catalog/catalog.json#borrowing/federal",
+          "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "household_62fbabe74f5081fd",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "I'm with you on that, Dad.",
+         "piece": "conversation.address-point-answer-agree.i-m-with-you-on-that-name",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "data/research/powers-catalog/catalog.json#borrowing/federal",
+          "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_58594e88f9fa3710",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Kevin Yates",
+         "text": "Then let's hope Congress lets it die.",
+         "piece": "conversation.address-point-back-core.then-let-s-hope-decider-lets-it-die",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "data/research/powers-catalog/catalog.json#borrowing/federal",
+          "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_62fbabe74f5081fd",
+          "person_58594e88f9fa3710",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:1:1:agree"
+         ]
+        },
+        {
+         "who": "Kevin Yates",
+         "text": "Raising the debt limit only with spending cuts to match is the one that gets me riled.",
+         "piece": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_58594e88f9fa3710",
+          "person_58594e88f9fa3710"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "No, not me.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.no-not-me",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58594e88f9fa3710",
+          "person_58594e88f9fa3710"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Kevin Yates",
+            "text": "You heard the President: new borrowing should come with spending cuts to match. I can't get behind her on the national debt.",
+            "piece": "outline-talk.lead.talk-address-point-you-heard-president-reason-for, outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_58594e88f9fa3710",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "household_62fbabe74f5081fd",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "I'm with you on that, Dad.",
+            "piece": "conversation.address-point-answer-agree.i-m-with-you-on-that-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "Then let's hope Congress lets it die.",
+            "piece": "conversation.address-point-back-core.then-let-s-hope-decider-lets-it-die",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_62fbabe74f5081fd",
+             "person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+             "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:1:1:agree"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "Raising the debt limit only with spending cuts to match is the one that gets me riled.",
+            "piece": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_58594e88f9fa3710",
+             "person_58594e88f9fa3710"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "No, not me.",
+            "piece": "conversation.own-view-answer-disagree.no-not-me",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "person_58595188f9fa3c29",
+             "views:people:person_58594e88f9fa3710",
+             "person_58594e88f9fa3710"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "I'll think about what you said on it.",
+            "piece": "conversation.own-view-take-core.disagree-i-ll-think-about-what-you-said-on-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+             "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:4:4:disagree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "You might be right about it.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.you-might-be-right-about",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58594e88f9fa3710",
+          "person_58594e88f9fa3710"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Kevin Yates",
+            "text": "You heard the President: new borrowing should come with spending cuts to match. I can't get behind her on the national debt.",
+            "piece": "outline-talk.lead.talk-address-point-you-heard-president-reason-for, outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_58594e88f9fa3710",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "household_62fbabe74f5081fd",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "I'm with you on that, Dad.",
+            "piece": "conversation.address-point-answer-agree.i-m-with-you-on-that-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "Then let's hope Congress lets it die.",
+            "piece": "conversation.address-point-back-core.then-let-s-hope-decider-lets-it-die",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_62fbabe74f5081fd",
+             "person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+             "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:1:1:agree"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "Raising the debt limit only with spending cuts to match is the one that gets me riled.",
+            "piece": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_58594e88f9fa3710",
+             "person_58594e88f9fa3710"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "You might be right about it.",
+            "piece": "conversation.own-view-answer-agree.you-might-be-right-about",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "person_58595188f9fa3c29",
+             "views:people:person_58594e88f9fa3710",
+             "person_58594e88f9fa3710"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "I figured you'd say that about it.",
+            "piece": "conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+             "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:4:4:agree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:disagree",
+      "move": "disagree",
+      "text": "That's where we part ways. I'd take her side.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-disagree.that-s-where-we-part-ways-i-d-take-president-possessive-side",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+       "data/research/powers-catalog/catalog.json#borrowing/federal",
+       "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+       "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_58594e88f9fa3710",
+       "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Kevin Yates",
+         "text": "You heard the President: new borrowing should come with spending cuts to match. I can't get behind her on the national debt.",
+         "piece": "outline-talk.lead.talk-address-point-you-heard-president-reason-for, outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_58594e88f9fa3710",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "data/research/powers-catalog/catalog.json#borrowing/federal",
+          "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "household_62fbabe74f5081fd",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "That's where we part ways. I'd take her side.",
+         "piece": "conversation.address-point-answer-disagree.that-s-where-we-part-ways-i-d-take-president-possessive-side",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "data/research/powers-catalog/catalog.json#borrowing/federal",
+          "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_58594e88f9fa3710",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Kevin Yates",
+         "text": "Then we heard her differently.",
+         "piece": "conversation.address-point-back-disagree.then-we-heard-president-object-differently",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+          "data/research/powers-catalog/catalog.json#borrowing/federal",
+          "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_62fbabe74f5081fd",
+          "person_58594e88f9fa3710",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:1:1:disagree"
+         ]
+        },
+        {
+         "who": "Kevin Yates",
+         "text": "Raising the debt limit only with spending cuts to match is the one that gets me riled.",
+         "piece": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_58594e88f9fa3710",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "person_58594e88f9fa3710"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "No, not me.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.no-not-me",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58594e88f9fa3710",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "person_58594e88f9fa3710"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Kevin Yates",
+            "text": "You heard the President: new borrowing should come with spending cuts to match. I can't get behind her on the national debt.",
+            "piece": "outline-talk.lead.talk-address-point-you-heard-president-reason-for, outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_58594e88f9fa3710",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "household_62fbabe74f5081fd",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "That's where we part ways. I'd take her side.",
+            "piece": "conversation.address-point-answer-disagree.that-s-where-we-part-ways-i-d-take-president-possessive-side",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "Then we heard her differently.",
+            "piece": "conversation.address-point-back-disagree.then-we-heard-president-object-differently",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_62fbabe74f5081fd",
+             "person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+             "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "Raising the debt limit only with spending cuts to match is the one that gets me riled.",
+            "piece": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "person_58594e88f9fa3710"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "No, not me.",
+            "piece": "conversation.own-view-answer-disagree.no-not-me",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "person_58595188f9fa3c29",
+             "views:people:person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "person_58594e88f9fa3710"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "I'll think about what you said on it.",
+            "piece": "conversation.own-view-take-core.disagree-i-ll-think-about-what-you-said-on-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+             "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:4:4:disagree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "You might be right about it.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.you-might-be-right-about",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58594e88f9fa3710",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "person_58594e88f9fa3710"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Kevin Yates",
+            "text": "You heard the President: new borrowing should come with spending cuts to match. I can't get behind her on the national debt.",
+            "piece": "outline-talk.lead.talk-address-point-you-heard-president-reason-for, outline-talk.verdict.talk-address-point-i-can-t-get-behind-on-said",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_58594e88f9fa3710",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "household_62fbabe74f5081fd",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "That's where we part ways. I'd take her side.",
+            "piece": "conversation.address-point-answer-disagree.that-s-where-we-part-ways-i-d-take-president-possessive-side",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "Then we heard her differently.",
+            "piece": "conversation.address-point-back-disagree.then-we-heard-president-object-differently",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+             "data/research/powers-catalog/catalog.json#borrowing/federal",
+             "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_62fbabe74f5081fd",
+             "person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+             "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "Raising the debt limit only with spending cuts to match is the one that gets me riled.",
+            "piece": "conversation.own-view-say-core.about-is-the-one-that-gets-me-riled",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "person_58594e88f9fa3710"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "You might be right about it.",
+            "piece": "conversation.own-view-answer-agree.you-might-be-right-about",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "person_58595188f9fa3c29",
+             "views:people:person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "person_58594e88f9fa3710"
+            ]
+           },
+           {
+            "who": "Kevin Yates",
+            "text": "I figured you'd say that about it.",
+            "piece": "conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_58594e88f9fa3710",
+             "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+             "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+             "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-20:4:4:agree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "door-signature",
+   "purpose": "ask-signature.plain",
+   "momentId": "person_58595188f9fa3c29:2025-01-20:cause:person_9dd846b4cfd74f5f:person_58595188f9fa3c29:2025-01-20:1",
+   "scene": {
+    "n": 6,
+    "title": "Knock on doors",
+    "when": "Tuesday, January 21, 202510:00 AM",
+    "here": "Nancy Lara"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "Late in the morning on January 21st, you walk up the drive, and Nancy Lara waves you in.",
+     "piece": "scene-words.arrival-other-home-other.begins-you-walk-up-the-drive-and-name-waves-you-in",
+     "elements": [],
+     "issues": [],
+     "recordIds": [
+      "person_58595188f9fa3c29:2025-01-20:cause:person_9dd846b4cfd74f5f:person_58595188f9fa3c29:2025-01-20:1",
+      "person_9dd846b4cfd74f5f",
+      "cause:person_9dd846b4cfd74f5f:person_58595188f9fa3c29:2025-01-20:1"
+     ]
+    }
+   ],
+   "opening": [
+    {
+     "who": "Robin Yates",
+     "text": "My petition for the Hartford City Council is due July 22. I'm Robin. Will you sign?",
+     "piece": "scene-talk.state-request.my-petition-for-office-is-due-due-i-m-self-will-you-sign",
+     "elements": [
+      "petition-the-hustle-before-the-deadline",
+      "door-on-a-small-town-street"
+     ],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [
+     {
+      "who": "Nancy Lara",
+      "text": "Sure. Everybody should get a shot at the Hartford City Council. Give me the pen.",
+      "piece": "scene-talk.reply-agree.sure-everybody-should-get-a-shot-at-office-give-me-the-pen",
+      "elements": [],
+      "issues": []
+     }
+    ],
+    "choices": [
+     {
+      "text": "Thank you. That's one more before July 22.",
+      "who": "Robin Yates",
+      "piece": "scene-talk.follow-thank.thank-you-that-s-one-more-before-due",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [],
+       "choices": [],
+       "end": {
+        "outcome": "resolved"
+       }
+      }
+     },
+     {
+      "text": "What should the race for the Hartford City Council be about?",
+      "who": "Robin Yates",
+      "piece": "scene-talk.follow-ask.what-should-the-race-for-office-be-about",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Nancy Lara",
+         "text": "I don't keep up with the race for the Hartford City Council.",
+         "piece": "scene-talk.reply-tell.i-don-t-keep-up-with-the-race-for-office",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "I'll come back before July 22. Take your time.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.follow-promise.i-ll-come-back-before-due-take-your-time",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "That's fair. Thanks for being straight about the race for the Hartford City Council.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.follow-comfort.that-s-fair-thanks-for-being-straight-about-the-race-for-office",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "interview-invite",
+   "purpose": "invite-interview",
+   "momentId": "person_58595188f9fa3c29:2025-01-21:interview-invited:interview:outlet:newspaper:0:jurisdiction_9ed4b18e3ef7b957:filing:contest:seat:gus2025:201925:council:0:2025-11-04:person_58595188f9fa3c29:2025-01-21:0",
+   "scene": {
+    "n": 7,
+    "title": "Ask for an interview",
+    "when": "Tuesday, January 21, 202510:00 AM",
+    "here": "Hartford, Michigan"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "Late in the morning on January 21st, the phone rings, and Erica Kim is on the line.",
+     "piece": "scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line",
+     "elements": [],
+     "issues": []
+    },
+    {
+     "who": null,
+     "text": "Erica is on the phone.",
+     "piece": "scene-talk.narrate-narrate.name-is-on-the-phone",
+     "elements": [],
+     "issues": []
+    }
+   ],
+   "opening": [
+    {
+     "who": "Erica Kim",
+     "text": "Robin? Thanks for picking up.",
+     "piece": "scene-talk.open-greet.first-thanks-for-picking-up",
+     "elements": [],
+     "issues": []
+    },
+    {
+     "who": "Erica Kim",
+     "text": "Would you sit down with Hartford Observer about the race for council member?",
+     "piece": "scene-talk.state-request.would-you-sit-down-with-outlet-about-the-race-for-office",
+     "elements": [],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [],
+    "choices": [
+     {
+      "text": "Which questions?",
+      "who": "Robin Yates",
+      "piece": "scene-talk.reply-ask.which-questions",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Erica Kim",
+         "text": "Mostly your plans for council member.",
+         "piece": "scene-talk.follow-answer.mostly-your-plans-for-office",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Yes, I'll sit.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Erica Kim",
+            "text": "Thank you. Hartford Observer will take your answers from your platform.",
+            "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "Please, no.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-decline.please-no",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Erica Kim",
+            "text": "Hartford Observer would still like to hear from you.",
+            "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "I'll do it.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-agree.i-ll-do-it",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Erica Kim",
+               "text": "Thank you. Hartford Observer will have your answers on the record.",
+               "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "I'll decline.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-decline.i-ll-decline",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Erica Kim",
+               "text": "The invitation from Hartford Observer stands.",
+               "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [
+              {
+               "text": "Yes. Book it.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-agree.yes-book-it",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Erica Kim",
+                  "text": "Thank you. Hartford Observer will have your answers on the record.",
+                  "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "resolved"
+                }
+               }
+              },
+              {
+               "text": "No interview, thanks.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-decline.no-interview-thanks",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Erica Kim",
+                  "text": "We'd still like your side, for Hartford Observer.",
+                  "piece": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "refused",
+                 "close": {
+                  "speaker": "Erica Kim",
+                  "speakerId": "person_00c68bef8da301c2",
+                  "role": "asker",
+                  "text": "As you wish.",
+                  "parts": [
+                   "scene-talk.close-accept.as-you-wish"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              },
+              {
+               "text": "Gotta go.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-leave.gotta-go",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [],
+                "choices": [],
+                "end": {
+                 "outcome": "open",
+                 "close": {
+                  "speaker": "Erica Kim",
+                  "speakerId": "person_00c68bef8da301c2",
+                  "role": "asker",
+                  "text": "The door at Hartford Observer stays open.",
+                  "parts": [
+                   "scene-talk.close-press.the-door-at-outlet-stays-open"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              }
+             ]
+            }
+           },
+           {
+            "text": "Excuse me, sorry.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-leave.excuse-me-sorry",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Erica Kim",
+               "speakerId": "person_00c68bef8da301c2",
+               "role": "asker",
+               "text": "The invitation from Hartford Observer stays open.",
+               "parts": [
+                "scene-talk.close-press.the-invitation-from-outlet-stays-open"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Sorry, busy now.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-leave.sorry-busy-now",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Erica Kim",
+            "speakerId": "person_00c68bef8da301c2",
+            "role": "asker",
+            "text": "The invitation from Hartford Observer stays open.",
+            "parts": [
+             "scene-talk.close-press.the-invitation-from-outlet-stays-open"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "text": "Happy to.",
+      "who": "Robin Yates",
+      "piece": "scene-talk.reply-agree.happy-to",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Erica Kim",
+         "text": "Good. I'll tell the desk at Hartford Observer you said yes.",
+         "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [],
+       "end": {
+        "outcome": "resolved"
+       }
+      }
+     },
+     {
+      "text": "Not for me.",
+      "who": "Robin Yates",
+      "piece": "scene-talk.reply-decline.not-for-me",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Erica Kim",
+         "text": "Hartford Observer would still like to hear from you.",
+         "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Yes, I'll sit.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Erica Kim",
+            "text": "Thank you. Hartford Observer will have your answers on the record.",
+            "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "No interview, thanks.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-decline.no-interview-thanks",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Erica Kim",
+            "text": "We'd still like your side, for Hartford Observer.",
+            "piece": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "Yes. Book it.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-agree.yes-book-it",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Erica Kim",
+               "text": "Good. I'll tell the desk at Hartford Observer you said yes.",
+               "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "Please, no.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-decline.please-no",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Erica Kim",
+               "text": "The invitation from Hartford Observer stands.",
+               "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [
+              {
+               "text": "I'll do it.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-agree.i-ll-do-it",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Erica Kim",
+                  "text": "Thank you. Hartford Observer will take your answers from your platform.",
+                  "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "resolved"
+                }
+               }
+              },
+              {
+               "text": "I'll decline.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-decline.i-ll-decline",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Erica Kim",
+                  "text": "That's your call. Hartford Observer won't push.",
+                  "piece": "scene-talk.follow-accept.that-s-your-call-outlet-won-t-push",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "refused"
+                }
+               }
+              },
+              {
+               "text": "Sorry, busy now.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-leave.sorry-busy-now",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [],
+                "choices": [],
+                "end": {
+                 "outcome": "open",
+                 "close": {
+                  "speaker": "Erica Kim",
+                  "speakerId": "person_00c68bef8da301c2",
+                  "role": "asker",
+                  "text": "Hartford Observer would still welcome you.",
+                  "parts": [
+                   "scene-talk.close-press.outlet-would-still-welcome-you"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              }
+             ]
+            }
+           },
+           {
+            "text": "Gotta go.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-leave.gotta-go",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Erica Kim",
+               "speakerId": "person_00c68bef8da301c2",
+               "role": "asker",
+               "text": "Hartford Observer would still welcome you.",
+               "parts": [
+                "scene-talk.close-press.outlet-would-still-welcome-you"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Excuse me, sorry.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-leave.excuse-me-sorry",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Erica Kim",
+            "speakerId": "person_00c68bef8da301c2",
+            "role": "asker",
+            "text": "The door at Hartford Observer stays open.",
+            "parts": [
+             "scene-talk.close-press.the-door-at-outlet-stays-open"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "text": "Let me check.",
+      "who": "Robin Yates",
+      "piece": "scene-talk.reply-stall.let-me-check",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Erica Kim",
+         "text": "We'd still like your side, for Hartford Observer.",
+         "piece": "scene-talk.follow-press.we-d-still-like-your-side-for-outlet",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "I'll do it.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-agree.i-ll-do-it",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Erica Kim",
+            "text": "Good. I'll tell the desk at Hartford Observer you said yes.",
+            "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "I'll decline.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-decline.i-ll-decline",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Erica Kim",
+            "text": "The invitation from Hartford Observer stands.",
+            "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "Yes, I'll sit.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Erica Kim",
+               "text": "Thank you. Hartford Observer will have your answers on the record.",
+               "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "Please, no.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-decline.please-no",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Erica Kim",
+               "text": "Hartford Observer would still like to hear from you.",
+               "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [
+              {
+               "text": "Yes. Book it.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-agree.yes-book-it",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Erica Kim",
+                  "text": "Good. I'll tell the desk at Hartford Observer you said yes.",
+                  "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "resolved"
+                }
+               }
+              },
+              {
+               "text": "No interview, thanks.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-decline.no-interview-thanks",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Erica Kim",
+                  "text": "That's your call. Hartford Observer won't push.",
+                  "piece": "scene-talk.follow-accept.that-s-your-call-outlet-won-t-push",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "refused"
+                }
+               }
+              },
+              {
+               "text": "Sorry, bad timing.",
+               "who": "Robin Yates",
+               "piece": "scene-talk.reply-leave.sorry-bad-timing",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [],
+                "choices": [],
+                "end": {
+                 "outcome": "open",
+                 "close": {
+                  "speaker": "Erica Kim",
+                  "speakerId": "person_00c68bef8da301c2",
+                  "role": "asker",
+                  "text": "Hartford Observer would still welcome you.",
+                  "parts": [
+                   "scene-talk.close-press.outlet-would-still-welcome-you"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              }
+             ]
+            }
+           },
+           {
+            "text": "Sorry, busy now.",
+            "who": "Robin Yates",
+            "piece": "scene-talk.reply-leave.sorry-busy-now",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Erica Kim",
+               "speakerId": "person_00c68bef8da301c2",
+               "role": "asker",
+               "text": "The door at Hartford Observer stays open.",
+               "parts": [
+                "scene-talk.close-press.the-door-at-outlet-stays-open"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Excuse me, sorry.",
+         "who": "Robin Yates",
+         "piece": "scene-talk.reply-leave.excuse-me-sorry",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Erica Kim",
+            "speakerId": "person_00c68bef8da301c2",
+            "role": "asker",
+            "text": "Hartford Observer would still welcome you.",
+            "parts": [
+             "scene-talk.close-press.outlet-would-still-welcome-you"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_58595088f9fa3a76",
+   "otherId": "person_58595088f9fa3a76",
+   "scene": {
+    "n": 12,
+    "title": "Talk at home with Joseph Yates",
+    "when": "Friday, January 24, 20257:00 AM",
+    "here": "Kevin Yates, Jacqueline Yates, Joseph Yates"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Joseph Yates",
+      "text": "The President has the minimum wage wrong.",
+      "piece": "outline-talk.verdict-cold.talk-address-point-has-wrong",
+      "elements": [],
+      "issues": [],
+      "bank": "outline:talk-address-point",
+      "recordIds": [
+       "person_58595088f9fa3a76",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+       "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+       "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+       "household_62fbabe74f5081fd",
+       "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:agree",
+      "move": "agree",
+      "text": "Same here, Joseph.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-agree.same-here-name",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+       "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+       "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_58595088f9fa3a76",
+       "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Joseph Yates",
+         "text": "The President has the minimum wage wrong.",
+         "piece": "outline-talk.verdict-cold.talk-address-point-has-wrong",
+         "elements": [],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_58595088f9fa3a76",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "household_62fbabe74f5081fd",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "Same here, Joseph.",
+         "piece": "conversation.address-point-answer-agree.same-here-name",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_58595088f9fa3a76",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Joseph Yates",
+         "text": "Good. Then it's not just me, Robin.",
+         "piece": "conversation.address-point-back-agree.good-then-it-s-not-just-me-you",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_62fbabe74f5081fd",
+          "person_58595088f9fa3a76",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595088f9fa3a76",
+          "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:1:1:agree"
+         ]
+        },
+        {
+         "who": "Joseph Yates",
+         "text": "If a higher federal minimum wage is on the table, I'm out.",
+         "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_58595088f9fa3a76",
+          "person_58595088f9fa3a76"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "Actually, I'm less sure about it than I sounded.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58595088f9fa3a76",
+          "person_58595088f9fa3a76"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Joseph Yates",
+            "text": "The President has the minimum wage wrong.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-has-wrong",
+            "elements": [],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_58595088f9fa3a76",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "household_62fbabe74f5081fd",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "Same here, Joseph.",
+            "piece": "conversation.address-point-answer-agree.same-here-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "Good. Then it's not just me, Robin.",
+            "piece": "conversation.address-point-back-agree.good-then-it-s-not-just-me-you",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_62fbabe74f5081fd",
+             "person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595088f9fa3a76",
+             "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:1:1:agree"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "If a higher federal minimum wage is on the table, I'm out.",
+            "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_58595088f9fa3a76",
+             "person_58595088f9fa3a76"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "Actually, I'm less sure about it than I sounded.",
+            "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "person_58595188f9fa3c29",
+             "views:people:person_58595088f9fa3a76",
+             "person_58595088f9fa3a76"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "We'll never settle it at this table.",
+            "piece": "conversation.own-view-take-core.disagree-we-ll-never-settle-about-at-this-table",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_58595088f9fa3a76",
+             "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:4:4:disagree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "I'm with you.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.i-m-with-you",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58595088f9fa3a76",
+          "person_58595088f9fa3a76"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Joseph Yates",
+            "text": "The President has the minimum wage wrong.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-has-wrong",
+            "elements": [],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_58595088f9fa3a76",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "household_62fbabe74f5081fd",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "Same here, Joseph.",
+            "piece": "conversation.address-point-answer-agree.same-here-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "Good. Then it's not just me, Robin.",
+            "piece": "conversation.address-point-back-agree.good-then-it-s-not-just-me-you",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_62fbabe74f5081fd",
+             "person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595088f9fa3a76",
+             "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:1:1:agree"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "If a higher federal minimum wage is on the table, I'm out.",
+            "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_58595088f9fa3a76",
+             "person_58595088f9fa3a76"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "I'm with you.",
+            "piece": "conversation.own-view-answer-agree.i-m-with-you",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "person_58595188f9fa3c29",
+             "views:people:person_58595088f9fa3a76",
+             "person_58595088f9fa3a76"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "I figured you'd say that about it.",
+            "piece": "conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_58595088f9fa3a76",
+             "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:4:4:agree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:disagree",
+      "move": "disagree",
+      "text": "I think she has that right, actually.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-right-actually",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+       "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+       "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:prior-office",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_58595088f9fa3a76",
+       "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Joseph Yates",
+         "text": "The President has the minimum wage wrong.",
+         "piece": "outline-talk.verdict-cold.talk-address-point-has-wrong",
+         "elements": [],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_58595088f9fa3a76",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "household_62fbabe74f5081fd",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "I think she has that right, actually.",
+         "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-right-actually",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_58595088f9fa3a76",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Joseph Yates",
+         "text": "You'll come around, Robin. Or I will.",
+         "piece": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+          "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+          "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:prior-office",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_62fbabe74f5081fd",
+          "person_58595088f9fa3a76",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595088f9fa3a76",
+          "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:1:1:disagree"
+         ]
+        },
+        {
+         "who": "Joseph Yates",
+         "text": "If a higher federal minimum wage is on the table, I'm out.",
+         "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_58595088f9fa3a76",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+          "person_58595088f9fa3a76"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "Actually, I'm less sure about it than I sounded.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58595088f9fa3a76",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+          "person_58595088f9fa3a76"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Joseph Yates",
+            "text": "The President has the minimum wage wrong.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-has-wrong",
+            "elements": [],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_58595088f9fa3a76",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "household_62fbabe74f5081fd",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "I think she has that right, actually.",
+            "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-right-actually",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "You'll come around, Robin. Or I will.",
+            "piece": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_62fbabe74f5081fd",
+             "person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595088f9fa3a76",
+             "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "If a higher federal minimum wage is on the table, I'm out.",
+            "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "person_58595088f9fa3a76"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "Actually, I'm less sure about it than I sounded.",
+            "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "person_58595188f9fa3c29",
+             "views:people:person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "person_58595088f9fa3a76"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "We'll never settle it at this table.",
+            "piece": "conversation.own-view-take-core.disagree-we-ll-never-settle-about-at-this-table",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:4:4:disagree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "I'm with you.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.i-m-with-you",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58595088f9fa3a76",
+          "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+          "person_58595088f9fa3a76"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Joseph Yates",
+            "text": "The President has the minimum wage wrong.",
+            "piece": "outline-talk.verdict-cold.talk-address-point-has-wrong",
+            "elements": [],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_58595088f9fa3a76",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "household_62fbabe74f5081fd",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "I think she has that right, actually.",
+            "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-right-actually",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "You'll come around, Robin. Or I will.",
+            "piece": "conversation.address-point-back-disagree.you-ll-come-around-you-or-i-will",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+             "data/research/powers-catalog/catalog.json#minimum-wage/federal",
+             "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:prior-office",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_62fbabe74f5081fd",
+             "person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595088f9fa3a76",
+             "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "If a higher federal minimum wage is on the table, I'm out.",
+            "piece": "conversation.own-view-say-core.if-about-is-on-the-table-i-m-out",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "person_58595088f9fa3a76"
+            ]
+           },
+           {
+            "who": "Robin Yates",
+            "text": "I'm with you.",
+            "piece": "conversation.own-view-answer-agree.i-m-with-you",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_62fbabe74f5081fd",
+             "person_58595188f9fa3c29",
+             "views:people:person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "person_58595088f9fa3a76"
+            ]
+           },
+           {
+            "who": "Joseph Yates",
+            "text": "I figured you'd say that about it.",
+            "piece": "conversation.own-view-take-core.agree-i-figured-you-d-say-that-about-about",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-take:composed",
+            "recordIds": [
+             "views:people:person_58595088f9fa3a76",
+             "town-residents-v1:jurisdiction_9ed4b18e3ef7b957:household:27:sibling:person_58595088f9fa3a76:person_58595188f9fa3c29:past:person_58595188f9fa3c29",
+             "conversation:person_58595188f9fa3c29:person_58595088f9fa3a76:2025-01-24:4:4:agree"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  },
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_58594e88f9fa3710",
+   "otherId": "person_58594e88f9fa3710",
+   "scene": {
+    "n": 13,
+    "title": "Talk at home with Kevin Yates",
+    "when": "Sunday, January 26, 20257:00 AM",
+    "here": "Kevin Yates, Jacqueline Yates, Joseph Yates"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Kevin Yates",
+      "text": "The paper says the county board approved apartments in single-family neighborhoods. Good for the county board. I'd have done the same.",
+      "piece": "conversation.government-news-say-core.the-paper-says-body-approved-about, conversation.government-news-say-closer.good-for-body-i-d-have-done-the-same",
+      "elements": [],
+      "issues": [],
+      "bank": "conversation:government-news-say:composed",
+      "recordIds": [
+       "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+       "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+       "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+       "views:people:person_58594e88f9fa3710"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:for",
+      "move": "for",
+      "text": "We need it, if you ask me.",
+      "lie": false,
+      "piece": "conversation.government-news-answer-for.we-need-about-if-you-ask-me",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+       "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+       "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+       "views:people:person_58594e88f9fa3710",
+       "person_58594e88f9fa3710"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Kevin Yates",
+         "text": "The paper says the county board approved apartments in single-family neighborhoods. Good for the county board. I'd have done the same.",
+         "piece": "conversation.government-news-say-core.the-paper-says-body-approved-about, conversation.government-news-say-closer.good-for-body-i-d-have-done-the-same",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news-say:composed",
+         "recordIds": [
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "We need it, if you ask me.",
+         "piece": "conversation.government-news-answer-for.we-need-about-if-you-ask-me",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710",
+          "person_58594e88f9fa3710"
+         ]
+        },
+        {
+         "who": "Kevin Yates",
+         "text": "Good. That's two of us for it.",
+         "piece": "conversation.government-news-back-core.good-that-s-two-of-us-for-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news-back:composed",
+         "recordIds": [
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710",
+          "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-26:1:1:for"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:against",
+      "move": "against",
+      "text": "I wouldn't back it myself.",
+      "lie": false,
+      "piece": "conversation.government-news-answer-against.i-wouldn-t-back-about-myself",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+       "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+       "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+       "views:people:person_58594e88f9fa3710",
+       "person_58594e88f9fa3710"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Kevin Yates",
+         "text": "The paper says the county board approved apartments in single-family neighborhoods. Good for the county board. I'd have done the same.",
+         "piece": "conversation.government-news-say-core.the-paper-says-body-approved-about, conversation.government-news-say-closer.good-for-body-i-d-have-done-the-same",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news-say:composed",
+         "recordIds": [
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "I wouldn't back it myself.",
+         "piece": "conversation.government-news-answer-against.i-wouldn-t-back-about-myself",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710",
+          "person_58594e88f9fa3710"
+         ]
+        },
+        {
+         "who": "Kevin Yates",
+         "text": "We see it differently, then.",
+         "piece": "conversation.government-news-back-core.we-see-about-differently-then",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news-back:composed",
+         "recordIds": [
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710",
+          "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-26:1:1:against"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:unsure",
+      "move": "unsure",
+      "text": "I don't know enough about it to say.",
+      "lie": false,
+      "piece": "conversation.government-news-answer-unsure.i-don-t-know-enough-about-about-to-say",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+       "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+       "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+       "views:people:person_58594e88f9fa3710",
+       "person_58594e88f9fa3710"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Kevin Yates",
+         "text": "The paper says the county board approved apartments in single-family neighborhoods. Good for the county board. I'd have done the same.",
+         "piece": "conversation.government-news-say-core.the-paper-says-body-approved-about, conversation.government-news-say-closer.good-for-body-i-d-have-done-the-same",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news-say:composed",
+         "recordIds": [
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "I don't know enough about it to say.",
+         "piece": "conversation.government-news-answer-unsure.i-don-t-know-enough-about-about-to-say",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710",
+          "person_58594e88f9fa3710"
+         ]
+        },
+        {
+         "who": "Kevin Yates",
+         "text": "Think about it a little. I'm for it.",
+         "piece": "conversation.government-news-back-core.think-about-about-a-little-i-m-for-it",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news-back:composed",
+         "recordIds": [
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710",
+          "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-26:1:1:unsure"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:uneasy",
+      "move": "uneasy",
+      "text": "I worry about where it leads.",
+      "lie": false,
+      "piece": "conversation.government-news-answer-uneasy.i-worry-about-where-about-leads",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+       "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+       "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+       "views:people:person_58594e88f9fa3710",
+       "person_58594e88f9fa3710"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Kevin Yates",
+         "text": "The paper says the county board approved apartments in single-family neighborhoods. Good for the county board. I'd have done the same.",
+         "piece": "conversation.government-news-say-core.the-paper-says-body-approved-about, conversation.government-news-say-closer.good-for-body-i-d-have-done-the-same",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news-say:composed",
+         "recordIds": [
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "I worry about where it leads.",
+         "piece": "conversation.government-news-answer-uneasy.i-worry-about-where-about-leads",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710",
+          "person_58594e88f9fa3710"
+         ]
+        },
+        {
+         "who": "Kevin Yates",
+         "text": "I'd still back it, nerves and all.",
+         "piece": "conversation.government-news-back-core.i-d-still-back-about-nerves-and-all",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:government-news-back:composed",
+         "recordIds": [
+          "kinship_aec6cbc4a35c7bbd:past:person_58595188f9fa3c29",
+          "kinship_aec6cbc4a35c7bbd:past:person_58594e88f9fa3710",
+          "news.read:printed:outlet:television:1:jurisdiction_9ed4b18e3ef7b957:bill-vote:bill:office:gus2025:190465:board:2025-01-20:person_b6e0df4e9c990587:17:office:gus2025:190465:board:2025-01-25",
+          "views:people:person_58594e88f9fa3710",
+          "conversation:person_58595188f9fa3c29:person_58594e88f9fa3710:2025-01-26:1:1:uneasy"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  },
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_58594f88f9fa38c3",
+   "otherId": "person_58594f88f9fa38c3",
+   "scene": {
+    "n": 14,
+    "title": "Talk at home with Jacqueline Yates",
+    "when": "Monday, January 27, 20257:00 AM",
+    "here": "Kevin Yates, Jacqueline Yates, Joseph Yates"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Jacqueline Yates",
+      "text": "Since you ask, I'm for paid family leave.",
+      "piece": "conversation.own-view-say-core.since-you-ask-i-m-for-about",
+      "elements": [],
+      "issues": [],
+      "bank": "conversation:own-view-say:composed",
+      "recordIds": [
+       "views:people:person_58594f88f9fa38c3",
+       "work-relationship_7a74e69667087eba",
+       "organization_b973bd9cb2f7bba3",
+       "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:disagree",
+      "move": "disagree",
+      "text": "Not me.",
+      "lie": false,
+      "piece": "conversation.charge-reply-back-core.not-me",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "person_58595188f9fa3c29",
+       "views:people:person_58594f88f9fa38c3",
+       "work-relationship_7a74e69667087eba",
+       "organization_b973bd9cb2f7bba3",
+       "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+       "person_58594f88f9fa38c3"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Jacqueline Yates",
+         "text": "Since you ask, I'm for paid family leave.",
+         "piece": "conversation.own-view-say-core.since-you-ask-i-m-for-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "Not me.",
+         "piece": "conversation.charge-reply-back-core.not-me",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+          "person_58594f88f9fa38c3"
+         ]
+        },
+        {
+         "who": "Jacqueline Yates",
+         "text": "Fair enough. We don't have to agree on it.",
+         "piece": "conversation.own-view-take-core.disagree-fair-enough-we-don-t-have-to-agree-on-about",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "conversation:own-view-take:composed",
+         "recordIds": [
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+          "kinship_aec6cac4a35c7a0a:past:person_58594f88f9fa38c3",
+          "conversation:person_58595188f9fa3c29:person_58594f88f9fa38c3:2025-01-27:1:1:disagree"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:agree",
+      "move": "agree",
+      "text": "You might be right about it.",
+      "lie": false,
+      "piece": "conversation.own-view-answer-agree.you-might-be-right-about",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "person_58595188f9fa3c29",
+       "views:people:person_58594f88f9fa38c3",
+       "work-relationship_7a74e69667087eba",
+       "organization_b973bd9cb2f7bba3",
+       "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+       "person_58594f88f9fa38c3"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Jacqueline Yates",
+         "text": "Since you ask, I'm for paid family leave.",
+         "piece": "conversation.own-view-say-core.since-you-ask-i-m-for-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "You might be right about it.",
+         "piece": "conversation.own-view-answer-agree.you-might-be-right-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+          "person_58594f88f9fa38c3"
+         ]
+        },
+        {
+         "who": "Jacqueline Yates",
+         "text": "Good. I wasn't sure anyone else saw it that way.",
+         "piece": "conversation.own-view-take-core.agree-good-i-wasn-t-sure-anyone-else-saw-about-that-way",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "conversation:own-view-take:composed",
+         "recordIds": [
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+          "kinship_aec6cac4a35c7a0a:past:person_58594f88f9fa38c3",
+          "conversation:person_58595188f9fa3c29:person_58594f88f9fa38c3:2025-01-27:1:1:agree"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:why",
+      "move": "why",
+      "text": "What got you there on it?",
+      "lie": false,
+      "piece": "conversation.own-view-answer-why.what-got-you-there-on",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_62fbabe74f5081fd",
+       "person_58595188f9fa3c29",
+       "views:people:person_58594f88f9fa38c3",
+       "work-relationship_7a74e69667087eba",
+       "organization_b973bd9cb2f7bba3",
+       "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+       "person_58594f88f9fa38c3"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Jacqueline Yates",
+         "text": "Since you ask, I'm for paid family leave.",
+         "piece": "conversation.own-view-say-core.since-you-ask-i-m-for-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29"
+         ]
+        },
+        {
+         "who": "Robin Yates",
+         "text": "What got you there on it?",
+         "piece": "conversation.own-view-answer-why.what-got-you-there-on",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view:answers",
+         "recordIds": [
+          "household_62fbabe74f5081fd",
+          "person_58595188f9fa3c29",
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+          "person_58594f88f9fa38c3"
+         ]
+        },
+        {
+         "who": "Jacqueline Yates",
+         "text": "Money's tight.",
+         "piece": "conversation.own-view-back-core.money-s-tight",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-back:composed",
+         "recordIds": [
+          "views:people:person_58594f88f9fa38c3",
+          "work-relationship_7a74e69667087eba",
+          "organization_b973bd9cb2f7bba3",
+          "kinship_aec6cac4a35c7a0a:past:person_58595188f9fa3c29",
+          "kinship_aec6cac4a35c7a0a:past:person_58594f88f9fa38c3",
+          "conversation:person_58595188f9fa3c29:person_58594f88f9fa38c3:2025-01-27:1:1:why"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  }
+ ]
+}
