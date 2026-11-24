@@ -1,0 +1,18 @@
+{
+  "id": "reporter-seeks-an-unscheduled-interview",
+  "kind": "moment",
+  "summary": "A reporter asks for a brief interview while the member is on the way somewhere else.",
+  "realLife": "owner, Nov 14: A chance meeting with a reporter calls for a different opening from an appointment.",
+  "sources": [
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L60"
+  ],
+  "inGame": "The hallway-reporter circumstance stages press-interview for a serving officeholder. A scheduled interview instead follows the interview-accepted record into interview-sitting.",
+  "fits": ["office", "news", "journal", "speeches"],
+  "slots": ["{reporter}", "{member}", "{outlet}"],
+  "gates": [
+    "The reporter and member encounter each other outside an appointment."
+  ],
+  "weights": [],
+  "usedBy": []
+}
