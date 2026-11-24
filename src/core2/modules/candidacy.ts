@@ -54,7 +54,8 @@ import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
 import {
   announceCandidacy,
-  withdrawAnnouncement,
+  withdrawFiling,
+  pendingFilingsOf,
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
@@ -1457,8 +1458,7 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
-    if (filing.status === "refused")
-      withdrawAnnouncement(api, contest.id, personId);
+    if (filing.status === "refused") withdrawFiling(api, contest.id, personId);
   }
   // A runner the filing day's weighing no longer holds (gone from the town,
   // dead) is refused for the rules they no longer meet, so every decision to
@@ -1479,7 +1479,7 @@ export function fileRunners(
     table(api).put({ ...decision, filing: refused } as unknown as {
       id: string;
     });
-    withdrawAnnouncement(api, contest.id, decision.personId);
+    withdrawFiling(api, contest.id, decision.personId);
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
@@ -2096,6 +2096,35 @@ function noteHouseholdBacking(
 }
 
 /**
+ * A death ends the runs the dead person still had pending: an announcement,
+ * or a filing still gathering signatures, leaves its race that day
+ * (`withdrawFiling`), and the decision to run is refused for the rule the dead
+ * no longer meet, as a runner already dead when filing opens is. The clerk
+ * never checks a dead candidate's petition, so the race records why they are
+ * not on its ballot. A filing already on the ballot stays; `ballot` leaves out
+ * the dead.
+ */
+function endRunsOfTheDead(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  for (const personId of event.personIds) {
+    if (api.state.people.get(personId)?.alive !== false) continue;
+    for (const filing of pendingFilingsOf(api, personId)) {
+      withdrawFiling(api, filing.contestId, personId);
+      const decision = decisionOf(api, filing.contestId, personId);
+      if (!decision?.run) continue;
+      table(api).put({
+        ...decision,
+        filing: {
+          status: "refused",
+          filingId: filing.id,
+          unmet: ["not-available"],
+        },
+      } as unknown as { id: string });
+    }
+  }
+}
+
+/**
  * The player said no, or not now, to a party's ask: the party goes on to its
  * next member for the seat while filing is open, by the same asking the
  * first round used. The next member weighs it with the new ask as a reason.
@@ -2376,10 +2405,14 @@ export const candidacyModule: CoreModule = {
     candidacyDay(api, false);
     dropPastNonRunners(api);
   },
-  eventKinds: ["scene.reply", "election-result"],
+  eventKinds: ["scene.reply", "election-result", "life.death"],
   onEvent: (api, event) => {
     if (event.kind === "election-result") {
       takeStaffUnderWing(api, event);
+      return;
+    }
+    if (event.kind === "life.death") {
+      endRunsOfTheDead(api, event);
       return;
     }
     answerPartyAsk(api, event);
