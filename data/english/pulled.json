@@ -7,30 +7,6 @@
   },
   "waiting": {},
   "sample": {
-    "conversation.own-view-take-core.disagree-all-right-but-i-haven-t-changed-my-mind-on-about": [
-      "alright-in-dialogue"
-    ],
-    "conversation.own-view-take-core.disagree-then-we-see-about-differently-and-that-s-all-right": [
-      "alright-in-dialogue"
-    ],
-    "outline-talk.lead.talk-address-point-look-president-is-for-about-and-that-s-the-whole-story": [
-      "no-filler"
-    ],
-    "outline-talk.lead.talk-address-point-well-president-didn-t-waste-any-time-getting-to-about": [
-      "no-filler"
-    ],
-    "outline-talk.verdict.talk-address-point-look-i-wanted-to-agree-with-president-object-and-i-just-can-t": [
-      "no-filler"
-    ],
-    "outline-talk.verdict.talk-address-point-look-president-is-right-about-about-and-i-ll-say-so": [
-      "no-filler"
-    ],
-    "outline-talk.verdict.talk-address-point-well-i-don-t-buy-what-president-is-selling-on-about": [
-      "no-filler"
-    ],
-    "outline-talk.verdict.talk-address-point-well-president-convinced-me-i-ll-say-that": [
-      "no-filler"
-    ],
     "scene-talk.close-accept.all-right-i-won-t-call-about-position-again": [
       "alright-in-dialogue"
     ],
