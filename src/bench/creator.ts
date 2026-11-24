@@ -280,7 +280,13 @@ export function creatorRandomPlace(seed: string, draw: number) {
     (row) => row.key === place.key,
   );
   return {
-    state: { key: stateKey, name: state?.name ?? stateKey },
+    state: {
+      key: stateKey,
+      name: state?.name ?? stateKey,
+      // Random fills the creator like a picked state does: the loading card
+      // shows this state's capitol from the first frame, not the creator's.
+      capitol: stateCapitolPicture(stateKey || null),
+    },
     town: town ?? {
       key: place.key,
       name: place.displayName,
