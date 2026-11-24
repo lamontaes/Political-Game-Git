@@ -545,35 +545,6 @@ ol {
 #talk-cast .talk-top .busts-person {
   --mine: calc(var(--bust) * 0.8);
 }
-/* No plate and no band in a talk (CTO, Nov 24: boxes, against the owner's Nov 5
-   and Nov 23 rules): the busts stand straight on the room, each in a soft pool
-   of light that fades out. */
-#talk-strip .busts-glass,
-#talk-cast .busts-glass {
-  display: none;
-}
-#talk-strip .busts-person,
-#talk-cast .busts-person {
-  position: relative;
-}
-#talk-strip .busts-person::before,
-#talk-cast .busts-person::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: 50%;
-  top: 38%;
-  width: calc(var(--mine) * 1.9);
-  height: calc(var(--mine) * 1.6);
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    closest-side,
-    rgba(24, 20, 16, 0.62),
-    rgba(24, 20, 16, 0.3) 55%,
-    transparent
-  );
-  pointer-events: none;
-}
 @keyframes talk-down {
   from {
     transform: translateY(calc(-1 * (var(--gutter) + 40vh)));
