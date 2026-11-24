@@ -441,10 +441,10 @@
       "elements": ["advisory-names-who-should-leave"]
     },
     {
-      "key": "scene-talk-office.reply-agree.i-ll-sign-the-order-for-the-disaster-have-the-people-who-gave-you-that-advice-call-me",
+      "key": "scene-talk-office.reply-agree.yes-read-me-the-recommendation-on-the-disaster-exactly-as-it-came-to-you",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'll sign the order for the {disaster}. Have the people who gave you that advice call me.",
+      "text": "Yes. Read me the recommendation on the {disaster} exactly as it came to you.",
       "uses": [
         {
           "subject": "scene",
@@ -465,7 +465,7 @@
         "key": "threat"
       },
       "bearing": "guarded",
-      "elements": ["advice-issued-before-supervisors-reached"]
+      "elements": ["governor-calls-to-confirm-advice"]
     },
     {
       "key": "scene-talk-office.reply-agree.yes-send-someone-to-see-the-disaster-who-can-report-straight-back-to-me",
