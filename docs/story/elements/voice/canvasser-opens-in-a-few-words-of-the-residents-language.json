@@ -1,0 +1,30 @@
+{
+  "id": "canvasser-opens-in-a-few-words-of-the-residents-language",
+  "kind": "voice",
+  "summary": "A canvasser says they speak a little Spanish and tries it with a resident.",
+  "realLife": "A canvasser said in Spanish that she speaks a little of the language to a man whose daughters answered the door.",
+  "sources": [
+    "San Francisco Chronicle, canvassing in California's Central Valley, undated: https://preview-prod.w.sfchronicle.com/politics/article/canvassing-california-central-valley-19852147.php"
+  ],
+  "fits": ["campaign"],
+  "slots": ["first"],
+  "gates": [],
+  "inGame": "the player's languages against the household's language record",
+  "weights": {
+    "door": 0.5
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The attempt warms the resident",
+      "pulledBy": "a shared word between canvasser and resident",
+      "writesBack": "the resident talks in their own language and the list notes a lean"
+    },
+    {
+      "turn": "The canvasser has no words in the language",
+      "pulledBy": "no language match",
+      "writesBack": "the door ends politely and the entry is marked for a speaker of that language"
+    }
+  ]
+}

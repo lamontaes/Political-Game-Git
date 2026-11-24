@@ -1,0 +1,29 @@
+{
+  "id": "dark-money-is-alleged-in-a-race",
+  "kind": "consequence",
+  "summary": "One side says the other is funded by money that does not name its source.",
+  "realLife": "Spokane's face-off between conservative and progressive sides drew allegations of dark money.",
+  "sources": [
+    "Washington Examiner, allegations of dark money flood Spokane amid a conservative-progressive face-off: https://www.washingtonexaminer.com/?p=3856090"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["name", "issue"],
+  "gates": [],
+  "weights": {
+    "rival-word": 0.8
+  },
+  "inGame": "needs: an anonymous sender in the campaign records; rival-word's how-message fact",
+  "turns": [
+    {
+      "turn": "The sender is named at once",
+      "pull": "a records trail",
+      "writes": "writes a plain news story"
+    },
+    {
+      "turn": "The charge is never proved",
+      "pull": "a thin trail",
+      "writes": "writes a lingering rumor line"
+    }
+  ],
+  "usedBy": ["rival-word"]
+}

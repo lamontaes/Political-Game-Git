@@ -1,0 +1,30 @@
+{
+  "id": "scrap-ledger-separates-glass-from-plastic",
+  "kind": "detail",
+  "summary": "A recycler shows a council member why strong sales of one recovered material cannot establish demand for another.",
+  "realLife": "Allen reported healthy markets for several metals and glass while his plastic and newsprint business struggled.",
+  "sources": [
+    "https://mdh.contentdm.oclc.org/digital/api/collection/colmo8/id/242376/download"
+  ],
+  "fits": ["work-community", "office", "news", "journal", "speeches"],
+  "slots": ["{recycler}", "{material}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: material-specific receipts and sales.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The recycler brings separate invoices to the committee.",
+      "pulledBy": "The city evaluates the ordinance using separate material totals.",
+      "writesBack": "A weak plastic market is visible beside healthy metal sales."
+    },
+    {
+      "turn": "opposite",
+      "what": "A member asks why a strong sales total coincides with a full plastic storage bay.",
+      "pulledBy": "The council receives only a combined revenue total.",
+      "writesBack": "A member requests the breakdown before judging the program."
+    }
+  ]
+}

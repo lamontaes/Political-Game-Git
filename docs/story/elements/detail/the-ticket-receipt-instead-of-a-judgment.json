@@ -1,0 +1,32 @@
+{
+  "id": "the-ticket-receipt-instead-of-a-judgment",
+  "kind": "detail",
+  "summary": "{applicant} brings a receipt for a paid fine because the ticket never led to a court appearance.",
+  "realLife": "Federal pardon-certificate instructions accepted evidence of a fine paid on a ticket and asked for the payment or conviction date.",
+  "sources": [
+    "https://www.justice.gov/iqextranet/EForm.aspx?__cid=Pardon_prod&__fid=5#:~:text=receipt%20showing%20payment"
+  ],
+  "fits": ["office", "home", "journal", "work-community"],
+  "slots": ["{applicant}"],
+  "gates": [
+    "Ticket resolved by payment and a certificate review that accepts receipts."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: ticket resolved by payment and a certificate review that accepts receipts.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The payment record identifies the citation.",
+      "what": "Use it to trace the case.",
+      "writesBack": "The file links the receipt to the underlying charge."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "Only the amount is legible.",
+      "what": "Ask for enough identifying details to verify the ticket.",
+      "writesBack": "The request remains pending."
+    }
+  ]
+}

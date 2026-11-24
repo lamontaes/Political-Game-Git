@@ -1,0 +1,30 @@
+{
+  "id": "incumbent-will-do-one-debate-and-it-is-the-chamber's",
+  "kind": "voice",
+  "summary": "An incumbent declines a league debate and says they will take part in only one, run by the chamber of commerce.",
+  "realLife": "A town's first selectman turned down the League of Women Voters' invitation for the second cycle running, saying the one debate would be the chamber's; the League's no-empty-chair rule canceled its event.",
+  "sources": [
+    "Patch, league cancels first selectman debate (undated): https://patch.com/connecticut/monroe/monroe-lwv-cancels-first-selectman-debate-0"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office", "outlet"],
+  "gates": [],
+  "inGame": "debate-invited and debate-accepted records; the incumbent's decline",
+  "weights": {
+    "debate": 0.8
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The incumbent names the one forum they will attend",
+      "pulledBy": "a settled habit of choosing the friendly sponsor",
+      "writesBack": "one accepted invitation and one refusal on file"
+    },
+    {
+      "turn": "The incumbent accepts the league after all",
+      "pulledBy": "a challenger's pressure and bad press",
+      "writesBack": "a second debate and an accepted record"
+    }
+  ]
+}

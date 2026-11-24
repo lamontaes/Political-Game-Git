@@ -29,5 +29,6 @@
       "pulledBy": "The chair is unavailable and the observations have been verified.",
       "writesBack": "The briefing records the observations and leaves the recommendation pending."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

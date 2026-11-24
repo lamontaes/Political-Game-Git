@@ -1,0 +1,36 @@
+{
+  "id": "organizer-leaves-long-pauses",
+  "kind": "voice",
+  "summary": "An organizer asks a question and then stays quiet so the coworker will fill the silence.",
+  "realLife": "The guide advises leaving long pauses so the coworker can talk and getting to know their work life.",
+  "sources": [
+    "UAW, How to Have an Organizing Conversation (union training guide): https://uaw.org/wp-content/uploads/2023/12/How-to-Have-an-Organzing-Conversation-FINAL.pdf"
+  ],
+  "fits": ["work-community"],
+  "slots": ["workplace", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "turn length by the speaker's trait; needs: pause timing in the talk engine",
+  "turns": [
+    {
+      "turn": "organizer-fills-the-pause",
+      "summary": "The organizer rushes to speak and talks over the answer.",
+      "pulledBy": ["an anxious organizer"],
+      "writesBack": "the coworker says little"
+    },
+    {
+      "turn": "coworker-fills-with-complaint",
+      "summary": "The coworker pours out a long complaint.",
+      "pulledBy": ["a quiet worker with built-up anger"],
+      "writesBack": "a tie closer; a journal note"
+    },
+    {
+      "turn": "coworker-answers-with-one-word",
+      "summary": "The coworker answers in one word and the pause grows awkward.",
+      "pulledBy": ["a guarded coworker"],
+      "writesBack": "nothing changes"
+    }
+  ]
+}

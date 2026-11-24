@@ -1,0 +1,38 @@
+{
+  "id": "shuttle-talk-is-not-a-booked-library-ride",
+  "kind": "situation",
+  "summary": "A trustee asked how a patron will reach another branch has only a proposed shuttle to discuss.",
+  "realLife": "Boston's library president said talks with the city's AgeStrong Commission were under way about a shuttle for people who needed in-person service and had difficulty traveling.",
+  "sources": [
+    "https://www.bpl.org/wp-content/uploads/sites/30/2023/09/Submited-Public-Comments-9.26.23.pdf#page=9"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "home",
+    "work-community"
+  ],
+  "slots": ["{agency}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: proposed transport and confirmed service status.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The operator confirms a stop and pickup time.",
+      "what": "Staff send patrons the booking details.",
+      "writesBack": "The travel notice lists a usable trip."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The agencies are still discussing the service.",
+      "what": "The trustee describes its status at the meeting.",
+      "writesBack": "The public notice offers only the routes running now."
+    }
+  ]
+}

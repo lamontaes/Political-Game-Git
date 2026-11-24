@@ -1,0 +1,39 @@
+{
+  "id": "laid-off-workers-new-job-pays-less-per-hour",
+  "kind": "consequence",
+  "summary": "Even a worker who finds a good employer after a layoff is usually paid a lower hourly wage for years.",
+  "realLife": "A Washington State study of Great Recession layoffs found losses came mainly from lower wage rates that recovered slowly, and lost ties between worker and employer explained over half of them.",
+  "sources": [
+    "NBER working paper w24217, Sources of Displaced Workers' Long-Term Earnings Losses: https://www.nber.org/papers/w24217"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "pay on the person's job records before and after; years at old employer set the size of the match lost.",
+  "turns": [
+    {
+      "turn": "old-match-is-rebuilt-in-a-year",
+      "summary": "A well-matched worker's pay climbs back at the new job within a year.",
+      "pulledBy": ["transferable skill", "new boss who notices"],
+      "writesBack": "job record raise; mood: steadier"
+    },
+    {
+      "turn": "pay-stays-low-for-years",
+      "summary": "The worker's pay stays below the old level for years.",
+      "pulledBy": [
+        "long tenure at the old employer",
+        "skills specific to the old firm"
+      ],
+      "writesBack": "job records show lower pay; journal note"
+    },
+    {
+      "turn": "resentment-toward-the-old-employer",
+      "summary": "The worker blames the old employer and tells neighbors.",
+      "pulledBy": ["trait: bitter", "a neighbor who listens"],
+      "writesBack": "neighbor tie closer; tie to ex-boss colder"
+    }
+  ]
+}

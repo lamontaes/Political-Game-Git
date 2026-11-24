@@ -25,5 +25,6 @@
       "pulledBy": "A full shift is already assigned and the neighbor needs a break.",
       "writesBack": "The relief stint appears separately on the roster."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

@@ -1,0 +1,36 @@
+{
+  "id": "coworker-keeps-asking-have-you-signed-yet",
+  "kind": "voice",
+  "summary": "Supporters follow up with a coworker again and again about whether they signed a card.",
+  "realLife": "Attorneys quoted in an HR article said workers sometimes sign cards just to stop repeated follow-up, and card signing can happen covertly.",
+  "sources": [
+    "SHRM, NLRB general counsel calls union organizing card check: https://www.shrm.org/topics-tools/employment-law-compliance/nlrb-general-counsel-calls-union-organizing-card-check"
+  ],
+  "fits": ["work-community"],
+  "slots": ["workplace", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:labor-workforce.right-to-work"],
+  "inGame": "a coworker tie with repeated asks; needs: unions as organizations and card records",
+  "turns": [
+    {
+      "turn": "coworker-signs-to-end-it",
+      "summary": "The coworker signs and resents it.",
+      "pulledBy": ["a conflict-averse coworker"],
+      "writesBack": "a resentment tie strain"
+    },
+    {
+      "turn": "coworker-says-not-now",
+      "summary": "The coworker says they are not ready and the asker backs off.",
+      "pulledBy": ["a respectful asker"],
+      "writesBack": "the tie holds"
+    },
+    {
+      "turn": "coworker-tells-the-boss",
+      "summary": "The coworker mentions the pressure to a supervisor.",
+      "pulledBy": ["a loyal coworker", "a worried one"],
+      "writesBack": "a conflict between coworkers"
+    }
+  ]
+}

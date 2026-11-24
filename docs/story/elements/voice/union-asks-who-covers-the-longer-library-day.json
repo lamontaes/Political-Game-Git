@@ -1,0 +1,38 @@
+{
+  "id": "union-asks-who-covers-the-longer-library-day",
+  "kind": "voice",
+  "summary": "A worker asks trustees talking about longer opening hours to account for the people already covering vacancies.",
+  "realLife": "At the November 2023 board meeting, a Boston library union president asked trustees to consider the burden on staff when discussing extending hours.",
+  "sources": [
+    "https://cdn-web-main.bibliocms.com/wp-content/uploads/sites/30/2024/03/Approved-Minutes-BOT-11.7.23.pdf#page=3"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "campaign",
+    "home",
+    "work-community"
+  ],
+  "slots": ["{worker}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: public staffing comment and proposed hours.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The proposed schedule fills the extra hours with new hires.",
+      "what": "The worker asks to see coverage by shift.",
+      "writesBack": "The board reply names the shifts that have coverage."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The extra hours depend on existing staff staying late.",
+      "what": "The trustee requests the overtime estimate.",
+      "writesBack": "The operating proposal returns with its staffing cost visible."
+    }
+  ]
+}

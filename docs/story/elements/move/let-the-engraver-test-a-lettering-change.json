@@ -1,0 +1,33 @@
+{
+  "id": "let-the-engraver-test-a-lettering-change",
+  "kind": "move",
+  "summary": "A member accepts a request to move {inscription} if the Mint can find room for it.",
+  "realLife": "Harcourt Fuller proposed shifting the Latin motto on the Kennedy design if the change proved feasible, and the maker of the motion agreed. The chair’s letter to Treasury recommended the portrait and described its pairing with the Washington quarter. It omitted the request about the motto.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=5",
+    "https://www.ccac.gov/system/files/2025-12/2027-2030-Kennedy-half-obverse-letter.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{inscription}"],
+  "gates": [
+    "A member has requested a different position for the motto on the proof."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: motto placement and engraving feasibility.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The engraver shifts the motto.",
+      "pulledBy": "A test strike leaves the letters distinct.",
+      "writesBack": "The approved layout shows the new position."
+    },
+    {
+      "turn": "opposite",
+      "what": "The old placement survives.",
+      "pulledBy": "The motto runs into the portrait in the trial layout.",
+      "writesBack": "The production note explains why it stayed."
+    }
+  ],
+  "issues": ["none"]
+}

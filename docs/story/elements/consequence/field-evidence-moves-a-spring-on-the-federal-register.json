@@ -1,0 +1,33 @@
+{
+  "id": "field-evidence-moves-a-spring-on-the-federal-register",
+  "kind": "consequence",
+  "summary": "A board checks conflicting accounts of a spring’s location before changing the coordinates in its register.",
+  "realLife": "A Davis Mountains preserve researcher placed Pine Peak Spring about 400 feet from its mapped point. The June minutes describe the USGS map as correct, while the attached case says the old map and database agreed. Federal record 1365303 now gives the coordinates proposed in the case.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=7",
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=22",
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=23",
+    "https://prd-tnm.s3.amazonaws.com/StagedProducts/GeographicNames/DomesticNames/DomesticNames_TX_Text.zip"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{spring}", "{map}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the old coordinates, the proposed coordinates, the field evidence, the board decision and the published feature entry.",
+  "turns": [
+    {
+      "turn": "coordinates-approved",
+      "what": "The clerk reads the new coordinates into the decision.",
+      "pulledBy": "The board approves the location identified in the field report.",
+      "writesBack": "The decision authorizes the new point. The register still needs a separate check."
+    },
+    {
+      "turn": "coordinates-published",
+      "what": "The researcher checks the feature by its permanent number.",
+      "pulledBy": "A later register entry carries the coordinates in the decision.",
+      "writesBack": "The public entry now places the spring at the approved point."
+    }
+  ]
+}

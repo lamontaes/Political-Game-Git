@@ -25,5 +25,6 @@
       "pulledBy": "The patient learns about the inquiry from a neighbor.",
       "writesBack": "The case file gains a dated follow-up interview."
     }
-  ]
+  ],
+  "issues": ["budget:federal:medicare"]
 }

@@ -1,0 +1,31 @@
+{
+  "id": "combative-toward-critics-yet-credits-partners",
+  "kind": "voice",
+  "summary": "A speaker answers people who counted him out with short, punchy lines, then names the partners who helped.",
+  "realLife": "Brown's State of the State, January 24, 2013, said critics had written the state's obituary, tied present projects to California's long run of bold ventures, warned about risks to the budget, and credited legislators, unions, business and teachers.",
+  "sources": [
+    "https://www.nbclosangeles.com/news/local/jerry-brown-california-state-of-state-text-speech/1957423/",
+    "Read the as-prepared text and noted the tone toward critics, the history, the warnings and the credit."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:fiscal.minimum-reserve-balance"],
+  "inGame": "The `stand` and `credit` pieces, pulled by blunt and by recent forecasts missing the world's real result.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The speaker ignores critics and speaks only of the work.",
+      "pulledBy": "low blunt",
+      "writesBack": "The stand section holds no reply."
+    },
+    {
+      "turn": "neutral",
+      "what": "The speaker thanks partners and mentions critics only briefly.",
+      "pulledBy": "a recent election win",
+      "writesBack": "The speech records one line of thanks."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "unused-buildings-on-an-active-hospital-campus",
+  "kind": "detail",
+  "summary": "A county planner in {place} identifies the vacant buildings while the rest of the state hospital stays in use.",
+  "realLife": "California's SB 1336 identified seven unused buildings at the operating Metropolitan State Hospital for possible lease.",
+  "sources": [
+    "https://sd30.senate.ca.gov/news/press-release/ca-legislature-approves-archuleta-bill-convert-unused-property-metropolitan"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{place}"],
+  "gates": [
+    "A property inventory separates unused buildings from active facilities on the same campus."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a property inventory separates unused buildings from active facilities on the same campus.",
+  "turns": [
+    {
+      "turn": "verified",
+      "pulledBy": "The inventory confirms a vacant building.",
+      "what": "Identify the specific building for lease review.",
+      "writesBack": "Keep the remaining campus outside that request."
+    },
+    {
+      "turn": "occupied",
+      "pulledBy": "A later check shows active use.",
+      "what": "Take that building out of the proposed list.",
+      "writesBack": "Record the occupancy change."
+    }
+  ]
+}

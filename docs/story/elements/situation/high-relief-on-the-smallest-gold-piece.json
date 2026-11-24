@@ -1,0 +1,32 @@
+{
+  "id": "high-relief-on-the-smallest-gold-piece",
+  "kind": "situation",
+  "summary": "A smaller version of {design} puts the depth of the relief in doubt.",
+  "realLife": "John Saunders asked about a tenth-ounce gold issue and Mint staff and members discussed how little room it left for the program's sculptural relief.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-04/4.15.2025_minutes_FINAL.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{design}"],
+  "gates": [
+    "Members are considering a smaller issue of a design intended to have high relief."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: proposed size and relief assessment.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The small issue gets a flatter model.",
+      "pulledBy": "A test strike loses the highest points.",
+      "writesBack": "A separate model is commissioned for that size."
+    },
+    {
+      "turn": "opposite",
+      "what": "The smaller issue is deferred.",
+      "pulledBy": "The relief is essential to the approved artwork.",
+      "writesBack": "Only the larger piece stays on the calendar."
+    }
+  ],
+  "issues": ["none"]
+}

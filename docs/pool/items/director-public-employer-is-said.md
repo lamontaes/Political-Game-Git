@@ -19,7 +19,7 @@ effort: high
 root: none
 ---
 
-**What.** A worker at a public employer that owns its government's outside pay authority (seen: the Quemado Post Office, Quemado, New Mexico) has no employer in any scene: the layoff, first day and every other packet that says an employer drop the employer, the workplace and the position, and the layoff skips with "no narration for layoff-terms can be worded from the records given". Seen after: that employer is said by its name; only the outside market (work out of town) stays unsaid.
+**What.** A worker at a public employer that owns its government's outside pay authority (seen: the Quemado Post Office, Quemado, New Mexico) has no employer in any scene: the layoff, first day and every other packet that says an employer drop the employer, the workplace and the position, and the layoff skips with "no narration for layoff-terms can be worded from the records given". Only the outside market (work out of town) should stay unsaid. Seen: in the talk that opens when such a worker is laid off, and in every other scene about their work, the employer is named, for example "the County of Oakland".
 
 **Cause.** Found in code: `employerWords` (src/director/words.ts) passes `outside: !!org.outsideFlow`, and `employerSaidAs` (src/english/said-as.ts) returns null for an outside employer. The outside market carries `outsideFlow`, but so does the public employer that owns its government's outside pay authority (src/core2/opening-public-pay.ts gives the owner a zero-stock outside flow), so the director took it for work out of town. `jobAndEmployer` (src/director/home-work-facts.ts) then returns null and every work fact drops.
 

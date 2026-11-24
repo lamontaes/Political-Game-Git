@@ -29,5 +29,11 @@
       "pulledBy": "a guarded candidate",
       "writes": "the speech names values, not acts"
     }
+  ],
+  "issues": [
+    "budget:housing",
+    "budget:police",
+    "budget:highways",
+    "law:property-tax"
   ]
 }

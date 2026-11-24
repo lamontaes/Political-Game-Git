@@ -1,0 +1,32 @@
+{
+  "id": "drought-purchase-finance-signature",
+  "kind": "move",
+  "summary": "The urgent purchase for {place} reaches finance even after the governor relaxes bidding rules.",
+  "realLife": "The Russian River proclamation made procurement exceptions available for necessary drought response and kept finance department approval as a condition before signing a contract using them.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=4"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{place}"],
+  "gates": [
+    "A proposed purchase cites the applicable exception and identifies the finance approval status."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a proposed purchase cites the applicable exception and identifies the finance approval status.",
+  "turns": [
+    {
+      "turn": "approved",
+      "pulledBy": "Finance records approval.",
+      "what": "Send the approved file to the contracting officer.",
+      "writesBack": "Record authorization separately from execution."
+    },
+    {
+      "turn": "waiting",
+      "pulledBy": "Finance has yet to approve.",
+      "what": "Tell the requesting agency whose approval is outstanding.",
+      "writesBack": "Leave the contract unsigned."
+    }
+  ]
+}

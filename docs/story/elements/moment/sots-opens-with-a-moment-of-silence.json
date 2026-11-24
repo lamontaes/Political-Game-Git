@@ -1,0 +1,32 @@
+{
+  "id": "sots-opens-with-a-moment-of-silence",
+  "kind": "moment",
+  "summary": "The opening asks for a moment of silence for someone who died.",
+  "realLife": "Polis in 2025 opened by asking for silence for Jimmy Carter on the national day of mourning.",
+  "sources": [
+    "https://www.denver7.com/news/local-news/read-gov-jared-poliss-full-2025-state-of-the-state-address",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": ["the-disaster"],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "needs: a death record of a national figure on or near the date; the news engine holds deaths, not national mourning.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No silence; the address opens on the work.",
+      "pulledBy": "no death in the news",
+      "writesBack": "The first line is the point."
+    },
+    {
+      "turn": "partial",
+      "what": "One sentence of tribute.",
+      "pulledBy": "a polite speaker",
+      "writesBack": "The sentence is the quote."
+    }
+  ]
+}

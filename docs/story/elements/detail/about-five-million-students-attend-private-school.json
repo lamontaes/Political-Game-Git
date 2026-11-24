@@ -1,0 +1,31 @@
+{
+  "id": "about-five-million-students-attend-private-school",
+  "kind": "detail",
+  "summary": "About five and a half million students attend private schools.",
+  "realLife": "About 5.5 million students were enrolled in private schools in fall 2021.",
+  "sources": [
+    "NCES, Fast Facts: Back-to-school statistics: https://nces.ed.gov/fastfacts/display.asp?id=372"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-place"],
+  "gates": [],
+  "weights": {
+    "school-place": 0.5
+  },
+  "inGame": "the school row's kind (public or private). needs: private schools in the school module.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A private school start, against the public majority.",
+      "pulledBy": "household money and a parent's choice",
+      "writesBack": "a private school named"
+    },
+    {
+      "turn": "neutral",
+      "what": "A public school start.",
+      "pulledBy": "the district assignment",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}
