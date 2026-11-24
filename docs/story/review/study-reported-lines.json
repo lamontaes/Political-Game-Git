@@ -917,11 +917,7 @@
         "role": "asker",
         "purpose": "study-reported",
         "key": "colleague-word",
-        "requiresFacts": [
-          "bill",
-          "asker-chairs",
-          "members"
-        ],
+        "requiresFacts": ["bill", "asker-chairs", "members"],
         "after": "scene-talk.reply-ask.when-you-say-the-committee-whose-views-on-bill-went-into-that-finding"
       }
     ],
@@ -951,11 +947,7 @@
         "role": "asker",
         "purpose": "study-reported",
         "key": "colleague-word",
-        "requiresFacts": [
-          "bill",
-          "asker-chairs",
-          "members"
-        ],
+        "requiresFacts": ["bill", "asker-chairs", "members"],
         "after": "scene-talk.reply-ask.who-else-had-a-say-in-the-recommendation-on-bill"
       }
     ],
@@ -985,11 +977,7 @@
         "role": "asker",
         "purpose": "study-reported",
         "key": "colleague-word",
-        "requiresFacts": [
-          "bill",
-          "asker-chairs",
-          "members"
-        ],
+        "requiresFacts": ["bill", "asker-chairs", "members"],
         "after": "scene-talk.reply-ask.who-else-had-a-say-in-the-recommendation-on-bill"
       }
     ],
@@ -1005,5 +993,219 @@
       "report-options-without-endorsement",
       "charge-a-group-with-investigating-a-question"
     ]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-somebody-asks-whether-i-endorsed-bill-what-are-you-going-to-tell-them",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "If somebody asks whether I endorsed {bill}, what are you going to tell them?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.follow-answer.that-the-committee-recommended-passage-if-they-want-your-position-on-bill-i-ll-give-them-your-name-and-let-them-ask-you",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "That the committee recommended passage. If they want your position on {bill}, I'll give them your name and let them ask you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"],
+        "after": "scene-talk.reply-ask.if-somebody-asks-whether-i-endorsed-bill-what-are-you-going-to-tell-them"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-can-say-what-we-recommended-on-bill-whether-you-re-ready-to-put-your-name-behind-it-is-yours-to-say",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I can say what we recommended on {bill}. Whether you're ready to put your name behind it is yours to say.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"],
+        "after": "scene-talk.reply-ask.if-somebody-asks-whether-i-endorsed-bill-what-are-you-going-to-tell-them"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-ask-them-what-they-meant-if-they-mean-how-you-ll-vote-on-bill-they-need-to-talk-to-you",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I'd ask them what they meant. If they mean how you'll vote on {bill}, they need to talk to you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-for"],
+        "after": "scene-talk.reply-ask.if-somebody-asks-whether-i-endorsed-bill-what-are-you-going-to-tell-them"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-i-speak-for-bill-on-the-floor-will-you-say-i-went-back-on-my-word",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "If I speak for {bill} on the floor, will you say I went back on my word?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.follow-answer.no-serving-on-the-study-didn-t-bind-you-to-vote-against-bill-you-can-explain-where-you-and-the-committee-part-company",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "No. Serving on the study didn't bind you to vote against {bill}. You can explain where you and the committee part company.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"],
+        "after": "scene-talk.reply-ask.if-i-speak-for-bill-on-the-floor-will-you-say-i-went-back-on-my-word"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-make-your-case-for-bill-i-ll-give-the-committee-s-reasons-and-the-body-can-hear-us-both",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You can make your case for {bill}. I'll give the committee's reasons, and the body can hear us both.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"],
+        "after": "scene-talk.reply-ask.if-i-speak-for-bill-on-the-floor-will-you-say-i-went-back-on-my-word"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-want-to-hear-why-you-think-bill-should-pass-i-wouldn-t-call-that-a-broken-promise",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I'd want to hear why you think {bill} should pass. I wouldn't call that a broken promise.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-reported",
+        "key": "colleague-word",
+        "requiresFacts": ["bill", "asker-chairs", "finding-against"],
+        "after": "scene-talk.reply-ask.if-i-speak-for-bill-on-the-floor-will-you-say-i-went-back-on-my-word"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["report-options-without-endorsement"]
   }
 ]
