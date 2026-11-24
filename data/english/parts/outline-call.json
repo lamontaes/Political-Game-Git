@@ -5488,163 +5488,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.greeting.state-of-the-state-spoken-neighbors-and-members-of-the",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Neighbors, and members of the {body-word}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-spoken-once-a-year-the-constitution-has-the-president-report-to-con",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Once a year the Constitution has the President report to Congress, and this year that's me, with {the-vice-president} here.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-spoken-as-the-constitution-asks-i-m-here-to-report-to-congress-on-h",
-      "move": "report",
-      "kind": "spoken",
-      "text": "As the Constitution asks, I'm here to report to Congress on how the country is doing, and {the-vice-president} is here with me.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-spoken-the-constitution-says-the-president-reports-to-congress-on-t",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The Constitution says the President reports to Congress on the state of the Union, and {the-vice-president} and I are here for that.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-spoken-a-president-reports-to-congress-once-a-year-and-is-here-whil",
-      "move": "report",
-      "kind": "spoken",
-      "text": "A President reports to Congress once a year, and {the-vice-president} is here while I do.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-spoken-i-m-here-to-report-to-congress-on-how-the-country-stands-wit",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I'm here to report to Congress on how the country stands, with {the-vice-president} behind me.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-spoken-once-a-year-the-governor-reports-to-the-on-how-stands-and-th",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Once a year the governor reports to the {body-word} on how {realm-name} stands, and this year that's me.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.report.state-of-the-state-spoken-i-m-here-to-report-to-the-on-how-is-doing",
       "move": "report",
       "kind": "spoken",
@@ -5660,72 +5503,6 @@
       ],
       "after": ["greeting"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-spoken-a-governor-reports-to-the-once-a-year-on-how-is-doing-and-th",
-      "move": "report",
-      "kind": "spoken",
-      "text": "A governor reports to the {body-word} once a year on how {realm-name} is doing, and this is my report for the year.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-spoken-this-is-the-year-s-report-on-given-to-the-that-works-on-it",
-      "move": "report",
-      "kind": "spoken",
-      "text": "This is the year's report on {realm-name}, given to the {body-word} that works on it.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-spoken-i-stand-before-the-to-report-on-as-the-governors-before-me-h",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I stand before the {body-word} to report on {realm-name}, as the governors before me have.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -5753,76 +5530,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.send-off.state-of-the-union-congress-and-i-have-to-get-this-done-and-i-m-ready-to-start",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Congress and I have {term-left} to get this done, and I'm ready to start tomorrow.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-union-there-s-a-lot-on-this-list-for-the-next-and-i-ll-need-member",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "There's a lot on this list for the next {term-left}, and I'll need members of both parties to get through it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-union-thank-you-for-listening-and-thank-you-for-the-we-ll-be-worki",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thank you for listening, and thank you for the {term-left} we'll be working together.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.send-off.state-of-the-union-send-me-your-best-ideas-over-the-next-and-i-ll-read-them",
       "move": "send-off",
       "kind": "spoken",
@@ -5844,54 +5551,6 @@
         }
       ],
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-studious"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-union-i-ll-be-at-my-desk-for-the-next-working-on-this",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll be at my desk for the next {term-left}, working on this.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-union-the-next-will-be-busy-and-i-m-glad-to-be-doing-it-with-you",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The next {term-left} will be busy, and I'm glad to be doing it with you.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -5940,72 +5599,6 @@
         }
       ],
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-state-the-and-i-have-to-get-this-done-and-i-m-ready-to-start-tomor",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The {body-word} and I have {term-left} to get this done, and I'm ready to start tomorrow.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-state-i-have-in-this-term-and-i-d-like-to-spend-them-working-with",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I have {term-left} in this term, and I'd like to spend them working with this {body-word}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-state-there-s-a-lot-on-this-list-for-the-next-and-i-ll-need-member",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "There's a lot on this list for the next {term-left}, and I'll need members of both parties in the {body-word} to get through it.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-practical"
-      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -6074,28 +5667,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.blessing.state-of-the-union-thank-you-and-thank-you-congress-god-bless-america",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "Thank you, {the-vice-president}, and thank you, Congress. God bless America.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.greeting.state-of-the-union-and-members-of-congress",
       "move": "greeting",
       "kind": "spoken",
@@ -6137,358 +5708,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.greeting.state-of-the-union-members-of-congress-and-my-fellow-citizens",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "{the-vice-president}, members of Congress, and my fellow citizens.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-constitution-requires-the-president-to-report-to-congres",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The Constitution requires the President to report to Congress from time to time, and {the-vice-president} is here to hear it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-and-the-members-of-congress-are-here-for-the-report-the-cons",
-      "move": "report",
-      "kind": "spoken",
-      "text": "{the-vice-president} and the members of Congress are here for the report the Constitution asks of me.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-it-falls-to-the-president-to-report-to-congress-and-is-here",
-      "move": "report",
-      "kind": "spoken",
-      "text": "It falls to the President to report to Congress, and {the-vice-president} is here for it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-congress-is-in-session-is-behind-me-and-the-report-is-mine-t",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Congress is in session, {the-vice-president} is behind me, and the report is mine to give.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-behind-me-sit-and-the-speaker-of-the-house-and-in-front-of-m",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Behind me sit {the-vice-president} and the Speaker of the House, and in front of me sit the people who write the laws.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-in-this-chamber-presides-over-the-senate-and-i-report-to-bot",
-      "move": "report",
-      "kind": "spoken",
-      "text": "In this chamber, {the-vice-president} presides over the Senate and I report to both houses.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-every-year-the-president-walks-into-this-chamber-to-report-t",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Every year the President walks into this chamber to report to Congress, and {the-vice-president} is here to hear it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-this-report-to-congress-is-required-by-the-constitution-and",
-      "move": "report",
-      "kind": "spoken",
-      "text": "This report to Congress is required by the Constitution, and {the-vice-president} is here to see it done.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-and-i-are-on-the-same-stage-and-between-us-we-answer-to-the",
-      "move": "report",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I are on the same stage, and between us we answer to the people watching.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-i-m-here-to-report-to-congress-and-is-here-to-hear-me-do-it",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I'm here to report to Congress, and {the-vice-president} is here to hear me do it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-tonight-the-president-reports-to-congress-and-is-here-to-hea",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Tonight the President reports to Congress, and {the-vice-president} is here to hear it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president", "evening"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-tonight-i-report-to-congress-on-the-country-with-behind-me-a",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Tonight I report to Congress on the country, with {the-vice-president} behind me and the nation watching.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president", "evening"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-dramatic"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-the-people-watching-tonight-can-see-behind-me-and-congress-i",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The people watching tonight can see {the-vice-president} behind me and Congress in front of me.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president", "evening"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-with-left-in-this-term-i-m-here-to-report-to-congress-on-how",
-      "move": "report",
-      "kind": "spoken",
-      "text": "With {term-left} left in this term, I'm here to report to Congress on how the country stands.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-union-i-report-to-congress-with-left-in-my-term-and-i-d-rather-you",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I report to Congress with {term-left} left in my term, and I'd rather you hear it from me than read it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.send-off.state-of-the-union-i-ll-work-with-any-member-of-congress-who-brings-me-a-real-p",
       "move": "send-off",
       "kind": "spoken",
@@ -6506,61 +5725,6 @@
         "personality-v1:facet-fair-minded",
         "personality-v1:facet-practical"
       ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-union-whatever-happens-in-the-next-i-d-rather-we-work-on-it-togeth",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Whatever happens in the next {term-left}, I'd rather we work on it together than apart.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.send-off.state-of-the-union-i-ll-see-many-of-you-in-the-hallways-over-the-next-and-i-ll",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll see many of you in the hallways over the next {term-left}, and I'll listen to what you tell me.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -6585,117 +5749,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.send-off.state-of-the-union-thank-you-for-your-time-we-have-to-use-well",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Thank you for your time. We have {term-left} to use well.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-union-to-the-families-who-sent-a-member-of-congress-here-they-hear",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the families who sent a member of Congress here: for the next {term-left}, they hear from you more than from me, and they should.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-union-to-everyone-watching-who-has-never-written-to-congress-a-let",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To everyone watching who has never written to Congress: a letter takes a few minutes, and for the next {term-left} this is the room that gets it.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-union-to-the-people-of-the-states-hit-hardest-by-the-congress-is-i",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the people of the states hit hardest by the {the-disaster}: Congress is in this room, and the next {term-left} are when it acts.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["the-disaster", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-read-the-committee-report-on-before-you-decide-what-congress",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Read the committee report on {about} before you decide what Congress should do.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.call.state-of-the-union-ask-your-state-s-senators-where-they-stand-on-and-listen-to",
       "move": "call",
       "kind": "spoken",
@@ -6712,94 +5765,6 @@
       "lean": [
         "personality-v1:facet-assertive",
         "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-take-one-question-about-to-the-next-town-hall-your-member-of",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Take one question about {about} to the next town hall your member of Congress holds.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-find-out-which-committee-in-congress-handles-and-read-its-sc",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Find out which committee in Congress handles {theme-short}, and read its schedule.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-watch-how-congress-handles-this-year-and-compare-it-with-wha",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Watch how Congress handles {theme-short} this year, and compare it with what was said here.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-union-learn-what-your-state-legislature-is-doing-on-many-of-these",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Learn what your state legislature is doing on {theme-short}. Many of these decisions start there.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-duty-bound"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -6888,28 +5853,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.greeting.state-of-the-state-friends-in-the-and-neighbors-across",
-      "move": "greeting",
-      "kind": "spoken",
-      "text": "Friends in the {body-word}, and neighbors across {realm-name}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "greeting",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.greeting.state-of-the-state-members-of-the-and-everyone-watching-in",
       "move": "greeting",
       "kind": "spoken",
@@ -6924,69 +5867,6 @@
         }
       ],
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-friendly"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-constitution-of-has-the-governor-report-to-the-and-i-m-h",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The constitution of {realm-name} has the governor report to the {body-word}, and I'm here for that.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-every-year-the-governor-of-reports-to-the-and-this-is-my-tur",
-      "move": "report",
-      "kind": "spoken",
-      "text": "Every year the governor of {realm-name} reports to the {body-word}, and this is my turn.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-i-m-here-as-the-governor-of-to-report-to-the-on-the-year",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I'm here as the governor of {realm-name} to report to the {body-word} on the year.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -7007,161 +5887,6 @@
       ],
       "after": ["greeting"],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-i-m-reporting-on-to-the-that-has-to-act-on-it",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I'm reporting on {realm-name} to the {body-word} that has to act on it.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-writes-the-laws-i-sign-or-veto-them-and-today-i-report-o",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The {body-word} writes the laws, I sign or veto them, and today I report on {realm-name}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-i-work-for-so-does-the-and-i-report-to-it-on-how-things-are",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I work for {realm-name}, so does the {body-word}, and I report to it on how things are going.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-it-falls-to-the-governor-to-report-to-the-on-and-i-m-glad-to",
-      "move": "report",
-      "kind": "spoken",
-      "text": "It falls to the governor to report to the {body-word} on {realm-name}, and I'm glad to do it.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-with-left-in-my-term-i-report-to-the-on-how-is-doing",
-      "move": "report",
-      "kind": "spoken",
-      "text": "With {term-left} left in my term, I report to the {body-word} on how {realm-name} is doing.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-i-report-to-the-for-with-left-in-my-term",
-      "move": "report",
-      "kind": "spoken",
-      "text": "I report to the {body-word} for {realm-name} with {term-left} left in my term.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.report.state-of-the-state-the-governor-of-reports-to-the-every-year-and-i-m-giving-min",
-      "move": "report",
-      "kind": "spoken",
-      "text": "The governor of {realm-name} reports to the {body-word} every year, and I'm giving mine with {term-left} left in my term.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "report",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-friendly"
-      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -7208,115 +5933,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.address-to.state-of-the-state-to-the-families-in-who-sent-a-member-of-the-here-they-hear-f",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the families in {realm-name} who sent a member of the {body-word} here: they hear from you more than from me, and they should.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-state-to-everyone-in-who-has-never-written-to-the-a-letter-takes-a",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To everyone in {realm-name} who has never written to the {body-word}: a letter takes a few minutes, and this is the room that gets it.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-state-to-the-voters-across-who-backed-someone-else-you-ll-get-the",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the voters across {realm-name} who backed someone else: you'll get the same hearing from my office as anyone, over {term-left}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-state-to-the-people-of-listening-far-from-this-room-the-meets-here",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the people of {realm-name} listening far from this room: the {body-word} meets here, but the work lands in your town.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["realm-name", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.address-to.state-of-the-state-to-the-people-in-hit-hardest-by-the-the-is-in-this-room-and",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the people in {realm-name} hit hardest by the {the-disaster}: the {body-word} is in this room, and the next {term-left} are when it acts.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": [
-            "realm-name",
-            "body-word",
-            "the-disaster",
-            "term-left"
-          ],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-sincere",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.call.state-of-the-state-ask-your-member-of-the-where-they-stand-on-and-listen-to-the",
       "move": "call",
       "kind": "spoken",
@@ -7333,138 +5949,6 @@
       "lean": [
         "personality-v1:facet-assertive",
         "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-take-one-question-about-to-the-next-town-hall-your-member-of",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Take one question about {about} to the next town hall your member of the {body-word} holds.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-read-the-committee-report-on-before-you-decide-what-the-shou",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Read the committee report on {about} before you decide what the {body-word} should do.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-find-out-which-committee-in-the-handles-and-read-its-schedul",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Find out which committee in the {body-word} handles {theme-short}, and read its schedule.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-watch-how-the-handles-this-year-and-compare-it-with-what-was",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Watch how the {body-word} handles {theme-short} this year, and compare it with what was said here.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-skeptical",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-learn-what-your-city-council-is-doing-on-many-of-these-decis",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Learn what your city council is doing on {theme-short}. Many of these decisions start there.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-tell-a-neighbor-in-what-you-learned-about-today",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Tell a neighbor in {realm-name} what you learned about {theme-short} today.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -7494,204 +5978,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.oath.spoken-and-i-swore-to-the-same-constitution-a-few-minutes-apart",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I swore to the same Constitution a few minutes apart.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.oath.spoken-the-oath-binds-me-the-way-it-bound-a-few-minutes-ago-to-the-constituti",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "The oath binds me the way it bound {the-vice-president} a few minutes ago: to the Constitution, not to a party.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.oath.spoken-swore-the-oath-first-and-i-swore-mine-right-after-both-of-us-to-the-co",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "{the-vice-president} swore the oath first, and I swore mine right after, both of us to the Constitution.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-meticulous", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.oath.spoken-and-i-have-both-promised-to-defend-the-constitution-against-enemies-fo",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I have both promised to defend the Constitution against enemies foreign and domestic.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.oath.spoken-my-oath-is-to-the-constitution-and-s-is-too-so-the-two-of-us-start-fro",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "My oath is to the Constitution, and {the-vice-president}'s is too, so the two of us start from the same page.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.oath.spoken-i-just-promised-to-preserve-protect-and-defend-the-constitution-and-ma",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "I just promised to preserve, protect and defend the Constitution, and {the-vice-president} made that promise a few minutes before me.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-polite",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.oath.spoken-i-m-sworn-to-the-constitution-so-is-and-neither-oath-mentions-a-party",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "I'm sworn to the Constitution, so is {the-vice-president}, and neither oath mentions a party.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-blunt",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.hired.spoken-and-i-were-on-the-same-ballot-in-november-and-you-chose-both-of-us",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I were on the same ballot in November, and you chose both of us.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "frame",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.hired.spoken-in-november-you-voted-for-me-and-together-since-the-two-of-us-ran-as-o",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "In November you voted for me and {the-vice-president} together, since the two of us ran as one ticket.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "frame",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.hired.spoken-and-i-ran-together-last-fall-and-the-votes-you-gave-us-are-why-we-re-s",
       "move": "hired",
       "kind": "spoken",
@@ -7707,309 +5993,6 @@
       ],
       "after": ["greeting"],
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.hired.spoken-last-fall-s-ballot-had-two-names-on-it-for-this-job-mine-and-s-and-you",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "Last fall's ballot had two names on it for this job, mine and {the-vice-president}'s, and you picked both.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "frame",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-analytical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.hired.spoken-and-i-ran-together-and-won-together-so-we-ll-be-working-this-out-toget",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I ran together and won together, so we'll be working this out together.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "frame",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.hired.spoken-the-ticket-that-won-in-november-was-and-me-and-we-both-start-work-toda",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "The ticket that won in November was {the-vice-president} and me, and we both start work today.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "frame",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.hired.spoken-voters-picked-a-ticket-in-november-with-on-it-beside-me-and-today-the",
-      "move": "hired",
-      "kind": "spoken",
-      "text": "Voters picked a ticket in November, with {the-vice-president} on it beside me, and today the ticket takes office.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "hired",
-          "tie": "frame",
-          "requiresFacts": ["elected-last-fall", "the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["greeting"],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-sincere"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-ask-a-teacher-a-nurse-or-a-business-owner-how-looks-from-where-they-wo",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Ask a teacher, a nurse or a business owner how {about} looks from where they work.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-look-for-a-local-news-story-on-and-notice-who-it-quotes",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Look for a local news story on {about}, and notice who it quotes.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-skeptical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-write-down-your-own-question-about-and-take-it-to-someone-who-disagree",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Write down your own question about {about}, and take it to someone who disagrees with you.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-mediating",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-check-whether-a-bill-on-has-been-introduced-in-your-state-and-read-it",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Check whether a bill on {about} has been introduced in your state, and read it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-see-what-your-own-town-has-already-tried-on",
-      "move": "call",
-      "kind": "spoken",
-      "text": "See what your own town has already tried on {about}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-talk-to-someone-older-and-someone-younger-than-you-about-and-compare-w",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Talk to someone older and someone younger than you about {about}, and compare what they say.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-read-both-sides-arguments-on-before-deciding-which-one-persuades-you",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Read both sides' arguments on {about} before deciding which one persuades you.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["about", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-ask-your-local-newspaper-what-it-s-covering-on",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Ask your local newspaper what it's covering on {theme-short}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-find-your-town-s-budget-and-see-what-it-spends-on",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Find your town's budget and see what it spends on {theme-short}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-sit-in-on-one-meeting-of-your-school-board-or-town-council-and-listen",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Sit in on one meeting of your school board or town council and listen for {theme-short}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
@@ -8031,94 +6014,6 @@
       "lean": [
         "personality-v1:facet-friendly",
         "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-look-up-who-represents-you-in-your-state-legislature-and-see-what-they",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Look up who represents you in your state legislature, and see what they've said about {theme-short}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-if-touches-your-job-ask-your-employer-or-your-union-what-they-re-doing",
-      "move": "call",
-      "kind": "spoken",
-      "text": "If {theme-short} touches your job, ask your employer or your union what they're doing about it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-share-one-fact-about-you-checked-yourself-with-someone-who-hasn-t-hear",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Share one fact about {theme-short} you checked yourself with someone who hasn't heard it.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-supportive",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.call.spoken-learn-how-is-decided-where-you-live",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Learn how {theme-short} is decided where you live.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-practical"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -9120,6 +7015,798 @@
         }
       ],
       "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-more-has-gotten-better-than-worse-in-this-country-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More has gotten better than worse in this country this year, and there's {term-left} left in this term.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-this-country-is-doing-better-than-it-was-a-year-ago-in-more",
+      "move": "report",
+      "kind": "spoken",
+      "text": "This country is doing better than it was a year ago in more ways than it's doing worse, with {term-left} still ahead.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-on-balance-the-year-was-a-good-one-for-the-country-and-the-n",
+      "move": "report",
+      "kind": "spoken",
+      "text": "On balance the year was a good one for the country, and the next {term-left} start from there.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-most-of-what-i-can-measure-is-up-this-year-and-that-gives-me",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Most of what I can measure is up this year, and that gives me a better start on the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-more-got-better-than-worse-this-year-and-i-ll-take-that-into",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More got better than worse this year, and I'll take that into the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-the-year-went-better-than-it-went-badly-and-with-left-that-s",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year went better than it went badly, and with {term-left} left, that's a good place to start.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-more-has-gotten-worse-than-better-in-this-country-this-year",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More has gotten worse than better in this country this year, and there's {term-left} left in this term to change it.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-this-country-is-doing-worse-than-it-was-a-year-ago-in-more-w",
+      "move": "report",
+      "kind": "spoken",
+      "text": "This country is doing worse than it was a year ago in more ways than it's doing better, with {term-left} still ahead.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-on-balance-the-year-was-a-hard-one-for-the-country-and-the-n",
+      "move": "report",
+      "kind": "spoken",
+      "text": "On balance the year was a hard one for the country, and the next {term-left} start from there.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-most-of-what-i-can-measure-is-down-this-year-and-that-s-the",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Most of what I can measure is down this year, and that's the starting point for the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-more-went-wrong-than-right-this-year-and-i-ll-carry-that-int",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More went wrong than right this year, and I'll carry that into the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-the-year-went-worse-than-it-went-well-and-with-left-that-s-w",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year went worse than it went well, and with {term-left} left, that's where we begin.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-about-as-much-got-better-as-got-worse-in-this-country-this-y",
+      "move": "report",
+      "kind": "spoken",
+      "text": "About as much got better as got worse in this country this year, and there's {term-left} left in this term.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-the-year-was-mixed-for-the-country-some-things-up-and-some-d",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year was mixed for the country, some things up and some down, with {term-left} still ahead.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-on-balance-the-year-was-neither-good-nor-bad-for-the-country",
+      "move": "report",
+      "kind": "spoken",
+      "text": "On balance the year was neither good nor bad for the country, and the next {term-left} start from there.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-some-of-what-i-can-measure-is-up-this-year-and-some-is-down",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Some of what I can measure is up this year and some is down, and I'll carry both into the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-as-many-things-got-better-as-got-worse-this-year-and-i-d-lik",
+      "move": "report",
+      "kind": "spoken",
+      "text": "As many things got better as got worse this year, and I'd like the next {term-left} to tilt it toward better.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-union-the-year-split-evenly-between-better-and-worse-and-i-have-le",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year split evenly between better and worse, and I have {term-left} left to work with.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-more-has-gotten-better-than-worse-in-this-year-and-i-have-le",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More has gotten better than worse in {realm-name} this year, and I have {term-left} left in my term.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-is-doing-better-than-it-was-a-year-ago-in-more-ways-than-it",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} is doing better than it was a year ago in more ways than it's doing worse, with {term-left} still ahead of me.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-on-balance-the-year-was-a-good-one-for-and-my-next-start-fro",
+      "move": "report",
+      "kind": "spoken",
+      "text": "On balance the year was a good one for {realm-name}, and my next {term-left} start from there.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-most-of-what-i-can-measure-is-up-in-this-year-and-that-gives",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Most of what I can measure is up in {realm-name} this year, and that gives me a better start on the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-more-got-better-than-worse-in-this-year-and-i-ll-take-that-i",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More got better than worse in {realm-name} this year, and I'll take that into the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-the-year-went-better-than-it-went-badly-for-and-with-left-th",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year went better than it went badly for {realm-name}, and with {term-left} left, that's a good place to start.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-better", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-more-has-gotten-worse-than-better-in-this-year-and-i-have-le",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More has gotten worse than better in {realm-name} this year, and I have {term-left} left in my term to change it.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-is-doing-worse-than-it-was-a-year-ago-in-more-ways-than-it-s",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{realm-name} is doing worse than it was a year ago in more ways than it's doing better, with {term-left} still ahead of me.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-on-balance-the-year-was-a-hard-one-for-and-my-next-start-fro",
+      "move": "report",
+      "kind": "spoken",
+      "text": "On balance the year was a hard one for {realm-name}, and my next {term-left} start from there.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-most-of-what-i-can-measure-is-down-in-this-year-and-that-s-t",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Most of what I can measure is down in {realm-name} this year, and that's the starting point for the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-more-went-wrong-than-right-in-this-year-and-i-ll-carry-that",
+      "move": "report",
+      "kind": "spoken",
+      "text": "More went wrong than right in {realm-name} this year, and I'll carry that into the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-the-year-went-worse-than-it-went-well-for-and-with-left-that",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year went worse than it went well for {realm-name}, and with {term-left} left, that's where we begin.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-hard", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-about-as-much-got-better-as-got-worse-in-this-year-and-i-hav",
+      "move": "report",
+      "kind": "spoken",
+      "text": "About as much got better as got worse in {realm-name} this year, and I have {term-left} left in my term.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-sincere"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-the-year-was-mixed-for-some-things-up-and-some-down-with-sti",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year was mixed for {realm-name}, some things up and some down, with {term-left} still ahead of me.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-on-balance-the-year-was-neither-good-nor-bad-for-and-my-next",
+      "move": "report",
+      "kind": "spoken",
+      "text": "On balance the year was neither good nor bad for {realm-name}, and my next {term-left} start from there.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-some-of-what-i-can-measure-is-up-in-this-year-and-some-is-do",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Some of what I can measure is up in {realm-name} this year and some is down, and I'll carry both into the next {term-left}.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-polite"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-as-many-things-got-better-as-got-worse-in-this-year-and-i-d",
+      "move": "report",
+      "kind": "spoken",
+      "text": "As many things got better as got worse in {realm-name} this year, and I'd like the next {term-left} to tilt it toward better.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-informal"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.state-of-the-state-the-year-split-evenly-between-better-and-worse-for-and-i-hav",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year split evenly between better and worse for {realm-name}, and I have {term-left} left to work with.",
+      "uses": [
+        {
+          "subject": "state-of-the-state",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["mood-mixed", "realm-name", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-meticulous"
+      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
