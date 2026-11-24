@@ -2,8 +2,9 @@
   "id": "colleague-breaks-into-a-floor-speech",
   "kind": "moment",
   "summary": "Another member cuts in before the speaker finishes an intervention.",
-  "realLife": "owner, Nov 15: An interruption can happen to the player in the course of a speech.",
+  "realLife": "Wayne Morse briefly let another senator speak during a 1965 evening session. Before Morse could resume, presiding officer Daniel Brewster adjourned the Senate. Brewster apologized the next day.",
   "sources": [
+    "https://www.senate.gov/about/parties-leadership/presiding-officers-party.htm",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L135"
   ],
   "inGame": "needs: an interruption during the player’s floor turn.",
@@ -18,6 +19,12 @@
       "what": "The colleague waits for recognition and responds after the speaker sits down.",
       "pulledBy": "The speaker declines to yield and the chair keeps the floor with them.",
       "writesBack": "The minutes show two successive remarks."
+    },
+    {
+      "turn": "late",
+      "what": "The speaker brings the unfinished page back the next morning and asks to start where the chamber stopped.",
+      "pulledBy": "The previous sitting ended during the interruption and the chair recognizes the speaker again.",
+      "writesBack": "The floor account dates the resumed remarks to the new sitting."
     }
   ]
 }

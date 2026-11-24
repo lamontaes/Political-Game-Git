@@ -2,8 +2,9 @@
   "id": "participant-waits-for-pending-amendments",
   "kind": "voice",
   "summary": "A member who has worked on a bill withholds judgment until the proposed changes are settled.",
-  "realLife": "owner, Nov 15: A reply may refer to amendments only when the player has reason to know about them.",
+  "realLife": "John McCain voted to open health care debate in July 2017 and told the Senate he would oppose the text before it. He asked colleagues to hold hearings and allow changes on the floor.",
   "sources": [
+    "https://www.mccaininstitute.org/resources/mccain-on-the-issue/25-july-2017/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L117"
   ],
   "inGame": "needs: expose both the pending amendment and this player’s participation to the reply.",
@@ -18,6 +19,12 @@
       "what": "The member takes a position before the amendment vote.",
       "pulledBy": "Either version would retain the provision on which the member's decision turns.",
       "writesBack": "The position goes on record before the text is settled."
+    },
+    {
+      "turn": "partial",
+      "what": "The member backs the revised payment provision but still asks to see the effective date before committing to passage.",
+      "pulledBy": "The payment amendment has passed and the calendar amendment is still pending.",
+      "writesBack": "The sponsor’s tally marks support for the payment change and keeps the final vote undecided."
     }
   ]
 }

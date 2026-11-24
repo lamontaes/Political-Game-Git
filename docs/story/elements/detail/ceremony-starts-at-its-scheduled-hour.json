@@ -2,8 +2,9 @@
   "id": "ceremony-starts-at-its-scheduled-hour",
   "kind": "detail",
   "summary": "The invitation tells the incoming member when the ceremony will actually begin.",
-  "realLife": "owner, Nov 15: A ceremony’s stated time should come from its appointment on the calendar.",
+  "realLife": "Members elected to the 118th House waited through fifteen ballots for Speaker. Their swearing-in finally began at 1:40 on Saturday morning, four days after the House first met.",
   "sources": [
+    "https://www.upi.com/Top_News/US/2023/01/07/house-representatives-sworn-in-george-santos/8951673107294/",
     "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L164"
   ],
   "inGame": "needs: a ceremony-specific hour rather than a generic day band.",
@@ -18,6 +19,12 @@
       "what": "The clerk announces a delay before calling the incoming members forward.",
       "pulledBy": "The preceding meeting still occupies the chamber.",
       "writesBack": "Attendees receive a revised starting time."
+    },
+    {
+      "turn": "partial",
+      "what": "The family arrives in time for the opening gavel and has to leave for the last train before the oath.",
+      "pulledBy": "The invitation gives the opening hour, the Speaker election is still under way, and the family has a train to catch.",
+      "writesBack": "The journal records who saw the opening and leaves those relatives out of the oath scene."
     }
   ]
 }
