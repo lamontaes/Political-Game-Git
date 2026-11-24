@@ -12,7 +12,7 @@ description: >
 
 # Speech writer
 
-The owner on speeches, word for word:
+The owner on speeches:
 
 - Nov 23, 2026, on the inaugural: "Again, this is all following the same grammatical pattern as that I've been complaining about for a month now."
 - Nov 23: "It. What is it?"
@@ -20,13 +20,13 @@ The owner on speeches, word for word:
 - Nov 12: "There's no theme for the speech. That's a problem."
 - Nov 12: "We're not talking about any ideas that this person believes in."
 - Nov 12, on the debt limit point: "Is he for it? Is he against it?"
-- Oct 15: "A four-line rally is not a speech."
+- Oct 15, as recorded in `docs/coordination/OWNER-DECISIONS.md`: "A four-line rally is not a speech."
 
 Read `story-writer` first. The planner is `src/director/speech-outline.ts` with `src/director/data/speech-outlines.json`, and the lane's moves and facts are in `docs/story/writer-spec.md` on branch `story/first-evening`.
 
 ## The rules that must hold
 
-1. **Shape comes from real speeches of the same kind.** Before you write a move, count how real ones handle it: how a point opens, whether it ends in an ask (most don't), how one point leads into the next. Use the American Presidency Project (presidency.ucsb.edu) for inaugurals and the State of the Union, state archives for State of the State addresses, and city sites, papers and council video for mayors. Take shape and rhythm only.
+1. **Shape comes from real speeches of the same kind.** Before you write a move, count how real ones handle it: how a point opens, whether it ends in an ask, how one point leads into the next. Use the American Presidency Project (presidency.ucsb.edu) for inaugurals and the State of the Union, state archives for State of the State addresses, and city sites, papers and council video for mayors. Take shape and rhythm only.
 2. **No point is forced into one frame.** On Nov 12 every point became context, stand, ask, built from one example he gave, and every speech had the same skeleton whatever its words. The planner offers many shapes, and the speaker's traits and the world pick among them. When a frame repeats in every speech, look in the planner before writing more lines.
 3. **One theme, and ideas the speaker believes.** Every point belongs to the theme (`speech-has-one-theme`), and the speaker is plainly for or against (`stance-is-plainly-for-or-against`).
 4. **Every line knows what came before.** A line that leans on the one before needs `after`. That includes any line that opens on It, That, This, These, So or And. A pronoun always has a thing to point to.

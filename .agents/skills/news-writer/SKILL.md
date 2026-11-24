@@ -13,7 +13,8 @@ description: >
 The owner, word for word:
 
 - Nov 23, 2026: "And look at these news stories. These aren't stories."
-- Nov 1: "none of this is a story."
+- Nov 8: "this isn't news. I mean, this is it. There's no story."
+- Nov 1, as recorded in `docs/coordination/OWNER-DECISIONS.md`: "none of this is a story."
 - Nov 12, on the news line after the address: "Neither does the news toast."
 
 Read `story-writer` first. The lane's kinds and facts are in `docs/story/writer-spec.md` on branch `story/first-evening`; the address's and a vote's facts are built in `src/bench/printed-words.ts`.

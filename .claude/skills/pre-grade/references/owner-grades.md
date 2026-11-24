@@ -1,46 +1,69 @@
 # The owner's real verdicts, by failure class
 
-The plant bank for `pre-grade`. Every chunk gets one plant from each class below, plus at least two of his passes or okays. His words are verbatim and dated; a "Reading:" line is the CTO's reading, not his words. After each grading page, add every line the pre-grade got wrong to its class, the same day.
+The plant bank for `pre-grade`. **Only the Pre-grader reads this file. Never give it, or any line in it, to a blind reader.**
 
-Sources: his Nov 24 grades of the Desk packet (lines numbered as in `docs/story/first-evening-pregrade-8.md` on branch `story/first-evening-pregrade`; his words are quoted here in full from his chat), his Nov 23 sitting (`docs/coordination/playtest/2026-11-23-1-verbatim.md` on branch `claude/cto-playtest-nov23`), and his Nov 12 life 1 note (`docs/grading/2026-11-12-life-1/owner-voice-note.md` on branch `grading/nov12-life-1`).
+- Every chunk gets one plant from each class below, plus at least two of his passes or okays.
+- **A plant is the whole stretch:** the line before it, the reply set with the answer, or the same slot in three lives, exactly as it played. A bare line can't be judged against a set or a context.
+- His words are verbatim and dated. A "Reading:" line is the CTO's reading, not his words.
+- After each grading page he answers, add every line the pre-grade got wrong to its class the same day, with its stretch.
+
+**Sources:**
+- His Nov 24 grades of the Desk packet, quoted here in full from his chat. The lines are numbered and played as in `docs/story/first-evening-pregrade-8.md` on branch `story/first-evening-pregrade` (merged head a880050828).
+- His Nov 23 sitting: `docs/coordination/playtest/2026-11-23-1-verbatim.md` on branch `claude/cto-playtest-nov23`.
+- His Nov 12 life 1 note: `docs/grading/2026-11-12-life-1/owner-voice-note.md`, played in `lines.md`, both on branch `grading/nov12-life-1`.
 
 ## Classes he fails
 
 ### 1. Talk that says the policy's name instead of reacting to it
 
-- Nov 24, bad: "So the President wants a higher top income tax rate. I'm glad she said it out loud." His words: "No person would say that. They'd be like, finally, someone wants to tax the rich, or, you know, I can't believe he wants to tax people, or why is he going to tax people? It's just going to run people, all that kind of shit."
+- Nov 24, bad (Meadow, Utah, aecea4). The stretch:
+  - 1.14, narration: "It's the evening of January 20. The news replays President Simon's noon speech."
+  - 1.16, the mother says: "So the President wants a higher top income tax rate. I'm glad she said it out loud."
+  - His words: "No person would say that. They'd be like, finally, someone wants to tax the rich, or, you know, I can't believe he wants to tax people, or why is he going to tax people? It's just going to run people, all that kind of shit."
 - Nov 23, on a person's card: "Again, random ass laws like ban the box public hiring. What does that mean?"
 - Nov 12, on an address point: "why is it always stock trading? It's always stock trading."
 - Rule: `bill-called-by-what-people-call-it`.
 
 ### 2. A quip or composed line where a plain one belongs
 
-- Nov 24, bad: "By 2012 the state had you in a classroom in Meadow. That's how the state says hello." His words: "What the hell does that mean? That's how the state says hello? What the hell does that mean?"
-- Nov 24, bad: "...Utah has its usual problems, and Meadow has saved you a seat." His words: "I don't understand that at all."
+- Nov 24, bad: 1.5, "By 2012 the state had you in a classroom in Meadow. That's how the state says hello." His words: "What the hell does that mean? That's how the state says hello? What the hell does that mean?"
+- Nov 24, bad: 1.7, "It's January 2025. Washington has a new President, Utah has its usual problems, and Meadow has saved you a seat." His words: "I don't understand that at all."
 - Nov 12: on "I'm not going to forget about you": "what the hell does that mean?" On "beat the price tags": "What does that mean?"
 - Rule: `no-literary-phrasing`.
 
 ### 3. Narration that repeats what the screen shows
 
-- Nov 24, bad: "It's January 2025." His words: "Okay, again, shouldn't really say this because the date is in the bottom left."
+- Nov 24, bad: the opening of 1.7, "It's January 2025." His words: "Okay, again, shouldn't really say this because the date is in the bottom left."
 - Oct 26: "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right."
-- Pass pair: Nov 24, good: "It's the evening of January 20. The news replays President Simon's noon speech." (class "Passes" below).
-- Rule: `no-day-or-place-in-narration` (its test catches only slots; a typed date slips through).
+- Pass pair: Nov 24, good, 1.14: "It's the evening of January 20. The news replays President Simon's noon speech."
+- Rule: `no-day-or-place-in-narration`. Its test catches only slots, so a typed date slips through.
 
 ### 4. Replies that give one answer, and filler
 
-- Nov 24, bad, as a set: the work small talk, 1.24 "Don't ask how work went today.", 1.25 "Just a day at work, that's all.", 1.26 "Work took everything I had today." and the answer 1.28 "Glad work went easy on you today." His words: "Don't ask me how work went today. Just a day at work. That's all. Work took. Those sound like shitty filler lines there. Glad work went easy on you. And again, all four of them are saying the same things. Oh my God."
-- Nov 12: "Maya and Logan... basically saying the same thing."
-- Nov 12, bad: "Oh, I see. I'll check on you again at the morning." His words: "the same bullshit I talked about yesterday with the just non-replies."
-- Nov 12, bad: "What do you do?" His words: "a useless interaction. It just shouldn't even be there."
+- Nov 24, bad, as a set (Meadow, Utah, aecea4). The stretch:
+  - 1.22, the mother says: "Did Rosales Family Clinic keep you late today?"
+  - Replies: 1.23 "It was a smooth one at work today." / 1.24 "Don't ask how work went today." / 1.25 "Just a day at work, that's all." / 1.26 "Work took everything I had today."
+  - 1.28, the answer: "Glad work went easy on you today."
+  - His words: "Don't ask me how work went today. Just a day at work. That's all. Work took. Those sound like shitty filler lines there. Glad work went easy on you. And again, all four of them are saying the same things. Oh my God."
+- Nov 12, bad (life 1). The stretch:
+  - Maya Williamson: "I'm at Sullivan's Market. What about you?" / "Not right now."
+  - Replies: "Oh, I see." / "Alright." The player took "Oh, I see."
+  - Maya: "I'll check on you again this morning."
+  - His words: "the same bullshit I talked about yesterday with the just non-replies."
+- Nov 12, on the question "What do you do?": "a useless interaction. It just shouldn't even be there."
+- Nov 12, on two housemates: "Maya and Logan... basically saying the same thing."
 - Rules: `variants-differ-in-what-they-say`, `no-non-replies`, `no-filler`.
 
 ### 5. A reply that doesn't fit the line before
 
-- Nov 24, bad: "I'd push back on her there." His words: "Again, I'd push back on her there. What?"
-- Nov 24, okay: "Same here, Mom." His words: "I mean, I guess that works, but that context is weird."
-- Nov 12, bad: "What would that mean for Wofford Heights?" His words: "how the hell would she know?"
-- Nov 12, bad: "What should Washington do next?" His words: "Which Washington?... Why should she care?"
+- Nov 24 (Meadow, Utah, aecea4). The stretch:
+  - 1.16, the mother says: "So the President wants a higher top income tax rate. I'm glad she said it out loud."
+  - 1.17, reply 1: "Same here, Mom." His words, okay: "I mean, I guess that works, but that context is weird."
+  - 1.18, reply 2: "I'd push back on her there." His words, bad: "Again, I'd push back on her there. What?"
+  - 1.20, the answer: "Now if Congress sees it that way, we're fine."
+- Nov 12 (life 1). The stretch:
+  - Logan Harper: "What the President said about pay getting ahead of prices caught my ear. That's not what I see, whatever Joshua Fitzgerald says. Rent in Wofford Heights takes too big a bite."
+  - Replies: "No argument from me, Logan." (his words: "a fine response") / "I'm with Joshua Fitzgerald on this one." / "What would that mean for Wofford Heights?" (his words: "how the hell would she know?") / "What should Washington do next about pay getting ahead of prices?" (his words: "Which Washington?... Why should she care?")
 - Rules: `reply-follows-the-line-before`, `no-reply-asks-what-the-listener-cannot-know`.
 
 ### 6. One skeleton under every point
@@ -60,7 +83,12 @@ Sources: his Nov 24 grades of the Desk packet (lines numbered as in `docs/story/
 
 ### 8. The same line in every life
 
-- Nov 24, bad: "You were born in 2007, and nobody asked you first." (and the same opener in every life). His words: "Why is this still coming up? This should not happen. You were born in 2000 again."
+- Nov 24, bad, as a slot across lives (round 8). The stretch:
+  - Meadow, Utah, 1.3: "You were born in 2006, and nobody asked you first."
+  - Chipley, Florida, 2.3: "You were born in 2007, and nobody asked you first."
+  - Roberts, Idaho, 5.3, and Oakton, Virginia, 6.3: the same line.
+  - The same slot 1.5 in four of six lives: "By 2012 (or 2017) the state had you in a classroom in [town]. That's how the state says hello."
+  - His words: "Why is this still coming up? This should not happen. You were born in 2000 again."
 - Rules: `vary-the-shape`, `many-versions-of-each-scene`.
 
 ### 9. People the player can't place
@@ -75,18 +103,19 @@ Sources: his Nov 24 grades of the Desk packet (lines numbered as in `docs/story/
 - Nov 23, the Journal: "The journal is still a list of facts. None of my feedback is being taken."
 - Nov 23, the news: "And look at these news stories. These aren't stories."
 - Nov 23, the loading screen: "The, countdown or whatever is still just a list of facts. It's still not written as a story."
+- Plant the played Journal week, news story or loading steps whole. Reading: round 8's Journal opening (1.30 to 1.32, "Meadow, Utah is where I was born. My mother Cora and my father Sean raised me. At 5 years old, I began school at Meadow Public Schools.") is this class, but he didn't grade it on Nov 24.
 - Rules: `journal-entry-has-story-around-it`, `news-reads-as-a-story`.
 
 ### 11. Narration that contradicts the scene
 
 - Nov 23, bad: "You hang your coat by the door." His words: "I thought I was sitting at the kitchen table."
-- Nov 12: on "Whatever Joshua Fitzgerald says" beside the town name: "What the hell?"
+- Nov 12: on "whatever Joshua Fitzgerald says" beside the town name: "What the hell?"
 
 ## Passes and okays (plant at least two)
 
-- Nov 24, good: "It's the evening of January 20. The news replays President Simon's noon speech." His words: "That's fine."
-- Nov 24, okay: "God bless you." His words: "I mean, okay."
-- Nov 24, okay with weird context: "Same here, Mom."
+- Nov 24, good, 1.14: "It's the evening of January 20. The news replays President Simon's noon speech." His words: "That's fine."
+- Nov 24, okay, 1.13, the address's last line: "God bless you." His words: "I mean, okay."
+- Nov 24, okay with weird context, 1.17: "Same here, Mom." (plant it with its stretch, class 5).
 - Nov 12, fine: "No argument from me, Logan." His words: "a fine response."
 - Nov 12, fine: "I'd say the same, Maya." His words: "fine."
 - Nov 12, on the tariffs point: "the thing so far that makes the most sense."

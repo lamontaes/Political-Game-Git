@@ -14,7 +14,7 @@ description: >
 
 The owner, word for word:
 
-- Oct 27, 2026: "this journal needs to be written like a story, not individual fucking sections."
+- Oct 27, 2026: "this journal needs to be written like a story, not individual fucking sections, but written like a story from birth."
 - Nov 23: "The journal is still a list of facts. None of my feedback is being taken."
 - Nov 23, on the loading screen: "I've mentioned before, I'd like it if it was a little sarcastic. The, countdown or whatever is still just a list of facts. It's still not written as a story."
 - Nov 24: "It's not the lines. I'm talking about the loading screen is sarcastic. Oh my God."
