@@ -172,3 +172,9 @@ Heads: main 1ceba440; main+#10346 925a2448 (local merge); main+ten PRs+#10391 4a
 | Row | Grade | Note |
 | --- | --- | --- |
 | N8-P41 | **pass on main** | His words: "a Week took about 3 seconds". Clean timing (Bloomsbury NJ, seed 889339ca-07b9-48da-a6cc-ba33e16330ab, three runs): Week press to first stop shown, median 356 ms on main 1ceba440. The roughly 9.9 s I measured after a new life is the loading story playing on the client (src/bench/play.mjs:7904 `await playStory()`, about 6 s plus a step per year), not the Week; that pacing is the Story lead's call. #10346's server claim (talk open about 0.5 s to 0.08 s) is the Week-speed lane's measurement, not mine. |
+
+## N8-P8 re-graded (Coordinator, 09:42Z)
+
+| Row | Grade | Note |
+| --- | --- | --- |
+| N8-P8 | **pass** | The CTO says the map was meant to go (he said it "looks awful", Nov 8) and the approved loading mock has no map, so the capitol painting with the step list is right (comment 7127749697, answer 2). |
