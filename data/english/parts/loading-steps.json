@@ -247,23 +247,6 @@
       "elements": ["school-nurse-in-health-budget"]
     },
     {
-      "key": "loading-steps.legislature.seating-the-lawmakers-of-state",
-      "move": "legislature",
-      "kind": "written",
-      "text": "Seating the lawmakers of {state}.",
-      "uses": [
-        {
-          "subject": "loading-step",
-          "role": "legislature",
-          "tie": "frame"
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24",
-      "elements": ["oath-waits-for-speaker"]
-    },
-    {
       "key": "loading-steps.cabinet.appointing-the-cabinet-of-state",
       "move": "cabinet",
       "kind": "written",
