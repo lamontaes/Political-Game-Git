@@ -129,6 +129,8 @@ let page = await open();
 /** What the run saw: { kind: { menu: { key: count } } } for each rule's kind. */
 const seen = Object.fromEntries(Object.keys(KINDS).map((k) => [k, {}]));
 const skipped = [];
+/** The boxes that cut a line, by menu: said beside a new hit, never part of its key. */
+const cutBy = {};
 const tally = (kind, menu, key, count = 1) => {
   seen[kind][menu] ??= {};
   seen[kind][menu][key] = Math.max(seen[kind][menu][key] ?? 0, count);
@@ -271,8 +273,11 @@ async function scan(menu) {
       if (!row.full)
         tally("scroll", `${menu} [${id}]`, `${row.selector} scrolls`);
     const where = `${menu} [${id}]`;
-    for (const row of await page.evaluate(scanClipped, selector))
-      tally("clipped", where, `${row.selector} cuts a line of text`);
+    // Keyed by the menu alone: which scroller cuts a row depends on how the world's words wrap.
+    for (const row of await page.evaluate(scanClipped, selector)) {
+      tally("clipped", where, "a line of text is cut at a box's edge");
+      (cutBy[where] ??= new Set()).add(row.selector);
+    }
     for (const row of await page.evaluate(scanRepeated, selector))
       tally("repeated", where, `${row.kind} shown in two or more places`);
     for (const row of await page.evaluate(scanLeading, selector))
@@ -480,6 +485,9 @@ if (write) {
       `not seen this run (delete from the baseline if the fix is in):\n  ${gone.join("\n  ")}`,
     );
   if (fresh.length) console.log(fresh.join("\n"));
+  for (const [menu, boxes] of Object.entries(cutBy))
+    if (fresh.some((line) => line.includes(menu)))
+      console.log(`  ${menu}: a line is cut by ${[...boxes].join(", ")}`);
   assert.deepEqual(
     fresh,
     [],

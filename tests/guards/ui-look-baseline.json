@@ -49,56 +49,43 @@
   },
   "clipped": {
     "Patch notes [sheet]": {
-      "#sheet-body cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "calendar [sheet]": {
-      "span.what cuts a line of text": 1,
-      "button.day cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "politics > Elections [sheet]": {
-      "#sheet-body cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "politics > Parties [sheet]": {
-      "#sheet-body cuts a line of text": 1,
-      "div.pager cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "politics > Issues [sheet]": {
-      "nav.pick-list.roster cuts a line of text": 1,
-      "div.pager.roster-pages cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "politics > Budgets [sheet]": {
-      "b cuts a line of text": 1,
-      "div.bsdepts.pager cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "guide [sheet]": {
-      "#sheet-body cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "Race screen [sheet]": {
-      "#sheet-body cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "who > Jobs and school [sheet]": {
-      "#sheet-body cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "people [sheet]": {
-      "div.secbody cuts a line of text": 1,
-      "div.mx3left cuts a line of text": 1,
-      "div.roster-page.strip-screen.strips cuts a line of text": 1,
-      "#sheet-body cuts a line of text": 1,
-      "nav.pick-list.roster cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "Person card from People [sheet]": {
-      "div.secbody cuts a line of text": 1,
-      "div.mx3left cuts a line of text": 1,
-      "div.roster-page.strip-screen.strips cuts a line of text": 1,
-      "#sheet-body cuts a line of text": 1,
-      "nav.pick-list.roster cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "politics > Bills [sheet]": {
-      "div.pager.roster-pages cuts a line of text": 1,
-      "#sheet-body cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     },
     "news [sheet]": {
-      "#sheet-body cuts a line of text": 1
+      "a line of text is cut at a box's edge": 1
     }
   },
   "repeated": {
