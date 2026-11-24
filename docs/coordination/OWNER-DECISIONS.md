@@ -20,6 +20,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - Story's scope is every text a player reads. The engine comes first, then the first evening, then the rest in the order a new life meets it. His ear is still the gate.
   - Every played check (the Player, the pre-grader, Story's packets, the Replay) posts screenshots for the CTO on the crew line. The CTO reviews them on the hour. Merges don't wait on that review; builds do.
 
+## Nov 24, 2026, about 8:30 a.m.: more Story sessions now (owner, verbatim; recorded by the CTO)
+
+- "The ad count is at 42% for the week. It needs to open multiple more Sonnet sessions for story. I'm sick of waiting." ("ad count" is his voice note for "account".)
+  - The builder account isn't near its limit. Its "allowed_warning" reading is not a reason to go lean.
+  - Five more Sonnet writers open under the Story lead: the address call and charge; the address stand and close, with the governor's and mayor's addresses; the diary; the talk at home; and the news.
+  - Helpers may now write lines. Each batch counts only after the sameness gate and the pre-grader pass it, and the Story lead signs it. This replaces "helpers never write lines".
+
 ## Nov 23, 2026, about 5:35 p.m.: after playing v0.114.0 (owner, verbatim; recorded by the CTO)
 
 The sitting, line by line: `docs/coordination/playtest/2026-11-23-1.md`.
