@@ -1,0 +1,32 @@
+{
+  "id": "travel-receipts-move-before-the-monthly-report",
+  "kind": "detail",
+  "summary": "Daily travel receipts in {place} show a change the monthly report has yet to capture.",
+  "realLife": "On the March 2 call, Federal Reserve staff could see weakening travel purchases and sentiment in daily readings while monthly US indicators still showed little trace of the disruption.",
+  "sources": [
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=13"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the daily transactions and latest monthly release."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: daily transactions and latest monthly release.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Staff flag a break since the last release.",
+      "pulledBy": "Daily purchases keep falling",
+      "writesBack": "Dated revision to the district outlook."
+    },
+    {
+      "turn": "another-way",
+      "what": "Staff qualify their early warning.",
+      "pulledBy": "Daily purchases recover",
+      "writesBack": "Updated staff note comparing both series."
+    }
+  ]
+}
