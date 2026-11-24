@@ -10,6 +10,11 @@ import { coreAPI } from "../core2/state";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { townSeats } from "../core2/modules/offices";
 import { centuryOf, historyMode } from "../core2/electorate-century";
+import { ageOnDate } from "../core2/kernel/dates";
+import { jobTitleByKind } from "../core2/person-work";
+import { sayableJobTitle } from "../english/said-as";
+import { withArticle } from "../english/journal-words";
+import { employerWords } from "../director/words";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
 const SECTION_YEAR: Readonly<Record<string, string>> = {
@@ -162,6 +167,55 @@ export function loadingTelling(
         "yes",
         governor.id,
       );
+  }
+  // Where the life stands on the opening day (W7, 7139682521 on #9750: the
+  // "now" section needs facts that differ between lives): the job held and
+  // its employer, from the job and organization records; who else lives in
+  // the household, from its members; and how long the household has lived
+  // in its place, from the household's move-in day.
+  const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+  const org = job ? core.organizations.get(job.organizationId) : undefined;
+  if (job && org && !(job.endsAt && job.endsAt <= core.date)) {
+    const title = jobTitleByKind(job.title, org.name);
+    if (sayableJobTitle(title)) put("job-now", withArticle(title), job.id);
+    const employer = employerWords(org);
+    if (employer) put("employer-now", employer, org.id);
+  } else put("no-job-now", "yes", playerId);
+  const household = core.households.get(person.householdId);
+  if (household) {
+    const others = household.memberIds
+      .filter((id) => id !== playerId)
+      .map((id) => core.people.get(id))
+      .filter((row) => !!row);
+    if (!others.length) put("lives-alone", "yes", household.id);
+    // Ages only: the household's records hold no kinship, so a line says
+    // "older" or "younger", never "parents".
+    if (others.some((row) => ageOnDate(row.birthDate, core.date) < 18))
+      put("lives-with-younger", "yes", household.id);
+    if (
+      others.some(
+        (row) =>
+          ageOnDate(row.birthDate, core.date) >=
+          ageOnDate(person.birthDate, core.date) + 16,
+      )
+    )
+      put("lives-with-older", "yes", household.id);
+    // The household's move-in day, unless the life's own records already
+    // put the player in this place before it (schooled here earlier): the
+    // story never says two things about when the life came here.
+    const schooledHereBefore =
+      facts["school-place"]?.text === placeSaid(person.placeId) &&
+      !!household.since &&
+      (facts["school-year"]?.text ?? "") < yearOf(household.since);
+    const movedOtherYear =
+      !!facts["moved-year"] &&
+      facts["moved-year"].text !== yearOf(household.since ?? "");
+    if (household.since && !schooledHereBefore && !movedOtherYear) {
+      put("here-since-year", yearOf(household.since), household.id);
+      const years = ageOnDate(household.since, core.date);
+      if (years < 2) put("new-here", "yes", household.id);
+      else if (years >= 10) put("long-here", "yes", household.id);
+    }
   }
   const home = corePlaceByJurisdictionId(person.placeId as never);
   put("start-year", yearOf(core.date), person.householdId);
