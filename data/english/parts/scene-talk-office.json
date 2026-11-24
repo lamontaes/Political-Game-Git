@@ -3141,7 +3141,8 @@
           "role": "asked",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["line"]
+          "requiresFacts": ["line"],
+          "excludesFacts": ["still-needed"]
         }
       ],
       "elements": ["answer-the-unfunded-requests"],
@@ -4216,7 +4217,8 @@
           "role": "asked",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["line", "remaining-funds"]
+          "requiresFacts": ["line", "remaining-funds"],
+          "excludesFacts": ["still-needed"]
         }
       ],
       "elements": ["budget-leaves-executives-desk"],
@@ -4242,7 +4244,8 @@
           "role": "asked",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["line", "remaining-funds"]
+          "requiresFacts": ["line", "remaining-funds"],
+          "excludesFacts": ["still-needed"]
         }
       ],
       "elements": ["budget-leaves-executives-desk"],
@@ -4543,6 +4546,687 @@
         "key": "cut-heard"
       },
       "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.some-of-the-money-for-line-is-back-in-the-budget-could-you-help-me-get-the-rest",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "Some of the money for {line} is back in the budget. Could you help me get the rest?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"]
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.i-took-the-old-request-off-my-desk-we-re-about-still-needed-short-now-will-you-go-back-to-council-with-me",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I took the old request off my desk. We're about {still-needed} short now. Will you go back to council with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"],
+          "setsFacts": ["gap-stated"]
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.state-deliver-news.i-ve-crossed-about-restored-amount-off-my-request-for-line-i-still-need-your-help-with-what-s-left",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I've crossed about {restored-amount} off my request for {line}. I still need your help with what's left.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"],
+          "setsFacts": ["restored-stated"]
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "deliver-news",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.how-much-would-it-take-now-to-get-line-back-where-it-was",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How much would it take now to get {line} back where it was?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "excludesFacts": ["gap-stated"]
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.how-much-has-gone-back-into-line-since-the-cut",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How much has gone back into {line} since the cut?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "excludesFacts": ["restored-stated"]
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.reply-ask.take-me-back-to-the-first-vote-how-big-was-the-original-cut-to-line",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Take me back to the first vote. How big was the original cut to {line}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"]
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "cut-heard"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.the-original-cut-was-about-original-cut-my-request-is-smaller-now",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The original cut was about {original-cut}. My request is smaller now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "original-cut"],
+          "after": "scene-talk-office.reply-ask.take-me-back-to-the-first-vote-how-big-was-the-original-cut-to-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It was {original-percent} percent at the time. Some of that has since come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "original-percent"],
+          "after": "scene-talk-office.reply-ask.take-me-back-to-the-first-vote-how-big-was-the-original-cut-to-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.about-still-needed-that-would-bring-line-back-to-where-we-started",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {still-needed}. That would bring {line} back to where we started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-ask.how-much-would-it-take-now-to-get-line-back-where-it-was"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I could strike the request off my list with another {still-needed}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.reply-ask.how-much-would-it-take-now-to-get-line-back-where-it-was"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.about-restored-amount-that-s-already-off-my-request",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {restored-amount}. That's already off my request.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"],
+          "after": "scene-talk-office.reply-ask.how-much-has-gone-back-into-line-since-the-cut"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Roughly {restored-amount} went back into {line}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed", "restored-amount"],
+          "after": "scene-talk-office.reply-ask.how-much-has-gone-back-into-line-since-the-cut"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-agree.i-ll-ask-for-the-balance-we-can-give-the-council-the-revised-figure",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll ask for the balance. We can give the council the revised figure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.the-original-cut-was-about-original-cut-my-request-is-smaller-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-that-would-bring-line-back-to-where-we-started"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-that-s-already-off-my-request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "cut-heard"
+      },
+      "bearing": "firm"
+    },
+    {
+      "key": "scene-talk-office.reply-refuse.i-ll-stand-by-what-we-have-in-the-budget-today",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'll stand by what we have in the budget today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.the-original-cut-was-about-original-cut-my-request-is-smaller-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-that-would-bring-line-back-to-where-we-started"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-that-s-already-off-my-request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "cut-heard"
+      },
+      "bearing": "steady"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.would-you-take-half-of-what-s-still-missing-if-i-can-get-the-votes",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Would you take half of what's still missing if I can get the votes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.the-original-cut-was-about-original-cut-my-request-is-smaller-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-that-would-bring-line-back-to-where-we-started"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-that-s-already-off-my-request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "guarded"
+    },
+    {
+      "key": "scene-talk-office.reply-leave.let-me-read-the-budget-amendments-before-i-give-you-an-answer",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me read the budget amendments before I give you an answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.the-original-cut-was-about-original-cut-my-request-is-smaller-now"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.it-was-original-percent-percent-at-the-time-some-of-that-has-since-come-back"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-still-needed-that-would-bring-line-back-to-where-we-started"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.i-could-strike-the-request-off-my-list-with-another-still-needed"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.about-restored-amount-that-s-already-off-my-request"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"],
+          "after": "scene-talk-office.follow-answer.roughly-restored-amount-went-back-into-line"
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "leave",
+        "key": "cut-heard"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk-office.reply-bargain.could-you-manage-with-half-of-what-s-still-missing-from-line",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Could you manage with half of what's still missing from {line}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["line", "still-needed"]
+        }
+      ],
+      "elements": ["answer-the-unfunded-requests"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "cut-heard"
+      },
+      "bearing": "curious"
+    },
+    {
+      "key": "scene-talk-office.narrate-narrate.some-funding-has-returned-to-line-the-department-head-has-a-smaller-request-this-time",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Some funding has returned to {line}. The department head has a smaller request this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "cut-argument",
+          "key": "cut-heard",
+          "requiresFacts": ["still-needed", "line"]
+        }
+      ],
+      "elements": ["budget-leaves-executives-desk"],
+      "origin": "authored",
+      "author": "Codex writer A",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "cut-heard"
+      }
     }
   ]
 }
