@@ -598,10 +598,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-walk-up-to-a-house-and-ring-the-bell",
+      "key": "scene-words.arrival-other-home-alone.you-ring-twice",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you walk up to a house and ring the bell.",
+      "text": "You ring twice.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -618,10 +618,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-climb-a-porch-and-knock",
+      "key": "scene-words.arrival-other-home-alone.you-knock-twice",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you climb a porch and knock.",
+      "text": "You knock twice.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -638,10 +638,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-cross-a-yard-to-a-front-door",
+      "key": "scene-words.arrival-other-home-alone.you-step-up",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you cross a yard to a front door.",
+      "text": "You step up.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
