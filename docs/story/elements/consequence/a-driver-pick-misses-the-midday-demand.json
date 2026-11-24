@@ -1,0 +1,31 @@
+{
+  "id": "a-driver-pick-misses-the-midday-demand",
+  "kind": "consequence",
+  "summary": "{person} can see why service faltered even though vehicles still appeared on the roster.",
+  "realLife": "At Milwaukee’s October advisory meeting the contractor traced late-summer service problems to too few drivers scheduled when midday demand rose.",
+  "sources": [
+    "https://www.ridemcts.com/getattachment/Accessibility/Transit-Plus/TPAC/Transit-Plus-Meeting-Minutes-Agenda-Archive-2025/TPAC-October-2025-Minutes.pdf?lang=en-US"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A contractor has reported missed service during a demand peak."],
+  "weights": [
+    "A rise in afternoon appointments puts a midday staffing gap under pressure."
+  ],
+  "usedBy": [],
+  "inGame": "needs: driver shifts, time-banded demand and actual service performance.",
+  "turns": [
+    {
+      "turn": "covered",
+      "what": "Dispatch checks whether waits actually fell.",
+      "pulledBy": "Reassigned shifts now cover the peak.",
+      "writesBack": "Log the next period’s performance."
+    },
+    {
+      "turn": "understaffed",
+      "what": "The contractor reports how many shifts remain uncovered.",
+      "pulledBy": "The revised shifts still leave a shortage.",
+      "writesBack": "Carry the shortage into the staffing request."
+    }
+  ]
+}

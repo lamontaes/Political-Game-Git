@@ -1,0 +1,31 @@
+{
+  "id": "one-direction-needs-the-extra-minutes",
+  "kind": "detail",
+  "summary": "{person} checks the direction of travel before telling a rider how a detour changes the trip.",
+  "realLife": "Milwaukee’s summer notice placed Route 18 on an eastbound detour and explained that the timetable allowed extra travel time.",
+  "sources": [
+    "https://www.ridemcts.com/who-we-are/news/mcts-summer-service-changes-start-june-7"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A temporary detour applies in only one direction."],
+  "weights": [
+    "Opposite-direction commutes make a blanket route warning less useful."
+  ],
+  "usedBy": [],
+  "inGame": "needs: direction-specific detour, revised timetable and rider itinerary.",
+  "turns": [
+    {
+      "turn": "diverted",
+      "what": "Staff identify the altered boarding point.",
+      "pulledBy": "The rider travels in the affected direction.",
+      "writesBack": "Send the eastbound instructions."
+    },
+    {
+      "turn": "regular",
+      "what": "Staff check the timetable separately from the detour map.",
+      "pulledBy": "The rider travels the other way.",
+      "writesBack": "Record the applicable departure without redirecting the rider."
+    }
+  ]
+}

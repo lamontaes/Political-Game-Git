@@ -1,0 +1,33 @@
+{
+  "id": "operator-and-rider-compare-the-running-time",
+  "kind": "move",
+  "summary": "{person} asks what passengers and drivers each observed before changing the timetable.",
+  "realLife": "Milwaukee’s June service update attributed reliability adjustments on fifteen routes to feedback from riders and operators.",
+  "sources": [
+    "https://www.ridemcts.com/who-we-are/news/mcts-summer-service-changes-start-june-7"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The agency is reviewing service reliability using passenger and operator reports."
+  ],
+  "weights": [
+    "Repeated delays at the same time of day make paired observations more persuasive."
+  ],
+  "usedBy": [],
+  "inGame": "needs: rider feedback, operator reports, observed running time and proposed timetable.",
+  "turns": [
+    {
+      "turn": "confirmed",
+      "what": "Schedulers test an adjustment on the affected trip.",
+      "pulledBy": "Both accounts identify the same delay.",
+      "writesBack": "Record the trial time in the next schedule."
+    },
+    {
+      "turn": "disputed",
+      "what": "Staff compare the reports with actual arrivals.",
+      "pulledBy": "Drivers and riders report different trouble spots.",
+      "writesBack": "Retain both observations pending a timing check."
+    }
+  ]
+}

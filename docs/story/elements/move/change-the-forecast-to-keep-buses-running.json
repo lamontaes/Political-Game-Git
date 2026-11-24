@@ -1,0 +1,31 @@
+{
+  "id": "change-the-forecast-to-keep-buses-running",
+  "kind": "move",
+  "summary": "{person} asks the budget office to show the assumptions behind money restored for transit.",
+  "realLife": "Milwaukee’s board chair used revised sales-tax estimates and changes to debt payments to make room for transit funding.",
+  "sources": [
+    "https://urbanmilwaukee.com/2025/11/06/mke-county-board-adopts-2026-budget-reduces-size-of-mcts-cut/"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A service amendment relies on a revised revenue estimate."],
+  "weights": [
+    "A weaker recent revenue report increases scrutiny of the estimate."
+  ],
+  "usedBy": [],
+  "inGame": "needs: prior and amended revenue estimates, debt payment schedules and transit allocation.",
+  "turns": [
+    {
+      "turn": "confirmed",
+      "what": "The chair defends the revised estimate at the hearing.",
+      "pulledBy": "The finance officer confirms the receipts are on pace.",
+      "writesBack": "Date the supporting revenue report."
+    },
+    {
+      "turn": "shortfall",
+      "what": "Finance recalculates the amount available for service.",
+      "pulledBy": "Receipts fall short of the estimate.",
+      "writesBack": "Record the new gap against the original forecast."
+    }
+  ]
+}

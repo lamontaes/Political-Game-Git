@@ -1,0 +1,33 @@
+{
+  "id": "courthouse-design-or-a-bus-route",
+  "kind": "situation",
+  "summary": "{person} must choose whether to move courthouse planning money into an endangered bus route.",
+  "realLife": "Supervisor Justin Bielinski proposed transferring $1.3 million from the courthouse project to preserve Route 28, and the Milwaukee board rejected it.",
+  "sources": [
+    "https://urbanmilwaukee.com/2025/11/06/mke-county-board-adopts-2026-budget-reduces-size-of-mcts-cut/"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A member moves to transfer money between capital planning and operating service."
+  ],
+  "weights": [
+    "A district served by the route makes the sponsor’s choice more immediate."
+  ],
+  "usedBy": [],
+  "inGame": "needs: capital line, transit amendment, transfer authority and roll call.",
+  "turns": [
+    {
+      "turn": "rejected",
+      "what": "The sponsor looks for a different source that leaves the capital project funded.",
+      "pulledBy": "The transfer fails.",
+      "writesBack": "Close the rejected amendment and log any replacement."
+    },
+    {
+      "turn": "adopted",
+      "what": "Capital staff identify the design work they must postpone.",
+      "pulledBy": "The transfer passes under applicable budget rules.",
+      "writesBack": "Update both appropriations and the project schedule."
+    }
+  ]
+}

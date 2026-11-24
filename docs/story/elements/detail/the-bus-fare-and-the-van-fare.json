@@ -1,0 +1,33 @@
+{
+  "id": "the-bus-fare-and-the-van-fare",
+  "kind": "detail",
+  "summary": "{person} checks which passengers a proposed fare increase actually covers.",
+  "realLife": "The October Transit Plus briefing described proposed fixed-route fare increases while reporting that paratransit fares would stay level in 2026.",
+  "sources": [
+    "https://www.ridemcts.com/getattachment/Accessibility/Transit-Plus/TPAC/Transit-Plus-Meeting-Minutes-Agenda-Archive-2025/TPAC-October-2025-Minutes.pdf?lang=en-US"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The fare proposal distinguishes fixed-route and paratransit riders."
+  ],
+  "weights": [
+    "An announcement using a single headline price can confuse riders of the other service."
+  ],
+  "usedBy": [],
+  "inGame": "needs: mode-specific proposed fares, current fares and stage of adoption.",
+  "turns": [
+    {
+      "turn": "van",
+      "what": "The office checks that service’s own fare schedule.",
+      "pulledBy": "A caller uses paratransit.",
+      "writesBack": "Record the answer with the mode named."
+    },
+    {
+      "turn": "bus",
+      "what": "The office checks the concession rate in the proposal.",
+      "pulledBy": "A caller rides a regular bus at a reduced fare.",
+      "writesBack": "Mark it as proposed until adoption."
+    }
+  ]
+}
