@@ -25,13 +25,13 @@ This is the first evening as a new player meets it, in six drawn places: the thr
 
 The pre-grades are on branch story/first-evening-pregrade (round 3: 132 of 331 at 2846615, calibration 16 of 16).
 
-How it was made: branch `story/first-evening` at head d5edd47, by `scripts/words/first-evening-packet.ts`. Each place's heading names its seed, so a run replays.
+How it was made: branch `story/first-evening` at head 3fbc861, by `scripts/words/first-evening-packet.ts`. Each place's heading names its seed, so a run replays.
 
 # First evening packet
 
 Answer by number: 2.3 means place 2, line 3.
 
-## Place 1: Meadow, Utah, seed aecea4, head d5edd4787ae6e1399493613702933155cb34be19
+## Place 1: Meadow, Utah, seed aecea4, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
 
 ### Loading
 
@@ -53,7 +53,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **1.8** Kind: policy; the President: Christine Simon
 
-**1.9** My fellow Americans. In November you chose me, and Vice President Samuel Ford with me, and today we both go to work.
+**1.9** My fellow Americans. In November you chose me, and Vice President Samuel Ford with me, and today we both go to work. I didn't run to keep a chair warm. What I came to talk about is what families pay in taxes.
 
 **1.10** Wages have beaten prices for four years, and you earned every bit of that.
 
@@ -143,7 +143,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **1.49** paragraph: The number for robberies was up as well.
 
-## Place 2: Chipley, Florida, seed 66265b, head d5edd4787ae6e1399493613702933155cb34be19
+## Place 2: Chipley, Florida, seed 66265b, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
 
 ### Loading
 
@@ -165,109 +165,111 @@ Answer by number: 2.3 means place 2, line 3.
 
 **2.8** Kind: policy; the President: Barbara Newton
 
-**2.9** My fellow Americans. The oath I just took is one sentence long. Keeping it for four years is the job.
+**2.9** My fellow Americans. The oath I just took is one sentence long. Keeping it for four years is the job. Most of what I have to say today is about how families are treated when they buy and borrow.
 
-**2.10** Paychecks have finally been outrunning prices these last four years.
+**2.10** Run for something in your own town. The next four years need more of you than one office in Washington.
 
-**2.11** I'm against a cap on consumer loan interest, and I'll tell you why: a family with poor credit still needs somewhere to borrow.
+**2.11** Paychecks have finally been outrunning prices these last four years.
 
-**2.12** God bless America.
+**2.12** I'm against a cap on consumer loan interest, and I'll tell you why: a family with poor credit still needs somewhere to borrow. If I get fair lending wrong, you'll know it, and you should say so.
+
+**2.13** God bless America.
 
 ### Arrival
 
-**2.13** It's the evening of January 20. The news is still on President Newton.
+**2.14** It's the evening of January 20. The news is still on President Newton.
 
 ### First talk at home
 
-**2.14** With Logan Gallegos ()
+**2.15** With Logan Gallegos ()
 
-**2.15** says: Since you ask, I'm for paid family leave.
+**2.16** says: Since you ask, I'm for paid family leave.
 
-**2.16** reply 1: Why say that?
+**2.17** reply 1: Why say that?
 
-**2.17** reply 2: Exactly right.
+**2.18** reply 2: Exactly right.
 
-**2.18** after reply 1 ("Why say that?"):
+**2.19** after reply 1 ("Why say that?"):
 
-**2.19** answer: Pay's thin.
+**2.20** answer: Pay's thin.
 
-**2.20** With Maria Gallegos ()
+**2.21** With Maria Gallegos ()
 
-**2.21** says: I've said it before: I want a higher federal minimum wage.
+**2.22** says: I've said it before: I want a higher federal minimum wage.
 
-**2.22** reply 1: Why that way?
+**2.23** reply 1: Why that way?
 
-**2.23** reply 2: Couldn't agree more.
+**2.24** reply 2: Couldn't agree more.
 
-**2.24** after reply 1 ("Why that way?"):
+**2.25** after reply 1 ("Why that way?"):
 
-**2.25** answer: Money's tight.
+**2.26** answer: Money's tight.
 
-**2.26** With Luke Gallegos ()
+**2.27** With Luke Gallegos ()
 
-**2.27** says: The President wants nothing to do with a cap on consumer loan interest. Good. I don't think we should pass it either. Where are you on interest rates on loans?
+**2.28** says: The President wants nothing to do with a cap on consumer loan interest. Good. I don't think we should pass it either. Where are you on interest rates on loans?
 
-**2.28** reply 1: You're right about that, Luke.
+**2.29** reply 1: You're right about that, Luke.
 
-**2.29** reply 2: I think she has that wrong.
+**2.30** reply 2: I think she has that wrong.
 
-**2.30** after reply 1 ("You're right about that, Luke."):
+**2.31** after reply 1 ("You're right about that, Luke."):
 
-**2.31** answer: I've said it before: I don't want a cap on consumer loan interest.
+**2.32** answer: I've said it before: I don't want a cap on consumer loan interest.
 
 ### The Journal
 
-**2.32** Chapter: Chipley, Florida
+**2.33** Chapter: Chipley, Florida
 
-**2.33** Chipley, Florida is where I was born. My father Logan and my mother Maria brought me up. My brothers Connor and Cody are older than I am. My brothers Noah and Luke came after me.
+**2.34** Chipley, Florida is where I was born. My father Logan and my mother Maria brought me up. My brothers Connor and Cody are older than I am. My brothers Noah and Luke came after me.
 
-**2.34** When I was 5, my first school was Chipley Public Schools.
+**2.35** When I was 5, my first school was Chipley Public Schools.
 
-**2.35** My father left Barnes and Associates for Snow's Kitchen when I was 12. My mother has a job at Gonzales Manufacturing as a production worker.
+**2.36** My father left Barnes and Associates for Snow's Kitchen when I was 12. My mother has a job at Gonzales Manufacturing as a production worker.
 
-**2.36** I could vote.
+**2.37** I could vote.
 
-**2.37** Chapter: Monday, January 20
+**2.38** Chapter: Monday, January 20
 
-**2.38** The President is against a cap on consumer loan interest. Most of it was about how families are treated when they buy and borrow. I agreed with more of it than I expected to, mostly on fair lending. I'll find out tomorrow what Chipley makes of it.
+**2.39** The President is against a cap on consumer loan interest. Most of it was about how families are treated when they buy and borrow. I agreed with more of it than I expected to, mostly on fair lending. I'll find out tomorrow what Chipley makes of it.
 
 ### The news
 
-**2.39** Story: Anti-Discrimination Repeal Act starts (Keystone News Network)
+**2.40** Story: Anti-Discrimination Repeal Act starts (Keystone News Network)
 
-**2.40** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
+**2.41** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
 
-**2.41** paragraph: It is about an end to the ban on discrimination in housing and work.
+**2.42** paragraph: It is about an end to the ban on discrimination in housing and work.
 
-**2.42** Story: Anti-Discrimination Repeal Act starts (The Crossroads)
+**2.43** Story: Anti-Discrimination Repeal Act starts (The Crossroads)
 
-**2.43** paragraph: The Anti-Discrimination Repeal Act went into force on January 12, 2025.
+**2.44** paragraph: The Anti-Discrimination Repeal Act went into force on January 12, 2025.
 
-**2.44** paragraph: The law concerns an end to the ban on discrimination in housing and work.
+**2.45** paragraph: The law concerns an end to the ban on discrimination in housing and work.
 
-**2.45** Story: Joe McCoy up close (The Crossroads)
+**2.46** Story: Joe McCoy up close (The Crossroads)
 
-**2.46** Story: Anti-Discrimination Repeal Act now applies in New York (The Continental Dispatch)
+**2.47** Story: Anti-Discrimination Repeal Act now applies in New York (The Continental Dispatch)
 
-**2.47** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
+**2.48** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
 
-**2.48** paragraph: It is about an end to the ban on discrimination in housing and work.
+**2.49** paragraph: It is about an end to the ban on discrimination in housing and work.
 
-**2.49** Story: Anti-Discrimination Repeal Act now applies in New York (Plain Speaking Show)
+**2.50** Story: Anti-Discrimination Repeal Act now applies in New York (Plain Speaking Show)
 
-**2.50** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
+**2.51** paragraph: The Anti-Discrimination Repeal Act began to apply in New York on January 12, 2025.
 
-**2.51** paragraph: It is about an end to the ban on discrimination in housing and work.
+**2.52** paragraph: It is about an end to the ban on discrimination in housing and work.
 
-**2.52** Story: Tara Fisher gets speaker (WZEC-TV)
+**2.53** Story: Tara Fisher gets speaker (WZEC-TV)
 
-**2.53** paragraph: The Florida House of Representatives picked Tara Fisher for speaker.
+**2.54** paragraph: The Florida House of Representatives picked Tara Fisher for speaker.
 
-**2.54** paragraph: James Drake will lead the majority.
+**2.55** paragraph: James Drake will lead the majority.
 
-**2.55** paragraph: Judy Marshall will lead the minority.
+**2.56** paragraph: Judy Marshall will lead the minority.
 
-## Place 3: Bethel, Maine, seed bd3806, head d5edd4787ae6e1399493613702933155cb34be19
+## Place 3: Bethel, Maine, seed bd3806, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
 
 ### Loading
 
@@ -289,83 +291,85 @@ Answer by number: 2.3 means place 2, line 3.
 
 **3.8** Kind: combative; the President: Jennifer Willis
 
-**3.9** Fellow citizens. A few minutes ago I swore the same oath Vice President Lisa McKenzie took just before me.
+**3.9** Fellow citizens. A few minutes ago I swore the same oath Vice President Lisa McKenzie took just before me. Here's where I mean to start: what work pays.
 
-**3.10** Some of you are still cleaning up after the floods, and you deserve a government that shows up and stays.
+**3.10** I'll need Vice President Lisa McKenzie, I'll need Congress, and most of all I'll need you.
 
-**3.11** I've believed for a long time that a full day's work ought to pay enough to live on. I'll defend the higher federal minimum wage for as long as I hold this office.
+**3.11** Some of you are still cleaning up after the floods, and you deserve a government that shows up and stays. Washington has a short memory for places like yours. Mine will last four years.
 
-**3.12** Thank you.
+**3.12** I've believed for a long time that a full day's work ought to pay enough to live on. I'll defend the higher federal minimum wage for as long as I hold this office. I'll be judged on pay, and I should be.
+
+**3.13** Thank you.
 
 ### Arrival
 
-**3.13** It's the evening of January 20. The news is still on President Willis.
+**3.14** It's the evening of January 20. The news is still on President Willis.
 
 ### First talk at home
 
-**3.14** With Brandon Salinas ()
+**3.15** With Brandon Salinas ()
 
-**3.15** says: The President has the minimum wage wrong. Somebody has to think about what that does to Bethel.
+**3.16** says: The President has the minimum wage wrong. Somebody has to think about what that does to Bethel.
 
-**3.16** reply 1: Same here, Dad.
+**3.17** reply 1: Same here, Dad.
 
-**3.17** reply 2: That's where we part ways. I'd take her side.
+**3.18** reply 2: That's where we part ways. I'd take her side.
 
-**3.18** after reply 1 ("Same here, Dad."):
+**3.19** after reply 1 ("Same here, Dad."):
 
-**3.19** answer: On a higher federal minimum wage, I'm firmly opposed.
+**3.20** answer: On a higher federal minimum wage, I'm firmly opposed.
 
 ### The Journal
 
-**3.20** Chapter: Bethel, Maine
+**3.21** Chapter: Bethel, Maine
 
-**3.21** I was born in Bethel, Maine. I grew up at home with my father Brandon. My sister Claire is older than I am. My brother Isaac and my sister Laila came after me.
+**3.22** I was born in Bethel, Maine. I grew up at home with my father Brandon. My sister Claire is older than I am. My brother Isaac and my sister Laila came after me.
 
-**3.22** At the age of 5, I began school at Bethel Public Schools.
+**3.23** At the age of 5, I began school at Bethel Public Schools.
 
-**3.23** When I was 14, my father went from Flynn Family Clinic to the Bethel Police Department.
+**3.24** When I was 14, my father went from Flynn Family Clinic to the Bethel Police Department.
 
-**3.24** I turned eighteen.
+**3.25** I turned eighteen.
 
-**3.25** Chapter: Monday, January 20
+**3.26** Chapter: Monday, January 20
 
-**3.26** The whole house sat down for Jennifer Willis's speech on the news tonight. The President means to keep a higher federal minimum wage. Most of it was about what work pays.
+**3.27** The whole house sat down for Jennifer Willis's speech on the news tonight. The President means to keep a higher federal minimum wage. Most of it was about what work pays.
 
 ### The news
 
-**3.27** Story: 3% out of work in Maine (Bethel Review)
+**3.28** Story: 3% out of work in Maine (Bethel Review)
 
-**3.28** paragraph: The December count put Maine at 3% out of work.
+**3.29** paragraph: The December count put Maine at 3% out of work.
 
-**3.29** paragraph: The national rate was 4.5%.
+**3.30** paragraph: The national rate was 4.5%.
 
-**3.30** Story: Clean Electricity Standard Repeal Act begins in Guam (Bethel Review)
+**3.31** Story: Clean Electricity Standard Repeal Act begins in Guam (Bethel Review)
 
-**3.31** paragraph: The Clean Electricity Standard Repeal Act began to apply in Guam on December 25, 2024.
+**3.32** paragraph: The Clean Electricity Standard Repeal Act began to apply in Guam on December 25, 2024.
 
-**3.32** paragraph: The law concerns an end to the clean electricity requirement.
+**3.33** paragraph: The law concerns an end to the clean electricity requirement.
 
-**3.33** Story: New arrival, Lance Nielsen (Bethel Review)
+**3.34** Story: New arrival, Lance Nielsen (Bethel Review)
 
-**3.34** paragraph: Lance Nielsen was born in Bethel on December 24, 2024, the child of Kimberly Nielsen and Christopher Nielsen.
+**3.35** paragraph: Lance Nielsen was born in Bethel on December 24, 2024, the child of Kimberly Nielsen and Christopher Nielsen.
 
-**3.35** Story: 3% out of work in Maine (WUDT-TV)
+**3.36** Story: 3% out of work in Maine (WUDT-TV)
 
-**3.36** paragraph: The December count put Maine at 3% out of work.
+**3.37** paragraph: The December count put Maine at 3% out of work.
 
-**3.37** paragraph: The national rate was 4.5%.
+**3.38** paragraph: The national rate was 4.5%.
 
-**3.38** Story: Clean Electricity Standard Repeal Act begins in Guam (WUDT-TV)
+**3.39** Story: Clean Electricity Standard Repeal Act begins in Guam (WUDT-TV)
 
-**3.39** paragraph: Guam began living under the Clean Electricity Standard Repeal Act on December 25, 2024.
+**3.40** paragraph: Guam began living under the Clean Electricity Standard Repeal Act on December 25, 2024.
 
-**3.40** paragraph: The law concerns an end to the clean electricity requirement.
+**3.41** paragraph: The law concerns an end to the clean electricity requirement.
 
-**3.41** Story: Campaign contribution limit for governor races was signed into law on November 28, 2024.
+**3.42** Story: Campaign contribution limit for governor races was signed into law on November 28, 2024.
 
-**3.42** paragraph: Campaign contribution limit for governor races was signed into law on November 28, 2024.
+**3.43** paragraph: Campaign contribution limit for governor races was signed into law on November 28, 2024.
 
-## Place 4: Whitmore Village, Hawaii, seed 2d2283, head d5edd4787ae6e1399493613702933155cb34be19
+## Place 4: Whitmore Village, Hawaii, seed 2d2283, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
 
 ### Loading
 
@@ -387,95 +391,97 @@ Answer by number: 2.3 means place 2, line 3.
 
 **4.8** Kind: hopeful; the President: Robert Fletcher
 
-**4.9** Thank you, everyone. Last November you hired me, and Vice President Shane Ramirez with me.
+**4.9** Thank you, everyone. Last November you hired me, and Vice President Shane Ramirez with me. I didn't run to keep a chair warm. What I came to talk about is the power we use and what it costs.
 
 **4.10** For the families the storms hit, this past year has been about getting a roof back. The cameras have moved on. For the next four years, I won't.
 
 **4.11** Here's what I believe: the power we make today shouldn't poison the air tomorrow. I'll defend limits on power plant carbon for as long as I hold this office. Nobody voted for me so I could stay quiet about energy.
 
-**4.12** Thank you for trusting me with four years. Thank you, everybody.
+**4.12** If you think I'm wrong about limits on power plant carbon, tell me. Better to hear it from you than from a poll.
+
+**4.13** Thank you for trusting me with four years. Thank you, everybody.
 
 ### Arrival
 
-**4.13** It's the afternoon of January 20. The news is still on President Fletcher.
+**4.14** It's the afternoon of January 20. The news is still on President Fletcher.
 
 ### First talk at home
 
-**4.14** With Michael Hutchinson ()
+**4.15** With Michael Hutchinson ()
 
-**4.15** says: Here's my side: I'm for collective bargaining for public workers.
+**4.16** says: Here's my side: I'm for collective bargaining for public workers.
 
-**4.16** reply 1: What's behind that?
+**4.17** reply 1: What's behind that?
 
-**4.17** reply 2: Exactly right.
+**4.18** reply 2: Exactly right.
 
-**4.18** after reply 1 ("What's behind that?"):
+**4.19** after reply 1 ("What's behind that?"):
 
-**4.19** answer: Pay's thin.
+**4.20** answer: Pay's thin.
 
-**4.20** With Jaden Hutchinson ()
+**4.21** With Jaden Hutchinson ()
 
-**4.21** says: Did you read about civilian oversight of the police?
+**4.22** says: Did you read about civilian oversight of the police?
 
-**4.22** reply 1: Yes, I read about it.
+**4.23** reply 1: Yes, I read about it.
 
-**4.23** reply 2: I'd vote for it myself.
+**4.24** reply 2: I'd vote for it myself.
 
-**4.24** after reply 1 ("Yes, I read about it."):
+**4.25** after reply 1 ("Yes, I read about it."):
 
-**4.25** answer: I'd back it myself.
+**4.26** answer: I'd back it myself.
 
 ### The Journal
 
-**4.26** Chapter: Whitmore Village, Hawaii
+**4.27** Chapter: Whitmore Village, Hawaii
 
-**4.27** My father Michael and my parent Jaden brought me up. My sister Stella is younger than I am.
+**4.28** My father Michael and my parent Jaden brought me up. My sister Stella is younger than I am.
 
-**4.28** At 9 years old, I moved to Whitmore Village, Hawaii.
+**4.29** At 9 years old, I moved to Whitmore Village, Hawaii.
 
-**4.29** At 10 years old, I started at Whitmore Village Public Schools.
+**4.30** At 10 years old, I started at Whitmore Village Public Schools.
 
-**4.30** My father works as a bus driver at the Whitmore Village Public Works Department.
+**4.31** My father works as a bus driver at the Whitmore Village Public Works Department.
 
-**4.31** I could vote.
+**4.32** I could vote.
 
-**4.32** Chapter: Monday, January 20
+**4.33** Chapter: Monday, January 20
 
-**4.33** Everybody was home for Robert Fletcher's first speech tonight, so we watched it together. The President means to keep limits on power plant carbon. Most of it was about the power we use and what it costs. Whitmore Village will still be here in the morning, and so will I.
+**4.34** Everybody was home for Robert Fletcher's first speech tonight, so we watched it together. The President means to keep limits on power plant carbon. Most of it was about the power we use and what it costs. Whitmore Village will still be here in the morning, and so will I.
 
 ### The news
 
-**4.34** Story: Clean Electricity Standard Repeal Act starts (Beacon News Network)
+**4.35** Story: Clean Electricity Standard Repeal Act starts (Beacon News Network)
 
-**4.35** paragraph: The Clean Electricity Standard Repeal Act went into force on January 17, 2025.
+**4.36** paragraph: The Clean Electricity Standard Repeal Act went into force on January 17, 2025.
 
-**4.36** paragraph: It is about an end to the clean electricity requirement.
+**4.37** paragraph: It is about an end to the clean electricity requirement.
 
-**4.37** Story: Clean Electricity Standard Repeal Act starts (The Lantern)
+**4.38** Story: Clean Electricity Standard Repeal Act starts (The Lantern)
 
-**4.38** paragraph: The Clean Electricity Standard Repeal Act applies in New York from January 17, 2025.
+**4.39** paragraph: The Clean Electricity Standard Repeal Act applies in New York from January 17, 2025.
 
-**4.39** paragraph: The law concerns an end to the clean electricity requirement.
+**4.40** paragraph: The law concerns an end to the clean electricity requirement.
 
-**4.40** Story: About Anthony Choi (The Lantern)
+**4.41** Story: About Anthony Choi (The Lantern)
 
-**4.41** Story: Clean Electricity Standard Repeal Act now applies in New York (The Federal Courier)
+**4.42** Story: Clean Electricity Standard Repeal Act now applies in New York (The Federal Courier)
 
-**4.42** paragraph: The Clean Electricity Standard Repeal Act went into force on January 17, 2025.
+**4.43** paragraph: The Clean Electricity Standard Repeal Act went into force on January 17, 2025.
 
-**4.43** paragraph: It is about an end to the clean electricity requirement.
+**4.44** paragraph: It is about an end to the clean electricity requirement.
 
-**4.44** Story: Public speaks on the Immigration Enforcement Partnership Ordinance (Whitmore Village Tribune)
+**4.45** Story: Public speaks on the Immigration Enforcement Partnership Ordinance (Whitmore Village Tribune)
 
-**4.45** paragraph: Six people spoke on the Immigration Enforcement Partnership Ordinance, six in favor and zero opposed.
+**4.46** paragraph: Six people spoke on the Immigration Enforcement Partnership Ordinance, six in favor and zero opposed.
 
-**4.46** paragraph: Ordinance 2025-1 has to do with local police working with federal immigration enforcement.
+**4.47** paragraph: Ordinance 2025-1 has to do with local police working with federal immigration enforcement.
 
-**4.47** Story: Patricia Tran meets residents (Whitmore Village Tribune)
+**4.48** Story: Patricia Tran meets residents (Whitmore Village Tribune)
 
-**4.48** paragraph: Council member Patricia Tran answered questions from the public on January 3, 2025.
+**4.49** paragraph: Council member Patricia Tran answered questions from the public on January 3, 2025.
 
-## Place 5: Roberts, Idaho, seed 3c42e6, head d5edd4787ae6e1399493613702933155cb34be19
+## Place 5: Roberts, Idaho, seed 3c42e6, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
 
 ### Loading
 
@@ -503,73 +509,75 @@ Answer by number: 2.3 means place 2, line 3.
 
 **5.11** Wages have beaten prices for four years, and you earned every bit of that.
 
-**5.12** Thank you, everybody.
+**5.12** Show up for your town, whoever you voted for. The next four years belong to all of us.
+
+**5.13** Thank you, everybody.
 
 ### Arrival
 
-**5.13** It's the evening of January 20. The news is still on President Rush.
+**5.14** It's the evening of January 20. The news is still on President Rush.
 
 ### First talk at home
 
-**5.14** With Corey Salazar ()
+**5.15** With Corey Salazar ()
 
-**5.15** says: So much for a higher federal minimum wage, if the President gets a say. Good. I'm with him on that one.
+**5.16** says: So much for a higher federal minimum wage, if the President gets a say. Good. I'm with him on that one.
 
-**5.16** reply 1: You're right about that, Dad.
+**5.17** reply 1: You're right about that, Dad.
 
-**5.17** reply 2: I'd push back on him there.
+**5.18** reply 2: I'd push back on him there.
 
-**5.18** after reply 1 ("You're right about that, Dad."):
+**5.19** after reply 1 ("You're right about that, Dad."):
 
-**5.19** answer: That's two of us in Roberts, then.
+**5.20** answer: That's two of us in Roberts, then.
 
 ### The Journal
 
-**5.20** Chapter: Roberts, Idaho
+**5.21** Chapter: Roberts, Idaho
 
-**5.21** My father Corey brought me up. My mother Angela lived in another home. My brother Christian is older than I am. My sister Amy and my brother Asher came after me.
+**5.22** My father Corey brought me up. My mother Angela lived in another home. My brother Christian is older than I am. My sister Amy and my brother Asher came after me.
 
-**5.22** At the age of 10, I moved to Roberts, Idaho.
+**5.23** At the age of 10, I moved to Roberts, Idaho.
 
-**5.23** Back when I was 10, I began school at Roberts Public Schools.
+**5.24** Back when I was 10, I began school at Roberts Public Schools.
 
-**5.24** My father works as a truck driver at Rios Trucking.
+**5.25** My father works as a truck driver at Rios Trucking.
 
-**5.25** Voting age came.
+**5.26** Voting age came.
 
-**5.26** Chapter: Monday, January 20
+**5.27** Chapter: Monday, January 20
 
-**5.27** Everybody was home for Daniel Rush's first speech tonight, so we watched it together. The President is against a higher federal minimum wage. I'll find out tomorrow what Roberts makes of it.
+**5.28** Everybody was home for Daniel Rush's first speech tonight, so we watched it together. The President is against a higher federal minimum wage. I'll find out tomorrow what Roberts makes of it.
 
 ### The news
 
-**5.28** Story: Jerry Nash gets council president (Roberts Herald)
+**5.29** Story: Jerry Nash gets council president (Roberts Herald)
 
-**5.29** paragraph: Jerry Nash is council president of the Jefferson County Board of Commissioners from here on.
+**5.30** paragraph: Jerry Nash is council president of the Jefferson County Board of Commissioners from here on.
 
-**5.30** Story: Daniel Walton gets mayor pro tem (Roberts Herald)
+**5.31** Story: Daniel Walton gets mayor pro tem (Roberts Herald)
 
-**5.31** paragraph: Daniel Walton is mayor pro tem of the Roberts City Council from here on.
+**5.32** paragraph: Daniel Walton is mayor pro tem of the Roberts City Council from here on.
 
-**5.32** Story: Jerry Nash gets council president (KKGK-TV)
+**5.33** Story: Jerry Nash gets council president (KKGK-TV)
 
-**5.33** paragraph: The Jefferson County Board of Commissioners picked Jerry Nash for council president.
+**5.34** paragraph: The Jefferson County Board of Commissioners picked Jerry Nash for council president.
 
-**5.34** Story: Thomas Mann gives state address (KKGK-TV)
+**5.35** Story: Thomas Mann gives state address (KKGK-TV)
 
-**5.35** paragraph: Governor Thomas Mann gave the State of the State speech.
+**5.36** paragraph: Governor Thomas Mann gave the State of the State speech.
 
-**5.36** Story: Public meetings for the week of January 7, 2025 (Roberts Herald)
+**5.37** Story: Public meetings for the week of January 7, 2025 (Roberts Herald)
 
-**5.37** paragraph: The Jefferson County Board of Commissioners and the Roberts City Council met the week of January 7, 2025 with nothing on the agenda.
+**5.38** paragraph: The Jefferson County Board of Commissioners and the Roberts City Council met the week of January 7, 2025 with nothing on the agenda.
 
-**5.38** Story: Davidson Manufacturing welcomes first customers (Roberts Herald)
+**5.39** Story: Davidson Manufacturing welcomes first customers (Roberts Herald)
 
-**5.39** paragraph: Davidson Manufacturing began business with two on staff.
+**5.40** paragraph: Davidson Manufacturing began business with two on staff.
 
-**5.40** paragraph: Ayanna Davidson started the business.
+**5.41** paragraph: Ayanna Davidson started the business.
 
-## Place 6: Oakton, Virginia, seed d8e52e, head d5edd4787ae6e1399493613702933155cb34be19
+## Place 6: Oakton, Virginia, seed d8e52e, head 3fbc8615d35979e1203de077c9cd0eba4325bfc5
 
 ### Loading
 
@@ -591,7 +599,7 @@ Answer by number: 2.3 means place 2, line 3.
 
 **6.8** Kind: crisis; the President: Robert Sinclair
 
-**6.9** My fellow Americans. Last November you hired me, and Vice President Jason Davidson with me.
+**6.9** My fellow Americans. Last November you hired me, and Vice President Jason Davidson with me. Here's where I mean to start: what work pays.
 
 **6.10** To the families still rebuilding after the floods: the government you pay for is going to show up. Show up for your town, whoever you voted for. The next four years belong to all of us.
 
