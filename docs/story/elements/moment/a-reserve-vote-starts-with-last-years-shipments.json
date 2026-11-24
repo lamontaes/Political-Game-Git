@@ -1,0 +1,30 @@
+{
+  "id": "a-reserve-vote-starts-with-last-years-shipments",
+  "kind": "moment",
+  "summary": "The committee at {place} lays the shipment record beside the new crop estimate before recommending a reserve.",
+  "realLife": "The raisin committee examined inventories, yields and shipments each year before advising the Secretary whether to hold any fruit back.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["The record identifies the crop estimate and shipment record."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: crop estimate and shipment record.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Recommend a reserve for the coming crop.",
+      "pulledBy": "Stocks exceed expected domestic demand.",
+      "writesBack": "Committee reserve recommendation."
+    },
+    {
+      "turn": "another-way",
+      "what": "Recommend releasing the entire crop.",
+      "pulledBy": "Shipments have absorbed the surplus.",
+      "writesBack": "Committee reserve recommendation."
+    }
+  ]
+}
