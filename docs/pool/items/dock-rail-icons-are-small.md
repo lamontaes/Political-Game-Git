@@ -29,7 +29,7 @@ Seen: Nov 23, a played life, 1440x900.
 
 **Rules.** Wire to the world: the one `.ring` rule sets every rail icon, so all nine grow together and nothing is sized per icon, and no player text is added.
 
-**Done when.** In a played life at 1440x900 the nine rail circles are 52 px with 28 px icons and clear of every open panel. A second session starts a new life and sees the larger rail in the running game, then opens a screen and sees it does not touch the panel.
+**Done when.** In a played life in a drawn place at 1440x900 the nine rail circles are 52 px with 28 px icons and clear of every open panel. A second session starts a new life and sees the larger rail in the running game, then opens a screen and sees it does not touch the panel.
 
 **Waits on.** Nothing.
 
