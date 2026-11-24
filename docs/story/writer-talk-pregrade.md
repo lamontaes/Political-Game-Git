@@ -1,6 +1,81 @@
 # Pre-grade: Writer Home (talk at home)
 
-## story/w-talk at `56f20feb` (newest): the {said} lines, 54 of 130 pass
+## story/w-talk at `27042b8c` (newest): the 56 new lines, 31 of 56 pass
+
+- The 56 lines new since 56f20feb: 28 reason leads, 16 reason verdicts, 8 why-first lines with {place} and 4 asks. They were read in chunk P3 on the new calibration: 13 of the owner's own bad lines and 6 good ones planted. This reader failed all 13 bad and passed 5 of the 6 good. The reader was told how {reason-for} and {reason-against} fill, with three examples from `question-names.json` `reasons`, and how {said} fills (short topic names, some plural: "rents", "trains", "bus fares").
+- **Twins among the 28 leads:** the reader failed 3 as twins: "As {president} tells it, {reason-against}." (of "As {president} sees it") and both "Everything {president} said came down to this:" lines. It passed the plain-verb leads ("says", "thinks", "believes", "argued that") as different enough. 21 of the 28 leads pass.
+- **{said} as a sentence subject breaks on plural fills:** "Has bus fares come up…", "Is trains something…", "rents comes up…". `question-names.json` carries `number` for each question.
+- Not played.
+
+### lead: 19 of 28 pass
+
+- FAIL `outline-talk.lead.talk-address-point-president-wants-us-to-believe-reason-for`: "{president} wants us to believe {reason-for}." — stance-is-plainly-for-or-against: 'Wants us to believe' casts doubt in a lead that requires no stance, so it contradicts a stand-with verdict that follows it.
+- FAIL `outline-talk.lead.talk-address-point-president-keeps-coming-back-to-this-reason-for`: "{president} keeps coming back to this: {reason-for}." — vary-the-shape: 'Keeps coming back to this:' is the stock colon frame, and it is false for a one-time address.
+- FAIL `outline-talk.lead.talk-address-point-everything-president-said-came-down-to-this-reason-for`: "Everything {president} said came down to this: {reason-for}." — variants-differ-in-what-they-say: False for an address with many points, and a word-for-word twin of P3-056.
+- FAIL `outline-talk.lead.talk-address-point-straight-from-president-reason-against`: "Straight from {president}: {reason-against}." — no-stock-phrases: 'Straight from the President:' is a headline tag, not how a person at home talks.
+- FAIL `outline-talk.lead.talk-address-point-where-president-stands-is-that-reason-against`: "Where {president} stands is that {reason-against}." — one-idea-to-a-sentence: 'Where the President stands is that...' is awkward and stiff.
+- FAIL `outline-talk.lead.talk-address-point-president-gave-the-other-side-s-case-reason-against`: "{president} gave the other side's case: {reason-against}." — stance-is-plainly-for-or-against: Says the President 'gave the other side's case' when it is his own point, which leaves his stand unclear.
+- FAIL `outline-talk.lead.talk-address-point-as-president-tells-it-reason-against`: "As {president} tells it, {reason-against}." — variants-differ-in-what-they-say: A near twin of its sibling P3-027 'As the President sees it' and of P3-041.
+- FAIL `outline-talk.lead.talk-address-point-president-kept-the-answer-short-reason-against`: "{president} kept the answer short: {reason-against}." — tense-of-the-record: An address is not an answer, so 'kept the answer short' is false for its facts.
+- FAIL `outline-talk.lead.talk-address-point-everything-president-said-came-down-to-this-reason-against`: "Everything {president} said came down to this: {reason-against}." — variants-differ-in-what-they-say: Twin of P3-045, and false for an address with many points.
+- PASS `outline-talk.lead.talk-address-point-president-says-reason-for`: "{president} says {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-the-way-president-put-it-reason-for`: "The way {president} put it, {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-told-the-country-reason-for`: "{president} told the country {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-here-s-what-president-is-saying-reason-for`: "Here's what {president} is saying: {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-argued-that-reason-against`: "{president} argued that {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-president-wants-people-to-know-reason-against`: "{president} wants people to know {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-as-president-sees-it-reason-against`: "As {president} sees it, {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-president-made-a-point-of-saying-reason-against`: "{president} made a point of saying {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-you-heard-president-reason-for`: "You heard {president}: {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-thinks-reason-for`: "{president} thinks {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-according-to-president-reason-for`: "According to {president}, {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-was-clear-that-reason-for`: "{president} was clear that {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-to-hear-president-tell-it-reason-for`: "To hear {president} tell it, {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-sounds-sure-that-reason-for`: "{president} sounds sure that {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-spelled-it-out-reason-for`: "{president} spelled it out: {reason-for}."
+- PASS `outline-talk.lead.talk-address-point-president-believes-reason-against`: "{president} believes {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-president-reminded-everybody-reason-against`: "{president} reminded everybody {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-the-point-president-pushed-was-that-reason-against`: "The point {president} pushed was that {reason-against}."
+- PASS `outline-talk.lead.talk-address-point-president-sounds-certain-that-reason-against`: "{president} sounds certain that {reason-against}."
+
+### verdict: 8 of 16 pass
+
+- FAIL `outline-talk.verdict.talk-address-point-it-comes-down-to-this-reason-for`: "It comes down to this: {reason-for}." — no-stock-phrases: 'It comes down to this:' is a stock frame bolted to the reason, the same colon pattern he keeps complaining about.
+- FAIL `outline-talk.verdict.talk-address-point-to-me-it-s-simple-reason-against`: "To me it's simple: {reason-against}." — vary-the-shape: 'To me it's simple:' is the same colon-frame as P3-003 and its siblings, the 'same grammatical pattern' he objected to.
+- FAIL `outline-talk.verdict.talk-address-point-nobody-asks-the-other-side-but-reason-against`: "Nobody asks the other side, but {reason-against}." — stance-is-plainly-for-or-against: 'The other side' is muddled here, since the reason is the President's own side, so the listener can't tell who the speaker stands with.
+- FAIL `outline-talk.verdict.talk-address-point-my-trouble-with-it-is-that-reason-against`: "My trouble with it is that {reason-against}." — no-pointing-at-the-unnamed: 'My trouble with it' points at an 'it' after a line holding both the President and a policy: 'It. What is it?'
+- FAIL `outline-talk.verdict.talk-address-point-i-keep-coming-back-to-this-reason-against`: "I keep coming back to this: {reason-against}." — vary-the-shape: Another 'X this: {reason}' colon frame, and a twin of the lead 'keeps coming back to this' (P3-037).
+- FAIL `outline-talk.verdict.talk-address-point-i-can-t-square-it-with-this-reason-against`: "I can't square it with this: {reason-against}." — no-pointing-at-the-unnamed: 'I can't square it with this' leans on an unnamed 'it' and a stiff colon frame; the stand is unclear.
+- FAIL `outline-talk.verdict.talk-address-point-here-s-where-i-land-reason-for`: "Here's where I land: {reason-for}." — no-stock-phrases: 'Here's where I land:' is office-speak plus the colon frame, and it doesn't say the speaker is against the President.
+- FAIL `outline-talk.verdict.talk-address-point-i-can-t-argue-with-the-other-side-on-this-reason-for`: "I can't argue with the other side on this: {reason-for}." — stance-is-plainly-for-or-against: Reads as a grudging concession to an unnamed 'other side', not a plain stand against the President.
+- PASS `outline-talk.verdict.talk-address-point-finally-somebody-says-reason-for`: "Finally, somebody says {reason-for}."
+- PASS `outline-talk.verdict.talk-address-point-i-ve-always-figured-reason-for`: "I've always figured {reason-for}."
+- PASS `outline-talk.verdict.talk-address-point-people-can-say-what-they-like-but-reason-for`: "People can say what they like, but {reason-for}."
+- PASS `outline-talk.verdict.talk-address-point-somebody-had-to-say-reason-against`: "Somebody had to say {reason-against}."
+- PASS `outline-talk.verdict.talk-address-point-thank-goodness-president-remembers-that-reason-against`: "Thank goodness {president} remembers that {reason-against}."
+- PASS `outline-talk.verdict.talk-address-point-here-s-what-gets-me-reason-against`: "Here's what gets me: {reason-against}."
+- PASS `outline-talk.verdict.talk-address-point-what-president-said-misses-this-reason-for`: "What {president} said misses this: {reason-for}."
+- PASS `outline-talk.verdict.talk-address-point-you-d-think-president-would-see-that-reason-for`: "You'd think {president} would see that {reason-for}."
+
+### why-first: 3 of 8 pass
+
+- FAIL `outline-talk.why-first.talk-address-point-i-ve-heard-folks-in-place-argue-about-said-so-i-was-waiting-for-it`: "I've heard folks in {place} argue about {said}, so I was waiting for it." — variants-differ-in-what-they-say: Twin of P3-057 (people in town argue about it, so I listened).
+- FAIL `outline-talk.why-first.talk-address-point-said-comes-up-at-every-table-in-place-so-i-listened`: "{said} comes up at every table in {place}, so I listened." — variants-differ-in-what-they-say: Twin of P3-057, 'every table' is a composed image, and a plural fill opens a sentence lower case with bad agreement ('rents comes up').
+- FAIL `outline-talk.why-first.talk-address-point-my-neighbors-in-place-talk-about-said-constantly-so-i-perked-up`: "My neighbors in {place} talk about {said} constantly, so I perked up." — variants-differ-in-what-they-say: Twin of P3-057 and P3-063, and 'perked up' adds nothing.
+- FAIL `outline-talk.why-first.talk-address-point-prices-in-place-have-been-on-my-mind-and-then-president-got-to-said`: "Prices in {place} have been on my mind, and then {president} got to {said}." — false for its facts: Assumes the point is about prices, so it is false when {said} is immigration or the retirement age.
+- FAIL `outline-talk.why-first.talk-address-point-having-grown-up-around-place-said-was-the-part-i-waited-for`: "Having grown up around {place}, {said} was the part I waited for." — false for its facts: A dangling modifier, and it claims the speaker grew up there whether the record says so or not.
+- PASS `outline-talk.why-first.talk-address-point-everybody-i-talk-to-in-place-brings-up-said-so-i-paid-attention`: "Everybody I talk to in {place} brings up {said}, so I paid attention."
+- PASS `outline-talk.why-first.talk-address-point-living-in-place-you-hear-about-said-all-the-time`: "Living in {place}, you hear about {said} all the time."
+- PASS `outline-talk.why-first.talk-address-point-what-happens-with-said-matters-in-place-so-i-paid-attention`: "What happens with {said} matters in {place}, so I paid attention."
+
+### ask: 1 of 4 pass
+
+- FAIL `outline-talk.ask.talk-address-point-has-said-come-up-around-you-lately`: "Has {said} come up around you lately?" — one-idea-to-a-sentence: Breaks with the plural fills it is given ('Has bus fares come up'), and twins P3-071.
+- FAIL `outline-talk.ask.talk-address-point-is-said-something-you-think-about-much`: "Is {said} something you think about much?" — variants-differ-in-what-they-say: Breaks with plural fills ('Is trains something'), and it is the same ask as P3-071.
+- FAIL `outline-talk.ask.talk-address-point-was-said-on-your-mind-going-in`: "Was {said} on your mind going in?" — every-line-gives-its-context: 'Going in' to what is unclear, and it breaks with plural fills ('Was rents').
+- PASS `outline-talk.ask.talk-address-point-do-you-talk-about-said-with-anybody`: "Do you talk about {said} with anybody?"
+
+## story/w-talk at `56f20feb`: the {said} lines, 54 of 130 pass
 
 Pre-grader, 2026-11-24. Every line in outline-talk.json at this head that uses {said} (130 lines).
 
