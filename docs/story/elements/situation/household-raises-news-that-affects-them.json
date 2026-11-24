@@ -4,7 +4,7 @@
   "summary": "Someone at home brings up news because it affects a person or concern the household recognizes.",
   "realLife": "owner, Nov 16: The household speaker needs a reason to bring this particular story home.",
   "sources": [
-    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L212"
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L211"
   ],
   "inGame": "needs: a household-to-story relevance read for the opening news exchange.",
   "fits": ["journal", "office", "news", "home"],
