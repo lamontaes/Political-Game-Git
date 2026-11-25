@@ -20,7 +20,8 @@
     "here-since-year": "The year the player's household moved into the place, from the household record (left out where the life's own records place the player here earlier).",
     "born-president-party": "The party that held the White House when the player was born, as an adjective, from the century's presidency rows.",
     "moved-from-state": "The state the household moved out of, from the move record's from-place.",
-    "moved-to-state": "The state the household moved into, from the move record's to-place."
+    "moved-to-state": "The state the household moved into, from the move record's to-place.",
+    "born-place": "The town the player was born in, from the birth record's place."
   },
   "maxWords": 30,
   "parts": [
@@ -71,24 +72,6 @@
       "elements": ["some-moves-are-for-a-job"]
     },
     {
-      "key": "outline-loading.born.before-you-had-a-word-to-say-a-clerk-had-a-form-for-born-year-with-your-name-on",
-      "move": "born",
-      "kind": "written",
-      "text": "Before you had a word to say, a clerk had a form for {born-year} with your name on it.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "born",
-          "tie": "record",
-          "requiresFacts": ["born-year"]
-        }
-      ],
-      "elements": ["birth-is-a-form-the-state-keeps"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-loading.job.first-job-year-was-the-first-year-anyone-paid-you-to-show-up",
       "move": "job",
       "kind": "written",
@@ -102,24 +85,6 @@
         }
       ],
       "elements": ["a-new-hire-fills-out-an-employment-form"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.school.by-school-year-you-were-in-school-in-school-place-learning-to-read-and-to-wait-i",
-      "move": "school",
-      "kind": "written",
-      "text": "By {school-year} you were in school in {school-place}, learning to read and to wait in line.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "school",
-          "tie": "record",
-          "requiresFacts": ["school-year", "school-place"]
-        }
-      ],
-      "elements": ["school-is-assigned-by-address"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
@@ -215,24 +180,6 @@
         }
       ],
       "elements": ["college-is-paid-for-in-grants-and-loans"],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-loading.now.most-of-what-happens-in-place-happens-without-you",
-      "move": "now",
-      "kind": "written",
-      "text": "Most of what happens in {place} happens without you.",
-      "uses": [
-        {
-          "subject": "loading-story",
-          "role": "now",
-          "tie": "record",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "elements": ["voting-starts-at-eighteen-by-election-day"],
       "origin": "authored",
       "author": "the loading and history writer",
       "date": "2026-11-24"
@@ -503,6 +450,24 @@
       "author": "the loading and history writer",
       "date": "2026-11-24",
       "elements": ["some-moves-are-for-a-job"]
+    },
+    {
+      "key": "outline-loading.born.you-were-born-in-born-place-in-born-year",
+      "move": "born",
+      "kind": "written",
+      "text": "You were born in {born-place} in {born-year}.",
+      "uses": [
+        {
+          "subject": "loading-story",
+          "role": "born",
+          "tie": "record",
+          "requiresFacts": ["born-year", "born-place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-25",
+      "elements": ["birth-is-a-form-the-state-keeps"]
     }
   ]
 }

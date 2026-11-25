@@ -97,7 +97,7 @@
     "people": "Building the town",
     "past": "Writing everyone's past",
     "economy": "Opening the economy",
-    "core": "Starting the world",
+    "core": "Setting the calendar",
     "government": "Seating the government",
     "elections": "Opening the elections",
     "budgets": "Opening the budgets",
@@ -106,7 +106,7 @@
     "workings": "Opening the press, courts and meetings",
     "history": "Writing the country's history",
     "warmup": "Giving the world a head start",
-    "opening": "Preparing the opening"
+    "opening": "Setting your first evening"
   },
   "worldSettings": {
     "rows": [

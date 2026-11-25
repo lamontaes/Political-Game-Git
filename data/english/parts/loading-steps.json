@@ -43,23 +43,6 @@
       "elements": ["birth-is-a-form-the-state-keeps"]
     },
     {
-      "key": "loading-steps.past.back-dating-place-so-everyone-has-been-there-a-while",
-      "move": "past",
-      "kind": "written",
-      "text": "Back-dating {place} so everyone has been there a while.",
-      "uses": [
-        {
-          "subject": "loading-step",
-          "role": "past",
-          "tie": "frame"
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24",
-      "elements": ["hometown-question-has-one-factual-answer"]
-    },
-    {
       "key": "loading-steps.past.writing-up-the-layoffs-that-brought-people-to-place",
       "move": "past",
       "kind": "written",
@@ -92,57 +75,6 @@
       "author": "the loading and history writer",
       "date": "2026-11-24",
       "elements": ["a-price-index-follows-a-basket-of-what-people-buy"]
-    },
-    {
-      "key": "loading-steps.economy.printing-money-for-state",
-      "move": "economy",
-      "kind": "written",
-      "text": "Printing money for {state}.",
-      "uses": [
-        {
-          "subject": "loading-step",
-          "role": "economy",
-          "tie": "frame"
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24",
-      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
-    },
-    {
-      "key": "loading-steps.economy.printing-more-money-for-state",
-      "move": "economy",
-      "kind": "written",
-      "text": "Printing more money for {state}.",
-      "uses": [
-        {
-          "subject": "loading-step",
-          "role": "economy",
-          "tie": "frame"
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24",
-      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
-    },
-    {
-      "key": "loading-steps.economy.printing-even-more-money-for-state",
-      "move": "economy",
-      "kind": "written",
-      "text": "Printing even more money for {state}.",
-      "uses": [
-        {
-          "subject": "loading-step",
-          "role": "economy",
-          "tie": "frame"
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24",
-      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
     },
     {
       "key": "loading-steps.government.deciding-who-holds-which-office-in-place-and-since-when",
@@ -245,23 +177,6 @@
       "author": "the loading and history writer",
       "date": "2026-11-24",
       "elements": ["school-nurse-in-health-budget"]
-    },
-    {
-      "key": "loading-steps.cabinet.appointing-the-cabinet-of-state",
-      "move": "cabinet",
-      "kind": "written",
-      "text": "Appointing the cabinet of {state}.",
-      "uses": [
-        {
-          "subject": "loading-step",
-          "role": "cabinet",
-          "tie": "frame"
-        }
-      ],
-      "origin": "authored",
-      "author": "the loading and history writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a18-the-appointment-with-a-string-on-it"]
     },
     {
       "key": "loading-steps.workings.sending-reporters-to-the-town-hall-in-place-they-will-wait",
@@ -640,6 +555,210 @@
       "author": "the loading and history writer",
       "date": "2026-11-24",
       "elements": ["ballot-box-seal-numbers-are-written-down"]
+    },
+    {
+      "key": "loading-steps.economy.printing-money-for-the-country-and-some-of-it-will-reach-place",
+      "move": "economy",
+      "kind": "written",
+      "text": "Printing money for the country, and some of it will reach {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
+    },
+    {
+      "key": "loading-steps.economy.printing-more-money-place-will-see-some-of-it",
+      "move": "economy",
+      "kind": "written",
+      "text": "Printing more money. {place} will see some of it.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
+    },
+    {
+      "key": "loading-steps.economy.printing-even-more-money-place-still-did-not-ask-for-it",
+      "move": "economy",
+      "kind": "written",
+      "text": "Printing even more money. {place} still did not ask for it.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "economy",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
+    },
+    {
+      "key": "loading-steps.government.filing-the-candidates-for-place-with-the-county-the-way-local-seats-do",
+      "move": "government",
+      "kind": "written",
+      "text": "Filing the candidates for {place} with the county, the way local seats do.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["local-offices-file-with-the-county"]
+    },
+    {
+      "key": "loading-steps.government.looking-up-who-is-supposed-to-swear-in-the-new-officials-of-place",
+      "move": "government",
+      "kind": "written",
+      "text": "Looking up who is supposed to swear in the new officials of {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["introduce-the-official-who-administers-the-oath"]
+    },
+    {
+      "key": "loading-steps.government.keeping-the-answers-the-clerk-of-place-gave-the-first-time",
+      "move": "government",
+      "kind": "written",
+      "text": "Keeping the answers the clerk of {place} gave the first time.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "government",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["keep-the-first-answer-with-the-access-appeal"]
+    },
+    {
+      "key": "loading-steps.warmup.letting-someone-in-place-ask-whether-the-pass-starts-counting-before-payday",
+      "move": "warmup",
+      "kind": "written",
+      "text": "Letting someone in {place} ask whether the pass starts counting before payday.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "warmup",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["pass-clock-starts-at-first-use"]
+    },
+    {
+      "key": "loading-steps.elections.counting-the-names-on-a-candidate-s-petition-in-place",
+      "move": "elections",
+      "kind": "written",
+      "text": "Counting the names on a candidate's petition in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "elections",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["petition-short-by-a-few-names"]
+    },
+    {
+      "key": "loading-steps.past.teaching-the-children-of-place-their-starting-age-for-school-which-state-decides",
+      "move": "past",
+      "kind": "written",
+      "text": "Teaching the children of {place} their starting age for school, which {state} decides.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["school-starting-age-is-the-states-call"]
+    },
+    {
+      "key": "loading-steps.past.letting-renters-in-place-move-more-often-than-owners",
+      "move": "past",
+      "kind": "written",
+      "text": "Letting renters in {place} move more often than owners.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["renters-move-far-more-than-owners"]
+    },
+    {
+      "key": "loading-steps.past.counting-the-births-in-place-as-part-of-state-s-count",
+      "move": "past",
+      "kind": "written",
+      "text": "Counting the births in {place} as part of {state}'s count.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "past",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["births-are-counted-nationally"]
+    },
+    {
+      "key": "loading-steps.legislature.reading-the-report-that-lists-the-bills-the-members-of-state-can-introduce",
+      "move": "legislature",
+      "kind": "written",
+      "text": "Reading the report that lists the bills the members of {state} can introduce.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "legislature",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["report-options-without-endorsement"]
     }
   ]
 }

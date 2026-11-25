@@ -67,6 +67,8 @@ export function loadingTelling(
     const at = `${event.life}/${event.what}`;
     if (at === "born/born") {
       put("born-year", yearOf(event.date), event.id);
+      const bornPlace = placeSaid(event.placeId);
+      if (bornPlace) put("born-place", bornPlace, event.id);
       days.born ??= { date: event.date, id: event.id };
     }
     if (at === "school/started" && !facts["school-year"]) {
