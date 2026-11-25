@@ -100,8 +100,14 @@ interface OutlineRow {
   readonly leastSentences?: { readonly value: number };
   /** This kind's own floor on how many pieces a move draws from (the weights' specificFloor otherwise). */
   readonly specificFloor?: { readonly value: number };
-  /** Whether a section that opens a new paragraph leads with a `bridge` piece that follows the sentence before (the owner, Nov 24, P20). */
-  readonly bridges?: boolean;
+  /**
+   * The sections that, opening a new paragraph, lead with a `bridge` piece that
+   * follows the sentence before (the owner, Nov 24, P20: "you just went from
+   * the Constitution to... healthcare"): the jumps into a new subject, not
+   * every paragraph (a signpost is rare in real addresses, and a bridge on
+   * every paragraph repeated its frame in most texts).
+   */
+  readonly bridges?: readonly string[];
 }
 
 /** A shape: its moves in order; a move ending in "?" may be left out. */
@@ -693,7 +699,7 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
     // paragraph after another leads with a bridge where the row has them and
     // a bridge piece follows the sentence before (its `after` names that
     // sentence's move). With none that fits, the section opens as it would.
-    if (opens && last && row.bridges) {
+    if (opens && last && row.bridges?.includes(section.name)) {
       const spending = new Map(spent);
       const bridge = wordMove(
         knownHere,

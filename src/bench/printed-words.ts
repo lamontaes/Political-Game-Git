@@ -32,6 +32,7 @@ import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
   bodyOf,
+  chambersOf,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import {
@@ -64,7 +65,9 @@ import { joinList } from "../english/bill-names";
 import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
-import { questionAbout } from "../english/question-names";
+import { questionAbout, questionPlainWords } from "../english/question-names";
+import { partyOf } from "../core2/modules/campaigns";
+import { reachScopeOf } from "../core2/law-reach/applied";
 import {
   causeGroupForm,
   causeGroupName,
@@ -365,6 +368,21 @@ class Reader {
           identity: { givenName: string; familyName: string };
         }
       | undefined;
+  }
+  /** A bill's recorded floor votes in one chamber: who voted which way. */
+  billVotes(
+    billId: string | undefined,
+    chamber: string | undefined,
+  ): readonly { memberId: string; vote: string }[] {
+    if (!billId) return [];
+    return (
+      (this.table(LEGISLATURE_MODULE_ID, "votes")?.query("byBill", [billId]) ??
+        []) as unknown as {
+        memberId: string;
+        vote: string;
+        chamber?: string;
+      }[]
+    ).filter((row) => !chamber || !row.chamber || row.chamber === chamber);
   }
   /** A full person's or a named official's name; null for anyone else. */
   name(id: string | undefined): string | null {
@@ -823,15 +841,16 @@ const lawTookEffect: Builder = (read, f) => {
     const to = typeof now === "number" ? amount(f.unit, now) : null;
     const from = typeof was === "number" ? amount(f.unit, was) : null;
     if (!to || !from) return rule(read, f, base);
+    // A law that changed nothing is not a story (the owner, Nov 24, P45).
+    if (from === to) return null;
     return story(
       "law-amount",
       {
         ...base,
         measure: read.fact(measureName(series), f.lawId ?? ""),
         to: read.fact(to, f.lawId ?? ""),
-        ...(from !== to
-          ? { from: read.fact(from, f.lawId ?? ""), changed: read.yes() }
-          : { same: read.yes() }),
+        from: read.fact(from, f.lawId ?? ""),
+        changed: read.yes(),
         ...(Number(now) < Number(was) ? { down: read.yes() } : {}),
         ...(Number(now) > Number(was) ? { up: read.yes() } : {}),
       },
@@ -947,6 +966,8 @@ export function archivedLawPassedFacts(
     // The amount is told only when the law's own row is what holds from its
     // start; a rate another level sets on top of it is that level's story.
     if (!to || after !== row.value) return null;
+    // A law that changed nothing is not a story (the owner, Nov 24, P45).
+    if (from && from === to) return null;
     return story(
       "law-amount-passed",
       {
@@ -956,7 +977,6 @@ export function archivedLawPassedFacts(
         ...(from && from !== to
           ? { from: read.fact(from, lawId), changed: read.yes() }
           : {}),
-        ...(from && from === to ? { same: read.yes() } : {}),
         ...(from && after! < before! ? { down: read.yes() } : {}),
         ...(from && after! > before! ? { up: read.yes() } : {}),
       },
@@ -978,6 +998,87 @@ export function archivedLawPassedFacts(
   );
 }
 
+/**
+ * What a vote story's body tells after its lede (W5 and the CTO, Nov 24: a
+ * body that follows from the lede, not three fragments), each from the
+ * record, named as W5's pieces read them: who brought the bill (`sponsor`);
+ * for a bill that carried, the one member who voted against it by name
+ * (`voted-against`, `against-alone`), or `against-bloc` with the party's
+ * label (`against-party`) where every member against shares one party; the
+ * plain reasons people give for and against the bill's question
+ * (`reason-for`, `reason-against`, question-names.json); when a bill that
+ * carried takes effect (`takes-effect`, the earliest provision's date); and
+ * whether the next chamber still takes it up (`next-step`, with that
+ * chamber's name in `next-body`); and whom the law applies to by its data
+ * (`reaches-<group>`).
+ */
+function voteBody(
+  read: Reader,
+  f: Record<string, string>,
+  carried: boolean,
+): Facts {
+  const bill = read.bill(f.billId);
+  if (!bill) return {};
+  const out: Facts = {};
+  const sponsor = read.name(bill.sponsorId);
+  if (sponsor) out.sponsor = read.fact(sponsor, bill.sponsorId);
+  if (carried) {
+    const against = read
+      .billVotes(bill.id, f.chamber)
+      .filter((row) => row.vote === "no");
+    const lone = against.length === 1 ? read.name(against[0]!.memberId) : null;
+    const parties = new Set(
+      against.map((row) => partyOf(read.api, row.memberId as PersonId)),
+    );
+    const party = parties.size === 1 ? [...parties][0] : null;
+    if (lone) {
+      out["voted-against"] = read.fact(lone, against[0]!.memberId);
+      out["against-alone"] = read.yes();
+    } else if (against.length > 1 && party) {
+      out["against-bloc"] = read.yes();
+      out["against-party"] = read.fact(
+        party,
+        ...against.map((row) => row.memberId),
+      );
+    }
+  }
+  const question = bill.provisions.find((row) => row.question)?.question;
+  if (question)
+    for (const [key, text] of Object.entries(questionPlainWords(question)))
+      if (key.startsWith("reason-")) out[key] = read.fact(text, bill.id);
+  // Whom the law applies to by its data (law-reach/scope.ts), as one fact per
+  // group of people it selects (`reaches-tenants`, `reaches-workers`), for
+  // the banks to word.
+  for (const provision of bill.provisions) {
+    const scope = reachScopeOf(
+      provision.policyId ??
+        provision.question ??
+        provision.series ??
+        (provision.line ? `budget:${provision.line}` : null),
+    );
+    const people = Array.isArray(scope?.people)
+      ? (scope.people as { id?: string; target?: string }[])
+      : [];
+    for (const group of people)
+      if (group.target === "people" && group.id)
+        out[`reaches-${group.id}`] = read.fact("yes", bill.id);
+  }
+  const starts = bill.provisions
+    .map((row) => row.effectiveDate)
+    .filter((date): date is string => !!date)
+    .sort()[0];
+  if (carried && starts)
+    out["takes-effect"] = read.fact(spokenDate(starts), bill.id);
+  const chambers = chambersOf(read.api, bill);
+  const next = chambers[chambers.indexOf(f.chamber ?? "") + 1];
+  const nextBody = carried && f.chamber && next ? read.body(next) : null;
+  if (nextBody) {
+    out["next-step"] = read.yes();
+    out["next-body"] = read.fact(nextBody, next!);
+  }
+  return out;
+}
+
 /** A floor vote on a bill: the count and whether it carried. */
 const rollCall: Builder = (read, f) => {
   const yes = num(f.yes);
@@ -993,6 +1094,7 @@ const rollCall: Builder = (read, f) => {
     "roll-call",
     {
       ...read.billFacts(f.billId, f.number),
+      ...voteBody(read, f, yes > no),
       count: read.fact(`${yes} to ${no}`),
       date: read.date(),
       ...(body ? { body: read.fact(body, f.chamber ?? "") } : {}),
@@ -3954,10 +4056,26 @@ const address: Builder = (read, f) => {
   // address's own record of what was said (the Story lead, Nov 24: a news
   // story has a lede and a body).
   const said = saidOf(f);
-  const stood = said.find((row) => row.values.about);
+  // The sentence that takes the stand, where one does; else the first on the subject.
+  const stood =
+    said.find(
+      (row) =>
+        row.values.about &&
+        (row.values["stance-for"] || row.values["stance-against"]),
+    ) ?? said.find((row) => row.values.about);
   const quote = rememberedOf(f);
   const named = read.who(id, "name", false);
   const surname = named.name?.text.split(" ").at(-1);
+  // The President's party, and whom the stance's policy applies to by its
+  // data (law-reach/scope.ts), so a lede can lead with either (W5, Nov 24).
+  const party = id ? partyOf(read.api, id as PersonId) : null;
+  const question = stood?.sources
+    ?.find((ref) => ref.startsWith("question:"))
+    ?.slice("question:".length);
+  const scope = reachScopeOf(question ?? null);
+  const reaches = Array.isArray(scope?.people)
+    ? (scope.people as { id?: string; target?: string }[])
+    : [];
   return story(
     "address",
     {
@@ -3972,6 +4090,12 @@ const address: Builder = (read, f) => {
           ? { "president-for": read.yes() }
           : {}),
       ...(quote ? { quote: read.fact(quote, id ?? "") } : {}),
+      ...(party && id ? { "president-party": read.fact(party, id) } : {}),
+      ...Object.fromEntries(
+        reaches
+          .filter((group) => group.target === "people" && group.id)
+          .map((group) => [`reaches-${group.id}`, read.yes()]),
+      ),
       // An inaugural is told as the taking of office, citing the offices
       // engine's inauguration record the address was given at.
       ...(f["address:kind"] === "inaugural"

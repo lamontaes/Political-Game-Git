@@ -236,6 +236,7 @@ function asOpening(
   return {
     level: (row.camera ?? "country") as OpeningLevel,
     part: row.paragraph,
+    section: row.section,
     text: row.text,
     // A sentence on the stand cites its question, so every view of the
     // address (the talk at home, the Journal, the news) finds the point it

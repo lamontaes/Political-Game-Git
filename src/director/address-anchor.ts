@@ -6,14 +6,22 @@
  * speech's theme is about, never a draw. Health: the care their health asks
  * (`careNeedOf`, a sliding scale) plus going without coverage
  * (`coverageOf`). Wages: the lowest hourly pay among those who hold a job.
- * Ties go to the earlier record id. Other themes have no anchor yet.
+ * Hard times (`safety-net`): the lowest yearly household income on record
+ * (`fullHouseholdIncomes`: pay, awards and public benefits). Public safety
+ * (`justice`): the most crimes the crime engine recorded against them
+ * (`crime.victimized`, which names the victim of a violent crime and every
+ * member for one against the household). Ties go to the earlier record id.
+ * Housing waits on the rent-burden reader (`housing-rent-burden-reader`);
+ * other themes have no anchor yet.
  *
  * The facts are the person's name and town and what touches them, each cited
  * to the record that holds it; the words are the banks'.
  */
 import type { EntityId } from "../core2/kernel/brands";
 import { ageOnDate } from "../core2/kernel/dates";
+import { fullHouseholdIncomes } from "../core2/household-cost";
 import { coverageOf } from "../core2/modules/coverage";
+import { CRIME_EVENT } from "../core2/modules/justice";
 import { careNeedOf, seriousIllnessOf } from "../core2/modules/health";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -32,10 +40,11 @@ const fact = (text: string, ids: readonly string[]): GroundedEnglishFact => ({
 /** A resident's burden for a theme, with the records it rests on; null where the theme reads none of theirs. */
 type Burden = { amount: number; facts: Facts } | null;
 
-const BURDENS: Readonly<
-  Record<string, (core: CoreState, person: PersonState) => Burden>
-> = {
-  health: (core, person) => {
+/** A theme's burden reader, prepared once per address from the world's records. */
+type Reader = (person: PersonState) => Burden;
+
+const BURDENS: Readonly<Record<string, (core: CoreState) => Reader>> = {
+  health: (core) => (person) => {
     const care = careNeedOf(core, person.id as PersonId);
     const covered = coverageOf(coreAPI(core), person.id);
     const ill = seriousIllnessOf(core, person.id as PersonId);
@@ -48,7 +57,7 @@ const BURDENS: Readonly<
       facts["anchor-needs-care"] = fact("yes", [person.id]);
     return { amount, facts };
   },
-  wages: (core, person) => {
+  wages: (core) => (person) => {
     const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
     if (!job || !job.hoursDaily || (job.endsAt && job.endsAt <= core.date))
       return null;
@@ -56,6 +65,43 @@ const BURDENS: Readonly<
     return {
       amount: -job.wageDailyMinor / job.hoursDaily,
       facts: { "anchor-low-pay": fact("yes", [job.id]) },
+    };
+  },
+  "safety-net": (core) => {
+    const income = fullHouseholdIncomes(core);
+    return (person) => {
+      // Only a household whose income is on record: a named official with no
+      // household books is not the poorest in town.
+      const yearly = person.householdId
+        ? income.get(person.householdId)
+        : undefined;
+      return yearly === undefined
+        ? null
+        : {
+            // Lower household income is the larger burden.
+            amount: -yearly,
+            facts: {
+              "anchor-low-income": fact("yes", [person.householdId!]),
+            },
+          };
+    };
+  },
+  justice: (core) => {
+    const crimes = new Map<string, string[]>();
+    for (const id of core.logByKind.get(CRIME_EVENT) ?? []) {
+      const record = core.durableLog.get(id);
+      if (!record || record.date > core.date) continue;
+      for (const personId of record.personIds)
+        crimes.set(personId, [...(crimes.get(personId) ?? []), id]);
+    }
+    return (person) => {
+      const ids = crimes.get(person.id);
+      return ids
+        ? {
+            amount: ids.length,
+            facts: { "anchor-crime-victim": fact("yes", ids) },
+          }
+        : null;
     };
   },
 };
@@ -67,9 +113,10 @@ const BURDENS: Readonly<
  * carries one.
  */
 export function anchorFacts(core: CoreState, family: string | null): Facts {
-  const burdenOf = family ? BURDENS[family] : undefined;
+  const reader = family ? BURDENS[family] : undefined;
   const player = core.playerId ? core.people.get(core.playerId) : undefined;
-  if (!burdenOf || !player) return {};
+  if (!reader || !player) return {};
+  const burdenOf = reader(core);
   let best: { person: PersonState; amount: number; facts: Facts } | null = null;
   for (const person of core.people.values()) {
     if (
@@ -79,7 +126,7 @@ export function anchorFacts(core: CoreState, family: string | null): Facts {
       ageOnDate(person.birthDate, core.date) < P.votingAge
     )
       continue;
-    const burden = burdenOf(core, person);
+    const burden = burdenOf(person);
     if (
       burden &&
       (!best ||
