@@ -1743,7 +1743,7 @@ export class DevMode {
       !input.personId &&
       CIRCUMSTANCES.rows.some(
         (row) =>
-          row.typeKey === input.typeKey && row.receive.counterpart === "apart",
+          row.typeKey === input.typeKey && row.receive?.counterpart === "apart",
       );
     if (fromApart && player) {
       const apart = circle
