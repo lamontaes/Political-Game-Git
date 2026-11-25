@@ -1,0 +1,35 @@
+{
+  "id": "night-draft-meets-the-traveling-party-next-morning",
+  "kind": "move",
+  "summary": "Two groups of campaign staff hand off a draft across an overnight journey.",
+  "realLife": "Charles Murphy recalled sending drafts out of Washington at night by courier plane so the train staff could work with Truman on the text before that evening's address.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/murphy4"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{draft}", "{stop}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: draft readiness and scheduled delivery.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The draft reaches the traveling team before the workday.",
+      "what": "Aides review it with the candidate.",
+      "writesBack": "The evening speaker has time to revise it."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The handoff misses the traveling party.",
+      "what": "The home office identifies the next available delivery.",
+      "writesBack": "The candidate starts from notes already available."
+    }
+  ]
+}

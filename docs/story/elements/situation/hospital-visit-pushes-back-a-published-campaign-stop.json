@@ -1,0 +1,36 @@
+{
+  "id": "hospital-visit-pushes-back-a-published-campaign-stop",
+  "kind": "situation",
+  "summary": "A candidate chooses an unscheduled civic visit and leaves the staff to account for a late arrival.",
+  "realLife": "Bray remembered Truman insisting on seeing improvements at a veterans hospital near Denver despite the delay to a tightly scheduled trip.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{candidate}", "{hospital}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: candidate's decision and next public appointment.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "There is room to shorten a later event.",
+      "what": "The organizer revises the timetable and tells its host.",
+      "writesBack": "The visit goes ahead with a smaller delay."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The next event cannot move.",
+      "what": "The staff tells the candidate which commitment will be missed.",
+      "writesBack": "The candidate must choose between the visits."
+    }
+  ]
+}

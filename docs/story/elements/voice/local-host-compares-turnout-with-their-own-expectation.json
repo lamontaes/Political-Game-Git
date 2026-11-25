@@ -1,0 +1,35 @@
+{
+  "id": "local-host-compares-turnout-with-their-own-expectation",
+  "kind": "voice",
+  "summary": "A campaign helper asks the host how the crowd compares with what the host expected.",
+  "realLife": "Bray asked delegations whether the crowds in their communities were as large or enthusiastic as they had anticipated.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{host}", "{town}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: local expectation and observed turnout.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The host has run a comparable event.",
+      "what": "The helper records the host's comparison.",
+      "writesBack": "The campaign gets a local interpretation of the crowd."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The host has never organized a stop before.",
+      "what": "The helper records what the host saw firsthand.",
+      "writesBack": "The report leaves the comparison open."
+    }
+  ]
+}

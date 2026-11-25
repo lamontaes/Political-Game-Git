@@ -1,0 +1,36 @@
+{
+  "id": "office-writers-serve-a-campaign-they-never-ride-with",
+  "kind": "situation",
+  "summary": "A campaign worker stays at the home office and sends material to colleagues traveling with the candidate.",
+  "realLife": "David Stowe recalled helping supply the 1948 train from Washington while Clifford and George Elsey worked aboard it; Stowe himself did not ride that campaign train.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/stowe6"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{worker}", "{office}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: staff assignments and a way to deliver copy.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A question reaches the office in time.",
+      "what": "The researcher sends the finding to the traveling staff.",
+      "writesBack": "The worker contributes without being at the stop."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A traveling aide needs a fact the office cannot confirm.",
+      "what": "The office marks it unresolved.",
+      "writesBack": "The candidate can speak without using it."
+    }
+  ]
+}

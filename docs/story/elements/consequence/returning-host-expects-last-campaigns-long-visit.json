@@ -1,0 +1,35 @@
+{
+  "id": "returning-host-expects-last-campaigns-long-visit",
+  "kind": "consequence",
+  "summary": "A local dignitary who remembers an earlier campaign objects when a new appearance rule applies.",
+  "realLife": "Stowe described friction on the 1952 trip when returning political guests expected the access they remembered from 1948; the later trip kept guests off the speaking platform and left intervals for work or rest.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/stowe6"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{host}", "{surrogate}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: previous relationship and this campaign's appearance rules.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The organizer explains the changed arrangement beforehand.",
+      "what": "The guest joins the public welcome elsewhere.",
+      "writesBack": "The program can proceed with expectations settled."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The guest expects the old arrangement on arrival.",
+      "what": "The local host has to explain the change in person.",
+      "writesBack": "The relationship carries that disappointment beyond the stop."
+    }
+  ]
+}

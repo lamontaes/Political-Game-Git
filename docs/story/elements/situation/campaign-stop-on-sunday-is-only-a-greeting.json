@@ -1,0 +1,37 @@
+{
+  "id": "campaign-stop-on-sunday-is-only-a-greeting",
+  "kind": "situation",
+  "summary": "A host expecting a speech must explain why the candidate has come out only to greet people.",
+  "realLife": "Bray recalled that Truman greeted Sunday crowds with his family but declined to make political speeches that day, disappointing some listeners.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading",
+    "home"
+  ],
+  "slots": ["{host}", "{day}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: candidate's commitment and the announced event.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The host knows the restriction before the stop.",
+      "what": "The invitation promises a greeting.",
+      "writesBack": "The audience knows what to expect."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The invitation promised remarks.",
+      "what": "The host explains the difference to those waiting.",
+      "writesBack": "The local committee has to answer for the notice."
+    }
+  ]
+}

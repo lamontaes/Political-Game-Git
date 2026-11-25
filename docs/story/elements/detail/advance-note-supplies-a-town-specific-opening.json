@@ -1,0 +1,36 @@
+{
+  "id": "advance-note-supplies-a-town-specific-opening",
+  "kind": "detail",
+  "summary": "News gathered before the visit gives a speechwriter a local fact to put before the candidate.",
+  "realLife": "Clark Clifford described using information gathered by an advance team a few days earlier and illustrated the method with a town opening a factory.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/cliford5"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{town}", "{helper}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: verified local development and arrival date.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A local contact confirms the news.",
+      "what": "The helper includes it in the candidate's notes.",
+      "writesBack": "The candidate can identify the development accurately."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The opening has been postponed.",
+      "what": "The helper corrects the note before the event.",
+      "writesBack": "The candidate avoids congratulating people on something that has not happened."
+    }
+  ]
+}

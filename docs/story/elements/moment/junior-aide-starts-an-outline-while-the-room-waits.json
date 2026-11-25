@@ -1,0 +1,36 @@
+{
+  "id": "junior-aide-starts-an-outline-while-the-room-waits",
+  "kind": "moment",
+  "summary": "A junior aide picks up a pencil when two senior colleagues leave the next step unsettled.",
+  "realLife": "Murphy recalled beginning an outline on a yellow pad after a convention speech meeting ended without a clear assignment and his senior colleagues hesitated to lead.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/murphy4"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{aide}", "{draft}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: unassigned writing task and deadline.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The colleagues accept the outline as a starting point.",
+      "what": "The aide reads it back for their changes.",
+      "writesBack": "The group has a draft to work on."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A senior colleague takes responsibility.",
+      "what": "The aide hands over the notes already made.",
+      "writesBack": "The assignment now has a named writer."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "bouquets-from-a-stop-go-to-the-local-hospital",
+  "kind": "detail",
+  "summary": "The person accepting a campaign bouquet has to find somewhere for it to go after the candidate leaves.",
+  "realLife": "Bray said the 1948 crew arranged for accumulated flowers to go to veterans hospitals or to a local hospital where there was no veterans facility.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading",
+    "home"
+  ],
+  "slots": ["{helper}", "{hospital}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: received flowers and an available recipient.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A hospital can take the flowers.",
+      "what": "The helper arranges delivery after the event.",
+      "writesBack": "The bouquet reaches patients instead of traveling on."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The intended hospital cannot accept them.",
+      "what": "The helper asks a local host for another recipient.",
+      "writesBack": "The host takes responsibility for the flowers."
+    }
+  ]
+}

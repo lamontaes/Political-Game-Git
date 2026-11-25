@@ -1,0 +1,35 @@
+{
+  "id": "long-welcome-costs-the-next-town-its-start-time",
+  "kind": "consequence",
+  "summary": "A local introduction runs long enough to make another town wait.",
+  "realLife": "Bray recalled that local dignitaries' introductory addresses delayed departures, leading staff to ask later hosts to confine themselves to a brief introduction.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{host}", "{next-stop}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: introduction length and the following commitment.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The host agrees to shorten the welcome.",
+      "what": "A helper gives them the candidate's name and title.",
+      "writesBack": "The candidate starts closer to the scheduled time."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The host gives the whole address.",
+      "what": "A helper alerts the next town to the delay.",
+      "writesBack": "Another local organizer has to explain the wait."
+    }
+  ]
+}
