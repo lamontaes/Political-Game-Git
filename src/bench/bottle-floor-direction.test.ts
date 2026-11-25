@@ -2,8 +2,11 @@ import { expect, it } from "vitest";
 import { gameStartDate } from "../core2/game-start";
 import {
   bodyJurisdiction,
+  castChairHearing,
+  holdCommittee,
   draftBill,
   holdEveryChamber,
+  reviseBill,
   memberKey,
   members,
   type Provision,
@@ -98,6 +101,7 @@ it("grounds floor questions in the single provision the chamber would enact", ()
     chamber: seat.office.id,
     date: core.date,
     heard: true,
+    policyHeard: { question, enact: false },
     witnesses: [
       { personId: speaker, stake: "for" },
       { personId: listener, stake: "against" },
@@ -133,6 +137,12 @@ it("grounds floor questions in the single provision the chamber would enact", ()
     expect(readWitnesses()).toEqual({});
   }
   hearings.put(hearing);
+  reviseBill(api, bill.id, { replace: 0, with: other });
+  expect(readWitnesses()).toEqual({});
+  reviseBill(api, bill.id, { replace: 0, with: repeal });
+  hearings.put({ ...hearing, policyHeard: { question, enact: true } });
+  expect(readWitnesses()).toEqual({});
+  hearings.put(hearing);
   const both = readWitnesses();
   for (const [key, id] of [
     ["hearing-supporter", supporter],
@@ -144,6 +154,39 @@ it("grounds floor questions in the single provision the chamber would enact", ()
       sourceRecordIds: [cause, bill.id, hearing.id, id],
     });
   }
+  const { policyHeard: _snapshot, ...legacy } = hearing;
+  hearings.put(legacy);
+  expect(readWitnesses()).toEqual({});
+  const address = {
+    id: `speech:hearing:${bill.id}:${seat.office.id}:${opponent}`,
+    date: core.date,
+    kind: "speech.heard",
+    placeId: core.people.get(opponent)!.placeId,
+    personIds: [opponent],
+    topic: question,
+    desiredChange: "enact",
+    facts: { occasionId: hearing.id },
+    source: {
+      tag: "SOURCED" as const,
+      citation: "Recorded test hearing",
+      asOf: core.date,
+    },
+  };
+  core.durableLog.set(address.id, address);
+  expect(readWitnesses()).toEqual({
+    "hearing-opponent": {
+      ...both["hearing-opponent"],
+      sourceRecordIds: [
+        ...both["hearing-opponent"]!.sourceRecordIds,
+        address.id,
+      ],
+    },
+  });
+  core.durableLog.set(address.id, { ...address, desiredChange: "repeal" });
+  expect(readWitnesses()).toEqual({});
+  hearings.put({ ...hearing, policyHeard: null });
+  core.durableLog.set(address.id, address);
+  expect(readWitnesses()).toEqual({});
   hearings.put({
     ...hearing,
     witnesses: hearing.witnesses.filter((w) => w.personId !== opponent),
@@ -151,6 +194,28 @@ it("grounds floor questions in the single provision the chamber would enact", ()
   expect(Object.keys(readWitnesses())).toEqual(["hearing-supporter"]);
   holdEveryChamber(api, bill.id);
   expect(readWitnesses()).toEqual({});
+  const newBill = draftBill(api, {
+    bodyOfficeId: seat.office.id,
+    sponsorId: speaker,
+    provisions: [repeal],
+  });
+  api
+    .moduleState("core2-interest-groups-v1")
+    .table("groups")
+    .put({
+      id: "hearing-history:against",
+      organizationId: "hearing-history",
+      interest: question,
+      formedOn: core.date,
+      formedOver: newBill.id,
+      memberOrganizationIds: [],
+      memberPersonIds: [opponent],
+      lobbyistId: null,
+    });
+  castChairHearing(api, newBill.id, seat.office.id, true);
+  const recorded = holdCommittee(api, newBill.id);
+  expect(recorded?.witnesses.length).toBeGreaterThan(0);
+  expect(recorded?.policyHeard).toEqual({ question, enact: false });
 }, 120_000);
 
 it("keeps the next chamber open after the originating chamber has voted", () => {

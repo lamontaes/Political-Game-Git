@@ -5118,6 +5118,11 @@ export interface CommitteeRecord {
     readonly position: MemberPosition;
   }[];
   readonly witnesses: readonly HearingWitness[];
+  /** The single policy heard before markup. Null for a package or another kind of bill. */
+  readonly policyHeard?: {
+    readonly question: string;
+    readonly enact: boolean;
+  } | null;
   readonly yes: number;
   readonly no: number;
   readonly reported: boolean;
@@ -5514,6 +5519,16 @@ function committeeStage(
     billId: bill.id,
     chamber,
     date: api.state.date,
+    ...(witnesses.length
+      ? {
+          policyHeard:
+            bill.provisions.length === 1 &&
+            bill.provisions[0]?.kind === "policy-question" &&
+            question
+              ? { question: question.question, enact: question.position > 0 }
+              : null,
+        }
+      : {}),
     committee: committeeFor(bill),
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),

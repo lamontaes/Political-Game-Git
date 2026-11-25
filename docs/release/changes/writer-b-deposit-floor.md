@@ -12,3 +12,5 @@ When a member objects to starting a bottle deposit, a colleague can follow up on
 A member whose own bill would start a bottle deposit can explain why they brought it to the floor. Three repeal lines distinguish a member's position on the refund from the identity of the sponsor.
 
 A colleague supporting the sponsor's deposit bill can pick up the concern the sponsor just raised. The sponsor can answer the colleague about the same school collection, store, delivery route or buyer.
+
+The committee keeps the single policy question and direction its witnesses heard before markup. A floor member can cite those witnesses after an edit that preserves the question and direction. If an amendment reverses the policy or replaces it with another subject, the floor scene drops that attribution. For older hearings, a retained witness address can establish which policy and side the witness spoke for.

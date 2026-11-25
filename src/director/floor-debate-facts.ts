@@ -22,6 +22,7 @@ import {
   bodyReach,
   members,
 } from "../core2/modules/legislature";
+import { SPEECH_HEARD, SPEECH_OCCASION_ID } from "../core2/modules/speech";
 import { billValueInForce } from "../core2/laws-bill-values";
 import { P } from "../core2/parameters";
 import rules from "./data/scene-talk-rules.json" with { type: "json" };
@@ -147,7 +148,12 @@ export function floorDebateFacts(
           record.heard &&
           record.date <= core.date,
       );
-      if (hearing?.witnesses) {
+      if (
+        hearing?.witnesses &&
+        (hearing.policyHeard === undefined ||
+          (hearing.policyHeard?.question === section.question &&
+            hearing.policyHeard.enact === enacting))
+      ) {
         for (const witness of hearing.witnesses) {
           if (witness.stake !== "for" && witness.stake !== "against") continue;
           const key =
@@ -160,9 +166,27 @@ export function floorDebateFacts(
             facts[key]
           )
             continue;
+          const witnessSources = [...cited, hearing.id, person.id];
+          if (hearing.policyHeard === undefined) {
+            // Older hearings lack the snapshot. A retained address can still identify the side heard.
+            const address = core.durableLog.get(
+              `speech:hearing:${bill.id}:${hearing.chamber}:${person.id}`,
+            );
+            const desiredChange =
+              enacting === (witness.stake === "for") ? "enact" : "repeal";
+            if (
+              address?.kind !== SPEECH_HEARD ||
+              address.facts?.[SPEECH_OCCASION_ID] !== hearing.id ||
+              !address.personIds.includes(person.id) ||
+              address.topic !== section.question ||
+              address.desiredChange !== desiredChange
+            )
+              continue;
+            witnessSources.push(address.id);
+          }
           facts[key] = {
             text: `${person.givenName} ${person.familyName}`,
-            sourceRecordIds: [...cited, hearing.id, person.id],
+            sourceRecordIds: witnessSources,
           };
         }
       }
