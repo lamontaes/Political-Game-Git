@@ -79993,6 +79993,519 @@
         "key": "welcomed"
       },
       "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-undecided.i-remember-earlier-let-me-read-bill-before-i-pay-it-back",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "I remember {earlier}. Let me read {bill} before I pay it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.let-me-count-my-own-mail-on-bill-first",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "Let me count my own mail on {bill} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.you-know-their-bill-is-up-too",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "You know {their-bill} is up too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "requiresFacts": ["their-bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.i-ve-got-their-bill-coming-up-myself",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "I've got {their-bill} coming up myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "requiresFacts": ["their-bill"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.it-s-section-price-section-i-can-t-go-home-with-all-of-it",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "It's section {price-section}. I can't go home with all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "requiresFacts": ["price-section"],
+          "excludesFacts": ["asked-before"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Opus (brief O, pool item words-bargain-price-from-the-record; ruled by the Words lead)",
+      "date": "2026-11-14",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.not-yet-ask-me-after-i-ve-read-bill",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "Not yet. Ask me after I've read {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.let-me-read-bill-before-i-give-you-a-number",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "Let me read {bill} before I give you a number.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.i-haven-t-made-up-my-mind-on-bill-give-me-time-to-read-it",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "I haven't made up my mind on {bill}. Give me time to read it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.i-want-to-read-bill-one-more-time-before-i-say",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "I want to read {bill} one more time before I say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.let-me-think-about-cause-first",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "Let me think about {cause} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "vote-wanted",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "requiresFacts": ["cause"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story lead (Fable) with a Sonnet writer",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "undecided",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.let-me-see-what-rival-has-to-say-first-then-ask-me-again",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "Let me see what {rival} has to say first. Then ask me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "requiresFacts": ["rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "undecided",
+        "key": "door"
+      },
+      "elements": [
+        "door-answer-is-frustration-with-the-body",
+        "door-ask-is-what-should-the-office-do",
+        "door-lets-a-candidate-meet-neighbors"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-defer.read-it-that-s-all-i-m-asking",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Read it. That's all I'm asking.",
+      "origin": "authored",
+      "author": "Words lead (Nov 15), second ask of the same person",
+      "date": "2026-11-15",
+      "tag": {
+        "move": "defer",
+        "key": "bill-sign-on"
+      },
+      "bearing": "calm",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "after": "undecided",
+          "requiresFacts": ["asked-before"]
+        }
+      ]
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-counting-on-you-for-bill-don-t-make-me-count-again",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm counting on you for {bill}. Don't make me count again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "undecided",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Story lead (Fable)",
+      "date": "2026-11-17",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-take-your-time-with-bill-and-i-ll-ask-again",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Take your time with {bill}, and I'll ask again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "undecided",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.read-bill-first-i-d-rather-you-vote-knowing-what-s-in-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Read {bill} first. I'd rather you vote knowing what's in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "undecided",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-let-you-read-bill-before-i-ask-again",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. I'll let you read {bill} before I ask again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "undecided",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.i-m-not-sold-on-bill-yet-give-me-a-reason-to-put-it-on-the-calendar",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "I'm not sold on {bill} yet. Give me a reason to put it on the calendar.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Opus), Nov 25: the one asked is not there yet, and says what would carry them (order 1, a stance with its reason)",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "undecided",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.i-haven-t-read-bill-all-the-way-through-it-gets-a-hearing-when-i-know-what-s-in-it",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "I haven't read {bill} all the way through. It gets a hearing when I know what's in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Opus), Nov 25: the one asked is not there yet, and says what would carry them (order 1, a stance with its reason)",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "undecided",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.i-m-close-on-bill-but-i-m-not-there-give-me-a-reason-to-put-my-name-next-to-yours",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "I'm close on {bill}, but I'm not there. Give me a reason to put my name next to yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Opus), Nov 25: the one asked is not there yet, and says what would carry them (order 1, a stance with its reason)",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "undecided",
+        "key": "bill-sign-on"
+      }
+    },
+    {
+      "key": "scene-talk.reply-undecided.i-haven-t-read-bill-all-the-way-through-my-name-doesn-t-go-on-a-bill-i-haven-t-read",
+      "move": "reply-undecided",
+      "kind": "spoken",
+      "text": "I haven't read {bill} all the way through. My name doesn't go on a bill I haven't read.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "undecided",
+          "role": "asked",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story lead (Opus), Nov 25: the one asked is not there yet, and says what would carry them (order 1, a stance with its reason)",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "undecided",
+        "key": "bill-sign-on"
+      }
     }
   ]
 }
