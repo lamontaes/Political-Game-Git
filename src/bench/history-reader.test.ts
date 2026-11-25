@@ -128,9 +128,10 @@ describe(`the one history reader (${where})`, () => {
       expect(whereOf(event).place, `${event.id} at ${where}`).toBe(town);
     for (const event of told.get("the state")!)
       expect(whereOf(event).state, `${event.id} at ${where}`).toBe(state);
-    for (const event of told.get("the nation")!)
-      if (event.record !== "century.presidency")
-        expect(whereOf(event).nation, `${event.id} at ${where}`).toBe(true);
+    // The nation holds its states' records as a state holds its places'.
+    const nation = new Set(told.get("the nation")!.map((event) => event.id));
+    for (const event of told.get("the state")!)
+      expect(nation.has(event.id), `${event.id} at ${where}`).toBe(true);
   });
 
   it("holds every public record in the history of where it happened", () => {
@@ -161,9 +162,8 @@ describe(`the one history reader (${where})`, () => {
         ),
       });
       const label = `${record.kind} ${record.id} at ${where}`;
-      if (at.nation) expect(inNation.has(record.id), label).toBe(true);
-      else if (at.place === town)
-        expect(inTown.has(record.id), label).toBe(true);
+      expect(inNation.has(record.id), label).toBe(true);
+      if (at.place === town) expect(inTown.has(record.id), label).toBe(true);
       if (!at.nation && at.state === state)
         expect(inState.has(record.id), label).toBe(true);
       checked += 1;
