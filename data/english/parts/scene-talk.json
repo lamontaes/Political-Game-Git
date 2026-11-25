@@ -80494,6 +80494,43 @@
         "key": "bill-sign-on"
       },
       "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
+    },
+    {
+      "key": "scene-talk.follow-defer.read-bill-that-s-all-i-m-asking",
+      "move": "follow-defer",
+      "kind": "spoken",
+      "text": "Read {bill}. That's all I'm asking.",
+      "origin": "authored",
+      "author": "Story lead (Opus), Nov 25: the second ask that defers to a member not yet decided (Words lead, Nov 15), now naming the bill",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "defer",
+        "key": "bill-sign-on"
+      },
+      "bearing": "calm",
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"],
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "cosponsor-ask",
+          "key": "bill-sign-on",
+          "after": "undecided",
+          "requiresFacts": ["asked-before", "bill"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "defer",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "undecided",
+          "requiresFacts": ["asked-before", "bill"]
+        }
+      ]
     }
   ]
 }
