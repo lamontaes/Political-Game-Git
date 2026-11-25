@@ -1,0 +1,3308 @@
+{
+ "head": "7d3442e113030d1ed1e5e1376af32dd5dd894ba7",
+ "lives": [
+  {
+   "life": 1,
+   "policy": "warm",
+   "place": "Moscow, Kansas",
+   "seed": "a5cc795a-fdb4-4890-a0a1-20711eff3fcb",
+   "head": "7d3442e113030d1ed1e5e1376af32dd5dd894ba7",
+   "start": "Monday, January 20, 2025, 8:00 PM",
+   "end": "Thursday, February 13, 2025, 7:00 AM",
+   "entries": [
+    {
+     "n": 1,
+     "title": "The loading story",
+     "when": "before the game starts",
+     "here": "Moscow, Kansas",
+     "blocks": [
+      {
+       "who": "Loading screen",
+       "text": "Our Civic Duty",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-01-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Building the town | Writing everyone's past | Writing up the layoffs that brought people to Moscow.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-02-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Opening the economy | Starting the world | Seating the government | Deciding who holds which office in Moscow, and since when.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-03-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Swearing in the officials of Moscow.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-04-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Handing out government contracts in Kansas.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-05-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Opening the elections | Opening the budgets | Seating the legislature | Holding the leadership ballots in Kansas before anyone is sworn in.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-06-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Appointing the cabinet | Opening the press, courts and meetings | Writing the country's history | Giving the world a head start | Withholding income tax from the first paychecks in Moscow.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-07-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Letting the electric bills pile up in Moscow.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-08-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Moscow, Kansas | 2007 | Before you had a word to say, a clerk had a form for 2007 with your name on it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-09-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2021 | Your first school was in Moscow, and you started there in 2012.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-10-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2025 | Most of what happens in Moscow happens without you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-11-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Kim Graves | Mother | Mary Graves | Sister | Mei Graves | Sister | JOURNAL | I turned eighteen. We all watched Tracy Simpson's speech together tonight. The speech started from how things stand: Medicare bargains with the drug companies over what it pays. Tomorrow Kim is back at McLeod Insurance Agency, and I will ask what they thought of the speech. | Olivia Graves | Monday, January 20, 2025 | 8:00 PM | Hour | Day | Week",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L1-12-loading.png"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-12-loading.png",
+     "life": 1,
+     "id": "L1-1"
+    },
+    {
+     "n": 2,
+     "title": "The President's address",
+     "when": "Monday, January 20, 2025, 8:00 PM",
+     "here": "Kim Graves, Mei Graves, Mary Graves",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's the evening of January 20. The news is still on President Simpson.",
+       "piece": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president",
+       "elements": [
+        "a-new-radio-gathers-the-family-for-the-address"
+       ],
+       "issues": []
+      },
+      {
+       "who": "President Tracy Simpson",
+       "text": "Thank you, everyone. The election ended in November. The job starts today and runs four years. Why the cost of health care? Because it reaches more households than most things on my desk.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Tracy Simpson",
+       "text": "I'm thinking today about everyone the storms touched.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Tracy Simpson",
+       "text": "The way I see it, Medicare bargains with the drug companies over what it pays. I'm for the law letting Medicare negotiate drug prices, and that doesn't change.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Tracy Simpson",
+       "text": "Find out who represents you in Congress before the week is out, and tell them where you stand on whether to let Medicare negotiate drug prices.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Tracy Simpson",
+       "text": "I'll make sure the law letting Medicare negotiate drug prices keeps working for as long as I'm here.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. We all watched Tracy Simpson's speech together tonight. The speech started from how things stand: Medicare bargains with the drug companies over what it pays. Tomorrow Kim is back at McLeod Insurance Agency, and I will ask what they thought of the speech."
+      ],
+      "news": [
+       "NEWS | Moscow City Council votes down the Immigration Enforcement Partnership Ordinance"
+      ]
+     },
+     "img": "img/L1-13-the-president-s-address.png",
+     "life": 1,
+     "id": "L1-2"
+    },
+    {
+     "n": 3,
+     "title": "Talk at home with Kim Graves",
+     "when": "Monday, January 20, 2025, 8:00 PM",
+     "here": "Kim Graves, Mary Graves, Mei Graves",
+     "blocks": [
+      {
+       "who": "Kim Graves",
+       "text": "I've always thought no worker should lose a paycheck caring for a new baby or a sick parent.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Olivia Graves",
+       "text": "You and I both think no worker should lose a paycheck caring for a new baby or a sick parent.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Kim Graves",
+       "text": "Then you see why it comes up at McLeod Insurance Agency.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "What's behind that?",
+        "You and I both think no worker should lose a paycheck caring for a new baby or a sick parent."
+       ]
+      ],
+      "taken": "You and I both think no worker should lose a paycheck caring for a new baby or a sick parent."
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. We all watched Tracy Simpson's speech together tonight. The speech started from how things stand: Medicare bargains with the drug companies over what it pays. Tomorrow Kim is back at McLeod Insurance Agency, and I will ask what they thought of the speech."
+      ],
+      "news": [
+       "NEWS | Moscow City Council votes down the Immigration Enforcement Partnership Ordinance"
+      ]
+     },
+     "img": "img/L1-14-talk-at-home-with-kim-graves.png",
+     "life": 1,
+     "id": "L1-3"
+    },
+    {
+     "n": 4,
+     "title": "The Journal evening",
+     "when": "Monday, January 20, 2025, 8:00 PM",
+     "here": "Moscow, Kansas",
+     "blocks": [
+      {
+       "who": "Journal",
+       "text": "Journal | MY STORY | Moscow, Kansas | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | We all watched Tracy Simpson's speech together tonight. The speech started from how things stand: Medicare bargains with the drug companies over what it pays. Tomorrow Kim is back at McLeod Insurance Agency, and I will ask what they thought of the speech.",
+       "piece": null,
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-15-journal.png",
+     "life": 1,
+     "id": "L1-4"
+    },
+    {
+     "n": 5,
+     "title": "The news",
+     "when": "Monday, January 20, 2025, 8:00 PM",
+     "here": "Moscow, Kansas",
+     "blocks": [
+      {
+       "who": "News",
+       "text": "News | KGEU-TV | KTJW-TV | KYTW-TV | KEOJ-TV | The Crossroads | KGEU-TV | Monday, January 20, 2025 | Unfollow | Moscow City Council votes down the Immigration Enforcement Partnership Ordinance | January 17 | Moscow City Council votes down the Immigration Enforcement Partnership Ordinance | January 10 | Moscow City Council backs the Budget Ordinance | January 10 | Navarro's Kitchen is 10 years old | January 3 | Alvarez Manufacturing opens for business | January 3 | McKenzie Supply Company welcomes first customers | January 3 | Mayor Fiona Shannon approves Budget Ordinance | January 3 | Fiona Shannon retires for good | January 3 | Alvarez Manufacturing opens for business | January 3 | A new business, Alvarez Manufacturing, opened in Moscow. | Michelle Alvarez owns the business. | It employs two.",
+       "piece": null,
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-16-news.png",
+     "life": 1,
+     "id": "L1-5"
+    },
+    {
+     "n": 6,
+     "title": "Knock on doors",
+     "when": "Tuesday, January 21, 2025, 10:00 AM",
+     "here": "Gary Monroe",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "You ring the bell, and Gary Monroe answers.",
+       "piece": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
+       "elements": [
+        "canvasser-knocks-the-frame-and-steps-back"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Olivia Graves",
+       "text": "I'm Olivia. Neighbors are helping me get on the ballot for the Moscow City Council. Could I have your signature?",
+       "piece": "scene-talk.state-request.i-m-self-neighbors-are-helping-me-get-on-the-ballot-for-office-could-i-have-your",
+       "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "door-on-a-small-town-street"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Gary Monroe",
+       "text": "Sure. Everybody in Moscow should get a shot. Give me the pen.",
+       "piece": "scene-talk.reply-agree.sure-everybody-in-place-should-get-a-shot-give-me-the-pen",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Olivia Graves",
+       "text": "That's one more name for the sheet. Thank you, Moscow.",
+       "piece": "scene-talk.follow-thank.that-s-one-more-name-for-the-sheet-thank-you-place",
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "That's one more name for the sheet. Thank you, Moscow."
+       ]
+      ],
+      "taken": "That's one more name for the sheet. Thank you, Moscow."
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-17-knock-on-doors.png",
+     "life": 1,
+     "id": "L1-6"
+    },
+    {
+     "n": 7,
+     "title": "Call donors",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Moscow, Kansas",
+     "blocks": [
+      {
+       "who": "Kim Graves",
+       "text": "Kim Graves gave your campaign $103.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Margaret Velazquez",
+       "text": "Margaret Velazquez is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Milton Velazquez",
+       "text": "$1 came in from Milton Velazquez.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Gary Monroe",
+       "text": "Gary Monroe is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Pamela Monroe",
+       "text": "Pamela Monroe is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Cedric Crawford",
+       "text": "Cedric Crawford doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Barbara Gonzales",
+       "text": "Barbara Gonzales doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Eugene Garner",
+       "text": "Eugene Garner is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Elizabeth Richmond",
+       "text": "Elizabeth Richmond doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "You asked 9 people, and 2 gave $104 together.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-18-call-donors.png",
+     "life": 1,
+     "id": "L1-7"
+    },
+    {
+     "n": 8,
+     "title": "Volunteers",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Moscow, Kansas",
+     "blocks": [
+      {
+       "who": "Kim Graves",
+       "text": "Sorry, I can't.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Mei Graves",
+       "text": "Always, for you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Mary Graves",
+       "text": "Not right now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Ethan Graves",
+       "text": "Not for me.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Diana Graves",
+       "text": "Maybe later.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "Asked 7, 2 said yes: 2 volunteers now",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-19-volunteers.png",
+     "life": 1,
+     "id": "L1-8"
+    },
+    {
+     "n": 9,
+     "title": "Endorsements",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Moscow, Kansas",
+     "blocks": [
+      {
+       "who": "Kim Graves",
+       "text": "Proudly, yes.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Ethan Graves",
+       "text": "I'm with you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Diana Graves",
+       "text": "I'm staying out.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "Endorsements: 6 / 7",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-20-endorsements.png",
+     "life": 1,
+     "id": "L1-9"
+    },
+    {
+     "n": 10,
+     "title": "A scene",
+     "when": "Wednesday, January 22, 2025, 7:00 AM",
+     "here": "Kim Graves, Mei Graves, Mary Graves",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's early on January 22. A stack of mail sits on the counter. You watched Governor Vicki Mason's State of the State address on KGEU-TV.",
+       "piece": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter, scene-words.opening-heard-television-heard-television.you-watched-speaker-s-occasion-on-outlet",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Governor Vicki Mason",
+       "text": "Members of the legislature, and everyone watching in Kansas. I came into this room thinking about what Kansas does well and what it keeps putting off.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Vicki Mason",
+       "text": "Some towns haven't had one calm month since the storms, and I won't ask them to be patient forever. Help should reach a small town as fast as a big city, and I'll watch for that over the next two years.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Vicki Mason",
+       "text": "That brings us to fair lending, and to what I think should be done. Today, parents decide what their children do online. That's why I'm against any move to require age checks for social media accounts.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Vicki Mason",
+       "text": "That settled, there is a harder question in front of Kansas. My whole case rests on one idea, that grown adults can make their own choices. I'll stand against any move to legalize cannabis sales this year, next year and the year after.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Vicki Mason",
+       "text": "Be fair to the people you disagree with on whether to require age checks for social media accounts. I'll try to be fair to you.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Vicki Mason",
+       "text": "Thank you.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-21-a-scene.png",
+     "life": 1,
+     "id": "L1-10"
+    },
+    {
+     "n": 11,
+     "title": "A scene",
+     "when": "Tuesday, February 11, 2025, 7:00 AM",
+     "here": "Kim Graves, Mei Graves, Mary Graves",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's early on February 11. A stack of mail sits on the counter. KGEU-TV carried Mayor Fiona Shannon's yearly address, and you watched.",
+       "piece": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter, scene-words.opening-heard-television-heard-television.outlet-carried-speaker-s-occasion-and-you-watched",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Mayor Fiona Shannon",
+       "text": "Hello, everyone. The hardest calls I made this year were about the border and who comes in.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Mayor Fiona Shannon",
+       "text": "Some of you will want to block working with federal immigration enforcement, and I understand why. I want us to partner with federal immigration enforcement.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Mayor Fiona Shannon",
+       "text": "I have one year left as mayor, and I mean to spend it on immigration.",
+       "where": "KGEU-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-22-a-scene.png",
+     "life": 1,
+     "id": "L1-11"
+    },
+    {
+     "n": 12,
+     "title": "The Journal page at the end of the life",
+     "when": "Thursday, February 13, 2025, 7:00 AM",
+     "here": "Moscow, Kansas",
+     "blocks": [
+      {
+       "who": "Journal",
+       "chapter": "Moscow, Kansas 2007 to 2025",
+       "text": "MY STORY Moscow, Kansas 2007 to 2025 Monday, January 20 2025 Moscow, Kansas My life started in Moscow, Kansas in 2007. My mother Kim brought me up. My sister Sierra was born before me. My sisters Mary and Mei were born after me. At the age of 5, I started at Moscow Public Schools. My mother moved from Watkins Family Clinic to McLeod Insurance Agency as an insurance agent when I was 13. I turned eighteen.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L1-23-journal-end-1.png"
+      },
+      {
+       "who": "Journal",
+       "chapter": "Monday, January 20 2025",
+       "text": "MY STORY Moscow, Kansas 2007 to 2025 Monday, January 20 2025 Monday, January 20 We all watched Tracy Simpson's speech together tonight. The speech started from how things stand: Medicare bargains with the drug companies over what it pays. Tomorrow Kim is back at McLeod Insurance Agency, and I will ask what they thought of the speech.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L1-24-journal-end-2.png"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L1-23-journal-end-1.png",
+     "life": 1,
+     "id": "L1-12"
+    }
+   ]
+  },
+  {
+   "life": 2,
+   "policy": "blunt",
+   "place": "Evendale, Ohio",
+   "seed": "81b0776a-4bc4-4b0c-a479-3c2c5000b0d1",
+   "head": "7d3442e113030d1ed1e5e1376af32dd5dd894ba7",
+   "start": "Monday, January 20, 2025, 9:00 PM",
+   "end": "Thursday, February 13, 2025, 7:00 AM",
+   "entries": [
+    {
+     "n": 1,
+     "title": "The loading story",
+     "when": "before the game starts",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "Loading screen",
+       "text": "Our Civic Duty",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-01-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Building the town | Writing everyone's past | Opening the economy | Pricing groceries, rent and gas in Evendale.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-02-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Printing money for Ohio.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-03-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Starting the world | Seating the government | Deciding who holds which office in Evendale, and since when.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-04-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Swearing in the officials of Evendale.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-05-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Handing out government contracts in Ohio.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-06-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Opening the elections | Setting the election dates for Evendale, so someone can be disappointed on time.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-07-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Opening the budgets | Seating the legislature | Appointing the cabinet | Appointing the cabinet of Ohio.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-08-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Filling vacancies in Ohio by appointment.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-09-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Opening the press, courts and meetings | Writing the country's history | Redrawing the districts in Ohio after each census.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-10-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Giving the world a head start | Withholding income tax from the first paychecks in Evendale.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-11-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Letting the electric bills pile up in Evendale.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-12-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Evendale, Ohio | 2007 | You were born in 2007, under a Democratic president.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-13-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2020 | Your first school was in Evendale, and you started there in 2012.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-14-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2025 | Most of what happens in Evendale happens without you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-15-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Hour | Day | Week",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L2-16-loading.png"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L2-16-loading.png",
+     "life": 2,
+     "id": "L2-1"
+    },
+    {
+     "n": 2,
+     "title": "The President's address",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Jonathan Solomon, Quinn Solomon, Noah Solomon, Jose Solomon, Mina Solomon",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's the evening of January 20. The news replays President Vaughn's noon speech.",
+       "piece": "scene-words.arrival-home-alone.it-s-the-news-replays-president-s-noon-speech",
+       "elements": [
+        "a-new-radio-gathers-the-family-for-the-address"
+       ],
+       "issues": []
+      },
+      {
+       "who": "President Denise Vaughn",
+       "text": "Thank you, everyone. As of the oath, the office is mine for four years, and so is every hard call that comes with it. There's a lot on the list, and how we keep people safe and treat them fairly is at the top.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Denise Vaughn",
+       "text": "After four years of steady raises, people are planning again.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Denise Vaughn",
+       "text": "I believe people who break the law should answer for it. My door is open on a lot of things, but not on whether to reduce mandatory minimum sentences. I've changed my mind on plenty of things. Not on public safety.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Denise Vaughn",
+       "text": "Before you argue online about whether to reduce mandatory minimum sentences, call or visit someone who sees it differently.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Denise Vaughn",
+       "text": "God bless America.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The President does not want to reduce mandatory minimum sentences. Most of what the President said was about public safety. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": [
+       "NEWS | Phillip Shepard to lead United States House of Representatives"
+      ]
+     },
+     "img": "img/L2-17-the-president-s-address.png",
+     "life": 2,
+     "id": "L2-2"
+    },
+    {
+     "n": 3,
+     "title": "Talk at home with Jonathan Solomon",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Jonathan Solomon, Quinn Solomon, Noah Solomon, Mina Solomon, Jose Solomon",
+     "blocks": [
+      {
+       "who": "Jonathan Solomon",
+       "text": "Did you hear about a lawyer for tenants facing eviction?",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "Yes, I read about it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Jonathan Solomon",
+       "text": "I'm for it, myself.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "Yes, I read about it.",
+        "I'd vote against it myself."
+       ]
+      ],
+      "taken": "Yes, I read about it."
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The President does not want to reduce mandatory minimum sentences. Most of what the President said was about public safety. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": [
+       "NEWS | Phillip Shepard to lead United States House of Representatives"
+      ]
+     },
+     "img": "img/L2-18-talk-at-home-with-jonathan-s.png",
+     "life": 2,
+     "id": "L2-3"
+    },
+    {
+     "n": 4,
+     "title": "Talk at home with Quinn Solomon",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Jonathan Solomon, Quinn Solomon, Noah Solomon, Mina Solomon, Jose Solomon",
+     "blocks": [
+      {
+       "who": "Quinn Solomon",
+       "text": "I made up my mind about prison sentences just from looking around Evendale. The President is right, and I don't say that often.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "You're right about that, Mom.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Quinn Solomon",
+       "text": "Congress can bury it, for all I care.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Quinn Solomon",
+       "text": "I've always thought people who break the law should answer for it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "I don't want it either, because people who break the law should answer for it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "You're right about that, Mom.",
+        "I think she has that wrong."
+       ],
+       [
+        "I don't want it either, because people who break the law should answer for it."
+       ]
+      ],
+      "taken": "I don't want it either, because people who break the law should answer for it."
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The President does not want to reduce mandatory minimum sentences. Most of what the President said was about public safety. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": [
+       "NEWS | Phillip Shepard to lead United States House of Representatives"
+      ]
+     },
+     "img": "img/L2-19-talk-at-home-with-quinn-solo.png",
+     "life": 2,
+     "id": "L2-4"
+    },
+    {
+     "n": 5,
+     "title": "The Journal evening",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "Journal",
+       "text": "Journal | MY STORY | Evendale, Ohio | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought.",
+       "piece": null,
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L2-20-journal.png",
+     "life": 2,
+     "id": "L2-5"
+    },
+    {
+     "n": 6,
+     "title": "The news",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "News",
+       "text": "News | Evendale Leader | WTPS | WOXY-TV | Evendale Courier | Evendale Tribune | Evendale Gazette | WVJZ | WFRI | WGWI-TV | WTHP-TV | WNMW-TV | Beacon News Network | Town Square Show | Evendale Leader | Monday, January 20, 2025 | Unfollow | Leah Gonzalez meets residents | January 17 | Jonathan Solomon meets residents | January 17 | Leah Gonzalez meets residents | January 17 | Council member Leah Gonzalez answered questions from the public on January 10, 2025.",
+       "piece": null,
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L2-21-news.png",
+     "life": 2,
+     "id": "L2-6"
+    },
+    {
+     "n": 7,
+     "title": "Knock on doors",
+     "when": "Tuesday, January 21, 2025, 10:00 AM",
+     "here": "Sofia Wade",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "You ring the bell, and Sofia Wade answers.",
+       "piece": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
+       "elements": [
+        "canvasser-knocks-the-frame-and-steps-back"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "Hello, I'm Megan. I'm running for the Evendale Village Council in Evendale. Can I count on your vote?",
+       "piece": "scene-talk.state-request.hello-i-m-self-i-m-running-for-office-in-place-can-i-count-on-your-vote",
+       "elements": [
+        "door-on-a-small-town-street"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Sofia Wade",
+       "text": "We want the same thing on this. That's reason enough for me to vote for you in Evendale.",
+       "piece": "scene-talk.reply-agree.we-want-the-same-thing-on-this-that-s-reason-enough-for-me-to-vote-for-you-in-place",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "Thank you. I'll work to earn it in Evendale.",
+       "piece": "scene-talk.follow-thank.thank-you-i-ll-work-to-earn-it-in-place",
+       "elements": [
+        "door-answer-is-frustration-with-the-body",
+        "door-ask-is-what-should-the-office-do",
+        "door-lets-a-candidate-meet-neighbors"
+       ],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "Thank you. I'll work to earn it in Evendale.",
+        "What should the race for the Evendale Village Council be about?"
+       ]
+      ],
+      "taken": "Thank you. I'll work to earn it in Evendale."
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": []
+     },
+     "img": "img/L2-22-knock-on-doors.png",
+     "life": 2,
+     "id": "L2-7"
+    },
+    {
+     "n": 8,
+     "title": "Ask for an interview",
+     "when": "Tuesday, January 21, 2025, 10:01 AM",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "The phone rings, and Alexandra Colon is on the line.",
+       "piece": "scene-words.arrival-phone-other.the-phone-rings-and-name-is-on-the-line",
+       "elements": [
+        "a-gift-comes-with-a-call-about-a-bill"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Narrator",
+       "text": "The call is from Alexandra.",
+       "piece": "scene-talk.narrate-narrate.the-call-is-from-name",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Alexandra Colon",
+       "text": "Hi, Megan. I'll keep this short.",
+       "piece": "scene-talk.open-greet.hi-first-i-ll-keep-this-short",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Alexandra Colon",
+       "text": "Evendale Courier would like to interview you about the race for the Evendale Village Council.",
+       "piece": "scene-talk.state-request.outlet-would-like-to-interview-you-about-the-race-for-office",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "No interview, thanks.",
+       "piece": "scene-talk.reply-decline.no-interview-thanks",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Alexandra Colon",
+       "text": "Evendale Courier would still like to hear from you.",
+       "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "Not for me.",
+       "piece": "scene-talk.reply-decline.not-for-me",
+       "elements": [
+        "volunteers-need-a-specific-ask"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Alexandra Colon",
+       "text": "The invitation from Evendale Courier stands.",
+       "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "Yes, I'll sit.",
+       "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Alexandra Colon",
+       "text": "Thank you. Evendale Courier will take your answers from your platform.",
+       "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "What would you ask me about the race for the Evendale Village Council?",
+        "Yes. Book it.",
+        "No interview, thanks."
+       ],
+       [
+        "I'll do it.",
+        "Not for me."
+       ],
+       [
+        "Yes, I'll sit.",
+        "I'll decline."
+       ]
+      ],
+      "taken": "Yes, I'll sit."
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": []
+     },
+     "img": "img/L2-23-ask-for-an-interview.png",
+     "life": 2,
+     "id": "L2-8"
+    },
+    {
+     "n": 9,
+     "title": "Call donors",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "Marilyn McLaughlin",
+       "text": "Marilyn McLaughlin is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Alexandra Colon",
+       "text": "Alexandra Colon doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Jonathan Solomon",
+       "text": "Jonathan Solomon is short on money this month.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Quinn Solomon",
+       "text": "Quinn Solomon is short on money this month.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Noah Solomon",
+       "text": "Noah Solomon has no extra cash right now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Riley Todd",
+       "text": "Riley Todd gave your campaign $4.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Milton May",
+       "text": "Milton May doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Morgan May",
+       "text": "Morgan May is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "John Wade",
+       "text": "John Wade doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Sofia Wade",
+       "text": "Sofia Wade is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Jose Solomon",
+       "text": "Jose Solomon gave your campaign $3.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Mina Solomon",
+       "text": "Mina Solomon gave your campaign $3.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "You asked 12 people, and 3 gave $10 together.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": []
+     },
+     "img": "img/L2-24-call-donors.png",
+     "life": 2,
+     "id": "L2-9"
+    },
+    {
+     "n": 10,
+     "title": "Volunteers",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "Allison Holland",
+       "text": "Not this time.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Jonathan Solomon",
+       "text": "Always, for you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Quinn Solomon",
+       "text": "Sorry, I can't.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Noah Solomon",
+       "text": "Not right now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Riley Todd",
+       "text": "I'm too busy.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Jose Solomon",
+       "text": "Of course.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Keith Holland",
+       "text": "I can't, sorry.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "Asked 10, 3 said yes: 3 volunteers now",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": []
+     },
+     "img": "img/L2-25-volunteers.png",
+     "life": 2,
+     "id": "L2-10"
+    },
+    {
+     "n": 11,
+     "title": "Endorsements",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "Allison Holland",
+       "text": "Yes, say so.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Jonathan Solomon",
+       "text": "Proudly, yes.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Noah Solomon",
+       "text": "You've got it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Riley Todd",
+       "text": "I'll back you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Keith Holland",
+       "text": "Use my name.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "Endorsements: 10 / 10",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": []
+     },
+     "img": "img/L2-26-endorsements.png",
+     "life": 2,
+     "id": "L2-11"
+    },
+    {
+     "n": 12,
+     "title": "A scene",
+     "when": "Wednesday, January 22, 2025, 7:00 AM",
+     "here": "Jonathan Solomon, Quinn Solomon, Noah Solomon, Jose Solomon, Mina Solomon",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's early on January 22. A stack of mail sits on the counter. Governor Jeffrey Liu's State of the State address played on WGWI-TV in front of you.",
+       "piece": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter, scene-words.opening-heard-television-heard-television.speaker-s-occasion-played-on-outlet-in-front-of-you",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Governor Jeffrey Liu",
+       "text": "Friends, and fellow citizens of Ohio. The legislature and I come from the same party, and Ohio will hold us both to what we do with that.",
+       "where": "WGWI-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Jeffrey Liu",
+       "text": "To the voters who backed someone else: you'll get the same hearing from my office as anyone, over two years.",
+       "where": "WGWI-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Jeffrey Liu",
+       "text": "Not everyone agrees. Some would ban required union dues. I disagree, and here's why: everybody who gets the union's raise should pay a share of winning it.",
+       "where": "WGWI-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Jeffrey Liu",
+       "text": "Plenty in Ohio agree on that much, and plenty split on what comes next. I think public workers deserve a say in what they're paid. I always have. Anyone who wants to roll back collective bargaining for public workers will be arguing with me. There's no version of unions where everybody's happy, and I won't pretend there is.",
+       "where": "WGWI-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Jeffrey Liu",
+       "text": "Thank you.",
+       "where": "WGWI-TV",
+       "piece": "scene-talk.follow-thank.thank-you-i-ll-work-to-earn-it-in-place, scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform, scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+       "elements": [
+        "door-answer-is-frustration-with-the-body",
+        "door-ask-is-what-should-the-office-do",
+        "door-lets-a-candidate-meet-neighbors"
+       ],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": []
+     },
+     "img": "img/L2-27-a-scene.png",
+     "life": 2,
+     "id": "L2-12"
+    },
+    {
+     "n": 13,
+     "title": "A scene",
+     "when": "Thursday, January 23, 2025, 7:00 AM",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "Riley Todd calls, and the Missing Middle Housing Ordinance is the subject.",
+       "piece": "scene-words.arrival-phone-other.name-calls-and-happened-is-the-subject",
+       "elements": [
+        "a-gift-comes-with-a-call-about-a-bill"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Narrator",
+       "text": "Riley sent $4 to your campaign and has come to say so in person.",
+       "piece": "scene-talk.narrate-narrate.name-sent-money-to-your-campaign-and-has-come-to-say-so-in-person",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Riley Todd",
+       "text": "Let me tell you what the Missing Middle Housing Ordinance would do on my street. Two minutes.",
+       "piece": "scene-talk.state-request.let-me-tell-you-what-bill-would-do-on-my-street-two-minutes",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Megan Solomon",
+       "text": "I'm against the Missing Middle Housing Ordinance, same as you. I'll say so in public.",
+       "piece": "scene-talk.reply-agree.i-m-your-side-bill-same-as-you-i-ll-say-so-in-public",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Riley Todd",
+       "text": "Thank you. I'll tell people you're against the Missing Middle Housing Ordinance.",
+       "piece": "scene-talk.follow-thank.thank-you-i-ll-tell-people-you-re-your-side-bill",
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "I'm against the Missing Middle Housing Ordinance, same as you. I'll say so in public.",
+        "Call my office about the Missing Middle Housing Ordinance. They'll find you a time.",
+        "A check doesn't buy a vote on the Missing Middle Housing Ordinance. I'll decide it on what I learn."
+       ]
+      ],
+      "taken": "I'm against the Missing Middle Housing Ordinance, same as you. I'll say so in public."
+     },
+     "after": {
+      "journal": [
+       "Riley Todd helped me, and I owe it. six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": []
+     },
+     "img": "img/L2-28-a-scene.png",
+     "life": 2,
+     "id": "L2-13"
+    },
+    {
+     "n": 14,
+     "title": "A scene",
+     "when": "Tuesday, February 11, 2025, 7:00 AM",
+     "here": "Jonathan Solomon, Quinn Solomon, Noah Solomon, Jose Solomon, Mina Solomon",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's early on February 11. A stack of mail sits on the counter. Mayor Jennifer Stanley's yearly address played on WGWI-TV in front of you.",
+       "piece": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter, scene-words.opening-heard-television-heard-television.speaker-s-occasion-played-on-outlet-in-front-of-you",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Mayor Jennifer Stanley",
+       "text": "Members of the Evendale Village Council, and the people of Evendale they serve. Nothing took more of my time this year than who comes to this country.",
+       "where": "WGWI-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Mayor Jennifer Stanley",
+       "text": "Here in Evendale, our police don't work with federal immigration agents. I want us to partner with federal immigration enforcement.",
+       "where": "WGWI-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Mayor Jennifer Stanley",
+       "text": "If something I said about immigration doesn't sit right with you, tell me.",
+       "where": "WGWI-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "Riley Todd helped me, and I owe it. six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought."
+      ],
+      "news": []
+     },
+     "img": "img/L2-29-a-scene.png",
+     "life": 2,
+     "id": "L2-14"
+    },
+    {
+     "n": 15,
+     "title": "The Journal page at the end of the life",
+     "when": "Thursday, February 13, 2025, 7:00 AM",
+     "here": "Evendale, Ohio",
+     "blocks": [
+      {
+       "who": "Journal",
+       "chapter": "Evendale, Ohio 2007 to 2025",
+       "text": "MY STORY Evendale, Ohio 2007 to 2025 Monday, January 20 2025 Evendale, Ohio Iwas born in Evendale, Ohio, the next one after Jose. My father Jonathan and my mother Quinn raised me. My sister Mina and my brother Jose were already here when I was born. My brother Noah was born after me. When I was 5, my first school was Evendale Public Schools. My father serves on the Evendale Village Council. I turned eighteen. Riley Todd helped me, and I owe it.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L2-30-journal-end-1.png"
+      },
+      {
+       "who": "Journal",
+       "chapter": "Monday, January 20 2025",
+       "text": "MY STORY Evendale, Ohio 2007 to 2025 Monday, January 20 2025 Monday, January 20 six of us watched Denise Vaughn tonight. The speech came back to public safety more than once. The President does not want to reduce mandatory minimum sentences. On public safety, the President lost me. I want to hear what my neighbors in Evendale thought.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L2-31-journal-end-2.png"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L2-30-journal-end-1.png",
+     "life": 2,
+     "id": "L2-15"
+    }
+   ]
+  },
+  {
+   "life": 3,
+   "policy": "middle",
+   "place": "Tall Timbers, Maryland",
+   "seed": "b62acd12-85c9-4138-93e0-071488a97f56",
+   "head": "7d3442e113030d1ed1e5e1376af32dd5dd894ba7",
+   "start": "Monday, January 20, 2025, 9:00 PM",
+   "end": "Thursday, February 13, 2025, 7:00 AM",
+   "entries": [
+    {
+     "n": 1,
+     "title": "The loading story",
+     "when": "before the game starts",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "Loading screen",
+       "text": "Our Civic Duty | Building the town | Writing everyone's past | Back-dating Tall Timbers so everyone has been there a while.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-01-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Writing up the layoffs that brought people to Tall Timbers.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-02-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Opening the economy | Starting the world | Seating the government | Deciding who holds which office in Tall Timbers, and since when.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-03-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Swearing in the officials of Tall Timbers.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-04-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Handing out government contracts in Maryland.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-05-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Opening the elections | Opening the budgets | Seating the legislature | Appointing the cabinet | Appointing the cabinet of Maryland.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-06-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Opening the press, courts and meetings | Writing the country's history | Taking the census in Maryland, again.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-07-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Giving the world a head start | Withholding income tax from the first paychecks in Tall Timbers.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-08-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Letting the electric bills pile up in Tall Timbers.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-09-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Preparing the opening",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-10-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Tall Timbers, Maryland | 2012 | You were born in 2007. | Your first school was in Tall Timbers, and you started there in 2012.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-11-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "2025 | Most of what happens in Tall Timbers happens without you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-12-loading.png"
+      },
+      {
+       "who": "Loading screen",
+       "text": "Jacob Li | Brother | Henry Li | Father | Piper Li | Mother | Valerie Li | Sister | It's the evening of January 20. The news is still on President Gibson. | Continue",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "img": "img/L3-13-loading.png"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L3-13-loading.png",
+     "life": 3,
+     "id": "L3-1"
+    },
+    {
+     "n": 2,
+     "title": "The President's address",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Jacob Li, Henry Li, Piper Li, Valerie Li",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's the evening of January 20. The news is still on President Gibson.",
+       "piece": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president",
+       "elements": [
+        "a-new-radio-gathers-the-family-for-the-address"
+       ],
+       "issues": []
+      },
+      {
+       "who": "President Phillip Gibson",
+       "text": "Thank you, everyone. I have taken an oath of office before, and it never got lighter; today it is heavier because it is for all of America. I didn't run to keep a chair warm. What I came to talk about is the cost of health care.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Phillip Gibson",
+       "text": "People the storms hit are still dealing with insurance, repairs and paperwork. Disaster money should reach the families it's meant for, and I'll have it checked each year for four years.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Phillip Gibson",
+       "text": "Ask your kids what they think about health care. They'll be living with what we decide.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Phillip Gibson",
+       "text": "You'll hear plenty of folks in Washington say we ought to let Medicare negotiate drug prices. I don't agree. The next cure comes from companies that can afford to look for it. For me, any plan to let Medicare negotiate drug prices fails on one point: the next cure comes from companies that can afford to look for it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "President Phillip Gibson",
+       "text": "I hope a bill to let Medicare negotiate drug prices never reaches my desk. God bless everyone.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. Henry got home from the County of St Marys in time to watch Phillip Gibson with the rest of the house. The part I paid most attention to was drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": [
+       "NEWS | Catherine Garner named to preside"
+      ]
+     },
+     "img": "img/L3-14-the-president-s-address.png",
+     "life": 3,
+     "id": "L3-2"
+    },
+    {
+     "n": 3,
+     "title": "Talk at home with Henry Li",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Henry Li, Piper Li, Valerie Li, Jacob Li",
+     "blocks": [
+      {
+       "who": "Henry Li",
+       "text": "The President has this backwards, because Medicare should get the best price for the people it covers. It just isn't right for Tall Timbers, the way I see it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Lara Li",
+       "text": "You're right about that, Dad.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Henry Li",
+       "text": "Now if Congress sees it that way, we're fine.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Henry Li",
+       "text": "I've always thought Medicare should get the best price for the people it covers.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Lara Li",
+       "text": "I'd tell Congress the same thing myself.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "You're right about that, Dad.",
+        "That's where we part ways. I'd take his side."
+       ],
+       [
+        "I'd tell Congress the same thing myself."
+       ]
+      ],
+      "taken": "I'd tell Congress the same thing myself."
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. Henry got home from the County of St Marys in time to watch Phillip Gibson with the rest of the house. The part I paid most attention to was drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": [
+       "NEWS | Catherine Garner named to preside"
+      ]
+     },
+     "img": "img/L3-15-talk-at-home-with-henry-li.png",
+     "life": 3,
+     "id": "L3-3"
+    },
+    {
+     "n": 4,
+     "title": "The Journal evening",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "Journal",
+       "text": "Journal | MY STORY | Tall Timbers, Maryland | 2007 to 2025 | Monday, January 20 | 2025 | Monday, January 20 | The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech.",
+       "piece": null,
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L3-16-journal.png",
+     "life": 3,
+     "id": "L3-4"
+    },
+    {
+     "n": 5,
+     "title": "The news",
+     "when": "Monday, January 20, 2025, 9:00 PM",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "News",
+       "text": "News | Tall Timbers Journal | WWVA-TV | WKCQ-TV | WZFE-TV | WAPA-TV | Liberty News Network | Meridian News Network | The Continental Dispatch | The Lantern | Nation | Tall Timbers Journal | Monday, January 20, 2025 | Unfollow | 40 come to town hall with Anya Wells | January 17 | St. Mary's County Board of Commissioners passes the Missing Middle Housing Ordinance | January 10 | Shaffer and Associates now open | January 3 | Jobless rate rises in Tall Timbers, to 3.1% | January 3 | Maryland reports 3.4% unemployment | December 27, 2024 | Police Oversight Board Repeal Act now in effect in Guam | December 27, 2024 | Shaffer and Associates now open | January 3 | Shaffer and Associates began business in 2025. | Kiara Shaffer owns the business. | Six people work there.",
+       "piece": null,
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L3-17-news.png",
+     "life": 3,
+     "id": "L3-5"
+    },
+    {
+     "n": 6,
+     "title": "Knock on doors",
+     "when": "Tuesday, January 21, 2025, 10:00 AM",
+     "here": "Piper Espinoza",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "You ring the bell, and Piper Espinoza answers.",
+       "piece": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
+       "elements": [
+        "canvasser-knocks-the-frame-and-steps-back"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Lara Li",
+       "text": "I'm Lara, trying to get on the ballot for commissioner in District 6. Would you sign?",
+       "piece": "scene-talk.state-request.i-m-self-trying-to-get-on-the-ballot-for-office-would-you-sign",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Piper Espinoza",
+       "text": "Sure. People in Tall Timbers should get to choose who's on the ballot, so I'll sign.",
+       "piece": "scene-talk.reply-agree.sure-people-in-place-should-get-to-choose-who-s-on-the-ballot-so-i-ll-sign",
+       "elements": [
+        "petition-the-hustle-before-the-deadline",
+        "door-on-a-small-town-street"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Lara Li",
+       "text": "That's one more name for the sheet. Thank you, Tall Timbers.",
+       "piece": "scene-talk.follow-thank.that-s-one-more-name-for-the-sheet-thank-you-place",
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "That's one more name for the sheet. Thank you, Tall Timbers."
+       ]
+      ],
+      "taken": "That's one more name for the sheet. Thank you, Tall Timbers."
+     },
+     "after": {
+      "journal": [
+       "I turned eighteen. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-18-knock-on-doors.png",
+     "life": 3,
+     "id": "L3-6"
+    },
+    {
+     "n": 7,
+     "title": "Ask for an interview",
+     "when": "Tuesday, January 21, 2025, 10:01 AM",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "The phone rings, and Patrick McLeod is on the line.",
+       "piece": "scene-words.arrival-phone-other.the-phone-rings-and-name-is-on-the-line",
+       "elements": [
+        "a-gift-comes-with-a-call-about-a-bill"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Narrator",
+       "text": "The call is from Patrick.",
+       "piece": "scene-talk.narrate-narrate.the-call-is-from-name",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Good, I caught you, Lara.",
+       "piece": "scene-talk.open-greet.good-i-caught-you-first",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Tall Timbers Journal is doing interviews on the race for commissioner in District 6. Will you sit for one?",
+       "piece": "scene-talk.state-request.outlet-is-doing-interviews-on-the-race-for-office-will-you-sit-for-one",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Lara Li",
+       "text": "Yes. Book it.",
+       "piece": "scene-talk.reply-agree.yes-book-it",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Thank you. Tall Timbers Journal will have your answers on the record.",
+       "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Narrator",
+       "text": "Late in the morning on January 21st, you stop on the sidewalk as Patrick McLeod walks up. Tall Timbers Journal has sent a reporter with a list of questions.",
+       "piece": "scene-words.arrival-public-other.begins-you-stop-on-the-sidewalk-as-name-walks-up, scene-words.lead-interview-sitting-alone.outlet-has-sent-a-reporter-with-a-list-of-questions",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "I'm with Tall Timbers Journal, covering the commissioner in District 6 race.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "I'd like your view on civilian oversight of the police. What do you say?",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Lara Li",
+       "text": "I won't back civilian oversight of the police.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Not on board.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Would you support an affordable-housing requirement for new buildings?",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Lara Li",
+       "text": "I'm opposed to an affordable-housing requirement for new buildings.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "You oppose it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "My final one is more housing money. What's your view?",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Lara Li",
+       "text": "I'm opposed to more housing money.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Opposed, then.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Thank you. Look for it in Tall Timbers Journal.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "About my platform?",
+        "Yes. Book it.",
+        "Not for me."
+       ],
+       [
+        "I back civilian oversight of the police.",
+        "I won't back civilian oversight of the police.",
+        "I'd rather wait."
+       ],
+       [
+        "My platform backs an affordable-housing requirement for new buildings, and so do I.",
+        "I'm opposed to an affordable-housing requirement for new buildings.",
+        "I'd rather wait."
+       ],
+       [
+        "I'm in favor of more housing money.",
+        "I'm opposed to more housing money.",
+        "I'd rather wait."
+       ]
+      ],
+      "taken": "I'm opposed to more housing money."
+     },
+     "after": {
+      "journal": [
+       "I made Patrick McLeod a promise. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-19-ask-for-an-interview.png",
+     "life": 3,
+     "id": "L3-7"
+    },
+    {
+     "n": 8,
+     "title": "Call donors",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "Pamela Zimmerman",
+       "text": "Pamela Zimmerman is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Anya Wells",
+       "text": "$41 came in from Anya Wells.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Robert Wells",
+       "text": "Robert Wells is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Brian Velez",
+       "text": "$9 came in from Brian Velez.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Ray Velez",
+       "text": "Ray Velez gave your campaign $21.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Patrick McLeod is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Kristina Guzman",
+       "text": "Kristina Guzman is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Daniel Guzman",
+       "text": "Daniel Guzman doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "John Larson",
+       "text": "John Larson doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "William Mullins",
+       "text": "William Mullins doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Stephanie Mullins",
+       "text": "Stephanie Mullins is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Bruce Mullins",
+       "text": "Bruce Mullins doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Margaret Roy",
+       "text": "Margaret Roy doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Michael Roy",
+       "text": "Michael Roy doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Tiffany Robbins",
+       "text": "Tiffany Robbins doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Garrett Robbins",
+       "text": "Garrett Robbins is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Christina McConnell",
+       "text": "Christina McConnell doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Douglas McConnell",
+       "text": "Douglas McConnell doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Andrea Watkins",
+       "text": "Andrea Watkins is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Benjamin Watkins",
+       "text": "Benjamin Watkins doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "John Schultz",
+       "text": "John Schultz is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Debra Schultz",
+       "text": "Debra Schultz doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Nicholas Vincent",
+       "text": "Nicholas Vincent is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Karen Vincent",
+       "text": "Karen Vincent doesn't feel like giving to your campaign yet.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Mary Serrano",
+       "text": "Mary Serrano is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "William Serrano",
+       "text": "William Serrano gave your campaign $23.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Brian Cruz",
+       "text": "Brian Cruz is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Imani Cruz",
+       "text": "Imani Cruz is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Jordan Olsen",
+       "text": "Jordan Olsen is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Brandon Olsen",
+       "text": "Brandon Olsen is holding back for now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "4 of the 30 people you asked came through, $94 altogether.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I made Patrick McLeod a promise. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-20-call-donors.png",
+     "life": 3,
+     "id": "L3-8"
+    },
+    {
+     "n": 9,
+     "title": "Volunteers",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "Ray Velez",
+       "text": "I'm too busy.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "Not for me.",
+       "piece": "scene-talk.reply-decline.not-for-me",
+       "elements": [
+        "volunteers-need-a-specific-ask"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Brandy Thomas",
+       "text": "I can't, sorry.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Beth Schwartz",
+       "text": "Not right now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Rhonda Li",
+       "text": "Not this time.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Henry Li",
+       "text": "Sorry, I can't.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "Asked 15, 0 said yes: 0 volunteers now",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I made Patrick McLeod a promise. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-21-volunteers.png",
+     "life": 3,
+     "id": "L3-9"
+    },
+    {
+     "n": 10,
+     "title": "Endorsements",
+     "when": "Tuesday, January 21, 2025, 2:00 PM",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "Ray Velez",
+       "text": "I'm with you.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Patrick McLeod",
+       "text": "I'm staying out.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Christina McConnell",
+       "text": "I'd rather not.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Brandy Thomas",
+       "text": "Not this time.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Beth Schwartz",
+       "text": "You've got it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Donna Li",
+       "text": "You have it.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "John Li",
+       "text": "Keep me out.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Jacob Li",
+       "text": "Proudly, yes.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "Endorsements: 9 / 15",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I made Patrick McLeod a promise. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-22-endorsements.png",
+     "life": 3,
+     "id": "L3-10"
+    },
+    {
+     "n": 11,
+     "title": "A scene",
+     "when": "Wednesday, January 22, 2025, 7:00 AM",
+     "here": "Jacob Li, Henry Li, Piper Li, Valerie Li",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's early on January 22. A stack of mail sits on the counter. You watched Governor Sandra Higgins's State of the State address on WWVA-TV.",
+       "piece": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter, scene-words.opening-heard-television-heard-television.you-watched-speaker-s-occasion-on-outlet",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Governor Sandra Higgins",
+       "text": "Presiding officers, members of the legislature, and people of Maryland. More people in Maryland have reason to be hopeful this year. Most of the work ahead depends on getting abortion right, so I'm starting there.",
+       "where": "WWVA-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Sandra Higgins",
+       "text": "Ask people in Maryland how their year went, and you may hear something better than you did before. Is it time to restrict abortion? Put me down as a no. A woman should make her own decisions about her own body.",
+       "where": "WWVA-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Sandra Higgins",
+       "text": "Check whether the next state over has chosen to restrict abortion, and compare.",
+       "where": "WWVA-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Governor Sandra Higgins",
+       "text": "Thank you.",
+       "where": "WWVA-TV",
+       "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [
+       "I made Patrick McLeod a promise. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-23-a-scene.png",
+     "life": 3,
+     "id": "L3-11"
+    },
+    {
+     "n": 12,
+     "title": "Talk at home with Henry Li",
+     "when": "Thursday, January 23, 2025, 7:00 AM",
+     "here": "Henry Li",
+     "blocks": [
+      {
+       "who": "Henry Li",
+       "text": "Tall Timbers Journal wrote kindly about you. It's a lot.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Lara Li",
+       "text": "Careful, now.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Henry Li",
+       "text": "Just be careful.",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "Careful, now."
+       ]
+      ],
+      "taken": "Careful, now."
+     },
+     "after": {
+      "journal": [
+       "I made Patrick McLeod a promise. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-24-talk-at-home-with-henry-li.png",
+     "life": 3,
+     "id": "L3-12"
+    },
+    {
+     "n": 13,
+     "title": "A scene",
+     "when": "Tuesday, January 28, 2025, 7:00 AM",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "The phone rings. Ray Velez is calling.",
+       "piece": "scene-words.arrival-phone-other.the-phone-rings-name-is-calling",
+       "elements": [
+        "a-gift-comes-with-a-call-about-a-bill"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Narrator",
+       "text": "Ray calls from Chapman and Associates and says up front that the answer can wait.",
+       "piece": "scene-talk.narrate-narrate.calls-from-and-says-up-front-that-the-answer-can-wait",
+       "elements": [
+        "offer-deadline-one-to-two-days-fair"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Ray Velez",
+       "text": "Hi. This is Ray, over at Chapman and Associates.",
+       "piece": "scene-talk.open-greet.hi-first-this-is-name-over-at-employer",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Ray Velez",
+       "text": "We want you at Chapman and Associates as an attorney. The offer is $68.74 an hour, and it's open until February 3.",
+       "piece": "scene-talk.state-request.we-want-you-at-as-the-offer-is-an-hour-and-it-s-open-until",
+       "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Lara Li",
+       "text": "I'll take it. $68.74 an hour is fair for an attorney.",
+       "piece": "scene-talk.reply-agree.i-ll-take-it-an-hour-is-fair-for",
+       "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Ray Velez",
+       "text": "Good. I'll write it up for Chapman and Associates: an attorney, $68.74 an hour, and the start date.",
+       "piece": "scene-talk.follow-thank.good-i-ll-write-it-up-for-an-hour-and-the-start-date",
+       "elements": [
+        "acceptance-restates-the-terms"
+       ],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "Could I get the offer for an attorney in writing, with the $68.74 an hour on it?",
+        "I'll take it. $68.74 an hour is fair for an attorney.",
+        "I can't take an attorney at $68.74 an hour. It doesn't cover what I'd be giving up.",
+        "I'll take an attorney if I can start after the first of the month."
+       ]
+      ],
+      "taken": "I'll take it. $68.74 an hour is fair for an attorney."
+     },
+     "after": {
+      "journal": [
+       "I knew Ray. Ray took on the job of a commissioner. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-25-a-scene.png",
+     "life": 3,
+     "id": "L3-13"
+    },
+    {
+     "n": 14,
+     "title": "A scene",
+     "when": "Tuesday, January 28, 2025, 7:01 AM",
+     "here": "Ray Velez, Gary Miranda, Larry Valenzuela, Christina McConnell, Susan Vance, William Serrano",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "First thing on January 28th, you reach work.",
+       "piece": "scene-words.arrival-workplace-alone.begins-you-reach-work",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Narrator",
+       "text": "Ray sets down a pen as you arrive.",
+       "piece": "scene-talk.narrate-narrate.name-sets-down-a-pen-as-you-arrive",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Ray Velez",
+       "text": "Good, you're here, Lara. Let's get started.",
+       "piece": "scene-talk.open-greet.good-you-re-here-first-let-s-get-started",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Ray Velez",
+       "text": "What are you comfortable with as an attorney?",
+       "piece": "scene-talk.state-ask.what-are-you-comfortable-with-as-position",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Lara Li",
+       "text": "What do you need me comfortable with by Friday as an attorney?",
+       "piece": "scene-talk.reply-ask.what-do-you-need-me-comfortable-with-by-friday-as",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Ray Velez",
+       "text": "Most people at Chapman and Associates are in early and out on time, and some meet for breakfast first.",
+       "piece": "scene-talk.follow-answer.most-people-at-are-in-early-and-out-on-time-and-some-meet-for-breakfast-fir",
+       "elements": [
+        "unwritten-routines-nobody-explains"
+       ],
+       "issues": []
+      },
+      {
+       "who": "Lara Li",
+       "text": "Thanks for making my first day at the office easy.",
+       "piece": "scene-talk.reply-thank.thanks-for-making-my-first-day-at-workplace-easy",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Ray Velez",
+       "text": "Good. That's all I needed to know as an attorney.",
+       "piece": "scene-talk.follow-accept.good-that-s-all-i-needed-to-know-as-position",
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "Dealing with customers, mostly. The paperwork side of an attorney I'd want to see first.",
+        "What do you need me comfortable with by Friday as an attorney?",
+        "Honestly, I'm not sure yet. I'll know more as an attorney after a few shifts."
+       ],
+       [
+        "Thanks for making my first day at the office easy."
+       ]
+      ],
+      "taken": "Thanks for making my first day at the office easy."
+     },
+     "after": {
+      "journal": [
+       "I knew Ray. Ray took on the job of a commissioner. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-26-a-scene.png",
+     "life": 3,
+     "id": "L3-14"
+    },
+    {
+     "n": 15,
+     "title": "A scene",
+     "when": "Tuesday, February 11, 2025, 7:00 AM",
+     "here": "Jacob Li, Henry Li, Piper Li, Valerie Li",
+     "blocks": [
+      {
+       "who": "Narrator",
+       "text": "It's early on February 11. A stack of mail sits on the counter. You watched Chair Christina McConnell's yearly address on WWVA-TV.",
+       "piece": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter, scene-words.opening-heard-television-heard-television.you-watched-speaker-s-occasion-on-outlet",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Chair Christina McConnell",
+       "text": "Residents of St. Mary's County, and members of the St. Mary's County Board of Commissioners, thank you for being here. The hardest calls I made this year were about how we keep people safe and treat them fairly.",
+       "where": "WWVA-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Chair Christina McConnell",
+       "text": "Some want to block civilian oversight of the police, and I disagree. When an officer in St. Mary's County is accused of misconduct, someone outside the department should look into it. I'm for a civilian oversight board.",
+       "where": "WWVA-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Chair Christina McConnell",
+       "text": "Every dollar the police budget grows comes out of something else we need. I want us to give the police department more to work with.",
+       "where": "WWVA-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Chair Christina McConnell",
+       "text": "Thank you all.",
+       "where": "WWVA-TV",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "no piece key: a screen label, a fallback, or a line built from the planner"
+      },
+      {
+       "who": "Narrator",
+       "text": "It's early on February 12. A stack of mail sits on the counter.",
+       "piece": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Narrator",
+       "text": "Piper turned 55, and Beth was not at the table.",
+       "piece": "scene-talk.narrate-narrate.honoree-turned-age-and-absent-was-not-at-the-table",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Henry Li",
+       "text": "I've been wanting to bring up Beth, if that's alright.",
+       "piece": "scene-talk.open-greet.i-ve-been-wanting-to-bring-up-absent-if-that-s-alright",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Henry Li",
+       "text": "Beth is only in St. Mary's County, and we hardly see them. Would you reach out and visit?",
+       "piece": "scene-talk.state-request.absent-is-only-in-nearby-and-we-hardly-see-them-would-you-reach-out-and-visit",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Lara Li",
+       "text": "Why now? What made you think of Beth?",
+       "piece": "scene-talk.reply-ask.why-now-what-made-you-think-of-absent",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Henry Li",
+       "text": "Start with how Beth is. You don't have to start with the old things.",
+       "piece": "scene-talk.follow-answer.start-with-how-absent-is-you-don-t-have-to-start-with-the-old-things",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Lara Li",
+       "text": "Alright, I can do that much. I'll let Beth know I was thinking of them.",
+       "piece": "scene-talk.reply-agree.alright-i-can-do-that-much-i-ll-let-absent-know-i-was-thinking-of-them",
+       "elements": [],
+       "issues": []
+      },
+      {
+       "who": "Henry Li",
+       "text": "I'm glad. It'll mean a lot to Beth.",
+       "piece": "scene-talk.follow-thank.i-m-glad-it-ll-mean-a-lot-to-absent",
+       "elements": [],
+       "issues": []
+      }
+     ],
+     "replies": {
+      "offered": [
+       [
+        "Yes. Beth should hear from me, and I'd rather it was soon.",
+        "Why now? What made you think of Beth?",
+        "That's not mine to fix. Beth knows where I am."
+       ],
+       [
+        "Alright, I can do that much. I'll let Beth know I was thinking of them.",
+        "I understand what you're asking. My answer about Beth is still no for now."
+       ]
+      ],
+      "taken": "Alright, I can do that much. I'll let Beth know I was thinking of them."
+     },
+     "after": {
+      "journal": [
+       "I knew Ray. Ray took on the job of a commissioner. The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech."
+      ],
+      "news": []
+     },
+     "img": "img/L3-27-a-scene.png",
+     "life": 3,
+     "id": "L3-15"
+    },
+    {
+     "n": 16,
+     "title": "The Journal page at the end of the life",
+     "when": "Thursday, February 13, 2025, 7:00 AM",
+     "here": "Tall Timbers, Maryland",
+     "blocks": [
+      {
+       "who": "Journal",
+       "chapter": "Tall Timbers, Maryland 2007 to 2025",
+       "text": "MY STORY Tall Timbers, Maryland 2007 to 2025 Monday, January 20 2025 Tall Timbers, Maryland My life started in Tall Timbers, Maryland. My father Henry and my mother Piper brought me up. My sister Valerie and my brother Jacob are younger than I am. At the age of 5, I started at Tall Timbers Public Schools. My father is a county administrator at St. Mary's County. My mother moved from Chapman and Associates to Trevino Trucking as a dispatcher when I was 17. I turned eighteen. I made Patrick McLeod a promise. I gave Ray Velez my word. I knew Ray. Ray took on the job of a commissioner.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L3-28-journal-end-1.png"
+      },
+      {
+       "who": "Journal",
+       "chapter": "Monday, January 20 2025",
+       "text": "MY STORY Tall Timbers, Maryland 2007 to 2025 Monday, January 20 2025 Monday, January 20 The President came out against any change on drug prices. The speech came back to what health care costs more than once. I would not want to let Medicare negotiate drug prices. Tomorrow Henry is back at the County of St Marys, and I will ask what they thought of the speech.",
+       "kind": "screen",
+       "piece": null,
+       "elements": [],
+       "issues": [],
+       "note": "chapter as the Journal page shows it; the Journal's own keys are not exposed on this screen",
+       "img": "img/L3-29-journal-end-2.png"
+      }
+     ],
+     "replies": {
+      "offered": [],
+      "taken": null
+     },
+     "after": {
+      "journal": [],
+      "news": []
+     },
+     "img": "img/L3-28-journal-end-1.png",
+     "life": 3,
+     "id": "L3-16"
+    }
+   ]
+  }
+ ]
+}

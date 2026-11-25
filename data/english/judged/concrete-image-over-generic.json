@@ -1,8 +1,0 @@
-{
-  "schema": "english-judged/2",
-  "rule": "concrete-image-over-generic",
-  "rubric": "Prefer wit or a concrete image over a generic statement when the voice allows it.",
-  "judged": 0,
-  "no": {},
-  "yesHash": "0wvjl67o803"
-}

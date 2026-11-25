@@ -1,0 +1,262 @@
+{
+ "head": "7d3442e113030d1ed1e5e1376af32dd5dd894ba7",
+ "life": 1,
+ "policy": "warm",
+ "place": "Moscow, Kansas",
+ "seed": "a5cc795a-fdb4-4890-a0a1-20711eff3fcb",
+ "note": "story-scene trees come whole from the game's own story payload; conversation trees are branched from the same recorded request log rebuilt on the same seed, once per reply and per lie, to two levels",
+ "scenes": [
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_3efec9310ade5d8b",
+   "otherId": "person_3efec9310ade5d8b",
+   "scene": {
+    "n": 3,
+    "title": "Talk at home with Kim Graves",
+    "when": "Monday, January 20, 2025, 8:00 PM",
+    "here": "Kim Graves, Mary Graves, Mei Graves"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Kim Graves",
+      "text": "I've always thought no worker should lose a paycheck caring for a new baby or a sick parent.",
+      "piece": "conversation.own-view-say-core.side-for-i-ve-always-thought-reason-for",
+      "elements": [
+       "a-parent-asks-your-view-to-know-you-not-to-win"
+      ],
+      "issues": [],
+      "bank": "conversation:own-view-say:composed",
+      "recordIds": [
+       "views:people:person_3efec9310ade5d8b",
+       "work-relationship_53fd1a0fb042b3ed",
+       "organization_481802ac01bf68aa",
+       "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:why",
+      "move": "why",
+      "text": "What's behind that?",
+      "lie": false,
+      "piece": "conversation.own-view-answer-why.what-s-behind-that",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_44d07987fdee11e4",
+       "person_3efec8310ade5bd8",
+       "views:people:person_3efec9310ade5d8b",
+       "work-relationship_53fd1a0fb042b3ed",
+       "organization_481802ac01bf68aa",
+       "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8",
+       "person_3efec9310ade5d8b"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Kim Graves",
+         "text": "I've always thought no worker should lose a paycheck caring for a new baby or a sick parent.",
+         "piece": "conversation.own-view-say-core.side-for-i-ve-always-thought-reason-for",
+         "elements": [
+          "a-parent-asks-your-view-to-know-you-not-to-win"
+         ],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_3efec9310ade5d8b",
+          "work-relationship_53fd1a0fb042b3ed",
+          "organization_481802ac01bf68aa",
+          "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8"
+         ]
+        },
+        {
+         "who": "Olivia Graves",
+         "text": "What's behind that?",
+         "piece": "conversation.own-view-answer-why.what-s-behind-that",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view:answers",
+         "recordIds": [
+          "household_44d07987fdee11e4",
+          "person_3efec8310ade5bd8",
+          "views:people:person_3efec9310ade5d8b",
+          "work-relationship_53fd1a0fb042b3ed",
+          "organization_481802ac01bf68aa",
+          "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8",
+          "person_3efec9310ade5d8b"
+         ]
+        },
+        {
+         "who": "Kim Graves",
+         "text": "Pay's thin.",
+         "piece": "conversation.own-view-back-core.pay-s-thin",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-back:composed",
+         "recordIds": [
+          "views:people:person_3efec9310ade5d8b",
+          "work-relationship_53fd1a0fb042b3ed",
+          "organization_481802ac01bf68aa",
+          "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8",
+          "kinship_2a890451d3c0c91c:past:person_3efec9310ade5d8b",
+          "conversation:person_3efec8310ade5bd8:person_3efec9310ade5d8b:2025-01-20:1:1:why"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:agree",
+      "move": "agree",
+      "text": "You and I both think no worker should lose a paycheck caring for a new baby or a sick parent.",
+      "lie": false,
+      "piece": "conversation.own-view-answer-agree.you-and-i-both-think",
+      "elements": [
+       "pattern-a47-the-first-word-on-the-address"
+      ],
+      "issues": [],
+      "recordIds": [
+       "household_44d07987fdee11e4",
+       "person_3efec8310ade5bd8",
+       "views:people:person_3efec9310ade5d8b",
+       "work-relationship_53fd1a0fb042b3ed",
+       "organization_481802ac01bf68aa",
+       "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8",
+       "person_3efec9310ade5d8b"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Kim Graves",
+         "text": "I've always thought no worker should lose a paycheck caring for a new baby or a sick parent.",
+         "piece": "conversation.own-view-say-core.side-for-i-ve-always-thought-reason-for",
+         "elements": [
+          "a-parent-asks-your-view-to-know-you-not-to-win"
+         ],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_3efec9310ade5d8b",
+          "work-relationship_53fd1a0fb042b3ed",
+          "organization_481802ac01bf68aa",
+          "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8"
+         ]
+        },
+        {
+         "who": "Olivia Graves",
+         "text": "You and I both think no worker should lose a paycheck caring for a new baby or a sick parent.",
+         "piece": "conversation.own-view-answer-agree.you-and-i-both-think",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "conversation:own-view:answers",
+         "recordIds": [
+          "household_44d07987fdee11e4",
+          "person_3efec8310ade5bd8",
+          "views:people:person_3efec9310ade5d8b",
+          "work-relationship_53fd1a0fb042b3ed",
+          "organization_481802ac01bf68aa",
+          "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8",
+          "person_3efec9310ade5d8b"
+         ]
+        },
+        {
+         "who": "Kim Graves",
+         "text": "Then you see why it comes up at McLeod Insurance Agency.",
+         "piece": "conversation.own-view-take-core.then-you-see-why-it-comes-up-at-employer",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:own-view-take:composed",
+         "recordIds": [
+          "views:people:person_3efec9310ade5d8b",
+          "work-relationship_53fd1a0fb042b3ed",
+          "organization_481802ac01bf68aa",
+          "kinship_2a890451d3c0c91c:past:person_3efec8310ade5bd8",
+          "kinship_2a890451d3c0c91c:past:person_3efec9310ade5d8b",
+          "conversation:person_3efec8310ade5bd8:person_3efec9310ade5d8b:2025-01-20:1:1:agree"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "door-signature",
+   "purpose": "ask-signature.sick",
+   "momentId": "person_3efec8310ade5bd8:2025-01-20:cause:person_71bdb267c48284d6:person_3efec8310ade5bd8:2025-01-20:1",
+   "scene": {
+    "n": 6,
+    "title": "Knock on doors",
+    "when": "Tuesday, January 21, 2025, 10:00 AM",
+    "here": "Gary Monroe"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "You ring the bell, and Gary Monroe answers.",
+     "piece": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
+     "elements": [
+      "canvasser-knocks-the-frame-and-steps-back"
+     ],
+     "issues": [],
+     "recordIds": [
+      "person_3efec8310ade5bd8:2025-01-20:cause:person_71bdb267c48284d6:person_3efec8310ade5bd8:2025-01-20:1",
+      "person_71bdb267c48284d6",
+      "cause:person_71bdb267c48284d6:person_3efec8310ade5bd8:2025-01-20:1"
+     ]
+    }
+   ],
+   "opening": [
+    {
+     "who": "Olivia Graves",
+     "text": "I'm Olivia. Neighbors are helping me get on the ballot for the Moscow City Council. Could I have your signature?",
+     "piece": "scene-talk.state-request.i-m-self-neighbors-are-helping-me-get-on-the-ballot-for-office-could-i-have-your",
+     "elements": [
+      "petition-the-hustle-before-the-deadline",
+      "door-on-a-small-town-street"
+     ],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [
+     {
+      "who": "Gary Monroe",
+      "text": "Sure. Everybody in Moscow should get a shot. Give me the pen.",
+      "piece": "scene-talk.reply-agree.sure-everybody-in-place-should-get-a-shot-give-me-the-pen",
+      "elements": [],
+      "issues": []
+     }
+    ],
+    "choices": [
+     {
+      "text": "That's one more name for the sheet. Thank you, Moscow.",
+      "who": "Olivia Graves",
+      "piece": "scene-talk.follow-thank.that-s-one-more-name-for-the-sheet-thank-you-place",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [],
+       "choices": [],
+       "end": {
+        "outcome": "resolved"
+       }
+      }
+     }
+    ]
+   }
+  }
+ ]
+}
