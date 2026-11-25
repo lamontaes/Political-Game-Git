@@ -4,6 +4,7 @@
 // here, never by writing to `#talk-lines` or `#talk-choices` themselves.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
+import { face as drawFace } from "./face.mjs";
 
 const $ = (id) => document.getElementById(id);
 
@@ -12,10 +13,34 @@ const $ = (id) => document.getElementById(id);
  * the other person said before, quieter, apart, with `who` named over it), `speech` (what
  * is being said now), `narration` or `label` (a record's status). A lying line is red; a held one is underlined in the grading view.
  */
-export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
+export function talkLine({
+  kind = "speech",
+  text,
+  who,
+  lying,
+  held,
+  grade,
+  face,
+}) {
   const classes = [kind];
   if (lying) classes.push("lying");
   if (held) classes.push("held");
+  // The player's own line is a row of its own: their small face, their name, what they said.
+  if (kind.includes("mine"))
+    return el(
+      "li",
+      { className: classes.join(" ") },
+      ...(face ? [drawFace(face)] : []),
+      el(
+        "div",
+        { className: "mine-text" },
+        ...(who
+          ? [el("span", { className: "history-who", textContent: who })]
+          : []),
+        text,
+      ),
+      ...(grade ? [gradeControl(grade)] : []),
+    );
   return el(
     "li",
     { className: classes.join(" ") },
@@ -33,9 +58,10 @@ export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
  * being said now"): the player's past lines (`history mine`, named), the other person's
  * past lines (`history theirs`, named), and what is said now (`speech`, everything after
  * the player's last line). `lines` are `{ text, mine, lying, held, grade }`, oldest first;
- * `keep` is how many past lines stay above the line said now.
+ * `keep` is how many past lines stay above the line said now; `mineFace` is the player's
+ * own face, drawn small in their row.
  */
-export function transcript(lines, { mineWho, theirWho, keep = 1 }) {
+export function transcript(lines, { mineWho, theirWho, mineFace, keep = 1 }) {
   const lastMine = lines.findLastIndex((line) => line.mine);
   const past = lastMine < 0 ? [] : lines.slice(0, lastMine + 1).slice(-keep);
   const now = lines.slice(lastMine + 1);
@@ -45,6 +71,7 @@ export function transcript(lines, { mineWho, theirWho, keep = 1 }) {
         ...line,
         kind: `history ${line.mine ? "mine" : "theirs"}`,
         who: line.mine ? mineWho : theirWho,
+        ...(line.mine && mineFace ? { face: mineFace } : {}),
       }),
     ),
     ...now.map((line) => talkLine({ ...line, kind: "speech" })),

@@ -1905,8 +1905,19 @@ body:not(.dev) .dev-only {
 .talk-lines .history.theirs {
   font-style: italic;
 }
+/* The player's own line is a row of its own: their small face, their name, what they said, at
+   the size the box speaks in (CTO, Nov 24: the player's line gets its own row). */
 .talk-lines .history.mine {
-  padding-left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 400 var(--t-ui)/1.4 var(--ui);
+  color: var(--text-2);
+}
+.talk-lines .history.mine .headshot {
+  flex: none;
+  width: 40px;
+  height: 40px;
 }
 .talk-lines .history.lying {
   color: var(--lying);
