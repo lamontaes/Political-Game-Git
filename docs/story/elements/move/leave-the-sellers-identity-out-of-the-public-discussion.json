@@ -1,0 +1,30 @@
+{
+  "id": "leave-the-sellers-identity-out-of-the-public-discussion",
+  "kind": "move",
+  "summary": "{chair} redirects a complaint toward the seller's registration status before anyone names the seller in public.",
+  "realLife": "Mossberg explained that the advisory board lacked enforcement power. For a registered seller, he distinguished possible licensing discipline from civil action by the attorney general.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=30"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{chair}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the seller's status and the board's authority.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The buyer supplies a registration number privately.",
+      "what": "Licensing staff identify the registration.",
+      "writesBack": "A disciplinary inquiry can be routed."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The seller has no registration on file.",
+      "what": "Staff ask what the seller advertised and supplied.",
+      "writesBack": "The consumer complaint can go to an investigative office."
+    }
+  ]
+}

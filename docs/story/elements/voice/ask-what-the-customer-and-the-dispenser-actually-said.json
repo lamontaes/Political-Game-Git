@@ -1,0 +1,30 @@
+{
+  "id": "ask-what-the-customer-and-the-dispenser-actually-said",
+  "kind": "voice",
+  "summary": "{chair} asks for both sides of a counter conversation before discussing the risk to a registration.",
+  "realLife": "Freeman wondered whether advising a visitor about a retail aid could put his registration at risk. Mossberg said he would need to know the customer's question and the dispenser's reply.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{chair}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the actual exchange and the registration at issue.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The dispenser supplies the conversation.",
+      "what": "Staff identify the conduct being asked about.",
+      "writesBack": "The question can go to licensing counsel."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only a hypothetical is available.",
+      "what": "The chair declines to predict an enforcement response.",
+      "writesBack": "The record leaves the particular case open."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "take-the-third-vacancy-to-the-senate-leader",
+  "kind": "move",
+  "summary": "{advocate} separates a seat the association can pursue itself from two seats awaiting the governor.",
+  "realLife": "Ahern said the alliance would help someone approach the Senate majority leader for a third dispenser seat while seeking the department's help on the gubernatorial appointments. The department's roster identifies a separate vacant dispenser seat assigned to the temporary president of the Senate, alongside the two vacant gubernatorial dispenser seats.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=36",
+    "https://dos.ny.gov/node/45051"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{advocate}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the appointing authority for each seat.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The nominee agrees to approach the Senate office.",
+      "what": "The alliance supplies the appointment details.",
+      "writesBack": "The Senate inquiry proceeds separately."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The candidate seeks a gubernatorial seat.",
+      "what": "The alliance redirects the papers.",
+      "writesBack": "The Senate vacancy still needs a name."
+    }
+  ]
+}

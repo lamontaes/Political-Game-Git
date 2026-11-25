@@ -1,0 +1,31 @@
+{
+  "id": "the-practical-exam-queue-starts-with-the-application-date",
+  "kind": "detail",
+  "summary": "{applicant} needs the date the exam office received the application to locate a place in line.",
+  "realLife": "Lacy told the board that staff assigned practical appointments in the order of the exam applications. Hicks later reported 99 practical examinees in 2024 and 42 in 2025, attributing the drop to the exemption for audiologists. She reported how many people took the test, leaving the time applicants spent in line unknown.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=5",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-06-09-26#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{applicant}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the dates applications reached the exam office.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Staff find the dated application.",
+      "what": "The applicant stays in the existing queue.",
+      "writesBack": "The office confirms the date on file."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The application never reached the office.",
+      "what": "Staff cannot locate a queue entry.",
+      "writesBack": "The applicant sends the missing paperwork."
+    }
+  ]
+}

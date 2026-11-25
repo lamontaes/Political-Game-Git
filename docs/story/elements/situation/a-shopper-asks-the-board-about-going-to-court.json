@@ -1,0 +1,31 @@
+{
+  "id": "a-shopper-asks-the-board-about-going-to-court",
+  "kind": "situation",
+  "summary": "{buyer} asks about suing after an online sale and gets a question about whether a complaint has been filed.",
+  "realLife": "Frederick Goosen posed an online purchase as a hypothetical. Mossberg distinguished filing suit from reporting to an investigator, and the attorney general's representative explained the office's role.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=31",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=32"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{buyer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the buyer's requested remedy and the type of filing.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The buyer wants the agency to review a sale.",
+      "what": "Staff identify the complaint channel.",
+      "writesBack": "The buyer can submit the transaction record."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The buyer wants counsel for a private lawsuit.",
+      "what": "The agency explains whom its lawyers represent.",
+      "writesBack": "The private suit stays outside the board docket."
+    }
+  ]
+}

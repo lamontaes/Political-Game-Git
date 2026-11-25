@@ -1,0 +1,31 @@
+{
+  "id": "why-only-the-written-test-is-on-the-calendar",
+  "kind": "voice",
+  "summary": "{applicant} can find a date for the written test but none for the practical.",
+  "realLife": "A board member asked about the missing dates. Alison Lacy explained that a proctor could oversee a room of written tests while each practical required a dispenser to examine one person.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=4",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{applicant}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: exam format and examiner availability.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A dispenser offers an afternoon.",
+      "what": "Staff book individual sittings.",
+      "writesBack": "Applicants receive separate times."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only written-test proctors are available.",
+      "what": "The practical stays off the public schedule.",
+      "writesBack": "The next notice lists written dates alone."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "a-refund-dispute-prompts-a-search-for-other-buyers",
+  "kind": "consequence",
+  "summary": "{investigator} hears both a buyer seeking money back and a reason to ask if the seller reached anyone else.",
+  "realLife": "Brant Campbell distinguished mediation of one buyer's dispute from a state investigation into a possible pattern of prescription aids sold by an unlicensed provider. He was describing possible responses.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=32",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=33"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{investigator}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the device category and the complaints against the seller.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "One purchaser wants help recovering payment.",
+      "what": "Staff offer dispute mediation.",
+      "writesBack": "The individual refund request has a contact."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Other buyers report the same conduct.",
+      "what": "The office considers investigating the seller.",
+      "writesBack": "A possible state case has its own file."
+    }
+  ]
+}

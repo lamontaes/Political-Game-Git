@@ -1,0 +1,30 @@
+{
+  "id": "the-handout-is-filed-under-the-business",
+  "kind": "detail",
+  "summary": "{dispenser} finds a consumer handout under a business heading after looking for it on the page for individual dispensers.",
+  "realLife": "Freeman described where he finally found the guide after a website change and why dispensers needed to give information to buyers. Mossberg offered to take the issue to staff.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=11"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{dispenser}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the two site headings and the handout location.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The missing link points to a current guide.",
+      "what": "Staff restore it on the dispenser page.",
+      "writesBack": "The office can print from that page."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The link leads to an outdated guide.",
+      "what": "Staff ask the authors for the current file.",
+      "writesBack": "The office records which copy it handed out."
+    }
+  ]
+}
