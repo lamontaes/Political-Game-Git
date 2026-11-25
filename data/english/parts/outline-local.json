@@ -266,23 +266,23 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-put-my-name-behind",
+      "key": "outline-local.pledge.i-ll-put-my-name-on-every-bill-to",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll put my name behind {about}.",
+      "text": "I'll put my name on every bill to {to}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -297,23 +297,23 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-push-for-at-every-meeting",
+      "key": "outline-local.pledge.i-ll-push-to-at-every-meeting",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll push for {about} at every meeting.",
+      "text": "I'll push to {to} at every meeting.",
       "uses": [
         {
           "subject": "town-address",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -359,23 +359,23 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-be-against-every-time-it-comes-up",
+      "key": "outline-local.pledge.i-ll-vote-against-any-bill-to-every-time-it-comes-up",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll be against {about} every time it comes up.",
+      "text": "I'll vote against any bill to {to}, every time it comes up.",
       "uses": [
         {
           "subject": "town-address",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -785,17 +785,17 @@
       "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
-      "key": "outline-local.stand-reason.i-can-t-back-since",
+      "key": "outline-local.stand-reason.i-can-t-back-the-push-to-since",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "I can't back {about}, since {belief}.",
+      "text": "I can't back the push to {to}, since {belief}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief"
@@ -807,7 +807,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief"
@@ -1321,23 +1321,23 @@
       "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
-      "key": "outline-local.stand.i-m-for",
+      "key": "outline-local.stand.i-want-us-to",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'm for {about}.",
+      "text": "I want us to {to}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -1349,23 +1349,23 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.stand.i-m-against",
+      "key": "outline-local.stand.i-m-against-any-bill-to",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'm against {about}.",
+      "text": "I'm against any bill to {to}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
