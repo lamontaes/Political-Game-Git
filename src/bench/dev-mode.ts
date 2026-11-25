@@ -130,6 +130,8 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { traceNode, type TraceNode } from "./dev-trace";
 import { newsItems } from "./calendar";
+import { personWorkOf } from "../core2/person-work";
+import { CIRCUMSTANCES } from "../director/circumstance";
 import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
@@ -1709,6 +1711,51 @@ export class DevMode {
           (id) => id !== player.id && this.core.people.get(id)?.alive,
         )
       : [];
+    // A call from someone who lives apart (a circumstance row whose counterpart is apart, such as a
+    // friend who lost their job that day) comes from the player's circle outside their home: with no one
+    // picked, dev mode lays off the first such person who works and can be laid off today, through the
+    // jobs engine's own call.
+    const fromApart =
+      scene.recipe === "layoff" &&
+      !input.forId &&
+      !input.personId &&
+      CIRCUMSTANCES.rows.some(
+        (row) =>
+          row.typeKey === input.typeKey && row.receive.counterpart === "apart",
+      );
+    if (fromApart && player) {
+      const apart = circle
+        .filter((id) => {
+          const other = this.core.people.get(id);
+          const job = other?.jobId
+            ? this.core.jobs.get(other.jobId)
+            : undefined;
+          // A job, not an office's own seat: no one is laid off from an office they were elected to.
+          return (
+            other?.householdId !== player.householdId &&
+            !!job &&
+            job.endsAt === undefined &&
+            personWorkOf(this.core, id).job !== null
+          );
+        })
+        .sort();
+      const refused: string[] = [];
+      for (const id of apart) {
+        try {
+          return {
+            ...this.forceLayoff(id),
+            recipe: scene.recipe,
+            personId: id,
+            causeRecords: scene.causeRecords,
+          };
+        } catch (error) {
+          refused.push((error as Error).message);
+        }
+      }
+      throw new Error(
+        `No one the player knows in another home can be laid off today${refused.length ? ` (${[...new Set(refused)].join("; ")})` : ""}.`,
+      );
+    }
     // A layoff is the player's own where they have a job, else a worker in their circle's.
     const personId =
       (scene.recipe === "death" ? input.mournedId : input.forId) ??

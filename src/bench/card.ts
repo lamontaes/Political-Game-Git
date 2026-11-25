@@ -58,7 +58,11 @@ import {
   coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
-import { organizationName, stateInSentence } from "../director/words";
+import {
+  isOutsideMarket,
+  organizationName,
+  stateInSentence,
+} from "../director/words";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {
@@ -92,7 +96,7 @@ function employerName(
   const organization = core.organizations.get(organizationId);
   // Said the way the journal says it ("the Town of Ranchester"; a government's
   // payroll is the government, never "TOWN OF RANCHESTER treasury").
-  return organization && organization.outsideFlow === undefined
+  return organization && !isOutsideMarket(organization)
     ? (employerSaid(organizationName(organization), organization) ?? undefined)
     : undefined;
 }
@@ -119,9 +123,8 @@ export function personCard(core: CoreState, personId: string) {
   const relationOf = (id: string) => relatives.get(id as PersonId)?.relation;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const employer = job ? employerName(core, job.organizationId) : undefined;
-  const outsideWork =
-    !!job &&
-    core.organizations.get(job.organizationId)?.outsideFlow !== undefined;
+  const jobOrg = job ? core.organizations.get(job.organizationId) : undefined;
+  const outsideWork = !!jobOrg && isOutsideMarket(jobOrg);
   const household = core.households.get(person.householdId);
   // Faces for the People map: each the figure a room here would draw.
   const place = scenePlace(core, personId).place;
@@ -1413,7 +1416,7 @@ function noJobLine(
   const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
   // Work outside the town has no workplace to name: the line without one is told.
-  if (earner && job && employer && employer.outsideFlow === undefined) {
+  if (earner && job && employer && !isOutsideMarket(employer)) {
     const text = screenLine(
       "person-history",
       "person-history.summary.no-work.earner.you",
@@ -1979,7 +1982,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     office: run,
     // Their work, as the story already tells it of anyone.
     work: job
-      ? core.organizations.get(job.organizationId)?.outsideFlow
+      ? isOutsideMarket(core.organizations.get(job.organizationId) ?? {})
         ? // The market's stand-in for work out of town is no employer: they
           // work outside the town they live in.
           { title: null, employer: null, outside: homePlace }

@@ -78,7 +78,7 @@ import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
-import { stateInSentence } from "../director/words";
+import { isOutsideMarket, stateInSentence } from "../director/words";
 import { beatenRunnerUp, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 /**
@@ -3549,8 +3549,9 @@ const death: Builder = (read) => {
   // work out of town, not an employer the paper can name.
   const away =
     !!work &&
-    read.core.organizations.get(work.organizationId as EntityId)
-      ?.outsideFlow !== undefined;
+    isOutsideMarket(
+      read.core.organizations.get(work.organizationId as EntityId) ?? {},
+    );
   // A government that pays for the office they held is told by the office.
   const government = away
     ? null
@@ -3663,7 +3664,7 @@ const retirement: Builder = (read, f) => {
   // A government's treasury is said as the government they worked for.
   const government = governmentEmployer(read, f.organizationId);
   const employer =
-    org && org.outsideFlow === undefined && !government
+    org && !isOutsideMarket(org) && !government
       ? read.organization(f.organizationId)
       : null;
   const years =

@@ -4,7 +4,7 @@
 
 ## Why it does not happen today
 
-- Stopgap `SG-WORLD-housing-unmodeled-renters` (`src/core2/data/stopgaps.json`): a renter with no recorded income is never charged rent and cannot be evicted; counted renters pay from a place pool with no arrears. The jobless 18-year-olds with $0 in the audits never reach eviction.
+- Stopgap `SG-WORLD-housing-unmodeled-renters` (`src/core2/data/stopgaps.json` (removed)): a renter with no recorded income is never charged rent and cannot be evicted; counted renters pay from a place pool with no arrears. The jobless 18-year-olds with $0 in the audits never reach eviction.
 - Removal writes a dwelling row with tenure "removed" that nothing reads (`src/core2/modules/housing.ts` about lines 1403 to 1478; the only tenure reader is `moves.ts:269`, which tests for "own").
 - No housing status exists on a person or a counted group; homelessness is a place measure in the outcome web (`src/core2/data/outcome-web/coverage.json`) with no person-side reader.
 - The player's household always settles (open question in the Build 10 handoff).

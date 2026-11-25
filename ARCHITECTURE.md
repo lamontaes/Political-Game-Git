@@ -74,7 +74,7 @@ When the game needs a counted person to become a full one, `fillInPerson` in `sr
 
 Every rate, price, share and threshold is a parameter row: the root table `src/core2/data/parameters.json` plus each engine's own `parameters.json` in its data folder, merged at load. Each row is tagged **SOURCED** (with a citation into `data/research/`), **ESTIMATED** (with its source and spread) or **TUNABLE** (with the spread it's checked against).
 
-Every shortcut is a row in `src/core2/data/stopgaps.json` (the director has its own in `src/director/data/`), registered in code through `api.stopgap`: what it fakes and what replaces it. `npm run stopgaps:report` lists the open ones. `assertReleaseReady` in `src/core2/stopgaps.ts` and the tripwire tests (`src/core2/tooling/tripwires.test.ts`) catch unregistered shortcuts. The release check doesn't yet refuse a release over open rows.
+Every shortcut is a row in `src/core2/data/stopgaps.json` (removed) (the director has its own in `src/director/data/`), registered in code through `api.stopgap`: what it fakes and what replaces it. `npm run stopgaps:report` lists the open ones. `assertReleaseReady` in `src/core2/stopgaps.ts` and the tripwire tests (`src/core2/tooling/tripwires.test.ts`) catch unregistered shortcuts. The release check doesn't yet refuse a release over open rows.
 
 ## Around the engine
 
