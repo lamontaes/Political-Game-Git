@@ -26,5 +26,6 @@
       "pulledBy": "The public directory lists the office there and the candidate’s residence history names another town.",
       "writesBack": "The interviewer corrects the hometown in the profile."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

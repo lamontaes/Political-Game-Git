@@ -1,0 +1,34 @@
+{
+  "id": "paratransit-trip-needs-two-endpoints",
+  "kind": "situation",
+  "summary": "The dispatcher in {place} needs the destination as well as the pickup address before quoting a fare.",
+  "realLife": "Boston extended the pilot to paratransit trips only when both ends were within the specified distance of the covered routes.",
+  "sources": [
+    "https://www.boston.gov/sites/default/files/file/2023/03/Fare%20Free%20Mid%20Program%20Report.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "The service has an eligibility boundary and a requested origin and destination."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "inGame": "needs: the service has an eligibility boundary and a requested origin and destination.",
+  "turns": [
+    {
+      "turn": "inside",
+      "pulledBy": "Both endpoints qualify.",
+      "what": "Confirm coverage for that trip.",
+      "writesBack": "Keep the endpoint check with the booking."
+    },
+    {
+      "turn": "outside",
+      "pulledBy": "One endpoint falls outside the boundary.",
+      "what": "Explain which end changes the quoted fare.",
+      "writesBack": "Record the actual itinerary."
+    }
+  ]
+}

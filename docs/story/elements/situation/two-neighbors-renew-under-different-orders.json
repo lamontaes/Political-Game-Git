@@ -1,0 +1,34 @@
+{
+  "id": "two-neighbors-renew-under-different-orders",
+  "kind": "situation",
+  "summary": "Neighbors in {building} can receive different guideline schedules because their new leases begin on different dates.",
+  "realLife": "New York City's 2023 order covered leases beginning from October 1 through the following September 30. The start date determined whether a lease fell in that window.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2023/06/2023-Apartment-Loft-Order-55.pdf#page=1"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{building}"],
+  "gates": [
+    "The case record identifies the both lease start dates and the order's coverage window."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: both lease start dates and the order's coverage window.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The neighbors compare the same year's schedule.",
+      "pulledBy": "Both starts fall in the window",
+      "writesBack": "Shared governing order."
+    },
+    {
+      "turn": "another-way",
+      "what": "The clerk looks up the order for that lease date.",
+      "pulledBy": "One start falls outside the window",
+      "writesBack": "Separate order references."
+    }
+  ]
+}

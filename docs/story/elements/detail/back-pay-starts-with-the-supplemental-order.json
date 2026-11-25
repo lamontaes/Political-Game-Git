@@ -1,0 +1,32 @@
+{
+  "id": "back-pay-starts-with-the-supplemental-order",
+  "kind": "detail",
+  "summary": "The date on a second order determines how much lost pay a worker at {workplace} can claim.",
+  "realLife": "In Fibreboard, the Board measured back pay from its supplemental decision rather than the earlier date of the maintenance layoffs.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep379/usrep379203/usrep379203.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the back-pay order and its stated start date."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: back-pay order and its stated start date.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The calculation begins on that date.",
+      "pulledBy": "The order specifies a later start",
+      "writesBack": "Covered pay periods."
+    },
+    {
+      "turn": "another-way",
+      "what": "They compare the payroll worksheet with the operative order.",
+      "pulledBy": "The parties dispute the calculation",
+      "writesBack": "Contested periods and arithmetic."
+    }
+  ]
+}

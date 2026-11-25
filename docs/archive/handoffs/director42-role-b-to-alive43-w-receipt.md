@@ -48,7 +48,7 @@ docs/handoffs/director42-role-b-*.md
 ### 1. The census is a guard, not a report
 
 `scripts/dehardwire-census.mjs` walks the **runtime** import graph from
-`src/player/PlayerGame.tsx` and fails the suite on any unclassified
+`src/player/PlayerGame.tsx` (removed) and fails the suite on any unclassified
 world-instance literal. Anything W exports through `src/simulation/index.ts`
 that ordinary play can reach is scanned.
 

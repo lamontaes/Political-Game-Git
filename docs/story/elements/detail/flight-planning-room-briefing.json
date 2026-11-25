@@ -27,5 +27,6 @@
       "pulledBy": "The field specialist must remain on duty.",
       "writesBack": "The visit log records two briefings with different speakers."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

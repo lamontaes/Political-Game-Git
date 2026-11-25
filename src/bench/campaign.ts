@@ -66,7 +66,11 @@ import { hasBackdrop } from "./backdrop-places";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { personName } from "./legislature";
 import { campaignAnswer } from "../director/campaign-answer";
-import { spokenDate as dateSaid, stateInSentence } from "../director/words";
+import {
+  isOutsideMarket,
+  spokenDate as dateSaid,
+  stateInSentence,
+} from "../director/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf, workHeld } from "../core2/person-work";
@@ -377,9 +381,8 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
       // work of their own, and an occupation group's plural name ("Editors")
       // is not one person's; either leaves the row at name and town.
       const commuter = work.job
-        ? Boolean(
-            core.organizations.get(work.job.organizationId as never)
-              ?.outsideFlow,
+        ? isOutsideMarket(
+            core.organizations.get(work.job.organizationId as never) ?? {},
           )
         : false;
       const ownWork = (title: string | undefined) =>

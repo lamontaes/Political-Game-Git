@@ -1,0 +1,32 @@
+{
+  "id": "repayment-list-misses-former-workers",
+  "kind": "consequence",
+  "summary": "{person} checks a list of workers getting back pay and asks where the people who quit are.",
+  "realLife": "Denver reported that a café first verified repayment to current workers and then worked with the city to include former workers.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Capital%20Tea"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The repayment list covers current staff and the affected period includes departures."
+  ],
+  "weights": ["Higher turnover makes omitted former workers more likely."],
+  "usedBy": [],
+  "inGame": "needs: employment dates and repayment status for current and former workers.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Everyone affected still works there.",
+      "pulledBy": "The roster matches the affected pay periods.",
+      "writesBack": "The city verifies the original list."
+    },
+    {
+      "turn": "partial",
+      "what": "A former worker cannot be reached.",
+      "pulledBy": "The last address on file is out of date.",
+      "writesBack": "The outstanding payment stays on the list."
+    }
+  ],
+  "issues": ["none"]
+}

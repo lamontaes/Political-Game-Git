@@ -1,0 +1,38 @@
+{
+  "id": "striker-says-it-is-about-respect-as-well-as-wages",
+  "kind": "voice",
+  "summary": "A striker says they want contract language that respects and protects workers, not only a good wage, and that they miss the job.",
+  "realLife": "A seasonal gardener on strike said workers want more than a wage, wanting contract language that respects and protects them, and said she misses her work.",
+  "sources": [
+    "CBS Minnesota, Minneapolis council and park workers strike day 15: https://cbsnews.com/minnesota/news/minneapolis-parks-and-rec-workers-strike-day-15"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "place", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining"
+  ],
+  "inGame": "a strike by the public-action engine; a job record; needs: contract terms",
+  "turns": [
+    {
+      "turn": "striker-only-talks-money",
+      "summary": "The striker only asks about pay.",
+      "pulledBy": ["a practical striker"],
+      "writesBack": "a narrower dispute"
+    },
+    {
+      "turn": "official-says-no-deal-exists",
+      "summary": "An official firmly corrects the council's claim and cites the gap.",
+      "pulledBy": ["a firm official"],
+      "writesBack": "a public dispute; a record of the gap"
+    },
+    {
+      "turn": "council-writes-a-letter",
+      "summary": "The council sends a letter urging fair pay.",
+      "pulledBy": ["a supportive council"],
+      "writesBack": "a recorded stance"
+    }
+  ]
+}

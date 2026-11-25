@@ -1,0 +1,30 @@
+{
+  "id": "candidate-withdraws-so-the-party-need-not-keep-defending-her",
+  "kind": "voice",
+  "summary": "A candidate steps aside days after an endorsement, saying she wants the campaign to run without constant defense, and backs whoever the party picks.",
+  "realLife": "After a county party endorsed her and online attacks followed, a council candidate withdrew, said she did not want a cloud over the campaign, and said she might run again within two years.",
+  "sources": [
+    "The Philadelphia Inquirer, county council candidate withdraws days after endorsement, Feb. 24, 2025: https://www.inquirer.com/politics/election/tasliym-morales-withdraws-delco-county-council-republican-candidate-20250224.html"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office"],
+  "gates": [],
+  "inGame": "party endorsement record; withdrawal; the next endorsement vote",
+  "weights": {
+    "endorsement": 0.7
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "She leaves and says she will run again",
+      "pulledBy": "a younger, ambitious candidate",
+      "writesBack": "a withdrawal and a note about a later run"
+    },
+    {
+      "turn": "She stays and fights the attacks",
+      "pulledBy": "a stubborn trait and a loyal circle",
+      "writesBack": "a defended campaign and a party that keeps its pick"
+    }
+  ]
+}

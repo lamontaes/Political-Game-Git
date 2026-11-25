@@ -1,0 +1,33 @@
+{
+  "id": "the-assistant-knows-the-floor-speaker-by-voice",
+  "kind": "detail",
+  "summary": "A voice on the chamber feed tells {person} whose amendment might come next.",
+  "realLife": "Letchworth recalled listening to the Senate audio feed to alert colleagues to coming amendments and learning to recognize the senators by sound.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/letchworth-elizabeth-full-transcript-with-index.pdf#page=15",
+    "https://www.senate.gov/about/resources/pdf/letchworth-elizabeth-full-transcript-with-index.pdf#page=16"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the period audio feed and identifiable speaker."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: period audio feed and identifiable speaker.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Alert the waiting office.",
+      "pulledBy": "The speaker signals the next amendment.",
+      "writesBack": "Latest floor update."
+    },
+    {
+      "turn": "another-way",
+      "what": "Keep listening before calling.",
+      "pulledBy": "The debate stays on the pending business.",
+      "writesBack": "Latest floor update."
+    }
+  ]
+}

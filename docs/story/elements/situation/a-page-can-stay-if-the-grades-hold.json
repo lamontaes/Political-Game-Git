@@ -1,0 +1,30 @@
+{
+  "id": "a-page-can-stay-if-the-grades-hold",
+  "kind": "situation",
+  "summary": "The length of the appointment for {person} depends on the sponsoring member's terms.",
+  "realLife": "Johnson recalled that George Aiken allowed him to stay while his grades held up, whereas Strom Thurmond rotated pages after a much shorter fixed period.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/johnson-michael-a-full-transcript-with-index.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{person}"],
+  "gates": ["The record identifies the sponsor's appointment terms."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: sponsor's appointment terms.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Review the student's school standing.",
+      "pulledBy": "The appointment depends on grades.",
+      "writesBack": "Appointment end or review date."
+    },
+    {
+      "turn": "another-way",
+      "what": "Prepare for the next student's term.",
+      "pulledBy": "The appointment has a fixed end date.",
+      "writesBack": "Appointment end or review date."
+    }
+  ]
+}

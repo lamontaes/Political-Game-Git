@@ -1,0 +1,32 @@
+{
+  "id": "county-executive-explains-a-restoration-at-the-timetable-change",
+  "kind": "moment",
+  "summary": "{person} returns to a transit decision when people can finally use the service the budget paid for.",
+  "realLife": "When Milwaukee published its June changes, Crowley linked restored midday buses to trips residents needed for work, education and medical care.",
+  "sources": [
+    "https://www.ridemcts.com/who-we-are/news/mcts-summer-service-changes-start-june-7"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A funded service change has an announced first operating date."],
+  "weights": [
+    "A gap between the budget vote and first service makes a second public explanation more valuable."
+  ],
+  "usedBy": [],
+  "inGame": "needs: executive statement, dated service change and rider itinerary.",
+  "turns": [
+    {
+      "turn": "reachable",
+      "what": "The office confirms both legs before describing the gain.",
+      "pulledBy": "A rider can now reach the appointment and get home.",
+      "writesBack": "Tie the service account to the effective schedule."
+    },
+    {
+      "turn": "uncovered",
+      "what": "The executive’s staff acknowledge the remaining gap.",
+      "pulledBy": "The rider’s trip still falls outside the funded hours.",
+      "writesBack": "Route the trip example to the next service review."
+    }
+  ],
+  "issues": ["none"]
+}

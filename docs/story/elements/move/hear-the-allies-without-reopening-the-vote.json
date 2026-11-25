@@ -1,0 +1,32 @@
+{
+  "id": "hear-the-allies-without-reopening-the-vote",
+  "kind": "move",
+  "summary": "Delegates agree to hear advisers out after declining their chair’s request for another vote.",
+  "realLife": "On August 26, Moran reported that Freedom Democrats declined Aaron Henry’s request to reconsider yet heard speakers from organizations that had supported their challenge.",
+  "sources": [
+    "https://www.thecrimson.com/article/1964/9/22/the-politics-of-civil-rights-piat/"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{chair}", "{delegation}", "{adviser}"],
+  "gates": [
+    "The delegation has decided an offer and the chair asks to reopen it."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a reconsideration request, its disposition and the list of advisers heard.",
+  "turns": [
+    {
+      "turn": "motion-to-reconsider",
+      "what": "The chair puts that procedural motion first.",
+      "pulledBy": "A delegate moves reconsideration after the advisers finish.",
+      "writesBack": "The minutes preserve whether the earlier decision was reopened."
+    },
+    {
+      "turn": "advisers-write-instead",
+      "what": "The secretary circulates their letters.",
+      "pulledBy": "The advisers leave before the scheduled caucus.",
+      "writesBack": "The existing decision stands alongside the written advice."
+    }
+  ]
+}

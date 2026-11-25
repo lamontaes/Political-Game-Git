@@ -1,0 +1,32 @@
+{
+  "id": "check-the-date-on-the-last-root-inspection",
+  "kind": "move",
+  "summary": "{clerk} looks up the last root inspection before ordering another trip.",
+  "realLife": "During the audit period Parks used a three-year reinspection interval based on its estimate of how quickly roots changed pavement.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=6"
+  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": [
+    "Applicable reinspection interval and the last completed inspection date."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: applicable reinspection interval and the last completed inspection date.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The prior visit is within the interval.",
+      "what": "Give the resident the existing result.",
+      "writesBack": "Keep the original inspection on file.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The interval has passed.",
+      "what": "Request a fresh site rating.",
+      "writesBack": "Open a reinspection.."
+    }
+  ]
+}

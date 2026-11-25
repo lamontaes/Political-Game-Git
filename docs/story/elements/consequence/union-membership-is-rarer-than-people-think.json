@@ -31,5 +31,9 @@
       "pulledBy": ["public or contract job"],
       "writesBack": "benefits without dues"
     }
+  ],
+  "issues": [
+    "question:us-policy-positions:labor-workforce.right-to-work",
+    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining"
   ]
 }

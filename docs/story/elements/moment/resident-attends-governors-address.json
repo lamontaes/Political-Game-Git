@@ -26,5 +26,6 @@
       "pulledBy": "The speech named a region, and an accompanying project list is due after the address.",
       "writesBack": "The resident’s inquiry stays open until the county appears on the list or the office answers."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

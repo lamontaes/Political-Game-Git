@@ -35,5 +35,6 @@
       "pulledBy": "A shy child.",
       "writesBack": "Adds one remembered person to the child's contacts."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

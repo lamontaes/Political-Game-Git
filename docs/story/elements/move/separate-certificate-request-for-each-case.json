@@ -1,0 +1,30 @@
+{
+  "id": "separate-certificate-request-for-each-case",
+  "kind": "move",
+  "summary": "{aide} helps a caller separate two old charges into two certificate requests.",
+  "realLife": "Federal certificate instructions called for a separate submission for each charge or conviction when someone had several.",
+  "sources": [
+    "https://www.justice.gov/iqextranet/EForm.aspx?__cid=Pardon_prod&__fid=5#:~:text=separate%20application"
+  ],
+  "fits": ["office", "home", "journal", "work-community"],
+  "slots": ["{aide}"],
+  "gates": ["Several case identifiers and a per-case certificate process."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: several case identifiers and a per-case certificate process.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "Both cases have documentation.",
+      "what": "File distinct requests with the proper exhibits.",
+      "writesBack": "Each can receive its own decision."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "One docket is missing.",
+      "what": "Complete the documented request while locating the second docket.",
+      "writesBack": "The ready case can proceed independently."
+    }
+  ]
+}

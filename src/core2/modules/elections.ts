@@ -1983,11 +1983,20 @@ export function withdrawFiling(
   api: CoreAPI,
   contestId: string,
   personId: string,
+  /**
+   * What may leave: every filing the clerk has not decided (a death), or only
+   * an announcement (the day filing opens: a refusal of the runner's own
+   * filing never pulls a filing they already made another way).
+   */
+  which: "undecided" | "announced" = "undecided",
 ): void {
   const filings = table(api, "filings");
   const row = filings.get(`filing:${contestId}:${personId}`) as unknown as
     FilingRow | undefined;
-  if (row && undecided(row))
+  if (
+    row &&
+    (which === "announced" ? row.status === "announced" : undecided(row))
+  )
     filings.put({ ...row, status: "withdrawn" } as unknown as ModuleRow);
 }
 

@@ -1,0 +1,34 @@
+{
+  "id": "show-why-these-routes-first",
+  "kind": "move",
+  "summary": "At the council table, {person} lays ridership figures beside the places each route connects to work.",
+  "realLife": "Boston cited high boardings, access to employment and riders' incomes when explaining why it chose its three corridors.",
+  "sources": [
+    "https://www.boston.gov/sites/default/files/file/2023/03/Fare%20Free%20Mid%20Program%20Report.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A route selection memo contains the measures staff used and their dates."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "inGame": "needs: a route selection memo contains the measures staff used and their dates.",
+  "turns": [
+    {
+      "turn": "documented",
+      "pulledBy": "The memo covers the route in question.",
+      "what": "Give the council the criteria staff actually used.",
+      "writesBack": "Save the dated comparison."
+    },
+    {
+      "turn": "unevaluated",
+      "pulledBy": "The proposed route was outside the assessment.",
+      "what": "Ask staff to evaluate that corridor.",
+      "writesBack": "Keep it out of the scored comparison."
+    }
+  ]
+}

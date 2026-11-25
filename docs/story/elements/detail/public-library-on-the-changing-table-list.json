@@ -1,0 +1,32 @@
+{
+  "id": "public-library-on-the-changing-table-list",
+  "kind": "detail",
+  "summary": "A library director in {place} asks which part of a proposed restroom requirement applies to the building.",
+  "realLife": "New York's Traveling with Dignity sponsors included libraries, museums and rest areas in their description of places covered by the bill.",
+  "sources": [
+    "https://www.nysenate.gov/newsroom/press-releases/2026/pete-harckham/harckham-burdick-advance-accessibility-new-york"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "A bill text, the venue classification and the proposal's current status."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a bill text, the venue classification and the proposal's current status.",
+  "turns": [
+    {
+      "turn": "covered",
+      "pulledBy": "The text covers this venue class.",
+      "what": "Explain the proposed requirement to the director.",
+      "writesBack": "Mark its legislative status."
+    },
+    {
+      "turn": "unclear",
+      "pulledBy": "The classification is disputed.",
+      "what": "Request a scope determination for the building.",
+      "writesBack": "Keep any compliance date provisional."
+    }
+  ]
+}

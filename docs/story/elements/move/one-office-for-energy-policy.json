@@ -1,0 +1,32 @@
+{
+  "id": "one-office-for-energy-policy",
+  "kind": "move",
+  "summary": "{person} asks lawmakers to bring scattered energy responsibilities into one department.",
+  "realLife": "Carter connected his proposal for an energy department to the difficulty of making steady policy across many agencies.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "Energy authority is divided and reorganization is under consideration."
+  ],
+  "weights": ["Agencies issue overlapping guidance."],
+  "usedBy": [],
+  "inGame": "needs: which agencies hold or receive each energy responsibility.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Lawmakers keep the separate agencies.",
+      "pulledBy": "The consolidation bill loses its vote.",
+      "writesBack": "Each agency retains its responsibilities."
+    },
+    {
+      "turn": "partial",
+      "what": "Only some duties transfer.",
+      "pulledBy": "The enacted bill leaves specified powers elsewhere.",
+      "writesBack": "The directory names both offices."
+    }
+  ],
+  "issues": ["none"]
+}
