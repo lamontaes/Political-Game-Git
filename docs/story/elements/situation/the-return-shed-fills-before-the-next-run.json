@@ -1,0 +1,30 @@
+{
+  "id": "the-return-shed-fills-before-the-next-run",
+  "kind": "situation",
+  "summary": "A full parking-lot depot can need another collection before the scheduled pickup.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof said some Maine drop depots filled repeatedly within a day and that bags went to a processing plant once capacity was reached.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{dispatcher}", "{grocer}"],
+  "gates": ["A depot reports it has filled its available space."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a depot reports it has filled its available space.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Dispatch adds a stop.",
+      "pulledBy": "A collection vehicle is nearby.",
+      "writesBack": "The site logs the time it can take bags again."
+    },
+    {
+      "turn": "another-way",
+      "what": "The grocer directs customers to another available return point.",
+      "pulledBy": "The next truck is still loading elsewhere.",
+      "writesBack": "The missed deliveries enter the site's service record."
+    }
+  ]
+}

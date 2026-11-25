@@ -1,0 +1,32 @@
+{
+  "id": "the-claims-deadline-is-separate-from-the-waiver-renewal",
+  "kind": "detail",
+  "summary": "A distributor's last day to file a loss claim is a different event from a center's last day to seek an extension.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee set a calendar deadline for distributor reimbursement requests and separately tied waiver extensions to the expiration of each operator's approval.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=3"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{distributor}", "{clerk}"],
+  "gates": [
+    "The office has both a distributor claim and an operator's dated waiver."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: the office has both a distributor claim and an operator's dated waiver.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The clerk routes the loss evidence to the examiner.",
+      "pulledBy": "The claim arrives within its filing period.",
+      "writesBack": "The claim keeps its own receipt date."
+    },
+    {
+      "turn": "another-way",
+      "what": "The clerk opens only the renewal file.",
+      "pulledBy": "The operator sends a renewal alone.",
+      "writesBack": "The outstanding loss inquiry stays separate from the operator's approval."
+    }
+  ]
+}

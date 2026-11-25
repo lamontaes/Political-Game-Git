@@ -1,0 +1,32 @@
+{
+  "id": "the-new-count-must-measure-up-to-the-old-count",
+  "kind": "move",
+  "summary": "A center seeking a counting waiver has to show what its sample can do beside its present method.",
+  "realLife": "The 2023 Maine LD 1909 committee amendment proposed a temporary waiver conditioned on a statistically valid sample at least as accurate as the center's current method.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=3"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{operator}", "{reviewer}"],
+  "gates": [
+    "A waiver application proposes a sample instead of scanning every container."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a waiver application proposes a sample instead of scanning every container.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The reviewer advances the application to the allocation check.",
+      "pulledBy": "The comparison meets the stated accuracy standard.",
+      "writesBack": "The file retains the baseline used in the comparison."
+    },
+    {
+      "turn": "another-way",
+      "what": "The reviewer asks for the missing validation.",
+      "pulledBy": "The operator supplies totals without a comparison.",
+      "writesBack": "The existing method stays in place pending review."
+    }
+  ]
+}

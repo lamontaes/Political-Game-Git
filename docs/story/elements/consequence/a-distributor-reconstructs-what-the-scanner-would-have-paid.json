@@ -1,0 +1,30 @@
+{
+  "id": "a-distributor-reconstructs-what-the-scanner-would-have-paid",
+  "kind": "consequence",
+  "summary": "A distributor challenging its allocation has to demonstrate how the alternative count cost it money.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee proposed allowing distributors to seek reimbursement by showing that item scans would have produced a larger payment or that the waiver directly caused another loss.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=3"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{distributor}", "{examiner}"],
+  "gates": ["A distributor submits a loss claim tied to a waiver period."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a distributor submits a loss claim tied to a waiver period.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The examiner calculates the eligible loss.",
+      "pulledBy": "The invoices establish a shortfall caused by the alternative count.",
+      "writesBack": "The claim ledger records the supported amount."
+    },
+    {
+      "turn": "another-way",
+      "what": "The examiner separates the market loss from the waiver claim.",
+      "pulledBy": "The invoices show a price decline unrelated to the count.",
+      "writesBack": "The decision records which evidence failed to establish causation."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "a-waiver-comes-back-to-committee-as-a-report",
+  "kind": "move",
+  "summary": "Members set a date to hear what happened when operators used an alternative count.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee directed DEP to report its findings or recommendations on the temporary waiver process to the environment committee by February 2025.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=3"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{member}", "{official}"],
+  "gates": [
+    "The statutory review date approaches for a temporary waiver program."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: the statutory review date approaches for a temporary waiver program.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Staff summarizes what the results showed.",
+      "pulledBy": "Operators have completed trials.",
+      "writesBack": "The report gives members evidence for a later vote."
+    },
+    {
+      "turn": "another-way",
+      "what": "Staff reports the implementation status and its limits.",
+      "pulledBy": "No trial has produced results yet.",
+      "writesBack": "Members can ask for a later hearing on actual outcomes."
+    }
+  ]
+}

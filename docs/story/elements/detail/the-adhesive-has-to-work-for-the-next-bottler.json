@@ -1,0 +1,32 @@
+{
+  "id": "the-adhesive-has-to-work-for-the-next-bottler",
+  "kind": "detail",
+  "summary": "A shared refillable bottle needs a label that can come off before another producer uses it.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee placed work on containers, adhesives and labels for bottles usable by different beverage manufacturers among the proposed refill activities.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=18"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{bottler}", "{researcher}"],
+  "gates": [
+    "Two producers plan to reuse the same container across their product lines."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: two producers plan to reuse the same container across their product lines.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The second bottler can test its own label on the glass.",
+      "pulledBy": "The label comes away during the planned wash.",
+      "writesBack": "The pilot records the workable combination."
+    },
+    {
+      "turn": "another-way",
+      "what": "The researcher asks for an alternative label material.",
+      "pulledBy": "Adhesive remains after washing.",
+      "writesBack": "The next test batch carries the replacement adhesive."
+    }
+  ]
+}

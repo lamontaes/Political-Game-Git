@@ -1,0 +1,30 @@
+{
+  "id": "the-bag-tag-names-the-account",
+  "kind": "detail",
+  "summary": "The label on a bag tells the return depot which household to credit.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof described customers at Maine drop sites attaching a barcode linked to their own account before leaving mixed containers.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1"
+  ],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{worker}", "{household}"],
+  "gates": ["A bag arrives with an account tag."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a bag arrives with an account tag.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The depot associates the delivery with the account.",
+      "pulledBy": "The tag reads at intake.",
+      "writesBack": "The intake receipt carries a bag ID."
+    },
+    {
+      "turn": "another-way",
+      "what": "The attendant sets the bag aside for identification.",
+      "pulledBy": "The tag is unreadable.",
+      "writesBack": "The household's account shows no confirmed delivery yet."
+    }
+  ]
+}
