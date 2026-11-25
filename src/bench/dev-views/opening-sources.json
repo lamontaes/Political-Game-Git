@@ -408,10 +408,6 @@
       "made": "generation",
       "what": "How much a person can take before illness, a stable hash of the world seed and the person (owner's ruling, Oct 9)"
     },
-    "src/core2/modules/jobs.ts#bandRatio": {
-      "made": "world-offset",
-      "what": "Pay band ratios"
-    },
     "src/core2/modules/jobs.ts#loseAwayWorkByTurnover": {
       "made": "ad-hoc-draw",
       "what": "Turnover pull for work away (SG-LABOR-turnover-fixed-rate)",
