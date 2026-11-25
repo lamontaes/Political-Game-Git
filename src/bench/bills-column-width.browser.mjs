@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, getComputedStyle */
 // The Bills page's columns never scroll sideways, in a real browser on the bench (npm run bench)
 // (a `ui-look` scroller seen on #10534's runs at Faga'itua, American Samoa: `div.mx3col`, axis x,
 // intermittent): a column holds a word wider than itself, in some world (a long name or title),
