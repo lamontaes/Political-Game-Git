@@ -317,9 +317,28 @@ function run(specId: string) {
     resident && (resident.wageDailyMinor ?? 0) * 7 * 0.6 > maxNow
       ? resident
       : byPay(namedJobs)[0];
+  // The worlds history makes can set the weekly maximum above what anyone
+  // in a town earns (thirty drawn places at seed 7762e3e4 had no claimant
+  // above it), so the best-paid worker is paid, through the core's own pay
+  // seam, half again over the pay whose share the maximum would cap, as the
+  // teacher floor above is staged; a worker already over it is left alone.
+  const staged = (job: JobInput | undefined): JobInput | undefined => {
+    if (!job || !core.jobs.has(job.id)) return job;
+    const share = (job.wageDailyMinor ?? 0) * 7 * 0.6;
+    const hourly = job.hourlyMinor ?? 0;
+    if (hourly <= 0 || share <= 0 || share > maxNow) return job;
+    api.rerateJob(job.id, Math.ceil((hourly * maxNow * 1.5) / share), {
+      tag: "ESTIMATED",
+      citation: "A worker paid above the weekly maximum (test setup)",
+      estimatedFrom: "Test setup",
+      asOf: core.date,
+    });
+    return (core.jobs.get(job.id) as JobInput | undefined) ?? job;
+  };
+  const topPaid = staged(top as JobInput | undefined);
   const capped =
-    top && fileClaim(api, claims, top as JobInput, "labor-test", 52)
-      ? top.personId
+    topPaid && fileClaim(api, claims, topPaid, "labor-test", 52)
+      ? topPaid.personId
       : "";
   step(WINDOW);
   const date = core.date;
