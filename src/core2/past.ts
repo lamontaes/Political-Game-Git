@@ -85,3 +85,4 @@ export function openThePast(core: CoreState, seed: string): PastSummary {
 // The past family's face for readers outside it (tests/guards/families.json).
 export { heldSinceRecord } from "./past-work";
 export { schoolsAttended } from "./past-school";
+export { PRIOR_ELECTION } from "./past-elections";

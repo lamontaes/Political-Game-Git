@@ -11,7 +11,7 @@
   "readsOutsideTheReader": {
     "about": "The one history reader (src/core2/past-history.ts; owner, Nov 25, 2026: \"THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM THE SAME HISTORY. STOP MAKING NEW SYSTEMS FOR NEW THINGS WHEN THEY ALL USE THE SAME THING\"; \"make the history reader work game wide. so ALL systems are reading the same thing\"). Every screen, scene, journal line, news story and speech reads what already happened through historyOf. These are the files in src/bench, src/director and src/english that still build a past from the records themselves (a raw past reader by name, a scan of the log, a person's own facts or remembered list), with their counts. A count only goes down, and the list is empty when every system reads the one reader.",
     "files": {
-      "src/bench/dev-views/opening.ts": 11
+      "src/bench/dev-views/opening.ts": 7
     }
   }
 }

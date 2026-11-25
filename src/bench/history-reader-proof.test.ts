@@ -7,6 +7,7 @@ import {
   type BenchWorld,
 } from "./world";
 import { randomBytes } from "node:crypto";
+import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -14,12 +15,15 @@ import { gameStartDate } from "../core2/game-start";
 import {
   historyEvent,
   historyOf,
+  PAST_BILL_VOTED,
+  PAST_LAW_ENACTED,
   recordOf,
   type HistoryAsk,
   type HistoryScope,
 } from "../core2/past";
 import type { CoreState, PersonId } from "../core2/types";
 import { composeJournal } from "../director/journal";
+import { COUNTED_ENGINE, findRecord, PLACE_ENGINE } from "./dev-trace";
 import { heardItems } from "./calendar";
 import { knownCard } from "./card";
 import { loadingStory } from "./loading";
@@ -33,7 +37,8 @@ import { BenchPlayer } from "./player";
 // a fact a person was made with, an engine's history row) must come back from
 // the one history reader in that system's own scope. A cited record of the
 // present (a person, a household, a job, a law in force) is no past event and
-// is counted apart.
+// is counted apart, but only where it is kept in one of the live stores named
+// below (as dev Trace finds it): a cited id that is neither fails the proof.
 //
 // One drawn place on every run; HISTORY_PROOF=full runs the six packet seeds
 // (scripts/words/first-evening-packet.ts) and twenty drawn places.
@@ -55,7 +60,53 @@ interface Tally {
   shown: number;
   past: number;
   present: number;
+  unkept: number;
   untraced: string[];
+}
+
+/**
+ * Records a system cites that no store keeps, each by its cause; any other
+ * fails. The state's monthly jobs report is emitted with the state as its
+ * place (src/core2/modules/regional.ts, stepRegional), and the log keeps a
+ * public record only of a place the player can see, the town and its county
+ * (src/core2/state.ts, the keep rule's `visiblePlaceIds`): the news prints the
+ * report from the emission, and nothing keeps it for the reader to tell.
+ */
+const UNKEPT = [/^event:economy\.state-jobs-report:[A-Z]{2}:\d{4}-\d{2}$/];
+
+/**
+ * The live stores a cited record of the present is kept in, by dev Trace's
+ * names for them: who and what exists now (people, households, jobs,
+ * organizations, places, the counted population), an office, and a law in
+ * force or set to take effect. Nothing here is a record of what happened.
+ */
+const PRESENT_STORES = new Set([
+  "core.people",
+  "core.husks",
+  "core.households",
+  "core.jobs",
+  "core.organizations",
+  "core.publicOrganizations",
+  "core.relationships",
+  "core.familyLinks",
+  "core.memberships",
+  PLACE_ENGINE,
+  COUNTED_ENGINE,
+  "core2-laws-v1.laws",
+  "core2-offices-v1.offices",
+]);
+
+/**
+ * Where a cited record of the present is kept: a live store, or a catalog the
+ * line reads (a policy question, a research file). Undefined for anything else.
+ */
+function presentStore(core: CoreState, id: string): string | undefined {
+  if (/^question:[a-z-]+-positions:[a-z-]+\.[a-z0-9-]+$/.test(id))
+    return "the question catalog";
+  if (id.startsWith("data/research/") && existsSync(id.split("#")[0]!))
+    return "a research file";
+  const engine = findRecord(core, id)?.engine;
+  return engine && PRESENT_STORES.has(engine) ? engine : undefined;
 }
 
 /** Whether an id is a stored record of the past or of play (the reader's stores). */
@@ -85,11 +136,17 @@ function tally(
     shown: cited.length,
     past: 0,
     present: 0,
+    unkept: 0,
     untraced: [],
   };
   for (const { id, owner } of cited) {
     if (!isPastRecord(core, id, owner)) {
-      row.present += 1;
+      if (presentStore(core, id)) row.present += 1;
+      else if (UNKEPT.some((form) => form.test(id))) row.unkept += 1;
+      else
+        row.untraced.push(
+          `${id} (kept ${findRecord(core, id)?.engine ?? "nowhere"}, not by the reader nor a live store)`,
+        );
       continue;
     }
     row.past += 1;
@@ -207,15 +264,25 @@ function proveWorld(
                 "century.presidency",
                 "press.printed",
                 "press.archived",
+                PAST_BILL_VOTED,
+                PAST_LAW_ENACTED,
               ],
             },
           ],
+          // A fact a person was made with that a story cites (a birthplace):
+          // what that person was made with, as the reader reads it.
+          ...[
+            ...new Set(
+              news
+                .map((row) => recordOf(core, row.id))
+                .filter((found) => found?.from === "built" && found.personId)
+                .map((found) => found!.personId!),
+            ),
+          ].map((person): [HistoryScope, HistoryAsk] => [
+            { person },
+            { from: "built" },
+          ]),
         ]),
-        // A fact a person was made with that a story cites (a birthplace):
-        // the reader opens it by its id.
-        ...news
-          .map((row) => row.id)
-          .filter((id) => recordOf(core, id)?.from === "built"),
       ]),
     ),
   );
@@ -227,13 +294,14 @@ function proveWorld(
           at.shown += row.shown;
           at.past += row.past;
           at.present += row.present;
+          at.unkept += row.unkept;
           at.untraced.push(...row.untraced);
         } else sum.push({ ...row, untraced: [...row.untraced] });
         return sum;
       }, [] as Tally[])
       .map(
         (row) =>
-          `${row.system} ${row.past} past events traced of ${row.shown} cited (${row.present} of the present)${row.untraced.length ? `, ${row.untraced.length} UNTRACED` : ""}`,
+          `${row.system} ${row.past} past events traced of ${row.shown} cited (${row.present} of the present${row.unkept ? `, ${row.unkept} kept by no store` : ""})${row.untraced.length ? `, ${row.untraced.length} UNTRACED` : ""}`,
       )
       .join("; ")}\n`,
   );
