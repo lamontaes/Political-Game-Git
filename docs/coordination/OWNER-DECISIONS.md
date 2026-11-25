@@ -2,6 +2,24 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 25, 2026, about 1:30 p.m.: a wrong line is an engine problem; stop deleting lines (owner, verbatim; recorded by the CTO)
+
+- "STOP DOING SHIT BY LINES SPECIFICALLY. IF IT'S WRONG IT'S AN ENGINE PROBLEM!!!!!!!!!!!!!!!!!!!!!!!"
+- "lines need to be stopped deleting when I say stuff is messed up. The problem isn't the lines themselves, it's how it's structured. Like, when they're wrong, you need to see why they're written like that and update the fucking code. This is why we keep fucking reverting, because they keep starting from zero."
+- "I hate when you edit specific fucking scenes or specific banks, because that leaves the problem in the entire engine. This is why every day for months I keep saying it needs to infect the entire engine. This should get exponentially better. It already should with all those goddamn rulings I have already on the GitHub."
+- "This is why everything needs to be different and be testing different things, so that way I can calibrate."
+- On the Journal: "You were born in 2007 under a Democratic president. That's not a story ... these are just lines of facts." On the news: "History doesn't even appear on news stations and stuff. You show me this shit on the news saying it's fixed, and it's still one line."
+- **What this means for every session:**
+  - When he faults a line, find why the engine wrote it or picked it, and change that code so the fix reaches every scene and bank. Lines are not deleted, rewritten or hand-edited to fix it.
+  - This replaces the bank-wide cuts of Nov 17 to 19 (#10063 deleted 13,596 lines by date, every line he had graded good among them). It also replaces this morning's line deletions.
+  - Each grading round tests different engine approaches side by side, so he can calibrate.
+- **The engine causes behind what he named, checked in the code at story/first-evening:**
+  1. The loading story and the Journal are built as one sentence per kind of record (`src/bench/loading.ts` SECTION_YEAR: born, school, moved, finished, college, job, lost, now; `src/director/journal.ts`: householdMoments, pastWorkMoments, "one sentence per person"). That guarantees a list of facts whatever the lines say.
+  2. The news never reads the simulated history (`src/bench/nation-news.ts` and `src/english/english-newscast.ts` hold no history records), and it words a story in one line.
+  3. The outline planner's only joining rule is `after`, a list of moves a sentence may follow. Nothing checks that a sentence follows from what was said before it.
+  4. The scene engine lost move kinds in the cut and the rebuild: 76 before Nov 18, 35 now. The press scene went from 24 steps and moves to 6. Nov 24's no-leave/deflect/stall order removed the moves themselves from the reply planner. The order should have made every reply carry its stance.
+  5. The loading card hands the town and state to every progress step.
+
 ## Nov 25, 2026, about 1:00 p.m.: no town in the loading steps, no waiting asides, no agree-only replies (owner, verbatim; recorded by the CTO)
 
 - "sending reporters to the town hall on Evendale, they will wait. First of all, whatever that shit, like, they will wait, or someone is there with you, like, that type of shit, I hate that. Remove it all."
