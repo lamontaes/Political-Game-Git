@@ -1,0 +1,30 @@
+{
+  "id": "ask-the-page-to-call-the-office-after-the-vote",
+  "kind": "move",
+  "summary": "{member} asks a page to tell the office when to expect the member back from the floor.",
+  "realLife": "Anderson recalled members sending pages to tell their offices a vote was coming and that they would return afterward.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=25"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a pending vote and an office awaiting the member.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The office receives the message before the appointment.",
+      "what": "Staff shift the meeting time.",
+      "writesBack": "The visitor has a new estimate."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Another vote follows the first.",
+      "what": "The member stays on the floor.",
+      "writesBack": "The office needs a second update."
+    }
+  ]
+}

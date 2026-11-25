@@ -1,0 +1,33 @@
+{
+  "id": "hold-the-ordered-votes-for-one-trip-from-committee",
+  "kind": "move",
+  "summary": "{chair} puts several ordered votes together so members can finish a stretch of committee work.",
+  "realLife": "Anderson described the disruption of repeated trips between committee and floor. The House historian dates the rule allowing the Speaker to postpone and group votes to January 1979.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=90",
+    "https://history.house.gov/Exhibitions-and-Publications/Electronic-Technology/Electronic-Voting/"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{chair}"],
+  "gates": [
+    "The presiding officer can postpone the pending questions under the chamber rules."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: authority to postpone and the list of ordered votes.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The questions can wait for a common time.",
+      "what": "The chair announces a block of votes.",
+      "writesBack": "Committee members make one trip."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "An immediate decision is needed to proceed.",
+      "what": "The chair takes that question separately.",
+      "writesBack": "The rest of the block stays on the calendar."
+    }
+  ]
+}

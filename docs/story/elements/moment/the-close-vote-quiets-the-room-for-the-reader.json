@@ -1,0 +1,30 @@
+{
+  "id": "the-close-vote-quiets-the-room-for-the-reader",
+  "kind": "moment",
+  "summary": "{clerk} notices the usual noise drop away when a vote could turn on a single answer.",
+  "realLife": "Swanson remembered the narrow draft-extension vote as unusually quiet and recalled how conscious he was of getting every answer right.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=12"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": ["The chamber is taking this vote by oral roll call."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a close pending vote and the sound in the chamber.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Members fall quiet before the next name.",
+      "what": "The reader hears the response clearly.",
+      "writesBack": "The count continues without interruption."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Conversations drown out an answer.",
+      "what": "The Speaker asks for order.",
+      "writesBack": "The reader returns to the interrupted name."
+    }
+  ]
+}
