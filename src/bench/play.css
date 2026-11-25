@@ -159,7 +159,7 @@
   --night-nation-gap: 28px;
   /* A row a player picks in a list beside its page. */
   /* The person card's bust column. */
-  --card-bust: 440px;
+  --card-bust: 380px;
   --pick-pad: 6px 12px;
   --pick-font: 600 var(--t-ui) var(--ui);
   --pick-aside-font: 400 var(--t-label) var(--ui);
@@ -2407,7 +2407,7 @@ body:not(.dev) .dev-only {
 }
 .dossier .heading {
   font-size: clamp(26px, calc(var(--vw) * 0.026), 38px);
-  line-height: 1.1;
+  line-height: 1.3;
 }
 #person-role {
   margin: -8px 0 0;
@@ -2999,14 +2999,35 @@ body:not(.dev) .dev-only {
   max-height: none;
   margin: 0;
 }
-.roster-screen.people > .roster-page .strip-screen {
+.roster-screen.people > .roster-page .strip-screen:not(:has(.mxbust)) {
   grid-template-columns: 1fr;
 }
-.roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
+/* The approved person card (pl-people): the bust at the left, the name over
+   two columns of sections beside it, so no half of the card stands empty. The
+   one card layout, in the person's panel and in People alike (owner, Nov 23,
+   P14/P25): the left column is the bust's own width, so no bar runs under it. */
+.strip-screen.name-beside:has(.mxbust) {
   grid-template-columns: var(--card-bust) minmax(0, 1fr);
 }
-/* The approved person card (pl-people): the bust at the left, the name over
-   two columns of sections beside it, so no half of the card stands empty. */
+/* The name and the bust share a top line (owner, Nov 23, P15). */
+.strip-screen.name-beside .mxbanner {
+  padding: 0;
+}
+/* A title that wraps keeps its leading at 1.3 or more (the ui-look rule, Box
+   and scroll, Nov 24): the person card's name and section heads. */
+.strip-screen.name-beside .strip-name {
+  line-height: 1.3;
+}
+.strip-screen.name-beside .sechead,
+.roster-screen.people .strip-screen .strip-name,
+.roster-screen.people .strip-screen .sechead {
+  line-height: 1.3;
+}
+/* The story is one column read in one place, in order (owner, Nov 23, P17, P24,
+   P25; CTO, Nov 24); who they are stands under the bust. */
+.strip-screen .dotvalue {
+  text-align: right;
+}
 .strip-screen.name-beside .mx3cols {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
@@ -3033,7 +3054,6 @@ body:not(.dev) .dev-only {
 }
 /* A column with more sections than the panel holds (dev mode adds several)
    scrolls rather than being cut off. */
-.strip-screen.name-beside .mx3left,
 .strip-screen.name-beside .mx3col {
   overflow-y: auto;
   scrollbar-width: thin;
@@ -4778,12 +4798,12 @@ select.release-pick {
 }
 .strip-screen .intro {
   margin: 0;
-  font: 400 var(--t-read)/1.55 var(--f-story);
+  font: 400 calc(var(--t-read) * var(--card-scale, 1))/1.55 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .hispeople {
   margin: 0;
-  font: 400 var(--t-read)/1.5 var(--f-story);
+  font: 400 calc(var(--t-read) * var(--card-scale, 1))/1.5 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .nm {
@@ -4892,7 +4912,10 @@ select.release-pick {
 #person.dossier {
   display: block;
   height: auto;
-  max-height: calc(var(--vh) - 2 * var(--gutter));
+  /* Clear of the player's own card at the foot of the room (CTO, Nov 24: the
+     story ran under it): a little shorter, and stood a little higher. */
+  max-height: calc(var(--vh) - 2 * var(--gutter) - 90px);
+  translate: 0 -46px;
   width: min(1180px, calc(var(--vw) - 2 * var(--gutter)));
 }
 #person.dossier .heading {
@@ -4943,8 +4966,13 @@ select.release-pick {
 }
 .strip-screen .dotvalue,
 .candidate .dotvalue {
-  font-variant-numeric: lining-nums tabular-nums;
+  font-variant-numeric: lining-nums;
   color: #f6dfae;
+}
+/* Tabular digits are for figures only. */
+.strip-screen .dotvalue.num,
+.candidate .dotvalue.num {
+  font-variant-numeric: lining-nums tabular-nums;
 }
 /* Tabular figures widen a space in the font: a name in a value reads as one word, spaced once. */
 .strip-screen .dotvalue .nm {

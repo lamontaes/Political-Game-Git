@@ -210,7 +210,12 @@ export function dotRows(rows, { oneLine = false } = {}) {
         el("span", { className: "dotleader" }),
         row.value instanceof Node
           ? el("span", { className: "dotvalue" }, row.value)
-          : el("span", { className: "dotvalue", textContent: row.value }),
+          : el("span", {
+              // Tabular digits are for figures only; words keep normal spacing
+              // (MENU-LOOK; CTO, Nov 24: "Bloomsbury ,  New  Jersey").
+              className: `dotvalue${/^[\d$%.,\s\u2013-]+$/.test(String(row.value)) ? " num" : ""}`,
+              textContent: row.value,
+            }),
       ),
     ),
   );

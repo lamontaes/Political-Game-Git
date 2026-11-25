@@ -1,4 +1,4 @@
-/* global document, fetch, getComputedStyle, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, MutationObserver, Image */
+/* global document, fetch, getComputedStyle, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, MutationObserver, Image, requestAnimationFrame */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow } from "./ui/button.mjs";
@@ -2877,13 +2877,35 @@ async function personCardNode(
   const heading = (key, theyKey) =>
     pronoun ? fill(labels[key]) : labels[theyKey ?? key];
   const capital = (text) => text.charAt(0).toUpperCase() + text.slice(1);
-  const role = [
-    c.relation && capital(c.relation),
-    known?.party,
-    c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
-  ]
+  const role = [c.relation && capital(c.relation), known?.party]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // Who they are, from their records: age, home, work and each office held with
+  // its place and years (owner, Nov 23, P17, P23, P26). Each fact once; the
+  // story under it is told apart.
+  const yearsOf = (office) =>
+    office.to === null
+      ? `${labels.since}\u00a0${office.from}`
+      : office.to === office.from
+        ? String(office.from)
+        : `${office.from}\u2013${office.to}`;
+  const officeTitles = new Set((c.offices ?? []).map((o) => o.office));
+  const factRows = [
+    ...(c.age !== null && c.age !== undefined
+      ? [{ label: labels.age, value: String(c.age) }]
+      : []),
+    ...(c.home ? [{ label: labels.place, value: c.home }] : []),
+    ...(c.work?.title && !officeTitles.has(c.work.title)
+      ? [
+          {
+            label: labels.work,
+            value: [c.work.title, c.work.employer]
+              .filter(Boolean)
+              .join(" \u00b7 "),
+          },
+        ]
+      : []),
+  ];
   const sharedLines = (c.shared ?? [])
     .filter((s) => labels.sharedWords?.[s.kind])
     .map((s) =>
@@ -2925,25 +2947,43 @@ async function personCardNode(
         }))
         .concat(
           known.positions.map((p) => ({
-            label: policyLabel(p.question),
+            label: p.said ?? policyLabel(p.question),
             value: p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
           })),
         )
     : [];
-  const people = peopleSentence(
-    (c.colleagues ?? []).map((k) => ({
+  const people = peopleSentence([
+    ...(c.family ?? []).map((k) => ({
+      name: k.name,
+      relation: k.relation,
+      onOpen: () => openOther({ personId: k.personId }),
+    })),
+    ...(c.colleagues ?? []).map((k) => ({
       name: k.name,
       relation: k.office,
       onOpen: () => openOther({ personId: k.personId }),
     })),
-  );
-  const firstColumn = [
-    ...(c.summary?.length
+  ]);
+  // The two sections that say who they are stand under the bust (the portrait
+  // column leaves no hole); their politics, people and public record stand
+  // beside it; and their story stands alone in the last column, one story read in
+  // one place, in order (owner, Nov 23, P17, P24, P25; CTO, Nov 24: a story is
+  // never split between columns).
+  const whoSections = [
+    ...(factRows.length || c.offices?.length
       ? [
           stripSection(
             1,
             heading("whoIs", "whoAre"),
-            introText(c.summary.join(" ")),
+            dotRows(factRows),
+            // Each office is a line of its own, wrapping as a phrase.
+            ...(c.offices ?? []).map((office) =>
+              introText(
+                [capital(office.office), office.place, yearsOf(office)]
+                  .filter(Boolean)
+                  .join(" \u00b7 "),
+              ),
+            ),
           ),
         ]
       : []),
@@ -2956,6 +2996,23 @@ async function personCardNode(
           ),
         ]
       : []),
+  ];
+  const storySection = [
+    // Their life from the records, oldest first, as the card has told it since
+    // #6772 and #7090: the card is sent the story and draws it (owner's
+    // playtest, Nov 8).
+    ...(c.history?.length
+      ? [
+          stripSection(
+            5,
+            capital(heading("lifeStory", "lifeStoryThey")),
+            ...lifeParagraphs(c.history),
+          ),
+        ]
+      : []),
+  ];
+  const firstColumn = [
+    ...(c.face ? [] : whoSections),
     // Where they place themselves politically, once the player has learned it; until then the
     // card says so (the world still holds the real view).
     ...(c.view || c.viewUnknown
@@ -2983,29 +3040,6 @@ async function personCardNode(
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
-    // Their life from the records, oldest first, as the card has told it since
-    // #6772 and #7090: the card is sent the story and draws it (owner's
-    // playtest, Nov 8).
-    ...(c.history?.length
-      ? [
-          markLife(
-            stripSection(
-              5,
-              capital(heading("lifeStory", "lifeStoryThey")),
-              ...lifeParagraphs(c.history),
-            ),
-          ),
-        ]
-      : []),
-  ];
-  // Their life sits under the bust, in the bust's own column (owner on
-  // People, Nov 16: "still lots of empty space"); with no bust it takes the
-  // second column, beside who they are.
-  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
-  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
-  const underBust = c.face ? life : [];
-  const secondColumn = [
-    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -3013,6 +3047,7 @@ async function personCardNode(
       ? [stripSection(4, labels.publicRecordTitle, dotRows(recordRows))]
       : []),
   ];
+  const secondColumn = [...storySection];
   // Dev mode: what they remember, a section only while dev mode is on.
   const memory = devModeOn()
     ? await devMemorySection({
@@ -3021,9 +3056,9 @@ async function personCardNode(
         dateOf: (iso) => dateWords(iso),
       })
     : null;
-  if (memory) secondColumn.push(memory);
+  if (memory) firstColumn.push(memory);
   if (devModeOn())
-    secondColumn.push(
+    firstColumn.push(
       await devRecordsSection({
         personId: person.personId,
         labels: controls.devRecords,
@@ -3040,44 +3075,135 @@ async function personCardNode(
       })),
     );
   if (!stillWanted()) return null;
-  return {
+  // A card with little to tell stands a smaller bust, so the panel is not
+  // mostly empty (Replay on #10337, Nov 24: "no empty half"); the weight is
+  // the records' own count of lines and rows.
+  const weight =
+    (c.history?.length ?? 0) +
+    recordRows.length +
+    sharedLines.length +
+    (people ? 1 : 0) +
+    (c.view || c.viewUnknown ? 1 : 0);
+  // The bust stands smaller as the card has less to tell, so the panel stays
+  // the height of its text; a long card keeps the full bust.
+  const bustColumn = devModeOn()
+    ? PERSON_CARD_BUST
+    : (CARD_BUSTS.find((step) => weight <= step.weight)?.bust ??
+      PERSON_CARD_BUST);
+  const node = stripScreen({
     name: c.name,
-    node: stripScreen({
-      name: c.name,
-      role,
-      nameBeside: true,
-      // The approved card's bust stands as tall as its sections (pl-people).
-      bustColumn: PERSON_CARD_BUST,
-      underBust,
-      face: c.face ?? null,
-      columns: secondColumn.length
-        ? [firstColumn, secondColumn]
-        : [firstColumn],
-    }),
-  };
-}
-/** The person card's bust column, in pixels: --card-bust in play.css. */
-const PERSON_CARD_BUST = 440;
-/** A card's life story section, marked so the card can set it in its second column. */
-function markLife(node) {
-  node.dataset.life = "1";
-  return node;
+    role,
+    nameBeside: true,
+    // The approved card's bust stands as tall as its sections (pl-people).
+    bustColumn,
+    ...(c.face ? { underBust: whoSections } : {}),
+    face: c.face ?? null,
+    columns: secondColumn.length ? [firstColumn, secondColumn] : [firstColumn],
+  });
+  node.style.setProperty("--card-bust", `${bustColumn}px`);
+  fitCard(node);
+  return { name: c.name, node };
 }
 /**
- * A card never runs past its panel (owner's menu rule; CTO, Nov 18). The life
- * story sits under the bust; when it does not fit there it moves to the card's
- * second column, which has the room, and stays under the bust when the panel
- * holds it either way.
+ * Sets a card's text a step smaller, in steps, while any column still runs past
+ * the panel (a very long story is one column and is never split or cut off,
+ * owner, Nov 23 and CTO, Nov 24). Waits until the card is on screen, because it
+ * measures it.
  */
-function fitLifeStory(facts) {
-  const life = facts.querySelector('[data-life="1"]');
-  if (!life || life.closest(".mx3col")) return;
-  const panel = $("person").getBoundingClientRect();
-  if (life.getBoundingClientRect().bottom <= panel.bottom - 8) return;
-  const columns = facts.querySelectorAll(".mx3col");
-  const target = columns[columns.length - 1];
-  if (target) target.append(life);
+async function fitCard(root) {
+  for (
+    let frame = 0;
+    frame < 120 && !root.getBoundingClientRect().height;
+    frame++
+  )
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+  const panel = root.closest(".roster-page, #person");
+  if (!panel || !root.getBoundingClientRect().height) return;
+  const limit =
+    panel.getBoundingClientRect().bottom -
+    parseFloat(getComputedStyle(panel).paddingBottom) -
+    8;
+  // A short middle column beside a long story leaves an empty block under it
+  // (Replay on #10337, Nov 24, the sheriff's card): the story then stands
+  // under the sections in one wide column, whole, in the order it was told.
+  const split = root.querySelector(".mx3cols:not(.one)");
+  const [front, back] = split ? split.querySelectorAll(".mx3col") : [];
+  // Each column's text, not the section stretched to the panel's foot.
+  const filled = (column) =>
+    Math.max(
+      0,
+      ...[...column.querySelectorAll("p, .dotrow, h3, .perk")].map(
+        (mark) =>
+          mark.getBoundingClientRect().bottom -
+          column.getBoundingClientRect().top,
+      ),
+    );
+  // Two columns of unlike height (the President's long record beside a short
+  // story): the leading sections of the first column stand above the story,
+  // while that makes the taller of the two shorter. The story stays whole and
+  // last, and the sections keep their order.
+  if (back && root.querySelector(".mx3cols:not(.one)"))
+    while (front.children.length > 1) {
+      const before = Math.max(filled(front), filled(back));
+      const moved = front.firstElementChild;
+      back.prepend(moved);
+      if (Math.max(filled(front), filled(back)) < before - 8) continue;
+      front.prepend(moved);
+      break;
+    }
+  const leftHeight = filled(root.querySelector(".mx3left"));
+  if (
+    back &&
+    filled(front) * 2 < filled(back) &&
+    filled(back) > leftHeight * 0.8
+  ) {
+    front.append(...back.children);
+    back.remove();
+    split.classList.add("one");
+  }
+  // A bust column taller than the story beside it leaves the rest of the card
+  // empty (the Replay's President and sheriff, Nov 24: "no empty half"): the
+  // story and the people line are set a little larger, up to a third, until
+  // the column ends with the bust.
+  const marks = ".mxbust, p, .dotrow, h3, .perk";
+  const bottomOf = (selector) =>
+    Math.max(
+      0,
+      ...[...root.querySelectorAll(selector)].map(
+        (mark) => mark.getBoundingClientRect().bottom,
+      ),
+    );
+  const lastColumn = ".mx3cols > .mx3col:last-child";
+  const runsPast = () =>
+    [...root.querySelectorAll(".mx3left, .mx3col")].some((column) =>
+      [...column.querySelectorAll(marks)].some(
+        (mark) => mark.getBoundingClientRect().bottom > limit,
+      ),
+    );
+  if (!runsPast())
+    for (
+      let scale = 1.04;
+      scale <= 1.36 &&
+      bottomOf(`${lastColumn} :is(${marks})`) + 40 <
+        bottomOf(`.mx3left :is(${marks})`);
+      scale += 0.04
+    ) {
+      root.style.setProperty("--card-scale", String(scale));
+      if (runsPast()) {
+        root.style.setProperty("--card-scale", String(scale - 0.04));
+        break;
+      }
+    }
+  for (let scale = 0.96; runsPast() && scale >= 0.7; scale -= 0.04)
+    root.style.setProperty("--card-scale", String(scale));
 }
+/** The person card's bust column, in pixels: --card-bust in play.css. */
+const PERSON_CARD_BUST = 380;
+/** A card of this many lines and rows or fewer stands this bust column, in pixels. */
+const CARD_BUSTS = [
+  { weight: 11, bust: 290 },
+  { weight: 18, bust: 340 },
+];
 async function showPerson(person) {
   const request = ++personRequest;
   const opener = document.activeElement;
@@ -3088,7 +3214,6 @@ async function showPerson(person) {
   $("person-name").textContent = card.name;
   $("person-facts").replaceChildren(card.node);
   show("person", true);
-  fitLifeStory($("person-facts"));
   $("game").classList.add("person-open");
   $("person-close").focus();
 }

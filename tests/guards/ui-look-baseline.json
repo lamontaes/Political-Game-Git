@@ -233,9 +233,7 @@
     },
     "Person card from People [sheet]": {
       "h2.heading wraps under 1.3 leading": 1,
-      "h3.pick-head.sechead wraps under 1.3 leading": 1,
-      "h3.sechead wraps under 1.3 leading": 1,
-      "h2.strip-name wraps under 1.3 leading": 1
+      "h3.pick-head.sechead wraps under 1.3 leading": 1
     },
     "Campaign board [sheet]": {
       "h2.heading wraps under 1.3 leading": 1,

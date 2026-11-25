@@ -1,5 +1,9 @@
 import { governmentProperName } from "../core2/government-proper-name";
-import { openPastTerms, servingTermsOf } from "../core2/modules/offices";
+import {
+  openPastTerms,
+  servingTermsOf,
+  type TermRow,
+} from "../core2/modules/offices";
 import {
   jobTitleSaid,
   officeInSentence,
@@ -13,6 +17,7 @@ import {
 } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
+import type { PersonState } from "../core2/types";
 import { currentCloseness, lastMetOnRow } from "../core2/closeness";
 import {
   COUNTED_MOVES_MODULE_ID,
@@ -1516,6 +1521,7 @@ interface TermLike {
     familyName: string;
     birthDate?: string;
     gender?: string;
+    homeState?: string;
   };
   readonly startDate: string;
   readonly party: string | null;
@@ -1548,17 +1554,22 @@ function enteredOffice(
     : [];
 }
 
+/** Whether a term row is the same holder's in the same seat as `term`. */
+function sameHolder(term: TermLike) {
+  return (row: TermLike) =>
+    row.identity?.givenName === term.identity?.givenName &&
+    row.identity?.familyName === term.identity?.familyName &&
+    row.identity?.birthDate === term.identity?.birthDate &&
+    row.seatId === term.seatId;
+}
+
 /** An official's own lines: each term they won or were given (the birth is under their name). */
 function officialLines(
   core: CoreState,
   rows: readonly TermLike[],
   term: TermLike,
 ) {
-  const same = (row: TermLike) =>
-    row.identity?.givenName === term.identity?.givenName &&
-    row.identity?.familyName === term.identity?.familyName &&
-    row.identity?.birthDate === term.identity?.birthDate &&
-    row.seatId === term.seatId;
+  const same = sameHolder(term);
   const lines: HistoryLine[] = [];
   for (const row of rows.filter(same)) {
     const office = officeSlotsOf(core, row.officeId);
@@ -1666,8 +1677,16 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     }),
     relation: null,
     relationRecordId: null,
-    age: null,
+    age: term.identity.birthDate
+      ? ageOnDate(makeIsoDate(term.identity.birthDate), makeIsoDate(core.date))
+      : null,
     alive: true,
+    // Their home state, from their term's identity.
+    home: term.identity.homeState
+      ? jurisdictionName(term.identity.homeState)
+      : null,
+    offices: officesHeld(core, allTerms.filter(sameHolder(term)) as never),
+    family: holder ? familyOf(core, holder) : [],
     placeName: government,
     school: null,
     work: office?.title
@@ -1709,13 +1728,30 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
  * tells (owner, Nov 1: the header's "Since 2025" against elections in 2011,
  * 2013 and 2015), so the header, the lines under the name and the story agree.
  */
-function withSince<T extends { serviceStart: string }>(
-  known: T,
-  run: OfficeRun | null,
-): T {
-  return run && run.since < known.serviceStart
-    ? { ...known, serviceStart: run.since }
-    : known;
+function withSince<
+  T extends {
+    serviceStart: string;
+    positions?: readonly { question: string }[];
+  },
+>(known: T, run: OfficeRun | null): T {
+  const start =
+    run && run.since < known.serviceStart
+      ? { ...known, serviceStart: run.since }
+      : known;
+  // Each stand is named by what it is about, in the question's own plain words
+  // ("Public broadband", never the catalog's name), where the bank has them.
+  return start.positions
+    ? {
+        ...start,
+        positions: start.positions.map((stand) => {
+          const about = questionAbout(stand.question);
+          return {
+            ...stand,
+            said: about ? about[0]!.toUpperCase() + about.slice(1) : null,
+          };
+        }),
+      }
+    : start;
 }
 
 /** The tie between two people, either way round, when they have one. */
@@ -1728,6 +1764,107 @@ function tieBetween(core: CoreState, viewerId: string, otherId: string) {
         ((row.actorId === viewerId && row.otherId === otherId) ||
           (row.otherId === viewerId && row.actorId === otherId)),
     );
+}
+
+/** A jurisdiction by its place's name; one the world keeps only at its state's level, by the state's; none for the nation. */
+function jurisdictionName(jurisdiction: string | undefined): string | null {
+  if (!jurisdiction || jurisdiction === "US") return null;
+  const place = corePlaceByJurisdictionId(jurisdiction as never);
+  if (place) return place.displayName;
+  const state = coreStateKeyOfJurisdictionId(jurisdiction);
+  const name = state ? coreStateName(state.replace(/^US-/, "")) : null;
+  return name ? stateInSentence(name) : null;
+}
+
+/**
+ * The offices a person has held, one row for each office they served in, from
+ * their term records: its title, the place it serves, the year the run began
+ * and the year it ended (null while they serve). Terms of one office run
+ * together. The card shows these (owner, Nov 23, P17 and P23: "it says he has
+ * held the position of mayor. Why is there no information about where?").
+ */
+function officesHeld(
+  core: CoreState,
+  terms: readonly Pick<
+    TermRow,
+    "officeId" | "startDate" | "serviceStart" | "endDate" | "status"
+  >[],
+) {
+  const api = coreAPI(core);
+  const offices = api.moduleState(OFFICES).table("offices");
+  const runs = new Map<
+    string,
+    {
+      office: string;
+      place: string | null;
+      from: number;
+      to: number | null;
+      serving: boolean;
+    }
+  >();
+  for (const term of terms) {
+    const office = offices.get(term.officeId) as unknown as
+      | { title?: string; jurisdiction?: string; governmentName?: string }
+      | undefined;
+    if (!office?.title) continue;
+    // The run's first day is the record's own service start, the same day the
+    // public record's "In office since" reads, so the card cannot say 2025 in
+    // one place and 2021 in another (Player's replay of #10337, Nov 24).
+    const from = Number((term.serviceStart ?? term.startDate).slice(0, 4));
+    const to = Number((term.endDate ?? term.startDate).slice(0, 4));
+    const run = runs.get(term.officeId);
+    const serving = term.status === "serving";
+    runs.set(term.officeId, {
+      office: office.title,
+      // A local office's jurisdiction is a government's id, not a place's:
+      // it is named by its government's proper name.
+      place:
+        jurisdictionName(office.jurisdiction) ??
+        (office.governmentName
+          ? governmentProperName(
+              office.governmentName,
+              office.jurisdiction ?? "",
+            )
+          : null),
+      from: Math.min(from, run?.from ?? from),
+      to: Math.max(to, run?.to ?? to),
+      serving: serving || Boolean(run?.serving),
+    });
+  }
+  return [...runs.entries()]
+    .map(([officeId, run]) => ({
+      officeId,
+      office: run.office,
+      place: run.place,
+      from: run.from,
+      to: run.serving ? null : run.to,
+    }))
+    .sort((a, b) => a.from - b.from || a.officeId.localeCompare(b.officeId));
+}
+
+/**
+ * Their partner and children, from their own family records, each with the
+ * word for who they are to them: the people the card lists beside their
+ * colleagues (owner, Nov 23, P26: "who he's married to, if he's married").
+ */
+function familyOf(core: CoreState, person: PersonState | undefined) {
+  return [...familyFactsOf(person)]
+    .filter(([, fact]) =>
+      ["partner", "child", "parent", "other-parent"].includes(fact.relation),
+    )
+    .flatMap(([id, fact]) => {
+      const kin = core.people.get(id);
+      return kin
+        ? [
+            {
+              personId: id,
+              name: `${kin.givenName} ${kin.familyName}`,
+              relation: relationWord(core, id, fact.relation),
+              recordId: fact.factId,
+            },
+          ]
+        : [];
+    });
 }
 
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
@@ -1789,6 +1926,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     family ||
     housemate ||
     coworker ||
+    // An officeholder's town is public.
+    servingOffices(core, otherId).length > 0 ||
     other.placeId === viewer.placeId;
   const homePlace = knowsHome
     ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)
@@ -1866,11 +2005,26 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // The family fact the relation is read from, the one scenes cite.
     relationRecordId: kin?.factId ?? null,
     // Family and housemates know each other's ages; others are known by sight.
+    // An officeholder's age is public as their birth year is.
     age:
-      family || housemate
+      family ||
+      housemate ||
+      publicKnowledge ||
+      servingOffices(core, otherId).length
         ? ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date))
         : null,
     alive: other.alive,
+    // Where they live, when the viewer knows it, and what they have held and
+    // who their family is, each from its record.
+    home: homePlace,
+    offices: officesHeld(
+      core,
+      coreAPI(core)
+        .moduleState(OFFICES)
+        .table("terms")
+        .query("byPerson", [otherId]) as unknown as TermRow[],
+    ),
+    family: familyOf(core, other),
     // Where family, housemates and coworkers live, by their record.
     placeName:
       (family || housemate || coworker) &&
