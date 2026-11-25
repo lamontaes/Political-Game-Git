@@ -1,0 +1,33 @@
+{
+  "id": "a-cheaper-discount-window-can-still-carry-stigma",
+  "kind": "voice",
+  "summary": "A member asks whether a bank in {place} will use a public lending facility if borrowing could be read as distress.",
+  "realLife": "Some March participants thought banks might still avoid the discount window, while others expected improved terms and regulatory encouragement to ease the stigma.",
+  "sources": [
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=9",
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=10"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the facility terms and reports of lenders' willingness to use it."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: facility terms and reports of lenders' willingness to use it.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The committee considers a different way to distribute funds.",
+      "pulledBy": "Eligible banks remain reluctant",
+      "writesBack": "Meeting item on an alternative funding facility."
+    },
+    {
+      "turn": "another-way",
+      "what": "Staff report actual borrowing at the next meeting.",
+      "pulledBy": "Banks use the facility",
+      "writesBack": "Facility draw reported at the next meeting."
+    }
+  ]
+}

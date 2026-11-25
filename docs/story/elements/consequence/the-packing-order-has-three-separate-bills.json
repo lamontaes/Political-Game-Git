@@ -1,0 +1,30 @@
+{
+  "id": "the-packing-order-has-three-separate-bills",
+  "kind": "consequence",
+  "summary": "The order delivered to {person} separates unpaid assessments, the missing crop's value and civil penalties.",
+  "realLife": "USDA's judicial officer assigned separate amounts to the Hornes for unpaid assessments, undelivered reserve fruit and civil penalties.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=9"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["The record identifies the itemized agency order."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: itemized agency order.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Dispute the valuation of the reserve fruit.",
+      "pulledBy": "The handler disputes the priced quantity.",
+      "writesBack": "Contested item and amount."
+    },
+    {
+      "turn": "another-way",
+      "what": "Challenge the assessment calculation separately.",
+      "pulledBy": "The handler contests the levy rate.",
+      "writesBack": "Contested item and amount."
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "the-box-is-larger-than-the-order",
+  "kind": "detail",
+  "summary": "A witness at {workplace} recognizes the takeout box but cannot say how much food it held.",
+  "realLife": "In Weingarten, a coworker confirmed the smaller chicken boxes had run out and could not tell the investigator how many pieces Collins had taken.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep420/usrep420251/usrep420251.pdf#page=4",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep420/usrep420251/usrep420251.pdf#page=5"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the package sizes, stock on hand and witness account."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: package sizes, stock on hand and witness account.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The investigator checks the contents separately.",
+      "pulledBy": "Small boxes were gone",
+      "writesBack": "Inventory and witness notes."
+    },
+    {
+      "turn": "another-way",
+      "what": "The investigator can compare the count with the receipt.",
+      "pulledBy": "A witness counted the pieces",
+      "writesBack": "Item count and amount paid."
+    }
+  ]
+}

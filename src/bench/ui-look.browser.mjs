@@ -129,6 +129,8 @@ let page = await open();
 /** What the run saw: { kind: { menu: { key: count } } } for each rule's kind. */
 const seen = Object.fromEntries(Object.keys(KINDS).map((k) => [k, {}]));
 const skipped = [];
+/** The deeper screens that threw while they were opened: a failure, never a skip. */
+const threw = [];
 /** The boxes that cut a line, by menu: said beside a new hit, never part of its key. */
 const cutBy = {};
 const tally = (kind, menu, key, count = 1) => {
@@ -245,8 +247,39 @@ async function selfTest() {
     ok.title.length === 1 && ok.title[0] <= TITLE_SHARE,
     `a title on a dark picture fails (${ok.title})`,
   );
+  const tries = [
+    await tryOpen(
+      "opens",
+      async () => true,
+      async () => {},
+    ),
+    await tryOpen(
+      "nothing",
+      async () => false,
+      async () => {},
+    ),
+    await tryOpen(
+      "throws",
+      async () => {
+        throw new Error("page closed");
+      },
+      async () => {},
+    ),
+    await tryOpen(
+      "scan throws",
+      async () => true,
+      async () => {
+        throw new Error("scan failed");
+      },
+    ),
+  ];
+  assert.deepEqual(
+    tries.map((t) => t.came),
+    ["opened", "nothing", "threw", "threw"],
+    "a menu that throws while opening is not told apart from one with nothing to open",
+  );
   console.log(
-    "break-it check: each rule finds its planted case and passes its twin",
+    "break-it check: each rule finds its planted case and passes its twin; a throw while opening is told from nothing to open",
   );
 }
 
@@ -296,14 +329,31 @@ async function scan(menu) {
     });
 }
 
-/** Try one drill into a deeper screen; a miss is listed, never silent. */
-async function drill(menu, open) {
+/**
+ * What one try at a deeper screen came to: it opened and was scanned; there was nothing to open in
+ * this world (a listed miss, not a failure: a world may hold no race that takes the player's filing);
+ * or it threw (the page closed, a click found nothing, the scan failed), which fails the run.
+ */
+async function tryOpen(menu, open, scanIt) {
   try {
-    if (await open()) await scan(menu);
-    else skipped.push(`${menu}: nothing to open in this world`);
+    if (await open()) {
+      await scanIt(menu);
+      return { came: "opened", note: "" };
+    }
+    return { came: "nothing", note: `${menu}: nothing to open in this world` };
   } catch (error) {
-    skipped.push(`${menu}: ${String(error.message).split("\n")[0]}`);
+    return {
+      came: "threw",
+      note: `${menu}: ${String(error.message).split("\n")[0]}`,
+    };
   }
+}
+
+/** Try one drill into a deeper screen; a miss is listed, a throw fails the run. */
+async function drill(menu, open) {
+  const result = await tryOpen(menu, open, scan);
+  if (result.came === "nothing") skipped.push(result.note);
+  if (result.came === "threw") threw.push(result.note);
 }
 
 const shown = (id) => page.locator(`#${id}`).isVisible();
@@ -430,7 +480,7 @@ try {
     return true;
   });
   console.log(
-    `opened ${menus.length} menus; not opened: ${skipped.join(" | ") || "none"}`,
+    `opened ${menus.length} menus; not opened: ${skipped.join(" | ") || "none"}; threw while opening: ${threw.join(" | ") || "none"}`,
   );
   // A page error is the game's own, not this guard's verdict: it is listed, never swallowed.
   if (errors.length)
@@ -440,6 +490,13 @@ try {
 } finally {
   await browser.close();
 }
+
+// A deeper screen that threw while it was opened fails the run (a miss for nothing to open does not).
+assert.deepEqual(
+  threw,
+  [],
+  "a menu threw while it was being opened: the page closed or the scan failed, not 'nothing to open'",
+);
 
 // The verdict: a menu and selector that is not in the baseline fails.
 const baseline = JSON.parse(readFileSync(BASELINE, "utf8"));

@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: dropped
 standard: 2
 claimed-by: claude/pt-board-public-employer
-pr: 10524
+pr: #10524
 blocked-on:
 source: Board mock's trace of #10519 (layoff terms), #10377 comments 7142299019 and 7142310689; the Coordinator routed it to its own PR
 claimed-at: 2026-11-24T19:50:00.000Z
@@ -17,6 +17,7 @@ lead: play-first
 model: opus
 effort: high
 root: none
+merged-at: 2026-11-24T23:04:20.426Z
 ---
 
 **What.** A worker at a public employer that owns its government's outside pay authority (seen: the Quemado Post Office, Quemado, New Mexico) has no employer in any scene: the layoff, first day and every other packet that says an employer drop the employer, the workplace and the position, and the layoff skips with "no narration for layoff-terms can be worded from the records given". Only the outside market (work out of town) should stay unsaid. Seen: in the talk that opens when such a worker is laid off, and in every other scene about their work, the employer is named, for example "the County of Oakland".

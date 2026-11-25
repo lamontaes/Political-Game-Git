@@ -1,0 +1,32 @@
+{
+  "id": "the-new-correspondent-checks-the-members-position",
+  "kind": "move",
+  "summary": "Before answering a constituent, {person} looks up where the senator stands.",
+  "realLife": "Letchworth remembered learning to research Hugh Scott's position on relatively simple issues and drafting reusable letters for the office.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/letchworth-elizabeth-full-transcript-with-index.pdf#page=11"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the constituent inquiry and senator's recorded position."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: constituent inquiry and senator's recorded position.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Prepare the reply from the office record.",
+      "pulledBy": "The position is on file.",
+      "writesBack": "Reply status and position source."
+    },
+    {
+      "turn": "another-way",
+      "what": "Take it to the legislative staff.",
+      "pulledBy": "The file does not settle the question.",
+      "writesBack": "Reply status and position source."
+    }
+  ]
+}
