@@ -29,6 +29,7 @@ import {
 } from "../health-web";
 import {
   assignDeathCause,
+  type DeathCause,
   DEATH_CAUSE_FACT_KEY,
   remainingDaysAfterOnset,
   SUBSTANCE_CONDITION,
@@ -1247,7 +1248,7 @@ function hearBookedDay(
       if (who)
         row.causeOfDeath.set(
           id,
-          assignDeathCause(api, {
+          deathCauseOf(api, found, {
             placeId: who.placeId,
             age: Math.floor(exactAge(api, makeIsoDate(who.birthDate), date)),
             incomeFifth: row.plans.get(id)?.fifth,
@@ -1280,7 +1281,7 @@ function hearBookedDay(
       data.deathSeverity,
       true,
     );
-    const died = assignDeathCause(api, {
+    const died = deathCauseOf(api, found, {
       placeId: person.placeId,
       age: Math.floor(exactAge(api, person.birthDate, date)),
       incomeFifth: row.plans.get(id)?.fifth,
@@ -1309,6 +1310,23 @@ function hearBookedDay(
     // Their cash passes to their heirs, or escheats (money audit defect 6).
     settleEstate(api, id, event.id);
   }
+}
+
+/**
+ * The cause of a death: a death that follows a recorded condition is of that
+ * condition (the case's own record); only a death with no condition on record,
+ * or the overdose of someone with the substance-use condition, takes its cause
+ * from the place's age-band shares. One rule for a built person's death and an
+ * unbuilt holder's.
+ */
+function deathCauseOf(
+  api: CoreAPI,
+  found: HealthCase,
+  input: Parameters<typeof assignDeathCause>[1],
+): DeathCause {
+  return found.conditionKey && !input.substanceUse
+    ? { cause: found.conditionKey, recordId: null }
+    : assignDeathCause(api, input);
 }
 
 /**
