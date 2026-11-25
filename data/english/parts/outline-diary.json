@@ -57,7 +57,10 @@
     "kin-wrote-from": "the town that relative wrote from",
     "stakes": "what the President said is at stake, as the President's side tells how things stand today, as a sentence (question-names.json today)",
     "stakes-clause": "the same, as a clause that follows 'that'",
-    "watchers-count": "how many watched, in words, whenever anyone watched with the player"
+    "watchers-count": "how many watched, in words, whenever anyone watched with the player",
+    "later-office": "the first office the person went on to hold after the entry, as a sentence names it",
+    "later-topic": "the policy area of the bills the person went on to sponsor, said mid-sentence",
+    "later-years": "whole years from the entry to the latest of those records, in words"
   },
   "maxWords": 30,
   "parts": [
@@ -972,6 +975,103 @@
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
         "ordinary-day-follows-the-event"
+      ]
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-later-office",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I would go on to be {later-office}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["later-office"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-sincere",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-25",
+      "elements": [
+        "an-entry-says-what-the-writer-went-on-to-do",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-later-topic",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I would end up writing my own bills on {later-topic}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["later-topic"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-studious"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-25",
+      "elements": [
+        "an-entry-says-what-the-writer-went-on-to-do",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-later-same-point",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I would bring a bill on {said} myself.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["said", "later-same-point"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-persistent"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-25",
+      "elements": [
+        "an-entry-says-what-the-writer-went-on-to-do",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-later-years-office",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I was {later-office} {later-years} years later.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["later-office", "later-years"]
+        }
+      ],
+      "lean": ["personality-v1:facet-meticulous", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-25",
+      "elements": [
+        "an-entry-says-what-the-writer-went-on-to-do",
+        "diary-entry-for-the-evening-of-a-public-event"
       ]
     },
     {

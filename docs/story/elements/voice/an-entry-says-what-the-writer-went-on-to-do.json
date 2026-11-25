@@ -1,0 +1,32 @@
+{
+  "id": "an-entry-says-what-the-writer-went-on-to-do",
+  "kind": "voice",
+  "summary": "A life told looking back ties an early day to what came after it: the office the writer went on to hold, the bills the writer went on to bring, the years between.",
+  "realLife": "People who tell their own past connect an earlier event to later parts of their life, and that link is a large part of how an event comes to mean something in the telling. A diary entry kept in the moment cannot say it; a life told afterward can.",
+  "sources": [
+    "Differences Between Subclinical Ruminators and Reflectors in Narrating Autobiographical Memories: Innovative Moments and Autobiographical Reasoning (PubMed Central): https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7982801/"
+  ],
+  "fits": ["journal"],
+  "slots": ["later-office", "later-topic", "later-years", "said"],
+  "gates": ["later-office", "later-topic", "later-same-point", "later-years"],
+  "weights": {
+    "later-same-point": 0.8
+  },
+  "inGame": "journal-later.ts reads the person's later office terms and sponsored bills (laterRecordsOf, #10579); the evening entry carries the slots once journal-evening.ts makes the call.",
+  "issues": ["none"],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The writer never holds office or brings a bill, so the entry stays what it was: an evening, nothing after.",
+      "pulledBy": "no office term and no sponsored bill dated after the entry",
+      "writesBack": "the entry reads as it did before, with no looking-back line"
+    },
+    {
+      "turn": "partial",
+      "what": "The writer holds office but brings bills on a different subject than the one the entry was about.",
+      "pulledBy": "a later term with later bills on another policy area",
+      "writesBack": "the entry names the office and the later subject, and does not claim the evening's question was taken up"
+    }
+  ]
+}
