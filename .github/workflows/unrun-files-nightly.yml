@@ -1,0 +1,41 @@
+name: Unrun files nightly
+# Runs, on main, the test files that no pull-request job runs, so a red in one
+# of them is seen the next morning instead of sitting unseen (CTO order
+# 7139529302, item 4, on #10377). The files are listed in
+# tests/nightly-unrun-files.txt, one path per line; add a file there and the
+# next run includes it. A red here is a red on main: read it with the red-main
+# skill, which reads the newest run of every workflow. This is not a required
+# check, and it is not a pull-request check.
+on:
+  schedule:
+    - cron: "43 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: unrun-files-nightly-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  unrun-files:
+    name: Unrun files nightly
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Run the listed files
+        env:
+          OCD_STORAGE_OVERRIDE: "cloud session, owner approved Oct 14"
+        run: |
+          mapfile -t files < <(grep -vE '^[[:space:]]*(#|$)' tests/nightly-unrun-files.txt)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "tests/nightly-unrun-files.txt lists no files" >&2
+            exit 1
+          fi
+          echo "Running ${#files[@]} file(s):"
+          printf '  %s\n' "${files[@]}"
+          npx vitest run "${files[@]}"

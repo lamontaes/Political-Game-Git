@@ -208,7 +208,7 @@ The latest CTO rule requires research covering every game place for empirical an
 
 ## Renderer follow-up ownership
 
-The new persistent-file `flock` protocol worked. While holding its exclusive nonblocking lock, Team 5 rechecked the current claim table and claimed only `src/player/PlayerGame.tsx`, `src/presentation/backdrop-people.ts` and its test. The lock file was retained. Earlier mkdir refusals were from the superseded protocol.
+The new persistent-file `flock` protocol worked. While holding its exclusive nonblocking lock, Team 5 rechecked the current claim table and claimed only `src/player/PlayerGame.tsx` (removed), `src/presentation/backdrop-people.ts` and its test. The lock file was retained. Earlier mkdir refusals were from the superseded protocol.
 
 The measured consumer mismatch is that the retired meeting scene uses a place backdrop, whose people reader only selects on-shift staff. The recorded meeting actors are passed to the retired scene consumer instead. The newest CTO dispatch assigns this renderer repair to Claude; all three newly claimed consumer paths remain unedited. Existing raster, staging coordinates and asset approval state remain authoritative. Browser acceptance is routed to Claude under the latest dispatch.
 

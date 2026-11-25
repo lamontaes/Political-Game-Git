@@ -1213,11 +1213,10 @@ export function createDirector(
               : "job-changed";
         // The person's own job is sized by their own pay as well as the
         // household's: a first job beside earning parents is a whole change
-        // for the one who took it, a small one for the house.
-        const daily = (id: string | undefined) => {
-          const job = id ? core.jobs.get(id) : undefined;
-          return job ? job.hourlyMinor * job.hoursDaily : zero;
-        };
+        // for the one who took it, a small one for the house. Daily pay is
+        // read as `householdPay` reads it (`wageDailyMinor`).
+        const daily = (id: string | undefined) =>
+          (id ? core.jobs.get(id)?.wageDailyMinor : undefined) ?? zero;
         const ownBase = Math.max(daily(priorJob), daily(nowJob));
         const own =
           memberId === book.personId && ownBase > zero

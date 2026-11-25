@@ -9,7 +9,7 @@ its current head and will be honored as it advances.
 
 ## Who owns what
 
-UI alone edits `src/player/PlayerGame.tsx`, `src/player/ShellNav.tsx`,
+UI alone edits `src/player/PlayerGame.tsx` (removed), `src/player/ShellNav.tsx`,
 `src/player/shell.css`, `src/player/player.css` and the person/scene renderer.
 A leaf that needs a change in any of those asks for it rather than making it;
 a patch that edits them will be taken as the request, not as the integration.

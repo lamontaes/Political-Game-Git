@@ -27,7 +27,7 @@ as one tested unit; do not reapply those patches.
   tokens.
 - `src/presentation/setup-questionnaire-flow.ts`: judicial and state-agency
   starts both map to the existing ordinary-life questionnaire context.
-- `src/player/PlayerGame.tsx`: the Custom background step derives availability
+- `src/player/PlayerGame.tsx` (removed): the Custom background step derives availability
   from the selected state's canonical jurisdiction and the minimum age, renders
   the native `state-agency-start` button beside the judicial choice, and clears
   only an incompatible legislative/state-agency selection after a place

@@ -550,7 +550,7 @@ The golden-path runner (`node --import tsx tests/golden-path/runner.mjs`) stays 
 
 ## 4. Stopgaps to register
 
-Register each in `src/core2/data/stopgaps.json` with `id`, `kind`, `file`, `line`, `whatItFakes`, `why`, `addedBy`, `addedAt`, `replacement` and `status`, with a `// stopgapId:` marker and an `api.stopgap()` call at the site.
+Register each in `src/core2/data/stopgaps.json` (removed) with `id`, `kind`, `file`, `line`, `whatItFakes`, `why`, `addedBy`, `addedAt`, `replacement` and `status`, with a `// stopgapId:` marker and an `api.stopgap()` call at the site.
 
 | ID                                                                         | Where                                            | What it fakes                                                                                                                                                                                                                                               | Replacement                                                                                                                                              |
 | -------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |

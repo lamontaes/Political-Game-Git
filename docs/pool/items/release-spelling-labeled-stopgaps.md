@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-16T08:07:49.327Z
 ---
 
-**What.** The American English sweep (`tests/american-english-sweep.test.ts`) failed on main because one stopgap row's reason in `src/core2/data/stopgaps.json` used the British spelling of "labeled". The word is respelled. The item's own first id also used the British spelling and showed in the generated index, so it was renamed to `release-spelling-labeled-stopgaps`.
+**What.** The American English sweep (`tests/american-english-sweep.test.ts`) failed on main because one stopgap row's reason in `src/core2/data/stopgaps.json` (removed) used the British spelling of "labeled". The word is respelled. The item's own first id also used the British spelling and showed in the generated index, so it was renamed to `release-spelling-labeled-stopgaps`.
 
 **Rules.** American English everywhere; persisted identifiers keep their spelling, but a pool item id is not one that must stay.
 
