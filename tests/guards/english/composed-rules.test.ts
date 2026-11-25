@@ -518,6 +518,32 @@ const FIXTURES: Record<
       text("scene", [["Late in the morning, you knock."]]),
     ),
   },
+  "no-catalog-name-in-speech": {
+    catches: sampleOf(
+      talk("sis", [
+        [
+          [
+            "sis",
+            "So the President wants a higher top income tax rate. I'm glad she said it out loud.",
+          ],
+        ],
+      ]),
+      talk("dad", [
+        [["dad", "Did you see the new rule on ban the box public hiring?"]],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("sis", [
+        [
+          [
+            "sis",
+            "So she finally wants to tax the rich. About time somebody said it out loud.",
+          ],
+        ],
+        [[PLAYER, "I don't know. I'd like to hear how it pays for itself."]],
+      ]),
+    ),
+  },
   "no-figure-in-talk": {
     catches: sampleOf(
       talk("sis", [[["sis", "The unemployment rate is 4.6% now, you know."]]]),
