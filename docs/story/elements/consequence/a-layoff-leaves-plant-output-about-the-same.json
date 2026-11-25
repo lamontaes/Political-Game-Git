@@ -1,0 +1,36 @@
+{
+  "id": "a-layoff-leaves-plant-output-about-the-same",
+  "kind": "consequence",
+  "summary": "After a layoff a plant keeps producing about as much per worker as before, so the employer does not necessarily pay for it in output.",
+  "realLife": "An NBER plant-level study found layoffs had no measurable effect on the productivity of the workers who stayed, and suggested seniority rules and heavy reliance on equipment as reasons.",
+  "sources": [
+    "NBER working paper w1807, The Economic Performance of Survivors after Layoffs: https://www.nber.org/papers/w1807"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "employer's output per worker read from job records after job-ended events.",
+  "turns": [
+    {
+      "turn": "output-falls-after-the-cut",
+      "summary": "A small shop loses its best person and output drops.",
+      "pulledBy": ["small workplace", "skill the leaver had"],
+      "writesBack": "employer output lower; boss mood: worried"
+    },
+    {
+      "turn": "morale-falls-but-output-holds",
+      "summary": "Output holds but the room goes quiet.",
+      "pulledBy": ["seniority rules", "equipment sets the pace"],
+      "writesBack": "coworker ties cooler"
+    },
+    {
+      "turn": "employer-rehires-within-months",
+      "summary": "The employer brings someone back.",
+      "pulledBy": ["orders return", "a former worker on good terms"],
+      "writesBack": "new job record; coworker event"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "failed-override-puts-the-library-on-the-list",
+  "kind": "consequence",
+  "summary": "After voters reject an override, a board proposes zeroing out the library and senior programs, and a second override passes months later.",
+  "realLife": "Stoneham voters rejected a $14.6 million override on April 1, 2025 by 511 votes, and a finance board proposed zero funding for the library, recreation, the council on aging and traffic directors. After a study committee, voters approved a $9.3 million override on Dec. 9, 2025, the town's first in 45 years under the state cap.",
+  "sources": [
+    "WBZ NewsRadio, Stoneham could close library amid budget crunch, Apr 2025: https://wbznewsradio.iheart.com/content/stoneham-could-close-library-amid-budget-crunch-some-are-fighting-back",
+    "Stoneham Civic Ledger, Thank You Stoneham, Dec 2025: https://stonehamcivicledger.substack.com/p/thank-you-stoneham",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; pages were read through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": [],
+  "gates": ["lost", "challenger"],
+  "weights": {
+    "schools": 0.5,
+    "parks": 0.4
+  },
+  "usedBy": [],
+  "inGame": "a failed override result; library, recreation and senior budget lines in the next budget; a later override measure",
+  "turns": [
+    {
+      "way": "The second override fails too and the library closes.",
+      "pulledBy": "voters who stay opposed",
+      "writes": "the speech mourns the library and blames no one"
+    },
+    {
+      "way": "The board shifts money from the library to schools without closing it.",
+      "pulledBy": "a split board",
+      "writes": "the speech calls it a hard trade"
+    },
+    {
+      "way": "The town cuts library hours and holds the doors open.",
+      "pulledBy": "reserves",
+      "writes": "the speech promises full hours back when it can"
+    }
+  ],
+  "issues": ["budget:schools", "budget:parks"]
+}

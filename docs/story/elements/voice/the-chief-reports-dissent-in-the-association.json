@@ -1,0 +1,30 @@
+{
+  "id": "the-chief-reports-dissent-in-the-association",
+  "kind": "voice",
+  "summary": "{chief} supports the governor's proposal and acknowledges disagreement within the association.",
+  "realLife": "Newton's police chief told the council that the Massachusetts chiefs' association backed the pardon after internal disagreement.",
+  "sources": [
+    "https://www.wbur.org/news/2024/04/03/council-approves-blanket-pardon-for-cannabis-possession-charges#:~:text=not%20a%20unanimous%20decision"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{chief}"],
+  "gates": ["Association position, witness and evidence of dissent."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: association position, witness and evidence of dissent.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A member calls the endorsement unanimous.",
+      "what": "Have the witness correct the description.",
+      "writesBack": "The minutes record support without claiming unanimity."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "A member asks how individual chiefs voted.",
+      "what": "Report only what the witness can establish.",
+      "writesBack": "The association's position stays distinct from individual views."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "pick-the-portrait-people-will-recognize",
+  "kind": "voice",
+  "summary": "Members explain their choice of {portrait} in terms of who will recognize it.",
+  "realLife": "In discussing California's innovation dollar, committee members favored a particular Steve Jobs image because they thought the public would recognize him more readily.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=4",
+    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=5",
+    "https://www.ccac.gov/system/files/2025-03/Sec-letter-AI-Iowa-Minnesota-Wisconsin-California.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{portrait}"],
+  "gates": [
+    "Members are comparing portraits intended to identify the same person."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: portrait alternatives and recognition rationale.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A blind viewing favors the other portrait.",
+      "pulledBy": "Viewers fail to identify the first drawing.",
+      "writesBack": "Both images return for discussion."
+    },
+    {
+      "turn": "partial",
+      "what": "Members recognize the face at full size alone.",
+      "pulledBy": "A reduced proof obscures the features.",
+      "writesBack": "The artist gets a request for a coin-size study."
+    }
+  ],
+  "issues": ["none"]
+}

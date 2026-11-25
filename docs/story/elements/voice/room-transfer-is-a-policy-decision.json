@@ -25,5 +25,6 @@
       "pulledBy": "The treating team identifies an isolation need independent of the roommate's race.",
       "writesBack": "The placement record states the medical reason."
     }
-  ]
+  ],
+  "issues": ["budget:federal:medicare"]
 }

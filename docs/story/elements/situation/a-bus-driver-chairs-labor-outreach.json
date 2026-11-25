@@ -25,5 +25,6 @@
       "pulledBy": "The route schedule rules out regular office hours.",
       "writesBack": "The campaign records an open chair and a volunteer with limited availability."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

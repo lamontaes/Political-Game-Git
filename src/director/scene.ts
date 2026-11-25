@@ -24,7 +24,7 @@ import {
   type SceneBinding,
   type ScheduleEntry,
 } from "./scheduling";
-import { organizationName, spoken } from "./words";
+import { isOutsideMarket, organizationName, spoken } from "./words";
 import { dayOpening } from "../english/day-words";
 import { homeAloneDayFacts } from "./day-part";
 import { nameWithWhat, officeWords, sceneSaysWhat } from "../english/said-as";
@@ -226,7 +226,8 @@ export function composeScene(
     kind === "workplace" || kind === "office" || kind === "school"
       ? core.organizations.get(binding.setting.recordId)
       : undefined;
-  const settingOrg = settingRow?.outsideFlow ? undefined : settingRow;
+  const settingOrg =
+    settingRow && isOutsideMarket(settingRow) ? undefined : settingRow;
   // A scene whose setting stands in for its own room opens on the day alone.
   const dayOnly =
     SITUATION_LIBRARY.types.find((row) => row.key === binding.typeKey)

@@ -1,0 +1,32 @@
+{
+  "id": "a-displaced-name-remains-searchable",
+  "kind": "consequence",
+  "summary": "Restoring an earlier name leaves the intervening name in the record as a variant.",
+  "realLife": "The committee restored Spring Lake and directed that Lake Killian remain a variant. The Wisconsin register lists Spring Lake under feature 1574672, and the national names file lists Lake Killian under that same number.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=11",
+    "https://prd-tnm.s3.amazonaws.com/StagedProducts/GeographicNames/DomesticNames/DomesticNames_WI_Text.zip",
+    "https://prd-tnm.s3.amazonaws.com/StagedProducts/GeographicNames/Topical/AllNames_National_Text.zip"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{lake}", "{variant}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the restoration vote, the former and restored names, the feature number and the published list of variants.",
+  "turns": [
+    {
+      "turn": "restoration-approved",
+      "what": "The clerk records the restored name and the instruction to retain the intervening name.",
+      "pulledBy": "The motion restoring the name passes with a variant instruction.",
+      "writesBack": "The minutes tie both names to the feature. Publication still needs confirmation."
+    },
+    {
+      "turn": "variant-published",
+      "what": "A resident looks up the displaced name in the variants list.",
+      "pulledBy": "The published list gives that variant the same feature number as the restored name.",
+      "writesBack": "The resident can match the old name to the current entry."
+    }
+  ]
+}

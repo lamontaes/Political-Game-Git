@@ -1,0 +1,43 @@
+{
+  "id": "drafter-apologizes-for-lost-raises-and-denies-a-crisis",
+  "kind": "voice",
+  "summary": "The writer of a lean budget apologizes to employees who lose promised raises, and denies the city is in crisis.",
+  "realLife": "After a council's tied vote killed a property tax increase, the member who drafted the lean substitute budget apologized to employees whose raises were dropped. She said the promise had been made without planning for later years. She rejected the word crisis, saying debts were paid, payroll was covered and no one was laid off. Backers of the tax warned that job losses could follow within a year, and opponents said the public had not been asked enough.",
+  "sources": [
+    "WPLN (Nashville, Tennessee), 'Nashville council rejects property tax hike, finalizing budget that pinches schools and city staff', June 20, 2018: https://wpln.org/post/nashville-council-rejects-property-tax-hike-finalizing-budget-that-pinches-schools-and-city-staff/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "quote"],
+  "gates": [],
+  "weights": {
+    "roll-call": 0.5,
+    "budget-vote": 0.6
+  },
+  "inGame": "the budget's raise line, the failed tax measure, reserve and debt-payment records; needs: a promise kept per employee group that the vote can break",
+  "issues": ["budget:administration"],
+  "turns": [
+    {
+      "name": "an apology to employees",
+      "pulledBy": "a drafter who dropped promised raises",
+      "writes": "the story carries the apology and marks the promise as broken for the workers",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a denial of crisis",
+      "pulledBy": "finances show debt paid and no layoffs",
+      "writes": "the story carries the denial and the same records back it",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a warning of later job cuts",
+      "pulledBy": "a sponsor who lost the tax vote",
+      "writes": "the story carries a warning about next year and names the projected gap",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

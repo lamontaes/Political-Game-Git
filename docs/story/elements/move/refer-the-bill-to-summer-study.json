@@ -25,5 +25,6 @@
       "pulledBy": "The reporting date falls after adjournment.",
       "writesBack": "The finding is available when a sponsor files next session."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

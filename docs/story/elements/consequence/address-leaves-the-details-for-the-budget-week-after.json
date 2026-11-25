@@ -1,0 +1,44 @@
+{
+  "id": "address-leaves-the-details-for-the-budget-week-after",
+  "kind": "consequence",
+  "summary": "The address names goals and leaves the numbers and bill text for a budget a week later.",
+  "realLife": "After a governor's address, the party out of power in the capitals said they could not judge the plan until details came. Priority bills were not yet filed, the executive budget was due within days, and budget hearings were to start the next week, with a promise that voters would decide if the legislature stalled.",
+  "sources": [
+    "Nevada Current via Yahoo News (Carson City, Nevada), 'Lombardo, Democrats call for bipartisanship but draw battle lines for upcoming legislative session', January 16, 2025: https://www.yahoo.com/news/lombardo-democrats-call-bipartisanship-draw-121420757.html",
+    "WXXI News / WRVO (Rochester and central New York), 'State Republicans react to Hochul's State of the State Address', January 14, 2025: https://www.wxxinews.org/2025-01-14/state-republicans-react-to-hochuls-state-of-the-state-address",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "about", "place"],
+  "gates": [],
+  "weights": {
+    "address": 0.5,
+    "budget": 0.5
+  },
+  "inGame": "the executive budget record and each bill's stage; needs: a stored list of what an address promised",
+  "issues": ["budget:administration", "budget:schools"],
+  "turns": [
+    {
+      "name": "the budget fills in the promises",
+      "pulledBy": "the budget includes the address's items",
+      "writes": "the budget lines match the speech and the story compares them",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the budget leaves one out",
+      "pulledBy": "the money was short",
+      "writes": "a promise from the speech has no line and the opposition says so",
+      "requiresFacts": [],
+      "excludesFacts": ["budget-includes-items"]
+    },
+    {
+      "name": "the governor goes to the voters",
+      "pulledBy": "the legislature stalls on a key bill",
+      "writes": "the idea is moved to a ballot measure and the story says so",
+      "requiresFacts": ["bill-stalled"],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

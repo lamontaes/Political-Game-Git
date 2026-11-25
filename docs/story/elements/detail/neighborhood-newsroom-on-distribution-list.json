@@ -1,0 +1,31 @@
+{
+  "id": "neighborhood-newsroom-on-distribution-list",
+  "kind": "detail",
+  "summary": "A local editor asks {person} to send the storm bulletin directly to the newsroom.",
+  "realLife": "The mayor's team sent written updates to community media serving New Yorkers in several languages.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
+  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The local outlet carries emergency information for a specific audience."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the local outlet carries emergency information for a specific audience.",
+  "turns": [
+    {
+      "turn": "the-editor-confirms-receipt",
+      "pulledBy": "The editor confirms receipt.",
+      "what": "Mark the newsroom reached.",
+      "writesBack": "The outlet has a confirmed copy."
+    },
+    {
+      "turn": "the-address-bounces",
+      "pulledBy": "The address bounces.",
+      "what": "Ask the outlet for its current emergency contact.",
+      "writesBack": "The distribution list shows the failed delivery."
+    }
+  ]
+}

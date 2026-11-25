@@ -1,0 +1,31 @@
+{
+  "id": "help-the-project-report-back",
+  "kind": "move",
+  "summary": "A community group in {place} takes its reporting problem to a city workshop.",
+  "realLife": "The commission described workshops with The New School that helped project operators plan, monitor and report their work.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/105/?locale=en"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The city offers project reporting help and the operator has a report due."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the city offers project reporting help and the operator has a report due.",
+  "turns": [
+    {
+      "turn": "the-operator-has-attendance-records",
+      "pulledBy": "The operator has attendance records.",
+      "what": "Build its report around the recorded sessions.",
+      "writesBack": "Attach the session totals to the progress report."
+    },
+    {
+      "turn": "session-records-are-missing",
+      "pulledBy": "Session records are missing.",
+      "what": "Ask the operator to reconcile the gaps.",
+      "writesBack": "Leave the affected totals unverified."
+    }
+  ]
+}

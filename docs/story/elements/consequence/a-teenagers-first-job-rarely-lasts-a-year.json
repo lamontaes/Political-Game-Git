@@ -1,0 +1,36 @@
+{
+  "id": "a-teenagers-first-job-rarely-lasts-a-year",
+  "kind": "consequence",
+  "summary": "A teenager's first job is likely to end within a year, while older workers have years of tenure.",
+  "realLife": "The Bureau of Labor Statistics reported about 74 percent of workers aged 16 to 19 had a year or less with their employer, compared with about 9 percent of workers 55 to 64.",
+  "sources": [
+    "U.S. Bureau of Labor Statistics, Employee Tenure news release: https://www.bls.gov/news.release/tenure.nr0.htm"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "job record start dates; job-ended event rates by age.",
+  "turns": [
+    {
+      "turn": "teen-stays-through-the-summer",
+      "summary": "The teen stays and a manager offers more hours.",
+      "pulledBy": ["steady manager", "needs the money"],
+      "writesBack": "job record continues; boss tie closer"
+    },
+    {
+      "turn": "teen-quits-for-school",
+      "summary": "The teen leaves when classes start.",
+      "pulledBy": ["school record", "parent push"],
+      "writesBack": "job-ended event; coworker ties drift"
+    },
+    {
+      "turn": "teen-is-let-go-in-the-slow-season",
+      "summary": "The shop cuts hours in the slow months.",
+      "pulledBy": ["small shop"],
+      "writesBack": "job-ended event; mood: stung"
+    }
+  ]
+}

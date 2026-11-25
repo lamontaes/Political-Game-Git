@@ -35,7 +35,7 @@ The owner, Nov 24: "all of these shouldn't be necessarily written independently.
   - A line PR whose lines cite no element is sent back.
 - **Picking: the most specific match wins** (Valve's dynamic dialogue, Elan Ruskin, GDC 2012). The director holds the facts a moment can test. The element, turn or line whose conditions match the most facts plays, with general ones as the fallback. A line just used is down-weighted.
 - **Depth, not breadth** (owner, Nov 24: "a million times more variety"). Aim for hundreds of whole versions per slot, multiplied by the speaker's voice, record inserts, turns and the situation. The sameness gate measures it across many drawn lives.
-- **Element PRs** are docs only, titled `elements: …`, with the JSON formatted by Prettier and a `docs/release/changes/<id>.md` declaring `impact: none`. The CTO checks the sources and merges them.
+- **Element PRs** are docs only, titled `elements: …`, with the JSON formatted by Prettier and no release declaration (element files need none since #10429; see the Nov 24 gotcha). The CTO checks the sources and merges them.
 - **Nobody waits** (owner, Nov 24: "It keeps stopping at every little step. It needs to keep working."). Cite an element that is still in review. If you are blocked, post it once and move to the next element, slot or turn.
 
 ## The scope (owner, Oct 27)
@@ -92,6 +92,6 @@ When one situation (a knock at a door, a visit to office hours) needs many scene
 One line each: what happened, its cause, and what to do. From the crew threads (#9747, #9750) and the CTO's log.
 
 - Nov 17, 03:47Z: the owner found the real-lives scene bank "a little too specific" (dinner at home, the party's meeting room, a senator who comes to campaign). Cause: scenes tied to one place and one office. Write patterns with slots for the role ("a powerful officeholder") and the setting, and let a pattern feed or merge into others.
-- Nov 24: the first eight element PRs failed `repository` twice: once on Prettier, then on `release:check`, which counts element JSON as changed paths. Format the JSON and add the `impact: none` declaration in the first push.
+- Nov 24: the first eight element PRs failed `repository` twice: once on Prettier, then on `release:check`, which counted element JSON as changed paths. Format the JSON in the first push. Since #10429 element files need no declaration, so an element-only PR carries no `docs/release/changes/` file: one file outside `docs/story/elements/` makes Audit scan, New game and Instruction checks run on it (Nov 24: 78 of 189 queued runs came from the 34 open element PRs, each with a declaration; the Coordinator, 7143409809 on #9750).
 - Nov 24: a Codex writer stopped work to wait for its elements to reach main. Cite elements from open PRs and keep writing; the owner called the stopping "why nothing is getting done".
 - Nov 24: the first Claude writers' elements cited only our own research notes as sources. Every element names the real speech, paper or record behind it.

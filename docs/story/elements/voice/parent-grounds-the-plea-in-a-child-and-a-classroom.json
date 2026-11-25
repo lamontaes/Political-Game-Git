@@ -1,0 +1,36 @@
+{
+  "id": "parent-grounds-the-plea-in-a-child-and-a-classroom",
+  "kind": "voice",
+  "summary": "A parent at a school board opens with their role and gives details of their child's grade and school to make the case.",
+  "realLife": "At a school-closure comment session, speakers opened by stating their role, gave their children's grades and schools, and stressed safety, belonging and trust in the district.",
+  "sources": [
+    "CBS Colorado, community pleas before Denver school board on closures: https://www.cbsnews.com/colorado/news/community-passionate-pleas-before-denver-public-school-board-members-school-closure-plan"
+  ],
+  "fits": ["work-community"],
+  "slots": ["school", "issue", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["budget:schools"],
+  "inGame": "a school record for the child; needs: board comment sessions; a protest formed by the public-action engine can carry it",
+  "turns": [
+    {
+      "turn": "parent-reads-statistics",
+      "summary": "The parent reads cost and enrollment numbers.",
+      "pulledBy": ["an analytic parent"],
+      "writesBack": "a sharper case; less warmth"
+    },
+    {
+      "turn": "parent-is-too-upset-to-finish",
+      "summary": "The parent stops mid-sentence and sits.",
+      "pulledBy": ["a distressed parent"],
+      "writesBack": "the room goes quiet; a mood note"
+    },
+    {
+      "turn": "student-speaks-instead",
+      "summary": "A student speaks for their school.",
+      "pulledBy": ["a bold student"],
+      "writesBack": "officials listen differently; a memory"
+    }
+  ]
+}

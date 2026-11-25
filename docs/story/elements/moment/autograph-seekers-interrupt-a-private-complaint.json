@@ -25,5 +25,6 @@
       "pulledBy": "The door is closed when they arrive.",
       "writesBack": "Their visit goes in the appointment book for later that day."
     }
-  ]
+  ],
+  "issues": ["none"]
 }

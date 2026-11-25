@@ -1,0 +1,44 @@
+{
+  "id": "a-daughter-lets-the-news-play-quietly",
+  "kind": "voice",
+  "summary": "A grown child avoids politics with a conservative father, waits out the news and hears his questions as traps.",
+  "realLife": "In a recorded father and daughter talk, she tries to dodge political talk and lets the news play, waiting silently for the politicians to leave the screen. He says his questions are sincere, that he trusts her as better educated and does not need to agree to respect her. She hears teasing and an attempt to prove her wrong, gets exasperated, then admits she fears he no longer likes her. It ends on pride and affection from both.",
+  "sources": [
+    "https://www.mprnews.org/story/2016/11/04/npr-election-family-feud (NPR family political therapy piece, father and daughter, via MPR)"
+  ],
+  "fits": ["home"],
+  "slots": ["{the speaker}", "{the listener}", "{the program on the news}"],
+  "gates": [
+    "speaker and listener are parent and grown child",
+    "the two differ in politics",
+    "the parent is warm and the child is the one who avoids"
+  ],
+  "weights": [
+    "how much the child admires the parent",
+    "the child's trait of avoiding conflict",
+    "how often they see each other"
+  ],
+  "inGame": "reads the tie and a stand with its reason on each side; needs: a child's fear that the parent no longer likes them",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the question is heard as a trap",
+      "what": "She hears the question as teasing and snaps that she cannot talk to him.",
+      "pulledBy": "he laughs and presses",
+      "writesBack": "tie cools for the visit"
+    },
+    {
+      "turn": "the parent says he wants to learn",
+      "what": "He says he asks because he trusts her and does not need to agree.",
+      "pulledBy": "she is hurt enough to say her fear out loud",
+      "writesBack": "a talk where each says the plain affection is recorded"
+    },
+    {
+      "turn": "the news stays on",
+      "what": "She stops dodging and watches the program with him in silence.",
+      "pulledBy": "a result night or storm both care about",
+      "writesBack": "a shared moment on the record, no stand changed"
+    }
+  ],
+  "issues": ["none"]
+}
