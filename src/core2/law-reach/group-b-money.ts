@@ -1575,6 +1575,10 @@ export function paySsi(
   const want = new Map<string, number>();
   const named = new Map<string, Record<string, number>>();
   let counted = 0;
+  // Each household's month of SSI, named and counted alike: the poverty count
+  // reads it as income (the Census counts Supplemental Security Income), never
+  // the means test here, so a benefit does not cut the next month's benefit.
+  const monthlyByHousehold: Record<string, number> = {};
   if (input.inForce && payer) {
     const cents = reachParameter("centsPerDollar");
     const months = reachParameter("monthsPerYear");
@@ -1610,6 +1614,7 @@ export function paySsi(
       const monthly = Math.round(base * line.level);
       if (monthly <= 0) continue;
       if (!household.named) {
+        monthlyByHousehold[household.id] = monthly;
         const weight = household.scale ?? 1;
         countedMinor += monthly * weight;
         countedBaseMinor += base * weight;
@@ -1618,6 +1623,7 @@ export function paySsi(
       }
       const head = heads.get(household.id);
       if (!head) continue;
+      monthlyByHousehold[household.id] = monthly;
       want.set(`${payer.id}|${head.id}`, monthly);
       named.set(head.id, { monthlyMinor: monthly });
       recordApplied(api, {
@@ -1660,6 +1666,11 @@ export function paySsi(
       });
     }
   }
+  putRow(api, "taken", {
+    id: SSI_INCOME_ROW,
+    key: "ssi",
+    monthlyByHousehold,
+  });
   reconcileObligations(api, {
     rowKind: "ssi",
     key: input.key,
@@ -1669,6 +1680,28 @@ export function paySsi(
     citation: `Supplemental Security Income (${input.key}): the federal Treasury pays the federal benefit rate less countable income to aged residents`,
   });
   return { named, counted };
+}
+
+/** The record of each household's month of SSI (the reach's `taken` table). */
+const SSI_INCOME_ROW = `ssi|${INCOME_SECURITY_KEY}`;
+
+/**
+ * What SSI pays each household a year, in minor units, named households and
+ * counted records alike: the poverty measure reads it as income.
+ */
+export function ssiIncomeByHousehold(
+  core: CoreState,
+): ReadonlyMap<string, number> {
+  const out = new Map<string, number>();
+  if (!core.modules.has(REACH_B_MODULE_ID)) return out;
+  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
+    coreAPI(core),
+    "taken",
+    SSI_INCOME_ROW,
+  );
+  for (const [id, monthly] of Object.entries(row?.monthlyByHousehold ?? {}))
+    out.set(id, monthly * reachParameter("monthsPerYear"));
+  return out;
 }
 
 /**
