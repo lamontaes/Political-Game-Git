@@ -3865,6 +3865,44 @@
           "when": {}
         }
       ]
+    },
+    "last-day-farewell": {
+      "state": "ask",
+      "replies": ["tell", "ask", "promise"],
+      "follow": {
+        "tell": ["ask", "accept"],
+        "ask": ["answer"],
+        "promise": ["thank"]
+      },
+      "again": {
+        "ask": ["tell", "promise"],
+        "answer": ["tell", "promise"],
+        "press": ["tell"]
+      },
+      "endings": [
+        {
+          "id": "kept-in-touch",
+          "label": "You'll stay in touch",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "said-it",
+          "label": "You said what it meant",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

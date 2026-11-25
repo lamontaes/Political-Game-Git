@@ -75,8 +75,8 @@ const CUT_PURPOSES = new Set<string>([
   "swearing-in",
   "bill-sign-on",
   "job-offer",
-  "layoff",
   "last-day",
+  "layoff",
   "first-day",
   "reach-out",
 ]);
