@@ -39417,32 +39417,6 @@
       "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
-      "key": "scene-talk.reply-agree.then-yes-name-let-s-try",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then yes, {name}. Let's try.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
       "key": "scene-talk.reply-refuse.that-s-not-enough-name-i-m-sorry",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -39516,32 +39490,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "refuse",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.reply-agree.okay-slowly-name-but-yes",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Okay. Slowly, {name}, but yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
         "key": "routine"
       },
       "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
@@ -41311,6 +41259,32 @@
       "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
+      "key": "scene-talk.reply-ask.not-yet-because-i-don-t-know-what-the-aid-for-home-will-cover",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Not yet, because I don't know what the aid for {home} will cover.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home", "aid"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "ask",
+        "key": "damage"
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+    },
+    {
       "key": "scene-talk.narrate-narrate.the-landlord-s-notice-was-on-the-table-and-owed-was-the-number-on-it",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -41780,6 +41754,32 @@
       "date": "2026-11-24",
       "tag": {
         "move": "press",
+        "key": "notice"
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+    },
+    {
+      "key": "scene-talk.reply-ask.not-yet-because-i-don-t-know-what-the-landlord-will-take-for-owed",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Not yet, because I don't know what the landlord will take for {owed}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "ask",
         "key": "notice"
       },
       "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
@@ -43831,6 +43831,32 @@
       "elements": ["pattern-b6-03-asked-along"]
     },
     {
+      "key": "scene-talk.reply-agree.yes-but-after-the-guests-for-honoree-sit-down-because-that-is-when-people-will-listen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, but after the guests for {honoree} sit down, because that is when people will listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      },
+      "elements": ["pattern-b6-03-asked-along"]
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-came-in-and-sat-down-without-being-asked",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -43930,6 +43956,32 @@
       "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
+      "key": "scene-talk.reply-promise.i-can-t-promise-more-evenings-name-because-the-job-takes-them-right-now",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can't promise more evenings, {name}, because the job takes them right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
+    },
+    {
       "key": "scene-talk.state-ask.i-don-t-know-my-way-around-place-yet-where-should-i-put-my-things-and-who-runs-the-kitchen",
       "move": "state-ask",
       "kind": "spoken",
@@ -43974,6 +44026,32 @@
       "date": "2026-11-24",
       "tag": {
         "move": "narrate",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-promise.i-can-t-promise-that-name-because-people-in-the-room-are-counting-on-me-being-there",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can't promise that, {name}, because people in the room are counting on me being there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-absence",
+          "key": "threat",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "promise",
         "key": "threat"
       },
       "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
@@ -44101,6 +44179,56 @@
       "date": "2026-11-24",
       "tag": {
         "move": "accept",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.reply-confront.i-can-t-forgive-that-yet-name-because-you-knew-exactly-what-it-meant-to-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I can't forgive that yet, {name}, because you knew exactly what it meant to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-ll-listen-name-because-you-came-to-tell-me-yourself",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'll listen, {name}, because you came to tell me yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "comfort",
         "key": "threat"
       },
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
@@ -55032,6 +55160,56 @@
         "move": "narrate",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-yet-name-because-i-m-still-angry-about-what-happened",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not yet, {name}, because I'm still angry about what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-name-because-i-ve-missed-having-you-around",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, {name}, because I've missed having you around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-steps-into-your-path-with-a-hard-look",
@@ -78431,6 +78609,32 @@
         "filing-at-the-clerks-counter",
         "campaign-manager-is-someone-close"
       ]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-yet-name-because-i-have-to-talk-it-over-with-the-people-at-home-first",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet, {name}, because I have to talk it over with the people at home first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
     },
     {
       "key": "scene-talk.reply-agree.i-m-in-volunteer",
