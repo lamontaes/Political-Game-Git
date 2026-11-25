@@ -39417,32 +39417,6 @@
       "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
-      "key": "scene-talk.reply-agree.then-yes-name-let-s-try",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then yes, {name}. Let's try.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
       "key": "scene-talk.reply-refuse.that-s-not-enough-name-i-m-sorry",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -39516,32 +39490,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "refuse",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.reply-agree.okay-slowly-name-but-yes",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Okay. Slowly, {name}, but yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
         "key": "routine"
       },
       "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
