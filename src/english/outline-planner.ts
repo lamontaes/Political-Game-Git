@@ -636,13 +636,22 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
       const saying: ToldSentence[] = [];
       const taken = new Set(saidHere);
       const spending = new Map(spent);
+      // The moves this shape has said so far, as `said-<move>` facts a later
+      // piece may need or exclude (W2, Nov 25: a stand after a contrast must
+      // not name the action the contrast already named). Kept apart from
+      // `told-<section>`, since a move and a section can share a name.
+      const saidFacts: Record<string, GroundedEnglishFact | undefined> = {
+        ...knownHere.facts,
+      };
+      const movesHere: TellingInput = { ...knownHere, facts: saidFacts };
+      const saidMoves: string[] = [];
       let before = opens ? "start" : (last?.move ?? "start");
       let failed = false;
       for (const raw of shape.moves) {
         const optional = raw.endsWith("?");
         const move = optional ? raw.slice(0, -1) : raw;
         const worded = wordMove(
-          knownHere,
+          movesHere,
           row.surface,
           move,
           before,
@@ -685,11 +694,21 @@ function tellOnce(input: TellingInput, full: boolean): Told | null {
           facts: worded.facts,
           sourceRecordIds: worded.ids,
         });
+        saidFacts[`said-${move}`] = {
+          text: "yes",
+          sourceRecordIds: input.sourceRecordIds,
+        };
+        saidMoves.push(move);
         before = move;
       }
       if (!failed && saying.length) {
         told = saying;
         for (const [slot, count] of spending) spent.set(slot, count);
+        for (const move of saidMoves)
+          facts[`said-${move}`] = {
+            text: "yes",
+            sourceRecordIds: input.sourceRecordIds,
+          };
         shapesUsed.add(name);
         break;
       }
