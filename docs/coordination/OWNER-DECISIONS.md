@@ -2,14 +2,14 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
-## Nov 25, 2026, about 1:40 p.m.: one history, read by everything (owner, verbatim; recorded by the CTO)
+## Nov 25, 2026, about 1:28 p.m.: one history, read by everything (owner, verbatim; recorded by the CTO)
 
 - "WELL IT ALL NEEDS TO BE LINKED TO THE SAME THING WHICH IS WHAT I KEEP SAYING!!!!!!!!!! THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM THE SAME HISTORY. STOP MAKING NEW SYSTEMS FOR NEW THINGS WHEN THEY ALL USE THE SAME THING!!!!!!!!!"
   - Every reader pulls from the one history the world simulates: the Journal, the director, the person cards, the loading story, the news and the newscast. A reader may tell it differently. None of them keeps its own list of moments or its own sections.
   - No new system for a new screen or kind of text. Extend the one history and its one telling instead.
-  - The 1:30 p.m. causes, read again under this ruling: the loading story's SECTION_YEAR, the Journal's own moment builders, and a news that holds no history are each a separate system over the same records. Fold them onto the one history; don't patch any one of them alone.
+  - The 1:20 p.m. causes, read again under this ruling: the loading story's SECTION_YEAR, the Journal's own moment builders, and a news that holds no history are each a separate system over the same records. Fold them onto the one history; don't patch any one of them alone.
 
-## Nov 25, 2026, about 1:30 p.m.: a wrong line is an engine problem; stop deleting lines (owner, verbatim; recorded by the CTO)
+## Nov 25, 2026, about 1:20 p.m.: a wrong line is an engine problem; stop deleting lines (owner, verbatim; recorded by the CTO)
 
 - "STOP DOING SHIT BY LINES SPECIFICALLY. IF IT'S WRONG IT'S AN ENGINE PROBLEM!!!!!!!!!!!!!!!!!!!!!!!"
 - "lines need to be stopped deleting when I say stuff is messed up. The problem isn't the lines themselves, it's how it's structured. Like, when they're wrong, you need to see why they're written like that and update the fucking code. This is why we keep fucking reverting, because they keep starting from zero."
