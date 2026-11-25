@@ -36242,90 +36242,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-brought-you-to-employer",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What brought you to {employer}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-did-you-do-before-employer-i-d-like-to-know-who-i-m-talking-to",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What did you do before {employer}? I'd like to know who I'm talking to.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.sure-i-ll-show-you-how-things-run-at-employer",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Sure. I'll show you how things run at {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.close-press.no-hurry",
       "move": "close-press",
       "kind": "spoken",
@@ -56344,30 +56260,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.no-thank-you-i-can-t-take-position-at-employer",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "No, thank you. I can't take {position} at {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "job-offer",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.thank-you-i-ll-be-position-at-employer-and-i-ll-work-hard-at-it",
       "move": "reply-agree",
       "kind": "spoken",
@@ -56444,30 +56336,6 @@
       "move": "reply-agree",
       "kind": "spoken",
       "text": "I accept. I've been hoping to hear from {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "job-offer",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-i-ll-take-position-at-employer",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes. I'll take {position} at {employer}.",
       "uses": [
         {
           "subject": "scene",
@@ -56893,66 +56761,6 @@
       "elements": ["acceptance-restates-the-terms"]
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-ll-take-at-and-i-can-start-whenever-you-need-me",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes. I'll take {position} at {employer}, and I can start whenever you need me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["employer", "position"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "offer-call-ask-for-days-to-decide",
-        "offer-deadline-one-to-two-days-fair",
-        "start-date-is-negotiable"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ll-take-it-an-hour-is-fair-for",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll take it. {pay} an hour is fair for {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["pay", "position"]
-        }
-      ],
-      "bearing": "plain",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "offer-call-ask-for-days-to-decide",
-        "offer-deadline-one-to-two-days-fair",
-        "start-date-is-negotiable"
-      ]
-    },
-    {
       "key": "scene-talk.reply-decline.i-m-grateful-but-i-have-to-pass-on-at",
       "move": "reply-decline",
       "kind": "spoken",
@@ -56969,36 +56777,6 @@
         }
       ],
       "bearing": "plain",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "offer-call-ask-for-days-to-decide",
-        "offer-deadline-one-to-two-days-fair",
-        "start-date-is-negotiable"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-can-t-take-at-an-hour-it-doesn-t-cover-what-i-d-be-giving-up",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I can't take {position} at {pay} an hour. It doesn't cover what I'd be giving up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["pay", "position"]
-        }
-      ],
-      "bearing": "blunt",
       "origin": "authored",
       "author": "the before-and-around writer",
       "date": "2026-11-24",
@@ -57034,36 +56812,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "ask",
-        "key": "favor-asked"
-      },
-      "elements": [
-        "offer-call-ask-for-days-to-decide",
-        "offer-deadline-one-to-two-days-fair",
-        "start-date-is-negotiable"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-offer.i-ll-take-if-i-can-start-after-the-first-of-the-month",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "I'll take {position} if I can start after the first of the month.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "job-offer",
-          "key": "favor-asked",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "plain",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "offer",
         "key": "favor-asked"
       },
       "elements": [
@@ -57188,6 +56936,156 @@
       "date": "2026-11-24",
       "tag": {
         "move": "accept",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-take-the-job-at-and-i-can-start-whenever-you-need-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'll take the {position} job at {employer}, and I can start whenever you need me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "position"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-take-the-job-an-hour-is-fair-for-the-work-as",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll take the job. {pay} an hour is fair for the work as {position}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["pay", "position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-thank-you-the-job-pays-an-hour-and-i-can-t-live-on-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No, thank you. The {position} job pays {pay} an hour, and I can't live on that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["pay", "position"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-thank-you-i-can-t-take-the-job-at-an-hour-it-doesn-t-cover-what-i-d-be-g",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No, thank you. I can't take the {position} job at {pay} an hour. It doesn't cover what I'd be giving up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["pay", "position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "offer-call-ask-for-days-to-decide",
+        "offer-deadline-one-to-two-days-fair",
+        "start-date-is-negotiable"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-take-the-job-if-i-can-start-after-the-first-of-the-month",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll take the {position} job if I can start after the first of the month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "offer",
         "key": "favor-asked"
       },
       "elements": [
@@ -58299,110 +58197,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.glad-to",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Glad to.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["meeting", "body"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.sure",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Sure.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["meeting", "body"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-stands-to-greet-you-when-you-come-in",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -59471,31 +59265,6 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.tell-me-what-you-ve-done-before-working-as-position-here",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Tell me what you've done before working as {position} here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.state-ask.what-are-you-comfortable-with-as-position",
       "move": "state-ask",
       "kind": "spoken",
@@ -59542,131 +59311,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.have-you-worked-as-position-before",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Have you worked as {position} before?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-ve-worked-as-position-before-just-not-here",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I've worked as {position} before, just not here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-m-new-to-this-but-i-ll-learn-how-workplace-runs",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I'm new to this, but I'll learn how {workplace} runs.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-was-home-a-while-so-i-m-rusty-as-position",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I was home a while, so I'm rusty as {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-ve-worked-odd-jobs-this-is-my-first-schedule-at-workplace",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I've worked odd jobs; this is my first schedule at {workplace}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "answer",
         "key": "arrival"
       }
     },
@@ -60708,36 +60352,6 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.where-did-you-work-last-before",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Where did you work last, before {employer}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "requiresFacts": ["employer", "position", "workplace"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "workspace-ready-on-arrival",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
       "key": "scene-talk.reply-ask.what-do-people-at-complain-about-and-what-do-they-like",
       "move": "reply-ask",
       "kind": "spoken",
@@ -61185,126 +60799,6 @@
       "elements": ["new-hire-asks-for-an-introduction-note"]
     },
     {
-      "key": "scene-talk.reply-answer.i-ve-done-a-bit-of-everything-mostly-counter-work-so-i-m-used-to-learning-o",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I've done a bit of everything, mostly counter work, so I'm used to learning on the job as {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.tell-me-what-you-ve-done-before-working-as-position-here",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "plain",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-ask.how-far-back-do-you-want-me-to-go-i-can-start-with-what-matters-most-for",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How far back do you want me to go? I can start with what matters most for {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.tell-me-what-you-ve-done-before-working-as-position-here",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-tell.not-much-that-looks-like-this-and-i-m-nervous-about-starting-as",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "Not much that looks like this, and I'm nervous about starting as {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.tell-me-what-you-ve-done-before-working-as-position-here",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-answer.dealing-with-customers-mostly-the-paperwork-side-of-i-d-want-to-see-first",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Dealing with customers, mostly. The paperwork side of {position} I'd want to see first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.what-are-you-comfortable-with-as-position",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "plain",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
       "key": "scene-talk.reply-ask.what-do-you-need-me-comfortable-with-by-friday-as",
       "move": "reply-ask",
       "kind": "spoken",
@@ -61455,186 +60949,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-answer.not-as-but-close-enough-that-you-won-t-need-to-explain-the-basics-twice",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Not as {position}, but close enough that you won't need to explain the basics twice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.have-you-worked-as-position-before",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "plain",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-ask.does-it-matter-if-i-haven-t-tell-me-what-i-d-have-to-learn-first-as",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Does it matter if I haven't? Tell me what I'd have to learn first as {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.have-you-worked-as-position-before",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-tell.no-and-i-d-rather-say-so-now-than-guess-my-way-through",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "No, and I'd rather say so now than guess my way through {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.have-you-worked-as-position-before",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "blunt",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-answer.a-shop-across-town-it-closed-so-i-m-starting-fresh-as",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "A shop across town. It closed, so I'm starting fresh as {position}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.where-did-you-work-last-before",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "plain",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "answer",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-ask.do-you-want-the-whole-story-or-just-the-last-job-before",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Do you want the whole story or just the last job before {position}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.where-did-you-work-last-before",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-tell.i-was-between-jobs-for-a-while-and-i-m-glad-to-be-working-as-again",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I was between jobs for a while, and I'm glad to be working as {position} again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "first-day-ropes",
-          "key": "arrival",
-          "after": "scene-talk.state-ask.where-did-you-work-last-before",
-          "requiresFacts": ["position"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      },
-      "elements": [
-        "manager-meets-new-hire-day-one",
-        "asking-questions-is-expected-early"
-      ]
-    },
-    {
       "key": "scene-talk.reply-answer.mostly-small-things-like-where-to-park-and-who-covers-the-register-at",
       "move": "reply-answer",
       "kind": "spoken",
@@ -61722,6 +61036,36 @@
       "elements": [
         "manager-meets-new-hire-day-one",
         "unwritten-routines-nobody-explains"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-answer.i-d-want-to-see-how-the-paperwork-side-of-works-first-i-m-quick-once-i-ve-s",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'd want to see how the paperwork side of {position} works first. I'm quick once I've seen it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.state-ask.what-are-you-comfortable-with-as-position",
+          "requiresFacts": ["position"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      },
+      "elements": [
+        "manager-meets-new-hire-day-one",
+        "asking-questions-is-expected-early"
       ]
     },
     {
@@ -64803,36 +64147,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-ask.what-did-you-do-before",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What did you do before {employer}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      },
-      "elements": [
-        "new-hire-first-week-talk",
-        "invite-a-colleague-to-lunch-first",
-        "new-hire-asks-for-an-introduction-note"
-      ]
-    },
-    {
       "key": "scene-talk.follow-accept.no-rush-i-ll-find-you-when-slows-down",
       "move": "follow-accept",
       "kind": "spoken",
@@ -64953,32 +64267,6 @@
         "invite-a-colleague-to-lunch-first",
         "asking-questions-is-expected-early"
       ]
-    },
-    {
-      "key": "scene-talk.reply-ask.what-do-you-want-to-know-first-about-the-job-at",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What do you want to know first about the job at {employer}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "ask",
-        "key": "arrival"
-      },
-      "elements": ["asking-questions-is-expected-early"]
     },
     {
       "key": "scene-talk.reply-agree.yes-once-the-morning-rush-is-over-at-find-me-then",
@@ -65460,6 +64748,36 @@
       "elements": [
         "school-pickup-complaint",
         "many-children-and-no-parents-at-school"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-to-know-first-about-the-job-at",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want to know first about the job at {workplace}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["workplace"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      },
+      "elements": [
+        "new-hire-first-week-talk",
+        "invite-a-colleague-to-lunch-first",
+        "new-hire-asks-for-an-introduction-note"
       ]
     },
     {
