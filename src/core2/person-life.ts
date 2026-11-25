@@ -397,20 +397,21 @@ function playedJobs(
 }
 
 /**
- * The facts a person was made with of the asked kinds (their family, their
- * education, an office they held before), as events: what a read by kind of
+ * The facts a person was made with (their family, their education, an office
+ * they held before), all of them or those of the asked kinds, in the order
+ * their record holds them, as events: what a read by kind of
  * one person's history takes from their own record. Each carries the day it
  * was set down, and the person it names, where it names one.
  */
 export function builtFactsOf(
   core: Readonly<CoreState>,
   personId: PersonId,
-  kinds: readonly string[],
+  kinds?: readonly string[],
 ): (LifeEvent & { personIds: readonly PersonId[] })[] {
   const person = core.people.get(personId);
   if (!person) return [];
   return (person.pastFacts ?? [])
-    .filter((fact) => kinds.includes(fact.kind))
+    .filter((fact) => !kinds || kinds.includes(fact.kind))
     .map((fact) => {
       const other = fact.facts?.otherPersonId as PersonId | undefined;
       const row = TABLE.past.find((entry) =>

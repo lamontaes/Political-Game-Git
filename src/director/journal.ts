@@ -68,9 +68,7 @@ import {
   PAST_WORK_SPELL,
   PERSON_MOVED_IN,
   SCHOOL_STARTED,
-  heldSinceRecord,
-  pastWorkOf,
-  preStartHistory,
+  historyOf,
   schoolsAttended,
   sharedHistory,
 } from "../core2/past";
@@ -157,6 +155,44 @@ type JournalMoment = Pick<
   /** Moments of one beat are told together, as one memoir entry. */
   readonly beat?: string;
 };
+
+/**
+ * A person's records of the asked kinds from the simulated past, read from
+ * the one history reader, as the Journal reads a record: its kind, day, place,
+ * the people it names and its facts.
+ */
+function pastOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  kinds: readonly string[],
+) {
+  return historyOf(
+    core as CoreState,
+    { person: personId },
+    { kinds, from: "past" },
+  ).map((event) => ({
+    id: event.id,
+    date: event.date,
+    kind: event.record,
+    placeId: event.placeId,
+    personIds: event.personIds,
+    facts: event.facts ?? {},
+  }));
+}
+
+/** The facts a person was made with (their family, their children), from the one history reader, in the order their record holds them. */
+function madeWith(core: Readonly<CoreState>, personId: PersonId) {
+  return historyOf(
+    core as CoreState,
+    { person: personId },
+    { from: "built" },
+  ).map((event) => ({
+    id: event.id,
+    date: event.date,
+    kind: event.record,
+    facts: event.facts,
+  }));
+}
 
 /**
  * A bill's real name, from the legislature's own record of it, as a
@@ -300,11 +336,12 @@ function householdMoments(
   person: PersonState,
 ): JournalMoment[] {
   const history = (kind: string, personId: PersonId) =>
-    preStartHistory(core as CoreState, { kind, personId });
+    pastOf(core, personId, [kind]);
+  const made = madeWith(core, person.id);
   // Each relative once, from the first family fact that names them.
   const toldOf = new Set<string>();
   const parentIds = new Set(
-    (person.pastFacts ?? [])
+    made
       .filter((fact) =>
         ["family:parent", "family:other-parent"].includes(fact.kind),
       )
@@ -312,7 +349,7 @@ function householdMoments(
   );
   // The parents or siblings of one story, told together as one moment.
   const familyGroups = new Map<string, PersonId[]>();
-  for (const fact of person.pastFacts ?? []) {
+  for (const fact of made) {
     const id = fact.facts?.otherPersonId as PersonId | undefined;
     const kin = id ? core.people.get(id) : undefined;
     const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
@@ -341,7 +378,7 @@ function householdMoments(
   // home together, or the one who lived apart, by the household each is in.
   // Brothers and sisters by their birth against the person's own, older
   // ones together and younger ones together.
-  for (const fact of person.pastFacts ?? []) {
+  for (const fact of made) {
     const otherId = fact.facts?.otherPersonId;
     const relative = otherId ? core.people.get(otherId) : undefined;
     const parent = ["family:parent", "family:other-parent"].includes(fact.kind);
@@ -550,17 +587,17 @@ function householdMoments(
       continue;
     }
     if (!job) continue;
-    const held = heldSinceRecord(core as CoreState, earner.id, job.id);
+    const held = pastOf(core, earner.id, [PAST_WORK_SPELL]).find(
+      (row) => row.facts.jobId === job.id,
+    );
     const employer = employerName(core, job.organizationId, job.id);
     const cause = held?.id ?? job.id;
     // The last spell they started while the person was a child at home who
     // remembers it: the start of the job they hold ("started at ... when I
     // was 15 and still works there"), or the move to it from the one before.
-    const spells = pastWorkOf(core as CoreState, earner.id)
-      .filter((row) => row.kind === PAST_WORK_SPELL)
-      .sort((a, b) =>
-        String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
-      );
+    const spells = pastOf(core, earner.id, [PAST_WORK_SPELL]).sort((a, b) =>
+      String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+    );
     const last = spells.at(-one);
     const startedAt = String(last?.facts.startedAt ?? "");
     const remembered =
@@ -621,7 +658,7 @@ function pastWorkMoments(
   core: Readonly<CoreState>,
   person: PersonState,
 ): JournalMoment[] {
-  const records = pastWorkOf(core as CoreState, person.id);
+  const records = pastOf(core, person.id, [PAST_WORK_SPELL, PAST_WORK_OUT]);
   const employer = (row: (typeof records)[number] | undefined) => {
     return row?.facts.organizationId
       ? employerName(core, String(row.facts.organizationId), row.id)
@@ -768,7 +805,7 @@ function pastWorkMoments(
         }),
       );
     } else if (facts.end === "child-born") {
-      const child = (person.pastFacts ?? []).find(
+      const child = madeWith(core, person.id).find(
         (fact) => fact.id === facts.causeRecordId,
       );
       const childId = child?.facts?.otherPersonId as PersonId | undefined;
@@ -1031,7 +1068,8 @@ function journalTold(
     moment.counterpartIds.find((id) => person.knownIds.has(id)) ??
     moment.counterpartIds[zero];
 
-  const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
+  const made = madeWith(core, personId);
+  const factsById = new Map(made.map((f) => [f.id, f]));
 
   // How the person refers to someone: a relative by relation, anyone else by
   // name, and only someone whose name they know.
@@ -1092,7 +1130,9 @@ function journalTold(
 
   // The run's work records before the start: each names its own employer.
   const pastWorkIds = new Set(
-    pastWorkOf(core as CoreState, personId).map((row) => row.id),
+    pastOf(core, personId, [PAST_WORK_SPELL, PAST_WORK_OUT]).map(
+      (row) => row.id,
+    ),
   );
   /** The recorded facts a moment can be told with. */
   const baseFactsFor = (moment: JournalMoment): Facts | null => {
@@ -1169,10 +1209,9 @@ function journalTold(
     // before it, who came with them (the moves engine holds a mover back for
     // children at home).
     if (moment.causeKind === "moved") {
-      const move = preStartHistory(core as CoreState, {
-        kind: PERSON_MOVED_IN,
-        personId,
-      }).find((entry) => entry.id === moment.causeId);
+      const move = pastOf(core, personId, [PERSON_MOVED_IN]).find(
+        (entry) => entry.id === moment.causeId,
+      );
       const from = placeLabel(String(move?.facts.fromPlaceId ?? ""));
       // Only a place that is not the one they moved to (a county and its
       // seat are one answer).
@@ -1182,7 +1221,7 @@ function journalTold(
         !(placeName(person.placeId)?.text ?? "").endsWith(from)
       )
         facts["moved-from"] = { text: from, sourceRecordIds: [move.id] };
-      const children = (person.pastFacts ?? []).flatMap((entry) => {
+      const children = made.flatMap((entry) => {
         const child =
           entry.kind === "family:child" && entry.date < moment.date
             ? core.people.get(entry.facts?.otherPersonId as PersonId)
@@ -1222,16 +1261,15 @@ function journalTold(
     // A child born to them: how old they were, and whether the first.
     if (moment.causeKind === "family:child") {
       facts["age-then"] = ageThen(person.birthDate, person.id);
-      const earlier = (person.pastFacts ?? []).some(
+      const earlier = made.some(
         (entry) => entry.kind === "family:child" && entry.date < moment.date,
       );
       if (!earlier)
         facts.firstborn = {
           text:
             core.people.get(
-              (person.pastFacts ?? []).find(
-                (entry) => entry.id === moment.causeFactId,
-              )?.facts?.otherPersonId as PersonId,
+              made.find((entry) => entry.id === moment.causeFactId)?.facts
+                ?.otherPersonId as PersonId,
             )?.givenName ?? "yes",
           sourceRecordIds: [moment.causeFactId ?? moment.causeId],
         };
@@ -2262,10 +2300,9 @@ function journalTold(
       ? chapters.find((row) => row !== roots && row.title === roots.title)
       : undefined;
   if (roots && twin) {
-    const movedIn = preStartHistory(core as CoreState, {
-      kind: PERSON_MOVED_IN,
-      personId,
-    }).find((entry) => placeLabel(String(entry.facts.fromPlaceId ?? "")));
+    const movedIn = pastOf(core, personId, [PERSON_MOVED_IN]).find((entry) =>
+      placeLabel(String(entry.facts.fromPlaceId ?? "")),
+    );
     const from = movedIn ? placeLabel(String(movedIn.facts.fromPlaceId)) : null;
     const title =
       movedIn && from

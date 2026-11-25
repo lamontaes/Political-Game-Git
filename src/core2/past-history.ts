@@ -62,6 +62,12 @@ export interface HistoryAsk {
   readonly through?: string;
   /** Only records that also name this person. */
   readonly with?: PersonId;
+  /**
+   * Only what came from one source: what a person was made with (`built`:
+   * every fact their record was made with, or those of `kinds`, in the order
+   * the record holds them), the simulated past (`past`) or play (`played`).
+   */
+  readonly from?: "built" | "past" | "played";
 }
 
 /** One thing that happened, as every reader gets it. */
@@ -357,6 +363,7 @@ function peopleOf(core: CoreState, scope: HistoryScope): readonly PersonId[] {
 
 /** Whether a row is in the window and kinds asked for. */
 function asked(row: HistoryRow, ask: HistoryAsk): boolean {
+  if (ask.from && row.from !== ask.from) return false;
   if (ask.kinds && !ask.kinds.includes(row.record)) return false;
   if (ask.since && row.date < ask.since) return false;
   if (ask.through && row.date > ask.through) return false;
@@ -564,9 +571,15 @@ export function historyOf(
 ): HistoryEvent[] {
   const out: HistoryEvent[] = [];
   const ids = new Set<string>();
-  const take = (row: HistoryRow) => {
+  // Where each life row came in its source: rows of one day and kind keep
+  // their source's order (the life's own, or the order a record holds the
+  // facts it was made with); every other row is ordered by its id.
+  const place = new Map<HistoryEvent, number>();
+  const take = (row: HistoryRow, at?: number) => {
     if (!asked(row, ask)) return;
-    out.push(told(core, row));
+    const event = told(core, row);
+    out.push(event);
+    if (at !== undefined) place.set(event, at);
     ids.add(row.id);
   };
   // A person's life comes first, in its own words (a vote won by one and lost
@@ -578,10 +591,13 @@ export function historyOf(
   const { life, others } = sourcesOf(core);
   if (life && "person" in scope && !ask.kinds) life.open?.(core, scope.person);
   if (life && people.length)
-    for (const personId of people)
-      for (const row of life.rows(core, { person: personId }, ask)) take(row);
+    for (const personId of people) {
+      let at = 0;
+      for (const row of life.rows(core, { person: personId }, ask))
+        take(row, at++);
+    }
   const fromLife = new Set(ids);
-  const wider = !("person" in scope) || !!ask.kinds;
+  const wider = ask.from !== "built" && (!("person" in scope) || !!ask.kinds);
   if (wider) {
     for (const row of recordRows(core, scope, ask))
       if (!fromLife.has(row.id)) take(row);
@@ -600,7 +616,18 @@ export function historyOf(
           (event, at) => out.findIndex((other) => other.id === event.id) === at,
         )
       : out;
-  return [...once].sort(historyOrder);
+  // What a person was made with is told in the order their record holds it.
+  if (ask.from === "built") return [...once];
+  return [...once].sort(
+    (a, b) =>
+      a.date.localeCompare(b.date) ||
+      a.life.localeCompare(b.life) ||
+      (place.has(a) && place.has(b)
+        ? place.get(a)! - place.get(b)!
+        : place.has(a) !== place.has(b)
+          ? Number(place.has(b)) - Number(place.has(a))
+          : a.id.localeCompare(b.id)),
+  );
 }
 
 /** One record as every scope tells it, by id: what a trace, a cause or a scene's lead opens. */
