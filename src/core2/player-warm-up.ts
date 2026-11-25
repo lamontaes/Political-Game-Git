@@ -13,7 +13,7 @@
  * director starts after the warm-up.
  */
 import { advanceDate, duePeople } from "./calendar";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { runControlledDay } from "./player-v1";
 import {
@@ -29,20 +29,37 @@ export function warmUpOpening(
   through: string,
   playedPersonId?: string,
 ): void {
+  for (const day of warmUpOpeningDays(core, through, playedPersonId)) void day;
+}
+
+/**
+ * The warm-up one day at a time: each step runs one day and says how many of the warm-up's days are done,
+ * so the loading screen moves with each day (owner, Nov 16: "It should continue to load. This is just
+ * poor optimization."). Stopping between steps changes nothing; the world is the same as one block.
+ */
+export function* warmUpOpeningDays(
+  core: CoreState,
+  through: string,
+  playedPersonId?: string,
+): Generator<{ done: number; total: number }, void> {
+  const target = makeIsoDate(through);
+  const total = Math.max(0, daysBetween(makeIsoDate(core.date), target));
+  // With no one played, the world's own clock runs the days in one call.
   if (!playedPersonId) {
     advanceCore(core, through);
+    yield { done: total, total };
     return;
   }
-  const target = makeIsoDate(through);
   const token = registerControlledPersonV1(core, playedPersonId);
   try {
-    while (core.date < target) {
+    for (let done = 1; core.date < target; done += 1) {
       const date = addDays(makeIsoDate(core.date), 1);
       const due = duePeople(core, date).filter(
         (row) => row.personId !== playedPersonId,
       );
       advanceDate(core, date);
       runControlledDay(core, coreAPI(core), playedPersonId, due);
+      yield { done, total };
     }
   } finally {
     retireControlledPersonV1(core, token);
