@@ -5,10 +5,10 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pt-board-favor-job
-pr: 10531
+pr: #10531
 blocked-on:
 source: CTO 17:40Z item 5 on #10377 (comment 7139529302), the six work-scene producers; lane 8 took 4 to 6, this is 6
 claimed-at: 2026-11-24T20:10:00.000Z
@@ -17,6 +17,7 @@ lead: play-first
 model: opus
 effort: high
 root: none
+merged-at: 2026-11-25T00:18:00.582Z
 ---
 
 **What.** The friend's call (type `reach-out`, purpose `favor-job`, circumstance `job-lost-calls`) had no proof in a played world, and a probe that wrote the layoff and advanced the core directly saw no call. Seen: someone the working player knows, living apart, is laid off, and the next day they call the player to ask for a word.
