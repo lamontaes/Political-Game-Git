@@ -84,24 +84,53 @@ export function townWithin(
     : coreStateKeyOfPlaceholderId(placeId);
   if (!stateKey) return undefined;
   const home = core.people.get(personId as never)?.placeId;
-  const towns = placeLocalities(stateKey).filter(
-    (row) => corePlaceByKey(row.key)?.context.jurisdiction.id !== home,
+  const towns = statesTowns(core.seed, stateKey).filter(
+    (town) => town.id !== home,
   );
   if (!towns.length) return undefined;
   // Weighted by each town's population in this world, so a person from
   // "elsewhere in the state" most likely came from where most people live.
-  const key = weighted(
-    towns.map((row) => {
-      const geoid = corePlaceByKey(row.key)?.sourceGeoid;
-      return [
-        row.key,
-        (geoid && placeReferencePopulation(geoid, core.seed)?.value) || 0,
-      ] as const;
-    }),
+  return weighted(
+    towns.map((town) => [town.id, town.weight] as const),
     `${core.seed}:town-within:${personId}:${placeId}`,
   );
-  const town = key ? corePlaceByKey(key) : undefined;
-  return town?.context.jurisdiction.id;
+}
+
+/**
+ * A state's towns with their population in a world, made once per world and state. Each person's
+ * school year and work spell elsewhere reads it, and building every town's record again for each read
+ * held a new game's loading screen still for seconds (owner, Nov 16: "This is just poor optimization").
+ */
+const townsByState = new Map<
+  string,
+  Map<string, readonly { id: string; weight: number }[]>
+>();
+function statesTowns(
+  seed: string,
+  stateKey: string,
+): readonly { id: string; weight: number }[] {
+  // One world's towns at a time: a new seed starts the table again.
+  if (!townsByState.has(seed)) {
+    townsByState.clear();
+    townsByState.set(seed, new Map());
+  }
+  const byState = townsByState.get(seed)!;
+  let towns = byState.get(stateKey);
+  if (!towns) {
+    towns = placeLocalities(stateKey).flatMap((row) => {
+      const town = corePlaceByKey(row.key);
+      if (!town) return [];
+      const geoid = town.sourceGeoid;
+      return [
+        {
+          id: town.context.jurisdiction.id,
+          weight: (geoid && placeReferencePopulation(geoid, seed)?.value) || 0,
+        },
+      ];
+    });
+    byState.set(stateKey, towns);
+  }
+  return towns;
 }
 
 /** A family of the place, for an employer named after one: drawn from the seed, the place and the kind. */

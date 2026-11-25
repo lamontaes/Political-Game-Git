@@ -29,7 +29,7 @@ interface Row {
   /**
    * A place whose pinned seed holds none of this table's rows at the start and
    * should not: a true zero, not a gap (the vacancies table at a place whose
-   * 31-day warm-up window held no death). The table must be empty there, and
+   * warm-up window held no death). The table must be empty there, and
    * the test below shows the cause.
    */
   zeroAtPlaces?: string[];
@@ -52,7 +52,7 @@ describe("day zero: the world opens already running", () => {
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.placeKey,
-        // The world the New game route builds: the 31 days before the start run first.
+        // The world the New game route builds: the warm-up days before the start run first.
         warmUpDays: OPENING_WARMUP_DAYS,
       });
       const tables = recordProof(world.core).tables;
@@ -91,9 +91,48 @@ describe("day zero: the world opens already running", () => {
           );
       }
       for (const row of stock)
-        if (row.zeroAtPlaces?.includes(place.placeKey)) {
+        if (
+          row.table === "place-prices.felt" &&
+          row.zeroAtPlaces?.includes(place.placeKey)
+        ) {
+          // A household feels a law in its bill only through a price rule a law set (place-prices.ts
+          // `month`): the table is empty here because no price rule is in force.
+          expect(
+            coreAPI(world.core)
+              .moduleState("place-prices")
+              .table("rules")
+              .rows(),
+            `${place.name}: ${row.table} is empty because no price rule is in force`,
+          ).toEqual([]);
+        } else if (
+          row.table === "place-prices.learned" &&
+          row.zeroAtPlaces?.includes(place.placeKey)
+        ) {
+          // A person ties a price change to a law only when they heard a story about the very law that
+          // changed their bill (place-prices.ts `learnFromLaw`). The table is empty here because no one
+          // who paid under a law heard of it: either no price rule is in force (nothing was paid) or the
+          // laws people heard about are not the ones that moved their bills.
+          const prices = coreAPI(world.core).moduleState("place-prices");
+          const heard = new Set(
+            (
+              prices.table("heardLaws").rows() as {
+                personId: string;
+                lawId: string;
+              }[]
+            ).map((h) => `${h.personId}|${h.lawId}`),
+          );
+          expect(
+            (
+              prices.table("felt").rows() as {
+                payerId: string;
+                lawId: string;
+              }[]
+            ).filter((f) => heard.has(`${f.payerId}|${f.lawId}`)),
+            `${place.name}: ${row.table} is empty because no one who paid under a law heard of it`,
+          ).toEqual([]);
+        } else if (row.zeroAtPlaces?.includes(place.placeKey)) {
           // A place whose vacancies table is empty at day 0 (`zeroAtPlaces`) is one where no one who
-          // died in the 31-day warm-up window held a seat the offices engine keeps (a seat falls vacant
+          // died in the warm-up window held a seat the offices engine keeps (a seat falls vacant
           // only when its holder dies, offices.ts `life.death`); a cabinet post is refilled by
           // `refillCabinet` (succession.ts). Illnesses are in progress on day one.
           const report = healthReport(world.core);

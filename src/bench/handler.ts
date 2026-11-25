@@ -39,6 +39,7 @@ import { BenchPlayer } from "./player";
 import {
   buildBenchWorld,
   buildBenchWorldInStages,
+  buildShare,
   OPENING_WARMUP_DAYS,
 } from "./world";
 import { gameStartDate } from "../core2/game-start";
@@ -233,7 +234,7 @@ interface ServerState {
   /** What the loading screen plays, from the world being built (loading.ts). */
   loadingPeek: LoadingStory | null;
   /** Where the build is, for the loading screen's polls. */
-  buildProgress: { stage: string; done: number; total: number };
+  buildProgress: { stage: string; share: number };
   /** The opening, prepared during loading. */
   opening: ReturnType<typeof openingFrames> | null | undefined;
   /** The dev-mode record writer for the current town, which holds the gap marks. */
@@ -258,7 +259,7 @@ const state: ServerState = {
   canvassedOn: new Set<string>(),
   speechBuild: undefined,
   loadingPeek: null,
-  buildProgress: { stage: "done", done: 0, total: 0 },
+  buildProgress: { stage: "done", share: 1 },
   opening: undefined,
   marker: undefined,
   life: undefined,
@@ -491,7 +492,19 @@ const ROUTES: readonly Route[] = [
       try {
         // The whole town, two-level (OPUS-CORE): full people for the
         // player's circle and officials, counts for everyone else.
-        state.buildProgress = { stage: "people", done: 0, total: 0 };
+        state.buildProgress = { stage: "people", share: 0 };
+        // The opening's last steps after the world is built (the frames, the first scene, the card,
+        // the faces ahead), each one a step of "Preparing the opening", so the bar moves until the end.
+        const preparing = (done: number) => {
+          state.buildProgress = {
+            stage: "opening",
+            share: buildShare(
+              "opening",
+              { stage: "opening", done, total: 5 },
+              OPENING_WARMUP_DAYS,
+            ),
+          };
+        };
         state.loadingPeek = null;
         // The person chosen in the creator, read before the build: the
         // player is the resident born nearest the chosen birthday.
@@ -528,8 +541,14 @@ const ROUTES: readonly Route[] = [
               ? { placeKey: url.searchParams.get("placeKey")! }
               : {}),
           },
-          (stage) => {
-            state.buildProgress = { stage, done: 0, total: 0 };
+          // The built world is not the end: the opening is drawn below, so "done" waits for it.
+          (stage, step) => {
+            if (stage === "done") preparing(1);
+            else
+              state.buildProgress = {
+                stage,
+                share: buildShare(stage, step, OPENING_WARMUP_DAYS),
+              };
           },
         );
         state.core = world.core;
@@ -557,13 +576,16 @@ const ROUTES: readonly Route[] = [
         // The first screen's people and the faces the first menus show
         // (the player's card: household and closest ties) are drawn during
         // loading too, so they are there the moment the screen asks.
+        preparing(2);
         await breathe();
         sceneNow(world.core, entrant.personId);
+        preparing(3);
         await breathe();
         personCard(world.core, entrant.personId);
+        preparing(4);
         await breathe();
         drawAheadNow();
-        state.buildProgress = { stage: "done", done: 0, total: 0 };
+        state.buildProgress = { stage: "done", share: 1 };
         // A scene the director already staged for today (the address the
         // household watches that evening) plays first.
         const staged = world.director.ledger.people
