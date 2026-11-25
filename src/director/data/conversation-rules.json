@@ -116,14 +116,6 @@
       "kind": "here",
       "stage": "default"
     },
-    "player-day": {
-      "kind": "player-day",
-      "stage": "default"
-    },
-    "work-day": {
-      "kind": "work-day",
-      "stage": "default"
-    },
     "rent-due": {
       "kind": "rent-due",
       "stage": "default"
@@ -134,10 +126,6 @@
     },
     "promise-broken": {
       "kind": "promise-broken",
-      "stage": "default"
-    },
-    "work-done": {
-      "kind": "work-done",
       "stage": "default"
     },
     "school-missed": {
@@ -270,7 +258,6 @@
     },
     "charge": {
       "confess": "confess",
-      "deflect": "deflect",
       "refuse": "refuse",
       "tell": "tell"
     },
@@ -282,19 +269,11 @@
     },
     "acquittal": {
       "tell": "answer",
-      "refuse": "refuse",
-      "deflect": "deflect"
+      "refuse": "refuse"
     },
     "veto-reply": {
       "holds": "refuse",
-      "gives": "apologize",
-      "leave": "decline"
-    },
-    "work-day": {
-      "plan": "answer",
-      "wish": "answer",
-      "ask": "request",
-      "glad": "answer"
+      "gives": "apologize"
     },
     "rent-due": {
       "ask": "request",
@@ -302,15 +281,6 @@
     },
     "here": {
       "name": "answer"
-    },
-    "player-day": {
-      "good": "answer",
-      "bad": "answer",
-      "plain": "answer"
-    },
-    "work-done": {
-      "ask": "request",
-      "rest": "answer"
     },
     "school-missed": {
       "ask": "request",
@@ -520,9 +490,6 @@
     "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day missed (school-missed) is read the next morning from the school engine's closed day: a school day with no attendance row; a day they went is the usual day and no news. A morning shift is told only when it differs from the job's usual day (its hours by unusualShiftMinutes); a usual day or a day off is no news. A story in the paper that names the speaker's own employer or someone they know (news-touch) is told once, by the story's own record. A household put out of its home (eviction) is told once by an adult of it, from the housing engine's case and status: when, what was owed and how many months of rent that was, a job the teller lost before it, and where they went (a relative's, a shelter bed, nowhere); answered back by the reply's move from the same records. For the kinds in backOmitsTold, the answer back leaves out the figures (toldFigures) the telling just said, so it says what comes next, never the same figure again. A relative's death, serious illness or prison term (death-news, illness-news, prison-news) is told once by someone the player lives with, from the record it cites: when, the age at death and a cause said plainly, the illness's common name, the term's length. A housemate's charge, conviction or acquittal (charge, conviction, acquittal) is told through `<kind>-say` from the justice engine's case, pretrial and sentence records (the offense from the defendant's own side, a plea or the trial day, bail, the prison term, fine or probation); the kinds in answersBack (charge-reply, conviction-reply, acquittal-reply) are answered back in composed words from what the telling left out. A job lost (job-lost) is told once by the person who lost it, from the ended job's record, their working life's start, and the search record's reason and search; answered back by the reply's move from the same records.",
     "kinds": [
       "here",
-      "player-day",
-      "work-day",
-      "work-done",
       "school-missed",
       "rent-due",
       "news-touch",
@@ -540,7 +507,7 @@
       "spread": [2, 4],
       "checkedAgainst": "Lead's brief, Nov 12: no subject repeats inside three days for the same pair; a housemate tells a work day about twice a week, not every morning (the owner's complaint, Nov 12, of the same 7:00 a.m. work talk every morning)."
     },
-    "comesBack": ["work-day", "work-done", "school-missed", "player-day"],
+    "comesBack": ["school-missed"],
     "rentDaysBefore": {
       "value": 5,
       "tag": "TUNABLE",

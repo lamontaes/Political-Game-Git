@@ -25,15 +25,15 @@ The owner, Nov 24, 2026: "there are multiple things from build into the skills t
 
 ## His voice notes, word for word
 
-| File                                                               | Topics                                                                                                        |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| `docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md`  | What a scene is; how he grades; batches 12 to 14                                                              |
-| `docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md`  | Batches 15 to 20; endings; speeches by speaker                                                                |
-| `docs/coordination/voice-notes/2026-10-23-words-lead.md`           | Batch 22; "put the new dialogue in"                                                                           |
-| `docs/coordination/voice-notes/2026-10-29-words-director.md`       | Conversations that make no sense ("oh, okay. What about you?"); one engine and one calibration for every text |
-| `docs/coordination/voice-notes/2026-11-08-*.md`                    | Many versions of each scene; simulate rather than generate                                                    |
-| `docs/coordination/playtest/`                                      | Playtest sittings: his words and the stops he named                                                           |
-| `docs/coordination/grading/` on branch `claude/cto-playtest-nov23` | His Nov 24 grading page, word for word, with one row per point                                                |
+| File                                                                                      | Topics                                                                                                        |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md`                         | What a scene is; how he grades; batches 12 to 14                                                              |
+| `docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md`                         | Batches 15 to 20; endings; speeches by speaker                                                                |
+| `docs/coordination/voice-notes/2026-10-23-words-lead.md`                                  | Batch 22; "put the new dialogue in"                                                                           |
+| `docs/coordination/voice-notes/2026-10-29-words-director.md`                              | Conversations that make no sense ("oh, okay. What about you?"); one engine and one calibration for every text |
+| `docs/coordination/voice-notes/2026-11-08-*.md`                                           | Many versions of each scene; simulate rather than generate                                                    |
+| `docs/coordination/playtest/`                                                             | Playtest sittings: his words and the stops he named                                                           |
+| The grading folder under coordination on branch `claude/cto-playtest-nov23` (not on main) | His Nov 24 grading page, word for word, with one row per point                                                |
 
 ## By area: what to search for first
 

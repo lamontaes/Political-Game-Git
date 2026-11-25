@@ -11,7 +11,12 @@
         "theme-name": 1,
         "theme-short": 1,
         "the-disaster": 1,
-        "term-left": 1
+        "term-left": 1,
+        "belief": 1,
+        "belief-sentence": 1,
+        "reason-for": 1,
+        "reason-against": 1,
+        "to": 1
       },
       "sections": [
         {
@@ -169,7 +174,12 @@
         "theme-name": 1,
         "theme-short": 1,
         "the-disaster": 1,
-        "term-left": 1
+        "term-left": 1,
+        "belief": 1,
+        "belief-sentence": 1,
+        "reason-for": 1,
+        "reason-against": 1,
+        "to": 1
       },
       "sections": [
         {
@@ -334,7 +344,12 @@
         "theme-short": 1,
         "the-disaster": 1,
         "term-left": 1,
-        "body-name": 1
+        "body-name": 1,
+        "belief": 1,
+        "belief-sentence": 1,
+        "reason-for": 1,
+        "reason-against": 1,
+        "to": 1
       },
       "sections": [
         {
@@ -664,7 +679,12 @@
         "theme-short": 1,
         "the-disaster": 1,
         "term-left": 1,
-        "body-name": 1
+        "body-name": 1,
+        "belief": 1,
+        "belief-sentence": 1,
+        "reason-for": 1,
+        "reason-against": 1,
+        "to": 1
       },
       "sections": [
         {
@@ -820,7 +840,8 @@
         "theme-short": 1,
         "the-disaster": 1,
         "term-left": 1,
-        "body-name": 1
+        "body-name": 1,
+        "to": 1
       },
       "sections": [
         {

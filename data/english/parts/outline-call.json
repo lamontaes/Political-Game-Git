@@ -10904,6 +10904,1577 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-lives-right-here-in-anchortown-with-no-health-insurance",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} lives right here in {anchor-town} with no health insurance, and a town that knows that has to decide what it owes {anchor-first}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-uninsured",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-think-of-anchorname-on-the-next-street-in-anchortown-going",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Think of {anchor-name} on the next street in {anchor-town}, going without a doctor, and ask what we are willing to do about it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-uninsured"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-uninsured"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-i-know-anchorname-in-anchortown-has-no-coverage-and-i",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "I know {anchor-name} in {anchor-town} has no coverage, and I won't pretend that is somebody else's problem.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-uninsured"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-uninsured"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-here-in-anchortown-is-sick-and-what-anchorfirst-asks",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} here in {anchor-town} is sick, and what {anchor-first} asks of us is not charity, only that care be within reach.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-down-the-road-in-anchortown-anchorname-is-fighting-an-illness",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Down the road in {anchor-town}, {anchor-name} is fighting an illness, and {anchor-town} should be the kind that shows up.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-sick"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-sick"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-is-sick-and-lives-in-anchortown-and-how-we",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} is sick and lives in {anchor-town}, and how we treat {anchor-first} says a lot about us.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-sick",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-in-anchortown-needs-care-at-home-and-the-question",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} needs care at home, and the question for {anchor-town} is who takes the weight off {anchor-first}'s family.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-needs-care",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-right-here-in-anchortown-anchorname-needs-care-that-the-family",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Right here in {anchor-town}, {anchor-name} needs care that the family cannot give alone, and we can help close that gap.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-there-is-a-family-in-anchortown-where-anchorname-needs-care",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "There is a family in {anchor-town} where {anchor-name} needs care every day, and I want us to see them.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-needs-care"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-here-in-anchortown-works-for-the-smallest-pay-in",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} here in {anchor-town} works for the smallest pay in town, and a town that works for everyone owes {anchor-first} better.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-pay",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-pay",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-meet-anchorname-in-anchortown-who-works-hard-for-the-least",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Meet {anchor-name} in {anchor-town}, who works hard for the least of anyone here, and who is asking only for a fair wage.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-the-lowest-pay-in-anchortown-goes-to-anchorname-and-i",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "The lowest pay in {anchor-town} goes to {anchor-name}, and I do not think that is the town we want to be.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-pay"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-lives-on-the-smallest-income-in-anchortown-and-what",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} lives on the smallest income in {anchor-town}, and what {anchor-first} needs is a town that does not look away.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-in-anchortown-anchorname-has-less-coming-in-than-anyone-and",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "In {anchor-town}, {anchor-name} has less coming in than anyone, and I want {anchor-town} to be the one that notices.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-income"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": ["anchor-name", "anchor-town", "anchor-low-income"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-gets-by-on-very-little-here-in-anchortown-and",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} gets by on very little here in {anchor-town}, and a good town makes room for {anchor-first}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-low-income",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-here-in-anchortown-was-the-victim-of-a-crime",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} here in {anchor-town} was the victim of a crime, and {anchor-first} is asking whether {anchor-town} will stand behind the people it failed to protect.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-someone-in-anchortown-named-anchorname-was-wronged-and-we-owe",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "Someone in {anchor-town} named {anchor-name} was wronged, and we owe {anchor-first} a town that answers.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim",
+            "anchor-first"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.anchor.local-anchorname-in-anchortown-wants-to-feel-safe-again-and-what",
+      "move": "anchor",
+      "kind": "spoken",
+      "text": "{anchor-name} in {anchor-town} wants to feel safe again, and what that takes from {anchor-town} is more than words.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim"
+          ],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "anchor",
+          "tie": "record",
+          "requiresFacts": [
+            "anchor-name",
+            "anchor-town",
+            "anchor-crime-victim"
+          ],
+          "excludesFacts": []
+        }
+      ],
+      "elements": [
+        "named-people-inside-a-point-as-proof",
+        "speaker-who-tells-a-story"
+      ],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.oath.w2-the-constitution-does-not-ask-me-to-agree-with-everyone",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The Constitution does not ask me to agree with everyone in {nation}, only to answer to everyone.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-i-took-the-oath-with-real-hope-for-nation-and",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath with real hope for {nation}, and I do not apologize for the hope.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation", "kind-hopeful"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-i-took-the-oath-in-a-hard-year-for-nation",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath in a hard year for {nation}, and the words meant more to me than they would in an easy one.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation", "kind-crisis"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-i-have-taken-an-oath-of-office-before-and-it",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I have taken an oath of office before, and it never got lighter; today it is heavier because it is for all of {nation}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation", "prior-office"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-the-oath-i-just-took-does-not-promise-good-times",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I just took does not promise good times in {nation}; it promises that I will not look away from the hard ones.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation", "run-hard"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-i-took-the-oath-in-good-times-for-nation-and",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath in good times for {nation}, and good times are when an oath is easiest to forget.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation", "run-good"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-i-took-the-oath-with-the-disaster-still-fresh-in",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took the oath with the disaster still fresh in {nation}, and the first thing it asks of me is to answer for it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation", "the-disaster"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-the-oath-i-took-covers-the-people-in-nation-who",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath I took covers the people in {nation} who voted for me and the people who did not, in exactly the same words.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation", "elected-last-fall"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-the-oath-uses-plain-verbs-preserve-protect-and-defend-and",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The oath uses plain verbs, preserve, protect and defend, and I took each of them for {nation}.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
+    },
+    {
+      "key": "outline-call.oath.w2-thevicepresident-took-the-same-oath-beside-me-which-means-nation",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "{the-vice-president} took the same oath beside me, which means {nation} has more than one person to hold to it.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "nation", "the-vice-president"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.oath.w2-i-intend-to-be-judged-on-the-oath-for-every",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I intend to be judged on the oath for every day of the next {term-left}, and on nothing softer.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "oath",
+          "tie": "record",
+          "requiresFacts": ["took-oath", "term-left"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.call.w2-show-up-at-a-school-board-meeting-in-your-own",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Show up at a school board meeting in your own town, and see what {nation} looks like up close.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.w2-introduce-yourself-to-the-neighbor-you-have-never-met-and",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Introduce yourself to the neighbor you have never met, and let {nation} start there.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.w2-learn-how-your-local-election-actually-works-who-counts-who",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Learn how your local election actually works, who counts, who checks, who certifies, because {nation} runs on people who know.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
+    },
+    {
+      "key": "outline-call.call.w2-if-you-have-a-skill-nation-needs-a-trade-or",
+      "move": "call",
+      "kind": "spoken",
+      "text": "If you have a skill {nation} needs, a trade or a license or a patient ear, offer it to a neighbor before anyone asks.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
+    },
+    {
+      "key": "outline-call.call.w2-tell-me-where-i-am-wrong-in-writing-and-sign",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Tell me where I am wrong, in writing, and sign it, because {nation} is too big for me to see every corner.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.w2-teach-a-young-person-something-you-know-and-let-nations",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Teach a young person something you know, and let {nation}'s next hard year find them ready.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.w2-vote-in-the-next-local-election-the-one-nobody-talks",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Vote in the next local election, the one nobody talks about, because {nation} is decided there more often than you think.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.w2-check-what-you-read-before-you-pass-it-on-to",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Check what you read before you pass it on to anyone in {nation}, and keep your own corner honest.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.w2-give-some-of-your-time-to-the-place-that-fed",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Give some of your time to the place that fed you, your church, your union hall, your team, and watch what {nation} gets back.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
+    },
+    {
+      "key": "outline-call.call.w2-call-someone-you-disagree-with-and-ask-what-happened-to",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Call someone you disagree with and ask what happened to them, not what they think, and hear what {nation} sounds like.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
+    },
+    {
+      "key": "outline-call.call.w2-read-a-law-that-affects-you-from-start-to-finish",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Read a law that affects you from start to finish, and you will know more about {nation} than most speeches tell you.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.call.w2-show-a-child-how-to-lose-well-and-how-to",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Show a child how to lose well and how to win well, because {nation} will need both from them.",
+      "uses": [
+        {
+          "subject": "inaugural",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "state-of-the-union",
+          "role": "call",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["ask-of-listeners-comes-last"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.report.w2-nation-turned-a-corner-this-year-and-i-want-to",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{nation} turned a corner this year, and I want to say which way.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "turn-from", "turn-to"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-unemployment-rose-in-nation-this-year-and-i-will-not",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Unemployment rose in {nation} this year, and I will not dress that up.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "unemployment-up"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-some-of-what-nation-counted-on-fell-this-year-and",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Some of what {nation} counted on fell this year, and families felt it before any of us said so.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "context-down"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-i-came-into-a-nation-that-was-already-carrying-a",
+      "move": "report",
+      "kind": "spoken",
+      "text": "I came into a {nation} that was already carrying a heavy load, and I say so to explain, not to excuse.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-inherited"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-a-good-part-of-what-went-wrong-in-nation-this",
+      "move": "report",
+      "kind": "spoken",
+      "text": "A good part of what went wrong in {nation} this year is mine to own, and I own it.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-own"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-the-year-went-sharply-for-nation-and-it-went-sharpest",
+      "move": "report",
+      "kind": "spoken",
+      "text": "The year went sharply for {nation}, and it went sharpest for people who had no cushion.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "run-sharp"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-nation-has-real-reason-for-hope-tonight-and-the-hope",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{nation} has real reason for hope tonight, and the hope is built on work people did.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "kind-hopeful", "evening"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-nation-has-seen-years-like-this-before-and-each-time",
+      "move": "report",
+      "kind": "spoken",
+      "text": "{nation} has seen years like this before, and each time it came out changed.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "context-years"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-having-held-office-before-i-know-how-slowly-a-country",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Having held office before, I know how slowly a country like {nation} turns, and I would rather say it plainly.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "prior-office"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.report.w2-nobody-should-pretend-nation-is-having-an-ordinary-year-least",
+      "move": "report",
+      "kind": "spoken",
+      "text": "Nobody should pretend {nation} is having an ordinary year, least of all the person standing here.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "report",
+          "tie": "record",
+          "requiresFacts": ["nation", "kind-crisis"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["opens-on-the-occasion"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["greeting"]
+    },
+    {
+      "key": "outline-call.send-off.w2-i-leave-you-tonight-with-a-plain-wish-for-nation",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I leave you tonight with a plain wish for {nation}: that we are kinder to each other by spring.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "record",
+          "requiresFacts": ["nation", "evening"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["sotu-close-looks-ahead"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.w2-go-home-tonight-and-tell-someone-in-nation-something-true",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Go home tonight and tell someone in {nation} something true and kind.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "record",
+          "requiresFacts": ["nation", "evening"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["sotu-close-looks-ahead"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.w2-the-work-is-waiting-in-the-morning-and-so-is",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The work is waiting in the morning, and so is {nation}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["sotu-close-looks-ahead"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.w2-i-will-see-you-in-the-halls-tomorrow-and-we",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "I will see you in the halls tomorrow, and we will begin where {nation} left off.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["sotu-close-looks-ahead"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.w2-whatever-tomorrow-brings-nation-i-intend-to-meet-it-with",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Whatever tomorrow brings {nation}, I intend to meet it with all of you.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["sotu-close-looks-ahead"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.send-off.w2-let-us-leave-this-room-better-than-we-found-it",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Let us leave this room better than we found it, for the sake of {nation}.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "send-off",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["sotu-close-looks-ahead"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24"
+    },
+    {
+      "key": "outline-call.long-view.w2-years-from-now-nation-will-remember-what-we-did-with",
+      "move": "long-view",
+      "kind": "spoken",
+      "text": "Years from now {nation} will remember what we did with this one, and I want that memory to be fair to us.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "long-view",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["work-outlasts-the-term"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["stand", "stand-reason", "acknowledge", "pledge"]
+    },
+    {
+      "key": "outline-call.long-view.w2-a-country-is-built-slowly-and-lost-quickly-and-nation",
+      "move": "long-view",
+      "kind": "spoken",
+      "text": "A country is built slowly and lost quickly, and {nation} gets to choose which pace it keeps.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "long-view",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["work-outlasts-the-term"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["stand", "stand-reason", "acknowledge", "pledge"]
+    },
+    {
+      "key": "outline-call.long-view.w2-the-people-who-finish-this-work-in-nation-are-not",
+      "move": "long-view",
+      "kind": "spoken",
+      "text": "The people who finish this work in {nation} are not in this room yet.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "long-view",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["work-outlasts-the-term"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["stand", "stand-reason", "acknowledge", "pledge"]
+    },
+    {
+      "key": "outline-call.long-view.w2-do-not-judge-it-by-the-next-news-cycle-judge",
+      "move": "long-view",
+      "kind": "spoken",
+      "text": "Do not judge it by the next news cycle; judge it by what {nation} looks like when a child born today votes.",
+      "uses": [
+        {
+          "subject": "state-of-the-union",
+          "role": "long-view",
+          "tie": "record",
+          "requiresFacts": ["nation"],
+          "excludesFacts": []
+        }
+      ],
+      "elements": ["work-outlasts-the-term"],
+      "origin": "authored",
+      "author": "the call-and-charge writer",
+      "date": "2026-11-24",
+      "after": ["stand", "stand-reason", "acknowledge", "pledge"]
     }
   ]
 }

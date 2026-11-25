@@ -4565,17 +4565,17 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.n19-polished-i-will-not-sign-a-bill-for-about",
+      "key": "opening-speech.ask.i-will-not-sign-a-bill-to",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will not sign a bill for {about}.",
+      "text": "I will not sign a bill to {to}.",
       "uses": [
         {
           "move": "ask",
           "subject": "state-of-the-union",
           "role": "ask",
           "choice": "ask",
-          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "requiresFacts": ["stance-against", "law-not-in-force", "to"],
           "tie": "law"
         }
       ],
@@ -4588,17 +4588,17 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.n19-polished-on-about-my-answer-to-congress-is-no",
+      "key": "opening-speech.ask.on-any-bill-to-my-answer-to-congress-is-no",
       "move": "ask",
       "kind": "spoken",
-      "text": "On {about}, my answer to Congress is no.",
+      "text": "On any bill to {to}, my answer to Congress is no.",
       "uses": [
         {
           "move": "ask",
           "subject": "state-of-the-union",
           "role": "ask",
           "choice": "ask",
-          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "requiresFacts": ["stance-against", "law-not-in-force", "to"],
           "tie": "law"
         }
       ],
@@ -4611,10 +4611,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.n19-polished-i-will-not-sign-a-bill-for-about-because-i-believe-belief",
+      "key": "opening-speech.ask.i-will-not-sign-a-bill-to-because-i-believe",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will not sign a bill for {about}, because I believe {belief}.",
+      "text": "I will not sign a bill to {to}, because I believe {belief}.",
       "uses": [
         {
           "move": "ask",
@@ -4624,7 +4624,7 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "about",
+            "to",
             "belief",
             "belief-folded"
           ],
@@ -4640,10 +4640,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.n19-polished-i-believe-belief-and-so-i-oppose-about",
+      "key": "opening-speech.ask.i-believe-and-so-i-oppose-any-bill-to",
       "move": "ask",
       "kind": "spoken",
-      "text": "I believe {belief}, and so I oppose {about}.",
+      "text": "I believe {belief}, and so I oppose any bill to {to}.",
       "uses": [
         {
           "move": "ask",
@@ -4653,7 +4653,7 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "about",
+            "to",
             "belief",
             "belief-folded"
           ],
@@ -4669,17 +4669,17 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.n19-plain-on-about-my-answer-is-no-and-it-ll-stay-no",
+      "key": "opening-speech.ask.on-any-bill-to-my-answer-is-no-and-it-ll-stay-no",
       "move": "ask",
       "kind": "spoken",
-      "text": "On {about}, my answer is no, and it'll stay no.",
+      "text": "On any bill to {to}, my answer is no, and it'll stay no.",
       "uses": [
         {
           "move": "ask",
           "subject": "state-of-the-union",
           "role": "ask",
           "choice": "ask",
-          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "requiresFacts": ["stance-against", "law-not-in-force", "to"],
           "tie": "law"
         }
       ],
@@ -4692,17 +4692,17 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.n19-plain-don-t-send-me-a-bill-for-about-i-won-t-sign-it",
+      "key": "opening-speech.ask.don-t-send-me-a-bill-to-i-won-t-sign-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "Don't send me a bill for {about}. I won't sign it.",
+      "text": "Don't send me a bill to {to}. I won't sign it.",
       "uses": [
         {
           "move": "ask",
           "subject": "state-of-the-union",
           "role": "ask",
           "choice": "ask",
-          "requiresFacts": ["stance-against", "law-not-in-force", "about"],
+          "requiresFacts": ["stance-against", "law-not-in-force", "to"],
           "tie": "law"
         }
       ],
@@ -4715,10 +4715,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.n19-plain-i-m-against-about-because-i-believe-belief",
+      "key": "opening-speech.ask.i-m-against-any-bill-to-because-i-believe",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm against {about}, because I believe {belief}.",
+      "text": "I'm against any bill to {to}, because I believe {belief}.",
       "uses": [
         {
           "move": "ask",
@@ -4728,7 +4728,7 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "about",
+            "to",
             "belief",
             "belief-folded"
           ],
@@ -4744,10 +4744,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.n19-plain-i-believe-belief-so-on-about-the-answer-is-no",
+      "key": "opening-speech.ask.i-believe-so-on-any-bill-to-the-answer-is-no",
       "move": "ask",
       "kind": "spoken",
-      "text": "I believe {belief}. So on {about}, the answer is no.",
+      "text": "I believe {belief}. So on any bill to {to}, the answer is no.",
       "uses": [
         {
           "move": "ask",
@@ -4757,7 +4757,7 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "about",
+            "to",
             "belief",
             "belief-folded"
           ],
@@ -8751,10 +8751,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-i-m-against-about-because-belief-i-ll-ask-body-name-to-vote-them-down",
+      "key": "opening-speech.ask.i-m-against-any-to-because-i-ll-ask-to-vote-it-down",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm against {about} because {belief}. I'll ask {body-name} to vote them down.",
+      "text": "I'm against any {measure} to {to} because {belief}. I'll ask {body-name} to vote it down.",
       "uses": [
         {
           "move": "ask",
@@ -8762,15 +8762,41 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name",
             "belief",
-            "belief-folded"
+            "belief-folded",
+            "body-name",
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "move": "ask",
@@ -8778,15 +8804,41 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name",
             "belief",
-            "belief-folded"
+            "belief-folded",
+            "body-name",
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "move": "ask",
@@ -8794,15 +8846,41 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name",
             "belief",
-            "belief-folded"
+            "belief-folded",
+            "body-name",
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         }
       ],
       "voice": "plain",
@@ -8817,10 +8895,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.polished-i-oppose-about-because-belief-and-i-ask-body-name-to-reject-them",
+      "key": "opening-speech.ask.i-oppose-any-to-because-and-i-ask-to-reject-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "I oppose {about} because {belief}, and I ask {body-name} to reject them.",
+      "text": "I oppose any {measure} to {to} because {belief}, and I ask {body-name} to reject it.",
       "uses": [
         {
           "move": "ask",
@@ -8828,15 +8906,41 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name",
             "belief",
-            "belief-folded"
+            "belief-folded",
+            "body-name",
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "move": "ask",
@@ -8844,15 +8948,41 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name",
             "belief",
-            "belief-folded"
+            "belief-folded",
+            "body-name",
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "move": "ask",
@@ -8860,15 +8990,41 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name",
             "belief",
-            "belief-folded"
+            "belief-folded",
+            "body-name",
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         }
       ],
       "voice": "polished",
@@ -8883,10 +9039,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-i-m-against-about-because-belief-and-i-ll-veto-them",
+      "key": "opening-speech.ask.i-m-against-any-bill-to-because-and-i-ll-veto-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm against {about} because {belief}, and I'll veto them.",
+      "text": "I'm against any bill to {to} because {belief}, and I'll veto it.",
       "uses": [
         {
           "move": "ask",
@@ -8896,12 +9052,12 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "about",
-            "about-many",
+            "to",
             "belief",
             "belief-folded"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -8916,10 +9072,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.polished-i-oppose-about-because-belief-and-i-will-veto-them",
+      "key": "opening-speech.ask.i-oppose-any-bill-to-because-and-i-will-veto-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "I oppose {about} because {belief}, and I will veto them.",
+      "text": "I oppose any bill to {to} because {belief}, and I will veto it.",
       "uses": [
         {
           "move": "ask",
@@ -8929,942 +9085,12 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "about",
-            "about-many",
+            "to",
             "belief",
             "belief-folded"
           ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-support-about-because-belief-so-i-ask-body-name-to-side-before-the-y",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I support {about} because {belief}, so I ask {body-name} to {side} before the year is out.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-want-about-because-belief-and-i-want-body-name-to-side",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I want {about} because {belief}, and I want {body-name} to {side}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-on-about-i-ask-body-name-to-side-because-belief",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "On {about}, I ask {body-name} to {side}, because {belief}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-back-about-because-belief-and-i-am-asking-body-name-to-side-this-yea",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I back {about} because {belief}, and I am asking {body-name} to {side} this year.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-for-about-because-belief-and-i-d-like-us-to-side-before-long",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm for {about} because {belief}, and I'd like us to {side} before long.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-in-favor-of-about-because-belief-so-let-s-side-this-year",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm in favor of {about} because {belief}, so let's {side} this year.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-behind-about-because-belief-and-i-want-us-to-side-soon",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm behind {about} because {belief}, and I want us to {side} soon.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-for-about-because-belief-so-let-s-side-this-year",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm for {about} because {belief}, so let's {side} this year.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-stand-for-about-because-belief-and-i-would-like-to-see-us-side-soon",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I stand for {about} because {belief}, and I would like to see us {side} soon.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-support-about-because-belief-and-i-want-us-to-side",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I support {about} because {belief}, and I want us to {side}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-against-about-because-belief-i-ll-ask-body-name-to-vote-it-down",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm against {about} because {belief}. I'll ask {body-name} to vote it down.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-oppose-about-because-belief-and-i-ask-body-name-to-reject-it",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I oppose {about} because {belief}, and I ask {body-name} to reject it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-against-about-because-belief-and-i-ll-veto-it",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm against {about} because {belief}, and I'll veto it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-oppose-about-because-belief-and-i-will-veto-it",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I oppose {about} because {belief}, and I will veto it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "belief",
-            "belief-folded"
-          ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -16171,10 +15397,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-i-m-against-about-i-ll-ask-body-name-to-vote-them-down",
+      "key": "opening-speech.ask.i-m-against-any-to-i-ll-ask-to-vote-it-down",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm against {about}. I'll ask {body-name} to vote them down.",
+      "text": "I'm against any {measure} to {to}. I'll ask {body-name} to vote it down.",
       "uses": [
         {
           "move": "ask",
@@ -16182,13 +15408,39 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
+            "body-name",
             "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name"
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "move": "ask",
@@ -16196,13 +15448,39 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
+            "body-name",
             "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name"
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "move": "ask",
@@ -16210,13 +15488,39 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
+            "body-name",
             "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name"
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         }
       ],
       "voice": "plain",
@@ -16231,10 +15535,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.polished-i-oppose-about-and-i-ask-body-name-to-reject-them",
+      "key": "opening-speech.ask.i-oppose-any-to-and-i-ask-to-reject-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "I oppose {about}, and I ask {body-name} to reject them.",
+      "text": "I oppose any {measure} to {to}, and I ask {body-name} to reject it.",
       "uses": [
         {
           "move": "ask",
@@ -16242,13 +15546,39 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
+            "body-name",
             "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name"
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "move": "ask",
@@ -16256,13 +15586,39 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
+            "body-name",
             "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name"
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "move": "ask",
@@ -16270,13 +15626,39 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "stance-against",
+            "body-name",
             "law-not-in-force",
-            "about",
-            "about-many",
-            "body-name"
+            "measure",
+            "stance-against",
+            "to"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         }
       ],
       "voice": "polished",
@@ -16291,23 +15673,19 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-i-m-against-about-and-i-ll-veto-them",
+      "key": "opening-speech.ask.i-m-against-any-bill-to-and-i-ll-veto-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm against {about}, and I'll veto them.",
+      "text": "I'm against any bill to {to}, and I'll veto it.",
       "uses": [
         {
           "move": "ask",
           "subject": "state-of-the-state",
           "role": "ask",
           "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-many"
-          ],
-          "tie": "law"
+          "requiresFacts": ["stance-against", "law-not-in-force", "to"],
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -16322,23 +15700,19 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.polished-i-oppose-about-and-i-will-veto-them",
+      "key": "opening-speech.ask.i-oppose-any-bill-to-and-i-will-veto-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "I oppose {about}, and I will veto them.",
+      "text": "I oppose any bill to {to}, and I will veto it.",
       "uses": [
         {
           "move": "ask",
           "subject": "state-of-the-state",
           "role": "ask",
           "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-many"
-          ],
-          "tie": "law"
+          "requiresFacts": ["stance-against", "law-not-in-force", "to"],
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -17035,546 +16409,6 @@
       ],
       "voice": "polished",
       "bearing": "firm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-support-about-so-i-ask-body-name-to-side-before-the-year-is-out",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I support {about}, so I ask {body-name} to {side} before the year is out.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-want-about-and-i-want-body-name-to-side",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I want {about}, and I want {body-name} to {side}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-on-about-i-ask-body-name-to-side",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "On {about}, I ask {body-name} to {side}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-back-about-and-i-am-asking-body-name-to-side-this-year",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I back {about}, and I am asking {body-name} to {side} this year.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-not-in-force",
-            "about",
-            "side",
-            "body-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-for-about-and-i-d-like-us-to-side-before-long",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm for {about}, and I'd like us to {side} before long.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-in-favor-of-about-so-let-s-side-this-year",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm in favor of {about}, so let's {side} this year.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-behind-about-and-i-want-us-to-side-soon",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm behind {about}, and I want us to {side} soon.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-for-about-so-let-s-side-this-year",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm for {about}, so let's {side} this year.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-stand-for-about-and-i-would-like-to-see-us-side-soon",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I stand for {about}, and I would like to see us {side} soon.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-support-about-and-i-want-us-to-side",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I support {about}, and I want us to {side}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
@@ -18540,188 +17374,6 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-i-m-against-about-i-ll-ask-body-name-to-vote-it-down",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm against {about}. I'll ask {body-name} to vote it down.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-oppose-about-and-i-ask-body-name-to-reject-it",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I oppose {about}, and I ask {body-name} to reject it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "campaign-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name"
-          ],
-          "tie": "law"
-        },
-        {
-          "move": "ask",
-          "subject": "floor-speech",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one",
-            "body-name"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.plain-i-m-against-about-and-i-ll-veto-it",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm against {about}, and I'll veto it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "opening-speech.ask.polished-i-oppose-about-and-i-will-veto-it",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I oppose {about}, and I will veto it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-not-in-force",
-            "about",
-            "about-one"
-          ],
-          "tie": "law"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
       "key": "opening-speech.context.plain-in-the-context-years-years-i-ve-had-this-job-the-air-and-water-have-go",
       "move": "context",
       "kind": "spoken",
@@ -19130,7 +17782,8 @@
             "law-not-in-force",
             "body-name"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19143,7 +17796,8 @@
             "law-not-in-force",
             "body-name"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19156,7 +17810,8 @@
             "law-not-in-force",
             "body-name"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -19182,7 +17837,8 @@
             "law-not-in-force",
             "body-name"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19195,7 +17851,8 @@
             "law-not-in-force",
             "body-name"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19208,7 +17865,8 @@
             "law-not-in-force",
             "body-name"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -19327,10 +17985,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-i-m-saying-no-to-every-measure-for-about-whoever-brings-it",
+      "key": "opening-speech.ask.i-m-saying-no-to-every-to-whoever-brings-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "I'm saying no to every {measure} for {about}, whoever brings it.",
+      "text": "I'm saying no to every {measure} to {to}, whoever brings it.",
       "uses": [
         {
           "move": "ask",
@@ -19338,12 +17996,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19351,12 +18010,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19364,12 +18024,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19377,12 +18038,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -19392,10 +18054,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-any-measure-for-about-gets-a-no-from-me",
+      "key": "opening-speech.ask.any-to-gets-a-no-from-me",
       "move": "ask",
       "kind": "spoken",
-      "text": "Any {measure} for {about} gets a no from me.",
+      "text": "Any {measure} to {to} gets a no from me.",
       "uses": [
         {
           "move": "ask",
@@ -19403,12 +18065,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19416,12 +18079,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19429,12 +18093,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19442,12 +18107,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -19457,10 +18123,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-i-can-t-get-behind-any-measure-for-about",
+      "key": "opening-speech.ask.i-can-t-get-behind-any-to",
       "move": "ask",
       "kind": "spoken",
-      "text": "I can't get behind any {measure} for {about}.",
+      "text": "I can't get behind any {measure} to {to}.",
       "uses": [
         {
           "move": "ask",
@@ -19468,12 +18134,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19481,12 +18148,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19494,12 +18162,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19507,12 +18176,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -19522,10 +18192,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.plain-i-won-t-put-my-name-on-any-measure-for-about",
+      "key": "opening-speech.ask.i-won-t-put-my-name-on-any-to",
       "move": "ask",
       "kind": "spoken",
-      "text": "I won't put my name on any {measure} for {about}.",
+      "text": "I won't put my name on any {measure} to {to}.",
       "uses": [
         {
           "move": "ask",
@@ -19533,12 +18203,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19546,12 +18217,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19559,12 +18231,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19572,12 +18245,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -19587,10 +18261,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.polished-i-will-say-no-to-every-measure-for-about-whoever-brings-it",
+      "key": "opening-speech.ask.i-will-say-no-to-every-to-whoever-brings-it",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will say no to every {measure} for {about}, whoever brings it.",
+      "text": "I will say no to every {measure} to {to}, whoever brings it.",
       "uses": [
         {
           "move": "ask",
@@ -19598,12 +18272,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19611,12 +18286,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19624,12 +18300,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19637,12 +18314,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -19652,10 +18330,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.polished-any-measure-for-about-will-get-a-no-from-me",
+      "key": "opening-speech.ask.any-to-will-get-a-no-from-me",
       "move": "ask",
       "kind": "spoken",
-      "text": "Any {measure} for {about} will get a no from me.",
+      "text": "Any {measure} to {to} will get a no from me.",
       "uses": [
         {
           "move": "ask",
@@ -19663,12 +18341,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19676,12 +18355,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19689,12 +18369,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19702,12 +18383,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -19717,10 +18399,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.polished-i-will-not-lend-my-support-to-any-measure-for-about",
+      "key": "opening-speech.ask.i-will-not-lend-my-support-to-any-to",
       "move": "ask",
       "kind": "spoken",
-      "text": "I will not lend my support to any {measure} for {about}.",
+      "text": "I will not lend my support to any {measure} to {to}.",
       "uses": [
         {
           "move": "ask",
@@ -19728,12 +18410,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19741,12 +18424,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19754,12 +18438,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19767,12 +18452,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -19782,10 +18468,10 @@
       "date": "2026-11-19"
     },
     {
-      "key": "opening-speech.ask.polished-my-name-will-not-appear-on-any-measure-for-about",
+      "key": "opening-speech.ask.my-name-will-not-appear-on-any-to",
       "move": "ask",
       "kind": "spoken",
-      "text": "My name will not appear on any {measure} for {about}.",
+      "text": "My name will not appear on any {measure} to {to}.",
       "uses": [
         {
           "move": "ask",
@@ -19793,12 +18479,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19806,12 +18493,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19819,12 +18507,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -19832,12 +18521,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "measure"
           ],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -19858,7 +18548,8 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -19879,7 +18570,8 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "tie": "law"
+          "tie": "law",
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -58305,6 +56997,240 @@
       "date": "2026-11-24",
       "elements": ["mayor-budget-as-saved-balanced-or-held-flat"],
       "issues": ["none"]
+    },
+    {
+      "key": "opening-speech.ask.i-want-us-to-because-and-i-ask-to-take-it-up-before-the-year-is-out",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I want us to {to} because {belief}, and I ask {body-name} to take it up before the year is out.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "body-name",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.i-want-us-to-and-i-ask-to-take-it-up-this-year",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I want us to {to}, and I ask {body-name} to take it up this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "body-name"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "body-name"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        },
+        {
+          "move": "ask",
+          "subject": "floor-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "body-name"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.i-d-like-us-to-this-year-because",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'd like us to {to} this year, because {belief}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-not-in-force",
+            "to",
+            "belief",
+            "belief-folded"
+          ],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "opening-speech.ask.i-d-like-us-to-before-long-and-i-ll-work-for-it",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'd like us to {to} before long, and I'll work for it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        },
+        {
+          "move": "ask",
+          "subject": "campaign-speech",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"],
+          "tie": "stand",
+          "excludesFacts": ["said-contrast"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     }
   ]
 }

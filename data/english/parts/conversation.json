@@ -8210,136 +8210,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.own-work-raise-tell.i-work-at-employer",
-      "move": "own-work-raise-tell",
-      "kind": "spoken",
-      "text": "I work at {employer}.",
-      "uses": [
-        {
-          "move": "own-work-raise-tell",
-          "subject": "own-work",
-          "role": "raise",
-          "choice": "tell",
-          "requiresFacts": ["employer"]
-        },
-        {
-          "move": "other-work-reply-at",
-          "subject": "other-work",
-          "role": "reply",
-          "choice": "at",
-          "stages": ["working"],
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-raise-tell.i-work-for-employer",
-      "move": "own-work-raise-tell",
-      "kind": "spoken",
-      "text": "I work for {employer}.",
-      "uses": [
-        {
-          "move": "own-work-raise-tell",
-          "subject": "own-work",
-          "role": "raise",
-          "choice": "tell",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-raise-tell.i-m-with-employer",
-      "move": "own-work-raise-tell",
-      "kind": "spoken",
-      "text": "I'm with {employer}.",
-      "uses": [
-        {
-          "move": "own-work-raise-tell",
-          "subject": "own-work",
-          "role": "raise",
-          "choice": "tell",
-          "requiresFacts": ["employer"]
-        },
-        {
-          "move": "other-work-reply-at",
-          "subject": "other-work",
-          "role": "reply",
-          "choice": "at",
-          "stages": ["working"],
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-raise-tell.i-m-over-at-employer",
-      "move": "own-work-raise-tell",
-      "kind": "spoken",
-      "text": "I'm over at {employer}.",
-      "uses": [
-        {
-          "move": "own-work-raise-tell",
-          "subject": "own-work",
-          "role": "raise",
-          "choice": "tell",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-raise-tell.right-now-i-m-at-employer",
-      "move": "own-work-raise-tell",
-      "kind": "spoken",
-      "text": "Right now I'm at {employer}.",
-      "uses": [
-        {
-          "move": "own-work-raise-tell",
-          "subject": "own-work",
-          "role": "raise",
-          "choice": "tell",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-raise-tell.these-days-i-m-at-employer",
-      "move": "own-work-raise-tell",
-      "kind": "spoken",
-      "text": "These days I'm at {employer}.",
-      "uses": [
-        {
-          "move": "own-work-raise-tell",
-          "subject": "own-work",
-          "role": "raise",
-          "choice": "tell",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.other-work-answer-detail.what-do-you-do-there",
       "move": "other-work-answer-detail",
       "kind": "spoken",
@@ -9140,862 +9010,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.own-work-ask-still-at.how-are-things-at-employer",
-      "move": "own-work-ask-still-at",
-      "kind": "spoken",
-      "text": "How are things at {employer}?",
-      "uses": [
-        {
-          "move": "own-work-ask-still-at",
-          "subject": "own-work",
-          "role": "ask",
-          "choice": "still-at",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-ask-still-at.how-s-work-at-employer",
-      "move": "own-work-ask-still-at",
-      "kind": "spoken",
-      "text": "How's work at {employer}?",
-      "uses": [
-        {
-          "move": "own-work-ask-still-at",
-          "subject": "own-work",
-          "role": "ask",
-          "choice": "still-at",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-ask-still-at.still-at-employer",
-      "move": "own-work-ask-still-at",
-      "kind": "spoken",
-      "text": "Still at {employer}?",
-      "uses": [
-        {
-          "move": "own-work-ask-still-at",
-          "subject": "own-work",
-          "role": "ask",
-          "choice": "still-at",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-ask-still-at.how-s-employer-treating-you",
-      "move": "own-work-ask-still-at",
-      "kind": "spoken",
-      "text": "How's {employer} treating you?",
-      "uses": [
-        {
-          "move": "own-work-ask-still-at",
-          "subject": "own-work",
-          "role": "ask",
-          "choice": "still-at",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-answer-plain.it-s-steady-at-employer",
-      "move": "own-work-answer-plain",
-      "kind": "spoken",
-      "text": "It's steady at {employer}.",
-      "uses": [
-        {
-          "move": "own-work-answer-plain",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "plain",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-answer-plain.it-s-fine-at-employer-mostly",
-      "move": "own-work-answer-plain",
-      "kind": "spoken",
-      "text": "It's fine at {employer}, mostly.",
-      "uses": [
-        {
-          "move": "own-work-answer-plain",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "plain",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-answer-plain.same-as-ever-at-employer",
-      "move": "own-work-answer-plain",
-      "kind": "spoken",
-      "text": "Same as ever at {employer}.",
-      "uses": [
-        {
-          "move": "own-work-answer-plain",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "plain",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.own-work-answer-plain.i-m-still-at-employer",
-      "move": "own-work-answer-plain",
-      "kind": "spoken",
-      "text": "I'm still at {employer}.",
-      "uses": [
-        {
-          "move": "own-work-answer-plain",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "plain",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-say-core.employer-has-me-in-until-end-today",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "{employer} has me in until {end} today.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "longer"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-say-core.it-s-a-long-one-at-employer-i-m-out-at-end",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "It's a long one at {employer}. I'm out at {end}.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "longer"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-say-core.they-kept-me-late-at-employer-i-m-done-at-end",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "They kept me late at {employer}. I'm done at {end}.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "longer"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-say-core.employer-has-me-done-by-end-today",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "{employer} has me done by {end} today.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-say-core.short-day-at-employer-i-m-out-at-end",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "Short day at {employer}. I'm out at {end}.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-say-core.they-cut-my-shift-at-employer-i-m-done-at-end",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "They cut my shift at {employer}. I'm done at {end}.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-answer-plan.i-ll-be-around-when-you-get-back-at-end",
-      "move": "work-day-answer-plan",
-      "kind": "spoken",
-      "text": "I'll be around when you get back at {end}.",
-      "uses": [
-        {
-          "move": "work-day-answer-plan",
-          "subject": "work-day",
-          "role": "answer",
-          "choice": "plan",
-          "requiresFacts": ["shift-ahead", "end"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-answer-plan.see-you-when-you-re-done-at-end",
-      "move": "work-day-answer-plan",
-      "kind": "spoken",
-      "text": "See you when you're done at {end}.",
-      "uses": [
-        {
-          "move": "work-day-answer-plan",
-          "subject": "work-day",
-          "role": "answer",
-          "choice": "plan",
-          "requiresFacts": ["shift-ahead", "end"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-answer-wish.hope-employer-goes-easy-on-you-today",
-      "move": "work-day-answer-wish",
-      "kind": "spoken",
-      "text": "Hope {employer} goes easy on you today.",
-      "uses": [
-        {
-          "move": "work-day-answer-wish",
-          "subject": "work-day",
-          "role": "answer",
-          "choice": "wish",
-          "requiresFacts": ["shift-ahead", "employer"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-answer-wish.i-hope-it-goes-quick-at-employer-today",
-      "move": "work-day-answer-wish",
-      "kind": "spoken",
-      "text": "I hope it goes quick at {employer} today.",
-      "uses": [
-        {
-          "move": "work-day-answer-wish",
-          "subject": "work-day",
-          "role": "answer",
-          "choice": "wish",
-          "requiresFacts": ["shift-ahead", "employer"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-back-core.thanks-i-m-in-at-start-so-i-ll-be-beat",
-      "move": "work-day-back-core",
-      "kind": "spoken",
-      "text": "Thanks. I'm in at {start}, so I'll be beat.",
-      "uses": [
-        {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
-          "role": "core",
-          "stages": ["plan"],
-          "requiresFacts": ["start"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-back-core.good-i-started-at-start-and-i-ll-want-to-sit",
-      "move": "work-day-back-core",
-      "kind": "spoken",
-      "text": "Good. I started at {start}, and I'll want to sit.",
-      "uses": [
-        {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
-          "role": "core",
-          "stages": ["plan"],
-          "requiresFacts": ["start"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-back-core.thanks-i-m-in-at-start-so-i-m-used-to-it",
-      "move": "work-day-back-core",
-      "kind": "spoken",
-      "text": "Thanks. I'm in at {start}, so I'm used to it.",
-      "uses": [
-        {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
-          "role": "core",
-          "stages": ["wish"],
-          "requiresFacts": ["start"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-day-back-core.me-too-i-start-at-start-and-it-drags",
-      "move": "work-day-back-core",
-      "kind": "spoken",
-      "text": "Me too. I start at {start}, and it drags.",
-      "uses": [
-        {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
-          "role": "core",
-          "stages": ["wish"],
-          "requiresFacts": ["start"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-say-core.employer-kept-me-late-today-i-got-off-at-end",
-      "move": "work-done-say-core",
-      "kind": "spoken",
-      "text": "{employer} kept me late today. I got off at {end}.",
-      "uses": [
-        {
-          "move": "work-done-say-core",
-          "subject": "work-done-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "longer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-say-core.long-one-at-employer-i-m-off-at-end",
-      "move": "work-done-say-core",
-      "kind": "spoken",
-      "text": "Long one at {employer}. I'm off at {end}.",
-      "uses": [
-        {
-          "move": "work-done-say-core",
-          "subject": "work-done-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "longer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-say-core.employer-wore-me-out-i-got-off-at-end",
-      "move": "work-done-say-core",
-      "kind": "spoken",
-      "text": "{employer} wore me out. I got off at {end}.",
-      "uses": [
-        {
-          "move": "work-done-say-core",
-          "subject": "work-done-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "longer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-say-core.employer-sent-me-home-early-i-got-off-at-end",
-      "move": "work-done-say-core",
-      "kind": "spoken",
-      "text": "{employer} sent me home early. I got off at {end}.",
-      "uses": [
-        {
-          "move": "work-done-say-core",
-          "subject": "work-done-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-say-core.i-got-out-early-at-employer-off-at-end",
-      "move": "work-done-say-core",
-      "kind": "spoken",
-      "text": "I got out early at {employer}. Off at {end}.",
-      "uses": [
-        {
-          "move": "work-done-say-core",
-          "subject": "work-done-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-say-core.employer-let-me-go-early-i-was-off-at-end",
-      "move": "work-done-say-core",
-      "kind": "spoken",
-      "text": "{employer} let me go early. I was off at {end}.",
-      "uses": [
-        {
-          "move": "work-done-say-core",
-          "subject": "work-done-say",
-          "role": "core",
-          "requiresFacts": ["employer", "end", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-answer-ask.how-was-it-at-employer",
-      "move": "work-done-answer-ask",
-      "kind": "spoken",
-      "text": "How was it at {employer}?",
-      "uses": [
-        {
-          "move": "work-done-answer-ask",
-          "subject": "work-done",
-          "role": "answer",
-          "choice": "ask",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-answer-ask.how-did-employer-go-today",
-      "move": "work-done-answer-ask",
-      "kind": "spoken",
-      "text": "How did {employer} go today?",
-      "uses": [
-        {
-          "move": "work-done-answer-ask",
-          "subject": "work-done",
-          "role": "answer",
-          "choice": "ask",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-answer-rest.put-your-feet-up-after-employer",
-      "move": "work-done-answer-rest",
-      "kind": "spoken",
-      "text": "Put your feet up after {employer}.",
-      "uses": [
-        {
-          "move": "work-done-answer-rest",
-          "subject": "work-done",
-          "role": "answer",
-          "choice": "rest",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-answer-rest.sit-down-you-earned-it-at-employer",
-      "move": "work-done-answer-rest",
-      "kind": "spoken",
-      "text": "Sit down. You earned it at {employer}.",
-      "uses": [
-        {
-          "move": "work-done-answer-rest",
-          "subject": "work-done",
-          "role": "answer",
-          "choice": "rest",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-back-core.long-i-started-at-start-and-i-m-wiped",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Long. I started at {start} and I'm wiped.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["start", "longer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-back-core.slow-mostly-i-was-in-at-start",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Slow, mostly. I was in at {start}.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["start", "longer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-back-core.good-i-started-at-start-so-it-s-short",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Good. I started at {start}, so it's short.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["start", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-back-core.easy-i-was-in-at-start-and-out-early",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Easy. I was in at {start} and out early.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["start", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-back-core.thanks-i-was-in-at-start-and-it-shows",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Thanks. I was in at {start}, and it shows.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["start", "longer"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-back-core.i-will-i-started-at-start-and-i-m-done",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "I will. I started at {start} and I'm done.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["start", "longer"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-back-core.thanks-i-was-in-at-start-so-i-ll-take-it",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "Thanks. I was in at {start}, so I'll take it.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["start", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.work-done-back-core.i-will-i-started-at-start-and-got-out-early",
-      "move": "work-done-back-core",
-      "kind": "spoken",
-      "text": "I will. I started at {start} and got out early.",
-      "uses": [
-        {
-          "move": "work-done-back-core",
-          "subject": "work-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["start", "shorter"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.rent-day-is-due-it-comes-around-too-fast",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "Rent day is {due}. It comes around too fast.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.the-rent-comes-due-due-i-keep-thinking-about-it",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "The rent comes due {due}. I keep thinking about it.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.rent-is-coming-up-due-i-keep-going-over-it",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "Rent is coming up {due}. I keep going over it.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.i-keep-thinking-about-the-rent-it-s-due-due",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "I keep thinking about the rent. It's due {due}.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.the-landlord-wants-the-rent-due-it-weighs-on-me",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "The landlord wants the rent {due}. It weighs on me.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.rent-is-due-due-every-month-it-sneaks-up",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "Rent is due {due}. Every month it sneaks up.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.rent-due-answer-ask.are-we-okay-for-rent-again-this-month",
       "move": "rent-due-answer-ask",
       "kind": "spoken",
@@ -10105,120 +9119,6 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-ease.it-ll-work-out-we-ve-always-covered-rent-again",
-      "move": "rent-due-answer-ease",
-      "kind": "spoken",
-      "text": "It'll work out. We've always covered {rent_again}.",
-      "uses": [
-        {
-          "move": "rent-due-answer-ease",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "ease",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-ease.try-not-to-worry-we-ve-always-found-rent-again-somehow",
-      "move": "rent-due-answer-ease",
-      "kind": "spoken",
-      "text": "Try not to worry. We've always found {rent_again} somehow.",
-      "uses": [
-        {
-          "move": "rent-due-answer-ease",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "ease",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-ease.we-ll-manage-rent-again-we-usually-do",
-      "move": "rent-due-answer-ease",
-      "kind": "spoken",
-      "text": "We'll manage {rent_again}. We usually do.",
-      "uses": [
-        {
-          "move": "rent-due-answer-ease",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "ease",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-grim.it-feels-like-rent-again-climbs-every-year",
-      "move": "rent-due-answer-grim",
-      "kind": "spoken",
-      "text": "It feels like {rent_again} climbs every year.",
-      "uses": [
-        {
-          "move": "rent-due-answer-grim",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "grim",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-grim.rent-again-takes-more-every-year-and-wages-don-t-keep-up",
-      "move": "rent-due-answer-grim",
-      "kind": "spoken",
-      "text": "{rent_again} takes more every year, and wages don't keep up.",
-      "uses": [
-        {
-          "move": "rent-due-answer-grim",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "grim",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-grim.every-year-rent-again-is-harder-to-cover",
-      "move": "rent-due-answer-grim",
-      "kind": "spoken",
-      "text": "Every year {rent_again} is harder to cover.",
-      "uses": [
-        {
-          "move": "rent-due-answer-grim",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "grim",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18"
@@ -10906,6 +9806,322 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-the-money-is-set-aside",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and the money is set aside.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-covered"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.we-have-rent-put-away-for-due-so-i-m-not-worried",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "We have {rent} put away for {due}, so I'm not worried.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-we-can-just-cover-it",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and we can just cover it.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-tight"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-there-s-almost-nothing-left-after-it",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "{rent} is due {due}, and there's almost nothing left after it.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-tight"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-we-re-short",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and we're short.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-short"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.we-don-t-have-rent-yet-and-it-s-due-due",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "We don't have {rent} yet, and it's due {due}.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-short"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ease.we-re-fine-because-there-s-enough-set-aside-for-rent-again",
+      "move": "rent-due-answer-ease",
+      "kind": "spoken",
+      "text": "We're fine, because there's enough set aside for {rent_again}.",
+      "uses": [
+        {
+          "move": "rent-due-answer-ease",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ease",
+          "requiresFacts": ["rent", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ease.we-have-rent-again-put-away-so-don-t-worry",
+      "move": "rent-due-answer-ease",
+      "kind": "spoken",
+      "text": "We have {rent_again} put away, so don't worry.",
+      "uses": [
+        {
+          "move": "rent-due-answer-ease",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ease",
+          "requiresFacts": ["rent", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-help.i-ll-skip-extras-since-rent-again-takes-most-of-it",
+      "move": "rent-due-answer-help",
+      "kind": "spoken",
+      "text": "I'll skip extras, since {rent_again} takes most of it.",
+      "uses": [
+        {
+          "move": "rent-due-answer-help",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["rent", "cash-tight"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-help.i-ll-skip-extras-since-little-is-left-after-rent-again",
+      "move": "rent-due-answer-help",
+      "kind": "spoken",
+      "text": "I'll skip extras, since little is left after {rent_again}.",
+      "uses": [
+        {
+          "move": "rent-due-answer-help",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["rent", "cash-tight"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ask.how-do-we-cover-rent-again-since-we-re-short",
+      "move": "rent-due-answer-ask",
+      "kind": "spoken",
+      "text": "How do we cover {rent_again}, since we're short?",
+      "uses": [
+        {
+          "move": "rent-due-answer-ask",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ask.where-does-the-rest-of-rent-again-come-from",
+      "move": "rent-due-answer-ask",
+      "kind": "spoken",
+      "text": "Where does the rest of {rent_again} come from?",
+      "uses": [
+        {
+          "move": "rent-due-answer-ask",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-grim.we-can-t-cover-rent-again-yet-and-i-m-unsure-how",
+      "move": "rent-due-answer-grim",
+      "kind": "spoken",
+      "text": "We can't cover {rent_again} yet, and I'm unsure how.",
+      "uses": [
+        {
+          "move": "rent-due-answer-grim",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "grim",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-grim.we-re-short-for-rent-again-and-i-won-t-pretend-otherwise",
+      "move": "rent-due-answer-grim",
+      "kind": "spoken",
+      "text": "We're short for {rent_again}, and I won't pretend otherwise.",
+      "uses": [
+        {
+          "move": "rent-due-answer-grim",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "grim",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
     },
     {
       "key": "conversation.government-news-say-core.who-spoke-on-about-when-i-keep-turning-it-over",
@@ -14693,86 +13909,6 @@
       "date": "2026-11-19"
     },
     {
-      "key": "conversation.own-view-take-core.same-side-then",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "Same side, then.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["stand"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-take-core.then-we-agree",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "Then we agree.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["stand"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-take-core.we-ll-see",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "We'll see.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["stand"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-take-core.time-will-tell",
-      "move": "own-view-take-core",
-      "kind": "spoken",
-      "text": "Time will tell.",
-      "uses": [
-        {
-          "move": "own-view-take-core",
-          "subject": "own-view-take",
-          "role": "core",
-          "stages": ["disagree"],
-          "requiresFacts": ["stand"],
-          "excludesFacts": ["story-decided"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
       "key": "conversation.own-view-take-core.let-s-see-how-decider-votes",
       "move": "own-view-take-core",
       "kind": "spoken",
@@ -15251,243 +14387,6 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.no-not-me",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "No, not me.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.not-with-you",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "Not with you.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.i-disagree",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I disagree.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.i-m-with-you",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "I'm with you.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.exactly-right",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "Exactly right.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.couldn-t-agree-more",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "Couldn't agree more.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.same-side",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "Same side.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-private.that-s-mine",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "That's mine.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private",
-          "requiresFacts": ["about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-private.keeping-it-private",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "Keeping it private.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private",
-          "requiresFacts": ["about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-private.not-telling",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "Not telling.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private",
-          "requiresFacts": ["about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "conversation.own-view-answer-private.i-d-rather-keep-that-to-myself-even-in",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "I'd rather keep that to myself, even in {place}.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private",
-          "requiresFacts": ["about", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "conversation.own-view-answer-private.my-view-stays-mine-and-nobody-in-needs-it",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "My view stays mine, and nobody in {place} needs it.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private",
-          "requiresFacts": ["about", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
-    },
-    {
-      "key": "conversation.own-view-answer-private.i-d-rather-not-say-not-here-in",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "I'd rather not say, not here in {place}.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private",
-          "requiresFacts": ["about", "place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the before-and-around writer",
-      "date": "2026-11-24",
-      "elements": ["pattern-a47-the-first-word-on-the-address"]
     },
     {
       "key": "conversation.own-view-answer-why.why-say-that",
@@ -33964,42 +32863,6 @@
       "tag": {
         "move": "answer"
       }
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "Actually, I'm less sure about {about} than I sounded.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-same", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.you-might-be-right-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "You might be right about {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-other", "about"]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
     },
     {
       "key": "conversation.own-view-answer-agree.you-and-i-both-think",

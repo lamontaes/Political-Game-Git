@@ -61,7 +61,8 @@
     "kind-hopeful": "yes where the year the speaker reports on was a hopeful one, from the year's records",
     "incumbent": "yes when the candidate holds the seat now, from the seat's serving term",
     "challenger": "yes when the candidate does not hold the seat now, from the seat's serving term",
-    "theme-short-plural": "yes when the short theme is plural (taxes, hard times, our schools)"
+    "theme-short-plural": "yes when the short theme is plural (taxes, hard times, our schools)",
+    "measure": "what the body passes, as people say it (\"ordinance\", \"bill\"), from the body's own record"
   },
   "maxWords": 30,
   "parts": [
@@ -266,23 +267,23 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-put-my-name-behind",
+      "key": "outline-local.pledge.i-ll-put-my-name-on-every-to",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll put my name behind {about}.",
+      "text": "I'll put my name on every {measure} to {to}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["law-not-in-force", "measure", "stance-for", "to"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["law-not-in-force", "measure", "stance-for", "to"],
           "excludesFacts": []
         }
       ],
@@ -297,23 +298,23 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-push-for-at-every-meeting",
+      "key": "outline-local.pledge.i-ll-push-to-at-every-meeting",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll push for {about} at every meeting.",
+      "text": "I'll push to {to} at every meeting.",
       "uses": [
         {
           "subject": "town-address",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -359,24 +360,82 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-be-against-every-time-it-comes-up",
+      "key": "outline-local.pledge.i-ll-vote-against-any-to-every-time-it-comes-up",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll be against {about} every time it comes up.",
+      "text": "I'll vote against any {measure} to {to}, every time it comes up.",
       "uses": [
         {
           "subject": "town-address",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
+          ],
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid"
+          ]
         },
         {
           "subject": "campaign-speech",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
+          ],
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid"
+          ]
         }
       ],
       "after": ["creed"],
@@ -785,34 +844,84 @@
       "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
-      "key": "outline-local.stand-reason.i-can-t-back-since",
+      "key": "outline-local.stand-reason.i-can-t-back-the-push-to-since",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "I can't back {about}, since {belief}.",
+      "text": "I can't back the push to {to}, since {belief}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief"
           ],
-          "excludesFacts": []
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "subject": "campaign-speech",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief"
           ],
-          "excludesFacts": []
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
@@ -1321,24 +1430,24 @@
       "elements": ["stump-ends-on-thanks-or-an-inclusive-promise"]
     },
     {
-      "key": "outline-local.stand.i-m-for",
+      "key": "outline-local.stand.i-want-us-to",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'm for {about}.",
+      "text": "I want us to {to}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
+          "excludesFacts": ["said-contrast"]
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "after": ["today", "contrast"],
@@ -1349,24 +1458,84 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.stand.i-m-against",
+      "key": "outline-local.stand.i-m-against-any-to",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'm against {about}.",
+      "text": "I'm against any {measure} to {to}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
+          ],
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
+          ],
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
         }
       ],
       "after": ["today", "contrast"],
@@ -4075,6 +4244,151 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-m-not-with-them-on-it-because",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm not with them on it, because {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-m-against-it-and-i-ll-say-why",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm against it, and I'll say why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-can-t-go-along-with-it-since",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I can't go along with it, since {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-m-for-it-and-here-s-why",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm for it, and here's why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "belief"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-m-with-those-who-want-it-because",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm with those who want it, because {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "belief"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "belief"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
       "issues": ["none"]
     }
   ]
