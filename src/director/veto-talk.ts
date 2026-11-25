@@ -44,7 +44,7 @@ import type { Director } from "./ledger";
 /** The conversation subject a veto is said as. */
 export const VETO_SUBJECT = "veto";
 /** The player's replies to it (veto-reply answers in the bank). */
-export const VETO_REPLIES = ["holds", "gives", "leave"] as const;
+export const VETO_REPLIES = ["holds", "gives"] as const;
 export type VetoReply = (typeof VETO_REPLIES)[number];
 
 const CONFLICT = "people-mind-v1:conflict";

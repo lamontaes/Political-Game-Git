@@ -270,7 +270,6 @@
     },
     "charge": {
       "confess": "confess",
-      "deflect": "deflect",
       "refuse": "refuse",
       "tell": "tell"
     },
@@ -282,13 +281,11 @@
     },
     "acquittal": {
       "tell": "answer",
-      "refuse": "refuse",
-      "deflect": "deflect"
+      "refuse": "refuse"
     },
     "veto-reply": {
       "holds": "refuse",
-      "gives": "apologize",
-      "leave": "decline"
+      "gives": "apologize"
     },
     "work-day": {
       "plan": "answer",
