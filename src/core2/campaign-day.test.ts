@@ -59,6 +59,7 @@ import {
 } from "./campaign-day";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { townResidentsByCash } from "./resident-adults-test-kit";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
 const runSeed =
@@ -88,6 +89,11 @@ function setupAt(
   openPress(core);
   if (options.meetings) openMeetings(core);
   const api = coreAPI(core);
+  // Every race opens its filing on its own real day, and most places have none
+  // open on the start date: move to the first day one is open here, as a
+  // player would wait, instead of building another place (each build costs
+  // seconds, and eight in a row ran past the test's 30-second limit).
+  if (!options.bare) advanceToFilingOpen(core);
   const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, draw seed ${drawSeed}, place seed ${place.seed}`;
   // The player is the wealthiest adult old enough to file for something
   // (for a town or county race, one who lives in the town).
@@ -675,7 +681,7 @@ describe("a campaign day", () => {
     // The player's platform holds the room's commonest question, at the
     // opposite of their own view (so an answer from their views would show),
     // and leaves out at least one other the room asks.
-    const room = townHallDrives(api, playerId).slice(
+    const room = townHallDrives(api, playerId, id).slice(
       0,
       meetingParameter("townHallSize"),
     );
