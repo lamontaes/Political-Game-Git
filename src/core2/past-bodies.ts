@@ -51,12 +51,18 @@ export function townOffices(api: CoreAPI): readonly PastOffice[] {
   ).filter((office) => office.coversTown);
 }
 
-/** Lawmaking chambers, by office kind. */
+/**
+ * Lawmaking chambers, by office kind: every body the live legislature runs
+ * (a council, a county or township board, either house or a unicameral
+ * legislature) and Congress's two houses.
+ */
 export const CHAMBER_KINDS = new Set([
   "council",
   "county-board",
+  "township-board",
   "legislature-lower",
   "legislature-upper",
+  "legislature-unicameral",
   "us-house",
   "us-senate",
 ]);
