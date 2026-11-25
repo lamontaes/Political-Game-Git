@@ -36,6 +36,17 @@ export function validateFeatures(document) {
       )
     )
       throw new Error(`Invalid command: ${row.id}`);
+    // An accepted spec runs on its own clock, set from its own measured
+    // time, so it must say what that time is.
+    if (
+      row.passes &&
+      row.command !== null &&
+      !(
+        Number.isFinite(row.measuredMilliseconds) &&
+        row.measuredMilliseconds > 0
+      )
+    )
+      throw new Error(`Accepted spec without a measured time: ${row.id}`);
   }
   return document.features;
 }
@@ -60,6 +71,17 @@ export function vitestBatch(command) {
   const files = tokens.slice(at + 2);
   if (!files.length || files.some((f) => f.startsWith("-"))) return null;
   return { prefix: tokens.slice(0, at + 2), files };
+}
+/**
+ * An accepted spec's own budget: the longest time measured for it times the
+ * ratio in the policies file, never under the floor. It does not depend on
+ * what any other spec used, so the last spec cannot be starved.
+ */
+export function specBudget(row, policy = policies) {
+  return Math.max(
+    policy.specBudgetFloorMilliseconds,
+    Math.ceil(row.measuredMilliseconds * policy.specBudgetRatio),
+  );
 }
 async function runBatch(rows, { cwd, milliseconds, env, execute }) {
   const directory = mkdtempSync(join(tmpdir(), "golden-vitest-")),
@@ -115,6 +137,7 @@ export async function runSuite({
   mode = "pr",
   only = "all",
   execute = runCommand,
+  policy = policies,
 }) {
   // "quick" leaves out the long-running specs (a played year), which run as
   // their own job with their own budget ("long"); "all" runs both.
@@ -125,8 +148,9 @@ export async function runSuite({
     results = [],
     batchRows = features.filter((r) => r.command && vitestBatch(r.command));
   let batch = null;
-  // Accepted specs first; within each group the long ones (a played year)
-  // last, so one of them cannot spend the budget the quick specs need.
+  // Accepted specs first, each on its own clock; then the goals, which share
+  // what is left of the job's clock. Within each group the long ones (a
+  // played year) last.
   for (const row of [...features].sort(
     (a, b) =>
       Number(b.passes) - Number(a.passes) ||
@@ -137,7 +161,13 @@ export async function runSuite({
     let receipt = { code: null, timedOut: false, milliseconds: 0, output: "" },
       status = "missing-command";
     if (row.command) {
-      const remaining = budget - (performance.now() - started);
+      // An accepted spec has its own clock; a batch has the sum of its
+      // accepted rows' clocks. A goal runs in what is left of the job's one.
+      const left = budget - (performance.now() - started),
+        own = (batched ? batchRows : [row])
+          .filter((r) => r.passes)
+          .reduce((sum, r) => sum + specBudget(r, policy), 0),
+        remaining = own > 0 ? own : left;
       status = "not-reached";
       if (remaining > 0) {
         const env = {
@@ -176,6 +206,9 @@ export async function runSuite({
       command: row.command,
       place,
       status,
+      ...(row.passes && row.command
+        ? { budgetMilliseconds: specBudget(row, policy) }
+        : {}),
       ...receipt,
       output: status === "passed" ? "" : receipt.output,
     });

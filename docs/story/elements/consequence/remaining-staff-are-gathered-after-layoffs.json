@@ -1,0 +1,36 @@
+{
+  "id": "remaining-staff-are-gathered-after-layoffs",
+  "kind": "consequence",
+  "summary": "After the individual meetings, the employer meets with everyone left to acknowledge the loss.",
+  "realLife": "HR guidance advises a meeting with all remaining staff after notifications, since survivors may grieve and feel uncertain, and acknowledging their feelings.",
+  "sources": [
+    "SHRM, Layoffs require communication, compassion, compliance: https://www.shrm.org/mena/topics-tools/news/talent-acquisition/layoffs-require-communication-compassion-compliance"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "New-coworker and job-ended events at one workplace; remaining coworkers' mood can read from the count of ended jobs.",
+  "turns": [
+    {
+      "turn": "no-gathering",
+      "summary": "The employer says nothing to the staff who remain, and rumors spread.",
+      "pulledBy": ["a guarded employer", "a rushed cut"],
+      "writesBack": "Worry rises among the remaining staff, and trust in the manager falls."
+    },
+    {
+      "turn": "gathering-feels-hollow",
+      "summary": "The employer holds the meeting but staff feel it is a script and trust it little.",
+      "pulledBy": ["a distant boss", "who is watching the meeting"],
+      "writesBack": "Mood stays low, and the journal notes the meeting."
+    },
+    {
+      "turn": "manager-speaks-warmly",
+      "summary": "The manager speaks plainly about the loss and takes questions.",
+      "pulledBy": ["a warm manager", "coworker ties to those let go"],
+      "writesBack": "Trust is rebuilt, and the remaining staff stay on."
+    }
+  ],
+  "issues": ["none"]
+}

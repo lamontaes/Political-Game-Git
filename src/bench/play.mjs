@@ -1,7 +1,7 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
+/* global document, fetch, getComputedStyle, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, MutationObserver, Image */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
-import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
+import { makeButton, buttonRow } from "./ui/button.mjs";
 import { face as drawFace } from "./ui/face.mjs";
 import {
   talkLine,
@@ -13,7 +13,8 @@ import {
   mountSpeakers,
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
-import { metricsChange, metricsFigure } from "./ui/metrics-change.mjs";
+import { loadingLines } from "./ui/loading-lines.mjs";
+import { metricsScreen } from "./ui/metrics-screen.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { personCard } from "./ui/person-card.mjs";
@@ -66,6 +67,7 @@ import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { clockLines } from "./ui/room.mjs";
 import { bustStrip } from "./ui/bust-strip.mjs";
+import { tvGlass, tvSet } from "./ui/tv-set.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -89,7 +91,6 @@ import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billFigures } from "./ui/bill-figures.mjs";
-import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -224,26 +225,35 @@ for (const box of document.querySelectorAll("#game .chat"))
   docking.observe(box);
 window.addEventListener("resize", clearDock);
 
-/** How many people stand on the talk box's strip at most (the owner's sizes: one, two and four). */
-const TALK_STRIP_PEOPLE = 4;
+/** A click on anyone on a strip opens their card (P9), through the one showPerson. */
+const openCard = (person) => showPerson({ personId: person.personId });
 /** Who is in the room now: the people the strip names, how many more, and what a click on one does. */
 let here = { people: [], more: 0 };
+/** What a click on a person in the room does when nobody talks: a way into a talk. */
+let hereClick;
 /**
- * Who is here, along the foot of the room (ui/bust-strip.mjs): a room is its
- * painting, and the people in it are a strip of busts. `scene` is anything
- * with `people` and `more` (a scene, a visit, a story beat); none clears it.
- * `onClick` makes each person with something to say a way into a talk.
+ * Who is here, small and packed in the top-right corner of the screen (ui/bust-strip.mjs;
+ * owner, Nov 16: "the people in the top tight like c", mock C, and Nov 24: "they're
+ * supposed to be at the top right"): a room is its painting, and the people in it
+ * are a few busts in the corner. `scene` is anything with `people` and `more` (a
+ * scene, a visit, a story beat); none clears it. `onClick` makes each person with
+ * something to say a way into a talk, until a talk is open: then a click opens a card.
  */
 function drawHere(scene, onClick) {
   here = { people: scene?.people ?? [], more: scene?.more ?? 0 };
+  hereClick = onClick;
   $("here").replaceChildren(
     ...(here.people.length
       ? [
           bustStrip({
             people: here.people,
             more: here.more,
-            words: controls.here,
-            onClick,
+            words: { more: controls.here.more },
+            onClick: onClick
+              ? (person) =>
+                  $("talk").hidden ? hereClick?.(person) : openCard(person)
+              : undefined,
+            onCard: openCard,
           }),
         ]
       : []),
@@ -251,41 +261,108 @@ function drawHere(scene, onClick) {
   drawTalkStrip();
 }
 /**
- * The same people on top of the talk box while a talk is open, whoever speaks
- * lit and a little larger. A speaker who is not in the room (a caller, someone
- * a scene brings in) stands first, by the face their card gave.
+ * The speaker of a talk: their bust on the talk box. The rest of the room stay in
+ * the corner (the speaker's own place there is empty while the talk lasts). A
+ * speaker who is not in the room (a caller, someone a scene brings in) stands on
+ * the box by the face their card gave.
  */
 let talkFace;
 /** Who you are talking to, when someone speaks; nobody while the narrator does. */
 let talkPersonId;
+// A call or a letter: the one who rings or writes is not in the room, so the strip
+// shows no one of theirs (owner, Nov 16, N16-44).
+let talkApart = false;
 function drawTalkStrip() {
   const name = $("talk-name").textContent;
   const inRoom = here.people.some((p) => p.personId === talkPersonId);
   const speaker =
-    talkPersonId && !inRoom && talkFace
+    talkPersonId && !inRoom && !talkApart && talkFace
       ? [{ personId: talkPersonId, name, face: talkFace }]
       : [];
-  const others = here.people.filter((p) => p.personId !== talkPersonId);
-  const speaking = here.people.filter((p) => p.personId === talkPersonId);
-  // The speaker is always among those shown; the rest keep the room's order.
-  const shown = [...speaker, ...speaking, ...others]
-    .slice(0, TALK_STRIP_PEOPLE)
-    .sort(
-      (a, b) =>
-        (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
-        (speaker.includes(b) ? -1 : here.people.indexOf(b)),
+  const speaking = talkApart
+    ? []
+    : here.people.filter((p) => p.personId === talkPersonId);
+  // Whoever speaks leaves their place in the corner while the talk lasts (play.css).
+  for (const cell of $("here").querySelectorAll(".busts-person"))
+    cell.classList.toggle(
+      "in-talk",
+      !talkApart && cell.dataset.person === (talkPersonId ?? "-"),
     );
-  $("talk-strip").replaceChildren(
-    ...(shown.length
-      ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
-      : []),
-  );
+  const onBox = [...speaker, ...speaking];
+  if (!onBox.length) return $("talk-strip").replaceChildren();
+  const node = bustStrip({
+    people: onBox,
+    speakingId: talkPersonId,
+    // Anyone named in a talk opens their card, whoever they are to you.
+    onCard: openCard,
+  });
+  node.classList.add("talk-speaker");
+  $("talk-strip").replaceChildren(node);
 }
 
 /**
- * That night's news at home, as a toast top right: it fades by itself after
- * controls.opening.newsToastSeconds, goes at once on its close, and the story
- * stays in News either way.
+ * A speech heard on television (the speech's own record says its station and
+ * medium): the speaker's bust on a set over the room, with the station under
+ * their name and Live over it. Anything else clears it.
+ */
+/** The television set holds the corner's top right; the room's people stand just below it. */
+new ResizeObserver(() =>
+  $("game").style.setProperty(
+    "--tv-bottom",
+    `${Math.round($("tv").getBoundingClientRect().bottom)}px`,
+  ),
+).observe($("tv"));
+let tvRequest = 0;
+/** The glass of the television the shown picture paints, when it paints one. */
+let backdropScreen;
+function setBackdrop(backdrop) {
+  $("backdrop").src = backdrop.url;
+  backdropScreen = backdrop.screen;
+}
+async function drawTv(speech, name, on) {
+  const request = ++tvRequest;
+  const set = $("tv");
+  set.hidden = true;
+  set.replaceChildren();
+  $("tv-screen")?.remove();
+  if (!on || on.medium !== "television") return;
+  const c = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: speech.speakerId })}`,
+  ).catch(() => undefined);
+  if (!c?.face || request !== tvRequest) return;
+  set.replaceChildren(
+    ...tvSet({
+      live: controls.tv.live,
+      speaker: { personId: speech.speakerId, name, face: c.face },
+      station: on.station,
+      onClick: (person) => showPerson({ personId: person.personId }),
+    }),
+  );
+  set.hidden = false;
+  // A room that paints its own set shows the broadcast on it, not a blank or
+  // static screen (C18, Nov 23): the glass is the picture's own row.
+  if (backdropScreen)
+    $("stage").append(
+      tvGlass({
+        rect: backdropScreen,
+        speaker: { personId: speech.speakerId, name, face: c.face },
+      }),
+    );
+}
+
+// Each Continue clears the set before the next part draws its own, so the
+// narration after a speech is never under it (capture runs before the button's own handler).
+$("talk").addEventListener(
+  "click",
+  (event) => {
+    if (event.target.closest("#talk-next")) drawTv();
+  },
+  true,
+);
+
+/**
+ * That night's news at home, as a toast top right: it stays until the player opens
+ * or closes it, and the story stays in News either way.
  */
 /** A story's headline as every news surface says it: its headline, else its lede, else the newscast's first line. */
 const storyHeadline = (story) =>
@@ -325,7 +402,7 @@ function showNewsSurface(news) {
     openNewsReader(news);
   };
   $("news-surface-close").onclick = hideNewsToast;
-  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8);
+  showToast($("news-surface"));
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -362,6 +439,20 @@ $("news-reader-close").addEventListener("click", () =>
 // open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
 // restores focus; when none is open, it opens the session menu"). In order: a person's card, the
 // news reader, a term's card, the open menu. A talk or a scene is not one of them.
+/**
+ * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
+ * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
+ * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
+ * clock closes the cards first. Options, the pause Escape opens, is not one of them.
+ */
+function closeCards() {
+  if (!$("person").hidden) closePerson();
+  show("news-reader", false);
+  show("tip", false);
+  // Options is the pause the player asked for with Escape, not a card left
+  // open while the day ran: it stays up, and the scene waits under it.
+  if (openTab && openTab !== "options") closeSheet();
+}
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
@@ -390,7 +481,7 @@ async function renderScene({ keepBackdrop = false } = {}) {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   // The opening's staged story sets the backdrop itself; setting the room's
   // here first would load two pictures in a row (owner, Oct 28, point 2).
-  if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
+  if (!keepBackdrop) setBackdrop(scene.backdrop);
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
   drawHere(scene, (p) => talkTo(p.personId));
@@ -599,6 +690,8 @@ const amountUnit = (unit) =>
           ? `$${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
           : unit.replace(/-/g, " ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
+// Engineering height of a party page's facts and positions, taken from the seats' pager.
+const PARTY_FACTS_PX = 225;
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
 const controlsReady = api("/api/controls").then((value) => {
@@ -635,13 +728,25 @@ $("journal-note-close").addEventListener("click", () =>
 async function renderJournalNote() {
   const chapters = await api(
     `/api/journal?id=${encodeURIComponent(me.id)}`,
-  ).catch(() => []);
-  const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
-  $("journal-line").textContent = line;
+  ).catch(() => null);
+  // A read that failed leaves the pop-up as it is: only a Journal that is really empty takes
+  // a waiting pop-up down (N16-24, "I didn't even get to see the journal stuff there").
+  if (!chapters) return;
+  const newest = chapters.at(-1)?.lines.at(-1);
+  const line = newest?.text ?? "";
+  // A line that follows another ("Two years after that, ...") is shown with the line it
+  // follows, from its own link record, so a pop-up never opens on "that" with nothing before
+  // it (owner, Nov 23, P20).
+  const lead = newest?.link?.earlierId
+    ? chapters
+        .flatMap((chapter) => chapter.lines)
+        .find((earlier) => earlier.id === newest.link.earlierId)
+    : undefined;
+  $("journal-line").textContent = lead?.text ? `${lead.text} ${line}` : line;
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
   else if (line !== shownJournalLine) {
-    showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+    showToast($("journal-note"));
     // A new line since the Journal was last open: a dot on its icon until it is read.
     if (shownJournalLine && openTab !== "journal")
       document
@@ -667,6 +772,7 @@ async function refresh(scene = {}) {
     `/api/election-night?id=${encodeURIComponent(me.id)}`,
   );
   if (night) {
+    closeCards();
     await electionNight(night);
     // That night, once the returns close: the scene of your own result (the
     // concession call or the victory), when the director staged one.
@@ -695,6 +801,13 @@ async function act(path) {
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
+    // The clock is held (a scene, a meeting, the polls): no menu stays open over it.
+    if (
+      result.packet?.kind === "stop" ||
+      result.pollingPlace ||
+      result.candidateMorning
+    )
+      closeCards();
     if (result.pollingPlace || result.candidateMorning) {
       // Election morning: canvass if you're running, then vote or stay home
       // (or, with no ballot here, go on with the day).
@@ -807,7 +920,7 @@ function inMeeting() {
       $("meeting-adjourn").disabled = false;
       $("meeting-adjourn").textContent =
         (scene.seated ? words.adjourn : words.leave) ?? "";
-      $("backdrop").src = scene.backdrop.url;
+      setBackdrop(scene.backdrop);
       drawHere(scene);
       $("card-place").textContent = scene.title;
       $("meeting-title").textContent = scene.title;
@@ -1278,9 +1391,17 @@ function electionMorning(scene) {
         return (scene ? atThePolls(scene) : Promise.resolve()).then(resolve);
       setClock(day.at);
       if (scene) {
-        $("backdrop").src = scene.backdrop.url;
+        setBackdrop(scene.backdrop);
         drawHere(scene);
       }
+      // The mock's line under the picture: the day, where it is spent, the hour.
+      $("election-day-caption").textContent = [
+        controls.localRaces?.electionDay,
+        day.where,
+        timeWords(day.at.minuteOfDay),
+      ]
+        .filter(Boolean)
+        .join(" · ");
       $("election-day-lines").replaceChildren();
       say(day.lines);
       if (day.canvass)
@@ -1290,7 +1411,7 @@ function electionMorning(scene) {
             async () => {
               const done = await post("/api/election-day/canvass");
               if (done.scene) {
-                $("backdrop").src = done.scene.backdrop.url;
+                setBackdrop(done.scene.backdrop);
                 drawHere(done.scene);
               }
               if (done.line) say([done.line]);
@@ -1314,11 +1435,11 @@ function electionNight(night) {
   return new Promise((resolve) => {
     const labels = controls.returns ?? {};
     if (night.scene) {
-      $("backdrop").src = night.scene.backdrop.url;
+      setBackdrop(night.scene.backdrop);
       drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
-    // call, two columns of rows, so all of them fit the panel at 1024x768
+    // call, rows in columns across the board, so all of them fit the panel at 1024x768
     // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
     // could not be reached).
     const steps = night.nation.races.length
@@ -1326,6 +1447,8 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
+      // The page of the races elsewhere lays its rows across the board (play.css, #returns.nation).
+      $("returns").classList.toggle("nation", Boolean(steps[at].nation));
       $("returns").replaceChildren(
         electionNightScreen({
           title: night.title,
@@ -1366,7 +1489,7 @@ function atThePolls(scene) {
     };
     const draw = (value) => {
       scene = value;
-      $("backdrop").src = scene.backdrop.url;
+      setBackdrop(scene.backdrop);
       drawHere(scene);
       $("ballot").replaceChildren(
         ballotPaper({
@@ -1454,14 +1577,16 @@ $("continue").addEventListener("click", () => {
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
 /** Who you are talking to: their name on the box, and their bust lit on the strip above it. */
-async function setWho(personId, name) {
+async function setWho(personId, name, apart = false) {
   talkPersonId = personId;
+  talkApart = apart;
   $("talk-name").textContent = name ?? "";
   talkFace = undefined;
   show("talk-who", Boolean(name));
   drawTalkStrip();
   // Someone in the room is already on the strip; anyone else stands there by their card's face.
-  if (!personId || here.people.some((p) => p.personId === personId)) return;
+  if (!personId || apart || here.people.some((p) => p.personId === personId))
+    return;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
   ).catch(() => undefined);
@@ -1675,7 +1800,7 @@ let counterTurn = 0;
 function renderFiling(value) {
   filing = value;
   if (!value) return;
-  $("backdrop").src = value.backdrop.url;
+  setBackdrop(value.backdrop);
   drawHere(value);
   show("talk", true);
   const clerkName = value.visit.clerkId
@@ -1844,6 +1969,17 @@ function partyRows(party) {
   });
 }
 
+/**
+ * The Budgets board's columns: the departments at the left, and the chosen department's rows over
+ * the government's totals in one column at the right, so a short department does not stand in a
+ * column of its own with the panel empty under it.
+ */
+function stackRight(columns) {
+  return columns.length === 3
+    ? [columns[0], [...columns[1], ...columns[2]]]
+    : columns;
+}
+
 /** The campaign record's count of volunteers, worded (one count for every line that shows it). */
 function volunteerCount(n) {
   return n === 1
@@ -1873,7 +2009,7 @@ function playAsks({ asked, summary, scene }) {
   closeSheet();
   renderTalk(undefined);
   if (scene) {
-    $("backdrop").src = scene.backdrop.url;
+    setBackdrop(scene.backdrop);
     // Each person is heard by name and bust as they answer.
     drawHere();
   }
@@ -1991,6 +2127,7 @@ async function campaignParts() {
     contest,
     campaign,
     pollSample,
+    pollPrice,
     petition,
     outings,
     standing,
@@ -2037,13 +2174,6 @@ async function campaignParts() {
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
           : "",
-        // How many signed at the doors, a day of none included (owner, Nov 14:
-        // "Tab total and each outing"), outside the dialogue.
-        result.signed === null || result.signed === undefined
-          ? ""
-          : result.signed === 0
-            ? controls.campaignResults.signedNone
-            : controls.campaignResults.signed.replace("{n}", result.signed),
         result.reached &&
         (result.votesAsked === null ||
           result.votesAsked === undefined ||
@@ -2054,6 +2184,18 @@ async function campaignParts() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // An outlet that said no says why, in the words the trail already has
+      // (a refusal with no label there shows the outing's name only).
+      const refusal = {
+        "already-interviewed": controls.campaignUnavailable.interviewed,
+        "no-room": controls.campaignUnavailable.outletsFull,
+      }[result.interview?.reason];
+      if (
+        outing === "interview" &&
+        result.interview?.status === "declined" &&
+        refusal
+      )
+        campaignResult = refusal;
       // A donor meeting is seen in the host's home, told by what the room gave.
       if (outing === "party" && result.callsLine)
         campaignResult = result.callsLine;
@@ -2063,8 +2205,8 @@ async function campaignParts() {
       // The doors and the calls are seen where they happen, with the people reached.
       if (result.scene || moment) closeSheet();
       if (result.scene) {
-        $("backdrop").src = result.scene.backdrop.url;
-        drawHere(result.scene);
+        setBackdrop(result.scene.backdrop);
+        drawHere(result.scene, (p) => talkTo(p.personId));
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
@@ -2113,7 +2255,7 @@ async function campaignParts() {
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
-        $("backdrop").src = result.scene.backdrop.url;
+        setBackdrop(result.scene.backdrop);
         drawHere(result.scene);
         return;
       }
@@ -2171,22 +2313,9 @@ async function campaignParts() {
               ? [why]
               : choice.outing === "doors" && petition?.gatherTarget
                 ? [
-                    (petition.asksAtDoors
+                    petition.asksAtDoors
                       ? T.askingWhySignatures
-                      : T.askingWhyVotes
-                    )
-                      .replace(
-                        "{signed}",
-                        petition.signed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{needed}",
-                        petition.needed.toLocaleString("en-US"),
-                      )
-                      .replace(
-                        "{target}",
-                        petition.gatherTarget.toLocaleString("en-US"),
-                      ),
+                      : T.askingWhyVotes,
                   ]
                 : [],
           }),
@@ -2204,7 +2333,9 @@ async function campaignParts() {
         group: T.groupAsk,
         title: controls.campaignActs[kind],
         picture: pictures?.[kind],
-        load: async () => ({}),
+        // A poll's price is said where it is bought, not among where the race stands.
+        load: async () =>
+          kind === "poll" && pollPrice ? { nodes: [line(pollPrice)] } : {},
         // stopgapId: SG-PLAY-campaign-acts-buttons
         go: go(() => act(kind, extra)),
       })),
@@ -2233,7 +2364,7 @@ async function campaignParts() {
             {
               group: T.groupMoney,
               title: controls.campaignActs.circulators,
-              picture: pictures?.mail,
+              picture: pictures?.circulators,
               load: async () => {
                 const dollarsOut = numberBox({
                   value: 500,
@@ -2306,7 +2437,7 @@ async function campaignParts() {
                 campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
                 // A speech is seen where it was given, with the people it reached.
                 closeSheet();
-                $("backdrop").src = result.scene.backdrop.url;
+                setBackdrop(result.scene.backdrop);
                 drawHere(result.scene);
               },
             }),
@@ -2324,12 +2455,21 @@ async function campaignParts() {
               words: controls.debate,
               // The day in words ("October 20, 2026"), never the record's digits.
               debate: { ...debate, date: dateWords(debate.date) },
-              questionLabel: policyLabel,
-              onAnswer: async (answers) => {
+              // Yes: the sitting goes on the record, and the director stages it.
+              onAccept: async () => {
+                await post(
+                  `/api/campaign/debate/accept?${new URLSearchParams({
+                    debateId: debate.id,
+                  })}`,
+                );
+                reopenTrail(filing.id);
+              },
+              // No: the debate is held without the player's answers.
+              onDecline: async () => {
                 await post(
                   `/api/campaign/debate?${new URLSearchParams({
                     debateId: debate.id,
-                    answers: JSON.stringify(answers),
+                    answers: "[]",
                   })}`,
                 );
                 reopenTrail(filing.id);
@@ -2389,10 +2529,7 @@ async function campaignParts() {
                       value: (petition.signed >= petition.needed
                         ? labelsC.signaturesEnough
                         : labelsC.signaturesHeld
-                      )
-                        .replace("{signed}", String(petition.signed))
-                        .replace("{needed}", String(petition.needed))
-                        .replace("{date}", dateWords(petition.due)),
+                      ).replace("{date}", dateWords(petition.due)),
                     },
                   ]
                 : []),
@@ -2438,7 +2575,7 @@ async function campaignParts() {
                 ),
               ]
             : []),
-          buttonTray(out),
+          buttonRow(out),
         ],
       ],
     });
@@ -2504,7 +2641,9 @@ async function showStory(momentId) {
     `/api/story?momentId=${encodeURIComponent(momentId)}${storyFlags()}`,
   );
   me.names = { ...me.names, ...story.names };
-  $("backdrop").src = story.backdrop.url;
+  // A scene opens over nothing: a menu or a person's card open when it comes due is closed.
+  closeCards();
+  setBackdrop(story.backdrop);
   drawHere(story);
   show("talk", true);
   setWho(null, null);
@@ -2532,25 +2671,37 @@ async function showStory(momentId) {
     for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
-      // A speaker heard on a broadcast is named, never drawn in the room
-      // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip.
-      setWho(
-        story.beats || story.speech.inRoom ? story.speech.speakerId : null,
-        story.names[story.speech.speakerId],
-      );
       // The part's picture and cast: the desk, the town, the colonnade, the
       // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
       if (beat) {
-        $("backdrop").src = beat.backdrop.url;
+        setBackdrop(beat.backdrop);
         drawHere(beat);
       }
+      // A speaker heard on a broadcast is named, never drawn in the room
+      // (the narrator said how it was heard); one on the montage or in the
+      // room stands on the strip. A cutaway (America, the state, home) shows
+      // its own people and the speaker only on the set, never on the strip
+      // as well (CTO, Nov 19 and Nov 24: "in a cutaway she belongs only in
+      // the corner").
+      setWho(
+        (beat ? beat.inRoom : story.speech.inRoom)
+          ? story.speech.speakerId
+          : null,
+        story.names[story.speech.speakerId],
+      );
       talkControls({ silent: false, leave: false });
       // Heard on a broadcast: the station over the line with its small icon
       // (owner, Oct 14: "a small card in the conversation text style with a
       // tiny radio/TV icon, the station, and the line").
       const on = story.speech.heardOn;
+      // The address cuts away from the chamber to the country and to homes:
+      // there it is heard on a set, the speaker on it with Live over them.
+      drawTv(
+        story.speech,
+        story.names[story.speech.speakerId],
+        on ?? (beat && !beat.inRoom ? { medium: "television" } : undefined),
+      );
       fillTalk({
         lines: [
           talkLine({
@@ -2590,7 +2741,7 @@ async function showStory(momentId) {
 /** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
 function playExchange(story) {
   const { talk } = story;
-  setWho(talk.askerId, story.names[talk.askerId]);
+  setWho(talk.askerId, story.names[talk.askerId], story.apart);
   const said = [...talk.opening];
   const shown = () =>
     transcript(
@@ -2673,6 +2824,24 @@ function storyStop(value) {
           row.kind === "interrupt" && row.moduleId === "p13-story-director",
       )
     : undefined;
+}
+
+/**
+ * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
+ * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
+ */
+function closedOfficeWords(race, labels) {
+  const line = race.barWhy && labels.refusalWhy?.[race.barWhy.why];
+  if (!line || !race.barWhy.instead.length) return labels.refusal[race.bar];
+  return line
+    .replace("{office}", race.title)
+    .replace(
+      "{instead}",
+      new Intl.ListFormat("en-US", { type: "disjunction" }).format(
+        race.barWhy.instead,
+      ),
+    );
 }
 
 // ---- The person card: only what you could know about them ----
@@ -2819,15 +2988,24 @@ async function personCardNode(
     // playtest, Nov 8).
     ...(c.history?.length
       ? [
-          stripSection(
-            5,
-            capital(heading("lifeStory", "lifeStoryThey")),
-            ...lifeParagraphs(c.history),
+          markLife(
+            stripSection(
+              5,
+              capital(heading("lifeStory", "lifeStoryThey")),
+              ...lifeParagraphs(c.history),
+            ),
           ),
         ]
       : []),
   ];
+  // Their life sits under the bust, in the bust's own column (owner on
+  // People, Nov 16: "still lots of empty space"); with no bust it takes the
+  // second column, beside who they are.
+  const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
+  const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
+  const underBust = c.face ? life : [];
   const secondColumn = [
+    ...(c.face ? [] : life),
     ...(people
       ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
       : []),
@@ -2867,12 +3045,38 @@ async function personCardNode(
     node: stripScreen({
       name: c.name,
       role,
+      nameBeside: true,
+      // The approved card's bust stands as tall as its sections (pl-people).
+      bustColumn: PERSON_CARD_BUST,
+      underBust,
       face: c.face ?? null,
       columns: secondColumn.length
         ? [firstColumn, secondColumn]
         : [firstColumn],
     }),
   };
+}
+/** The person card's bust column, in pixels: --card-bust in play.css. */
+const PERSON_CARD_BUST = 440;
+/** A card's life story section, marked so the card can set it in its second column. */
+function markLife(node) {
+  node.dataset.life = "1";
+  return node;
+}
+/**
+ * A card never runs past its panel (owner's menu rule; CTO, Nov 18). The life
+ * story sits under the bust; when it does not fit there it moves to the card's
+ * second column, which has the room, and stays under the bust when the panel
+ * holds it either way.
+ */
+function fitLifeStory(facts) {
+  const life = facts.querySelector('[data-life="1"]');
+  if (!life || life.closest(".mx3col")) return;
+  const panel = $("person").getBoundingClientRect();
+  if (life.getBoundingClientRect().bottom <= panel.bottom - 8) return;
+  const columns = facts.querySelectorAll(".mx3col");
+  const target = columns[columns.length - 1];
+  if (target) target.append(life);
 }
 async function showPerson(person) {
   const request = ++personRequest;
@@ -2884,6 +3088,7 @@ async function showPerson(person) {
   $("person-name").textContent = card.name;
   $("person-facts").replaceChildren(card.node);
   show("person", true);
+  fitLifeStory($("person-facts"));
   $("game").classList.add("person-open");
   $("person-close").focus();
 }
@@ -2909,7 +3114,7 @@ async function visit(organizationId) {
     `/api/goto/visit?org=${encodeURIComponent(organizationId)}`,
   );
   me.names = { ...me.names, ...v.names };
-  $("backdrop").src = v.backdrop.url;
+  setBackdrop(v.backdrop);
   drawHere(v, (p) => talkTo(p.personId));
   me.scene = v;
   $("card-place").textContent = v.name;
@@ -3071,9 +3276,10 @@ async function officeParts() {
                       if (asked.packet) renderPacket(asked.packet);
                       const moment = storyStop(asked.packet);
                       closeSheet();
+                      // The sit-down plays with nothing over it; with no scene, back to Office.
                       if (asked.story) await showStory(asked.story);
                       else if (moment) await showStory(moment.recordId);
-                      await openSheet("office");
+                      else await openSheet("office");
                     },
                   }),
                 ),
@@ -3307,7 +3513,8 @@ function billEstimate(paper, section) {
   // again; a section that changes a rule and no amount says so.
   const shown = lines.filter(Boolean);
   return {
-    prose: shown.length || compare ? "" : (words.noFigure ?? ""),
+    // A section with no figure says nothing: no line, and the strip is hidden when it is empty.
+    prose: "",
     lines: shown,
     compare,
     // A phase-in's step: the paper lists every step beside the others, in order.
@@ -3388,9 +3595,17 @@ async function openBillPaper(billId, show, back, backLabel) {
     })}`,
   )
     .then((bodies) => {
-      const body = [...bodies.legislative, ...bodies.executive].find(
-        (row) => row.officeId === paper.bodyOfficeId,
-      );
+      const rows = [...bodies.legislative, ...bodies.executive];
+      // A federal bill names its chamber by kind ("federal:us-house"); the list names the
+      // viewer's own state's seats of it ("office:US-WA:us-house", or the delegate's).
+      const kind = /^federal:(.+)$/.exec(paper.bodyOfficeId ?? "")?.[1];
+      const body =
+        rows.find((row) => row.officeId === paper.bodyOfficeId) ??
+        (kind &&
+          (rows.find((row) => row.level === "federal" && row.kind === kind) ??
+            rows.find(
+              (row) => row.level === "federal" && row.kind.startsWith(kind),
+            )));
       return body?.picture
         ? { picture: body.picture, title: `${paper.spoken} · ${body.name}` }
         : null;
@@ -4112,17 +4327,6 @@ const sheets = {
             ...(peopleLine
               ? [stripSection(3, labels.myPeople, peopleLine)]
               : []),
-            // Your own life from the same lines the card tells of anyone (the mock
-            // draws no life section; it follows "My people").
-            ...(known.history?.length
-              ? [
-                  stripSection(
-                    5,
-                    labels.myLife,
-                    ...lifeParagraphs(known.history),
-                  ),
-                ]
-              : []),
           ],
         ],
       }),
@@ -4351,6 +4555,22 @@ const sheets = {
                               ),
                             ]
                           : []),
+                        (() => {
+                          const apply = makeButton({
+                            textContent: o.applied
+                              ? labels.applied
+                              : labels.apply,
+                          });
+                          apply.dataset.testid = "apply-for-opening";
+                          apply.disabled = o.applied;
+                          apply.addEventListener("click", async () => {
+                            await post(
+                              `/api/job/apply?${new URLSearchParams({ position: o.recordId })}`,
+                            );
+                            openSheet("jobs");
+                          });
+                          return apply;
+                        })(),
                       ])
                     : [prose(labels.noOpenings, "record-empty")]),
                 ),
@@ -4423,43 +4643,18 @@ const sheets = {
   // this year beside last, no charts. Every figure is the record's; the words are control names.
   async metrics() {
     const view = await api("/api/metrics");
-    const words = controls.metrics;
-    const figure = (row, value) => metricsFigure(row, value, words.percent);
-    const sections = view.sections.map((section, at) =>
-      stripSection(
-        at + 1,
-        // A section that shows one government's books is headed by that government's name.
-        section.name ?? words[section.key],
-        ...section.rows.map((row) => {
-          const change = metricsChange(row, words.points);
-          const direction =
-            change.direction === null ? "" : words[change.direction];
-          return typedRow(
-            words[row.key],
-            // A small town's count shows the people behind it ("13 of 86").
-            row.of === undefined
-              ? figure(row, row.now)
-              : `${figure(row, row.now)} ${words.of} ${figure(row, row.of)}`,
-            row.before === null
-              ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, change.size, words.since].filter(Boolean).join(" ")}`,
-          );
-        }),
-      ),
-    );
-    // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
-    const columns = [[], [], []];
-    sections.forEach((section, at) => columns[at % 3].push(section));
+    const screen = metricsScreen({
+      sections: view.sections,
+      words: controls.metrics,
+      title: controls.titles.metrics,
+    });
     // Views registered from their own files (ui/dev-views.mjs, slot "metrics"), under the board.
     const devViews = devModeOn()
       ? await devViewNodes("metrics", {
           refresh: () => openSheet("metrics"),
         })
       : [];
-    return [
-      stripBoard({ columns: columns.filter((c) => c.length) }),
-      ...(devViews.length ? [devPanelsRow(...devViews)] : []),
-    ];
+    return [...screen, ...(devViews.length ? [devPanelsRow(...devViews)] : [])];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -4527,8 +4722,9 @@ const sheets = {
       latest.spending.find((r) => r.line === budgetLine) ??
       spending[0] ??
       latest.spending[0];
-    // "Since last year ... up by ..." from the record's own change, and its history as a line
-    // (Nation's budgetView: changeMinor, changePct, history oldest first); never computed here.
+    // "Since last year ... up by ..." from the record's own change, set beside last year's
+    // figure (Nation's budgetView: changeMinor, changePct); never computed here. No little
+    // chart (owner, Nov 5: data, never charts).
     const pctFormat = new Intl.NumberFormat("en-US", {
       style: "percent",
       maximumFractionDigits: 1,
@@ -4549,10 +4745,6 @@ const sheets = {
                   : pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
               );
       return [typedRow(words.sinceLastYear, how)];
-    };
-    const history = (record, size) => {
-      const line = trendLine(record?.history, size);
-      return line ? [line] : [];
     };
     // Last year is a row of its own with the figure on the same line, never a note under.
     const lastYear = (minor) =>
@@ -4582,7 +4774,7 @@ const sheets = {
       stripBoard({
         tabs,
         fiscal: `${words.fiscalYear} ${latest.fiscalYear}`,
-        columns: [
+        columns: stackRight([
           [
             stripSection(
               1,
@@ -4621,11 +4813,10 @@ const sheets = {
                     ),
                     ...lastYear(lastOf(prior?.spending, opened.line)),
                     ...sinceLast(opened),
-                    ...history(opened),
                     ...(opened.askedMinor !== undefined
                       ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                       : []),
-                    ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+                    ...(stepButtons.length ? [buttonRow(...stepButtons)] : []),
                   ),
                 ],
               ]
@@ -4637,11 +4828,9 @@ const sheets = {
               typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
               ...lastYear(prior?.revenueMinor),
               ...sinceLast(latest.totals?.revenue, { short: true }),
-              ...history(latest.totals?.revenue, { height: 36 }),
               typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
               ...lastYear(prior?.spendingMinor),
               ...sinceLast(latest.totals?.spending, { short: true }),
-              ...history(latest.totals?.spending, { height: 36 }),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
@@ -4682,21 +4871,23 @@ const sheets = {
                   ),
                 ]
               : []),
-            ...(latest.adoptedOn
+            // Who wrote it is the body on the adoption record (a budget the body voted); an opening
+            // or carried budget has no named author, so nothing stands in for one.
+            ...(latest.adoptedOn && latest.adoptedBy?.tallies?.[0]?.title
               ? [
                   stripSection(
                     5,
                     words.whoWrote,
-                    // `latest.adoptedBy` is the adoption record (body, tallies, bill, amendments);
-                    // Screens words it from the record with the Budgets labels.
-                    introText(
-                      `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
+                    typedRow(
+                      words.adoptedBy,
+                      latest.adoptedBy.tallies[0].title,
                     ),
+                    typedRow(labels.adopted, dateWords(latest.adoptedOn)),
                   ),
                 ]
               : []),
           ],
-        ],
+        ]),
       }),
     ];
   },
@@ -4831,13 +5022,22 @@ const sheets = {
         : openingTab(ordered, newsTab, newsSeen);
     newsShowing = opening;
     read(opening);
+    const follows = await api(
+      `/api/news/follows?id=${encodeURIComponent(me.id)}`,
+    );
     return [
       newsBoard({
         outlets: ordered,
         chosenKey: opening,
-        followsAny: (
-          await api(`/api/news/follows?id=${encodeURIComponent(me.id)}`)
-        ).any,
+        followsAny: follows.any,
+        followed: new Map(follows.outlets.map((o) => [o.id, o.follows])),
+        onFollow: async (key, on) => {
+          newsShowing = key;
+          await post(
+            `/api/news/follow?id=${encodeURIComponent(me.id)}&outlet=${encodeURIComponent(key)}&on=${on ? 1 : 0}`,
+          );
+          await refresh();
+        },
         onChoose: (key) => {
           newsTab = key;
           newsShowing = key;
@@ -4908,9 +5108,7 @@ const sheets = {
           })(),
           groups: (r.groups ?? []).map((group) => ({
             heading: group.heading,
-            notes: group.notes.map((note) =>
-              [note.title, note.text].filter(Boolean).join(". "),
-            ),
+            notes: group.notes.map((note) => note.headline),
           })),
         })),
       }),
@@ -5152,7 +5350,7 @@ const sheets = {
           ? labels.open
           : labels.closed;
       // Why it is listed (play-travel-in-a-village-lists-no-town-office): each
-      // of the records' reasons once, or open to the public where none.
+      // of the records' reasons once.
       const why = p.filing
         ? [labels.reasons?.filing].filter(Boolean)
         : [
@@ -5162,8 +5360,6 @@ const sheets = {
                 .filter(Boolean),
             ),
           ];
-      if (!p.filing && !why.length && labels.reasons?.public)
-        why.push(labels.reasons.public);
       return {
         facts: [
           { label: labels.openLabel, value: open },
@@ -5313,7 +5509,10 @@ const sheets = {
     };
     const labels = controls.localRaces;
     const stance = voteWords();
-    const filedFor = new Set(v.filings.map((f) => f.contestId));
+    // An announcement is not a filing: the race still offers its filing in the window.
+    const filedFor = new Set(
+      v.filings.filter((f) => f.status !== "announced").map((f) => f.contestId),
+    );
     // A filing for any seat of an at-large race is a filing for the race.
     const filed = {
       has: (contestId) =>
@@ -5337,19 +5536,35 @@ const sheets = {
         ? race.filers.map((f) =>
             personCard({
               name: f.name ?? "",
-              line: f.party ?? "",
+              // One who has said they are running and files when the window
+              // opens is marked announced beside their party.
+              line: f.announced
+                ? [f.party, labels.youAnnounced].filter(Boolean).join(" · ")
+                : (f.party ?? ""),
               party: f.party,
               face: f.face,
               onOpen: () => {
                 closeSheet();
                 showPerson({ personId: f.cardId });
               },
-              more: f.stances.map((st) =>
-                row(
-                  policyLabel(st.question),
-                  st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
-                ),
-              ),
+              // Where they stand, as typed rows in the strip screens' own
+              // sentence case, not the capitals of a form's label (owner,
+              // Nov 23, C11 and P28).
+              more: f.stances.length
+                ? [
+                    dotRows(
+                      f.stances.map((st) => ({
+                        // The question's own plain words, never a catalog's name
+                        // ("a bigger police budget", not "Police protection").
+                        label: st.said ?? policyLabel(st.question),
+                        value:
+                          st.position > 0
+                            ? (stance.for ?? "")
+                            : (stance.against ?? ""),
+                      })),
+                    ),
+                  ]
+                : [],
             }),
           )
         : [prose(labels.noFilers, "record-empty")];
@@ -5360,8 +5575,16 @@ const sheets = {
         race.filedWith;
       // A race the player may run for in kind but cannot file for today
       // says why, from the eligibility rule's own record, and offers no filing.
+      // So does one whose filing hasn't opened, where the player is still too
+      // young on its last filing day: waiting for it to open won't help.
+      const tooYoungForRace =
+        Boolean(race.filingDeadline) &&
+        race.cannotFile?.rule === "minimum-age" &&
+        race.cannotFile.metOn > race.filingDeadline;
       const cannotFile =
-        race.playerMayFile && !filed.has(race.contestId) && race.cannotFile
+        (race.playerMayFile || tooYoungForRace) &&
+        !filed.has(race.contestId) &&
+        race.cannotFile
           ? race.cannotFile
           : null;
       const cannotFileWords = cannotFile
@@ -5379,6 +5602,65 @@ const sheets = {
       fileButton.addEventListener("click", () =>
         openFiling(race.filedWith, race.contestId),
       );
+      // Run now, file on the date (owner, Nov 17): announce for a race whose
+      // filing opens later; the campaign starts today.
+      const announceButton = makeButton({
+        className: "action primary",
+        textContent: labels.announce,
+      });
+      announceButton.dataset.testid = "announce";
+      announceButton.addEventListener("click", async () => {
+        await post(
+          `/api/announce?${new URLSearchParams({ contestId: race.contestId })}`,
+        );
+        await refresh();
+        await openSheet("campaign");
+      });
+      // A race whose filing hasn't opened runs the world to that morning, as a
+      // calendar day does (owner, Nov 17: "so I don't have to figure out the
+      // filing thing"); what needs the player on the way stops it there.
+      // Not for a player who is old enough only after this race's filing
+      // closes: the morning it opens, they still could not file.
+      const opensLater =
+        !race.filingClosed &&
+        !race.filingOpen &&
+        race.filingOpens &&
+        race.filingOpens > today() &&
+        !tooYoungForRace;
+      const simButton = makeButton({
+        textContent: labels.simTo.replace(
+          "{date}",
+          dateWords(race.filingOpens, { month: "short", year: today() }),
+        ),
+      });
+      simButton.dataset.testid = "sim-to-filing";
+      simButton.addEventListener("click", () => {
+        closeSheet();
+        act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
+      });
+      // A race the player cannot run for says so on a disabled button, never on a caption under
+      // the buttons (the CTO's send-back, Nov 24; the Nov 8 no-subtext rule), and then offers no
+      // Sim to a filing date that is not theirs. A race not yet open says it through its dates
+      // and its Sim button alone.
+      const refusedButton =
+        !mayFile &&
+        !race.mayAnnounce &&
+        !race.announced &&
+        !cannotFileWords &&
+        race.bar &&
+        race.bar !== "window-not-open" &&
+        labels.refusal[race.bar]
+          ? makeButton({
+              textContent: closedOfficeWords(race, labels),
+              disabled: true,
+            })
+          : null;
+      const raceButtons = [
+        ...(mayFile && !cannotFile ? [fileButton] : []),
+        ...(race.mayAnnounce ? [announceButton] : []),
+        ...(refusedButton ? [refusedButton] : []),
+        ...(opensLater && !refusedButton ? [simButton] : []),
+      ];
       return [
         rosterTitle(
           race.title,
@@ -5387,7 +5669,25 @@ const sheets = {
         rosterCols(
           // A candidate's name opens their card; there is no rally to go to
           // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
-          stripSection(1, labels.whoIsRunning, ...candidates),
+          // The candidates sit in one box that keeps whole candidates, so the last
+          // stand is never cut at the panel's foot; the rest is a scroll in the box.
+          stripSection(
+            1,
+            labels.whoIsRunning,
+            race.filers.length
+              ? pager({
+                  items: candidates,
+                  render: (node) => node,
+                  rows: Math.max(200, viewHeight() - 288),
+                  columns: 1,
+                  rowHeight: 1,
+                  gap: 0,
+                  growRows: true,
+                  wholeRows: true,
+                  className: "candidate-pager",
+                })
+              : candidates[0],
+          ),
           rosterSide(
             // An at-large race fills several seats at once.
             ...(race.seats > 1
@@ -5404,22 +5704,27 @@ const sheets = {
                   stripSection(
                     3,
                     labels.lastTime,
-                    dotRows([
-                      {
-                        label: dateWords(race.lastTime.date, {
-                          year: today(),
-                        }),
-                        value: race.lastTime.winnerId
-                          ? nameLink(race.lastTime.winner, () =>
-                              showPerson({ personId: race.lastTime.winnerId }),
-                            )
-                          : race.lastTime.winner,
-                      },
-                      {
-                        label: labels.share,
-                        value: `${race.lastTime.sharePercent} ${labels.percent}`,
-                      },
-                    ]),
+                    dotRows(
+                      [
+                        {
+                          label: dateWords(race.lastTime.date, {
+                            year: today(),
+                          }),
+                          value: race.lastTime.winnerId
+                            ? nameLink(race.lastTime.winner, () =>
+                                showPerson({
+                                  personId: race.lastTime.winnerId,
+                                }),
+                              )
+                            : race.lastTime.winner,
+                        },
+                        {
+                          label: labels.share,
+                          value: `${race.lastTime.sharePercent} ${labels.percent}`,
+                        },
+                      ],
+                      { oneLine: true },
+                    ),
                   ),
                 ]
               : []),
@@ -5458,12 +5763,10 @@ const sheets = {
                 },
               ]),
             ),
-            ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
+            ...(raceButtons.length ? [buttonRow(...raceButtons)] : []),
             ...(cannotFileWords
               ? [prose(cannotFileWords, "record-empty")]
-              : !mayFile && race.bar && labels.refusal[race.bar]
-                ? [prose(labels.refusal[race.bar], "record-empty")]
-                : []),
+              : []),
           ),
         ),
       ];
@@ -5526,27 +5829,47 @@ const sheets = {
     // A race of an office the player runs for (the clerk's own answer: it is
     // not "not-your-office") is theirs; the rest are the town's and county's.
     const mine = ballot.races.filter((race) => race.bar !== "not-your-office");
+    // The player turns old enough only after this race's filing closes.
+    const tooYoungFor = (race) =>
+      Boolean(
+        race.filingDeadline &&
+        race.cannotFile?.rule === "minimum-age" &&
+        race.cannotFile.metOn > race.filingDeadline,
+      );
     const entryOf = (race, own) => ({
       key: race.contestId,
       label:
         race.officeLevel === "county"
           ? `${race.title} · ${labels.countyOffice}`
           : race.title,
+      // A race the player filed for says so before anything about filing:
+      // its page offers no filing, so its line must not either. Every row has
+      // an aside, so every row breaks alike: a race with no one filed says so.
       aside:
-        own && race.cannotFile?.metOn
-          ? `${labels.filingOpens} ${dateWords(
-              race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                ? race.filingOpens
-                : race.cannotFile.metOn,
-              { year: today() },
-            )}`
-          : own && race.bar === "window-not-open" && race.filingOpens
-            ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-            : own && race.playerMayFile && race.filingOpen
-              ? labels.fileForIt
-              : race.filers.length || filed.has(race.contestId)
+        (filed.has(race.contestId)
+          ? status(race)
+          : race.announced
+            ? labels.youAnnounced
+            : // Old enough only after this race's filing closes: filing never
+              // opens for them in this race, so its line names no filing day.
+              own && race.cannotFile?.metOn && tooYoungFor(race)
+              ? race.filers.length
                 ? status(race)
-                : "",
+                : ""
+              : own && race.cannotFile?.metOn
+                ? `${labels.filingOpens} ${dateWords(
+                    race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                      ? race.filingOpens
+                      : race.cannotFile.metOn,
+                    { year: today() },
+                  )}`
+                : own && race.bar === "window-not-open" && race.filingOpens
+                  ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+                  : own && race.playerMayFile && race.filingOpen
+                    ? labels.fileForIt
+                    : race.filers.length
+                      ? status(race)
+                      : "") || labels.noFilers,
       data: { contest: race.contestId },
       race,
     });
@@ -5565,36 +5888,46 @@ const sheets = {
               title: askWords.title,
               entries: asked.asks.map((ask) => ({
                 key: ask.id,
-                label: ask.candidate,
-                aside: roundedMoney(ask.suggestedMinor),
+                // Office first, like every row of the list; the page names who asks.
+                label: ask.race,
+                aside: askWords.title,
                 data: { ask: ask.id },
                 ask,
               })),
             },
           ]
         : []),
-      // The offices the player runs for come first, each with when they can file.
-      ...(mine.length
+      // One list, no headings over it (owner, Nov 24): the offices the player
+      // runs for come first, each with when they can file, then the rest of the
+      // ballot by election day; a race's page says its day.
+      ...(mine.length || byDate.size
         ? [
             {
-              title: labels.yourOffices,
-              entries: mine.map((race) => entryOf(race, true)),
+              entries: [
+                ...mine.map((race) => entryOf(race, true)),
+                ...[...byDate.entries()]
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .flatMap(([, races]) =>
+                    races.map((race) => entryOf(race, false)),
+                  ),
+              ],
             },
           ]
         : []),
-      ...[...byDate.entries()]
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([day, races]) => ({
-          title: `${labels.alsoOnBallot} · ${dateWords(day, { year: today() })}`,
-          entries: races.map((race) => entryOf(race, false)),
-        }))
-        .filter((group) => group.entries.length),
     ];
     if (!groups.length) return [prose(labels.noBallot, "record-empty")];
     return rosterScreen({
       title: labels.title,
       groups,
       className: "elections-screen",
+      // The tab already says Elections; every row takes its aside on its own
+      // line, and the list shows whole rows only.
+      headed: false,
+      stacked: true,
+      wholeRows: true,
+      rowHeight: 54,
+      // The list fills the sheet, so a list that scrolls is never beside free room.
+      reserve: 217,
       render: async (entry) =>
         entry.ask
           ? askPage(entry.ask)
@@ -5633,6 +5966,9 @@ const sheets = {
     return rosterScreen({
       title: controls.titles.bills,
       className: "bills",
+      // The list takes the sheet's room: the pager gives rows back until the sheet fits.
+      maxRows: 20,
+      reserve: 240,
       groups: stages.map((stage) => ({
         title: status[stage] ?? "",
         entries: list
@@ -5885,6 +6221,15 @@ const sheets = {
           })),
         ),
       );
+      // What is coming up sits under the chief, and only when something is scheduled (no filler
+      // line for an empty calendar; the CTO, Nov 24).
+      const comingItems = executive
+        .flatMap((o) => o.comingUp)
+        .sort((x, y) => x.date.localeCompare(y.date))
+        .slice(0, 4);
+      const coming = comingItems.length
+        ? [stripSection(3, labels.comingUp, comingList(comingItems))]
+        : [];
       return {
         main: chief
           ? [
@@ -5910,16 +6255,7 @@ const sheets = {
                     ),
                   ]
                 : []),
-              stripSection(
-                3,
-                labels.comingUp,
-                comingList(
-                  executive
-                    .flatMap((o) => o.comingUp)
-                    .sort((a, b) => a.date.localeCompare(b.date))
-                    .slice(0, 4),
-                ),
-              ),
+              ...coming,
             ]
           : [],
         side: runs
@@ -5992,7 +6328,15 @@ const sheets = {
         : (offered[0] ?? "legislative");
       const redraw = async () => {
         const node = await screen();
-        if (openTab === "government") $("sheet-body").replaceChildren(node);
+        if (openTab === "government") {
+          $("sheet-body").replaceChildren(node);
+          // A government page with only its main column (a town with only a mayor) is as wide
+          // as what it holds; one with a side column takes the window.
+          $("sheet").classList.toggle(
+            "fits",
+            node.classList.contains("single"),
+          );
+        }
       };
       const levels = tabBar({
         attr: "level",
@@ -6137,10 +6481,60 @@ const sheets = {
                   node.tagName === "BUTTON" && party.parties[at]?.name === name,
               )
             : [];
+      // What the party's records hold: its chair, its members here, the town's
+      // next party meeting and the questions it takes the strongest side on.
+      // What they do not hold is said so, never left blank.
+      const facts = v.partyFacts?.[name.trim().toLowerCase()];
+      const about = facts
+        ? [
+            stripSection(
+              1,
+              labels.partyAbout,
+              facts.chair
+                ? personCard({
+                    name: facts.chair.name,
+                    line: labels.partyChair,
+                    party: name,
+                    face: facts.chair.face,
+                    onOpen: () => {
+                      closeSheet();
+                      showPerson({ personId: facts.chair.cardId });
+                    },
+                  })
+                : row(labels.partyChair, labels.partyNone),
+              row(labels.partyMembers, String(facts.members)),
+              facts.nextMeeting
+                ? row(labels.partyNextMeeting, dateWords(facts.nextMeeting))
+                : row(labels.partyNextMeeting, labels.partyNone),
+            ),
+            stripSection(
+              2,
+              labels.partyStandsFor,
+              // Each side's label once, on its first position; the rest sit under it.
+              ...(facts.standsFor.length
+                ? [true, false].flatMap((favors) =>
+                    facts.standsFor
+                      .filter((s) => !!s.favors === favors)
+                      .map((s, at) =>
+                        row(
+                          at
+                            ? ""
+                            : favors
+                              ? labels.partyFavors
+                              : labels.partyOpposes,
+                          policyLabel(s.question),
+                        ),
+                      ),
+                  )
+                : [row(labels.partyStandsFor, labels.partyNone)]),
+            ),
+          ]
+        : [];
       return [
         rosterTitle(name),
+        ...about,
         stripSection(
-          1,
+          3,
           labels.inOffice,
           seats.length
             ? pager({
@@ -6158,7 +6552,12 @@ const sheets = {
                   }),
                 rows: Math.max(
                   1,
-                  Math.min(5, Math.floor((viewHeight() - 420) / 72)),
+                  Math.min(
+                    5,
+                    Math.floor(
+                      (viewHeight() - 420 - (facts ? PARTY_FACTS_PX : 0)) / 72,
+                    ),
+                  ),
                 ),
                 columns: 2,
                 rowHeight: 64,
@@ -6167,7 +6566,7 @@ const sheets = {
             : prose(labels.noHolders ?? "", "record-empty"),
         ),
         ...(meNodes.length
-          ? [stripSection(2, controls.party.me, ...meNodes)]
+          ? [stripSection(4, controls.party.me, ...meNodes)]
           : []),
       ];
     };
@@ -6405,11 +6804,11 @@ const sheets = {
       return [
         rosterTitle(policyLabel(law.series)),
         stripSection(1, labels.inForce, ...inForce, ...statutes),
-        ...(repealButtons.length ? [buttonTray(...repealButtons)] : []),
+        ...(repealButtons.length ? [buttonRow(...repealButtons)] : []),
         ...(repealLines.length
           ? [stripSection(5, labels.repeal, ...repealLines)]
           : []),
-        ...(measures.length ? [buttonTray(...measures)] : []),
+        ...(measures.length ? [buttonRow(...measures)] : []),
         ...(coming.length ? [stripSection(2, labels.coming, ...coming)] : []),
         ...(changed.length
           ? [stripSection(3, labels.changed, ...changed)]
@@ -6501,11 +6900,17 @@ async function openSheet(tab) {
   if (tab === "politics") tab = "government";
   openTab = tab;
   if (tab !== "news") newsShowing = null;
-  if (tab === "news") markNews(true);
-  if (tab === "journal")
+  if (tab === "news") {
+    markNews(true);
+    hideNewsToast();
+  }
+  if (tab === "journal") {
+    // Opening the Journal is reading the pop-up.
+    hideToast($("journal-note"));
     document
       .querySelector('#rings [data-tab="journal"]')
       ?.classList.remove("unread");
+  }
   show("tip", false);
   const group = groupOf(tab);
   const politics =
@@ -6557,6 +6962,20 @@ async function openSheet(tab) {
     "options-sheet",
     tab === "options" || !$("front").hidden,
   );
+  // Patch notes opened from the title sit beside the title menu, never over it (CTO, Nov 24: the panel
+  // overlapped the menu and cut off "Continue as ..."): centered in the room to its right.
+  const sheetEl = $("sheet");
+  if (tab === "patchNotes" && !$("front").hidden) {
+    const scale = uiScale();
+    const edge = $("front").getBoundingClientRect().right / scale + 16;
+    const room = viewWidth() - 24 - edge;
+    const width = Math.min(760, room);
+    sheetEl.style.width = `${width}px`;
+    sheetEl.style.left = `${edge + room / 2}px`;
+  } else {
+    sheetEl.style.width = "";
+    sheetEl.style.left = "";
+  }
   const character = groupOf(tab) === "who";
   // You carries its own bust (the approved strip screen). Jobs and study and
   // Your life are strip screens too: no full-body figure stands beside a menu
@@ -6585,10 +7004,14 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "news", "watch", "bills"].includes(tab) &&
+    !["calendar", "people", "watch", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
-      !$("sheet-body").querySelector(".screen-grid, .split-screen"),
+      !$("sheet-body").querySelector(
+        ".screen-grid, .split-screen:not(.single.government-screen)",
+      ),
   );
+  // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
+  $("sheet").classList.toggle("hugs", tab === "bills");
   show("sheet", true);
   $("game").classList.add("sheet-open");
   fitPagers($("sheet-body"));
@@ -6599,7 +7022,7 @@ async function openSheet(tab) {
  * body, or a split screen's side or main) gives back a row at a time until
  * the part fits, the pager holds one row, or a row given back no longer
  * shortens the part (something else in it is the taller). A screen counts its rows from the
- * window; what sits above a pager (a tray of buttons, a long title) is only
+ * window; what sits above a pager (a row of buttons, a long title) is only
  * known once drawn.
  */
 function fitPagers(root) {
@@ -6609,6 +7032,20 @@ function fitPagers(root) {
     if (!image.complete)
       image.addEventListener("load", () => fitPagersNow(root), { once: true });
   fitPagersNow(root);
+}
+/**
+ * A list that still scrolls takes the room a whole row, or a cap, could not use (owner, Nov 23: no
+ * scroller "when there's ample dead space"): a sheet that ends under its content stops at its
+ * tallest height, so the list's box grows by what is left of it instead of leaving a gap under it.
+ */
+function growIntoRoom(box) {
+  const sheet = $("sheet");
+  const tallest = parseFloat(getComputedStyle(sheet).maxHeight);
+  if (!Number.isFinite(tallest)) return;
+  const hidden = box.scrollHeight - box.clientHeight;
+  const room = tallest - sheet.getBoundingClientRect().height / uiScale();
+  if (hidden <= 1 || room <= 1) return;
+  box.style.maxHeight = `${box.clientHeight + Math.min(hidden, Math.floor(room))}px`;
 }
 function fitPagersNow(root, waits = 30) {
   window.requestAnimationFrame(() => {
@@ -6641,7 +7078,10 @@ function fitPagersNow(root, waits = 30) {
         box.setRows(box.rowCount() + 1);
         break;
       }
+      growIntoRoom(box);
     }
+    // The News list is a capped list, not a pager: it takes the room the same way.
+    for (const list of root.querySelectorAll(".news-list")) growIntoRoom(list);
     // A side still past its foot: its list of recent votes keeps the newest
     // that fit (at least one).
     for (const part of root.querySelectorAll(".split-side")) {
@@ -6697,6 +7137,46 @@ document.addEventListener("fullscreenchange", () => {
 fitUiScale();
 window.addEventListener("resize", fitUiScale);
 
+// A dock that comes into view under a resting pointer (the click that began the
+// life, a scene that ends, a sheet that closes) shows no hover light until the
+// pointer moves: nothing glows on its own (owner, Nov 23, N8-P12). It watches
+// every panel that hides the dock, not only the rail's own `hidden`.
+{
+  const dock = $("dock");
+  const dockShown = () =>
+    !$("rings").hidden && getComputedStyle($("rings")).display !== "none";
+  let wasShown = dockShown();
+  const unsettle = () => dock.classList.remove("settling");
+  const watch = () => {
+    const shown = dockShown();
+    if (shown && !wasShown) {
+      dock.classList.add("settling");
+      window.addEventListener("pointermove", unsettle, {
+        once: true,
+        capture: true,
+      });
+    }
+    wasShown = shown;
+  };
+  const observer = new MutationObserver(watch);
+  for (const id of [
+    "rings",
+    "game",
+    "talk",
+    "meeting",
+    "desk",
+    "election-day",
+    "returns",
+    "ballot",
+    "sheet",
+  ])
+    if ($(id))
+      observer.observe($(id), {
+        attributes: true,
+        attributeFilter: ["hidden", "class"],
+      });
+}
+
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
 // each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
@@ -6739,7 +7219,7 @@ function rotateTitle(scenes, seconds) {
   }, seconds * 1000);
 }
 api("/api/title").then((title) => {
-  if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
+  if (!$("front").hidden) setBackdrop(title.backdrop);
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   titleSaves = title.saves ?? [];
@@ -6961,8 +7441,13 @@ document.getElementById("front-close")?.addEventListener("click", () => {
   FRONT_OUT[here]?.();
 });
 show("front-close", false);
+// The game's name as the page first prints it; the loading card wears it until the world names a place.
+const GAME_TITLE = document.querySelector("#front > .title")?.textContent ?? "";
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
+  // A sheet opened over the title (Patch notes, Options, Saves) closes when a front panel
+  // opens, so New game never sits under it (owner, Nov 23, P2).
+  if (openTab !== undefined) closeSheet();
   // The close X is on every front panel but the title menu itself.
   show("front-close", name !== "front-main" && name !== null);
   // Each panel is named for what it is (the Nov 8 front mock), not by the game's name.
@@ -7040,58 +7525,43 @@ function filledIn() {
 }
 for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
-function pickGender(g) {
+function markGender(g) {
   setup.gender = g;
   filledIn();
+  // The look, and the person in it, appear only once a gender is picked (owner, Nov 17).
+  $("cr-screen").classList.remove("no-gender");
+  show("cr-look-col", true);
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
   }
+}
+function pickGender(g) {
+  markGender(g);
   void openLook();
 }
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
-$("cr-random-name").addEventListener("click", async () => {
-  // A name is drawn for a gender (owner, Nov 1); with none chosen yet the gender field flashes
-  // as missing instead of the button saying what it waits for (the Nov 8 creator mock).
-  if (!setup.gender) {
-    document
-      .querySelector("[data-gender]")
-      ?.closest(".group")
-      ?.classList.add("missing");
-    return;
-  }
-  setup.nameDraws++;
-  const name = await api(
-    `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
-  );
-  $("cr-given").value = name.givenName;
-  $("cr-family").value = name.familyName;
-  filledIn();
-  nameFigure();
-});
-async function randomBirthday() {
-  setup.birthdayDraws++;
-  const b = await api(
-    `/api/creator/birthday?${new URLSearchParams({ seed: setup.seed, draw: setup.birthdayDraws })}`,
-  );
+async function setBirthday(b) {
   $("cr-month").value = String(b.month);
   fillDays();
   $("cr-day").value = String(b.day);
   await fillYears(b.year);
 }
-$("cr-random-birthday").addEventListener("click", () => void randomBirthday());
+/** The birthday a new creator opens on: the youngest a life may begin at, 18, unless one is picked (owner, Nov 16 and 17). */
+async function defaultBirthday() {
+  fillDays();
+  await fillYears(9999);
+}
 
 /** Opens the creator for Start a life. */
 async function openCreator() {
   // The seed Advanced holds, drawn when the page loads, draws the world.
   setup.seed = $("seed").value || (await api("/api/seed")).seed;
-  if (!$("cr-year").options.length) await randomBirthday();
+  if (!$("cr-year").options.length) await defaultBirthday();
   await controlsReady;
   frontPanel("cr-screen");
   void showStates();
-  // A bust stands in the creator from its first frame, before a gender is chosen.
-  void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-advanced").addEventListener("click", () => {
@@ -7150,6 +7620,7 @@ function listStates() {
         b.dataset.testid = `state-${s.key}`;
         b.addEventListener("click", () => {
           setup.state = s;
+          holdCapitol(s);
           $("cr-state-name").textContent = s.name;
           $("cr-town-search").value = "";
           void showStates();
@@ -7189,22 +7660,47 @@ async function listTowns() {
   );
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
-// Random place: the world's own draw of a state and town from all 56, then
-// on to the look, as picking the town does (owner, Oct 28: "Add a Random
-// button to picking where you live").
-$("cr-place-random").addEventListener("click", async () => {
-  setup.placeDraws++;
-  const { state, town } = await api(
-    `/api/creator/place?${new URLSearchParams({ seed: setup.seed, draw: setup.placeDraws })}`,
-  );
-  setup.state = state;
-  setup.town = town;
-  $("cr-state-name").textContent = state.name;
-  showPlaceName();
-  filledIn();
-  await showStates();
-});
 
+// The portrait's size in the creator (layout, not game rules): it starts at `start`
+// and is the one part that gives way, so a tall look (a man's or a nonbinary person's
+// extra rows) with a name filled in still fits the window, and a short one fills the
+// room it has (owner, Nov 17: no empty space in the creator; the CTO's catch, Nov 24:
+// the panel's top edge ran off screen).
+const PORTRAIT_COLUMN = { start: 230, least: 140, most: 270, margin: 24 };
+/** Draws the portrait, keeping the one being left up until the new one has every piece, so it is never blank while the look changes (owner, Nov 16, N16-9). */
+function drawPortrait(view, tab, column) {
+  const portrait = drawFace(view.faces[tab], { shape: "bust", column });
+  const portraitTurn = (setup.portraitTurn = (setup.portraitTurn ?? 0) + 1);
+  const arrived = portrait.querySelector(".bust-stack")?.ready;
+  const put = () => {
+    $("cr-bust").replaceChildren(portrait);
+    setup.portraitShown = column;
+  };
+  if (!arrived || !$("cr-bust").firstChild) put();
+  else
+    void arrived.then(() => {
+      if (portraitTurn === setup.portraitTurn) put();
+    });
+}
+/** Resizes the portrait to the room the window leaves the panel: smaller when the panel runs past the window, larger when it has room to spare. */
+function fitPortrait(view, tab) {
+  const { least, most, margin } = PORTRAIT_COLUMN;
+  const shown =
+    setup.portraitShown ?? setup.portraitColumn ?? PORTRAIT_COLUMN.start;
+  const room = viewHeight() - margin - $("front").offsetHeight;
+  const next = Math.round(
+    Math.max(
+      least,
+      Math.min(
+        most,
+        room < 0 ? shown + room : room > 40 ? shown + room - 20 : shown,
+      ),
+    ),
+  );
+  if (next === (setup.portraitColumn ?? PORTRAIT_COLUMN.start)) return;
+  setup.portraitColumn = next;
+  drawPortrait(view, tab, next);
+}
 // Character appearance: the look's bust (the one every screen will draw) and
 // a row with arrows for each thing a bust shows. Below the rows both tabs
 // share, two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal,
@@ -7213,17 +7709,11 @@ function showLook(view) {
   setup.recipe = view.recipe;
   setup.lookView = view;
   const tab = setup.lookTab;
-  $("cr-bust").replaceChildren(
-    drawFace(view.faces[tab], { shape: "bust", column: 250 }),
-  );
+  drawPortrait(view, tab, setup.portraitColumn ?? PORTRAIT_COLUMN.start);
   const row = (r) =>
     lookRow(r, {
-      onMove: (id, by) => void moveLook(id, by),
-      arrowLabel: (by, it) =>
-        controls.creator[by < 0 ? "previous" : "next"].replace(
-          "{row}",
-          it.label.toLowerCase(),
-        ),
+      onPick: (id, option) => void pickLook(id, option),
+      picture: (option) => drawFace(option.face, { shape: option.picture }),
     });
   const tabs = Object.entries(controls.creator.lookTabs).filter(([key]) =>
     view.rows.some((r) => r.tab === key),
@@ -7249,6 +7739,7 @@ function showLook(view) {
       : []),
     ...view.rows.filter((r) => r.tab === tab).map(row),
   );
+  fitPortrait(view, tab);
   $("cr-reset").disabled =
     JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);
   $("cr-undo").disabled = setup.previous.length === 0;
@@ -7283,9 +7774,9 @@ function showPlaceName() {
     ? setup.town.name
     : `${setup.town.name}, ${setup.state.name}`;
 }
-async function moveLook(row, by) {
+async function pickLook(row, pick) {
   const view = await post(
-    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, by })}`,
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, pick })}`,
   );
   setup.previous = [...setup.previous, setup.recipe].slice(-20);
   showLook(view);
@@ -7299,10 +7790,67 @@ async function setLook(recipe, keepHistory) {
     ),
   );
 }
-$("cr-randomize").addEventListener("click", async () => {
+/**
+ * Starts loading the chosen state's capitol the moment the state is chosen, so
+ * it is already painted when Begin shows it behind the loading card, with the
+ * place's name and not a moment after it (the Player on #9995).
+ */
+let heldCapitol = null;
+function holdCapitol(state) {
+  if (!state?.capitol || heldCapitol?.url === state.capitol) return;
+  const held = { url: state.capitol, blob: null };
+  heldCapitol = held;
+  fetch(state.capitol)
+    .then((response) => response.blob())
+    .then((blob) => {
+      held.blob = window.URL.createObjectURL(blob);
+    })
+    .catch(() => {});
+}
+/**
+ * Puts a picture behind the room and waits until the room itself can paint it,
+ * no longer than a moment, so a card that appears after it never shows an older one.
+ */
+async function showBackdrop(url) {
+  const backdrop = $("backdrop");
+  backdrop.src = url;
+  await Promise.race([
+    backdrop.decode().catch(() => {}),
+    new Promise((resolve) => setTimeout(resolve, CAPITOL_WAIT_MS)),
+  ]);
+}
+/** The longest the loading card waits for a capitol picture, in milliseconds. Engineering value. */
+const CAPITOL_WAIT_MS = 800;
+/** The picture to show for a state's capitol: the one already in hand, else its address. */
+const capitolSrc = (url) =>
+  heldCapitol?.url === url && heldCapitol.blob ? heldCapitol.blob : url;
+// One Random draws the whole character (owner, Nov 17: "you should be able to randomize an
+// entire character"): gender, name, birthday, place and look, on the creator's seed.
+$("cr-random").addEventListener("click", async () => {
+  setup.nameDraws++;
+  setup.birthdayDraws++;
+  setup.placeDraws++;
   setup.appearanceDraws++;
-  const view = await api(`/api/creator/appearance?${lookQuery({})}`);
-  await setLook(view.recipe, true);
+  const draw = setup.nameDraws;
+  const who = await api(
+    `/api/creator/character?${new URLSearchParams({ seed: setup.seed, draw })}`,
+  );
+  setup.state = who.place.state;
+  holdCapitol(setup.state);
+  setup.town = who.place.town;
+  $("cr-state-name").textContent = who.place.state.name;
+  showPlaceName();
+  $("cr-given").value = who.name.givenName;
+  $("cr-family").value = who.name.familyName;
+  nameFigure();
+  await setBirthday(who.birthday);
+  markGender(who.gender);
+  setup.previous = [];
+  setup.initial = who.look.recipe;
+  showLook(who.look);
+  setup.lookGender = who.gender;
+  filledIn();
+  await showStates();
 });
 $("cr-reset").addEventListener(
   "click",
@@ -7454,6 +8002,8 @@ function playLoadingStory(story) {
  * (BuildStage in world.ts); a step is named while it runs and the bar fills one twelfth for
  * each step finished. `onStory` runs once the built world has its story to play.
  */
+/** How long a dry loading line stays before the next one (ms). Engineering value, not a game number. */
+const QUIP_MS = 3000;
 function followBuild(bar, onStory) {
   const STEPS = [
     "people",
@@ -7475,6 +8025,42 @@ function followBuild(bar, onStory) {
   bar.firstElementChild.style.width = "0";
   // A poll still in flight when the build ends leaves the line alone.
   let built = false;
+  // The step's own dry lines (controls.loadingLines), one at a time, a new one every few seconds,
+  // never the same line twice in one load. Each load starts at the next place in the pool, so
+  // two loads in a row do not open on the same line.
+  let quip = { stage: "", text: "" };
+  const used = new Set();
+  let started = 0;
+  try {
+    started = Number(localStorage.getItem("loading-quip-start") ?? 0) || 0;
+    localStorage.setItem("loading-quip-start", String(started + 1));
+  } catch {
+    // Private windows and blocked storage just start at the top of each pool.
+  }
+  const nextQuip = (stage) => {
+    const pool = controls.loadingLines?.[stage] ?? [];
+    const fresh = pool.filter((line) => !used.has(line));
+    if (!fresh.length) return quip.stage === stage ? quip.text : "";
+    const text = fresh[started % fresh.length];
+    used.add(text);
+    return text;
+  };
+  let lit = "";
+  const render = (stage, last) => {
+    const now = stage === "done" ? -1 : last - 1;
+    $("front-status").replaceChildren(
+      ...loadingLines(
+        STEPS.slice(0, last).map((step) => controls.loading?.[step] ?? ""),
+        now,
+        now >= 0 ? quip.text : "",
+      ),
+    );
+  };
+  const turn = setInterval(() => {
+    if (built || !lit) return;
+    quip = { stage: lit, text: nextQuip(lit) };
+    render(lit, STEPS.indexOf(lit) + 1);
+  }, QUIP_MS);
   const poll = setInterval(async () => {
     const p = await api("/api/newlife/progress").catch(() => undefined);
     if (p?.story) onStory?.();
@@ -7483,15 +8069,22 @@ function followBuild(bar, onStory) {
     const at =
       p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
     bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
-    $("front-status").textContent = controls.loading?.[p.stage] ?? "";
+    // Every step's line stays: each one the build has passed is listed in order, including any
+    // that finished between two polls, so the card reads as the loading messages, not one line.
+    const last = p.stage === "done" ? STEPS.length : at + 1;
+    lit = p.stage === "done" ? "" : p.stage;
+    // A new step opens on a new line at once.
+    if (lit && quip.stage !== lit) quip = { stage: lit, text: nextQuip(lit) };
+    render(p.stage, last);
   }, 400);
   return {
     stop() {
       clearInterval(poll);
+      clearInterval(turn);
       built = true;
       // Built: the bar is full and no "Ready" line is left behind.
       bar.firstElementChild.style.width = "100%";
-      $("front-status").textContent = "";
+      $("front-status").replaceChildren();
     },
   };
 }
@@ -7499,13 +8092,19 @@ function followBuild(bar, onStory) {
 async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
+  // Loading shows the player's state (owner, Nov 16): its capitol behind the
+  // card, from the state chosen in the creator, or the drawn one once known.
+  // The picture is in place before the card names the town, never after it.
+  if (placeKey && setup.state?.capitol)
+    await showBackdrop(capitolSrc(setup.state.capitol));
   frontPanel(null);
   // The creator already names the town: the card carries that name from the first step.
   const chosenName = placeKey
     ? $("cr-place-summary-name").textContent.trim()
     : "";
-  if (chosenName)
-    document.querySelector("#front > .title").textContent = chosenName;
+  // Before the world names a place the card wears the game's name, never the last panel's.
+  document.querySelector("#front > .title").textContent =
+    chosenName || GAME_TITLE;
   const bar = document.querySelector("#front .progress");
   // The world's story plays once the world exists (playLoadingStory).
   let playback = null;
@@ -7532,6 +8131,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     const loadingTitle = document.querySelector("#front > .title");
     if (loadingTitle && life.placeName)
       loadingTitle.textContent = life.placeName;
+    if (life.capitol) $("backdrop").src = capitolSrc(life.capitol);
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);

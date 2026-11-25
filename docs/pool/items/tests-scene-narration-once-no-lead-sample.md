@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** In four drawn places from all 56, with seed 66ed52ba766be6d0873ae3c267b94d47255aa977 and two random seeds named with their places, the test finds at least one scene whose lead names its opener by record id and passes; the break-it (opening said after such a lead) fails it.
 
-**Files.** src/director/scene-narration-once.test.ts,src/director/scene.ts,data/english
+**Files.**src/director/scene.ts,data/english
 
 **Notes.** Twin of `tests-journal-margin-and-narration-once-flaky-on-drawn-seeds` (found after filing); the evidence is in that item. CTO: drop this one. Filed by wire-people-and-director (Oct 28). Read: OWNER-DECISIONS (Oct 28), the engine map line 12; searched the pool for narration-once, lead, opener.
 

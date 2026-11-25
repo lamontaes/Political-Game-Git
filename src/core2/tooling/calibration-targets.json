@@ -1290,9 +1290,9 @@
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
     },
     {
-      "parameter": "householdOtherMinutesPerDay",
+      "parameter": "homePresenceOtherShare",
       "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 43,
+      "currentValueForTraceabilityOnly": 0.066,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },

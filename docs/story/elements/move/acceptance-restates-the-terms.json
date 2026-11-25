@@ -1,0 +1,39 @@
+{
+  "id": "acceptance-restates-the-terms",
+  "kind": "move",
+  "summary": "The candidate accepts in writing and lists the agreed pay, title and start date.",
+  "realLife": "Advice is to send a written acceptance thanking the employer and listing salary, title, start date and any extras. If nothing is heard back, follow up by phone.",
+  "sources": [
+    "UW-Madison SuccessWorks, accepting and negotiating your offer: https://successworks.wisc.edu/accepting-and-negotiating-your-offer/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["pay", "position", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Becomes the person's new job record (employer, position, workplace, pay, tenure) in the jobs module when hired; the player-side step is a decision to take the job.",
+  "turns": [
+    {
+      "turn": "accepts-by-phone-only",
+      "summary": "The candidate accepts on a call with nothing in writing.",
+      "pulledBy": ["an impulsive candidate", "a small employer"],
+      "writesBack": "The job record begins, with a risk of misunderstanding about pay or start date."
+    },
+    {
+      "turn": "employer-corrects-the-terms",
+      "summary": "The employer replies that a term was wrong and fixes the pay or title.",
+      "pulledBy": ["a careful employer", "a record of the pay figure"],
+      "writesBack": "The job record starts with the corrected terms, and a trust note is made."
+    },
+    {
+      "turn": "candidate-changes-mind",
+      "summary": "After writing the terms, the candidate calls to back out.",
+      "pulledBy": [
+        "a candidate with a better offer",
+        "a change of family plans"
+      ],
+      "writesBack": "The vacancy reopens, and the employer's tie to the candidate turns cold."
+    }
+  ],
+  "issues": ["none"]
+}

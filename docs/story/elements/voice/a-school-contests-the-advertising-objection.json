@@ -1,0 +1,30 @@
+{
+  "id": "a-school-contests-the-advertising-objection",
+  "kind": "voice",
+  "summary": "A school-name advocate answers an advertising objection by pointing to the school’s years of local service.",
+  "realLife": "After the Concept Creek proposal failed, its advocate cited the nonprofit school’s local history and backing from two townships. Staff suggested contacting Pennsylvania’s names committee.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20865_June13%202024_Minutes.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{school}", "{townships}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the rejection, the advocate’s account of the school and the state committee’s response.",
+  "turns": [
+    {
+      "turn": "the-applicant-adds-the-letter",
+      "what": "The applicant adds the letter.",
+      "pulledBy": "The state committee sends a new recommendation.",
+      "writesBack": "The reconsideration request has new evidence."
+    },
+    {
+      "turn": "the-clerk-records-the-advocate-s-objection",
+      "what": "The clerk records the advocate’s objection.",
+      "pulledBy": "The state position stays neutral.",
+      "writesBack": "The earlier rejection still stands."
+    }
+  ]
+}

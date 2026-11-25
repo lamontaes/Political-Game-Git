@@ -20,6 +20,12 @@
       "state": "US-OR"
     },
     {
+      "seed": "12a3c3866c1f9bd429c9c9aa32a40be80b6fa1ca4416651d173c20f68e4fce52",
+      "key": "5410420",
+      "name": "Brookhaven, West Virginia",
+      "state": "US-WV"
+    },
+    {
       "seed": "13e8ffb8b9784c14db0727bbee4bd77596a82a7b5d8671c962bf05a634f75c0a",
       "key": "0209710",
       "name": "Butte, Alaska",
@@ -189,10 +195,10 @@
     }
   ],
   "summary": {
-    "laws": 187,
-    "wired": 147,
-    "partly": 38,
-    "stopgapped": 2,
+    "laws": 191,
+    "wired": 153,
+    "partly": 37,
+    "stopgapped": 1,
     "researchLinks": {
       "links": 246,
       "reaching": 175,
@@ -219,63 +225,63 @@
       "exists": {
         "wired": 122,
         "partial": 5,
-        "missing": 2,
+        "missing": 6,
         "stopgap": 0,
         "n/a": 58
       },
       "change": {
-        "wired": 187,
+        "wired": 191,
         "partial": 0,
         "missing": 0,
         "stopgap": 0,
         "n/a": 0
       },
       "reach": {
-        "wired": 104,
+        "wired": 107,
         "partial": 1,
-        "missing": 22,
+        "missing": 23,
         "stopgap": 0,
         "n/a": 60
       },
       "systems": {
-        "wired": 116,
+        "wired": 119,
         "partial": 0,
-        "missing": 21,
+        "missing": 22,
         "stopgap": 0,
         "n/a": 50
       },
       "money": {
-        "wired": 95,
+        "wired": 98,
         "partial": 3,
-        "missing": 19,
+        "missing": 20,
         "stopgap": 1,
         "n/a": 69
       },
       "web": {
-        "wired": 76,
+        "wired": 82,
         "partial": 0,
-        "missing": 35,
-        "stopgap": 1,
+        "missing": 34,
+        "stopgap": 0,
         "n/a": 75
       },
       "knowing": {
-        "wired": 128,
+        "wired": 131,
         "partial": 0,
-        "missing": 9,
+        "missing": 10,
         "stopgap": 0,
         "n/a": 50
       },
       "repeal": {
-        "wired": 106,
+        "wired": 109,
         "partial": 0,
-        "missing": 22,
+        "missing": 23,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
-        "wired": 107,
+        "wired": 110,
         "partial": 0,
-        "missing": 22,
+        "missing": 23,
         "stopgap": 0,
         "n/a": 58
       }
@@ -437,7 +443,7 @@
       "family": "infrastructure",
       "reachGroup": "B",
       "mechanic": "transit-fares",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -465,9 +471,9 @@
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200 (ledger row only); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200 (ledger row only)",
-          "why": "no production reader: fare-free-transit-to-ridership (SG-WEB-fare-free-riders-unread) move only the web's ledger"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-05 fare-free-transit-to-ridership 0.4200, read by src/core2/modules/place-prices.ts:1190, src/core2/modules/place-prices.ts:1247",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
@@ -1163,7 +1169,7 @@
       "family": "healthcare",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -1177,42 +1183,47 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:medicare|jurisdiction_16b3bfd4091db759",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 4871 open (full 32, counted groups 4838/19601 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:medicare|jurisdiction_7e5743c50e41041b; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:medicare|jurisdiction_16b3bfd4091db759",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/budgets-treasury.ts, src/core2/law-reach/group-b-money.ts:1150 <- src/core2/medical-bills.ts, src/core2/counted-money.ts, src/core2/medical-bills.ts, src/core2/work-payroll-cash.ts",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on medicare, which the raise moved by 10000000: 0 without the raise, 833333 with it (journal:2025-02-01:1430)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): the US treasury's payments on medicare, which the raise moved by 20507417635733: 8544757348222 without the raise, 10253708817867 with it (journal:2025-02-01:1147); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on medicare, which the raise moved by 10000000: 0 without the raise, 833333 with it (journal:2025-02-01:1430)",
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "wired",
+          "evidence": "medicare-line-to-medical-debt: carried by the coverage engine's monthly bills (billMembers in src/core2/medical-bills.ts, run on the 1st by src/core2/modules/coverage.ts) read the federal Medicare line in force (federalBenefitLine): a line over its base raises Medicare's part of each Medicare member's care and lowers the member's share by the same dollars (medicareLineMinor on the bill), full and counted members alike, so the household owes less, leaves less unpaid past the provider's wait and has less placed for collection (collectionsShare, and recordMedicalDebt in src/core2/modules/credit.ts). The web does not run the link (Goldsmith-Pinkham, Pinkovskiy and Wallace, The Great Equalizer: Medicare and the Geography of Consumer Financial Strain, Federal Reserve Bank of New York Staff Reports no. 911, January 2020, revised September 2023 (https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr911.pdf), read Nov 17, 2026); Brookhaven, West Virginia, US-WV (seed --only): 4870 bill records priced by it, e.g. medical-bill:household_00158d08fd3c8ee0 on 2025-02-01 (jurisdiction_7c1114e174ed0e16), member person_4a7e2ded968ca036, coverage records none",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 83 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:medicare:law-wiring-ef0c4cf9)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:medicare:law-wiring-ef0c4cf9); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 83 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:medicare:law-wiring-ef0c4cf9)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 4871 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "why": ""
         }
       },
       "screens": [],
       "runs": [
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "change": "US medicare 102537088178666 -> 123044505814399 by law-wiring-ef0c4cf9",
+          "inForceAtOpening": false
+        },
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "change": "place:2745772 medicare 0 -> 10000000 by law-wiring-ef0c4cf9",
@@ -3747,6 +3758,242 @@
       "errors": []
     },
     {
+      "key": "fee-level:parks-and-recreation",
+      "name": "Park and recreation fees",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:fee-level:parks-and-recreation: raise/lower at state, county, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "fee-level:sewerage-and-solid-waste",
+      "name": "Sewer and trash fees",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:fee-level:sewerage-and-solid-waste: raise/lower at state, county, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "fee-level:hospitals",
+      "name": "Public hospital charges",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:fee-level:hospitals: raise/lower at state, county, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "fee-level:education",
+      "name": "Tuition and school fees",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:fee-level:education: raise/lower at state, county, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-policy-positions:fiscal.balanced-operating-budget",
       "name": "balanced operating budget",
       "kind": "question",
@@ -4458,17 +4705,17 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 19 open (full 0, counted groups 2/333 people, households 14, orgs 1, govts 2) e.g. applied|budget-line:incomeSecurity|US-WV; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/budgets-treasury.ts, src/core2/life.ts, src/core2/work-payroll-cash.ts, src/core2/official-living.ts, src/core2/modules/budgets.ts",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on incomeSecurity, which the raise moved by 10000000: 0 without the raise, 833333 with it (journal:2025-02-01:1430)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): the US treasury's payments on incomeSecurity, which the raise moved by 14857784674036: 6162340516192 without the raise, 7391403000146 with it (journal:2025-02-01:1154); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on incomeSecurity, which the raise moved by 10000000: 0 without the raise, 833333 with it (journal:2025-02-01:1430)",
           "why": ""
         },
         "web": {
@@ -4478,22 +4725,27 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 83 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:incomeSecurity:law-wiring-0f392aa2)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:incomeSecurity:law-wiring-0f392aa2); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 83 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:incomeSecurity:law-wiring-0f392aa2)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 19 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "why": ""
         }
       },
       "screens": [],
       "runs": [
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "change": "US incomeSecurity 74288923370180 -> 89146708044216 by law-wiring-0f392aa2",
+          "inForceAtOpening": false
+        },
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "change": "place:2745772 incomeSecurity 0 -> 10000000 by law-wiring-0f392aa2",
@@ -4513,7 +4765,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-WV:state:child-care-income-limit:general:2025-01-01",
           "why": ""
         },
         "change": {
@@ -4522,43 +4774,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 19 open (full 11, counted groups 2/410 people, households 6, orgs 0, govts 0) e.g. child-care-income-limit|person_80ed91bd16d6648b|2025-01-20",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/law-reach/group-b.ts:806 <- src/core2/modules/budgets.ts:1131",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): posts citing child-care-income-limit: 11788000 (control world 11004000) (journal:2025-01-21:776); Brookhaven, West Virginia, US-WV (seed --only): of 7 the law paid or charged, the payments that changed first: 3 accounts.transfer paid in (src/core2/life.ts:562; e.g. household_18f806074f222684 on 2025-01-22: 0 in the control world, 14000 here, journal:2025-01-22:990)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US-WV:state:child-care-income-limit:general:2025-01-21:law-wiring-c0ba66f2)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 19 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "change": "child-care-income-limit 5394 -> 5933 at state (law:US-WV:state:child-care-income-limit:general:2025-01-21:law-wiring-c0ba66f2) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -4572,7 +4830,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:ssi-federal-benefit-rate:general:2026-01-01:from-start",
           "why": ""
         },
         "change": {
@@ -4581,43 +4839,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 5 open (full 0, counted groups 2/1 people, households 3, orgs 0, govts 0) e.g. ssi-federal-benefit-rate|jurisdiction_7e5743c50e41041b",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/law-reach/group-b.ts:752 <- src/core2/modules/budgets.ts:1131",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): posts citing ssi-federal-benefit-rate: 941312 (control world 742912) (journal:2025-01-22:987); Brookhaven, West Virginia, US-WV (seed --only): of 4 the law paid or charged, the payments that changed first: 3 accounts.transfer paid out (src/core2/life.ts:562; e.g. household_3bb75041aa883d42 on 2025-01-21: 252801 in the control world, 54001 here, journal:2025-01-21:766); 3 accounts.transfer paid in (src/core2/life.ts:562; e.g. household_3bb75041aa883d42 on 2025-01-22: 0 in the control world, 218600 here, journal:2025-01-22:989)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US:federal:ssi-federal-benefit-rate:general:2025-01-21:law-wiring-8e85c10a)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 5 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "change": "ssi-federal-benefit-rate 994 -> 1093 at federal (law:US:federal:ssi-federal-benefit-rate:general:2025-01-21:law-wiring-8e85c10a) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -4939,7 +5203,7 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -4953,37 +5217,37 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 open (full 672, counted groups 10/10 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 open (full 848, counted groups 7/7 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_e8632f5ae684089f; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 open (full 743, counted groups 78/78 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_21c3ca2f9d60702a",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 open (full 672, counted groups 10/10 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8; Brookhaven, West Virginia, US-WV (seed --only): 1293 open (full 858, counted groups 435/435 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_4941a8b9c0645ff3; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 open (full 848, counted groups 7/7 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_e8632f5ae684089f; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 open (full 743, counted groups 78/78 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_21c3ca2f9d60702a",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
+          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823, src/core2/modules/retirement-claims.ts:99, src/core2/modules/retirement-claims.ts:118, src/core2/modules/jobs.ts:4324",
           "why": ""
         },
         "money": {
           "status": "n/a",
-          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_e8632f5ae684089f); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_21c3ca2f9d60702a)",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8); Brookhaven, West Virginia, US-WV (seed --only): 1293 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_4941a8b9c0645ff3); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_e8632f5ae684089f); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_21c3ca2f9d60702a)",
           "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "wired",
+          "evidence": "earliest-claim-age-to-older-work: carried by src/core2/modules/jobs.ts: retirementOnsetYears reads the earliest claim age in the law row in force (socialSecurityAges) each day, and the retire choice starts to pull on a worker only from that age; src/core2/modules/retirement-claims.ts holds every claim at or after it (Staubli and Zweimüller 2013, Does raising the early retirement age increase employment of older workers?, Journal of Public Economics 108, 17-32 (https://econpapers.repec.org/RePEc:eee:pubeco:v:108:y:2013:i:c:p:17-32), abstract; Cribb, Emmerson and Tetlow 2016, Signals matter? Large retirement responses to limited financial incentives, Labour Economics 42, 203-212 (https://econpapers.repec.org/RePEc:eee:labeco:v:42:y:2016:i:c:p:203-212), abstract; both read Nov 17, 2026)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82)",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 open under the changed row -> after the old amount is put back 0 still cite it; Brookhaven, West Virginia, US-WV (seed --only): 1293 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); Brookhaven, West Virginia, US-WV (seed --only); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "why": ""
         }
       },
@@ -4991,6 +5255,11 @@
       "runs": [
         {
           "place": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a)",
+          "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
           "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
           "inForceAtOpening": false
         },
@@ -5014,7 +5283,7 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -5028,42 +5297,47 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open (full 802, counted groups 121/121 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_e8632e5ae68406ec; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 open (full 624, counted groups 29/29 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_a0916c9fbfd4e5df; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 open (full 706, counted groups 241/241 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_7b48e101fed83b00",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 2724 open (full 788, counted groups 1936/1936 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_af07d1897dc8e8f4; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open (full 802, counted groups 121/121 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_e8632e5ae68406ec; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 open (full 624, counted groups 29/29 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_a0916c9fbfd4e5df; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 open (full 706, counted groups 241/241 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_7b48e101fed83b00",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
+          "evidence": "src/core2/modules/retirement-claims.ts:99, src/core2/modules/retirement-claims.ts:118, src/core2/modules/jobs.ts:4324, src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
           "why": ""
         },
         "money": {
           "status": "n/a",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_e8632e5ae68406ec); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_a0916c9fbfd4e5df); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_7b48e101fed83b00)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 2724 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_af07d1897dc8e8f4); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_e8632e5ae68406ec); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_a0916c9fbfd4e5df); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_7b48e101fed83b00)",
           "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "wired",
+          "evidence": "retirement-age-to-poverty: carried by src/core2/modules/retirement-claims.ts reads the full retirement age in the law row in force (socialSecurityAges, src/core2/social-security-law.ts) at each claim, so a later full age cuts each award at its claim age; src/core2/world-poverty.ts counts the award as the household's income (Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025))",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open under the changed row -> after the old amount is put back 0 still cite it; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 2724 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open under the changed row -> after the old amount is put back 0 still cite it; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "why": ""
         }
       },
       "screens": [],
       "runs": [
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
@@ -5247,7 +5521,7 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -5261,42 +5535,47 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 21 open (full 14, counted groups 6/1809 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:socialSecurity|jurisdiction_7e5743c50e41041b; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/budgets-treasury.ts, src/core2/counted-money.ts, src/core2/finance-cash.ts, src/core2/life.ts, src/core2/modules/residents.ts",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on socialSecurity, which the raise moved by 10000000: 0 without the raise, 833333 with it (journal:2025-02-01:1430)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): the US treasury's payments on socialSecurity, which the raise moved by 32331731699779: 13471554874908 without the raise, 16165865849889 with it (journal:2025-02-01:1146); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on socialSecurity, which the raise moved by 10000000: 0 without the raise, 833333 with it (journal:2025-02-01:1430)",
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "wired",
+          "evidence": "social-security-line-to-poverty: carried by src/core2/world-poverty.ts counts each household's Social Security as income before it is set against its threshold: a named household's opening award (an income contract the line rerates in applySocialSecurityLevel, src/core2/budgets-treasury.ts), a claim made in play (retirementClaimIncome, the claim's award the line rerates), and a counted household's own award rows (rerateCountedRetirement, src/core2/modules/residents.ts); the poverty share the web reads is that record (U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), read Nov 17, 2026)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 84 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:socialSecurity:law-wiring-47206d50)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:socialSecurity:law-wiring-47206d50); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 84 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:socialSecurity:law-wiring-47206d50)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 21 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "why": ""
         }
       },
       "screens": [],
       "runs": [
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "change": "US socialSecurity 161658658498893 -> 193990390198672 by law-wiring-47206d50",
+          "inForceAtOpening": false
+        },
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "change": "place:2745772 socialSecurity 0 -> 10000000 by law-wiring-47206d50",
@@ -5316,7 +5595,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-WV:state:energy-assistance-income-limit:general:2026-01-01:from-start",
           "why": ""
         },
         "change": {
@@ -5325,43 +5604,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 25 open (full 0, counted groups 2/789 people, households 23, orgs 0, govts 0) e.g. energy-assistance-income-limit|jurisdiction_7e5743c50e41041b",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/law-reach/group-b.ts:708 <- src/core2/modules/budgets.ts:1131",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): posts citing energy-assistance-income-limit: 651625 (control world 440699) (journal:2025-01-21:780); Brookhaven, West Virginia, US-WV (seed --only): of 24 the law paid or charged, the payments that changed first: 6 accounts.transfer paid in (src/core2/life.ts:562; e.g. household_54f8d941b8a16eda on 2025-01-22: 0 in the control world, 401 here, journal:2025-01-22:993)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:law-took-effect:law:US-WV:state:energy-assistance-income-limit:general:2025-01-21:law-wiring-f5503d53)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 25 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "change": "energy-assistance-income-limit 150 -> 165 at state (law:US-WV:state:energy-assistance-income-limit:general:2025-01-21:law-wiring-f5503d53) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -13548,7 +13833,7 @@
       "family": "defense-veterans",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -13562,42 +13847,47 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:veterans|jurisdiction_16b3bfd4091db759",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 13 open (full 11, counted groups 1/284 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:veterans|jurisdiction_7e5743c50e41041b; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:veterans|jurisdiction_16b3bfd4091db759",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/budgets-treasury.ts",
+          "evidence": "src/core2/budgets-treasury.ts, src/core2/life.ts, src/core2/work-payroll-cash.ts, src/core2/modules/budgets.ts, src/core2/modules/employer-taxes.ts",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on veterans, which the raise moved by 10000000: 0 without the raise, 833333 with it (journal:2025-02-01:1430)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): the US treasury's payments on veterans, which the raise moved by 7794565810108: 3247735754212 without the raise, 3897282905054 with it (journal:2025-02-01:1157); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on veterans, which the raise moved by 10000000: 0 without the raise, 833333 with it (journal:2025-02-01:1430)",
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "wired",
+          "evidence": "veterans-line-to-poverty: carried by src/core2/world-poverty.ts counts each household's veterans' benefits as income before it is set against its threshold, from the record the treasury's monthly close writes as it pays them (payVeterans in src/core2/law-reach/group-b-veterans.ts: a named veteran's household their benefit, a counted household its members' veteran share of it, both moved by the line in force); counted households read it through the residents engine's household income; the poverty share the web reads is that record (U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), read Nov 17, 2026)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 84 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:veterans:law-wiring-8285a4e0)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 152 people heard (person_10a3461fd33e6cda:printed:outlet:cable:0:national:budget-line-changed:budget:US:2024:veterans:law-wiring-8285a4e0); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 84 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:veterans:law-wiring-8285a4e0)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only): 13 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "evidence": "Brookhaven, West Virginia, US-WV (seed --only); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "why": ""
         }
       },
       "screens": [],
       "runs": [
+        {
+          "place": "Brookhaven, West Virginia, US-WV (seed --only)",
+          "change": "US veterans 38972829050539 -> 46767394860647 by law-wiring-8285a4e0",
+          "inForceAtOpening": false
+        },
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
           "change": "place:2745772 veterans 0 -> 10000000 by law-wiring-8285a4e0",

@@ -1,0 +1,29 @@
+{
+  "id": "party-caucus-fills-the-seat",
+  "kind": "situation",
+  "summary": "The party caucus, not the voters, fills a vacant council seat, and the winner is a party officer.",
+  "realLife": "In New Albany the Democratic caucus filled a council seat and chose the county party chair.",
+  "sources": [
+    "News and Tribune via Yahoo, Adam Dickey to fill vacant New Albany City Council seat: https://news.yahoo.com/adam-dickey-fill-vacant-albany-022300501.html"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["party", "name"],
+  "gates": [],
+  "weights": {
+    "ask-to-run": 0.8
+  },
+  "inGame": "party-asked and serve-asked records; party membership records; needs: a caucus vote",
+  "turns": [
+    {
+      "turn": "A rank-and-file member wins",
+      "pull": "an organized member",
+      "writes": "writes a quieter ask"
+    },
+    {
+      "turn": "The caucus splits",
+      "pull": "two close friends of the chair",
+      "writes": "writes a recount of hands and a hard feeling"
+    }
+  ],
+  "usedBy": ["ask-to-run", "serve-sought"]
+}

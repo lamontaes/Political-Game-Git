@@ -20,7 +20,7 @@ import { budgetToday } from "./law-reach/group-a-money";
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 
-// A state's or county's adopted lines are scaled by its receipts (receiptsFactor in modules/budgets.ts).
+// A state's or county's adopted lines carry forward from its last budget by its receipts (carriedLines in modules/budgets.ts).
 // A line's extra is read against that scaled base (lineExtra), so a line no bill raised pays no rent help
 // and a raise shows whatever the factor is. Pinned places and the seed (never drawn):
 //   Whitney, Nevada: receipts above 1; no housing bill in the county, yet the county's line read 475,182,513 above

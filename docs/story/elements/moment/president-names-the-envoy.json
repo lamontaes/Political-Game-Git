@@ -1,0 +1,34 @@
+{
+  "id": "president-names-the-envoy",
+  "kind": "moment",
+  "summary": "When offered a senior official or a deputy, {person} asks for the senior official by name.",
+  "realLife": "Carter specifically requested Harold Denton when Hendrie discussed whom he could send to Pennsylvania.",
+  "sources": [
+    "https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/tr/2004/20040303a.pdf"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
+  "gates": [
+    "The president has been offered a choice of field representatives."
+  ],
+  "weights": [
+    "Previous work with a candidate favors asking for that person by name."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the executive's selection of a field representative.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The president takes the agency's choice of deputy.",
+      "pulledBy": "The deputy has handled previous incidents at the site.",
+      "writesBack": "The assignment names the deputy as the president's contact."
+    },
+    {
+      "turn": "late",
+      "what": "The named envoy takes over from the official already there.",
+      "pulledBy": "Travel delays keep the envoy away from the first briefing.",
+      "writesBack": "The field log records who held authority before and after the handover."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, named in the PR body, the slot the opener, the two core parts (stance, work, home, children, school) and the closer of a built speech is worded from engine or mined parts in data/english/parts/speech-stages.json and cites the speaker's stances from the views engine, job, town, household and school facts by record id; the rewritten director test that now asserts the slot is empty asserts the real line instead, and tests/english-parts-banks.test.ts passes. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
 
-**Files.** data/english/parts/speech-stages.json, src/director/speech-builder.ts, src/director/speech-builder.test.ts
+**Files.** data/english/parts/speech-stages.json, src/director/speech-builder.ts
 
 **Notes.** Filed by fs11vb while rewriting the 17 director tests for PR #5647, as the CTO required for every slot left without engine parts.
 

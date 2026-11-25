@@ -1,0 +1,37 @@
+{
+  "id": "pattern-b28-follow-me-around",
+  "kind": "situation",
+  "summary": "Follow me around: {reporter} asks about {the private fact} after a tip, and says they watched your home.",
+  "realLife": "In 1987 he told a reporter that anyone who wanted could follow him around. The Miami Herald acted on a tip, watched his townhouse and confronted him, and he suspended his campaign within days.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Gary_Hart_presidential_campaign,_1988"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["reporter", "the private fact"],
+  "gates": [
+    "Candidate.",
+    "{the private fact} is on your record and a reporter could learn it."
+  ],
+  "weights": [
+    "How public your profile is.",
+    "Whether you dared reporters to follow you."
+  ],
+  "pattern": "B28",
+  "choices": [
+    "answer the question",
+    "refuse it",
+    "withdraw from the race",
+    "let {household member} answer"
+  ],
+  "branches": [
+    {
+      "when": "you told reporters to follow you",
+      "then": "They did, and the remark is quoted back."
+    },
+    {
+      "when": "you withdraw and come back",
+      "then": "Months later you return, and the first question is the old one."
+    }
+  ],
+  "usedBy": []
+}

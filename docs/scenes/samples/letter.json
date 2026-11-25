@@ -1,0 +1,555 @@
+{
+  "schema": "scene-sample/1",
+  "head": "3c41e9f83f68ba862f8437b17e4c2600159593a9",
+  "scene": {
+    "typeKey": "letter",
+    "purpose": "letter-ask",
+    "title": "Letter"
+  },
+  "world": {
+    "place": "Dededo, Guam",
+    "placeKey": "territory:GU:dededo",
+    "seed": "nov19b",
+    "date": "2025-03-02"
+  },
+  "player": {
+    "name": "Ashley Lowe",
+    "standing": "a resident of Dededo, Guam, not in office"
+  },
+  "cause": {
+    "id": "family.contact:person_e6de7af30f4e82ab:person_43b96fec209ea155:2025-03-01",
+    "label": "feeling:event:family.contact"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_43b96fec209ea155",
+      "name": "Megan Lowe"
+    },
+    {
+      "role": "asked",
+      "id": "person_e6de7af30f4e82ab",
+      "name": "Ashley Lowe"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "A letter has come from Megan, postmarked Guam.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.a-letter-has-come-from-name-postmarked-nearby"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.narrate-narrate.name-has-written-from-nearby",
+          "text": "{name} has written from {nearby}."
+        },
+        {
+          "key": "scene-talk.narrate-narrate.the-envelope-from-name-is-postmarked-nearby-not-far-off",
+          "text": "The envelope from {name} is postmarked {nearby}, not far off."
+        }
+      ],
+      "asks": false
+    },
+    {
+      "n": 2,
+      "speaker": "Megan Lowe",
+      "role": "asker",
+      "text": "Dear Ashley, it's good to be writing to you again.",
+      "move": "greet",
+      "pieces": [
+        "scene-talk.open-greet.dear-first-it-s-good-to-be-writing-to-you-again"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.open-greet.dear-first-there-is-something-i-wanted-to-ask-you-and-i-d-rather-ask-it-on-paper",
+          "text": "Dear {first}, there is something I wanted to ask you, and I'd rather ask it on paper."
+        },
+        {
+          "key": "scene-talk.open-greet.dear-first-i-hope-this-finds-you-well",
+          "text": "Dear {first}, I hope this finds you well."
+        },
+        {
+          "key": "scene-talk.open-greet.dear-first-i-ve-been-meaning-to-write-for-a-long-while",
+          "text": "Dear {first}, I've been meaning to write for a long while."
+        }
+      ],
+      "asks": false
+    }
+  ],
+  "ask": {
+    "n": 3,
+    "speaker": "Megan Lowe",
+    "role": "asker",
+    "text": "We're still in Guam, not so far. Will you come see us some weekend?",
+    "move": "request",
+    "pieces": [
+      "scene-talk.state-request.we-re-still-in-nearby-not-so-far-will-you-come-see-us-some-weekend"
+    ],
+    "wordings": [
+      {
+        "key": "scene-talk.state-request.you-re-not-far-from-us-in-nearby-could-you-come-for-a-meal-one-of-these-days",
+        "text": "You're not far from us in {nearby}. Could you come for a meal one of these days?"
+      },
+      {
+        "key": "scene-talk.state-request.it-s-only-nearby-and-we-hardly-see-you-would-you-come-by-for-a-visit",
+        "text": "It's only {nearby}, and we hardly see you. Would you come by for a visit?"
+      }
+    ],
+    "asks": true
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "I'd like that.",
+          "move": "agree",
+          "pieces": ["scene-talk.reply-agree.i-d-like-that"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-agree.i-ll-do-it",
+              "text": "I'll do it."
+            },
+            {
+              "key": "scene-talk.reply-agree.count-me-in",
+              "text": "Count me in."
+            },
+            {
+              "key": "scene-talk.reply-agree.yes-gladly",
+              "text": "Yes, gladly."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 7,
+              "speaker": "Megan Lowe",
+              "role": "asker",
+              "text": "That means everything.",
+              "move": "thank",
+              "pieces": ["scene-talk.follow-thank.that-means-everything"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-thank.thank-you",
+                  "text": "Thank you."
+                },
+                {
+                  "key": "scene-talk.follow-thank.i-m-so-glad",
+                  "text": "I'm so glad."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "wrote-back-yes",
+              "label": "You wrote back that you would",
+              "keeps": "kept-in-scene"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "Why now?",
+          "move": "ask",
+          "pieces": ["scene-talk.reply-ask.why-now"],
+          "wordings": [],
+          "asks": true
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 8,
+              "speaker": "Megan Lowe",
+              "role": "asker",
+              "text": "You're so close.",
+              "move": "answer",
+              "pieces": ["scene-talk.follow-answer.you-re-so-close"],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 9,
+                "speaker": "You",
+                "role": "player",
+                "text": "That's easy. Yes.",
+                "move": "agree",
+                "pieces": ["scene-talk.reply-agree.that-s-easy-yes"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.then-yes-gladly",
+                    "text": "Then yes, gladly."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.i-can-manage",
+                    "text": "I can manage."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 11,
+                    "speaker": "Megan Lowe",
+                    "role": "asker",
+                    "text": "That means everything.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.that-means-everything"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.thank-you",
+                        "text": "Thank you."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.i-m-so-glad",
+                        "text": "I'm so glad."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "wrote-back-yes",
+                    "label": "You wrote back that you would",
+                    "keeps": "kept-in-scene"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "Still, I can't.",
+                "move": "decline",
+                "pieces": ["scene-talk.reply-decline.still-i-can-t"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-decline.still-no-sorry",
+                    "text": "Still no, sorry."
+                  },
+                  {
+                    "key": "scene-talk.reply-decline.still-no-truly",
+                    "text": "Still no, truly."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 12,
+                    "speaker": "Megan Lowe",
+                    "role": "asker",
+                    "text": "Why not, though?",
+                    "move": "press",
+                    "pieces": ["scene-talk.follow-press.why-not-though"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.reply-confront.why-though",
+                        "text": "Why, though?"
+                      },
+                      {
+                        "key": "scene-talk.follow-press.is-it-me",
+                        "text": "Is it me?"
+                      }
+                    ],
+                    "asks": true
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 13,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Yes, I'm sorry.",
+                      "move": "agree",
+                      "pieces": ["scene-talk.reply-agree.yes-i-m-sorry"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-agree.alright-yes",
+                          "text": "Alright, yes."
+                        },
+                        {
+                          "key": "scene-talk.reply-agree.you-re-right-yes",
+                          "text": "You're right. Yes."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 15,
+                          "speaker": "Megan Lowe",
+                          "role": "asker",
+                          "text": "I'm so glad.",
+                          "move": "thank",
+                          "pieces": ["scene-talk.follow-thank.i-m-so-glad"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-thank.thank-you",
+                              "text": "Thank you."
+                            },
+                            {
+                              "key": "scene-talk.follow-thank.that-means-everything",
+                              "text": "That means everything."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "wrote-back-yes",
+                          "label": "You wrote back that you would",
+                          "keeps": "kept-in-scene"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 14,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Give me time.",
+                      "move": "leave",
+                      "pieces": ["scene-talk.reply-leave.give-me-time"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-leave.i-ll-write-later",
+                          "text": "I'll write later."
+                        },
+                        {
+                          "key": "scene-talk.reply-leave.let-me-think",
+                          "text": "Let me think."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "wrote-back-no",
+                          "label": "You wrote back no, and it showed",
+                          "keeps": "relationship-strained"
+                        },
+                        "close": {
+                          "n": 16,
+                          "speaker": "Megan Lowe",
+                          "role": "asker",
+                          "text": "No rush.",
+                          "move": "press",
+                          "pieces": ["scene-talk.close-accept.no-rush"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-plea.think-it-over",
+                              "text": "Think it over."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "Not right now.",
+          "move": "decline",
+          "pieces": ["scene-talk.reply-leave.not-right-now"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-decline.i-can-t-sorry",
+              "text": "I can't, sorry."
+            },
+            {
+              "key": "scene-talk.reply-decline.i-m-not-ready",
+              "text": "I'm not ready."
+            },
+            {
+              "key": "scene-talk.reply-decline.not-this-time",
+              "text": "Not this time."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 17,
+              "speaker": "Megan Lowe",
+              "role": "asker",
+              "text": "Is it me?",
+              "move": "press",
+              "pieces": ["scene-talk.follow-press.is-it-me"],
+              "wordings": [
+                {
+                  "key": "scene-talk.reply-confront.why-though",
+                  "text": "Why, though?"
+                },
+                {
+                  "key": "scene-talk.follow-press.why-not-though",
+                  "text": "Why not, though?"
+                }
+              ],
+              "asks": true
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 18,
+                "speaker": "You",
+                "role": "player",
+                "text": "Alright, yes.",
+                "move": "agree",
+                "pieces": ["scene-talk.reply-agree.alright-yes"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-agree.yes-i-m-sorry",
+                    "text": "Yes, I'm sorry."
+                  },
+                  {
+                    "key": "scene-talk.reply-agree.you-re-right-yes",
+                    "text": "You're right. Yes."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 20,
+                    "speaker": "Megan Lowe",
+                    "role": "asker",
+                    "text": "That means everything.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.that-means-everything"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.thank-you",
+                        "text": "Thank you."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.i-m-so-glad",
+                        "text": "I'm so glad."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "wrote-back-yes",
+                    "label": "You wrote back that you would",
+                    "keeps": "kept-in-scene"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 19,
+                "speaker": "You",
+                "role": "player",
+                "text": "Let me think.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.let-me-think"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.i-ll-write-later",
+                    "text": "I'll write later."
+                  },
+                  {
+                    "key": "scene-talk.reply-leave.give-me-time",
+                    "text": "Give me time."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "wrote-back-no",
+                    "label": "You wrote back no, and it showed",
+                    "keeps": "relationship-strained"
+                  },
+                  "close": {
+                    "n": 21,
+                    "speaker": "Megan Lowe",
+                    "role": "asker",
+                    "text": "Take your time.",
+                    "move": "press",
+                    "pieces": ["scene-talk.follow-accept.take-your-time"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.close-accept.no-rush",
+                        "text": "No rush."
+                      },
+                      {
+                        "key": "scene-talk.follow-plea.think-it-over",
+                        "text": "Think it over."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "endings": {
+    "wrote-back-yes": 4,
+    "wrote-back-no": 2
+  },
+  "depth": 3,
+  "gaps": []
+}

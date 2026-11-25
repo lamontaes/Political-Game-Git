@@ -51,7 +51,11 @@ import {
 import { ownPastKind } from "./own-past-kinds";
 import { pastArrestOf, type PrisonTerm } from "./past-justice";
 import { residenceOn } from "./past-moves";
-import { ELSEWHERE_EMPLOYER, elsewhereEmployerId } from "./places-elsewhere";
+import {
+  ELSEWHERE_EMPLOYER,
+  elsewhereEmployerId,
+  elsewhereEmployerName,
+} from "./places-elsewhere";
 import { openingWorkStatus } from "./modules/jobs";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
@@ -818,12 +822,19 @@ export function runPastWork(
     // Before they came to town, where the world keeps no employer: one of
     // that place's, named from the place and the seed (an estimate), the
     // same every time they are opened.
-    if (!best && livedIn !== run.plan.person.placeId)
-      return elsewhereEmployerId(
-        c,
-        run.plan.person,
-        livedIn,
-        run.spells.length,
+    // The same when the town keeps no firm for that day (a first job before the
+    // town's oldest firm, or a town with none on record). Where the place they
+    // lived in is one the naming does not know, the employer is named from
+    // the place they live in now: the card names an employer for every spell.
+    if (!best)
+      return (
+        elsewhereEmployerId(c, run.plan.person, livedIn, run.spells.length) ??
+        elsewhereEmployerId(
+          c,
+          run.plan.person,
+          run.plan.person.placeId,
+          run.spells.length,
+        )
       );
     return best?.id;
   };
@@ -1136,6 +1147,28 @@ function recordsOf(
         ? window.from
         : date;
   const said = source(api, "Pre-start working life (src/core2/past-work.ts).");
+  // An employer named for a place the world keeps none for is a record of
+  // that place from the day a spell names it (owner, Nov 16: every named thing
+  // is a record): its kind and its place, no cash of its own.
+  const named = new Set<string>();
+  for (const row of run.spells) {
+    const id = row.spell.organizationId;
+    if (!id?.startsWith(ELSEWHERE_EMPLOYER) || named.has(id)) continue;
+    named.add(id);
+    if (api.state.organizations.has(id as never)) continue;
+    const name = elsewhereEmployerName(api.state, id);
+    const [kind, ...place] = id.slice(ELSEWHERE_EMPLOYER.length).split(":");
+    if (!name || !kind || !place.length) continue;
+    api.addOrganization({
+      id: id as never,
+      placeId: place.join(":") as never,
+      name,
+      kind: "business",
+      classification: `sector:${kind}`,
+      liquidMinor: 0,
+      source: said,
+    });
+  }
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
   const spellId = (index: number) =>
     `past-work:${personId}:${mark}${index + 1}`;

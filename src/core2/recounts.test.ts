@@ -19,7 +19,11 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { lawChain } from "./modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  electedWithGovernorOnTicket,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./modules/offices";
 import { PRESS_MODULE_ID } from "./modules/press";
 import { recountOf, resultOf, VOTING_MODULE_ID } from "./modules/voting";
 import {
@@ -103,11 +107,51 @@ it("a count inside the place's automatic margin opens a recount, certified befor
     row.automatic = [{ share: 1 }];
     try {
       advanceCore(world.core, makeIsoDate("2026-11-04"));
-      const counted = contests.filter((c) => {
+      const onCount = contests.filter((c) => {
         const result = resultOf(api, c.id);
         const ranked = Object.values(result?.totals ?? {}).filter((n) => n > 0);
         return result?.winnerCandidateId && ranked.length >= 2;
       });
+      // A ticket office (a lieutenant governor the law elects with the
+      // governor) is decided by the governor's count, so its recount is the
+      // governor's: it opens none of its own, and its winner is seated no
+      // earlier than the governor's recount ends.
+      const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+      const officeOf = (c: ContestRow) =>
+        offices.get(c.officeId) as unknown as
+          { kind: string; jurisdiction: string } | undefined;
+      const governorOf = (c: ContestRow) => {
+        const office = officeOf(c);
+        if (
+          !office ||
+          !electedWithGovernorOnTicket(office.jurisdiction, office.kind)
+        )
+          return undefined;
+        return onCount.find(
+          (g) =>
+            officeOf(g)?.kind === "governor" &&
+            officeOf(g)?.jurisdiction === office.jurisdiction,
+        );
+      };
+      for (const ticket of onCount) {
+        const governor = governorOf(ticket);
+        if (!governor) continue;
+        const held = recountOf(api, governor.id);
+        expect(
+          recountOf(api, ticket.id),
+          `${where}: ${ticket.title} follows ${governor.title}'s count`,
+        ).toBeNull();
+        const takes = resultOf(api, ticket.id)!.takesOffice;
+        if (held && takes)
+          expect(
+            takes >= held.ends,
+            `${where}: ${ticket.title} seated before ${governor.title}'s recount ended`,
+          ).toBe(true);
+        passed.push(
+          `${where}: passed over ${ticket.title}, decided by ${governor.title}'s count (${held?.id ?? "no recount"})`,
+        );
+      }
+      const counted = onCount.filter((c) => !governorOf(c));
       if (!counted.length) {
         passed.push(`${where}: no race with two candidates on the count`);
         continue;

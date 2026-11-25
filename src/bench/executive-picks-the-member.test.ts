@@ -24,7 +24,6 @@ const CASES = [
     key: "0164656",
     office: "office:gus2025:160615:mayor",
     question: TRANSIT,
-    reason: "views",
   },
   // Monserrate, Puerto Rico (7253979): the municipio mayor, a county executive.
   {
@@ -32,7 +31,6 @@ const CASES = [
     key: "7253979",
     office: "office:municipio:72145:executive",
     question: TRANSIT,
-    reason: "views",
   },
   // Ridgeville, Alabama (0164656): the governor of Alabama.
   {
@@ -40,7 +38,6 @@ const CASES = [
     key: "0164656",
     office: "office:US-AL:governor",
     question: TRANSIT,
-    reason: "party",
   },
 ];
 
@@ -100,16 +97,30 @@ for (const pinned of CASES) {
     }).asked;
     expect(first.memberId, `${where}: the member chosen`).toBe(unlikely.key);
     expect(first.carried, `${where}: the least likely yes says no`).toBe(false);
-    expect(first.reason, `${where}: the plate's reason`).toBe(pinned.reason);
+    const kept = declinedAsks(api, player, unlikely.key, body!.officeId);
+    expect(kept, `${where}: the no is kept`).toHaveLength(1);
+    expect(kept[0]!.date, where).toBe(String(core.date));
+    // The reason said is a part of the member's own recorded position that
+    // pulled against the bill (which part depends on the body the history
+    // from 1925 seated: Alabama's governor heard "party" before it, "views"
+    // after), or how well they know the asker when none did.
+    const position = kept[0]!.position as unknown as Record<string, number>;
+    if (first.reason === "standing")
+      expect(
+        Object.values(position).some((part) => part < 0),
+        `${where}: no part pulled against, so the reason is standing`,
+      ).toBe(false);
+    else
+      expect(
+        position[first.reason!],
+        `${where}: the plate's reason ${first.reason} pulled against the bill`,
+      ).toBeLessThan(0);
     const spoken = questionReasons(pinned.question, "against").reason;
-    if (pinned.reason === "views" && spoken)
+    if (first.reason === "views" && spoken)
       expect(
         "reasonWords" in first && first.reasonWords,
         `${where}: the member's own words`,
       ).toBe(spoken);
-    const kept = declinedAsks(api, player, unlikely.key, body!.officeId);
-    expect(kept, `${where}: the no is kept`).toHaveLength(1);
-    expect(kept[0]!.date, where).toBe(String(core.date));
 
     // A month later the same member is asked again: the earlier no is read back.
     const date = new Date(`${String(core.date)}T00:00:00Z`);

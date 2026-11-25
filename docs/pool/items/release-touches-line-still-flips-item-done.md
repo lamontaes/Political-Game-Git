@@ -1,6 +1,6 @@
 ---
 id: release-touches-line-still-flips-item-done
-title: "A PR whose line 1 says \"Touches pool item:\" still flips its item to done when the item's pr field names the PR"
+title: 'A PR whose line 1 says "Touches pool item:" still flips its item to done when the item''s pr field names the PR'
 area: release
 lead: cto
 kind: bug

@@ -18,7 +18,7 @@ claimed-at: 2026-11-04T02:15:17.785Z
 
 **Rules.** No dice: which version a speaker says follows the tie level and their traits, never a roll. Sliding scales: a tie is a level, so a line asks for the side it is nearer and nothing flips at a threshold. Wire to the world: the tie fact is read from the relationship record between the two people.
 
-**Done when.** src/director/purpose-scenes.test.ts style test in a played world in a place drawn from all 56 with a seed the builder did not choose shows two callers with different ties to the same winner speaking different lines in concession-received, each tie fact citing the relationship record id, and the screen-text check passes.
+**Done when.** src/director/purpose-scenes.test.ts (removed) style test in a played world in a place drawn from all 56 with a seed the builder did not choose shows two callers with different ties to the same winner speaking different lines in concession-received, each tie fact citing the relationship record id, and the screen-text check passes.
 
 **Files.** src/director/purpose-scene.ts, src/english/scene-talk-words.ts, data/english/parts/scene-talk.json
 

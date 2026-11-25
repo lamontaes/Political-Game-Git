@@ -1,0 +1,32 @@
+{
+  "id": "fire-station-generator-changes-the-construction-order",
+  "kind": "detail",
+  "summary": "{administrator} explains a fire station change order by naming both the state reviewer’s requirement and the smaller generator.",
+  "realLife": "Dickson’s city administrator attributed a fire station change order to design revisions required by the state fire marshal and a reduction in generator size.",
+  "sources": [
+    "https://irp.cdn-website.com/fc32ce20/files/uploaded/April%204%2C%202022%2C%20CC%20agenda%20and%20minutes.pdf#page=10"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{administrator}"],
+  "gates": [
+    "Proposed change order with the reviewer’s revisions and equipment change itemized."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:fire"],
+  "inGame": "needs: proposed change order with the reviewer’s revisions and equipment change itemized.",
+  "turns": [
+    {
+      "turn": "approved",
+      "pulledBy": "Council approves the revised scope.",
+      "what": "Send the approved order to the contractor.",
+      "writesBack": "Update the construction record.."
+    },
+    {
+      "turn": "itemization",
+      "pulledBy": "Members want the two costs separated.",
+      "what": "Request an itemized breakdown.",
+      "writesBack": "Leave the change order pending.."
+    }
+  ]
+}

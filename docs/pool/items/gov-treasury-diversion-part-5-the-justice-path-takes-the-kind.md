@@ -27,7 +27,7 @@ checked: fable 2026-11-10
 
 **Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** One crime system (owner, Nov 10): one crimes record, one chooser, one justice path; a kind is data, never a branch of its own. Replace, never layer: the typed offense goes in the same change. No dice: every step stays decided from records, as it is for a bribe. One rule, all 56 places: the range is a per-place table. Estimate, never UNKNOWN. A bribe's own tests must pass unchanged. Follow .agents/skills/played-world-proof/SKILL.md.
+**Rules.** One crime system (owner, Nov 10): one crimes record, one chooser, one justice path; a kind is data, never a branch of its own. Replace, never layer: the typed offense goes in the same change. No dice: every step stays decided from records, as it is for a bribe. One rule, all 56 places: the range is a per-place table. Estimate, never UNKNOWN. A bribe's own tests must pass unchanged. Follow .agents/skills/done-proof/references/played-world-proof.md.
 
 **Done when.** A second session, on main in a drawn place (place and seed named), uses dev mode to have an official divert and a person who learned of it report it, plays on, and sees one case by record id go from complaint to sentence with the offense named for what it is, the sentence inside that place's range, the fine or forfeit arriving in the treasury the money left by journal record id, and the seat vacated where the place's rule says so. A bribe reported in the same world still ends as it did before. A test in src/core2 names the place, the seed and the record ids.
 

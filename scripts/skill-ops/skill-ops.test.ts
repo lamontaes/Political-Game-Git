@@ -221,9 +221,14 @@ describe("SKILL-OPS1 project delegation profile", () => {
     }
     expect(rootInstructions).toContain(".agents/rules/repository-reference.md");
     expect(rootInstructions).toContain(".agents/skills/");
-    expect(sessionBridge).toContain("@AGENTS.md");
-    expect(sessionBridge).toContain(".agents/skills/");
-    expect(sessionBridge).toContain("Skip ritual duplicate checks");
+    // CLAUDE.md is the one line that points to AGENTS.md (owner, Nov 17);
+    // its Claude-only notes live in AGENTS.md, "Claude sessions".
+    expect(sessionBridge).toBe("@AGENTS.md\n");
+    expect(rootInstructions).toContain("## Claude sessions");
+    expect(rootInstructions).toContain("Skip ritual duplicate checks");
+    expect(rootInstructions).toContain(
+      "Project threads and cloud sessions do not load skills",
+    );
     const operations = readFileSync(
       join(REPO_ROOT, ".agents", "rules", "political-game-operations.md"),
       "utf8",

@@ -1180,5 +1180,17 @@
     "addedAt": "2026-10-20",
     "replacement": "The engine that owns health.uninsured-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"health.uninsured-pct\", subject), as counted births do, so these links change its records.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-opening-levels-published",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 691,
+    "whatItFakes": "Each kept outcome's opening level in a place (crime, schooling, coverage, turnout and the rest) is the published 2024 level for its state moved once by this world's draw. After the first month the level carries forward and moves only by the world's own causes; the published figure is read once, at the opening.",
+    "why": "Day one is to come from the history run from 1925 (owner, Nov 16), and no engine keeps most of these outcomes yet, so nothing in the world hands the web its opening level (pins family 7, pin 5; CTO, Nov 17, 03:11Z).",
+    "addedBy": "World B (session_01S4WSHrsirzMADEiASwJ6rk)",
+    "addedAt": "2026-11-17",
+    "replacement": "Where an engine keeps its own record of the outcome, the opening level is that record after the warm-up; where the century run keeps one, its last value. Then this row is resolved.",
+    "status": "open"
   }
 ]

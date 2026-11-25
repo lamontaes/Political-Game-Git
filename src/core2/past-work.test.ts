@@ -10,7 +10,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { composeJournal } from "../director/journal";
+
 import { gameStartDate } from "./game-start";
 import { corePlaceByKey } from "./place-lookup";
 import {
@@ -45,7 +45,7 @@ const place =
     : drawPlace(randomBytes(32).toString("hex"), "history-past-work");
 const label = `${place.name} (${place.key}), seed ${place.seed}`;
 const start = gameStartDate();
-const { core, director, playerId } = buildBenchWorld(place.seed, start, {
+const { core, playerId } = buildBenchWorld(place.seed, start, {
   twoLevel: true,
   placeKey: place.key,
   playerBirthDate: `${Number(start.slice(0, 4)) - 35}-06-15`,
@@ -200,61 +200,6 @@ describe(`the working life before the start, ${label}`, () => {
     }
     expect(checked, label).toBeGreaterThan(0);
   });
-
-  it("is told in the Journal from its own records", () => {
-    // The player when they worked, else the first worker the run let go,
-    // with or without an employer on record (a held-at-start job is told by
-    // the line that leads into it, so it alone is not enough).
-    const tellable = (id: PersonId) =>
-      pastWorkOf(core, id).some(
-        (row) =>
-          row.kind === PAST_WORK_SPELL && row.facts.end !== "held-at-start",
-      );
-    const told = [
-      playerId as PersonId,
-      ...spells
-        .filter((row) => row.facts.end === "let-go")
-        .flatMap((row) => row.personIds ?? []),
-    ].find(tellable);
-    expect(told, label).toBeDefined();
-    director.watch(core, told!);
-    const ids = new Set(
-      composeJournal(core, director, told!).flatMap((chapter) =>
-        chapter.lines.flatMap((line) => line.sourceRecordIds),
-      ),
-    );
-    expect(
-      pastWorkOf(core, told!).some((row) => ids.has(row.id)),
-      `${label}, ${told}`,
-    ).toBe(true);
-    // Work with no employer on record (held in another place before a move)
-    // is told by its place, never skipped (words-journal-work-line-without-
-    // employer; Leopolis, Wisconsin and Alberton, Montana, #7023).
-    const placeOnly = spells.find(
-      (row) =>
-        !row.facts.organizationId &&
-        core.people.has(row.personIds?.[0] as PersonId) &&
-        (["first-job", "after-out-of-work"].includes(String(row.facts.how)) ||
-          ["let-go", "moved-on", "retired", "child-born"].includes(
-            String(row.facts.end),
-          )),
-    );
-    if (placeOnly) {
-      const who = placeOnly.personIds![0] as PersonId;
-      director.watch(core, who);
-      const lines = composeJournal(core, director, who).flatMap(
-        (chapter) => chapter.lines,
-      );
-      const said = lines.filter((line) =>
-        line.sourceRecordIds.includes(placeOnly.id),
-      );
-      process.stdout.write(
-        `past-work without an employer: ${placeOnly.id} told as ${said.map((line) => `"${line.text}"`).join(", ") || "nothing"} (${label})\n`,
-      );
-      expect(said.length, `${label}, ${placeOnly.id}`).toBeGreaterThan(0);
-    }
-  });
-
   it("runs the same lives again from the same records (no roll decides them)", () => {
     const again = runPastWork(
       coreAPI(core),

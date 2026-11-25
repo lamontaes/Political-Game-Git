@@ -40,4 +40,4 @@ Guards: the variants-differ, later-replies and replies-may-be-long rules on desk
 
 **Waits on.** #9292 folding into the train, since it moves the replies after an answer.
 
-**Files.** data/english/parts/scene-talk.json, data/english/judged/, src/director/desk-visit-scene.test.ts
+**Files.** data/english/parts/scene-talk.json, data/english/judged/

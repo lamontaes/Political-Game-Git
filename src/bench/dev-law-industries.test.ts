@@ -28,6 +28,7 @@ const placeKey = "3014650";
 const seed = "law-links-choteau";
 const world = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
+  settings: { history: "today" },
   placeKey,
 });
 const core = world.core;
@@ -44,12 +45,17 @@ const check = () => industriesAgainstNullBill(core, dev.marks(), twinDev);
 const GROUNDWATER =
   "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal";
 const days = (n: number) => addDays(makeIsoDate(core.date), n);
-// Four checks of about 20 seconds each plus the runs between them; the limit is about twice the slower of alone and beside other tests.
-const LIMIT_MS = 240_000;
+// The work is fixed (one world advanced 20 days, then four twin checks), so
+// the limit follows how long that work takes, twice the slower measured, which
+// is this file's own rule. Nov 19 (Choteau, Montana): on a cloud container the
+// checks took 22.0, 25.2, 39.2 and 22.8 s and the case 144 s alone; the hosted
+// runner needed 265 s, more than the 240 s the limit was set from when the
+// checks took about 20 s each. Twice 265 s is 530 s.
+const LIMIT_MS = 530_000;
 
 describe(`dev mode's Industries check: ${where}`, () => {
   it(
-    "an untouched world equals its twin; before a passed raise starts only dues to fight it move; a raise in force moves restaurant pay and prices; an opening law shows against its absence",
+    "an untouched world equals its twin; before a passed raise starts only dues to fight it move; a raise in force moves restaurant pay and prices; an opening law shows against its absence (just like today: needs the state's real minimum wage law)",
     () => {
       dev.advance(days(20));
       const same = check();

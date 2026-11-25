@@ -593,6 +593,12 @@
       "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
     },
     {
+      "table": "core2-campaigns-v1.volunteerAsks",
+      "level": "town",
+      "call": "flow-only",
+      "reason": "A campaign's ask to the player to volunteer, kept until the player answers; it exists only once a candidate has filed and the campaign reaches the player."
+    },
+    {
       "table": "core2-campaigns-v1.endorsements",
       "level": "town, state and federal",
       "call": "stock",
@@ -1033,6 +1039,19 @@
       "call": "flow-only",
       "filledBy": "day 1",
       "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
+    },
+    {
+      "table": "core2-parties-v1.schedule",
+      "level": "town",
+      "call": "stock",
+      "filledBy": "day 1",
+      "reason": "The local committees' next meeting day, set when the parties open."
+    },
+    {
+      "table": "core2-parties-v1.playerAttends",
+      "level": "town",
+      "call": "flow-only",
+      "reason": "The player's answer to a meeting invitation; it exists only once the player has joined a party."
     },
     {
       "table": "core2-parties-v1.chairs",
@@ -1825,13 +1844,6 @@
       "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
     },
     {
-      "table": "part.core2-counted-moves.holdNorm",
-      "level": "town (people and places)",
-      "call": "flow-only",
-      "filledBy": "day 31",
-      "reason": "An event or result of play after day 0 (a birth, sale, payment, case closed, story told); it has no stock on an ordinary day."
-    },
-    {
       "table": "part.core2-counted-moves.leave",
       "level": "town (people and places)",
       "call": "flow-only",
@@ -2559,6 +2571,7 @@
     "core2-public-action-v1": "classified in rows",
     "core2-public-projects-v1": "no table is empty at creation and filled later at the two measured places",
     "core2-public-safety-v1": "classified in rows",
+    "core2-promises-v1": "classified in playActOnly: a promise is a word given in a scene the player plays, so no place has one before the first scene",
     "core2-purchase-tax-v1": "no table is empty at creation and filled later at the two measured places",
     "core2-recalls-v1": "no table is empty at creation and filled later at the two measured places",
     "core2-record-v1": "classified in rows",
@@ -2597,6 +2610,8 @@
     "tables": [
       "candidacy.decisions",
       "candidacy.weighed",
+      "core2-promises-v1.promises",
+      "core2-promises-v1.settle",
       "part.core2-decision-detail-player-queue",
       "part.core2-free-block-plans"
     ],

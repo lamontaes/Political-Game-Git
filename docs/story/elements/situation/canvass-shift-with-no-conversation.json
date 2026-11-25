@@ -1,0 +1,31 @@
+{
+  "id": "canvass-shift-with-no-conversation",
+  "kind": "situation",
+  "summary": "A petitioner finishes a round of door knocking without having a conversation worth recounting.",
+  "realLife": "An AP reporter walked with county party chair Liz Purvis in Oxford, North Carolina. Purvis knocked at five homes before anyone answered her.",
+  "sources": [
+    "https://apnews.com/article/2024-election-biden-trump-north-carolina-rural-f18e68135fa04a9d730a55c2fb5481a0",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L51"
+  ],
+  "inGame": "The campaign petition and signature-retention mechanics record activity independently of dialogue.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{petitioner}", "{place}"],
+  "gates": ["A canvassing shift has ended."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "A resident calls headquarters after finding the canvasser's card.",
+      "pulledBy": "The resident returned home after the shift ended.",
+      "writesBack": "A later callback is linked to the unanswered visit."
+    },
+    {
+      "turn": "partial",
+      "what": "When the volunteer turns in a blank signature sheet, the organizer asks which houses still need a visit.",
+      "pulledBy": "The route card distinguishes unanswered doors from residents who declined to sign.",
+      "writesBack": "The organizer copies the unanswered addresses to the next shift’s route."
+    }
+  ],
+  "issues": ["none"]
+}

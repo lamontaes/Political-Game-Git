@@ -2,7 +2,7 @@
 // How I look's two tabs, in a real browser on the bench (npm run bench).
 // Owner, Nov 12, 2026: "two tabs, everyday and formal, bust flips between
 // them". For a woman and a man, each in a place drawn with the creator's
-// Random place (from all 56), the check opens the creator, then:
+// Random (from all 56), the check opens the creator, then:
 //   - Everyday shows the Top row and the bust wears a whole top, no shirt,
 //     tie or jacket;
 //   - Formal shows Shirt and Jacket (and Tie where the bank paints ties), no
@@ -46,21 +46,21 @@ try {
     await page.locator("#new-life").click();
     await page.locator("#new-start").click();
     await page.locator("#cr-screen:not([hidden])").waitFor();
-    await page.locator(`[data-gender=${gender}]`).click();
-    // A drawn place: Random place pressed a drawn number of times.
+    // A drawn place: Random pressed a drawn number of times.
     const presses = 1 + randomInt(4);
     let place;
     for (let i = 0; i < presses; i++) {
       const drawn = page.waitForResponse((r) =>
-        r.url().includes("/api/creator/place"),
+        r.url().includes("/api/creator/character"),
       );
-      await page.locator("#cr-place-random").click();
-      place = await (await drawn).json();
+      await page.locator("#cr-random").click();
+      place = (await (await drawn).json()).place;
     }
     const town = place.town.name.includes(place.state.name)
       ? place.town.name
       : `${place.town.name}, ${place.state.name}`;
-    const where = `${gender} in ${town} (Random place pressed ${presses} times)`;
+    const where = `${gender} in ${town} (Random pressed ${presses} times)`;
+    await page.locator(`[data-gender=${gender}]`).click();
     console.log(where);
     await page.locator("#cr-bust .bust-stack:not(.loading)").waitFor();
     const tab = (key) => page.locator(`#cr-rows [data-look-tab=${key}]`);
@@ -133,7 +133,8 @@ try {
       `${where}: a step left the Everyday tab`,
     );
     // Begin the life: the played player's bust wears the chosen top.
-    await page.locator("#cr-random-name").click();
+    await page.locator("#cr-given").fill("Test");
+    await page.locator("#cr-family").fill("Person");
     await page.waitForFunction(
       () =>
         document.getElementById("cr-given").value &&

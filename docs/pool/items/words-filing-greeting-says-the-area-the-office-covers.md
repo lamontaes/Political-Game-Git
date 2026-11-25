@@ -31,6 +31,6 @@ lead: words
 
 **Waits on.** Nothing.
 
-**Files.** src/director/filing-visit.ts, src/director/filing-greeting-area.test.ts
+**Files.** src/director/filing-visit.ts
 
 **Notes.** Built after the reader's note on #9348; test pinned at Edgar WI, seed 4d8a2d61-6aea-48c7-8043-906d5c563aaa.

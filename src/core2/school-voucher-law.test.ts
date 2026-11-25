@@ -36,7 +36,7 @@ function drawn(): string[] {
     .map((place) => place.key);
 }
 
-it("pays the state's share of town private tuition while the law stands, and stops on repeal", () => {
+it("pays the state's share of town private tuition while the law stands, and stops on repeal (just like today: needs the state's real school voucher law)", () => {
   setBookkeeping(false);
   try {
     let tried = 0;
@@ -44,6 +44,7 @@ it("pays the state's share of town private tuition while the law stands, and sto
       if (tried++ >= 12) break;
       const { core } = buildBenchWorld(seed, gameStartDate(), {
         twoLevel: true,
+        settings: { history: "today" },
         placeKey,
       });
       const api = coreAPI(core);

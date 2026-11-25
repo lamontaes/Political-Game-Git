@@ -50,7 +50,7 @@ function lowestLevel(api: CoreAPI) {
 
 describe("local immigration enforcement reaches workers' pull to work", () => {
   it(
-    `an unauthorized worker takes the undocumented effect and a citizen the U.S.-born one (seed ${seed})`,
+    `an unauthorized worker takes the undocumented effect and a citizen the U.S.-born one (seed ${seed}) (just like today: needs the state's real immigration laws)`,
     { timeout: 900_000 },
     () => {
       const bookkeeping = setBookkeeping(false);
@@ -61,6 +61,7 @@ describe("local immigration enforcement reaches workers' pull to work", () => {
           const build = () =>
             buildBenchWorld(drawn.seed, gameStartDate(), {
               twoLevel: true,
+              settings: { history: "today" },
               placeKey: drawn.key,
             }).core as CoreState;
           const lawWorld = build();

@@ -28,7 +28,7 @@ root: none
 
 **Rules.** Follow the standing rule "An effect is a read, not a record": a line about work reads whether the job is held from the jobs engine's record. No hand-written player text in code.
 
-**Done when.** A second session, in a drawn place with its seed named, leaves the player's job and talks at home the next day; no reply or answer speaks of work there. Pinned: the South Vienna replay above (scripts/words/player-race-replay.ts or a test beside src/director/player-news-reply-stage.test.ts) offers no work reply after the job is left.
+**Done when.** A second session, in a drawn place with its seed named, leaves the player's job and talks at home the next day; no reply or answer speaks of work there. Pinned: the South Vienna replay above (scripts/words/player-race-replay.ts or a test beside src/director/player-news-reply-stage.test.ts (removed)) offers no work reply after the job is left.
 
 **Waits on.** nothing.
 

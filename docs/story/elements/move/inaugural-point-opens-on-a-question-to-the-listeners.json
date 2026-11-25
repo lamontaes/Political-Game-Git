@@ -1,0 +1,32 @@
+{
+  "id": "inaugural-point-opens-on-a-question-to-the-listeners",
+  "kind": "move",
+  "summary": "Now and then an inaugural point puts a question to the audience and answers it at once, then pledges.",
+  "realLife": "Questions are rare in inaugurals, about one point in fifty. When one comes, it is asked of the listeners and answered in the same point, and a pledge follows.",
+  "sources": [
+    "Ronald Reagan, inaugural address, Jan 20, 1981: https://www.presidency.ucsb.edu/documents/inaugural-address-11",
+    "John F. Kennedy, inaugural address, Jan 20, 1961: https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "Read in full and coded point by point in docs/story/research/address-moves.md (Elections lane, Nov 24, 2026); that note is an extra line, the speeches are the sources."
+  ],
+  "fits": ["speeches"],
+  "slots": ["to", "belief"],
+  "gates": ["stance-for", "stance-against"],
+  "weights": {
+    "inaugural": 0.2
+  },
+  "usedBy": [],
+  "inGame": "the policy question's spoken verb phrase and the speaker's stance from the stance engine",
+  "turns": [
+    {
+      "way": "The question is asked and left open.",
+      "pulledBy": "a dramatic, imaginative speaker",
+      "writes": "a question with no answer line after it"
+    },
+    {
+      "way": "The question is skipped and the stand is stated.",
+      "pulledBy": "a blunt, practical speaker",
+      "writes": "a stand line with no question before it"
+    }
+  ],
+  "issues": ["none"]
+}

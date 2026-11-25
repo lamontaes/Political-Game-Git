@@ -1,0 +1,30 @@
+{
+  "id": "rail-grant-goes-elsewhere",
+  "kind": "consequence",
+  "summary": "After {person} turns down rail funding, other states receive the money.",
+  "realLife": "Federal rail funds Wisconsin governor Scott Walker opposed went to other states.",
+  "sources": ["https://en.wikipedia.org/wiki/Scott_Walker_(politician)"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A rail grant has been offered and may be reassigned if declined."],
+  "weights": [
+    "An approaching acceptance deadline gives a revised offer less time to succeed."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the disposition of a declined grant.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The state accepts the grant before it expires.",
+      "pulledBy": "The executive signs after securing the required local match.",
+      "writesBack": "The award records the state as recipient."
+    },
+    {
+      "turn": "partial",
+      "what": "The state retains funding for one segment.",
+      "pulledBy": "The granting agency approves a smaller project.",
+      "writesBack": "The revised award identifies the funded segment."
+    }
+  ],
+  "issues": ["budget:federal:transportation"]
+}

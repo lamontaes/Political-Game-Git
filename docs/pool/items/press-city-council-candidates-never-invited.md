@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10357
 after:
 blocked-on:
 lead: governing
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: "Interview check thread, Nov 15, 2026, measuring invitations before election day for the outlet-of-record change"
+merged-at: 2026-11-24T06:45:22.623Z
 ---
 
 **What.** At Omaha, Nebraska (3137000), seed `omaha01`, the player (the first resident aged 35 to 59 by id) files for the city council race of Nov 3, 2026 (9 on the ballot) and plays to election day: no outlet of the city's 11 asks for an interview. The same count is 0 on the train base (cebf23ed) and with the outlet-of-record change, so that change did not cause it. Villages and suburbs measured the same way all get at least one invitation. A city paper commonly profiles every council candidate in a voters' guide. Seen: no reporter calls the player during the campaign.

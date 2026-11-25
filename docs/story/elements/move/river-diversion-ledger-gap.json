@@ -1,0 +1,32 @@
+{
+  "id": "river-diversion-ledger-gap",
+  "kind": "move",
+  "summary": "Before {person} tells farmers what the river can supply, the water board asks for missing diversion returns.",
+  "realLife": "California instructed its board to find watersheds where gaps in diversion reports prevented assessment and seek the overdue data.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
+  "gates": [
+    "A watershed assessment identifies missing reports and the period they cover."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a watershed assessment identifies missing reports and the period they cover.",
+  "turns": [
+    {
+      "turn": "returned",
+      "pulledBy": "The missing returns arrive.",
+      "what": "Update the assessment with the late returns.",
+      "writesBack": "Record the revised coverage."
+    },
+    {
+      "turn": "outstanding",
+      "pulledBy": "The reporting period still has gaps.",
+      "what": "Identify the period still missing from the assessment.",
+      "writesBack": "Carry the uncertainty into the briefing."
+    }
+  ]
+}

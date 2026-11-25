@@ -30,14 +30,18 @@ import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { webLevel, webReach, type Subject } from "../outcome-web-reach";
 import { baseOf } from "../outcome-web-model";
 import { placeStateKey } from "../place-map";
-import { incomeBandOf } from "./residents";
+import { incomeBandOn } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { onStoryHeard } from "./news-listeners";
 import { onTaxWithheld, TAX_LAW_SERIES } from "../tax-listeners";
-import { lawApplied, type AppliedTarget } from "../law-reach/applied";
+import {
+  endAppliedBy,
+  lawApplied,
+  type AppliedTarget,
+} from "../law-reach/applied";
 import type {
   CoreAPI,
   CoreModule,
@@ -1153,8 +1157,12 @@ function readPriceLaws(api: CoreAPI): void {
       // End only this statute's price, not a separately recorded service rule.
       if (
         String(store(api).table("rules").get(id)?.cause ?? "").startsWith(cause)
-      )
+      ) {
         endPlaceRule(api, placeId, rule.good, rule.kind, question);
+        // The price is no longer charged, so the law no longer reaches those
+        // it was charged to, even where a lower level still says yes.
+        endAppliedBy(api, question, PLACE_PRICES_MODULE_ID);
+      }
       return;
     }
     if (gap) api.stopgap(gap);
@@ -1551,7 +1559,7 @@ function month(api: CoreAPI): void {
   // The web's factors on this place's use of a good, by income fifth: read once a band, not once a household.
   const bands = new Map<string, ReturnType<typeof webUse>>();
   const useFor = (rule: Rule, payMonthlyMinor: number) => {
-    const fifth = incomeBandOf(payMonthlyMinor * MONTHS);
+    const fifth = incomeBandOn(api, payMonthlyMinor * MONTHS);
     const key = `${rule.placeId}|${rule.good}|${rule.kind}|${rule.cause}|${fifth}`;
     let use = bands.get(key);
     if (!use) {

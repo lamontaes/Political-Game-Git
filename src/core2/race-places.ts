@@ -19,6 +19,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import territoryPlaces from "./data/places/territory-places.json" with { type: "json" };
 import { shareValue } from "./shares";
 import type { CoreAPI } from "./types";
+import { keptPlaces } from "./place-leans";
 
 function raceTown(api: CoreAPI) {
   return api
@@ -49,7 +50,7 @@ export function basePlaces(
       api.state.placeMetadata.countyNames as string | undefined,
       usps,
     );
-    const places = statePlaces(usps, api.state.seed);
+    const places = keptPlaces(api, usps, statePlaces(usps, api.state.seed));
     return {
       places,
       home: places.some((p) => p.id === county) ? county : null,
@@ -65,7 +66,9 @@ export function basePlaces(
       usps,
     );
     const place = county
-      ? statePlaces(usps, api.state.seed).find((p) => p.id === county)
+      ? keptPlaces(api, usps, statePlaces(usps, api.state.seed)).find(
+          (p) => p.id === county,
+        )
       : undefined;
     return place
       ? { places: [place], home: place.id }
@@ -73,11 +76,12 @@ export function basePlaces(
   }
   if (contest.family === "usHouse") {
     const district = townDistrict(geoid, usps, "congressional", api.state.date);
-    const place = housePlaceByGeoid(
+    const published = housePlaceByGeoid(
       usps,
       district?.geoid ?? null,
       api.state.seed,
     );
+    const place = published && keptPlaces(api, usps, [published])[0];
     return place
       ? { places: [place], home: place.id }
       : { places: [], home: null };
@@ -99,8 +103,9 @@ export function basePlaces(
       usps,
     );
     const own = county
-      ? (statePlaces(usps, api.state.seed).find((p) => p.id === county)
-          ?.rightShare ?? null)
+      ? (keptPlaces(api, usps, statePlaces(usps, api.state.seed)).find(
+          (p) => p.id === county,
+        )?.rightShare ?? null)
       : null;
     const place = legislativePlace(
       usps,

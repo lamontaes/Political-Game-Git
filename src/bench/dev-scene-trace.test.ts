@@ -109,17 +109,16 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
     ),
   ).toBe(true);
 
-  // One line looked up by its key says where it lives, what it is tied to and whether it plays.
-  const oh = (
-    await ask(
-      "GET",
-      "scene-trace/line?key=conversation.news-answer-react.oh-my",
-    )
-  ).value as { tie: string; bank: string };
-  expect(oh).toMatchObject({ bank: "conversation", tie: "subject" });
-  expect(lineByKey("conversation.news-answer-react.oh-my")?.tie).toBe(
-    "subject",
-  );
+  // One line looked up by its key says where it lives, what it is tied to and whether it plays. The
+  // line is one the register lists today, never a key pinned by hand: a bank rewrite that deletes a
+  // line must not break this check (main was red on a deleted key, Nov 17).
+  const first = lines[0]!;
+  const one = (
+    await ask("GET", `scene-trace/line?key=${encodeURIComponent(first.key)}`)
+  ).value as { key: string; tie: string; bank: string };
+  expect(one).toMatchObject({ key: first.key, tie: first.tie });
+  expect(one.bank).toBeTruthy();
+  expect(lineByKey(first.key)?.tie).toBe(first.tie);
 
   // The player's staged scenes read as a list.
   expect(Array.isArray((await ask("GET", "scene-trace/moments")).value)).toBe(

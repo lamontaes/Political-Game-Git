@@ -34,4 +34,4 @@ root: none
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/data/stopgaps/p15.json
 
-**Notes.** Nov 14 (Cluster 29 thread): built in `askNextAfterRefusal` (src/core2/modules/candidacy.ts) by running the same `askForCandidates` for the player's party after a decline or stall reply; no second asking path. Pinned test src/director/party-ask-refused.test.ts (Floydale SC, Denver PA).
+**Notes.** Nov 14 (Cluster 29 thread): built in `askNextAfterRefusal` (src/core2/modules/candidacy.ts) by running the same `askForCandidates` for the player's party after a decline or stall reply; no second asking path. Pinned test src/director/party-ask-refused.test.ts (removed) (Floydale SC, Denver PA).

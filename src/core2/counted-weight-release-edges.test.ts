@@ -30,13 +30,20 @@ import { publicPayTreasuries } from "./public-work-pay";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-/** An employer's heads: one for each full person's job, its heads for each counted job. */
-function heads(core: CoreState, organizationId: string): number {
+/** The open jobs full people hold at an employer, one head each. */
+function fullJobs(core: CoreState, organizationId: string): number {
   let full = 0;
   for (const job of core.jobs.values())
     if (job.organizationId === organizationId && job.endsAt === undefined)
       full += 1;
-  return full + countedHeadcountOf(core, organizationId);
+  return full;
+}
+
+/** An employer's heads: one for each full person's job, its heads for each counted job. */
+function heads(core: CoreState, organizationId: string): number {
+  return (
+    fullJobs(core, organizationId) + countedHeadcountOf(core, organizationId)
+  );
 }
 
 const DAYS_PER_YEAR = 365;
@@ -130,12 +137,17 @@ it(`a fill-in keeps an employer's heads when its job was the employer's only cou
     ];
     rt.store.setJobHeads(only!.job, 10);
     const soleBefore = heads(core, soleOrg);
+    const fullBefore = fullJobs(core, soleOrg);
     fillInPerson(core, only!.job.personId);
     const kept = countedJobsOf(core, soleOrg);
     process.stdout.write(
       `WEIGHT RELEASE EDGES ${where}: ${soleOrg} sole job ${only!.job.id} (${only!.home.id}) at 10 heads, ${soleBefore.toFixed(2)} before, ${heads(core, soleOrg).toFixed(2)} after, kept on ${kept.map((job) => job.id).join(", ")}\n`,
     );
-    expect(soleBefore, where).toBeCloseTo(10, 9);
+    // The employer's heads are the ten its only counted job stands for, plus
+    // one for each job a full person holds there (Ahmeek, Michigan, base
+    // df927d7ab27426f8, Nov 19: the employer also kept one full person's job,
+    // so its heads were 11, which this setup check read as a fault).
+    expect(soleBefore, where).toBeCloseTo(10 + fullBefore, 9);
     expect(
       heads(core, soleOrg),
       `${where}: ${soleOrg} after ${only!.home.id} was filled in`,

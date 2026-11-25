@@ -1,0 +1,28 @@
+{
+  "id": "industry-lawyer-asks-for-ballot-access",
+  "kind": "move",
+  "summary": "A lawyer representing beverage businesses asks the council to let residents vote on a replacement proposal.",
+  "realLife": "David Rogers identified the soft drink interests he represented and urged members to put the measures before Columbia voters.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{attorney}", "{client}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: client affiliation and council referral.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The lawyer tells clients which ballot language survived.",
+      "pulledBy": "The council refers the measure.",
+      "writesBack": "The lawyer can take the case to voters on the authorized question."
+    },
+    {
+      "turn": "opposite",
+      "what": "The lawyer asks the clerk for the petition timetable.",
+      "pulledBy": "The referral loses.",
+      "writesBack": "Any later petition must qualify on its own."
+    }
+  ]
+}

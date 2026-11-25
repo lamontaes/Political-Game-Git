@@ -1,0 +1,497 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { britishSpellings } from "../prose-eval/american-spelling";
+import {
+  approves,
+  checkChanges,
+  sourcedLevelRows,
+  splitByMode,
+  stampMissing,
+} from "./check-changes.mjs";
+
+const rules = JSON.parse(
+  readFileSync("tests/guards/check-changes.json", "utf8"),
+);
+
+// The marks are spelled in pieces so this file does not carry them itself.
+const mark = (name: string) => `it.${name}("a case", () => {});\n`;
+const plain = 'it("a case", () => { expect(1).toBe(1); });\n';
+const ids = (
+  path: string,
+  before: string | null,
+  after: string | null,
+): string[] => checkChanges([{ path, before, after }], rules).map((f) => f.id);
+
+describe("check-changes: what a pull request may not add to its own checks", () => {
+  it("refuses each added mark, in a new file or an old one", () => {
+    for (const name of ["fails", "skip", "only", "todo", "skipIf", "runIf"]) {
+      expect(ids("src/a.test.ts", null, mark(name)), name).toContain(
+        "expected-failure",
+      );
+      expect(ids("src/a.test.ts", plain, plain + mark(name)), name).toContain(
+        "expected-failure",
+      );
+    }
+    expect(
+      ids("src/a.test.ts", plain, `describe.${"skip"}("x", () => {});` + plain),
+    ).toContain("expected-failure");
+    expect(
+      ids("src/a.test.ts", plain, `x${"it"}("x", () => {});` + plain),
+    ).toContain("expected-failure");
+    expect(
+      ids(
+        "src/a.test.ts",
+        plain,
+        `(red ? it.${"fails"} : it)("x", () => {});` + plain,
+      ),
+    ).toContain("expected-failure");
+  });
+
+  it("lets a mark move or come out, and ignores marks outside test files", () => {
+    const one = mark("fails");
+    expect(ids("src/a.test.ts", one + plain, plain + one)).toEqual([]);
+    expect(ids("src/a.test.ts", one + plain, plain + plain)).toEqual([]);
+    expect(ids("docs/notes.md", null, one)).toEqual([]);
+  });
+
+  it("refuses a new known-red row and a new failing-today row", () => {
+    const row = `{ "table": "x", "${"knownRed"}": "some-item" }`;
+    expect(ids("src/core2/data/opening/day-zero.json", "{}", row)).toEqual([
+      "known-red-row",
+    ]);
+    const failing = (rows: number) =>
+      `const FAILING = {\n${'  "a check": { owner: "X" },\n'.repeat(rows)}};\n`;
+    expect(
+      ids(
+        "tests/golden-path/played-world.node-test.ts",
+        failing(2),
+        failing(3),
+      ),
+    ).toEqual(["failing-today-row"]);
+    expect(
+      ids(
+        "tests/golden-path/played-world.node-test.ts",
+        failing(3),
+        failing(2),
+      ),
+    ).toEqual([]);
+  });
+
+  it("refuses a test newly pinned to a named town or seed", () => {
+    const seed = "a".repeat(64);
+    for (const pin of [
+      `build({ ${"placeKey"}: "2264905" });`,
+      `const SEED = "${seed}";`,
+      `const PINS = [{ ${"key"}: "territory:GU:inarajan" }];`,
+      `process.env.GOLDEN_PATH_${"SEED"} = seed;`,
+    ])
+      expect(ids("src/a.test.ts", plain, plain + pin), pin).toEqual([
+        "pinned-place-or-seed",
+      ]);
+    // A drawn place carries no literal key or seed.
+    expect(
+      ids(
+        "src/a.test.ts",
+        plain,
+        plain + 'const place = drawPlace(seed, "a");',
+      ),
+    ).toEqual([]);
+    // Reading the replay seed is not a pin.
+    expect(
+      ids(
+        "src/a.test.ts",
+        plain,
+        plain + "const s = process.env.GOLDEN_PATH_SEED;",
+      ),
+    ).toEqual([]);
+  });
+
+  it("refuses a test that names a place key or a seed as a bare literal", () => {
+    for (const pin of [
+      'yearsOf(seed, "1150000", 3);',
+      'const SEED = "8d04db587cd640d7";',
+      'const place = drawPlace("dpA", "drift-played");',
+    ])
+      expect(ids("src/a.test.ts", plain, plain + pin), pin).toEqual([
+        "pinned-key-or-seed-literal",
+      ]);
+    // A seed built from a drawn one, and a short number, are not pins.
+    for (const fine of [
+      'const place = drawPlace(`${seed}:0`, "a");',
+      'const n = "12345";',
+      'const hash = "abc";',
+    ])
+      expect(ids("src/a.test.ts", plain, plain + fine), fine).toEqual([]);
+    // Taking a literal out is not a finding.
+    expect(ids("src/a.test.ts", plain + 'const k = "1150000";', plain)).toEqual(
+      [],
+    );
+  });
+
+  it("refuses a drawn seed taken out of a test, the commonest pin", () => {
+    const drawn = (from: string) =>
+      `const seed = ${from};\nconst place = drawPlace(\`\${seed}:0\`, "a");\n${plain}`;
+    const pinned = `const PLACES = ["a-pin:1", "a-pin:3"];\n${plain}`;
+    expect(
+      ids(
+        "src/a.test.ts",
+        drawn(`${"randomBytes"}(8).toString("hex")`),
+        pinned,
+      ),
+    ).toEqual(["drawn-seed-dropped"]);
+    expect(
+      ids(
+        "src/a.test.ts",
+        drawn(`process.env.GOLDEN_PATH_${"SEED"} ?? "x"`),
+        pinned,
+      ),
+    ).toEqual(["drawn-seed-dropped"]);
+    // Putting the draw back is not a finding.
+    expect(
+      ids(
+        "src/a.test.ts",
+        pinned,
+        drawn(`${"randomBytes"}(8).toString("hex")`),
+      ),
+    ).toEqual([]);
+  });
+
+  it("refuses a deleted test file, dropped cases and dropped assertions", () => {
+    expect(ids("src/a.test.ts", plain, null)).toEqual(["test-deleted"]);
+    expect(ids("src/a.test.ts", plain + plain, plain)).toEqual([
+      "cases-dropped",
+      "assertions-dropped",
+    ]);
+    expect(ids("src/a.test.ts", plain, 'it("a case", () => {});\n')).toEqual([
+      "assertions-dropped",
+    ]);
+    expect(ids("src/a.test.ts", plain, plain + plain)).toEqual([]);
+    expect(ids("src/a.ts", "expect(1)", null)).toEqual([]);
+  });
+
+  it("lets a test moving to a drawn place drop only its pin-checking case (the CTO's standing ruling)", () => {
+    const pinCheck = `it("draws its pinned place from the fixed seed", () => {\n  expect(drawPlace("pin-a:0", "a")).toMatchObject({ key: "1" });\n});\n`;
+    const real = 'it("a real case", () => { expect(1).toBe(1); });\n';
+    const pinnedFile = `const seed = "pin-a";\n${pinCheck}${real}`;
+    const drawnFile = `const seed = process.env.GOLDEN_PATH_${"SEED"} ?? ${"randomBytes"}(8).toString("hex");\n${real}`;
+    expect(ids("src/a.test.ts", pinnedFile, drawnFile)).toEqual([]);
+    // Staying pinned, the same deletion is still a finding.
+    expect(
+      ids("src/a.test.ts", pinnedFile, `const seed = "pin-a";\n${real}`),
+    ).toEqual(["cases-dropped", "assertions-dropped"]);
+    // Moving to a drawn place does not excuse dropping a real case.
+    expect(
+      ids(
+        "src/a.test.ts",
+        pinnedFile + real.replace("a real", "another"),
+        drawnFile,
+      ),
+    ).toEqual(["cases-dropped", "assertions-dropped"]);
+  });
+
+  it("refuses a baseline that grows, and lets one shrink", () => {
+    const list = (rows: number) =>
+      JSON.stringify({ files: Array(rows).fill("a") }, null, 2);
+    expect(
+      ids("tests/guards/families-baseline.json", list(2), list(3)),
+    ).toEqual(["baseline-raised"]);
+    expect(
+      ids("tests/guards/families-baseline.json", list(3), list(2)),
+    ).toEqual([]);
+    expect(
+      ids(
+        "data/research/nationwide1/chief-executive-baseline-51.json",
+        list(2),
+        list(3),
+      ),
+    ).toEqual([]);
+  });
+
+  it("refuses a range assertion added to a test that reads research data", () => {
+    const research =
+      'import rates from "../../data/research/migration/rates.json" with { type: "json" };\n';
+    const band = "expect(count).toBeGreaterThan(rates.low);\n";
+    const ids = (before: string | null, after: string) =>
+      checkChanges([{ path: "src/a.test.ts", before, after }], rules).map(
+        (f) => f.id,
+      );
+    expect(ids(research + plain, research + plain + band)).toEqual([
+      "research-band",
+    ]);
+    expect(ids(null, research + band)).toEqual(["research-band"]);
+    // The same bound in a test that reads no research file is the world's own.
+    expect(ids(plain, plain + band)).toEqual([]);
+    // Taking a band out passes.
+    expect(ids(research + band, research + plain)).not.toContain(
+      "research-band",
+    );
+  });
+
+  it("refuses British spelling added to a skill, rule or doc, and leaves code alone", () => {
+    const ids = (path: string, before: string | null, after: string) =>
+      checkChanges(
+        [{ path, before, after }],
+        rules,
+        () => null,
+        britishSpellings,
+      )
+        .map((f) => f.id)
+        .filter((id) => id === "british-spelling");
+    expect(
+      ids(
+        ".agents/skills/x/SKILL.md",
+        "The run was canceled.\n",
+        `The run was cancel${"led"}.\n`,
+      ),
+    ).toEqual(["british-spelling"]);
+    expect(
+      ids("docs/design/x.md", null, `The col${"our"} of the lab${"our"}.\n`),
+    ).toEqual(["british-spelling"]);
+    expect(
+      ids(
+        ".agents/skills/x/SKILL.md",
+        "The run was canceled.\n",
+        "The run was canceled again.\n",
+      ),
+    ).toEqual([]);
+    expect(ids("src/core2/x.ts", null, `// cancel${"led"}\n`)).toEqual([]);
+  });
+
+  it("names each done-proof stamp line a pull request body lacks", () => {
+    const stamp =
+      "Verified: x\nFeature map rows: none\nScreenshot: none\nCTO line: none yet\n";
+    expect(stampMissing(`Pool item: a\n\n${stamp}`, rules)).toEqual([]);
+    expect(stampMissing("Pool item: a\nVerified: x\n", rules)).toEqual([
+      "Feature map rows:",
+      "Screenshot:",
+      "CTO line:",
+    ]);
+  });
+
+  it("refuses a skill change that leaves its two copies different", () => {
+    const at = (tree: string) => `${tree}/skills/x/SKILL.md`;
+    const ids = (
+      changes: Parameters<typeof checkChanges>[0],
+      head: string | null,
+    ) => checkChanges(changes, rules, () => head).map((f) => f.id);
+    // Only one copy changed: the other, as the change leaves it, differs.
+    expect(
+      ids([{ path: at(".agents"), before: "a", after: "b" }], "a"),
+    ).toContain("skill-copies-differ");
+    // Both changed alike.
+    expect(
+      ids(
+        [
+          { path: at(".agents"), before: "a", after: "b" },
+          { path: at(".claude"), before: "a", after: "b" },
+        ],
+        null,
+      ),
+    ).toEqual([]);
+  });
+
+  it("refuses a new parameter row whose role is a level or an opening value, and lets a coefficient in", () => {
+    const row = (role: string) =>
+      `{ "a": { "value": 1, "tag": "SOURCED", "role": "${role}" } }\n`;
+    const ids = (after: string) =>
+      checkChanges(
+        [{ path: "src/core2/data/x.json", before: row("coefficient"), after }],
+        rules,
+      ).map((f) => f.id);
+    expect(ids(row("coefficient") + row("level"))).toEqual(["level-row-added"]);
+    expect(ids(row("coefficient") + row("opening"))).toEqual([
+      "level-row-added",
+    ]);
+    expect(ids(row("coefficient") + row("coefficient"))).toEqual([]);
+  });
+
+  it("refuses a skill added without retiring one, and lets a swap pass", () => {
+    const skill = (
+      name: string,
+      before: string | null,
+      after: string | null,
+    ) => ({
+      path: `.agents/skills/${name}/SKILL.md`,
+      before,
+      after,
+    });
+    const found = (changes: Parameters<typeof checkChanges>[0]) =>
+      checkChanges(changes, rules)
+        .map((f) => f.id)
+        .filter((id) => id === "skill-added");
+    expect(found([skill("new-one", null, "x")])).toEqual(["skill-added"]);
+    expect(
+      found([skill("new-one", null, "x"), skill("old-one", "x", null)]),
+    ).toEqual([]);
+    expect(found([skill("same", "x", "y")])).toEqual([]);
+  });
+
+  it("refuses a new guard test the guard list does not run", () => {
+    const guard = {
+      path: "tests/guards/new-rule.test.ts",
+      before: null,
+      after: plain,
+    };
+    const listed = (text: string) => () => text;
+    expect(
+      checkChanges(
+        [guard],
+        rules,
+        listed('vitest("tests/guards/old.test.ts")'),
+      ).map((f) => f.id),
+    ).toEqual(["guard-unlisted"]);
+    expect(
+      checkChanges(
+        [guard],
+        rules,
+        listed('vitest("tests/guards/new-rule.test.ts")'),
+      ).map((f) => f.id),
+    ).toEqual([]);
+    expect(
+      checkChanges(
+        [
+          guard,
+          {
+            path: rules.guardList,
+            before: "",
+            after: 'vitest("tests/guards/new-rule.test.ts")',
+          },
+        ],
+        rules,
+      ).map((f) => f.id),
+    ).toEqual([]);
+  });
+
+  it("refuses a change to its own rules, script or workflow", () => {
+    for (const file of rules.ownFiles)
+      expect(ids(file, "a", "b")).toContain("own-rules");
+  });
+
+  it("takes an approval only from a CTO comment with a line that names the pull request", () => {
+    expect(approves("CTO: check change approved #9801", 9801, rules)).toBe(
+      true,
+    );
+    // The CTO's own formatting (issue 9747, Nov 16 to 17).
+    expect(
+      approves(
+        "CTO: Two answers.\n\n1. **Coordinator, #9801: approved.** It changes guard files.",
+        9801,
+        rules,
+      ),
+    ).toBe(true);
+    expect(
+      approves(
+        "CTO: \n- **Long game, CTO lines:** #9752 approved, as before. #9801 approved under the ruling.",
+        9801,
+        rules,
+      ),
+    ).toBe(true);
+    expect(approves("CTO: check change approved #98011", 9801, rules)).toBe(
+      false,
+    );
+    expect(approves("CTO: check change approved #9800", 9801, rules)).toBe(
+      false,
+    );
+    expect(approves("Long game: approved #9801", 9801, rules)).toBe(false);
+    expect(approves("Status.\nCTO: approved #9801", 9801, rules)).toBe(false);
+    expect(approves("CTO: not yet for #9801", 9801, rules)).toBe(false);
+    expect(approves("CTO: #9801 is not approved yet.", 9801, rules)).toBe(
+      false,
+    );
+    expect(approves("> CTO: approved #9801", 9801, rules)).toBe(false);
+  });
+
+  it("does not read another pull request's approval in the same line as this one's", () => {
+    const comment =
+      "CTO: \n- #9752 approved, as before. #9801 and #9793 need no line.";
+    expect(approves(comment, 9801, rules)).toBe(false);
+    expect(approves(comment, 9752, rules)).toBe(true);
+  });
+
+  it("reports an observe-mode rule's finding without refusing, and refuses once the rule is taken out of observe", () => {
+    const finding = { path: "a.test.ts", id: "expected-failure", says: "x" };
+    expect(rules.observe, "every new rule starts in observe mode").toContain(
+      "expected-failure",
+    );
+    expect(splitByMode([finding], rules)).toEqual({
+      enforced: [],
+      observed: [finding],
+    });
+    expect(splitByMode([finding], { ...rules, observe: [] })).toEqual({
+      enforced: [finding],
+      observed: [],
+    });
+  });
+
+  it("names only rule ids the guard can find in observe", () => {
+    const script = readFileSync("scripts/guards/check-changes.mjs", "utf8");
+    const ids = new Set([
+      ...rules.counts.map((rule: { id: string }) => rule.id),
+      ...[...script.matchAll(/(?:add\(|id: |\[)\s*"([a-z]+-[a-z-]+)"/g)].map(
+        (match) => match[1],
+      ),
+      ...[...script.matchAll(/^\s+"([a-z]+-[a-z-]+)",$/gm)].map(
+        (match) => match[1],
+      ),
+    ]);
+    for (const id of rules.observe) expect(ids, id).toContain(id);
+  });
+
+  it("refuses a new read of a SOURCED level and reports one of a row with no role, but not a coefficient or a test", () => {
+    const sourced = sourcedLevelRows([
+      {
+        path: "src/core2/data/x/parameters.json",
+        text: JSON.stringify({
+          openingVacancyRate: { value: 0.06, tag: "SOURCED", role: "opening" },
+          wageElasticity: { value: 0.3, tag: "SOURCED", role: "coefficient" },
+          monthsPerYear: { value: 12, tag: "SOURCED" },
+          rows: [{ id: "jobsLevel", value: 5, tag: "SOURCED", role: "level" }],
+          guess: { value: 2, tag: "TUNABLE", role: "level" },
+          stakes: { reference: { value: 1, tag: "SOURCED", role: "level" } },
+        }),
+      },
+    ]);
+    expect([...sourced].sort()).toEqual([
+      ["jobsLevel", "level"],
+      ["monthsPerYear", "unlabeled"],
+      ["openingVacancyRate", "level"],
+    ]);
+    const read = (path: string, before: string, after: string) =>
+      checkChanges(
+        [{ path, before, after }],
+        rules,
+        () => null,
+        () => [],
+        sourced,
+      )
+        .filter((f) => f.id.startsWith("sourced-"))
+        .map((f) => `${f.id}: ${f.says}`);
+    expect(
+      read(
+        "src/core2/modules/jobs.ts",
+        'const a = c(api, "wageElasticity");',
+        'const a = c(api, "wageElasticity");\nconst b = c(api, "openingVacancyRate") * c(api, "wageElasticity");',
+      ),
+    ).toEqual([
+      "sourced-level-read: adds a read of a SOURCED parameter as a level or an opening value (openingVacancyRate)",
+    ]);
+    expect(
+      read("src/core2/modules/jobs.ts", "", 'c(api, "monthsPerYear")'),
+    ).toEqual([
+      "sourced-unlabeled-read: adds a read of a SOURCED parameter as a value whose row has no role (monthsPerYear)",
+    ]);
+    expect(
+      read(
+        "src/core2/modules/jobs.ts",
+        'c(api, "jobsLevel")',
+        'c(api, "jobsLevel")',
+      ),
+      "a read that was already there",
+    ).toEqual([]);
+    expect(
+      read("src/core2/jobs.test.ts", "", 'c(api, "jobsLevel")'),
+      "a test may compare with a level",
+    ).toEqual([]);
+    expect(rules.observe).toContain("sourced-level-read");
+  });
+});

@@ -27,6 +27,6 @@ claimed-at: 2026-10-27
 
 **Screenshot.** The composed scene's lines in the PR body, with place and seed.
 
-**Files.** src/director/data/situation-types.json, src/director/data/circumstances.json, src/director/data/purpose-arcs.json, scripts/scene-web/domains.json, data/english/parts/scene-talk.json, src/director/diploma-home-scene.test.ts
+**Files.** src/director/data/situation-types.json, src/director/data/circumstances.json, src/director/data/purpose-arcs.json, scripts/scene-web/domains.json, data/english/parts/scene-talk.json
 
 **Notes.** Built by the finisher with a helper; review by the director engineer (`Review: director`). Oct 28, 22:35 UTC (Words session): landed as #6712 with main merged in, whose line 1 names director-school-finished-never-stages; the CTO flips this item to done when #6712 merges.

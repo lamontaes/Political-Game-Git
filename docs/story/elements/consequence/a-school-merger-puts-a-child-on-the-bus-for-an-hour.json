@@ -1,0 +1,40 @@
+{
+  "id": "a-school-merger-puts-a-child-on-the-bus-for-an-hour",
+  "kind": "consequence",
+  "summary": "After small rural schools merged or closed, some children faced much longer bus rides and some parents were paid to drive them.",
+  "realLife": "Vermont Public described the effects of about 40 school mergers across the state. In one district students ride up to an hour and a half, and one boy's ride was set to more than double if his middle school closed. A road on one route was closed about a dozen times by washouts and accidents. One district found a bus too costly and paid parents $300 a month to drive children about 12 miles over a mountain road. Parents who work long hours may not be able to drive, so the burden is uneven.",
+  "sources": [
+    "https://www.vermontpublic.org/post/lot-road-cover-schools-close-some-kids-face-longer-bus-rides (Vermont Public on school mergers and bus rides)"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the household}", "{the school}", "{the place}"],
+  "gates": [
+    "a school closed or merged",
+    "the new school is in another town",
+    "the household's parents work long hours"
+  ],
+  "weights": ["distance and road", "whether a bus runs", "parent work shift"],
+  "inGame": "budget:schools read by the district's school record and bus route; the household's schedule reads the route; needs: a school closure and a bus time as records a household reads",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "a long ride",
+      "what": "The child boards earlier and gets home later, and the parent loses time with school activities.",
+      "pulledBy": "a merger that moves the school out of town",
+      "writesBack": "child commute; parent involvement"
+    },
+    {
+      "turn": "the parent drives",
+      "what": "A parent with a flexible job drives and takes a stipend that covers some fuel.",
+      "pulledBy": "a stipend and a job that bends",
+      "writesBack": "parent work hours; household budget"
+    },
+    {
+      "turn": "the school stays open",
+      "what": "A vote or a withdrawal keeps the school and the ride stays short.",
+      "pulledBy": "a vote to keep the school",
+      "writesBack": "school record unchanged"
+    }
+  ],
+  "issues": ["budget:schools"]
+}

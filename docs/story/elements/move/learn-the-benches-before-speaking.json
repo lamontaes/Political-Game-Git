@@ -1,0 +1,31 @@
+{
+  "id": "learn-the-benches-before-speaking",
+  "kind": "move",
+  "summary": "A new member spends the first weeks learning who does the work on the floor.",
+  "realLife": "Al Smith took Tom Foley’s advice and watched his fellow New York assembly members before making himself heard.",
+  "sources": [
+    "https://thestrawfoot.com/2020/01/10/robert-caros-al-smith/",
+    "https://en.wikipedia.org/wiki/Al_Smith"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{mentor}", "{chamber}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a member's attendance and first recognized speech linked to the same term.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A new member takes the floor at the first sitting.",
+      "pulledBy": "The first day's bill directly affects the member's district.",
+      "writesBack": "The first speech falls on opening day."
+    },
+    {
+      "turn": "partial",
+      "what": "The member asks a veteran a question at the bench and lets the debate go on.",
+      "pulledBy": "The member wants the procedure explained before seeking recognition.",
+      "writesBack": "The veteran becomes a contact for floor questions."
+    }
+  ],
+  "issues": ["none"]
+}

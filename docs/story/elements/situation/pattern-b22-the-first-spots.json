@@ -1,0 +1,35 @@
+{
+  "id": "pattern-b22-the-first-spots",
+  "kind": "situation",
+  "summary": "The first spots: {ad maker} wants you to read short answers to ordinary voters' questions, filmed apart from them, to run between popular shows.",
+  "realLife": "In 1952 adman Rosser Reeves persuaded him that short spots placed near shows like I Love Lucy would reach more people than long speeches. Eisenhower read answers from cue cards to questions from tourists filmed separately. Adlai Stevenson refused to appear in his own TV ads.",
+  "sources": [
+    "https://www.livingroomcandidate.org/commercials/1952/never-had-it-so-good"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["ad maker"],
+  "gates": ["Candidate.", "An ad budget on the reports."],
+  "weights": [
+    "Money.",
+    "How well known you are.",
+    "Traits that dislike staging."
+  ],
+  "pattern": "B22",
+  "choices": [
+    "do the spots",
+    "insist on long speeches instead",
+    "do them only with real voters in the room",
+    "refuse to do ads"
+  ],
+  "branches": [
+    {
+      "when": "the voters are recruited off the street",
+      "then": "They are filmed apart from you, looking up as if at you, and a reporter can find out."
+    },
+    {
+      "when": "{rival} refuses",
+      "then": "Their reach falls behind yours."
+    }
+  ],
+  "usedBy": []
+}

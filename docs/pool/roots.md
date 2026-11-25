@@ -2,12 +2,12 @@
 
 An item at the standard (`standard: 2`, `.agents/rules/pool-item-standard.md`) names one of these ids in its `root:` field, or `none` when it belongs to no design and no root cause (a stray bug). One line each: the id, one plain sentence, the document it comes from. `npm run pool -- --check` refuses a root that is not listed here. Add a line here in the same pull request as the first item that needs it.
 
-The ten root causes come from the Fable audit of Nov 9, 2026 (`docs/audits/fable-vision-2026-11-09.md` on branch `audit/fable-vision`), numbered as it ranks them.
+The ten root causes come from the Fable audit of Nov 9, 2026 (`docs/audits/fable-vision-2026-11-09.md` (removed) on branch `audit/fable-vision`), numbered as it ranks them.
 
 ## Root causes (the audit)
 
 - `rc1-world-outside-town`: the world outside the player's town is equations and tables, not people run by the same engines. Audit, root cause 1; design `docs/design/country-tier.md`.
-- `rc2-done-from-records`: "done" is measured in records and builders' own tests, not from the player's chair. Audit, root cause 2; rule `.agents/skills/seen-in-game/SKILL.md`.
+- `rc2-done-from-records`: "done" is measured in records and builders' own tests, not from the player's chair. Audit, root cause 2; rule `.agents/skills/done-proof/references/seen-in-game.md`.
 - `rc3-thin-life-record`: a life keeps too little of what happened between people, so the journal, cards and scenes have nothing specific to say. Audit, root cause 3; design `docs/design/life-record.md`.
 - `rc4-hand-written-words`: the words are a pile of hand-written lines picked by weights, and the owner's notes never become rules. Audit, root cause 4; design `docs/design/words-machine.md`.
 - `rc5-full-detail-every-day`: everything is played at full detail every day and kept forever, with one clock speed, which is the speed and memory problem. Audit, root cause 5; design `docs/design/country-tier.md`.

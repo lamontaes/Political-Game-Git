@@ -35,4 +35,4 @@ checked: meetings and floor builder 2026-11-14
 
 **Files.** src/director/ledger.ts, src/director/data/circumstances.json, src/core2/modules/office-day.ts, src/core2/office-day-state.ts
 
-**Notes.** Counted in src/director/floor-debate-ahead.test.ts as late scenes.
+**Notes.** Counted in src/director/floor-debate-ahead.test.ts (removed) as late scenes.

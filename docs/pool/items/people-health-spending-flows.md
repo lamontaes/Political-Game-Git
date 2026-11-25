@@ -10,7 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Bind the CE health insurance and medical services means by income class (cu-income-before-taxes-2024.xlsx) to monthly household flows, full and counted, paid to the insurance and clinic firms the opening economy already holds (business-books kinds `insurance` and `clinic`). The flows are the household's own bills, read by its cash and by the sellers' books. Coverage that lowers them comes in the next item.

@@ -9,9 +9,9 @@
  * is, `stateLawInForce`, against the day the world opened, lagged by the
  * links' own months), weighted by the state's people over the country's. The
  * country's energy CO2 moves by that index and the rest of the world's does
- * not: the rest of the world follows a published scenario path (the IEA's
- * stated-policies path, `worldFossilGt`), so the warming rises at about the real rate
- * with no law changing and the laws move only their own share. The CO2 adds to the warming at the transient climate response
+ * not: the rest of the world's CO2 carries on at the world's own trend, drawn
+ * from its seed (`restOfWorldTrend`), never a real year's path, so the warming
+ * rises with no law changing and the laws move only their own share. The CO2 adds to the warming at the transient climate response
  * (`emissions-to-warming`), and each hazard's level is one plus its link's
  * size times the warming since the world opened (`warming-to-<hazard>-hazard`).
  * The links name this module as the engine that carries them (they are not a
@@ -28,6 +28,7 @@ import history from "../data/climate/hazard-history.json" with { type: "json" };
 import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
+import { seededUnit } from "../seeded";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { stateLawInForce } from "./laws";
@@ -53,6 +54,8 @@ export interface ClimateMonth {
   readonly month: string;
   /** The country's CO2 against the opening's, from the carbon laws in force (1 = unchanged). */
   readonly usIndex: number;
+  /** The world's fossil CO2 a year at this month's pace, Gt. */
+  readonly fossilGt: number;
   /** Gigatons of CO2 the world emitted this month. */
   readonly worldGt: number;
   /** Gigatons emitted since the world opened. */
@@ -123,19 +126,10 @@ function usIndex(api: CoreAPI): number {
   return index;
 }
 
-/** The world's fossil CO2 in the year the date falls in: the scenario path, straight between its points and flat past the last. */
-export function worldFossilGt(date: string): number {
-  const points = emissions.worldFossilPath.points;
-  const year = Number(date.slice(0, 4)) + (Number(date.slice(5, 7)) - 0.5) / 12;
-  if (year <= points[0]!.year) return points[0]!.gtCo2;
-  for (let i = 1; i < points.length; i++) {
-    const [a, b] = [points[i - 1]!, points[i]!];
-    if (year <= b.year)
-      return (
-        a.gtCo2 + ((b.gtCo2 - a.gtCo2) * (year - a.year)) / (b.year - a.year)
-      );
-  }
-  return points[points.length - 1]!.gtCo2;
+/** This world's own steady yearly change of the rest of the world's fossil CO2, drawn once from its seed within the span the scenarios cover. */
+export function restOfWorldTrend(api: CoreAPI): number {
+  const { low, high } = emissions.restOfWorldTrendPerYear;
+  return low + (high - low) * seededUnit(api.state.seed, "climate:rest-trend");
 }
 
 function writeMonth(api: CoreAPI, opening: boolean): void {
@@ -148,8 +142,10 @@ function writeMonth(api: CoreAPI, opening: boolean): void {
         ClimateMonth | undefined)
     : undefined;
   const index = opening ? 1 : usIndex(api);
-  // The world's fossil CO2 follows its published path; the country's share of it follows its laws.
-  const fossil = worldFossilGt(api.state.date);
+  // The world's fossil CO2 carries on from last month at this world's own trend; the country's share of it follows its laws.
+  const fossil = last
+    ? last.fossilGt * (1 + restOfWorldTrend(api)) ** (1 / MONTHS_PER_YEAR)
+    : emissions.worldFossilOpeningGt.value;
   const us = fossil * emissions.usShareOfFossil.value;
   const worldGt =
     (fossil - us + us * index + emissions.landUseCo2GtPerYear.value) /
@@ -166,6 +162,7 @@ function writeMonth(api: CoreAPI, opening: boolean): void {
     id: `climate:${month}`,
     month,
     usIndex: index,
+    fossilGt: fossil,
     worldGt,
     cumulativeGt,
     warmingC,

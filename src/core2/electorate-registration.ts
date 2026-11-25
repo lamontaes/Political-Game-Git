@@ -265,6 +265,10 @@ export function onTheList(
   person: PersonState,
   deadline: string | null,
 ): "on" | "old-address" | "not-registered" | "after-deadline" {
+  // The person the player controls is always registered (owner, Nov 16: "Keep
+  // it for townspeople; you are always registered"): the rolls are the
+  // townspeople's, and the player is never turned away from them.
+  if (person.id === deps.api.state.playerId) return "on";
   const row = registrationRow(deps, person.id);
   if (!row?.registered) return "not-registered";
   if (row.addressKey !== addressKeyOf(deps.api, person)) return "old-address";

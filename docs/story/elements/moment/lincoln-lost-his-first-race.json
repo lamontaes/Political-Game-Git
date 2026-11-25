@@ -1,0 +1,31 @@
+{
+  "id": "lincoln-lost-his-first-race",
+  "kind": "moment",
+  "summary": "A first run for the state legislature ended in a loss, eighth among thirteen candidates.",
+  "realLife": "In August 1832 Lincoln ran as a Whig for the Illinois General Assembly and was defeated, finishing eighth in a field of thirteen candidates.",
+  "sources": [
+    "National Park Service, Lincoln Chronology, Lincoln Home National Historic Site: https://www.nps.gov/liho/learn/historyculture/lincolnchronology.htm"
+  ],
+  "fits": ["loading"],
+  "slots": ["lost-year", "lost-office", "lost-votes", "winner-votes"],
+  "gates": [],
+  "weights": {
+    "votes": 0.8
+  },
+  "inGame": "the people module's life records, read by lifeOf in src/bench/loading.ts (politics/lost, with votes and winnerVotes). needs: the finishing place among all candidates on that record.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The first run wins, and there is no loss to tell.",
+      "pulledBy": "the district's lean and the candidate's standing",
+      "writesBack": "a won record, told in another section"
+    },
+    {
+      "turn": "partial",
+      "what": "The loss is narrow, and the winner is a neighbor.",
+      "pulledBy": "the vote margin",
+      "writesBack": "a margin fact on the lost record"
+    }
+  ]
+}

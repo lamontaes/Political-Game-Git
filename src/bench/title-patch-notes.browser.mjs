@@ -48,6 +48,14 @@ try {
     `${newest.title}: ${newest.builds.length} builds on the first page, newest ${newest.chosen}; strips: ${newest.headings.join(", ")}`,
   );
   assert.equal(newest.title, "Patch notes");
+  // Real patch notes: headed sections of short bullets, never paragraphs.
+  const bullets = await page.locator("#sheet-body .patch-list li").count();
+  assert.ok(bullets > 0, "the notes are not bullets under their headings");
+  assert.equal(
+    await page.locator("#sheet-body .roster-page p.intro").count(),
+    0,
+    "a note is a paragraph, not a bullet",
+  );
   assert.ok(newest.builds.length >= 2, "the builds are listed");
   assert.equal(newest.chosen, newest.builds[0], "the newest build is chosen");
   assert.match(newest.chosen ?? "", /\d+\.\d+\.\d+/, "the build is named");
@@ -69,6 +77,15 @@ try {
     second.text,
     newest.text,
     "the notes did not change with the build",
+  );
+  // New game closes the notes (owner, Nov 23, P2: "when I click new game, the patch notes
+  // still stay on top of it").
+  await page.locator("#new-life").evaluate((b) => b.click());
+  await page.locator("#front-new:not([hidden])").waitFor();
+  assert.equal(
+    await page.locator("#sheet").isHidden(),
+    true,
+    "the patch notes stay open over New game",
   );
   assert.deepEqual(errors, [], errors.join("; "));
   console.log("ok: Patch notes opens from the title");

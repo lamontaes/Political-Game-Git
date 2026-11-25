@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/legislation.json, src/core2/legislature-bill-form.ts, src/core2/data/legislature/bill-forms.json, src/english/bill-sections.ts, data/research/gov/local-ordinance-style-2026.json
+**Files.** src/core2/legislature-bill-form.ts, src/core2/data/legislature/bill-forms.json, src/english/bill-sections.ts, data/research/gov/local-ordinance-style-2026.json
 
 **Notes.** TODO
 

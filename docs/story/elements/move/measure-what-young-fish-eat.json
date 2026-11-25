@@ -1,0 +1,34 @@
+{
+  "id": "measure-what-young-fish-eat",
+  "kind": "move",
+  "summary": "Researchers at {place} compare fish in enclosures with fish swimming free in the same stretch.",
+  "realLife": "King County ecologists studied feeding and growth in young chinook to learn how well the restored habitat worked.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/dnrp/about-king-county/about-dnrp/newsroom/2024-news-releases/04-24-fall-city-floodplain-restoration"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "Researchers have access to a restored reach and an approved sampling method."
+  ],
+  "weights": [
+    "Fewer usable samples increase the likelihood of postponing a comparison."
+  ],
+  "usedBy": [],
+  "inGame": "needs: sampling methods and usable field observations.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Biologists use observations from free-swimming fish alone.",
+      "pulledBy": "The study permit excludes enclosures.",
+      "writesBack": "The methods record drops the enclosure comparison."
+    },
+    {
+      "turn": "partial",
+      "what": "The team reports growth but postpones the diet comparison.",
+      "pulledBy": "Too few food samples meet the study criteria.",
+      "writesBack": "The interim report identifies the missing measure."
+    }
+  ],
+  "issues": ["budget:naturalResources"]
+}

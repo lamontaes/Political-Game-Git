@@ -1,0 +1,31 @@
+{
+  "id": "takes-blame-for-the-biggest-failure-first",
+  "kind": "voice",
+  "summary": "A mayor starts the address by owning the city's biggest failure and speaks to residents as partners in an honest talk.",
+  "realLife": "Liccardo's State of the City, 2021, opened by taking personal responsibility for homelessness, called housing costs per unit unsustainable in plain terms, and gave residents tasks such as using the service app and saving water.",
+  "sources": [
+    "https://sanjosespotlight.com/san-jose-mayor-sam-liccardos-2021-state-of-the-city/",
+    "Read the full transcript and noted the opening, the blunt numbers and the asks of residents."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "The `greeting` and `stand` sections, with the failure chosen from the town's worst measured record. needs: a catalog policy for homelessness.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The mayor opens with accomplishments and blames the county.",
+      "pulledBy": "low humble",
+      "writesBack": "The greeting section lists wins and no failure."
+    },
+    {
+      "turn": "partial",
+      "what": "The mayor names the failure but moves fast to the plan.",
+      "pulledBy": "a short speech",
+      "writesBack": "The speech records one line of ownership."
+    }
+  ]
+}

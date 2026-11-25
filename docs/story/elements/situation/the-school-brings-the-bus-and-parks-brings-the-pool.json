@@ -1,0 +1,32 @@
+{
+  "id": "the-school-brings-the-bus-and-parks-brings-the-pool",
+  "kind": "situation",
+  "summary": "{director} explains at the hearing who gets a child to a swim lesson offered free at the city pool.",
+  "realLife": "Portland Parks supplied instruction and pool space for second graders while Portland Public Schools provided transportation; twenty-six schools participated in FY 2024–25.",
+  "sources": [
+    "https://www.portland.gov/parks/2024-25-parks-levy-annual-report-executive-summary#:~:text=26%20schools"
+  ],
+  "fits": ["office", "speeches", "news", "work-community", "journal"],
+  "slots": ["{director}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation", "budget:parks"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a school partnership, pool charge or waiver and transportation commitment.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "The pool charge rises and the partnership's waiver is due for renewal.",
+      "what": "The director calculates what it costs to keep instruction free.",
+      "writesBack": "The proposed renewal states the amount covered."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "The city reduces the pool charge but the school cannot supply a bus.",
+      "what": "The director follows up on transport before promising another class.",
+      "writesBack": "The booking remains conditional on a ride."
+    }
+  ]
+}

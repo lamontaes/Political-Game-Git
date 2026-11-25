@@ -27,6 +27,6 @@ claimed-at:
 
 **Screenshot.** Not a screen; the first merged lessons PR's table in this item's Notes.
 
-**Files.** .agents/skills/skill-lessons/SKILL.md, .claude/skills/skill-lessons/SKILL.md, docs/release/changes/skills-lessons-*.md, docs/reports/skill-lessons-week-1.md
+**Files.** .agents/skills/done-proof/references/skill-lessons.md, .claude/skills/done-proof/references/skill-lessons.md, docs/release/changes/skills-lessons-*.md, docs/reports/skill-lessons-week-1.md
 
 **Notes.** Owner, Oct 27 (OWNER-DECISIONS.md). Lead: cto.

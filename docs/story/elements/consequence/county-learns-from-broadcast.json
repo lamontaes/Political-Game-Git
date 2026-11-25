@@ -1,0 +1,34 @@
+{
+  "id": "county-learns-from-broadcast",
+  "kind": "consequence",
+  "summary": "Emergency staff in {place} have to follow news coverage after their state contact drops out of the briefings.",
+  "realLife": "The commission found that county and local responders came to depend largely on news reports after the state emergency director stopped attending the meetings.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-96jhrg55895O/pdf/CHRG-96jhrg55895O.pdf"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{place}"],
+  "gates": [
+    "A county response office needs the decision and a news report carries it."
+  ],
+  "weights": [
+    "A longer delay in the official notice favors the broadcast as the first source."
+  ],
+  "usedBy": [],
+  "inGame": "The governor’s emergency offer provides the incident, deadline and return meeting. needs: who first told each local office about the decision.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A county director hears the decision from the governor before it goes on air.",
+      "pulledBy": "The governor's staff reaches the director on the first call.",
+      "writesBack": "The county log cites the governor's office as its source."
+    },
+    {
+      "turn": "late",
+      "what": "The broadcast brings the first news and the written order arrives later.",
+      "pulledBy": "A local office misses the briefing but receives the signed order.",
+      "writesBack": "The county log distinguishes the first report from official confirmation."
+    }
+  ],
+  "issues": ["none"]
+}

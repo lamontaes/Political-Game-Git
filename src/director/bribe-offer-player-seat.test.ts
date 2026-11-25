@@ -11,7 +11,10 @@ import {
   considerBribe,
   crimeRecord,
 } from "../core2/modules/corruption";
-import { coreAPI } from "../core2/state";
+import { coreAPI, fillInPerson } from "../core2/state";
+import { billCatalog, provisionFor } from "../core2/bill-catalog";
+import { bodyOf, draftBill, members } from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import { purposeScene } from "./purpose-scene";
 import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
@@ -25,13 +28,44 @@ import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 // the money.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 setBookkeeping(false);
-const place = drawPlace(`${seed}:0`, "bribe-player-seat");
-const where = `${place.name} (${place.key}), seed ${seed}:0`;
-const { core, director, playerId } = buildBenchWorld(
-  place.seed,
-  gameStartDate(),
-  { twoLevel: true, placeKey: place.key },
-);
+// A bribe is offered on a bill the body has before it, so the place needs a
+// lawmaking body of its own (a village with none has no bill to offer on): the
+// next drawn place stands in, and each place passed over is named.
+const passedOver: string[] = [];
+function openWorld() {
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const place = drawPlace(`${seed}:${attempt}`, "bribe-player-seat");
+    const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(world.core);
+    const seat = townSeats(api).find(
+      (row) =>
+        row.holder?.personId &&
+        ["city", "county"].includes(row.office.level) &&
+        members(api, row.office.id).length > 1 &&
+        bodyOf(api, row.office.id),
+    );
+    if (seat) return { ...world, place, where, seat };
+    passedOver.push(`${where}: no lawmaking body held by a person`);
+  }
+  throw new Error(
+    `no drawn place had a lawmaking body: ${passedOver.join("; ")}`,
+  );
+}
+const { core, director, where, seat } = openWorld();
+// The player's seat is a seat on the body the bill is before: an official with
+// no say over a bill cannot be bribed for it (`bribeRefusal`), so the player
+// is the member who holds the seat.
+const playerId = seat.holder!.personId!;
+core.playerId = playerId as typeof core.playerId;
+fillInPerson(core, playerId);
+if (passedOver.length)
+  process.stdout.write(
+    `bribe-offer-player-seat: passed over ${passedOver.join("; ")}\n`,
+  );
 const api = coreAPI(core);
 
 describe("a bribe offered to the player's seat", () => {
@@ -45,6 +79,15 @@ describe("a bribe offered to the player's seat", () => {
         row.placeId === player.placeId &&
         row.liquidMinor > 0,
     );
+    // The bill the offer is on: a real one the town's body has before it.
+    const policy = billCatalog(api, "city")
+      .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
+      .find((row) => row.kind === "policy-question" && row.authority.allowed)!;
+    const bill = draftBill(api, {
+      bodyOfficeId: seat.office.id,
+      sponsorId: seat.holder!.personId!,
+      provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
+    });
     let crimeId: string | undefined;
     let offererId: string | undefined;
     for (const offerer of offerers.slice(0, 40)) {
@@ -52,7 +95,7 @@ describe("a bribe offered to the player's seat", () => {
         offererId: offerer.id,
         officialId: playerId!,
         stakeMinor: offerer.liquidMinor * 1000,
-        subjectId: `bill:${where}`,
+        subjectId: bill.id,
       });
       if (record?.offered) {
         crimeId = record.id;
@@ -92,7 +135,10 @@ describe("a bribe offered to the player's seat", () => {
     process.stdout.write(
       `BRIBE OFFER ${where}\n  ${scene?.kind === "composed" ? scene.scene.talk.state.text : ""}\n`,
     );
-    // The player answers in the scene: handing it back moves nothing.
+    // The player answers in the scene: handing it back moves nothing. A
+    // member's own pay and bills moved their money in the day that passed, so
+    // the answer is measured from what they held when they gave it.
+    const heldBeforeAnswer = core.people.get(playerId!)!.liquidMinor;
     api.emit({
       id: `scene.reply:test-refuse:${crimeId}`,
       date: core.date,
@@ -108,7 +154,9 @@ describe("a bribe offered to the player's seat", () => {
     });
     expect(crimeRecord(api, crimeId!)!.pending, where).toBeUndefined();
     expect(crimeRecord(api, crimeId!)!.taken, where).toBe(false);
-    expect(core.people.get(playerId!)!.liquidMinor, where).toBe(before.player);
+    expect(core.people.get(playerId!)!.liquidMinor, where).toBe(
+      heldBeforeAnswer,
+    );
   }, 240_000);
 
   it("pays the offerer's money to the player only when the player takes it", () => {

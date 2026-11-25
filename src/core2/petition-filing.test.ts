@@ -35,6 +35,7 @@ import {
   checkEligibility,
   fileCandidacy,
   filingRequirements,
+  filingSideFor,
   petitionOf,
   petitionSigners,
   type ContestRow,
@@ -155,8 +156,11 @@ describe("filing is a petition", () => {
         .table("town")
         .get("town") as unknown as { stateKey: string };
       expect(opened.rule.count, where).toBe(
-        filingRequirements(town.stateKey, contest.family, "independent")
-          .petition.count,
+        filingRequirements(
+          town.stateKey,
+          contest.family,
+          filingSideFor(api, contest, null),
+        ).petition.count,
       );
       // Where the law asks no signatures the clerk takes the filing at the
       // counter, and there is no petition to circulate.

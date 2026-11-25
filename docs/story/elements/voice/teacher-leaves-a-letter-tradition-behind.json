@@ -1,0 +1,36 @@
+{
+  "id": "teacher-leaves-a-letter-tradition-behind",
+  "kind": "voice",
+  "summary": "A teacher's last day is marked by students writing advice letters for next year's class, saying what the teacher is like.",
+  "realLife": "A fifth-grade teacher's farewell tradition has students write letters to next year's students, with playful advice such as listening the first time she speaks.",
+  "sources": [
+    "WLRN, last day of school in Miami, a teacher says goodbye (2019): https://www.wlrn.org/news/2019-06-06/today-is-the-last-day-of-school-in-miami-this-teacher-says-goodbye-after-45-years"
+  ],
+  "fits": ["work-community"],
+  "slots": ["school", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "a school record; needs: classroom traditions",
+  "turns": [
+    {
+      "turn": "tradition-skipped",
+      "summary": "The letters aren't written because next year is unsettled.",
+      "pulledBy": ["uncertainty about the class's future"],
+      "writesBack": "a missing ritual; a journal note"
+    },
+    {
+      "turn": "students-write-too-much-praise",
+      "summary": "Students write long praise and no advice.",
+      "pulledBy": ["a sentimental class"],
+      "writesBack": "a warm tie"
+    },
+    {
+      "turn": "teacher-keeps-the-letters",
+      "summary": "The teacher keeps the batch to read later.",
+      "pulledBy": ["a sentimental teacher"],
+      "writesBack": "a memory kept"
+    }
+  ]
+}

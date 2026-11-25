@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 9826
 after:
 blocked-on:
 lead: words

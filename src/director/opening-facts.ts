@@ -1,4 +1,8 @@
-import { yearClaimAbout } from "../english/question-names";
+import {
+  questionAbout,
+  questionTo,
+  yearClaimAbout,
+} from "../english/question-names";
 
 /**
  * The knowledge keys the President's opening address is recorded with: the
@@ -80,6 +84,11 @@ const YEAR = "year:";
  */
 export function addressPoints(opening: {
   readonly address: { readonly sentences: readonly PointSentence[] };
+  /** The points as the outline planned them: the record the sentences are a view of. */
+  readonly points?: readonly {
+    readonly question: string;
+    readonly side: "for" | "against";
+  }[];
 }): AddressPoint[] {
   const rows = new Map<
     string,
@@ -115,6 +124,21 @@ export function addressPoints(opening: {
       : sentence.facts.includes("stance-against")
         ? "against"
         : sentence.stand?.stance;
+  }
+  // The outline's own record of each point fills what the sentences left
+  // out: a speech that only asks to be held to a question names no stance
+  // or verb phrase in its sentence, but the plan that chose the point holds
+  // the President's side, and the question's names hold the rest (owner,
+  // Oct 28: every view reads the same record; the sentences are a view of
+  // the plan, not a second source for it).
+  // Only a point the speech said aloud is one a listener can raise: a planned
+  // point no sentence names is not in the address.
+  for (const planned of opening.points ?? []) {
+    const row = rows.get(planned.question);
+    if (!row) continue;
+    row.about ??= questionAbout(planned.question) ?? undefined;
+    row.to ??= questionTo(planned.question) ?? undefined;
+    row.stance ??= planned.side;
   }
   return [...rows].flatMap(([question, row]): AddressPoint[] =>
     row.claim && row.about

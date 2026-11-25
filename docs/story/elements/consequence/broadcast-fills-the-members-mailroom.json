@@ -1,0 +1,30 @@
+{
+  "id": "broadcast-fills-the-members-mailroom",
+  "kind": "consequence",
+  "summary": "After a president criticizes a bill, its sponsor’s staff can barely open the incoming mail.",
+  "realLife": "Vogelsinger recalled the surge after Eisenhower criticized Kennedy’s labor measure.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": ["journal", "news", "speeches", "office", "home"],
+  "slots": ["{president}", "{member}", "{bill}"],
+  "gates": ["A public address has challenged the bill."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: constituent mail linked by date and subject to a broadcast about a particular bill.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The office sets aside extra staff and receives only a few letters.",
+      "pulledBy": "The broadcast gave the bill a passing mention.",
+      "writesBack": "The clerk releases the extra staff after the mail arrives."
+    },
+    {
+      "turn": "late",
+      "what": "The second delivery fills the mailroom after a quiet morning.",
+      "pulledBy": "Letters from outside the city arrive on a later route.",
+      "writesBack": "The afternoon staff inherit the backlog."
+    }
+  ],
+  "issues": ["none"]
+}

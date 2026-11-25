@@ -1,5 +1,5 @@
 import { spokenDate } from "../core2/kernel/dates";
-import { coreAPI } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
 import {
   answerDonationAsk,
   askForEndorsement,
@@ -42,7 +42,9 @@ import { promisesOf, votesOf } from "../core2/modules/people";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { retellingsOf } from "../core2/modules/speech";
 import {
+  acceptDebate,
   answerDebate,
+  DEBATE_ACCEPTED_EVENT,
   debatesIn,
   type DebateRow,
 } from "../core2/modules/meetings";
@@ -60,10 +62,15 @@ import {
 import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, peopleHere } from "./scene";
 import { doorPlaceFor } from "./scene-picture-steps";
+import { hasBackdrop } from "./backdrop-places";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { personName } from "./legislature";
 import { campaignAnswer } from "../director/campaign-answer";
-import { spokenDate as dateSaid, stateInSentence } from "../director/words";
+import {
+  isOutsideMarket,
+  spokenDate as dateSaid,
+  stateInSentence,
+} from "../director/words";
 import { seatSaid } from "../english/journal-words";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf, workHeld } from "../core2/person-work";
@@ -72,6 +79,7 @@ import {
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
 import { filingDeadlineFor, ticketStageOf } from "../core2/modules/elections";
+import { votersWhoHeardOf } from "../core2/modules/voting";
 import {
   askToServe,
   chooseRunningMateForMe,
@@ -200,8 +208,9 @@ export function campaignView(core: CoreState, personId: string) {
         petition: petitionView(api, filing.id),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
         causes,
-        // The sample a poll asks, so the screen's Poll button and the price below agree.
+        // The sample a poll asks, so the screen's Poll act and its price agree.
         pollSample: POLL_SAMPLE,
+        pollPrice: pollPrice(core, filing),
         // Where the race stands, in the English engine's words, from the contest's records.
         standing: raceStanding(
           core,
@@ -209,6 +218,7 @@ export function campaignView(core: CoreState, personId: string) {
           polls.at(-1),
           causes,
           contest ? raceSaid(api, contest) : undefined,
+          votersWhoHeardOf(api, personId),
         ),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
@@ -241,7 +251,8 @@ export function campaignView(core: CoreState, personId: string) {
         pictures,
         // A governor's race that carries the office the law elects on its ticket: who runs with them.
         runningMate: ticketView(api, core, filing.id),
-        // Debates the outlet has invited the candidates to, waiting for their answers.
+        // Debates the outlet has invited the candidates to, waiting for their
+        // answer; one the player accepted waits for its sitting.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
           .map((row) => ({
@@ -249,6 +260,7 @@ export function campaignView(core: CoreState, personId: string) {
             date: row.date,
             outletId: row.outletId,
             questions: row.questions,
+            accepted: core.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${row.id}`),
           })),
       };
     }),
@@ -369,9 +381,8 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
       // work of their own, and an occupation group's plural name ("Editors")
       // is not one person's; either leaves the row at name and town.
       const commuter = work.job
-        ? Boolean(
-            core.organizations.get(work.job.organizationId as never)
-              ?.outsideFlow,
+        ? isOutsideMarket(
+            core.organizations.get(work.job.organizationId as never) ?? {},
           )
         : false;
       const ownWork = (title: string | undefined) =>
@@ -509,31 +520,38 @@ export function raceStanding(
     | undefined,
   causes: readonly CandidateStanding[],
   race?: RaceSaid,
+  // How many voters other than the candidate have heard of them (votersWhoHeardOf).
+  heardOf = 0,
 ): string[] {
   const mine = causes.find((who) => who.you);
   const others = causes.filter((who) => !who.you);
   const id = filing.id;
-  const perInterview = campaignParameter("pollCostPerInterviewMinor");
   const line = (
     move: string,
     recordId: string,
     slots: Readonly<Record<string, string | number>>,
   ) => standingLine(core.seed, filing.personId, move, recordId, slots);
   return [
-    mine && mine.reached > 0
-      ? line(
-          mine.reached > 1
-            ? "reached"
-            : mine.warmer + mine.cooler > 0
-              ? "reached-one"
-              : "reached-one-unmoved",
-          id,
-          {
-            reached: mine.reached,
-            ...race?.when,
-          },
-        )
-      : line("reached-none", id, { ...race?.when }),
+    ...(mine && mine.reached > 0
+      ? [
+          line(
+            mine.reached > 1
+              ? "reached"
+              : mine.warmer + mine.cooler > 0
+                ? "reached-one"
+                : "reached-one-unmoved",
+            id,
+            {
+              reached: mine.reached,
+              ...race?.when,
+            },
+          ),
+        ]
+      : // "No one has heard from you" only while the voting record says so:
+        // a player people in town know is not said to be unknown.
+        heardOf > 0
+        ? []
+        : [line("reached-none", id, { ...race?.when })]),
     // One voter reached who did not move is said in the reached line itself.
     ...(mine && (mine.reached > 1 || mine.warmer + mine.cooler > 0)
       ? [
@@ -606,11 +624,21 @@ export function raceStanding(
           ),
         ]
       : []),
-    line("poll-cost", id, {
-      sample: POLL_SAMPLE,
-      cost: dollarsOf(POLL_SAMPLE * perInterview),
-    }),
   ];
+}
+
+/**
+ * What a poll costs, said on the Poll act where it is bought (playtest
+ * sitting C13: the price read as the race's summary when it closed the
+ * standing lines). The sample is the one the Poll act asks.
+ */
+export function pollPrice(core: CoreState, filing: FilingRow): string {
+  return standingLine(core.seed, filing.personId, "poll-cost", filing.id, {
+    sample: POLL_SAMPLE,
+    cost: dollarsOf(
+      POLL_SAMPLE * campaignParameter("pollCostPerInterviewMinor"),
+    ),
+  });
 }
 
 const summary = (causes: readonly CauseRow[]) => ({
@@ -635,10 +663,16 @@ export function campaignAct(
   const campaign = campaignFor(api, input.filingId);
   if (campaign.candidateId !== personId)
     throw new Error("That is not your campaign.");
-  const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
+  // Asking someone is dealing with them: a person the candidate knows who is
+  // in the counts is filled in now (two-level rule), and an id no record
+  // holds any longer is not asked.
+  const asked = () =>
+    [...(core.people.get(personId)?.knownIds ?? [])]
+      .sort()
+      .filter((id) => personOrFillIn(core, id) !== undefined);
   switch (input.kind) {
     case "volunteer": {
-      const answers = known.map((id) => {
+      const answers = asked().map((id) => {
         const yes = askToVolunteer(api, input.filingId, id);
         const row = core.people.get(id);
         const name = row ? `${row.givenName} ${row.familyName}` : "";
@@ -664,7 +698,7 @@ export function campaignAct(
         answers,
         volunteers: volunteersApart(campaignFor(api, input.filingId)).length,
         // The shift is at the campaign office, the player at it.
-        scene: askScene(core, personId, scenePlaces.volunteerOfficePlace),
+        scene: askScene(core, personId, TRAIL_PLACES.volunteer!),
       };
     }
     case "contribute":
@@ -683,7 +717,7 @@ export function campaignAct(
       };
     case "endorsement":
       return {
-        answers: known.map((id) => {
+        answers: asked().map((id) => {
           const yes = askForEndorsement(api, input.filingId, id);
           const row = core.people.get(id);
           const name = row ? `${row.givenName} ${row.familyName}` : "";
@@ -702,7 +736,7 @@ export function campaignAct(
               })?.text ?? "",
           };
         }),
-        scene: askScene(core, personId, scenePlaces.endorsementMeetingPlace),
+        scene: askScene(core, personId, TRAIL_PLACES.endorsement!),
       };
     case "ad": {
       // The ad is bought at the outlet; the player stands at the buy.
@@ -744,7 +778,7 @@ export function campaignAct(
             ...(filedOn ? { filed: dateSaid(filedOn, core.date) } : {}),
           },
         ),
-        scene: askScene(core, personId, scenePlaces.adBuyPlace),
+        scene: askScene(core, personId, TRAIL_PLACES.ad!),
       };
     }
     case "mail": {
@@ -777,7 +811,6 @@ export function campaignAct(
             ? controls.campaignGatherers.hired
                 .replace("{cost}", dollarsOf(setAsideMinor))
                 .replace("{due}", dateSaid(petition.due, core.date))
-                .replace("{signed}", petition.signed.toLocaleString("en-US"))
             : after.raisedMinor > 0
               ? controls.campaignGatherers.noMoney.replace(
                   "{raised}",
@@ -801,23 +834,25 @@ export function campaignAct(
  * street of doors, the hall, the outlet's newsroom, the campaign office. One
  * list, read by the act's scene and by the trail's tile, so the tile shows
  * the place the act opens in (owner, Oct 20: "campaign acts are scenes you go
- * to"). An act with no place of its own is not listed: a house party is the
- * host's living room, and the player's own money is given from home.
+ * to"), and each act shows a place of its own. The acts' places are
+ * `trailPlaces` in scene-places.json: the first painted name of each act's
+ * list, a wanted picture first and its stand-in after. An act with no place
+ * of its own is not listed: a house party is the host's living room, and the
+ * player's own money is given from home.
  */
+const TRAIL_LISTS = Object.fromEntries(
+  Object.entries(scenePlaces.trailPlaces).filter(([act]) => act !== "about"),
+) as Record<string, readonly string[]>;
 const TRAIL_PLACES: Readonly<Record<string, string>> = {
   doors: scenePlaces.doorKnockingPlaces.house,
-  calls: scenePlaces.phoneBankPlace,
-  event: scenePlaces.speechPlaces[0]!,
   forum: scenePlaces.sceneSettings.venue[0]!,
-  interview: scenePlaces.interviewPlace,
-  volunteer: scenePlaces.volunteerOfficePlace,
-  endorsement: scenePlaces.endorsementMeetingPlace,
-  ad: scenePlaces.adBuyPlace,
-  // Mail and a poll are ordered at the campaign office.
-  mail: scenePlaces.volunteerOfficePlace,
-  poll: scenePlaces.volunteerOfficePlace,
   speech: scenePlaces.speechPlaces[0]!,
-  debate: scenePlaces.debatePlace,
+  ...Object.fromEntries(
+    Object.entries(TRAIL_LISTS).map(([act, names]) => [
+      act,
+      names.find((name) => hasBackdrop(name)) ?? names[names.length - 1]!,
+    ]),
+  ),
 };
 
 /** The hour a trail act is pictured at: the afternoon, a house party and the player's own money in the evening at home. */
@@ -998,6 +1033,28 @@ export function debateAnswer(
   return answerDebate(api, debateId, answers);
 }
 
+/**
+ * The player accepts a debate's invitation from the Campaign tab (the
+ * invitation scene was cut, Nov 17): the sitting goes on the record with the
+ * moderator who asked (`acceptDebate`), and the director stages it from that
+ * record. Saying no is the answer with nothing said (`debateAnswer`).
+ */
+export function debateAccept(
+  core: CoreState,
+  personId: string,
+  debateId: string,
+): { readonly accepted: boolean } {
+  // The campaign the invitation waits on; its filing is the choice's record.
+  const waiting = campaignView(core, personId).campaigns.find((c) =>
+    c.debates.some((d) => d.id === debateId && !d.accepted),
+  );
+  if (!waiting) throw new Error("No debate is waiting for your answer.");
+  acceptDebate(coreAPI(core), debateId, personId, waiting.filing.id);
+  return {
+    accepted: core.durableLog.has(`${DEBATE_ACCEPTED_EVENT}:${debateId}`),
+  };
+}
+
 /** The player takes one of the campaign day's choices; the engine runs it and every dollar goes through its journal. */
 export function campaignDay(
   core: CoreState,
@@ -1107,6 +1164,7 @@ export function campaignDay(
           id: result.interview.id,
           outletId: result.interview.outletId,
           status: result.interview.status,
+          reason: result.interview.reason ?? null,
         }
       : null,
   };

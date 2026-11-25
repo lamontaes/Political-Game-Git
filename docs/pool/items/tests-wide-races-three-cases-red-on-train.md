@@ -38,3 +38,8 @@ Seen: Parksley, Virginia (5160680), seed 722d272ef9f1615c, and Fort Meade, Maryl
 **Notes.**
 
 - Nov 16, views thread: failures read "expected [5646 rows] to deeply equal []" (national pool), "expected [2 rows] to deeply equal []" (stand-in) and "expected 'vacancy' to be 'holdover'" (edge fixture). Same three on the clean Train and on the held-over seat branch.
+
+Nov 17 (Long game): the empty-race case was the test's own shared world, not the game; it is item tests-wide-races-empty-race-reads-an-emptied-seat. The other two, measured at Henlopen Acres, Delaware, seed pin-wr-0:
+
+- The national pool: 5,632 of 7,412 other states' legislator terms carry `personId: "official:term:…"`. `openSittingSessions` (#7772, Nov 8) opens every sitting legislature at the opening; `chamber` in src/core2/modules/world-legislating.ts reads its `members`, whose `holderOf` (src/core2/modules/officials.ts) seats each member through `seatOfficial`, and `seatAll` writes the official key onto the term. Before #7772 the same seating happened on day two, after the test had looked. The test's line (written Nov 1) holds the CTO's Oct 29 rule that another place's legislators keep `personId` null; the owner's Nov 5 "generate on demand" has their sessions simulated from their people. A design call for this item's lead.
+- The stand-in: `fileNominees` in src/core2/modules/voting.ts files each major party's nominee for any federal or state race with no district and a party on its seat, which now includes the presidency. Red at pin-wr-0 on Nov 1 (3a1766d3e7) as on Nov 12. Whether the presidency is the candidacy engine's alone, and what fills its ballot then, is this item's lead's call.

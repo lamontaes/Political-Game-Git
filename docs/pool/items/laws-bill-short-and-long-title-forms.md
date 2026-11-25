@@ -35,7 +35,7 @@ branch: claude/pool-laws-bill-short-and-long-title-forms
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/legislation.json, data/english/bill-sections.json, src/english/bill-sections.ts, src/english/bill-sections.test.ts, src/director/data/stopgaps.json
+**Files.** data/english/bill-sections.json, src/english/bill-sections.ts, src/english/bill-sections.test.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
 

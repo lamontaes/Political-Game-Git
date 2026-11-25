@@ -1079,22 +1079,22 @@ function changeAmount(
   };
 }
 
-function changeBudget(
+export function changeBudget(
   api: CoreAPI,
   law: LawEntry,
   tag: string,
   ids: Set<string>,
-  /** Change that level's own government's budget. */
+  /** Change that level's own government's budget; left out, the lowest level that may pass the line and keeps a budget (`levelsFor`). */
   level?: string,
 ): Change {
   const line = law.key.slice("budget-line:".length);
   const town = lawChain(api).levels;
   const govs = governments(api);
-  const gov = level
-    ? govs.find((g) => g.level === level)
-    : (govs.find((g) => g.level === "city") ??
-      govs.find((g) => g.level === "county") ??
-      govs.find((g) => g.level === "state"));
+  // A line only Congress passes (the federal outlays) is the federal
+  // budget's: raising it in the town's own budget measured a town treasury
+  // paying a line it never keeps, and graded the federal law on that.
+  const at = level ?? levelsFor(api, law)[0];
+  const gov = at ? govs.find((g) => g.level === at) : undefined;
   if (!gov)
     return {
       lawIds: ids,

@@ -1,0 +1,44 @@
+{
+  "id": "pattern-b31-the-tie",
+  "kind": "situation",
+  "summary": "The tie: After the recount and the court, the race is tied, and the law says the winner is drawn by lot.",
+  "realLife": "One life: A 2017 recount for a Virginia House seat put Democrat Simonds ahead by one vote. A court panel then counted a disputed ballot for Republican Yancey, making a tie; his name was drawn from a bowl, keeping a Republican majority. Another: A tied 2024 Corpus Christi council runoff was settled in 2025 by drawing numbered beads, after a roll of a die set the order. Another: A tied 2018 council race was settled by a coin toss; the official canvass then showed the incumbent ahead.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Virginia%27s_94th_House_of_Delegates_district",
+    "https://www.texastribune.org/2025/01/10/corpus-christi-city-council-election-tie/",
+    "https://www.cbsnews.com/minnesota/news/maplewood-city-council-race-decided-by-coin-toss-goes-to-incumbent-after-recount"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "speeches"],
+  "slots": ["clerk"],
+  "gates": ["A tie on the count record.", "The state's or place's tie law."],
+  "weights": [
+    "What rides on the seat, such as control of the body.",
+    "Fighting traits."
+  ],
+  "pattern": "B31",
+  "choices": [
+    "accept the draw",
+    "challenge the disputed ballot in court",
+    "ask for another recount",
+    "concede before the draw"
+  ],
+  "branches": [
+    {
+      "when": "a one-vote lead first",
+      "then": "The recount puts you ahead by one; a court then counts a disputed ballot and it is tied."
+    },
+    {
+      "when": "control of the body rides on it",
+      "then": "The leaders of both parties call you."
+    },
+    {
+      "when": "the method",
+      "then": "{clerk} picks the game of chance, beads, dice or a coin, and both sides must accept it."
+    },
+    {
+      "when": "the final count changes it",
+      "then": "The official canvass after a coin toss shows one side ahead, and the toss means nothing."
+    }
+  ],
+  "usedBy": []
+}

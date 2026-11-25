@@ -93,6 +93,13 @@ const BILL_CARRIED: Readonly<
     member: (m) => m.plan === "medicaid",
     spells: (api) => coverageSpellsNow(api),
   },
+  // A Medicare member whose share a raised Medicare line lowered. Medicare
+  // comes with the member's age (plans in medical-bills.ts), not a coverage
+  // spell, so the bill record itself is the evidence.
+  "medicare-line-to-medical-debt": {
+    member: (m) => (m.medicareLineMinor ?? 0) > 0,
+    spells: () => null,
+  },
   // A member whose coverage the requirement ends pays what it added.
   "work-requirement-to-coverage": {
     member: (m) => (m.requirementMinor ?? 0) > 0,

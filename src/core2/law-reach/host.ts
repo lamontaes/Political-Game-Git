@@ -22,7 +22,7 @@ import type { LawRowInput } from "../laws-starting";
 import { inForceOn } from "../laws-in-force";
 import { registerLawReach } from "./index";
 import { REACH_A_MODULE_ID } from "./group-a-records";
-import { REACH_B_MODULE_ID } from "./group-b-store";
+import { REACH_B_MODULE_ID, STANDING_BENEFIT_PROGRAMS } from "./group-b-store";
 import {
   appliedTo,
   endApplied,
@@ -102,12 +102,10 @@ export function openLawReach(core: CoreState): void {
   }
 }
 
-/** Law series whose amount, not a yes or no, sets a benefit that is paid from the opening. */
+/** Law series whose amount, not a yes or no, sets a benefit that is paid from the opening (SNAP's through the food aid program). */
 const STANDING_BENEFITS: readonly string[] = [
   "snap-maximum",
-  "child-care-income-limit",
-  "ssi-federal-benefit-rate",
-  "energy-assistance-income-limit",
+  ...STANDING_BENEFIT_PROGRAMS,
 ];
 
 /**

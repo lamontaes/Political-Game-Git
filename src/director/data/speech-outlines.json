@@ -369,7 +369,7 @@
     ]
   },
   "pointShapes": {
-    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. A condition comes before its answer (the words lead, Nov 14, rule 44): no shape puts how it stands, the figure or the question after the ask. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question, so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence. Where a belief goes is `beliefJoins`, one join to a point, in order.",
+    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; Nov 14: \"they all follow the very same format\", so a shape that only reorders another's moves, as figure-first did context-first's, was deleted on Nov 17; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. A condition comes before its answer (the words lead, Nov 14, rule 44): no shape puts how it stands, the figure or the question after the ask. A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll. The figure's tie names no question, so the ask after it names the question once. The question-first shape asks the audience about how things stand (\"Is it fair that ...?\"), so it names no question and says no separate today sentence. Where a belief goes is `beliefJoins`, one join to a point, in order.",
     "shapes": {
       "context-first": {
         "typical": {
@@ -384,21 +384,6 @@
           "personality-v1:facet-studious",
           "personality-v1:facet-practical",
           "personality-v1:facet-guarded"
-        ]
-      },
-      "figure-first": {
-        "typical": {
-          "value": 0.699,
-          "tag": "ESTIMATED",
-          "spread": "0.1 to 0.3 either way by place",
-          "note": "The average of this shape's summed facets over 2,920 people drawn in three places; a speaker's pull is read against it, so a shape whose facets run high in everyone does not lead for half the speakers."
-        },
-        "moves": ["figure", "today", "ask"],
-        "pull": [
-          "personality-v1:facet-sincere",
-          "personality-v1:facet-duty-bound",
-          "personality-v1:facet-proud",
-          "personality-v1:facet-philanthropic"
         ]
       },
       "question-first": {

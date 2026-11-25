@@ -1,7 +1,7 @@
 /* global process, console, document, URL */
 // A creator life's family looks related to the face the player chose
 // (play-creator-look-and-family-share-an-origin), on the bench (npm run bench):
-// the creator with the deep skin tone and a random place, the opening played,
+// the creator with the deep skin tone and the Random place, the opening played,
 // then People: each household member's face is shown with its head file, for
 // the screenshot beside the player's. Run:
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/creator-family-face.browser.mjs [shots dir] [tone]
@@ -22,10 +22,12 @@ try {
   await page.goto(`${base}/play`);
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("[data-gender=female]").click();
-  await page.locator("#cr-random-name").click();
+  await page.locator("#cr-random").click();
   await page.waitForFunction(() => document.getElementById("cr-given").value);
-  await page.locator("#cr-place-random").click();
+  await page.locator("[data-gender=female]").click();
+  await page.locator("#cr-given").fill("Test");
+  await page.locator("#cr-family").fill("Person");
+  await page.waitForFunction(() => document.getElementById("cr-given").value);
   await page.locator("#cr-screen:not([hidden])").waitFor();
   const line = page.locator("[data-testid=engine-appearance-skin]");
   for (let i = 0; i < 16; i += 1) {

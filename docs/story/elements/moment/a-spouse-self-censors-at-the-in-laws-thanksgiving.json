@@ -1,0 +1,43 @@
+{
+  "id": "a-spouse-self-censors-at-the-in-laws-thanksgiving",
+  "kind": "moment",
+  "summary": "A husband who backed one candidate was banned from mentioning him at his wife's family Thanksgiving and held his tongue.",
+  "realLife": "A Connecticut couple split between two 2016 candidates. The husband said he was barred from discussing his candidate at her family's Thanksgiving, and his wife said he really kept to himself. She was willing to talk with friends and neighbors, arguing a spouse can make the wrong choice and remain a good person. Both said they got support from others in divided households.",
+  "sources": [
+    "https://www.nhpr.org/national/2017-01-19/deeply-divided-couple-learns-how-to-navigate-politics-in-trump-era"
+  ],
+  "fits": ["home"],
+  "slots": ["{the spouse}", "{the in-laws}", "{the holiday dinner}"],
+  "gates": [
+    "The two spouses live in one household with opposite stands.",
+    "The in-laws' dinner has a no-politics rule."
+  ],
+  "weights": [
+    "The spouse's restraint trait.",
+    "The in-laws' hostility to the other side.",
+    "Love in the marriage."
+  ],
+  "inGame": "Households, spouse ties and stands are on record; needs: a house rule for a gathering.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "He argues anyway and the wife leaves the table.",
+      "pulledBy": "A combative trait.",
+      "writesBack": "Quarrel record with the in-laws."
+    },
+    {
+      "turn": "partial",
+      "what": "He stays quiet but a relative provokes him.",
+      "pulledBy": "A pointed in-law.",
+      "writesBack": "A short flare-up logged."
+    },
+    {
+      "turn": "late",
+      "what": "The rule loosens by the next holiday once tempers cool.",
+      "pulledBy": "Time passes.",
+      "writesBack": "Rule dropped from the record."
+    }
+  ],
+  "issues": ["none"]
+}

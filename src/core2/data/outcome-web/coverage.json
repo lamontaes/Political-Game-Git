@@ -186,6 +186,10 @@
     "coverage-to-catastrophic-bills": {
       "waitingOn": ["health.coverage", "health.catastrophic-medical-bills"]
     },
+    "medicare-line-to-medical-debt": {
+      "waitingOn": [],
+      "carriedBy": "the coverage engine's monthly bills (billMembers in src/core2/medical-bills.ts, run on the 1st by src/core2/modules/coverage.ts) read the federal Medicare line in force (federalBenefitLine): a line over its base raises Medicare's part of each Medicare member's care and lowers the member's share by the same dollars (medicareLineMinor on the bill), full and counted members alike, so the household owes less, leaves less unpaid past the provider's wait and has less placed for collection (collectionsShare, and recordMedicalDebt in src/core2/modules/credit.ts). The web does not run the link"
+    },
     "coverage-to-medical-debt": {
       "waitingOn": [],
       "carriedBy": "the coverage engine's monthly bills (plans and billMembers in src/core2/medical-bills.ts, run on the 1st by src/core2/modules/coverage.ts), which price each full and counted member by their own coverage record (an employer plan, Medicaid or Medicare, or none) at the share of their care MEPS finds each pays out of pocket, so a covered member's smaller bill leaves the household less unpaid past 120 days and less placed for collection (collectionsShare): coverage moves the medical debt in collections household by household, not by a place percentage. The web does not run the link, so the two never both count"
@@ -489,7 +493,11 @@
     },
     "retirement-age-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "src/core2/modules/retirement-claims.ts reads the claim ages in the law row (src/core2/social-security-law.ts)"
+      "carriedBy": "src/core2/modules/retirement-claims.ts reads the full retirement age in the law row in force (socialSecurityAges, src/core2/social-security-law.ts) at each claim, so a later full age cuts each award at its claim age; src/core2/world-poverty.ts counts the award as the household's income"
+    },
+    "earliest-claim-age-to-older-work": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts: retirementOnsetYears reads the earliest claim age in the law row in force (socialSecurityAges) each day, and the retire choice starts to pull on a worker only from that age; src/core2/modules/retirement-claims.ts holds every claim at or after it"
     },
     "immigration-to-crime": {
       "waitingOn": ["crime.rate-index"]
@@ -581,9 +589,17 @@
       "waitingOn": [],
       "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household, named and counted, its allotment at the maximum in force, and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan from what its members hold, so a larger maximum buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
+    "veterans-line-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts counts each household's veterans' benefits as income before it is set against its threshold, from the record the treasury's monthly close writes as it pays them (payVeterans in src/core2/law-reach/group-b-veterans.ts: a named veteran's household their benefit, a counted household its members' veteran share of it, both moved by the line in force); counted households read it through the residents engine's household income; the poverty share the web reads is that record"
+    },
     "welfare-spending-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record"
+    },
+    "social-security-line-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts counts each household's Social Security as income before it is set against its threshold: a named household's opening award (an income contract the line rerates in applySocialSecurityLevel, src/core2/budgets-treasury.ts), a claim made in play (retirementClaimIncome, the claim's award the line rerates), and a counted household's own award rows (rerateCountedRetirement, src/core2/modules/residents.ts); the poverty share the web reads is that record"
     },
     "emissions-to-warming": {
       "waitingOn": [],

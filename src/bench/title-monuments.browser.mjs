@@ -21,15 +21,17 @@ page.on("pageerror", (e) => errors.push(e.message));
 try {
   const frames = new Map();
   let round = Infinity;
-  for (let visit = 0; visit < round; visit += 1) {
+  // The rotation is every monument's every light (a few hundred frames); a dozen visits show it moves.
+  for (let visit = 0; visit < Math.min(round, 12); visit += 1) {
     const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
     await page.goto(`${base}/play`);
     const title = await (await ready).json();
     round = Math.min(round, title.scenes.length);
+    assert.ok(title.scenes.length > 50, "the title draws from few monuments");
     const name = `${title.place} ${title.backdrop.variant}`;
     assert.match(
       title.place,
-      /^(us-capitol-exterior|white-house-exterior|lincoln-memorial)$/,
+      /^(us-capitol-exterior|white-house-exterior|lincoln-memorial|supreme-court-exterior|state-capitol-[a-z]{2})$/,
       name,
     );
     await page.waitForFunction((url) => {

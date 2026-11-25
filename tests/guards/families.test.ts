@@ -177,6 +177,26 @@ describe("one engine per mechanic: families and their boundaries", () => {
     ).toBe(codeowners());
   });
 
+  it("asks the owner to review the instructions, the workflows and the checks, last so no family line wins", () => {
+    // CTO, Nov 17 on issue 9747: a change to the files that judge every
+    // change goes to the owner's review.
+    const lines = readFileSync(CODEOWNERS_PATH, "utf8")
+      .split("\n")
+      .filter((line) => line && !line.startsWith("#"));
+    const tail = lines.slice(-13).map((line) => line.split(" ")[0]);
+    for (const path of [
+      "/AGENTS.md",
+      "/CLAUDE.md",
+      "/.agents/**",
+      "/.claude/**",
+      "/.github/workflows/**",
+      "/tests/guards/**",
+      "/scripts/guards/**",
+      "/tests/**/*baseline*.json",
+    ])
+      expect(tail, path).toContain(path);
+  });
+
   it("matches globs and resolves imports as written", () => {
     expect(
       globToRegExp("src/core2/housing-*.ts").test("src/core2/housing-sale.ts"),

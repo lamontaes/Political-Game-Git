@@ -1,6 +1,9 @@
 /** Small word rules shared by the journal, conversations and scenes. */
 import { governmentProperName } from "../core2/government-proper-name";
 import { P } from "../core2/parameters";
+import { OUTSIDE_MARKET_KIND } from "../core2/modules/jobs";
+import type { OrganizationInput } from "../core2/types";
+import { employerSaidAs } from "../english/said-as";
 import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
 
 /**
@@ -150,4 +153,30 @@ export function organizationName(org: {
     ? org.name.slice(P.zero, treasury.index)
     : org.name;
   return `${governmentProperName(government, key)}${treasury ? " treasury" : ""}`;
+}
+
+/**
+ * Whether an organization is the outside market, the stand-in for work and
+ * buyers out of town: never an employer to name, a place to be found at or a
+ * workplace to talk about. It is known by its kind, as the core reads it. A
+ * public employer that owns its government's outside pay authority
+ * (opening-public-pay.ts) carries `outsideFlow` too, and is a real employer.
+ */
+export function isOutsideMarket(org: { readonly kind?: string }): boolean {
+  return org.kind === OUTSIDE_MARKET_KIND;
+}
+
+/**
+ * An employer as the one said-as reader says it, from its record: a
+ * government's payroll as the government, a business by its name, and never
+ * the outside market that stands in for work out of town (null).
+ */
+export function employerWords(org: Readonly<OrganizationInput>): string | null {
+  return employerSaidAs({
+    name: businessNameSaid(org),
+    kind: org.kind,
+    outside: isOutsideMarket(org),
+    ...(org.classification ? { classification: org.classification } : {}),
+    ...(org.governmentFacts ? { governmentFacts: org.governmentFacts } : {}),
+  });
 }

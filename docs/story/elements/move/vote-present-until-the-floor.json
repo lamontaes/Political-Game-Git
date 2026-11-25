@@ -1,0 +1,32 @@
+{
+  "id": "vote-present-until-the-floor",
+  "kind": "move",
+  "summary": "A holdout lets a bill out of committee while reserving a demand for changes before the floor vote.",
+  "realLife": "Josh Brecheen switched to present in committee after talks on tax credits and work rules, although the text still lacked the changes he sought.",
+  "sources": [
+    "https://gaylordnews.net/9407/news/politics/one-big-beautiful-bill-advances-after-brecheen-flips"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{committee}", "{provision}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a committee vote of present linked to a later floor amendment and vote.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The holdout votes against reporting the bill.",
+      "pulledBy": "The sponsor refuses to reopen the disputed section before the floor vote.",
+      "writesBack": "The committee roll records opposition."
+    },
+    {
+      "turn": "late",
+      "what": "The holdout gives the sponsor a yes on the floor after the amendment passes.",
+      "pulledBy": "The adopted text now contains the requested change.",
+      "writesBack": "The floor roll records support after the earlier reservation."
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:health-human-services.medicaid-work-requirement"
+  ]
+}

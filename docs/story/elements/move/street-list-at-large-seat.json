@@ -1,0 +1,32 @@
+{
+  "id": "street-list-at-large-seat",
+  "kind": "move",
+  "summary": "The citywide member brings {director} a street request from a neighborhood that already has a district representative.",
+  "realLife": "Oakland staff proposed a separate, equal paving allowance for the citywide council seat alongside each district seat.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=10"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{director}"],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "The city highways budget records the appropriation change. needs: citywide seat, separate selection allowance and street requests from multiple offices.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: citywide seat, separate selection allowance and street requests from multiple offices.",
+      "what": "Use the citywide allowance on an eligible request and check for overlapping district commitments.",
+      "writesBack": "Council office commitments by segment."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: citywide seat, separate selection allowance and street requests from multiple offices.",
+      "what": "Reconcile the two offices' lists before telling residents which selection lost funding.",
+      "writesBack": "Council office commitments by segment."
+    }
+  ]
+}

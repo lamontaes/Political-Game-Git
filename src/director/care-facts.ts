@@ -11,11 +11,17 @@
  * as news instead.
  */
 import { closenessBetween } from "../core2/closeness";
+import { daysBetweenText } from "../core2/kernel/dates";
 import type { CoreState, PersonId } from "../core2/types";
+import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
+import { spanSaid } from "../english/span-words";
 import type { NewsFact } from "./life-news";
 
 /** The situation type that reads these facts. */
 export const CARE_TYPE = "care";
+
+/** The key the health engine keeps an illness's condition under (data/health.json `conditionFactKey`). */
+const CONDITION_FACT_KEY = "condition";
 
 /** The health engine's record of a serious illness. */
 const SERIOUS_ILLNESS = "health.serious-illness";
@@ -51,11 +57,24 @@ export function careFacts(
     .map((row) => ({ row, close: closenessBetween(core, ill.id, row.id) }))
     .sort((a, b) => b.close - a.close || a.row.id.localeCompare(b.row.id))
     .map((row) => row.row);
-  if (!relative) return {};
-  return {
-    relative: {
+  const facts: Record<string, NewsFact> = {};
+  if (relative)
+    facts.relative = {
       text: relative.givenName,
       sourceRecordIds: [causeId, ill.id, relative.id],
-    },
-  };
+    };
+  // The illness by its common name and how long it has run, from the health
+  // record's condition and its day. Each is left out when the record lacks it.
+  const condition =
+    record.facts?.[`event:${record.id}:${CONDITION_FACT_KEY}`] ??
+    record.facts?.[CONDITION_FACT_KEY];
+  const illness = RELATIVE_NEWS_WORDS.illnesses[condition ?? ""];
+  if (illness)
+    facts.illness = { text: illness, sourceRecordIds: [causeId, ill.id] };
+  if (record.date < core.date)
+    facts.since = {
+      text: spanSaid(daysBetweenText(record.date, core.date)),
+      sourceRecordIds: [causeId],
+    };
+  return facts;
 }

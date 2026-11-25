@@ -1,0 +1,32 @@
+{
+  "id": "parents-get-a-budget-meeting",
+  "kind": "moment",
+  "summary": "Before finishing the budget, {person} sits down with the county parent-teacher association.",
+  "realLife": "Elrich’s FY25 listening sessions included a meeting focused on Montgomery County’s PTA.",
+  "sources": [
+    "https://www2.montgomerycountymd.gov/mcgportalapps/Press_Detail.aspx?Item_ID=44924"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "Parents have a shared budget request and the executive is collecting input."
+  ],
+  "weights": ["An upcoming school board deadline favors an earlier meeting."],
+  "usedBy": [],
+  "inGame": "needs: participation by parents in budget preparation.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Parents bring their request to the public hearing instead.",
+      "pulledBy": "Their association cannot arrange a separate session before submission.",
+      "writesBack": "Council testimony carries the request."
+    },
+    {
+      "turn": "partial",
+      "what": "The association sends written priorities ahead of a shorter meeting.",
+      "pulledBy": "Working parents have limited time to attend.",
+      "writesBack": "The executive's meeting file includes the written requests."
+    }
+  ],
+  "issues": ["budget:schools"]
+}

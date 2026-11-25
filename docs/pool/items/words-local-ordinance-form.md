@@ -19,6 +19,6 @@ claimed-at: 2026-10-16T02:30:17.568Z
 
 **Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): an ordinance passed in the year displays its number, enacting words, sections and effective date from `bill-forms.json` (bill id named), for a place whose body type differs from a state's, composed through the real engine in a drawn place (named, with seed) and graded by the owner in the next words batch page under `docs/grading/`. Tests in `src/core2/legislature-bill-form.test.ts`. The owner plays it: passes an ordinance and reads it in its own form.
 
-**Files.** src/core2/legislature-bill-form.ts, src/core2/data/legislature/bill-forms.json, src/core2/data/legislature/enacting-clauses.json, data/english/parts/legislation.json
+**Files.** src/core2/legislature-bill-form.ts, src/core2/data/legislature/bill-forms.json, src/core2/data/legislature/enacting-clauses.json
 
 **Notes.** Absorbs words-a-local-ordinance-s-own-form (checklist line, dropped as a duplicate as of 2026-10-15).

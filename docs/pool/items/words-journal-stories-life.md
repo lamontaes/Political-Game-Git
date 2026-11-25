@@ -19,7 +19,7 @@ merged-at:
 
 **Rules.** An effect is a read, not a record: each story's sentences read facts from the records the journal row names, and claim no feeling the records lack. No new engine; sentences are at most ten words; lines join by the time between them.
 
-**Done when.** src/director/journal-life-stories.test.ts plays a drawn world for a year and prints the life-event entries written with their record ids; journal.test.ts, journal-story.test.ts, the English and families guards pass.
+**Done when.** src/director/journal-life-stories.test.ts (removed) plays a drawn world for a year and prints the life-event entries written with their record ids; journal.test.ts, journal-story.test.ts, the English and families guards pass.
 
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, src/english/journal-words.ts, data/english/parts/journal.json
 

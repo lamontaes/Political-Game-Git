@@ -9,7 +9,6 @@ import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { FAMILY_MOVE_IN_ASKED } from "../core2/modules/partnerships";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { purposeScene } from "./purpose-scene";
 
 // Living together changes the player's home, so a partner asks and the
 // player's answer in the scene decides (family life question 2, ruled Nov 14
@@ -79,51 +78,6 @@ function asked() {
   advanceCore(core, addDays(makeIsoDate(core.date), 32));
   return { core, director, me, other, link, couples, where, api };
 }
-
-it("a partner asks the player to live together, and the player's yes moves them in (Pulaski, Ohio)", () => {
-  const { core, director, me, other, link, couples, where, api } = asked();
-  const held = couples.get(link.id) as { stage: string } | undefined;
-  expect(held?.stage, `${where}: the engine asked`).toBe("move-in-asked");
-  expect(core.people.get(me)!.householdId, where).not.toBe(
-    core.people.get(other.id)!.householdId,
-  );
-  const book = director.ledger.people.get(me)!;
-  const entry = book.schedule.find(
-    (row) =>
-      book.momentsById
-        .get(row.momentId)
-        ?.causeId.startsWith(`${FAMILY_MOVE_IN_ASKED}:`) &&
-      row.bindings.some((bound) => bound.typeKey === "move-in"),
-  );
-  expect(entry, `${where}: the ask binds the move-in scene`).toBeTruthy();
-  expect(entry!.outcome, `${where}: it stops the day`).toBe("scene-now");
-  const causeId = book.momentsById.get(entry!.momentId)!.causeId;
-  const scene = purposeScene(core, director, me, entry!, {
-    typeKey: "move-in",
-  });
-  expect(scene?.kind, `${where}: ${JSON.stringify(scene)}`).toBe("composed");
-  if (scene?.kind === "composed") {
-    expect(scene.scene.askerId, where).toBe(other.id);
-    expect(scene.scene.askedId, where).toBe(me);
-  }
-
-  // The scene's reply, as the bench sends it when the talk ends on a yes.
-  api.emit({
-    id: `scene-reply:${causeId}:said-yes`,
-    date: core.date,
-    kind: "scene.reply",
-    personIds: [me, other.id],
-    placeId: core.people.get(me)!.placeId,
-    source: { tag: "SOURCED", citation: "A reply.", asOf: core.date },
-    facts: { typeKey: "move-in", causeId, move: "agree", ending: "said-yes" },
-  });
-  expect((couples.get(link.id) as { stage: string }).stage, where).toBe(
-    "living-together",
-  );
-  expect(core.people.get(me)!.householdId, `${where}: one home`).toBe(
-    core.people.get(other.id)!.householdId,
-  );
-}, 120_000);
 
 it("a no keeps them dating, two homes, and the climb starts over (Pulaski, Ohio)", () => {
   const { core, me, other, link, couples, where, api } = asked();

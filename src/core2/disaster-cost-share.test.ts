@@ -125,21 +125,27 @@ it(
         advanceCore(control, end);
         const sum = (core: typeof control) =>
           disasterAssistancePaid(coreAPI(core))
-            // Public assistance goes to governments; household aid (paid to the residents' account) is individual assistance the law does not touch.
+            // Public assistance goes to governments; household aid (paid to a
+            // named household's own account or to the residents' pool) is
+            // individual assistance the law does not touch.
             .filter(
               (r) =>
                 r.disaster === picked.disaster &&
-                !r.orgId.startsWith("cash:residents:"),
+                core.organizations.has(r.orgId),
             )
             .reduce((n, r) => n + r.cents, 0);
         const withLaw = sum(lawWorld),
           without = sum(control);
         if (!without) {
           tried.push(
-            `${picked.name}, ${picked.state} (${picked.key}): no assistance paid`,
+            `${picked.name}, ${picked.state} (${picked.key}): no public assistance paid to its governments`,
           );
           continue;
         }
+        if (tried.length)
+          process.stdout.write(
+            `DISASTER-SHARE passed over: ${tried.join("; ")}\n`,
+          );
         process.stdout.write(
           `DISASTER-SHARE ${picked.name}, ${picked.state} (${picked.key}, seed ${seed}): federal public assistance ${without} cents without the law, ${withLaw} with it (${((100 * withLaw) / without).toFixed(1)}%), disaster ${picked.disaster}\n`,
         );

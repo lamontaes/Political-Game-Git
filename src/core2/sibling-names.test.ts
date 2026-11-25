@@ -123,3 +123,55 @@ it("keeps a chosen sibling name on the player and updates the sibling's record",
     }),
   );
 }, 300_000);
+
+it("the chosen name never repeats a full name in the player's household or family", () => {
+  setBookkeeping(false);
+  const passedOver: string[] = [];
+  for (let at = 0; at < 6; at += 1) {
+    const place = drawPlace(
+      at ? `${replay}:${at}` : replay,
+      "chosen-name-family",
+    );
+    const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const player = core.people.get(playerId!)!;
+    const siblings = (player.pastFacts ?? []).flatMap((fact) => {
+      const row =
+        fact.kind === "family:sibling" && fact.facts?.otherPersonId
+          ? core.people.get(fact.facts.otherPersonId)
+          : undefined;
+      return row?.alive ? [row] : [];
+    });
+    const housemate = (core.households.get(player.householdId)?.memberIds ?? [])
+      .map((id) => core.people.get(id)!)
+      .find((row) => row.id !== player.id && row.alive);
+    if (!siblings.length || !housemate) {
+      passedOver.push(`${place.name}: no living sibling and housemate`);
+      continue;
+    }
+    // The sister was given the housemate's given name, and the player keeps the family name.
+    siblings[0]!.givenName = housemate.givenName;
+    siblings[0]!.familyName = player.familyName;
+    housemate.familyName = player.familyName;
+    coreAPI(core).chooseIdentityV1(player.id, {
+      givenName: player.givenName,
+      familyName: player.familyName,
+      birthDate: player.birthDate,
+      looks: player.looks ?? {},
+    });
+    const everyone = [player, housemate, ...siblings];
+    const names = everyone.map((row) =>
+      `${row.givenName} ${row.familyName}`.toLowerCase(),
+    );
+    expect(
+      new Set(names).size,
+      `${place.name} (${place.key}), seed ${place.seed}: ${names.join(", ")} (passed over: ${passedOver.join("; ")})`,
+    ).toBe(names.length);
+    return;
+  }
+  throw new Error(
+    `No drawn place had a sibling and a housemate: ${passedOver.join("; ")}`,
+  );
+}, 600_000);

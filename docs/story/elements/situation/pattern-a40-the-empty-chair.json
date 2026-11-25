@@ -1,0 +1,35 @@
+{
+  "id": "pattern-a40-the-empty-chair",
+  "kind": "situation",
+  "summary": "The empty chair: {the body} must fill a vacancy, the vote is tied, and {member} backs a different applicant than you.",
+  "realLife": "When a Westbrook, Maine, council seat fell vacant, four residents applied. The first vote ended in a three-way tie; one member changed his vote, and she won the revote.",
+  "sources": ["https://www.pressherald.com/?p=6372281"],
+  "fits": ["journal", "news", "office"],
+  "slots": ["member", "applicants"],
+  "gates": [
+    "A vacancy {the body} fills by vote.",
+    "You hold a seat on {the body}, or you applied."
+  ],
+  "weights": ["Your ties with each applicant.", "What each applicant said."],
+  "pattern": "A40",
+  "choices": [
+    "hold your vote",
+    "switch to break the tie",
+    "ask for another round of questions to the applicants"
+  ],
+  "branches": [
+    {
+      "when": "you are an applicant",
+      "then": "You speak to {the body} for a few minutes, members question you, and the vote is the outcome."
+    },
+    {
+      "when": "a trade in the recess",
+      "then": "{member} offers a vote on something you want if you switch, a deal on both records."
+    },
+    {
+      "when": "the seat could have been yours",
+      "then": "If you turned down a seat that came to you, the one you passed over sits in the room."
+    }
+  ],
+  "usedBy": []
+}

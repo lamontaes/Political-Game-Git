@@ -1,0 +1,31 @@
+{
+  "id": "leak-adjustment-excludes-stolen-water",
+  "kind": "situation",
+  "summary": "A restaurant in {place} can document a water loss but discovers its cause falls outside the adjustment policy.",
+  "realLife": "Portland initially told a restaurant that likely theft did not qualify under a policy that allowed bill adjustments for leaks.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20restaurant%20received%20a%20water%20bill%20showing%20significantly%20higher"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "An inspection classifies the loss and the local adjustment rule distinguishes its cause."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an inspection classifies the loss and the local adjustment rule distinguishes its cause.",
+  "turns": [
+    {
+      "turn": "the-finding-meets-the-adjustment-rule",
+      "pulledBy": "The finding meets the adjustment rule.",
+      "what": "Submit the routine application.",
+      "writesBack": "The customer has an adjustment application under the ordinary rule."
+    },
+    {
+      "turn": "the-finding-falls-outside-the-rule",
+      "pulledBy": "The finding falls outside the rule.",
+      "what": "Ask who may consider an exception.",
+      "writesBack": "The referral identifies a possible exception decision."
+    }
+  ]
+}

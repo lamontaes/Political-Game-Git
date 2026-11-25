@@ -1,0 +1,32 @@
+{
+  "id": "send-scores-after-the-voice-vote",
+  "kind": "moment",
+  "summary": "After the whole room agrees on {design}, the chair still asks everyone to turn in a score.",
+  "realLife": "Once members unanimously recommended the Chisholm medal, Peter van Alfen asked them to send their individual scores to James Kennedy.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-12/11.18.2025-minutes.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{design}"],
+  "gates": [
+    "A voice vote has concluded and members have individual score sheets."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: recorded voice vote and individual score sheets.",
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "One score sheet comes in after the meeting.",
+      "pulledBy": "A member left before sending it.",
+      "writesBack": "The clerk records which sheet is outstanding."
+    },
+    {
+      "turn": "partial",
+      "what": "The sheets show a wide split beneath a unanimous vote.",
+      "pulledBy": "Members supported the package for different reasons.",
+      "writesBack": "The score table accompanies the motion."
+    }
+  ],
+  "issues": ["none"]
+}

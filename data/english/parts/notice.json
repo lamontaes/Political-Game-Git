@@ -10,20 +10,14 @@
   "maxWords": 35,
   "parts": [
     {
-      "key": "notice.election.notice-of-election",
+      "key": "notice.election.notice-is-hereby-given-that-an-election-will-be-held-in-place-on-date-for-the-following-officers-office",
       "move": "election",
       "kind": "written",
       "text": "NOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.",
-      "source": {
-        "document": "Notice of Election, General Municipal Election",
-        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf",
-        "date": "2026-07-01"
-      },
       "tag": {
         "move": "notice",
         "key": "routine"
       },
-      "restoredOn": "2026-11-08",
       "uses": [
         {
           "move": "election",
@@ -31,7 +25,10 @@
           "role": "election-notice",
           "choice": "lede"
         }
-      ]
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     }
   ]
 }

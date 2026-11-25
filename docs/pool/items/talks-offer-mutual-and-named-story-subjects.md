@@ -34,6 +34,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/director/subject-tie.ts, src/director/subject-tie.test.ts, src/director/asked-mutual-give-back.test.ts, src/director/asked-mutual-no-against-record.test.ts
+**Files.** src/director/conversation.ts, src/director/subject-tie.ts, src/director/subject-tie.test.ts
 
 **Notes.** Nov 16: built in this item's own PR. The two asked-mutual tests were re-pinned to seed d4 (Sidon, Mississippi); the old seeds no longer reach the question since start age 18. The asked-mutual talk is met in 4 of 9 seeds scanned over 120 days, once to three times, only as a follow-up: depth work for the Words lead. conversation-home-lines is red at every one of 7 drawn places (0 requests, line 154): not a pin job, no item yet.

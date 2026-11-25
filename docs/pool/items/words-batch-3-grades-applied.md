@@ -21,7 +21,7 @@ claimed-at: 2026-11-09T18:20:00.000Z
 
 **Done when.** data/english/grades/2026-11-09-batch-3-voice.json holds his grades and the grade map test, liked-lines-kept test, the batch tests and tests/guards/english pass; the PR body counts the lines each lesson changed.
 
-**Files.** data/english/grades/2026-11-09-batch-3-voice.json, data/english/parts/scene-talk.json, data/english/parts/address.json, data/english/parts/journal.json, scripts/dialogue-batch/spoken-grades.ts
+**Files.** data/english/grades/2026-11-09-batch-3-voice.json, data/english/parts/scene-talk.json, data/english/parts/journal.json, scripts/dialogue-batch/spoken-grades.ts
 
 **Time box.** 3 hours.
 

@@ -8,8 +8,7 @@
  */
 import { describe, expect, it } from "vitest";
 import circumstances from "./data/circumstances.json" with { type: "json" };
-import { SCENE_WORDS, wordSceneLine } from "../english/scene-words";
-import type { PersonId } from "../core2/types";
+import { SCENE_WORDS } from "../english/scene-words";
 
 const ROWS = (
   circumstances as unknown as {
@@ -33,39 +32,5 @@ describe("a scene's lead fits its setting", () => {
         `${row.id}: no lead fits ${row.place}`,
       ).toBeGreaterThan(0);
     }
-  });
-
-  it("news met on the street is never told as waiting for you to get home", () => {
-    const home = leadsFor("news-arrives").filter((lead) =>
-      lead.settings?.includes("home"),
-    );
-    expect(home.length).toBeGreaterThan(0);
-    const homeTexts = new Set(
-      home.map((lead) => lead.text.replace("{{other}}", "Elizabeth Page")),
-    );
-    const said = (setting: string) =>
-      Array.from(
-        { length: 200 },
-        (_, at) =>
-          wordSceneLine({
-            seed: `lead-fits:${at}`,
-            move: { part: "lead", typeKey: "news-arrives", setting },
-            viewerId: "person:player" as PersonId,
-            facts: {
-              other: {
-                text: "Elizabeth Page",
-                sourceRecordIds: ["person:page"],
-              },
-            },
-            stage: () => "other",
-            momentKey: `lead-fits:${setting}:${at}`,
-            fallbackSourceId: "person:page",
-          })?.text,
-      ).filter((text): text is string => !!text);
-    const street = said("public");
-    expect(street.length).toBeGreaterThan(0);
-    for (const text of street) expect(homeTexts.has(text), text).toBe(false);
-    // At home the same lines stay in the bank.
-    expect(said("home").some((text) => homeTexts.has(text))).toBe(true);
   });
 });

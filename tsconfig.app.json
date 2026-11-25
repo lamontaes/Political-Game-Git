@@ -22,7 +22,8 @@
   },
   "files": [
     "data/research/laws/starting-law-2026/index.ts",
-    "scripts/core2-year/place.ts"
+    "scripts/core2-year/place.ts",
+    "tests/golden-path/place.ts"
   ],
   "include": ["src"],
   "exclude": [

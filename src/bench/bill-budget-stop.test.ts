@@ -1,11 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import { addDays } from "../core2/kernel/dates";
 import { budgetPriorities, governments } from "../core2/modules/budgets";
 import { lawChain } from "../core2/modules/laws";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
-import { budgetLinePick, ordersDecide, ordersView } from "./office";
+import {
+  budgetLinePick,
+  leaveHoldsToCharacter,
+  ordersDecide,
+  ordersView,
+} from "./office";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
@@ -19,6 +25,11 @@ import { buildBenchWorld } from "./world";
 // Limit: the slowest case took 242 s, run two files at a time (Nov 16,
 // Train 6d12556a); each case's limit is about twice that, 490 s.
 const seed = "pin-bill-budget-stop";
+// How long a draw is played for its budget day before it is passed over: a
+// governor whose state's budget day this year fell before the game starts
+// (Missouri's, ten days after its January session opens) sends the next one a
+// year later. Test parameter.
+const BUDGET_WINDOW_DAYS = 60;
 
 it("draws its pinned place from the fixed seed", () => {
   expect(drawPlace(`${seed}:0`, "budget-stop")).toMatchObject({
@@ -47,7 +58,8 @@ describe(`the governor sends the state budget (seed ${seed})`, () => {
       }
       const player = new BenchPlayer(core, world.director);
       player.select(governor);
-      for (let guard = 0; guard < 400; guard++) {
+      const until = addDays(gameStartDate(), BUDGET_WINDOW_DAYS);
+      for (let guard = 0; guard < 400 && core.date <= until; guard++) {
         const offer = ordersView(core).find((row) => row.kind === "budget");
         if (offer && offer.kind === "budget") {
           expect(offer.lines.length, where).toBeGreaterThan(0);
@@ -68,13 +80,22 @@ describe(`the governor sends the state budget (seed ${seed})`, () => {
         }
         if (player.pollingPlace) player.leavePolls();
         const packet = player.packet;
-        if (packet?.kind === "stop")
+        // A held desk order before the budget day (a cabinet post, the State
+        // of the State, a bill on the desk) waits for the governor's own
+        // decision: left to the character, as a player who presses on does.
+        // Pressing Continue alone never moves the day past it (Nov 19: the
+        // history seats a new governor with posts open, and Missouri,
+        // Alabama and Pennsylvania were passed over on main and the train).
+        if (packet?.kind === "stop") {
+          leaveHoldsToCharacter(core, governor);
           player.resume({ kind: "stop", pauseId: packet.pauseId });
-        else if (packet?.kind === "choice")
+        } else if (packet?.kind === "choice")
           player.resume({ kind: "own-choice", pauseId: packet.pauseId });
         else player.advance("day");
       }
-      tried.push(`${where}: no budget day within 400 days`);
+      tried.push(
+        `${where}: no budget day by ${core.date} (${BUDGET_WINDOW_DAYS} days)`,
+      );
     }
     throw new Error(
       `no drawn place held a governor for the state budget (seed ${seed}): ${tried.join("; ")}`,

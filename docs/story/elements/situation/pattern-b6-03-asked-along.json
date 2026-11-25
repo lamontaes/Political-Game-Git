@@ -1,0 +1,60 @@
+{
+  "id": "pattern-b6-03-asked-along",
+  "kind": "situation",
+  "summary": "Asked along: {the one who asks} asks the player along, and the answer is the first test of the tie.",
+  "realLife": "One life: Hall's study: relaxed time together builds friendship far more than time working together. He says you cannot make people spend time with you, but you can invite them, and suggests changing the setting, such as lunch, to show you want the friendship. Another: Two men who met online, 19 years apart in age, set a first date for Christmas Eve 2010. Afterward Seth said his mother was hosting dinner, because nobody should be alone on Christmas. Octavius felt at home with the family and proposed three Christmases later. Another: A man holding a sign at a highway ramp was given money and food, then invited home on New Year's Eve. Four years later his friend talked him into moving in, and they were close until the end of his life. Another: The neighbor's first move was a knock at the door and a gift; the friendship grew from there. Another: Two men met online and had a first date on Christmas Eve despite a gap in age. He called it amazing, and afterward the other invited him to Christmas dinner with his mother, saying no one should be alone on Christmas.",
+  "sources": [
+    "https://news.ku.edu/2018/03/06/study-reveals-number-hours-it-takes-make-friend",
+    "https://www.kunc.org/2015-12-25/a-couples-love-blooms-at-christmas",
+    "https://www.kunc.org/npr-news/2014-05-09/saying-goodbye-to-a-friend-whos-ready-to-go-home",
+    "https://wdet.org/?p=24530",
+    "https://www.kunc.org/2015-12-25/a-couples-love-blooms-at-christmas"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["the one who asks", "the one who is met", "their family"],
+  "gates": [
+    "{the one who asks} or {the one who is met} is on the tie record.",
+    "The player has free hours in the week.",
+    "The place is one the world has (a restaurant, a house, a park, a venue)."
+  ],
+  "weights": [
+    "Hours the two have already spent together in relaxed time.",
+    "How different their backgrounds are.",
+    "Whether {their family} will be there.",
+    "Whether the player is alone on the day (a holiday)."
+  ],
+  "pattern": "B6-03",
+  "choices": [
+    "say yes and go",
+    "say yes and bring a small thing for {their family}",
+    "ask to come another time",
+    "say no plainly"
+  ],
+  "branches": [
+    {
+      "when": "the player says yes and goes",
+      "then": "The tie moves up a rung on the tie record; more hours follow."
+    },
+    {
+      "when": "the player goes and {their family} is there",
+      "then": "The family reads the player's manners, and its view is written on the tie record."
+    },
+    {
+      "when": "the player says no",
+      "then": "The tie stays where it is and the ask is not repeated soon."
+    },
+    {
+      "when": "the ask is a favor, not a visit",
+      "then": "How the player answers is the test of the tie and is remembered."
+    },
+    {
+      "when": "the one who asks needs help and has been helped before",
+      "then": "The player's patience is written; a deep tie forms."
+    },
+    {
+      "when": "the first date goes well and one asks the other to a family meal",
+      "then": "The invitation is written on the tie; the answer sets whether the other is brought into the household's circle."
+    }
+  ],
+  "usedBy": ["becoming-friends", "date"]
+}

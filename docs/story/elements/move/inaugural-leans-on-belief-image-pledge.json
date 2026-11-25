@@ -1,0 +1,38 @@
+{
+  "id": "inaugural-leans-on-belief-image-pledge",
+  "kind": "move",
+  "summary": "An inaugural point ends on a belief, an image or a pledge far more than on an ask.",
+  "realLife": "42% belief, 22% image and 18% pledge among the 76 inaugural points; 11% ended in an ask of the listeners.",
+  "sources": [
+    "https://avalon.law.yale.edu/19th_century/lincoln2.asp",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-8",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-11",
+    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-5",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["belief"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.82
+  },
+  "usedBy": [],
+  "inGame": "The inaugural row, moves creed, pledge and value (data/english/parts/outline-theme.json); the planner weights pieces by the speaker's traits.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Points end on asks.",
+      "pulledBy": "an assertive speaker in a hard year",
+      "writesBack": "The call section carries more weight."
+    },
+    {
+      "turn": "partial",
+      "what": "Belief and image, with the pledge left out.",
+      "pulledBy": "a speaker with no law in play",
+      "writesBack": "No pledge record is written."
+    }
+  ],
+  "issues": ["none"]
+}

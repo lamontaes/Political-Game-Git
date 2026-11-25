@@ -1,0 +1,32 @@
+{
+  "id": "leftovers-at-the-policy-lunch-feed-the-page",
+  "kind": "detail",
+  "summary": "Working the party luncheon at {place} can also settle what a page eats that day.",
+  "realLife": "Johnson recalled helping at the Tuesday policy luncheons and eating for free when food remained after service.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/johnson-michael-a-full-transcript-with-index.pdf#page=16"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the luncheon assignment and food left after service."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: luncheon assignment and food left after service.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Offer the page a meal.",
+      "pulledBy": "Food remains after the members eat.",
+      "writesBack": "Meal received."
+    },
+    {
+      "turn": "another-way",
+      "what": "Leave lunch to the page's own arrangements.",
+      "pulledBy": "The dishes come back empty.",
+      "writesBack": "Meal received."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "mayor-owns-the-mistake-and-says-what-she-assumed",
+  "kind": "voice",
+  "summary": "The mayor owns the mistake in plain words, says what they assumed, apologizes to the people affected, and says what will change.",
+  "realLife": "Mayors apologizing at council meetings or to the press used few words and gave no excuse. One said what she had assumed and apologized to the people who did the work; one said he overstepped his role; one said she should not have raised her voice and used profanity, but would not step down from her committee post.",
+  "sources": [
+    "Erica Stewart, San Luis Obispo mayor, statement apologizing for how a grand jury report was handled (as reported by KSBY): https://www.ksby.com/san-luis-obispo/san-luis-obispo-mayor-apologizes-over-handling-of-confidential-grand-jury-report-release",
+    "Mike Signer, Charlottesville mayor, statement apologizing for overstepping his role, Aug 30, 2017: https://augustafreepress.com/news/charlottesville-mayor-issues-apology-critical-comments/",
+    "Gina Ortiz Jones, San Antonio mayor, press conference apologizing to a council colleague, Feb 24, 2026 (Texas Public Radio): https://www.tpr.org/government-politics/2026-02-24/mayor-jones-issues-public-apology-as-san-antonio-city-council-prepares-for-censure-vote",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; some pages were read in part or through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["realm-name", "body-name"],
+  "gates": ["incumbent"],
+  "weights": {
+    "mayor": 0.5,
+    "apology": 0.7
+  },
+  "usedBy": [],
+  "inGame": "personality-v1 facets humble and calm on the mayor, with a council censure motion or a public records release on the mayor's record",
+  "turns": [
+    {
+      "way": "The mayor apologizes in one line and says no more.",
+      "pulledBy": "a proud mayor",
+      "writes": "a short sorry with no reasons"
+    },
+    {
+      "way": "The mayor explains what they thought at the time at length.",
+      "pulledBy": "a practical mayor",
+      "writes": "a long account, with the sorry near the end"
+    },
+    {
+      "way": "The mayor apologizes and refuses the council's other demands.",
+      "pulledBy": "a blunt mayor under a censure motion",
+      "writes": "a sorry joined to a no to the penalty"
+    }
+  ],
+  "issues": ["none"]
+}

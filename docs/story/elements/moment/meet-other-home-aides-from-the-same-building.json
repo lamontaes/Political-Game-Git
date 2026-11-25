@@ -1,0 +1,32 @@
+{
+  "id": "meet-other-home-aides-from-the-same-building",
+  "kind": "moment",
+  "summary": "Workers who spend their days in different homes discover through organizing that they live near each other.",
+  "realLife": "Adams credited his union with helping him learn that three other home-care workers lived in his building.",
+  "sources": [
+    "https://www.aging.senate.gov/imo/media/doc/SCA_Adams_02_12_2020.pdf"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{worker}", "{neighbor}", "{building}"],
+  "gates": [
+    "The workers share a building and an organization or event brings them together."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an organizing contact linked to both workers’ residences.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The neighbors coordinate a meeting.",
+      "pulledBy": "They want to keep in touch and have a common evening free.",
+      "writesBack": "A local gathering enters their calendars."
+    },
+    {
+      "turn": "partial",
+      "what": "The workers exchange contact information.",
+      "pulledBy": "Their shifts prevent meeting again soon.",
+      "writesBack": "The connection survives the first introduction."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "fewer-sick-days-now-more-days-to-carry",
+  "kind": "detail",
+  "summary": "At {workplace}, a sick-leave revision cuts the current allowance and increases what can carry forward.",
+  "realLife": "During bargaining in Katz the employer announced fewer paid sick days for the year and a higher potential carryover without consulting the union first.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/USREPORTS-369/pdf/USREPORTS-369-736.pdf#page=9"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the old and new leave schedules and bargaining dates."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: old and new leave schedules and bargaining dates.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The smaller current allowance affects the next absence.",
+      "pulledBy": "The worker needs leave this year",
+      "writesBack": "Current leave balance."
+    },
+    {
+      "turn": "another-way",
+      "what": "The revised carryover changes the next year's balance.",
+      "pulledBy": "The worker has unused days",
+      "writesBack": "Carryover entry."
+    }
+  ]
+}

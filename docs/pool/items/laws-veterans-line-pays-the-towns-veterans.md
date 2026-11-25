@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-8fxsy5
+claimed-by:
 pr:
 after: laws-income-security-raise-pays-through-ssi-and-food-aid
 blocked-on:
@@ -16,6 +16,8 @@ source: Account lead thread "Check state and federal laws take effect", Nov 15, 
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+claimed-at:
+branch: claude/project-thread-8fxsy5
 ---
 
 **What.** No veteran in town is paid a benefit, and when Congress raises the veterans line the whole raise goes to the outside account. The past's service pass already says which full residents served, so the town has veterans with no check. The bill's page and dev mode's bill card name nobody in town. Seen: the law page's "What this did" and dev mode's bill card for a Congress bill that raises veterans.
@@ -33,3 +35,5 @@ root: rc8-law-judged-by-paperwork
 **Waits on.** Nothing.
 
 **Files.** src/core2/law-reach/group-b-veterans.ts (new), src/core2/law-reach/group-b.ts, src/core2/data/laws/reach-group-b-parameters.json, src/core2/law-reach/veterans-reach.test.ts (new)
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-8fxsy5.

@@ -33,10 +33,23 @@ describe("News opens on", () => {
       ["tv", { stories: [story("b", "2025-05-31")] }],
       ["nation", { stories: [story("c", "2025-06-01")] }],
     ]);
-    // The Nation's page and the desk are not outlets the player follows.
-    expect(openingTab(outlets, null, new Set())).toBe("tv");
-    // Once that story is read, the next newest unread.
-    expect(openingTab(outlets, null, new Set(["b"]))).toBe("paper");
+    // An outlet the player follows comes first, whatever another prints (CTO,
+    // Nov 24: News opens on the first outlet the player follows).
+    expect(openingTab(outlets, null, new Set())).toBe("paper");
+    // Read, it is still the first they follow.
+    expect(openingTab(outlets, null, new Set(["a"]))).toBe("paper");
+    // With no outlet followed, the newest story heard wins, and the Nation's
+    // page and the desk are not outlets.
+    const unfollowed = tabs([
+      [
+        "paper",
+        { home: true, why: "local", stories: [story("a", "2025-05-28")] },
+      ],
+      ["tv", { stories: [story("b", "2025-05-31")] }],
+      ["nation", { stories: [story("c", "2025-06-01")] }],
+    ]);
+    expect(openingTab(unfollowed, null, new Set())).toBe("tv");
+    expect(openingTab(unfollowed, null, new Set(["b"]))).toBe("paper");
   });
 
   it("the last tab the player chose while it has something new", () => {
@@ -49,7 +62,7 @@ describe("News opens on", () => {
     ]);
     expect(openingTab(outlets, "paper", new Set())).toBe("paper");
     // Read, so it gives way to the outlet with something new.
-    expect(openingTab(outlets, "paper", new Set(["a"]))).toBe("tv");
+    expect(openingTab(outlets, "paper", new Set(["a"]))).toBe("paper");
   });
 
   it("the desk of stories no outlet printed when only it has something new", () => {
@@ -59,6 +72,18 @@ describe("News opens on", () => {
       ["news", { stories: [story("record:2", "2025-05-30")] }],
     ]);
     expect(openingTab(outlets, null, new Set())).toBe("news");
+  });
+
+  it("the first outlet the player follows when the home paper is not one", () => {
+    const outlets = tabs([
+      [
+        "leader",
+        { home: true, why: "record", stories: [story("r", "2025-05-30")] },
+      ],
+      ["kxyz", { why: "follows", stories: [] }],
+      ["tv", { stories: [story("b", "2025-05-31")] }],
+    ]);
+    expect(openingTab(outlets, null, new Set())).toBe("kxyz");
   });
 
   it("the home paper when nothing is unread", () => {

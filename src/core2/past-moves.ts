@@ -18,7 +18,7 @@
  * people engine's births and partnerships read it.
  */
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
 import {
   grainDate,
@@ -40,6 +40,8 @@ import type {
   PersonState,
 } from "./types";
 import { townWithin } from "./places-elsewhere";
+import { tenureScaleOf } from "./opening-tenure";
+import { openingTenureOf } from "./modules/housing";
 
 export const PERSON_MOVED_IN = ownPastKind("person.moved-in");
 /** The past fact a person's birthplace is kept as (src/core2/person-birthplace.ts). */
@@ -50,6 +52,31 @@ export const PERSON_MOVED_WITHIN = ownPastKind("person.moved-within");
 const MOVES = moveRows as unknown as Readonly<
   Record<string, { value: number }>
 >;
+
+/**
+ * Each town household's multiple of its age's moving rate by the tenure of
+ * its home on day one, as the housing opening drew it (opening-tenure.ts
+ * `tenureScaleOf`, the rule the opening's years in place reads), its head's
+ * age counted on `on`. The run before the start and one person's own past
+ * opened later read the same homes.
+ */
+function tenureScaleIn(core: CoreState, on: IsoDate) {
+  // stopgapId: SG-HIST-opening-tenure-town-only
+  stopgap("SG-HIST-opening-tenure-town-only", core);
+  return tenureScaleOf(
+    openingTenureOf(core),
+    [...core.households.values()].map((home) => ({
+      id: home.id,
+      head: Math.max(
+        0,
+        ...home.memberIds.map((id) => {
+          const person = core.people.get(id as PersonId);
+          return person ? ageInYears(person.birthDate, on) : 0;
+        }),
+      ),
+    })),
+  );
+}
 
 /** The moves engine's life-stage rate: the share of people of an age in a place's state who leave their county in a year (src/core2/modules/moves.ts `departureRateFor`). */
 export type DepartureRate = (placeId: string, age: number) => number;
@@ -187,6 +214,7 @@ function moveRecords(
   const daysPerYear = api.parameter("daysPerMeanYear");
   const enough = MOVES.movesStayPull!.value;
   const childrenHold = Math.exp(-MOVES.movesChildrenHold!.value);
+  const tenureScale = tenureScaleIn(core, window.through);
   const lastYear = Number(window.through.slice(0, 4)) - 1;
   // The economy pass's months, oldest first: the one in force on a day is
   // the latest at or before it.
@@ -211,6 +239,7 @@ function moveRecords(
     const origin = originOf(core, person);
     if (!origin) continue;
     const children = childrenOf(core, person);
+    const scale = tenureScale(person.householdId);
     let pull = 0;
     let date: string | undefined;
     for (
@@ -229,7 +258,11 @@ function moveRecords(
             Math.round(grown * daysPerYear),
           ) > from,
       );
-      const year = rate(person.placeId, age) * (atHome ? childrenHold : 1);
+      // A renter's pull builds faster than an owner's (the owner hold).
+      const year =
+        rate(person.placeId, age) *
+        (atHome ? childrenHold : 1) *
+        (scale?.(age) ?? 1);
       if (pull + year >= enough) {
         const share = (enough - pull) / year;
         date = addDays(makeIsoDate(from), Math.round(share * daysPerYear));
@@ -281,7 +314,68 @@ function moveRecords(
       },
     });
   }
-  return rows;
+  return cameOnce(core, rows);
+}
+
+/**
+ * A person comes to the county once: the earliest arrival that names them,
+ * their own or a parent's they came with. Two parents of one household can
+ * each be pulled here on their own day, and a grown child at home can be
+ * pulled on theirs, so a later record that would bring them a second time
+ * leaves them out, and their own later move is not written.
+ */
+function cameOnce(
+  core: Readonly<CoreState>,
+  rows: Omit<HistoryRecord, "moduleId">[],
+): Omit<HistoryRecord, "moduleId">[] {
+  const came = new Set<string>();
+  const arrivedOn = new Map(
+    rows.map((row) => [String(row.facts.personId), String(row.date)]),
+  );
+  // A child whose other parent was already living here the day they were
+  // born was born here: a later arrival of one parent does not bring them.
+  const bornHere = (childId: string, moverId: string): boolean => {
+    const child = core.people.get(childId as PersonId);
+    if (!child) return false;
+    return (child.pastFacts ?? []).some((fact) => {
+      if (!["family:parent", "family:other-parent"].includes(fact.kind))
+        return false;
+      const parent = core.people.get(fact.facts?.otherPersonId as PersonId);
+      if (!parent || parent.id === moverId || !parent.alive) return false;
+      if (parent.placeId !== child.placeId) return false;
+      const on =
+        arrivedOn.get(parent.id) ??
+        preStartHistory(core as CoreState, {
+          kind: PERSON_MOVED_IN,
+          personId: parent.id,
+        })[0]?.date;
+      // No arrival on record: they came before the run's window, or came as
+      // a child, or were always here.
+      return on === undefined || on < child.birthDate;
+    });
+  };
+  const kept = new Set<Omit<HistoryRecord, "moduleId">>();
+  for (const row of [...rows].sort(
+    (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+  )) {
+    const [mover, ...withThem] = row.personIds ?? [];
+    if (mover === undefined || came.has(mover)) continue;
+    const comes = (id: string) => !came.has(id) && !bornHere(id, mover);
+    const children = withThem.filter(comes);
+    const childIds = String(row.facts?.childIds ?? "")
+      .split(" ")
+      .filter((id) => id && comes(id));
+    for (const id of [mover, ...children, ...childIds]) came.add(id);
+    row.personIds = [mover, ...children];
+    if (row.facts?.childIds !== undefined) {
+      const facts: Record<string, string | number> = { ...row.facts };
+      if (childIds.length) facts.childIds = childIds.join(" ");
+      else delete facts.childIds;
+      row.facts = facts;
+    }
+    kept.add(row);
+  }
+  return rows.filter((row) => kept.has(row));
 }
 
 /**
@@ -309,9 +403,11 @@ function withinRecords(
   const arrivedOn = new Map(
     arrivals.map((row) => [String(row.facts.personId), row]),
   );
+  const tenureScale = tenureScaleIn(core, window.through);
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
   for (const person of people) {
     if (!person.alive || (person.tier === "husk" && !worldFrom)) continue;
+    const scale = tenureScale(person.householdId);
     const born = makeIsoDate(person.birthDate);
     const arrived =
       arrivedOn.get(person.id) ??
@@ -331,7 +427,8 @@ function withinRecords(
         arrived && from < arrived.date
           ? String(arrived.facts.fromPlaceId)
           : person.placeId;
-      const year = -Math.log(1 - rate(placeId, age));
+      // A renter moves more often than an owner (the owner hold).
+      const year = -Math.log(1 - rate(placeId, age)) * (scale?.(age) ?? 1);
       for (; pull + year >= line; line = lineOf(count)) {
         const share = (line - pull) / year;
         pull -= line;

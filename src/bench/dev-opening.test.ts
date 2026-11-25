@@ -114,13 +114,18 @@ it("shows how the town, the player, their household, a business and an office op
   expect(person.rows.find((r) => r.label === "Name")?.recordId).toBe(
     world.core.playerId,
   );
-  // The player's age when the life began, and how the opening set it (no birthday chosen here).
+  // The player's age when the life began, and how the opening set it: no
+  // age is chosen here, so the owner's default of 18 is the chosen age
+  // (Nov 16: "18, unless you pick another age"), decided from that record,
+  // not drawn among the town's adults (CTO, category c, as on #9950).
   const age = person.rows.find((r) => r.label === "Age when the life began");
-  expect(age?.made, where).toBe(SOURCES.kinds.generation);
-  expect(Number(age?.value), where).toBeGreaterThanOrEqual(18);
-  expect(age?.drawKey, where).toMatch(
-    /^opening-player:\S+: 0\.\d{3}, one of [\d,]+ adults in id order$/,
-  );
+  expect(age?.made, where).toBe(SOURCES.kinds.decision);
+  expect(String(age?.value), where).toMatch(/^\d+ \(chosen 18\b/);
+  expect(
+    Number(String(age?.value).split(" ")[0]),
+    where,
+  ).toBeGreaterThanOrEqual(18);
+  expect(age?.drawKey, where).toBeUndefined();
 
   const household = await ask("subject=household");
   expect(household.rows[0]!.value, where).not.toBe("0");
@@ -137,11 +142,10 @@ it("shows how the town, the player, their household, a business and an office op
   expect(office.rows.map((r) => r.label)).toContain(
     "Share of the vote last time",
   );
-  // The town's U.S. House seat. Its 2024 race was uncontested (Clerk of the House, AL-03:
-  // no two-party share), so the research holds no share for it and the last share is
-  // generated inside the House band (the world's fine seeded unit, listed with its reasons);
-  // offices-past-results.test.ts pins a contested seat, read as the real result moved by the
-  // world's drift.
+  // The town's U.S. House seat. Its last share is its own race in the century before day one,
+  // cited by that race's record (CTO line 6939219670 on #9747: "a holder's last share is their
+  // own century race's count, cited as century:"); offices-past-results.test.ts checks the
+  // real result moved by the world's drift under "just like today".
   const houseSeat = office.choices.office.find((c) =>
     c.id.includes(":us-house:"),
   );
@@ -152,7 +156,8 @@ it("shows how the town, the player, their household, a business and an office op
   const houseShare = house.rows.find(
     (r) => r.label === "Share of the vote last time",
   );
-  expect(houseShare?.made, where).toBe(SOURCES.kinds.generation);
+  expect(houseShare?.made, where).toBe(SOURCES.kinds.decision);
+  expect(houseShare?.recordId, where).toBe("century:US-AL:house:3:2024");
   expect(houseShare?.value, where).toMatch(/ in 2024$/);
 
   // Another person from the choices opens by id, and every row's kind is one of the list's.

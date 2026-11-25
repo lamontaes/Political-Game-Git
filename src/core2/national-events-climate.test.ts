@@ -26,7 +26,6 @@ import { coreAPI } from "./state";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const POWER_PLANTS =
   "us-federal-positions:energy-environment.limit-power-plant-carbon";
-const RECORD_END = "2026-10-09";
 
 function run(flip: boolean) {
   const place = drawPlace(`${seed}:events`, "core2-national-events");
@@ -42,6 +41,7 @@ function run(flip: boolean) {
   openClimate(core);
   openNationalEvents(core);
   const api = coreAPI(core);
+  const opened = core.date;
   let open = 0;
   if (flip) {
     open = stateLawInForce(api, "US-OH", POWER_PLANTS).value ?? 0;
@@ -64,23 +64,30 @@ function run(flip: boolean) {
     expected: number;
     fired: number;
   }[];
-  return { api, place, open, exposures, events: nationalEvents(api) };
+  const years =
+    (Date.parse("2028-01-20") - Date.parse(opened)) / (365.25 * 86_400_000);
+  return { api, place, open, exposures, years, events: nationalEvents(api) };
 }
 
 describe(`the country's disasters from the climate's hazard levels (seed ${seed})`, () => {
   it("makes disasters after the record from exposures that move only with the laws", () => {
     const base = run(false);
     const twin = run(true);
-    const made = base.events.filter((e) => e.hazard);
-    const real = base.events.filter((e) => !e.hazard);
-    // Inside the record they are FEMA's; after it they come from the levels.
-    expect(real.length).toBeGreaterThan(0);
-    for (const e of real) expect(e.date <= RECORD_END).toBe(true);
-    expect(made.length).toBeGreaterThan(0);
+    // Every disaster is the world's own: it comes from a hazard level, and
+    // a zero count must not pass silently.
+    const made = base.events;
+    expect(
+      made.length,
+      "the world made disasters from its exposures",
+    ).toBeGreaterThan(0);
+    const exposureIds = new Set(base.exposures.map((row) => row.id));
     for (const e of made) {
-      expect(e.date > RECORD_END, e.id).toBe(true);
       expect(["flood", "storm", "wildfire"]).toContain(e.hazard);
-      // Opened, it shows the counties and aid of a recorded disaster of its state.
+      expect(
+        exposureIds.has(`exposure:${e.stateKey}:${e.hazard}`),
+        `${e.id} has an exposure row`,
+      ).toBe(true);
+      // Opened, it shows the counties and aid of a template disaster of its state.
       expect(nationalDisasterDetail(base.api, e.id)?.counties.length).toBe(
         e.counties,
       );
@@ -92,7 +99,7 @@ describe(`the country's disasters from the climate's hazard levels (seed ${seed}
     // Generated per year, the count matches the recorded rate it comes from (about the record's yearly flood, storm and wildfire disasters).
     const months = new Set(made.map((e) => e.date.slice(0, 7)));
     const expectedTotal = base.exposures.reduce((n, r) => n + r.expected, 0);
-    const generatedYears = 14 / 12;
+    const generatedYears = base.years;
     expect(expectedTotal / generatedYears).toBeGreaterThan(50);
     // The twin differs by the laws, and only by them: its exposures sum moves the way the rule's link says.
     const sum = (rows: typeof base.exposures) =>
@@ -107,7 +114,7 @@ describe(`the country's disasters from the climate's hazard levels (seed ${seed}
       ),
     ).toBe(direction);
     process.stdout.write(
-      `national events from levels: ${base.place.name}, ${base.place.state} (seed ${seed}:events); ${real.length} recorded and ${made.length} generated disasters to 2028-01-20 in ${months.size} months; exposure sum ${sum(base.exposures).toFixed(6)} baseline vs ${sum(twin.exposures).toFixed(6)} with the power-plant rule ${twin.open ? "repealed" : "enacted"}; first ${made[0]!.id}\n`,
+      `national events from levels: ${base.place.name}, ${base.place.state} (seed ${seed}:events); ${made.length} disasters to 2028-01-20 in ${months.size} months; exposure sum ${sum(base.exposures).toFixed(6)} baseline vs ${sum(twin.exposures).toFixed(6)} with the power-plant rule ${twin.open ? "repealed" : "enacted"}; first ${made[0]!.id}\n`,
     );
   }, 900_000);
 });

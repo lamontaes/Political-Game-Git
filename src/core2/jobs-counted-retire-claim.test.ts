@@ -75,10 +75,38 @@ it("pays each counted worker who retired their own claim, once, and no place-ave
       where,
     ).toEqual([]);
     const claims = retirementClaims(core!);
+    // A retiree whose household has since left the counts (it moved away, or
+    // its last member died) took the award with it: the residents engine
+    // ends the claim's flow with its own reason, "household-left"
+    // (`endHouseholdFlows`). Such a retiree is named and passed over; a flow
+    // that ended any other way, or while the household is still counted,
+    // fails below. Pleasant Hill, Missouri (2958394), world seed 5bebb80a…:
+    // 1 of 203 retirees left on June 1, 2025.
+    const store = residentsRuntime(core!)!.store;
+    const stillCounted = new Set(
+      [...store.liveHouseholds()].flatMap((h) =>
+        store.countedMembers(h).map((m) => store.ids[m]!),
+      ),
+    );
+    const left: string[] = [];
+    let checked = 0;
     // The retirement claimed on the day; each award is the claim flow, once.
     for (const row of retired) {
       const claim = claims.get(row.personId)!;
       expect(claim.counted, `${where}: ${row.id} claim is counted`).toBe(true);
+      const ended = flows.filter(
+        (f) => f.id === claim.obligationId && f.endedAt,
+      );
+      if (
+        ended.length === 1 &&
+        ended[0]!.endedReason === "household-left" &&
+        !stillCounted.has(row.personId) &&
+        !core!.people.has(row.personId as never)
+      ) {
+        left.push(`${row.personId} left on ${ended[0]!.endedAt}`);
+        continue;
+      }
+      checked += 1;
       if (claim.obligationId !== `retirement-claim:${row.personId}`)
         console.log(
           `${where}: ${row.personId} returned to the counts, paid by ${claim.obligationId}`,
@@ -96,6 +124,13 @@ it("pays each counted worker who retired their own claim, once, and no place-ave
         0,
       );
     }
+    expect(
+      checked,
+      `${where}: every retiree's household left the counts: ${left.join("; ")}`,
+    ).toBeGreaterThan(0);
+    process.stdout.write(
+      `jobs-counted-retire-claim: ${where}; ${checked} retirees paid their own claim once; passed over, household left the counts: ${left.join("; ") || "none"}\n`,
+    );
   } finally {
     setBookkeeping(true);
   }

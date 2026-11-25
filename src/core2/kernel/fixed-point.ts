@@ -72,3 +72,60 @@ export function survivalThresholdFromDraws(high: number, low: number): bigint {
   if (u >= FIXED_SCALE) u = FIXED_SCALE - 1n;
   return -fixedLn(u);
 }
+
+/** A finite double as the exact fraction it stores: numerator over a power of two. */
+function exactFraction(x: number): { n: bigint; d: bigint } {
+  if (!Number.isFinite(x)) throw new RangeError(`not finite: ${x}`);
+  if (x === 0) return { n: 0n, d: 1n };
+  const view = new DataView(new ArrayBuffer(8));
+  view.setFloat64(0, x);
+  const bits = view.getBigUint64(0);
+  const sign = bits >> 63n ? -1n : 1n;
+  const stored = Number((bits >> 52n) & 0x7ffn);
+  let mantissa = bits & ((1n << 52n) - 1n);
+  let exponent = -1074;
+  if (stored !== 0) {
+    mantissa |= 1n << 52n;
+    exponent = stored - 1075;
+  }
+  return exponent >= 0
+    ? { n: sign * mantissa * (1n << BigInt(exponent)), d: 1n }
+    : { n: sign * mantissa, d: 1n << BigInt(-exponent) };
+}
+
+/**
+ * `value` times the product of `over` divided by the product of `under`,
+ * computed exactly from the doubles as stored and rounded once, at the end, to
+ * the nearest integer (halves up, as `Math.round`). A line of a hundred
+ * trillion cents times two or three ratios lands a cent off when each step
+ * rounds in floating point.
+ */
+export function roundExactProduct(
+  value: number,
+  over: readonly number[],
+  under: readonly number[] = [],
+): number {
+  let n = 1n;
+  let d = 1n;
+  for (const x of [value, ...over]) {
+    const f = exactFraction(x);
+    n *= f.n;
+    d *= f.d;
+  }
+  for (const x of under) {
+    const f = exactFraction(x);
+    if (f.n === 0n) throw new RangeError("divided by zero");
+    n *= f.d;
+    d *= f.n;
+  }
+  if (d < 0n) {
+    n = -n;
+    d = -d;
+  }
+  // floor((2n + d) / 2d), with floor division for negative numerators.
+  const top = 2n * n + d;
+  const bottom = 2n * d;
+  let q = top / bottom;
+  if (top % bottom !== 0n && top < 0n) q -= 1n;
+  return Number(q);
+}

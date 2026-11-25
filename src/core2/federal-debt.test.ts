@@ -75,7 +75,7 @@ describe("the federal debt", { timeout: 600_000 }, () => {
         `${where} ${month.date}`,
       ).toBe(month.borrowedMinor);
     // Every group's balance is its opening balance plus what it lent, less
-    // what was repaid (maturing debt rolls over, so none is repaid here).
+    // what was repaid from a surplus at a close.
     for (const row of debt) {
       const before = opening.find((o) => o.id === row.id)!;
       const lent = months.reduce(
@@ -197,12 +197,16 @@ describe("the federal debt", { timeout: 600_000 }, () => {
     );
     const after = federalDebtOf(api).find((r) => r.id === largest.id)!;
     expect(lent > 0n, where).toBe(true);
-    // Exact to the minor unit: the sum before plus every borrowing, none rounded away.
+    // What a surplus at a close repaid comes off the balance, never off the
+    // lifetime lending (repayFederalSurplus).
+    const repaid = BigInt(after.repaidMinor - before.repaidMinor);
+    // Exact to the minor unit: the sum before plus every borrowing, less every
+    // repayment, none rounded away.
     expect(debtBorrowedExact(after), where).toBe(
       debtBorrowedExact(before) + lent,
     );
     expect(debtBalanceExact(after), where).toBe(
-      debtBalanceExact(before) + lent,
+      debtBalanceExact(before) + lent - repaid,
     );
     expect(
       after.balanceRest < DEBT_SPLIT && after.borrowedRest < DEBT_SPLIT,

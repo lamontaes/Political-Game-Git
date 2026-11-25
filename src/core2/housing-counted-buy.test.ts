@@ -14,7 +14,10 @@
  * made. Once households open at their survey median times their own savings
  * draw, buyers also draw their group's savings at the bank toward the down
  * payment, so the bank's cash falls by the loans plus the savings paid out,
- * read from the bank's deposit records (paid out less paid in).
+ * read from the bank's deposit records (paid out less paid in). The groups'
+ * accounts gain those savings before they pay the down payment, so their own
+ * balance carries the same term (Nov 19, the hosted full run's red at
+ * Bastrop: the difference was exactly the savings drawn, 17,477,201 cents).
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -247,9 +250,14 @@ it("counted renters on their lease month buy from their own savings, short ones 
     Math.abs(bankBefore - bankAfter - banked - savingsDrawn),
     detail,
   ).toBeLessThanOrEqual(bought.length);
+  // The savings a buyer drew at the bank go into its group's account before the down payment is paid from it, so the groups' accounts also gained what the bank's depositors paid out (the same savingsDrawn the bank's line above subtracts).
   expect(
     Math.abs(
-      before.funds - after.funds - down + (after.toGroups - before.toGroups),
+      before.funds -
+        after.funds -
+        down +
+        (after.toGroups - before.toGroups) +
+        savingsDrawn,
     ),
     detail,
   ).toBeLessThanOrEqual(bought.length);

@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-8fxsy5
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,6 +16,8 @@ source: Laws thread, Nov 15, 2026, pinning the gas hookup ban's test (the Train'
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+claimed-at:
+branch: claude/project-thread-8fxsy5
 ---
 
 **What.** After the opening, a town's builders start almost nothing: at Wilton, Maine (4,000 people) and Eveleth, Minnesota no house or apartment building was started in 760 days, so no new homes come on the market. Laws that act on new building (the gas hookup ban, inclusionary set-asides, by-right apartments, farmland protection) reach no builder. Seen: the gas hookup ban's law page and dev mode's reach name no builder; Housing shows no new homes for sale.
@@ -33,3 +35,5 @@ root: rc8-law-judged-by-paperwork
 **Waits on.** Nothing.
 
 **Files.** src/core2/housing-construction.ts, src/core2/modules/housing.ts, src/core2/housing-builders-start.test.ts (new)
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 2-hour time box. Continue on branch claude/project-thread-8fxsy5.

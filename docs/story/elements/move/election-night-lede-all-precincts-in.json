@@ -1,0 +1,34 @@
+{
+  "id": "election-night-lede-all-precincts-in",
+  "kind": "move",
+  "summary": "The lede gives the hour the last precinct reported and says which side took every seat.",
+  "realLife": "A city election story opened on the hour all precincts were in and that one party held all the seats up.",
+  "sources": [
+    "WHQR (Wilmington, North Carolina), 'For the second election in a row, Democrats sweep Wilmington council and mayoral races', Nov. 5, 2025: https://www.whqr.org/local/2025-11-05/for-the-second-election-in-a-row-democrats-sweep-wilmington-council-and-mayoral-races",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "body", "party"],
+  "gates": [],
+  "weights": {
+    "election": 1.0
+  },
+  "inGame": "`election-result` and `primary-result` builders (winner, seat, date); needs: a party sweep read across seats",
+  "turns": [
+    {
+      "name": "a split result",
+      "pulledBy": "seats divided between parties",
+      "writes": "the lede says who took which seat",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a result not yet known",
+      "pulledBy": "a margin inside the count still open",
+      "writes": "the lede says the race is too close to call",
+      "requiresFacts": ["by-one"],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

@@ -203,6 +203,19 @@
       "sectorSource": "Industry is NAICS 622-623 hospitals and nursing and residential care, inside NAICS 62, in the BLS education and health services supersector."
     },
     {
+      "id": "hospital",
+      "industry": "Hospitals",
+      "marginParameter": "businessIrsCareHomeMargin",
+      "payrollShareParameter": "businessIrsCareHomePayrollShare",
+      "salesCostShareParameter": "businessIrsCareHomeSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysCareHome",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"],
+      "sector": "education-health",
+      "sectorSource": "Industry is NAICS 622 hospitals, inside NAICS 62, in the BLS education and health services supersector. IRS SOI Table 5.1 publishes hospitals with nursing and residential care in one column, so a hospital's ratios are that column's, the same parameters the care home reads."
+    },
+    {
       "id": "recreation",
       "industry": "Amusement, gambling, and recreation industries",
       "marginParameter": "businessIrsRecreationMargin",
@@ -465,9 +478,9 @@
     },
     {
       "classification": "service:hospital",
-      "kindId": null,
-      "fundingRoute": "branch-or-institution-budget-required",
-      "citation": "Old TOWN_BUSINESS_WORKPLACES explicitly excludes the hospital.",
+      "kindId": "hospital",
+      "fundingRoute": "business",
+      "citation": "A town's hospital (written only under a source record's name, opening-town-jobs.ts) keeps books as every employer does, so a household's medical bill has a hospital to pay (agreed with the health thread, Nov 16). Its ratios are IRS SOI's hospitals, nursing and residential care column; its payer mix is not modeled here.",
       "stopgapId": "SG-P8-business-books-classification"
     },
     {

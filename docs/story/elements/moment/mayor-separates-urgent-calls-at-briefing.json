@@ -1,0 +1,31 @@
+{
+  "id": "mayor-separates-urgent-calls-at-briefing",
+  "kind": "moment",
+  "summary": "At the storm briefing in {place}, the mayor tells callers which number handles a nonurgent report.",
+  "realLife": "During Sandy, Bloomberg reminded residents which calls belonged with emergency dispatch and which could go to 311.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=14"
+  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "The city has separate active numbers for emergencies and routine storm reports."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the city has separate active numbers for emergencies and routine storm reports.",
+  "turns": [
+    {
+      "turn": "the-caller-reports-an-immediate-emergency",
+      "pulledBy": "The caller reports an immediate emergency.",
+      "what": "Direct the caller to emergency dispatch.",
+      "writesBack": "Emergency dispatch receives the urgent referral."
+    },
+    {
+      "turn": "the-caller-needs-ordinary-service-information",
+      "pulledBy": "The caller needs ordinary service information.",
+      "what": "Give the local information number.",
+      "writesBack": "The caller receives the information-service contact."
+    }
+  ]
+}

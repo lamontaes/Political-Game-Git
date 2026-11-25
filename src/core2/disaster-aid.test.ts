@@ -28,34 +28,43 @@ it("a disaster's federal aid is in the state's budget for the year", () => {
     placeKey: place.key,
   });
   const api = coreAPI(world.core);
-  let day = makeIsoDate(world.core.date);
-  const end = addDays(day, 150);
-  while (day < end) {
-    day = addDays(day, 1);
-    advanceCore(world.core, day);
-  }
   const where = `${place.name}, seed ${seed}`;
-  const budgets = api
-    .moduleState(BUDGETS_MODULE_ID)
-    .table("budgets")
-    .rows() as unknown as BudgetRow[];
-  const withAid = nationalEvents(api)
-    .filter((e) => e.date <= day)
-    .map((e) => ({
-      e,
-      aid: nationalDisasterDetail(api, e.id)!.publicAssistanceMinor,
-    }))
-    .filter(({ aid }) => aid > 0)
-    .map(({ e, aid }) => ({
-      e,
-      aid,
-      row: budgets.find(
-        (b) => b.governmentId === e.stateKey && b.source.includes(e.id),
-      ),
-    }));
+  let day = makeIsoDate(world.core.date);
+  // Play on until the world's own exposures have made a disaster with federal
+  // aid that reached a state budget, up to three years; running out of time
+  // without one fails the test, never passes it.
+  const end = addDays(day, 365 * 3);
+  const aided = () => {
+    const budgets = api
+      .moduleState(BUDGETS_MODULE_ID)
+      .table("budgets")
+      .rows() as unknown as BudgetRow[];
+    return nationalEvents(api)
+      .filter((e) => e.date <= day)
+      .map((e) => ({
+        e,
+        aid: nationalDisasterDetail(api, e.id)!.publicAssistanceMinor,
+      }))
+      .filter(({ aid }) => aid > 0)
+      .map(({ e, aid }) => ({
+        e,
+        aid,
+        row: budgets.find(
+          (b) => b.governmentId === e.stateKey && b.source.includes(e.id),
+        ),
+      }));
+  };
+  let withAid = aided();
+  while (day < end && !withAid.some((x) => x.row)) {
+    for (let i = 0; i < 30 && day < end; i++) {
+      day = addDays(day, 1);
+      advanceCore(world.core, day);
+    }
+    withAid = aided();
+  }
   expect(
     withAid.length,
-    `${where}: a disaster with federal aid`,
+    `${where}: a disaster with federal aid within three years`,
   ).toBeGreaterThan(0);
   for (const { e, aid, row } of withAid.filter((x) => x.row)) {
     expect(row!.revenueMinor.federalAid, e.id).toBeGreaterThanOrEqual(aid);

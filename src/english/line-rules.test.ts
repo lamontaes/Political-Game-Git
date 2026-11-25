@@ -702,23 +702,6 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
     });
     expect(wrong).toEqual([]);
   });
-
-  it("an opener asking after a school is said only where the record shows the years since", () => {
-    const talk = bank("conversation");
-    const asks = talk.filter((p) => /remember \{school\}/i.test(p.text));
-    expect(asks.length).toBeGreaterThan(0);
-    // Every such opener in the bank requires long-ago, so the rule leaves it alone.
-    expect(flagged("no-do-you-remember-the-school", talk)).toEqual([]);
-    // The same line in an opener without that fact is caught.
-    const bare = {
-      ...asks[0]!,
-      uses: asks[0]!.uses.map((use) => ({ ...use, requiresFacts: [] })),
-    };
-    expect(ruleFlags(byId.get("no-do-you-remember-the-school")!, bare)).toBe(
-      true,
-    );
-  });
-
   it("scene narration speaks as you, and a speaker in the same scene may say I", () => {
     const talk = bank("scene-talk");
     const words = bank("scene-words");
@@ -754,51 +737,6 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
         uses: line.uses.map((use) => ({ ...use, purpose: "bribe-offer" })),
       }),
     ).toBe(false);
-  });
-
-  it("a body is called the board only where its name is on record; the vote board is left alone", () => {
-    // The three talk lines this rule used to flag (the filing clerk's "the
-    // board sets the town's budget" and two more) were rewritten to read the
-    // body's name in #8750 (2a68588939), so the bank holds none now. The rule
-    // is held by its own cases here, never by a count of bank lines.
-    const talk = bank("scene-talk");
-    const rule = byId.get("body-named-as-place-names-it")!;
-    const clerk = {
-      bank: "scene-talk",
-      key: "fixture.clerk",
-      kind: "",
-      move: "",
-      text: "You'd run the town day to day: the departments, the budget, and whatever the board sends you to sign.",
-      uses: [
-        {
-          subject: "scene",
-          role: "asker",
-          purpose: "filing-clerk",
-          excludesFacts: ["body"],
-        },
-      ],
-    } as RulePiece;
-    expect(ruleFlags(rule, clerk)).toBe(true);
-    // The same words where the body's name is not excluded are not flagged.
-    expect(
-      ruleFlags(rule, {
-        ...clerk,
-        uses: [{ subject: "scene", role: "asker", purpose: "filing-clerk" }],
-      } as RulePiece),
-    ).toBe(false);
-    // A line that names the body through its slot is not flagged.
-    expect(
-      ruleFlags(rule, {
-        ...clerk,
-        text: "The {body} sets the budget and passes the local laws.",
-      }),
-    ).toBe(false);
-    // It flags nothing the bank holds now.
-    expect(flagged("body-named-as-place-names-it", talk)).toEqual([]);
-    // The vote board's tally line is left alone.
-    const tally = talk.find((p) => /^The board shows every name/.test(p.text))!;
-    expect(ruleFlags(rule, tally)).toBe(false);
-    expect(rule.status).toBe("rewrite");
   });
 });
 

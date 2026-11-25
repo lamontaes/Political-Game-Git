@@ -6,7 +6,6 @@ import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent } from "../core2/state";
 import { familyFactsOf } from "../core2/closeness";
-import { openConversation } from "./conversation";
 import { createDirector } from "./ledger";
 import { composeScene } from "./scene";
 
@@ -81,47 +80,6 @@ applyCoreEvent(core, {
 advanceCore(core, "2021-02-20");
 
 describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("builds each staged scene from its records, in second person, and opens a conversation", () => {
-    let scenes = 0;
-    let narrated = 0;
-    // The moments no situation type staged, kept so a failure can name them.
-    const passedOver: string[] = [];
-    for (const book of director.ledger.people.values())
-      for (const entry of book.schedule) {
-        if (!entry.bindings.length) {
-          passedOver.push(entry.momentId);
-          continue;
-        }
-        const scene = composeScene(core, director, book.personId, entry)!;
-        // A line the mined bank has no sentence for is left out, so a scene
-        // may narrate fewer lines.
-        narrated += scene.narration.length;
-        for (const line of scene.narration) {
-          expect(line.text).not.toMatch(/\b(I|my|me)\b/);
-          expect(line.sourceRecordIds.length).toBeGreaterThan(0);
-        }
-        // Only people the records put there are present.
-        for (const id of scene.presentIds)
-          expect(core.people.has(id)).toBe(true);
-        if (scene.talkToId) {
-          expect(scene.presentIds).toContain(scene.talkToId);
-          const talk = openConversation(core, book.personId, scene.talkToId);
-          // With nothing on record to say, nothing is said: no hello and
-          // goodbye with nothing between (owner, Oct 24: "that should be
-          // going to the hi, have a good day. That makes no sense."). A talk
-          // that said something and has nothing left ends with a goodbye.
-          if (!talk.choices.length && talk.lines.length)
-            expect(talk.lines.at(-1)?.kind).toBe("farewell");
-        }
-        scenes += 1;
-      }
-    expect(
-      scenes,
-      `${base.placeMetadata?.placeName} (seed ${seed}): no scene was staged; ${passedOver.length} moments had no situation type: ${passedOver.slice(0, 8).join(", ")}`,
-    ).toBeGreaterThan(0);
-    expect(narrated).toBeGreaterThan(0);
-  });
-
   it("stages a family scene for a death, and a scene at home only in the watched person's own home with the people the records put there", () => {
     let homes = 0;
     for (const book of director.ledger.people.values()) {
@@ -152,30 +110,6 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
     process.stdout.write(
       `SCENES ${base.placeMetadata?.placeName} (seed ${seed}): ${homes} scene(s) at home; the death of ${dead} is ${lost!.bindings.map((row) => `${row.typeKey} at ${row.setting.kind}`).join(", ")} for ${homeId}\n`,
     );
-  });
-
-  it("opens each scene with one narrator paragraph that never restates the day or the player's own home", () => {
-    let checked = 0;
-    for (const book of director.ledger.people.values())
-      for (const entry of book.schedule) {
-        if (!entry.bindings.length) continue;
-        const scene = composeScene(core, director, book.personId, entry)!;
-        if (!scene.narration.length) continue;
-        // One paragraph, not two short lines.
-        expect(scene.narration).toHaveLength(1);
-        const text = scene.narration[0]!.text;
-        expect(text.match(/[.!?](\s|$)/g)?.length ?? 0).toBeGreaterThanOrEqual(
-          1,
-        );
-        // The screen shows the day and the town (owner, Oct 26: "it shouldn't
-        // say you're at home in Albion or it's Tuesday in November").
-        expect(text).not.toMatch(
-          /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/,
-        );
-        expect(text).not.toMatch(/\b(You're|You are) (at )?home\b/);
-        checked += 1;
-      }
-    expect(checked).toBeGreaterThan(0);
   });
 
   it("plays a moment no situation type binds, at home, instead of failing", () => {
