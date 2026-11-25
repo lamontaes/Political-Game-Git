@@ -2,7 +2,13 @@
   "schema": "english-judged/2",
   "rule": "reply-second-move-follows-the-first",
   "rubric": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
+<<<<<<< HEAD
   "judged": 6325,
   "no": {},
   "yesHash": "2godfpvf6k9"
+=======
+  "judged": 8657,
+  "no": {},
+  "yesHash": "0kpg5wt3fv2"
+>>>>>>> 604c7b2c9c (Story writer (local speeches): fold verdicts for the two refusals with reasons)
 }

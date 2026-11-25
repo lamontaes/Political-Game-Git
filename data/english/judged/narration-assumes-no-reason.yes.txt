@@ -27,6 +27,11 @@
 0b1vsy5c8pv
 0bbg5m67d8a
 0bbzfvxdc35
+<<<<<<< HEAD
+=======
+0bnrh33xv4z
+0c55mj0xgsf
+>>>>>>> 604c7b2c9c (Story writer (local speeches): fold verdicts for the two refusals with reasons)
 0coqv7y7w8h
 0csv893n4x7
 0d17satiwzv
@@ -35,6 +40,11 @@
 0dg66kobnf9
 0dgclcb2tq1
 0dl68am1uhz
+<<<<<<< HEAD
+=======
+0dr1h3rfou1
+0dyj4wiqix2
+>>>>>>> 604c7b2c9c (Story writer (local speeches): fold verdicts for the two refusals with reasons)
 0ef9j5vslp3
 0en3fbe5782
 0etm1z72iws
@@ -106,6 +116,10 @@
 12h15lw866a
 12o1s9bn56n
 13gfemfkrql
+<<<<<<< HEAD
+=======
+13uquxrz6rx
+>>>>>>> 604c7b2c9c (Story writer (local speeches): fold verdicts for the two refusals with reasons)
 14g7trl4r62
 14lb2akr16m
 14uisk94hhs
@@ -161,7 +175,11 @@
 1lztzypmlja
 1mhtv7bhode
 1mrjm1c2g5t
+<<<<<<< HEAD
 1n837p92t8m
+=======
+1ncautug4um
+>>>>>>> 604c7b2c9c (Story writer (local speeches): fold verdicts for the two refusals with reasons)
 1nrc1c491jj
 1o5gs5p20qy
 1oszag9jk71
@@ -187,8 +205,11 @@
 1w930g8fbry
 1wowknwhg3v
 1wwyt3fi5sl
+<<<<<<< HEAD
 1wxwmu7lh0h
 1xcbflocajb
+=======
+>>>>>>> 604c7b2c9c (Story writer (local speeches): fold verdicts for the two refusals with reasons)
 1xqc00ybp9a
 1xsa4fzt4wn
 1y76n52mq29
@@ -212,6 +233,10 @@
 25rtdn8jtpi
 25zwkcj9gjc
 26alkvsxmko
+<<<<<<< HEAD
+=======
+27gjoijhgxp
+>>>>>>> 604c7b2c9c (Story writer (local speeches): fold verdicts for the two refusals with reasons)
 27t8k6b60bf
 280k2h2cklx
 289f8wl448k
@@ -220,6 +245,10 @@
 28xlwex0mg2
 28xx5sjuq0f
 298h972dvat
+<<<<<<< HEAD
+=======
+29hozqkctqq
+>>>>>>> 604c7b2c9c (Story writer (local speeches): fold verdicts for the two refusals with reasons)
 29wv678289c
 2a6ng4ady8l
 2a8fo15lrlt
