@@ -9,8 +9,12 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { worldWith, type PlayedWorld } from "./tooling/world-with";
 import { coreAPI } from "./state";
-import { adAudience, adTimeForSale, buyAdTime } from "./modules/campaigns";
-import { campaignParameter } from "./campaign-data";
+import {
+  adAudience,
+  adContactPrice,
+  adTimeForSale,
+  buyAdTime,
+} from "./modules/campaigns";
 import { countedFollowers, followersOf, outletsHere } from "./modules/press";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
@@ -87,9 +91,7 @@ describe(`ad time (${place.name}, seed ${seed})`, () => {
     // A buy is sized in contacts, so a town's small outlet is not reached
     // whole by a fixed small sum: price the buys by the followers.
     const priced = (contacts: number) =>
-      Math.ceil(
-        (contacts * 1000) / campaignParameter("adContactsPerThousandMinor"),
-      );
+      Math.ceil(contacts * adContactPrice(api));
     const total = full + counted;
     // A buy that covers every follower reaches every follower of both tiers.
     const everyone = adAudience(api, priced(total))!;
