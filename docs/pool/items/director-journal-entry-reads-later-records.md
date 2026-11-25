@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/pt-address-journal-later
-pr:
+pr: #10579
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at: 2026-11-24T20:42:50.226Z
+merged-at: 2026-11-25T12:47:23.821Z
 ---
 
 **What.** The owner's grading page (Nov 24, 3:30 p.m. Eastern, docs/coordination/grading/2026-11-24-page-1-verbatim.md on claude/cto-playtest-nov23): the Journal is a memoir told looking back, '2025 was my first election. I vividly remember watching President Cunningham's speech... At the time, you know, I didn't pay that much attention', and 'if in 30 years you become a huge healthcare guy, then the journal entry could update... Little did I know'. Today an entry's facts are fixed to the records of its own day, so a later line can never say it. Add one reader of the player's later records, with each record's id, that every Journal entry's packet carries: the first office the player went on to hold, the policy area of the bills the player sponsored after the entry, and whether one of those bills answers the same policy question the entry is about, plus the years between. This item builds the engine side only; the Story lead files and writes the lines that say it (W3). Seen: a Journal entry from the first year reads differently ten years on, naming the office or the policy area the player later took up. Seen: a Journal entry from the player's first year, read ten years on, can say which office the player went on to hold or which policy area the player took up.
