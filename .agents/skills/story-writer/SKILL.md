@@ -62,6 +62,7 @@ The format of a line, the bank files, the moves and facts of each lane and the e
 
 From his grades. `scene-standard` holds the rest.
 
+- **Jobs happen in the background. No job talk.** Applying, being hired, the first day, coworkers, quitting, the last day and layoffs change the records and the money; none of them stops the player for a talk. A job may come up only inside a scene about something else. Owner, Nov 24: "remove all the dialogue shit for these jobs. Like, literally, they just need to happen in the background so your character can get money."
 - **No reply that says nothing.** Every reply takes a stance with its reason from the record: yes because…, no because…, not yet because…. There are no `leave`, `deflect` or `stall` replies ("Sorry, busy now", "I need time", "Please, no"). Leaving is the screen's Leave control (his Oct 8 rule R2). Owner, Nov 24: "it's been a project rule for I don't know how long, those dumbass answers."
 - **Four replies, four stances.** Owner, Nov 24: "all four of them are saying the same things." A short set beats four rewordings of one answer.
 - **Small talk loses to anything with a record.** Owner, Nov 24: "Those sound like shitty filler lines there." Nov 12, on "What do you do?": "a useless interaction. It just shouldn't even be there." A talk fires on a record or not at all.
