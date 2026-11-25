@@ -211,3 +211,11 @@ export function drawStateHome(
   return towns.find((t) => (at -= t.people) < 0)?.place ?? towns[0]?.place;
 }
 export { workFromHome, type CountedWork } from "./coarse-place";
+
+// A place or a state by its jurisdiction id, for the one history reader
+// (src/core2/past-history.ts), which tells which records are a place's or a
+// state's.
+export {
+  corePlaceByJurisdictionId,
+  coreStateKeyOfJurisdictionId,
+} from "./place-lookup";

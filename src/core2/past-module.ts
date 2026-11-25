@@ -120,6 +120,20 @@ export {
   type PreStartWindow,
   wholePastOpened,
 } from "./pre-start";
+// The one history reader: what already happened, for a person, a household,
+// an employer, a place, a state or the nation (src/core2/past-history.ts).
+export {
+  historyEvent,
+  historyOf,
+  historyOrder,
+  stateOfPlace,
+  type HistoryAsk,
+  type HistoryEvent,
+  type HistoryModule,
+  type HistoryRow,
+  type HistoryScope,
+  type HistorySource,
+} from "./past-history";
 export {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,

@@ -18,11 +18,8 @@ import {
   COUNTED_MOVES_MODULE_ID,
   countedMoves,
   familyFactsOf,
-  lifeOf,
   livesElsewhere,
-  openWholePast,
   MOVED_AWAY_EVENT,
-  type LifeEvent,
 } from "../core2/modules/people";
 import { townFacts } from "../core2/modules/laws";
 import type { EntityId } from "../core2/kernel/brands";
@@ -75,9 +72,11 @@ import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 import { viewKey, viewQuestionKey } from "../director/view-learned";
 import { questionAbout } from "../english/question-names";
 import {
+  historyOf,
   organizationName as organizationNameAt,
   preStartHistory,
   sharedHistory,
+  type HistoryEvent,
 } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
@@ -385,7 +384,7 @@ export function roleWord(
 
 /**
  * A person's life as their card tells it, oldest first: one worded line per
- * event the one life reader returns (`lifeOf`: what they were made with, the
+ * event the one history reader returns (`historyOf`: what they were made with, the
  * simulated past and what the engines recorded in play), each on the record
  * that caused it. Never how close the tie to the viewer is (owner, Oct 29). A
  * record whose words the bank cannot fill is left out.
@@ -396,15 +395,15 @@ function historyLines(
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
 ) {
   const lines: HistoryLine[] = [];
-  // A person met or opened for the first time has their whole past written now,
-  // before their schools are read: read first, the school they attend stands
-  // on a record the written past replaces (Holt, Minnesota, seed
-  // f602ba0f9501e66f: "school.started:<person>:2007", a year no record holds).
-  openWholePast(core, other.id);
+  // Their history first: the one reader writes a person's whole past before
+  // it reads it, and their schools are read after, since the school they
+  // attend stands on a record the written past replaces (Holt, Minnesota,
+  // seed f602ba0f9501e66f: "school.started:<person>:2007", a year no record
+  // holds).
+  const life = historyOf(core, { person: other.id });
   const schools = new Map(
     schoolsOf(core, other.id).map((school) => [school.recordId, school]),
   );
-  const life = lifeOf(core, other.id);
   const firstSchool = life.find(
     (event) => event.life === "school" && event.what === "started",
   );
@@ -549,7 +548,7 @@ function lineOf(
   core: CoreState,
   viewerId: string,
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
-  event: LifeEvent,
+  event: HistoryEvent,
   schools: ReadonlyMap<string, { name: string; stage: string; grade: number }>,
   firstSchoolId: string | undefined,
   firstChildDate: string | undefined,

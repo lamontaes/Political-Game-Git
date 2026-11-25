@@ -1,0 +1,19 @@
+{
+  "about": "The one history reader's table (src/core2/past-history.ts; owner, Nov 25: \"THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM THE SAME HISTORY\"). Which of a record's facts name the record that caused it, and which name the household or employer it belongs to. No record kind is named here: every source's rows are read by the same facts. A record with no place names its government by `jurisdictionFacts`: a state's key (US-UT) or the nation's (US).",
+  "causeFacts": [
+    "causeId",
+    "causeRecordId",
+    "originRecordId",
+    "jobChangeId",
+    "sourceRecordId",
+    "historyRecordId",
+    "residenceRecordId",
+    "triggerId",
+    "vacancyId",
+    "wireId"
+  ],
+  "householdFacts": ["householdId"],
+  "employerFacts": ["organizationId", "employerId", "businessId", "firmId"],
+  "jurisdictionFacts": ["jurisdiction"],
+  "nation": "US"
+}

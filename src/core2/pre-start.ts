@@ -392,6 +392,7 @@ export function recordPreStartLater(
   const world = windows.get(core);
   const history = histories.get(core);
   if (!world || !history) return;
+  readIndexes.delete(history);
   let window = world;
   if (own) {
     const born = core.people.get(own.person)?.birthDate;
@@ -493,6 +494,7 @@ export function runPreStart(core: CoreState, window: PreStartWindow): string[] {
             rows.push(checkedRow(core, window, ids, row, module.id));
             // Unsorted again: a later write sorts it the old way first.
             indexes.delete(rows);
+            readIndexes.delete(rows);
           },
           read: (filter) => preStartHistory(core, filter),
         };
@@ -501,5 +503,64 @@ export function runPreStart(core: CoreState, window: PreStartWindow): string[] {
       }
   rows.sort(historyOrder);
   indexes.delete(rows);
+  readIndexes.delete(rows);
   return order;
+}
+
+/**
+ * The history's rows by id and by what their facts name, for the one
+ * history reader (src/core2/past-history.ts): built the first time a reader
+ * asks after a write, and dropped by every write. Never saved.
+ */
+interface ReadIndex {
+  byId: Map<string, HistoryRecord>;
+  byFact: Map<string, Map<string, HistoryRecord[]>>;
+}
+const readIndexes = new WeakMap<readonly HistoryRecord[], ReadIndex>();
+
+function readIndexOf(core: CoreState): ReadIndex {
+  const history = histories.get(core) ?? [];
+  let index = readIndexes.get(history);
+  if (!index) {
+    const byId = new Map<string, HistoryRecord>();
+    // The first row of an id is the one an id names (a person filled in
+    // during the run can be written twice).
+    for (const row of history) if (!byId.has(row.id)) byId.set(row.id, row);
+    index = { byId, byFact: new Map() };
+    readIndexes.set(history, index);
+  }
+  return index;
+}
+
+/** Every row of the history, oldest first, as it is held (not a copy): for the one history reader. */
+export function pastRowsOf(core: CoreState): readonly HistoryRecord[] {
+  return histories.get(core) ?? [];
+}
+
+/** The history's rows by id. */
+export function pastIdsOf(core: CoreState): ReadonlyMap<string, HistoryRecord> {
+  return readIndexOf(core).byId;
+}
+
+/** The history's rows whose fact `key` holds `value`, oldest first. */
+export function pastRowsNaming(
+  core: CoreState,
+  key: string,
+  value: string,
+): readonly HistoryRecord[] {
+  const index = readIndexOf(core);
+  let byValue = index.byFact.get(key);
+  if (!byValue) {
+    byValue = new Map();
+    for (const row of histories.get(core) ?? []) {
+      const held = row.facts[key];
+      if (held === undefined || held === "") continue;
+      const named = String(held);
+      const list = byValue.get(named);
+      if (list) list.push(row);
+      else byValue.set(named, [row]);
+    }
+    index.byFact.set(key, byValue);
+  }
+  return byValue.get(value) ?? [];
 }
