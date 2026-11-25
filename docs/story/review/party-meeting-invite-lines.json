@@ -658,7 +658,7 @@
     "key": "scene-talk.state-request.you-passed-on-the-last-meeting-would-meeting-when-work-any-better-for-you",
     "kind": "spoken",
     "move": "state-request",
-    "text": "You passed on the last meeting. Would {meeting-when} work any better for you?",
+    "text": "You passed on the last meeting. Could you come {meeting-when} instead?",
     "uses": [
       {
         "subject": "scene",
@@ -3810,7 +3810,7 @@
     "key": "scene-talk.state-request.how-does-meeting-when-look-come-sit-by-me-if-you-d-like-to-hear-how-somebody-gets-picked-to-represent-a-precinct",
     "kind": "spoken",
     "move": "state-request",
-    "text": "How does {meeting-when} look? Come sit by me if you'd like to hear how somebody gets picked to represent a precinct.",
+    "text": "Are you free {meeting-when}? Come sit by me if you'd like to hear how somebody gets picked to represent a precinct.",
     "uses": [
       {
         "subject": "scene",
