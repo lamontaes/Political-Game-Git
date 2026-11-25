@@ -863,20 +863,13 @@
       "acts": {
         "note": "The replies that say the act in their own words (Account lead, Nov 14): a reply that names the act ends the talk with one closing line from the visitor and signs or vetoes the bill through the desk (Words lead, Nov 14 20:35Z). Any other reply, a no included, leaves it on the desk and the talk goes on.",
         "sign": [
-          "scene-talk.reply-agree.you-ve-made-your-case-bring-the-pen",
-          "scene-talk.reply-agree.it-passed-i-ll-sign-it",
-          "scene-talk.reply-refuse.no-veto-it-gets-my-signature",
-          "scene-talk.reply-relent.fine-i-ll-sign-it-then",
-          "scene-talk.reply-agree.then-it-deserves-a-signature-bring-the-pen",
           "scene-talk.reply-agree.so-it-brings-purpose-and-costs-the-budget-nothing-i-ll-sign-it",
-          "scene-talk.reply-agree.that-settles-it-i-ll-sign"
+          "scene-talk.reply-agree.passed-with-nobody-against-it-and-it-does-i-ll-sign-it",
+          "scene-talk.reply-agree.it-costs-a-year-but-it-does-i-ll-sign-it"
         ],
         "veto": [
-          "scene-talk.reply-agree.i-ll-veto-it",
-          "scene-talk.reply-agree.then-it-gets-a-veto",
-          "scene-talk.reply-refuse.it-goes-back-with-a-veto",
-          "scene-talk.reply-relent.all-right-i-ll-veto-it",
-          "scene-talk.reply-agree.that-settles-it-i-ll-veto-it"
+          "scene-talk.reply-refuse.i-m-vetoing-it-costs-a-year-and-i-can-t-find-the-money-for-it",
+          "scene-talk.reply-refuse.i-ll-veto-the-members-who-voted-no-were-speaking-for-their-voters-and-i-won-t-ignore-that"
         ]
       },
       "state": "request",
@@ -885,7 +878,7 @@
         "agree": ["thank"],
         "bargain": ["accept", "press"],
         "ask": ["answer"],
-        "confront": ["press", "accept"]
+        "refuse": ["press", "accept"]
       },
       "again": {
         "answer": ["agree", "refuse", "bargain", "ask"]
@@ -913,7 +906,7 @@
           "label": "The other way",
           "keeps": "none",
           "when": {
-            "reply": ["refuse", "decline", "confront"]
+            "reply": ["refuse", "decline"]
           }
         },
         {
@@ -2519,14 +2512,15 @@
     },
     "job-offer": {
       "state": "request",
-      "replies": ["ask", "agree", "decline"],
+      "replies": ["ask", "agree", "decline", "offer"],
       "follow": {
         "ask": ["answer"],
         "agree": ["thank"],
-        "decline": ["press", "accept"]
+        "decline": ["press", "accept"],
+        "offer": ["accept"]
       },
       "again": {
-        "answer": ["agree", "decline"],
+        "answer": ["agree", "decline", "offer"],
         "press": ["agree", "decline"]
       },
       "endings": [
