@@ -5668,8 +5668,8 @@ select.release-pick {
 /* A list whose rows all break alike (Elections): the aside always sits on its own
    line under the name, so one row never carries it beside the name and the next
    under it (owner, Nov 23: "Why is the 2021 on a different line?"). */
-.pick-list.roster-stacked .pick,
-#sheet-body .pick-list.roster-stacked .pick {
+.pick-list[data-stacked] .pick,
+#sheet-body .pick-list[data-stacked] .pick {
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: flex-start;

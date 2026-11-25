@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: done
+status: dropped
 standard: 2
 claimed-by: claude/pt-board-favor-job
 pr: #10531
