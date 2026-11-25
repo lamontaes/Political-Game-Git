@@ -15,8 +15,8 @@
     "notice": 1,
     "opening-speech": 1991,
     "person-history": 611,
-    "scene-talk": 2522,
-    "scene-words": 436,
+    "scene-talk": 2518,
+    "scene-words": 427,
     "speech-stages": 26
   },
   "saysNothing": [],
@@ -35,7 +35,7 @@
     "src/english/speech-registers.ts": 1
   },
   "dataHeldLines": {
-    "src/bench/data/controls.json": 626,
+    "src/bench/data/controls.json": 624,
     "src/bench/data/whole-figures.json": 3,
     "src/director/data/local-address.json": 1
   }

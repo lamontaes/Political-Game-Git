@@ -124,7 +124,7 @@ SEEDS=aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e node --import tsx scripts/words/
 
 ## What he passed and what he failed
 
-- **Passed:** the "passing lines only" section of `docs/story/first-evening-pregrade-8.md` and `-9.md` on branch `story/first-evening-pregrade`.
+- **Passed:** the "passing lines only" section of the pre-grader's reads 8 and 9, kept on branch `story/first-evening-pregrade` (not on this branch).
 - **Failed, with his reason and his likely words:** every row of those files.
 - **His grades on older lines:** `data/english/grades/`.
 - **His rulings:** `docs/coordination/OWNER-DECISIONS.md`.

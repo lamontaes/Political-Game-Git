@@ -66,7 +66,8 @@ import { JOURNAL_WORDS, seatSaid } from "../english/journal-words";
 import { raceMemberTitle } from "../director/cause-facts";
 import { storyTopicName } from "../english/policy-names";
 import { questionAbout, questionPlainWords } from "../english/question-names";
-import { partyOf } from "../core2/candidate-pool";
+import { partyOf } from "../core2/modules/campaigns";
+import { reachScopeOf } from "../core2/law-reach/applied";
 import {
   causeGroupForm,
   causeGroupName,
@@ -77,7 +78,7 @@ import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { measureSaid, policyNames } from "./words";
 import { placeLabel } from "../director/journal";
-import { stateInSentence } from "../director/words";
+import { isOutsideMarket, stateInSentence } from "../director/words";
 import { beatenRunnerUp, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 /**
@@ -840,15 +841,16 @@ const lawTookEffect: Builder = (read, f) => {
     const to = typeof now === "number" ? amount(f.unit, now) : null;
     const from = typeof was === "number" ? amount(f.unit, was) : null;
     if (!to || !from) return rule(read, f, base);
+    // A law that changed nothing is not a story (the owner, Nov 24, P45).
+    if (from === to) return null;
     return story(
       "law-amount",
       {
         ...base,
         measure: read.fact(measureName(series), f.lawId ?? ""),
         to: read.fact(to, f.lawId ?? ""),
-        ...(from !== to
-          ? { from: read.fact(from, f.lawId ?? ""), changed: read.yes() }
-          : { same: read.yes() }),
+        from: read.fact(from, f.lawId ?? ""),
+        changed: read.yes(),
         ...(Number(now) < Number(was) ? { down: read.yes() } : {}),
         ...(Number(now) > Number(was) ? { up: read.yes() } : {}),
       },
@@ -964,6 +966,8 @@ export function archivedLawPassedFacts(
     // The amount is told only when the law's own row is what holds from its
     // start; a rate another level sets on top of it is that level's story.
     if (!to || after !== row.value) return null;
+    // A law that changed nothing is not a story (the owner, Nov 24, P45).
+    if (from && from === to) return null;
     return story(
       "law-amount-passed",
       {
@@ -973,7 +977,6 @@ export function archivedLawPassedFacts(
         ...(from && from !== to
           ? { from: read.fact(from, lawId), changed: read.yes() }
           : {}),
-        ...(from && from === to ? { same: read.yes() } : {}),
         ...(from && after! < before! ? { down: read.yes() } : {}),
         ...(from && after! > before! ? { up: read.yes() } : {}),
       },
@@ -1006,7 +1009,8 @@ export function archivedLawPassedFacts(
  * (`reason-for`, `reason-against`, question-names.json); when a bill that
  * carried takes effect (`takes-effect`, the earliest provision's date); and
  * whether the next chamber still takes it up (`next-step`, with that
- * chamber's name in `next-body`).
+ * chamber's name in `next-body`); and whom the law applies to by its data
+ * (`reaches-<group>`).
  */
 function voteBody(
   read: Reader,
@@ -1042,6 +1046,23 @@ function voteBody(
   if (question)
     for (const [key, text] of Object.entries(questionPlainWords(question)))
       if (key.startsWith("reason-")) out[key] = read.fact(text, bill.id);
+  // Whom the law applies to by its data (law-reach/scope.ts), as one fact per
+  // group of people it selects (`reaches-tenants`, `reaches-workers`), for
+  // the banks to word.
+  for (const provision of bill.provisions) {
+    const scope = reachScopeOf(
+      provision.policyId ??
+        provision.question ??
+        provision.series ??
+        (provision.line ? `budget:${provision.line}` : null),
+    );
+    const people = Array.isArray(scope?.people)
+      ? (scope.people as { id?: string; target?: string }[])
+      : [];
+    for (const group of people)
+      if (group.target === "people" && group.id)
+        out[`reaches-${group.id}`] = read.fact("yes", bill.id);
+  }
   const starts = bill.provisions
     .map((row) => row.effectiveDate)
     .filter((date): date is string => !!date)
@@ -1973,6 +1994,57 @@ const filing: Builder = (read, f) => {
     },
     ["name", "office"],
     id,
+  );
+};
+
+/**
+ * A candidate who says they are running before filing opens: the same race and
+ * person the filing names, and the day filing opens, read from the
+ * announcement's own record.
+ */
+const announcement: Builder = (read, f) => {
+  const filer = f.filingId?.match(/:(person[^:]*(?::[^:]+)*)$/)?.[1];
+  const id = read.name(filer) ? filer : read.first();
+  return story(
+    "announcement",
+    {
+      ...read.who(id, "name", false),
+      ...(f.office
+        ? {
+            office: read.fact(
+              read.contestOffice(f.contestId, f.office)!,
+              f.contestId ?? "",
+            ),
+          }
+        : {}),
+      ...(f.electionDate
+        ? { when: read.fact(spokenDate(f.electionDate), f.contestId ?? "") }
+        : {}),
+      ...(f.filingOpens
+        ? { opens: read.fact(spokenDate(f.filingOpens), f.contestId ?? "") }
+        : {}),
+    },
+    ["name", "office"],
+    id,
+  );
+};
+
+/**
+ * A relative's access to someone serving a term in custody, earned by an
+ * official's referral: the record names the person in custody first and the
+ * relative second.
+ */
+const visitAccess: Builder = (read, f) => {
+  const [held, relative] = read.people;
+  return story(
+    "visit-access",
+    {
+      ...read.who(relative, "relative", false),
+      ...read.who(held, "name", false),
+      ...read.who(f.officialId, "official", false),
+    },
+    ["name", "relative"],
+    relative,
   );
 };
 
@@ -3477,8 +3549,9 @@ const death: Builder = (read) => {
   // work out of town, not an employer the paper can name.
   const away =
     !!work &&
-    read.core.organizations.get(work.organizationId as EntityId)
-      ?.outsideFlow !== undefined;
+    isOutsideMarket(
+      read.core.organizations.get(work.organizationId as EntityId) ?? {},
+    );
   // A government that pays for the office they held is told by the office.
   const government = away
     ? null
@@ -3591,7 +3664,7 @@ const retirement: Builder = (read, f) => {
   // A government's treasury is said as the government they worked for.
   const government = governmentEmployer(read, f.organizationId);
   const employer =
-    org && org.outsideFlow === undefined && !government
+    org && !isOutsideMarket(org) && !government
       ? read.organization(f.organizationId)
       : null;
   const years =
@@ -3968,6 +4041,9 @@ const schoolTests: Builder = (read) => {
       number: read.fact(count(math.students), math.id),
       math: read.fact(percent(math.value), math.id),
       reading: read.fact(percent(reading.value), reading.id),
+      // The lines say how many "passed": the news engine says a pass only
+      // when the story's record carries one, and a test result is that record.
+      passed: read.fact("yes", math.id, reading.id),
     },
     ["place", "math", "reading"],
   );
@@ -3980,10 +4056,26 @@ const address: Builder = (read, f) => {
   // address's own record of what was said (the Story lead, Nov 24: a news
   // story has a lede and a body).
   const said = saidOf(f);
-  const stood = said.find((row) => row.values.about);
+  // The sentence that takes the stand, where one does; else the first on the subject.
+  const stood =
+    said.find(
+      (row) =>
+        row.values.about &&
+        (row.values["stance-for"] || row.values["stance-against"]),
+    ) ?? said.find((row) => row.values.about);
   const quote = rememberedOf(f);
   const named = read.who(id, "name", false);
   const surname = named.name?.text.split(" ").at(-1);
+  // The President's party, and whom the stance's policy applies to by its
+  // data (law-reach/scope.ts), so a lede can lead with either (W5, Nov 24).
+  const party = id ? partyOf(read.api, id as PersonId) : null;
+  const question = stood?.sources
+    ?.find((ref) => ref.startsWith("question:"))
+    ?.slice("question:".length);
+  const scope = reachScopeOf(question ?? null);
+  const reaches = Array.isArray(scope?.people)
+    ? (scope.people as { id?: string; target?: string }[])
+    : [];
   return story(
     "address",
     {
@@ -3998,6 +4090,12 @@ const address: Builder = (read, f) => {
           ? { "president-for": read.yes() }
           : {}),
       ...(quote ? { quote: read.fact(quote, id ?? "") } : {}),
+      ...(party && id ? { "president-party": read.fact(party, id) } : {}),
+      ...Object.fromEntries(
+        reaches
+          .filter((group) => group.target === "people" && group.id)
+          .map((group) => [`reaches-${group.id}`, read.yes()]),
+      ),
       // An inaugural is told as the taking of office, citing the offices
       // engine's inauguration record the address was given at.
       ...(f["address:kind"] === "inaugural"
@@ -4347,6 +4445,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "claim-checked": claimCheck,
   debate,
   "candidate-filed": filing,
+  "candidate-announced": announcement,
+  "justice.visiting-access": visitAccess,
   "election-notice": electionNotice,
   "election-result": electionResult,
   "primary-result": primary,

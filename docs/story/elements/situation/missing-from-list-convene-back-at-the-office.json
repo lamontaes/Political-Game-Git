@@ -1,0 +1,32 @@
+{
+  "id": "missing-from-list-convene-back-at-the-office",
+  "kind": "situation",
+  "summary": "Delegates whose names the official cannot find hold their own county convention back at the organizing office.",
+  "realLife": "In the Madison County account, Annie Devine and her companions returned to the COFO office, chose officers and elected district delegates and an alternate after their names were missing from the list.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=10"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{delegate}", "{county}", "{office}"],
+  "gates": [
+    "A rival group disputes the recognized county list and can convene its own meeting."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the disputed list and the rival meeting’s separately certified return.",
+  "turns": [
+    {
+      "turn": "one-name-found",
+      "what": "That delegate must choose which meeting to attend.",
+      "pulledBy": "The official locates one name on a supplemental sheet.",
+      "writesBack": "The two attendance rolls preserve the choice."
+    },
+    {
+      "turn": "alternate-election-postponed",
+      "what": "Its secretary sends only the principal names.",
+      "pulledBy": "The rival meeting adjourns before electing alternates.",
+      "writesBack": "A later absence leaves that delegation short."
+    }
+  ]
+}

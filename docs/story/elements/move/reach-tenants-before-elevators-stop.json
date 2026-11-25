@@ -1,0 +1,31 @@
+{
+  "id": "reach-tenants-before-elevators-stop",
+  "kind": "move",
+  "summary": "Staff in {place} tell tenants about evacuation before their building's elevators go out of service.",
+  "realLife": "The city housing authority and police warned residents ahead of planned shutdowns of elevators and other systems.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=11"
+  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "A building has a planned shutdown and a resident may need help leaving."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a building has a planned shutdown and a resident may need help leaving.",
+  "turns": [
+    {
+      "turn": "a-tenant-asks-for-assistance",
+      "pulledBy": "A tenant asks for assistance.",
+      "what": "Send the request to the evacuation team.",
+      "writesBack": "The evacuation team has a household assistance request."
+    },
+    {
+      "turn": "the-tenant-has-arranged-a-ride",
+      "pulledBy": "The tenant has arranged a ride.",
+      "what": "Confirm the time they expect to leave.",
+      "writesBack": "The housing worker records the tenant's own arrangement."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "one-fruit-in-the-order-stays-out-of-the-lawsuit",
+  "kind": "detail",
+  "summary": "The order covers another fruit that {person} leaves out of the advertising challenge.",
+  "realLife": "The Supreme Court confined its discussion to peaches, plums and nectarines because the parties had not challenged the pear advertising provisions.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep521/usrep521457/usrep521457.pdf#page=7"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the order coverage and issues actually challenged."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: order coverage and issues actually challenged.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Identify the pear provision as outside the appeal.",
+      "pulledBy": "The appeal omits pear advertising.",
+      "writesBack": "Crop addressed in the hearing record."
+    },
+    {
+      "turn": "another-way",
+      "what": "Return to a crop the petition expressly names.",
+      "pulledBy": "The speaker turns to a challenged peach provision.",
+      "writesBack": "Crop addressed in the hearing record."
+    }
+  ]
+}

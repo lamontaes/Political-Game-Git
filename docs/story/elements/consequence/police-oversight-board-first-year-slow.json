@@ -1,0 +1,37 @@
+{
+  "id": "police-oversight-board-first-year-slow",
+  "kind": "consequence",
+  "summary": "A city creates a civilian police oversight board and its first year shows hundreds of complaints, few closed cases and slow records from police.",
+  "realLife": "Rochester's Police Accountability Board took complaints from June 2022; its first annual report counted 360 reports and 77 closed cases, most outside its reach, with cases averaging nearly 200 days against a 90-day goal and only two of 137 information requests fully answered. Later the police union sued, and in April 2025 a judge barred the board from investigating or publishing reports; the city appealed.",
+  "sources": [
+    "Rochester Beacon, PAB receives 360 complaints, closes 77 cases, Oct 2, 2023: https://rochesterbeacon.com/2023/10/02/pab-receives-360-complaints-closes-77-cases-annual-report-shows/",
+    "New York Focus, Rochester Police Accountability Board loses investigatory powers, May 28, 2025: https://nysfocus.com/2025/05/28/rochester-police-accountability-board-union-lawsuit",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; pages were read through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": [],
+  "gates": ["won", "incumbent"],
+  "weights": {
+    "police": 0.7
+  },
+  "usedBy": [],
+  "inGame": "the oversight board's complaint and case rows; the police budget line and records the board can read",
+  "turns": [
+    {
+      "way": "Police share records quickly and cases close inside 90 days.",
+      "pulledBy": "an agreement on records",
+      "writes": "the speech reports cases closed on time"
+    },
+    {
+      "way": "The board gets a court order that confirms its power.",
+      "pulledBy": "a ruling for the city",
+      "writes": "the speech says the board can finish its work"
+    },
+    {
+      "way": "The board stays but is limited to policy reviews.",
+      "pulledBy": "a ruling against investigations",
+      "writes": "the speech settles for recommendations"
+    }
+  ],
+  "issues": ["budget:police"]
+}

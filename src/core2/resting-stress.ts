@@ -45,7 +45,7 @@ function webHost(core: CoreState): WebHost {
 /**
  * The web's factor on the share of teens in a major depressive episode, for a
  * person in the ages the social media age check covers (its reach row in
- * data/laws/reach-group-a.json: from `socialMediaAgeFrom` up to the voting
+ * src/core2/data/laws/reach-group-a.json: from `socialMediaAgeFrom` up to the voting
  * age); undefined for everyone else, and one where the web keeps no month for
  * the place.
  * The age check moves that share by age-verification-to-youth-depressive-episode
