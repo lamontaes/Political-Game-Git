@@ -606,58 +606,6 @@
     "elements": ["pattern-b7-07-the-witness-in-the-hall"]
   },
   {
-    "key": "scene-talk.reply-deflect.can-we-leave-bill-there-for-today-i-need-to-get-going",
-    "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "Can we leave {bill} there for today? I need to get going.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "witness-stake",
-        "key": "honor",
-        "requiresFacts": ["bill"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "honor"
-    },
-    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
-  },
-  {
-    "key": "scene-talk.reply-deflect.you-ve-put-your-view-of-bill-on-the-record-i-ll-let-you-go",
-    "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "You've put your view of {bill} on the record. I'll let you go.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "witness-stake",
-        "key": "honor",
-        "requiresFacts": ["bill"]
-      }
-    ],
-    "bearing": "braced",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "honor"
-    },
-    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
-  },
-  {
     "key": "scene-talk.follow-answer.you-can-say-i-work-at-own-workplace-it-s-my-view-of-bill-you-re-hearing",
     "kind": "spoken",
     "move": "follow-answer",
