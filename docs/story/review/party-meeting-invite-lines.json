@@ -3724,5 +3724,329 @@
       "key": "favor-asked"
     },
     "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.state-request.could-you-come-by-meeting-when-i-d-like-to-spread-out-a-street-map-and-hear-where-you-think-we-d-be-knocking-on-doors-somebody-already-covered",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Could you come by {meeting-when}? I'd like to spread out a street map and hear where you think we'd be knocking on doors somebody already covered.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["leave-covered-precincts-to-party-regulars"]
+  },
+  {
+    "key": "scene-talk.reply-agree.bring-the-map-i-ll-come-early-enough-to-look-it-over-with-you",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Bring the map. I'll come early enough to look it over with you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.could-you-come-by-meeting-when-i-d-like-to-spread-out-a-street-map-and-hear-where-you-think-we-d-be-knocking-on-doors-somebody-already-covered"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["leave-covered-precincts-to-party-regulars"]
+  },
+  {
+    "key": "scene-talk.reply-decline.take-the-map-along-without-me-i-won-t-be-there-to-go-over-it",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Take the map along without me. I won't be there to go over it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.could-you-come-by-meeting-when-i-d-like-to-spread-out-a-street-map-and-hear-where-you-think-we-d-be-knocking-on-doors-somebody-already-covered"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["leave-covered-precincts-to-party-regulars"]
+  },
+  {
+    "key": "scene-talk.state-request.how-does-meeting-when-look-come-sit-by-me-if-you-d-like-to-hear-how-somebody-gets-picked-to-represent-a-precinct",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "How does {meeting-when} look? Come sit by me if you'd like to hear how somebody gets picked to represent a precinct.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["local-committee-fills-a-named-precinct-assignment"]
+  },
+  {
+    "key": "scene-talk.reply-agree.save-me-that-seat-i-ve-always-wondered-who-gets-to-put-a-name-forward",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Save me that seat. I've always wondered who gets to put a name forward.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.how-does-meeting-when-look-come-sit-by-me-if-you-d-like-to-hear-how-somebody-gets-picked-to-represent-a-precinct"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["local-committee-fills-a-named-precinct-assignment"]
+  },
+  {
+    "key": "scene-talk.reply-decline.give-that-seat-to-somebody-else-i-m-going-to-miss-the-meeting-again",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Give that seat to somebody else. I'm going to miss the meeting again.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.how-does-meeting-when-look-come-sit-by-me-if-you-d-like-to-hear-how-somebody-gets-picked-to-represent-a-precinct"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["local-committee-fills-a-named-precinct-assignment"]
+  },
+  {
+    "key": "scene-talk.state-request.can-you-make-it-meeting-when-if-somebody-asks-whether-you-d-ever-stand-for-precinct-office-you-re-allowed-to-say-you-just-came-to-hear-about-it",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Can you make it {meeting-when}? If somebody asks whether you'd ever stand for precinct office, you're allowed to say you just came to hear about it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+  },
+  {
+    "key": "scene-talk.reply-agree.then-i-ll-come-i-can-ask-what-the-job-takes-without-volunteering-for-it-on-the-spot",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Then I'll come. I can ask what the job takes without volunteering for it on the spot.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.can-you-make-it-meeting-when-if-somebody-asks-whether-you-d-ever-stand-for-precinct-office-you-re-allowed-to-say-you-just-came-to-hear-about-it"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+  },
+  {
+    "key": "scene-talk.reply-decline.skip-me-this-time-i-don-t-feel-like-spending-my-evening-explaining-why-i-m-not-running-for-anything",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Skip me this time. I don't feel like spending my evening explaining why I'm not running for anything.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.can-you-make-it-meeting-when-if-somebody-asks-whether-you-d-ever-stand-for-precinct-office-you-re-allowed-to-say-you-just-came-to-hear-about-it"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+  },
+  {
+    "key": "scene-talk.state-request.come-along-meeting-when-if-you-ve-ever-wondered-what-happens-to-a-resolution-after-the-party-adopts-it-we-could-talk-about-that-on-the-way-in",
+    "kind": "spoken",
+    "move": "state-request",
+    "text": "Come along {meeting-when}? If you've ever wondered what happens to a resolution after the party adopts it, we could talk about that on the way in.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined"],
+        "requiresFacts": ["meeting-when"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["a-party-resolution-still-needs-a-law"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-meet-you-outside-i-d-like-to-hear-who-has-to-take-it-up-before-it-can-become-law",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll meet you outside. I'd like to hear who has to take it up before it can become law.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.come-along-meeting-when-if-you-ve-ever-wondered-what-happens-to-a-resolution-after-the-party-adopts-it-we-could-talk-about-that-on-the-way-in"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["a-party-resolution-still-needs-a-law"]
+  },
+  {
+    "key": "scene-talk.reply-decline.another-evening-maybe-i-ve-got-a-question-about-those-resolutions-but-i-ll-save-it-until-we-see-each-other-again",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Another evening, maybe. I've got a question about those resolutions, but I'll save it until we see each other again.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.come-along-meeting-when-if-you-ve-ever-wondered-what-happens-to-a-resolution-after-the-party-adopts-it-we-could-talk-about-that-on-the-way-in"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["a-party-resolution-still-needs-a-law"]
   }
 ]
