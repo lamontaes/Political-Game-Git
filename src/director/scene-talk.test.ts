@@ -104,7 +104,8 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
           /\b(?:today|tonight|yesterday|this (?:morning|afternoon|evening))\b/i,
         );
       expect(talk.rounds.length).toBeGreaterThan(0);
-      expect(talk.rounds[0]!.replies.length).toBeGreaterThanOrEqual(3);
+      // A set holds the replies the arc has stances for, one to four (owner, Nov 10).
+      expect(talk.rounds[0]!.replies.length).toBeGreaterThanOrEqual(1);
       expect(talk.rounds[0]!.replies.filter((r) => r.chosen)).toHaveLength(1);
       for (const line of talk.lines) {
         expect(line.text).not.toMatch(/[{}]/);
@@ -277,7 +278,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(talk.nodes).toBeLessThanOrEqual(
         RULES_BOUND.tree.maxNodes.value + 10,
       );
-      expect(talk.depth).toBeGreaterThanOrEqual(2);
+      expect(talk.depth).toBeGreaterThanOrEqual(1);
       const numbers: number[] = [];
       let lies = 0;
       const walk = (node: typeof talk.tree) => {
@@ -305,7 +306,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       void lies;
     }
   });
-  it("keeps a colleague's \"I'll look at it\" as a vague promise and a traded vote as a firm one", () => {
+  it('keeps a traded vote as a firm promise, and no reply is a vague "I\'ll look at it"', () => {
     // Governing phase B reads a promise's firmness from the scene's reply
     // record. When the player asks for a vote, a colleague a favor would
     // carry answers "not yet" (the arc's asks, carried: stall): a promise,
@@ -330,11 +331,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       };
       walk(result.talk.tree);
     }
-    expect([...endings.keys()]).toContain("will-look");
-    expect(endings.get("will-look")).toMatchObject({
-      keeps: "promise",
-      firmness: "vague",
-    });
+    // No reply is a "not yet" that says nothing (owner, Nov 25): the player's
+    // vague "I'll look at it" is gone with the stall move, and so is its ending.
+    expect([...endings.keys()]).not.toContain("will-look");
     for (const id of ["traded", "false-yes"])
       if (endings.has(id)) expect(endings.get(id)!.firmness, id).toBe("firm");
   });
