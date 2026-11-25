@@ -1,0 +1,30 @@
+{
+  "id": "the-other-branch-has-a-different-bag-key",
+  "kind": "situation",
+  "summary": "A grocery manager has to train a cashier again when they move between branches.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House supporters described grocers changing register software and training employees store by store under different local bag ordinances.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+  ],
+  "inGame": "needs: two branches operate under different checkout rules.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{store}", "{cashier}"],
+  "gates": ["Two branches operate under different checkout rules."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "A transfer goes through without checkout retraining.",
+      "pulledBy": "Both towns adopt the same charge.",
+      "writesBack": "The cashier uses one register procedure at either branch."
+    },
+    {
+      "turn": "another-way",
+      "what": "The cashier has to learn a different exception.",
+      "pulledBy": "Only the fee amount matches.",
+      "writesBack": "The transfer still requires a briefing on which bags qualify."
+    }
+  ],
+  "issues": ["none"]
+}

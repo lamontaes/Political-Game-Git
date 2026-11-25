@@ -1,0 +1,32 @@
+{
+  "id": "the-bakery-sleeve-inside-the-shopping-bag",
+  "kind": "detail",
+  "summary": "A baker wraps a loose pastry before the clerk asks how the customer will carry the order.",
+  "realLife": "Section 3 excluded bags used for unwrapped prepared food or bakery goods from its carryout definition.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a qualifying food wrapper and a possible outer carrier are distinct.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{baker}", "{order}"],
+  "gates": [
+    "A qualifying food wrapper and a possible outer carrier are distinct."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The baker hands the wrapped pastry across the counter.",
+      "pulledBy": "The customer carries the pastry in its wrapper.",
+      "writesBack": "No outer bag is issued."
+    },
+    {
+      "turn": "another-way",
+      "what": "The customer asks the clerk to pack several wrapped items together.",
+      "pulledBy": "Several wrapped items go in a qualifying paper carrier.",
+      "writesBack": "The carrier is counted separately from the wrappers."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "put-the-mills-conversion-permit-at-the-front-of-the-queue",
+  "kind": "move",
+  "summary": "A lawmaker can help a mill request faster review of a conversion without promising a permit.",
+  "realLife": "Section 5 gave Washington's ecology department a time-limited direction to prioritize permits for existing mills converting or expanding to make paper bags or their raw material.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: the mill files a qualifying application during the statutory priority period.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{mill}", "{permit}"],
+  "gates": [
+    "The mill files a qualifying application during the statutory priority period."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The application receives an earlier review date.",
+      "pulledBy": "The proposed retooling meets the program's criteria.",
+      "writesBack": "Staff expedite processing and still review the merits."
+    },
+    {
+      "turn": "another-way",
+      "what": "The permit stays in the regular queue.",
+      "pulledBy": "The application concerns a different product line.",
+      "writesBack": "It follows the ordinary permit schedule."
+    }
+  ],
+  "issues": ["none"]
+}

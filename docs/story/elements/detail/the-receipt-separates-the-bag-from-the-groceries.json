@@ -1,0 +1,39 @@
+{
+  "id": "the-receipt-separates-the-bag-from-the-groceries",
+  "kind": "detail",
+  "summary": "A shopper can find what the store charged for the bag on the receipt.",
+  "realLife": "Section 3 of the 2020 act required the retailer to show bag charges on the customer's receipt and treated the charge as a taxable retail sale. The agencies reported that retail scanner data could not provide sales of ordinary carryout bags because the bags were not scanned. A charge visible on one receipt was easier to verify than total bag sales.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=2"
+  ],
+  "inGame": "needs: a qualifying bag charge appears in a taxable transaction under a comparable law.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{shopper}", "{receipt}"],
+  "gates": [
+    "A qualifying bag charge appears in a taxable transaction under a comparable law."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The shopper checks the receipt on the way out.",
+      "pulledBy": "The receipt identifies the bag charge correctly.",
+      "writesBack": "The shopper can check the charge against the bags received."
+    },
+    {
+      "turn": "another-way",
+      "what": "The shopper returns to the till for a correction.",
+      "pulledBy": "The receipt shows a bag the shopper never received.",
+      "writesBack": "The cashier can correct that item and its tax."
+    },
+    {
+      "turn": "late",
+      "what": "A staffer can confirm a shopper’s bag charge but cannot count the town’s bags from the scanner file.",
+      "pulledBy": "The receipt itemizes the charge, but the requested product scan data contain no entry for the carryout bag.",
+      "writesBack": "Staff retain the receipt as transaction evidence and ask the retailer for register totals."
+    }
+  ],
+  "issues": ["law:sales-tax"]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "the-mill-workers-back-the-ban-and-object-to-the-charge",
+  "kind": "voice",
+  "summary": "Mill workers can support replacing thin plastic and still object to charging customers for paper.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House testimony described pulp and paper workers backing the proposal while objecting to its paper-bag charge.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+  ],
+  "inGame": "needs: a member is counting support for a bill containing both provisions.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{worker}", "{member}"],
+  "gates": [
+    "A member is counting support for a bill containing both provisions."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The union puts its support behind an amendment.",
+      "pulledBy": "The sponsor agrees to seek a change to the paper charge.",
+      "writesBack": "The workers support that amendment."
+    },
+    {
+      "turn": "another-way",
+      "what": "A member qualifies the endorsement on the floor.",
+      "pulledBy": "The bill reaches the floor with the charge intact.",
+      "writesBack": "The member records qualified support when describing the hearing."
+    }
+  ],
+  "issues": ["none"]
+}

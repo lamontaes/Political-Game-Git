@@ -1,0 +1,32 @@
+{
+  "id": "appeal-the-bag-penalty-to-the-hearings-board",
+  "kind": "situation",
+  "summary": "A merchant who disputes a bag-law penalty has a named place to challenge it.",
+  "realLife": "Section 5 sent appeals of penalties under the original Washington act to the pollution control hearings board.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a merchant has received a penalty under a rule with this appeal route.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{merchant}", "{board}"],
+  "gates": [
+    "A merchant has received a penalty under a rule with this appeal route."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The merchant asks the board to hear the dispute.",
+      "pulledBy": "The merchant files an appeal with supporting records.",
+      "writesBack": "The board has a disputed penalty to hear."
+    },
+    {
+      "turn": "another-way",
+      "what": "The merchant pays and changes the checkout procedure.",
+      "pulledBy": "The merchant accepts the penalty and corrects the practice.",
+      "writesBack": "The compliance record shows the corrective action."
+    }
+  ],
+  "issues": ["none"]
+}

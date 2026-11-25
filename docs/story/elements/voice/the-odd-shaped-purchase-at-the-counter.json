@@ -1,0 +1,32 @@
+{
+  "id": "the-odd-shaped-purchase-at-the-counter",
+  "kind": "voice",
+  "summary": "A retailer asks members how the bag rule would work for a purchase with an unusual shape.",
+  "realLife": "Washington Senate report on SB 5323, 2019. Senate staff recorded a request to accommodate odd-sized purchases in the exemption language.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/Senate/5323%20SBR%20WM%2019.pdf"
+  ],
+  "inGame": "needs: a witness identifies a product that does not fit the proposed standard bag.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{retailer}", "{purchase}"],
+  "gates": [
+    "A witness identifies a product that does not fit the proposed standard bag."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The retailer can use an existing exception.",
+      "pulledBy": "The committee finds the item already covered by an exception.",
+      "writesBack": "Staff give the retailer a written example."
+    },
+    {
+      "turn": "another-way",
+      "what": "A member asks for an amendment limited to the awkward purchase.",
+      "pulledBy": "No existing category fits the item.",
+      "writesBack": "Staff return with narrower exemption language for consideration."
+    }
+  ],
+  "issues": ["none"]
+}
