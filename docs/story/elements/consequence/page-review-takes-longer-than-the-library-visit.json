@@ -2,9 +2,11 @@
   "id": "page-review-takes-longer-than-the-library-visit",
   "kind": "consequence",
   "summary": "A reader leaves before the library decides whether the requested page should open.",
-  "realLife": "At libraries offered as examples by the government, review decisions sometimes took a day to a week, with ordinary unrestricted access unavailable while a decision was pending.",
+  "realLife": "At libraries offered as examples by the government, review decisions sometimes took a day to a week, with ordinary unrestricted access unavailable while a decision was pending. In the 2003 federal funding case, Justice Kennedy’s concurrence relied on the government’s account that adult requests could be handled promptly. A separate Washington case later documented both same-hour responses and waits exceeding three days in one regional district.",
   "sources": [
-    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=49"
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=49",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep539/usrep539194/usrep539194.pdf#page=21",
+    "https://law.justia.com/cases/washington/supreme-court/2010/822000-opn.html"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
   "slots": ["{reader}", "{branch}"],
@@ -25,6 +27,12 @@
       "pulledBy": "The reader's deadline passes first.",
       "what": "The branch records when the decision arrived.",
       "writesBack": "Approval cannot restore the missed research time."
+    },
+    {
+      "turn": "late",
+      "what": "The trustee asks how long patrons at this branch actually waited.",
+      "pulledBy": "The district can match requests to response times, but some requests have no documented response time.",
+      "writesBack": "The minutes distinguish same-visit responses, later responses and missing records."
     }
   ]
 }

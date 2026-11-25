@@ -2,10 +2,11 @@
   "id": "reader-can-request-a-page-without-signing-a-name",
   "kind": "move",
   "summary": "A reader can ask the library to review an unavailable page from the terminal without identifying themselves to the desk.",
-  "realLife": "Tacoma allowed patrons to send an access review request without supplying identifying information or a return email address.",
+  "realLife": "Tacoma allowed patrons to send an access review request without supplying identifying information or a return email address. The plurality in the 2003 federal case described the government’s assurance that a patron need not justify an access request. Tacoma’s procedure separately addressed whether the reader supplied a name.",
   "sources": [
     "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=48",
-    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=49"
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=49",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep539/usrep539194/usrep539194.pdf#page=16"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
   "slots": ["{reader}", "{terminal}"],
@@ -26,6 +27,12 @@
       "pulledBy": "The reader wants a direct response.",
       "what": "Staff explain what contact information would be needed.",
       "writesBack": "The reader decides whether to supply it."
+    },
+    {
+      "turn": "late",
+      "what": "A trustee asks the director to distinguish two fields on the review form.",
+      "pulledBy": "The draft says patrons need not explain their interest but leaves the identification field ambiguous.",
+      "writesBack": "The minutes record separate decisions on contact information and reasons for the request."
     }
   ]
 }

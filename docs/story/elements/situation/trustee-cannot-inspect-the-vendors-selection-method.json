@@ -2,9 +2,10 @@
   "id": "trustee-cannot-inspect-the-vendors-selection-method",
   "kind": "situation",
   "summary": "A trustee responsible for a public access rule cannot explain how the supplier picked the pages it blocked.",
-  "realLife": "Loudoun bought X-Stop, whose developer kept its selection method secret; the court recorded that the software had blocked pages outside the board's policy.",
+  "realLife": "Loudoun bought X-Stop, whose developer kept its selection method secret; the court recorded that the software had blocked pages outside the board's policy. The North Central Regional Library District later reported correcting individual sites placed in the wrong categories. In 2010 the Washington Supreme Court considered that local review process when answering a state constitutional question.",
   "sources": [
-    "https://law.justia.com/cases/federal/district-courts/FSupp2/24/552/2516756/"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/24/552/2516756/",
+    "https://law.justia.com/cases/washington/supreme-court/2010/822000-opn.html"
   ],
   "fits": [
     "office",
@@ -32,6 +33,12 @@
       "pulledBy": "The supplier still does not explain its method.",
       "what": "A trustee asks how the board can audit future decisions.",
       "writesBack": "Oversight remains an open procurement question."
+    },
+    {
+      "turn": "late",
+      "what": "A trustee asks staff to show what happened to one wrongly classified site.",
+      "pulledBy": "Staff have the original category, a patron request and the district’s correction.",
+      "writesBack": "The meeting record documents the specific error and correction without extending the finding to every site."
     }
   ]
 }

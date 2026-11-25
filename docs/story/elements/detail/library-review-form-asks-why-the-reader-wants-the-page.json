@@ -2,9 +2,10 @@
   "id": "library-review-form-asks-why-the-reader-wants-the-page",
   "kind": "detail",
   "summary": "A written review form makes the reader decide whether to put a personal reason on paper.",
-  "realLife": "Under Loudoun's 1997 policy, a reader seeking reconsideration had to give a librarian their name, the page address and the reason they wanted access.",
+  "realLife": "Under Loudoun's 1997 policy, a reader seeking reconsideration had to give a librarian their name, the page address and the reason they wanted access. In a separate 2003 case about federal funding conditions, the plurality recounted the Solicitor General’s representation that patrons could request access without explaining their reasons.",
   "sources": [
-    "https://law.justia.com/cases/federal/district-courts/FSupp2/24/552/2516756/"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/24/552/2516756/",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep539/usrep539194/usrep539194.pdf#page=16"
   ],
   "fits": [
     "office",
@@ -33,6 +34,12 @@
       "pulledBy": "The reader will not disclose the purpose.",
       "what": "They leave the form unfinished.",
       "writesBack": "The question never enters the formal review queue."
+    },
+    {
+      "turn": "late",
+      "what": "The librarian accepts an adult’s request without asking what the research is about.",
+      "pulledBy": "The local procedure allows staff to act on a request for lawful access without a statement of purpose.",
+      "writesBack": "The desk records the access decision without collecting the patron’s research topic."
     }
   ]
 }

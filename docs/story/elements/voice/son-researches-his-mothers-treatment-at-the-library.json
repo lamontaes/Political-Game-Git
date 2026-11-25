@@ -2,10 +2,11 @@
   "id": "son-researches-his-mothers-treatment-at-the-library",
   "kind": "voice",
   "summary": "A family member explains why a private search at the branch can matter after a hospital visit.",
-  "realLife": "Mark Brown used the Philadelphia Free Library to learn about his mother's breast surgery and testified that asking staff for access to such material would have embarrassed him.",
+  "realLife": "Mark Brown used the Philadelphia Free Library to learn about his mother's breast surgery and testified that asking staff for access to such material would have embarrassed him. In 2003 the plurality acknowledged the lower court’s concern that embarrassment could deter requests and upheld the federal funding conditions against the facial challenge.",
   "sources": [
     "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=25",
-    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=50"
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=50",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep539/usrep539194/usrep539194.pdf#page=16"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
   "slots": ["{relative}", "{library}"],
@@ -26,6 +27,12 @@
       "pulledBy": "The reader would have to describe the medical question at the counter.",
       "what": "The reader chooses whether to disclose it.",
       "writesBack": "Staff cannot assume that silence means the material was unnecessary."
+    },
+    {
+      "turn": "late",
+      "what": "The adult reader decides whether to ask for access after hearing how little the desk needs to know.",
+      "pulledBy": "The librarian can consider the request without asking for the family member’s medical history.",
+      "writesBack": "The branch can record the request without putting a diagnosis in its log."
     }
   ]
 }
