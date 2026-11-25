@@ -1,9 +1,9 @@
 [
   {
-    "key": "scene-talk.reply-ask.suppose-bill-brings-the-bottles-back-and-the-recycler-can-t-find-a-buyer-what-happens-to-the-plastic-then",
+    "key": "scene-talk.reply-ask.the-recycler-has-a-bale-of-plastic-ready-to-ship-and-the-buyer-backs-out-where-does-name-expect-that-bale-to-go",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Suppose {bill} brings the bottles back and the recycler can't find a buyer. What happens to the plastic then?",
+    "text": "The recycler has a bale of plastic ready to ship and the buyer backs out. Where does {name} expect that bale to go?",
     "uses": [
       {
         "subject": "scene",
@@ -15,7 +15,7 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "issue",
-          "bill"
+          "name"
         ]
       }
     ],
@@ -24,7 +24,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -32,10 +32,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.under-bill-a-bottle-on-the-ground-would-be-worth-picking-up-i-d-still-want-to-know-who-s-buying-the-plastic",
+    "key": "scene-talk.follow-answer.it-ll-stay-at-the-plant-until-somebody-wants-it-presiding-i-d-still-put-a-refund-on-the-bottle-right-now-there-s-nothing-in-it-for-the-person-who-picks-it-up-off-the-ground",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Under {bill} a bottle on the ground would be worth picking up. I'd still want to know who's buying the plastic.",
+    "text": "It'll stay at the plant until somebody wants it, {presiding}. I'd still put a refund on the bottle. Right now there's nothing in it for the person who picks it up off the ground.",
     "uses": [
       {
         "subject": "scene",
@@ -47,9 +47,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.suppose-bill-brings-the-bottles-back-and-the-recycler-can-t-find-a-buyer-what-happens-to-the-plastic-then"
+        "after": "scene-talk.reply-ask.the-recycler-has-a-bale-of-plastic-ready-to-ship-and-the-buyer-backs-out-where-does-name-expect-that-bale-to-go"
       }
     ],
     "bearing": "calm",
@@ -57,7 +57,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -82,7 +82,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.suppose-bill-brings-the-bottles-back-and-the-recycler-can-t-find-a-buyer-what-happens-to-the-plastic-then"
+        "after": "scene-talk.reply-ask.the-recycler-has-a-bale-of-plastic-ready-to-ship-and-the-buyer-backs-out-where-does-name-expect-that-bale-to-go"
       }
     ],
     "bearing": "calm",
@@ -98,10 +98,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.before-we-pass-bill-i-d-want-a-buyer-lined-up-it-s-the-recycler-who-has-to-find-warehouse-space-if-the-plastic-doesn-t-sell",
+    "key": "scene-talk.follow-answer.i-d-want-the-buyer-s-name-before-sending-a-load-over-there-presiding-if-the-sale-falls-through-the-recycler-has-to-find-another-bay-in-the-warehouse",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Before we pass {bill}, I'd want a buyer lined up. It's the recycler who has to find warehouse space if the plastic doesn't sell.",
+    "text": "I'd want the buyer's name before sending a load over there, {presiding}. If the sale falls through, the recycler has to find another bay in the warehouse.",
     "uses": [
       {
         "subject": "scene",
@@ -113,9 +113,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.suppose-bill-brings-the-bottles-back-and-the-recycler-can-t-find-a-buyer-what-happens-to-the-plastic-then"
+        "after": "scene-talk.reply-ask.the-recycler-has-a-bale-of-plastic-ready-to-ship-and-the-buyer-backs-out-where-does-name-expect-that-bale-to-go"
       }
     ],
     "bearing": "calm",
@@ -123,7 +123,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -131,10 +131,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.that-s-my-concern-with-bill-a-refund-gets-the-bottle-across-the-counter-who-takes-it-from-there",
+    "key": "scene-talk.follow-answer.that-s-where-i-get-stuck-first-the-customer-can-collect-the-refund-while-the-recycler-still-has-a-bale-nobody-will-buy",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "That's my concern with {bill}. A refund gets the bottle across the counter. Who takes it from there?",
+    "text": "That's where I get stuck, {first}. The customer can collect the refund while the recycler still has a bale nobody will buy.",
     "uses": [
       {
         "subject": "scene",
@@ -146,9 +146,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.suppose-bill-brings-the-bottles-back-and-the-recycler-can-t-find-a-buyer-what-happens-to-the-plastic-then"
+        "after": "scene-talk.reply-ask.the-recycler-has-a-bale-of-plastic-ready-to-ship-and-the-buyer-backs-out-where-does-name-expect-that-bale-to-go"
       }
     ],
     "bearing": "calm",
@@ -156,7 +156,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -164,10 +164,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.where-would-you-keep-the-empties-bill-brings-in-if-you-ran-a-grocery-with-no-spare-room",
+    "key": "scene-talk.reply-ask.where-would-name-put-the-first-bag-of-returns-in-a-grocery-that-barely-has-room-for-the-stock-it-sells",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Where would you keep the empties {bill} brings in if you ran a grocery with no spare room?",
+    "text": "Where would {name} put the first bag of returns in a grocery that barely has room for the stock it sells?",
     "uses": [
       {
         "subject": "scene",
@@ -179,7 +179,7 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "issue",
-          "bill"
+          "name"
         ]
       }
     ],
@@ -188,7 +188,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -196,10 +196,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.could-two-stores-share-a-return-site-under-bill-i-want-the-deposit-and-i-d-like-an-answer-for-the-shop-that-hasn-t-got-the-room",
+    "key": "scene-talk.follow-answer.i-d-ask-whether-the-shop-can-share-a-return-counter-with-a-neighbor-presiding-i-d-vote-for-the-deposit-and-give-a-small-store-somewhere-to-send-the-empties",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Could two stores share a return site under {bill}? I want the deposit, and I'd like an answer for the shop that hasn't got the room.",
+    "text": "I'd ask whether the shop can share a return counter with a neighbor, {presiding}. I'd vote for the deposit and give a small store somewhere to send the empties.",
     "uses": [
       {
         "subject": "scene",
@@ -211,9 +211,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.where-would-you-keep-the-empties-bill-brings-in-if-you-ran-a-grocery-with-no-spare-room"
+        "after": "scene-talk.reply-ask.where-would-name-put-the-first-bag-of-returns-in-a-grocery-that-barely-has-room-for-the-stock-it-sells"
       }
     ],
     "bearing": "calm",
@@ -221,7 +221,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -229,10 +229,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.before-we-settle-bill-i-d-bring-in-a-grocer-with-a-floor-plan-show-us-where-the-first-load-would-go",
+    "key": "scene-talk.follow-answer.i-d-take-first-into-the-stockroom-with-the-owner-if-there-s-space-for-those-bags-between-deliveries-the-owner-can-show-us-where",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Before we settle {bill}, I'd bring in a grocer with a floor plan. Show us where the first load would go.",
+    "text": "I'd take {first} into the stockroom with the owner. If there's space for those bags between deliveries, the owner can show us where.",
     "uses": [
       {
         "subject": "scene",
@@ -244,9 +244,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.where-would-you-keep-the-empties-bill-brings-in-if-you-ran-a-grocery-with-no-spare-room"
+        "after": "scene-talk.reply-ask.where-would-name-put-the-first-bag-of-returns-in-a-grocery-that-barely-has-room-for-the-stock-it-sells"
       }
     ],
     "bearing": "calm",
@@ -254,7 +254,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -279,7 +279,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.where-would-you-keep-the-empties-bill-brings-in-if-you-ran-a-grocery-with-no-spare-room"
+        "after": "scene-talk.reply-ask.where-would-name-put-the-first-bag-of-returns-in-a-grocery-that-barely-has-room-for-the-stock-it-sells"
       }
     ],
     "bearing": "calm",
@@ -295,10 +295,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-walk-the-stockroom-with-the-owner-before-i-voted-for-bill-what-has-to-move-to-make-a-space-for-all-those-empties",
+    "key": "scene-talk.follow-answer.i-d-walk-through-that-stockroom-with-first-and-ask-the-owner-what-would-have-to-come-out-until-i-see-the-space-i-can-t-promise-it-s-there",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd walk the stockroom with the owner before I voted for {bill}. What has to move to make a space for all those empties?",
+    "text": "I'd walk through that stockroom with {first} and ask the owner what would have to come out. Until I see the space, I can't promise it's there.",
     "uses": [
       {
         "subject": "scene",
@@ -310,9 +310,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.where-would-you-keep-the-empties-bill-brings-in-if-you-ran-a-grocery-with-no-spare-room"
+        "after": "scene-talk.reply-ask.where-would-name-put-the-first-bag-of-returns-in-a-grocery-that-barely-has-room-for-the-stock-it-sells"
       }
     ],
     "bearing": "calm",
@@ -320,7 +320,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -328,10 +328,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-pays-for-trips-with-bottles-if-bill-ends-the-refund",
+    "key": "scene-talk.reply-ask.the-students-have-been-collecting-bottles-for-their-trip-what-would-name-tell-the-club-treasurer-those-bottles-will-bring-once-the-refund-ends",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "What should I tell a school club that pays for trips with bottles if {bill} ends the refund?",
+    "text": "The students have been collecting bottles for their trip. What would {name} tell the club treasurer those bottles will bring once the refund ends?",
     "uses": [
       {
         "subject": "scene",
@@ -343,7 +343,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "issue",
-          "bill"
+          "name"
         ]
       }
     ],
@@ -352,7 +352,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -360,10 +360,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.if-bill-passes-tell-the-students-to-ask-the-yard-for-a-scrap-price-before-they-set-a-fundraising-goal",
+    "key": "scene-talk.follow-answer.get-a-price-from-the-scrap-yard-presiding-a-club-could-still-collect-cans-after-repeal-but-i-d-hate-to-see-the-treasurer-book-a-bus-on-the-old-refund",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "If {bill} passes, tell the students to ask the yard for a scrap price before they set a fundraising goal.",
+    "text": "Get a price from the scrap yard, {presiding}. A club could still collect cans after repeal, but I'd hate to see the treasurer book a bus on the old refund.",
     "uses": [
       {
         "subject": "scene",
@@ -375,9 +375,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-pays-for-trips-with-bottles-if-bill-ends-the-refund"
+        "after": "scene-talk.reply-ask.the-students-have-been-collecting-bottles-for-their-trip-what-would-name-tell-the-club-treasurer-those-bottles-will-bring-once-the-refund-ends"
       }
     ],
     "bearing": "calm",
@@ -385,7 +385,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -410,7 +410,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-pays-for-trips-with-bottles-if-bill-ends-the-refund"
+        "after": "scene-talk.reply-ask.the-students-have-been-collecting-bottles-for-their-trip-what-would-name-tell-the-club-treasurer-those-bottles-will-bring-once-the-refund-ends"
       }
     ],
     "bearing": "calm",
@@ -426,10 +426,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-tell-them-why-i-m-voting-against-bill-with-the-refund-they-know-what-a-bag-of-empties-will-bring",
+    "key": "scene-talk.follow-answer.i-d-keep-the-refund-first-a-treasurer-who-counts-the-bottles-today-can-tell-the-class-what-they-ll-have-for-the-trip",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd tell them why I'm voting against {bill}. With the refund they know what a bag of empties will bring.",
+    "text": "I'd keep the refund, {first}. A treasurer who counts the bottles today can tell the class what they'll have for the trip.",
     "uses": [
       {
         "subject": "scene",
@@ -441,9 +441,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-pays-for-trips-with-bottles-if-bill-ends-the-refund"
+        "after": "scene-talk.reply-ask.the-students-have-been-collecting-bottles-for-their-trip-what-would-name-tell-the-club-treasurer-those-bottles-will-bring-once-the-refund-ends"
       }
     ],
     "bearing": "calm",
@@ -451,7 +451,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -459,10 +459,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-ask-the-club-to-show-us-its-receipts-before-we-vote-on-bill-let-the-room-see-what-the-refund-pays-for",
+    "key": "scene-talk.follow-answer.let-the-club-bring-its-receipts-in-presiding-before-taking-the-refund-away-i-d-like-the-committee-to-see-what-that-money-bought-last-term",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd ask the club to show us its receipts before we vote on {bill}. Let the room see what the refund pays for.",
+    "text": "Let the club bring its receipts in, {presiding}. Before taking the refund away I'd like the committee to see what that money bought last term.",
     "uses": [
       {
         "subject": "scene",
@@ -474,9 +474,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.what-should-i-tell-a-school-club-that-pays-for-trips-with-bottles-if-bill-ends-the-refund"
+        "after": "scene-talk.reply-ask.the-students-have-been-collecting-bottles-for-their-trip-what-would-name-tell-the-club-treasurer-those-bottles-will-bring-once-the-refund-ends"
       }
     ],
     "bearing": "calm",
@@ -484,7 +484,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -492,10 +492,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.would-bill-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid",
+    "key": "scene-talk.reply-ask.the-grocer-paid-the-last-customer-on-time-how-long-does-the-store-have-to-get-its-own-money-back-presiding",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Would {bill} give stores extra time to collect on refunds they've already paid?",
+    "text": "The grocer paid the last customer on time. How long does the store have to get its own money back, {presiding}?",
     "uses": [
       {
         "subject": "scene",
@@ -507,7 +507,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "issue",
-          "bill"
+          "presiding"
         ]
       }
     ],
@@ -516,7 +516,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -524,10 +524,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-want-a-settlement-date-written-into-bill-a-store-that-s-already-paid-its-customers-deserves-time-to-file",
+    "key": "scene-talk.follow-answer.give-the-grocer-a-filing-date-of-its-own-presiding-a-clerk-could-pay-a-customer-on-the-last-afternoon-and-still-need-time-to-send-the-claim-in",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd want a settlement date written into {bill}. A store that's already paid its customers deserves time to file.",
+    "text": "Give the grocer a filing date of its own, {presiding}. A clerk could pay a customer on the last afternoon and still need time to send the claim in.",
     "uses": [
       {
         "subject": "scene",
@@ -539,9 +539,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.would-bill-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid"
+        "after": "scene-talk.reply-ask.the-grocer-paid-the-last-customer-on-time-how-long-does-the-store-have-to-get-its-own-money-back-presiding"
       }
     ],
     "bearing": "calm",
@@ -549,7 +549,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -574,7 +574,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.would-bill-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid"
+        "after": "scene-talk.reply-ask.the-grocer-paid-the-last-customer-on-time-how-long-does-the-store-have-to-get-its-own-money-back-presiding"
       }
     ],
     "bearing": "calm",
@@ -590,10 +590,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-want-that-settled-before-i-voted-to-repeal-under-bill-does-the-grocer-get-time-to-claim-the-money-after-paying-it-out-at-the-till",
+    "key": "scene-talk.follow-answer.that-s-the-date-i-d-want-in-writing-first-the-shopper-has-already-been-paid-the-grocer-shouldn-t-have-to-get-a-truck-there-that-same-day-to-recover-the-refund",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd want that settled before I voted to repeal. Under {bill}, does the grocer get time to claim the money after paying it out at the till?",
+    "text": "That's the date I'd want in writing, {first}. The shopper has already been paid. The grocer shouldn't have to get a truck there that same day to recover the refund.",
     "uses": [
       {
         "subject": "scene",
@@ -605,9 +605,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.would-bill-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid"
+        "after": "scene-talk.reply-ask.the-grocer-paid-the-last-customer-on-time-how-long-does-the-store-have-to-get-its-own-money-back-presiding"
       }
     ],
     "bearing": "calm",
@@ -615,7 +615,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -623,10 +623,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.until-i-can-tell-a-shopkeeper-how-to-collect-what-s-owed-i-m-voting-against-bill",
+    "key": "scene-talk.follow-answer.i-can-t-give-first-a-date-the-dealer-can-rely-on-that-s-why-i-d-keep-the-deposit-until-we-know-how-those-last-claims-will-be-paid",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Until I can tell a shopkeeper how to collect what's owed, I'm voting against {bill}.",
+    "text": "I can't give {first} a date the dealer can rely on. That's why I'd keep the deposit until we know how those last claims will be paid.",
     "uses": [
       {
         "subject": "scene",
@@ -638,9 +638,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.would-bill-give-stores-extra-time-to-collect-on-refunds-they-ve-already-paid"
+        "after": "scene-talk.reply-ask.the-grocer-paid-the-last-customer-on-time-how-long-does-the-store-have-to-get-its-own-money-back-presiding"
       }
     ],
     "bearing": "calm",
@@ -648,7 +648,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -656,10 +656,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.if-bill-covers-just-one-of-two-bottles-that-look-alike-how-is-a-cashier-supposed-to-tell-them-apart",
+    "key": "scene-talk.reply-ask.these-drinks-sit-beside-each-other-on-the-shelf-if-only-one-carries-a-deposit-what-can-the-cashier-show-the-customer-presiding",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "If {bill} covers just one of two bottles that look alike, how is a cashier supposed to tell them apart?",
+    "text": "These drinks sit beside each other on the shelf. If only one carries a deposit, what can the cashier show the customer, {presiding}?",
     "uses": [
       {
         "subject": "scene",
@@ -671,7 +671,7 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "issue",
-          "bill"
+          "presiding"
         ]
       }
     ],
@@ -680,7 +680,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -688,10 +688,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-have-bill-put-the-refund-on-the-bottle-the-clerk-could-turn-it-over-and-show-the-customer",
+    "key": "scene-talk.follow-answer.mark-the-bottle-presiding-then-the-clerk-can-turn-it-in-their-hand-and-point-out-the-refund-without-calling-a-manager",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd have {bill} put the refund on the bottle. The clerk could turn it over and show the customer.",
+    "text": "Mark the bottle, {presiding}. Then the clerk can turn it in their hand and point out the refund without calling a manager.",
     "uses": [
       {
         "subject": "scene",
@@ -703,9 +703,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.if-bill-covers-just-one-of-two-bottles-that-look-alike-how-is-a-cashier-supposed-to-tell-them-apart"
+        "after": "scene-talk.reply-ask.these-drinks-sit-beside-each-other-on-the-shelf-if-only-one-carries-a-deposit-what-can-the-cashier-show-the-customer-presiding"
       }
     ],
     "bearing": "calm",
@@ -713,7 +713,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -738,7 +738,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.if-bill-covers-just-one-of-two-bottles-that-look-alike-how-is-a-cashier-supposed-to-tell-them-apart"
+        "after": "scene-talk.reply-ask.these-drinks-sit-beside-each-other-on-the-shelf-if-only-one-carries-a-deposit-what-can-the-cashier-show-the-customer-presiding"
       }
     ],
     "bearing": "calm",
@@ -754,10 +754,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.try-explaining-bill-at-the-till-with-a-line-behind-you-i-wouldn-t-give-the-cashier-that-job-until-we-ve-settled-what-counts",
+    "key": "scene-talk.follow-answer.put-me-at-that-counter-with-first-and-i-couldn-t-explain-why-one-counts-and-the-other-doesn-t-i-d-settle-the-list-before-handing-the-cashier-the-job",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Try explaining {bill} at the till with a line behind you. I wouldn't give the cashier that job until we've settled what counts.",
+    "text": "Put me at that counter with {first} and I couldn't explain why one counts and the other doesn't. I'd settle the list before handing the cashier the job.",
     "uses": [
       {
         "subject": "scene",
@@ -769,9 +769,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.if-bill-covers-just-one-of-two-bottles-that-look-alike-how-is-a-cashier-supposed-to-tell-them-apart"
+        "after": "scene-talk.reply-ask.these-drinks-sit-beside-each-other-on-the-shelf-if-only-one-carries-a-deposit-what-can-the-cashier-show-the-customer-presiding"
       }
     ],
     "bearing": "calm",
@@ -779,7 +779,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -787,10 +787,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-send-the-coverage-list-in-bill-back-to-committee-people-should-know-when-they-buy-a-drink-whether-they-ll-get-their-money-back",
+    "key": "scene-talk.follow-answer.i-d-send-the-list-back-to-committee-presiding-by-the-time-the-lid-comes-off-the-shopper-should-already-know-what-the-empty-bottle-is-worth",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd send the coverage list in {bill} back to committee. People should know when they buy a drink whether they'll get their money back.",
+    "text": "I'd send the list back to committee, {presiding}. By the time the lid comes off, the shopper should already know what the empty bottle is worth.",
     "uses": [
       {
         "subject": "scene",
@@ -802,9 +802,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.if-bill-covers-just-one-of-two-bottles-that-look-alike-how-is-a-cashier-supposed-to-tell-them-apart"
+        "after": "scene-talk.reply-ask.these-drinks-sit-beside-each-other-on-the-shelf-if-only-one-carries-a-deposit-what-can-the-cashier-show-the-customer-presiding"
       }
     ],
     "bearing": "calm",
@@ -812,7 +812,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -820,10 +820,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.under-bill-a-distributor-marks-the-bottles-and-a-grocer-takes-them-back-which-job-would-you-pay-for",
+    "key": "scene-talk.reply-ask.the-distributor-marks-the-bottles-and-the-clerk-counts-them-when-they-come-back-which-of-those-jobs-would-name-pay-a-handling-allowance-for",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Under {bill} a distributor marks the bottles and a grocer takes them back. Which job would you pay for?",
+    "text": "The distributor marks the bottles and the clerk counts them when they come back. Which of those jobs would {name} pay a handling allowance for?",
     "uses": [
       {
         "subject": "scene",
@@ -835,7 +835,7 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "issue",
-          "bill"
+          "name"
         ]
       }
     ],
@@ -844,7 +844,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -852,10 +852,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-put-the-handling-money-in-bill-toward-the-grocer-s-work-the-distributor-can-price-marking-the-case-into-the-shipment",
+    "key": "scene-talk.follow-answer.i-d-pay-the-store-for-taking-returns-presiding-let-the-distributor-include-the-cost-of-marking-the-cases-in-what-it-charges-to-deliver-them",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd put the handling money in {bill} toward the grocer's work. The distributor can price marking the case into the shipment.",
+    "text": "I'd pay the store for taking returns, {presiding}. Let the distributor include the cost of marking the cases in what it charges to deliver them.",
     "uses": [
       {
         "subject": "scene",
@@ -867,9 +867,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.under-bill-a-distributor-marks-the-bottles-and-a-grocer-takes-them-back-which-job-would-you-pay-for"
+        "after": "scene-talk.reply-ask.the-distributor-marks-the-bottles-and-the-clerk-counts-them-when-they-come-back-which-of-those-jobs-would-name-pay-a-handling-allowance-for"
       }
     ],
     "bearing": "calm",
@@ -877,7 +877,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -902,7 +902,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.under-bill-a-distributor-marks-the-bottles-and-a-grocer-takes-them-back-which-job-would-you-pay-for"
+        "after": "scene-talk.reply-ask.the-distributor-marks-the-bottles-and-the-clerk-counts-them-when-they-come-back-which-of-those-jobs-would-name-pay-a-handling-allowance-for"
       }
     ],
     "bearing": "calm",
@@ -918,10 +918,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.before-we-write-an-allowance-into-bill-show-me-what-it-costs-the-grocer-to-take-returns",
+    "key": "scene-talk.follow-answer.show-first-what-happens-behind-the-counter-when-a-bag-comes-in-somebody-has-to-count-it-sort-it-and-put-it-somewhere-i-d-price-that-work-before-promising-an-allowance",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Before we write an allowance into {bill}, show me what it costs the grocer to take returns.",
+    "text": "Show {first} what happens behind the counter when a bag comes in. Somebody has to count it, sort it and put it somewhere. I'd price that work before promising an allowance.",
     "uses": [
       {
         "subject": "scene",
@@ -933,9 +933,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.under-bill-a-distributor-marks-the-bottles-and-a-grocer-takes-them-back-which-job-would-you-pay-for"
+        "after": "scene-talk.reply-ask.the-distributor-marks-the-bottles-and-the-clerk-counts-them-when-they-come-back-which-of-those-jobs-would-name-pay-a-handling-allowance-for"
       }
     ],
     "bearing": "calm",
@@ -943,7 +943,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -951,10 +951,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-pay-the-clerk-who-sorts-them-to-pay-the-distributor-out-of-bill-as-well-i-d-need-to-see-what-work-that-covers",
+    "key": "scene-talk.follow-answer.start-with-the-clerk-who-sorts-the-bottles-presiding-if-the-distributor-wants-a-share-too-i-d-ask-what-work-the-store-hasn-t-already-done",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd pay the clerk who sorts them. To pay the distributor out of {bill} as well, I'd need to see what work that covers.",
+    "text": "Start with the clerk who sorts the bottles, {presiding}. If the distributor wants a share too, I'd ask what work the store hasn't already done.",
     "uses": [
       {
         "subject": "scene",
@@ -966,9 +966,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.under-bill-a-distributor-marks-the-bottles-and-a-grocer-takes-them-back-which-job-would-you-pay-for"
+        "after": "scene-talk.reply-ask.the-distributor-marks-the-bottles-and-the-clerk-counts-them-when-they-come-back-which-of-those-jobs-would-name-pay-a-handling-allowance-for"
       }
     ],
     "bearing": "calm",
@@ -976,7 +976,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -984,10 +984,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.say-i-buy-a-bottle-the-night-before-bill-takes-effect-what-happens-to-the-deposit-i-just-paid",
+    "key": "scene-talk.reply-ask.say-i-pay-the-deposit-on-my-way-home-tonight-and-the-refund-ends-tomorrow-what-happens-when-i-finally-empty-the-bottle-presiding",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Say I buy a bottle the night before {bill} takes effect. What happens to the deposit I just paid?",
+    "text": "Say I pay the deposit on my way home tonight and the refund ends tomorrow. What happens when I finally empty the bottle, {presiding}?",
     "uses": [
       {
         "subject": "scene",
@@ -999,7 +999,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "issue",
-          "bill"
+          "presiding"
         ]
       }
     ],
@@ -1008,7 +1008,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -1016,10 +1016,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.the-bottle-carried-a-deposit-when-you-bought-it-i-d-write-a-return-period-into-bill-and-put-the-last-day-on-the-shelf-where-the-drinks-are-sold",
+    "key": "scene-talk.follow-answer.i-d-let-first-bring-that-empty-back-set-a-final-return-day-far-enough-out-to-finish-the-drink-and-put-it-up-on-the-shelf-while-people-are-still-buying",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "The bottle carried a deposit when you bought it. I'd write a return period into {bill} and put the last day on the shelf where the drinks are sold.",
+    "text": "I'd let {first} bring that empty back. Set a final return day far enough out to finish the drink, and put it up on the shelf while people are still buying.",
     "uses": [
       {
         "subject": "scene",
@@ -1031,9 +1031,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.say-i-buy-a-bottle-the-night-before-bill-takes-effect-what-happens-to-the-deposit-i-just-paid"
+        "after": "scene-talk.reply-ask.say-i-pay-the-deposit-on-my-way-home-tonight-and-the-refund-ends-tomorrow-what-happens-when-i-finally-empty-the-bottle-presiding"
       }
     ],
     "bearing": "calm",
@@ -1041,7 +1041,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -1049,10 +1049,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-keep-the-counter-open-for-old-bottles-after-bill-stops-stores-charging-the-deposit-on-new-ones",
+    "key": "scene-talk.follow-answer.i-d-stop-charging-the-deposit-on-new-sales-and-keep-the-return-counter-open-for-the-old-bottles-presiding-those-shoppers-have-already-paid",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd keep the counter open for old bottles after {bill} stops stores charging the deposit on new ones.",
+    "text": "I'd stop charging the deposit on new sales and keep the return counter open for the old bottles, {presiding}. Those shoppers have already paid.",
     "uses": [
       {
         "subject": "scene",
@@ -1064,9 +1064,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.say-i-buy-a-bottle-the-night-before-bill-takes-effect-what-happens-to-the-deposit-i-just-paid"
+        "after": "scene-talk.reply-ask.say-i-pay-the-deposit-on-my-way-home-tonight-and-the-refund-ends-tomorrow-what-happens-when-i-finally-empty-the-bottle-presiding"
       }
     ],
     "bearing": "calm",
@@ -1074,7 +1074,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -1082,10 +1082,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-want-you-to-get-your-money-back-when-you-ve-finished-the-drink-that-s-a-reason-for-me-to-vote-against-bill",
+    "key": "scene-talk.follow-answer.finish-the-drink-and-take-the-bottle-back-first-that-s-the-promise-the-store-made-at-the-till-and-it-s-one-reason-i-d-keep-the-refund",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd want you to get your money back when you've finished the drink. That's a reason for me to vote against {bill}.",
+    "text": "Finish the drink and take the bottle back, {first}. That's the promise the store made at the till, and it's one reason I'd keep the refund.",
     "uses": [
       {
         "subject": "scene",
@@ -1097,9 +1097,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.say-i-buy-a-bottle-the-night-before-bill-takes-effect-what-happens-to-the-deposit-i-just-paid"
+        "after": "scene-talk.reply-ask.say-i-pay-the-deposit-on-my-way-home-tonight-and-the-refund-ends-tomorrow-what-happens-when-i-finally-empty-the-bottle-presiding"
       }
     ],
     "bearing": "calm",
@@ -1107,7 +1107,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -1115,10 +1115,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-vote-against-bill-if-a-store-could-charge-me-on-friday-and-turn-me-away-on-saturday",
+    "key": "scene-talk.follow-answer.if-the-store-can-take-my-deposit-friday-and-turn-me-away-saturday-presiding-i-m-voting-to-keep-the-return-counter-open",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd vote against {bill} if a store could charge me on Friday and turn me away on Saturday.",
+    "text": "If the store can take my deposit Friday and turn me away Saturday, {presiding}, I'm voting to keep the return counter open.",
     "uses": [
       {
         "subject": "scene",
@@ -1130,9 +1130,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.say-i-buy-a-bottle-the-night-before-bill-takes-effect-what-happens-to-the-deposit-i-just-paid"
+        "after": "scene-talk.reply-ask.say-i-pay-the-deposit-on-my-way-home-tonight-and-the-refund-ends-tomorrow-what-happens-when-i-finally-empty-the-bottle-presiding"
       }
     ],
     "bearing": "calm",
@@ -1140,7 +1140,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -1148,10 +1148,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.suppose-the-town-doesn-t-pick-up-glass-if-bill-ends-returns-at-the-store-where-should-a-family-take-its-empties",
+    "key": "scene-talk.reply-ask.where-would-name-send-a-family-with-a-box-of-glass-if-the-store-stops-taking-returns-and-the-town-leaves-glass-at-the-curb",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Suppose the town doesn't pick up glass. If {bill} ends returns at the store, where should a family take its empties?",
+    "text": "Where would {name} send a family with a box of glass if the store stops taking returns and the town leaves glass at the curb?",
     "uses": [
       {
         "subject": "scene",
@@ -1163,7 +1163,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "issue",
-          "bill"
+          "name"
         ]
       }
     ],
@@ -1172,7 +1172,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -1197,7 +1197,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.suppose-the-town-doesn-t-pick-up-glass-if-bill-ends-returns-at-the-store-where-should-a-family-take-its-empties"
+        "after": "scene-talk.reply-ask.where-would-name-send-a-family-with-a-box-of-glass-if-the-store-stops-taking-returns-and-the-town-leaves-glass-at-the-curb"
       }
     ],
     "bearing": "calm",
@@ -1213,10 +1213,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-ask-each-county-to-name-a-place-that-takes-bottles-before-we-pass-bill-tell-us-which-towns-that-leaves-out",
+    "key": "scene-talk.follow-answer.i-d-have-each-county-name-the-site-that-will-take-the-glass-presiding-read-those-names-against-the-list-of-towns-and-see-who-would-be-left-without-one",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd ask each county to name a place that takes bottles. Before we pass {bill}, tell us which towns that leaves out.",
+    "text": "I'd have each county name the site that will take the glass, {presiding}. Read those names against the list of towns and see who would be left without one.",
     "uses": [
       {
         "subject": "scene",
@@ -1228,9 +1228,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.suppose-the-town-doesn-t-pick-up-glass-if-bill-ends-returns-at-the-store-where-should-a-family-take-its-empties"
+        "after": "scene-talk.reply-ask.where-would-name-send-a-family-with-a-box-of-glass-if-the-store-stops-taking-returns-and-the-town-leaves-glass-at-the-curb"
       }
     ],
     "bearing": "calm",
@@ -1238,7 +1238,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -1246,10 +1246,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.right-now-they-can-bring-the-glass-back-on-a-grocery-trip-before-we-vote-on-bill-show-me-where-the-next-trip-would-end",
+    "key": "scene-talk.follow-answer.i-d-want-to-give-first-directions-from-the-grocery-to-a-place-that-actually-takes-glass-right-now-a-family-can-get-that-job-done-when-they-buy-food",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Right now they can bring the glass back on a grocery trip. Before we vote on {bill}, show me where the next trip would end.",
+    "text": "I'd want to give {first} directions from the grocery to a place that actually takes glass. Right now a family can get that job done when they buy food.",
     "uses": [
       {
         "subject": "scene",
@@ -1261,9 +1261,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.suppose-the-town-doesn-t-pick-up-glass-if-bill-ends-returns-at-the-store-where-should-a-family-take-its-empties"
+        "after": "scene-talk.reply-ask.where-would-name-send-a-family-with-a-box-of-glass-if-the-store-stops-taking-returns-and-the-town-leaves-glass-at-the-curb"
       }
     ],
     "bearing": "calm",
@@ -1271,7 +1271,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -1279,10 +1279,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.if-nobody-can-name-a-place-nearby-that-takes-glass-i-d-vote-against-bill-and-leave-that-family-the-store-counter",
+    "key": "scene-talk.follow-answer.i-d-keep-the-store-counter-presiding-until-somebody-can-name-a-nearby-place-that-takes-glass-we-re-sending-that-family-home-with-the-same-box",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "If nobody can name a place nearby that takes glass, I'd vote against {bill} and leave that family the store counter.",
+    "text": "I'd keep the store counter, {presiding}. Until somebody can name a nearby place that takes glass, we're sending that family home with the same box.",
     "uses": [
       {
         "subject": "scene",
@@ -1294,9 +1294,9 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.suppose-the-town-doesn-t-pick-up-glass-if-bill-ends-returns-at-the-store-where-should-a-family-take-its-empties"
+        "after": "scene-talk.reply-ask.where-would-name-send-a-family-with-a-box-of-glass-if-the-store-stops-taking-returns-and-the-town-leaves-glass-at-the-curb"
       }
     ],
     "bearing": "calm",
@@ -1304,7 +1304,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -2278,10 +2278,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.that-s-the-testimony-i-d-want-on-bill-too-an-order-for-the-plastic-tells-us-more-than-a-picture-of-a-full-bin",
+    "key": "scene-talk.follow-thank.let-the-recycler-bring-the-purchase-order-first-a-picture-of-the-plastic-piled-up-outside-won-t-tell-us-whether-anybody-has-agreed-to-take-it",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "That's the testimony I'd want on {bill} too. An order for the plastic tells us more than a picture of a full bin.",
+    "text": "Let the recycler bring the purchase order, {first}. A picture of the plastic piled up outside won't tell us whether anybody has agreed to take it.",
     "uses": [
       {
         "subject": "scene",
@@ -2293,7 +2293,7 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
         "after": "scene-talk.reply-agree.i-share-that-doubt-presiding-i-d-want-to-see-a-buyer-for-the-plastic-before-asking-stores-to-collect-it-this-way"
       }
@@ -2303,7 +2303,7 @@
       "move": "thank",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -2575,10 +2575,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.if-the-county-put-a-glass-bin-at-the-grocery-would-you-support-bill-or-is-it-the-refund-you-want-to-keep",
+    "key": "scene-talk.follow-press.suppose-the-county-took-glass-at-the-grocery-first-would-that-answer-your-objection-to-repeal-or-do-you-want-the-shopper-to-get-the-deposit-back-as-well",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "If the county put a glass bin at the grocery, would you support {bill}, or is it the refund you want to keep?",
+    "text": "Suppose the county took glass at the grocery, {first}. Would that answer your objection to repeal, or do you want the shopper to get the deposit back as well?",
     "uses": [
       {
         "subject": "scene",
@@ -2590,7 +2590,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for",
-          "bill"
+          "first"
         ],
         "after": "scene-talk.reply-disagree.until-you-can-tell-a-family-where-else-to-take-glass-on-a-grocery-trip-i-m-voting-against-bill"
       }
@@ -2600,7 +2600,7 @@
       "move": "press",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -2839,10 +2839,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.an-address-tells-you-where-the-bin-is-presiding-how-does-somebody-who-walks-to-the-store-get-their-bottles-out-to-the-county-site",
+    "key": "scene-talk.follow-press.post-the-address-presiding-but-walk-the-route-before-you-send-anyone-there-how-is-a-shopper-on-foot-supposed-to-carry-glass-from-the-grocery-to-the-county-site",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "An address tells you where the bin is, {presiding}. How does somebody who walks to the store get their bottles out to the county site?",
+    "text": "Post the address, {presiding}, but walk the route before you send anyone there. How is a shopper on foot supposed to carry glass from the grocery to the county site?",
     "uses": [
       {
         "subject": "scene",
@@ -2864,7 +2864,7 @@
       "move": "press",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -4554,10 +4554,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.would-a-buyer-s-contract-change-your-vote-on-bill-or-would-you-want-another-place-to-send-the-plastic-if-the-buyer-backed-out",
+    "key": "scene-talk.reply-ask.if-the-recycler-showed-us-a-signed-order-for-the-plastic-would-that-satisfy-name-or-would-the-plant-need-a-second-buyer-in-case-the-order-falls-through",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Would a buyer's contract change your vote on {bill}, or would you want another place to send the plastic if the buyer backed out?",
+    "text": "If the recycler showed us a signed order for the plastic, would that satisfy {name}, or would the plant need a second buyer in case the order falls through?",
     "uses": [
       {
         "subject": "scene",
@@ -4569,7 +4569,7 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.i-can-see-how-a-bottle-gets-from-the-store-to-the-recycler-what-happens-if-the-recycler-has-a-warehouse-full-and-no-buyer-for-the-plastic-i-can-t-support-bill-name-with-that-question-open"
       }
@@ -4579,7 +4579,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -4587,10 +4587,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-want-that-second-outlet-before-i-backed-bill-one-canceled-order-could-leave-the-recycler-paying-to-store-everything-it-had-baled-for-shipment",
+    "key": "scene-talk.follow-answer.i-d-want-another-outlet-first-one-canceled-shipment-can-leave-the-recycler-renting-room-for-bales-it-thought-would-be-on-the-road-by-now",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd want that second outlet before I backed {bill}. One canceled order could leave the recycler paying to store everything it had baled for shipment.",
+    "text": "I'd want another outlet, {first}. One canceled shipment can leave the recycler renting room for bales it thought would be on the road by now.",
     "uses": [
       {
         "subject": "scene",
@@ -4602,9 +4602,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
-        "after": "scene-talk.reply-ask.would-a-buyer-s-contract-change-your-vote-on-bill-or-would-you-want-another-place-to-send-the-plastic-if-the-buyer-backed-out"
+        "after": "scene-talk.reply-ask.if-the-recycler-showed-us-a-signed-order-for-the-plastic-would-that-satisfy-name-or-would-the-plant-need-a-second-buyer-in-case-the-order-falls-through"
       }
     ],
     "bearing": "steady",
@@ -4612,7 +4612,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -4620,10 +4620,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.before-i-changed-my-vote-on-bill-i-d-read-the-contract-if-the-buyer-can-turn-down-a-shipment-whenever-sales-are-slow-the-recycler-is-still-left-holding-it",
+    "key": "scene-talk.follow-answer.let-me-see-when-the-buyer-can-turn-a-shipment-down-presiding-a-signature-doesn-t-clear-the-warehouse-if-slow-sales-let-the-customer-cancel",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Before I changed my vote on {bill}, I'd read the contract. If the buyer can turn down a shipment whenever sales are slow, the recycler is still left holding it.",
+    "text": "Let me see when the buyer can turn a shipment down, {presiding}. A signature doesn't clear the warehouse if slow sales let the customer cancel.",
     "uses": [
       {
         "subject": "scene",
@@ -4635,9 +4635,9 @@
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
-        "after": "scene-talk.reply-ask.would-a-buyer-s-contract-change-your-vote-on-bill-or-would-you-want-another-place-to-send-the-plastic-if-the-buyer-backed-out"
+        "after": "scene-talk.reply-ask.if-the-recycler-showed-us-a-signed-order-for-the-plastic-would-that-satisfy-name-or-would-the-plant-need-a-second-buyer-in-case-the-order-falls-through"
       }
     ],
     "bearing": "guarded",
@@ -4645,7 +4645,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -16782,10 +16782,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.suppose-a-store-gets-the-empties-back-what-would-persuade-you-it-can-get-them-all-the-way-to-a-wash-line-if-bill-passes",
+    "key": "scene-talk.reply-ask.the-customer-gets-the-empty-bottle-as-far-as-the-store-what-would-convince-name-there-s-a-truck-going-from-there-to-a-plant-that-can-wash-it",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Suppose a store gets the empties back. What would persuade you it can get them all the way to a wash line if {bill} passes?",
+    "text": "The customer gets the empty bottle as far as the store. What would convince {name} there's a truck going from there to a plant that can wash it?",
     "uses": [
       {
         "subject": "scene",
@@ -16797,7 +16797,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.a-refillable-already-has-a-long-trip-back-to-the-plant-to-be-washed-why-pass-bill-and-take-away-the-refund-that-gets-it-as-far-as-the-counter-i-m-voting-against-repeal"
       },
@@ -16811,7 +16811,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.where-does-a-refillable-go-after-the-clerk-takes-it-i-want-to-hear-from-the-plant-that-washes-it-and-the-driver-who-ll-carry-it-there-until-we-know-what-bill-does-to-that-trip-i-d-keep-paying-people-to-bring-the-bottles-in"
       },
@@ -16825,7 +16825,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.a-bottler-can-send-a-truck-back-to-the-wash-line-with-full-cases-of-empties-or-with-empty-cases-it-matters-which-presiding-i-d-keep-the-refund-that-gives-the-customer-a-reason-to-fill-those-cases"
       },
@@ -16839,7 +16839,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.i-m-thinking-of-the-grocer-who-s-found-a-plant-willing-to-refill-the-bottles-the-truck-can-make-that-long-trip-only-with-what-reaches-the-shop-i-won-t-vote-for-bill-to-take-away-the-reason-for-bringing-the-glass-back"
       }
@@ -16849,7 +16849,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -16874,7 +16874,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.suppose-a-store-gets-the-empties-back-what-would-persuade-you-it-can-get-them-all-the-way-to-a-wash-line-if-bill-passes"
+        "after": "scene-talk.reply-ask.the-customer-gets-the-empty-bottle-as-far-as-the-store-what-would-convince-name-there-s-a-truck-going-from-there-to-a-plant-that-can-wash-it"
       }
     ],
     "bearing": "calm",
@@ -17181,10 +17181,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.it-still-needs-the-bottler-my-objection-to-bill-is-that-a-plant-willing-to-take-the-glass-also-needs-somebody-willing-to-bring-it-back",
+    "key": "scene-talk.follow-answer.somebody-still-has-to-haul-the-empties-first-a-plant-can-offer-to-wash-every-bottle-we-send-and-the-glass-can-still-pile-up-behind-the-store",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "It still needs the bottler. My objection to {bill} is that a plant willing to take the glass also needs somebody willing to bring it back.",
+    "text": "Somebody still has to haul the empties, {first}. A plant can offer to wash every bottle we send and the glass can still pile up behind the store.",
     "uses": [
       {
         "subject": "scene",
@@ -17196,7 +17196,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "first"
         ],
         "after": "scene-talk.reply-ask.does-keeping-the-refund-get-the-bottle-washed-presiding-or-does-the-store-still-need-a-bottler-willing-to-take-that-particular-glass"
       }
@@ -17206,7 +17206,7 @@
       "move": "answer",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -17397,10 +17397,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.i-d-welcome-that-site-presiding-can-the-member-say-who-ll-empty-the-bin-when-it-fills-that-s-what-makes-the-next-grocery-trip-work-too",
+    "key": "scene-talk.follow-press.i-d-welcome-a-collection-point-at-the-grocery-first-who-s-coming-to-haul-the-glass-away-before-the-next-shopper-finds-it-full",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "I'd welcome that site, {presiding}. Can the member say who'll empty the bin when it fills? That's what makes the next grocery trip work too.",
+    "text": "I'd welcome a collection point at the grocery, {first}. Who's coming to haul the glass away before the next shopper finds it full?",
     "uses": [
       {
         "subject": "scene",
@@ -17412,7 +17412,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "presiding"
+          "first"
         ],
         "after": "scene-talk.reply-disagree.i-still-favor-bill-could-the-county-collect-glass-at-the-grocery-where-the-shopper-already-walks"
       }
@@ -17422,7 +17422,7 @@
       "move": "press",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -17430,10 +17430,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.what-would-you-need-to-see-in-bill-for-somebody-who-walks-to-buy-groceries",
+    "key": "scene-talk.reply-ask.what-counts-as-a-return-site-for-someone-who-walks-to-the-grocery-presiding-a-place-that-looks-close-on-a-map-could-be-a-long-way-with-a-bag-of-glass",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "What would you need to see in {bill} for somebody who walks to buy groceries?",
+    "text": "What counts as a return site for someone who walks to the grocery, {presiding}? A place that looks close on a map could be a long way with a bag of glass.",
     "uses": [
       {
         "subject": "scene",
@@ -17445,7 +17445,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.a-shopper-can-walk-a-bag-of-bottles-back-to-the-corner-store-if-bill-leaves-a-collection-site-outside-town-how-does-somebody-without-a-car-get-there-i-want-to-keep-the-refund"
       },
@@ -17459,7 +17459,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.it-s-manageable-to-carry-a-few-empties-to-the-grocery-and-bring-dinner-home-in-the-same-bag-if-bill-sends-the-glass-somewhere-else-that-shopper-now-has-another-trip-to-make-on-foot-i-d-keep-the-counter"
       },
@@ -17473,7 +17473,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.before-giving-up-the-refund-i-d-like-directions-a-person-can-actually-follow-with-a-box-of-bottles-and-no-car-a-county-address-alone-doesn-t-get-them-there-presiding"
       },
@@ -17487,7 +17487,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.if-the-grocery-stops-taking-glass-which-way-does-the-shopper-turn-when-they-come-out-the-door-they-walked-there-i-d-want-an-answer-that-works-on-foot-before-i-d-support-bill"
       }
@@ -17497,7 +17497,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -17522,7 +17522,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.what-would-you-need-to-see-in-bill-for-somebody-who-walks-to-buy-groceries"
+        "after": "scene-talk.reply-ask.what-counts-as-a-return-site-for-someone-who-walks-to-the-grocery-presiding-a-place-that-looks-close-on-a-map-could-be-a-long-way-with-a-bag-of-glass"
       }
     ],
     "bearing": "calm",
@@ -17754,10 +17754,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.if-bill-passes-whose-receipt-would-you-want-the-distributor-to-honor-after-the-last-return-day",
+    "key": "scene-talk.reply-ask.a-pickup-truck-comes-after-the-last-return-day-which-record-would-name-use-to-decide-whether-the-grocer-gets-paid",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "If {bill} passes, whose receipt would you want the distributor to honor after the last return day?",
+    "text": "A pickup truck comes after the last return day. Which record would {name} use to decide whether the grocer gets paid?",
     "uses": [
       {
         "subject": "scene",
@@ -17769,7 +17769,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.who-carries-the-cost-of-the-last-refund-while-a-dealer-waits-for-the-distributor-to-settle-up-i-d-keep-the-deposit-if-bill-passes-i-want-that-dealer-s-claim-honored"
       },
@@ -17783,7 +17783,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.follow-the-last-empty-across-the-counter-a-customer-gets-paid-today-and-the-shop-has-to-collect-later-i-d-keep-the-deposit-but-if-bill-passes-don-t-close-the-grocer-s-books-for-them"
       },
@@ -17797,7 +17797,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.the-cash-that-leaves-the-drawer-belongs-to-the-customer-the-grocer-who-advanced-it-still-has-a-claim-i-d-vote-no-on-bill-and-i-d-protect-that-claim-whichever-way-the-vote-goes"
       },
@@ -17811,7 +17811,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.what-happens-when-the-distributor-s-truck-turns-up-after-the-last-return-day-if-the-shop-has-already-paid-the-customer-i-want-somebody-to-honor-its-claim-presiding-i-d-keep-the-refund"
       }
@@ -17821,7 +17821,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -17846,7 +17846,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.if-bill-passes-whose-receipt-would-you-want-the-distributor-to-honor-after-the-last-return-day"
+        "after": "scene-talk.reply-ask.a-pickup-truck-comes-after-the-last-return-day-which-record-would-name-use-to-decide-whether-the-grocer-gets-paid"
       }
     ],
     "bearing": "calm",
@@ -18078,10 +18078,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.if-bill-takes-away-the-refund-what-should-the-treasurer-put-down-for-those-cans-at-the-next-club-meeting",
+    "key": "scene-talk.reply-ask.the-club-treasurer-has-bags-of-cans-and-a-trip-to-budget-for-once-refunds-end-what-can-go-in-the-income-column-presiding",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "If {bill} takes away the refund, what should the treasurer put down for those cans at the next club meeting?",
+    "text": "The club treasurer has bags of cans and a trip to budget for. Once refunds end, what can go in the income column, {presiding}?",
     "uses": [
       {
         "subject": "scene",
@@ -18093,7 +18093,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.if-a-school-club-pays-for-trips-with-cans-what-do-we-tell-the-kids-when-bill-takes-their-refund-away-they-d-have-to-start-by-asking-what-a-scrap-dealer-would-pay-i-d-keep-the-deposit"
       },
@@ -18107,7 +18107,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.what-price-does-the-school-club-put-down-for-its-cans-when-it-fills-out-the-trip-budget-today-the-treasurer-can-count-the-empties-under-bill-the-kids-would-have-to-find-out-what-a-scrap-yard-is-paying-i-d-keep-the-refund"
       },
@@ -18121,7 +18121,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.i-d-hate-to-see-a-permission-slip-go-home-with-a-fare-the-club-can-t-keep-a-refund-gives-the-students-something-they-can-count-on-while-the-cans-are-still-coming-in-that-s-worth-keeping-presiding"
       },
@@ -18135,7 +18135,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.a-bus-company-wants-a-commitment-well-before-the-trip-if-the-cans-are-still-in-the-garage-when-the-club-books-the-bus-who-knows-what-the-load-will-fetch-after-bill-passes-i-ll-vote-no"
       }
@@ -18145,7 +18145,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -18170,7 +18170,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.if-bill-takes-away-the-refund-what-should-the-treasurer-put-down-for-those-cans-at-the-next-club-meeting"
+        "after": "scene-talk.reply-ask.the-club-treasurer-has-bags-of-cans-and-a-trip-to-budget-for-once-refunds-end-what-can-go-in-the-income-column-presiding"
       }
     ],
     "bearing": "calm",
@@ -18402,10 +18402,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.would-you-accept-bill-with-a-notice-at-the-store-or-does-somebody-who-already-bought-a-case-need-more-time-as-well",
+    "key": "scene-talk.reply-ask.the-store-posts-the-last-return-day-beside-the-drinks-would-name-give-a-family-time-to-finish-the-case-it-bought-before-the-sign-went-up",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Would you accept {bill} with a notice at the store, or does somebody who already bought a case need more time as well?",
+    "text": "The store posts the last return day beside the drinks. Would {name} give a family time to finish the case it bought before the sign went up?",
     "uses": [
       {
         "subject": "scene",
@@ -18417,7 +18417,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.think-about-the-bottles-in-somebody-s-pantry-presiding-they-paid-the-deposit-at-the-register-i-don-t-want-their-chance-to-get-it-back-to-depend-on-whether-they-hear-about-the-cutoff-i-m-against-repeal"
       },
@@ -18431,7 +18431,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.think-of-a-family-buying-a-case-for-company-presiding-they-paid-the-deposit-on-every-bottle-i-d-leave-them-the-refund-even-if-the-company-comes-later-than-they-expected"
       },
@@ -18445,7 +18445,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.a-sign-on-the-return-counter-won-t-reach-a-customer-who-s-still-drinking-the-first-bottle-they-paid-on-the-whole-case-i-m-voting-against-bill-because-i-want-them-to-collect-when-the-empties-are-ready"
       },
@@ -18459,7 +18459,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.who-tells-the-person-with-full-bottles-in-the-pantry-when-the-clock-starts-i-don-t-want-bill-to-turn-the-refund-they-paid-for-into-something-they-can-miss-between-shopping-trips-my-vote-is-no"
       }
@@ -18469,7 +18469,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -18494,7 +18494,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.would-you-accept-bill-with-a-notice-at-the-store-or-does-somebody-who-already-bought-a-case-need-more-time-as-well"
+        "after": "scene-talk.reply-ask.the-store-posts-the-last-return-day-beside-the-drinks-would-name-give-a-family-time-to-finish-the-case-it-bought-before-the-sign-went-up"
       }
     ],
     "bearing": "calm",
@@ -18726,10 +18726,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.if-we-changed-the-handling-allowance-in-bill-where-would-you-draw-the-line-for-the-customer",
+    "key": "scene-talk.reply-ask.suppose-we-change-what-stores-get-for-handling-the-empties-which-payment-would-name-protect-for-the-person-who-bought-the-drink",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "If we changed the handling allowance in {bill}, where would you draw the line for the customer?",
+    "text": "Suppose we change what stores get for handling the empties. Which payment would {name} protect for the person who bought the drink?",
     "uses": [
       {
         "subject": "scene",
@@ -18741,7 +18741,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.i-m-willing-to-change-what-a-store-gets-paid-for-handling-returns-what-bill-ends-is-the-customer-s-refund-that-s-where-i-part-company-with-the-sponsor"
       },
@@ -18755,7 +18755,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.i-d-listen-to-a-grocer-who-says-the-return-counter-costs-more-to-run-than-the-store-gets-paid-i-can-t-tell-that-grocer-that-taking-the-customer-s-money-away-is-the-only-answer-on-bill-i-ll-vote-no"
       },
@@ -18769,7 +18769,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.bring-me-a-change-to-the-handling-fee-and-i-ll-consider-it-presiding-a-shopper-asking-for-the-deposit-back-has-kept-their-part-of-the-bargain-i-d-leave-that-part-alone"
       },
@@ -18783,7 +18783,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.what-does-a-store-need-to-do-the-work-of-taking-bottles-back-we-can-hear-the-answer-without-ending-the-refund-i-d-separate-those-questions-and-vote-against-bill"
       }
@@ -18793,7 +18793,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -18818,7 +18818,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.if-we-changed-the-handling-allowance-in-bill-where-would-you-draw-the-line-for-the-customer"
+        "after": "scene-talk.reply-ask.suppose-we-change-what-stores-get-for-handling-the-empties-which-payment-would-name-protect-for-the-person-who-bought-the-drink"
       }
     ],
     "bearing": "calm",
@@ -19050,10 +19050,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.where-would-the-customer-see-the-difference-before-buying-the-drink-if-we-kept-the-refund-instead-of-passing-bill",
+    "key": "scene-talk.reply-ask.if-we-keep-the-refund-where-should-a-shopper-find-out-which-of-those-drinks-carries-one-presiding",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Where would the customer see the difference before buying the drink if we kept the refund instead of passing {bill}?",
+    "text": "If we keep the refund, where should a shopper find out which of those drinks carries one, {presiding}?",
     "uses": [
       {
         "subject": "scene",
@@ -19065,7 +19065,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.if-similar-bottles-get-different-treatment-let-s-clear-up-which-ones-qualify-a-customer-shouldn-t-have-to-give-up-a-refund-to-get-a-clearer-label-that-s-why-i-m-voting-against-bill"
       },
@@ -19079,7 +19079,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.set-the-two-bottles-down-with-their-labels-facing-the-shopper-if-you-still-can-t-tell-which-one-pays-let-s-change-what-the-label-says-throwing-out-the-refund-under-bill-seems-a-poor-way-to-clear-that-up"
       },
@@ -19093,7 +19093,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.a-cashier-ought-to-be-able-to-explain-the-refund-while-the-drinks-are-still-on-the-shelf-give-the-clerk-a-rule-and-a-mark-that-match-i-d-keep-the-refund-and-try-that-presiding"
       },
@@ -19107,7 +19107,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "presiding"
         ],
         "after": "scene-talk.state-tell.a-shopper-brings-back-two-empties-from-the-same-shelf-and-the-clerk-pushes-one-back-across-the-counter-i-d-ask-which-drinks-we-cover-and-how-anyone-could-tell-i-wouldn-t-start-by-voting-for-bill"
       }
@@ -19117,7 +19117,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -19142,7 +19142,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.where-would-the-customer-see-the-difference-before-buying-the-drink-if-we-kept-the-refund-instead-of-passing-bill"
+        "after": "scene-talk.reply-ask.if-we-keep-the-refund-where-should-a-shopper-find-out-which-of-those-drinks-carries-one-presiding"
       }
     ],
     "bearing": "calm",
@@ -19374,10 +19374,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.what-would-you-ask-the-grocer-to-bring-to-that-table-before-we-vote-on-bill",
+    "key": "scene-talk.reply-ask.what-could-a-grocer-show-name-about-the-work-of-taking-returns-before-we-settle-how-much-the-store-and-distributor-should-each-get",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "What would you ask the grocer to bring to that table before we vote on {bill}?",
+    "text": "What could a grocer show {name} about the work of taking returns before we settle how much the store and distributor should each get?",
     "uses": [
       {
         "subject": "scene",
@@ -19389,7 +19389,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.i-d-rather-put-the-grocer-and-the-distributor-at-this-table-presiding-and-hear-what-each-trip-costs-we-can-revisit-their-allowances-and-keep-paying-customers-for-bringing-the-containers-back"
       },
@@ -19403,7 +19403,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.the-grocer-makes-room-and-counts-what-s-brought-in-the-distributor-has-a-route-to-cover-i-d-hear-the-cost-of-each-job-before-setting-the-allowances-presiding-and-keep-the-customer-s-refund-in-place"
       },
@@ -19417,7 +19417,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.how-much-of-the-expense-happens-behind-the-counter-and-how-much-after-the-driver-loads-the-cases-i-d-want-the-grocer-and-the-distributor-to-answer-separately-neither-cost-persuades-me-to-pass-bill-and-end-the-refund"
       },
@@ -19431,7 +19431,7 @@
         "requiresFacts": [
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against",
-          "bill"
+          "name"
         ],
         "after": "scene-talk.state-tell.if-the-shop-is-paying-someone-to-sort-glass-let-it-show-us-the-time-involved-then-let-the-distributor-bring-in-the-pickup-route-we-can-use-both-records-to-decide-what-the-work-is-worth-without-passing-bill"
       }
@@ -19441,7 +19441,7 @@
       "move": "ask",
       "key": "honor"
     },
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "origin": "authored",
     "author": "Codex writer B",
     "elements": [
@@ -19466,7 +19466,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.what-would-you-ask-the-grocer-to-bring-to-that-table-before-we-vote-on-bill"
+        "after": "scene-talk.reply-ask.what-could-a-grocer-show-name-about-the-work-of-taking-returns-before-we-settle-how-much-the-store-and-distributor-should-each-get"
       }
     ],
     "bearing": "calm",
