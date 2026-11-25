@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: merged
+status: done
 standard: 2
 claimed-by:
 pr: #10310
@@ -17,6 +17,8 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 merged-at: 2026-11-24T05:21:02.096Z
+seen-by: Dead stops tracer
+seen-at: 2026-11-25T01:26:04.685Z
 ---
 
 **What.** The President's card from the address and a council member's card from Politics come from one function but draw two layouts, scene busts open nothing, and the card leaves age, home, spouse, children, offices with their places and work empty. Make one fixed layout filled from the records. Seen: the President's card from the address scene beside a council member's card from Politics.
@@ -34,3 +36,5 @@ merged-at: 2026-11-24T05:21:02.096Z
 **Waits on.** Nothing.
 
 **Files.** src/bench/play.mjs,src/bench/card.ts,src/bench/ui/strips.mjs,src/bench/ui/bust-strip.mjs,tests/guards/one-face-one-card.test.ts
+
+**Notes.** Seen in the game (2026-11-25, Dead stops tracer): West Havre, Montana, seed 3c8bacce-f66f-4e7a-b884-4a04839dbfdf, main b84540133d: President Sandra Strong's card opened from her name over the address and county commissioner Debra Navarro's card opened from Politics in the same frame (portrait left, Who she is and Politics in the middle, people and record right), filled from records, nothing scrolling (768 of 768 and 648 of 648), and the X closed both; the President's story sits under the portrait while the commissioner's sits in the right column. For #10529 the card record of mail carrier Jonathan Davidson names the West Havre Post Office as employer, read from the card endpoint the screen draws, not opened on screen.
