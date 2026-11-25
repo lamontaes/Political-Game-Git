@@ -2,9 +2,10 @@
   "id": "a-second-use-before-the-checkout-bag-is-trash",
   "kind": "voice",
   "summary": "A shopper asks the committee to count what happens to the bag after it leaves the store.",
-  "realLife": "Washington House report on ESSB 5323, 2020. House opponents argued that customers found additional uses for bags classified as single use and that substitutes did not serve every purpose equally well.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House opponents argued that customers found additional uses for bags classified as single use and that substitutes did not serve every purpose equally well. Commerce and Ecology reported that the review could not establish how often Washington shoppers reused bags after the law took effect. Purchasing a fabric bag supplied no count of its later trips.",
   "sources": [
-    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=2"
   ],
   "inGame": "needs: household reuse has been raised in testimony.",
   "fits": ["office", "journal", "news", "home"],
@@ -24,6 +25,12 @@
       "what": "The household adds liners to the shopping list.",
       "pulledBy": "The household buys separate liners.",
       "writesBack": "The replacement expense enters the household account."
+    },
+    {
+      "turn": "late",
+      "what": "A member asks how many times the same bag actually came back to the store.",
+      "pulledBy": "The committee has purchase figures but no local record of repeat use.",
+      "writesBack": "The member requests observations of return trips before citing a local reuse rate."
     }
   ],
   "issues": ["none"]

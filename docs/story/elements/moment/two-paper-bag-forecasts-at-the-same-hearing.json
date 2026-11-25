@@ -2,9 +2,11 @@
   "id": "two-paper-bag-forecasts-at-the-same-hearing",
   "kind": "moment",
   "summary": "A committee hears conflicting forecasts for paper orders after a plastic-bag restriction.",
-  "realLife": "Washington House report on ESSB 5323, 2020. House Finance supporters cited rising demand in Washington localities. Opponents cited a decline after California imposed its fee.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House Finance supporters cited rising demand in Washington localities. Opponents cited a decline after California imposed its fee. The later agency review reported a drop in paper bags in one distributor’s Washington records from 2021 to 2022. The agencies cautioned that those records could not settle statewide demand.",
   "sources": [
-    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=1",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=2"
   ],
   "inGame": "needs: witnesses supply experience from jurisdictions with different bag rules.",
   "fits": ["office", "journal", "news", "speeches"],
@@ -26,6 +28,12 @@
       "what": "A missing figure keeps one comparison out of the findings.",
       "pulledBy": "One witness supplies only a statewide total.",
       "writesBack": "Staff flag the missing local breakdown before using the comparison."
+    },
+    {
+      "turn": "late",
+      "what": "A supplier returns to the committee with fewer paper bags on its own order books.",
+      "pulledBy": "The supplier provides comparable sales records for both periods, but other suppliers have not provided theirs.",
+      "writesBack": "Members record the decline for that supplier and leave the statewide forecast unresolved."
     }
   ],
   "issues": ["none"]

@@ -2,9 +2,10 @@
   "id": "the-cashier-sees-the-benefit-voucher",
   "kind": "moment",
   "summary": "A shopper using a qualifying benefit can receive a carryout bag without the ordinary charge.",
-  "realLife": "Section 4 of the 2020 act barred collection of the charge from people using specified food or cash assistance vouchers or cards.",
+  "realLife": "Section 4 of the 2020 act barred collection of the charge from people using specified food or cash assistance vouchers or cards. The Washington State University review says Ecology received 112 reports of businesses charging food-benefit customers after the rule took effect. That figure counts complaints received.",
   "sources": [
-    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=14"
   ],
   "inGame": "needs: the shopper uses a benefit covered by the applicable exemption.",
   "fits": ["office", "journal", "news", "home"],
@@ -24,6 +25,12 @@
       "what": "The cashier removes the bag fee.",
       "pulledBy": "The till includes the charge in error.",
       "writesBack": "The cashier corrects the sale after checking the benefit used."
+    },
+    {
+      "turn": "late",
+      "what": "A constituent brings a receipt to the district office after paying the charge with an eligible benefits card.",
+      "pulledBy": "The office can document the payment method and the bag charge on this transaction.",
+      "writesBack": "The office submits a documented complaint and leaves the finding open for investigation."
     }
   ],
   "issues": ["none"]

@@ -2,9 +2,11 @@
   "id": "the-agency-may-ask-the-distributor-for-bag-prices",
   "kind": "move",
   "summary": "A legislative review can depend on a supplier choosing to share its price records.",
-  "realLife": "Section 7 told agencies to assess bag cost and availability and allowed them to request pricing information without compelling stores or distributors to furnish it.",
+  "realLife": "Section 7 told agencies to assess bag cost and availability and allowed them to request pricing information without compelling stores or distributors to furnish it. A grocery association supplied survey prices. Other retailers and distributors disputed the high estimate for plastic bags, and the review recorded their disagreement.",
   "sources": [
-    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=2",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=14"
   ],
   "inGame": "needs: the agency is preparing the pricing portion of a required review.",
   "fits": ["office", "journal", "news", "work-community"],
@@ -26,6 +28,12 @@
       "what": "The review proceeds without the supplier's invoices.",
       "pulledBy": "The supplier declines the request.",
       "writesBack": "The report records the missing information and its limits."
+    },
+    {
+      "turn": "late",
+      "what": "A second supplier challenges the price the committee has been using.",
+      "pulledBy": "A trade-group survey and another supplier’s estimate disagree on what a store pays per bag.",
+      "writesBack": "The cost table identifies both sources and requests comparable order sizes before fixing one price."
     }
   ],
   "issues": ["none"]

@@ -2,9 +2,10 @@
   "id": "the-town-reads-the-bag-complaint-and-visits-the-store",
   "kind": "consequence",
   "summary": "A complaint filed with the state can lead to a local official explaining the rule at the store.",
-  "realLife": "Section 5 provided for complaint-based enforcement and let local governments review complaints in the state system for education and outreach.",
+  "realLife": "Section 5 provided for complaint-based enforcement and let local governments review complaints in the state system for education and outreach. In their cover memo, Commerce and Ecology called for clearer instructions about the exemption for people using food benefits.",
   "sources": [
-    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=3"
   ],
   "inGame": "needs: a complaint identifies a store within the town's jurisdiction.",
   "fits": ["office", "journal", "news", "work-community"],
@@ -24,6 +25,12 @@
       "what": "The official returns to go over the rule with store staff.",
       "pulledBy": "The complaint reveals staff confusion about checkout charges.",
       "writesBack": "The store arranges a training session."
+    },
+    {
+      "turn": "late",
+      "what": "The town takes a pattern of complaints to the state for clarification.",
+      "pulledBy": "Several stores report interpreting the same benefit instruction differently.",
+      "writesBack": "The town asks the agency for wording every store can use in staff training."
     }
   ],
   "issues": ["none"]
