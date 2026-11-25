@@ -8794,7 +8794,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -8835,7 +8836,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -8876,7 +8878,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         }
       ],
@@ -8935,7 +8938,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -8976,7 +8980,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -9017,7 +9022,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         }
       ],
@@ -9051,7 +9057,7 @@
             "belief-folded"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -9084,7 +9090,7 @@
             "belief-folded"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -15432,7 +15438,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -15471,7 +15478,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -15510,7 +15518,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         }
       ],
@@ -15567,7 +15576,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -15606,7 +15616,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -15645,7 +15656,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         }
       ],
@@ -15673,7 +15685,7 @@
           "choice": "ask",
           "requiresFacts": ["stance-against", "law-not-in-force", "to"],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -15700,7 +15712,7 @@
           "choice": "ask",
           "requiresFacts": ["stance-against", "law-not-in-force", "to"],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -17771,7 +17783,7 @@
             "body-name"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -17785,7 +17797,7 @@
             "body-name"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -17799,7 +17811,7 @@
             "body-name"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -17826,7 +17838,7 @@
             "body-name"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -17840,7 +17852,7 @@
             "body-name"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -17854,7 +17866,7 @@
             "body-name"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -17990,7 +18002,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18004,7 +18016,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18018,7 +18030,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18032,7 +18044,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -18059,7 +18071,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18073,7 +18085,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18087,7 +18099,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18101,7 +18113,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -18128,7 +18140,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18142,7 +18154,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18156,7 +18168,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18170,7 +18182,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -18197,7 +18209,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18211,7 +18223,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18225,7 +18237,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18239,7 +18251,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -18266,7 +18278,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18280,7 +18292,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18294,7 +18306,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18308,7 +18320,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -18335,7 +18347,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18349,7 +18361,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18363,7 +18375,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18377,7 +18389,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -18404,7 +18416,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18418,7 +18430,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18432,7 +18444,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18446,7 +18458,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -18473,7 +18485,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18487,7 +18499,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18501,7 +18513,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -18515,7 +18527,7 @@
             "measure"
           ],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -18537,7 +18549,7 @@
           "choice": "ask",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "plain",
@@ -18559,7 +18571,7 @@
           "choice": "ask",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "tie": "law",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -57006,7 +57018,7 @@
             "belief-folded"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -57022,7 +57034,7 @@
             "belief-folded"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -57038,7 +57050,7 @@
             "belief-folded"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -57070,7 +57082,7 @@
             "body-name"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -57084,7 +57096,7 @@
             "body-name"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -57098,7 +57110,7 @@
             "body-name"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -57131,7 +57143,7 @@
             "belief-folded"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -57146,7 +57158,7 @@
             "belief-folded"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -57161,7 +57173,7 @@
             "belief-folded"
           ],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",
@@ -57188,7 +57200,7 @@
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "to"],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -57197,7 +57209,7 @@
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "to"],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "move": "ask",
@@ -57206,7 +57218,7 @@
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "to"],
           "tie": "stand",
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "voice": "polished",

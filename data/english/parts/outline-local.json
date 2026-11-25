@@ -882,7 +882,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -918,7 +919,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         }
       ],
@@ -1438,14 +1440,14 @@
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
+          "excludesFacts": ["said-contrast"]
         }
       ],
       "after": ["today", "contrast"],
@@ -1494,7 +1496,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         },
         {
@@ -1530,7 +1533,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
           ]
         }
       ],
