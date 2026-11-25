@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10405
 blocked-on:
 source: the CTO's pass of Nov 24 on the Bills follow-up (comment 7131936843 on the crew's issue)
 claimed-at:
@@ -17,6 +17,7 @@ lead: play-first
 model: sonnet
 effort: low
 root: none
+merged-at: 2026-11-25T12:49:30.296Z
 ---
 
 **What.** A federal bill's banner and the Government screen draw the House and the Senate over a picture of the White House lawn, but Congress sits in the Capitol. The CTO caught it on the Bills follow-up: Congress needs a Capitol picture and the White House belongs to the President's office alone. Seen: a federal bill's banner in a drawn place at 1440x900 shows the Capitol building over the House's name.
