@@ -10,3 +10,5 @@ When the member passed on the last meeting, the chair can offer a seat together,
 A returning invitee can agree to check the canvass map, ask how a precinct appointment is recorded, or decline the meeting while still offering to help find a candidate.
 
 When the chair offers introductions, a member can ask to sit with the longest-serving regular, offer to stay late and help, or suggest meeting someone over coffee instead.
+
+A member who accepts an introduction can ask the chair to meet them at the door or offer to come early and set up chairs.

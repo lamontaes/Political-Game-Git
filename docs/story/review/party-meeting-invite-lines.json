@@ -4750,5 +4750,167 @@
       "key": "favor-asked"
     },
     "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.meet-me-at-the-door-and-take-me-in-with-you-will-you-i-hate-standing-around-trying-to-guess-who-s-in-charge",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Meet me at the door and take me in with you, will you? I hate standing around trying to guess who's in charge.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.would-it-be-all-right-if-i-listened-for-a-while-first-once-i-hear-people-talk-their-names-tend-to-stick",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Would it be all right if I listened for a while first? Once I hear people talk, their names tend to stick.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.if-you-see-somebody-from-my-precinct-wave-me-over-i-ll-get-there-before-the-meeting-starts",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "If you see somebody from my precinct, wave me over. I'll get there before the meeting starts.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-come-early-enough-to-help-set-up-it-s-easier-to-get-talking-when-you-re-both-unfolding-chairs",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll come early enough to help set up. It's easier to get talking when you're both unfolding chairs.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.who-tells-the-best-stories-save-me-a-place-by-them-i-want-to-hear-how-everybody-got-mixed-up-in-this-business",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Who tells the best stories? Save me a place by them. I want to hear how everybody got mixed up in this business.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.tell-them-i-m-coming-they-may-know-me-by-sight-already-but-i-doubt-they-know-my-name",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Tell them I'm coming. They may know me by sight already, but I doubt they know my name.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   }
 ]
