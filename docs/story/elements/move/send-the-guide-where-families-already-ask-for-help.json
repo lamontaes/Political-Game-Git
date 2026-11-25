@@ -1,0 +1,31 @@
+{
+  "id": "send-the-guide-where-families-already-ask-for-help",
+  "kind": "move",
+  "summary": "{member} names offices that families contact before they would think to look up a dispenser's license.",
+  "realLife": "Freeman suggested the health and aging offices could reach readers. Jerry Bergman identified a new interagency council that brought agencies and disability groups together.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=10",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=13"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: agency contacts and the guide's intended readers.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A council representative asks for copies.",
+      "what": "Staff send the guide for the next meeting.",
+      "writesBack": "The member has a distribution contact."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The other office controls its own publications.",
+      "what": "The board offers the material without promising a posting.",
+      "writesBack": "The referral stays open."
+    }
+  ]
+}

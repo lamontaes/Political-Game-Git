@@ -1,0 +1,31 @@
+{
+  "id": "give-the-consumer-guide-another-turn-on-the-homepage",
+  "kind": "move",
+  "summary": "{member} seeks a turn in the department's rotating banner for a guide already reviewed by the public.",
+  "realLife": "Once members agreed that people had trouble finding accurate material, David Mossberg offered to ask the digital team about featuring it on the department homepage again.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=8",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the approved guide and the homepage calendar.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The next banner space is open.",
+      "what": "The digital team schedules the guide.",
+      "writesBack": "Staff have a date to report back."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The banner is booked for another notice.",
+      "what": "Staff look for another public page.",
+      "writesBack": "The request goes to consumer protection."
+    }
+  ]
+}

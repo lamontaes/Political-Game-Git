@@ -1,0 +1,31 @@
+{
+  "id": "the-license-question-starts-in-a-professional-forum",
+  "kind": "voice",
+  "summary": "{member} brings colleagues' accounts of moving across state lines to a meeting about who can practice.",
+  "realLife": "Freeman said dispensers in online forums described long waits to register in New York. He connected that concern with the difficulty of finding providers in his own practice.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=41",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=42"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: reported waits and the worker's prior experience.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A colleague agrees to share dates.",
+      "what": "The member asks staff to check the account.",
+      "writesBack": "The board has a concrete timeline."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only general accounts are available.",
+      "what": "The member presents them as concerns.",
+      "writesBack": "Staff are asked for actual processing data."
+    }
+  ]
+}

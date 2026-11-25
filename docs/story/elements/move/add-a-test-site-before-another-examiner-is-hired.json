@@ -1,0 +1,30 @@
+{
+  "id": "add-a-test-site-before-another-examiner-is-hired",
+  "kind": "move",
+  "summary": "{member} hears what the department did about the practical exam wait and what still needs a licensed worker.",
+  "realLife": "Lacy reported that staff added Rockland County as an exam location and advertised for practical examiners through the state's hiring site.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: exam sites and the practical examiner roster.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A local dispenser volunteers to examine.",
+      "what": "Staff book candidates closer to home.",
+      "writesBack": "The new site gets an exam date."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The room is available without an examiner.",
+      "what": "Nobody can administer the practical there yet.",
+      "writesBack": "The vacancy remains on the hiring list."
+    }
+  ]
+}

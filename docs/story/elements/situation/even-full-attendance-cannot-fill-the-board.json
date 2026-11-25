@@ -1,0 +1,31 @@
+{
+  "id": "even-full-attendance-cannot-fill-the-board",
+  "kind": "situation",
+  "summary": "{member} counts vacant seats and realizes that calling every serving member still cannot produce a quorum.",
+  "realLife": "Bergman counted eight vacancies on a board with thirteen seats. He said some had been vacant for years and asked what was being done to fill them.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=15",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=16"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the authorized seats and the appointment roster.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A qualified nominee has cleared review.",
+      "what": "The appointing office schedules the appointment.",
+      "writesBack": "The clerk recalculates how many votes are possible."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The vacancies outnumber the serving members.",
+      "what": "Calling the absentees cannot solve the problem.",
+      "writesBack": "The clerk sends the vacancy list to the appointing offices."
+    }
+  ]
+}

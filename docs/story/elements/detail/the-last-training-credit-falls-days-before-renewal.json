@@ -1,0 +1,31 @@
+{
+  "id": "the-last-training-credit-falls-days-before-renewal",
+  "kind": "detail",
+  "summary": "{worker} has a date for the last class and an expiration date later that same week.",
+  "realLife": "Goosen described a dispenser due to earn her remaining credits on June 10 against a June 14 deadline. He wanted someone at the department who could answer the timing question.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=37",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=38"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{worker}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: course completion and expiration dates.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The school posts the credit promptly.",
+      "what": "The worker can show completion before renewal.",
+      "writesBack": "The application includes the final credit."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The credit is delayed.",
+      "what": "The worker asks licensing staff what documentation counts.",
+      "writesBack": "The application records the outstanding item."
+    }
+  ]
+}

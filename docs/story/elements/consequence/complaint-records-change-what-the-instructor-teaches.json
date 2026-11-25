@@ -1,0 +1,31 @@
+{
+  "id": "complaint-records-change-what-the-instructor-teaches",
+  "kind": "consequence",
+  "summary": "{instructor} asks which licensing provisions draw complaints before preparing a course for dispensers.",
+  "realLife": "Ahern taught the industry's continuing education session on state law and wanted the enforcement report so she could give recurring problems more class time.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=34",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=35"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{instructor}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the enforcement report and the course outline.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "An anonymized report identifies a recurring violation.",
+      "what": "The instructor adds a worked example.",
+      "writesBack": "The revised outline names that part of the law."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The department has no report ready.",
+      "what": "The instructor uses the previous syllabus.",
+      "writesBack": "The unanswered request carries into course planning."
+    }
+  ]
+}

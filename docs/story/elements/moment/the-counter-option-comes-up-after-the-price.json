@@ -1,0 +1,31 @@
+{
+  "id": "the-counter-option-comes-up-after-the-price",
+  "kind": "moment",
+  "summary": "{dispenser} hears a different question once a patient learns what the prescription aid would cost.",
+  "realLife": "Eric Freeman described patients who came to him seeking help and brought up a retail aid only after hearing the price of the first option.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=6",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-52824#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{dispenser}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the quoted price and the patient's purchase question.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The shop has the state comparison guide.",
+      "what": "The patient takes it home to read.",
+      "writesBack": "The household can compare both routes."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The patient wants to proceed with the quoted device.",
+      "what": "The dispenser goes over the purchase terms.",
+      "writesBack": "The conversation stays with the prescription sale."
+    }
+  ]
+}

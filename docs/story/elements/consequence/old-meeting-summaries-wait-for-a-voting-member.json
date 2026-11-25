@@ -1,0 +1,31 @@
+{
+  "id": "old-meeting-summaries-wait-for-a-voting-member",
+  "kind": "consequence",
+  "summary": "{chair} takes new questions while two earlier meeting summaries still await approval.",
+  "realLife": "Only two voting members attended. The department's draft summary records that approval of the 2022 and 2023 summaries had to wait.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=4",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-52824#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{chair}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: attendance and the pending summaries.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Another member arrives before adjournment.",
+      "what": "The chair recounts the voting members.",
+      "writesBack": "The older summaries return to the agenda."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The last voting member leaves.",
+      "what": "Staff finish taking questions.",
+      "writesBack": "Both summaries go into the next packet."
+    }
+  ]
+}
