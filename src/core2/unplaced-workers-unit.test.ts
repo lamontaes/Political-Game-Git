@@ -6,10 +6,9 @@
  * after a counted person finds or loses regional work, and no record may hold
  * more workers than it has working-age members to do the work.
  *
- * Not held here: the same identity through a played year. Households that
- * move in or out change the workers on the records without changing what the
- * pool pays (pool item world-movers-change-unplaced-workers-not-the-pool-pay);
- * the test prints both sides after the played days.
+ * The same identity holds through played days: a household that moves in
+ * brings its out-of-town workers' pay to the pool, and one that moves out takes
+ * it away.
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -225,6 +224,7 @@ it(`a counted household's out-of-town workers are per household everywhere, in $
   // pay, not a count of its members.
   advanceCore(core, addDays(makeIsoDate(core.date), PLAYED_DAYS));
   report(`after ${PLAYED_DAYS} days`);
+  holds(`after ${PLAYED_DAYS} played days of moves in and out`);
   const workingAge = (h: CountedHousehold) =>
     store.countedMembers(h).filter((m) => {
       const age = ageOn(store.born[m]!, core.date);
