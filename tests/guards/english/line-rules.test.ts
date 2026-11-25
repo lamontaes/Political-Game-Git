@@ -141,8 +141,12 @@ describe("line rules: each rule does what it says", () => {
         expect(["place", "judged"], rule.id).toContain(rule.test.kind);
       else if (rule.test.kind === "composed")
         // A composed rule reads whole texts, never a bank line: its checks are
-        // registered and fixture-tested in composed-rules.test.ts.
-        expect(rule.status, rule.id).not.toBe("enforced");
+        // registered and fixture-tested in composed-rules.test.ts. It is
+        // enforced only where a guard reads the reply sets the composer
+        // offers (composed-reply-sets.test.ts), which is named here.
+        expect(rule.status === "enforced" ? rule.id : "", rule.id).toBe(
+          rule.status === "enforced" ? "no-non-replies" : "",
+        );
       else if (rule.test.kind === "judged") {
         // A judged rule leaves awaiting-test with one line it must catch, one
         // it must leave alone, and its first verdicts folded.
