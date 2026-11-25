@@ -131,12 +131,13 @@ Each line says who, where, what is at stake, and what it unlocks. "Unlocks" mean
 - On the way, a protest or a rally is in the street downtown; someone in it asks you where you stand. Unlocks: the cause group's invitation.
 - Someone from a party's local committee is at the coffee shop or the rally and asks what you think of the party. Unlocks: the party committee meeting; being asked to run when a seat goes unfilled.
 
-### Not in office: a year with no race open (owner: work for someone else's campaign, a party committee or an appointed board until a race opens)
+### Not in office: a year with no race open
 
 - A candidate in town, or their manager, asks you to help their campaign: doors, phones, a Saturday. Unlocks: knocking doors for someone else (the door scenes with their name on your card), their race night, their endorsement ask when you run. (building, with the Blockers lane)
 - Your first door for someone else's campaign: the resident asks why you are working for that candidate. Unlocks: that resident remembers you when you run. (Owner, Nov 17: "This is good.")
 - The party's local committee meets: a slate, an endorsement, a chair's election; you are asked to take a post (precinct captain, secretary, treasurer). Unlocks: the committee asks you to run; the chair's favor later. (planned, with Blockers)
-- Someone with appointing power offers you a seat on a town board (planning, library, housing). Unlocks: the board's own meetings and votes; the first time someone asks you for a favor because of the seat. (planned, with Blockers)
+- A playable town seat falls vacant. Your filing, campaign work or attendance at a party meeting brings your name before the appointing body. If you accept, you serve out the term. If you decline, the body fills the vacancy with someone else. (offer and reply records exist; scene planned)
+- A neighbor who serves on the planning commission tells you why they sent the council a written dissent after losing a housing vote. If you speak at the council hearing, you can ask the council to read it. (potential scene; needs the neighbor’s board service, the recommendation and their dissent)
 - A council seat is going unopposed and someone who knows you says you should file. Unlocks: filing, the family's reaction.
 - The party comes to your shop or your workplace to recruit you while your business or job is failing. Unlocks: party-welcome; the question of whether you can afford to run.
 
