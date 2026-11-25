@@ -325,6 +325,7 @@ function presidencyHistory(row: CenturyPresidency): HistoryRow {
     from: "past",
     personIds: [],
     withIds: [],
+    publicRecord: true,
     facts: {
       year: String(row.year),
       termStart: row.termStart,

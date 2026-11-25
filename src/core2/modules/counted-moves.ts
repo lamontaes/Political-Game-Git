@@ -56,6 +56,8 @@ import {
 import type { ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import { registerWorldMapPart } from "../snapshot";
+import { coreAPI } from "../state";
+import type { HistoryModule, HistoryRow, HistorySource } from "../past";
 import type {
   CoreAPI,
   CoreModule,
@@ -2125,8 +2127,46 @@ export function takeCoarsePerson(
   return true;
 }
 
-export const COUNTED_MOVES_MODULE: CoreModule = {
+/** A counted household's move, as the one history reader tells it: at the place it left, or the place it came to. */
+function moveHistory(row: MoveRecord): HistoryRow {
+  return {
+    id: row.id,
+    date: row.date as HistoryRow["date"],
+    life: "move",
+    what: row.direction,
+    record: `counted-move:${row.direction}`,
+    from: "played",
+    personIds: [],
+    withIds: [],
+    placeId: (row.direction === "in"
+      ? row.toPlace
+      : row.fromPlace) as HistoryRow["placeId"],
+    facts: {
+      householdId: row.householdId,
+      direction: row.direction,
+      fromPlace: row.fromPlace,
+      toPlace: row.toPlace,
+      people: String(row.people),
+    },
+  };
+}
+
+/**
+ * The counted households' moves in and out are a place's history, read by
+ * kind (`counted-move:in`, `counted-move:out`).
+ */
+const MOVES_HISTORY: HistorySource = {
   id: COUNTED_MOVES_MODULE_ID,
+  rows(core, scope, ask) {
+    if (!("place" in scope || "state" in scope || "nation" in scope)) return [];
+    if (!ask.kinds?.some((kind) => kind.startsWith("counted-move:"))) return [];
+    return countedMoves(coreAPI(core)).map(moveHistory);
+  },
+};
+
+export const COUNTED_MOVES_MODULE: CoreModule & HistoryModule = {
+  id: COUNTED_MOVES_MODULE_ID,
+  history: MOVES_HISTORY,
   state: {
     schemaVersion: 1,
     tables: { [TABLE]: {}, [PULLS_TABLE]: {} },
