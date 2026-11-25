@@ -3341,8 +3341,19 @@ details.entry[open] {
 #sheet-body .bill-board > .board-cols > .mx3col {
   min-height: 0;
   overflow-y: auto;
+  /* A column scrolls down, never across: a long word (a long name or title in one world) wraps
+     inside it instead of making it scroll sideways (overflow-y alone makes x scroll too). */
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+/* A typed row's figure stays on one line everywhere else; on a bill's page it can be a long name
+   or title, so it shrinks to the row and wraps, and the label keeps its line. */
+#sheet-body .bill-board .dotrow.typed .dotvalue {
+  white-space: normal;
+  min-width: 0;
+  text-align: right;
 }
 /* Bills: the list is narrow and the bill's page takes the rest of the sheet. */
 #sheet-body:has(.roster-screen.bills) {
