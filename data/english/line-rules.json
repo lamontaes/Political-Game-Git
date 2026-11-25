@@ -5849,6 +5849,28 @@
       }
     },
     {
+      "id": "policy-said-by-people-not-the-catalog",
+      "says": "A person never names a policy by the bill catalog's name or the question's `about` noun phrase; they react to it in their own words (\"finally, someone wants to tax the rich\").",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-24",
+          "words": "No person would say that. They'd be like, finally, someone wants to tax the rich, or, you know, I can't believe he wants to tax people, or why is he going to tax people?"
+        },
+        {
+          "date": "2026-11-23",
+          "words": "Again, random ass laws like ban the box public hiring. What does that mean?"
+        }
+      ],
+      "note": "Composed check no-catalog-name-in-speech over whole texts played in drawn worlds (npm run words:composed): a spoken line whose filled text holds a policy's catalog name or its `about` noun phrase. Sample: it reports, it pulls no bank line. The bank lines that fill these names are held to a list that only shrinks by tests/guards/english/policy-name-in-speech.test.ts.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-catalog-name-in-speech"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
       "id": "plain-american-spelling-and-phrasing",
       "says": "Nobody in any bank speaks or is written in British English: no British idiom, phrasing or word, such as the ones in the word list. Spelling stays with the spelling guard.",
       "judges": "line",
