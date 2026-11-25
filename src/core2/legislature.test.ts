@@ -202,7 +202,22 @@ describe(
       const allowing = Object.keys(authority)
         .filter((s) => authority[s]!.answer === "yes")
         .sort();
-      const { core, api, key, council } = town(allowing, "allow");
+      // The research table names the states that allow it; the world's law
+      // in force is what its history made (worlds diverge from the real
+      // table), so the town is one where the world itself allows a council's
+      // wage, passing over a state whose starting law gives no local
+      // authority (Alaska, seed 7762e3e4: "state-gives-no-local-minimum-wage").
+      const { core, api, key, council } = town(
+        allowing,
+        "allow",
+        (t) =>
+          authorityFor(t.api, {
+            kind: "law-amount",
+            series: "minimum-wage",
+            value: (lawInForce(t.api, "minimum-wage").value ?? 0) + 200,
+            unit: "minor/hour",
+          }).allowed,
+      );
       const you = council[0]!.holder!.personId!;
       const office = council[0]!.office.id;
       const floor = lawInForce(api, "minimum-wage").value!;
