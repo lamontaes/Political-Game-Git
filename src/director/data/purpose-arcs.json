@@ -1172,7 +1172,7 @@
         },
         {
           "id": "study",
-          "label": "No hearing date was set",
+          "label": "Sent to study",
           "keeps": "none",
           "when": {
             "reply": ["stall", "leave"]
