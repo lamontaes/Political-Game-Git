@@ -23116,10 +23116,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-porch-light-is-on-at-name-s-place-you-knock-once-and-wait",
+      "key": "scene-talk.narrate-narrate.the-porch-light-is-on-you-knock-once-and-name-comes-to-the-door",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "The porch light is on at {name}'s place. You knock once and wait.",
+      "text": "The porch light is on. You knock once, and {name} comes to the door.",
       "uses": [
         {
           "subject": "scene",
@@ -79131,10 +79131,10 @@
       "elements": ["door-count-is-how-people-measure-effort"]
     },
     {
-      "key": "scene-talk.narrate-narrate.barely-into-your-walk-you-find-name-at-the-door-ask-support",
+      "key": "scene-talk.narrate-narrate.barely-into-your-walk-name-comes-to-the-door",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "Barely into your walk, you find {name} at the door.",
+      "text": "Barely into your walk, {name} comes to the door.",
       "uses": [
         {
           "subject": "scene",
