@@ -607,9 +607,13 @@ describe("composed rules: the registry and the rule rows", () => {
     expect(wrong).toEqual([]);
   });
 
-  it("a composed rule reports and pulls no bank line: it is a sample with a note", () => {
+  it("a composed rule reports and pulls no bank line: it is a sample with a note, or enforced over the reply sets", () => {
     for (const rule of composed) {
-      expect(rule.status, rule.id).toBe("sample");
+      // no-non-replies is enforced where composed-reply-sets.test.ts reads
+      // every reply play can offer; the others report.
+      expect(rule.status, rule.id).toBe(
+        rule.id === "no-non-replies" ? "enforced" : "sample",
+      );
       expect(rule.note ?? "", rule.id).not.toBe("");
     }
   });
