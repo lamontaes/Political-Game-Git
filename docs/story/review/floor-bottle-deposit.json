@@ -20815,10 +20815,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.the-clerk-has-to-stop-selling-groceries-to-count-a-return-i-d-cover-that-time-first-i-d-want-the-distributor-to-show-me-what-it-s-spending-on-the-marks",
+    "key": "scene-talk.follow-answer.the-store-yes-that-clerk-s-on-the-clock-the-whole-time-the-distributor-could-bring-the-committee-a-printer-s-invoice-if-it-wants-an-allowance-too",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "The clerk has to stop selling groceries to count a return. I'd cover that time, {first}. I'd want the distributor to show me what it's spending on the marks.",
+    "text": "The store, yes. That clerk's on the clock the whole time. The distributor could bring the committee a printer's invoice if it wants an allowance too.",
     "uses": [
       {
         "subject": "scene",
@@ -20829,8 +20829,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.would-name-pay-a-grocer-for-counting-returns-even-if-the-distributor-got-nothing-for-marking-the-packages"
       }
@@ -20909,10 +20908,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.give-the-driver-the-names-of-the-distributors-who-agreed-to-take-a-shared-load-presiding-the-store-can-set-those-cases-together-and-keep-the-rest-where-they-are",
+    "key": "scene-talk.follow-answer.a-list-of-the-companies-whose-bottles-can-ride-together-then-the-grocer-could-get-their-cases-ready-before-the-truck-pulls-in",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Give the driver the names of the distributors who agreed to take a shared load, {presiding}. The store can set those cases together and keep the rest where they are.",
+    "text": "A list of the companies whose bottles can ride together. Then the grocer could get their cases ready before the truck pulls in.",
     "uses": [
       {
         "subject": "scene",
@@ -20923,8 +20922,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.what-would-name-want-written-on-the-driver-s-pickup-sheet-before-the-truck-leaves-the-yard"
       }
@@ -21003,10 +21001,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.go-back-along-the-same-stretch-after-the-next-busy-weekend-presiding-i-could-learn-more-from-seeing-what-s-back-in-the-ditch-than-from-a-picture-taken-the-day-they-cleaned-it",
+    "key": "scene-talk.follow-answer.go-back-after-a-busy-weekend-if-the-ditch-is-full-again-that-tells-us-more-than-a-photo-from-cleanup-day",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Go back along the same stretch after the next busy weekend, {presiding}. I could learn more from seeing what's back in the ditch than from a picture taken the day they cleaned it.",
+    "text": "Go back after a busy weekend. If the ditch is full again, that tells us more than a photo from cleanup day.",
     "uses": [
       {
         "subject": "scene",
@@ -21017,8 +21015,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.if-the-bottlers-get-that-extra-session-how-would-name-tell-whether-their-cleanup-lasted"
       }
@@ -21097,10 +21094,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-would-first-put-the-limit-where-people-can-read-it-before-they-unload-the-car-it-does-the-clerk-no-good-if-the-argument-at-the-till-lasts-longer-than-the-count",
+    "key": "scene-talk.follow-answer.yes-and-i-d-post-the-limit-where-people-park-folks-ought-to-know-how-much-the-store-will-take-before-they-haul-everything-inside",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I would, {first}. Put the limit where people can read it before they unload the car. It does the clerk no good if the argument at the till lasts longer than the count.",
+    "text": "Yes, and I'd post the limit where people park. Folks ought to know how much the store will take before they haul everything inside.",
     "uses": [
       {
         "subject": "scene",
@@ -21111,8 +21108,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.would-name-let-a-small-shop-limit-what-each-customer-brings-back-in-a-day"
       }
@@ -21191,10 +21187,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-put-the-refund-mark-right-on-the-bottle-first-once-the-carton-goes-out-with-the-trash-the-customer-still-has-to-know-which-empties-are-worth-carrying-home",
+    "key": "scene-talk.follow-answer.look-for-the-mark-on-the-bottle-itself-the-carton-might-already-be-in-the-trash",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd put the refund mark right on the bottle, {first}. Once the carton goes out with the trash, the customer still has to know which empties are worth carrying home.",
+    "text": "Look for the mark on the bottle itself. The carton might already be in the trash.",
     "uses": [
       {
         "subject": "scene",
@@ -21205,8 +21201,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.what-could-the-customer-check-before-bringing-those-bottles-back-presiding"
       }
@@ -21285,10 +21280,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-have-the-water-distributors-settle-those-claims-together-first-the-clerk-who-handed-over-the-refund-shouldn-t-have-to-trace-the-truck-that-brought-the-bottle-into-town",
+    "key": "scene-talk.follow-answer.the-companies-that-sold-the-water-could-pay-those-claims-out-of-a-common-account-why-send-a-clerk-looking-for-a-truck",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd have the water distributors settle those claims together, {first}. The clerk who handed over the refund shouldn't have to trace the truck that brought the bottle into town.",
+    "text": "The companies that sold the water could pay those claims out of a common account. Why send a clerk looking for a truck?",
     "uses": [
       {
         "subject": "scene",
@@ -21299,8 +21294,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.suppose-the-label-tells-the-clerk-the-bottle-carries-a-refund-but-nobody-knows-which-truck-brought-it-who-would-name-send-the-claim-to"
       }
@@ -21318,10 +21312,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.start-with-the-store-presiding-i-d-ask-the-distributor-to-bring-in-an-invoice-for-changing-the-labels-before-it-drew-an-allowance-of-its-own",
+    "key": "scene-talk.follow-answer.start-with-the-store-i-d-ask-the-distributor-to-bring-in-an-invoice-for-changing-the-labels-before-it-drew-an-allowance-of-its-own",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Start with the store, {presiding}. I'd ask the distributor to bring in an invoice for changing the labels before it drew an allowance of its own.",
+    "text": "Start with the store. I'd ask the distributor to bring in an invoice for changing the labels before it drew an allowance of its own.",
     "uses": [
       {
         "subject": "scene",
@@ -21332,8 +21326,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.would-name-pay-a-grocer-for-counting-returns-even-if-the-distributor-got-nothing-for-marking-the-packages"
       }
@@ -21412,10 +21405,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.stand-at-the-counter-with-the-owner-presiding-i-d-time-a-return-from-the-moment-the-clerk-leaves-the-till-until-the-empty-is-put-away",
+    "key": "scene-talk.follow-answer.stand-at-the-counter-with-the-owner-i-d-time-a-return-from-the-moment-the-clerk-leaves-the-till-until-the-empty-is-put-away",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Stand at the counter with the owner, {presiding}. I'd time a return from the moment the clerk leaves the till until the empty is put away.",
+    "text": "Stand at the counter with the owner. I'd time a return from the moment the clerk leaves the till until the empty is put away.",
     "uses": [
       {
         "subject": "scene",
@@ -21426,8 +21419,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.how-would-name-find-out-what-a-return-costs-the-shop-on-an-ordinary-afternoon"
       }
@@ -21445,10 +21437,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-ask-the-clerk-to-keep-a-slip-by-the-register-first-write-down-when-a-customer-brings-empties-in-and-when-the-clerk-can-get-back-to-selling-groceries",
+    "key": "scene-talk.follow-answer.i-d-ask-the-clerk-to-keep-a-slip-by-the-register-write-down-when-a-customer-brings-empties-in-and-when-the-clerk-can-get-back-to-selling-groceries",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd ask the clerk to keep a slip by the register, {first}. Write down when a customer brings empties in and when the clerk can get back to selling groceries.",
+    "text": "I'd ask the clerk to keep a slip by the register. Write down when a customer brings empties in and when the clerk can get back to selling groceries.",
     "uses": [
       {
         "subject": "scene",
@@ -21459,8 +21451,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.how-would-name-find-out-what-a-return-costs-the-shop-on-an-ordinary-afternoon"
       }
@@ -21478,10 +21469,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.a-driver-ought-to-be-able-to-point-to-the-cases-the-truck-will-take-first-if-there-s-an-exception-tell-the-store-before-it-wheels-the-cases-out",
+    "key": "scene-talk.follow-answer.a-driver-ought-to-be-able-to-point-to-the-cases-the-truck-will-take-if-there-s-an-exception-tell-the-store-before-it-wheels-the-cases-out",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "A driver ought to be able to point to the cases the truck will take, {first}. If there's an exception, tell the store before it wheels the cases out.",
+    "text": "A driver ought to be able to point to the cases the truck will take. If there's an exception, tell the store before it wheels the cases out.",
     "uses": [
       {
         "subject": "scene",
@@ -21492,8 +21483,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.what-would-name-want-written-on-the-driver-s-pickup-sheet-before-the-truck-leaves-the-yard"
       }
@@ -21572,10 +21562,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.the-dispatcher-who-sent-that-truck-first-i-d-put-that-number-on-the-pickup-slip-so-the-grocer-doesn-t-have-to-go-down-a-list-of-bottlers",
+    "key": "scene-talk.follow-answer.the-dispatcher-who-sent-that-truck-i-d-put-that-number-on-the-pickup-slip-so-the-grocer-doesn-t-have-to-go-down-a-list-of-bottlers",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "The dispatcher who sent that truck, {first}. I'd put that number on the pickup slip so the grocer doesn't have to go down a list of bottlers.",
+    "text": "The dispatcher who sent that truck. I'd put that number on the pickup slip so the grocer doesn't have to go down a list of bottlers.",
     "uses": [
       {
         "subject": "scene",
@@ -21586,8 +21576,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.a-grocer-signs-for-the-pickup-and-finds-a-stack-of-cases-still-on-the-dock-whom-should-the-grocer-call-presiding"
       }
@@ -21605,10 +21594,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-have-the-distributors-who-share-the-route-give-the-store-a-single-contact-presiding-the-grocer-shouldn-t-have-to-know-which-driver-was-meant-to-clear-the-dock",
+    "key": "scene-talk.follow-answer.i-d-have-the-distributors-who-share-the-route-give-the-store-a-single-contact-the-grocer-shouldn-t-have-to-know-which-driver-was-meant-to-clear-the-dock",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd have the distributors who share the route give the store a single contact, {presiding}. The grocer shouldn't have to know which driver was meant to clear the dock.",
+    "text": "I'd have the distributors who share the route give the store a single contact. The grocer shouldn't have to know which driver was meant to clear the dock.",
     "uses": [
       {
         "subject": "scene",
@@ -21619,8 +21608,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.a-grocer-signs-for-the-pickup-and-finds-a-stack-of-cases-still-on-the-dock-whom-should-the-grocer-call-presiding"
       }
@@ -21638,10 +21626,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-want-the-road-crew-s-account-too-first-ask-the-crew-where-it-still-has-to-stop-and-pull-bottles-out-of-the-grass",
+    "key": "scene-talk.follow-answer.i-want-the-road-crew-s-account-too-ask-the-crew-where-it-still-has-to-stop-and-pull-bottles-out-of-the-grass",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I want the road crew's account too, {first}. Ask the crew where it still has to stop and pull bottles out of the grass.",
+    "text": "I want the road crew's account too. Ask the crew where it still has to stop and pull bottles out of the grass.",
     "uses": [
       {
         "subject": "scene",
@@ -21652,8 +21640,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.if-the-bottlers-get-that-extra-session-how-would-name-tell-whether-their-cleanup-lasted"
       }
@@ -21732,10 +21719,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.if-the-bottlers-come-back-with-a-cleanup-day-and-nothing-for-the-weeks-after-it-i-ll-ask-for-another-hearing-presiding",
+    "key": "scene-talk.follow-answer.if-the-bottlers-come-back-with-a-cleanup-day-and-nothing-for-the-weeks-after-it-i-ll-ask-for-another-hearing",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "If the bottlers come back with a cleanup day and nothing for the weeks after it, I'll ask for another hearing, {presiding}.",
+    "text": "If the bottlers come back with a cleanup day and nothing for the weeks after it, I'll ask for another hearing.",
     "uses": [
       {
         "subject": "scene",
@@ -21746,8 +21733,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.what-would-make-name-bring-the-deposit-proposal-back-when-we-next-meet"
       }
@@ -21765,10 +21751,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-walk-that-road-with-the-people-who-mow-it-first-if-they-re-still-stopping-the-mower-to-pick-glass-off-the-shoulder-i-d-put-the-deposit-back-before-the-chamber",
+    "key": "scene-talk.follow-answer.i-d-walk-that-road-with-the-people-who-mow-it-if-they-re-still-stopping-the-mower-to-pick-glass-off-the-shoulder-i-d-put-the-deposit-back-before-the-chamber",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd walk that road with the people who mow it, {first}. If they're still stopping the mower to pick glass off the shoulder, I'd put the deposit back before the chamber.",
+    "text": "I'd walk that road with the people who mow it. If they're still stopping the mower to pick glass off the shoulder, I'd put the deposit back before the chamber.",
     "uses": [
       {
         "subject": "scene",
@@ -21779,8 +21765,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.what-would-make-name-bring-the-deposit-proposal-back-when-we-next-meet"
       }
@@ -21798,10 +21783,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.let-the-small-shop-post-what-it-can-take-presiding-a-family-with-more-than-that-should-find-out-while-it-can-still-choose-a-different-stop",
+    "key": "scene-talk.follow-answer.let-the-small-shop-post-what-it-can-take-a-family-with-more-than-that-should-find-out-while-it-can-still-choose-a-different-stop",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Let the small shop post what it can take, {presiding}. A family with more than that should find out while it can still choose a different stop.",
+    "text": "Let the small shop post what it can take. A family with more than that should find out while it can still choose a different stop.",
     "uses": [
       {
         "subject": "scene",
@@ -21812,8 +21797,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.would-name-let-a-small-shop-limit-what-each-customer-brings-back-in-a-day"
       }
@@ -21892,10 +21876,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-ask-which-nearby-store-could-take-the-whole-load-first-a-daily-limit-is-a-poor-answer-if-the-shopper-has-to-hire-another-ride",
+    "key": "scene-talk.follow-answer.i-d-ask-which-nearby-store-could-take-the-whole-load-a-daily-limit-is-a-poor-answer-if-the-shopper-has-to-hire-another-ride",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd ask which nearby store could take the whole load, {first}. A daily limit is a poor answer if the shopper has to hire another ride.",
+    "text": "I'd ask which nearby store could take the whole load. A daily limit is a poor answer if the shopper has to hire another ride.",
     "uses": [
       {
         "subject": "scene",
@@ -21906,8 +21890,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.where-does-that-leave-someone-who-can-only-get-a-ride-into-town-on-saturdays-presiding"
       }
@@ -21925,10 +21908,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.let-the-grocer-arrange-a-time-for-a-big-return-presiding-that-saturday-customer-could-come-when-another-clerk-is-there-to-cover-the-till",
+    "key": "scene-talk.follow-answer.let-the-grocer-arrange-a-time-for-a-big-return-that-saturday-customer-could-come-when-another-clerk-is-there-to-cover-the-till",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Let the grocer arrange a time for a big return, {presiding}. That Saturday customer could come when another clerk is there to cover the till.",
+    "text": "Let the grocer arrange a time for a big return. That Saturday customer could come when another clerk is there to cover the till.",
     "uses": [
       {
         "subject": "scene",
@@ -21939,8 +21922,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.where-does-that-leave-someone-who-can-only-get-a-ride-into-town-on-saturdays-presiding"
       }
@@ -21958,10 +21940,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.the-refund-ought-to-be-legible-on-the-empty-container-itself-presiding-a-shopper-won-t-always-have-a-receipt-from-the-store-where-it-was-bought",
+    "key": "scene-talk.follow-answer.the-refund-ought-to-be-legible-on-the-empty-container-itself-a-shopper-won-t-always-have-a-receipt-from-the-store-where-it-was-bought",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "The refund ought to be legible on the empty container itself, {presiding}. A shopper won't always have a receipt from the store where it was bought.",
+    "text": "The refund ought to be legible on the empty container itself. A shopper won't always have a receipt from the store where it was bought.",
     "uses": [
       {
         "subject": "scene",
@@ -21972,8 +21954,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.what-could-the-customer-check-before-bringing-those-bottles-back-presiding"
       }
@@ -22052,10 +22033,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.a-matching-pair-with-the-marks-visible-first-the-customer-should-be-able-to-see-the-difference-without-taking-the-cashier-s-word-for-it",
+    "key": "scene-talk.follow-answer.a-matching-pair-with-the-marks-visible-the-customer-should-be-able-to-see-the-difference-without-taking-the-cashier-s-word-for-it",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "A matching pair with the marks visible, {first}. The customer should be able to see the difference without taking the cashier's word for it.",
+    "text": "A matching pair with the marks visible. The customer should be able to see the difference without taking the cashier's word for it.",
     "uses": [
       {
         "subject": "scene",
@@ -22066,8 +22047,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.if-somebody-learns-at-the-till-that-a-bottle-won-t-earn-a-refund-what-should-the-cashier-be-able-to-show-them-presiding"
       }
@@ -22085,10 +22065,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-d-keep-a-guide-to-the-marks-beside-the-register-presiding-if-the-rule-takes-a-manager-to-explain-every-time-the-packaging-still-needs-work",
+    "key": "scene-talk.follow-answer.i-d-keep-a-guide-to-the-marks-beside-the-register-if-the-rule-takes-a-manager-to-explain-every-time-the-packaging-still-needs-work",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I'd keep a guide to the marks beside the register, {presiding}. If the rule takes a manager to explain every time, the packaging still needs work.",
+    "text": "I'd keep a guide to the marks beside the register. If the rule takes a manager to explain every time, the packaging still needs work.",
     "uses": [
       {
         "subject": "scene",
@@ -22099,8 +22079,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.if-somebody-learns-at-the-till-that-a-bottle-won-t-earn-a-refund-what-should-the-cashier-be-able-to-show-them-presiding"
       }
@@ -22118,10 +22097,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.give-the-store-one-place-to-file-presiding-the-distributors-can-work-out-their-shares-from-their-delivery-records-after-the-grocer-gets-paid",
+    "key": "scene-talk.follow-answer.give-the-store-one-place-to-file-the-distributors-can-work-out-their-shares-from-their-delivery-records-after-the-grocer-gets-paid",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "Give the store one place to file, {presiding}. The distributors can work out their shares from their delivery records after the grocer gets paid.",
+    "text": "Give the store one place to file. The distributors can work out their shares from their delivery records after the grocer gets paid.",
     "uses": [
       {
         "subject": "scene",
@@ -22132,8 +22111,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.suppose-the-label-tells-the-clerk-the-bottle-carries-a-refund-but-nobody-knows-which-truck-brought-it-who-would-name-send-the-claim-to"
       }
@@ -22212,10 +22190,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.i-wouldn-t-presiding-people-buy-water-on-the-road-and-bring-the-empty-home-i-d-have-the-companies-work-out-the-route-between-them",
+    "key": "scene-talk.follow-answer.i-wouldn-t-people-buy-water-on-the-road-and-bring-the-empty-home-i-d-have-the-companies-work-out-the-route-between-them",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "I wouldn't, {presiding}. People buy water on the road and bring the empty home. I'd have the companies work out the route between them.",
+    "text": "I wouldn't. People buy water on the road and bring the empty home. I'd have the companies work out the route between them.",
     "uses": [
       {
         "subject": "scene",
@@ -22226,8 +22204,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.would-name-make-the-shopper-return-the-water-bottle-to-the-store-that-sold-it"
       }
@@ -22245,10 +22222,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-answer.a-shopper-saving-an-empty-shouldn-t-have-to-save-a-receipt-for-it-too-first-let-a-store-that-takes-the-bottle-claim-the-refund-through-the-distributors",
+    "key": "scene-talk.follow-answer.a-shopper-saving-an-empty-shouldn-t-have-to-save-a-receipt-for-it-too-let-a-store-that-takes-the-bottle-claim-the-refund-through-the-distributors",
     "kind": "spoken",
     "move": "follow-answer",
-    "text": "A shopper saving an empty shouldn't have to save a receipt for it too, {first}. Let a store that takes the bottle claim the refund through the distributors.",
+    "text": "A shopper saving an empty shouldn't have to save a receipt for it too. Let a store that takes the bottle claim the refund through the distributors.",
     "uses": [
       {
         "subject": "scene",
@@ -22259,8 +22236,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-ask.would-name-make-the-shopper-return-the-water-bottle-to-the-store-that-sold-it"
       }
@@ -22975,10 +22951,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.let-the-grocer-bring-a-week-s-time-sheets-presiding-that-gives-us-something-to-compare-the-distributor-s-claim-with",
+    "key": "scene-talk.follow-thank.let-the-grocer-bring-a-week-s-time-sheets-that-gives-us-something-to-compare-the-distributor-s-claim-with",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "Let the grocer bring a week's time sheets, {presiding}. That gives us something to compare the distributor's claim with.",
+    "text": "Let the grocer bring a week's time sheets. That gives us something to compare the distributor's claim with.",
     "uses": [
       {
         "subject": "scene",
@@ -22989,8 +22965,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.the-store-has-a-payroll-to-meet-i-m-with-name-on-asking-what-we-re-buying-before-we-promise-anybody-a-handling-fee"
       }
@@ -23008,10 +22983,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.that-s-the-expense-i-can-see-too-first-a-clerk-counting-empties-is-still-on-the-clock",
+    "key": "scene-talk.follow-thank.right-the-same-person-draws-a-wage-whether-there-s-a-carton-of-milk-on-the-counter-or-a-sack-of-empties",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "That's the expense I can see too, {first}. A clerk counting empties is still on the clock.",
+    "text": "Right. The same person draws a wage whether there's a carton of milk on the counter or a sack of empties.",
     "uses": [
       {
         "subject": "scene",
@@ -23022,8 +22997,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.the-store-has-a-payroll-to-meet-i-m-with-name-on-asking-what-we-re-buying-before-we-promise-anybody-a-handling-fee"
       }
@@ -23102,10 +23076,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-like-them-at-the-same-table-first-then-we-could-ask-whether-both-claims-are-charging-us-for-the-same-job",
+    "key": "scene-talk.follow-thank.i-d-like-them-at-the-same-table-then-we-could-ask-whether-both-claims-are-charging-us-for-the-same-job",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd like them at the same table, {first}. Then we could ask whether both claims are charging us for the same job.",
+    "text": "I'd like them at the same table. Then we could ask whether both claims are charging us for the same job.",
     "uses": [
       {
         "subject": "scene",
@@ -23116,8 +23090,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-d-send-the-allowance-back-to-committee-presiding-a-grocer-and-a-bottler-ought-to-be-able-to-tell-us-separately-what-the-work-costs"
       }
@@ -23135,10 +23108,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.it-would-be-worth-the-trip-back-to-committee-to-hear-from-the-person-who-counts-the-returns-presiding",
+    "key": "scene-talk.follow-thank.i-d-make-room-at-the-hearing-for-the-clerk-who-does-the-counting-a-payroll-sheet-tells-us-what-an-hour-costs-the-clerk-can-tell-us-where-it-goes",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "It would be worth the trip back to committee to hear from the person who counts the returns, {presiding}.",
+    "text": "I'd make room at the hearing for the clerk who does the counting. A payroll sheet tells us what an hour costs. The clerk can tell us where it goes.",
     "uses": [
       {
         "subject": "scene",
@@ -23149,8 +23122,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-d-send-the-allowance-back-to-committee-presiding-a-grocer-and-a-bottler-ought-to-be-able-to-tell-us-separately-what-the-work-costs"
       }
@@ -23229,10 +23201,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.what-happens-on-the-first-delivery-first-a-distributor-who-thinks-we-re-paying-for-new-labels-could-already-have-ordered-them",
+    "key": "scene-talk.follow-press.what-happens-on-the-first-delivery-a-distributor-who-thinks-we-re-paying-for-new-labels-could-already-have-ordered-them",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "What happens on the first delivery, {first}? A distributor who thinks we're paying for new labels could already have ordered them.",
+    "text": "What happens on the first delivery? A distributor who thinks we're paying for new labels could already have ordered them.",
     "uses": [
       {
         "subject": "scene",
@@ -23243,8 +23215,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.pay-the-store-for-counting-bottles-and-take-up-the-cost-of-labels-when-the-distributors-bring-their-receipts-i-d-start-the-refund-presiding"
       }
@@ -23262,10 +23233,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.i-could-consider-that-if-the-bill-says-the-distributor-has-to-make-its-case-separately-presiding-show-me-where-it-says-so",
+    "key": "scene-talk.follow-press.show-me-where-the-distributor-has-to-bring-its-receipts-before-it-gets-paid-i-could-consider-the-store-allowance-on-those-terms",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "I could consider that if the bill says the distributor has to make its case separately, {presiding}. Show me where it says so.",
+    "text": "Show me where the distributor has to bring its receipts before it gets paid. I could consider the store allowance on those terms.",
     "uses": [
       {
         "subject": "scene",
@@ -23276,8 +23247,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.pay-the-store-for-counting-bottles-and-take-up-the-cost-of-labels-when-the-distributors-bring-their-receipts-i-d-start-the-refund-presiding"
       }
@@ -23356,10 +23326,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.how-much-of-that-label-run-has-already-been-printed-first-changing-a-mark-in-the-middle-of-a-run-could-cost-money",
+    "key": "scene-talk.follow-press.how-much-of-that-label-run-has-already-been-printed-changing-a-mark-in-the-middle-of-a-run-could-cost-money",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "How much of that label run has already been printed, {first}? Changing a mark in the middle of a run could cost money.",
+    "text": "How much of that label run has already been printed? Changing a mark in the middle of a run could cost money.",
     "uses": [
       {
         "subject": "scene",
@@ -23370,8 +23340,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.a-manufacturer-has-to-print-the-label-anyway-presiding-i-d-give-the-allowance-to-the-counter-clerk-s-employer-and-vote-for-the-deposit"
       }
@@ -23389,10 +23358,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.then-i-d-want-the-allowance-written-that-way-presiding-the-grocer-ought-to-know-which-part-of-the-return-work-it-covers",
+    "key": "scene-talk.follow-press.then-i-d-want-the-allowance-written-that-way-the-grocer-ought-to-know-which-part-of-the-return-work-it-covers",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Then I'd want the allowance written that way, {presiding}. The grocer ought to know which part of the return work it covers.",
+    "text": "Then I'd want the allowance written that way. The grocer ought to know which part of the return work it covers.",
     "uses": [
       {
         "subject": "scene",
@@ -23403,8 +23372,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.a-manufacturer-has-to-print-the-label-anyway-presiding-i-d-give-the-allowance-to-the-counter-clerk-s-employer-and-vote-for-the-deposit"
       }
@@ -23483,10 +23451,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.ask-the-store-to-initial-the-route-sheet-first-that-s-how-we-d-find-out-whether-anyone-told-the-grocer-which-loads-the-driver-can-take",
+    "key": "scene-talk.follow-thank.ask-the-store-to-initial-the-route-sheet-that-s-how-we-d-find-out-whether-anyone-told-the-grocer-which-loads-the-driver-can-take",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "Ask the store to initial the route sheet, {first}. That's how we'd find out whether anyone told the grocer which loads the driver can take.",
+    "text": "Ask the store to initial the route sheet. That's how we'd find out whether anyone told the grocer which loads the driver can take.",
     "uses": [
       {
         "subject": "scene",
@@ -23497,8 +23465,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.an-empty-truck-could-drive-right-past-a-grocer-whose-dock-is-stacked-with-cases-i-d-wait-to-see-the-pickup-agreement-too-presiding"
       }
@@ -23516,10 +23483,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.exactly-first-i-d-like-to-see-who-answers-the-phone-when-cases-are-left-behind",
+    "key": "scene-talk.follow-thank.exactly-and-when-the-truck-leaves-cases-behind-whose-phone-rings",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "Exactly, {first}. I'd like to see who answers the phone when cases are left behind.",
+    "text": "Exactly. And when the truck leaves cases behind, whose phone rings?",
     "uses": [
       {
         "subject": "scene",
@@ -23530,8 +23497,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.an-empty-truck-could-drive-right-past-a-grocer-whose-dock-is-stacked-with-cases-i-d-wait-to-see-the-pickup-agreement-too-presiding"
       }
@@ -23610,10 +23576,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.it-s-the-grocer-who-has-to-stand-there-until-somebody-picks-up-presiding-a-dispatcher-could-settle-that-before-the-truck-leaves",
+    "key": "scene-talk.follow-thank.it-s-the-grocer-who-has-to-stand-there-until-somebody-picks-up-a-dispatcher-could-settle-that-before-the-truck-leaves",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "It's the grocer who has to stand there until somebody picks up, {presiding}. A dispatcher could settle that before the truck leaves.",
+    "text": "It's the grocer who has to stand there until somebody picks up. A dispatcher could settle that before the truck leaves.",
     "uses": [
       {
         "subject": "scene",
@@ -23624,8 +23590,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-d-wait-with-name-a-driver-shouldn-t-have-to-call-different-dispatchers-from-the-dock-to-find-out-whether-the-cases-can-go"
       }
@@ -23643,10 +23608,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.if-the-drivers-themselves-can-read-the-agreement-and-tell-us-which-loads-they-d-take-first-i-d-be-willing-to-hear-it-again",
+    "key": "scene-talk.follow-thank.if-the-drivers-themselves-can-read-the-agreement-and-tell-us-which-loads-they-d-take-i-d-be-willing-to-hear-it-again",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "If the drivers themselves can read the agreement and tell us which loads they'd take, {first}, I'd be willing to hear it again.",
+    "text": "If the drivers themselves can read the agreement and tell us which loads they'd take, I'd be willing to hear it again.",
     "uses": [
       {
         "subject": "scene",
@@ -23657,8 +23622,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-d-wait-with-name-a-driver-shouldn-t-have-to-call-different-dispatchers-from-the-dock-to-find-out-whether-the-cases-can-go"
       }
@@ -23737,10 +23701,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.who-takes-the-call-when-a-distributor-leaves-the-shared-route-first-the-grocer-still-has-its-cases-on-the-dock",
+    "key": "scene-talk.follow-press.who-takes-the-call-when-a-distributor-leaves-the-shared-route-the-grocer-still-has-its-cases-on-the-dock",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Who takes the call when a distributor leaves the shared route, {first}? The grocer still has its cases on the dock.",
+    "text": "Who takes the call when a distributor leaves the shared route? The grocer still has its cases on the dock.",
     "uses": [
       {
         "subject": "scene",
@@ -23751,8 +23715,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.let-the-distributors-share-the-route-presiding-a-mixed-load-is-a-reason-to-pick-up-together-and-i-d-vote-to-start-the-deposit-on-that-basis"
       }
@@ -23770,10 +23733,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.i-d-like-the-drivers-to-know-who-s-accepting-the-shared-load-before-we-ask-a-shop-to-stack-it-presiding",
+    "key": "scene-talk.follow-press.i-d-like-the-drivers-to-know-who-s-accepting-the-shared-load-before-we-ask-a-shop-to-stack-it",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "I'd like the drivers to know who's accepting the shared load before we ask a shop to stack it, {presiding}.",
+    "text": "I'd like the drivers to know who's accepting the shared load before we ask a shop to stack it.",
     "uses": [
       {
         "subject": "scene",
@@ -23784,8 +23747,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.let-the-distributors-share-the-route-presiding-a-mixed-load-is-a-reason-to-pick-up-together-and-i-d-vote-to-start-the-deposit-on-that-basis"
       }
@@ -23864,10 +23826,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.what-goes-on-the-slip-if-the-driver-takes-half-the-pallet-first-that-s-the-part-i-d-want-the-distributors-to-settle",
+    "key": "scene-talk.follow-press.what-goes-on-the-slip-if-the-driver-takes-half-the-pallet-that-s-the-part-i-d-want-the-distributors-to-settle",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "What goes on the slip if the driver takes half the pallet, {first}? That's the part I'd want the distributors to settle.",
+    "text": "What goes on the slip if the driver takes half the pallet? That's the part I'd want the distributors to settle.",
     "uses": [
       {
         "subject": "scene",
@@ -23878,8 +23840,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.a-grocer-could-hand-the-driver-a-mixed-pallet-and-get-a-signed-pickup-slip-presiding-i-d-put-that-arrangement-in-the-bill-and-vote-yes"
       }
@@ -23897,10 +23858,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.i-want-to-know-who-has-a-copy-of-that-slip-when-the-grocer-calls-the-next-morning-presiding",
+    "key": "scene-talk.follow-press.who-keeps-the-pickup-slip-i-d-want-the-grocer-to-have-a-copy-to-point-to-when-someone-asks-what-happened-to-that-load",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "I want to know who has a copy of that slip when the grocer calls the next morning, {presiding}.",
+    "text": "Who keeps the pickup slip? I'd want the grocer to have a copy to point to when someone asks what happened to that load.",
     "uses": [
       {
         "subject": "scene",
@@ -23911,8 +23872,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.a-grocer-could-hand-the-driver-a-mixed-pallet-and-get-a-signed-pickup-slip-presiding-i-d-put-that-arrangement-in-the-bill-and-vote-yes"
       }
@@ -23991,10 +23951,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.let-s-hear-from-the-highway-crew-after-the-busy-season-first-that-s-when-i-want-the-bottlers-back-here-too",
+    "key": "scene-talk.follow-thank.let-s-hear-from-the-highway-crew-after-the-busy-season-that-s-when-i-want-the-bottlers-back-here-too",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "Let's hear from the highway crew after the busy season, {first}. That's when I want the bottlers back here too.",
+    "text": "Let's hear from the highway crew after the busy season. That's when I want the bottlers back here too.",
     "uses": [
       {
         "subject": "scene",
@@ -24005,8 +23965,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-d-give-the-bottlers-until-we-meet-again-presiding-the-people-who-pick-up-litter-for-a-living-can-tell-us-whether-the-offer-amounted-to-anything"
       }
@@ -24024,10 +23983,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-ask-the-crew-to-keep-its-ordinary-pickup-notes-presiding-we-can-bring-those-into-the-next-hearing",
+    "key": "scene-talk.follow-thank.the-crew-could-bring-its-regular-pickup-notes-to-the-next-hearing-no-extra-paperwork-for-anyone-out-on-the-road",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd ask the crew to keep its ordinary pickup notes, {presiding}. We can bring those into the next hearing.",
+    "text": "The crew could bring its regular pickup notes to the next hearing. No extra paperwork for anyone out on the road.",
     "uses": [
       {
         "subject": "scene",
@@ -24038,8 +23997,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-d-give-the-bottlers-until-we-meet-again-presiding-the-people-who-pick-up-litter-for-a-living-can-tell-us-whether-the-offer-amounted-to-anything"
       }
@@ -24118,10 +24076,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-ll-ask-for-the-road-name-before-we-adjourn-first-nobody-should-have-to-guess-which-stretch-to-visit-later",
+    "key": "scene-talk.follow-thank.i-ll-ask-for-the-road-name-before-we-adjourn-nobody-should-have-to-guess-which-stretch-to-visit-later",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'll ask for the road name before we adjourn, {first}. Nobody should have to guess which stretch to visit later.",
+    "text": "I'll ask for the road name before we adjourn. Nobody should have to guess which stretch to visit later.",
     "uses": [
       {
         "subject": "scene",
@@ -24132,8 +24090,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.let-them-try-the-stretch-they-choose-presiding-i-want-that-road-named-in-the-minutes-so-we-re-all-looking-in-the-same-ditch-next-session"
       }
@@ -24151,10 +24108,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.put-the-name-in-the-minutes-and-the-maintenance-supervisor-can-check-it-against-the-crew-s-work-orders-presiding",
+    "key": "scene-talk.follow-thank.put-the-name-in-the-minutes-and-the-maintenance-supervisor-can-check-it-against-the-crew-s-work-orders",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "Put the name in the minutes and the maintenance supervisor can check it against the crew's work orders, {presiding}.",
+    "text": "Put the name in the minutes and the maintenance supervisor can check it against the crew's work orders.",
     "uses": [
       {
         "subject": "scene",
@@ -24165,8 +24122,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.let-them-try-the-stretch-they-choose-presiding-i-want-that-road-named-in-the-minutes-so-we-re-all-looking-in-the-same-ditch-next-session"
       }
@@ -24245,10 +24201,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.would-the-bottlers-still-run-the-same-trial-first-i-d-like-a-chance-to-see-what-they-can-do-on-their-own",
+    "key": "scene-talk.follow-press.would-the-bottlers-still-run-the-same-trial-i-d-like-a-chance-to-see-what-they-can-do-on-their-own",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Would the bottlers still run the same trial, {first}? I'd like a chance to see what they can do on their own.",
+    "text": "Would the bottlers still run the same trial? I'd like a chance to see what they can do on their own.",
     "uses": [
       {
         "subject": "scene",
@@ -24259,8 +24215,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.people-buying-these-drinks-today-get-nothing-for-returning-the-bottles-i-d-start-the-refund-now-presiding-the-bottlers-could-still-clean-up-the-roadside-this-summer"
       }
@@ -24278,10 +24233,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.i-want-to-hear-what-happens-on-their-stretch-of-road-before-we-start-taking-deposits-at-every-counter-presiding",
+    "key": "scene-talk.follow-press.i-want-to-hear-what-happens-on-their-stretch-of-road-before-we-start-taking-deposits-at-every-counter",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "I want to hear what happens on their stretch of road before we start taking deposits at every counter, {presiding}.",
+    "text": "I want to hear what happens on their stretch of road before we start taking deposits at every counter.",
     "uses": [
       {
         "subject": "scene",
@@ -24292,8 +24247,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.people-buying-these-drinks-today-get-nothing-for-returning-the-bottles-i-d-start-the-refund-now-presiding-the-bottlers-could-still-clean-up-the-roadside-this-summer"
       }
@@ -24372,10 +24326,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.what-does-the-crew-think-of-letting-the-bottlers-take-over-that-stretch-first-i-d-like-the-people-doing-the-job-to-have-a-say",
+    "key": "scene-talk.follow-press.what-does-the-crew-think-of-letting-the-bottlers-take-over-that-stretch-i-d-like-the-people-doing-the-job-to-have-a-say",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "What does the crew think of letting the bottlers take over that stretch, {first}? I'd like the people doing the job to have a say.",
+    "text": "What does the crew think of letting the bottlers take over that stretch? I'd like the people doing the job to have a say.",
     "uses": [
       {
         "subject": "scene",
@@ -24386,8 +24340,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.the-highway-crew-is-already-doing-the-pickup-another-season-means-more-hours-beside-traffic-i-d-rather-give-the-people-who-empty-the-bottles-a-reason-to-bring-them-back-presiding"
       }
@@ -24405,10 +24358,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.that-s-a-fair-question-about-the-crew-s-hours-presiding-i-d-ask-the-bottlers-which-days-they-ll-send-people-out-themselves",
+    "key": "scene-talk.follow-press.that-s-a-fair-question-about-the-crew-s-hours-i-d-ask-the-bottlers-which-days-they-ll-send-people-out-themselves",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "That's a fair question about the crew's hours, {presiding}. I'd ask the bottlers which days they'll send people out themselves.",
+    "text": "That's a fair question about the crew's hours. I'd ask the bottlers which days they'll send people out themselves.",
     "uses": [
       {
         "subject": "scene",
@@ -24419,8 +24372,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.the-highway-crew-is-already-doing-the-pickup-another-season-means-more-hours-beside-traffic-i-d-rather-give-the-people-who-empty-the-bottles-a-reason-to-bring-them-back-presiding"
       }
@@ -24499,10 +24451,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-want-that-limit-posted-at-the-door-first-the-clerk-should-be-able-to-point-to-it-before-anybody-empties-a-sack-on-the-counter",
+    "key": "scene-talk.follow-thank.i-d-want-that-limit-posted-at-the-door-the-clerk-should-be-able-to-point-to-it-before-anybody-empties-a-sack-on-the-counter",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd want that limit posted at the door, {first}. The clerk should be able to point to it before anybody empties a sack on the counter.",
+    "text": "I'd want that limit posted at the door. The clerk should be able to point to it before anybody empties a sack on the counter.",
     "uses": [
       {
         "subject": "scene",
@@ -24513,8 +24465,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.a-sack-beside-the-till-can-tie-up-the-only-cashier-give-the-owner-a-say-in-how-much-the-shop-takes-at-once-and-i-ll-listen-presiding"
       }
@@ -24532,10 +24483,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.let-the-owner-walk-us-through-a-lunch-rush-presiding-that-ll-tell-us-what-a-limit-would-mean-in-that-shop",
+    "key": "scene-talk.follow-thank.take-me-through-a-lunch-rush-at-that-counter-at-what-point-does-the-owner-have-to-ask-someone-to-come-back",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "Let the owner walk us through a lunch rush, {presiding}. That'll tell us what a limit would mean in that shop.",
+    "text": "Take me through a lunch rush at that counter. At what point does the owner have to ask someone to come back?",
     "uses": [
       {
         "subject": "scene",
@@ -24546,8 +24497,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.a-sack-beside-the-till-can-tie-up-the-only-cashier-give-the-owner-a-say-in-how-much-the-shop-takes-at-once-and-i-ll-listen-presiding"
       }
@@ -24626,10 +24576,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-like-to-hear-what-the-owner-does-on-the-day-someone-brings-in-a-trunkful-first-that-s-the-day-the-rule-has-to-work",
+    "key": "scene-talk.follow-thank.i-d-like-to-hear-what-the-owner-does-on-the-day-someone-brings-in-a-trunkful-that-s-the-day-the-rule-has-to-work",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd like to hear what the owner does on the day someone brings in a trunkful, {first}. That's the day the rule has to work.",
+    "text": "I'd like to hear what the owner does on the day someone brings in a trunkful. That's the day the rule has to work.",
     "uses": [
       {
         "subject": "scene",
@@ -24640,8 +24590,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-wouldn-t-make-a-little-market-hire-a-second-person-just-to-get-through-the-lunch-line-presiding-i-d-wait-for-a-return-rule-the-owner-can-manage"
       }
@@ -24659,10 +24608,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-start-by-asking-the-person-behind-the-counter-when-someone-else-is-there-to-cover-presiding",
+    "key": "scene-talk.follow-thank.when-is-there-another-pair-of-hands-in-the-shop-i-d-start-with-the-clerk-who-has-to-call-for-help",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd start by asking the person behind the counter when someone else is there to cover, {presiding}.",
+    "text": "When is there another pair of hands in the shop? I'd start with the clerk who has to call for help.",
     "uses": [
       {
         "subject": "scene",
@@ -24673,8 +24622,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-wouldn-t-make-a-little-market-hire-a-second-person-just-to-get-through-the-lunch-line-presiding-i-d-wait-for-a-return-rule-the-owner-can-manage"
       }
@@ -24753,10 +24701,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.where-can-someone-who-tops-that-limit-go-first-in-a-small-town-the-other-store-could-be-a-long-drive",
+    "key": "scene-talk.follow-press.where-can-someone-who-tops-that-limit-go-in-a-small-town-the-other-store-could-be-a-long-drive",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Where can someone who tops that limit go, {first}? In a small town the other store could be a long drive.",
+    "text": "Where can someone who tops that limit go? In a small town the other store could be a long drive.",
     "uses": [
       {
         "subject": "scene",
@@ -24767,8 +24715,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.let-the-small-store-post-a-daily-limit-and-start-the-refund-presiding-a-store-with-room-and-staff-can-keep-taking-the-larger-loads"
       }
@@ -24786,10 +24733,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.show-me-that-the-corner-shop-can-set-the-limit-itself-presiding-i-d-want-the-person-who-works-the-till-involved",
+    "key": "scene-talk.follow-press.show-me-that-the-corner-shop-can-set-the-limit-itself-i-d-want-the-person-who-works-the-till-involved",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Show me that the corner shop can set the limit itself, {presiding}. I'd want the person who works the till involved.",
+    "text": "Show me that the corner shop can set the limit itself. I'd want the person who works the till involved.",
     "uses": [
       {
         "subject": "scene",
@@ -24800,8 +24747,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.let-the-small-store-post-a-daily-limit-and-start-the-refund-presiding-a-store-with-room-and-staff-can-keep-taking-the-larger-loads"
       }
@@ -24880,10 +24826,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.what-about-a-shopper-whose-ride-can-t-come-again-first-an-appointment-only-helps-if-the-person-can-get-there",
+    "key": "scene-talk.follow-press.what-about-a-shopper-whose-ride-can-t-come-again-an-appointment-only-helps-if-the-person-can-get-there",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "What about a shopper whose ride can't come again, {first}? An appointment only helps if the person can get there.",
+    "text": "What about a shopper whose ride can't come again? An appointment only helps if the person can get there.",
     "uses": [
       {
         "subject": "scene",
@@ -24894,8 +24840,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.i-d-put-the-deposit-in-place-and-give-a-small-store-a-way-to-schedule-a-large-return-presiding-a-shopper-could-come-back-when-the-clerk-has-help"
       }
@@ -24913,10 +24858,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.i-d-want-the-store-to-post-those-hours-presiding-somebody-carrying-bags-on-foot-ought-to-know-before-setting-out",
+    "key": "scene-talk.follow-press.post-the-hours-by-the-door-then-it-s-a-long-walk-home-with-the-same-sack-you-carried-in",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "I'd want the store to post those hours, {presiding}. Somebody carrying bags on foot ought to know before setting out.",
+    "text": "Post the hours by the door, then. It's a long walk home with the same sack you carried in.",
     "uses": [
       {
         "subject": "scene",
@@ -24927,8 +24872,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.i-d-put-the-deposit-in-place-and-give-a-small-store-a-way-to-schedule-a-large-return-presiding-a-shopper-could-come-back-when-the-clerk-has-help"
       }
@@ -25007,10 +24951,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.it-needs-to-stay-readable-after-a-trip-home-and-back-first-i-d-test-it-on-the-empty",
+    "key": "scene-talk.follow-thank.it-needs-to-stay-readable-after-a-trip-home-and-back-i-d-test-it-on-the-empty",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "It needs to stay readable after a trip home and back, {first}. I'd test it on the empty.",
+    "text": "It needs to stay readable after a trip home and back. I'd test it on the empty.",
     "uses": [
       {
         "subject": "scene",
@@ -25021,8 +24965,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.the-person-at-the-register-shouldn-t-have-to-argue-about-which-drink-was-in-an-empty-bottle-i-want-a-mark-a-customer-can-read-too-presiding"
       }
@@ -25040,10 +24983,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-ask-the-bottler-to-bring-a-sample-off-the-filling-line-presiding-we-could-pass-it-down-the-row-and-see-who-finds-the-mark",
+    "key": "scene-talk.follow-thank.pass-a-sample-down-this-row-let-s-see-who-can-find-the-refund-mark-without-somebody-pointing-it-out",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd ask the bottler to bring a sample off the filling line, {presiding}. We could pass it down the row and see who finds the mark.",
+    "text": "Pass a sample down this row. Let's see who can find the refund mark without somebody pointing it out.",
     "uses": [
       {
         "subject": "scene",
@@ -25054,8 +24997,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.the-person-at-the-register-shouldn-t-have-to-argue-about-which-drink-was-in-an-empty-bottle-i-want-a-mark-a-customer-can-read-too-presiding"
       }
@@ -25134,10 +25076,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.that-s-where-i-d-try-reading-it-too-first-nobody-should-need-the-carton-the-bottles-came-in",
+    "key": "scene-talk.follow-thank.that-s-where-i-d-try-reading-it-too-nobody-should-need-the-carton-the-bottles-came-in",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "That's where I'd try reading it too, {first}. Nobody should need the carton the bottles came in.",
+    "text": "That's where I'd try reading it too. Nobody should need the carton the bottles came in.",
     "uses": [
       {
         "subject": "scene",
@@ -25148,8 +25090,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-d-hold-this-for-a-labeling-rule-presiding-a-customer-ought-to-be-able-to-separate-the-bottles-at-the-kitchen-sink"
       }
@@ -25167,10 +25108,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-take-the-marked-sample-home-and-bring-it-back-empty-presiding-if-the-mark-s-gone-we-re-still-asking-the-clerk-to-guess",
+    "key": "scene-talk.follow-thank.i-d-take-the-marked-sample-home-and-bring-it-back-empty-if-the-mark-s-gone-we-re-still-asking-the-clerk-to-guess",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd take the marked sample home and bring it back empty, {presiding}. If the mark's gone, we're still asking the clerk to guess.",
+    "text": "I'd take the marked sample home and bring it back empty. If the mark's gone, we're still asking the clerk to guess.",
     "uses": [
       {
         "subject": "scene",
@@ -25181,8 +25122,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.i-d-hold-this-for-a-labeling-rule-presiding-a-customer-ought-to-be-able-to-separate-the-bottles-at-the-kitchen-sink"
       }
@@ -25261,10 +25201,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.where-would-the-mark-be-on-a-clear-bottle-first-i-d-like-to-try-it-under-the-lights-at-a-register",
+    "key": "scene-talk.follow-press.where-would-the-mark-be-on-a-clear-bottle-i-d-like-to-try-it-under-the-lights-at-a-register",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Where would the mark be on a clear bottle, {first}? I'd like to try it under the lights at a register.",
+    "text": "Where would the mark be on a clear bottle? I'd like to try it under the lights at a register.",
     "uses": [
       {
         "subject": "scene",
@@ -25275,8 +25215,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.print-the-refund-on-the-container-and-start-collecting-it-presiding-a-shopper-can-turn-the-bottle-in-their-hand-and-see-the-mark"
       }
@@ -25294,10 +25233,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.i-d-look-at-a-production-sample-before-voting-presiding-a-good-drawing-of-the-mark-is-only-a-start",
+    "key": "scene-talk.follow-press.has-anybody-brought-a-bottle-off-the-filling-line-i-d-like-to-try-reading-the-mark-on-one-before-we-vote",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "I'd look at a production sample before voting, {presiding}. A good drawing of the mark is only a start.",
+    "text": "Has anybody brought a bottle off the filling line? I'd like to try reading the mark on one before we vote.",
     "uses": [
       {
         "subject": "scene",
@@ -25308,8 +25247,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.print-the-refund-on-the-container-and-start-collecting-it-presiding-a-shopper-can-turn-the-bottle-in-their-hand-and-see-the-mark"
       }
@@ -25388,10 +25326,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.the-shelf-is-at-the-store-first-what-would-that-shopper-see-when-sorting-bottles-at-home",
+    "key": "scene-talk.follow-press.the-shelf-is-at-the-store-what-would-that-shopper-see-when-sorting-bottles-at-home",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "The shelf is at the store, {first}. What would that shopper see when sorting bottles at home?",
+    "text": "The shelf is at the store. What would that shopper see when sorting bottles at home?",
     "uses": [
       {
         "subject": "scene",
@@ -25402,8 +25340,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.we-could-show-the-qualifying-mark-on-the-shelf-beside-the-price-presiding-give-the-shopper-that-information-at-the-sale-and-i-d-support-the-refund"
       }
@@ -25421,10 +25358,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.i-d-want-the-mark-on-the-bottle-to-match-the-shelf-sign-presiding-otherwise-the-cashier-is-right-back-in-the-argument",
+    "key": "scene-talk.follow-press.put-the-bottle-beside-the-shelf-sign-can-you-tell-from-looking-at-both-why-the-clerk-paid-on-one-bottle-and-turned-the-other-away",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "I'd want the mark on the bottle to match the shelf sign, {presiding}. Otherwise the cashier is right back in the argument.",
+    "text": "Put the bottle beside the shelf sign. Can you tell from looking at both why the clerk paid on one bottle and turned the other away?",
     "uses": [
       {
         "subject": "scene",
@@ -25435,8 +25372,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.we-could-show-the-qualifying-mark-on-the-shelf-beside-the-price-presiding-give-the-shopper-that-information-at-the-sale-and-i-d-support-the-refund"
       }
@@ -25515,10 +25451,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-have-the-distributors-bring-a-sample-claim-first-we-could-follow-it-from-that-shop-to-the-company-writing-the-check",
+    "key": "scene-talk.follow-thank.i-d-have-the-distributors-bring-a-sample-claim-we-could-follow-it-from-that-shop-to-the-company-writing-the-check",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd have the distributors bring a sample claim, {first}. We could follow it from that shop to the company writing the check.",
+    "text": "I'd have the distributors bring a sample claim. We could follow it from that shop to the company writing the check.",
     "uses": [
       {
         "subject": "scene",
@@ -25529,8 +25465,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.if-the-neighborhood-shop-pays-out-on-a-bottle-from-across-town-somebody-has-to-make-that-shop-whole-i-m-with-name-until-we-know-who-that-is"
       }
@@ -25548,10 +25483,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.the-shop-has-already-parted-with-the-money-presiding-that-s-why-i-d-want-to-know-where-the-claim-goes-before-we-vote",
+    "key": "scene-talk.follow-thank.that-money-is-already-out-of-the-till-the-store-deserves-to-know-who-ll-pay-it-back",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "The shop has already parted with the money, {presiding}. That's why I'd want to know where the claim goes before we vote.",
+    "text": "That money is already out of the till. The store deserves to know who'll pay it back.",
     "uses": [
       {
         "subject": "scene",
@@ -25562,8 +25497,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.if-the-neighborhood-shop-pays-out-on-a-bottle-from-across-town-somebody-has-to-make-that-shop-whole-i-m-with-name-until-we-know-who-that-is"
       }
@@ -25642,10 +25576,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.i-d-take-the-clerk-out-of-the-route-dispute-altogether-first-the-delivery-companies-have-the-records",
+    "key": "scene-talk.follow-thank.i-d-take-the-clerk-out-of-the-route-dispute-altogether-the-delivery-companies-have-the-records",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "I'd take the clerk out of the route dispute altogether, {first}. The delivery companies have the records.",
+    "text": "I'd take the clerk out of the route dispute altogether. The delivery companies have the records.",
     "uses": [
       {
         "subject": "scene",
@@ -25656,8 +25590,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.no-clerk-can-look-at-a-water-bottle-and-tell-which-route-it-rode-settle-who-pays-on-the-other-side-of-the-route-first-presiding"
       }
@@ -25675,10 +25608,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-thank.suppose-the-two-distributors-both-turn-the-claim-down-presiding-i-d-want-the-store-to-have-somewhere-else-to-take-it",
+    "key": "scene-talk.follow-thank.what-if-both-distributors-send-the-claim-back-the-grocer-needs-somewhere-to-go-with-those-returned-forms",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "Suppose the two distributors both turn the claim down, {presiding}. I'd want the store to have somewhere else to take it.",
+    "text": "What if both distributors send the claim back? The grocer needs somewhere to go with those returned forms.",
     "uses": [
       {
         "subject": "scene",
@@ -25689,8 +25622,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-agree.no-clerk-can-look-at-a-water-bottle-and-tell-which-route-it-rode-settle-who-pays-on-the-other-side-of-the-route-first-presiding"
       }
@@ -25769,10 +25701,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.who-puts-up-the-money-while-those-records-are-being-checked-first-that-s-what-i-want-settled-before-the-vote",
+    "key": "scene-talk.follow-press.who-puts-up-the-money-while-those-records-are-being-checked-that-s-what-i-want-settled-before-the-vote",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Who puts up the money while those records are being checked, {first}? That's what I want settled before the vote.",
+    "text": "Who puts up the money while those records are being checked? That's what I want settled before the vote.",
     "uses": [
       {
         "subject": "scene",
@@ -25783,8 +25715,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.have-the-water-distributors-settle-the-store-s-claims-together-they-can-trace-their-own-deliveries-after-the-store-gets-paid-i-d-vote-yes-presiding"
       }
@@ -25802,10 +25733,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.give-the-store-a-name-and-an-address-for-that-joint-claim-presiding-i-d-look-at-the-proposal-again-with-those-in-it",
+    "key": "scene-talk.follow-press.put-a-name-and-a-mailing-address-on-that-claim-form-i-d-take-that-back-to-the-grocers-to-see-if-it-answers-their-question",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Give the store a name and an address for that joint claim, {presiding}. I'd look at the proposal again with those in it.",
+    "text": "Put a name and a mailing address on that claim form. I'd take that back to the grocers to see if it answers their question.",
     "uses": [
       {
         "subject": "scene",
@@ -25816,8 +25747,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "presiding"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.have-the-water-distributors-settle-the-store-s-claims-together-they-can-trace-their-own-deliveries-after-the-store-gets-paid-i-d-vote-yes-presiding"
       }
@@ -25896,10 +25826,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.which-distributors-have-agreed-to-put-money-in-that-account-first-i-d-ask-them-to-come-tell-the-grocers-themselves",
+    "key": "scene-talk.follow-press.which-distributors-have-agreed-to-put-money-in-that-account-i-d-ask-them-to-come-tell-the-grocers-themselves",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "Which distributors have agreed to put money in that account, {first}? I'd ask them to come tell the grocers themselves.",
+    "text": "Which distributors have agreed to put money in that account? I'd ask them to come tell the grocers themselves.",
     "uses": [
       {
         "subject": "scene",
@@ -25910,8 +25840,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.i-wouldn-t-send-someone-back-across-town-with-an-empty-water-bottle-presiding-i-d-let-the-store-collect-through-a-common-account-and-start-the-refund"
       }
@@ -25929,10 +25858,10 @@
     ]
   },
   {
-    "key": "scene-talk.follow-press.if-the-account-runs-short-does-the-grocer-have-to-wait-first-i-d-want-the-payment-promise-in-writing",
+    "key": "scene-talk.follow-press.who-pays-the-grocer-if-the-account-comes-up-short-that-s-the-promise-i-d-want-in-writing",
     "kind": "spoken",
     "move": "follow-press",
-    "text": "If the account runs short, does the grocer have to wait, {first}? I'd want the payment promise in writing.",
+    "text": "Who pays the grocer if the account comes up short? That's the promise I'd want in writing.",
     "uses": [
       {
         "subject": "scene",
@@ -25943,8 +25872,7 @@
         "key": "honor",
         "requiresFacts": [
           "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
-          "speaks-against",
-          "first"
+          "speaks-against"
         ],
         "after": "scene-talk.reply-disagree.i-wouldn-t-send-someone-back-across-town-with-an-empty-water-bottle-presiding-i-d-let-the-store-collect-through-a-common-account-and-start-the-refund"
       }
