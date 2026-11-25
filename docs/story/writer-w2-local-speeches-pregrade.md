@@ -8,6 +8,47 @@ Pre-grader, 2026-11-24. Branch `story/w-stand-close` at `8416afbf`, `data/englis
 - **Played:** at `8416afbf` through `scripts/words/speech-sheets.ts` (the local head's address and a town member's campaign speech in its three drawn places: Rainelle, Midway, Washington County): 34 of these lines played.
 - Fails quote the line and give his rule or words; no new wording is suggested.
 
+## story/no-leave-moves at `8700a973` (newest): the {to} lines, read as played, PRE-GRADED
+
+My own read, not a blind reader's. Pre-graded, not his pass; his grading page is the gate. It covers:
+- the 56 opening-speech `ask` lines with {to};
+- the 8 outline-local {to} lines;
+- the speech sheets played at this head (`scripts/words/speech-sheets.ts`): Rainelle (5466652, 2f25fb7e), Midway (4949820, af873500) and Washington County (2409400, eb7bf596), each with an inaugural, a governor's address, a local head's address and a town campaign speech;
+- every {to} fill in `question-names.json` (94 questions), checked inside each sentence frame.
+
+### What played
+
+None of the 56 opening-speech ask lines drew in these three worlds. These outline-local {to} lines played:
+- PASS: "I'll push to do more to care for our creeks and woods at every meeting." (Rainelle address)
+- PASS: "I want us to do more to care for our creeks and woods." (Midway address)
+- PASS: "I'll push to fix up our parks at every meeting." (Midway address)
+- PASS: "Is it time to give civilians oversight of the police? No, because…" (Washington County address)
+- PASS: "I can't back the push to require affordable units in new buildings, since…" (Washington County campaign)
+- **FAIL, as played:** "Some of you will want to allow apartments in single-family zones, and I understand why. I'm against any bill to allow apartments in single-family zones." (Rainelle campaign). The {to} phrase is said twice in two sentences (`vary-the-shape`), and a city council passes ordinances, not bills.
+- **FAIL, as played:** "I'll vote against any bill to guarantee tenants a lawyer in eviction cases, every time it comes up." (Rainelle campaign). "Bill" again, from a council member.
+
+### What fails on every fill (checked against all 94 questions)
+
+1. **{side} repeats {to}.** In `question-names.json`, `for` is word for word the same as `to` for all 94 questions. So every stance-for line that has both slots says the phrase twice, for example: "I support the bill to raise the minimum wage, so I ask the Groton Select Board to raise the minimum wage before the year is out." That covers all 20 "…the bill to {to}…, … to {side}…" / "…let's {side}…" lines (support, want, back, for, in favor of, behind, stand for, and "On the bill to {to}, I ask {body-name} to {side}"). FAIL.
+2. **"The bill to {to}" claims a bill that no record holds.** Those lines require only `law-not-in-force`, not a bill on file, so "the bill" points at a bill that may not exist. Same 20 lines (`every-line-gives-its-context`, false for its facts).
+3. **"Bill" in a town address or a town campaign speech.** A town body passes ordinances; the bank's own `{measure}` lines exist for this. FAIL for town use:
+   - "I'm against any bill to {to}. I'll ask {body-name} to vote it down.";
+   - "I oppose any bill to {to}, and I ask {body-name} to reject it.";
+   - the two with {belief};
+   - all the town-address "the bill to {to}" lines;
+   - outline-local "I'll put my name on every bill to {to}.", "I'll vote against any bill to {to}, every time it comes up." and "I'm against any bill to {to}.".
+   The state-of-the-state and State of the Union "bill" lines are right.
+
+### To check, not graded
+
+- **Budget-line fills in against-lines.** Fills such as "fix our roads", "fund the clinic and the hospital" and "fix up our parks" read as goods, so "I'm against any bill to fix our roads" would be absurd. Check whether a `budget-line:*` question can reach a stance-against {to} line. If it can, those fills fail there.
+
+### Pass on the fills
+
+The stance-against State of the Union and state-of-the-state lines read cleanly with every non-budget fill: "I will not sign a bill to {to}.", "Don't send me a bill to {to}. I won't sign it.", "I'm against any bill to {to}, and I'll veto it." and the {measure} family ("Any {measure} to {to} gets a no from me."). So do "I ask Congress to {to} this year." and "I'm asking the legislature to {to}, and I'm not letting up.".
+
+Seen in play, not W2's line, for the Story lead: Maryland's governor says the same reason twice in one paragraph ("No citizen should be turned away from the polls for lacking the right card. For me, any plan to require photo ID to vote fails on one point: no citizen should be turned away from the polls for lacking the right card.").
+
 ## #10390 at `1ca359b2` (newest): W2's 32 budget-line stand lines, 19 of 32 pass
 
 - Read blind in chunk Q1 on the owner-calibrated reader: 13 of his own bad lines planted (all failed) and 6 good (all passed).
