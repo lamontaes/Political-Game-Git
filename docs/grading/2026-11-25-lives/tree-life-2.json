@@ -1,0 +1,2037 @@
+{
+ "head": "731dd990add2fd6952ab781ffc78416824f9cf0f",
+ "life": 2,
+ "policy": "blunt",
+ "place": "Evendale, Ohio",
+ "seed": "81b0776a-4bc4-4b0c-a479-3c2c5000b0d1",
+ "note": "story-scene trees come whole from the game's own story payload; conversation trees are branched from the same recorded request log rebuilt on the same seed, once per reply and per lie, to two levels",
+ "scenes": [
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_153bd4d69ef230d4",
+   "otherId": "person_153bd4d69ef230d4",
+   "scene": {
+    "n": 3,
+    "title": "Talk at home with Jonathan Solomon",
+    "when": "Monday, January 20, 2025, 9:00 PM",
+    "here": "Jonathan Solomon, Quinn Solomon, Noah Solomon, Mina Solomon, Jose Solomon"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Jonathan Solomon",
+      "text": "Did you hear about a lawyer for tenants facing eviction?",
+      "piece": "conversation.news-raise-heard.did-you-hear-about-about",
+      "elements": [],
+      "issues": [],
+      "bank": "conversation:news:raise",
+      "recordIds": [
+       "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+       "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+       "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+       "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+       "person_110a42d5d1c6d778",
+       "person_28e513e122bebf0a",
+       "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+       "outlet:newspaper:0:jurisdiction_efca79411a9666b4"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:yes",
+      "move": "yes",
+      "text": "Yes, I read about it.",
+      "lie": false,
+      "piece": "conversation.news-answer-yes.yes-i-read-about-about",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_4e47a6eec9532c09",
+       "person_153bd6d69ef2343a:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+       "person_153bd4d69ef230d4>news:printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+       "kinship_25dec23b05d65b04:past:person_153bd6d69ef2343a",
+       "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+       "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+       "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+       "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+       "person_110a42d5d1c6d778",
+       "person_28e513e122bebf0a",
+       "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+       "person_153bd4d69ef230d4"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Jonathan Solomon",
+         "text": "Did you hear about a lawyer for tenants facing eviction?",
+         "piece": "conversation.news-raise-heard.did-you-hear-about-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:news:raise",
+         "recordIds": [
+          "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+          "person_110a42d5d1c6d778",
+          "person_28e513e122bebf0a",
+          "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+          "outlet:newspaper:0:jurisdiction_efca79411a9666b4"
+         ]
+        },
+        {
+         "who": "Megan Solomon",
+         "text": "Yes, I read about it.",
+         "piece": "conversation.news-answer-yes.yes-i-read-about-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:news:answers",
+         "recordIds": [
+          "household_4e47a6eec9532c09",
+          "person_153bd6d69ef2343a:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "person_153bd4d69ef230d4>news:printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "kinship_25dec23b05d65b04:past:person_153bd6d69ef2343a",
+          "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+          "person_110a42d5d1c6d778",
+          "person_28e513e122bebf0a",
+          "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+          "person_153bd4d69ef230d4"
+         ]
+        },
+        {
+         "who": "Jonathan Solomon",
+         "text": "I'm for it, myself.",
+         "piece": "conversation.news-ask-core.i-m-for-about-myself",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:news-ask:composed",
+         "recordIds": [
+          "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+          "person_110a42d5d1c6d778",
+          "person_28e513e122bebf0a",
+          "outlet:newspaper:0:jurisdiction_efca79411a9666b4",
+          "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+          "conversation:person_153bd6d69ef2343a:person_153bd4d69ef230d4:2025-01-20:1:1:yes"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:against",
+      "move": "against",
+      "text": "I'd vote against it myself.",
+      "lie": false,
+      "piece": "conversation.news-answer-against.i-d-vote-against-about-myself",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_4e47a6eec9532c09",
+       "person_153bd6d69ef2343a:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+       "person_153bd4d69ef230d4>news:printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+       "kinship_25dec23b05d65b04:past:person_153bd6d69ef2343a",
+       "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+       "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+       "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+       "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+       "person_110a42d5d1c6d778",
+       "person_28e513e122bebf0a",
+       "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+       "person_153bd4d69ef230d4"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Jonathan Solomon",
+         "text": "Did you hear about a lawyer for tenants facing eviction?",
+         "piece": "conversation.news-raise-heard.did-you-hear-about-about",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:news:raise",
+         "recordIds": [
+          "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+          "person_110a42d5d1c6d778",
+          "person_28e513e122bebf0a",
+          "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+          "outlet:newspaper:0:jurisdiction_efca79411a9666b4"
+         ]
+        },
+        {
+         "who": "Megan Solomon",
+         "text": "I'd vote against it myself.",
+         "piece": "conversation.news-answer-against.i-d-vote-against-about-myself",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:news:answers",
+         "recordIds": [
+          "household_4e47a6eec9532c09",
+          "person_153bd6d69ef2343a:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "person_153bd4d69ef230d4>news:printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "kinship_25dec23b05d65b04:past:person_153bd6d69ef2343a",
+          "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+          "person_110a42d5d1c6d778",
+          "person_28e513e122bebf0a",
+          "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+          "person_153bd4d69ef230d4"
+         ]
+        },
+        {
+         "who": "Jonathan Solomon",
+         "text": "I see it the other way, Megan.",
+         "piece": "conversation.news-back-core.i-see-it-the-other-way-you",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:news-back:composed",
+         "recordIds": [
+          "printed:outlet:newspaper:0:jurisdiction_efca79411a9666b4:carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "person_153bd4d69ef230d4:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+          "carry-asked:carry:office:gus2025:172432:council:2025-01-06:person_28e513e122bebf0a:person_110a42d5d1c6d778",
+          "bill:office:gus2025:172432:council:2025-01-06:person_110a42d5d1c6d778:20",
+          "person_110a42d5d1c6d778",
+          "person_28e513e122bebf0a",
+          "outlet:newspaper:0:jurisdiction_efca79411a9666b4",
+          "organization:press:newspaper:0:jurisdiction_efca79411a9666b4",
+          "kinship_25dec23b05d65b04:past:person_153bd4d69ef230d4",
+          "conversation:person_153bd6d69ef2343a:person_153bd4d69ef230d4:2025-01-20:1:1:against",
+          "person_153bd4d69ef230d4:person_181a6c5a613049e8"
+         ]
+        }
+       ],
+       "choices": [],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  },
+  {
+   "kind": "conversation",
+   "openPath": "/api/talk/open?otherId=person_153bd5d69ef23287",
+   "otherId": "person_153bd5d69ef23287",
+   "scene": {
+    "n": 4,
+    "title": "Talk at home with Quinn Solomon",
+    "when": "Monday, January 20, 2025, 9:00 PM",
+    "here": "Jonathan Solomon, Quinn Solomon, Noah Solomon, Mina Solomon, Jose Solomon"
+   },
+   "root": {
+    "lines": [
+     {
+      "who": "Quinn Solomon",
+      "text": "I made up my mind about prison sentences just from looking around Evendale. The President is right, and I don't say that often.",
+      "piece": "outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place, outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often",
+      "elements": [
+       "pattern-a47-the-first-word-on-the-address"
+      ],
+      "issues": [],
+      "bank": "outline:talk-address-point",
+      "recordIds": [
+       "person_153bd5d69ef23287",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+       "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+       "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+       "household_4e47a6eec9532c09",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+      ]
+     }
+    ],
+    "choices": [
+     {
+      "key": "1:agree",
+      "move": "agree",
+      "text": "You're right about that, Mom.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-agree.you-re-right-about-that-name",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_4e47a6eec9532c09",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+       "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+       "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_153bd5d69ef23287",
+       "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Quinn Solomon",
+         "text": "I made up my mind about prison sentences just from looking around Evendale. The President is right, and I don't say that often.",
+         "piece": "outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place, outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_153bd5d69ef23287",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+          "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+          "household_4e47a6eec9532c09",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+         ]
+        },
+        {
+         "who": "Megan Solomon",
+         "text": "You're right about that, Mom.",
+         "piece": "conversation.address-point-answer-agree.you-re-right-about-that-name",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_4e47a6eec9532c09",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+          "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_153bd5d69ef23287",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+         ]
+        },
+        {
+         "who": "Quinn Solomon",
+         "text": "Congress can bury it, for all I care.",
+         "piece": "conversation.address-point-back-core.decider-can-bury-it-for-all-i-care",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+          "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_4e47a6eec9532c09",
+          "person_153bd5d69ef23287",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+          "kinship_25dec33b05d65cb7:past:person_153bd5d69ef23287",
+          "conversation:person_153bd6d69ef2343a:person_153bd5d69ef23287:2025-01-20:1:1:agree"
+         ]
+        },
+        {
+         "who": "Quinn Solomon",
+         "text": "I've always thought people who break the law should answer for it.",
+         "piece": "conversation.own-view-say-core.side-against-i-ve-always-thought-reason-against",
+         "elements": [
+          "a-parent-asks-your-view-to-know-you-not-to-win"
+         ],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_153bd5d69ef23287",
+          "person_153bd5d69ef23287"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "Actually, I'm less sure about shorter mandatory minimum sentences than I sounded.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_4e47a6eec9532c09",
+          "person_153bd6d69ef2343a",
+          "views:people:person_153bd5d69ef23287",
+          "person_153bd5d69ef23287"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Quinn Solomon",
+            "text": "I made up my mind about prison sentences just from looking around Evendale. The President is right, and I don't say that often.",
+            "piece": "outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place, outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_153bd5d69ef23287",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "household_4e47a6eec9532c09",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+            ]
+           },
+           {
+            "who": "Megan Solomon",
+            "text": "You're right about that, Mom.",
+            "piece": "conversation.address-point-answer-agree.you-re-right-about-that-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_4e47a6eec9532c09",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+            ]
+           },
+           {
+            "who": "Quinn Solomon",
+            "text": "Congress can bury it, for all I care.",
+            "piece": "conversation.address-point-back-core.decider-can-bury-it-for-all-i-care",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_4e47a6eec9532c09",
+             "person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+             "kinship_25dec33b05d65cb7:past:person_153bd5d69ef23287",
+             "conversation:person_153bd6d69ef2343a:person_153bd5d69ef23287:2025-01-20:1:1:agree"
+            ]
+           },
+           {
+            "who": "Quinn Solomon",
+            "text": "I've always thought people who break the law should answer for it.",
+            "piece": "conversation.own-view-say-core.side-against-i-ve-always-thought-reason-against",
+            "elements": [
+             "a-parent-asks-your-view-to-know-you-not-to-win"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_153bd5d69ef23287",
+             "person_153bd5d69ef23287"
+            ]
+           },
+           {
+            "who": "Megan Solomon",
+            "text": "Actually, I'm less sure about shorter mandatory minimum sentences than I sounded.",
+            "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_4e47a6eec9532c09",
+             "person_153bd6d69ef2343a",
+             "views:people:person_153bd5d69ef23287",
+             "person_153bd5d69ef23287"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "Couldn't agree more.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.couldn-t-agree-more",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_4e47a6eec9532c09",
+          "person_153bd6d69ef2343a",
+          "views:people:person_153bd5d69ef23287",
+          "person_153bd5d69ef23287"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Quinn Solomon",
+            "text": "I made up my mind about prison sentences just from looking around Evendale. The President is right, and I don't say that often.",
+            "piece": "outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place, outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_153bd5d69ef23287",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "household_4e47a6eec9532c09",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+            ]
+           },
+           {
+            "who": "Megan Solomon",
+            "text": "You're right about that, Mom.",
+            "piece": "conversation.address-point-answer-agree.you-re-right-about-that-name",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_4e47a6eec9532c09",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+            ]
+           },
+           {
+            "who": "Quinn Solomon",
+            "text": "Congress can bury it, for all I care.",
+            "piece": "conversation.address-point-back-core.decider-can-bury-it-for-all-i-care",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_4e47a6eec9532c09",
+             "person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+             "kinship_25dec33b05d65cb7:past:person_153bd5d69ef23287",
+             "conversation:person_153bd6d69ef2343a:person_153bd5d69ef23287:2025-01-20:1:1:agree"
+            ]
+           },
+           {
+            "who": "Quinn Solomon",
+            "text": "I've always thought people who break the law should answer for it.",
+            "piece": "conversation.own-view-say-core.side-against-i-ve-always-thought-reason-against",
+            "elements": [
+             "a-parent-asks-your-view-to-know-you-not-to-win"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_153bd5d69ef23287",
+             "person_153bd5d69ef23287"
+            ]
+           },
+           {
+            "who": "Megan Solomon",
+            "text": "Couldn't agree more.",
+            "piece": "conversation.own-view-answer-agree.couldn-t-agree-more",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_4e47a6eec9532c09",
+             "person_153bd6d69ef2343a",
+             "views:people:person_153bd5d69ef23287",
+             "person_153bd5d69ef23287"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     },
+     {
+      "key": "1:disagree",
+      "move": "disagree",
+      "text": "I think she has that wrong.",
+      "lie": false,
+      "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
+      "elements": [],
+      "issues": [],
+      "recordIds": [
+       "household_4e47a6eec9532c09",
+       "president.address:2025-01-20",
+       "official:term:seat:US:president:2024-12-20",
+       "inauguration:2025-01-20",
+       "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+       "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+       "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+       "official:term:seat:US:president:2024-12-20:home-state",
+       "official:term:seat:US:president:2024-12-20:elected-2024",
+       "person_153bd5d69ef23287",
+       "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+      ],
+      "result": {
+       "lines": [
+        {
+         "who": "Quinn Solomon",
+         "text": "I made up my mind about prison sentences just from looking around Evendale. The President is right, and I don't say that often.",
+         "piece": "outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place, outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often",
+         "elements": [
+          "pattern-a47-the-first-word-on-the-address"
+         ],
+         "issues": [],
+         "bank": "outline:talk-address-point",
+         "recordIds": [
+          "person_153bd5d69ef23287",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+          "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+          "household_4e47a6eec9532c09",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+         ]
+        },
+        {
+         "who": "Megan Solomon",
+         "text": "I think she has that wrong.",
+         "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point:answers",
+         "recordIds": [
+          "household_4e47a6eec9532c09",
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+          "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "person_153bd5d69ef23287",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+         ]
+        },
+        {
+         "who": "Quinn Solomon",
+         "text": "Fair enough. We don't have to agree, Megan.",
+         "piece": "conversation.address-point-back-disagree.fair-enough-we-don-t-have-to-agree-you",
+         "elements": [],
+         "issues": [],
+         "bank": "conversation:address-point-back:composed",
+         "recordIds": [
+          "president.address:2025-01-20",
+          "official:term:seat:US:president:2024-12-20",
+          "inauguration:2025-01-20",
+          "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+          "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+          "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+          "official:term:seat:US:president:2024-12-20:home-state",
+          "official:term:seat:US:president:2024-12-20:elected-2024",
+          "household_4e47a6eec9532c09",
+          "person_153bd5d69ef23287",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+          "kinship_25dec33b05d65cb7:past:person_153bd5d69ef23287",
+          "conversation:person_153bd6d69ef2343a:person_153bd5d69ef23287:2025-01-20:1:1:disagree"
+         ]
+        },
+        {
+         "who": "Quinn Solomon",
+         "text": "I've always thought people who break the law should answer for it.",
+         "piece": "conversation.own-view-say-core.side-against-i-ve-always-thought-reason-against",
+         "elements": [
+          "a-parent-asks-your-view-to-know-you-not-to-win"
+         ],
+         "issues": [],
+         "bank": "conversation:own-view-say:composed",
+         "recordIds": [
+          "views:people:person_153bd5d69ef23287",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+          "person_153bd5d69ef23287"
+         ]
+        }
+       ],
+       "choices": [
+        {
+         "key": "4:disagree",
+         "move": "disagree",
+         "text": "Actually, I'm less sure about shorter mandatory minimum sentences than I sounded.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_4e47a6eec9532c09",
+          "person_153bd6d69ef2343a",
+          "views:people:person_153bd5d69ef23287",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+          "person_153bd5d69ef23287"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Quinn Solomon",
+            "text": "I made up my mind about prison sentences just from looking around Evendale. The President is right, and I don't say that often.",
+            "piece": "outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place, outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_153bd5d69ef23287",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "household_4e47a6eec9532c09",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+            ]
+           },
+           {
+            "who": "Megan Solomon",
+            "text": "I think she has that wrong.",
+            "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_4e47a6eec9532c09",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+            ]
+           },
+           {
+            "who": "Quinn Solomon",
+            "text": "Fair enough. We don't have to agree, Megan.",
+            "piece": "conversation.address-point-back-disagree.fair-enough-we-don-t-have-to-agree-you",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_4e47a6eec9532c09",
+             "person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+             "kinship_25dec33b05d65cb7:past:person_153bd5d69ef23287",
+             "conversation:person_153bd6d69ef2343a:person_153bd5d69ef23287:2025-01-20:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Quinn Solomon",
+            "text": "I've always thought people who break the law should answer for it.",
+            "piece": "conversation.own-view-say-core.side-against-i-ve-always-thought-reason-against",
+            "elements": [
+             "a-parent-asks-your-view-to-know-you-not-to-win"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+             "person_153bd5d69ef23287"
+            ]
+           },
+           {
+            "who": "Megan Solomon",
+            "text": "Actually, I'm less sure about shorter mandatory minimum sentences than I sounded.",
+            "piece": "conversation.own-view-answer-disagree.actually-i-m-less-sure-about-than-i-sounded",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_4e47a6eec9532c09",
+             "person_153bd6d69ef2343a",
+             "views:people:person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+             "person_153bd5d69ef23287"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        },
+        {
+         "key": "4:agree",
+         "move": "agree",
+         "text": "Couldn't agree more.",
+         "lie": false,
+         "piece": "conversation.own-view-answer-agree.couldn-t-agree-more",
+         "elements": [],
+         "issues": [],
+         "recordIds": [
+          "household_4e47a6eec9532c09",
+          "person_153bd6d69ef2343a",
+          "views:people:person_153bd5d69ef23287",
+          "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+          "person_153bd5d69ef23287"
+         ],
+         "result": {
+          "lines": [
+           {
+            "who": "Quinn Solomon",
+            "text": "I made up my mind about prison sentences just from looking around Evendale. The President is right, and I don't say that often.",
+            "piece": "outline-talk.why-first.talk-address-point-i-made-up-my-mind-about-said-just-from-looking-around-place, outline-talk.verdict-after.talk-address-point-president-is-right-and-i-don-t-say-that-often",
+            "elements": [
+             "pattern-a47-the-first-word-on-the-address"
+            ],
+            "issues": [],
+            "bank": "outline:talk-address-point",
+            "recordIds": [
+             "person_153bd5d69ef23287",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "household_4e47a6eec9532c09",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+            ]
+           },
+           {
+            "who": "Megan Solomon",
+            "text": "I think she has that wrong.",
+            "piece": "conversation.address-point-answer-disagree.i-think-president-has-that-wrong",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point:answers",
+            "recordIds": [
+             "household_4e47a6eec9532c09",
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a"
+            ]
+           },
+           {
+            "who": "Quinn Solomon",
+            "text": "Fair enough. We don't have to agree, Megan.",
+            "piece": "conversation.address-point-back-disagree.fair-enough-we-don-t-have-to-agree-you",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:address-point-back:composed",
+            "recordIds": [
+             "president.address:2025-01-20",
+             "official:term:seat:US:president:2024-12-20",
+             "inauguration:2025-01-20",
+             "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+             "data/research/powers-catalog/catalog.json#crimes-and-penalties/federal",
+             "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+             "official:term:seat:US:president:2024-12-20:home-state",
+             "official:term:seat:US:president:2024-12-20:elected-2024",
+             "household_4e47a6eec9532c09",
+             "person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+             "kinship_25dec33b05d65cb7:past:person_153bd5d69ef23287",
+             "conversation:person_153bd6d69ef2343a:person_153bd5d69ef23287:2025-01-20:1:1:disagree"
+            ]
+           },
+           {
+            "who": "Quinn Solomon",
+            "text": "I've always thought people who break the law should answer for it.",
+            "piece": "conversation.own-view-say-core.side-against-i-ve-always-thought-reason-against",
+            "elements": [
+             "a-parent-asks-your-view-to-know-you-not-to-win"
+            ],
+            "issues": [],
+            "bank": "conversation:own-view-say:composed",
+            "recordIds": [
+             "views:people:person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+             "person_153bd5d69ef23287"
+            ]
+           },
+           {
+            "who": "Megan Solomon",
+            "text": "Couldn't agree more.",
+            "piece": "conversation.own-view-answer-agree.couldn-t-agree-more",
+            "elements": [],
+            "issues": [],
+            "bank": "conversation:own-view:answers",
+            "recordIds": [
+             "household_4e47a6eec9532c09",
+             "person_153bd6d69ef2343a",
+             "views:people:person_153bd5d69ef23287",
+             "kinship_25dec33b05d65cb7:past:person_153bd6d69ef2343a",
+             "person_153bd5d69ef23287"
+            ]
+           }
+          ],
+          "choices": [],
+          "lies": []
+         }
+        }
+       ],
+       "lies": []
+      }
+     }
+    ],
+    "lies": []
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "door-ask",
+   "purpose": "ask-support.plain",
+   "momentId": "person_153bd6d69ef2343a:2025-01-20:cause:person_54e1080878e4cd33:person_153bd6d69ef2343a:2025-01-20:1",
+   "scene": {
+    "n": 7,
+    "title": "Knock on doors",
+    "when": "Tuesday, January 21, 2025, 10:00 AM",
+    "here": "Sofia Wade"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "You ring the bell, and Sofia Wade answers.",
+     "piece": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
+     "elements": [
+      "canvasser-knocks-the-frame-and-steps-back"
+     ],
+     "issues": [],
+     "recordIds": [
+      "person_153bd6d69ef2343a:2025-01-20:cause:person_54e1080878e4cd33:person_153bd6d69ef2343a:2025-01-20:1",
+      "person_54e1080878e4cd33",
+      "cause:person_54e1080878e4cd33:person_153bd6d69ef2343a:2025-01-20:1"
+     ]
+    }
+   ],
+   "opening": [
+    {
+     "who": "Megan Solomon",
+     "text": "Hello, I'm Megan. I'm running for the Evendale Village Council in Evendale. Can I count on your vote?",
+     "piece": "scene-talk.state-request.hello-i-m-self-i-m-running-for-office-in-place-can-i-count-on-your-vote",
+     "elements": [
+      "door-on-a-small-town-street"
+     ],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [
+     {
+      "who": "Sofia Wade",
+      "text": "Put me down for you on November 4.",
+      "piece": "scene-talk.reply-agree.put-me-down-for-you-on-vote-day",
+      "elements": [
+       "door-answer-is-frustration-with-the-body",
+       "door-ask-is-what-should-the-office-do",
+       "door-lets-a-candidate-meet-neighbors"
+      ],
+      "issues": []
+     }
+    ],
+    "choices": [
+     {
+      "text": "Thank you. I'll work to earn it in Evendale.",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.follow-thank.thank-you-i-ll-work-to-earn-it-in-place",
+      "elements": [
+       "door-answer-is-frustration-with-the-body",
+       "door-ask-is-what-should-the-office-do",
+       "door-lets-a-candidate-meet-neighbors"
+      ],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [],
+       "choices": [],
+       "end": {
+        "outcome": "resolved"
+       }
+      }
+     },
+     {
+      "text": "What should the race for the Evendale Village Council be about?",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.follow-ask.what-should-the-race-for-office-be-about",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Sofia Wade",
+         "text": "Apartments in single-family neighborhoods. We own here, and I worry about the street.",
+         "piece": "scene-talk.reply-tell.about-we-own-here-and-i-worry-about-the-street",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "I'll look hard at apartments in single-family neighborhoods and come back.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.follow-promise.i-ll-look-hard-at-about-and-come-back",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "Thanks for telling me about apartments in single-family neighborhoods.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.follow-comfort.thanks-for-telling-me-about-about",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "interview-invite",
+   "purpose": "invite-interview",
+   "momentId": "person_153bd6d69ef2343a:2025-01-21:interview-invited:interview:outlet:newspaper:0:jurisdiction_efca79411a9666b4:filing:contest:seat:gus2025:172432:council:0:2025-11-04:person_153bd6d69ef2343a:2025-01-21:0",
+   "scene": {
+    "n": 8,
+    "title": "Ask for an interview",
+    "when": "Tuesday, January 21, 2025, 10:01 AM",
+    "here": "Evendale, Ohio"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "The phone rings, and Alexandra Colon is on the line.",
+     "piece": "scene-words.arrival-phone-other.the-phone-rings-and-name-is-on-the-line",
+     "elements": [
+      "a-gift-comes-with-a-call-about-a-bill"
+     ],
+     "issues": []
+    },
+    {
+     "who": null,
+     "text": "The call is from Alexandra.",
+     "piece": "scene-talk.narrate-narrate.the-call-is-from-name",
+     "elements": [],
+     "issues": []
+    }
+   ],
+   "opening": [
+    {
+     "who": "Alexandra Colon",
+     "text": "Hi, Megan. I'll keep this short.",
+     "piece": "scene-talk.open-greet.hi-first-i-ll-keep-this-short",
+     "elements": [],
+     "issues": []
+    },
+    {
+     "who": "Alexandra Colon",
+     "text": "Evendale Courier would like to interview you about the race for the Evendale Village Council.",
+     "piece": "scene-talk.state-request.outlet-would-like-to-interview-you-about-the-race-for-office",
+     "elements": [],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [],
+    "choices": [
+     {
+      "text": "What would you ask me about the race for the Evendale Village Council?",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.reply-ask.what-would-you-ask-me-about-the-race-for-office",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Alexandra Colon",
+         "text": "Mostly your plans for the Evendale Village Council.",
+         "piece": "scene-talk.follow-answer.mostly-your-plans-for-office",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Happy to.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-agree.happy-to",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Alexandra Colon",
+            "text": "Thank you. Evendale Courier will take your answers from your platform.",
+            "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "Not for me.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-decline.not-for-me",
+         "elements": [
+          "volunteers-need-a-specific-ask"
+         ],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Alexandra Colon",
+            "text": "Evendale Courier would still like to hear from you.",
+            "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "I'll do it.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-agree.i-ll-do-it",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Alexandra Colon",
+               "text": "Good. I'll tell the desk at Evendale Courier you said yes.",
+               "piece": "scene-talk.follow-thank.good-i-ll-tell-the-desk-at-outlet-you-said-yes",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "I'll decline.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-decline.i-ll-decline",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Alexandra Colon",
+               "text": "The invitation from Evendale Courier stands.",
+               "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [
+              {
+               "text": "Yes, I'll sit.",
+               "who": "Megan Solomon",
+               "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [
+                 {
+                  "who": "Alexandra Colon",
+                  "text": "Thank you. Evendale Courier will take your answers from your platform.",
+                  "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+                  "elements": [],
+                  "issues": []
+                 }
+                ],
+                "choices": [],
+                "end": {
+                 "outcome": "resolved"
+                }
+               }
+              },
+              {
+               "text": "Sorry, bad timing.",
+               "who": "Megan Solomon",
+               "piece": "scene-talk.reply-leave.sorry-bad-timing",
+               "elements": [],
+               "issues": [],
+               "lie": false,
+               "result": {
+                "lines": [],
+                "choices": [],
+                "end": {
+                 "outcome": "open",
+                 "close": {
+                  "speaker": "Alexandra Colon",
+                  "speakerId": "person_00395706efafdd52",
+                  "role": "asker",
+                  "text": "Evendale Courier will print the race without your answers.",
+                  "parts": [
+                   "scene-talk.close-press.outlet-will-print-the-race-without-your-answers"
+                  ],
+                  "held": false
+                 }
+                }
+               }
+              }
+             ]
+            }
+           },
+           {
+            "text": "Gotta go.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-leave.gotta-go",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Alexandra Colon",
+               "speakerId": "person_00395706efafdd52",
+               "role": "asker",
+               "text": "Evendale Courier would still welcome you.",
+               "parts": [
+                "scene-talk.close-press.outlet-would-still-welcome-you"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Excuse me, sorry.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-leave.excuse-me-sorry",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Alexandra Colon",
+            "speakerId": "person_00395706efafdd52",
+            "role": "asker",
+            "text": "Evendale Courier would still welcome you.",
+            "parts": [
+             "scene-talk.close-press.outlet-would-still-welcome-you"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "text": "Yes. Book it.",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.reply-agree.yes-book-it",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Alexandra Colon",
+         "text": "Thank you. Evendale Courier will have your answers on the record.",
+         "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [],
+       "end": {
+        "outcome": "resolved"
+       }
+      }
+     },
+     {
+      "text": "No interview, thanks.",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.reply-decline.no-interview-thanks",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Alexandra Colon",
+         "text": "Evendale Courier would still like to hear from you.",
+         "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "I'll do it.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-agree.i-ll-do-it",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Alexandra Colon",
+            "text": "Thank you. Evendale Courier will have your answers on the record.",
+            "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "Not for me.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-decline.not-for-me",
+         "elements": [
+          "volunteers-need-a-specific-ask"
+         ],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Alexandra Colon",
+            "text": "The invitation from Evendale Courier stands.",
+            "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "Yes, I'll sit.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Alexandra Colon",
+               "text": "Thank you. Evendale Courier will take your answers from your platform.",
+               "piece": "scene-talk.follow-thank.thank-you-outlet-will-take-your-answers-from-your-platform",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "I'll decline.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-decline.i-ll-decline",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Alexandra Colon",
+               "text": "No problem. Evendale Courier understands.",
+               "piece": "scene-talk.follow-accept.no-problem-outlet-understands",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "refused"
+             }
+            }
+           },
+           {
+            "text": "Gotta go.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-leave.gotta-go",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Alexandra Colon",
+               "speakerId": "person_00395706efafdd52",
+               "role": "asker",
+               "text": "Evendale Courier would still welcome you.",
+               "parts": [
+                "scene-talk.close-press.outlet-would-still-welcome-you"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Excuse me, sorry.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-leave.excuse-me-sorry",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Alexandra Colon",
+            "speakerId": "person_00395706efafdd52",
+            "role": "asker",
+            "text": "Evendale Courier will print the race without your answers.",
+            "parts": [
+             "scene-talk.close-press.outlet-will-print-the-race-without-your-answers"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "text": "Let me check.",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.reply-stall.let-me-check",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Alexandra Colon",
+         "text": "Evendale Courier would still like to hear from you.",
+         "piece": "scene-talk.follow-press.outlet-would-still-like-to-hear-from-you",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Happy to.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-agree.happy-to",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Alexandra Colon",
+            "text": "Thank you. Evendale Courier will have your answers on the record.",
+            "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "resolved"
+          }
+         }
+        },
+        {
+         "text": "Not for me.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-decline.not-for-me",
+         "elements": [
+          "volunteers-need-a-specific-ask"
+         ],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Alexandra Colon",
+            "text": "The invitation from Evendale Courier stands.",
+            "piece": "scene-talk.follow-press.the-invitation-from-outlet-stands",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "Yes, I'll sit.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-agree.yes-i-ll-sit",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Alexandra Colon",
+               "text": "Thank you. Evendale Courier will have your answers on the record.",
+               "piece": "scene-talk.follow-thank.thank-you-outlet-will-have-your-answers-on-the-record",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "resolved"
+             }
+            }
+           },
+           {
+            "text": "I'll decline.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-decline.i-ll-decline",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Alexandra Colon",
+               "text": "That's your call. Evendale Courier won't push.",
+               "piece": "scene-talk.follow-accept.that-s-your-call-outlet-won-t-push",
+               "elements": [],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "refused"
+             }
+            }
+           },
+           {
+            "text": "Gotta go.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-leave.gotta-go",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Alexandra Colon",
+               "speakerId": "person_00395706efafdd52",
+               "role": "asker",
+               "text": "Evendale Courier will print the race without your answers.",
+               "parts": [
+                "scene-talk.close-press.outlet-will-print-the-race-without-your-answers"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "Excuse me, sorry.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-leave.excuse-me-sorry",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Alexandra Colon",
+            "speakerId": "person_00395706efafdd52",
+            "role": "asker",
+            "text": "Evendale Courier would still welcome you.",
+            "parts": [
+             "scene-talk.close-press.outlet-would-still-welcome-you"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "kind": "story-scene",
+   "typeKey": "donor-ask",
+   "purpose": "donor-ask.small",
+   "momentId": "person_153bd6d69ef2343a:2025-01-21:campaign-gift:filing:contest:seat:gus2025:172432:council:0:2025-11-04:person_153bd6d69ef2343a:person_181a6c5a613049e8:2025-01-21:400",
+   "scene": {
+    "n": 13,
+    "title": "A scene",
+    "when": "Thursday, January 23, 2025, 7:00 AM",
+    "here": "Evendale, Ohio"
+   },
+   "narration": [
+    {
+     "who": null,
+     "text": "Riley Todd calls, and the Missing Middle Housing Ordinance is the subject.",
+     "piece": "scene-words.arrival-phone-other.name-calls-and-happened-is-the-subject",
+     "elements": [
+      "a-gift-comes-with-a-call-about-a-bill"
+     ],
+     "issues": []
+    },
+    {
+     "who": null,
+     "text": "Riley sent $4 to your campaign and has come to say so in person.",
+     "piece": "scene-talk.narrate-narrate.name-sent-money-to-your-campaign-and-has-come-to-say-so-in-person",
+     "elements": [],
+     "issues": []
+    }
+   ],
+   "opening": [
+    {
+     "who": "Riley Todd",
+     "text": "Let me tell you what the Missing Middle Housing Ordinance would do on my street. Two minutes.",
+     "piece": "scene-talk.state-request.let-me-tell-you-what-bill-would-do-on-my-street-two-minutes",
+     "elements": [],
+     "issues": []
+    }
+   ],
+   "tree": {
+    "lines": [],
+    "choices": [
+     {
+      "text": "I'm against the Missing Middle Housing Ordinance, same as you. I'll say so in public.",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.reply-agree.i-m-your-side-bill-same-as-you-i-ll-say-so-in-public",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Riley Todd",
+         "text": "Thank you. I'll tell people you're against the Missing Middle Housing Ordinance.",
+         "piece": "scene-talk.follow-thank.thank-you-i-ll-tell-people-you-re-your-side-bill",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [],
+       "end": {
+        "outcome": "resolved"
+       }
+      }
+     },
+     {
+      "text": "Call my office about the Missing Middle Housing Ordinance. They'll find you a time.",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.reply-offer.call-my-office-about-bill-they-ll-find-you-a-time",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Riley Todd",
+         "text": "Please make it you, not a staffer, on the Missing Middle Housing Ordinance.",
+         "piece": "scene-talk.follow-plea.please-make-it-you-not-a-staffer-on-bill",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Your money doesn't buy my position on apartments in single-family neighborhoods.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-decline.your-money-doesn-t-buy-my-position-on-about",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Riley Todd",
+            "text": "I'm not asking for a promise. Just read the Missing Middle Housing Ordinance first.",
+            "piece": "scene-talk.follow-plea.i-m-not-asking-for-a-promise-just-read-bill-first",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [
+           {
+            "text": "I can't promise you anything on apartments in single-family neighborhoods.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-decline.i-can-t-promise-you-anything-on-about",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [
+              {
+               "who": "Riley Todd",
+               "text": "Alright, I'll take that. I'll still be watching the Missing Middle Housing Ordinance.",
+               "piece": "scene-talk.follow-accept.alright-i-ll-take-that-i-ll-still-be-watching-bill",
+               "elements": [
+                "a-gift-comes-with-a-call-about-a-bill",
+                "early-money-comes-from-people-you-know",
+                "first-time-candidate-leads-fundraising"
+               ],
+               "issues": []
+              }
+             ],
+             "choices": [],
+             "end": {
+              "outcome": "refused"
+             }
+            }
+           },
+           {
+            "text": "I'm due at a meeting. Send me what you have on the Missing Middle Housing Ordinance.",
+            "who": "Megan Solomon",
+            "piece": "scene-talk.reply-leave.i-m-due-at-a-meeting-send-me-what-you-have-on-bill",
+            "elements": [],
+            "issues": [],
+            "lie": false,
+            "result": {
+             "lines": [],
+             "choices": [],
+             "end": {
+              "outcome": "open",
+              "close": {
+               "speaker": "Riley Todd",
+               "speakerId": "person_181a6c5a613049e8",
+               "role": "asker",
+               "text": "Understood. I'll make my case on the Missing Middle Housing Ordinance somewhere else.",
+               "parts": [
+                "scene-talk.close-accept.understood-i-ll-make-my-case-on-bill-somewhere-else"
+               ],
+               "held": false
+              }
+             }
+            }
+           }
+          ]
+         }
+        },
+        {
+         "text": "I have to go, so call my office about the Missing Middle Housing Ordinance.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Riley Todd",
+            "speakerId": "person_181a6c5a613049e8",
+            "role": "asker",
+            "text": "Understood. I'll make my case on the Missing Middle Housing Ordinance somewhere else.",
+            "parts": [
+             "scene-talk.close-accept.understood-i-ll-make-my-case-on-bill-somewhere-else"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "text": "A check doesn't buy a vote on the Missing Middle Housing Ordinance. I'll decide it on what I learn.",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.reply-decline.a-check-doesn-t-buy-a-vote-on-bill-i-ll-decide-it-on-what-i-learn",
+      "elements": [
+       "a-gift-comes-with-a-call-about-a-bill",
+       "early-money-comes-from-people-you-know",
+       "first-time-candidate-leads-fundraising"
+      ],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Riley Todd",
+         "text": "I'm not asking for a promise. Just read the Missing Middle Housing Ordinance first.",
+         "piece": "scene-talk.follow-plea.i-m-not-asking-for-a-promise-just-read-bill-first",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "Your money doesn't buy my position on apartments in single-family neighborhoods.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-decline.your-money-doesn-t-buy-my-position-on-about",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Riley Todd",
+            "text": "Alright, I'll take that. I'll still be watching the Missing Middle Housing Ordinance.",
+            "piece": "scene-talk.follow-accept.alright-i-ll-take-that-i-ll-still-be-watching-bill",
+            "elements": [
+             "a-gift-comes-with-a-call-about-a-bill",
+             "early-money-comes-from-people-you-know",
+             "first-time-candidate-leads-fundraising"
+            ],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "refused"
+          }
+         }
+        },
+        {
+         "text": "I have to go, so call my office about the Missing Middle Housing Ordinance.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-leave.call-my-office-on-bill-i-have-to-go",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Riley Todd",
+            "speakerId": "person_181a6c5a613049e8",
+            "role": "asker",
+            "text": "Understood. I'll make my case on the Missing Middle Housing Ordinance somewhere else.",
+            "parts": [
+             "scene-talk.close-accept.understood-i-ll-make-my-case-on-bill-somewhere-else"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     },
+     {
+      "text": "I can't do anything about the Missing Middle Housing Ordinance until I'm in. Ask me then.",
+      "who": "Megan Solomon",
+      "piece": "scene-talk.reply-deflect.i-can-t-do-anything-about-bill-until-i-m-in-ask-me-then",
+      "elements": [],
+      "issues": [],
+      "lie": false,
+      "result": {
+       "lines": [
+        {
+         "who": "Riley Todd",
+         "text": "That was the biggest check you've had. I need a straight answer on the Missing Middle Housing Ordinance.",
+         "piece": "scene-talk.follow-press.that-was-gift-weight-i-need-a-straight-answer-on-bill",
+         "elements": [],
+         "issues": []
+        }
+       ],
+       "choices": [
+        {
+         "text": "I'm grateful for your help in the race. The Missing Middle Housing Ordinance still has to earn my vote.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-decline.i-m-grateful-for-your-help-in-the-race-bill-still-has-to-earn-my-vote",
+         "elements": [
+          "a-gift-comes-with-a-call-about-a-bill",
+          "early-money-comes-from-people-you-know",
+          "first-time-candidate-leads-fundraising"
+         ],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [
+           {
+            "who": "Riley Todd",
+            "text": "I'm not asking for a promise. Just read the Missing Middle Housing Ordinance first.",
+            "piece": "scene-talk.follow-plea.i-m-not-asking-for-a-promise-just-read-bill-first",
+            "elements": [],
+            "issues": []
+           }
+          ],
+          "choices": [],
+          "end": {
+           "outcome": "refused",
+           "close": {
+            "speaker": "Riley Todd",
+            "speakerId": "person_181a6c5a613049e8",
+            "role": "asker",
+            "text": "Then we see the Missing Middle Housing Ordinance differently. I'll make my case elsewhere.",
+            "parts": [
+             "scene-talk.close-accept.then-we-see-bill-differently-i-ll-make-my-case-elsewhere"
+            ],
+            "held": false
+           }
+          }
+         }
+        },
+        {
+         "text": "I'm due at a meeting. Send me what you have on the Missing Middle Housing Ordinance.",
+         "who": "Megan Solomon",
+         "piece": "scene-talk.reply-leave.i-m-due-at-a-meeting-send-me-what-you-have-on-bill",
+         "elements": [],
+         "issues": [],
+         "lie": false,
+         "result": {
+          "lines": [],
+          "choices": [],
+          "end": {
+           "outcome": "open",
+           "close": {
+            "speaker": "Riley Todd",
+            "speakerId": "person_181a6c5a613049e8",
+            "role": "asker",
+            "text": "Understood. I'll make my case on the Missing Middle Housing Ordinance somewhere else.",
+            "parts": [
+             "scene-talk.close-accept.understood-i-ll-make-my-case-on-bill-somewhere-else"
+            ],
+            "held": false
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ]
+}
