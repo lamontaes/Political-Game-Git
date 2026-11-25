@@ -2,9 +2,11 @@
   "id": "read-the-names-still-blank-on-the-roll",
   "kind": "move",
   "summary": "{clerk} returns to names without a vote after finishing the first pass through the membership.",
-  "realLife": "Swanson remembered a second call for representatives who had yet to answer the first one.",
+  "realLife": "Swanson remembered a second call for representatives who had yet to answer the first one. House Rule XX directs the clerk to call the unrecorded members again in surname order. The October 1999 chair emphasized that the alphabetical vote would supply the sole result on the resolution.",
   "sources": [
-    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11"
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11",
+    "https://www.govinfo.gov/content/pkg/HMAN-119/pdf/HMAN-119-pg870.pdf#page=8",
+    "https://www.govinfo.gov/content/pkg/CREC-1999-10-06/pdf/CREC-1999-10-06.pdf#page=18"
   ],
   "fits": ["office", "journal", "speeches", "news", "work-community"],
   "slots": ["{clerk}"],

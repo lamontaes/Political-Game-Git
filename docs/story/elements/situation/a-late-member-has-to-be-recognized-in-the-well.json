@@ -2,22 +2,26 @@
   "id": "a-late-member-has-to-be-recognized-in-the-well",
   "kind": "situation",
   "summary": "{member} reaches the well after the names have been called and looks to the clerk to be recognized.",
-  "realLife": "Swanson described recognizing late voters who came forward, repeating their answers, and leaving the entries to the tally clerk.",
+  "realLife": "Swanson described recognizing late voters who came forward, repeating their answers, and leaving the entries to the tally clerk. The House Manual qualifies that recollection. Before the 1969 rule change, a member who missed both calls could still qualify by declaring that they had been in the chamber listening and had failed to hear their name. The amended rule lets members vote after the second call until the result is announced.",
   "sources": [
-    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11"
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11",
+    "https://www.govinfo.gov/content/pkg/HMAN-119/pdf/HMAN-119-pg870.pdf#page=8",
+    "https://www.govinfo.gov/content/pkg/HMAN-119/pdf/HMAN-119-pg870.pdf#page=9"
   ],
   "fits": ["office", "journal", "speeches", "news", "work-community"],
   "slots": ["{member}"],
-  "gates": ["The chamber is taking this vote by oral roll call."],
+  "gates": [
+    "An oral vote remains open and the member qualifies under the late-voting rules then in force."
+  ],
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: an open oral vote and the late arrival.",
+  "inGame": "needs: the stage of the oral call, the result announcement, the rules in force and any required declaration of presence.",
   "turns": [
     {
       "turn": "partial",
-      "pulledBy": "The clerk recognizes the member.",
-      "what": "The member gives an answer from the well.",
+      "pulledBy": "The member meets the applicable late-voting condition and the result is still open.",
+      "what": "The reading clerk recognizes the member and repeats the answer.",
       "writesBack": "The tally clerk records the late vote."
     },
     {

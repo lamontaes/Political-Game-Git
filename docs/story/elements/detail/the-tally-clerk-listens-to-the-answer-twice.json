@@ -2,9 +2,10 @@
   "id": "the-tally-clerk-listens-to-the-answer-twice",
   "kind": "detail",
   "summary": "{clerk} repeats a member's name and answer so the colleague alongside can mark the roll.",
-  "realLife": "Swanson described calling the name, hearing the vote, and repeating both aloud to the tally clerk beside him.",
+  "realLife": "Swanson described calling the name, hearing the vote, and repeating both aloud to the tally clerk beside him. The House's instructions for an oral call also tell the reader how to distinguish identical surnames: add the state, then the given name if both members represent the same state.",
   "sources": [
-    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11"
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11",
+    "https://www.govinfo.gov/content/pkg/HMAN-119/pdf/HMAN-119-pg870.pdf#page=8"
   ],
   "fits": ["office", "journal", "speeches", "news", "work-community"],
   "slots": ["{clerk}"],

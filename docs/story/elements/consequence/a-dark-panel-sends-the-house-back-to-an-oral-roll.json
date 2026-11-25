@@ -2,9 +2,13 @@
   "id": "a-dark-panel-sends-the-house-back-to-an-oral-roll",
   "kind": "consequence",
   "summary": "{clerk} calls for the standby procedure when a display fails even though the votes may still be reaching the system.",
-  "realLife": "Anderson said his office would set aside the electronic equipment over a display fault and use an oral call until the system could be trusted.",
+  "realLife": "Anderson said his office would set aside the electronic equipment over a display fault and use an oral call until the system could be trusted. On October 6, 1999, John Dingell questioned a mismatch between the totals and the names on display. When the Clerk could no longer certify the count, the chair set the electronic vote aside. The fresh oral vote on the debate rule passed, 221 to 209.",
   "sources": [
-    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=268"
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=268",
+    "https://www.govinfo.gov/content/pkg/CREC-1999-10-06/pdf/CREC-1999-10-06.pdf#page=17",
+    "https://www.govinfo.gov/content/pkg/CREC-1999-10-06/pdf/CREC-1999-10-06.pdf#page=18",
+    "https://clerk.house.gov/evs/1999/roll483.xml",
+    "https://www.govinfo.gov/content/pkg/HMAN-119/pdf/HMAN-119-pg870.pdf#page=8"
   ],
   "fits": ["office", "journal", "speeches", "news", "work-community"],
   "slots": ["{clerk}"],
@@ -12,19 +16,19 @@
   "weights": [],
   "usedBy": [],
   "issues": ["none"],
-  "inGame": "needs: the display status and the standby procedure.",
+  "inGame": "needs: the failed display, the Clerk’s ability to certify the tally and the Chair’s choice of backup procedure.",
   "turns": [
     {
       "turn": "partial",
-      "pulledBy": "The panel passes its check before voting starts.",
-      "what": "Staff clear the equipment for use.",
-      "writesBack": "The electronic roll opens."
+      "pulledBy": "The stations still work and members can verify their votes there.",
+      "what": "The chair keeps the vote open and asks members to check their entries.",
+      "writesBack": "The verified electronic count supplies the result."
     },
     {
       "turn": "opposite",
-      "pulledBy": "The display stays dark.",
-      "what": "Staff use the oral procedure.",
-      "writesBack": "The tally rests on the clerks' recorded answers."
+      "pulledBy": "The Clerk cannot certify the electronic count.",
+      "what": "The chair sets that vote aside and orders a fresh oral roll.",
+      "writesBack": "Only the newly called vote goes into the result."
     }
   ]
 }

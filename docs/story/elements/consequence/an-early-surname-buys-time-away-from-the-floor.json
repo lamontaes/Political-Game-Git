@@ -2,9 +2,10 @@
   "id": "an-early-surname-buys-time-away-from-the-floor",
   "kind": "consequence",
   "summary": "{member} can plan a trip back to the office around where the surname falls in an oral roll.",
-  "realLife": "Anderson recalled that representatives called early could answer and leave with considerable time before they might be needed on another roll.",
+  "realLife": "Anderson recalled that representatives called early could answer and leave with considerable time before they might be needed on another roll. The House's bell instructions even tie the repeat signal to a place in the alphabet. On an oral recorded vote it sounds when the first call reaches surnames beginning with R.",
   "sources": [
-    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=25"
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=25",
+    "https://www.govinfo.gov/content/pkg/HMAN-119/pdf/HMAN-119-pg870.pdf#page=10"
   ],
   "fits": ["office", "journal", "speeches", "news", "work-community"],
   "slots": ["{member}"],
