@@ -148,9 +148,12 @@ describe(
       const left = [...book.momentsById.values()].find(
         (m) => m.label === "money:job-left",
       )!;
+      // The Journal tells it (a line with no one cast), and no talk is staged.
       expect(
-        book.schedule.filter((row) => row.momentId === left.id),
-        "no scene is staged from the job left",
+        book.schedule
+          .filter((row) => row.momentId === left.id)
+          .flatMap((row) => row.bindings.map((b) => b.typeKey)),
+        "no talk is staged from the job left",
       ).toEqual([]);
       // Pay stops: no shift is worked at the job after the day it ended, and its work commitment ends
       // that day. (Pay for days already worked is still owed and paid in arrears, as for any leaver.)
