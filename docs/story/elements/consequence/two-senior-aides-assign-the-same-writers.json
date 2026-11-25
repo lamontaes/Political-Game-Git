@@ -1,0 +1,35 @@
+{
+  "id": "two-senior-aides-assign-the-same-writers",
+  "kind": "consequence",
+  "summary": "A new assignment reaches writers who already have deadlines for the same campaign.",
+  "realLife": "Murphy recalled assigning work ahead of time, then learning that Samuel Rosenman was approaching the same Washington writers for his own campaign speech assignments.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/murphy4"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{writer}", "{assignment}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: existing assignments and requested deadline.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The aides compare their lists.",
+      "what": "They agree who will receive each draft.",
+      "writesBack": "The writer can deliver one version to the right desk."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The assignments remain separate.",
+      "what": "The writer asks which deadline comes first.",
+      "writesBack": "One of the aides must resolve the conflict."
+    }
+  ]
+}

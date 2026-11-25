@@ -1,0 +1,35 @@
+{
+  "id": "reporter-leaves-the-copy-to-hear-the-extra-line",
+  "kind": "move",
+  "summary": "A reporter with a speech in hand still walks out to hear what the speaker adds.",
+  "realLife": "Irving Perlmeter said reporters on the campaign train often listened at the platform despite receiving advance copy because Truman might add an unscripted remark.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/perlmete"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{reporter}", "{speech}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: advance copy and access to the public remarks.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reporter hears a new observation.",
+      "what": "They record it alongside the printed draft.",
+      "writesBack": "The account includes what the crowd actually heard."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Delivery matches the distributed copy.",
+      "what": "The reporter verifies the passage before filing.",
+      "writesBack": "The quote is tied to the spoken version."
+    }
+  ]
+}

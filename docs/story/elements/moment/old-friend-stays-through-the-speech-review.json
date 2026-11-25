@@ -1,0 +1,37 @@
+{
+  "id": "old-friend-stays-through-the-speech-review",
+  "kind": "moment",
+  "summary": "A helper must decide whether to interrupt a reunion when preparation time is slipping away.",
+  "realLife": "At Provo, Truman invited an old Army friend and his new wife along; Bray recalled the visit extending to the hotel and displacing time for food and speech review.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading",
+    "home"
+  ],
+  "slots": ["{visitor}", "{candidate}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: candidate's invitation and time reserved for preparation.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The visitor agrees to meet again later.",
+      "what": "An aide sets aside time for the speech.",
+      "writesBack": "The candidate can prepare before appearing."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The candidate wants the visit to continue.",
+      "what": "The aide asks which preparation can wait.",
+      "writesBack": "The staff has a shorter review period."
+    }
+  ]
+}

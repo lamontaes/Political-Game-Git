@@ -1,0 +1,35 @@
+{
+  "id": "fundraising-dinner-competes-with-the-public-stop",
+  "kind": "consequence",
+  "summary": "An organizer has to make room for fundraising when the committee's cash is running low.",
+  "realLife": "Bray described Truman's Los Angeles schedule as a combination of public events and fundraising appearances while committee finances were strained.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{committee}", "{event}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: available funds and competing commitments.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The hosts can fit both events into the visit.",
+      "what": "The organizer publishes separate times.",
+      "writesBack": "The public stop keeps its own place."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The events overlap.",
+      "what": "The organizer takes the conflict to the committee.",
+      "writesBack": "The committee must say which commitment it will move."
+    }
+  ]
+}

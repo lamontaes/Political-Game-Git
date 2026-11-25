@@ -1,0 +1,35 @@
+{
+  "id": "station-band-plays-its-own-school-song",
+  "kind": "move",
+  "summary": "A local band is invited to welcome the candidate with a tune that belongs to the town.",
+  "realLife": "Bray recalled suggesting a school or state song after bands at successive stops tried to please Truman by playing the same Missouri waltz.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{band}", "{town}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: local musicians and available repertoire.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The band knows the school song.",
+      "what": "The host puts it on the program.",
+      "writesBack": "Local players supply the welcome in their own idiom."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The band has rehearsed only the announced piece.",
+      "what": "The organizer keeps the arrangement the players know.",
+      "writesBack": "The program reflects what the band can perform."
+    }
+  ]
+}

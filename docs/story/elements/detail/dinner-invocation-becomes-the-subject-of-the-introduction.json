@@ -1,0 +1,36 @@
+{
+  "id": "dinner-invocation-becomes-the-subject-of-the-introduction",
+  "kind": "detail",
+  "summary": "The person introducing a candidate changes their remarks after hearing the dinner invocation.",
+  "realLife": "Bray recalled that Sam Rayburn and Truman both took up themes from Archbishop Robert Lucey's invocation at a San Antonio civic dinner, and that the prayer was later printed for circulation.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{introducer}", "{dinner}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: earlier words actually heard at the event.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The introduction follows the invocation.",
+      "what": "The host picks up a thought the room just heard.",
+      "writesBack": "The introduction belongs to that dinner."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The printed program has changed.",
+      "what": "The host drops the reference to remarks that were never given.",
+      "writesBack": "The candidate is introduced on another ground."
+    }
+  ]
+}

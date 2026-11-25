@@ -1,0 +1,36 @@
+{
+  "id": "former-colleague-connects-two-campaign-press-offices",
+  "kind": "situation",
+  "summary": "A worker who knows both press staffs can help them coordinate a surrogate's appearance.",
+  "realLife": "Perlmeter described cooperation between the press offices in 1952 and recalled Clayton Fritchey's move from Truman's staff to Adlai Stevenson's campaign.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/perlmete"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{aide}", "{surrogate}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a shared staff contact and a joint appearance.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The contact is available.",
+      "what": "Both offices confirm the same announcement through that person.",
+      "writesBack": "The local press gets one account of the arrangements."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The contact is away.",
+      "what": "The two desks confirm the details directly.",
+      "writesBack": "Neither office has to guess what the other promised."
+    }
+  ]
+}

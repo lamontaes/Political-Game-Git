@@ -1,0 +1,35 @@
+{
+  "id": "visitor-carries-the-towns-economic-question-onward",
+  "kind": "move",
+  "summary": "A visiting delegation gets a chance to describe local economic conditions before the candidate speaks again.",
+  "realLife": "Bray asked local visitors about the economic situation in their communities and what they thought the candidate ought to know or say there.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{visitor}", "{town}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a locally identified concern and the next speaking stop.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A visitor can describe a particular change at work.",
+      "what": "The helper writes down the account before the next stop.",
+      "writesBack": "The candidate receives a local question to consider."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The visitor cannot verify the report.",
+      "what": "The helper notes who could confirm it.",
+      "writesBack": "The candidate can leave the claim out until it is checked."
+    }
+  ]
+}

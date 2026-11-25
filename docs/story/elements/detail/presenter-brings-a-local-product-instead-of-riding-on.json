@@ -1,0 +1,36 @@
+{
+  "id": "presenter-brings-a-local-product-instead-of-riding-on",
+  "kind": "detail",
+  "summary": "A resident who cannot join the traveling party still has a chance to present something made in town.",
+  "realLife": "Bray recalled community representatives who could not ride on greeting Truman after his speech and sometimes giving him a local product.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{presenter}", "{town}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: presenter availability and a local gift.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The presenter must stay in town.",
+      "what": "The host arranges a short presentation at the stop.",
+      "writesBack": "The giver can explain the item in person."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The presentation cannot fit before departure.",
+      "what": "The host asks for the giver's name and a note about the item.",
+      "writesBack": "The campaign can acknowledge it afterward."
+    }
+  ]
+}
