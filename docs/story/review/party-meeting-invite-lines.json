@@ -4480,5 +4480,275 @@
       "key": "favor-asked"
     },
     "elements": ["a-party-resolution-still-needs-a-law"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-d-like-that-will-you-point-out-somebody-who-knows-my-end-of-town",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'd like that. Will you point out somebody who knows my end of town?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-be-there-just-give-me-a-name-when-i-get-there-i-can-go-say-hello-myself",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll be there. Just give me a name when I get there. I can go say hello myself.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.save-me-a-chair-by-you-i-d-like-to-put-faces-to-the-names-i-keep-hearing",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Save me a chair by you. I'd like to put faces to the names I keep hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.sure-who-s-been-coming-the-longest-that-s-who-i-d-like-to-sit-with",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Sure. Who's been coming the longest? That's who I'd like to sit with.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-agree.count-me-in-if-there-s-a-job-people-stay-late-to-do-introduce-me-to-whoever-usually-gets-stuck-doing-it",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Count me in. If there's a job people stay late to do, introduce me to whoever usually gets stuck doing it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-pass-this-time-could-we-have-coffee-with-one-of-them-instead-i-d-get-more-out-of-that",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll pass this time. Could we have coffee with one of them instead? I'd get more out of that.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.please-go-ahead-without-me-i-d-hate-to-have-you-walking-around-looking-for-me-when-it-s-time-to-introduce-people",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Please go ahead without me. I'd hate to have you walking around looking for me when it's time to introduce people.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-can-t-come-is-there-somebody-in-my-neighborhood-i-could-walk-over-and-introduce-myself-to",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I can't come. Is there somebody in my neighborhood I could walk over and introduce myself to?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.another-time-i-d-like-to-meet-them-when-i-can-stay-and-talk",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Another time. I'd like to meet them when I can stay and talk.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
+  },
+  {
+    "key": "scene-talk.reply-decline.leave-me-off-for-now-i-haven-t-made-up-my-mind-about-doing-party-work-and-i-d-like-to-tell-you-that-before-you-introduce-me-around",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Leave me off for now. I haven't made up my mind about doing party work, and I'd like to tell you that before you introduce me around.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["meeting-when"],
+        "after": "scene-talk.state-request.i-d-like-you-to-meet-the-people-who-do-the-party-work-here-could-you-come-to-the-committee-meeting-meeting-when"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["pattern-a13-your-first-night-in-the-party-s-room"]
   }
 ]
