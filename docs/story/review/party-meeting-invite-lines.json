@@ -4048,5 +4048,437 @@
       "key": "favor-asked"
     },
     "elements": ["a-party-resolution-still-needs-a-law"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-come-can-we-mark-the-streets-the-regulars-want-to-keep-i-d-sooner-take-a-block-nobody-has-walked",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll come. Can we mark the streets the regulars want to keep? I'd sooner take a block nobody has walked.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.could-you-come-by-meeting-when-i-d-like-to-spread-out-a-street-map-and-hear-where-you-think-we-d-be-knocking-on-doors-somebody-already-covered"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["leave-covered-precincts-to-party-regulars"]
+  },
+  {
+    "key": "scene-talk.reply-agree.put-me-down-for-the-meeting-before-we-hand-out-addresses-i-want-to-check-where-the-other-crew-stops",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Put me down for the meeting. Before we hand out addresses I want to check where the other crew stops.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.could-you-come-by-meeting-when-i-d-like-to-spread-out-a-street-map-and-hear-where-you-think-we-d-be-knocking-on-doors-somebody-already-covered"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["leave-covered-precincts-to-party-regulars"]
+  },
+  {
+    "key": "scene-talk.reply-decline.you-should-do-the-map-without-me-i-couldn-t-tell-you-which-doors-the-regulars-have-tried-and-i-won-t-be-there-to-ask",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "You should do the map without me. I couldn't tell you which doors the regulars have tried, and I won't be there to ask.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.could-you-come-by-meeting-when-i-d-like-to-spread-out-a-street-map-and-hear-where-you-think-we-d-be-knocking-on-doors-somebody-already-covered"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["leave-covered-precincts-to-party-regulars"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-pass-this-time-please-leave-my-name-off-the-map-if-you-re-dividing-up-streets",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll pass this time. Please leave my name off the map if you're dividing up streets.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.could-you-come-by-meeting-when-i-d-like-to-spread-out-a-street-map-and-hear-where-you-think-we-d-be-knocking-on-doors-somebody-already-covered"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["leave-covered-precincts-to-party-regulars"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-d-like-that-when-somebody-offers-to-take-a-precinct-who-actually-makes-it-official-i-ll-come-sit-with-you",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'd like that. When somebody offers to take a precinct, who actually makes it official? I'll come sit with you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.how-does-meeting-when-look-come-sit-by-me-if-you-d-like-to-hear-how-somebody-gets-picked-to-represent-a-precinct"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["local-committee-fills-a-named-precinct-assignment"]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-keep-me-a-chair-i-want-to-see-what-the-secretary-writes-down-when-a-neighbor-gets-the-job",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Yes, keep me a chair. I want to see what the secretary writes down when a neighbor gets the job.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.how-does-meeting-when-look-come-sit-by-me-if-you-d-like-to-hear-how-somebody-gets-picked-to-represent-a-precinct"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["local-committee-fills-a-named-precinct-assignment"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-can-t-come-let-me-know-afterward-who-to-ask-about-a-precinct-opening",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I can't come. Let me know afterward who to ask about a precinct opening.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.how-does-meeting-when-look-come-sit-by-me-if-you-d-like-to-hear-how-somebody-gets-picked-to-represent-a-precinct"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["local-committee-fills-a-named-precinct-assignment"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-m-staying-home-if-someone-else-wants-to-see-how-the-appointment-works-give-them-the-seat",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'm staying home. If someone else wants to see how the appointment works, give them the seat.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.how-does-meeting-when-look-come-sit-by-me-if-you-d-like-to-hear-how-somebody-gets-picked-to-represent-a-precinct"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["local-committee-fills-a-named-precinct-assignment"]
+  },
+  {
+    "key": "scene-talk.reply-agree.sure-i-ll-come-i-might-know-somebody-who-d-run-even-if-i-don-t-put-my-own-name-in",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Sure, I'll come. I might know somebody who'd run, even if I don't put my own name in.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.can-you-make-it-meeting-when-if-somebody-asks-whether-you-d-ever-stand-for-precinct-office-you-re-allowed-to-say-you-just-came-to-hear-about-it"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-be-there-i-d-like-to-hear-a-precinct-officer-describe-a-week-on-the-job-before-i-decide-anything",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll be there. I'd like to hear a precinct officer describe a week on the job before I decide anything.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.can-you-make-it-meeting-when-if-somebody-asks-whether-you-d-ever-stand-for-precinct-office-you-re-allowed-to-say-you-just-came-to-hear-about-it"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-m-going-to-pass-i-m-willing-to-look-for-somebody-who-might-run-that-s-as-far-as-i-want-to-go",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'm going to pass. I'm willing to look for somebody who might run. That's as far as I want to go.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.can-you-make-it-meeting-when-if-somebody-asks-whether-you-d-ever-stand-for-precinct-office-you-re-allowed-to-say-you-just-came-to-hear-about-it"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+  },
+  {
+    "key": "scene-talk.reply-decline.thanks-for-making-that-clear-i-d-still-rather-miss-this-one-than-spend-the-evening-turning-people-down",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "Thanks for making that clear. I'd still rather miss this one than spend the evening turning people down.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.can-you-make-it-meeting-when-if-somebody-asks-whether-you-d-ever-stand-for-precinct-office-you-re-allowed-to-say-you-just-came-to-hear-about-it"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["precinct-recruiter-asks-the-guests-to-run-themselves"]
+  },
+  {
+    "key": "scene-talk.reply-agree.count-me-in-i-m-curious-who-would-have-to-introduce-a-bill-if-the-committee-got-behind-the-idea",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Count me in. I'm curious who would have to introduce a bill if the committee got behind the idea.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.come-along-meeting-when-if-you-ve-ever-wondered-what-happens-to-a-resolution-after-the-party-adopts-it-we-could-talk-about-that-on-the-way-in"
+      }
+    ],
+    "bearing": "curious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["a-party-resolution-still-needs-a-law"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-come-hear-it-a-party-vote-i-understand-the-part-i-lose-track-of-is-who-takes-it-to-the-legislature",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'll come hear it. A party vote I understand. The part I lose track of is who takes it to the legislature.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.come-along-meeting-when-if-you-ve-ever-wondered-what-happens-to-a-resolution-after-the-party-adopts-it-we-could-talk-about-that-on-the-way-in"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["a-party-resolution-still-needs-a-law"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-ll-skip-the-meeting-i-d-still-like-to-hear-what-became-of-that-resolution-when-we-next-have-coffee",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I'll skip the meeting. I'd still like to hear what became of that resolution when we next have coffee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.come-along-meeting-when-if-you-ve-ever-wondered-what-happens-to-a-resolution-after-the-party-adopts-it-we-could-talk-about-that-on-the-way-in"
+      }
+    ],
+    "bearing": "warm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["a-party-resolution-still-needs-a-law"]
+  },
+  {
+    "key": "scene-talk.reply-decline.i-can-t-join-you-if-somebody-takes-the-resolution-to-a-legislator-that-s-the-part-i-d-like-to-hear-about-afterward",
+    "kind": "spoken",
+    "move": "reply-decline",
+    "text": "I can't join you. If somebody takes the resolution to a legislator, that's the part I'd like to hear about afterward.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "decline",
+        "role": "asked",
+        "purpose": "party-meeting-invite",
+        "key": "favor-asked",
+        "onlyWhen": ["prior-meeting-declined", "meeting-when"],
+        "after": "scene-talk.state-request.come-along-meeting-when-if-you-ve-ever-wondered-what-happens-to-a-resolution-after-the-party-adopts-it-we-could-talk-about-that-on-the-way-in"
+      }
+    ],
+    "bearing": "firm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "decline",
+      "key": "favor-asked"
+    },
+    "elements": ["a-party-resolution-still-needs-a-law"]
   }
 ]
