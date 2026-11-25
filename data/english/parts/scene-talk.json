@@ -82496,6 +82496,339 @@
           "requiresFacts": ["asked-before", "bill"]
         }
       ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-been-walking-for-session-hours-when-name-answers-your-knock",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You have been walking for {session-hours} when {name} answers your knock.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.another-door-session-hours-in-name-opens-it-and-waits",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "Another door, {session-hours} in. {name} opens it and waits.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-looks-age-band-and-opens-the-door-before-you-finish-knocking",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} looks {age-band} and opens the door before you finish knocking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.early-in-the-walk-name-is-the-first-to-answer",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "Early in the walk, {name} is the first to answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-reach-the-next-house-and-name-is-already-at-the-door",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You reach the next house, and {name} is already at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-out-onto-the-porch-as-you-come-up-the-walk",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} steps out onto the porch as you come up the walk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-curtain-moves-before-the-door-does-name-looks-age-band-and-not-in-a-hurry",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The curtain moves before the door does. {name} looks {age-band}, and not in a hurry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-session-hours-into-the-street-by-now-and-name-is-the-first-to-say-hello",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You are {session-hours} into the street by now, and {name} is the first to say hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-yet-i-m-still-learning-what-the-party-stands-for-and-i-d-rather-join-a-committee-once-i-know",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet. I'm still learning what the {party} stands for, and I'd rather join a committee once I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "welcomed"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-the-party-would-rather-have-you-sure-than-quick",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. The {party} would rather have you sure than quick.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["party"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     }
   ]
 }
