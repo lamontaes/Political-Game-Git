@@ -295,59 +295,5 @@
       "key": "news-received"
     },
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
-  },
-  {
-    "key": "scene-talk.reply-deflect.i-can-t-go-through-law-with-you-here-is-there-another-time-we-could-talk",
-    "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "I can't go through {law} with you here. Is there another time we could talk?",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "law-reaches",
-        "key": "news-received",
-        "requiresFacts": ["law"],
-        "onlyWhen": ["in-force"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "news-received"
-    },
-    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
-  },
-  {
-    "key": "scene-talk.reply-deflect.i-m-going-to-leave-your-question-about-law-open-i-don-t-know-enough-to-answer-it-today",
-    "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "I'm going to leave your question about {law} open. I don't know enough to answer it today.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "law-reaches",
-        "key": "news-received",
-        "requiresFacts": ["law"],
-        "onlyWhen": ["in-force"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "news-received"
-    },
-    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
   }
 ]
