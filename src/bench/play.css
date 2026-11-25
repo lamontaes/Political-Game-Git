@@ -68,6 +68,8 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
+  /* The ballot's panel at most this tall, so a long ballot scrolls inside it. */
+  --ballot-max-h: calc(var(--vh) * 0.86);
   /* A week's row in the calendar's month: room for two things named on a day. */
   --month-row: 96px;
   /* A thing named on its day in the calendar's month. */
@@ -5775,17 +5777,40 @@ select.release-pick {
   transform: translateX(-50%);
   width: min(1180px, calc(var(--vw) - 2 * var(--gutter)));
 }
+/* A long ballot (a county's offices, several commissioners) stays inside the
+   window: the paper scrolls in its own column and "What I know about them"
+   stays beside it, as the mock sets them. */
+#ballot {
+  max-height: var(--ballot-max-h);
+}
 .ballot-paper {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 28px;
+  flex: 1 1 auto;
+  min-height: 0;
   font-family: var(--ui);
 }
+.ballot-column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.ballot-foot {
+  padding-top: 12px;
+  border-top: 1px solid var(--brass-lo);
+}
 .ballot-sheet {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass-lo) transparent;
   font-family: var(--ui);
 }
 .ballot-race {

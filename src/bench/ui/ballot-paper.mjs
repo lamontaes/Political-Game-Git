@@ -90,7 +90,13 @@ export function ballotPaper({ contests, labels, onMark, know, onLeave }) {
   const leave = makeButton({ className: "action", textContent: labels.leave });
   leave.id = "ballot-leave";
   leave.addEventListener("click", onLeave);
-  paper.append(leave);
+  // Leave stays under the paper, never at the end of a long scroll (the mock's foot).
+  const column = el(
+    "div",
+    { className: "ballot-column" },
+    paper,
+    el("div", { className: "ballot-foot" }, leave),
+  );
   if (contests[0]) showKnown(contests[0].candidates);
-  return el("div", { className: "ballot-paper" }, paper, side);
+  return el("div", { className: "ballot-paper" }, column, side);
 }
