@@ -506,6 +506,18 @@ const FIXTURES: Record<
       ]),
     ),
   },
+  "narration-not-opening-on-the-clock-or-date": {
+    catches: sampleOf(
+      text("scene", [["It's January 2025. Washington has a new President."]]),
+      text("scene", [["Late in the morning on January 21st, you knock."]]),
+    ),
+    spares: sampleOf(
+      text("scene", [
+        ["It's the evening of January 20. The news replays the noon speech."],
+      ]),
+      text("scene", [["Late in the morning, you knock."]]),
+    ),
+  },
   "no-figure-in-talk": {
     catches: sampleOf(
       talk("sis", [[["sis", "The unemployment rate is 4.6% now, you know."]]]),
