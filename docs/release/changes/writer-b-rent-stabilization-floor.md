@@ -24,3 +24,5 @@ A player defending a new ceiling can explain how a tenant proves an overpayment,
 Members who support a new ceiling can pick up a colleague’s argument by name. The speaker can respond briefly about a specific document, date or payment or explain why it matters.
 
 Members questioning a new ceiling can challenge the duration of a tax concession, the timing of a rent credit or the treatment of costs already charged under a lease. The speaker can answer with a brief question or press for a specific remedy.
+
+When the opening speaker favors repeal, the player can distinguish a signed renewal from a pending offer, test whether repair money was actually collected, question a witness’s position or ask which charge was already due under a lease.
