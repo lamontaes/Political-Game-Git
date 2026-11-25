@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: laws-and-effects (builder crew, Nov 17)
 pr: #9877
@@ -16,6 +16,7 @@ source: Laws and effects lane, crew line #9747 item 8a, Nov 17, 2026
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+merged-at: 2026-11-25T13:11:28.661Z
 ---
 
 **What.** A raise in the federal income security line pays SSI recipients more, but the poverty count never sees it: a named recipient's SSI is an obligation the count does not read, and counted recipients' SSI is paid as one sum to the residents' account, attributed to no household. The law table grades the line partly because no outcome-web link starts from it. Seen: Metrics, the town's poverty share; docs/reports/law-wiring-table.md, the "Spending: Income security programs" row.
