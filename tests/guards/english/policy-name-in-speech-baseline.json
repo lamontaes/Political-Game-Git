@@ -1,0 +1,53 @@
+{
+  "conversation address-point {about}": [
+    "conversation.address-point-answer-instead.if-not-that-then-what-on-about",
+    "conversation.address-point-answer-instead.so-what-s-the-answer-on-about",
+    "conversation.address-point-answer-instead.then-what-would-you-do-about-about",
+    "conversation.address-point-answer-instead.what-s-your-fix-for-about",
+    "conversation.address-point-answer-instead.what-would-you-do-about-about",
+    "conversation.address-point-answer-instead.you-don-t-like-it-what-s-your-answer-on-about",
+    "conversation.address-point-opener-lead.president-came-out-against-about",
+    "conversation.address-point-opener-lead.president-came-out-for-about",
+    "conversation.address-point-opener-lead.president-drew-a-line-at-about",
+    "conversation.address-point-opener-lead.president-is-pushing-about-now",
+    "conversation.address-point-opener-lead.president-made-a-point-of-about",
+    "conversation.address-point-opener-lead.president-put-about-right-up-front",
+    "conversation.address-point-opener-lead.president-said-no-to-about-and-said-it-plainly",
+    "conversation.address-point-opener-lead.president-wants-about-that-part-was-plain",
+    "conversation.address-point-opener-lead.president-wants-no-part-of-about-that-part-was-plain",
+    "conversation.address-point-opener-lead.president-won-t-back-about",
+    "conversation.address-point-opener-lead.so-president-is-against-about-plain-and-simple",
+    "conversation.address-point-opener-lead.so-president-is-against-about-you-heard-that-too",
+    "conversation.address-point-opener-lead.so-president-is-for-about-you-heard-that-too",
+    "conversation.address-point-opener-lead.so-president-wants-about",
+    "conversation.address-point-opener-lead.the-one-thing-i-took-from-that-president-is-against-about",
+    "conversation.address-point-opener-lead.the-one-thing-i-took-from-that-president-is-for-about"
+  ],
+  "scene-talk {issue}": [
+    "scene-talk.follow-answer.some-i-m-still-making-up-my-mind-about-issue",
+    "scene-talk.follow-press.people-are-going-to-ask-you-about-issue-whether-you-chase-it-or-not",
+    "scene-talk.reply-ask.did-it-change-how-you-see-issue",
+    "scene-talk.reply-ask.what-are-they-saying-about-issue",
+    "scene-talk.reply-promise.they-know-where-i-stand-on-issue-i-ll-say-it-again-louder",
+    "scene-talk.state-ask.look-how-many-of-us-came-out-what-are-you-going-to-do-about",
+    "scene-talk.state-ask.there-aren-t-many-of-us-we-came-anyway-what-are-you-going-to",
+    "scene-talk.state-ask.we-re-out-here-about-issue-what-are-you-going-to-do",
+    "scene-talk.state-tell.i-heard-from-opponent-s-campaign-about-issue",
+    "scene-talk.state-tell.opponent-s-campaign-is-talking-about-issue-everywhere-it-reached-me",
+    "scene-talk.state-tell.opponent-s-people-knocked-on-my-door-this-week-they-wanted-to-talk-about-issue"
+  ],
+  "bring-it-up {topic}": [
+    "bring-it-up.change-news.read-read.did-you-see-what-subject-wrote-on-topic",
+    "bring-it-up.change-news.read-read.i-came-across-a-story-in-subject-on-topic",
+    "bring-it-up.change-news.read-read.subject-ran-something-on-topic",
+    "bring-it-up.change-news.read-read.subject-wrote-about-topic",
+    "bring-it-up.your-bill-failed-act.subject-reports-your-bill-on-topic-failed",
+    "bring-it-up.your-bill-failed-act.subject-says-your-bill-on-topic-fell-short",
+    "bring-it-up.your-bill-failed-ordinance.subject-reports-your-ordinance-on-topic-failed",
+    "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-on-topic-fell-short-tough-break",
+    "bring-it-up.your-bill-passed-act.subject-reports-your-bill-on-topic-passed",
+    "bring-it-up.your-bill-passed-act.your-bill-on-topic-passed-subject-says",
+    "bring-it-up.your-bill-passed-ordinance.subject-reports-your-ordinance-on-topic-passed",
+    "bring-it-up.your-bill-passed-ordinance.your-ordinance-on-topic-passed-subject-says"
+  ]
+}
