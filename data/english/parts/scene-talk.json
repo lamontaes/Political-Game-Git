@@ -1325,7 +1325,7 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
+          "after": "scene-talk.reply-ask.where-are-we-on-i-need-to-know-the-count-before-i-say-yes",
           "requiresFacts": ["votes", "needed", "votes-short"]
         }
       ],
@@ -1351,7 +1351,7 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
+          "after": "scene-talk.reply-ask.where-are-we-on-i-need-to-know-the-count-before-i-say-yes",
           "requiresFacts": ["votes", "needed", "votes-short"]
         }
       ],
@@ -1377,7 +1377,7 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
+          "after": "scene-talk.reply-ask.where-are-we-on-i-need-to-know-the-count-before-i-say-yes",
           "requiresFacts": ["votes", "needed"]
         }
       ],
@@ -2478,7 +2478,7 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
+          "after": "scene-talk.reply-ask.where-are-we-on-i-need-to-know-the-count-before-i-say-yes",
           "requiresFacts": ["count-by"]
         }
       ],
@@ -2506,7 +2506,7 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
+          "after": "scene-talk.reply-ask.where-are-we-on-i-need-to-know-the-count-before-i-say-yes",
           "requiresFacts": ["bill", "vote-tonight"]
         }
       ],
@@ -2532,7 +2532,7 @@
           "role": "asker",
           "purpose": "carry-bill",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.where-are-we-now",
+          "after": "scene-talk.reply-ask.where-are-we-on-i-need-to-know-the-count-before-i-say-yes",
           "requiresFacts": ["bill"],
           "excludesFacts": ["count-by", "vote-tonight"]
         }
@@ -4339,6 +4339,209 @@
         "move": "request",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-carry-somebody-has-to-put-a-name-on-it-and-i-d-rather-it-was-mine",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'll carry {bill}. Somebody has to put a name on it, and I'd rather it was mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "find-a-sponsor-across-the-building",
+        "sponsors-personal-reason"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-sponsor-i-ve-read-it-and-i-can-stand-behind-it-on-the-floor",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll sponsor {bill}. I've read it, and I can stand behind it on the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "find-a-sponsor-across-the-building",
+        "sponsors-personal-reason"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-i-can-t-carry-my-district-hasn-t-asked-for-it-and-i-answer-to-them-first",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. I can't carry {bill}. My district hasn't asked for it, and I answer to them first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "find-a-sponsor-across-the-building",
+        "sponsors-personal-reason"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-won-t-put-my-name-on-until-i-know-who-is-against-it-and-why",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I won't put my name on {bill} until I know who is against it and why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "find-a-sponsor-across-the-building",
+        "sponsors-personal-reason"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-carry-if-you-bring-me-the-votes-first-i-won-t-walk-it-to-the-floor-and",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll carry {bill} if you bring me the votes first. I won't walk it to the floor and lose.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "find-a-sponsor-across-the-building",
+        "sponsors-personal-reason"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-sponsor-if-you-ll-stand-with-me-when-it-comes-up-for-a-vote",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll sponsor {bill} if you'll stand with me when it comes up for a vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "find-a-sponsor-across-the-building",
+        "sponsors-personal-reason"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.where-are-we-on-i-need-to-know-the-count-before-i-say-yes",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where are we on {bill}? I need to know the count before I say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      },
+      "elements": [
+        "find-a-sponsor-across-the-building",
+        "sponsors-personal-reason"
+      ]
     },
     {
       "key": "scene-talk.state-request.i-gave-to-your-campaign-because-of-bill-i-need-you-with-me-on-it",
@@ -12231,6 +12434,58 @@
         "family-is-a-sounding-board-and-a-risk",
         "door-answer-is-frustration-with-the-body"
       ]
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-telling-me-what-s-people-said-about-i-d-rather-hear-it-from-y",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for telling me what {opponent}'s people said about {issue}. I'd rather hear it from you than guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-if-s-campaign-is-talking-about-on-doorsteps-i-need-to-be-on-those-do",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks. If {opponent}'s campaign is talking about {issue} on doorsteps, I need to be on those doorsteps too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "rival-word",
+          "key": "news-received",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
     },
     {
       "key": "scene-talk.narrate-narrate.a-few-people-are-standing-outside-name-comes-over-to-ask-you",
@@ -25364,6 +25619,64 @@
         "move": "confront",
         "key": "threat"
       }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-it-came-to-this-the-answer-on-is-still-no-and-i-won-t-change-it-t",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry it came to this. The answer on {bill} is still no, and I won't change it to keep the peace.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "key": "threat",
+          "requiresFacts": ["favor-vote", "bill"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      },
+      "elements": [
+        "turning-down-an-offer-politely-keeps-the-door-open",
+        "late-reported-gifts-draw-a-penalty-after-a-rival-complains"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-m-sorry-you-feel-wronged-about-it-s-still-no-and-i-d-tell-you-the-same-th",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry you feel wronged about {contract}. It's still no, and I'd tell you the same thing in public.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "bribe-pressed",
+          "key": "threat",
+          "requiresFacts": ["favor-contract", "contract"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      },
+      "elements": [
+        "turning-down-an-offer-politely-keeps-the-door-open",
+        "late-reported-gifts-draw-a-penalty-after-a-rival-complains"
+      ]
     },
     {
       "key": "scene-talk.reply-tell.i-m-telling-the-clerk-what-you-just-offered-on-wanted",
@@ -58208,6 +58521,84 @@
         "move": "thank",
         "key": "arrival"
       }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-you-were-gone-and-i-can-t-pick-up-where-we-stopped",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. You were gone {away}, and I can't pick up where we stopped.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-yet-is-still-getting-used-to-you-being-gone-stay-near-and-we-ll-talk-ag",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet. {child} is still getting used to you being gone. Stay near, and we'll talk again in a month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-have-you-back-in-the-house-yet-i-need-to-know-you-re-staying-before",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't have you back in the house yet. I need to know you're staying before {child} gets hurt again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "arrival"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.reply-leave.i-can-t",

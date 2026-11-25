@@ -2885,16 +2885,16 @@
     },
     "bribe-pressed": {
       "state": "threaten",
-      "replies": ["refuse", "confront"],
+      "replies": ["refuse", "confront", "apologize"],
       "follow": {
         "refuse": ["threaten", "accept"],
-        "confront": ["plea", "deflect"]
+        "confront": ["plea"],
+        "apologize": ["accept"]
       },
       "again": {
-        "threaten": ["refuse", "confront"],
-        "press": ["refuse", "confront"],
-        "plea": ["refuse", "confront"],
-        "deflect": ["refuse", "confront"]
+        "threaten": ["refuse", "confront", "apologize"],
+        "press": ["refuse", "confront", "apologize"],
+        "plea": ["refuse", "confront", "apologize"]
       },
       "endings": [
         {
@@ -3051,10 +3051,11 @@
     },
     "homecoming": {
       "state": "request",
-      "replies": ["agree", "ask"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank", "accept"],
-        "ask": ["answer"]
+        "ask": ["answer"],
+        "decline": ["accept", "press"]
       },
       "again": {
         "press": ["agree"],
