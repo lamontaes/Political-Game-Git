@@ -1,0 +1,36 @@
+{
+  "id": "delegate-names-travel-on-a-roster-outside-the-minutes",
+  "kind": "detail",
+  "summary": "The secretary can establish how the slate passed while another record carries the names to the convention.",
+  "realLife": "The 21st District minutes give the numbers and method of approval and expressly say the delegate and alternate names were recorded elsewhere.",
+  "sources": ["https://21dems.org/2018-caucus-minutes/"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{secretary}", "{roster}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: approved slate and separate names record.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The convention asks who may attend.",
+      "what": "The secretary locates the roster associated with the vote.",
+      "writesBack": "The district can identify its delegates."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The roster is missing from the packet.",
+      "what": "The secretary seeks the original list before certifying a name.",
+      "writesBack": "The meeting total alone cannot identify the delegate."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "member-seeks-head-to-head-runoff-after-endorsement",
+  "kind": "situation",
+  "summary": "After a second endorsement fails, a member asks the group to revisit the first choice at a later head-to-head vote.",
+  "realLife": "At the March meeting a member proposed revisiting the first assessor endorsement and holding a runoff; the subsequent motion to reconsider failed and the first endorsement stood.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-march-25-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{member}", "{endorsement}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: prior result and requested new contest.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reconsideration motion loses.",
+      "what": "The secretary records that the earlier endorsement remains.",
+      "writesBack": "No runoff goes on the next agenda."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The members agree to reconsider.",
+      "what": "The chair returns the earlier choice to the floor under the local rules.",
+      "writesBack": "A later runoff still needs a decision."
+    }
+  ]
+}

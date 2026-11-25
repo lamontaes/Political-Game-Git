@@ -1,0 +1,37 @@
+{
+  "id": "member-questions-value-of-second-endorsement-in-one-race",
+  "kind": "voice",
+  "summary": "A debate over a second endorsement can turn on what the first endorsement means to voters.",
+  "realLife": "The 31st District allowed multiple endorsements, but members arguing against a second assessor endorsement said sharing the recommendation reduced its value.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-march-25-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{member}", "{race}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: first endorsement and rule on additional endorsements.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The members want one clear recommendation.",
+      "what": "They oppose the second motion on that ground.",
+      "writesBack": "The debate can be recorded without impugning the second candidate."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Members consider both candidates qualified.",
+      "what": "A member defends a shared endorsement.",
+      "writesBack": "The first endorsement does not automatically settle the next vote."
+    }
+  ]
+}

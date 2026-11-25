@@ -1,0 +1,38 @@
+{
+  "id": "neighboring-district-runs-the-shared-fair-booth",
+  "kind": "situation",
+  "summary": "A district that shares a fair booth can owe volunteers even when another district is coordinating the event.",
+  "realLife": "The 31st District chair said the neighboring 28th District was coordinating their shared Puyallup Fair booth and asked for volunteers in the room and online.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-march-25-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{district}", "{booth}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: lead district, shared event and open shifts.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The local district fills its requested shifts.",
+      "what": "Its organizer sends the names to the coordinating district.",
+      "writesBack": "The shared roster can be completed."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Volunteers are available but have not selected shifts.",
+      "what": "The organizer asks the lead district which times remain open.",
+      "writesBack": "Interest is not counted as full coverage."
+    }
+  ]
+}
