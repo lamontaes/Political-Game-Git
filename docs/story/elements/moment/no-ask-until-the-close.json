@@ -1,0 +1,33 @@
+{
+  "id": "no-ask-until-the-close",
+  "kind": "moment",
+  "summary": "An address can carry no policy asks at all, with one call in its last lines.",
+  "realLife": "Lincoln's second inaugural made no policy ask and ended on a pledge of charity toward all.",
+  "sources": [
+    "https://avalon.law.yale.edu/19th_century/lincoln2.asp",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["theme-name"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.05
+  },
+  "usedBy": [],
+  "inGame": "A world without a stand (no `about` fact) skips the `theme` and `second` sections, and the optional `call` leaves a speech with no ask; traits pull toward shapes with fewer moves.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Asks in every point.",
+      "pulledBy": "see few-asks-per-speech",
+      "writesBack": "Several asks to answer."
+    },
+    {
+      "turn": "partial",
+      "what": "One ask, in the middle.",
+      "pulledBy": "a state kind",
+      "writesBack": "The housemate answers the middle point."
+    }
+  ],
+  "issues": ["none"]
+}

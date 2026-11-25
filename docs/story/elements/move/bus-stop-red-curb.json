@@ -1,0 +1,32 @@
+{
+  "id": "bus-stop-red-curb",
+  "kind": "move",
+  "summary": "A bus operator shows {engineer} where parked cars keep the bus away from the curb on the paving route.",
+  "realLife": "Oakland identified resurfacing projects on bus routes where transit staff could help adjust curb markings and repair stops.",
+  "sources": [
+    "https://cao-94612.s3.us-west-2.amazonaws.com/documents/5YearPavingPlan_StaffReport.pdf#page=12"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{engineer}"],
+  "gates": [
+    "The city manages the affected street and has the project facts described here."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "The city highways budget records the appropriation change. needs: existing bus route, stop access report and transit agency's agreed curb change.",
+  "turns": [
+    {
+      "turn": "expand",
+      "pulledBy": "The city increases its street appropriation and the following records identify an eligible use: existing bus route, stop access report and transit agency's agreed curb change.",
+      "what": "Include the agreed curb work in the resurfacing order.",
+      "writesBack": "Transit stop work order."
+    },
+    {
+      "turn": "restrict",
+      "pulledBy": "A smaller city appropriation requires the office to revisit the commitment documented by these records: existing bus route, stop access report and transit agency's agreed curb change.",
+      "what": "Ask the transit agency which stop markings can go ahead under its maintenance schedule.",
+      "writesBack": "Transit stop work order."
+    }
+  ]
+}

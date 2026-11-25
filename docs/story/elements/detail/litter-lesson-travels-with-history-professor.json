@@ -1,0 +1,28 @@
+{
+  "id": "litter-lesson-travels-with-history-professor",
+  "kind": "detail",
+  "summary": "A professor defending a local law remembers teaching people abroad how residents got it passed.",
+  "realLife": "Susan Flader told the council she had described the local ordinance to overseas audiences as an example of civic participation and urged members to improve it.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{professor}", "{city}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: speaker history and ordinance status.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "A visitor asks the professor how residents defended the ordinance.",
+      "pulledBy": "The council keeps the ordinance.",
+      "writesBack": "The next account includes the contested effort to amend it."
+    },
+    {
+      "turn": "opposite",
+      "what": "The professor returns to the class with a second election to explain.",
+      "pulledBy": "Voters repeal the ordinance.",
+      "writesBack": "Its adoption and its repeal become separate events in the professor's account."
+    }
+  ]
+}

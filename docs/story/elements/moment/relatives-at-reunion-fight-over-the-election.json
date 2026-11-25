@@ -1,0 +1,40 @@
+{
+  "id": "relatives-at-reunion-fight-over-the-election",
+  "kind": "moment",
+  "summary": "At a family reunion, relatives argue over who to back, and one uncle backs the other side.",
+  "realLife": "A senator described reunions where kin argued about politics along with religion and music. An uncle supported Eisenhower, to the dismay of the father, a New Deal Democrat.",
+  "sources": ["https://voicesofoklahoma.com/interview/boren-david"],
+  "fits": ["home", "campaign"],
+  "slots": ["{the uncle}", "{the father}", "{the election}"],
+  "gates": [
+    "Kin ties exist between the households.",
+    "An election is under way."
+  ],
+  "weights": [
+    "How close the kin are.",
+    "Whether the official in the family is present."
+  ],
+  "inGame": "Kin ties, an election, and a gathering of households could carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The uncle stays home and the quarrel never happens.",
+      "pulledBy": "Old grudge.",
+      "writesBack": "Lowers contact between the households."
+    },
+    {
+      "turn": "neutral",
+      "what": "They tease each other and move on to the music.",
+      "pulledBy": "A warm family.",
+      "writesBack": "Nothing written."
+    },
+    {
+      "turn": "late",
+      "what": "The uncle's choice is brought up at the next funeral.",
+      "pulledBy": "A death in the family.",
+      "writesBack": "Adds a memory to both men."
+    }
+  ],
+  "issues": ["none"]
+}

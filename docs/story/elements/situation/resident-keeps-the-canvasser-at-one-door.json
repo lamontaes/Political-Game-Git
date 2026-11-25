@@ -1,0 +1,31 @@
+{
+  "id": "resident-keeps-the-canvasser-at-one-door",
+  "kind": "situation",
+  "summary": "One resident has so much to say that the canvasser is still there when they meant to move on.",
+  "realLife": "In Oxford, a mother told Liz Purvis about bullying and crowded classrooms while her son rode his scooter. Their conversation lasted about ten minutes and ended with an invitation to the county party meeting.",
+  "sources": [
+    "https://apnews.com/article/2024-election-biden-trump-north-carolina-rural-f18e68135fa04a9d730a55c2fb5481a0",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: a resident’s extended turn in the door encounter.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{resident}", "{canvasser}"],
+  "gates": ["Both people are still at the door."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The resident asks for a later visit so the canvasser can finish the street.",
+      "pulledBy": "The resident has more questions than either can cover before dark.",
+      "writesBack": "The route continues with one return visit requested."
+    },
+    {
+      "turn": "late",
+      "what": "At the end of the shift, the resident phones to ask where the meeting will be held.",
+      "pulledBy": "The canvasser left the office number after offering an invitation at the door.",
+      "writesBack": "The organizer gives the resident the venue and records that the invitation reached them."
+    }
+  ],
+  "issues": ["none"]
+}

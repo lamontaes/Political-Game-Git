@@ -1,0 +1,32 @@
+{
+  "id": "replaced-order-open-file",
+  "kind": "detail",
+  "summary": "A new order lands on the desk and {person} checks the file already open under the old one.",
+  "realLife": "California's replacement instructions for two watersheds expressly preserved actions taken or underway under the earlier provisions.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2023/03/3.24.23-Drought-update-executive-order.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
+  "gates": [
+    "An amendment identifies preserved actions and the file shows the basis for the existing action."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an amendment identifies preserved actions and the file shows the basis for the existing action.",
+  "turns": [
+    {
+      "turn": "covered",
+      "pulledBy": "The local record confirms coverage.",
+      "what": "Carry the existing action into the revised file.",
+      "writesBack": "Link its original authority."
+    },
+    {
+      "turn": "unclear",
+      "pulledBy": "The file does not establish whether the amendment preserves the action.",
+      "what": "Refer the individual file for a scope check.",
+      "writesBack": "Keep its status unresolved."
+    }
+  ]
+}

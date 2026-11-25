@@ -1,0 +1,32 @@
+{
+  "id": "walk-list-app-shows-name-age-and-party",
+  "kind": "detail",
+  "summary": "The walk list on a canvasser's phone shows each person's name, age and party and whether they have already voted.",
+  "realLife": "Canvassers in several accounts used a voter app that showed each address's residents, past visits and recorded answers, and out-of-date lists included people who had moved.",
+  "sources": [
+    "Ronald Claiborne Substack, Confessions of a campaign canvasser, undated: https://ronaldclaiborne.substack.com/p/confessions-of-a-campaign-canvasser",
+    "Yahoo News, Canvassers descend on Phoenix for one last push: what it is like on both sides of the door, undated: https://www.yahoo.com/news/canvassers-descend-phoenix-one-last-200537117.html",
+    "Daily Kos, Tales from the Field: Hitting the Doors in NOVA, 2021-10-31: https://www.dailykos.com/stories/2021/10/31/2061272/-Tales-from-the-Field-Hitting-the-Doors-in-NOVA"
+  ],
+  "fits": ["campaign"],
+  "slots": ["name"],
+  "gates": [],
+  "inGame": "the walk list built from the voter file and the player's household record",
+  "weights": {
+    "door": 0.6
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The list is fresh and the person is there",
+      "pulledBy": "an up-to-date voter file",
+      "writesBack": "the pitch uses their name and record"
+    },
+    {
+      "turn": "The list is old and the person has moved",
+      "pulledBy": "a stale record",
+      "writesBack": "the door is updated, not answered"
+    }
+  ]
+}

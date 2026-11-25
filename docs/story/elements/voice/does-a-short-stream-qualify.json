@@ -1,0 +1,30 @@
+{
+  "id": "does-a-short-stream-qualify",
+  "kind": "voice",
+  "summary": "A member asks whether the length of a stream can disqualify a proposed name.",
+  "realLife": "During discussion of eight Pennsylvania creek names, staff answered a question about size by explaining that the committee required no minimum length.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20875_June12_2025_Minutes.pdf#page=8"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}", "{stream}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the stream description and the committee’s applicable naming rule.",
+  "turns": [
+    {
+      "turn": "staff-explains-the-eligibility-rule",
+      "what": "Staff explains the eligibility rule.",
+      "pulledBy": "The member objects only to length.",
+      "writesBack": "The creek stays under consideration."
+    },
+    {
+      "turn": "the-member-asks-which-one-is-meant",
+      "what": "The member asks which one is meant.",
+      "pulledBy": "The map shows two disconnected channels.",
+      "writesBack": "The application needs a clearer description."
+    }
+  ]
+}

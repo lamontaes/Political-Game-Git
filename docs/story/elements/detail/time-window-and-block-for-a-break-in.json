@@ -1,0 +1,34 @@
+{
+  "id": "time-window-and-block-for-a-break-in",
+  "kind": "detail",
+  "summary": "The story places a break-in by a time window and a block, without naming the victims.",
+  "realLife": "A story gave the hours the house was empty and the block of the street.",
+  "sources": [
+    "Patch (Palos, Illinois), 'Daytime Burglar Breaks Into Palos Park Home, Takes Cash And Jewelry', Nov. 29, 2022: https://patch.com/illinois/palos/daytime-burglar-breaks-palos-park-home-takes-cash-jewelry",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "place"],
+  "gates": [],
+  "weights": {
+    "crime": 1.0
+  },
+  "inGame": "crime row date and place; needs: a time window and a block for a crime",
+  "turns": [
+    {
+      "name": "exact time",
+      "pulledBy": "a crime seen as it happened",
+      "writes": "the story gives the hour",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "no window",
+      "pulledBy": "a crime found days later",
+      "writes": "the story says when it was found",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

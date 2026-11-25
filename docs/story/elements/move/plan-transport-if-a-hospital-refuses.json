@@ -1,0 +1,28 @@
+{
+  "id": "plan-transport-if-a-hospital-refuses",
+  "kind": "move",
+  "summary": "Officials arrange a fallback destination for patients if their local hospital cannot enter the new program.",
+  "realLife": "Federal health officials prepared to transport Medicare patients to federal facilities if hospitals held out against desegregation.",
+  "sources": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC10937164/"],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{agency}", "{patient}", "{facility}"],
+  "gates": ["Local facilities may miss the participation deadline."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: hospital certification status, an accepting facility and a patient transport arrangement.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The local hospital gains clearance before transport is needed.",
+      "pulledBy": "Inspectors verify the corrected admissions practice in time.",
+      "writesBack": "The patient receives local care and the transport booking is released."
+    },
+    {
+      "turn": "partial",
+      "what": "The receiving facility can accept some of the referred patients.",
+      "pulledBy": "Its available beds cover only part of the expected demand.",
+      "writesBack": "The remaining referrals need another destination."
+    }
+  ],
+  "issues": ["budget:federal:medicare"]
+}

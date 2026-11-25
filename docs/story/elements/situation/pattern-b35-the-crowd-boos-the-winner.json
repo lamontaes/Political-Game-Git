@@ -1,0 +1,32 @@
+{
+  "id": "pattern-b35-the-crowd-boos-the-winner",
+  "kind": "situation",
+  "summary": "The crowd boos the winner: In your concession speech, your supporters boo when you say {winner}'s name.",
+  "realLife": "In his 2008 concession in Phoenix, some supporters booed when he said he had called Barack Obama, and at a mention of Joe Biden; applause rose when he praised the historic nature of Obama's win.",
+  "sources": [
+    "https://content.time.com/time/politics/article/0,8599,1856619,00.html",
+    "https://www.salon.com/2008/11/05/mccain_concession"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "speeches"],
+  "slots": ["winner"],
+  "gates": ["You conceded.", "A speech to your supporters that night."],
+  "weights": ["How bitter the race was.", "Gracious traits."],
+  "pattern": "B35",
+  "choices": [
+    "quiet them and say the name again",
+    "let it pass and go on",
+    "praise what the win means",
+    "cut the speech short"
+  ],
+  "branches": [
+    {
+      "when": "the victory party was planned",
+      "then": "The fireworks bought for it are never set off, and the empty lawn is the picture."
+    },
+    {
+      "when": "what you say tonight",
+      "then": "It is the record {winner}'s people read when you next need them."
+    }
+  ],
+  "usedBy": []
+}

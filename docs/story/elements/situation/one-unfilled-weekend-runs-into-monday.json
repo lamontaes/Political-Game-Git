@@ -1,0 +1,30 @@
+{
+  "id": "one-unfilled-weekend-runs-into-monday",
+  "kind": "situation",
+  "summary": "Three consecutive uncovered days make the timing of the next home visit matter.",
+  "realLife": "Shaheed described a gap that ran from Saturday through Monday before her aide returned on Tuesday.",
+  "sources": [
+    "https://www.aging.senate.gov/download/testimony_shaheed-032322?download=1"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches"],
+  "slots": ["{resident}", "{first_uncovered_day}", "{next_visit}"],
+  "gates": ["The schedule shows consecutive gaps and a confirmed next visit."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a visit calendar with a confirmed next visit.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A substitute breaks the gap on its first day.",
+      "pulledBy": "A worker accepts the weekend assignment.",
+      "writesBack": "The schedule shows a shorter interval without help."
+    },
+    {
+      "turn": "partial",
+      "what": "The usual aide confirms the next visit.",
+      "pulledBy": "No substitute can cover the intervening days.",
+      "writesBack": "The resident knows when help will resume."
+    }
+  ],
+  "issues": ["budget:welfareAndMedicaid"]
+}

@@ -25,7 +25,7 @@ merged-at: 2026-11-15T22:59:48.987Z
 
 **Cause.** Measured: the bench at 1440x900 from New game to Start a life, with the look drawn by seed; the panel cr-look (src/bench/play.html line 408) is 920 to 943 px tall (ten rows, 260 px preview, two action rows) per the item, found by the screens session on Oct 28 while adding the Random place line.
 
-**Fix.** Reflow or shrink the appearance stage's rows and preview in src/bench/play.css so the panel's top and bottom sit inside the window for a male and a female look, and assert the fit in src/bench/creator-random-place.browser.mjs or a sibling check. The fix is in the creator's rows or the panel's layout, never a second creator.
+**Fix.** Reflow or shrink the appearance stage's rows and preview in src/bench/play.css so the panel's top and bottom sit inside the window for a male and a female look, and assert the fit in src/bench/creator-fits.browser.mjs or a sibling check. The fix is in the creator's rows or the panel's layout, never a second creator.
 
 **Time box.** 2 hours.
 
@@ -35,6 +35,6 @@ merged-at: 2026-11-15T22:59:48.987Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.html, src/bench/play.css, src/bench/play.mjs, src/bench/creator-random-place.browser.mjs
+**Files.** src/bench/play.html, src/bench/play.css, src/bench/play.mjs, src/bench/creator-fits.browser.mjs
 
 **Notes.** lead: play-first. Found by the screens session on Oct 28 while adding the Random place line (PR #6666), which pays for its own height by shrinking the preview to 200px.

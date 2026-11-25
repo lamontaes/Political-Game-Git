@@ -1,0 +1,34 @@
+{
+  "id": "projects-as-a-list-with-address-type-and-count",
+  "kind": "detail",
+  "summary": "Key projects are listed with an address, a kind and a unit count.",
+  "realLife": "Six approved projects were listed, each with its address, kind of housing and number of units.",
+  "sources": [
+    "Patch (Redwood City, California), 'Record Number Of ADU Approvals In Redwood City Last Year: Report', Mar. 18, 2022: https://patch.com/california/redwoodcity-woodside/record-number-adu-approvals-redwood-city-last-year-report",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place", "number"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.9
+  },
+  "inGame": "`housing.completed` rows grouped by project; needs: a project with an address",
+  "turns": [
+    {
+      "name": "one project",
+      "pulledBy": "a single large site",
+      "writes": "the story names it and the count",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "projects by neighborhood",
+      "pulledBy": "a town with districts",
+      "writes": "the list is grouped by district",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

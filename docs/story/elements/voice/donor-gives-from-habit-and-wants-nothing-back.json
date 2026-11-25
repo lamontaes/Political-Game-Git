@@ -1,0 +1,30 @@
+{
+  "id": "donor-gives-from-habit-and-wants-nothing-back",
+  "kind": "voice",
+  "summary": "A local donor gives every cycle out of habit or loyalty and says they expect nothing for it.",
+  "realLife": "A radio commentary on local giving says many donors give the same amount each cycle out of habit, social pressure and party loyalty, and most expect nothing in return, though regular givers may get more notice.",
+  "sources": [
+    "WHQR, Sunday Edition: Give 'Till It Hurts, Aug. 23, 2026: https://www.whqr.org/local/2026-08-23/sunday-edition-give-till-it-hurts"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["name"],
+  "gates": [],
+  "inGame": "campaign contribution records by donor over cycles",
+  "weights": {
+    "donor": 0.7
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The donor gives and asks only to be thanked",
+      "pulledBy": "a habitual, loyal giver",
+      "writesBack": "a recorded gift and a thank-you note"
+    },
+    {
+      "turn": "The donor expects a callback and says so",
+      "pulledBy": "a larger gift and a pending vote",
+      "writesBack": "a request on the record and a decision to weigh"
+    }
+  ]
+}

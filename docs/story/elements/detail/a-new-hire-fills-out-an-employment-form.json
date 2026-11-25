@@ -1,0 +1,31 @@
+{
+  "id": "a-new-hire-fills-out-an-employment-form",
+  "kind": "detail",
+  "summary": "Every new hire fills in an employment eligibility form for the employer, who checks documents and keeps it on file.",
+  "realLife": "Every U.S. employer must complete Form I-9 for each person it hires. The new employee fills in Section 1; the employer examines identity and work-authorization documents and keeps the form.",
+  "sources": [
+    "USCIS, Employment Eligibility Verification (Form I-9): https://www.uscis.gov/i-9"
+  ],
+  "fits": ["loading"],
+  "slots": ["first-job-year"],
+  "gates": [],
+  "weights": {
+    "jobs": 0.6
+  },
+  "inGame": "the jobs module's hire row for the person (read by loadingTelling as first-job-year, citing the row). needs: an onboarding form on the hire record.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A first job with no formal hire: cash work for a relative or a neighbor, with no form.",
+      "pulledBy": "household ties and the kind of work",
+      "writesBack": "no hire row, so the loading story skips the job section"
+    },
+    {
+      "turn": "late",
+      "what": "The first job comes after school and a move, well into adulthood.",
+      "pulledBy": "a late layoff or a first hire after care work at home",
+      "writesBack": "a first-job-year after the college year"
+    }
+  ],
+  "usedBy": []
+}

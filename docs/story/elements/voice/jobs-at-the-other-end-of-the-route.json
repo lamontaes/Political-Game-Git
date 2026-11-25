@@ -1,0 +1,34 @@
+{
+  "id": "jobs-at-the-other-end-of-the-route",
+  "kind": "voice",
+  "summary": "{person} explains who works along a bus route that looks expendable on a system map.",
+  "realLife": "Milwaukee advocates identified a concentration of employers of people with visual or hearing disabilities along threatened Route 28.",
+  "sources": [
+    "https://urbanmilwaukee.com/2025/11/06/mke-county-board-adopts-2026-budget-reduces-size-of-mcts-cut/"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A proposed change affects a route serving a documented employment cluster."
+  ],
+  "weights": [
+    "Shift times with few alternative connections make the workplace account more relevant."
+  ],
+  "usedBy": [],
+  "inGame": "needs: proposed route change, workplace locations and testimony about employee travel.",
+  "turns": [
+    {
+      "turn": "connected",
+      "what": "The planner tests it at shift change.",
+      "pulledBy": "A worker provides a usable alternative connection.",
+      "writesBack": "Record its travel time and accessibility."
+    },
+    {
+      "turn": "missed",
+      "what": "The worker shows the supervisor the missed connection.",
+      "pulledBy": "No alternative arrives before the shift.",
+      "writesBack": "Add the workplace trip to the service review."
+    }
+  ],
+  "issues": ["none"]
+}

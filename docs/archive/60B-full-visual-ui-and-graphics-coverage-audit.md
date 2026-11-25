@@ -133,7 +133,7 @@ gap in the product. **[MAIN-PLAYABLE]**
 # PART 2 — SCREEN-BY-SCREEN VISUAL INVENTORY
 
 The production game has six screens, defined as a discriminated union at
-`src/player/PlayerGame.tsx:76-90`:
+`src/player/PlayerGame.tsx:76-90` (removed):
 
 ```ts
 type Screen =
@@ -498,7 +498,7 @@ white label — below the 4.5:1 text threshold. Category A.
 
 ## 3.6 Accessibility
 
-Measured on `src/player/PlayerGame.tsx` (1,649 lines, the entire production UI):
+Measured on `src/player/PlayerGame.tsx` (removed) (1,649 lines, the entire production UI):
 
 ```
   aria-* attributes ......... 0

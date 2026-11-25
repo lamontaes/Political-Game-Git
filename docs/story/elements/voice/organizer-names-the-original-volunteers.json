@@ -1,0 +1,30 @@
+{
+  "id": "organizer-names-the-original-volunteers",
+  "kind": "voice",
+  "summary": "Asked who made the campaign possible, an organizer identifies the neighbors who started showing up first.",
+  "realLife": "Peters credited local Catholic volunteers with much of the county campaign’s early work.",
+  "sources": [
+    "https://static.jfklibrary.org/42xy1hd1cod7508wu03532rx5oos78eq.pdf"
+  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{organizer}", "{volunteers}", "{county}"],
+  "gates": ["The organizer witnessed the campaign’s beginnings."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a volunteer's first shift and a later account naming the early crew.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The organizer remembers the kitchen where they met and asks a neighbor for the names.",
+      "pulledBy": "The organizer joined after the first meeting.",
+      "writesBack": "The account records the place and leaves the first names open for confirmation."
+    },
+    {
+      "turn": "late",
+      "what": "A volunteer brings an old sign-in sheet after the account appears.",
+      "pulledBy": "The first account omitted someone who worked the opening shift.",
+      "writesBack": "The corrected account credits the missing volunteer."
+    }
+  ],
+  "issues": ["none"]
+}

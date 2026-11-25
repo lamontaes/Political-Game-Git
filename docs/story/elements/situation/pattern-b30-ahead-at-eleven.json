@@ -1,0 +1,45 @@
+{
+  "id": "pattern-b30-ahead-at-eleven",
+  "kind": "situation",
+  "summary": "Ahead at eleven: Early returns have you or {rival} ahead, and {campaign manager} says many ballots are still out.",
+  "realLife": "One life: In California's 2010 attorney general race, Republican Cooley declared victory on election night. Ballots counted afterward flipped the race, the lead swung for about three weeks, and he conceded to Harris. Another: Some outlets projected him the winner of California's 1982 governor's race early in the night; once absentee ballots were counted he lost narrowly. Another: In 1948 an early edition of the Chicago Daily Tribune declared him the winner, and Harry Truman held up a copy for photographers.",
+  "sources": [
+    "https://www.kqed.org/news/4195/video-steve-cooley-prematurely-declares-victory-last-night",
+    "https://www.upi.com/Top_News/US/2010/11/24/Cooley-concedes-Calif-AG-race/93901290648184/",
+    "https://en.wikipedia.org/wiki/1982_California_gubernatorial_election",
+    "https://en.wikipedia.org/wiki/Dewey_Defeats_Truman"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "speeches"],
+  "slots": ["campaign manager"],
+  "gates": [
+    "Election night.",
+    "Ballots still out on the count record: absentees, late counties."
+  ],
+  "weights": [
+    "How big the lead is.",
+    "How many ballots are out.",
+    "Pride traits."
+  ],
+  "pattern": "B30",
+  "choices": [
+    "declare victory",
+    "say every ballot counts and wait",
+    "go to bed",
+    "ask what is still out"
+  ],
+  "branches": [
+    {
+      "when": "you declared and you lose",
+      "then": "The claim is on record, the press replays it, and conceding weeks later reads worse."
+    },
+    {
+      "when": "you are behind early",
+      "then": "Concede now or wait; the late ballots may be yours."
+    },
+    {
+      "when": "the morning paper names the wrong winner",
+      "then": "An early edition called it for the loser, and holding it up is the morning's picture."
+    }
+  ],
+  "usedBy": []
+}

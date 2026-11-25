@@ -1,0 +1,32 @@
+{
+  "id": "sots-opens-with-family-introductions",
+  "kind": "moment",
+  "summary": "The opening introduces the governor's own family.",
+  "realLife": "Evers in 2024 named his daughter and grandson and thanked his wife in the first lines.",
+  "sources": [
+    "https://urbanmilwaukee.com/pressrelease/press-release-gov-evers-delivers-2024-state-of-the-state-address/",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "needs: a record of the speaker's family present at the address; the player's household exists for the player only.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No family named.",
+      "pulledBy": "a private speaker",
+      "writesBack": "The opening is the office."
+    },
+    {
+      "turn": "late",
+      "what": "The family comes in the thank-you at the close.",
+      "pulledBy": "a warm speaker",
+      "writesBack": "The close carries it."
+    }
+  ]
+}

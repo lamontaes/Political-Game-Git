@@ -1,0 +1,32 @@
+{
+  "id": "low-resurfacing-bid-comes-to-the-council-table",
+  "kind": "consequence",
+  "summary": "{director} recommends the lowest bid for resurfacing the city hall lot and waits for council’s decision.",
+  "realLife": "Dickson’s public works director recommended Sessions Paving’s bid for the city hall parking lot, and the council approved it by roll call.",
+  "sources": [
+    "https://irp.cdn-website.com/fc32ce20/files/uploaded/April%204%2C%202022%2C%20CC%20agenda%20and%20minutes.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{director}"],
+  "gates": [
+    "Recorded bids, the director’s recommendation and the approving body’s vote."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "needs: recorded bids, the director’s recommendation and the approving body’s vote.",
+  "turns": [
+    {
+      "turn": "awarded",
+      "pulledBy": "Council accepts the bid.",
+      "what": "Notify the selected firm.",
+      "writesBack": "Enter the award against the project.."
+    },
+    {
+      "turn": "deferred",
+      "pulledBy": "Council defers the award.",
+      "what": "Tell bidders when the item will return.",
+      "writesBack": "Leave the recommendation distinct from an award.."
+    }
+  ]
+}

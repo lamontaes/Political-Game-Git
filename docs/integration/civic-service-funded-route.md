@@ -44,7 +44,7 @@ claimed). The appropriation profile and its admission identity are unchanged.
   (everything except the root).
 - Root adapter patch:
   `/private/tmp/claude-501/-Users-lamontae-Documents-Political-Game-Claude-Runtime-Proof/e0efcefc-109e-4608-8847-f78bdbf9d437/scratchpad/civic-service-root-adapter.patch`
-  — `src/player/PlayerGame.tsx` (Taxes surface,
+  — `src/player/PlayerGame.tsx` (removed) (Taxes surface,
   nav entry `nav-politics-tax`, Transit `onOpenTaxWork`) and
   `src/presentation/shell-navigation.ts` (`"tax"` surface).
 - Release declaration: `docs/release/changes/civic-funded-service.md` (minor, Added).

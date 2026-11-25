@@ -296,6 +296,227 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.115.0
+
+_Released November 24, 2026._
+
+### Added
+
+- **Six Guam villages elect a Vice Mayor.** Hågat, Barrigada, Mangilao,
+  Tamuning, Dededo and Yigo each elect a Vice Mayor alongside the Mayor, and
+  both races are on the same November ballot. When a Mayor leaves office, the
+  Vice Mayor takes the seat for the rest of the term, and the Vice Mayor's seat
+  stays empty until the term ends. In a village with no Vice Mayor, or one whose
+  Vice Mayor's seat is empty, the village's planning council fills it.
+
+### Improved
+
+- **Buttons sit on the panel, not in a framed bar.** Rows of buttons, such as
+  Announce and Sim to a day on the race screen, no longer sit in a recessed,
+  framed box. They sit on the panel like every other control.
+
+### Fixed
+
+- **A candidate who dies leaves the race** A candidate who dies after announcing
+  or while gathering signatures now leaves the race that day, instead of staying
+  in it until the clerk finds their petition short.
+
+- **A town race already filed when the game opens still happens.** A world that
+  opened after a town's filing had closed used to skip that town's November race
+  and move to the next one. That put a four-year office two years off its real
+  cycle, so a Mayor elected in 2022 appeared as elected in 2024, with the next
+  race in 2028. The race now happens on its real day. The people who filed are
+  on the ballot, and the Elections page says its filing has closed.
+
+- **A county board elects a chair, not a council president.** A county or
+  township board now elects a chair from its members. The news says who chairs
+  the board instead of calling them its council president.
+
+- **A county's ballot lists only the offices its state's voters elect.** A New
+  Jersey county's ballot no longer lists a County treasurer or County assessor.
+  The county commissioners appoint the treasurer, the Governor appoints the
+  county tax board, and each town appoints its own assessor. The county clerk
+  and sheriff stay on the ballot, now with their own terms from the state
+  constitution: five years for the clerk and three for the sheriff.
+
+- **Georgia, North Carolina and Kentucky counties elect the offices their law
+  names.** A North Carolina county's ballot no longer lists a County treasurer
+  or County assessor; the county commissioners appoint both. A Georgia county
+  elects its Clerk of superior court under that name, and its sheriff, for four
+  years. A Kentucky county elects its sheriff, county clerk, coroner and
+  property valuation administrator for four years, as its constitution says.
+
+- **Iowa, Illinois, Indiana, Michigan and Ohio county officers follow their
+  state's law.** County officers in Iowa, Illinois, Indiana, Michigan and Ohio
+  are now the ones each state's constitution or code has the voters elect, with
+  their four-year terms. An Indiana county elects its Clerk of the circuit court
+  and an Ohio county its Clerk of the court of common pleas under those names,
+  and Michigan and Ohio counties elect a Prosecuting attorney.
+
+- **More states' counties elect only the officers their law names.** An Arizona
+  or West Virginia county no longer elects a coroner; Arizona's law lists none
+  and West Virginia's county commission appoints one. An Alaska borough no
+  longer elects a clerk, treasurer or assessor; its chief administrator appoints
+  them. A West Virginia sheriff is also the county treasurer, so no treasurer is
+  elected there. A Delaware county and a Massachusetts county no longer elect an
+  assessor, and a Delaware county no longer elects a treasurer. Arizona elects a
+  Clerk of the Superior Court for four years, and Massachusetts elects a Clerk
+  of the Courts for six. A West Virginia county elects its Clerk of the county
+  commission for six years, a New Hampshire county elects its sheriff, county
+  attorney and treasurer for two, a Massachusetts county elects its sheriff for
+  six, and a Delaware county elects its Clerk of the Peace and sheriff for four.
+  Washington, Oregon, Arizona, West Virginia, Idaho, New Mexico, Nevada, North
+  Dakota, South Dakota, South Carolina, Maryland, Maine, New Hampshire, Vermont,
+  Wyoming, Massachusetts, Delaware and Alaska county officers now rest on their
+  own statutes or constitutions.
+
+- **Virginia, Tennessee and Texas county officers carry the titles and terms
+  their law gives.** A Virginia county now elects its Attorney for the
+  Commonwealth, Clerk of the circuit court (for eight years), treasurer and
+  Commissioner of the revenue, as its constitution says, instead of the national
+  guess. Tennessee and Texas county officers keep the offices they had and now
+  carry the four-year terms read from their constitutions.
+
+- **Guam's villages elect their mayors.** A life in a Guam village used to open
+  with nothing local to run for, because no village had a government. Each of
+  Guam's 19 villages now has its Mayor, held by someone on day one and elected
+  every fourth November. The next race is in 2028, and it is listed on the
+  Elections page. A mayor must be 21 or older, so a player who is too young for
+  this race is no longer shown a filing date that falls after the race.
+
+- **The Northern Marianas' municipalities elect their mayors and councils.** A
+  life in the Northern Mariana Islands used to open with nothing local to run
+  for. Each village now belongs to its municipality: Saipan, Rota, or Tinian and
+  Aguiguan. Each municipality has a Mayor and a three-member council, both held
+  by people on day one. Both races are on the Elections page, filed with the
+  Commonwealth Election Commission in an even-year November. A Mayor must be 25
+  or older and a council member 21 or older, and the Elections page shows the
+  right age for each race.
+
+- **Where your race stands says only what the record holds.** Where your race
+  stands no longer ends with what a poll would cost. The price shows on the Poll
+  card, where you buy one. It also no longer says no one has heard from you when
+  people in town already know you.
+
+- **The first Go of a new life on Knock on doors ends on the porch talk.** The
+  first Go of a new life, a day at the doors, now stops on the porch talk with a
+  resident, as every later Go does.
+
+- **Officials no longer begin their careers at the minimum age.** A mayor,
+  council member or legislator who has served for years now first took office at
+  an age spread across a working life, not right at the minimum age (no more
+  mayors "elected at 21").
+
+- **A new office holder takes the seat on the term's first day.** A President,
+  governor or other holder whose term begins in the days before your first day
+  now shows the real start date (the President's card no longer says "In office
+  since December 20"), and the President names no cabinet nominees before the
+  inauguration.
+
+- **A town's past council votes are only on questions a town may decide.**
+  Before day one, a council, board or county body no longer has voted on a
+  question the law gives only another level, so a borough's recent votes no
+  longer list a graduated income tax or rent stabilization where the state alone
+  holds that power.
+
+- **A person's card closes when you click its close mark** The close mark on a
+  person's card sat under the name heading, so a click did nothing. It now takes
+  the click.
+
+- **A race's "Last time" date and winner no longer wrap** On a race's page, the
+  date and the winner's name under "Last time" sit on one line each, and the
+  column is as wide as its longest line needs.
+
+- **Formal clothes at the address** The people the President's address names,
+  the Speaker among them, now wear formal clothes instead of everyday ones.
+
+- **People in a scene can be clicked** Anyone standing on the strip of people in
+  a scene or a talk can be clicked to open their card.
+
+- **Candidates' stances in plain type** On a race's page, where each candidate
+  stands is now set in ordinary sentence case instead of capital letters.
+
+- **Pop-ups wait for you** A pop-up no longer disappears on its own. It stays
+  until you open or close it, and it waits behind an open card or menu and shows
+  when you close it.
+
+- **The people strip fits the people in the room, and only the speaker is big.**
+  The strip of people along the bottom of a scene is now only as wide as the
+  people on it, so one person no longer sits on a wide empty band. In a talk,
+  only the person speaking is shown large; everyone else stands small. Every
+  named person in a scene opens their card when you click them, even when they
+  have nothing to say.
+
+- **Budgets draws its history lines once a place has two years of figures.**
+  Politics, Budgets no longer fails to draw a department's history line after a
+  year of play.
+
+- **Elections no longer prints captions under a race's buttons.** On Politics,
+  Elections, a race whose filing window has not opened shows its dates and its
+  Sim button alone, and a race you cannot run for says so on a disabled button
+  instead of a line under the buttons.
+
+- **A Journal pop-up shows the line it follows.** When the newest Journal line
+  follows an earlier one, such as "Two years after that, ...", the pop-up now
+  shows the earlier line first so it never reads alone.
+
+- **The place's name on the loading card stays on one line.** The loading card
+  grows to fit a long place name such as "Hillsboro, West Virginia" instead of
+  wrapping it onto two lines.
+
+- **Council members show their shoulders, and no tip covers their names.** On
+  Politics, Government, each member is drawn from the head to the upper chest,
+  fading softly at the foot, instead of a small head-only crop. The hover tip
+  that covered the member's name is gone, since the name, party and office are
+  already on the card.
+
+- **New game closes the patch notes.** Opening New game from the title now
+  closes a Patch notes, Options or Saves sheet that was open, so the choices
+  show alone.
+
+- **The News panel ends under its content.** The News panel is only as tall as
+  its headlines and story need, instead of leaving its lower half empty.
+
+- **A news story reads in one column.** The lead story on the News screen is one
+  column, so its last sentence no longer sits alone in a second column.
+
+- **Long names in side lists stay whole.** In lists such as Politics, Elections,
+  a long office name keeps its words together and its note sits under it instead
+  of squeezing both into a narrow strip.
+
+- **Recent votes read in one size, and the ones that open show it.** On
+  Politics, Government, every recent-vote row is the same size of type. A vote
+  that opens its paper has a brighter name and lights up when you point at it.
+
+- **The You screen no longer repeats the Your life tab.** The You screen no
+  longer prints a My life section that told the same lines as its Your life tab.
+
+- **A child born in town is no longer written as moving in when one parent
+  arrives later.** A child whose other parent already lived in the town on the
+  day they were born is born here, so a later arrival of one parent no longer
+  lists them as moving in with that parent.
+
+- **A player's chosen surname now reaches their parents, children and relatives
+  who live elsewhere.** Choosing a name at the start renamed only the household
+  and the brothers and sisters who carried the drawn name; parents and children
+  living elsewhere kept the old one, so a family showed several surnames.
+  Everyone in the player's family facts who carried the drawn family name, or
+  their parents' name, now takes the chosen one.
+
+### Changed
+
+- **The creator has one Random for the whole character, and no separate Random
+  place.** Where you are from is picked from the list, or by the one Random that
+  draws the whole character, place included.
+
+- **The loading card and your state's capitol appear together.** The picture
+  behind the loading card is your chosen state's capitol from the first moment,
+  so the card never names your town over another picture.
+
+- **The loading screen shows your own state's capitol.** While your world is
+  built, the picture behind the loading card is the capitol of the state you
+  chose, or the state the world drew, instead of another state's.
+
 ## PRE-ALPHA 0.114.0
 
 _Released November 19, 2026._

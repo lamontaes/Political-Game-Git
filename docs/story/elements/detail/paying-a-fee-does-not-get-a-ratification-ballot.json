@@ -1,0 +1,32 @@
+{
+  "id": "paying-a-fee-does-not-get-a-ratification-ballot",
+  "kind": "detail",
+  "summary": "A worker covered by a proposed agreement at {workplace} can owe a fee and still have no vote on ratification.",
+  "realLife": "Under the UAW proposal described in General Motors, nonmembers would make payments but could not attend union meetings or vote on ratifying the agreement.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep373/usrep373734/usrep373734.pdf#page=4"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the historical or applicable private-sector clause, membership status and union voting rules."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:labor-workforce.right-to-work"],
+  "inGame": "needs: historical or applicable private-sector clause, membership status and union voting rules.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Coverage and internal voting eligibility have separate entries.",
+      "pulledBy": "A worker pays without joining",
+      "writesBack": "Fee record and ballot eligibility."
+    },
+    {
+      "turn": "another-way",
+      "what": "The local checks eligibility under its voting rules.",
+      "pulledBy": "A worker becomes a member",
+      "writesBack": "Updated membership roll."
+    }
+  ]
+}

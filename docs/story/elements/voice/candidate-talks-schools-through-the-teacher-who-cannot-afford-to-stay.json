@@ -1,0 +1,38 @@
+{
+  "id": "candidate-talks-schools-through-the-teacher-who-cannot-afford-to-stay",
+  "kind": "voice",
+  "summary": "The candidate talks about schools through the teacher who cannot afford to stay and the parent who knows their own child best, and says what the state or town must fund.",
+  "realLife": "Candidates for governor, and a state minority leader, spoke of schools through teachers and parents. One said teachers cannot afford to live where they teach and that principals watch their best leave for pay elsewhere; one said parents ask about quality and teacher pay and not theory; one spoke as a father and said parents, not government, know their children. The asks were pay, funding and choice.",
+  "sources": [
+    "Cary Kennedy, Colorado gubernatorial candidate, interview on her teacher-pay plan, Oct 2017 (Chalkbeat): https://www.chalkbeat.org/posts/co/2017/10/20/cary-kennedy-a-colorado-gubernatorial-candidate-wants-to-give-teachers-a-raise-heres-how/",
+    "Beto O'Rourke, Texas gubernatorial candidate, Dallas town hall on schools, Mar 7 (as reported by the Dallas Morning News): https://dallasnews.com/news/education/2022/03/07/beto-orourke-pledges-to-increase-school-funding-fight-vouchers-during-dallas-campaign-stop",
+    "Rep. Caldwell, Colorado House minority leader, opening day speech, Jan 15, 2026: https://www.coloradohouserepublicans.com/news/minority-leader-caldwell-opening-day-speech",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; some pages were read in part or through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["realm-name"],
+  "gates": ["challenger"],
+  "weights": {
+    "stump": 0.6
+  },
+  "usedBy": [],
+  "inGame": "personality-v1 facets friendly and practical on the candidate, with the school budget line and the town's teacher vacancy record",
+  "turns": [
+    {
+      "way": "The candidate talks of school choice and the parent's right to decide, and not of pay.",
+      "pulledBy": "a candidate whose base is parents",
+      "writes": "parents' choice in place of teacher pay"
+    },
+    {
+      "way": "The candidate talks only of teacher pay and the shortage.",
+      "pulledBy": "a candidate with a teachers' union base",
+      "writes": "pay and vacancies, with no parent in the story"
+    },
+    {
+      "way": "The candidate tells of a single teacher they know and what she earns.",
+      "pulledBy": "a candidate who was once a teacher or married to one",
+      "writes": "one named teacher in place of the shortage"
+    }
+  ],
+  "issues": ["budget:schools"]
+}

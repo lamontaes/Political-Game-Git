@@ -1,0 +1,43 @@
+{
+  "id": "pattern-c42-leaving-before-the-term-ends",
+  "kind": "situation",
+  "summary": "Leaving before the term ends: You will not serve out your term, and when and how you leave decides who comes next.",
+  "realLife": "One life: After losing his 2014 primary he quit as majority leader, then resigned his seat early and took a job at an investment bank within weeks. Another: Confirmed as secretary of state 94 to 3 in 2013, he resigned from the Senate.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Eric_Cantor",
+    "https://en.wikipedia.org/wiki/John_Kerry"
+  ],
+  "fits": ["home", "journal", "news", "office", "speeches"],
+  "slots": ["friend in the body"],
+  "gates": [
+    "You hold a seat.",
+    "A reason to leave is on record: your health, a lost primary, an appointment."
+  ],
+  "weights": [
+    "Months left in the term.",
+    "Who could replace you.",
+    "Your health."
+  ],
+  "pattern": "C42",
+  "choices": [
+    "resign now",
+    "serve to the end",
+    "resign on a date that helps whoever follows",
+    "resign in person on the floor"
+  ],
+  "branches": [
+    {
+      "when": "you resign to recover",
+      "then": "{friend in the body} reads your letter, and your wounded staffer wins your seat."
+    },
+    {
+      "when": "you lost your primary",
+      "then": "You quit your party post and then the seat, early, and a job outside office comes within weeks (C45)."
+    },
+    {
+      "when": "you leave for a cabinet post",
+      "then": "{the body} confirms you by a wide margin, and your seat is filled by appointment and then a special election (C06)."
+    }
+  ],
+  "usedBy": []
+}

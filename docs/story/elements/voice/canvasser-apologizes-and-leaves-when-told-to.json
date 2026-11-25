@@ -1,0 +1,30 @@
+{
+  "id": "canvasser-apologizes-and-leaves-when-told-to",
+  "kind": "voice",
+  "summary": "When a resident calls it trespassing, the canvasser apologizes, says they are leaving, and is gone in under a minute.",
+  "realLife": "A new canvasser in one account was told he was trespassing, apologized, said he would go and moved to the next door.",
+  "sources": [
+    "Dave Fleischer Substack, The fear you feel before you knock, undated: https://davefleischer.substack.com/p/the-fear-you-feel-before-you-knock"
+  ],
+  "fits": ["campaign"],
+  "slots": ["first"],
+  "gates": [],
+  "inGame": "resident's hostile reply on the door record; the player's choice to leave",
+  "weights": {
+    "door": 0.5
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The canvasser leaves at once",
+      "pulledBy": "a hostile reply and a calm canvasser",
+      "writesBack": "the door record ends with no mark against the resident"
+    },
+    {
+      "turn": "The canvasser stays to argue",
+      "pulledBy": "pride or anger in the canvasser's traits",
+      "writesBack": "a complaint or a bad story about the campaign"
+    }
+  ]
+}

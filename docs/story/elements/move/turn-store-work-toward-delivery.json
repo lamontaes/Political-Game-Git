@@ -1,0 +1,32 @@
+{
+  "id": "turn-store-work-toward-delivery",
+  "kind": "move",
+  "summary": "An employer shifts staff at {workplace} toward delivering goods as on-site purchases fall.",
+  "realLife": "Members heard that expanding deliveries in place of selling on the premises helped some firms retain employees during the slowdown.",
+  "sources": [
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The record identifies the change in on-site sales and delivery assignments."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: change in on-site sales and delivery assignments.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The employer retains the workers on those shifts.",
+      "pulledBy": "Delivery orders cover more shifts",
+      "writesBack": "Delivery shifts on the new roster."
+    },
+    {
+      "turn": "another-way",
+      "what": "The employer reopens its staffing decision.",
+      "pulledBy": "Delivery demand runs short",
+      "writesBack": "Uncovered shifts on the staffing plan."
+    }
+  ]
+}

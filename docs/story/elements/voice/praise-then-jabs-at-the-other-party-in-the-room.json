@@ -1,0 +1,33 @@
+{
+  "id": "praise-then-jabs-at-the-other-party-in-the-room",
+  "kind": "voice",
+  "summary": "A governor opens with shared good news the whole room can applaud, then turns to criticism of the legislature across the aisle.",
+  "realLife": "Cooper's last State of the State, March 6, 2023, began with jobs and bipartisan gains, then faulted the Republican legislature on tax cuts, school funding and culture-war fights, and pressed hard for a standalone Medicaid bill.",
+  "sources": [
+    "https://www.carolinajournal.com/cooper-gives-praise-and-jabs-in-final-state-of-the-state-address/",
+    "Read the news report of the address and noted the order of praise and criticism and the asks."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:health-human-services.expand-medicaid-eligibility"
+  ],
+  "inGame": "The `stand` and `call` sections, with the target pulled from party control of the legislature.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor keeps to praise for the whole speech.",
+      "pulledBy": "a legislature of the governor's own party",
+      "writesBack": "The stand section has no criticism."
+    },
+    {
+      "turn": "partial",
+      "what": "The governor jabs once at the end and offers a joint effort.",
+      "pulledBy": "a legislature split narrowly",
+      "writesBack": "The speech records one criticism and one invitation."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "a-trade-tax-on-supplies-reaches-a-craft-shop",
+  "kind": "consequence",
+  "summary": "Small owners hit by higher tariffs on supplies chose different answers: cut part-time helpers, shrink the line, or hold prices and take less.",
+  "realLife": "NBC News described small businesses after tariffs raised their costs. A pottery owner said a supplier added 7.25 percent and she would rather close than raise prices. A custom apparel pair cut part-time high school helpers who earned $12 to $15 an hour and delayed a storefront. A soap maker planned to cut varieties and swap oils to hold her price. A toy maker switched suppliers and said nothing would make him raise prices. An awards business with six workers faced 20 percent supplier increases and expected to raise prices.",
+  "sources": [
+    "https://www.nbcnews.com/business/business-news/small-businesses-are-swearing-tariff-price-hikes-costing-rcna205395 (NBC News on small owners and tariff costs)"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the household}", "{the business}", "{the policy}"],
+  "gates": [
+    "a tariff raised the cost of an input",
+    "the owner imports or buys from an importer",
+    "the owner has part-time help"
+  ],
+  "weights": [
+    "margin",
+    "whether another supplier is near",
+    "customers' price tolerance"
+  ],
+  "inGame": "question:us-federal-positions:trade.raise-tariffs read by the price of inputs a business buys; the business books and its payroll read the cost; needs: input cost pass-through to a business's price and staffing choice",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the helpers are cut",
+      "what": "The owner does more and the student helpers lose their hours.",
+      "pulledBy": "an input cost the owner cannot pass on",
+      "writesBack": "business payroll; student earnings"
+    },
+    {
+      "turn": "the price goes up",
+      "what": "The owner raises the price and sales hold for regular customers.",
+      "pulledBy": "customers who tolerate the rise",
+      "writesBack": "business revenue; household prices"
+    },
+    {
+      "turn": "a new supplier absorbs it",
+      "what": "The owner moves to a closer supplier and the cost comes down.",
+      "pulledBy": "a supplier in range",
+      "writesBack": "business costs"
+    }
+  ],
+  "issues": ["question:us-federal-positions:trade.raise-tariffs"]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "sots-opens-on-heritage-or-identity",
+  "kind": "moment",
+  "summary": "The opening lays out the state's heritage or the character of its people.",
+  "realLife": "Texas in 2023 opened on a pedigree inherited from pioneers; Colorado in 2025 said its welcoming spirit reflected its landscape.",
+  "sources": [
+    "https://gov.texas.gov/news/post/governor-abbott-delivers-2023-state-of-the-state-address",
+    "https://www.denver7.com/news/local-news/read-gov-jared-poliss-full-2025-state-of-the-state-address",
+    "Read Nov 24, 2026 as the as-prepared text from the governor's page or a news mirror (extract of the opening and close); the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": ["realm-name"],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "needs: a record of the state's history or a place fact; `realm-name` exists, nothing says who the people are.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A year-of-the-state opening with no identity line.",
+      "pulledBy": "an analytical speaker",
+      "writesBack": "The first line is a measure."
+    },
+    {
+      "turn": "neutral",
+      "what": "The state named once.",
+      "pulledBy": "default",
+      "writesBack": "The state's name is the only trace."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "a-text-asking-if-you-want-to-talk",
+  "kind": "moment",
+  "summary": "A mother texted her estranged son after three years and he said yes.",
+  "realLife": "A conservative-leaning Idaho mother lost contact with her liberal son, who stopped speaking to her in 2020. In 2023 she texted to ask if he wanted to talk and he said yes. He later said he needed boundaries with some people. When she asked whether she and her husband were among those he wanted to keep out, he reassured her they were not and that he wanted to keep talking.",
+  "sources": [
+    "https://www.deseret.com/family/2024/09/28/families-disagreeing-and-still-loving/"
+  ],
+  "fits": ["home"],
+  "slots": ["{the parent}", "{the grown child}", "{the break}"],
+  "gates": [
+    "A break in contact is on record between parent and child.",
+    "Time has passed since the break."
+  ],
+  "weights": [
+    "Years of silence.",
+    "The child's need for boundaries.",
+    "The parent's willingness to ask first."
+  ],
+  "inGame": "A quarrel record and a reconciliation scene fit; needs: a boundary note that limits how much contact there is.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The text goes unanswered.",
+      "pulledBy": "Hurt remains.",
+      "writesBack": "Quarrel stays open."
+    },
+    {
+      "turn": "partial",
+      "what": "He agrees to talk but only about family matters.",
+      "pulledBy": "Boundaries.",
+      "writesBack": "A narrow contact tie."
+    },
+    {
+      "turn": "late",
+      "what": "He answers months later, after a birth in the family.",
+      "pulledBy": "A grandchild.",
+      "writesBack": "Reconciliation scene late."
+    }
+  ],
+  "issues": ["none"]
+}

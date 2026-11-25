@@ -1,0 +1,32 @@
+{
+  "id": "drinking-water-work-after-rescission",
+  "kind": "consequence",
+  "summary": "When the emergency authority expires, {person} asks what will keep the drinking water work going.",
+  "realLife": "In rescinding some emergency provisions, California identified existing legal authority and funding for agencies to keep advancing safe drinking water work.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2023/03/3.24.23-Drought-update-executive-order.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "An ongoing drinking water project has a legal and funding review covering the transition."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an ongoing drinking water project has a legal and funding review covering the transition.",
+  "turns": [
+    {
+      "turn": "supported",
+      "pulledBy": "Review confirms continuing authority and funding.",
+      "what": "Name the continuing authority and funding source.",
+      "writesBack": "Carry the project forward on that basis."
+    },
+    {
+      "turn": "unverified",
+      "pulledBy": "The file lacks evidence for continuation.",
+      "what": "Ask counsel and finance to check the project file.",
+      "writesBack": "Leave continuation unconfirmed for this project."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "pattern-b44-your-first-vote-is-the-big-one",
+  "kind": "situation",
+  "summary": "Your first vote is the big one: Days after your oath, {the body} votes on {the question}, and almost everyone is voting one way.",
+  "realLife": "Four days after being sworn in as the first woman in Congress in 1917, she voted against entering World War I, speaking briefly as she voted, against House rules. The national suffrage group distanced itself; 49 other members also voted no.",
+  "sources": [
+    "https://webharvest.gov/congress115th/20181223195351/https://history.house.gov/People/Detail/20147",
+    "https://en.wikipedia.org/wiki/Jeannette_Rankin"
+  ],
+  "fits": ["journal", "office"],
+  "slots": ["the question"],
+  "gates": [
+    "First weeks in office.",
+    "A vote on {the question} on the calendar."
+  ],
+  "weights": [
+    "How lopsided the vote is.",
+    "Your stance on {the question}.",
+    "Your cause allies."
+  ],
+  "pattern": "B44",
+  "choices": [
+    "vote with the majority",
+    "vote no",
+    "vote no and say why, against the rules",
+    "abstain"
+  ],
+  "branches": [
+    {
+      "when": "your allies distance themselves",
+      "then": "The group that helped elect you says you set it back."
+    },
+    {
+      "when": "a colleague defends you",
+      "then": "A member from elsewhere stands up for you, a tie."
+    },
+    {
+      "when": "you are not alone",
+      "then": "Dozens of others vote with you."
+    }
+  ],
+  "usedBy": []
+}

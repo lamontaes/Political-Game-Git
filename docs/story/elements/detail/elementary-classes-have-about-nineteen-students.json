@@ -1,0 +1,31 @@
+{
+  "id": "elementary-classes-have-about-nineteen-students",
+  "kind": "detail",
+  "summary": "A self-contained elementary class averages about nineteen students.",
+  "realLife": "In 2020-21, the average self-contained class had 19.1 students in elementary schools, 16.9 in middle schools and 17.2 in high schools.",
+  "sources": [
+    "NCES, Average public school class size, 2020-21: https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n"
+  ],
+  "fits": ["loading"],
+  "slots": ["school-year"],
+  "gates": [],
+  "weights": {
+    "school-year": 0.5
+  },
+  "inGame": "the school row's class size. needs: class size on the school row.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A class of thirty, in a crowded district.",
+      "pulledBy": "the district's budget",
+      "writesBack": "a larger class told"
+    },
+    {
+      "turn": "neutral",
+      "what": "The average class.",
+      "pulledBy": "no pull",
+      "writesBack": "nothing written back"
+    }
+  ],
+  "usedBy": []
+}

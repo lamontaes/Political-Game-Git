@@ -1,0 +1,30 @@
+{
+  "id": "resident-will-not-talk-politics-with-strangers",
+  "kind": "voice",
+  "summary": "A resident says they do not talk to strangers about politics, then apologizes for it.",
+  "realLife": "A Phoenix feature reports a man telling a canvasser he does not talk to strangers about politics, and then saying sorry.",
+  "sources": [
+    "Yahoo News, Canvassers descend on Phoenix for one last push: what it is like on both sides of the door, undated: https://www.yahoo.com/news/canvassers-descend-phoenix-one-last-200537117.html"
+  ],
+  "fits": ["campaign"],
+  "slots": ["issue"],
+  "gates": ["stranger"],
+  "inGame": "resident's relation to the player is stranger; a low trust in unknown callers; ask-support decline reply",
+  "weights": {
+    "door": 0.7
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The resident declines and the door closes",
+      "pulledBy": "stranger fact, low openness",
+      "writesBack": "a no on the list and no scene"
+    },
+    {
+      "turn": "The resident declines but asks what the candidate cares about",
+      "pulledBy": "stranger fact, some interest in the office",
+      "writesBack": "a short exchange that ends politely"
+    }
+  ]
+}

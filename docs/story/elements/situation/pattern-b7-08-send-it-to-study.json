@@ -1,0 +1,56 @@
+{
+  "id": "pattern-b7-08-send-it-to-study",
+  "kind": "situation",
+  "summary": "Send it to study: The body sends a bill it could not settle to a study, and the player is told what it will do and when it reports.",
+  "realLife": "One life: A Tennessee committee chair proposed a summer study on a medical marijuana bill, saying the committee lacked time to weigh it, and delayed action a year. The sponsor wanted to keep pushing, deferred to the chair, and urged lawmakers not to penalize seriously ill patients. Another: A Mississippi school voucher bill that its author said he filed mainly to start a discussion was amended into a study committee; when leaders did not call it up by the deadline it died and so did the study. One member said opponents wanted it to die. Another: An Indiana sponsor whose bill defining an employee went to an interim study committee said that was a polite way to bury it, since he saw no real purpose in studying it, and hoped for better luck the next year. Another: A city council voted to postpone an ordinance on discrimination after weeks of debate and the mayor said a task force would be appointed to work toward a compromise, which would take some time.",
+  "sources": [
+    "https://www.governing.com/archive/Medical-Marijuana-Bill-Dead-in-Tennessee-Til-2016.html",
+    "https://ourtupelo.com/house-leaders-kill-school-voucher-bill-without-vote/",
+    "https://www.workcompcentral.com/news/article/id/64148532c1b081cada52fb79f272b911c14c156e",
+    "https://www.kbia.org/politics/2012-08-28/springfield-council-tables-ordinance-changes"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the speaker", "the body", "the sponsor", "cause group"],
+  "gates": [
+    "The bill record shows a bill the body could not settle and sent to a study committee.",
+    "The study record names its members and a date by which it must report.",
+    "The player sits on the study, chairs it, or is a member of the body whose vote it is meant to move."
+  ],
+  "weights": [
+    "How divided the body is on the bill.",
+    "How much the sponsor wants the bill passed this session.",
+    "Whether the study's members are the opponents nearest to changing their vote.",
+    "Whether {cause group} is pressing for action.",
+    "Whether the study has a firm date or an open one."
+  ],
+  "pattern": "B7-08",
+  "choices": [
+    "agree to serve and say what it should hear",
+    "say a study is only a delay",
+    "ask who sits on it and when it reports",
+    "say nothing much"
+  ],
+  "branches": [
+    {
+      "when": "the player agrees to serve",
+      "then": "The player's name goes on the study record; the talk turns on how it should begin and who it will hear."
+    },
+    {
+      "when": "the player says a study is only a delay",
+      "then": "The plain word is written on the tie; the sponsor decides whether to answer or push for a vote."
+    },
+    {
+      "when": "the player asks who sits on it and when it reports",
+      "then": "The date and the members are read from the study record; the player's trust in it rises or falls with them."
+    },
+    {
+      "when": "the player says nothing much",
+      "then": "The study goes forward without the player's mark on it."
+    },
+    {
+      "when": "the study is formed over the sponsor's wishes",
+      "then": "The sponsor says the study was a polite way to bury the bill; if a deadline passes the bill and the study both lapse."
+    }
+  ],
+  "usedBy": ["study-formed"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "a-crowd-with-torches-outside-the-mayors-house",
+  "kind": "consequence",
+  "summary": "A big-city mayor said crowds had gathered outside her home with torches, and she now has a security detail.",
+  "realLife": "A mayor said she and her family faced threats, including a crowd gathering outside their home with torches and pitchforks, and other plots she found hard to discuss. She now has a security detail most days and no longer runs or walks alone. She said she will not resign.",
+  "sources": [
+    "https://route-fifty.com/management/2022/03/mayor-details-alarming-harassment-her-her-family-and-staff/362802"
+  ],
+  "fits": ["home", "news", "journal", "office"],
+  "slots": ["{the protest}", "{the household}", "{the mayor}"],
+  "gates": [
+    "The player holds a mayor's seat.",
+    "A protest against the town government has formed."
+  ],
+  "weights": [
+    "How angry the protest is",
+    "Whether police protect the house",
+    "Children at home",
+    "Trait: stubborn"
+  ],
+  "inGame": "A protest against the town and a household can carry it as an office-doubt scene; a security detail needs a budget line.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The crowd goes to city hall instead and the home stays quiet.",
+      "pulledBy": "Organizers who respect the house.",
+      "writesBack": "A protest record at the hall; no home note."
+    },
+    {
+      "turn": "partial",
+      "what": "The family stays at a relative's for a week.",
+      "pulledBy": "Fear for the children.",
+      "writesBack": "A temporary move; household stress rises."
+    },
+    {
+      "turn": "late",
+      "what": "The official resigns months later.",
+      "pulledBy": "Threats that do not stop.",
+      "writesBack": "A vacancy record and a home talk."
+    }
+  ],
+  "issues": ["none"]
+}

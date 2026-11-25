@@ -1,0 +1,34 @@
+{
+  "id": "median-and-average-both-given",
+  "kind": "detail",
+  "summary": "The median and the average sale price are both given.",
+  "realLife": "Both numbers moved and were reported together.",
+  "sources": [
+    "myMotherLode.com (Sonora, California), 'Tuolumne County Home Sales Show Shift In Market Dynamics', July 15, 2025: https://www.mymotherlode.com/news/local/4105533/tuolumne-county-home-sales-show-shift-in-market-dynamics.html/amp",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["amount"],
+  "gates": [],
+  "weights": {
+    "home-sale": 0.9
+  },
+  "inGame": "`home-sale` rows (median and mean computed)",
+  "turns": [
+    {
+      "name": "only the median",
+      "pulledBy": "a short report",
+      "writes": "one price",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the two diverge",
+      "pulledBy": "a few very large sales",
+      "writes": "the story says why the average is higher",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

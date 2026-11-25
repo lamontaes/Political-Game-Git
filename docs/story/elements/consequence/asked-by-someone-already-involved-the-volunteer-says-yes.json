@@ -1,0 +1,37 @@
+{
+  "id": "asked-by-someone-already-involved-the-volunteer-says-yes",
+  "kind": "consequence",
+  "summary": "A person asked to help by someone already active in the group often says yes, and about as many people start on their own as are asked.",
+  "realLife": "Federal figures show about 41 percent of volunteers were asked and about 42 percent approached the group themselves; among those asked, most were asked by someone already involved.",
+  "sources": [
+    "U.S. Bureau of Labor Statistics, Volunteering in the United States news release: https://www.bls.gov/news.release/volun.nr0.htm",
+    "Lifeway Research, summary of volunteering patterns: https://research.lifeway.com/?p=6435"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "cause"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "tie between asker and asked; the cause is carried by the asker's invitation.",
+  "turns": [
+    {
+      "turn": "says-yes-and-shows-up",
+      "summary": "The invited person comes to the next work day.",
+      "pulledBy": ["close tie to asker", "free evening"],
+      "writesBack": "tie closer; group tie created; journal note"
+    },
+    {
+      "turn": "says-yes-then-fades",
+      "summary": "The person agrees but stops coming after two weeks.",
+      "pulledBy": ["busy job", "weak tie"],
+      "writesBack": "promise broken; asker mood: let down"
+    },
+    {
+      "turn": "says-no-politely",
+      "summary": "The person declines but offers a different help.",
+      "pulledBy": ["trait: honest", "no time"],
+      "writesBack": "tie unchanged; asker mood: understanding"
+    }
+  ]
+}

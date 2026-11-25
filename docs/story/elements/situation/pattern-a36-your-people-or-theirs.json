@@ -1,0 +1,52 @@
+{
+  "id": "pattern-a36-your-people-or-theirs",
+  "kind": "situation",
+  "summary": "Your people or theirs: You are the new executive, and the people who run the departments, or the body that confirms them, are not yours.",
+  "realLife": "One life: Elected Burlington, Vermont, mayor by about ten votes in 1981 as an independent, he faced a board where most members opposed him. They fired his secretary and rejected nearly all his appointees; he sued, lost, then worked out a compromise. Another: After beating the incumbent mayor of Wasilla, Alaska, in 1996, she asked the department heads for resignation letters and fired the police chief, who sued; the suit was dismissed.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1981_Burlington,_Vermont_mayoral_election",
+    "https://en.wikipedia.org/wiki/Mayoralty_of_Bernie_Sanders",
+    "https://en.wikipedia.org/wiki/Early_political_career_of_Sarah_Palin"
+  ],
+  "fits": ["journal", "office"],
+  "slots": ["majority leader", "department head", "your aide"],
+  "gates": [
+    "You hold an executive office (mayor, county executive, governor) in your first months."
+  ],
+  "weights": [
+    "How narrow your win was.",
+    "How many members of the body are on the other side.",
+    "How openly each head backed your opponent."
+  ],
+  "pattern": "A36",
+  "choices": [
+    "keep each head, ask for a resignation letter to hold, or let them go",
+    "meet {majority leader} and trade one appointee for one of theirs",
+    "take the body to court",
+    "call your supporters to the next meeting",
+    "name the people the body wants"
+  ],
+  "branches": [
+    {
+      "when": "the body rejects your picks",
+      "then": "{majority leader}'s bloc votes down your appointees and cuts {your aide}'s job. {your aide} asks whether you will fight for her."
+    },
+    {
+      "when": "a fired head sues",
+      "then": "The suit is a record for months, and reporters ask at every event."
+    },
+    {
+      "when": "the court rules",
+      "then": "A loss is in the paper, and {majority leader} is less willing to deal."
+    },
+    {
+      "when": "a full room",
+      "then": "Your supporters fill the next meeting. The majority gives a little or digs in with cameras rolling."
+    },
+    {
+      "when": "the one who recruited you calls",
+      "then": "The member who brought you into politics says this is not what they backed you for."
+    }
+  ],
+  "usedBy": []
+}

@@ -6,7 +6,8 @@ description: >
   planted calibration rows, Opus at medium effort, and throwing out a pass
   that says yes to everything. Use when ordering or reading any bulk reviewer,
   grader or second-reader pass. Not for a words reader's stamp
-  (words-stamp-read) or one PR's review (merger).
+  (words-stamp-read), the owner's-ear pre-grade of Story's lines (pre-grade)
+  or one PR's review (merger).
 ---
 
 # A review pass you can trust
@@ -27,3 +28,4 @@ description: >
 14. **A second-move sheet says nothing about fit.** reply-second-move-follows-the-first judges only a reply's own two moves. On #9416 (Nov 15) two pairs it passed were later caught by the second reader for not fitting the line before. The guard listed no reply-follows-the-line-before pairs, so none had been judged. When a builder reworks lines and sends only a second-move sheet, also build a hand batch for reply-follows-the-line-before from the same pairs (A, then B), with three plants, and say in your message which rules you judged.
 
 15. **`words:review --check <dir>` treats every `.md` in the batch folder as a batch.** The reviewer's file must be `NN.verdicts.json` beside `NN.md`. Move any other `.md` out of that folder first, such as a reviewer's notes file, or the check stops with "no reviewer file".
+16. **Grading the words as the owner would is `pre-grade`.** Its plants are his real verdicts, one per failure class, and it reads played packets: each line, each reply set and each slot across lives. On Nov 24 a words pass scored 8 of 8 on plants that failed on their face, and passed every line he failed that morning.

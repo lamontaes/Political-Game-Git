@@ -1,0 +1,30 @@
+{
+  "id": "leaning-tree-ahead-of-the-sidewalk-visit",
+  "kind": "voice",
+  "summary": "{forester} explains which call took the inspector away from a sidewalk appointment.",
+  "realLife": "A senior Parks official told auditors that crews prioritized urgent hazards such as leaning trees over routine sidewalk inspections when staff were scarce.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=11"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{forester}"],
+  "gates": ["Competing urgent dispatch and pending sidewalk inspection."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: competing urgent dispatch and pending sidewalk inspection.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The urgent call uses the only available inspector.",
+      "what": "Give the resident the reason for the delay.",
+      "writesBack": "Leave the sidewalk visit pending.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "Another inspector can cover the route.",
+      "what": "Reassign the visit.",
+      "writesBack": "Record the new inspector.."
+    }
+  ]
+}

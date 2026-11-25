@@ -1,0 +1,30 @@
+{
+  "id": "count-the-flags-above-the-roots",
+  "kind": "detail",
+  "summary": "{inspector} counts the slabs disturbed by roots along one frontage.",
+  "realLife": "Inspectors counted individual sidewalk flags damaged by roots as one input to their rating.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=6"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{inspector}"],
+  "gates": ["Field sketch distinguishing root damage from other slab damage."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: field sketch distinguishing root damage from other slab damage.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "Roots have lifted adjacent slabs.",
+      "what": "Count each affected slab.",
+      "writesBack": "Enter the extent of root damage.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "An adjoining crack has another cause.",
+      "what": "Mark the two defects separately.",
+      "writesBack": "Keep the unrelated slab out of the root count.."
+    }
+  ]
+}

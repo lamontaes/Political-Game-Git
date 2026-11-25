@@ -1,0 +1,43 @@
+{
+  "id": "child-texts-you-need-more-time-with-us",
+  "kind": "moment",
+  "summary": "A young teen tells his parent that a bigger campaign would take away family time.",
+  "realLife": "California Governor Gavin Newsom said on CNN that his family would decide whether he runs for president. His son Romeo texted him asking whether he was running after a headline suggested he had decided, and told him he needed to spend more time with the children.",
+  "sources": [
+    "https://www.aol.com/articles/newsom-says-family-determine-whether-165937636.html"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the young child}", "{the player}"],
+  "gates": [
+    "The player has a child at home.",
+    "Press reports the player may seek a higher office."
+  ],
+  "weights": [
+    "Child's age.",
+    "Hours the player already works.",
+    "Closeness of the tie to the child."
+  ],
+  "inGame": "A young child at home and a job left to run, with the household reacting when the player files.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The child says to go for it and is excited by the campaign.",
+      "pulledBy": "Older child, a boy or girl who enjoys the public side.",
+      "writesBack": "A positive tie bump; child may volunteer."
+    },
+    {
+      "turn": "neutral",
+      "what": "The child shrugs and returns to homework, and the parent decides alone.",
+      "pulledBy": "Distance in the tie.",
+      "writesBack": "Nothing beyond a memory."
+    },
+    {
+      "turn": "partial",
+      "what": "The parent promises set family nights and the child holds them to it.",
+      "pulledBy": "Guilt, a strong parent-child tie.",
+      "writesBack": "A promise to the child tracked against hours worked."
+    }
+  ],
+  "issues": ["none"]
+}

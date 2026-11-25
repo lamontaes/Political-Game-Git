@@ -1,0 +1,32 @@
+{
+  "id": "the-leader-asks-how-hard-the-next-bill-would-be",
+  "kind": "move",
+  "summary": "Before switching bills, {person} asks the keeper of the calendar what objections to expect.",
+  "realLife": "Letchworth recalled leadership asking her about particular calendar entries because she had taken the calls about holds herself.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/letchworth-elizabeth-full-transcript-with-index.pdf#page=15"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the proposed change of business and calendar entry."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: proposed change of business and calendar entry.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Advise that the bill can be tried.",
+      "pulledBy": "The entry has no reported obstacle.",
+      "writesBack": "Advice on the proposed switch."
+    },
+    {
+      "turn": "another-way",
+      "what": "Identify what leadership must settle first.",
+      "pulledBy": "An unresolved hold is recorded.",
+      "writesBack": "Advice on the proposed switch."
+    }
+  ]
+}

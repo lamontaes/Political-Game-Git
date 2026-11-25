@@ -1,0 +1,32 @@
+{
+  "id": "a-discount-expires-between-two-swim-sessions",
+  "kind": "situation",
+  "summary": "{resident} brings the last pool receipt to the counter when a new session costs more than expected.",
+  "realLife": "Portland's activity discount lasted twelve months from enrollment rather than ending on a common calendar date.",
+  "sources": [
+    "https://www.portland.gov/parks/discount#:~:text=from%20the%20date%20of%20enrollment"
+  ],
+  "fits": ["office", "home", "journal", "work-community", "news"],
+  "slots": ["{resident}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: a discount expiration date, session date and rate in effect.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "A base-rate increase falls between sessions and the discount expires as well.",
+      "what": "The clerk separates the two changes on the quote.",
+      "writesBack": "The family receives a renewal date and the current price."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "A base-rate reduction takes effect after the discount expires.",
+      "what": "The clerk calculates what renewal would save at the lower rate.",
+      "writesBack": "The new receipt lists the discount actually used."
+    }
+  ]
+}

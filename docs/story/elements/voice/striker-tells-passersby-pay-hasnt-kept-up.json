@@ -1,0 +1,38 @@
+{
+  "id": "striker-tells-passersby-pay-hasnt-kept-up",
+  "kind": "voice",
+  "summary": "Strikers tell passersby how thin their pay is and ask them to respect the line.",
+  "realLife": "Sanitation strikers said they live overdraft to overdraft, one with a second job, and told a supportive driver pay hadn't kept up for sixteen years.",
+  "sources": [
+    "Philadelphia Inquirer, DC 33 strike pickets: https://www.inquirer.com/news/philadelphia/dc33-strike-union-members-pickets-trash-20250701.html"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "place", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining"
+  ],
+  "inGame": "a strike by the public-action engine; the job record gives pay; needs: pay-history records",
+  "turns": [
+    {
+      "turn": "striker-says-nothing-to-the-driver",
+      "summary": "The striker just holds the sign.",
+      "pulledBy": ["a quiet striker"],
+      "writesBack": "no exchange"
+    },
+    {
+      "turn": "driver-honks-in-support",
+      "summary": "The driver honks and shouts support.",
+      "pulledBy": ["a supportive public"],
+      "writesBack": "a small mood lift"
+    },
+    {
+      "turn": "striker-argues-with-the-manager",
+      "summary": "The striker argues with a manager trying to reopen the site.",
+      "pulledBy": ["an angry striker"],
+      "writesBack": "a flashpoint; an official arrives"
+    }
+  ]
+}

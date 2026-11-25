@@ -1,0 +1,44 @@
+{
+  "id": "four-days-away-and-a-single-parent-week",
+  "kind": "moment",
+  "summary": "A congressman spent four days a week in Washington while his wife, a doctor, ran the house and he texted his son.",
+  "realLife": "A congressman said he spent four days a week in Washington and three at home, and that his spouse in effect became a single parent while he was gone. He and his teenage son texted about small things in the boy's day. His wife was a doctor, and the sons saw both parents serving their communities.",
+  "sources": [
+    "https://www.deseret.com/2014/3/2/20536371/politicians-wrestle-with-work-life-balance-in-the-public-eye"
+  ],
+  "fits": ["home", "journal"],
+  "slots": ["{the spouse}", "{the child}", "{the capital}"],
+  "gates": [
+    "A seat is held at a capital away from the household's town.",
+    "The spouse has a paid job."
+  ],
+  "weights": [
+    "Miles to the capital",
+    "Spouse's work hours",
+    "Age of the child",
+    "Trait: attentive"
+  ],
+  "inGame": "The legislature sitting away from home, a spouse's job record and a child at home can carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The official stays in the capital for weeks and the texts thin out.",
+      "pulledBy": "A heavy session.",
+      "writesBack": "Fewer home days; the child's tie to the parent weakens."
+    },
+    {
+      "turn": "neutral",
+      "what": "The week goes by as usual and the child answers in short lines.",
+      "pulledBy": "A calm session.",
+      "writesBack": "A routine home note."
+    },
+    {
+      "turn": "partial",
+      "what": "The spouse cuts work hours to cover the weekdays.",
+      "pulledBy": "A spouse with flexible work.",
+      "writesBack": "Household income falls slightly."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "one-member-can-call-the-bill",
+  "kind": "situation",
+  "summary": "Members who want a floor vote must first get the one person authorized to call it to act.",
+  "realLife": "A House rule reserved the motion on a Senate funding measure to Eric Cantor or his designee during the 2013 shutdown.",
+  "sources": [
+    "https://www.congress.gov/113/crec/2013/10/12/CREC-2013-10-12-pt1-PgH6557.pdf",
+    "https://en.wikipedia.org/wiki/Eric_Cantor"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{leader}", "{bill}", "{chamber}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the floor rule naming the member or delegate who may call a particular bill.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The authorized member designates a colleague to call the bill.",
+      "pulledBy": "The rule permits a delegate and the member will miss the sitting.",
+      "writesBack": "The delegate can make the motion."
+    },
+    {
+      "turn": "late",
+      "what": "The authorized member waits until after a caucus meeting to make the motion.",
+      "pulledBy": "Members are still negotiating before the meeting.",
+      "writesBack": "The floor takes up the bill at a later sitting."
+    }
+  ],
+  "issues": ["none"]
+}
