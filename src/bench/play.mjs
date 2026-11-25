@@ -5678,7 +5678,7 @@ const sheets = {
               ? pager({
                   items: candidates,
                   render: (node) => node,
-                  rows: Math.max(200, viewHeight() - 330),
+                  rows: Math.max(200, viewHeight() - 288),
                   columns: 1,
                   rowHeight: 1,
                   gap: 0,
@@ -5926,6 +5926,8 @@ const sheets = {
       stacked: true,
       wholeRows: true,
       rowHeight: 54,
+      // The list fills the sheet, so a list that scrolls is never beside free room.
+      reserve: 217,
       render: async (entry) =>
         entry.ask
           ? askPage(entry.ask)
