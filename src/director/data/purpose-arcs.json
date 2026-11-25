@@ -3894,14 +3894,15 @@
     },
     "party-welcome": {
       "state": "request",
-      "replies": ["agree", "ask"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank"],
-        "ask": ["answer"]
+        "ask": ["answer"],
+        "decline": ["accept"]
       },
       "again": {
         "press": ["agree"],
-        "answer": ["agree"]
+        "answer": ["agree", "decline"]
       },
       "endings": [
         {

@@ -3166,58 +3166,6 @@
       "elements": ["concession-states-the-loss-plainly"]
     },
     {
-      "key": "scene-talk.reply-refuse.i-m-not-calling-opponent-yet",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I'm not calling {opponent} yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "refuse",
-        "key": "loss"
-      },
-      "elements": ["concession-reframes-the-loss"]
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-m-not-ready-to-hand-office-over",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I'm not ready to give up the race for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "refuse",
-        "key": "loss"
-      },
-      "elements": ["concession-reframes-the-loss"]
-    },
-    {
       "key": "scene-talk.follow-thank.you-ran-a-good-race-for-office-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
@@ -3378,6 +3326,58 @@
         "key": "loss"
       },
       "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-call-opponent-until-i-ve-thanked-the-people-who-worked-for-me",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't call {opponent} until I've thanked the people who worked for me. They shouldn't hear it on the news.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-family-then-staff-then-donors"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-give-up-the-race-for-office-until-i-ve-read-the-numbers-myself",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't give up the race for {office} until I've read the numbers myself. I owe that to everyone who voted for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
     },
     {
       "key": "scene-talk.open-greet.first-you-did-it",
@@ -20294,32 +20294,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fine-i-ll-put-my-name-down-good-luck-in-place",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Fine. I'll put my name down. Good luck in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["place"],
-          "excludesFacts": ["would-not-sign"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.sure-everybody-in-place-should-get-a-shot-give-me-the-pen",
       "move": "reply-agree",
       "kind": "spoken",
@@ -20333,32 +20307,6 @@
           "move": "agree",
           "role": "asked",
           "requiresFacts": ["place"],
-          "excludesFacts": ["would-not-sign"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.alright-i-ll-sign-right-here-before-vote-day",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Alright. I'll sign right here, before {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["vote-day"],
           "excludesFacts": ["would-not-sign"]
         }
       ],
@@ -20475,81 +20423,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-good-luck-on-vote-day",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You've got my vote. Good luck on {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["vote-day"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ll-vote-for-you-on-vote-day",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll vote for you on {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["vote-day"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.okay-put-me-down-good-luck-in-place",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Okay. Put me down. Good luck in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.you-came-back-you-ve-got-my-vote-on-vote-day",
       "move": "reply-agree",
       "kind": "spoken",
@@ -20563,31 +20436,6 @@
           "move": "agree",
           "role": "asked",
           "requiresFacts": ["knocked-before", "vote-day"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.i-ll-vote-for-you-over-rival",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'll vote for you over {rival}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["rival"]
         }
       ],
       "bearing": "calm",
@@ -20700,32 +20548,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-off-a-petition-in-place",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'd rather keep my name off a petition in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["place"],
-          "excludesFacts": ["signed", "door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.not-today-thanks-i-don-t-know-enough-about-the-race-before-vote-day",
       "move": "reply-decline",
       "kind": "spoken",
@@ -20752,32 +20574,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.you-ve-been-by-before-i-m-still-not-signing-and-place-has-heard-it-from-me",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "You've been by before. I'm still not signing, and {place} has heard it from me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["knocked-before", "place"],
-          "excludesFacts": ["signed", "door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.i-don-t-follow-the-race-in-place-i-won-t-sign",
       "move": "reply-decline",
       "kind": "spoken",
@@ -20791,58 +20587,6 @@
           "move": "decline",
           "role": "asked",
           "requiresFacts": ["would-not-sign", "no-view", "place"],
-          "excludesFacts": ["door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-m-not-promising-my-vote-before-vote-day-yet",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'm not promising my vote before {vote-day} yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["vote-day"],
-          "excludesFacts": ["door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-haven-t-decided-who-gets-my-vote-ask-me-closer-to-vote-day",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I haven't decided who gets my vote. Ask me closer to {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["vote-day"],
           "excludesFacts": ["door-pressed"]
         }
       ],
@@ -20923,147 +20667,6 @@
           "role": "asked",
           "requiresFacts": ["read-same-party", "office"],
           "excludesFacts": ["door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.my-answer-s-the-same-good-luck-before-vote-day",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "My answer's the same. Good luck before {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["vote-day"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-ve-thought-about-about-i-m-still-not-signing",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I've thought about {about}. I'm still not signing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["would-not-sign", "stand-said", "about"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-ve-thought-about-about-i-m-still-not-sure",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I've thought about {about}. I'm still not sure.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["stand-said", "about"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-said-no-good-luck-on-vote-day",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I said no. Good luck on {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["vote-day"],
-          "excludesFacts": ["signed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story lead (Fable) with a Sonnet writer",
-      "date": "2026-11-17",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-ve-heard-you-out-i-m-still-deciding-my-vote-before-vote-day",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I've heard you out. I'm still deciding my vote before {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "after": "press",
-          "requiresFacts": ["vote-day"]
         }
       ],
       "bearing": "guarded",
@@ -23116,10 +22719,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-porch-light-is-on-at-name-s-place-you-knock-once-and-wait",
+      "key": "scene-talk.narrate-narrate.the-porch-light-is-on-you-knock-once-and-name-comes-to-the-door",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "The porch light is on at {name}'s place. You knock once and wait.",
+      "text": "The porch light is on. You knock once, and {name} comes to the door.",
       "uses": [
         {
           "subject": "scene",
@@ -23798,36 +23401,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-decline.still-no-on-the-petition-i-told-you-last-time-and-nothing-in-place-has-changed-that",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Still no on the petition. I told you last time, and nothing in {place} has changed that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-signature",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["knocked-before", "place"],
-          "excludesFacts": ["signed", "door-pressed"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      },
-      "elements": [
-        "door-lets-a-candidate-meet-neighbors",
-        "door-on-a-small-town-street"
-      ]
-    },
-    {
       "key": "scene-talk.state-request.you-ll-see-my-name-on-the-ballot-for-office-i-m-self-i-wanted-you-to-put-a-face",
       "move": "state-request",
       "kind": "spoken",
@@ -24059,66 +23632,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-agree.put-me-down-for-you-on-vote-day",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Put me down for you on {vote-day}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["vote-day"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.reply-agree.you-ve-got-my-vote-tell-the-others-on-this-street-i-said-so-and-good-luck-in-place",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You've got my vote. Tell the others on this street I said so, and good luck in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "warm",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",
@@ -34239,6 +33752,15 @@
           "role": "asked",
           "purpose": "offer-help",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "guarded",
@@ -39417,32 +38939,6 @@
       "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
     },
     {
-      "key": "scene-talk.reply-agree.then-yes-name-let-s-try",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then yes, {name}. Let's try.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "answer"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
       "key": "scene-talk.reply-refuse.that-s-not-enough-name-i-m-sorry",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -39516,32 +39012,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "refuse",
-        "key": "routine"
-      },
-      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
-    },
-    {
-      "key": "scene-talk.reply-agree.okay-slowly-name-but-yes",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Okay. Slowly, {name}, but yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ally-return",
-          "key": "routine",
-          "after": "bargain"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the home writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
         "key": "routine"
       },
       "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
@@ -41311,6 +40781,32 @@
       "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
     },
     {
+      "key": "scene-talk.reply-ask.not-yet-because-i-don-t-know-what-the-aid-for-home-will-cover",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Not yet, because I don't know what the aid for {home} will cover.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "home-damaged",
+          "key": "damage",
+          "requiresFacts": ["home", "aid"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "ask",
+        "key": "damage"
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+    },
+    {
       "key": "scene-talk.narrate-narrate.the-landlord-s-notice-was-on-the-table-and-owed-was-the-number-on-it",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -41780,6 +41276,32 @@
       "date": "2026-11-24",
       "tag": {
         "move": "press",
+        "key": "notice"
+      },
+      "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
+    },
+    {
+      "key": "scene-talk.reply-ask.not-yet-because-i-don-t-know-what-the-landlord-will-take-for-owed",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Not yet, because I don't know what the landlord will take for {owed}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "notice-home",
+          "key": "notice",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "ask",
         "key": "notice"
       },
       "elements": ["pattern-b5-02-the-notice-and-the-days-after"]
@@ -43831,6 +43353,32 @@
       "elements": ["pattern-b6-03-asked-along"]
     },
     {
+      "key": "scene-talk.reply-agree.yes-but-after-the-guests-for-honoree-sit-down-because-that-is-when-people-will-listen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, but after the guests for {honoree} sit down, because that is when people will listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["honoree"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      },
+      "elements": ["pattern-b6-03-asked-along"]
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-came-in-and-sat-down-without-being-asked",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -43930,6 +43478,32 @@
       "elements": ["pattern-b7-12-is-the-job-worth-it"]
     },
     {
+      "key": "scene-talk.reply-promise.i-can-t-promise-more-evenings-name-because-the-job-takes-them-right-now",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can't promise more evenings, {name}, because the job takes them right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      },
+      "elements": ["pattern-b7-12-is-the-job-worth-it"]
+    },
+    {
       "key": "scene-talk.state-ask.i-don-t-know-my-way-around-place-yet-where-should-i-put-my-things-and-who-runs-the-kitchen",
       "move": "state-ask",
       "kind": "spoken",
@@ -43974,6 +43548,32 @@
       "date": "2026-11-24",
       "tag": {
         "move": "narrate",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-promise.i-can-t-promise-that-name-because-people-in-the-room-are-counting-on-me-being-there",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can't promise that, {name}, because people in the room are counting on me being there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-absence",
+          "key": "threat",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "promise",
         "key": "threat"
       },
       "elements": ["pattern-b6-07-the-morning-after-the-late-meeting"]
@@ -44101,6 +43701,56 @@
       "date": "2026-11-24",
       "tag": {
         "move": "accept",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.reply-confront.i-can-t-forgive-that-yet-name-because-you-knew-exactly-what-it-meant-to-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I can't forgive that yet, {name}, because you knew exactly what it meant to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      },
+      "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-ll-listen-name-because-you-came-to-tell-me-yourself",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'll listen, {name}, because you came to tell me yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "betrayal-explain",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "comfort",
         "key": "threat"
       },
       "elements": ["pattern-b6-06-trust-broken-in-front-of-people"]
@@ -55034,6 +54684,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-refuse.not-yet-name-because-i-m-still-angry-about-what-happened",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not yet, {name}, because I'm still angry about what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-name-because-i-ve-missed-having-you-around",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, {name}, because I've missed having you around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ally-return",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      },
+      "elements": ["pattern-b5-06-the-one-you-fell-out-with"]
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-steps-into-your-path-with-a-hard-look",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -61828,6 +61528,24 @@
           "purpose": "friend-ask",
           "key": "routine",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "curious",
@@ -78433,6 +78151,32 @@
       ]
     },
     {
+      "key": "scene-talk.reply-decline.not-yet-name-because-i-have-to-talk-it-over-with-the-people-at-home-first",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet, {name}, because I have to talk it over with the people at home first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-to-run",
+          "key": "run-asked",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the home writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "run-asked"
+      },
+      "elements": ["pattern-a05-the-party-asks-you-to-run"]
+    },
+    {
       "key": "scene-talk.reply-agree.i-m-in-volunteer",
       "move": "reply-agree",
       "kind": "spoken",
@@ -79131,10 +78875,10 @@
       "elements": ["door-count-is-how-people-measure-effort"]
     },
     {
-      "key": "scene-talk.narrate-narrate.barely-into-your-walk-you-find-name-at-the-door-ask-support",
+      "key": "scene-talk.narrate-narrate.barely-into-your-walk-name-comes-to-the-door",
       "move": "narrate-narrate",
       "kind": "written",
-      "text": "Barely into your walk, you find {name} at the door.",
+      "text": "Barely into your walk, {name} comes to the door.",
       "uses": [
         {
           "subject": "scene",
@@ -79532,6 +79276,723 @@
         "move": "press",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.reply-agree.we-want-the-same-thing-on-this-that-s-reason-enough-for-me-to-vote-for-you-in-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "We want the same thing on this. That's reason enough for me to vote for you in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["stand-with", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["resident-will-vote-but-does-not-share"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-voted-last-time-and-nobody-came-to-my-door-you-did-so-you-have-my-vote-in-place",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I voted last time, and nobody came to my door. You did, so you have my vote in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["voted-last", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["literature-goes-at-the-door-never-in-the-mailbox"]
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-not-where-i-stand-on-it-i-can-t-vote-for-you-in-place-over-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's not where I stand on it. I can't vote for you in {place} over that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["stand-apart", "place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-sat-out-the-last-one-and-i-m-not-sure-i-ll-vote-at-all-this-time-in-place",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I sat out the last one, and I'm not sure I'll vote at all this time in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["sat-out-last", "place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["resident-will-not-talk-politics-with-strangers"]
+    },
+    {
+      "key": "scene-talk.reply-ask.why-you-and-not-rival-tell-me-what-you-d-do-that-rival-wouldn-t",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why you and not {rival}? Tell me what you'd do that {rival} wouldn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["rival"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      },
+      "elements": ["resident-asks-whether-the-canvasser-is-paid"]
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-stand-that-s-where-i-d-begin",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd {stand}. That's where I'd begin.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["stand"],
+          "after": "scene-talk.reply-ask.why-you-and-not-rival-tell-me-what-you-d-do-that-rival-wouldn-t"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "answer",
+        "key": "door"
+      },
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.reply-agree.sure-everyone-in-place-should-have-a-say-in-who-s-on-the-ballot-so-i-ll-sign",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sure. Everyone in {place} should have a say in who's on the ballot, so I'll sign.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["signed", "place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["canvasser-shows-where-each-box-goes-before-the-pen-moves"]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-i-d-be-signing-for-someone-i-know-nothing-about-and-nobody-in-place-asked-me-to",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. I'd be signing for someone I know nothing about, and nobody in {place} asked me to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["would-not-sign", "place"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.reply-ask.does-signing-mean-i-m-voting-for-you-over-rival",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Does signing mean I'm voting for you over {rival}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["rival"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      },
+      "elements": ["resident-asks-whether-the-canvasser-is-paid"]
+    },
+    {
+      "key": "scene-talk.follow-answer.no-it-only-puts-me-on-the-ballot-in-place-and-you-vote-your-own-way",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "No. It only puts me on the ballot in {place}, and you vote your own way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.plain",
+          "key": "door",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["place"],
+          "after": "scene-talk.reply-ask.does-signing-mean-i-m-voting-for-you-over-rival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "answer",
+        "key": "door"
+      },
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-yet-self-because-i-want-to-hear-how-you-answer-rival-first",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet, {self}, because I want to hear how you answer {rival} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["read-close", "rival", "self"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["read-close", "rival", "self"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["resident-will-vote-but-does-not-share"]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-different-since-last-time-self",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's different since last time, {self}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["read-close", "self"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["read-close", "self"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "ask",
+        "key": "door"
+      },
+      "elements": ["canvasser-opens-in-a-few-words-of-the-residents-language"]
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ve-kept-knocking-in-place-since-we-last-talked-and-i-m-still-asking",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I've kept knocking in {place} since we last talked, and I'm still asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.knows-you",
+          "key": "door",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["place"],
+          "after": "scene-talk.reply-ask.what-s-different-since-last-time-self"
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature.knows-you",
+          "key": "door",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["place"],
+          "after": "scene-talk.reply-ask.what-s-different-since-last-time-self"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "answer",
+        "key": "door"
+      },
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-the-sheets-still-need-signatures-names-and-i-can-t-give-that-many-hours-to-the-race",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. The sheets still need {signatures} names, and I can't give that many hours to the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["signatures"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["signatures"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      },
+      "elements": ["first-hour-outside-stores-yields-nothing"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-pass-on-running-in-place-the-petition-is-short-and-i-d-rather-not-beg-my-way-onto-the-ballot",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll pass on running in {place}. The petition is short, and I'd rather not beg my way onto the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["place"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["place"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      },
+      "elements": ["first-hour-outside-stores-yields-nothing"]
+    },
+    {
+      "key": "scene-talk.reply-tell.yes-a-little-i-saw-how-many-people-came-out-in-and-i-didn-t-know-what-they",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Yes, a little. I saw how many people came out in {place}, and I didn't know what they'd do. I'd rather say so than carry it by myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      },
+      "elements": [
+        "spouse-calls-a-run-a-huge-sacrifice",
+        "a-crowd-gathers-before-the-meeting",
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-tell.not-the-way-you-think-the-crowd-in-was-loud-but-they-were-angry-about-the-b",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Not the way you think. The crowd in {place} was loud, but they were angry about the bill, not about us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      },
+      "elements": [
+        "spouse-calls-a-run-a-huge-sacrifice",
+        "a-crowd-gathers-before-the-meeting",
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-telling-me-i-d-rather-know-than-wonder-what-happened-in",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for telling me. I'd rather know than wonder what happened in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "elements": [
+        "spouse-calls-a-run-a-huge-sacrifice",
+        "a-crowd-gathers-before-the-meeting",
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.is-that-all-of-it-you-went-quiet-when-came-up",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is that all of it? You went quiet when {place} came up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      },
+      "elements": [
+        "spouse-calls-a-run-a-huge-sacrifice",
+        "a-crowd-gathers-before-the-meeting",
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-season-i-ve-only-just-joined-the-and-i-d-rather-learn-how-it-runs",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this season. I've only just joined the {party}, and I'd rather learn how it runs before I sit on anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-take-a-committee-right-now-i-d-say-yes-and-then-miss-meetings-and-i-won-t-do-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take a committee right now. I'd say yes and then miss meetings, and I won't do that to the {party}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-as-long-as-the-tells-me-up-front-what-the-committee-does-and-how-much-t",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, as long as the {party} tells me up front what the committee does and how much time it takes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-come-to-a-meeting-of-the-first-and-we-ll-ask-you-again-once-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. Come to a meeting of the {party} first, and we'll ask you again once you know us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "after": "decline",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-a-few-meetings-first-then-the-will-still-be-here",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. A few meetings first, then. The {party} will still be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "after": "decline",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
     }
   ]
 }
