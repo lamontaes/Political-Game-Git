@@ -61,7 +61,8 @@
     "kind-hopeful": "yes where the year the speaker reports on was a hopeful one, from the year's records",
     "incumbent": "yes when the candidate holds the seat now, from the seat's serving term",
     "challenger": "yes when the candidate does not hold the seat now, from the seat's serving term",
-    "theme-short-plural": "yes when the short theme is plural (taxes, hard times, our schools)"
+    "theme-short-plural": "yes when the short theme is plural (taxes, hard times, our schools)",
+    "measure": "what the body passes, as people say it (\"ordinance\", \"bill\"), from the body's own record"
   },
   "maxWords": 30,
   "parts": [
@@ -266,23 +267,23 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-put-my-name-on-every-bill-to",
+      "key": "outline-local.pledge.i-ll-put-my-name-on-every-to",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll put my name on every bill to {to}.",
+      "text": "I'll put my name on every {measure} to {to}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["law-not-in-force", "measure", "stance-for", "to"],
           "excludesFacts": []
         },
         {
           "subject": "campaign-speech",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["law-not-in-force", "measure", "stance-for", "to"],
           "excludesFacts": []
         }
       ],
@@ -359,24 +360,82 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.pledge.i-ll-vote-against-any-bill-to-every-time-it-comes-up",
+      "key": "outline-local.pledge.i-ll-vote-against-any-to-every-time-it-comes-up",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll vote against any bill to {to}, every time it comes up.",
+      "text": "I'll vote against any {measure} to {to}, every time it comes up.",
       "uses": [
         {
           "subject": "town-address",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
+          ],
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid"
+          ]
         },
         {
           "subject": "campaign-speech",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
+          ],
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid"
+          ]
         }
       ],
       "after": ["creed"],
@@ -800,7 +859,31 @@
             "law-not-in-force",
             "belief"
           ],
-          "excludesFacts": []
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid"
+          ]
         },
         {
           "subject": "campaign-speech",
@@ -812,7 +895,31 @@
             "law-not-in-force",
             "belief"
           ],
-          "excludesFacts": []
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid"
+          ]
         }
       ],
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-guarded"],
@@ -1349,24 +1456,82 @@
       "elements": ["stump-platform-as-a-topic-by-topic-list"]
     },
     {
-      "key": "outline-local.stand.i-m-against-any-bill-to",
+      "key": "outline-local.stand.i-m-against-any-to",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'm against any bill to {to}.",
+      "text": "I'm against any {measure} to {to}.",
       "uses": [
         {
           "subject": "town-address",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
+          ],
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid"
+          ]
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
+          "requiresFacts": [
+            "law-not-in-force",
+            "measure",
+            "stance-against",
+            "to"
+          ],
+          "excludesFacts": [
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid"
+          ]
         }
       ],
       "after": ["today", "contrast"],
