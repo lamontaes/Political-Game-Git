@@ -33752,6 +33752,15 @@
           "role": "asked",
           "purpose": "offer-help",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "guarded",
@@ -61341,6 +61350,24 @@
           "purpose": "friend-ask",
           "key": "routine",
           "onlyWhen": ["meeting", "body"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "excludesFacts": ["tie-friend", "tie-rival"]
         }
       ],
       "bearing": "curious",
@@ -79414,84 +79441,6 @@
         "key": "door"
       },
       "elements": ["resident-says-take-me-off-your-list"]
-    },
-    {
-      "key": "scene-talk.reply-ask.why-me-volunteer-ask",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Why me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-25",
-      "tag": {
-        "move": "ask",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-ask.doing-what-volunteer-ask",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Doing what?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-25",
-      "tag": {
-        "move": "ask",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-ask.why-me-endorse-ask",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Why me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-25",
-      "tag": {
-        "move": "ask",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
     }
   ]
 }
