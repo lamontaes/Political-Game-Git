@@ -1,7 +1,6 @@
 {
   "note": "The tables allowed to be known-red in src/core2/data/opening/day-zero.json. It may only shrink.",
   "knownRed": [
-    "business.operating",
     "core2-budgets-v1.enacted",
     "core2-campaigns-v1.campaigns",
     "core2-campaigns-v1.endorsements",
