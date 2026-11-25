@@ -1,0 +1,39 @@
+{
+  "id": "a-worker-sorts-by-material-instead-of-by-brand-owner",
+  "kind": "consequence",
+  "summary": "A change in sorting rules can remove hundreds of distinctions from a return worker's shift.",
+  "realLife": "In 2023 testimony on Maine LD 1909 and LD 1910, DEP staff estimated that grouping containers by material and size could reduce the number of sorts from more than seven hundred to about thirty. DEP reported that all deposit initiators entered pooling agreements in October 2024. Grouping by collection group, material and size left about 120 sorts at that stage. DEP then estimated 40 to 50 under a later arrangement.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178376#page=2",
+    "https://www3.maine.gov/dep/publications/documents/archive/legislative%20reports/2025/2025-Product-Stewardship-Report-With-Comments-FINAL.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{worker}", "{manager}"],
+  "gates": [
+    "A center has a current sort list and a proposed material-based list."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a center has a current sort list and a proposed material-based list.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The manager rearranges the bins around the shorter list.",
+      "pulledBy": "Collectors accept the new categories.",
+      "writesBack": "Training materials change before the next shift."
+    },
+    {
+      "turn": "another-way",
+      "what": "The crew keeps the affected brands apart.",
+      "pulledBy": "A collection contract still calls for separate loads.",
+      "writesBack": "The manager records which contract prevents consolidation."
+    },
+    {
+      "turn": "late",
+      "what": "The worker shows the committee which groups still need bins of their own.",
+      "pulledBy": "The statewide agreements are in effect but collection groups are still distinguished.",
+      "writesBack": "The review lists the remaining sorts alongside the earlier projection."
+    }
+  ]
+}

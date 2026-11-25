@@ -1,0 +1,30 @@
+{
+  "id": "a-washer-can-travel-to-the-bottles",
+  "kind": "situation",
+  "summary": "A brewer considering a refill pilot can price a mobile wash station alongside shipping the empties away.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee proposed supporting pilots that compared mobile washing, out-of-state shipment, on-site equipment and a fixed Maine facility.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=18"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{brewer}", "{official}"],
+  "gates": ["A refill pilot must choose where empty bottles will be washed."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a refill pilot must choose where empty bottles will be washed.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The brewer seeks a route estimate.",
+      "pulledBy": "A mobile unit can serve several nearby producers.",
+      "writesBack": "The pilot budget includes travel and shared use."
+    },
+    {
+      "turn": "another-way",
+      "what": "The brewer prices the round trip.",
+      "pulledBy": "A distant washer offers the only available capacity.",
+      "writesBack": "The trial records the freight cost per load."
+    }
+  ]
+}

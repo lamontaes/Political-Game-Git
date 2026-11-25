@@ -1,0 +1,32 @@
+{
+  "id": "a-refill-target-goes-first-to-an-outside-study",
+  "kind": "move",
+  "summary": "Before promising a reusable share of sales, members ask an outside reviewer what producers could actually supply.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee directed DEP to contract for a feasibility study of specified market-share goals for refillable containers by July 2026.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=18"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{member}", "{researcher}"],
+  "gates": [
+    "A proposed refill goal has a due date for independent feasibility work."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a proposed refill goal has a due date for independent feasibility work.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Members can debate a target against that capacity.",
+      "pulledBy": "The study identifies a viable supply and wash network.",
+      "writesBack": "The hearing brief records the assumptions behind the estimate."
+    },
+    {
+      "turn": "another-way",
+      "what": "Members ask for costs and construction timing.",
+      "pulledBy": "The study finds capacity depends on unbuilt facilities.",
+      "writesBack": "The implementation question returns to the budget hearing."
+    }
+  ]
+}

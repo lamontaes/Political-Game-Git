@@ -1,0 +1,32 @@
+{
+  "id": "the-return-map-needs-a-place-that-pays-today",
+  "kind": "situation",
+  "summary": "A return site that credits an account later serves a different need from a counter that pays a visitor on the spot.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee proposed a geographic distribution of return options that included immediate refunds as well as payments made within a specified interval after drop-off.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=16"
+  ],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{resident}", "{planner}"],
+  "gates": [
+    "A service plan counts an immediate-payment counter and a delayed-payment depot."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a service plan counts an immediate-payment counter and a delayed-payment depot.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The planner checks the route to the immediate-payment counter.",
+      "pulledBy": "A resident needs the refund for today's shopping.",
+      "writesBack": "The access review records which option meets that need."
+    },
+    {
+      "turn": "another-way",
+      "what": "The nearby depot can meet the need.",
+      "pulledBy": "The resident can wait for account credit.",
+      "writesBack": "The mapped service area identifies the payment interval."
+    }
+  ]
+}

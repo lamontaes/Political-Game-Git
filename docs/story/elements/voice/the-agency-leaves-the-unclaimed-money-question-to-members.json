@@ -1,0 +1,30 @@
+{
+  "id": "the-agency-leaves-the-unclaimed-money-question-to-members",
+  "kind": "voice",
+  "summary": "A program expert can explain how to fund collections while leaving lawmakers to choose what happens to the surplus.",
+  "realLife": "In 2023 testimony on Maine LD 1909 and LD 1910, DEP told members the two bills treated unused deposit money differently and left decisions on uses outside the program to the Legislature.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178376#page=5"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{official}", "{legislator}"],
+  "gates": ["Competing drafts assign unused deposits to different recipients."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: competing drafts assign unused deposits to different recipients.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Staff supplies the expense estimate.",
+      "pulledBy": "The member wants program operating costs.",
+      "writesBack": "The committee can compare costs against available deposits."
+    },
+    {
+      "turn": "another-way",
+      "what": "The official returns that choice to elected members.",
+      "pulledBy": "The member asks which unrelated program should get the surplus.",
+      "writesBack": "The allocation stays on the committee's decision list."
+    }
+  ]
+}

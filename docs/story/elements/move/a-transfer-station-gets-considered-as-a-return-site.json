@@ -1,0 +1,32 @@
+{
+  "id": "a-transfer-station-gets-considered-as-a-return-site",
+  "kind": "move",
+  "summary": "A rural town can ask whether its transfer station belongs on the return network map.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee allowed DEP to consider adding return opportunities outside redemption centers, including at dealers and transfer stations, when setting network requirements.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=17"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{planner}", "{town}"],
+  "gates": [
+    "A service review identifies a gap and a transfer station already serving the area."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a service review identifies a gap and a transfer station already serving the area.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The planner studies the site as an additional return option.",
+      "pulledBy": "The station's hours suit local users.",
+      "writesBack": "The next plan names the candidate location."
+    },
+    {
+      "turn": "another-way",
+      "what": "The town asks for a dealer location to be considered.",
+      "pulledBy": "The station opens too rarely to fill the gap.",
+      "writesBack": "The plan retains the gap until another site is assessed."
+    }
+  ]
+}

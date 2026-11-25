@@ -1,0 +1,39 @@
+{
+  "id": "the-agency-asks-what-a-bounty-would-actually-find",
+  "kind": "voice",
+  "summary": "A regulator asks whether paying for reports of unregistered bottles would produce useful leads.",
+  "realLife": "In 2023 testimony on Maine LD 1909 and LD 1910, DEP opposed the proposed reward in LD 1909, saying it would be cumbersome to administer and would add little to existing reporting. In February 2026 DEP reported receiving 34 complaints about noncompliant beverage containers in the previous six months and resolving 22. It did not identify those complaints as paid referrals.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178376#page=3",
+    "https://www3.maine.gov/dep/publications/documents/archive/legislative%20reports/2026/2026%20Final%20Product%20Stewardship%20Report%20with%20Comments%20%281%29.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{regulator}", "{member}"],
+  "gates": [
+    "A bill would pay a reward for identifying an unregistered product."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a bill would pay a reward for identifying an unregistered product.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The committee reviews how staff would verify those claims.",
+      "pulledBy": "The sponsor has examples the registry missed.",
+      "writesBack": "The fiscal note includes the added review work."
+    },
+    {
+      "turn": "another-way",
+      "what": "The regulator asks the committee to reconsider the reward.",
+      "pulledBy": "Examples duplicate reports already on file.",
+      "writesBack": "The minutes record the objection to the proposed incentive."
+    },
+    {
+      "turn": "late",
+      "what": "A member asks staff to distinguish closed complaints from pending investigations.",
+      "pulledBy": "The hearing has dated complaint totals but no record of reward payments.",
+      "writesBack": "The minutes record the enforcement workload and leave the effect of a reward open."
+    }
+  ]
+}

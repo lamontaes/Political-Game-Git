@@ -1,0 +1,32 @@
+{
+  "id": "the-empty-return-sack-has-its-own-recycling-trip",
+  "kind": "detail",
+  "summary": "The bag that carried a household's bottles has a destination after the bottles come out.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof told the committee the operator recycled the emptied collection bags into products such as decking and railroad ties.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1"
+  ],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{operator}", "{resident}"],
+  "gates": [
+    "A resident asks a return program where it sends the empty collection bags."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a resident asks a return program where it sends the empty collection bags.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The operator traces the shipment to the bag recycler.",
+      "pulledBy": "The contractor has a receiving ticket.",
+      "writesBack": "The response documents a separate material stream."
+    },
+    {
+      "turn": "another-way",
+      "what": "The operator requests the bag recycler's record.",
+      "pulledBy": "The ticket covers bottles alone.",
+      "writesBack": "The question remains open in the board minutes."
+    }
+  ]
+}
