@@ -9888,114 +9888,6 @@
       "date": "2026-11-18"
     },
     {
-      "key": "conversation.rent-due-say-core.rent-day-is-due-it-comes-around-too-fast",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "Rent day is {due}. It comes around too fast.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.the-rent-comes-due-due-i-keep-thinking-about-it",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "The rent comes due {due}. I keep thinking about it.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.rent-is-coming-up-due-i-keep-going-over-it",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "Rent is coming up {due}. I keep going over it.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.i-keep-thinking-about-the-rent-it-s-due-due",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "I keep thinking about the rent. It's due {due}.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.the-landlord-wants-the-rent-due-it-weighs-on-me",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "The landlord wants the rent {due}. It weighs on me.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-say-core.rent-is-due-due-every-month-it-sneaks-up",
-      "move": "rent-due-say-core",
-      "kind": "spoken",
-      "text": "Rent is due {due}. Every month it sneaks up.",
-      "uses": [
-        {
-          "move": "rent-due-say-core",
-          "subject": "rent-due-say",
-          "role": "core",
-          "requiresFacts": ["rent", "due"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
       "key": "conversation.rent-due-answer-ask.are-we-okay-for-rent-again-this-month",
       "move": "rent-due-answer-ask",
       "kind": "spoken",
@@ -10105,120 +9997,6 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-ease.it-ll-work-out-we-ve-always-covered-rent-again",
-      "move": "rent-due-answer-ease",
-      "kind": "spoken",
-      "text": "It'll work out. We've always covered {rent_again}.",
-      "uses": [
-        {
-          "move": "rent-due-answer-ease",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "ease",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-ease.try-not-to-worry-we-ve-always-found-rent-again-somehow",
-      "move": "rent-due-answer-ease",
-      "kind": "spoken",
-      "text": "Try not to worry. We've always found {rent_again} somehow.",
-      "uses": [
-        {
-          "move": "rent-due-answer-ease",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "ease",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-ease.we-ll-manage-rent-again-we-usually-do",
-      "move": "rent-due-answer-ease",
-      "kind": "spoken",
-      "text": "We'll manage {rent_again}. We usually do.",
-      "uses": [
-        {
-          "move": "rent-due-answer-ease",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "ease",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-grim.it-feels-like-rent-again-climbs-every-year",
-      "move": "rent-due-answer-grim",
-      "kind": "spoken",
-      "text": "It feels like {rent_again} climbs every year.",
-      "uses": [
-        {
-          "move": "rent-due-answer-grim",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "grim",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-grim.rent-again-takes-more-every-year-and-wages-don-t-keep-up",
-      "move": "rent-due-answer-grim",
-      "kind": "spoken",
-      "text": "{rent_again} takes more every year, and wages don't keep up.",
-      "uses": [
-        {
-          "move": "rent-due-answer-grim",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "grim",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet 5.5), for the Story lead's review",
-      "date": "2026-11-18"
-    },
-    {
-      "key": "conversation.rent-due-answer-grim.every-year-rent-again-is-harder-to-cover",
-      "move": "rent-due-answer-grim",
-      "kind": "spoken",
-      "text": "Every year {rent_again} is harder to cover.",
-      "uses": [
-        {
-          "move": "rent-due-answer-grim",
-          "subject": "rent-due",
-          "role": "answer",
-          "choice": "grim",
-          "requiresFacts": ["rent"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18"
@@ -10906,6 +10684,322 @@
       "origin": "authored",
       "author": "Story helper (Sonnet 5.5), for the Story lead's review",
       "date": "2026-11-18"
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-the-money-is-set-aside",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and the money is set aside.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-covered"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.we-have-rent-put-away-for-due-so-i-m-not-worried",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "We have {rent} put away for {due}, so I'm not worried.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-we-can-just-cover-it",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and we can just cover it.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-tight"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-there-s-almost-nothing-left-after-it",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "{rent} is due {due}, and there's almost nothing left after it.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-tight"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-is-due-due-and-we-re-short",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent is due {due}, and we're short.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-short"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-say-core.we-don-t-have-rent-yet-and-it-s-due-due",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "We don't have {rent} yet, and it's due {due}.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due", "cash-short"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ease.we-re-fine-because-there-s-enough-set-aside-for-rent-again",
+      "move": "rent-due-answer-ease",
+      "kind": "spoken",
+      "text": "We're fine, because there's enough set aside for {rent_again}.",
+      "uses": [
+        {
+          "move": "rent-due-answer-ease",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ease",
+          "requiresFacts": ["rent", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ease.we-have-rent-again-put-away-so-don-t-worry",
+      "move": "rent-due-answer-ease",
+      "kind": "spoken",
+      "text": "We have {rent_again} put away, so don't worry.",
+      "uses": [
+        {
+          "move": "rent-due-answer-ease",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ease",
+          "requiresFacts": ["rent", "cash-covered"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-help.i-ll-skip-extras-since-rent-again-takes-most-of-it",
+      "move": "rent-due-answer-help",
+      "kind": "spoken",
+      "text": "I'll skip extras, since {rent_again} takes most of it.",
+      "uses": [
+        {
+          "move": "rent-due-answer-help",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["rent", "cash-tight"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-help.i-ll-skip-extras-since-little-is-left-after-rent-again",
+      "move": "rent-due-answer-help",
+      "kind": "spoken",
+      "text": "I'll skip extras, since little is left after {rent_again}.",
+      "uses": [
+        {
+          "move": "rent-due-answer-help",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["rent", "cash-tight"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ask.how-do-we-cover-rent-again-since-we-re-short",
+      "move": "rent-due-answer-ask",
+      "kind": "spoken",
+      "text": "How do we cover {rent_again}, since we're short?",
+      "uses": [
+        {
+          "move": "rent-due-answer-ask",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-ask.where-does-the-rest-of-rent-again-come-from",
+      "move": "rent-due-answer-ask",
+      "kind": "spoken",
+      "text": "Where does the rest of {rent_again} come from?",
+      "uses": [
+        {
+          "move": "rent-due-answer-ask",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-grim.we-can-t-cover-rent-again-yet-and-i-m-unsure-how",
+      "move": "rent-due-answer-grim",
+      "kind": "spoken",
+      "text": "We can't cover {rent_again} yet, and I'm unsure how.",
+      "uses": [
+        {
+          "move": "rent-due-answer-grim",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "grim",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
+    },
+    {
+      "key": "conversation.rent-due-answer-grim.we-re-short-for-rent-again-and-i-won-t-pretend-otherwise",
+      "move": "rent-due-answer-grim",
+      "kind": "spoken",
+      "text": "We're short for {rent_again}, and I won't pretend otherwise.",
+      "uses": [
+        {
+          "move": "rent-due-answer-grim",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "grim",
+          "requiresFacts": ["rent", "cash-short"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "roommates-call-the-rent-ridiculous-and-blame-nobody",
+        "bus-money-becomes-breakfast-money"
+      ]
     },
     {
       "key": "conversation.government-news-say-core.who-spoke-on-about-when-i-keep-turning-it-over",
