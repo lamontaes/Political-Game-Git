@@ -37,7 +37,7 @@ The owner, Nov 12, 2026, grading life 1: "look at all my batch grading and compl
 
 - **Agreement with his grades is the only score.** After he answers a grading page, compare line by line: for each line he graded, did the pre-grade agree? Post the count and every miss, quoted, on #9750. Each miss joins `references/owner-grades.md` as a plant the same day.
 - **A pass rate** (lines passed of lines read) measures the writer, not the grader.
-- **The regression, run before any new grading after a change to plants or method:** have fresh blind readers grade the Nov 24 Desk packet, scored on their raw verdicts (the merged head a880050828, d8fe230a50 plus one diary fix; its round-8 pre-grade is `docs/story/first-evening-pregrade-8.md` on branch `story/first-evening-pregrade`). It must fail 1.3, 1.5, 1.7, 1.16, 1.18, the work replies 1.24 to 1.26 with their answer 1.28 as a set, and the "It's January 2025" line, pass 1.14, and mark 1.13 and 1.17 okay. A grader that misses one is not used until it passes.
+- **The regression, run before any new grading after a change to plants or method:** have fresh blind readers grade the Nov 24 Desk packet, scored on their raw verdicts (the merged head a880050828, d8fe230a50 plus one diary fix; its round-8 pre-grade is `docs/story/first-evening-pregrade-8.md` (new) on branch `story/first-evening-pregrade`). It must fail 1.3, 1.5, 1.7, 1.16, 1.18, the work replies 1.24 to 1.26 with their answer 1.28 as a set, and the "It's January 2025" line, pass 1.14, and mark 1.13 and 1.17 okay. A grader that misses one is not used until it passes.
 
 ## What you write
 

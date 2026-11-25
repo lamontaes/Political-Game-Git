@@ -47,7 +47,7 @@ This re-slices `05-phase-b-plan.md` (Oct 30) so that M3-01 can flip first and M3
   - `src/core2/modules/legislature.ts` (draftBill :1934)
   - `src/core2/laws-in-force.ts`
   - `src/bench/phase-in.test.ts`
-  - `src/core2/data/stopgaps.json`
+  - `src/core2/data/stopgaps.json` (removed)
   - `docs/roadmap/features.json` (the M3-01 command gains phase-in.test.ts)
 - **Engine:** draftBill provisions carry an effectiveDate, enactLaw turns them into phases, and lawInForce reads them. There is no second law store.
 - **Done when:** the item's own done-when (`docs/pool/items/gov-m3-01-phase-in-by-dated-steps.md`), after merging main into the 2-day-old branch, in a drawn place with its seed printed. lawInForce shows step 1 the day after date 1 and step 2 the day after date 2, and each law row names the bill id.

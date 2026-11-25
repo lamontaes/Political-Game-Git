@@ -4,7 +4,7 @@ Every state becomes people and firms kept as counts, with a state treasury, step
 
 ## Where this comes from
 
-Design by Fable, November 10, 2026, for pool item `core-country-tier-first-slice`. It answers root causes 1 and 5 of the audit (`docs/audits/fable-vision-2026-11-09.md` on branch `audit/fable-vision`).
+Design by Fable, November 10, 2026, for pool item `core-country-tier-first-slice`. It answers root causes 1 and 5 of the audit (`docs/audits/fable-vision-2026-11-09.md` (removed) on branch `audit/fable-vision`).
 
 ## What you ruled
 
