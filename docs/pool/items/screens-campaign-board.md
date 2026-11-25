@@ -41,3 +41,5 @@ merged-at: 2026-11-15T23:57:19.081Z
 **Notes.** OWNER-DECISIONS Oct 27, 5 PM (the campaign screen: one board). Needs the campaign-team record from the systems integrator (Integration channel section). lead: play-first. Filed by the screens designer.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:23 UTC) on branch claude/pool-screens-campaign-board.
+
+Nov 23 (Board mock, lane 8 of the Nov 23 sitting): P38, "This campaign screen is terrible": the board on main is not the one he ruled. The mock of the ruled board (inbox, team, manager, the race, the outings) is in docs/mocks/2026-11-23-campaign-board/ for him to see and pick before anything more is built.
