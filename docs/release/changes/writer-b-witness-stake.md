@@ -3,4 +3,4 @@ id: writer-b-witness-stake
 impact: none
 ---
 
-Proposed dialogue for a committee witness speaking to a member after a hearing.
+Proposed dialogue for a committee witness speaking to a member after a hearing. A member can thank the witness, ask about the testimony or explain a disagreement.
