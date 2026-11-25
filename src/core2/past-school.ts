@@ -5,6 +5,7 @@
  * attends, its run of the years before the start, and the reader every
  * screen and scene uses for where a person went to school.
  */
+import { historyOf } from "./past-history";
 import data from "./data/school-days.json" with { type: "json" };
 import { makeIsoDate } from "./kernel/dates";
 import {
@@ -340,25 +341,27 @@ function attendedNow(
 }
 
 /**
- * The schools a person attended, oldest first: the run's records before the
- * start, then the school they attend in play where it is a new one.
+ * The schools a person attended, oldest first: their school starts as the
+ * one history reader tells them, then the school they attend in play where
+ * it is a new one.
  */
 export function schoolsAttended(
   core: Readonly<CoreState>,
   personId: string,
 ): SchoolAttended[] {
-  const rows: SchoolAttended[] = preStartHistory(core as CoreState, {
-    kind: SCHOOL_STARTED,
-    personId: personId as PersonId,
-  }).map((row) => {
-    const schoolId = String(row.facts.schoolId);
+  const rows: SchoolAttended[] = historyOf(
+    core as CoreState,
+    { person: personId as PersonId },
+    { kinds: [SCHOOL_STARTED] },
+  ).map((row) => {
+    const schoolId = String(row.facts?.schoolId);
     const name = schoolName(core, schoolId);
     return {
       recordId: row.id,
       schoolId,
       ...(name ? { name } : {}),
-      stage: String(row.facts.stage),
-      grade: Number(row.facts.grade),
+      stage: String(row.facts?.stage),
+      grade: Number(row.facts?.grade),
       date: row.date,
     };
   });

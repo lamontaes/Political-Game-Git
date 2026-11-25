@@ -16,7 +16,12 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { REMEMBERED_RECORD_KINDS, lifeOf, rememberEvent } from "../person-life";
+import {
+  REMEMBERED_RECORD_KINDS,
+  builtFactsOf,
+  lifeOf,
+  rememberEvent,
+} from "../person-life";
 import {
   addDays,
   daysBetween,
@@ -822,8 +827,12 @@ const LIFE_HISTORY: HistorySource = {
   id: "life",
   life: true,
   open: (core, personId) => openWholePast(core, personId),
-  rows(core, scope) {
+  rows(core, scope, ask) {
     if (!("person" in scope)) return [];
+    // A read by kind takes only the facts the person was made with of those
+    // kinds; the records of the past and of play come from the records
+    // themselves, so a lookup never builds the whole life.
+    if (ask.kinds) return builtFactsOf(core, scope.person, ask.kinds);
     return lifeOf(core, scope.person).map((event) => ({
       ...event,
       personIds: [scope.person, ...event.withIds],

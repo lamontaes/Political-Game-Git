@@ -13,7 +13,9 @@ import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import parameterRows from "./data/life/parameters.json" with { type: "json" };
 import table from "./data/life/remembered.json" with { type: "json" };
 import { moduleState } from "./module-state";
-import { preStartHistory } from "./past";
+import { preStartHistory, recordDate } from "./past";
+import { ageOfMajority } from "./age-of-majority";
+import { ageOnDate } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import type {
   CoreEventInput,
@@ -88,6 +90,8 @@ interface HistoryRow {
   readonly kind: string;
   readonly life: string;
   readonly what: string;
+  /** Only the people the record names who were of age on its day remember it (a home bought: not a child, nor someone born after). */
+  readonly ofAge?: boolean;
 }
 const TABLE = table as unknown as {
   keeps: readonly string[];
@@ -393,6 +397,44 @@ function playedJobs(
 }
 
 /**
+ * The facts a person was made with of the asked kinds (their family, their
+ * education, an office they held before), as events: what a read by kind of
+ * one person's history takes from their own record. Each carries the day it
+ * was set down, and the person it names, where it names one.
+ */
+export function builtFactsOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  kinds: readonly string[],
+): (LifeEvent & { personIds: readonly PersonId[] })[] {
+  const person = core.people.get(personId);
+  if (!person) return [];
+  return (person.pastFacts ?? [])
+    .filter((fact) => kinds.includes(fact.kind))
+    .map((fact) => {
+      const other = fact.facts?.otherPersonId as PersonId | undefined;
+      const row = TABLE.past.find((entry) =>
+        fact.kind.startsWith(entry.kindPrefix),
+      );
+      const at = fact.kind.search(/[.:]/);
+      return {
+        id: fact.id,
+        date: fact.date,
+        life: row?.life ?? (at < 0 ? fact.kind : fact.kind.slice(0, at)),
+        what: row?.what ?? (at < 0 ? fact.kind : fact.kind.slice(at + 1)),
+        record: fact.kind,
+        withIds: other ? [other] : [],
+        personIds: other ? [personId, other] : [personId],
+        ...(fact.facts?.placeId
+          ? { placeId: fact.facts.placeId as PlaceId }
+          : {}),
+        ...(fact.facts ? { facts: fact.facts } : {}),
+        from: "built" as const,
+      };
+    });
+}
+
+/**
  * A person's life in order: what they were built with, what the simulated past
  * recorded of them and what happened to them in play, each once, each with the
  * record behind it. The one reader the journal, the person card and the You
@@ -428,12 +470,19 @@ export function lifeOf(
   for (const record of preStartHistory(core as CoreState, { personId })) {
     const row = HISTORY_ROWS.get(record.kind);
     if (!row) continue;
+    // The day the reader tells it on (a home bought before the run began).
+    const date = recordDate(record);
+    if (
+      row.ofAge &&
+      ageOnDate(person.birthDate, date) < ageOfMajority(person.placeId)
+    )
+      continue;
     const facts: Record<string, string> = {};
     for (const [key, value] of Object.entries(record.facts))
       facts[key] = String(value);
     out.push({
       id: record.id,
-      date: record.date,
+      date,
       life: row.life,
       what: row.what,
       record: record.kind,
