@@ -1,0 +1,32 @@
+{
+  "id": "the-second-wage-form-flips-the-screen",
+  "kind": "moment",
+  "summary": "A couple enters the other spouse's wage form and watches a bill replace the expected refund.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. Kraft described the change on the tax software screen when the couple entered the next W-2.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=179"
+  ],
+  "inGame": "needs: two wage forms belong to the same return and only one has been entered.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{preparer}"],
+  "gates": [
+    "Two wage forms belong to the same return and only one has been entered."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The couple finishes the joint estimate.",
+      "pulledBy": "The other form arrives before filing.",
+      "writesBack": "The household budget now carries a spring payment."
+    },
+    {
+      "turn": "partial",
+      "what": "The estimate stays open.",
+      "pulledBy": "The second employer has yet to send a form.",
+      "writesBack": "The unfinished return returns to the household calendar."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

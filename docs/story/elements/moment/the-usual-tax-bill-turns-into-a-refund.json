@@ -1,0 +1,30 @@
+{
+  "id": "the-usual-tax-bill-turns-into-a-refund",
+  "kind": "moment",
+  "summary": "A couple accustomed to writing a large check finds the payment will go the other way.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. Brian Goodell said his household in Tigard, Oregon, usually owed a substantial balance but expected a substantial refund that year.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=180"
+  ],
+  "inGame": "needs: a completed return reverses a pattern of balances due.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{preparer}"],
+  "gates": ["A completed return reverses a pattern of balances due."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The planned tax payment comes off the budget.",
+      "pulledBy": "The household trusts the completed return.",
+      "writesBack": "Another household expense can move forward."
+    },
+    {
+      "turn": "partial",
+      "what": "The household requests a review before spending.",
+      "pulledBy": "The reversal seems implausible.",
+      "writesBack": "The money stays uncommitted pending review."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

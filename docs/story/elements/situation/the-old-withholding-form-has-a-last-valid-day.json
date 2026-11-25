@@ -1,0 +1,28 @@
+{
+  "id": "the-old-withholding-form-has-a-last-valid-day",
+  "kind": "situation",
+  "summary": "A worker can hand in last year's form while the agency finishes replacing it.",
+  "realLife": "In January 2018 the IRS temporarily allowed employees to keep using the 2017 W-4 through March 30 while the revised form was being introduced.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=19"],
+  "inGame": "needs: a transition notice gives the prior form a specific end date.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{worker}", "{employer}"],
+  "gates": ["A transition notice gives the prior form a specific end date."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Payroll processes the old edition.",
+      "pulledBy": "The form arrives inside the window.",
+      "writesBack": "The employee keeps the dated receipt."
+    },
+    {
+      "turn": "partial",
+      "what": "Payroll requests the new edition.",
+      "pulledBy": "It arrives after the window closes.",
+      "writesBack": "The employee gets a second paperwork task."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

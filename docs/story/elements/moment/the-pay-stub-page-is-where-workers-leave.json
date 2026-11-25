@@ -1,0 +1,30 @@
+{
+  "id": "the-pay-stub-page-is-where-workers-leave",
+  "kind": "moment",
+  "summary": "A calculator loses the most users on the page that asks them to copy figures from a paycheck.",
+  "realLife": "IRS tracking showed the pay-stub entry page was the most common exit point in its 2018 withholding calculator.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=24"],
+  "inGame": "needs: page-level figures identify a particular step as the most common exit.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{worker}", "{analyst}"],
+  "gates": [
+    "Page-level figures identify a particular step as the most common exit."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The analyst pairs the observation with the usage count.",
+      "pulledBy": "A worker can describe what happened there.",
+      "writesBack": "The hearing brief includes an attributed explanation."
+    },
+    {
+      "turn": "partial",
+      "what": "The analyst reports where people stopped.",
+      "pulledBy": "Only traffic data are available.",
+      "writesBack": "The reason stays open in the oversight record."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

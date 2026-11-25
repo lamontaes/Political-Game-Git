@@ -1,0 +1,32 @@
+{
+  "id": "a-lower-effective-rate-beside-a-higher-tax-total",
+  "kind": "detail",
+  "summary": "The two annual returns tell different stories depending on which line the staffer reads aloud.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. Kraft and Elias had a lower effective rate even though changes in their finances left their total tax slightly higher.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=179"
+  ],
+  "inGame": "needs: comparable annual returns show both the tax amounts and the effective rates.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{staffer}"],
+  "gates": [
+    "Comparable annual returns show both the tax amounts and the effective rates."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The staffer explains how both results can hold.",
+      "pulledBy": "The family shares both years of income.",
+      "writesBack": "The hearing brief carries both measures."
+    },
+    {
+      "turn": "partial",
+      "what": "The change in dollars stays unresolved.",
+      "pulledBy": "The family shares only the rate.",
+      "writesBack": "The staffer requests the earlier total."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

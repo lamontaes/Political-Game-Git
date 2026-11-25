@@ -1,0 +1,30 @@
+{
+  "id": "payroll-gets-a-window-to-change-the-tables",
+  "kind": "move",
+  "summary": "A dated implementation window lets payroll choose which check will first use a new tax table.",
+  "realLife": "IRS released the 2018 tables in January and asked payroll providers to put them into use by mid-February; an industry association told GAO that interval was sufficient.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=19"],
+  "inGame": "needs: a dated table release and an implementation deadline span multiple pay runs.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{employer}", "{worker}"],
+  "gates": [
+    "A dated table release and an implementation deadline span multiple pay runs."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The next run uses the revised table.",
+      "pulledBy": "Payroll completes testing before cutoff.",
+      "writesBack": "The office can name the first affected pay date."
+    },
+    {
+      "turn": "partial",
+      "what": "The old table runs once more.",
+      "pulledBy": "Testing finishes after cutoff but within the window.",
+      "writesBack": "The worker's comparison moves to the following stub."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "the-table-test-assumes-no-one-refiles",
+  "kind": "detail",
+  "summary": "A legislator reading the model finds that its sample households kept their old withholding elections.",
+  "realLife": "Treasury's examples comparing withholding under the old and new laws assumed that the hypothetical taxpayers did not submit a revised W-4 for 2018.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=18"],
+  "inGame": "needs: a table comparison relies on households keeping earlier withholding elections.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{legislator}", "{analyst}"],
+  "gates": [
+    "A table comparison relies on households keeping earlier withholding elections."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The legislator can compare the two assumptions.",
+      "pulledBy": "The analyst also models changed elections.",
+      "writesBack": "The briefing includes a second set of examples."
+    },
+    {
+      "turn": "partial",
+      "what": "The legislator states the assumption on the record.",
+      "pulledBy": "The analyst has only the published run.",
+      "writesBack": "The minutes limit the claim to unchanged elections."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

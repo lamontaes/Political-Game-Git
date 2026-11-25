@@ -1,0 +1,30 @@
+{
+  "id": "the-paycheck-video-comes-in-the-workers-language",
+  "kind": "move",
+  "summary": "A worker can take home an explanation of withholding in the language spoken at home.",
+  "realLife": "In 2018 the IRS published withholding outreach videos, with several available in both English and Spanish.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=22"],
+  "inGame": "needs: a public information desk has dated withholding videos in both languages.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{worker}", "{librarian}"],
+  "gates": [
+    "A public information desk has dated withholding videos in both languages."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The librarian sends the worker home with the link.",
+      "pulledBy": "A matching language edition exists.",
+      "writesBack": "The family can review the same instructions together."
+    },
+    {
+      "turn": "partial",
+      "what": "The librarian finds a language assistance contact.",
+      "pulledBy": "The requested topic has only one edition.",
+      "writesBack": "The referral is recorded for follow-up."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "variable-earnings-make-a-refund-feel-safer",
+  "kind": "voice",
+  "summary": "A family with uneven earnings would give up some take-home pay for a predictable filing season.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. McCreanor described how variable household income, chiefly from his wife's telecommunications work, made avoiding a surprise bill important to them.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=180"
+  ],
+  "inGame": "needs: an earnings history shows swings and the household has stated a preference for a cushion.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{worker}"],
+  "gates": [
+    "An earnings history shows swings and the household has stated a preference for a cushion."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The worker asks payroll for a larger deduction.",
+      "pulledBy": "A high-earning month creates room.",
+      "writesBack": "The next stub becomes a point of comparison."
+    },
+    {
+      "turn": "partial",
+      "what": "The family defers the change.",
+      "pulledBy": "A lean month falls before rent.",
+      "writesBack": "Its preference stays on record for a later conversation."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}
