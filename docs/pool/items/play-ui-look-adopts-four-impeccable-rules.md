@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10476
 blocked-on:
 source: the CTO's line of Nov 24 ("adopt its rules, not its binary") after the manual Impeccable pass on five screens (comment 7135637502 on the crew's issue)
 claimed-at:
@@ -17,6 +17,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: none
+merged-at: 2026-11-25T00:47:54.477Z
 ---
 
 **What.** The menu look guard (`npm run ui-look`) catches a box in a box and a scroller with empty panel under it, but not a line of text cut through at a scroller's edge, the same date or bill number shown twice on one screen, a title that wraps at a tight line height, or a title laid over a picture it cannot be read against. The manual Impeccable pass found all four in the played game (the "FAILED" heading cut at the foot of Bills, a bill number three times on the Bills page, news headlines at 1.25 leading, the Bills banner title over a bright building). Seen: `npm run ui-look` in a drawn place lists each of the four kinds by menu and fails when a menu draws a new one.
