@@ -74,8 +74,8 @@ const flags = [
   // The desk visit always knows what a bill costs; with no budget line the
   // record says so (deskFacts, purpose-scene.ts).
   "no-cost",
-  // A last day at a job (lastDayFacts) says the job was left.
-  "work-day",
+  // A last day at school (lastDayFacts) says the school year is over.
+  "school-day",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),

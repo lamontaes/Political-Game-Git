@@ -575,58 +575,6 @@
       "stakes": ["what-happened"]
     },
     {
-      "key": "reach-out",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "roles": [
-        {
-          "key": "asking",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["request", "tell", "recall", "offer"],
-          "wants": ["engage", "commit"],
-          "bearing": "hopeful"
-        },
-        {
-          "key": "asked",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["agree", "decline", "request", "thank"],
-          "wants": ["engage"],
-          "bearing": "curious"
-        }
-      ],
-      "setting": ["phone"],
-      "timing": "at-cause",
-      "causes": [
-        {
-          "match": {
-            "label": "circumstance:job-lost-calls"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "work.job-lost",
-          "bind": {
-            "asking": "counterpart",
-            "asked": "subject"
-          },
-          "opener": "asking",
-          "setting": ["phone"]
-        }
-      ],
-      "tag": {
-        "key": "favor-asked",
-        "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
-      },
-      "purpose": "favor-job",
-      "asker": "asking",
-      "asked": "asked",
-      "stakes": ["kid", "job"]
-    },
-    {
       "key": "becoming-friends",
       "receive": {
         "age": "any",
@@ -1148,7 +1096,7 @@
           "bearing": "tender"
         }
       ],
-      "setting": ["school", "workplace"],
+      "setting": ["school"],
       "timing": "effective-date",
       "causes": [
         {
@@ -1161,28 +1109,13 @@
             "leaving": "subject",
             "staying": "counterpart"
           },
-          "sceneKey": "school-goodbye",
           "opener": "staying",
           "opening": "farewell",
           "setting": ["school"]
-        },
-        {
-          "match": {
-            "label": "money:job-left"
-          },
-          "causeEngine": "jobs",
-          "causeRecord": "job",
-          "bind": {
-            "leaving": "subject",
-            "staying": "former-coworkers"
-          },
-          "opener": "leaving",
-          "opening": "farewell",
-          "setting": ["workplace"]
         }
       ],
       "tag": {
-        "key": "departure",
+        "key": "school-goodbye",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
       },
@@ -2895,75 +2828,6 @@
       "stakes": ["office", "petition"]
     },
     {
-      "key": "layoff",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "roles": [
-        {
-          "key": "worker",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["ask", "request", "blame", "thank"],
-          "wants": ["keep-same"],
-          "bearing": "braced"
-        },
-        {
-          "key": "boss",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["deliver-news", "apologize", "offer", "close"],
-          "wants": ["keep-same"],
-          "bearing": "contrite"
-        },
-        {
-          "key": "coworkers",
-          "fill": "coworkers",
-          "count": "some",
-          "moves": ["comfort", "condole"],
-          "wants": ["help-others"],
-          "bearing": "solemn"
-        }
-      ],
-      "setting": ["workplace"],
-      "timing": "at-cause",
-      "causes": [
-        {
-          "match": {
-            "label": "money:job-ended",
-            "counterpart": "none",
-            "causeFacts": [
-              {
-                "key": "decidedBy",
-                "is": "other"
-              }
-            ]
-          },
-          "causeEngine": "work",
-          "causeRecord": "work.job-lost",
-          "bind": {
-            "worker": "subject",
-            "boss": "decider",
-            "coworkers": "coworkers"
-          },
-          "opener": "boss",
-          "opening": "deliver-news"
-        }
-      ],
-      "yieldsTo": ["news-arrives"],
-      "tag": {
-        "key": "loss",
-        "endpoint": "money",
-        "registers": ["conversation", "scene-words", "journal"]
-      },
-      "purpose": "layoff-terms",
-      "asker": "boss",
-      "asked": "worker",
-      "stakes": ["job", "years"]
-    },
-    {
       "eachCause": true,
       "key": "vote-asked",
       "receive": {
@@ -3596,7 +3460,11 @@
     },
     {
       "key": "emergency-briefing",
-      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
+      "receive": {
+        "age": "any",
+        "counterpart": "any",
+        "seat": "serving"
+      },
       "eachCause": true,
       "openDecision": true,
       "note": "A disaster is recorded in the state of a governor the player plays: the executive engine's emergency-offered record names the governor and the disaster. The head of the department that leads for this disaster (data/executive/emergency.json, by incident type) opens and says what their department's records show of it; the other heads join when a room can seat more than one speaker (pool item director-emergency-briefing-other-heads). The player's answer is the declaration or letting it pass: the executive engine reads the scene reply and writes the same declaration the engine writes for any governor (declareEmergency). The engine never declares for the player (owner, Oct 14). It stops the day. The mayor's side waits on a local emergency declaration, which no engine records yet.",
@@ -3629,7 +3497,9 @@
           },
           "causeEngine": "executive",
           "causeRecord": "executive.emergency-offered",
-          "bind": { "you": "subject" },
+          "bind": {
+            "you": "subject"
+          },
           "opener": "briefer"
         }
       ],
@@ -4327,7 +4197,6 @@
           "bearing": "anxious"
         }
       ],
-
       "setting": ["office", "chamber", "phone"],
       "timing": "at-cause",
       "causes": [
@@ -4339,7 +4208,10 @@
                 "key": "sponsorId",
                 "is": "subject"
               },
-              { "key": "firstChamber", "equals": ["yes"] }
+              {
+                "key": "firstChamber",
+                "equals": ["yes"]
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -5355,7 +5227,11 @@
     },
     {
       "key": "endorsement-ask",
-      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
+      "receive": {
+        "age": "any",
+        "counterpart": "apart",
+        "seat": "any"
+      },
       "note": "A candidate's campaign asks the player, one of the people closest to the candidate, to endorse them, or calls in a favor the player owes from a deal in office (the campaigns engine's endorsement-asked record: the endorsement row says `asked` until the player answers). The player's reply writes the row's yes or no. A put-off comes back after the offer spacing days as a second asking until the race is decided; the second asking offers no put-off. The asker gives one reason, the strongest the record holds; only a favor names a deal (owner, Oct 6: endorsements are not trades by default).",
       "roles": [
         {
@@ -5382,11 +5258,19 @@
           "match": {
             "label": "cause:event:endorsement-asked",
             "selfNamed": true,
-            "causeFacts": [{ "key": "askedId", "is": "subject" }]
+            "causeFacts": [
+              {
+                "key": "askedId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "endorsement-asked",
-          "bind": { "candidate": "counterpart", "you": "subject" },
+          "bind": {
+            "candidate": "counterpart",
+            "you": "subject"
+          },
           "opener": "candidate",
           "opening": "request"
         }
@@ -5718,14 +5602,23 @@
             "label": "cause:event:petition-short",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "invitedId", "is": "subject" },
-              { "key": "tellerKind", "equals": ["clerk"] }
+              {
+                "key": "invitedId",
+                "is": "subject"
+              },
+              {
+                "key": "tellerKind",
+                "equals": ["clerk"]
+              }
             ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "petition-short",
           "setting": ["venue"],
-          "bind": { "teller": "counterpart", "you": "subject" },
+          "bind": {
+            "teller": "counterpart",
+            "you": "subject"
+          },
           "opener": "teller",
           "opening": "tell"
         },
@@ -5734,14 +5627,23 @@
             "label": "cause:event:petition-short",
             "selfNamed": true,
             "causeFacts": [
-              { "key": "invitedId", "is": "subject" },
-              { "key": "tellerKind", "equals": ["helper"] }
+              {
+                "key": "invitedId",
+                "is": "subject"
+              },
+              {
+                "key": "tellerKind",
+                "equals": ["helper"]
+              }
             ]
           },
           "causeEngine": "campaigns",
           "causeRecord": "petition-short",
           "setting": ["home"],
-          "bind": { "teller": "counterpart", "you": "subject" },
+          "bind": {
+            "teller": "counterpart",
+            "you": "subject"
+          },
           "opener": "teller",
           "opening": "tell"
         }

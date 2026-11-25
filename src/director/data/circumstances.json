@@ -9,10 +9,17 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["news.read"],
-      "recordFacts": ["billId", "number"],
+      "recordKinds": [
+        "news.read"
+      ],
+      "recordFacts": [
+        "billId",
+        "number"
+      ],
       "place": "public",
-      "pool": ["witnessed"],
+      "pool": [
+        "witnessed"
+      ],
       "where": "same-town",
       "player": "voted-on-it",
       "cast": "a resident who read the paper's story on a vote the player cast, scored on reason, tie and sociability",
@@ -27,9 +34,13 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["law.effect-learned"],
+      "recordKinds": [
+        "law.effect-learned"
+      ],
       "place": "public",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "same-town",
       "player": "public-figure",
       "cast": "the resident a law in force reached (a price it moved, a rule they now live under), scored on tie and sociability",
@@ -44,9 +55,13 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["job"],
+      "recordKinds": [
+        "job"
+      ],
       "place": "workplace",
-      "pool": ["new-coworker"],
+      "pool": [
+        "new-coworker"
+      ],
       "where": "same-employer",
       "player": "anyone",
       "cast": "the person hired today at the player's employer",
@@ -61,9 +76,13 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["committee-hearing"],
+      "recordKinds": [
+        "committee-hearing"
+      ],
       "place": "seat",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "pool",
       "player": "same-body",
       "cast": "a member of the player's body who sat on the committee that heard a bill, scored on tie and sociability",
@@ -78,9 +97,13 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["bill-held-in-committee"],
+      "recordKinds": [
+        "bill-held-in-committee"
+      ],
       "place": "seat",
-      "pool": ["civic:press-corps"],
+      "pool": [
+        "civic:press-corps"
+      ],
       "where": "pool",
       "player": "same-body",
       "cast": "a reporter covering the player's body after a bill dies in committee, scored on tie and sociability",
@@ -89,32 +112,19 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
-      "id": "job-lost-calls",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["work.job-lost"],
-      "place": "phone",
-      "pool": ["named"],
-      "where": "known",
-      "player": "working-or-public",
-      "cast": "someone the player knows who lost their job that day and calls to ask for a word, scored on tie and sociability",
-      "typeKey": "reach-out",
-      "impactParameter": "directorCircumstanceNewsImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
       "id": "organizing-warning",
       "receive": {
         "age": "any",
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["initiative.organizing-started"],
+      "recordKinds": [
+        "initiative.organizing-started"
+      ],
       "place": "phone",
-      "pool": ["civic:staff"],
+      "pool": [
+        "civic:staff"
+      ],
       "where": "pool",
       "player": "serving",
       "cast": "one of the officeholder's own aides, when a group starts organizing in town",
@@ -129,9 +139,13 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["office.introduced"],
+      "recordKinds": [
+        "office.introduced"
+      ],
       "place": "seat",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "pool",
       "player": "same-body",
       "cast": "the member of the player's body who introduced a bill, asking the player to carry it with them",
@@ -146,9 +160,13 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["cause.donated"],
+      "recordKinds": [
+        "cause.donated"
+      ],
       "place": "public",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "same-town",
       "player": "public-figure",
       "cast": "a resident who gave money to a cause group that day, asking the officeholder or candidate for their support",
@@ -163,9 +181,13 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["campaign-message"],
+      "recordKinds": [
+        "campaign-message"
+      ],
       "place": "public",
-      "pool": ["fact:candidateId"],
+      "pool": [
+        "fact:candidateId"
+      ],
       "where": "rival",
       "player": "public-figure",
       "cast": "a candidate filed in the player's own contest whose paid message ran that day",
@@ -181,9 +203,13 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "recordKinds": ["household-member"],
+      "recordKinds": [
+        "household-member"
+      ],
       "place": "home",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "same-household",
       "player": "anyone",
       "cast": "someone who joined the player's household that day, other than a newborn",
@@ -198,10 +224,16 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["news.read"],
-      "recordFacts": ["lawId"],
+      "recordKinds": [
+        "news.read"
+      ],
+      "recordFacts": [
+        "lawId"
+      ],
       "place": "public",
-      "pool": ["witnessed"],
+      "pool": [
+        "witnessed"
+      ],
       "where": "same-town",
       "player": "public-figure",
       "cast": "a resident who read that a law took effect, stopping the officeholder or candidate in the street, scored on reason, tie and sociability",
@@ -216,14 +248,20 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "recordKinds": ["public-meeting"],
+      "recordKinds": [
+        "public-meeting"
+      ],
       "recordFactEquals": {
-        "evening": ["true"]
+        "evening": [
+          "true"
+        ]
       },
       "playerNamed": true,
       "afterDays": 1,
       "place": "home",
-      "pool": ["own-household"],
+      "pool": [
+        "own-household"
+      ],
       "where": "pool",
       "player": "named-in-it",
       "cast": "the morning after the player's body sat past the hour it meets at night, someone they live with, scored on tie and sociability",
@@ -238,11 +276,15 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["office.voted"],
+      "recordKinds": [
+        "office.voted"
+      ],
       "playerNamed": true,
       "afterDays": 2,
       "place": "seat",
-      "pool": ["lobbied-against"],
+      "pool": [
+        "lobbied-against"
+      ],
       "where": "pool",
       "player": "named-in-it",
       "cast": "two days after the player voted against the way of a group that lobbied them on the bill, the group's lobbyist, who remembers",
@@ -257,10 +299,15 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "recordKinds": ["civic.protest", "civic.strike"],
+      "recordKinds": [
+        "civic.protest",
+        "civic.strike"
+      ],
       "afterDays": 1,
       "place": "home",
-      "pool": ["own-household"],
+      "pool": [
+        "own-household"
+      ],
       "where": "pool",
       "player": "heard-it",
       "cast": "the day after a crowd formed against the town's term, someone the player lives with, who saw it in the player's face, scored on tie and sociability",
@@ -275,11 +322,15 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["floor-debate"],
+      "recordKinds": [
+        "floor-debate"
+      ],
       "lived": true,
       "before": true,
       "place": "seat",
-      "pool": ["fact:forId"],
+      "pool": [
+        "fact:forId"
+      ],
       "where": "pool",
       "player": "same-body",
       "cast": "the member who rises in session for the bill before the roll, when the player sits in the body",
@@ -294,11 +345,15 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["floor-debate"],
+      "recordKinds": [
+        "floor-debate"
+      ],
       "lived": true,
       "before": true,
       "place": "seat",
-      "pool": ["fact:againstId"],
+      "pool": [
+        "fact:againstId"
+      ],
       "where": "pool",
       "player": "same-body",
       "cast": "the member who rises in session against the bill before the roll, when the player sits in the body",
@@ -313,10 +368,16 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["committee-hearing"],
-      "recordFacts": ["witnessIds"],
+      "recordKinds": [
+        "committee-hearing"
+      ],
+      "recordFacts": [
+        "witnessIds"
+      ],
       "place": "seat",
-      "pool": ["fact:witnessIds"],
+      "pool": [
+        "fact:witnessIds"
+      ],
       "where": "pool",
       "player": "named-in-it",
       "playerNamed": true,
@@ -332,9 +393,13 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["justice.held-before-trial"],
+      "recordKinds": [
+        "justice.held-before-trial"
+      ],
       "place": "venue",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "known",
       "player": "anyone",
       "cast": "someone the player knows who is held before trial; the player visits them",
@@ -349,9 +414,13 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["justice.imprisoned"],
+      "recordKinds": [
+        "justice.imprisoned"
+      ],
       "place": "venue",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "known",
       "player": "anyone",
       "cast": "someone the player knows who has been sent to prison; the player visits them",
@@ -367,9 +436,13 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["person.moved-away"],
+      "recordKinds": [
+        "person.moved-away"
+      ],
       "place": "other-home",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "known",
       "player": "anyone",
       "cast": "someone the player knows who is moving away, saying goodbye",
@@ -384,11 +457,15 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["party-asked"],
+      "recordKinds": [
+        "party-asked"
+      ],
       "playerNamed": true,
       "afterDays": 1,
       "place": "other-home",
-      "pool": ["party-mentor"],
+      "pool": [
+        "party-mentor"
+      ],
       "where": "same-town",
       "player": "named-in-it",
       "cast": "the day after a party's chair asked the player to run, the seated officeholder of that party who took the player under their wing on the ask (the party mentorship record), who weighs in on whether to run",
@@ -403,10 +480,17 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["news.read"],
-      "recordFacts": ["crimeId", "officialId"],
+      "recordKinds": [
+        "news.read"
+      ],
+      "recordFacts": [
+        "crimeId",
+        "officialId"
+      ],
       "place": "public",
-      "pool": ["witnessed"],
+      "pool": [
+        "witnessed"
+      ],
       "where": "known",
       "player": "official-in-it",
       "cast": "a resident who read the paper's story that the player took a bribe and who knows the player, asking to their face whether it is true, scored on tie and sociability",
@@ -422,11 +506,15 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["school.finished"],
+      "recordKinds": [
+        "school.finished"
+      ],
       "playerNamed": true,
       "lived": true,
       "place": "school",
-      "pool": ["classmates"],
+      "pool": [
+        "classmates"
+      ],
       "where": "pool",
       "player": "named-in-it",
       "cast": "on the last day of the player's school year as a senior, someone who attended the same school that year, scored on tie and sociability",
@@ -442,14 +530,20 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "recordKinds": ["school.finished"],
+      "recordKinds": [
+        "school.finished"
+      ],
       "recordFactEquals": {
-        "passed": ["true"]
+        "passed": [
+          "true"
+        ]
       },
       "playerNamed": true,
       "afterDays": 1,
       "place": "home",
-      "pool": ["own-household"],
+      "pool": [
+        "own-household"
+      ],
       "where": "pool",
       "player": "named-in-it",
       "cast": "the day after the player graduated, someone they live with, scored on tie and sociability",
@@ -465,14 +559,20 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "recordKinds": ["school.finished"],
+      "recordKinds": [
+        "school.finished"
+      ],
       "recordFactEquals": {
-        "passed": ["false"]
+        "passed": [
+          "false"
+        ]
       },
       "playerNamed": true,
       "afterDays": 1,
       "place": "home",
-      "pool": ["own-household"],
+      "pool": [
+        "own-household"
+      ],
       "where": "pool",
       "player": "named-in-it",
       "cast": "the day after the player's senior year ended without a diploma, someone they live with, scored on tie and sociability",
@@ -487,15 +587,25 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["campaign.door"],
+      "recordKinds": [
+        "campaign.door"
+      ],
       "recordFactEquals": {
-        "first": ["true"],
-        "stake": ["true"],
-        "petition": ["false"]
+        "first": [
+          "true"
+        ],
+        "stake": [
+          "true"
+        ],
+        "petition": [
+          "false"
+        ]
       },
       "lived": true,
       "place": "other-home",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "pool",
       "player": "anyone",
       "cast": "a resident who opened their door to the player's own canvass for the first time, the one whose agreement with the player's platform, for or against, is the day's strongest",
@@ -510,15 +620,25 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["campaign.door"],
+      "recordKinds": [
+        "campaign.door"
+      ],
       "recordFactEquals": {
-        "first": ["false"],
-        "stake": ["true"],
-        "petition": ["false"]
+        "first": [
+          "false"
+        ],
+        "stake": [
+          "true"
+        ],
+        "petition": [
+          "false"
+        ]
       },
       "lived": true,
       "place": "other-home",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "pool",
       "player": "anyone",
       "cast": "a resident the player's canvass has knocked on before, who opens the door again, the one whose agreement with the player's platform, for or against, is the day's strongest",
@@ -533,14 +653,22 @@
         "counterpart": "apart",
         "seat": "any"
       },
-      "recordKinds": ["campaign.door"],
+      "recordKinds": [
+        "campaign.door"
+      ],
       "recordFactEquals": {
-        "stake": ["true"],
-        "petition": ["true"]
+        "stake": [
+          "true"
+        ],
+        "petition": [
+          "true"
+        ]
       },
       "lived": true,
       "place": "other-home",
-      "pool": ["named"],
+      "pool": [
+        "named"
+      ],
       "where": "pool",
       "player": "anyone",
       "cast": "a resident who opened their door to the player's own canvass while the player's petition circulates, the one whose agreement with the player's platform, for or against, is the day's strongest; the campaign engine asked them to sign, and the record says whether they did",
@@ -555,12 +683,18 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["veto-override"],
+      "recordKinds": [
+        "veto-override"
+      ],
       "recordFactEquals": {
-        "passed": ["false"]
+        "passed": [
+          "false"
+        ]
       },
       "place": "seat",
-      "pool": ["fact:sponsorId"],
+      "pool": [
+        "fact:sponsorId"
+      ],
       "where": "pool",
       "player": "listed:members",
       "cast": "the sponsor of a bill whose veto override failed, asking a member who voted no or stayed out (the record lists the most movable first) for the next try",
@@ -575,10 +709,14 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "recordKinds": ["housing.notice-served"],
+      "recordKinds": [
+        "housing.notice-served"
+      ],
       "playerNamed": true,
       "place": "home",
-      "pool": ["own-household"],
+      "pool": [
+        "own-household"
+      ],
       "where": "pool",
       "player": "named-in-it",
       "cast": "the day the landlord serves the player's household notice to pay or leave, someone they live with, scored on tie and sociability",
@@ -593,12 +731,16 @@
         "counterpart": "any",
         "seat": "any"
       },
-      "recordKinds": ["disaster.home-damaged"],
+      "recordKinds": [
+        "disaster.home-damaged"
+      ],
       "playerNamed": true,
       "lived": true,
       "recast": true,
       "place": "home",
-      "pool": ["own-household"],
+      "pool": [
+        "own-household"
+      ],
       "where": "pool",
       "player": "named-in-it",
       "cast": "the day a disaster's aid is paid and the repair bill comes due on the player's damaged home, someone they live with, scored on tie and sociability",
@@ -613,12 +755,16 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["study-formed"],
+      "recordKinds": [
+        "study-formed"
+      ],
       "playerNamed": true,
       "afterDays": 1,
       "lived": true,
       "place": "seat",
-      "pool": ["study-members"],
+      "pool": [
+        "study-members"
+      ],
       "where": "pool",
       "player": "on-study",
       "cast": "the day after the body formed a study committee on a bill it could not settle (the vote day is the floor's own), its chair, or a fellow member when the player chairs it, telling a member what it is charged with",
@@ -635,11 +781,15 @@
         "counterpart": "any",
         "seat": "serving"
       },
-      "recordKinds": ["study-reported"],
+      "recordKinds": [
+        "study-reported"
+      ],
       "playerNamed": true,
       "lived": true,
       "place": "seat",
-      "pool": ["study-members"],
+      "pool": [
+        "study-members"
+      ],
       "where": "pool",
       "player": "on-study",
       "cast": "the committee's chair, or a fellow member when the player chairs it, on what the committee found and what the chair's speech to the body moved",

@@ -3,9 +3,9 @@ import { SCHOOL_FINISHED } from "../core2/past";
 import type { CoreState } from "../core2/types";
 import { lastDayFacts } from "./last-day-facts";
 
-// Edge cases by hand: a last school day and a last day at work, read as the
-// last-day scene reads them. The cause records are the school engine's
-// finished row and the jobs engine's job row.
+// Edge cases by hand: a last school day, read as the last-day scene reads it
+// (the school engine's finished row), and a job row, which is no scene: jobs
+// happen in the background (owner, Nov 24).
 const core = {
   durableLog: new Map<string, unknown>([
     [
@@ -45,15 +45,8 @@ it("a last school day names the school, citing the finished record", () => {
   expect(facts.employer).toBeUndefined();
 });
 
-it("a last day at work names the employer and the job, citing the job row", () => {
-  const facts = lastDayFacts(core, "last-day", "job:p2:1");
-  expect(facts.employer?.sourceRecordIds).toEqual(["job:p2:1", "org:mill:1"]);
-  expect(facts.position?.text).toBe("a machinist");
-  expect(facts["work-day"]).toBeTruthy();
-  expect(facts.school).toBeUndefined();
-});
-
-it("another type or record gives nothing", () => {
+it("another type, a job row or no record gives nothing", () => {
   expect(lastDayFacts(core, "letter", "job:p2:1")).toEqual({});
+  expect(lastDayFacts(core, "last-day", "job:p2:1")).toEqual({});
   expect(lastDayFacts(core, "last-day", "nothing")).toEqual({});
 });

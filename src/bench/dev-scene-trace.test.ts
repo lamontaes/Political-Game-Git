@@ -127,7 +127,7 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
 
   // Forcing a scene causes its cause through the game's own code and marks it as a dev act.
   const before = devModeMarks(world.core).length;
-  const forced = await ask("POST", "scene-trace/force", { typeKey: "layoff" });
+  const forced = await ask("POST", "scene-trace/force", { typeKey: "funeral" });
   expect(forced.status, `${where}: ${JSON.stringify(forced.value)}`).toBe(200);
   expect(devModeMarks(world.core).length).toBeGreaterThan(before);
   expect(

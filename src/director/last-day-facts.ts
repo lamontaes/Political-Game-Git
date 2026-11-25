@@ -1,12 +1,11 @@
 /**
- * What a last day at a school or a job may say, from the record that caused
- * it: a school finished (`school.finished`) names the school, and a job left
- * (the jobs engine's job row, ended) names the employer and the job. Each
- * fact is cited to its record. Empty for any other type or record.
+ * What the last day at a school may say, from the record that caused it: a
+ * school finished (`school.finished`) names the school, cited to its record.
+ * Empty for any other type or record. A job's last day is no scene: jobs
+ * happen in the background (owner, Nov 24).
  */
 import { SCHOOL_FINISHED } from "../core2/past";
 import type { CoreState } from "../core2/types";
-import { withArticle } from "../english/journal-words";
 import type { NewsFact } from "./life-news";
 import { organizationName } from "./words";
 
@@ -32,15 +31,5 @@ export function lastDayFacts(
       "school-day": { text: "yes", sourceRecordIds: [causeId] },
     };
   }
-  const job = core.jobs.get(causeId);
-  const employer = job ? core.organizations.get(job.organizationId) : undefined;
-  if (!job || !employer) return {};
-  return {
-    employer: {
-      text: organizationName(employer),
-      sourceRecordIds: [job.id, employer.id],
-    },
-    position: { text: withArticle(job.title), sourceRecordIds: [job.id] },
-    "work-day": { text: "yes", sourceRecordIds: [job.id] },
-  };
+  return {};
 }

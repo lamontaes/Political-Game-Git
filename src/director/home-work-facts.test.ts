@@ -25,7 +25,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { beginSeriousIllness } from "../core2/modules/health";
-import { JOBS_MODULE_ID, layOffWorker } from "../core2/modules/jobs";
+import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { HEALTH_RESCUED } from "../core2/modules/rescue";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId, Source } from "../core2/types";
@@ -35,17 +35,13 @@ import { rescueFacts } from "./rescue-facts";
 import { purposeScene } from "./purpose-scene";
 import { graduationResults } from "./school";
 import { employerWords } from "./words";
-import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/business-books";
-import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
+import { schoolShortSaid } from "../english/workplace-words";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 5;
-const SLOP = /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/;
 
 /** The scene types whose packets read these records. */
 const SCENE_TYPES = new Set([
-  "layoff",
-  "reach-out",
   "first-day",
   "diploma-home",
   "no-diploma-home",
@@ -59,17 +55,11 @@ const SCENE_TYPES = new Set([
 ]);
 
 /** What every run must show somewhere in its drawn places (the rest is printed by name when not seen). */
-const REQUIRED = [
-  "layoff: employer",
-  "layoff: workplace",
-  "school: school",
-  "breakup: together",
-  "care: since",
-];
+const REQUIRED = ["school: school", "breakup: together", "care: since"];
 
 type Found = { where: string; line: string };
 
-it(`the scenes of home and work life carry the employer, the years, the school, the time together, who died, what a quarrel was over and the illness (seed ${seed})`, () => {
+it(`the scenes of home and work life carry the employer, the school, the time together, who died, what a quarrel was over and the illness (seed ${seed})`, () => {
   setBookkeeping(false);
   const seen = new Map<string, Found>();
   const passedOver: string[] = [];
@@ -167,118 +157,6 @@ it(`the scenes of home and work life carry the employer, the years, the school, 
         }
       }
     };
-
-    // A layoff, through the business's own layoff, of a full person with an open job.
-    // Preferring someone the player lives with, whose pay the household reads.
-    const home = new Set(
-      core.households.get(core.people.get(me)!.householdId)?.memberIds ?? [],
-    );
-    const working = [...core.people.values()]
-      .filter((row) => {
-        const job = row.jobId ? core.jobs.get(row.jobId) : undefined;
-        return row.alive && job && job.endsAt === undefined;
-      })
-      .sort(
-        (a, b) =>
-          Number(home.has(b.id)) - Number(home.has(a.id)) ||
-          a.id.localeCompare(b.id),
-      );
-    const worker = working[0];
-    if (worker?.jobId) {
-      const jobId = worker.jobId;
-      core.focusPersonIds.add(worker.id);
-      watched.add(worker.id);
-      director.watch(core, worker.id);
-      const job = core.jobs.get(jobId)!;
-      let laid = false;
-      for (let tries = 0; tries < 4 && !laid; tries += 1) {
-        const result = layOffWorker(api, jobId);
-        if (result === "worked-today") advance(1);
-        else {
-          laid = typeof result === "object" && result !== null;
-          break;
-        }
-      }
-      advance(2);
-      scanScenes();
-      const lost = [...core.durableLog.values()].find(
-        (row) =>
-          row.kind === "work.job-lost" && row.personIds.includes(worker.id),
-      );
-      if (laid && lost) {
-        const facts = homeWorkFacts(
-          core,
-          "layoff",
-          lost.id,
-          worker.id,
-          worker.id,
-          say(core),
-        );
-        const org = core.organizations.get(job.organizationId)!;
-        const employer = employerWords(org);
-        if (employer) {
-          expect(facts.employer?.text, `${where}: ${lost.id}`).toBe(employer);
-          expect(facts.employer?.sourceRecordIds, where).toContain(lost.id);
-          expect(facts.employer?.sourceRecordIds, where).toContain(org.id);
-          note("layoff: employer", where, `${lost.id}: ${employer}`);
-          // The same record, said as a common noun from the words file.
-          const classification =
-            org.classification ??
-            DEFAULT_BUSINESS_BOOKS_DATA.classifications.find(
-              (row) =>
-                row.kindId === core.finance.businesses.get(org.id)?.kindId,
-            )?.classification;
-          expect(facts.workplace?.text, `${where}: ${lost.id}`).toBe(
-            workplaceSaid(classification),
-          );
-          expect(facts.workplace?.sourceRecordIds, where).toContain(org.id);
-          note(
-            "layoff: workplace",
-            where,
-            `${lost.id}: ${facts.workplace!.text}`,
-          );
-        } else expect(facts.employer, where).toBeUndefined();
-        const reach = homeWorkFacts(
-          core,
-          "reach-out",
-          lost.id,
-          worker.id,
-          worker.id,
-          say(core),
-        );
-        expect(Object.keys(reach), where).toEqual(Object.keys(facts));
-        // Under a year held says nothing of how long; a year or more says it.
-        if (facts.tenure) {
-          expect(facts.tenure.text, where).toMatch(/month|year/);
-          expect(facts.tenure.sourceRecordIds, where).toContain(lost.id);
-          note("layoff: tenure", where, `${lost.id}: ${facts.tenure.text}`);
-          if (facts.years)
-            note("layoff: years", where, `${lost.id}: ${facts.years.text}`);
-        } else {
-          expect(facts.years, where).toBeUndefined();
-          passedOver.push(
-            `${where}: layoff ${lost.id} had no year held on record`,
-          );
-        }
-        for (const fact of Object.values(facts))
-          expect(fact.text, where).not.toMatch(SLOP);
-        // The same record with another type's name carries nothing.
-        expect(
-          homeWorkFacts(
-            core,
-            "funeral",
-            lost.id,
-            worker.id,
-            worker.id,
-            say(core),
-          ),
-          where,
-        ).toEqual({});
-      } else
-        passedOver.push(
-          `${where}: the layoff of ${jobId} did not write its record`,
-        );
-    } else passedOver.push(`${where}: no full person with an open job`);
 
     // A job begun: any hire of a full person the jobs engine recorded.
     const hires = (

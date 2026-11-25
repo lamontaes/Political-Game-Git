@@ -55,7 +55,6 @@ export const SCENE_FLOORS: Readonly<Record<SceneGroup, number>> = {
 export const SCENE_GROUPS: Readonly<Record<string, SceneGroup>> = {
   "bribe-offer": "corruption",
   "bribe-pressed": "corruption",
-  "favor-job": "corruption",
   "ask-vote": "legislating",
   "section-bargain": "legislating",
   "carry-bill": "legislating",

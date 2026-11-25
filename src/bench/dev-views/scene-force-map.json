@@ -23,10 +23,6 @@
       "how": "writer",
       "reason": "circumstance"
     },
-    "reach-out": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
     "becoming-friends": {
       "how": "writer",
       "reason": "circumstance"
@@ -166,10 +162,6 @@
     "filing": {
       "how": "writer",
       "reason": "no-event"
-    },
-    "layoff": {
-      "how": "writer",
-      "reason": "circumstance"
     },
     "vote-asked": {
       "how": "legislature",

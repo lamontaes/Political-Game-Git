@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: merged
+status: dropped
 standard: 2
 claimed-by: claude/pt-board-last-day
 pr: #10521
@@ -30,10 +30,12 @@ merged-at: 2026-11-25T01:44:33.393Z
 
 **Rules.** Every effect can be triggered from the game's own code in dev mode and traced (owner, Nov 14). No second hook or writer: the quit is the existing Leave work call.
 
-**Done when.** A second session, in a drawn place whose player has a job they may leave, uses dev mode's scene control on the last day and sees the last-day scene stage within days with coworkers still at that employer; `src/director/last-day-played.test.ts` passes.
+**Done when.** A second session, in a drawn place whose player has a job they may leave, uses dev mode's scene control on the last day and sees the last-day scene stage within days with coworkers still at that employer; `src/director/last-day-played.test.ts` (removed) passes.
 
 **Waits on.** Nothing.
 
 **Files.** src/bench/dev-mode.ts, src/bench/dev-views/scene-trace.ts, src/bench/dev-views/scene-force-map.json, src/director/last-day-played.test.ts (new)
 
 **Notes.** Filed by Board mock (lane 8), Nov 24.
+
+Dropped (Board mock, 2026-11-25, on the CTO's order 7149991369 on #10377): ruled out by the owner on Nov 24: "remove all the dialogue shit for these jobs. Like, literally, they just need to happen in the background so your character can get money." Jobs happen in the background; the scene is deleted in claude/pt-board-remove-job-scenes.

@@ -1,9 +1,10 @@
 /**
- * A layoff opens a scene at work with the boss who decided it, from the jobs
- * engine's own record: the lost job's event carries who decided and where.
- * A worker with a household is told at home instead, so one cause stages one
- * scene. The fixture world stands in for the jobs engine; a drawn place
- * proves the engine's own record in jobs-layoff-decider.
+ * A layoff happens in the background (owner, Nov 24: "they just need to
+ * happen in the background so your character can get money"): the jobs
+ * engine's own record (`work.job-lost`) stops the worker for no talk at work.
+ * A worker with a household still hears it at home, from the household's news.
+ * The fixture world stands in for the jobs engine; a drawn place proves the
+ * engine's own record in jobs-layoff-decider.
  */
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "../core2/life";
@@ -149,26 +150,15 @@ function run(withSpouse: boolean) {
 }
 
 describe("a layoff scene", () => {
-  it("opens at work with the boss who decided it, for a worker with no household", () => {
+  it("stages no talk at work for a worker with no household", () => {
     const { entry } = run(false);
-    expect(entry).toBeDefined();
-    const layoff = entry!.bindings.find((row) => row.typeKey === "layoff");
-    expect(layoff, JSON.stringify(entry)).toBeDefined();
-    expect(layoff!.setting).toEqual({ kind: "workplace", recordId: employer });
-    expect(layoff!.roles.find((row) => row.role === "boss")!.personIds).toEqual(
-      ["person:boss"],
-    );
-    expect(
-      layoff!.roles.find((row) => row.role === "worker")!.personIds,
-    ).toEqual(["person:worker"]);
-    expect(layoff!.opener).toBe("boss");
+    expect(entry?.bindings ?? [], JSON.stringify(entry)).toEqual([]);
   });
 
   it("gives a worker with a household the one family scene at home", () => {
     const { entry } = run(true);
     expect(entry).toBeDefined();
     const kinds = entry!.bindings.map((row) => row.typeKey);
-    expect(kinds).toContain("news-arrives");
-    expect(kinds).not.toContain("layoff");
+    expect(kinds).toEqual(["news-arrives"]);
   });
 });
