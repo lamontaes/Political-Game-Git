@@ -770,7 +770,8 @@
     "USD/week": "{dollars} a week",
     "years": "{value} years",
     "USD/election": "{dollars} for each election",
-    "hours": "{value} hours"
+    "hours": "{value} hours",
+    "percent of today's fee": "{value} percent of today's fee"
   },
   "cited": "{clause}, amending {statute}",
   "stands": "{subject} is {value}"
