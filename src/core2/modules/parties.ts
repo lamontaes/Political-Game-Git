@@ -716,10 +716,14 @@ function answerMeetingInvite(
   if (facts.typeKey !== "party-meeting-invite") return;
   const cause = api.state.durableLog.get(String(facts.causeId ?? "") as never);
   if (cause?.kind !== PARTY_MEETING_INVITED) return;
-  const attends = api.moduleState(PARTIES_MODULE_ID).table("playerAttends");
+  const state = api.moduleState(PARTIES_MODULE_ID);
+  const attends = state.table("playerAttends");
   const held = attends.get(String(cause.facts?.inviteId ?? "")) as unknown as
     PlayerAttendsRow | undefined;
-  if (!held) return;
+  if (!held || held.date < api.state.date) return;
+  // The meeting can already have been held earlier on the current day.
+  if (state.table("meetings").get(partyMeetingId(held.partyId, held.date)))
+    return;
   const move = String(facts.move);
   const yes = ACCEPTING_MOVES.has(move);
   if (!yes && !REFUSING_MOVES.has(move)) return;
@@ -774,6 +778,10 @@ export function partiesHere(api: CoreAPI): readonly PartyRow[] {
     .moduleState(PARTIES_MODULE_ID)
     .table("parties")
     .rows() as unknown as PartyRow[];
+}
+
+function partyMeetingId(partyId: string, date: string): string {
+  return `party-meeting:${partyId}:${date}`;
 }
 
 export interface PartyMeetingRow {
@@ -1252,7 +1260,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         desiredChange: topic.want > 0 ? "enact" : "repeal",
         audienceIds,
         occasion: {
-          recordId: `party-meeting:${party.id}:${date}`,
+          recordId: partyMeetingId(party.id, date),
           kind: "party-meeting",
         },
       });
@@ -1260,7 +1268,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       .moduleState(PARTIES_MODULE_ID)
       .table("meetings")
       .put({
-        id: `party-meeting:${party.id}:${date}`,
+        id: partyMeetingId(party.id, date),
         partyId: party.id,
         date,
         leaderId,
