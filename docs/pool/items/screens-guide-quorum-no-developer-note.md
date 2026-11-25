@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10536
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-25T00:44:35.634Z
 ---
 
 **What.** The CTO, Nov 24 (N16-21, send-back), caught that the Guide Quorum entry has a note reading from that body own recorded rules; where no quorum rule has been recorded, the game says so instead of assuming a majority. That is developer text about how the game works, not something a player reads.
