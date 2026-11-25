@@ -22,6 +22,8 @@ source: Fable B, Nov 15, 2026, from the gate of #9488 (`npm run guards`, guard t
 
 **Cause.** Needs cause. Measured: `REALISTIC_SEED=b83c42ea232ab544 npx vitest run src/core2/realistic-not-real.test.ts` fails the same way on the clean train at 53e4b29fe8, 1 failed of 17. Lost Springs is one of the smallest places in the country. Not traced: whether none of its full people has a school record with a name (a real fault: a person's history names no school), or the town simply holds too few full people for the case to find one, in which case the test should pass over the draw by name.
 
+Seen also: Hedrick, Indiana (1832854), REALISTIC_SEED=1d72b8e3a6bf51b6 (10 published people), on CI for #9717 and locally on train3 6e9df72b18 itself, 1 failed of 17 the same way (Nov 16).
+
 **Fix.** None until the cause is found.
 
 **Time box.** 1 hour to find the cause.
