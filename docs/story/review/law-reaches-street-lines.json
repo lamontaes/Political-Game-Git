@@ -297,60 +297,6 @@
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
   },
   {
-    "key": "scene-talk.reply-deflect.i-can-t-go-through-law-with-you-here-is-there-another-time-we-could-talk",
-    "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "I can't go through {law} with you here. Is there another time we could talk?",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "law-reaches",
-        "key": "news-received",
-        "requiresFacts": ["law"],
-        "onlyWhen": ["in-force"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "news-received"
-    },
-    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
-  },
-  {
-    "key": "scene-talk.reply-deflect.i-m-going-to-leave-your-question-about-law-open-i-don-t-know-enough-to-answer-it-today",
-    "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "I'm going to leave your question about {law} open. I don't know enough to answer it today.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "law-reaches",
-        "key": "news-received",
-        "requiresFacts": ["law"],
-        "onlyWhen": ["in-force"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "news-received"
-    },
-    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
-  },
-  {
     "key": "scene-talk.state-tell.my-check-had-withheld-taken-out-for-income-tax-is-that-the-part-that-goes-with-law",
     "kind": "spoken",
     "move": "state-tell",
@@ -567,42 +513,15 @@
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
   },
   {
-    "key": "scene-talk.reply-deflect.i-can-t-work-out-your-withholding-here-i-don-t-want-to-guess-how-they-arrived-at-withheld",
+    "key": "scene-talk.reply-promise.i-ll-find-out-who-can-check-that-withholding-against-law-you-deserve-an-answer-from-someone-who-can-explain-the-calculation",
     "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "I can't work out your withholding here. I don't want to guess how they arrived at {withheld}.",
+    "move": "reply-promise",
+    "text": "I'll find out who can check that withholding against {law}. You deserve an answer from someone who can explain the calculation.",
     "uses": [
       {
         "subject": "scene",
         "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "law-reaches",
-        "key": "news-received",
-        "requiresFacts": ["withheld"],
-        "onlyWhen": ["in-force", "law"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "news-received"
-    },
-    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
-  },
-  {
-    "key": "scene-talk.reply-deflect.i-don-t-know-your-pay-well-enough-to-tell-you-whether-they-took-the-right-amount-under-law",
-    "kind": "spoken",
-    "move": "reply-deflect",
-    "text": "I don't know your pay well enough to tell you whether they took the right amount under {law}.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
+        "move": "promise",
         "role": "asked",
         "purpose": "law-reaches",
         "key": "news-received",
@@ -613,9 +532,36 @@
     "bearing": "calm",
     "origin": "authored",
     "author": "Codex writer B",
-    "date": "2026-11-24",
+    "date": "2026-11-25",
     "tag": {
-      "move": "deflect",
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-ll-check-which-part-of-your-pay-counts-under-law-the-date-on-your-stub-would-give-me-somewhere-to-start",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I'll check which part of your pay counts under {law}. The date on your stub would give me somewhere to start.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "promise",
       "key": "news-received"
     },
     "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
@@ -775,7 +721,7 @@
         "key": "news-received",
         "requiresFacts": ["withheld"],
         "onlyWhen": ["in-force", "law"],
-        "after": "scene-talk.reply-deflect.i-can-t-work-out-your-withholding-here-i-don-t-want-to-guess-how-they-arrived-at-withheld"
+        "after": "scene-talk.reply-promise.i-ll-find-out-who-can-check-that-withholding-against-law-you-deserve-an-answer-from-someone-who-can-explain-the-calculation"
       }
     ],
     "bearing": "calm",
@@ -803,7 +749,7 @@
         "key": "news-received",
         "requiresFacts": ["law"],
         "onlyWhen": ["in-force", "withheld"],
-        "after": "scene-talk.reply-deflect.i-don-t-know-your-pay-well-enough-to-tell-you-whether-they-took-the-right-amount-under-law"
+        "after": "scene-talk.reply-promise.i-ll-check-which-part-of-your-pay-counts-under-law-the-date-on-your-stub-would-give-me-somewhere-to-start"
       }
     ],
     "bearing": "calm",
@@ -831,7 +777,7 @@
         "key": "news-received",
         "requiresFacts": ["withheld"],
         "onlyWhen": ["in-force", "law"],
-        "after": "scene-talk.reply-deflect.i-don-t-know-your-pay-well-enough-to-tell-you-whether-they-took-the-right-amount-under-law"
+        "after": "scene-talk.reply-promise.i-ll-check-which-part-of-your-pay-counts-under-law-the-date-on-your-stub-would-give-me-somewhere-to-start"
       }
     ],
     "bearing": "calm",
@@ -859,7 +805,7 @@
         "key": "news-received",
         "requiresFacts": ["law"],
         "onlyWhen": ["in-force", "withheld"],
-        "after": "scene-talk.reply-deflect.i-don-t-know-your-pay-well-enough-to-tell-you-whether-they-took-the-right-amount-under-law"
+        "after": "scene-talk.reply-promise.i-ll-check-which-part-of-your-pay-counts-under-law-the-date-on-your-stub-would-give-me-somewhere-to-start"
       }
     ],
     "bearing": "calm",
