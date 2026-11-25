@@ -1,0 +1,30 @@
+{
+  "id": "open-eyes-on-the-legislative-figure",
+  "kind": "detail",
+  "summary": "{member} examines the winning figure and asks whether anyone can tell that its eyes are open.",
+  "realLife": "Members unanimously recommended an allegory of the legislative branch and requested a correction so the figure would visibly have open eyes.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0728_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the winning drawing and the face as it appears when reduced.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The facial detail can survive reduction.",
+      "what": "The engraver changes the eyelids on the proof.",
+      "writesBack": "The board sees the figure at coin size."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The face is too small to show the change.",
+      "what": "The change disappears in the small proof.",
+      "writesBack": "The artist revisits the angle of the head."
+    }
+  ]
+}

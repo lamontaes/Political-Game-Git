@@ -1,0 +1,30 @@
+{
+  "id": "two-portraits-tie-for-different-reasons",
+  "kind": "situation",
+  "summary": "{member} faces a tie between the pose people admire and a portrait that carries its subject's signature.",
+  "realLife": "Two older Franklin portraits tied in the committee scoring, with members praising the upward gaze in one drawing and the signature in the other.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0524_minutes.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the tied scores and the members' reasons for each portrait.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The two drawings can go forward with separate comments.",
+      "what": "Staff record what members liked about each.",
+      "writesBack": "The selecting official receives both reasons."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The packet permits just one recommendation.",
+      "what": "The secretary cannot send both drawings as winners.",
+      "writesBack": "The chair schedules a deciding ballot."
+    }
+  ]
+}

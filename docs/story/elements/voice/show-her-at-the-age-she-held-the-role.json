@@ -1,0 +1,30 @@
+{
+  "id": "show-her-at-the-age-she-held-the-role",
+  "kind": "voice",
+  "summary": "{member} measures a familiar portrait against the years the piece is supposed to commemorate.",
+  "realLife": "When choosing a Martha Washington portrait, members valued seeing her as she appeared during her husband's presidency and favored a three-quarter view.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0523_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the years being commemorated and the dates of the available portraits.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "There is a portrait from her years in office.",
+      "what": "The researcher dates the likeness for the board.",
+      "writesBack": "The dated portrait travels with the recommendation."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The familiar portrait was painted much later.",
+      "what": "The portrait shows the subject at the wrong age.",
+      "writesBack": "The board asks what other likenesses survive."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "the-city-didnt-strike-that-dollar-that-year",
+  "kind": "situation",
+  "summary": "{member} must decide whether an old coin can stand for the mint in a year it never struck that design.",
+  "realLife": "Members knew the Morgan dollar had not been produced in 1906 and still recommended its Liberty image to represent the San Francisco Mint.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0615_minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the proposed issue year and the mint's production history.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The caption identifies the mint without assigning a strike year.",
+      "what": "The board accepts the historical association.",
+      "writesBack": "The recommendation records the date discrepancy."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The program specifically requires a coin struck that year.",
+      "what": "The image fails the year requirement.",
+      "writesBack": "Staff bring back a different model."
+    }
+  ]
+}

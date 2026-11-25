@@ -1,0 +1,30 @@
+{
+  "id": "the-public-forum-starts-after-adjournment",
+  "kind": "moment",
+  "summary": "{chair} closes the voting meeting and stays to hear collectors talk about what should go on future coins.",
+  "realLife": "Immediately after the committee adjourned in San Francisco, members held a forum and heard views from people in the coin community.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0728_minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{chair}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the adjournment time and the convention's room schedule.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The convention has a room after the meeting.",
+      "what": "A collector raises a subject missing from the ballot.",
+      "writesBack": "The chair carries the idea into future planning."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The convention needs the room back.",
+      "what": "The convention staff close the room.",
+      "writesBack": "The collector sends the suggestion afterward."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "correct-the-letter-before-anyone-enlarges-the-mountains",
+  "kind": "moment",
+  "summary": "{member} catches a recorded instruction to enlarge something the artist has yet to draw.",
+  "realLife": "In revisiting its Nevada quarter recommendation, the committee corrected the instruction about the mountains to specify adding them to the background.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0315_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the letter to Treasury and the version of the sketch the board reviewed.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The artist still has the drawing used at the meeting.",
+      "what": "The secretary checks it against the disputed verb.",
+      "writesBack": "The next instruction asks for new mountains."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The artist has revised the background already.",
+      "what": "The drawing on the artist's desk already has mountains.",
+      "writesBack": "The secretary identifies which drawing the letter described."
+    }
+  ]
+}

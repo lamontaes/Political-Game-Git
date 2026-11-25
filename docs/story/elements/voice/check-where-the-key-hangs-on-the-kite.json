@@ -1,0 +1,30 @@
+{
+  "id": "check-where-the-key-hangs-on-the-kite",
+  "kind": "voice",
+  "summary": "{member} asks the artist to account for the placement of a familiar object in a famous experiment.",
+  "realLife": "Reviewing a young Franklin flying a kite, members questioned where the key had been drawn and also identified problems with the proportions of his body.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0524_minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the sketch of the kite and the reference for its rigging.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The experiment can be checked against a period account.",
+      "what": "The artist revisits the position of the key.",
+      "writesBack": "The revised sketch goes in the packet."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reference does not establish its position.",
+      "what": "The board cannot verify where the key belongs.",
+      "writesBack": "The historian flags the unresolved detail."
+    }
+  ]
+}

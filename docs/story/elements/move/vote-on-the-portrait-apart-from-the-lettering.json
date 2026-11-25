@@ -1,0 +1,30 @@
+{
+  "id": "vote-on-the-portrait-apart-from-the-lettering",
+  "kind": "move",
+  "summary": "{chair} lets the board pick a portrait before asking which layout should carry the words.",
+  "realLife": "The First Spouse committee rated the individual portraits and separately selected a common arrangement of inscriptions for the spouse issues.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0523_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{chair}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the portrait ballot and the required series inscriptions.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The same lettering scheme can fit several portraits.",
+      "what": "The designer tries the preferred layout on each winner.",
+      "writesBack": "The series returns as a set of proofs."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "One portrait covers the required date.",
+      "what": "The board makes an exception for the crowded portrait.",
+      "writesBack": "Its inscription comes back for a separate vote."
+    }
+  ]
+}
