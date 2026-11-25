@@ -35444,14 +35444,6 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
           "purpose": "introduction",
           "key": "arrival",
           "after": "answer",
@@ -36458,115 +36450,11 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-book-it",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes. Book it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-i-ll-sit",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes, I'll sit.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.no-interview-thanks",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "No interview, thanks.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-ll-decline",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'll decline.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.not-for-me",
       "move": "reply-decline",
       "kind": "spoken",
       "text": "Not for me.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
-        },
         {
           "subject": "scene",
           "purpose": "campaign-answer",
@@ -49014,14 +48902,6 @@
           "purpose": "care-visit",
           "key": "routine",
           "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "invite-interview",
-          "key": "favor-asked"
         },
         {
           "subject": "scene",
@@ -82829,6 +82709,206 @@
         "key": "welcomed"
       },
       "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-readers-hear-it-from-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'd rather {outlet}'s readers hear it from me than read a guess about the race for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["reporter-seeks-an-unscheduled-interview"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-covering-it-either-way",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. {outlet} is covering the race for {office} either way, so it should have my answers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["reporter-seeks-an-unscheduled-interview"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-platform-on-file",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. My platform is on file for the race for {office}, and I'd like {outlet} to ask me about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["reporter-seeks-an-unscheduled-interview"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-people-read-outlet",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. A race for {office} is decided by who voters hear from, and they read {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "elements": ["reporter-seeks-an-unscheduled-interview"]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-voters-over-outlet",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. I'd rather spend my time with voters in the race for {office} than in a sit-down with {outlet}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["a-missed-weekend-and-the-interview-turned-down"]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-one-more-thing-to-quote",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. A sit-down with {outlet} would only give the race for {office} one more thing to quote against me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["a-missed-weekend-and-the-interview-turned-down"]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-answers-not-settled",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. My answers for the race for {office} aren't settled, and I won't have {outlet} print half of them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["a-missed-weekend-and-the-interview-turned-down"]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-platform-is-on-file",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. My platform is already on file for the race for {office}. {outlet} can print that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "invite-interview",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the news writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "elements": ["a-missed-weekend-and-the-interview-turned-down"]
     }
   ]
 }

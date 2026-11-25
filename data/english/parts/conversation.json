@@ -23072,28 +23072,6 @@
       }
     },
     {
-      "key": "conversation.interview-question-answer-brief.i-d-rather-wait",
-      "move": "interview-question-answer-brief",
-      "kind": "spoken",
-      "text": "I'd rather wait.",
-      "uses": [
-        {
-          "move": "interview-question-answer-brief",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "brief",
-          "requiresFacts": ["no-stand"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.interview-question-answer-brief.not-yet",
       "move": "interview-question-answer-brief",
       "kind": "spoken",
