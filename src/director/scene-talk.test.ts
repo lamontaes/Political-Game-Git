@@ -74,6 +74,11 @@ const CUT_PURPOSES = new Set<string>([
   "home-damaged",
   "swearing-in",
   "bill-sign-on",
+  "job-offer",
+  "layoff",
+  "last-day",
+  "first-day",
+  "reach-out",
 ]);
 
 describe(`scenes with a purpose (seed ${seed})`, () => {

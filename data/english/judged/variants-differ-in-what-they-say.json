@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "variants-differ-in-what-they-say",
   "rubric": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
-  "judged": 25,
+  "judged": 19,
   "no": {
     "007eyoz0umj": {
       "keys": [
@@ -10,13 +10,6 @@
         "scene-talk.state-request.the-town-is-behind-bill-don-t-be-the-member-who-isn-t"
       ],
       "why": "Both lines need the same facts and both say the town wants {bill}, so vote for it, the same ask in other words."
-    },
-    "008lxppe3dt": {
-      "keys": [
-        "scene-talk.follow-answer.replaced-had-the-job-before-you-it-s-hours-hours-a-week",
-        "scene-talk.follow-answer.you-d-be-taking-over-for-replaced-same-hours-hours-a-week"
-      ],
-      "why": "Both lines give the same two facts, the predecessor's name and the weekly hours, only reworded."
     },
     "053ee3yzrmi": {
       "keys": [
@@ -47,14 +40,6 @@
       ],
       "why": "Both lines say the player is a no on {bill}."
     },
-    "0r9ay689wsa": {
-      "keys": [
-        "scene-talk.follow-answer.it-s-hours-hours-a-week-and-we-d-show-you-the-ropes",
-        "scene-talk.follow-answer.you-d-put-in-hours-hours-a-week-most-of-it-you-learn-by-doing",
-        "scene-talk.follow-answer.you-d-work-hours-hours-a-week-alongside-crew-of-us"
-      ],
-      "why": "Two of the three say the hours and that the newcomer will be taught, so most are rewordings of the same answer with no condition between them."
-    },
     "13qaoo1jve4": {
       "keys": [
         "scene-talk.reply-agree.i-remember-earlier-you-have-my-vote",
@@ -68,13 +53,6 @@
         "scene-talk.follow-confront.source-told-me-you-d-never-go-along-with-it"
       ],
       "why": "Both cite {source} saying the player never meant to go along, a rewording."
-    },
-    "1lsqjr5qs7s": {
-      "keys": [
-        "scene-talk.close-press.the-offer-s-good-until-deadline",
-        "scene-talk.close-press.the-offer-stands-until-deadline"
-      ],
-      "why": "Both lines say the same thing, that the offer is good until {deadline}."
     },
     "1nuqdxlgz7j": {
       "keys": [
@@ -101,13 +79,6 @@
       ],
       "why": "All five lines ask the player to sponsor {bill}, and the carry-ask tag does not change what is said."
     },
-    "25y6gx6i6h1": {
-      "keys": [
-        "scene-talk.close-promise.i-ll-hold-it-for-you-until-deadline",
-        "scene-talk.close-promise.i-ll-keep-it-open-until-deadline"
-      ],
-      "why": "Both lines say the same thing, that the job will be held until {deadline}."
-    },
     "2acyy2f70bf": {
       "keys": [
         "scene-talk.narrate-narrate.name-has-been-counting-votes-on-bill-all-week-now-name-is-at-your-door",
@@ -116,5 +87,5 @@
       "why": "Both lines have {name} come asking about the vote on {bill}, differing only in setting with no fact to choose the setting."
     }
   },
-  "yesHash": "0dawpr2fjlo"
+  "yesHash": "23pn9dt40w7"
 }
