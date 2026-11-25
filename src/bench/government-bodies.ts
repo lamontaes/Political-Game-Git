@@ -40,6 +40,7 @@ import { capitolPlaceFor } from "./backdrop-places";
 import { calendarItems } from "./calendar";
 import { facePlace, holderFace, homeStateOf } from "./government";
 import { policyNames } from "./words";
+import { pastBillsOf } from "../core2/past-module";
 import { chamberChanges } from "./states";
 import {
   headsExecutive,
@@ -221,29 +222,40 @@ export function recentVotesOf(api: Api, officeId: string) {
   for (const row of rows)
     if (row.body === officeId)
       measures.set(row.billId, [...(measures.get(row.billId) ?? []), row]);
+  // Last term's bills, with the whole roll call the world kept: a body whose
+  // members all took their seats since has them here and no member rows.
+  const kept = new Map(pastBillsOf(api, officeId).map((b) => [b.billId, b]));
+  for (const id of kept.keys()) if (!measures.has(id)) measures.set(id, []);
   const bills = api.state.modules.has(LEGISLATURE_MODULE_ID)
     ? api.moduleState(LEGISLATURE_MODULE_ID).table("bills")
     : null;
   const names = policyNames();
   return [...measures]
     .map(([billId, all]) => {
+      const past = kept.get(billId);
       // A bill with several sections leaves a record per question; the date
       // and the past count read the first question's, one row per voter.
-      const question = all[0]!.stance.question;
+      const question = past?.question ?? all[0]!.stance.question;
       const votes = all.filter((v) => v.stance.question === question);
-      const date = votes.reduce((d, v) => (v.date > d ? v.date : d), "");
+      const date =
+        past?.date ?? votes.reduce((d, v) => (v.date > d ? v.date : d), "");
       const bill = bills?.get(billId) as unknown as BillRow | undefined;
       // This term's bill: the floor's own count, and whether the body
       // carried it, as the floor decided (a tie broken against it or a
       // cloture shortfall fails a bill more voted for).
       const counted = bill ? floorCountOf(api, billId, officeId) : null;
-      // A past measure: voters split by the sign of their stance on the
+      // A past measure: the roll call the world kept, the seats' earlier
+      // holders counted with the members.
+      const passed = counted
+        ? counted.carried
+        : past
+          ? past.passed
+          : votes.some((v) => v.passed === true);
+      // A measure with no kept roll call (a past measure from a world saved
+      // before it was kept): voters split by the sign of their stance on the
       // measure's question; the side that carried a passed measure is its yes.
       const plus = votes.filter((v) => v.stance.position > 0).length;
       const minus = votes.length - plus;
-      const passed = counted
-        ? counted.carried
-        : votes.some((v) => v.passed === true);
       const larger = Math.max(plus, minus);
       const smaller = Math.min(plus, minus);
       return {
@@ -256,8 +268,14 @@ export function recentVotesOf(api: Api, officeId: string) {
           ? (billTitleOf(bill)?.title ?? null)
           : (names[question] ?? null),
         passed,
-        yes: counted ? counted.yes : passed ? larger : smaller,
-        no: counted ? counted.no : passed ? smaller : larger,
+        yes: counted
+          ? counted.yes
+          : past
+            ? past.yes
+            : passed
+              ? larger
+              : smaller,
+        no: counted ? counted.no : past ? past.no : passed ? smaller : larger,
       };
     })
     .filter((m) => m.title)
