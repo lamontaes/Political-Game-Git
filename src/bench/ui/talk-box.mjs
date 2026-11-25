@@ -4,7 +4,6 @@
 // here, never by writing to `#talk-lines` or `#talk-choices` themselves.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { face as drawFace } from "./face.mjs";
 
 const $ = (id) => document.getElementById(id);
 
@@ -20,17 +19,17 @@ export function talkLine({
   lying,
   held,
   grade,
-  face,
+  mark,
 }) {
   const classes = [kind];
   if (lying) classes.push("lying");
   if (held) classes.push("held");
-  // The player's own line is a row of its own: their small face, their name, what they said.
+  // The player's own line is a row of its own: their small face (a mark the play screen makes), their name, what they said.
   if (kind.includes("mine"))
     return el(
       "li",
       { className: classes.join(" ") },
-      ...(face ? [drawFace(face)] : []),
+      ...(mark ? [mark()] : []),
       el(
         "div",
         { className: "mine-text" },
@@ -58,10 +57,10 @@ export function talkLine({
  * being said now"): the player's past lines (`history mine`, named), the other person's
  * past lines (`history theirs`, named), and what is said now (`speech`, everything after
  * the player's last line). `lines` are `{ text, mine, lying, held, grade }`, oldest first;
- * `keep` is how many past lines stay above the line said now; `mineFace` is the player's
- * own face, drawn small in their row.
+ * `keep` is how many past lines stay above the line said now; `mineMark` makes the small mark
+ * of the player's own face for their row (the play screen draws it; this part draws no face).
  */
-export function transcript(lines, { mineWho, theirWho, mineFace, keep = 1 }) {
+export function transcript(lines, { mineWho, theirWho, mineMark, keep = 1 }) {
   const lastMine = lines.findLastIndex((line) => line.mine);
   const past = lastMine < 0 ? [] : lines.slice(0, lastMine + 1).slice(-keep);
   const now = lines.slice(lastMine + 1);
@@ -71,7 +70,7 @@ export function transcript(lines, { mineWho, theirWho, mineFace, keep = 1 }) {
         ...line,
         kind: `history ${line.mine ? "mine" : "theirs"}`,
         who: line.mine ? mineWho : theirWho,
-        ...(line.mine && mineFace ? { face: mineFace } : {}),
+        ...(line.mine && mineMark ? { mark: mineMark } : {}),
       }),
     ),
     ...now.map((line) => talkLine({ ...line, kind: "speech" })),

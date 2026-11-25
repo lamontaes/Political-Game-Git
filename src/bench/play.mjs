@@ -1614,7 +1614,7 @@ function spokenLines(lines) {
     {
       mineWho: $("card-name").textContent,
       theirWho: $("talk-name").textContent,
-      mineFace: myFace,
+      mineMark: myFace ? () => drawFace(myFace) : undefined,
     },
   );
 }
@@ -2764,7 +2764,7 @@ function playExchange(story) {
       {
         mineWho: $("card-name").textContent,
         theirWho: story.names[talk.askerId],
-        mineFace: myFace,
+        mineMark: myFace ? () => drawFace(myFace) : undefined,
       },
     );
   // The path is the index of each reply chosen, from the first.
