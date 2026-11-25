@@ -14,10 +14,18 @@ import { rosterTitle, stripSection } from "./strips.mjs";
 /**
  * `groups`: [{ name, items: [{ value, label, today, aside, unit, cents, note, blocked }] }]; `aside` is the short note on the list row (else `today`); `say(typed)` is the words a typed amount reads as, shown under the box;
  * `words`: { title, issue, today, newAmount, draft, none, risePerYear, risePercent,
- * riseYears, riseFirstDate, riseBack, riseNeedsAmount, risePercentNeeded, riseYearsNeeded, riseDateNeeded }; `onDraft(item, typed, steps, rise)` drafts the bill (`rise` is
+ * riseYears, riseFirstDate, riseBack, riseNeedsAmount, risePercentNeeded, riseYearsNeeded, riseDateNeeded };
+ * `today`: the game's day (YYYY-MM-DD), so every date picked is after it; `onDraft(item, typed, steps, rise)` drafts the bill (`rise` is
  * the percent a year, its years and its first day, in place of a value or steps). Returns the screen's node.
  */
-export function draftCard({ groups, words, onDraft }) {
+export function draftCard({ groups, words, today = "", onDraft }) {
+  // The first day a date may name: the game's day after today.
+  const tomorrow = (() => {
+    if (!today) return "";
+    const d = new Date(`${today}T00:00:00Z`);
+    d.setUTCDate(d.getUTCDate() + 1);
+    return d.toISOString().slice(0, 10);
+  })();
   const unitOf = (item) =>
     el("span", { className: "draft-unit", textContent: item.unit ?? "" });
   const page = (item) => {
@@ -28,8 +36,8 @@ export function draftCard({ groups, words, onDraft }) {
     });
     draft.disabled = Boolean(item.blocked);
     // A phase-in: the amount typed is its first step and each added step has its own
-    // amount; every step names the day it takes effect. The engine refuses a bad date
-    // and the screen shows its reason. Only a law amount can be phased in.
+    // amount; every step names the day it takes effect, after today and after the step
+    // before it, and Draft stays dark until they do. Only a law amount can be phased in.
     const steps = el("div", { className: "draft-steps" });
     const rows = [];
     const when = el("span", {
@@ -55,12 +63,16 @@ export function draftCard({ groups, words, onDraft }) {
         live.textContent = item.say(typed.value);
       });
     let firstDate = null;
-    const dateField = (name) =>
-      el("input", {
+    const dateField = (name) => {
+      const field = el("input", {
         type: "date",
         className: "draft-step-date",
         ariaLabel: name,
       });
+      if (tomorrow) field.min = tomorrow;
+      field.addEventListener("input", () => checkRise());
+      return field;
+    };
     const addStep = makeButton({
       className: "action small draft-add-step",
       textContent: words.addStep ?? "",
@@ -75,6 +87,7 @@ export function draftCard({ groups, words, onDraft }) {
       const amount = numberBox({ value: 0, label: words.newAmount });
       const date = dateField(words.stepDate ?? "");
       rows.push({ amount, date });
+      checkRise();
       // Every row reads the same way: the amount with its unit, then when it takes effect.
       steps.append(
         el(
@@ -150,25 +163,35 @@ export function draftCard({ groups, words, onDraft }) {
     const riseNeeds = el("p", { className: "draft-note draft-rise-needs" });
     riseNeeds.hidden = true;
     const checkRise = () => {
+      // Closed, Draft is as the subject allows: dark where the body may not write on it.
+      // Closed with dated steps, each day is after today and after the step before it.
+      const after = (date, last) => Boolean(date) && date > last;
       if (rise.hidden) {
-        riseNeeds.hidden = true;
-        draft.disabled = false;
+        const dates = firstDate
+          ? [firstDate.value, ...rows.map((row) => row.date.value)]
+          : [];
+        const inOrder = dates.every((date, i) =>
+          after(date, i ? dates[i - 1] : today),
+        );
+        const missing = inOrder ? "" : words.riseDateNeeded;
+        riseNeeds.textContent = missing ?? "";
+        riseNeeds.hidden = !missing;
+        draft.disabled = Boolean(item.blocked || missing);
         return;
       }
       const missing = !(Number(percent.value) > 0)
         ? words.risePercentNeeded
         : !(Number(years.value) >= 2)
           ? words.riseYearsNeeded
-          : !riseDate.value
+          : !after(riseDate.value, today)
             ? words.riseDateNeeded
             : "";
       riseNeeds.textContent = missing ?? "";
       riseNeeds.hidden = !missing;
-      draft.disabled = Boolean(missing);
+      draft.disabled = Boolean(item.blocked || missing);
     };
     percent.addEventListener("input", checkRise);
     years.addEventListener("input", checkRise);
-    riseDate.addEventListener("input", checkRise);
     riseToggle.addEventListener("click", () => {
       rise.hidden = !rise.hidden;
       riseToggle.textContent = rise.hidden
