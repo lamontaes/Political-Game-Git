@@ -4,7 +4,7 @@
   "summary": "A county chooses someone to speak for its readers on a board shared with neighboring counties.",
   "realLife": "County executives nominated trustees for Wisconsin's South Central Library System, and county supervisory boards ratified the choices in a system serving independently governed libraries.",
   "sources": [
-    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=23"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=nominated%20by%20county%20executives%20and%20ratified%20by%20county%20boards"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{county}", "{trustee}"],

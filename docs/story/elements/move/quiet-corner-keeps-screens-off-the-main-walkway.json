@@ -4,7 +4,7 @@
   "summary": "A branch protects readers' privacy by changing which way a person walking through the room faces.",
   "realLife": "Fort Vancouver Regional Library combined privacy screens with station placement away from heavily traveled areas.",
   "sources": [
-    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=45"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=Fort%20Vancouver%20Regional%20Library%2C%20for%20example%2C%20combines%20the%20methods"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{branch}", "{station}"],

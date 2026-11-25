@@ -4,7 +4,7 @@
   "summary": "A screen that hides a reader's work also makes it harder for a librarian beside them to help.",
   "realLife": "The trial court recorded that restricted viewing angles made it hard for librarians or partners to see the same terminal screen alongside a patron.",
   "sources": [
-    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=46"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=viewing%20the%20contents%20on%20another%20patron%27s%20screen%2C%20they%20suffer"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
   "slots": ["{reader}", "{librarian}"],

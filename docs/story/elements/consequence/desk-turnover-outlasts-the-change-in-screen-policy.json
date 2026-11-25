@@ -4,7 +4,7 @@
   "summary": "Trustees weighing a new computer rule also face turnover among the librarians assigned to that area.",
   "realLife": "Greenville experienced high turnover among reference librarians working within sight of the terminals during its attempts to manage what patrons could see.",
   "sources": [
-    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=43"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=library%20experienced%20a%20high%20turnover%20rate%20among%20reference%20librarians"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{librarian}", "{branch}"],
