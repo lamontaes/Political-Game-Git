@@ -832,7 +832,8 @@ const LIFE_HISTORY: HistorySource = {
     // A read by kind takes only the facts the person was made with of those
     // kinds; the records of the past and of play come from the records
     // themselves, so a lookup never builds the whole life.
-    if (ask.kinds) return builtFactsOf(core, scope.person, ask.kinds);
+    if (ask.kinds || ask.from === "built")
+      return builtFactsOf(core, scope.person, ask.kinds);
     return lifeOf(core, scope.person).map((event) => ({
       ...event,
       personIds: [scope.person, ...event.withIds],

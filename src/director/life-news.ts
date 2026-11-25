@@ -10,6 +10,7 @@ import { FAMILY_MARRIED } from "../core2/modules/partnerships";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { P } from "../core2/parameters";
 import { MOVED_AWAY_EVENT } from "../core2/modules/moves";
+import { PAST_WORK_SPELL, historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { organizationName } from "./words";
@@ -22,7 +23,7 @@ export interface NewsFact {
 /** The health engine's record of a serious illness beginning. */
 export const ILLNESS_EVENT = "health.serious-illness";
 
-/** The records of a kind that name a person, dated after `since`, the newest first. */
+/** The records of a kind that name a person, dated after `since`, the newest first: their history in play. */
 export function recordsSince(
   core: Readonly<CoreState>,
   personId: PersonId,
@@ -30,15 +31,30 @@ export function recordsSince(
   since: string,
   until: string = core.date,
 ) {
-  return [...(core.logByPerson.get(personId) ?? [])]
-    .map((id) => core.durableLog.get(id))
-    .filter(
-      (row) => row?.kind === kind && row.date > since && row.date <= until,
-    )
-    .sort(
-      (a, b) => b!.date.localeCompare(a!.date) || a!.id.localeCompare(b!.id),
-    )
-    .map((row) => row!);
+  return historyOf(
+    core as CoreState,
+    { person: personId },
+    { kinds: [kind], from: "played", through: until },
+  )
+    .filter((row) => row.date > since)
+    .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
+}
+
+/**
+ * The record of the job a person holds on day one, with when they started it
+ * (`startedAt`): the working-life spell their history holds for that job.
+ */
+export function jobHeldSince(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  jobId: string | undefined,
+) {
+  if (!jobId) return undefined;
+  return historyOf(
+    core as CoreState,
+    { person: personId },
+    { kinds: [PAST_WORK_SPELL], from: "past" },
+  ).find((row) => row.facts?.jobId === jobId);
 }
 
 /**
