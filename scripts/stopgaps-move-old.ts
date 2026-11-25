@@ -1,7 +1,7 @@
 // Moves a branch's rows from the old single register file into the family
 // files (tooling-stopgaps-register-per-family). For a PR cut before the split:
 // after `git merge origin/main` stops on "deleted in HEAD/modified in theirs"
-// for src/core2/data/stopgaps.json, run
+// for src/core2/data/stopgaps.json (removed), run
 //   node --import tsx scripts/stopgaps-move-old.ts
 // It reads the branch's copy of the old file, writes every row the branch added
 // or changed into its family file (matched by id), and deletes the old file.

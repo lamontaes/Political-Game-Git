@@ -64,7 +64,7 @@ describe("the line register", () => {
     // Owner, Nov 24: "every single line in the game right now needs to be go
     // back and matched to an element." A piece is matched when its
     // `elements` list holds at least one id; whether the ids are real is
-    // tests/guards/english/bank-elements.test.ts's job. The count per bank
+    // tests/guards/english/bank-elements.test.ts (removed)'s job. The count per bank
     // only shrinks.
     expect(
       grew(

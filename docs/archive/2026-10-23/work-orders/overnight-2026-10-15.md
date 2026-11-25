@@ -8,7 +8,7 @@ Written by the CTO (Fable) on the owner's word, Oct 15, night. Three Codex sessi
 - Checks run in your session on the files you changed only: typecheck, eslint, prettier, the tests for those files, `npm run zero-dice`. Never the full suite. One line at the top of the PR body with the result. A new file nothing reads needs no run.
 - Every PR that will reach `main` carries a release declaration in `docs/release/changes/<id>.md` (`id` equals the file name; `impact: patch`, `minor` or `none`; `none` carries no title or section).
 - Proof is a one-year run of the played world (`buildBenchWorld`, every module installed, a place and seed you did not choose), with the record ids of the people reached, in the PR body. A unit test on a small world proves nothing about play.
-- Every shortcut is a registered stopgap in `src/core2/data/stopgaps.json` with a marker in the code; an owner's call is kind `owner-decision`, under **OWNER DECISIONS NEEDED** at the top of the PR body and in `OWNER-DECISIONS.md`.
+- Every shortcut is a registered stopgap in `src/core2/data/stopgaps.json` (removed) with a marker in the code; an owner's call is kind `owner-decision`, under **OWNER DECISIONS NEEDED** at the top of the PR body and in `OWNER-DECISIONS.md`.
 - The owner does not read PR bodies. The PR body's first lines say what he can play now, in plain words.
 - When your assignment is done, take the first unclaimed item from the pool below: write your branch name beside it in `docs/coordination/BOARD.md` under "Pool claims" in a one-line commit on `main`-bound branch `pool/claims`, or, if that conflicts, in your PR body's first line. Then keep going until usage runs out.
 
@@ -52,13 +52,13 @@ In this order, one PR each:
 
 ## Session D: the pool worker (`pool/*`)
 
-Session D has no assignment of its own. It starts on the pool at once and works it to completion: top to bottom, claiming each item before starting it, one draft PR per item, and it does not stop while any item is unclaimed or unfinished. When an item is blocked by another session's unmerged work, it writes the blocker in one line in its PR body and takes the next item; it comes back to the blocked one last. When the pool is empty, it takes the next open `faked-mechanic`, `missing-record` and `missing-mechanic` stopgaps in `src/core2/data/stopgaps.json`, one engine per PR, until usage runs out. It never waits on anyone.
+Session D has no assignment of its own. It starts on the pool at once and works it to completion: top to bottom, claiming each item before starting it, one draft PR per item, and it does not stop while any item is unclaimed or unfinished. When an item is blocked by another session's unmerged work, it writes the blocker in one line in its PR body and takes the next item; it comes back to the blocked one last. When the pool is empty, it takes the next open `faked-mechanic`, `missing-record` and `missing-mechanic` stopgaps in `src/core2/data/stopgaps.json` (removed), one engine per PR, until usage runs out. It never waits on anyone.
 
 ## The pool, for Session D first and for whoever finishes an assignment (claim before starting)
 
 1. Committee markup trades: members trade votes for sections in committee, where most bills die (`legislature.ts`; follows #4281's floor trades).
 2. The eleven record-only laws' reads, if Session A did not reach them all (take the next unwired family).
-3. Stopgaps by kind: every `faked-mechanic` stopgap in `src/core2/data/stopgaps.json` (37): replace the fake with the mechanic or delete the feature that needs it; then `missing-record` (15). One PR per engine. Never close a stopgap by deleting its row.
+3. Stopgaps by kind: every `faked-mechanic` stopgap in `src/core2/data/stopgaps.json` (removed) (37): replace the fake with the mechanic or delete the feature that needs it; then `missing-record` (15). One PR per engine. Never close a stopgap by deleting its row.
 4. The journal of an officeholder: taking office, a vote cast, an interview and a town hall each become a "My life" entry from the record (`src/director/journal.ts`, the office-day engine's act records).
 5. The unit suite follows what the game does now (#4309, `release/green-suite`): a test of the retired old core is deleted with a line; a test of the new core, the bench, the director or the release machinery that broke is fixed at the root, never skipped.
 6. Stale pool PRs from Oct 10 and 11 (`pool/*`, `english/*`, `codex/session35-*`, `cto/title-people-national-scenes`): for each, one line in a single closing PR saying superseded by what, or carried forward where; then close them. Nothing is deleted from history.
@@ -73,7 +73,7 @@ The pool is not closed: a session that finds wiring the golden path needs and no
 
 ## The CTO's morning check (owner, Oct 15, night)
 
-"Never wait on anyone" means build against the smallest registered stand-in, never skip the gap. In the morning the CTO (or one read-only sub-agent) reads every overnight PR's diff for: a stand-in without a row in `src/core2/data/stopgaps.json` and a marker in the code; a stopgap closed by deleting its row; a test skipped or loosened; a feature that writes a record nothing reads; a state, city or GEOID named in logic. Any of these sends the PR back before it merges.
+"Never wait on anyone" means build against the smallest registered stand-in, never skip the gap. In the morning the CTO (or one read-only sub-agent) reads every overnight PR's diff for: a stand-in without a row in `src/core2/data/stopgaps.json` (removed) and a marker in the code; a stopgap closed by deleting its row; a test skipped or loosened; a feature that writes a record nothing reads; a state, city or GEOID named in logic. Any of these sends the PR back before it merges.
 
 Not tonight's: the English engine and the director (`src/director/`, `src/presentation/english-*`, `data/english/`), which stay with the Claude Words session (owner, Oct 15, night; the CTO may move the director later). Everything else in the game is open to these sessions, the screens included once the overnight orders are done (`docs/work-orders/astra-2026-10-15.md`, Order 1).
 

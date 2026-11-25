@@ -4,7 +4,7 @@ Every note you give about a line becomes a rule a program can test. After each g
 
 ## Where this comes from
 
-Design by Fable, November 10, 2026, for pool item `words-machine-rules-from-the-owners-notes`. It answers root cause 4 of the audit (`docs/audits/fable-vision-2026-11-09.md` on branch `audit/fable-vision`).
+Design by Fable, November 10, 2026, for pool item `words-machine-rules-from-the-owners-notes`. It answers root cause 4 of the audit (`docs/audits/fable-vision-2026-11-09.md` (removed) on branch `audit/fable-vision`).
 
 ## What you ruled
 
