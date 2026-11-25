@@ -77,6 +77,7 @@ From his grades. `scene-standard` holds the rest.
 
 ## Gotchas
 
+- Nov 25: a writer merged the lead's branch, then reverted that merge to get back to green. The revert stays in its history, so folding the branch later undid the lead's whole cut (273 deleted replies came back, about 1,600 files rolled back). Never revert a merge: reset your local branch to before it, or ask the lead. Restart from the lead's head when told.
 - Nov 24: five writers were scoped to slots of one evening (the address call, the first evening's entry, the talk about the address). The owner: "Don't work on the address. Work on speeches." Scope by system.
 - Nov 24: Codex writer A stopped to wait for a CTO merge. The owner: "It keeps stopping at every little step." Cite from the open PR and keep going.
 - Nov 24: element PRs failed Prettier, then `release:check`. Run `npx prettier --write docs/story/elements`. Since #10429 and #10467 an element-only PR carries no `docs/release/changes/` file: one file outside `docs/story/elements/` makes Audit scan, New game and Instruction checks run on it (78 of 189 queued runs came from element PRs that carried one; the Coordinator, 7143409809 on #9750). Open element PRs ready for review, never as drafts: the merge watcher skips drafts.
