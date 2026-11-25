@@ -2,9 +2,10 @@
   "id": "two-bills-put-different-people-in-charge-of-the-same-sort",
   "kind": "move",
   "summary": "A program official puts two bills side by side to ask who would run their collection groups.",
-  "realLife": "In 2023 testimony on Maine LD 1909 and LD 1910, maine DEP staff supported sorting like materials together but explained that LD 1909 and LD 1910 assigned administration of new groups differently.",
+  "realLife": "In 2023 testimony on Maine LD 1909 and LD 1910, maine DEP staff supported sorting like materials together but explained that LD 1909 and LD 1910 assigned administration of new groups differently. DEP later reported that the two existing pickup agents formed groups that took in previously unaffiliated deposit initiators.",
   "sources": [
-    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178376#page=2"
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178376#page=2",
+    "https://www3.maine.gov/dep/publications/documents/archive/legislative%20reports/2025/2025-Product-Stewardship-Report-With-Comments-FINAL.pdf#page=5"
   ],
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{official}", "{chair}"],
@@ -27,6 +28,12 @@
       "what": "The chair holds the governance section for the work session.",
       "pulledBy": "Members still want competing arrangements costed.",
       "writesBack": "Staff brings both alternatives back on the agenda."
+    },
+    {
+      "turn": "late",
+      "what": "The clerk asks each agent which previously unaffiliated producers it now serves.",
+      "pulledBy": "The committee calls for a review after the pickup agents have formed their groups.",
+      "writesBack": "The hearing file replaces the proposed organization chart with the membership on record."
     }
   ]
 }

@@ -2,9 +2,10 @@
   "id": "a-waiver-comes-back-to-committee-as-a-report",
   "kind": "move",
   "summary": "Members set a date to hear what happened when operators used an alternative count.",
-  "realLife": "In its 2023 amendment to Maine LD 1909, the committee directed DEP to report its findings or recommendations on the temporary waiver process to the environment committee by February 2025.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee directed DEP to report its findings or recommendations on the temporary waiver process to the environment committee by February 2025. In February 2025 DEP told the committee it had received no waiver applications. The agency anticipated an application before sunset but had no completed trial to evaluate at that point.",
   "sources": [
-    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=3"
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=3",
+    "https://www3.maine.gov/dep/publications/documents/archive/legislative%20reports/2025/2025-Product-Stewardship-Report-With-Comments-FINAL.pdf#page=6"
   ],
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{member}", "{official}"],
@@ -27,6 +28,12 @@
       "what": "Staff reports the implementation status and its limits.",
       "pulledBy": "No trial has produced results yet.",
       "writesBack": "Members can ask for a later hearing on actual outcomes."
+    },
+    {
+      "turn": "late",
+      "what": "A member asks when the committee should check the register again.",
+      "pulledBy": "The dated agency return shows no applications by the reporting date.",
+      "writesBack": "The minutes record the empty register and the next check date."
     }
   ]
 }

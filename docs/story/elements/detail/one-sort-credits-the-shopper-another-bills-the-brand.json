@@ -2,9 +2,10 @@
   "id": "one-sort-credits-the-shopper-another-bills-the-brand",
   "kind": "detail",
   "summary": "The count that pays a customer and the sort that bills distributors answer different questions.",
-  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof distinguished the conveyor count for each consumer from the later mechanical scan and sort used to invoice deposit initiators.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof distinguished the conveyor count for each consumer from the later mechanical scan and sort used to invoice deposit initiators. In its February 2026 report DEP expected sales data to be used to divide costs under full pooling. It described that method as prospective while formal rulemaking was underway.",
   "sources": [
-    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1"
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1",
+    "https://www3.maine.gov/dep/publications/documents/archive/legislative%20reports/2026/2026%20Final%20Product%20Stewardship%20Report%20with%20Comments%20%281%29.pdf#page=5"
   ],
   "fits": ["office", "journal", "news", "home"],
   "slots": ["{customer}", "{bookkeeper}"],
@@ -27,6 +28,12 @@
       "what": "The operator traces the bag through its consumer account.",
       "pulledBy": "The household disputes its own count.",
       "writesBack": "The individual claim gets its own case number."
+    },
+    {
+      "turn": "late",
+      "what": "The bookkeeper shows how the proposed calculation would change a distributor invoice while leaving the customer’s bag count intact.",
+      "pulledBy": "A work session considers sales-based allocation before the operating plan takes effect.",
+      "writesBack": "The committee file keeps the projection and the actual customer credit as separate records."
     }
   ]
 }
