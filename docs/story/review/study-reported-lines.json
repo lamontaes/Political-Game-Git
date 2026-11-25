@@ -406,122 +406,6 @@
     ]
   },
   {
-    "key": "scene-talk.reply-deflect.let-me-sit-with-that-a-while-you-know-what-the-committee-thinks-of-bill-i-m-still-working-out-what-i-think",
-    "move": "reply-deflect",
-    "kind": "spoken",
-    "text": "Let me sit with that a while. You know what the committee thinks of {bill}. I'm still working out what I think.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "study-reported",
-        "key": "colleague-word",
-        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "colleague-word"
-    },
-    "elements": [
-      "report-options-without-endorsement",
-      "charge-a-group-with-investigating-a-question"
-    ]
-  },
-  {
-    "key": "scene-talk.reply-deflect.i-d-like-another-look-at-bill-before-i-say-whether-to-let-it-go",
-    "move": "reply-deflect",
-    "kind": "spoken",
-    "text": "I'd like another look at {bill} before I say whether to let it go.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "study-reported",
-        "key": "colleague-word",
-        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "colleague-word"
-    },
-    "elements": [
-      "report-options-without-endorsement",
-      "charge-a-group-with-investigating-a-question"
-    ]
-  },
-  {
-    "key": "scene-talk.reply-deflect.i-heard-the-recommendation-can-we-leave-my-vote-on-bill-for-another-day",
-    "move": "reply-deflect",
-    "kind": "spoken",
-    "text": "I heard the recommendation. Can we leave my vote on {bill} for another day?",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "study-reported",
-        "key": "colleague-word",
-        "requiresFacts": ["bill", "asker-chairs", "finding-for"]
-      }
-    ],
-    "bearing": "braced",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "colleague-word"
-    },
-    "elements": [
-      "report-options-without-endorsement",
-      "charge-a-group-with-investigating-a-question"
-    ]
-  },
-  {
-    "key": "scene-talk.reply-deflect.give-me-a-chance-to-read-the-finding-on-bill-then-ask-me-again",
-    "move": "reply-deflect",
-    "kind": "spoken",
-    "text": "Give me a chance to read the finding on {bill}. Then ask me again.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "study-reported",
-        "key": "colleague-word",
-        "requiresFacts": ["bill", "asker-chairs", "finding-against"]
-      }
-    ],
-    "bearing": "braced",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "colleague-word"
-    },
-    "elements": [
-      "report-options-without-endorsement",
-      "charge-a-group-with-investigating-a-question"
-    ]
-  },
-  {
     "key": "scene-talk.reply-ask.when-you-say-the-committee-whose-views-on-bill-went-into-that-finding",
     "move": "reply-ask",
     "kind": "spoken",
@@ -774,35 +658,6 @@
     ]
   },
   {
-    "key": "scene-talk.reply-deflect.i-went-in-ready-to-say-no-to-bill-again-let-me-think-about-what-you-said-before-i-answer",
-    "move": "reply-deflect",
-    "kind": "spoken",
-    "text": "I went in ready to say no to {bill} again. Let me think about what you said before I answer.",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "study-reported",
-        "key": "colleague-word",
-        "requiresFacts": ["bill", "asker-chairs", "finding-for", "moved-for"]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
-      "key": "colleague-word"
-    },
-    "elements": [
-      "report-options-without-endorsement",
-      "charge-a-group-with-investigating-a-question"
-    ]
-  },
-  {
     "key": "scene-talk.reply-agree.i-had-doubts-about-bill-going-in-hearing-the-finding-made-them-harder-to-dismiss-i-think-we-should-turn-it-down",
     "move": "reply-agree",
     "kind": "spoken",
@@ -863,40 +718,6 @@
     "date": "2026-11-24",
     "tag": {
       "move": "disagree",
-      "key": "colleague-word"
-    },
-    "elements": [
-      "report-options-without-endorsement",
-      "charge-a-group-with-investigating-a-question"
-    ]
-  },
-  {
-    "key": "scene-talk.reply-deflect.i-m-less-sure-of-bill-after-hearing-you-can-you-give-me-until-i-ve-read-the-report-for-myself",
-    "move": "reply-deflect",
-    "kind": "spoken",
-    "text": "I'm less sure of {bill} after hearing you. Can you give me until I've read the report for myself?",
-    "uses": [
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "deflect",
-        "role": "asked",
-        "purpose": "study-reported",
-        "key": "colleague-word",
-        "requiresFacts": [
-          "bill",
-          "asker-chairs",
-          "finding-against",
-          "moved-against"
-        ]
-      }
-    ],
-    "bearing": "calm",
-    "origin": "authored",
-    "author": "Codex writer B",
-    "date": "2026-11-24",
-    "tag": {
-      "move": "deflect",
       "key": "colleague-word"
     },
     "elements": [
