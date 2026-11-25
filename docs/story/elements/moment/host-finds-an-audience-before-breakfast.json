@@ -1,0 +1,36 @@
+{
+  "id": "host-finds-an-audience-before-breakfast",
+  "kind": "moment",
+  "summary": "A helper arrives for the earliest stop expecting empty space and finds people already waiting.",
+  "realLife": "William Bray recalled a large crowd waiting before dawn at Truman's early stop at Rock Island, Illinois, and told Truman that people willing to get up so early were at least willing to listen.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{host}", "{town}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: scheduled hour and observed attendance.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "People are already waiting.",
+      "what": "The host tells the candidate what happened before arrival.",
+      "writesBack": "The candidate knows why the early turnout mattered."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Few people could come before work.",
+      "what": "The host records the turnout without treating it as a vote count.",
+      "writesBack": "The next organizer gets the actual hour and attendance."
+    }
+  ]
+}

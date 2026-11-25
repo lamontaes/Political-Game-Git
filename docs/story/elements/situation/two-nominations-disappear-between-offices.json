@@ -1,0 +1,31 @@
+{
+  "id": "two-nominations-disappear-between-offices",
+  "kind": "situation",
+  "summary": "{advocate} can supply replacement nominees but cannot find out whether the first two are still under review.",
+  "realLife": "Barbara Ahern said her alliance found two candidates at the department's request. Their papers went to the governor's office, and the alliance asked the department to learn their status. The department's roster lists both gubernatorial seats for non-audiologist dispensers as vacant. It gives no disposition for either nominee Ahern described.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=35",
+    "https://dos.ny.gov/node/45051"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{advocate}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the two referrals and the office holding them.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "One name remains under consideration.",
+      "what": "The alliance holds off on a replacement.",
+      "writesBack": "The department records the pending review."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Both names have been declined.",
+      "what": "The alliance reopens its search.",
+      "writesBack": "New candidates go to the department."
+    }
+  ]
+}

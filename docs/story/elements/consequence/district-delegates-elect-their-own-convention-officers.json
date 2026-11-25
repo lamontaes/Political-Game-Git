@@ -1,0 +1,37 @@
+{
+  "id": "district-delegates-elect-their-own-convention-officers",
+  "kind": "consequence",
+  "summary": "Choosing a convention delegation starts another round of work inside the delegation itself.",
+  "realLife": "The 31st District chair reported in March that the state convention delegation had already met twice and elected its own officers.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-march-25-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{delegate}", "{convention}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: selected delegation and internal election.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The delegation has filled its officer posts.",
+      "what": "Its representative reports the names to the district.",
+      "writesBack": "Members know who handles convention business."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The internal election is still pending.",
+      "what": "The representative reports the open assignments.",
+      "writesBack": "District officers avoid speaking for a delegation that has not organized."
+    }
+  ]
+}

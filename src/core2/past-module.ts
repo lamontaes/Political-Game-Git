@@ -58,6 +58,7 @@ export const PAST_MODULE: PreStartModule = {
     schemaVersion: 1,
     tables: {
       laws: { indexes: { byLaw: { fields: ["lawId"] } } },
+      bills: { indexes: { byOffice: { fields: ["officeId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
       loaded: {},
     },
@@ -227,6 +228,29 @@ export interface RollCall {
   readonly predecessors: number;
 }
 
+/**
+ * A prior-term bill's roll call as the world keeps it, by the body's office:
+ * the whole count, the seats' earlier holders included. The member vote rows
+ * (`record` votes) hold only those who still lived in the world, so a body
+ * whose every member took their seat since the vote has the bill here and no
+ * member rows; a screen reads the count here, never a count of those rows.
+ */
+export interface PastBillRecord {
+  /** The record's own key: the bill and the body together (a law's one id spans its chambers). */
+  readonly id: string;
+  /** The bill's id as its member vote rows carry it (`billId`). */
+  readonly billId: string;
+  /** The office of the body that voted (the id its vote rows carry as `body`). */
+  readonly officeId: string;
+  readonly date: string;
+  readonly question: string;
+  /** Which way the bill moved the question: 1 for yes, -1 for no. */
+  readonly position: number;
+  readonly passed: boolean;
+  readonly yes: number;
+  readonly no: number;
+}
+
 export interface PastBillRow {
   readonly id: string;
   readonly body: string;
@@ -280,6 +304,18 @@ export interface PublicFigureRow {
   readonly lawsSigned: number;
   readonly electionId: string | null;
   readonly promiseIds: readonly string[];
+}
+
+/** A body's prior-term bills with their whole roll calls, in no set order. */
+export function pastBillsOf(
+  api: CoreAPI,
+  officeId: string,
+): readonly PastBillRecord[] {
+  if (!api.state.modules.has(PAST_MODULE_ID)) return [];
+  return (
+    (pastTable(api, "bills").query("byOffice", [officeId]) as unknown as
+      PastBillRecord[] | undefined) ?? []
+  );
 }
 
 /** A law row's history, by the law row's id. */

@@ -1,0 +1,36 @@
+{
+  "id": "candidate-leaves-the-approved-text-on-the-page",
+  "kind": "moment",
+  "summary": "A press aide who distributed an approved speech hears a different delivery in the hall.",
+  "realLife": "Murphy remembered the St. Louis campaign finale as a speech already circulated to reporters, followed by Truman making notes and ultimately speaking without consulting them.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/murphy4"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{candidate}", "{hall}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: released draft and actual remarks.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The speaker stays close to the draft.",
+      "what": "A helper checks quotations against the delivery.",
+      "writesBack": "The advance text remains useful."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The speaker gives substantially different remarks.",
+      "what": "The press staff identifies the delivered version.",
+      "writesBack": "The draft cannot stand as the record of the event."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "the-renewal-check-cleared-without-a-registration-notice",
+  "kind": "moment",
+  "summary": "{worker} can show the licensing payment cleared but still needs to know where the renewal stands.",
+  "realLife": "Goosen reported that a dispenser had waited nine months after a check cleared. Mossberg suggested contacting staff to establish whether the renewal had been logged.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=40",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=41"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{worker}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the canceled check and the renewal intake record.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Staff locate the application under a different entry.",
+      "what": "They can tell the dispenser what is outstanding.",
+      "writesBack": "The inquiry goes on the existing record."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Staff find the payment alone.",
+      "what": "The dispenser supplies the application details.",
+      "writesBack": "The payment and filing need reconciliation."
+    }
+  ]
+}

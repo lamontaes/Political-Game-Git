@@ -1,0 +1,31 @@
+{
+  "id": "name-the-school-change-on-the-inscription",
+  "kind": "voice",
+  "summary": "{member} wants a stranger reading the coin to know what happened at the school.",
+  "realLife": "The federal advisory committee weighed wording about courage and equality before unanimously recommending words that identified school desegregation directly. The Mint put the board's wording about desegregation on the side with the students.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0818_minutes.pdf#page=2",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/little-rock-central-high-school-desegregation"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the competing inscriptions and the space below the school scene.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "There is room to name the event.",
+      "what": "The artist fits the subject below the pupils.",
+      "writesBack": "The new lettering goes back with the drawing."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only the short inscription will fit.",
+      "what": "The artist cannot fit the event name under the pupils.",
+      "writesBack": "The board asks for a new layout."
+    }
+  ]
+}

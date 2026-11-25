@@ -1,0 +1,32 @@
+{
+  "id": "the-city-keeps-its-old-bag-charge-for-a-time",
+  "kind": "detail",
+  "summary": "Two stores can face different charges after a statewide rule begins because one city's earlier charge survives temporarily.",
+  "realLife": "Section 6 of the original act preserved the amount in a qualifying local ordinance for a limited period while replacing other local provisions.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a preexisting local charge meets the original law's amount and adoption cutoff.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{city}", "{store}"],
+  "gates": [
+    "A preexisting local charge meets the original law's amount and adoption cutoff."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The city keeps the earlier amount during the transition.",
+      "pulledBy": "The old ordinance qualifies during the transition.",
+      "writesBack": "The clerk keeps the local charge in that store's till."
+    },
+    {
+      "turn": "another-way",
+      "what": "The retailer changes the register to the state amount.",
+      "pulledBy": "The ordinance misses the adoption cutoff.",
+      "writesBack": "Staff apply the statewide schedule instead."
+    }
+  ],
+  "issues": ["none"]
+}

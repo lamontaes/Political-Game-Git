@@ -1,0 +1,30 @@
+{
+  "id": "a-practitioner-meeting-puts-calculator-users-before-its-designers",
+  "kind": "move",
+  "summary": "Tax preparers get to bring calculator problems directly to agency specialists.",
+  "realLife": "The tax reform implementation office held a listening session at a practitioner meeting, where IRS technical specialists discussed calculator use and sought feedback.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=24"],
+  "inGame": "needs: a practitioner meeting includes agency specialists and time for feedback.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{preparer}", "{specialist}"],
+  "gates": [
+    "A practitioner meeting includes agency specialists and time for feedback."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The specialist accepts it for examination.",
+      "pulledBy": "The preparer brings a reproducible example.",
+      "writesBack": "A dated question goes back to the implementation team."
+    },
+    {
+      "turn": "partial",
+      "what": "The specialist requests a private follow-up.",
+      "pulledBy": "The issue concerns one unidentified return.",
+      "writesBack": "The public minutes preserve only the general question."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

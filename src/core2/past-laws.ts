@@ -60,6 +60,7 @@ import {
   seededUnit,
   shiftDays,
   type LawHistoryRow,
+  type PastBillRecord,
   type PastBillRow,
   type PastElectionRow,
   type RollCall,
@@ -116,14 +117,14 @@ function serviceStart(term: TermRow): string {
   return term.serviceStart ?? term.startDate;
 }
 
-interface Chamber {
+export interface Chamber {
   readonly office: PastOffice;
   readonly body: string;
   readonly members: readonly TermRow[];
   readonly seats: number;
 }
 
-function chambersOf(api: CoreAPI): readonly Chamber[] {
+export function chambersOf(api: CoreAPI): readonly Chamber[] {
   const out: Chamber[] = [];
   const seen = new Set<string>();
   for (const office of townOffices(api)) {
@@ -363,6 +364,17 @@ export function buildPriorTerms(
         lawIds: [],
       };
       bills.push(bill);
+      putPast(api, "bills", {
+        id: `${id}|${chamber.office.id}`,
+        billId: id,
+        officeId: chamber.office.id,
+        date,
+        question,
+        position,
+        passed: call.passes,
+        yes: call.yes,
+        no: call.no,
+      } satisfies PastBillRecord);
       votes += recordVotes(
         api,
         id,
@@ -438,7 +450,7 @@ export function buildLawHistories(
           ? c.office.level === "state"
           : level === "county"
             ? c.office.kind === "county-board"
-            : c.office.kind === "council",
+            : c.office.kind === "council" || c.office.kind === "township-board",
     );
   const signerOf = (level: string): TermRow | undefined => {
     const kind = SIGNER_KINDS[level];
@@ -678,6 +690,17 @@ export function buildLawHistories(
       histories.push(history);
       if (stance && !century)
         rollCalls.forEach((call, i) => {
+          putPast(api, "bills", {
+            id: `${id}|${lawChambers[i]!.office.id}`,
+            billId: id,
+            officeId: lawChambers[i]!.office.id,
+            date: enactedOn,
+            question: stance.question,
+            position: stance.position,
+            passed: true,
+            yes: call.yes,
+            no: call.no,
+          } satisfies PastBillRecord);
           votes += recordVotes(
             api,
             id,

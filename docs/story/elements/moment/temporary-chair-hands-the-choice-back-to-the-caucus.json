@@ -1,0 +1,36 @@
+{
+  "id": "temporary-chair-hands-the-choice-back-to-the-caucus",
+  "kind": "moment",
+  "summary": "The person who opens a caucus asks whether anyone else wants to chair the rest of it.",
+  "realLife": "At the 21st District's 2018 caucus, another member nominated the temporary chair for permanent chair; the chair called for more nominations before a unanimous voice vote.",
+  "sources": ["https://21dems.org/2018-caucus-minutes/"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{chair}", "{nominee}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: temporary appointment and open nominations.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "No other name is offered.",
+      "what": "The members vote on the nominee.",
+      "writesBack": "The chair's authority now comes from the caucus vote."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A second person accepts a nomination.",
+      "what": "The temporary chair sends the contest to the caucus election procedure.",
+      "writesBack": "The opening appointment no longer settles who presides."
+    }
+  ]
+}

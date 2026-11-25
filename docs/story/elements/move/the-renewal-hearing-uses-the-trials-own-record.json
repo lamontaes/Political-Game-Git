@@ -1,0 +1,32 @@
+{
+  "id": "the-renewal-hearing-uses-the-trials-own-record",
+  "kind": "move",
+  "summary": "A temporary counting waiver comes back for renewal with its first period of results attached.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee proposed a limited extension only when the operator demonstrated that its method met the requirements during the initial waiver period.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=3"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{reviewer}", "{operator}"],
+  "gates": [
+    "An operator seeks an extension before a temporary counting waiver expires."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: an operator seeks an extension before a temporary counting waiver expires.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The reviewer can approve a time-limited extension.",
+      "pulledBy": "The trial records substantiate the method.",
+      "writesBack": "The order carries a new expiration date."
+    },
+    {
+      "turn": "another-way",
+      "what": "The reviewer requests actual results.",
+      "pulledBy": "Only projections from the original application are offered.",
+      "writesBack": "The original expiration remains on the calendar."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "the-medical-device-witness-stays-for-the-wording",
+  "kind": "moment",
+  "summary": "An industry witness welcomes an exemption and asks for more work on its wording.",
+  "realLife": "Washington HB 1483 (2025). The Senate staff summary records medical-device testimony thanking the sponsor for work on the exemption while seeking clarification.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/Senate/1483-S.E%20SBR%20APS%2025.pdf"
+  ],
+  "inGame": "needs: the exemption is in a draft and a witness identifies uncertainty about its reach.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{witness}", "{product}"],
+  "gates": [
+    "The exemption is in a draft and a witness identifies uncertainty about its reach."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The new draft settles the industry's question.",
+      "pulledBy": "The revised wording resolves the witness's example.",
+      "writesBack": "The witness withdraws that request."
+    },
+    {
+      "turn": "partial",
+      "what": "The witness accepts part of the revision.",
+      "pulledBy": "The revision settles one example only.",
+      "writesBack": "A second product remains in question."
+    }
+  ],
+  "issues": ["none"]
+}

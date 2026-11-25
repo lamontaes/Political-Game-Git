@@ -1,0 +1,31 @@
+{
+  "id": "take-the-nominees-names-down-after-adjournment",
+  "kind": "moment",
+  "summary": "{chair} asks for names after the meeting so the next inquiry can go to the office holding the applications.",
+  "realLife": "Mossberg offered to write down the two names after the meeting and ask about them in person. Ahern thanked him for making the offer.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=36",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=37"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{chair}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the nominees' names and permission to follow up.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The advocate supplies both names.",
+      "what": "The chair can ask about particular referrals.",
+      "writesBack": "The next status request identifies the applicants."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The advocate cannot confirm one spelling.",
+      "what": "The chair takes only the confirmed name.",
+      "writesBack": "The advocate checks the second referral."
+    }
+  ]
+}

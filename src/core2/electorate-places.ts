@@ -17,6 +17,7 @@
  * differs from the published one.
  */
 import { shareValue } from "./shares";
+import { seededUnit } from "./seeded";
 import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { type: "json" };
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
@@ -675,6 +676,55 @@ export function countyPlaceOfWorld(world: {
   placeMetadata?: Readonly<Record<string, unknown>>;
 }): string | null {
   return countyOf(world)?.jurisdictionId ?? null;
+}
+
+/**
+ * The party holding each seat of a by-party town body on day one, from the
+ * town's own lean (`rightShare`, its county's row in the same count the state
+ * places read; the state's where the world records no county). The body splits
+ * as the town's voters do: the right party takes the seats in the proportion
+ * the lean says, rounded to whole seats, so the mix slides with the lean and no
+ * seat flips at a line. Which seat each party holds is a seeded order of the
+ * seats (who exists, not what anyone decides). The roster's own names for the
+ * two sides, as `heldInWorld` names them. Null for every seat where no lean is
+ * known.
+ */
+export function townBodyParties(
+  seed: string,
+  rightShare: number | null,
+  seatIds: readonly string[],
+): (string | null)[] {
+  if (rightShare === null) return seatIds.map(() => null);
+  const right = Math.round(rightShare * seatIds.length);
+  const order = seatIds
+    .map((id, index) => ({
+      index,
+      key: seededUnit(seed, `${id}:town-party-order`),
+    }))
+    .sort((x, y) => x.key - y.key || x.index - y.index);
+  const parties: (string | null)[] = seatIds.map(() => null);
+  order.forEach(({ index }, rank) => {
+    parties[index] = rosterLabel(rank < right ? 1 : -1);
+  });
+  return parties;
+}
+
+/** The right-party share of the county a town lies in, else its state's; null where neither is read. */
+export function townRightShare(input: {
+  seed: string;
+  placeMetadata?: Readonly<Record<string, unknown>>;
+}): number | null {
+  const placeKey = input.placeMetadata?.placeKey as string | undefined;
+  const usps = placeStateKey(placeKey ?? "")?.slice(3);
+  if (!usps) return null;
+  const countyId = countyPlaceIdOf(
+    input.placeMetadata?.countyNames as string | undefined,
+    usps,
+  );
+  const county = countyId
+    ? statePlaces(usps, input.seed).find((row) => row.id === countyId)
+    : undefined;
+  return county?.rightShare ?? stateRightShare(usps, input.seed);
 }
 
 /** A state's 2024 Republican two-party share for president, as published. */

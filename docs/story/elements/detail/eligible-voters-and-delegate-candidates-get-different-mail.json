@@ -1,0 +1,38 @@
+{
+  "id": "eligible-voters-and-delegate-candidates-get-different-mail",
+  "kind": "detail",
+  "summary": "A committee preparing a delegation has two messages with different recipients and dates.",
+  "realLife": "The 31st District told eligible voters to expect the delegate voting email and said people who had filed to be delegates had already received a first-meeting notice.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-february-26-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{voter}", "{delegate}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: eligibility roll, candidate filings and meeting date.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A member is both a voter and a candidate.",
+      "what": "The secretary checks both mailings.",
+      "writesBack": "The member can vote and find the delegation meeting."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A voting member never filed as a candidate.",
+      "what": "Staff explain why only the voting message arrived.",
+      "writesBack": "The separate notices no longer imply a missing nomination."
+    }
+  ]
+}

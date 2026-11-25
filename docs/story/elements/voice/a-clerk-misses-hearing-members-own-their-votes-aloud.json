@@ -1,0 +1,31 @@
+{
+  "id": "a-clerk-misses-hearing-members-own-their-votes-aloud",
+  "kind": "voice",
+  "summary": "{clerk} remembers the moment a name was called and the member had to give an audible answer.",
+  "realLife": "Anderson welcomed saving floor time while recalling how hearing representatives answer in their own voices made decisions feel public in a different way.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=87",
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=88"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community", "home"],
+  "slots": ["{clerk}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: experience with the oral and electronic systems.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A reporter asks about the old sound of the chamber.",
+      "what": "The clerk describes waiting for an answer.",
+      "writesBack": "The account accompanies the vote story."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reporter asks only for the result.",
+      "what": "The clerk gives the recorded tally.",
+      "writesBack": "The recollection stays for another conversation."
+    }
+  ]
+}

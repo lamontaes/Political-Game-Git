@@ -1,0 +1,37 @@
+{
+  "id": "committee-recommends-a-slate-and-floor-decides-a-separate-race",
+  "kind": "move",
+  "summary": "A meeting can adopt the committee's slate together and then settle a contested seat separately.",
+  "realLife": "The 26th District's draft minutes describe approval of the recommended slate followed by a separate endorsement vote between two candidates for another district court position.",
+  "sources": [
+    "https://26d.org/wp-content/uploads/2021/03/DraftJune72018MeetingMinutes.pdf"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{slate}", "{office}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: committee recommendation and unresolved contest.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The members accept the reported slate.",
+      "what": "The chair then calls the unresolved race.",
+      "writesBack": "The record distinguishes the group vote from the contested decision."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Members want a name on the slate debated separately.",
+      "what": "The chair identifies that contest before taking the slate vote.",
+      "writesBack": "The secretary can tell which endorsement still needs action."
+    }
+  ]
+}

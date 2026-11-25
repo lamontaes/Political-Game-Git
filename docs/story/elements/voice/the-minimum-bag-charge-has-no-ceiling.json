@@ -1,0 +1,30 @@
+{
+  "id": "the-minimum-bag-charge-has-no-ceiling",
+  "kind": "voice",
+  "summary": "An opponent asks what would keep a proposed minimum charge from becoming a higher price.",
+  "realLife": "Washington Senate report on SB 5323, 2019. Senate opponents objected that the minimum in the proposal they heard left the upper amount open.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/Senate/5323%20SBR%20WM%2019.pdf"
+  ],
+  "inGame": "needs: the version before the committee specifies a minimum charge.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{witness}", "{charge}"],
+  "gates": ["The version before the committee specifies a minimum charge."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The amendment fixes a single charge.",
+      "pulledBy": "An amendment sets an exact amount.",
+      "writesBack": "The witness can point to the price in the revised draft."
+    },
+    {
+      "turn": "another-way",
+      "what": "A shopper brings a receipt showing more than the minimum.",
+      "pulledBy": "The floor stays in place and the store posts a higher price.",
+      "writesBack": "The shopper's receipt supplies a concrete case for review."
+    }
+  ],
+  "issues": ["none"]
+}

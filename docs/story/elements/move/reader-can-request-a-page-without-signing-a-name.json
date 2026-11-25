@@ -1,0 +1,38 @@
+{
+  "id": "reader-can-request-a-page-without-signing-a-name",
+  "kind": "move",
+  "summary": "A reader can ask the library to review an unavailable page from the terminal without identifying themselves to the desk.",
+  "realLife": "Tacoma allowed patrons to send an access review request without supplying identifying information or a return email address. The plurality in the 2003 federal case described the government’s assurance that a patron need not justify an access request. Tacoma’s procedure separately addressed whether the reader supplied a name.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=providing%20any%20identifying%20information%3B%20Tacoma%20allows%20patrons%20to%20request",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=51",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep539/usrep539194/usrep539194.pdf#page=16"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{reader}", "{terminal}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: local review procedure and contact requirements.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reader prefers anonymity.",
+      "what": "Staff receive the page address without a personal explanation at the counter.",
+      "writesBack": "The review can begin."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reader wants a direct response.",
+      "what": "Staff explain what contact information would be needed.",
+      "writesBack": "The reader decides whether to supply it."
+    },
+    {
+      "turn": "late",
+      "what": "A trustee asks the director to distinguish two fields on the review form.",
+      "pulledBy": "The draft says patrons need not explain their interest but leaves the identification field ambiguous.",
+      "writesBack": "The minutes record separate decisions on contact information and reasons for the request."
+    }
+  ]
+}

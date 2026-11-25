@@ -1,0 +1,31 @@
+{
+  "id": "privacy-screen-hides-the-page-from-the-helping-librarian",
+  "kind": "consequence",
+  "summary": "A screen that hides a reader's work also makes it harder for a librarian beside them to help.",
+  "realLife": "The trial court recorded that restricted viewing angles made it hard for librarians or partners to see the same terminal screen alongside a patron.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=viewing%20the%20contents%20on%20another%20patron%27s%20screen%2C%20they%20suffer",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=48"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{reader}", "{librarian}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: privacy screen and request for help.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reader wants help on a single step.",
+      "what": "The librarian asks the reader to describe the prompt.",
+      "writesBack": "The reader can remain at the private station."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The work requires both people to see the page.",
+      "what": "The librarian offers another place to work together.",
+      "writesBack": "The reader chooses whether to move."
+    }
+  ]
+}

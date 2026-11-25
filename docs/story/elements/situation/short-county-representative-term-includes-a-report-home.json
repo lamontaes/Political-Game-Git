@@ -1,0 +1,39 @@
+{
+  "id": "short-county-representative-term-includes-a-report-home",
+  "kind": "situation",
+  "summary": "A short opening offers a first committee post with an obligation to bring another body's business back home.",
+  "realLife": "In March the 31st District chair described short remaining terms representing the district at either county party, with an executive board seat and a duty to attend and report back.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-march-25-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading",
+    "home"
+  ],
+  "slots": ["{member}", "{county}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: unexpired term and reporting obligation.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The member can attend both sets of meetings.",
+      "what": "They offer to fill the remaining term.",
+      "writesBack": "The district has someone responsible for a county report."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The county meeting conflicts with the member's work.",
+      "what": "The member declines the seat but offers local help.",
+      "writesBack": "The short term still needs a representative."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "name-the-parts-supplier-before-taking-the-job",
+  "kind": "detail",
+  "summary": "An independent repairer tells a customer whether it uses secondhand parts or parts from another supplier.",
+  "realLife": "Washington HB 1483 (2025), section 4. Washington required an independent shop to say at intake whether it uses previously used replacement parts or parts from a supplier other than the maker.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/House/1483-S.SL.pdf",
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
+  ],
+  "inGame": "needs: an independent shop is preparing its intake notice.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{customer}", "{supplier}"],
+  "gates": ["An independent shop is preparing its intake notice."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The shop discloses an all-original supply policy.",
+      "pulledBy": "The shop uses only new parts from the maker.",
+      "writesBack": "Its disclosure records that practice."
+    },
+    {
+      "turn": "partial",
+      "what": "The customer follows up on the shop's outside supplier.",
+      "pulledBy": "The shop uses an outside supplier.",
+      "writesBack": "The customer asks about the proposed part before agreeing."
+    }
+  ],
+  "issues": ["none"]
+}

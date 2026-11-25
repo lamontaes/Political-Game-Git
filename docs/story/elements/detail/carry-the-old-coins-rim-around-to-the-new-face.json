@@ -1,0 +1,30 @@
+{
+  "id": "carry-the-old-coins-rim-around-to-the-new-face",
+  "kind": "detail",
+  "summary": "{designer} gets a request to match the little teeth at the rim on both faces.",
+  "realLife": "For the San Francisco Old Mint coins, members favored toothed borders on the new building views to match the historical reverses.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0710_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{designer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the borders shown on the two proposed faces.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The new face has room around its edge.",
+      "what": "The engraver tries the old border on one drawing.",
+      "writesBack": "The board receives a proof with both faces."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The lettering already reaches the rim.",
+      "what": "The new border would cut through the text.",
+      "writesBack": "The designer sends back a spacing question."
+    }
+  ]
+}

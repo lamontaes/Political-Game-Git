@@ -1,0 +1,30 @@
+{
+  "id": "a-small-brewer-brings-the-pickup-charge-to-the-fee-hearing",
+  "kind": "voice",
+  "summary": "A producer worried about the handling fee asks who controls the separate charge for pickup.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof relayed small producers' reports that their unregulated collection charges could be disproportionately high and asked lawmakers to consider ways to pay or regulate those costs.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=2"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{producer}", "{legislator}"],
+  "gates": ["A cost hearing includes a small producer's pickup invoice."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a cost hearing includes a small producer's pickup invoice.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The member asks for a separate comparison of route charges.",
+      "pulledBy": "The bill addresses only the handling payment.",
+      "writesBack": "The work-session memo separates the two expenses."
+    },
+    {
+      "turn": "another-way",
+      "what": "The producer compares the offer with its present route.",
+      "pulledBy": "A group offers a pooled collection price.",
+      "writesBack": "The record shows whether joining would change its costs."
+    }
+  ]
+}

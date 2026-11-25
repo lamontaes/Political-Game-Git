@@ -1,0 +1,30 @@
+{
+  "id": "screen-fits-but-loses-a-function",
+  "kind": "consequence",
+  "summary": "A replacement part fits the device and still leaves the customer without a feature.",
+  "realLife": "Washington HB 1483 (2025). Supporters described manufacturers limiting functions after someone outside their network installed a part.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a repair record identifies a feature affected by parts pairing.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{customer}", "{part}"],
+  "gates": ["A repair record identifies a feature affected by parts pairing."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The device accepts the installed part.",
+      "pulledBy": "The replacement is recognized.",
+      "writesBack": "The customer gets the feature back."
+    },
+    {
+      "turn": "partial",
+      "what": "The owner settles for fewer working features.",
+      "pulledBy": "The customer accepts the limited repair.",
+      "writesBack": "The receipt notes what still fails."
+    }
+  ],
+  "issues": ["none"]
+}

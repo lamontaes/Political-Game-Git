@@ -1,0 +1,37 @@
+{
+  "id": "film-wraps-around-the-sorting-line",
+  "kind": "detail",
+  "summary": "A plant operator takes a checkout debate back to the time lost clearing the sorting equipment.",
+  "realLife": "Washington Senate report on SB 5323, 2019. Senate supporters described flexible plastic wrapping around sorting machinery and conveyors and requiring labor to clear it. Commerce and Ecology cited film fouling sorting equipment when explaining why they opposed allowing stores to distribute thin bags again for a fee.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/Senate/5323%20SBR%20WM%2019.pdf",
+    "https://app.leg.wa.gov/ReportsToTheLegislature/Home/GetPDF?fileName=Evaluating+Washington+State%27s+Retail+Carryout+Bag+Policy+Final+report.docx_82c56f8b-70cd-4d8b-868d-b7097b3e802c.pdf#page=3"
+  ],
+  "inGame": "needs: a recovery facility records a stoppage caused by loose bag film.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{plant}", "{shift}"],
+  "gates": ["A recovery facility records a stoppage caused by loose bag film."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "A load reaches the end of the line without interruption.",
+      "pulledBy": "The next incoming load contains no loose film.",
+      "writesBack": "That load passes without a bag-related stoppage."
+    },
+    {
+      "turn": "another-way",
+      "what": "Workers move unsorted material off the line.",
+      "pulledBy": "Only part of the load can reach the sorter.",
+      "writesBack": "Crews record diverted material as well as downtime."
+    },
+    {
+      "turn": "late",
+      "what": "A recycler asks to speak when the committee revisits which bags stores can offer.",
+      "pulledBy": "The proposal would allow a type of film that has caused stoppages on the facility’s screening line.",
+      "writesBack": "The hearing record adds the plant’s maintenance experience to the evidence on bag weight."
+    }
+  ],
+  "issues": ["none"]
+}

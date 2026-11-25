@@ -1,0 +1,30 @@
+{
+  "id": "the-annual-table-update-has-no-written-handoff",
+  "kind": "consequence",
+  "summary": "An oversight inquiry finds that two agencies can describe their yearly jobs without pointing to a written division of responsibility.",
+  "realLife": "GAO found that Treasury and IRS had documented their special 2018 analysis but lacked written assignments for the ordinary annual withholding table update.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=24"],
+  "inGame": "needs: an audit distinguishes a one-year analysis from recurring duties.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{auditor}", "{official}"],
+  "gates": [
+    "An audit distinguishes a one-year analysis from recurring duties."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The next reviewer knows where to request the signoff.",
+      "pulledBy": "The agencies assign a recurring owner in writing.",
+      "writesBack": "The oversight file links the dated assignment."
+    },
+    {
+      "turn": "partial",
+      "what": "The auditor keeps the recurring-duty question open.",
+      "pulledBy": "The agencies supply only the exceptional year's memo.",
+      "writesBack": "The next hearing asks who owns the annual update."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

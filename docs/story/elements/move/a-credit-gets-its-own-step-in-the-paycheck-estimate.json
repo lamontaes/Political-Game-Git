@@ -1,0 +1,30 @@
+{
+  "id": "a-credit-gets-its-own-step-in-the-paycheck-estimate",
+  "kind": "move",
+  "summary": "An agency builds a credit into the calculator used by people checking their pay.",
+  "realLife": "Treasury and the IRS coordinated on a new earned income tax credit calculation in the 2018 withholding tool.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=19"],
+  "inGame": "needs: a dated calculator release adds an earned income credit calculation.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{worker}", "{agency}"],
+  "gates": [
+    "A dated calculator release adds an earned income credit calculation."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The estimate can include the credit.",
+      "pulledBy": "The worker supplies the required household information.",
+      "writesBack": "The saved result records its inclusion."
+    },
+    {
+      "turn": "partial",
+      "what": "The worker keeps the estimate provisional.",
+      "pulledBy": "Household information is still unsettled.",
+      "writesBack": "Staff schedules a second calculation."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

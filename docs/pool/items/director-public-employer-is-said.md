@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: merged
+status: dropped
 standard: 2
 claimed-by: claude/pt-board-public-employer
 pr: #10524

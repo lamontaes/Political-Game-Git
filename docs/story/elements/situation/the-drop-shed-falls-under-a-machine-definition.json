@@ -1,0 +1,32 @@
+{
+  "id": "the-drop-shed-falls-under-a-machine-definition",
+  "kind": "situation",
+  "summary": "A depot without a machine that pays the visitor can still be regulated under rules written for one.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof said CLYNK's account-based service operated under the reverse vending category because the earlier statute did not describe its business model.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{regulator}", "{operator}"],
+  "gates": [
+    "An operator asks which existing category covers a bag left for later counting."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: an operator asks which existing category covers a bag left for later counting.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The regulator explains the basis of the existing classification.",
+      "pulledBy": "The permit still uses the machine category.",
+      "writesBack": "The operator takes that mismatch to the work session."
+    },
+    {
+      "turn": "another-way",
+      "what": "The operator applies under the new description.",
+      "pulledBy": "A distinct bulk-processing category has taken effect.",
+      "writesBack": "The license file changes at renewal."
+    }
+  ]
+}

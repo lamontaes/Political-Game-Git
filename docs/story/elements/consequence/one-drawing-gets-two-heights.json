@@ -1,0 +1,30 @@
+{
+  "id": "one-drawing-gets-two-heights",
+  "kind": "consequence",
+  "summary": "{designer} gets different instructions for how far the same figure should rise on a medal and a coin.",
+  "realLife": "Members recommended greater relief on the First Spouse medals than on the coins and asked for as much relief as practical on the gold pieces.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0523_minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{designer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the planned formats and the limits on relief for each.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The same subject will appear in two materials.",
+      "what": "The engraver prepares a higher model for the medal.",
+      "writesBack": "The proofs have separate production notes."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only the circulating format moves ahead.",
+      "what": "The medal is dropped from the production order.",
+      "writesBack": "The higher model stays with the unused medal drawings."
+    }
+  ]
+}

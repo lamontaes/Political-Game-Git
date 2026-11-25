@@ -1,0 +1,31 @@
+{
+  "id": "county-sends-a-nominee-to-a-regional-library-board",
+  "kind": "move",
+  "summary": "A county chooses someone to speak for its readers on a board shared with neighboring counties.",
+  "realLife": "County executives nominated trustees for Wisconsin's South Central Library System, and county supervisory boards ratified the choices in a system serving independently governed libraries.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=nominated%20by%20county%20executives%20and%20ratified%20by%20county%20boards",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=24"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{county}", "{trustee}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: member libraries and appointing county.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A county has ratified its nominee.",
+      "what": "The trustee takes a regional seat.",
+      "writesBack": "The county has a representative at the next meeting."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The matter concerns only a member library's own policy.",
+      "what": "The trustee refers the resident to its local board.",
+      "writesBack": "The local board receives the request."
+    }
+  ]
+}

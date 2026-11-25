@@ -1,0 +1,30 @@
+{
+  "id": "a-distributors-share-must-match-the-weight-it-can-collect",
+  "kind": "detail",
+  "summary": "An accounting plan assigns a distributor a share of the cost and a corresponding weight of material.",
+  "realLife": "In its 2023 amendment to Maine LD 1909, the committee required a waiver applicant to explain how distributors would receive container material by weight in proportion to the costs apportioned to them.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getPDF.asp?item=2&paper=HP1225&snum=131#page=3"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{distributor}", "{operator}"],
+  "gates": ["A proposed allocation method has produced a distributor share."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a proposed allocation method has produced a distributor share.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The distributor reconciles the shipment with its statement.",
+      "pulledBy": "The operator can match it to outbound scale tickets.",
+      "writesBack": "The waiver file contains a physical check on the allocation."
+    },
+    {
+      "turn": "another-way",
+      "what": "The reviewer asks for a corrected allocation method.",
+      "pulledBy": "The totals cannot be reconciled.",
+      "writesBack": "The unpaid difference returns to the work papers."
+    }
+  ]
+}

@@ -127,6 +127,25 @@ import {
 } from "./ui/strips.mjs";
 import { playAsList, playAsDetail } from "./ui/play-as.mjs";
 mountPanelHeads();
+// A sheet's tabs sit in its head row, between its title and its close (the
+// approved Government, People and Metrics mocks).
+document
+  .querySelector("#sheet > .sheet-head")
+  ?.insertBefore(
+    document.getElementById("sheet-tabs"),
+    document.querySelector("#sheet > .sheet-head > .acts"),
+  );
+// Where the tabs do not fit on one line beside the title (a narrow window, a
+// sheet with many tabs), they take their own row under it: measured, not
+// counted (play-first: fit by measure).
+new ResizeObserver(() => {
+  const head = document.querySelector("#sheet > .sheet-head");
+  const tabs = [...document.querySelectorAll("#sheet-tabs button")];
+  if (!head || !tabs.length) return;
+  head.classList.remove("tabs-below");
+  const wraps = tabs.at(-1).offsetTop > tabs[0].offsetTop + 2;
+  head.classList.toggle("tabs-below", wraps);
+}).observe(document.getElementById("sheet-tabs"));
 mountCloseButtons();
 mountSpeakers();
 const $ = (id) => document.getElementById(id);
@@ -3857,6 +3876,8 @@ async function seatRows() {
     );
   };
   const act = async (params) => {
+    // The draft card keeps Draft dark for every bill the engine would refuse, so no press
+    // reaches a refusal here; one would be a fault, and it throws as a page error.
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
     // An executive's bill goes through a member: who was asked and what they said.
@@ -3917,6 +3938,7 @@ async function seatRows() {
           ? `question:${item.question}`
           : `line:${item.line}`;
     const draftBlock = draftCard({
+      today: String(today()).slice(0, 10),
       words: {
         title: seat.title ?? "",
         issue: seat.issue ?? "",
@@ -5655,7 +5677,7 @@ const sheets = {
               ? pager({
                   items: candidates,
                   render: (node) => node,
-                  rows: Math.max(200, viewHeight() - 330),
+                  rows: Math.max(200, viewHeight() - 288),
                   columns: 1,
                   rowHeight: 1,
                   gap: 0,
@@ -5903,6 +5925,8 @@ const sheets = {
       stacked: true,
       wholeRows: true,
       rowHeight: 54,
+      // The list fills the sheet, so a list that scrolls is never beside free room.
+      reserve: 217,
       render: async (entry) =>
         entry.ask
           ? askPage(entry.ask)
@@ -6402,6 +6426,9 @@ const sheets = {
         : branch === "executive" || !body
           ? executiveView(v.executive)
           : lawmakingView(body, v.executive);
+      /** The view's room painting, when it opens with one. */
+      const roomOf = (nodes) =>
+        nodes[0]?.classList?.contains("chamber") ? nodes[0] : null;
       const screenNode = splitScreen({
         className: "government-screen strip-screen strip-wrap strips ol-g",
         controls: [
@@ -6409,8 +6436,16 @@ const sheets = {
           stateFilter,
           offered.length > 1 ? branches : null,
         ].filter(Boolean),
+        // The room's painting runs across both columns under the tabs, as a
+        // short strip with its name (the approved gov-local, gov-state and
+        // gov-federal mocks); the rest of the view stays in the main column.
+        header: roomOf(view.main),
         // Dev mode's Bills and Bribe panels sit in the main column under what they act on.
-        main: [...bodyTabs, ...view.main, ...(devPanels ? [devPanels] : [])],
+        main: [
+          ...bodyTabs,
+          ...view.main.filter((node) => node !== roomOf(view.main)),
+          ...(devPanels ? [devPanels] : []),
+        ],
         side: view.side,
       });
       // The panel never scrolls: the members' pager gives up rows first (`fitPagers`, here and
@@ -6725,14 +6760,22 @@ const sheets = {
           `${lawText(law, pending.value, pending.unit)} · ${dateWords(pending.effectiveDate)}`,
         ),
       );
-      const changed = [...changes.took, ...changes.ahead]
-        .filter((c) => c.series === law.series)
-        .map((change) =>
-          row(
-            dateWords(change.date),
-            [change.measure, change.what].filter(Boolean).join(" · "),
-          ),
-        );
+      // A change names the measure that made it by its paper's title, never its id.
+      const changed = await Promise.all(
+        [...changes.took, ...changes.ahead]
+          .filter((c) => c.series === law.series)
+          .map(async (change) => {
+            const paper = change.measure
+              ? await api(
+                  `/api/bill?billId=${encodeURIComponent(change.measure)}`,
+                ).catch(() => null)
+              : null;
+            return row(
+              dateWords(change.date),
+              [paper?.title, change.what].filter(Boolean).join(" · "),
+            );
+          }),
+      );
       const did = await didSection(law);
       const votes = (law.votes ?? []).map((vote) =>
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),
@@ -6847,6 +6890,9 @@ const sheets = {
         choices,
         state: issueFilter,
         draw,
+        // How many laws the Level and In force bars leave in a subject.
+        countOf: (subject) =>
+          filterLaws(v.law, { ...issueFilter, subject }, groupOf).length,
       }),
     ];
   },

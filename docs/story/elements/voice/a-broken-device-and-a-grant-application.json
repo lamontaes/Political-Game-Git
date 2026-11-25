@@ -1,0 +1,30 @@
+{
+  "id": "a-broken-device-and-a-grant-application",
+  "kind": "voice",
+  "summary": "A witness connects an ordinary device repair to someone being able to apply for a grant.",
+  "realLife": "Washington HB 1483 (2025). Senate supporters cited grant applications among the everyday activities that depend on working electronics.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/Senate/1483-S.E%20SBR%20APS%2025.pdf"
+  ],
+  "inGame": "needs: a grant applicant needs a device that is out for repair.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{applicant}", "{device}"],
+  "gates": ["A grant applicant needs a device that is out for repair."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A borrowed machine sees the applicant through.",
+      "pulledBy": "A loaner arrives before the filing date.",
+      "writesBack": "The applicant submits on time."
+    },
+    {
+      "turn": "partial",
+      "what": "The repair misses the filing window.",
+      "pulledBy": "The owner gets the device back after the deadline.",
+      "writesBack": "The missed application becomes part of the constituent's account."
+    }
+  ],
+  "issues": ["none"]
+}

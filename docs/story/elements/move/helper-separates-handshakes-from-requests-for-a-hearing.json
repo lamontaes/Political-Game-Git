@@ -1,0 +1,35 @@
+{
+  "id": "helper-separates-handshakes-from-requests-for-a-hearing",
+  "kind": "move",
+  "summary": "A helper asks visitors what they came to say before deciding the order of a receiving line.",
+  "realLife": "Bray interviewed local visitors and placed people with a substantive message after those who wanted only to shake hands, leaving time for an actual conversation.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{helper}", "{visitor}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: visitor's purpose and time before departure.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A visitor has a matter to explain.",
+      "what": "The helper reserves time after the greetings.",
+      "writesBack": "The visitor can give the candidate the substance."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The visitor only wants an introduction.",
+      "what": "The helper makes room in the greeting line.",
+      "writesBack": "Time remains for another person's question."
+    }
+  ]
+}

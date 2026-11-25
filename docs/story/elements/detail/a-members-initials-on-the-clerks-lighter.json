@@ -1,0 +1,31 @@
+{
+  "id": "a-members-initials-on-the-clerks-lighter",
+  "kind": "detail",
+  "summary": "{clerk} keeps a small gift from a member who noticed how tired the reader looked after a run of votes.",
+  "realLife": "Swanson recalled a young Lyndon Johnson giving him a silver lighter engraved with Johnson's initials after successive roll calls. Swanson later passed it to a naval colleague.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=28",
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=29"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community", "home"],
+  "slots": ["{clerk}"],
+  "gates": ["The applicable ethics rules permit the gift."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the historical gift rules and a personal recollection.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The clerk keeps the keepsake.",
+      "what": "The initials recall who came over to the desk.",
+      "writesBack": "The object figures in a later interview."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The clerk passes it to a friend.",
+      "what": "The friend keeps the physical reminder.",
+      "writesBack": "The clerk has only the story left to tell."
+    }
+  ]
+}

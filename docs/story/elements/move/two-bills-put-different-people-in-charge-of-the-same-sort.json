@@ -1,0 +1,39 @@
+{
+  "id": "two-bills-put-different-people-in-charge-of-the-same-sort",
+  "kind": "move",
+  "summary": "A program official puts two bills side by side to ask who would run their collection groups.",
+  "realLife": "In 2023 testimony on Maine LD 1909 and LD 1910, maine DEP staff supported sorting like materials together but explained that LD 1909 and LD 1910 assigned administration of new groups differently. DEP later reported that the two existing pickup agents formed groups that took in previously unaffiliated deposit initiators.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178376#page=2",
+    "https://www3.maine.gov/dep/publications/documents/archive/legislative%20reports/2025/2025-Product-Stewardship-Report-With-Comments-FINAL.pdf#page=5"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{official}", "{chair}"],
+  "gates": [
+    "Two referred bills address the same sorting problem through different administrators."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: two referred bills address the same sorting problem through different administrators.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Counsel carries that choice into the working draft.",
+      "pulledBy": "The committee picks one administrator.",
+      "writesBack": "The comparison records which provision survived."
+    },
+    {
+      "turn": "another-way",
+      "what": "The chair holds the governance section for the work session.",
+      "pulledBy": "Members still want competing arrangements costed.",
+      "writesBack": "Staff brings both alternatives back on the agenda."
+    },
+    {
+      "turn": "late",
+      "what": "The clerk asks each agent which previously unaffiliated producers it now serves.",
+      "pulledBy": "The committee calls for a review after the pickup agents have formed their groups.",
+      "writesBack": "The hearing file replaces the proposed organization chart with the membership on record."
+    }
+  ]
+}

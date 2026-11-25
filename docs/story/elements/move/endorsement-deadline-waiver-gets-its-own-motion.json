@@ -1,0 +1,37 @@
+{
+  "id": "endorsement-deadline-waiver-gets-its-own-motion",
+  "kind": "move",
+  "summary": "Members decide whether a candidate can be considered early before deciding whether to endorse.",
+  "realLife": "The 31st District first waived the questionnaire deadline for a longtime member's state Senate bid, then considered and passed a separate endorsement motion.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-february-26-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{candidate}", "{deadline}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: questionnaire rule, timing and waiver procedure.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The deadline waiver passes.",
+      "what": "The chair invites a separate endorsement motion.",
+      "writesBack": "Members may support hearing the candidate without committing their vote."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The waiver fails.",
+      "what": "The secretary records the timing decision.",
+      "writesBack": "The candidate must wait for the normal endorsement process."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "small-business-week-gives-the-tax-office-an-audience",
+  "kind": "move",
+  "summary": "An agency uses an existing gathering of business owners to reach employers with a payroll change.",
+  "realLife": "IRS officials told GAO that they organized outreach for Small Business Week in 2018 and emailed withholding information to hundreds of small-business industry groups.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=23"],
+  "inGame": "needs: a business association calendar overlaps a withholding outreach campaign.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{employer}", "{organizer}"],
+  "gates": [
+    "A business association calendar overlaps a withholding outreach campaign."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The organizer adds time for questions.",
+      "pulledBy": "The group has a payroll session on the agenda.",
+      "writesBack": "Employers leave with a named contact."
+    },
+    {
+      "turn": "partial",
+      "what": "The organizer circulates the material beforehand.",
+      "pulledBy": "The owners meet after the rollout.",
+      "writesBack": "The agenda reserves time for problems employers actually encountered."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

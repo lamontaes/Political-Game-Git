@@ -1,4 +1,4 @@
-/* global requestAnimationFrame, ResizeObserver */
+/* global requestAnimationFrame, ResizeObserver, getComputedStyle */
 // The one long-list box: a bounded box that shows `rows` rows and scrolls
 // inside itself for the rest. No arrows and no "1 of N" (owner, Nov 8: "like
 // those shitty survey sites"); the menu panel itself still never scrolls (Oct
@@ -51,14 +51,34 @@ export function pager({
       return;
     }
     const limit = rows * rowHeight + Math.max(0, rows - 1) * gap;
+    // A refit measures the rows as they are, without the blank room it left.
+    for (const child of grid.children) child.style.marginBottom = "";
     const top = grid.getBoundingClientRect().top;
     let height = 0;
+    let last = null;
+    let cut = false;
     for (const child of grid.children) {
-      const bottom = child.getBoundingClientRect().bottom - top;
-      if (bottom > limit) break;
+      // A row's own bottom margin is part of the room it takes.
+      const bottom =
+        child.getBoundingClientRect().bottom -
+        top +
+        (parseFloat(getComputedStyle(child).marginBottom) || 0);
+      if (bottom > limit) {
+        cut = true;
+        break;
+      }
       height = bottom;
+      last = child;
     }
-    if (height > 0) box.style.maxHeight = `${Math.ceil(height)}px`;
+    // Rows that do not all fit keep the whole room (the panel is then as tall
+    // as it may be, so a scroll here is never beside free space): the last
+    // whole row is followed by blank room that pushes the next row wholly out
+    // of sight, so no row is shown half. Rows that all fit leave the box as
+    // tall as they are (it does not scroll).
+    if (cut && last) {
+      last.style.marginBottom = `${Math.ceil(limit - height) + 1}px`;
+      box.style.maxHeight = `${limit}px`;
+    }
   };
   sizeBox();
   // The content settles after it is on the page (fonts, faces): fit again when it does.

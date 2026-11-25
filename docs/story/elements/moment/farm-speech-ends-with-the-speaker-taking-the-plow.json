@@ -1,0 +1,36 @@
+{
+  "id": "farm-speech-ends-with-the-speaker-taking-the-plow",
+  "kind": "moment",
+  "summary": "The candidate follows a farm speech with a demonstration the local audience can judge for itself.",
+  "realLife": "Bray recalled Truman stepping down after an Iowa farm address to demonstrate that he could still plow a straight furrow.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/brayw"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{candidate}", "{farm}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: venue, equipment and candidate's experience.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The host has the equipment ready.",
+      "what": "The candidate makes the demonstration after the remarks.",
+      "writesBack": "The crowd can judge the result directly."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The ground or equipment is unsuitable.",
+      "what": "The host explains what cannot be demonstrated.",
+      "writesBack": "The campaign ends the stop with the remarks."
+    }
+  ]
+}

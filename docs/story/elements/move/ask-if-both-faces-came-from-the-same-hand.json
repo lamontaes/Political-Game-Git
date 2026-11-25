@@ -1,0 +1,30 @@
+{
+  "id": "ask-if-both-faces-came-from-the-same-hand",
+  "kind": "move",
+  "summary": "{member} asks whether the board can learn which designs share an artist while the artists remain anonymous.",
+  "realLife": "Donald Scarinci asked if members could be told when one artist had submitted both sides without identifying that artist, and Mint counsel agreed to look into it.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0615_minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the submission rules and the artists' anonymous entry codes.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Staff can pair the entries without naming anyone.",
+      "what": "Counsel checks the proposed labeling system.",
+      "writesBack": "The next packet can carry anonymous pairs."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The pairing would identify a lone entrant.",
+      "what": "The chair declines to mark paired designs.",
+      "writesBack": "Staff keep the entries separate."
+    }
+  ]
+}

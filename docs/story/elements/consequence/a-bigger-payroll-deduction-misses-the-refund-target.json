@@ -1,0 +1,32 @@
+{
+  "id": "a-bigger-payroll-deduction-misses-the-refund-target",
+  "kind": "consequence",
+  "summary": "A worker asks payroll to hold back more and still gets a much smaller refund than planned.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. The McCreanors increased withholding from her checks, but their income and tax rate also rose and the refund fell.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=180"
+  ],
+  "inGame": "needs: a dated withholding change and comparable returns show a missed refund target.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{worker}", "{preparer}"],
+  "gates": [
+    "A dated withholding change and comparable returns show a missed refund target."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family checks how many paydays it covered.",
+      "pulledBy": "The preparer has the change date.",
+      "writesBack": "The next estimate uses the remaining pay periods."
+    },
+    {
+      "turn": "partial",
+      "what": "The preparer requests the payroll history.",
+      "pulledBy": "Only the final stub is available.",
+      "writesBack": "The office holds its explanation until the records arrive."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

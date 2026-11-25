@@ -1,0 +1,30 @@
+{
+  "id": "the-bag-money-stays-with-the-retailer",
+  "kind": "consequence",
+  "summary": "A member looking for bag proceeds in the public budget has to account for who keeps the charge.",
+  "realLife": "Section 3 of Washington's 2020 act directed retailers to retain the full pass-through charge.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a budget estimate treats a store's bag charge as public revenue.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{member}", "{retailer}"],
+  "gates": ["A budget estimate treats a store's bag charge as public revenue."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The budget analyst revises the revenue line.",
+      "pulledBy": "Staff separate the retailer's proceeds from any sales tax.",
+      "writesBack": "The revenue estimate carries only the applicable tax."
+    },
+    {
+      "turn": "another-way",
+      "what": "The cleanup appropriation goes back to committee.",
+      "pulledBy": "The proposal would spend the whole charge on cleanup.",
+      "writesBack": "The committee has to identify a different funding source."
+    }
+  ],
+  "issues": ["law:sales-tax"]
+}

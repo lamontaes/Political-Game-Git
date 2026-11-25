@@ -1,0 +1,30 @@
+{
+  "id": "condition-a-citys-support-on-the-state-standard",
+  "kind": "move",
+  "summary": "A local official asks what protections a city would give up under a uniform state rule.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House staff recorded support for state preemption conditional on keeping a strong statewide standard.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+  ],
+  "inGame": "needs: the state proposal would displace an existing city ordinance.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{city}", "{bill}"],
+  "gates": ["The state proposal would displace an existing city ordinance."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The council endorses the statewide bill.",
+      "pulledBy": "The state draft covers the city's main restriction.",
+      "writesBack": "The city can endorse the common rule."
+    },
+    {
+      "turn": "another-way",
+      "what": "The council takes the endorsement off its consent agenda.",
+      "pulledBy": "An amendment removes that restriction.",
+      "writesBack": "The council reopens its position before the vote."
+    }
+  ],
+  "issues": ["none"]
+}

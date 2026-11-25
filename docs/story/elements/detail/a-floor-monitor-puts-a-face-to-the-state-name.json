@@ -1,0 +1,30 @@
+{
+  "id": "a-floor-monitor-puts-a-face-to-the-state-name",
+  "kind": "detail",
+  "summary": "{clerk} can identify the person making a motion once the desk has a picture as well as sound.",
+  "realLife": "Anderson recalled adding a small television to his desk because an announcement identifying a speaker only by state often left the cloakroom unsure who was speaking.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=195"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the floor feed and the identity sought by staff.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The camera shows the speaker.",
+      "what": "The clerk recognizes the member.",
+      "writesBack": "The office inquiry gets a name."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The feed stays on the chair.",
+      "what": "The clerk asks the floor staff who rose.",
+      "writesBack": "The answer waits for confirmation."
+    }
+  ]
+}

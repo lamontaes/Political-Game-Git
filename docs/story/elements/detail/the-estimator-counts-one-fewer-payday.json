@@ -1,0 +1,30 @@
+{
+  "id": "the-estimator-counts-one-fewer-payday",
+  "kind": "detail",
+  "summary": "A biweekly worker's calendar contains a payday missing from the agency's estimate.",
+  "realLife": "GAO reported an inspector general finding that the 2018 calculator generally counted 25 pay periods for biweekly workers who would receive 26, potentially leaving them overwithheld.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=19"],
+  "inGame": "needs: a saved estimate and the payroll calendar disagree on the number of checks.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{worker}", "{auditor}"],
+  "gates": [
+    "A saved estimate and the payroll calendar disagree on the number of checks."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The auditor recalculates against actual dates.",
+      "pulledBy": "The calendar confirms the extra payday.",
+      "writesBack": "The discrepancy enters the oversight record."
+    },
+    {
+      "turn": "partial",
+      "what": "The auditor drops that example.",
+      "pulledBy": "The employer uses a different pay schedule.",
+      "writesBack": "The hearing file keeps the verified schedules."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

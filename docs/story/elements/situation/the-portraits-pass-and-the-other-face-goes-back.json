@@ -1,0 +1,30 @@
+{
+  "id": "the-portraits-pass-and-the-other-face-goes-back",
+  "kind": "situation",
+  "summary": "{member} learns that an honoree reviewed the sketches before the board takes separate votes on the two faces.",
+  "realLife": "Mint staff reported that Coretta Scott King had reviewed the King medal designs, and the committee endorsed the portraits but unanimously declined the proposed reverse.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0927_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the honoree's review and the voting rule for each face.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The two faces can be returned separately.",
+      "what": "The portraits go forward while a replacement back is sought.",
+      "writesBack": "Only the reverse goes on the next agenda."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The two faces must be submitted as a single package.",
+      "what": "The chair holds the portrait recommendation.",
+      "writesBack": "The portraits wait for a second vote."
+    }
+  ]
+}

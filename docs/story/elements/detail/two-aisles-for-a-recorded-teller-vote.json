@@ -1,0 +1,33 @@
+{
+  "id": "two-aisles-for-a-recorded-teller-vote",
+  "kind": "detail",
+  "summary": "{member} remembers walking an aisle to be counted before the chamber installed voting stations.",
+  "realLife": "Anderson distinguished an older teller count from the interim two-aisle procedure with clerks in the Committee of the Whole before electronic voting began. Under the 1970 provision, a sufficiently supported request for tellers with clerks put the names on each side and the nonvoters into the Journal.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=201",
+    "https://www.govinfo.gov/content/pkg/STATUTE-84/pdf/STATUTE-84-Pg1140.pdf#page=18"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [
+    "The chamber permits a recorded teller vote under the rules in force."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the body's voting procedure and the period.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A recorded teller vote is ordered.",
+      "what": "Members pass the tellers and clerks.",
+      "writesBack": "The record can identify individual positions."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only an ordinary teller count is ordered.",
+      "what": "The tellers count members passing.",
+      "writesBack": "The result gives totals for each side."
+    }
+  ]
+}

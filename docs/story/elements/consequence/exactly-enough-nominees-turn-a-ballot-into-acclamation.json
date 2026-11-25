@@ -1,0 +1,35 @@
+{
+  "id": "exactly-enough-nominees-turn-a-ballot-into-acclamation",
+  "kind": "consequence",
+  "summary": "A caucus can finish its slate without a contested ballot when every delegate and alternate place has a nominee.",
+  "realLife": "At the 2018 caucus the numbers nominated matched both the delegate places and the alternate places, so the members approved the slate by acclamation.",
+  "sources": ["https://21dems.org/2018-caucus-minutes/"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{slate}", "{caucus}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: separate seat and nomination counts.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Nominees match the available places in both groups.",
+      "what": "The chair offers the full slate for approval.",
+      "writesBack": "Delegates and alternates leave knowing their status."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "An additional delegate is nominated.",
+      "what": "The chair separates the contested choice from the uncontested places.",
+      "writesBack": "The members must decide who gets the last delegate seat."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "separate-the-door-keypad-from-the-household-electronics",
+  "kind": "move",
+  "summary": "Members carve building access equipment out of a household repair proposal.",
+  "realLife": "Washington HB 1483 (2025). The House substitute specifically exempted physical access equipment such as electronic keypads.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a draft under review would otherwise reach an access-control product.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{member}", "{keypad}"],
+  "gates": [
+    "A draft under review would otherwise reach an access-control product."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Staff set the keypad outside the proposal.",
+      "pulledBy": "The device controls entry to the building.",
+      "writesBack": "The exemption applies to the keypad."
+    },
+    {
+      "turn": "partial",
+      "what": "The controller goes back for an ordinary coverage review.",
+      "pulledBy": "The device is an ordinary household controller.",
+      "writesBack": "The member asks staff to assess it under the general rule."
+    }
+  ],
+  "issues": ["none"]
+}

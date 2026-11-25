@@ -1,0 +1,39 @@
+{
+  "id": "the-second-wage-form-flips-the-screen",
+  "kind": "moment",
+  "summary": "A couple enters the other spouse's wage form and watches a bill replace the expected refund.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. Kraft described the change on the tax software screen when the couple entered the next W-2. For the 2020 form redesign, IRS explained that either spouse’s employer could see just its own payroll while the joint return combined both incomes and allowed one standard deduction.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=179",
+    "https://www.irs.gov/newsroom/faqs-on-the-2020-form-w-4"
+  ],
+  "inGame": "needs: two wage forms belong to the same return and only one has been entered.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{preparer}"],
+  "gates": [
+    "Two wage forms belong to the same return and only one has been entered."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The couple finishes the joint estimate.",
+      "pulledBy": "The other form arrives before filing.",
+      "writesBack": "The household budget now carries a spring payment."
+    },
+    {
+      "turn": "partial",
+      "what": "The estimate stays open.",
+      "pulledBy": "The second employer has yet to send a form.",
+      "writesBack": "The unfinished return returns to the household calendar."
+    },
+    {
+      "turn": "late",
+      "what": "They use both pay amounts at home and give one payroll office an extra amount to withhold.",
+      "pulledBy": "The couple later wants to adjust withholding under the 2020 rules while keeping the other salary private.",
+      "writesBack": "The personnel file contains the adjustment without the other spouse’s salary."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

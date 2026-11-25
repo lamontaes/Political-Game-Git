@@ -1,0 +1,30 @@
+{
+  "id": "a-union-newsletter-carries-the-paycheck-notice",
+  "kind": "move",
+  "summary": "An agency asks worker organizations to put a payroll notice where members already read local news.",
+  "realLife": "IRS officials described sending withholding materials to unions and other groups and asking them to share information through employee channels and newsletters in 2018.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=23"],
+  "inGame": "needs: a union editor has received the agency material before the newsletter deadline.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{worker}", "{editor}"],
+  "gates": [
+    "A union editor has received the agency material before the newsletter deadline."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The notice reaches the next mailing.",
+      "pulledBy": "The editor has room in this edition.",
+      "writesBack": "The union records the issue date for member inquiries."
+    },
+    {
+      "turn": "partial",
+      "what": "The editor forwards it to worksite representatives.",
+      "pulledBy": "The print deadline has passed.",
+      "writesBack": "The office records which sites received it."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

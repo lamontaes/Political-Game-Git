@@ -1,0 +1,31 @@
+{
+  "id": "ask-who-actually-received-the-recruitment-letter",
+  "kind": "voice",
+  "summary": "{member} asks whether the organization being counted on for nominees was ever contacted.",
+  "realLife": "Bergman said the Hearing Loss Association had received no outreach. Mossberg offered to have the department send a letter to a named organization.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=17",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=19"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the outreach log and a named association.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The group names a person to receive the request.",
+      "what": "Staff address the invitation to that person.",
+      "writesBack": "The association can circulate the qualifications."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A prior letter has already been delivered.",
+      "what": "The chair asks what followed it.",
+      "writesBack": "The next inquiry goes to the recipient."
+    }
+  ]
+}

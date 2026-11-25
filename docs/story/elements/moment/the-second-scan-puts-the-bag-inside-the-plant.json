@@ -1,0 +1,30 @@
+{
+  "id": "the-second-scan-puts-the-bag-inside-the-plant",
+  "kind": "moment",
+  "summary": "A household's bag can appear in the depot log before the processing plant takes custody.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof distinguished the scan at drop-off from the scan confirming that bags had reached Oakland or Biddeford.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1"
+  ],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{dispatcher}"],
+  "gates": ["An account holder asks about a bag logged at the depot."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: an account holder asks about a bag logged at the depot.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Staff locates the bag in processing.",
+      "pulledBy": "The plant has a matching scan.",
+      "writesBack": "The inquiry goes to the counting crew."
+    },
+    {
+      "turn": "another-way",
+      "what": "Staff checks the collection run.",
+      "pulledBy": "Only the depot logged the bag.",
+      "writesBack": "The missing arrival stays on the dispatcher's list."
+    }
+  ]
+}

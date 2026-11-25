@@ -1,0 +1,36 @@
+{
+  "id": "reporters-reaction-prompts-a-final-staff-conference",
+  "kind": "situation",
+  "summary": "The candidate has to decide whether criticism of an advance draft warrants changing the speech.",
+  "realLife": "Murphy recalled aides calling a meeting after journalists criticized a released campaign speech and Truman deciding to keep the prepared text.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/murphy4"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{candidate}", "{draft}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: released copy and the specific criticism.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The criticism concerns the speech's approach.",
+      "what": "The candidate hears the objection and keeps the text.",
+      "writesBack": "The press copy and delivered remarks can agree."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The criticism identifies a factual mistake.",
+      "what": "Staff check it and issue a correction if warranted.",
+      "writesBack": "Reporters learn which passage changed."
+    }
+  ]
+}

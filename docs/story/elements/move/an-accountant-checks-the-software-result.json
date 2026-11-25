@@ -1,0 +1,32 @@
+{
+  "id": "an-accountant-checks-the-software-result",
+  "kind": "move",
+  "summary": "A couple pays attention to the same number only after an accountant checks the return.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. Kraft and Elias sought an independent calculation after tax software showed an unexpected balance, and the accountant confirmed it.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=179"
+  ],
+  "inGame": "needs: a draft return shows an unexpected balance and the couple asks for a second reading.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{accountant}"],
+  "gates": [
+    "A draft return shows an unexpected balance and the couple asks for a second reading."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family accepts the amount.",
+      "pulledBy": "The accountant reproduces the result.",
+      "writesBack": "The case record records independent confirmation."
+    },
+    {
+      "turn": "partial",
+      "what": "The return goes back for correction.",
+      "pulledBy": "The accountant spots a missing entry.",
+      "writesBack": "The budget keeps a provisional amount."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

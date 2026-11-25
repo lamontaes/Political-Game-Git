@@ -1,0 +1,32 @@
+{
+  "id": "three-changes-on-one-return-cloud-the-credit-claim",
+  "kind": "detail",
+  "summary": "A family can name three things that changed but cannot tell a reporter which one produced its refund.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. Goodell reported higher withholding and more charitable giving and thought the larger child credit helped, without assigning a share to each change.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=180"
+  ],
+  "inGame": "needs: a source describes several changes affecting the same filing season.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{reporter}"],
+  "gates": [
+    "A source describes several changes affecting the same filing season."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The story can quantify that part of the change.",
+      "pulledBy": "The preparer supplies a comparison for the credit.",
+      "writesBack": "The clip links the estimate to the comparison."
+    },
+    {
+      "turn": "partial",
+      "what": "The reporter attributes the explanation to the family.",
+      "pulledBy": "Only the household's recollection is available.",
+      "writesBack": "The clip leaves the contribution of each factor open."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

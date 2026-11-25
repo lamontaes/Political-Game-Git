@@ -1,0 +1,31 @@
+{
+  "id": "the-only-current-precedents-sit-in-the-parliamentarians-office",
+  "kind": "situation",
+  "summary": "{member} must consult a procedural precedent where the parliamentarian can see which question is being researched.",
+  "realLife": "Anderson recalled that the recent precedents were kept in Lewis Deschler's office and described his and Pitts's effort to obtain their publication. Section 331 directed the parliamentarian to compile the precedents on a recurring basis.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=199",
+    "https://www.govinfo.gov/content/pkg/STATUTE-84/pdf/STATUTE-84-Pg1140.pdf#page=47"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": ["The precedents the member needs have yet to be published."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: access to the precedent collection and the member's question.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A published volume covers the point.",
+      "what": "Staff consult it away from the floor.",
+      "writesBack": "The member can prepare the motion privately."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only the office copy covers the point.",
+      "what": "The member goes to see the parliamentarian.",
+      "writesBack": "The inquiry is known before the motion is offered."
+    }
+  ]
+}

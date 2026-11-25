@@ -1,0 +1,30 @@
+{
+  "id": "the-account-credit-waits-for-the-count",
+  "kind": "consequence",
+  "summary": "A customer leaving a bag with a machine has to wait for the contents to be checked before drawing the money.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof described checking containers for eligibility before crediting a customer’s account for later withdrawal.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1"
+  ],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{clerk}"],
+  "gates": ["A tagged bag has arrived and the customer checks the balance."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a tagged bag has arrived and the customer checks the balance.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The customer can withdraw the credited refund.",
+      "pulledBy": "The count is complete.",
+      "writesBack": "The account records the amount available."
+    },
+    {
+      "turn": "another-way",
+      "what": "The clerk looks up the processing status.",
+      "pulledBy": "The line has yet to count the bag.",
+      "writesBack": "The refund stays out of the household's available balance."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "support-the-repair-deal-with-a-wish-left-out",
+  "kind": "voice",
+  "summary": "A supporter backs the compromise while acknowledging a provision they wanted is missing.",
+  "realLife": "Washington HB 1483 (2025). Senate supporters described accepting a narrower agreement that still answered several common concerns.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/Senate/1483-S.E%20SBR%20APS%2025.pdf"
+  ],
+  "inGame": "needs: a stakeholder supported an earlier request absent from the current draft.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{member}", "{provision}"],
+  "gates": [
+    "A stakeholder supported an earlier request absent from the current draft."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A supporter steps away from the compromise.",
+      "pulledBy": "The stakeholder conditions support on restoring it.",
+      "writesBack": "The whip count loses a firm supporter."
+    },
+    {
+      "turn": "partial",
+      "what": "The supporter puts one request off until later.",
+      "pulledBy": "The stakeholder accepts a later hearing on it.",
+      "writesBack": "The current bill keeps that supporter."
+    }
+  ],
+  "issues": ["none"]
+}

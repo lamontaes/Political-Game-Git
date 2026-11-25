@@ -1,0 +1,30 @@
+{
+  "id": "carry-hearing-aid-oversight-across-a-change-of-president",
+  "kind": "move",
+  "summary": "{senator} takes an overdue hearing-aid rule back to the agency after a new president takes office.",
+  "realLife": "On the Senate floor in 2021, Chuck Grassley said he and Elizabeth Warren had pressed both the Trump and Biden administrations to carry out the hearing-aid law.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CREC-2021-10-27/pdf/CREC-2021-10-27-pt1-PgS7411.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{senator}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: implementation deadline, current agency leadership and past correspondence.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The new administration publishes a proposal.",
+      "what": "The sponsors acknowledge the agency response.",
+      "writesBack": "Their next inquiry can address the proposal itself."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The incoming team offers no timetable.",
+      "what": "The sponsors produce the earlier correspondence.",
+      "writesBack": "The committee can ask when the outstanding request will be answered."
+    }
+  ]
+}

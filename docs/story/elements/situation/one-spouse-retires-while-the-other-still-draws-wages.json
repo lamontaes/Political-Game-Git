@@ -1,0 +1,30 @@
+{
+  "id": "one-spouse-retires-while-the-other-still-draws-wages",
+  "kind": "situation",
+  "summary": "A retiree and a working spouse bring different income records to the same tax appointment.",
+  "realLife": "Brenda Allington told the Missoula Current that she supplemented her husband's wages by drawing from the IRA she had built over decades.",
+  "sources": ["https://missoulacurrent.com/irs-tax-law/"],
+  "inGame": "needs: a retirement distribution and a spouse's wages fall in the same filing year.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{retiree}"],
+  "gates": [
+    "A retirement distribution and a spouse's wages fall in the same filing year."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The preparer reviews the combined income.",
+      "pulledBy": "Both records are on hand.",
+      "writesBack": "The household gets a joint estimate."
+    },
+    {
+      "turn": "partial",
+      "what": "The family requests a copy from the custodian.",
+      "pulledBy": "The distribution statement is missing.",
+      "writesBack": "The appointment stays open for the missing statement."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "the-label-desk-loses-staff-when-the-program-moves",
+  "kind": "detail",
+  "summary": "A question about label registration sends a committee back to the staffing records from an agency transfer.",
+  "realLife": "In 2023 testimony on Maine LD 1909 and LD 1910, DEP staff contrasted the seven staff at Agriculture before the program moved in 2015 with two positions funded by registration fees at DEP, while supporting a transfer of label registration duties.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178376#page=4"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{official}", "{budgeter}"],
+  "gates": [
+    "A proposed duty transfer comes before members reviewing the registration budget."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a proposed duty transfer comes before members reviewing the registration budget.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The budgeter separates positions from the work being reassigned.",
+      "pulledBy": "The old and new staffing records are available.",
+      "writesBack": "The fiscal memo identifies the duties still at the department."
+    },
+    {
+      "turn": "another-way",
+      "what": "The committee requests the earlier appropriation.",
+      "pulledBy": "Only the current head count is available.",
+      "writesBack": "The staffing comparison waits for the historical record."
+    }
+  ]
+}

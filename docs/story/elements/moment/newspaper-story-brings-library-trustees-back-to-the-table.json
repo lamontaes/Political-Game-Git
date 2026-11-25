@@ -1,0 +1,38 @@
+{
+  "id": "newspaper-story-brings-library-trustees-back-to-the-table",
+  "kind": "moment",
+  "summary": "A newspaper story prompts the library chair to call a meeting outside the regular schedule.",
+  "realLife": "After a Greenville newspaper report drew public concern about internet use, the library trustees convened a special meeting to hear from the community.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=newspaper%20report%2C%20the%20Board%20of%20Trustees%20held%20a%20special",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=44"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{chair}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: public report and meeting notice.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The regular meeting is still weeks away.",
+      "what": "The chair calls a special session.",
+      "writesBack": "Residents have an earlier date to speak."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The board already has a public hearing scheduled.",
+      "what": "The clerk adds the notice to the regular hearing materials.",
+      "writesBack": "Residents can bring the concern there."
+    }
+  ]
+}

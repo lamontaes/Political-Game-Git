@@ -1,0 +1,37 @@
+{
+  "id": "residents-distinguish-a-filter-choice-from-a-filter-mandate",
+  "kind": "moment",
+  "summary": "Residents who opposed a mandatory filter distinguish their objection from opposition to a family's choice.",
+  "realLife": "Mainstream Loudoun's representatives told a federal commission they supported voluntary filters and reported that the trustees adopted a choice-based policy in December 1998.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/GOVPUB-Y3_L61-c4ed196b7bdecf0746c3cb8af8a85c40/pdf/GOVPUB-Y3_L61-c4ed196b7bdecf0746c3cb8af8a85c40.pdf#page=191"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{resident}", "{board}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: old policy and recorded replacement vote.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Families can choose the setting.",
+      "what": "A resident explains why the revised offer meets part of the objection.",
+      "writesBack": "The board hears which feature changed the resident's view."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The proposed rule would again cover every patron.",
+      "what": "The resident returns to the earlier objection.",
+      "writesBack": "Trustees must address the difference at the next vote."
+    }
+  ]
+}

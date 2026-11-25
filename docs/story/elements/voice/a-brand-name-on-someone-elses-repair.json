@@ -1,0 +1,30 @@
+{
+  "id": "a-brand-name-on-someone-elses-repair",
+  "kind": "voice",
+  "summary": "An opponent asks whose name the customer remembers when a repair goes wrong.",
+  "realLife": "Washington HB 1483 (2025). House opponents argued that poor repairs done elsewhere could damage the manufacturer's reputation.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a witness raises responsibility for a third-party repair.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{customer}", "{repairer}"],
+  "gates": ["A witness raises responsibility for a third-party repair."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The customer can identify the last repairer.",
+      "pulledBy": "The receipt identifies the shop that did the work.",
+      "writesBack": "The customer takes the complaint there."
+    },
+    {
+      "turn": "partial",
+      "what": "The shop traces the complaint back to the original product.",
+      "pulledBy": "The defect predates the repair.",
+      "writesBack": "The manufacturer receives the complaint."
+    }
+  ],
+  "issues": ["none"]
+}

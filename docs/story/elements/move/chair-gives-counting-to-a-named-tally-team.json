@@ -1,0 +1,35 @@
+{
+  "id": "chair-gives-counting-to-a-named-tally-team",
+  "kind": "move",
+  "summary": "A temporary officer appoints the people who would count ballots before asking for nominations.",
+  "realLife": "At the Mukilteo caucus the chair appointed a tally committee with a named lead to handle the permanent officer elections.",
+  "sources": ["https://21dems.org/2018-caucus-minutes/"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{chair}", "{counter}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: appointed counters and pending officer election.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Several people seek an office.",
+      "what": "The tally team prepares to count the votes.",
+      "writesBack": "The nominees know who will report the result."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The office has a single nominee and a voice vote suffices.",
+      "what": "The team stands by while the chair calls the vote.",
+      "writesBack": "The minutes identify the method actually used."
+    }
+  ]
+}

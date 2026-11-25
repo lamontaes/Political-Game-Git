@@ -1,0 +1,36 @@
+{
+  "id": "county-committeewoman-brings-a-poem-to-good-of-the-order",
+  "kind": "moment",
+  "summary": "Once the delegate business is settled, a member offers something written for the people in the room.",
+  "realLife": "Rose Andrews, the county committeewoman, read a poem she had written for the 21st District caucus when the chair opened general closing remarks.",
+  "sources": ["https://21dems.org/2018-caucus-minutes/"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{member}", "{caucus}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: completed business and time for members to speak.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The chair has time for closing contributions.",
+      "what": "The member reads the piece prepared for the occasion.",
+      "writesBack": "The meeting ends with something beyond its ballots."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The room must close immediately.",
+      "what": "The member offers to share the piece afterward.",
+      "writesBack": "The vote can stand even though the reading is deferred."
+    }
+  ]
+}

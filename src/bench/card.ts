@@ -900,7 +900,7 @@ function lineOf(
   }
 }
 
-interface HistoryLine {
+export interface HistoryLine {
   date: string;
   key: string;
   slots: Record<string, string>;
@@ -1003,15 +1003,12 @@ const TERMS_NAMED = 2;
 const OFFICE_KEYS = ["office.elected", "office.appointed", "office.entered"];
 
 /**
- * The card's story, oldest first (owner, Nov 1: "Elected legislator, it needs
- * to be told like a story. How many times do I have to say that?"): each
- * record a sentence of a short biography from the bank, the first naming
- * them and the rest using their recorded pronouns, or said to the player of
- * their own life. A run of terms in one office is one sentence ("won
- * election as state representative, and won it again in 1988 and 1990"),
- * and one school is said once. A year is said only where a bank piece has a slot for it.
+ * The card's lines folded as the story tells them: a run of terms or of spells
+ * at one employer is one line, and more than two jobs are one line standing
+ * where the last job began, so a long career is never told as if it were one
+ * moment (CTO, Nov 24, C10: "five jobs at 18").
  */
-function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
+export function foldLines(lines: readonly HistoryLine[]) {
   // Terms in the same office, one after another, fold into the first.
   // By date; on the same day a partner is told before a child (a partner the person was
   // made with carries no day of its own and is placed on the first child's).
@@ -1072,22 +1069,37 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     ),
   ];
   if (spells.length > 2 && last && earlier.length) {
-    const first = spells[0]!;
     const records = spells.flatMap((line) => [
       line.recordId,
       ...(line.later ?? []),
     ]);
-    first.key = "work.history";
-    first.slots = {
+    // It stands where the last job began, with that job's day, so the years the
+    // career spans are never folded onto the first job's age.
+    last.key = "work.history";
+    last.slots = {
       year: last.date.slice(0, 4),
       employers: joinList(earlier, "and"),
       employer: last.slots.employer!,
     };
-    first.recordId = last.recordId;
-    first.later = records.filter((id) => id !== last.recordId);
-    delete first.again;
-    for (const line of spells.slice(1)) folded.splice(folded.indexOf(line), 1);
+    last.later = records.filter((id) => id !== last.recordId);
+    delete last.again;
+    for (const line of spells.slice(0, -1))
+      folded.splice(folded.indexOf(line), 1);
   }
+  return folded;
+}
+
+/**
+ * The card's story, oldest first (owner, Nov 1: "Elected legislator, it needs
+ * to be told like a story. How many times do I have to say that?"): each
+ * record a sentence of a short biography from the bank, the first naming
+ * them and the rest using their recorded pronouns, or said to the player of
+ * their own life. A run of terms in one office is one sentence ("won
+ * election as state representative, and won it again in 1988 and 1990"),
+ * and one school is said once. A year is said only where a bank piece has a slot for it.
+ */
+function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
+  const folded = foldLines(lines);
   // The player's own life is told in the first person (the bank's `.i` pieces).
   const voice = teller.form === "you" ? "i" : teller.form;
   const said = new Set<string>();
@@ -1703,7 +1715,12 @@ function officialLines(
     row.identity?.givenName === term.identity?.givenName &&
     row.identity?.familyName === term.identity?.familyName &&
     row.identity?.birthDate === term.identity?.birthDate &&
-    row.seatId === term.seatId;
+    // Their terms in the seat the card tells, and in any other seat the same
+    // person held (a President's years as vice president).
+    (row.seatId === term.seatId ||
+      (row.personId !== undefined &&
+        row.personId !== null &&
+        row.personId === term.personId));
   const lines: HistoryLine[] = [];
   for (const row of rows.filter(same)) {
     const office = officeSlotsOf(core, row.officeId);

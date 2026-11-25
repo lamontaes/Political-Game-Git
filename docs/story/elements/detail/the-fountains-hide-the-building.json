@@ -1,0 +1,30 @@
+{
+  "id": "the-fountains-hide-the-building",
+  "kind": "detail",
+  "summary": "{member} notices that the first thing visible in the drawing is in front of the place being honored.",
+  "realLife": "Members reviewing the King medal thought the fountains in the foreground drew attention away from the King Center depicted behind them.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0927_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the building drawing at its intended reproduction size.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A foreground feature dominates the small reproduction.",
+      "what": "The artist lowers the fountain in the next sketch.",
+      "writesBack": "The next packet shows the entrance clearly."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "At actual size the building still disappears.",
+      "what": "The building is hard to recognize even after the fountain is lowered.",
+      "writesBack": "The board asks for a different subject."
+    }
+  ]
+}

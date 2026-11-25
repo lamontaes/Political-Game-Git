@@ -1,0 +1,32 @@
+{
+  "id": "check-the-folded-guide-as-well-as-the-long-one",
+  "kind": "detail",
+  "summary": "{member} remembers updating two editions and asks staff to look for both.",
+  "realLife": "Bergman recalled a long hearing guide and a folded handout, both revised to cover assistive listening technology. He also wanted readers to have the independent resources the longer guide had included. The guide came up again in June 2026. Burchett invited people interested in the revision to contact her, and Freeman explained to Campbell that the brochures were intended for buyers.",
+  "sources": [
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=12",
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=13",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-06-09-26#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the editions and their reference lists.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Staff locate both versions.",
+      "what": "The member checks each reference list.",
+      "writesBack": "The handout can point to the full guide."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only the folded copy turns up.",
+      "what": "The member checks what the condensed text omitted.",
+      "writesBack": "The longer edition goes on the search list."
+    }
+  ]
+}

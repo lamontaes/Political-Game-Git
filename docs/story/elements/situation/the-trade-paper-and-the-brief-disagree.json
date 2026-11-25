@@ -1,0 +1,30 @@
+{
+  "id": "the-trade-paper-and-the-brief-disagree",
+  "kind": "situation",
+  "summary": "{member} arrives with published design instructions that differ from what staff gave the board.",
+  "realLife": "With little time to approve the Old Mint designs, members discussed a conflicting account in Coin World and set it aside for their deliberations.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0615_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the staff brief and the conflicting published account.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Staff can trace the written brief to the program.",
+      "what": "The chair asks staff to read the disputed instruction.",
+      "writesBack": "The minutes identify the version used."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Staff find a later instruction from the program.",
+      "what": "The instruction read aloud turns out to be obsolete.",
+      "writesBack": "The board postpones its recommendation."
+    }
+  ]
+}

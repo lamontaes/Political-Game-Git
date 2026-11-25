@@ -1,0 +1,37 @@
+{
+  "id": "one-speaker-presents-two-judicial-candidates-separately",
+  "kind": "move",
+  "summary": "A stand-in at an endorsement meeting may have to introduce two candidates without blending their records.",
+  "realLife": "The 26th District's draft June minutes list Tom Quinlan speaking separately for two state supreme court justices during the candidate presentations.",
+  "sources": [
+    "https://26d.org/wp-content/uploads/2021/03/DraftJune72018MeetingMinutes.pdf"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{speaker}", "{candidate}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: surrogate authorization and candidate order.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Both candidates sent a representative.",
+      "what": "The chair identifies which candidate each turn concerns.",
+      "writesBack": "The secretary can attribute the two presentations correctly."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "One candidate arrives in person.",
+      "what": "The chair adjusts that speaking turn.",
+      "writesBack": "The surrogate still presents the other candidate."
+    }
+  ]
+}

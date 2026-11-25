@@ -1,0 +1,30 @@
+{
+  "id": "trace-a-hearing-aid-form-letter-to-its-sponsor",
+  "kind": "move",
+  "summary": "{investigator} lays a manufacturer's campaign template beside a public comment bearing another name.",
+  "realLife": "Warren and Grassley's staff placed a Starkey-sponsored campaign's sample wording alongside an example submission to show the connection they found.",
+  "sources": [
+    "https://www.grassley.senate.gov/imo/media/doc/fda_hearing_aid_report.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{investigator}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: campaign sponsorship, templates and individual docket entries.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The sponsor's published template is available.",
+      "what": "An investigator checks the campaign's copy against the docket.",
+      "writesBack": "The hearing exhibit shows both texts and identifies the sponsor."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The source of another letter is unclear.",
+      "what": "The apparent match cannot be traced to a sponsor.",
+      "writesBack": "The exhibit records the similarity and leaves authorship open."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "keep-the-newspaper-cartoon-flat",
+  "kind": "move",
+  "summary": "{member} asks an engraver to preserve the look of a printed cartoon when it moves from paper to metal.",
+  "realLife": "Members wanted Franklin's divided-snake cartoon to read as newspaper art on the coin and requested shallow relief, period lettering and an indication of its origin. The issued dollar carried the segmented snake on the back. The Mint's list of inscriptions includes the cartoon's title and gives no newspaper credit.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0524_minutes.pdf#page=3",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/benjamin-franklin/benjamin-franklin-scientist"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the printed original and the size available for its credit.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The source publication is known.",
+      "what": "The artist tries a flatter copy with a source credit.",
+      "writesBack": "The cartoon can be recognized in the proof."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The credit becomes illegible when reduced.",
+      "what": "Readers cannot make out the source at coin size.",
+      "writesBack": "The designer asks which words can be shortened."
+    }
+  ]
+}

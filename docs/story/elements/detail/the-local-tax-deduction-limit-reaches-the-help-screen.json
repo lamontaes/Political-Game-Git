@@ -1,0 +1,30 @@
+{
+  "id": "the-local-tax-deduction-limit-reaches-the-help-screen",
+  "kind": "detail",
+  "summary": "A worker looking up a payroll deduction finds an explanation of a new limit on local tax deductions.",
+  "realLife": "During the 2018 rollout Treasury and IRS added an explanation of the new state and local tax deduction limit to the withholding calculator.",
+  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=19"],
+  "inGame": "needs: a calculator release includes help for the new limit on state and local tax deductions.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{worker}", "{staffer}"],
+  "gates": [
+    "A calculator release includes help for the new limit on state and local tax deductions."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Staff identifies the deduction the help text addresses.",
+      "pulledBy": "The worker has last year's itemized return.",
+      "writesBack": "The worker takes the relevant schedule to the preparer."
+    },
+    {
+      "turn": "partial",
+      "what": "Staff checks which part of the estimate prompted the question.",
+      "pulledBy": "The worker used the standard deduction.",
+      "writesBack": "The case gets a narrower follow-up."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

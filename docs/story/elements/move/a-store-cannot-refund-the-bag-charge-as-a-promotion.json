@@ -1,0 +1,30 @@
+{
+  "id": "a-store-cannot-refund-the-bag-charge-as-a-promotion",
+  "kind": "move",
+  "summary": "A manager considering a bag promotion checks whether the store can pay customers back.",
+  "realLife": "Section 4 prohibited a retailer from reimbursing customers for any part of the required pass-through charge.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a proposed promotion reimburses a required bag charge.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{manager}", "{promotion}"],
+  "gates": ["A proposed promotion reimburses a required bag charge."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The store drops its proposed reimbursement.",
+      "pulledBy": "The manager cancels the rebate before launch.",
+      "writesBack": "The promotional budget remains unspent."
+    },
+    {
+      "turn": "another-way",
+      "what": "The store changes what it offers customers.",
+      "pulledBy": "The store changes the promotion to reminders about bringing a bag.",
+      "writesBack": "The customer avoids a charge by declining the carrier."
+    }
+  ],
+  "issues": ["none"]
+}

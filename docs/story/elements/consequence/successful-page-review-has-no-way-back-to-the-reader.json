@@ -1,0 +1,37 @@
+{
+  "id": "successful-page-review-has-no-way-back-to-the-reader",
+  "kind": "consequence",
+  "summary": "Approving a reader's request does not tell the reader that the page is available.",
+  "realLife": "The Loudoun record reported approval of every request submitted by that point, yet the policy specified neither a decision deadline nor a way to notify the requester. In the North Central Regional Library District case, the Washington Supreme Court described approvals that opened a site on all district public computers. A change in district access by itself does not establish that the original reader heard back.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/24/552/2516756/",
+    "https://law.justia.com/cases/washington/supreme-court/2010/822000-opn.html"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{reader}", "{request}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: review decision and notification procedure.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reader checks at the desk on a later visit.",
+      "what": "A librarian looks up the decision.",
+      "writesBack": "The reader finally learns the result."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reader does not return to ask.",
+      "what": "The decision remains in the library's records.",
+      "writesBack": "Trustees can count an approval without knowing whether it reached anyone."
+    },
+    {
+      "turn": "late",
+      "what": "The page opens at a second branch before the requester knows about the decision.",
+      "pulledBy": "An approval applies districtwide and the requester left no return address.",
+      "writesBack": "Staff can verify access at both branches while the original request remains without a delivery confirmation."
+    }
+  ]
+}

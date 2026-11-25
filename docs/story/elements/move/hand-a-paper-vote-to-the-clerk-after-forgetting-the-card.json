@@ -1,0 +1,33 @@
+{
+  "id": "hand-a-paper-vote-to-the-clerk-after-forgetting-the-card",
+  "kind": "move",
+  "summary": "{member} comes to the front desk to vote on paper after leaving the voting card behind.",
+  "realLife": "Anderson explained that members who lost or forgot their cards could give the desk a paper ballot for manual entry in the electronic count. Paper also mattered when the equipment failed. On September 14, 2001, the chair directed the Clerk to combine the names already recorded electronically with signed tally cards and kept the vote open for members returning from a memorial service.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=93",
+    "https://www.govinfo.gov/content/pkg/CREC-2001-09-14/pdf/CREC-2001-09-14.pdf#page=13"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [
+    "The chamber permits a member to cast a paper ballot at the desk during an electronic vote."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an open electronic vote and the chamber's paper procedure.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The member reaches the desk in time.",
+      "what": "The clerk enters the ballot.",
+      "writesBack": "The member appears in the tally."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The member finds the card on the way.",
+      "what": "They use a station before the vote closes.",
+      "writesBack": "The desk never receives a paper ballot."
+    }
+  ]
+}

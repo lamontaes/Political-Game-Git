@@ -1,0 +1,36 @@
+{
+  "id": "precinct-recruiter-asks-the-guests-to-run-themselves",
+  "kind": "voice",
+  "summary": "A volunteer who offers to find a precinct candidate may be asked whether they would take the job.",
+  "realLife": "The 21st District precinct coordinator asked caucus guests both to recruit candidates for precinct committee office and to consider standing themselves.",
+  "sources": ["https://21dems.org/2018-caucus-minutes/"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "home"
+  ],
+  "slots": ["{coordinator}", "{guest}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: precinct recruitment need and guest interest.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The guest wants to learn what the office involves.",
+      "what": "The coordinator describes the precinct assignment.",
+      "writesBack": "The guest can consider becoming the candidate."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The guest would rather introduce a neighbor.",
+      "what": "The coordinator accepts an introduction with the neighbor's permission.",
+      "writesBack": "Recruitment continues without treating the guest as a nominee."
+    }
+  ]
+}

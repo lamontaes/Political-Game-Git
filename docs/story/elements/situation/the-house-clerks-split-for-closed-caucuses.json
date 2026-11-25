@@ -1,0 +1,32 @@
+{
+  "id": "the-house-clerks-split-for-closed-caucuses",
+  "kind": "situation",
+  "summary": "{clerk} serves the whole chamber on the floor but only one party in its closed meetings.",
+  "realLife": "Swanson recalled serving the Republican minority's caucus while the other reading clerk covered the Democratic side.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=12"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": [
+    "The chamber assigns separate clerks to the parties for closed caucus business."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the party assignments and whether the meeting is closed.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The assigned clerk is available.",
+      "what": "The caucus sends its papers to that clerk.",
+      "writesBack": "The closed meeting has a reader."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The only available reader serves the other caucus.",
+      "what": "The caucus chair looks for a substitute.",
+      "writesBack": "The papers stay with the caucus."
+    }
+  ]
+}

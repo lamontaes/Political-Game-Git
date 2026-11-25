@@ -1,0 +1,35 @@
+{
+  "id": "press-aide-weighs-the-opponents-head-start",
+  "kind": "voice",
+  "summary": "A press aide explains why advance copy helps careful reporting and also gives critics time to answer.",
+  "realLife": "In discussing advance releases, Perlmeter recalled editors publishing opposing comments prominently and weighed that cost against the value of giving reporters time to prepare.",
+  "sources": ["https://www.trumanlibrary.gov/library/oral-histories/perlmete"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{aide}", "{editor}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: planned release time and publication deadline.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The text is ready early.",
+      "what": "The aide distributes it with a release time.",
+      "writesBack": "Reporters can prepare questions and seek responses."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The writing is still changing.",
+      "what": "The aide delays the copy and tells editors when to expect it.",
+      "writesBack": "Newsrooms have less preparation time."
+    }
+  ]
+}

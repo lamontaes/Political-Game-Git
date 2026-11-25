@@ -1,0 +1,30 @@
+{
+  "id": "carry-the-blindfold-into-any-winning-design",
+  "kind": "move",
+  "summary": "{member} asks for one change that should survive whichever drawing wins.",
+  "realLife": "After considering the judicial-branch designs, members agreed that Justice should wear a blindfold regardless of the design ultimately selected.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0728_minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the finalists and the figures present in each.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "All finalists depict the same figure.",
+      "what": "Staff attach the change to the program recommendation.",
+      "writesBack": "The winning artist receives it with the vote."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A replacement design omits the figure entirely.",
+      "what": "The new design uses a courthouse in place of Justice.",
+      "writesBack": "The board withdraws the instruction."
+    }
+  ]
+}

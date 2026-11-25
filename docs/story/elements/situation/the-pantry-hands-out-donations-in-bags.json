@@ -1,0 +1,32 @@
+{
+  "id": "the-pantry-hands-out-donations-in-bags",
+  "kind": "situation",
+  "summary": "A food pantry can pack a household's share under different rules from the grocery across the street.",
+  "realLife": "Section 3 generally excluded food banks and food assistance programs from the retail definition while preserving a provision on bag materials and encouraging voluntary reductions.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a food assistance program is packing donations under a comparable exemption.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{pantry}", "{household}"],
+  "gates": [
+    "A food assistance program is packing donations under a comparable exemption."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The household repacks the food in its own carriers.",
+      "pulledBy": "The household brings reusable carriers.",
+      "writesBack": "The pantry saves its bags for another pickup."
+    },
+    {
+      "turn": "another-way",
+      "what": "The volunteer bags the food at pickup.",
+      "pulledBy": "The household arrives without carriers.",
+      "writesBack": "The pantry uses bags consistent with the remaining material rules."
+    }
+  ],
+  "issues": ["none"]
+}

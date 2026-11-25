@@ -1,0 +1,34 @@
+{
+  "id": "personal-files-travel-to-the-repair-counter",
+  "kind": "detail",
+  "summary": "A customer has to hand over a device that still holds private material.",
+  "realLife": "Washington HB 1483 (2025). House opponents raised customers' personal information as a concern when devices go to shops.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a customer is deciding whether to entrust a device to a provider.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{customer}", "{device}"],
+  "gates": [
+    "A customer is deciding whether to entrust a device to a provider."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The device goes in without the private files.",
+      "pulledBy": "The customer removes the private files first.",
+      "writesBack": "The handoff goes ahead."
+    },
+    {
+      "turn": "partial",
+      "what": "The customer puts the appointment on hold.",
+      "pulledBy": "The customer keeps the device until a backup finishes.",
+      "writesBack": "The shop reschedules intake."
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:technology-privacy.consumer-data-privacy-law"
+  ]
+}

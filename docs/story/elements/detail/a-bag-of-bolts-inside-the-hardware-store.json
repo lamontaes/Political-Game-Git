@@ -1,0 +1,30 @@
+{
+  "id": "a-bag-of-bolts-inside-the-hardware-store",
+  "kind": "detail",
+  "summary": "A clerk distinguishes a bag holding loose hardware from the bag carrying the whole purchase home.",
+  "realLife": "Section 3 excluded bags customers use inside a store to package bulk goods, including small hardware.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a customer packages loose merchandise before checkout.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{clerk}", "{purchase}"],
+  "gates": ["A customer packages loose merchandise before checkout."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The buyer leaves carrying just the bag of bolts.",
+      "pulledBy": "The small bag is all the customer needs.",
+      "writesBack": "The transaction ends without a separate carryout bag."
+    },
+    {
+      "turn": "another-way",
+      "what": "The clerk supplies a second bag at checkout.",
+      "pulledBy": "The customer asks for an outer bag for other purchases.",
+      "writesBack": "The cashier applies the checkout rule to the outer bag."
+    }
+  ],
+  "issues": ["none"]
+}

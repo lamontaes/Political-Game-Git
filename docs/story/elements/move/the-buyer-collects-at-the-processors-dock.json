@@ -1,0 +1,30 @@
+{
+  "id": "the-buyer-collects-at-the-processors-dock",
+  "kind": "move",
+  "summary": "A distributor can send its buyer straight to the processor once the counted material is ready to ship.",
+  "realLife": "In 2023 testimony on Maine LD 1909, outgoing CLYNK CEO Alison Vanderhoof said many CLYNK partners directed their commodity buyers to the company's dock instead of handling the processed containers again.",
+  "sources": [
+    "https://legislature.maine.gov/legis/bills/getTestimonyDoc.asp?id=178356#page=1"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{buyer}", "{dispatcher}"],
+  "gates": ["A processed load has been assigned to a distributor."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: a processed load has been assigned to a distributor.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The dispatcher gives the buyer the loading appointment.",
+      "pulledBy": "The buyer confirms a pickup.",
+      "writesBack": "The shipping record names the actual carrier."
+    },
+    {
+      "turn": "another-way",
+      "what": "The processor holds the load in the assigned space.",
+      "pulledBy": "The distributor has yet to name its buyer.",
+      "writesBack": "The shipment stays open on the dock schedule."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "ask-who-pays-to-ship-the-part",
+  "kind": "move",
+  "summary": "A witness asks the committee to revisit shipping costs in the bill.",
+  "realLife": "Washington HB 1483 (2025). House staff listed a request to revise the shipping language under testimony taking neither side.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a proposed repair rule leaves shipping charges in dispute.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{shop}", "{supplier}"],
+  "gates": ["A proposed repair rule leaves shipping charges in dispute."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The supplier takes on the shipping charge.",
+      "pulledBy": "The supplier agrees to cover delivery.",
+      "writesBack": "The customer receives a lower quote."
+    },
+    {
+      "turn": "partial",
+      "what": "The shop avoids shipping on one part.",
+      "pulledBy": "The shop can collect the part locally.",
+      "writesBack": "The invoice drops delivery for this order alone."
+    }
+  ],
+  "issues": ["none"]
+}

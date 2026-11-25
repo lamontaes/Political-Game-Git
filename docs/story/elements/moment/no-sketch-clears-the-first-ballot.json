@@ -1,0 +1,31 @@
+{
+  "id": "no-sketch-clears-the-first-ballot",
+  "kind": "moment",
+  "summary": "{chair} finishes the first count and has no design eligible for discussion under the board's own rule.",
+  "realLife": "None of the executive-branch designs met the initial support threshold, so members agreed to discuss the two entries just below it. The Mint's executive-branch issue paired the spread wings of a bald eagle with a shield.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0728_minutes.pdf#page=1",
+    "https://www.usmint.gov/news/press-releases/20070716-2007-american-eagle-platinum-proof-and-uncirculated-coins-available-july-17"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{chair}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the first ballot and the board's screening rule.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The board can reopen its screening rule.",
+      "what": "The chair admits both near misses.",
+      "writesBack": "The final tally records a choice between them."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Members insist on enforcing the threshold.",
+      "what": "The chair announces that no design advanced.",
+      "writesBack": "The call for designs goes back out."
+    }
+  ]
+}

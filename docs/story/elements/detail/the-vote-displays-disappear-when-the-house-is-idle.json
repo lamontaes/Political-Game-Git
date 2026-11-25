@@ -1,0 +1,30 @@
+{
+  "id": "the-vote-displays-disappear-when-the-house-is-idle",
+  "kind": "detail",
+  "summary": "{visitor} can look around the chamber between votes without noticing much of its voting equipment.",
+  "realLife": "Anderson recalled the small stations on seat backs and the care taken to make the displays blend into the historic walls between uses.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=91"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{visitor}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the chamber design and whether a vote is open.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The guide brings visitors in during a vote.",
+      "what": "The running display reveals the equipment.",
+      "writesBack": "The group sees how members' votes appear."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The chamber is between votes.",
+      "what": "The guide points out a station on a seat back.",
+      "writesBack": "Visitors see the scale of the installation up close."
+    }
+  ]
+}
