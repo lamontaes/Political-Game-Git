@@ -3465,110 +3465,6 @@
       "elements": ["concession-reframes-the-loss"]
     },
     {
-      "key": "scene-talk.reply-stall.let-me-tell-my-family-before-i-call-opponent",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Let me tell my family before I call {opponent}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "stall",
-        "key": "loss"
-      },
-      "elements": ["concession-this-is-not-the-end"]
-    },
-    {
-      "key": "scene-talk.reply-stall.not-yet-i-need-to-think-about-what-to-say-to-opponent",
-      "move": "reply-stall",
-      "kind": "spoken",
-      "text": "Not yet. I need to think about what to say to {opponent}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "stall",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "stall",
-        "key": "loss"
-      },
-      "elements": ["concession-this-is-not-the-end"]
-    },
-    {
-      "key": "scene-talk.reply-leave.i-need-some-air-before-i-call-opponent",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I need some air before I call {opponent}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "leave",
-        "key": "loss"
-      },
-      "elements": ["concession-this-is-not-the-end"]
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-find-you-after-i-ve-talked-to-opponent",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll find you after I've talked to {opponent}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "leave",
-        "key": "loss"
-      },
-      "elements": ["concession-this-is-not-the-end"]
-    },
-    {
       "key": "scene-talk.follow-thank.you-ran-a-good-race-for-office-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
@@ -3957,31 +3853,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "boast",
-        "key": "honor"
-      },
-      "elements": ["victory-night-situation"]
-    },
-    {
-      "key": "scene-talk.reply-leave.i-m-going-to-find-my-family-first-thank-you",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'm going to find my family, {first}. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "victory-night",
-          "key": "honor"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "leave",
         "key": "honor"
       },
       "elements": ["victory-night-situation"]
@@ -4376,32 +4247,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "boast",
-        "key": "honor"
-      },
-      "elements": ["victory-night-situation"]
-    },
-    {
-      "key": "scene-talk.reply-leave.i-need-a-minute-with-my-family-then-i-ll-talk-to-everyone-in-place",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I need a minute with my family. Then I'll talk to everyone in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "victory-night",
-          "key": "honor",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "leave",
         "key": "honor"
       },
       "elements": ["victory-night-situation"]
