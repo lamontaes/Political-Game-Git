@@ -2,6 +2,12 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 25, 2026, about 10:45 a.m.: campaign first (owner, verbatim; recorded by the CTO)
+
+- "Wait, what was done yesterday? Why are we still doing the president stuff and the stuff you're how? Why are we not doing campaign stuff?"
+  - Asked what the writers lead with when Neon or the builder account picks the work back up, he chose **"Campaign first"**: door knocking sessions, donors, volunteers, endorsements and the race, then election night. The opening stays as it is on the Story branch until it reaches main.
+  - He is also testing ChatGPT Pro on the door-knocking bank (prompt in the CTO's notes), judged blind, mixed in with the crew's lines.
+
 ## Nov 23-24, 2026, about 11:05 p.m. to 12:20 a.m.: the story session (owner, verbatim; recorded by the CTO)
 
 - **Start the story session, and get it right this time:** "it doesnt look like anything is working. i do want to start the story session. how do you propose finally getting this right. take your time"
