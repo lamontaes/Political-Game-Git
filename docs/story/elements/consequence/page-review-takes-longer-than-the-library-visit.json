@@ -1,0 +1,30 @@
+{
+  "id": "page-review-takes-longer-than-the-library-visit",
+  "kind": "consequence",
+  "summary": "A reader leaves before the library decides whether the requested page should open.",
+  "realLife": "At libraries offered as examples by the government, review decisions sometimes took a day to a week, with ordinary unrestricted access unavailable while a decision was pending.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=49"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{reader}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: request date and review turnaround.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The review finishes during a later visit.",
+      "what": "The librarian checks the result with the reader.",
+      "writesBack": "The material is available later than the original session."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reader's deadline passes first.",
+      "what": "The branch records when the decision arrived.",
+      "writesBack": "Approval cannot restore the missed research time."
+    }
+  ]
+}

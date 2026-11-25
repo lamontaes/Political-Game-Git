@@ -1,0 +1,31 @@
+{
+  "id": "reader-can-request-a-page-without-signing-a-name",
+  "kind": "move",
+  "summary": "A reader can ask the library to review an unavailable page from the terminal without identifying themselves to the desk.",
+  "realLife": "Tacoma allowed patrons to send an access review request without supplying identifying information or a return email address.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=48",
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=49"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{reader}", "{terminal}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: local review procedure and contact requirements.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reader prefers anonymity.",
+      "what": "Staff receive the page address without a personal explanation at the counter.",
+      "writesBack": "The review can begin."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reader wants a direct response.",
+      "what": "Staff explain what contact information would be needed.",
+      "writesBack": "The reader decides whether to supply it."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "chair-names-a-library-trustee-before-confirmation",
+  "kind": "situation",
+  "summary": "An offer to serve on the library board reaches a commissioner before the nominee can take the seat.",
+  "realLife": "Multnomah County's chair selected library board appointees, and the other commissioners confirmed them.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=23"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{nominee}", "{board}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: appointment authority and confirmation status.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The chair has named the nominee.",
+      "what": "The clerk lists the nomination for confirmation.",
+      "writesBack": "The nominee has a hearing date."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The commissioners decline to confirm.",
+      "what": "The chair reopens the search.",
+      "writesBack": "The seat stays vacant."
+    }
+  ]
+}

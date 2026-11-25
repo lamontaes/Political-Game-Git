@@ -1,0 +1,37 @@
+{
+  "id": "printout-left-behind-reaches-the-next-library-reader",
+  "kind": "detail",
+  "summary": "A sheet left at the public printer reaches someone who never opened the page it came from.",
+  "realLife": "Librarians testified that patrons had left explicit images in shared printer trays where other people could find them.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=41"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{printer}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: shared printer placement and an incident report.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Staff find the sheet before pickup.",
+      "what": "A librarian clears the tray and records where it was found.",
+      "writesBack": "The board can distinguish a printer incident from a screen complaint."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Another reader has already picked it up.",
+      "what": "Staff take the reader's account.",
+      "writesBack": "The board hears about an exposure away from the terminals."
+    }
+  ]
+}

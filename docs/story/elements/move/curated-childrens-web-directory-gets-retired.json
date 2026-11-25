@@ -1,0 +1,30 @@
+{
+  "id": "curated-childrens-web-directory-gets-retired",
+  "kind": "move",
+  "summary": "A library drops a staff-selected web directory when it confines children's research too tightly.",
+  "realLife": "Westerville ended its Library Channel after several years because its list limited what children could reach and the system had technical problems.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=45"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{branch}", "{directory}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: approved directory and reported failures.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A child's topic falls outside the directory.",
+      "what": "A librarian records the missing subject.",
+      "writesBack": "Staff have an example for the review."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The board ends the directory restriction.",
+      "what": "Staff change the children's starting page.",
+      "writesBack": "A child can look beyond the old list."
+    }
+  ]
+}

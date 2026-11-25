@@ -1,0 +1,38 @@
+{
+  "id": "personal-email-falls-outside-the-library-computer-rule",
+  "kind": "situation",
+  "summary": "A patron who only needs to check a message finds the library computer has a narrower purpose.",
+  "realLife": "Tacoma's policy at the time excluded personal email, online chat and games from permitted terminal use.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=40"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "home",
+    "loading"
+  ],
+  "slots": ["{patron}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: local acceptable-use policy.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The written rule covers personal mail.",
+      "what": "A clerk explains the restriction to the reader.",
+      "writesBack": "The request is recorded as a service question."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The rule permits email at a designated station.",
+      "what": "Staff direct the patron there.",
+      "writesBack": "The reader can check the message."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "trustee-cannot-inspect-the-vendors-selection-method",
+  "kind": "situation",
+  "summary": "A trustee responsible for a public access rule cannot explain how the supplier picked the pages it blocked.",
+  "realLife": "Loudoun bought X-Stop, whose developer kept its selection method secret; the court recorded that the software had blocked pages outside the board's policy.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/24/552/2516756/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{trustee}", "{vendor}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: vendor disclosure and an identified classification error.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A reader identifies a page outside the rule.",
+      "what": "Staff review that page individually.",
+      "writesBack": "The board has a concrete error to put to the supplier."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The supplier still does not explain its method.",
+      "what": "A trustee asks how the board can audit future decisions.",
+      "writesBack": "Oversight remains an open procurement question."
+    }
+  ]
+}

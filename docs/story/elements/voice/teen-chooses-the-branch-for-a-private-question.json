@@ -1,0 +1,31 @@
+{
+  "id": "teen-chooses-the-branch-for-a-private-question",
+  "kind": "voice",
+  "summary": "A young reader explains why access to a computer at home or school did not meet the same need as a library visit.",
+  "realLife": "Emmalyn Rood described using Multnomah County Library to research her sexual identity privately and declining an optional filter after it had blocked useful material elsewhere.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=24",
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=50"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{reader}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: reader's account and available privacy choices.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reader can choose a private session.",
+      "what": "They look for information without discussing the subject at the desk.",
+      "writesBack": "The visit meets a need the home computer did not."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The only route requires a personal explanation.",
+      "what": "The reader decides against asking.",
+      "writesBack": "The board cannot count that lost inquiry from a complaint form."
+    }
+  ]
+}

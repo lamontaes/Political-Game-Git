@@ -1,0 +1,31 @@
+{
+  "id": "son-researches-his-mothers-treatment-at-the-library",
+  "kind": "voice",
+  "summary": "A family member explains why a private search at the branch can matter after a hospital visit.",
+  "realLife": "Mark Brown used the Philadelphia Free Library to learn about his mother's breast surgery and testified that asking staff for access to such material would have embarrassed him.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=25",
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=50"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{relative}", "{library}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a reader's account and access conditions.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The terminal permits the research.",
+      "what": "The reader gathers information for a conversation at home.",
+      "writesBack": "The family can discuss the treatment options."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reader would have to describe the medical question at the counter.",
+      "what": "The reader chooses whether to disclose it.",
+      "writesBack": "Staff cannot assume that silence means the material was unnecessary."
+    }
+  ]
+}

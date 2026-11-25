@@ -1,0 +1,38 @@
+{
+  "id": "library-review-form-asks-why-the-reader-wants-the-page",
+  "kind": "detail",
+  "summary": "A written review form makes the reader decide whether to put a personal reason on paper.",
+  "realLife": "Under Loudoun's 1997 policy, a reader seeking reconsideration had to give a librarian their name, the page address and the reason they wanted access.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/24/552/2516756/"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "home",
+    "loading"
+  ],
+  "slots": ["{reader}", "{form}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: review form and required fields.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reader is willing to explain the purpose.",
+      "what": "They complete the form and hand it to staff.",
+      "writesBack": "The library can evaluate a named request."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The reader will not disclose the purpose.",
+      "what": "They leave the form unfinished.",
+      "writesBack": "The question never enters the formal review queue."
+    }
+  ]
+}

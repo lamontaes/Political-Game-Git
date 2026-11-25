@@ -1,0 +1,37 @@
+{
+  "id": "terminal-license-renews-after-the-first-budget-vote",
+  "kind": "detail",
+  "summary": "A computer policy leaves trustees with a subscription to fund in later library budgets.",
+  "realLife": "The trial record identified recurring filtering subscriptions at Greenville and Westerville and described pricing that varied with the number of licensed terminals.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=48"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{board}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: subscription renewal and number of covered stations.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The branch adds public computers.",
+      "what": "The director asks for a quote covering the expanded group.",
+      "writesBack": "Trustees see the recurring cost before voting."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The board keeps the station count steady.",
+      "what": "Staff request a renewal for the existing service.",
+      "writesBack": "The operating budget carries the recurring charge."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "trustees-consider-turning-off-public-internet",
+  "kind": "moment",
+  "summary": "A board dissatisfied with successive computer rules considers whether to keep offering the service.",
+  "realLife": "Greenville trustees considered ending internet access before choosing mandatory filtering after other measures had disappointed them.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=43"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{board}", "{service}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: earlier trial policies and decision before the board.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The board wants to preserve access.",
+      "what": "Trustees debate conditions for keeping the terminals online.",
+      "writesBack": "The service continues under a revised rule."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The motion would end access entirely.",
+      "what": "A trustee asks which patrons depend on the branch to get online.",
+      "writesBack": "Loss of service becomes part of the vote."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "quiet-corner-keeps-screens-off-the-main-walkway",
+  "kind": "move",
+  "summary": "A branch protects readers' privacy by changing which way a person walking through the room faces.",
+  "realLife": "Fort Vancouver Regional Library combined privacy screens with station placement away from heavily traveled areas.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=45"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{branch}", "{station}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: floor plan and ordinary walking routes.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The branch has a quieter corner.",
+      "what": "Staff test the view from the public walkway.",
+      "writesBack": "A reader can use that station outside the main traffic flow."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The only available corner lies on the route to another desk.",
+      "what": "Staff trace that route for the trustees.",
+      "writesBack": "A proposed move returns for revision."
+    }
+  ]
+}

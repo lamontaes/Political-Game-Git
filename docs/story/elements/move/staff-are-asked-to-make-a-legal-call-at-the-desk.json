@@ -1,0 +1,30 @@
+{
+  "id": "staff-are-asked-to-make-a-legal-call-at-the-desk",
+  "kind": "move",
+  "summary": "A board rule leaves the librarian on duty to decide when to interrupt a patron.",
+  "realLife": "Greenville trustees expected library staff to learn South Carolina's obscenity law and intervene when use of the computers violated the policy.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=42"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{librarian}", "{board}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: adopted rule and staff responsibility.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A supervisor is available.",
+      "what": "The librarian asks for a second judgment before approaching the reader.",
+      "writesBack": "The supervisor shares responsibility for the decision."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The branch has no supervisor on duty.",
+      "what": "The librarian asks the board for a clearer procedure.",
+      "writesBack": "The next policy discussion includes lone desk coverage."
+    }
+  ]
+}

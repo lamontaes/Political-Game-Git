@@ -1,0 +1,37 @@
+{
+  "id": "reference-desk-has-to-see-every-connected-screen",
+  "kind": "detail",
+  "summary": "Moving the computers changes what a librarian can see from the reference desk.",
+  "realLife": "Greenville's interim policy rearranged connected computers so staff could see every station and removed the privacy screens.",
+  "sources": [
+    "https://www.paed.uscourts.gov/sites/paed/files/documents/3jic/02D0414P.pdf#page=43"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{desk}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: station layout before and after the change.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A station is moved into the desk's sight line.",
+      "what": "Staff check the view from the ordinary work chair.",
+      "writesBack": "The floor plan reflects the move."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A wall blocks the view from the desk.",
+      "what": "The manager identifies the blind spot at the meeting.",
+      "writesBack": "The board has to reconsider the layout."
+    }
+  ]
+}
