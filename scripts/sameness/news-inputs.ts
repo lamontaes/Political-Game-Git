@@ -43,6 +43,37 @@ const titled = (said: string | undefined) => {
   const bare = (said ?? "budget").replace(/^the\s+/i, "");
   return `${bare.replace(/\b[a-z]/g, (c) => c.toUpperCase())} Ordinance`;
 };
+// The vote body's facts, shaped like the played run (Story lead, Nov 24, Luverne):
+// a sponsor on every vote, the one member against a bill that carried, a party
+// that is the whole opposition, reasons for and against as clauses with no
+// "that", a spoken effective date and the next chamber for some passed bills.
+const sponsors = [
+  "Brandon Sears",
+  "Dana Whit",
+  "Maria Lopez",
+  "Tom Reyes",
+  "Alice Nguyen",
+  "Greg Hall",
+];
+const reasonsFor = [
+  "young families need more places to live they can afford",
+  "the old rule was costing the town money",
+  "residents have waited years for it",
+  "the other towns around already did it",
+  "it pays for itself within two budgets",
+  "the problem gets worse every year it waits",
+];
+const reasonsAgainst = [
+  "the money was never meant for this",
+  "the town cannot afford it this year",
+  "nobody asked the people it affects",
+  "it goes further than the problem needs",
+  "the rule is already on the books",
+  "it leaves the details to someone else",
+];
+const against = ["Dana Whit", "Tom Reyes"];
+const parties = ["Republican", "Democratic"];
+const nextBodies = ["North Dakota Senate", "United States Senate"];
 const address: string[] = [];
 const vote: string[] = [];
 rows.forEach((row, at) => {
@@ -78,6 +109,32 @@ rows.forEach((row, at) => {
         date: fact("January 14"),
         [outcome!]: fact("yes"),
         [margin!]: fact("yes"),
+        sponsor: fact(sponsors[at % sponsors.length]!),
+        "reason-for": fact(reasonsFor[at % reasonsFor.length]!),
+        "reason-against": fact(
+          reasonsAgainst[(at + 1) % reasonsAgainst.length]!,
+        ),
+        ...(outcome === "passed" && margin === "lone-vote"
+          ? {
+              "voted-against": fact(against[at % against.length]!),
+              "against-alone": fact("yes"),
+            }
+          : {}),
+        ...(outcome === "passed" && margin === "by-one"
+          ? {
+              "against-bloc": fact("yes"),
+              "against-party": fact(parties[at % parties.length]!),
+            }
+          : {}),
+        ...(outcome === "passed" && at % 3 === 0
+          ? {
+              "next-step": fact("yes"),
+              "next-body": fact(nextBodies[at % nextBodies.length]!),
+            }
+          : {}),
+        ...(outcome === "passed" && at % 3 === 1
+          ? { "takes-effect": fact("July 1, 2025") }
+          : {}),
       },
       traits: row.traits,
       momentKey: `news-roll-call:${row.worldSeed}`,
@@ -92,4 +149,14 @@ writeFileSync(
 writeFileSync(
   "scripts/sameness/inputs/news-roll-call-six.jsonl",
   `${vote.join("\n")}\n`,
+);
+// The headlines are told from the same facts (a headline has no lede or body, so the
+// same worlds draw its wording); the gate runs on them as their own kinds.
+writeFileSync(
+  "scripts/sameness/inputs/news-address-headline-six.jsonl",
+  `${address.map((line) => line.replace("news-address:", "news-address-headline:")).join("\n")}\n`,
+);
+writeFileSync(
+  "scripts/sameness/inputs/news-roll-call-headline-six.jsonl",
+  `${vote.map((line) => line.replace("news-roll-call:", "news-roll-call-headline:")).join("\n")}\n`,
 );

@@ -1,0 +1,30 @@
+{
+  "id": "governor-brings-city-print",
+  "kind": "moment",
+  "summary": "A visiting governor gives {person} a print of a pond back home.",
+  "realLife": "Tokyo governor Yuriko Koike gave Biden a print depicting a temple and pond, which was transferred to the Archives.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2026-01-29/pdf/2026-01805.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "home"],
+  "slots": ["{person}"],
+  "gates": ["A visiting regional leader with a print of a local landmark."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a visiting regional leader with a print of a local landmark.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A curator asks whose city it represents",
+      "what": "Identify the governor's constituency",
+      "writesBack": "The label locates the pond"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The governor returns",
+      "what": "Bring out a reproduction",
+      "writesBack": "The meeting starts with a familiar place"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "retiring-mayor-credits-the-team-not-the-legacy",
+  "kind": "voice",
+  "summary": "The retiring mayor sounds grateful and a little wistful, thanks family, council, staff and the town, and says the work belongs to everyone, not to a legacy.",
+  "realLife": "Three retiring mayors gave their last address in a reflective, thankful voice. They thanked the council, staff and residents, spoke of what the city rebuilt, and gave the credit away; one said the legacy was not his alone and another quoted a line about leaving the place a bit better. All ended on thanks and good wishes for the town.",
+  "sources": [
+    "Bob Crowell, Carson City NV mayor, final State of the City address, Jan 24, 2020: https://www.carsonnow.org/01/24/2020/carson-city-s-mayor-bob-crowell-delivers-his-last-state-city-address",
+    "A. George Pradel, Naperville IL mayor, final State of the City address, Jan 2015 (as reported by Patch): https://patch.com/illinois/naperville/mayor-george-pradel-gives-final-state-city-address-0",
+    "Nancy McFarlane, Raleigh NC mayor, final State of the City address, Nov 1, 2019: https://www.wral.com/archive/18744085/",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; some pages were read in part or through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["realm-name", "office-title"],
+  "gates": ["incumbent"],
+  "weights": {
+    "farewell": 0.8
+  },
+  "usedBy": [],
+  "inGame": "personality-v1 facets humble and friendly on the mayor, with the years served on the office record and the improvements the town's engines recorded in the term",
+  "turns": [
+    {
+      "way": "The retiring mayor lists what was built and takes credit for each thing.",
+      "pulledBy": "a proud, assertive mayor",
+      "writes": "a list with the mayor's name on it"
+    },
+    {
+      "way": "The retiring mayor says almost nothing about the term and only thanks people.",
+      "pulledBy": "a humble mayor",
+      "writes": "a short thank you with no account of the term"
+    },
+    {
+      "way": "The retiring mayor ends on a hard word for the successor.",
+      "pulledBy": "a blunt mayor leaving after a hard term",
+      "writes": "a warning to the next mayor at the close"
+    }
+  ],
+  "issues": ["none"]
+}

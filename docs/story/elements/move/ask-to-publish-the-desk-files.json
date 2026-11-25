@@ -1,0 +1,30 @@
+{
+  "id": "ask-to-publish-the-desk-files",
+  "kind": "move",
+  "summary": "An applicant asks whether taking a staff job would let them turn private working files into a public reference.",
+  "realLife": "Before accepting the assistant parliamentarian post, Riddick asked Watkins for permission to compile Senate precedents for publication.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=38"
+  ],
+  "fits": ["office", "journal", "speeches", "home"],
+  "slots": ["{applicant}", "{adviser}", "{reference}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: job offer and permission to publish an office reference.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The applicant submits one subject for review.",
+      "pulledBy": "The office grants time for a pilot chapter.",
+      "writesBack": "The editor has a sample."
+    },
+    {
+      "turn": "late",
+      "what": "Compilation pauses during the session.",
+      "pulledBy": "Desk duty takes the available hours.",
+      "writesBack": "The index shows the unfinished subjects."
+    }
+  ],
+  "issues": ["none"]
+}

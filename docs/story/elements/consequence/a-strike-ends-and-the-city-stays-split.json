@@ -1,0 +1,36 @@
+{
+  "id": "a-strike-ends-and-the-city-stays-split",
+  "kind": "consequence",
+  "summary": "After a teachers' strike ends with a raise, parents who pulled their children out and angry residents keep pressing the school board.",
+  "realLife": "After a 23-day strike in Oakland in 1996, teachers got a raise of roughly 22 percent, many families had moved children to private schools, and a recall effort was under way.",
+  "sources": [
+    "Education Week, Pact Ending Strike Brings Fragile Peace: https://www.edweek.org/teaching-learning/pact-ending-strike-brings-fragile-peace/1996/03"
+  ],
+  "fits": ["work-community"],
+  "slots": ["place", "school"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["budget:schools"],
+  "inGame": "strike formed by the public-action engine ends in a contract; parents' school records and neighbor ties carry the split.",
+  "turns": [
+    {
+      "turn": "parents-return-and-trust-slowly-rebuilds",
+      "summary": "Families come back as the district communicates.",
+      "pulledBy": ["district outreach", "no new walkout"],
+      "writesBack": "parent trust partly restored"
+    },
+    {
+      "turn": "recall-effort-grows",
+      "summary": "Angry parents press a recall of board members.",
+      "pulledBy": ["trait: angry parents", "an election near"],
+      "writesBack": "cause shared among neighbors; invitation to a meeting"
+    },
+    {
+      "turn": "teachers-keep-pushing-for-more",
+      "summary": "The union says the deal is only a base for later bargaining.",
+      "pulledBy": ["unsettled class sizes"],
+      "writesBack": "teacher group stays organized"
+    }
+  ]
+}

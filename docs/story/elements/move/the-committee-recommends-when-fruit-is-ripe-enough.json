@@ -1,0 +1,32 @@
+{
+  "id": "the-committee-recommends-when-fruit-is-ripe-enough",
+  "kind": "move",
+  "summary": "Members at {place} recommend the maturity a grower must reach before shipping the fruit.",
+  "realLife": "California's appointed producer and handler committees advised the Secretary on requirements including fruit size and maturity.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep521/usrep521457/usrep521457.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the committee recommendation and named fruit."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: committee recommendation and named fruit.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Submit a revised maturity threshold.",
+      "pulledBy": "The committee endorses a change.",
+      "writesBack": "Recommendation to the secretary."
+    },
+    {
+      "turn": "another-way",
+      "what": "Retain the existing maturity recommendation.",
+      "pulledBy": "Members find the current threshold adequate.",
+      "writesBack": "Recommendation to the secretary."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "the-member-comes-back-apologetic-about-the-copy",
+  "kind": "voice",
+  "summary": "After speaking, {person} asks the floor staff for one more look at the text.",
+  "realLife": "Vander Zee recalled senators returning to revise their remarks and remembered John Stennis sounding apologetic about asking staff for help.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/vandeer-zee-rein-j-full-transcript-with-index.pdf#page=88"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the remarks already delivered and request to review copy."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: remarks already delivered and request to review copy.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Send the change through the applicable process.",
+      "pulledBy": "The member supplies revised wording.",
+      "writesBack": "Version submitted."
+    },
+    {
+      "turn": "another-way",
+      "what": "Return the original copy.",
+      "pulledBy": "The member is satisfied after reading.",
+      "writesBack": "Version submitted."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "library-friends-ask-to-stage-fewer-rebuilds",
+  "kind": "move",
+  "summary": "Residents ask trustees to weigh how many branches can close at once against what the library can still provide nearby.",
+  "realLife": "South End advocates proposed limiting simultaneous capital projects and making temporary neighborhood service part of the city's approach to future closures.",
+  "sources": [
+    "https://www.bpl.org/wp-content/uploads/sites/30/2023/09/Submited-Public-Comments-9.26.23.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{board}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: overlapping projects and interim service capacity.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Capital staff can stagger two closures.",
+      "what": "Trustees request a schedule showing the overlap removed.",
+      "writesBack": "Residents see the revised period without a nearby branch."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Both construction starts must stay in place.",
+      "what": "The board asks how both neighborhoods will be served at once.",
+      "writesBack": "The staffing request identifies the overlapping weeks."
+    }
+  ]
+}

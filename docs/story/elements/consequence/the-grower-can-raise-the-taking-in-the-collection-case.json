@@ -1,0 +1,33 @@
+{
+  "id": "the-grower-can-raise-the-taking-in-the-collection-case",
+  "kind": "consequence",
+  "summary": "A ruling lets {person} raise a property claim in the case over the agency's demand for payment.",
+  "realLife": "In 2013 the Supreme Court sent the Horne dispute back for review of the handlers' constitutional defense within the existing enforcement proceeding.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=2",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=3"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the dated court mandate and pending enforcement case."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: dated court mandate and pending enforcement case.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Return the defense to the reviewing court.",
+      "pulledBy": "The reviewing court schedules argument.",
+      "writesBack": "Procedural posture of the property defense."
+    },
+    {
+      "turn": "another-way",
+      "what": "Leave the merits open while the mandate is entered.",
+      "pulledBy": "The record has only the remand order.",
+      "writesBack": "Procedural posture of the property defense."
+    }
+  ]
+}

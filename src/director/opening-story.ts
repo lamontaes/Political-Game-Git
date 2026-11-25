@@ -838,7 +838,14 @@ export function composeOpeningStory(
   const home = pastFact(PRESIDENT_FACT.homeState);
   const prior = pastFact(PRESIDENT_FACT.priorOffice);
   const elected = pastFact(PRESIDENT_FACT.elected);
+  // The line people remember is the President's own stand, where the
+  // address takes one: never the other side's view it answers (a news story
+  // quoted "You'll hear plenty of folks… say we ought to raise the retirement
+  // age" from a President against it).
   const remembered =
+    sentences.find(
+      (row) => !!row.values["stance-for"] || !!row.values["stance-against"],
+    ) ??
     sentences.find(
       (row) => row.level === "congress" && row.sourceRecordIds.length > P.one,
     ) ??

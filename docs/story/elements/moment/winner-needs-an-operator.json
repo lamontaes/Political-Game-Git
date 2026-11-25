@@ -1,0 +1,31 @@
+{
+  "id": "winner-needs-an-operator",
+  "kind": "moment",
+  "summary": "At the results meeting in {place}, someone asks who will run the project.",
+  "realLife": "The city's results page invited organizations to apply to carry out the ideas residents had chosen.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "Residents selected the proposal and the operator selection record is available."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: residents selected the proposal and the operator selection record is available.",
+  "turns": [
+    {
+      "turn": "the-application-window-is-open",
+      "pulledBy": "The application window is open.",
+      "what": "Point interested groups to the application.",
+      "writesBack": "Track inquiries from prospective operators."
+    },
+    {
+      "turn": "an-operator-has-signed",
+      "pulledBy": "An operator has signed.",
+      "what": "Give residents the operator's name.",
+      "writesBack": "Link the operator to the project."
+    }
+  ]
+}

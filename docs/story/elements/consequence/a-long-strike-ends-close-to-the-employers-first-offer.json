@@ -1,0 +1,36 @@
+{
+  "id": "a-long-strike-ends-close-to-the-employers-first-offer",
+  "kind": "consequence",
+  "summary": "After nearly four months out, workers go back to a deal near the employer's opening offer with one big concession won.",
+  "realLife": "At a Mott's apple sauce plant near Rochester, New York, a 2010 strike ended after about four months with the pension freeze dropped but cuts to the 401(k) match and more health-care cost.",
+  "sources": [
+    "PBS NewsHour, Update: Mott's strike settled: https://www.pbs.org/newshour/economy/update-motts-strike-settled"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "a strike formed by the public-action engine ends; job records of strikers continue with new pay and benefits; lost months of pay in the households.",
+  "turns": [
+    {
+      "turn": "workers-feel-they-held-the-line",
+      "summary": "Workers say the pension freeze was the one that mattered.",
+      "pulledBy": ["a won concession", "union solidarity"],
+      "writesBack": "coworker ties closer; mood: proud"
+    },
+    {
+      "turn": "workers-feel-they-were-beaten",
+      "summary": "Workers feel the months out bought little.",
+      "pulledBy": ["lost pay", "terms near first offer"],
+      "writesBack": "mood: bitter; trust in the boss lower"
+    },
+    {
+      "turn": "the-town-feels-the-lost-pay",
+      "summary": "Local shops see weak sales while workers are out.",
+      "pulledBy": ["small town", "long strike"],
+      "writesBack": "neighbors' mood: worried"
+    }
+  ]
+}

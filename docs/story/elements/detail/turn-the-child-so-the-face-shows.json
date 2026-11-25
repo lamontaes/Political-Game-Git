@@ -1,0 +1,32 @@
+{
+  "id": "turn-the-child-so-the-face-shows",
+  "kind": "detail",
+  "summary": "Members want the child in the foreground of {design} turned just enough to see part of the face.",
+  "realLife": "On the Eliza Johnson reverse, the committee voted to ask the artist to revise a child shown entirely from behind.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2010_1119_minutes.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{design}"],
+  "gates": [
+    "A child appears from behind in the foreground of the submitted drawing."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: foreground figure and requested pose.",
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The child's face shows but blocks another figure.",
+      "pulledBy": "The new pose overlaps the portrait behind it.",
+      "writesBack": "A second composition goes to the artist."
+    },
+    {
+      "turn": "partial",
+      "what": "The turn works at the struck size.",
+      "pulledBy": "The child's profile remains legible on the proof.",
+      "writesBack": "The approved reverse includes the new pose."
+    }
+  ],
+  "issues": ["none"]
+}

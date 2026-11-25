@@ -1,0 +1,36 @@
+{
+  "id": "laid-off-worker-is-blunt-with-a-spouse-brief-with-kids",
+  "kind": "voice",
+  "summary": "A laid-off or transferred worker talks plainly with a spouse about money and moves and gives children little detail.",
+  "realLife": "Autoworkers facing closure described nightly talks with a spouse about selling a house and moving in with relatives, saying they had no answers, and said little about what children are told.",
+  "sources": [
+    "KOMO/Scripps News, Autoworker upheaval: Families split, children left behind: https://komonews.com/news/auto-matters/autoworker-upheaval-families-split-children-left-behind"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["law:unemployment-insurance"],
+  "inGame": "a job-lost call from a relative can carry the plain talk; the relative tie sets how blunt; needs: household budget talk scenes",
+  "turns": [
+    {
+      "turn": "worker-hides-it-from-the-spouse",
+      "summary": "The worker waits days before saying anything.",
+      "pulledBy": ["a proud or ashamed worker"],
+      "writesBack": "a later stronger tie strain when found out"
+    },
+    {
+      "turn": "worker-tells-the-kids-too",
+      "summary": "The worker sits the children down and explains simply.",
+      "pulledBy": ["a parent who is open and calm"],
+      "writesBack": "a closer family tie; a journal note"
+    },
+    {
+      "turn": "worker-tells-a-friend-first",
+      "summary": "The worker tells a friend before the spouse.",
+      "pulledBy": ["a closer friend tie than spouse tie"],
+      "writesBack": "the friend knows first; a later hurt"
+    }
+  ]
+}

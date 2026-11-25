@@ -1,0 +1,32 @@
+{
+  "id": "ask-both-slates-to-take-the-same-pledge",
+  "kind": "move",
+  "summary": "A committee member proposes applying the same loyalty test to both claimants for a state’s seats.",
+  "realLife": "Oregon Representative Edith Green proposed that each Mississippi delegation face a party pledge in the minority report, and Rauh accepted the proposal in the delegates’ lounge.",
+  "sources": [
+    "https://www.thecrimson.com/article/1964/9/22/the-politics-of-civil-rights-piat/"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{committee_member}", "{delegation}"],
+  "gates": [
+    "A proposed seating test currently applies unevenly to rival delegations."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the proposed pledge text and each delegation’s signed response.",
+  "turns": [
+    {
+      "turn": "slate-requests-time",
+      "what": "Its delegates defer signing until they have read it.",
+      "pulledBy": "One slate asks for the text overnight.",
+      "writesBack": "The signature list marks their answers pending."
+    },
+    {
+      "turn": "both-slates-sign",
+      "what": "The committee has to resolve their competing claims on other grounds.",
+      "pulledBy": "Both slates sign the same wording.",
+      "writesBack": "The evidence file retains both signed pledges."
+    }
+  ]
+}

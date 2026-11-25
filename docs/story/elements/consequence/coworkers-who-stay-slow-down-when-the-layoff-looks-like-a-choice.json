@@ -1,0 +1,36 @@
+{
+  "id": "coworkers-who-stay-slow-down-when-the-layoff-looks-like-a-choice",
+  "kind": "consequence",
+  "summary": "The coworkers who keep their jobs work less hard when they think the employer chose the layoff to protect profit.",
+  "realLife": "A lab experiment reported by the London School of Economics found remaining workers produced less after their employer chose to dismiss a colleague, and the drop vanished when the firing was forced.",
+  "sources": [
+    "London School of Economics Business Review, The hidden cost of downsizing: https://blogs.lse.ac.uk/businessreview/?p=11976"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "job record for remaining coworkers; a coworker's job-ended event can lower a mood the job record reads.",
+  "turns": [
+    {
+      "turn": "remaining-staff-understand-the-reason",
+      "summary": "The employer explains the closing of a shift and the staff pitch in.",
+      "pulledBy": ["a boss they trust", "a posted explanation"],
+      "writesBack": "mood: steady; tie to boss closer"
+    },
+    {
+      "turn": "remaining-staff-slow-down",
+      "summary": "The staff do just the minimum for weeks.",
+      "pulledBy": ["trait: resentful", "friend among the laid-off"],
+      "writesBack": "mood: sour; tie to boss colder"
+    },
+    {
+      "turn": "a-survivor-quietly-looks-elsewhere",
+      "summary": "One stay-behind begins a job search.",
+      "pulledBy": ["trait: restless", "a friend who left"],
+      "writesBack": "later job-ended event by quitting"
+    }
+  ]
+}

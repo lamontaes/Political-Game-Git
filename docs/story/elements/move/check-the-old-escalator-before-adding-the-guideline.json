@@ -1,0 +1,34 @@
+{
+  "id": "check-the-old-escalator-before-adding-the-guideline",
+  "kind": "move",
+  "summary": "An owner at {building} checks an old operating-cost clause when computing a renewal.",
+  "realLife": "New York City's 2023 order required an offset for increases under certain renewable escalator clauses unless the owner elected in writing to delete the clause on the specified terms.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2023/06/2023-Apartment-Loft-Order-55.pdf#page=2"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{building}"],
+  "gates": [
+    "The case record identifies the qualifying lease clause, written election and deadline."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: qualifying lease clause, written election and deadline.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The clerk keeps the election with the renewal.",
+      "pulledBy": "A timely deletion covers later leases",
+      "writesBack": "Dated election and affected unit."
+    },
+    {
+      "turn": "another-way",
+      "what": "Its charge must be checked against the guideline increase.",
+      "pulledBy": "The qualifying clause remains",
+      "writesBack": "Offset worksheet."
+    }
+  ]
+}

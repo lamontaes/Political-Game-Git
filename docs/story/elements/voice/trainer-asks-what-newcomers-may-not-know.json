@@ -1,0 +1,36 @@
+{
+  "id": "trainer-asks-what-newcomers-may-not-know",
+  "kind": "voice",
+  "summary": "A trainer on a new hire's first days asks about things they might not know yet in a way that makes not knowing fine.",
+  "realLife": "Recorded orientation lectures show trainers asking knowledge-probing questions about what newcomers may have learned before the job, worded so no one is assumed to already know the answer.",
+  "sources": [
+    "Mikkola, Finding out what new employees know (conversation analysis of recorded orientation lectures), Ty\u00f6el\u00e4m\u00e4n tutkimus: https://journal.fi/tyoelamantutkimus/article/download/87105/46030/133414"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "the person's job record (employer, position, workplace) and the new-coworker event carry who and where; the speaker's habit is a line choice by trait; needs: a recorded orientation or training session",
+  "turns": [
+    {
+      "turn": "trainer-assumes-you-know",
+      "summary": "The trainer asks as if everyone already knows and moves on at the first right answer.",
+      "pulledBy": ["a brisk or hurried trainer", "a crowded start day"],
+      "writesBack": "a newcomer who did not know goes quiet; a mood note of feeling behind"
+    },
+    {
+      "turn": "trainer-skips-the-question",
+      "summary": "The trainer just tells the rule without asking anything.",
+      "pulledBy": ["a trainer short on time", "no tie to the newcomer"],
+      "writesBack": "nothing is learned about what the newcomer knows; no tie change"
+    },
+    {
+      "turn": "newcomer-admits-not-knowing",
+      "summary": "The newcomer says they have not done this before and the trainer slows down to show it.",
+      "pulledBy": ["a shy or honest newcomer", "a patient trainer"],
+      "writesBack": "a small friendly tie with the trainer; a journal note about the first week"
+    }
+  ]
+}

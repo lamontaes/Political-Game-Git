@@ -1,0 +1,33 @@
+{
+  "id": "mortgage-quotes-turn-up-as-trading-thins",
+  "kind": "consequence",
+  "summary": "The mortgage quote facing {household} rises as the market for mortgage securities becomes harder to trade.",
+  "realLife": "Staff reported that the primary mortgage rate turned sharply upward late in the period as trading in mortgage-backed securities deteriorated, reversing an earlier decline.",
+  "sources": [
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=5",
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=6"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{household}"],
+  "gates": [
+    "The record identifies the dated mortgage quotes and securities-market conditions."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: dated mortgage quotes and securities-market conditions.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The borrower requests a fresh quote before closing.",
+      "pulledBy": "Trading remains thin",
+      "writesBack": "Borrower's revised rate quote."
+    },
+    {
+      "turn": "another-way",
+      "what": "The borrower compares the next quote with the earlier one.",
+      "pulledBy": "Trading improves",
+      "writesBack": "Borrower's comparison of the two quotes."
+    }
+  ]
+}
