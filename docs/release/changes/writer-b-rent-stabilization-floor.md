@@ -10,3 +10,5 @@ Expand the repeal exchange with questions about renewal notices, partial payment
 Members debating enactment can ask how a departing tenant recovers an overpayment, how to hear a medical witness, how an older lease adjusts for costs and what a proposed tax break would buy.
 
 Debaters describe what happens to tenants and owners in their own words. Local examples can use the other member's recorded town, general examples cover seats without one, and only the bill's sponsor can claim to have written it.
+
+Members can agree or disagree with a specific point about a renewal, repair, overpayment or hearing witness. The speaker can acknowledge the reason or press the objection before the vote.
