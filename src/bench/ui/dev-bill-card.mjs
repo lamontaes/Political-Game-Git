@@ -53,7 +53,9 @@ export async function devBillCard({
   const bodies = everyBody.filter(
     (b) =>
       b.id.startsWith("federal:") ||
-      (b.id.startsWith(place) && !/^us-(house|senate)$/.test(b.kind)),
+      // A state's own House and Senate rows (a territory's is its delegate's)
+      // are the federal chambers' seats, shown once as the federal bodies.
+      (b.id.startsWith(place) && !/^us-(house|senate)/.test(b.kind)),
   );
   if (!bodies.length) return null;
   let body = bodies.find((b) => b.id === home) ?? bodies[0];

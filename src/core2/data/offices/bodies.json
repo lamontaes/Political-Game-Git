@@ -1,8 +1,9 @@
 {
-  "about": "One row per kind of lawmaking body (engine map line 28, E3: one bill engine, the level a row). The bill and budget engine (src/core2/modules/legislature.ts) reads a body's level, the legislature its chambers belong to, the chamber a bill or budget starts in, the words for the body, whose law its bills make (`law`: the nation's, the state's, the county's, the township's or the place's), a member's term where the chamber fixes it (`termYears`), the tie-breaking rule the chamber reads from data/research/elections/tie-rules-2026.json (`tieBreaker`), and who holds the veto, from these rows instead of branching on the office kind. `kindPrefix` matches an office kind (us-house also covers the delegate and at-large rows). A body with no `legislature` is a one-chamber body. `chamberId` is the nation's own id for a federal chamber, which has one office row per state, and `jurisdiction` the nation's key. Structure is law (U.S. Const. art. I; state constitutions; county and municipal codes); each row cites it.",
+  "about": "One row per kind of lawmaking body (engine map line 28, E3: one bill engine, the level a row). The bill and budget engine (src/core2/modules/legislature.ts) reads a body's level, the legislature its chambers belong to, the chamber a bill or budget starts in, the words for the body, whose law its bills make (`law`: the nation's, the state's, the county's, the township's or the place's), a member's term where the chamber fixes it (`termYears`), the tie-breaking rule the chamber reads from data/research/elections/tie-rules-2026.json (`tieBreaker`), and who holds the veto, from these rows instead of branching on the office kind. `kindPrefix` matches an office kind (us-house also covers the delegate and at-large rows). A body with no `legislature` is a one-chamber body. `chamberId` is the nation's own id for a federal chamber, which has one office row per state, `jurisdiction` the nation's key, and `bodyName` the chamber's own name where a world seats no member of it (a territory's Senate). Structure is law (U.S. Const. art. I; state constitutions; county and municipal codes); each row cites it.",
   "bodies": [
     {
       "kindPrefix": "us-house",
+      "bodyName": "United States House of Representatives",
       "level": "federal",
       "law": "nation",
       "legislature": "congress",
@@ -15,6 +16,7 @@
     },
     {
       "kindPrefix": "us-senate",
+      "bodyName": "United States Senate",
       "level": "federal",
       "law": "nation",
       "legislature": "congress",
