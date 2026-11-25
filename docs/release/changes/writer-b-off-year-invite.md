@@ -12,3 +12,5 @@ A returning invitee can agree to check the canvass map, ask how a precinct appoi
 When the chair offers introductions, a member can ask to sit with the longest-serving regular, offer to stay late and help, or suggest meeting someone over coffee instead.
 
 A member who accepts an introduction can ask the chair to meet them at the door or offer to come early and set up chairs.
+
+The chair can invite a member to talk through who carries a resolution, how delegates share a vote, what a precinct officer does between elections, or where canvassers have already knocked. Each question has five ways to accept and five to decline.
