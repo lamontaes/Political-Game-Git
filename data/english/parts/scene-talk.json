@@ -79815,6 +79815,59 @@
         "key": "door"
       },
       "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-yet-i-m-still-learning-what-the-party-stands-for-and-i-d-rather-join-a-committee-once-i-know",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet. I'm still learning what the {party} stands for, and I'd rather join a committee once I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "welcomed"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-the-party-would-rather-have-you-sure-than-quick",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. The {party} would rather have you sure than quick.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "requiresFacts": ["party"],
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
     }
   ]
 }
