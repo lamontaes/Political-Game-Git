@@ -14513,32 +14513,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-count-me-in",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Alright. Count me in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "ask-to-serve",
-          "key": "serve-asked",
-          "after": "promise",
-          "requiresFacts": ["price-named"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "S6 (gov-serve-ask-price-end; Words lead rulings Nov 14 16:15Z)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "agree",
-        "key": "serve-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.then-i-can-t-do-it-i-wish-you-luck",
       "move": "reply-decline",
       "kind": "spoken",
@@ -30269,31 +30243,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.take-your-time-child-will-wait-a-little-longer",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Take your time. {child} will wait a little longer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["you-back", "child"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.that-s-fair-we-can-decide-once-child-has-had-a-chance-to-see-you",
       "move": "follow-accept",
       "kind": "spoken",
@@ -30439,31 +30388,6 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.all-right",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "All right.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-18",
       "tag": {
         "move": "accept",
@@ -33177,42 +33101,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.same-here",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Same here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "after": "promise",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "after": "promise",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "thank",
-        "key": "school-goodbye"
-      }
-    },
-    {
       "key": "scene-talk.follow-press.what-s-the-plan",
       "move": "follow-press",
       "kind": "spoken",
@@ -34567,40 +34455,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.then-yes-gladly",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then yes, gladly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "answer"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.first-good-to-catch-you",
       "move": "open-greet",
       "kind": "spoken",
@@ -35366,71 +35220,6 @@
       "tag": {
         "move": "agree",
         "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.then-yes",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "answer"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "answer",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "after": "answer",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "after": "answer",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "after": "answer",
-          "onlyWhen": ["meeting", "body"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
       }
     },
     {
@@ -36374,82 +36163,6 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-then",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Alright, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "introduction",
-          "key": "arrival",
-          "outcome": "refused",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "outcome": "refused",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "outcome": "refused",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "outcome": "refused",
-          "onlyWhen": ["meeting", "body"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "school-goodbye",
-          "outcome": "refused",
-          "onlyWhen": ["school-day"]
-        },
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "last-day-farewell",
-          "key": "departure",
-          "outcome": "refused",
-          "onlyWhen": ["work-day"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-decline.not-for-me",
       "move": "reply-decline",
       "kind": "spoken",
@@ -37161,85 +36874,6 @@
         "move": "agree",
         "key": "favor-asked"
       }
-    },
-    {
-      "key": "scene-talk.reply-agree.of-course",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Of course.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["meeting", "body"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-stands-in-the-doorway-with-a-bag-new-to-the-house",
@@ -47004,30 +46638,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.yes-absolutely",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes, absolutely.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.state-request.let-s-give-child-a-wedding-will-you-marry-me",
       "move": "state-request",
       "kind": "spoken",
@@ -53121,56 +52731,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.then-i-m-in",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Then I'm in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "answer"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.okay-then-yes",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Okay, then yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "move-in-ask",
-          "key": "favor-asked",
-          "after": "answer"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-answer.asked-has-family-can-visit-whenever-you-like",
       "move": "follow-answer",
       "kind": "spoken",
@@ -57077,40 +56637,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.count-me-in",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Count me in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        },
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "news-received"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
       "key": "scene-talk.reply-agree.yes-come-stay",
       "move": "reply-agree",
       "kind": "spoken",
@@ -57911,49 +57437,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-m-with-you",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'm with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "no-diploma-home",
-          "key": "no-diploma",
-          "requiresFacts": ["school", "school-short"]
-        },
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
       "key": "scene-talk.reply-agree.yes-child-should-hear-it-from-us-both",
       "move": "reply-agree",
       "kind": "spoken",
@@ -58231,58 +57714,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.sure",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Sure.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["meeting", "body"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-stands-to-greet-you-when-you-come-in",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -58329,29 +57760,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-is-there-first-and-smiles-as-you-come-over",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} is there first, and smiles as you come over.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "first-date",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-leaves-a-spare-key-on-your-table-and-doesn-t-sit",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -58373,57 +57781,6 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.okay-yes-2",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Okay, yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "move-in-ask",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "rescue-ask",
-          "key": "threat",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "care-visit",
-          "key": "routine",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
         "key": "favor-asked"
       }
     },
@@ -63333,31 +62690,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-wait",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I'll wait.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "rescue-ask",
-          "key": "threat",
-          "after": "decline"
-        }
-      ],
-      "bearing": "steady",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.close-press.think-about-it",
       "move": "close-press",
       "kind": "spoken",
@@ -64498,71 +63830,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-yes",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Alright, yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "press"
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "after": "press",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "after": "press",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "after": "press",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "after": "press",
-          "onlyWhen": ["meeting", "body"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.state-request.i-m-new-at-would-you-show-me-how-things-work-around-here",
       "move": "state-request",
       "kind": "spoken",
@@ -65368,31 +64635,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-wait-then",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I'll wait, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "letter-ask",
-          "key": "news-received",
-          "after": "decline"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.maybe-another-time",
       "move": "follow-accept",
       "kind": "spoken",
@@ -65848,30 +65090,6 @@
       "tag": {
         "move": "greet",
         "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.yes-gladly",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes, gladly.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "news-received"
       }
     },
     {
@@ -76852,32 +76070,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "owed-apology",
-          "key": "routine",
-          "after": "promise",
-          "onlyWhen": ["payment"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.i-understand-now",
       "move": "follow-accept",
       "kind": "spoken",
@@ -77391,32 +76583,6 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.okay-then",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "Okay then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "owed-apology",
-          "key": "routine",
-          "outcome": "resolved",
-          "onlyWhen": ["payment"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "promise",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.noted",
       "move": "close-accept",
       "kind": "spoken",
@@ -77434,32 +76600,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.fine",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Fine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "owed-apology",
-          "key": "routine",
-          "outcome": "refused",
-          "onlyWhen": ["payment"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
       "date": "2026-11-19",
@@ -80022,32 +79162,6 @@
       "elements": ["pattern-a05-the-party-asks-you-to-run"]
     },
     {
-      "key": "scene-talk.reply-agree.i-m-in-volunteer",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "I'm in.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
       "key": "scene-talk.reply-agree.i-can-help-volunteer",
       "move": "reply-agree",
       "kind": "spoken",
@@ -80268,32 +79382,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-agree.you-have-it-endorse",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You have it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
       "key": "scene-talk.reply-agree.use-my-name-endorse",
       "move": "reply-agree",
       "kind": "spoken",
@@ -80362,58 +79450,6 @@
         }
       ],
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
-      "key": "scene-talk.reply-agree.proudly-yes-endorse-tie-friend",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Proudly, yes.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "endorse"
-      },
-      "elements": ["official-declines-to-endorse"]
-    },
-    {
-      "key": "scene-talk.reply-agree.you-ve-got-it-endorse-tie-friend",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "You've got it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "endorse",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "the campaigning writer",
       "date": "2026-11-24",

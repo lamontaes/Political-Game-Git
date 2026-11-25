@@ -22062,28 +22062,6 @@
       }
     },
     {
-      "key": "conversation.interview-question-answer-brief.count-me-in",
-      "move": "interview-question-answer-brief",
-      "kind": "spoken",
-      "text": "Count me in.",
-      "uses": [
-        {
-          "move": "interview-question-answer-brief",
-          "subject": "interview-question",
-          "role": "answer",
-          "choice": "brief",
-          "requiresFacts": ["stance-for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.interview-question-answer-brief.i-m-in-favor",
       "move": "interview-question-answer-brief",
       "kind": "spoken",
