@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: laws thread
-pr: 10284
+pr: #10284
 after: play-draft-phase-in-percent-a-year
 blocked-on:
 lead: laws
@@ -16,6 +16,7 @@ source: Acting CTO's read of the frozen Train 892427ec (fault 1, /mnt/project-fi
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+merged-at: 2026-11-25T13:08:26.611Z
 ---
 
 **What.** On the draft card a member of a body picks a subject, types the new amount and presses Draft. Two faults: after the "Raise it by a percent a year" panel opens and closes, Draft lights up even for a subject the body may not write on, which was dark before. And a percent a year or a dated step whose day is today or already past makes Draft do nothing at all: the engine refuses the bill and the screen shows no change. Seen: the draft card under Write a bill in Politics, Your office.
