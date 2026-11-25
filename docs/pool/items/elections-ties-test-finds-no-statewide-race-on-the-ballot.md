@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10001
 after:
 blocked-on:
 lead: elections
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Account lead gate, Nov 15, 2026 (red on the bare Train, found while gating #9528)
+merged-at: 2026-11-25T12:59:21.498Z
 ---
 
 **What.** `src/core2/election-ties.test.ts` ("a tie decided by the legislature is voted by members who are persons with recorded views") fails with "no drawn state had a statewide race on the ballot" on the bare Train head b22cd35098, with and without #9528. The test goes red on every run, so the tie-by-legislature path has no check. Seen: the console line the test prints on a pass is missing from the Train's test output.
