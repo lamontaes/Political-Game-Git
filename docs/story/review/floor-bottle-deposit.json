@@ -29177,5 +29177,369 @@
     "origin": "authored",
     "author": "Codex writer B",
     "elements": ["a-distributor-reconstructs-what-the-scanner-would-have-paid"]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-the-mill-orders-flakes-what-good-is-a-price-for-a-bale",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "If the mill orders flakes, what good is a price for a bale?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.will-the-buyer-take-a-bale-as-it-comes-off-the-press-as-the-member-who-brought-the-deposit-here-i-d-like-an-answer-before-we-tell-a-town-what-its-collected-plastic-will-fetch"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.follow-answer.it-gives-the-town-a-choice-sell-the-bundles-to-someone-who-takes-them-whole-or-find-out-what-grinding-them-would-leave-of-the-mill-s-offer",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "It gives the town a choice. Sell the bundles to someone who takes them whole, or find out what grinding them would leave of the mill's offer.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.if-the-mill-orders-flakes-what-good-is-a-price-for-a-bale"
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.follow-answer.none-until-the-processor-quotes-the-grinding-i-d-take-that-charge-off-the-mill-s-price-before-putting-it-in-the-town-budget",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "None until the processor quotes the grinding. I'd take that charge off the mill's price before putting it in the town budget.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.if-the-mill-orders-flakes-what-good-is-a-price-for-a-bale"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.reply-ask.that-bale-could-have-old-bottles-with-a-different-plastic-around-the-bottom-who-has-to-take-those-apart",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "That bale could have old bottles with a different plastic around the bottom. Who has to take those apart?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.will-the-buyer-take-a-bale-as-it-comes-off-the-press-as-the-member-who-brought-the-deposit-here-i-d-like-an-answer-before-we-tell-a-town-what-its-collected-plastic-will-fetch"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["separate-the-base-cup-from-the-bottle"]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-processor-can-do-it-when-the-bale-comes-apart-ask-for-the-cost-of-that-work-before-agreeing-on-a-price-for-clean-plastic",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "The processor can do it when the bale comes apart. Ask for the cost of that work before agreeing on a price for clean plastic.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.that-bale-could-have-old-bottles-with-a-different-plastic-around-the-bottom-who-has-to-take-those-apart"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["separate-the-base-cup-from-the-bottle"]
+  },
+  {
+    "key": "scene-talk.follow-answer.does-the-buyer-have-a-line-for-separating-the-cups-if-the-town-has-to-send-bare-bottle-bodies-the-buyer-ought-to-say-so-before-bidding",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Does the buyer have a line for separating the cups? If the town has to send bare bottle bodies, the buyer ought to say so before bidding.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.that-bale-could-have-old-bottles-with-a-different-plastic-around-the-bottom-who-has-to-take-those-apart"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["separate-the-base-cup-from-the-bottle"]
+  },
+  {
+    "key": "scene-talk.reply-ask.the-bottling-plant-near-the-store-closed-where-does-that-leave-the-driver-with-a-rack-of-empties",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "The bottling plant near the store closed. Where does that leave the driver with a rack of empties?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.i-put-the-deposit-before-this-chamber-because-i-d-like-a-refillable-bottle-to-make-it-all-the-way-back-to-the-washer-taking-it-across-the-counter-gets-us-only-as-far-as-the-stockroom"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.follow-answer.find-out-where-that-driver-unloads-now-there-may-still-be-a-bottler-on-the-route-home-who-wants-those-bottles",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Find out where that driver unloads now. There may still be a bottler on the route home who wants those bottles.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.the-bottling-plant-near-the-store-closed-where-does-that-leave-the-driver-with-a-rack-of-empties"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-next-plant-could-be-clear-across-the-state-i-d-get-a-freight-quote-to-that-plant-before-promising-the-grocer-a-pickup",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "The next plant could be clear across the state. I'd get a freight quote to that plant before promising the grocer a pickup.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.the-bottling-plant-near-the-store-closed-where-does-that-leave-the-driver-with-a-rack-of-empties"
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.reply-ask.would-a-brewer-have-to-promise-how-much-glass-she-d-refill-before-anybody-priced-the-wash",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Would a brewer have to promise how much glass she'd refill before anybody priced the wash?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.i-put-the-deposit-before-this-chamber-because-i-d-like-a-refillable-bottle-to-make-it-all-the-way-back-to-the-washer-taking-it-across-the-counter-gets-us-only-as-far-as-the-stockroom"
+      }
+    ],
+    "bearing": "warm",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-refill-target-goes-first-to-an-outside-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-leave-the-target-open-until-somebody-outside-the-bottling-business-has-priced-the-wash-and-the-ride-back-to-the-filling-line",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd leave the target open until somebody outside the bottling business has priced the wash and the ride back to the filling line.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.would-a-brewer-have-to-promise-how-much-glass-she-d-refill-before-anybody-priced-the-wash"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-refill-target-goes-first-to-an-outside-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.what-can-her-line-handle-in-a-week-that-s-something-the-study-can-ask-her-now-the-chamber-can-set-a-target-once-it-has-the-answer",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "What can her line handle in a week? That's something the study can ask her now. The chamber can set a target once it has the answer.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.would-a-brewer-have-to-promise-how-much-glass-she-d-refill-before-anybody-priced-the-wash"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["a-refill-target-goes-first-to-an-outside-study"]
   }
 ]

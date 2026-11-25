@@ -16,3 +16,5 @@ A colleague supporting the sponsor's deposit bill can pick up the concern the sp
 The committee keeps the single policy question and direction its witnesses heard before markup. A floor member can cite those witnesses after an edit that preserves the question and direction. If an amendment reverses the policy or replaces it with another subject, the floor scene drops that attribution. For older hearings, a retained witness address can establish which policy and side the witness spoke for.
 
 When a colleague asks the sponsor how a new bottle deposit would work, the sponsor can answer the question about the school collection, grocery counter, pickup route, washing plant or distributor's claim.
+
+On the floor, a colleague can question what a mill would pay for plastic it still has to grind or where a driver can take empty bottles after the local bottler closes.
