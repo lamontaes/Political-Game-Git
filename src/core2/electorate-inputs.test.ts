@@ -20,7 +20,7 @@ const candidate: CandidateInputs = {
 const conditions: RaceConditions = {
   cycle: "midterm",
   federal: true,
-  typicalSpendPerVote: 1,
+  contactPriceMinor: 1,
   raceVotes: 100,
   approvalGapPoints: 0,
   town: {
