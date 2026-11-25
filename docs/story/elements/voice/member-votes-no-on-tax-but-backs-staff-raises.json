@@ -15,7 +15,7 @@
     "budget-vote": 0.5
   },
   "inGame": "the vote record with each member's side, the budget's tax-rate change, the public-safety departure count; needs: a stated reason kept per member beside the vote",
-  "issues": ["none"],
+  "issues": ["law:property-tax"],
   "turns": [
     {
       "name": "no on the tax, yes on the raises",
@@ -33,7 +33,7 @@
     },
     {
       "name": "a no that names renters",
-      "pulledBy": "a member whose ward has many renters",
+      "pulledBy": "a member whose district has many renters",
       "writes": "the story quotes the burden on renters as the reason for the no",
       "requiresFacts": [],
       "excludesFacts": []

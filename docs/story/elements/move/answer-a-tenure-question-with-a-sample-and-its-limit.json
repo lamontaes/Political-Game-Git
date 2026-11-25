@@ -1,0 +1,35 @@
+{
+  "id": "answer-a-tenure-question-with-a-sample-and-its-limit",
+  "kind": "move",
+  "summary": "Staff give {board} a study of long-term renewals and explain why the sample cannot count every long-term tenant.",
+  "realLife": "After an April 2026 board request, staff analyzed lease histories using registration records. They cautioned against treating the number of matched units as a citywide count of long-term tenants.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/06/2026-Apartment-ES.pdf#page=34",
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/06/2026-Apartment-ES.pdf#page=35"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{board}"],
+  "gates": [
+    "The case record identifies the board request, inclusion criteria and denominator."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: board request, inclusion criteria and denominator.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Staff report proportions within the matched group.",
+      "pulledBy": "The member asks about term choices",
+      "writesBack": "Sample-based finding."
+    },
+    {
+      "turn": "another-way",
+      "what": "Staff flag the missing denominator.",
+      "pulledBy": "The member asks for a citywide headcount",
+      "writesBack": "Explicit limit on inference."
+    }
+  ]
+}

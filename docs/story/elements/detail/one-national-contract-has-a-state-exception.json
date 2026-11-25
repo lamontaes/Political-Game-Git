@@ -1,0 +1,33 @@
+{
+  "id": "one-national-contract-has-a-state-exception",
+  "kind": "detail",
+  "summary": "A multisite contract changes what it requires of a worker according to the law in {state}.",
+  "realLife": "The GM agreement made its union-membership provisions inoperative in states that forbade conditioning employment on membership. The Indiana plants became the focus of a different proposal.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep373/usrep373734/usrep373734.pdf#page=2",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep373/usrep373734/usrep373734.pdf#page=3"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{state}"],
+  "gates": [
+    "The case record identifies the contract exception, plant location and state law at the time."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:labor-workforce.right-to-work"],
+  "inGame": "needs: contract exception, plant location and state law at the time.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The local needs a proposal consistent with that state's law.",
+      "pulledBy": "The state exception applies",
+      "writesBack": "Plant-specific contract language."
+    },
+    {
+      "turn": "another-way",
+      "what": "The parties check the ordinary clause and effective date.",
+      "pulledBy": "The state exception does not apply",
+      "writesBack": "Applicable clause for the plant."
+    }
+  ]
+}

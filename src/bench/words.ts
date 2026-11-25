@@ -1,5 +1,6 @@
 // The words the bench shows for records, all from the English engine's data.
 import { admittedParts } from "../english/bank-parts";
+import { questionAbout } from "../english/question-names";
 import { JOURNAL_WORDS } from "../english/journal-words";
 import { properName } from "../director/words";
 import { schoolNameWords } from "../english/school-names";
@@ -141,4 +142,18 @@ export function budgetLineNames(): Record<string, string> {
       (lineNames as { lines: Record<string, { name: string }> }).lines,
     ).map(([line, row]) => [`budget-line:${line}`, row.name]),
   );
+}
+
+/**
+ * What a stand is about, in the question's own plain words
+ * (data/english/question-names.json `about`: "a bigger police budget", "a
+ * lawyer for tenants facing eviction"), so a row reads "A bigger police
+ * budget ... For" and never by a catalog's name. Null where the data holds no
+ * wording for the question (a budget line the bank has not named): the screen
+ * then falls back to the catalog name and the question is listed as a line
+ * Story needs.
+ */
+export function standWords(question: string): string | null {
+  const text = questionAbout(question);
+  return text ? text[0]!.toUpperCase() + text.slice(1) : null;
 }

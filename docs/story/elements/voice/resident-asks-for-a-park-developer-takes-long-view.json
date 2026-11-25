@@ -15,7 +15,7 @@
     "roll-call": 0.4
   },
   "inGame": "the public-comment list, the housing project record, the vote; needs: a resident's stated alternative kept with the comment",
-  "issues": ["none"],
+  "issues": ["budget:housing", "budget:parks"],
   "turns": [
     {
       "name": "a resident asks for a park",

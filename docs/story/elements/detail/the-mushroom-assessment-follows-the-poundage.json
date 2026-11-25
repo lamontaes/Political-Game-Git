@@ -1,0 +1,32 @@
+{
+  "id": "the-mushroom-assessment-follows-the-poundage",
+  "kind": "detail",
+  "summary": "The invoice reaching {person} uses the weight of fresh mushrooms to calculate the charge.",
+  "realLife": "Congress authorized the mushroom council to assess fresh mushroom handlers up to a cent for each pound produced or imported.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep533/usrep533405/usrep533405.pdf#page=4"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the weight of covered mushrooms and historical assessment rate."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: weight of covered mushrooms and historical assessment rate.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Calculate the charge on covered pounds.",
+      "pulledBy": "The scale ticket matches the invoice.",
+      "writesBack": "Assessment calculation."
+    },
+    {
+      "turn": "another-way",
+      "what": "Correct an invoice that used the wrong shipment weight.",
+      "pulledBy": "The billed weight differs from the verified shipment.",
+      "writesBack": "Assessment calculation."
+    }
+  ]
+}

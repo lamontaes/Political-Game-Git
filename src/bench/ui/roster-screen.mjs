@@ -23,11 +23,21 @@ export function rosterScreen({
   maxRows = 14,
   /** Pixels of the window the screen's chrome takes above the list (the title, the tabs); a list that fills the sheet reserves less. */
   reserve = 330,
+  /** False for a list that needs no heading over it (the screen's tab already names it): its title still names the list for a screen reader. */
+  headed = true,
+  /** True puts every row's aside on its own line under its name, so rows break alike (the Elections list); false lets the aside sit beside a short name. */
+  stacked = false,
+  /** A row's height in pixels for the count of rows the window holds (a stacked row is two lines). */
+  rowHeight = 34,
+  /** True sizes the box to whole rows, so the last row shown is never cut at the box's foot. */
+  wholeRows = false,
 }) {
   const entries = groups.flatMap((g) => g.entries);
   let chosen = entries.find((e) => e.key === chosenKey) ?? entries[0];
   let request = 0;
-  const roster = el("nav", { className: "pick-list roster" });
+  const roster = el("nav", {
+    className: stacked ? "pick-list roster roster-stacked" : "pick-list roster",
+  });
   roster.setAttribute("aria-label", title);
   const page = el("div", { className: "roster-page strip-screen strips" });
   const items = groups.flatMap((g) => [
@@ -88,17 +98,21 @@ export function rosterScreen({
     return row;
   };
   roster.append(
-    pickHead(title),
+    ...(headed ? [pickHead(title)] : []),
     pager({
       items,
       render: rowOf,
       rows: Math.max(
         6,
-        Math.min(maxRows, Math.floor((viewHeight() - reserve) / 36)),
+        Math.min(
+          maxRows,
+          Math.floor((viewHeight() - reserve) / (rowHeight + 2)),
+        ),
       ),
       columns: 1,
-      rowHeight: 34,
+      rowHeight,
       growRows: true,
+      wholeRows,
       gap: 2,
       className: "roster-pages",
     }),

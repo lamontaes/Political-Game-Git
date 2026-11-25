@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10380
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-25T00:47:50.422Z
 ---
 
 **What.** Carryover N16-66 (the CTO catch from the Nov 16 sitting): a cut-off budget label, and heads on only some rows. On Politics, Budgets a long department name such as Housing and community development lost its last word and its head ran over it.
