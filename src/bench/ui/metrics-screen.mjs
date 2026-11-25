@@ -3,11 +3,15 @@
 // measure's timeline: one thin line over the years with each value written on it, no bars and
 // no pies (owner, Nov 12: "numbers stay the main view; a measure opens a timeline"). Every
 // figure is the registry's; the screen only places them. Nothing scrolls as a page.
+import { makeButton } from "./button.mjs";
 import { el } from "./dom.mjs";
 import { pickRow } from "./list-row.mjs";
 import { metricsChange, metricsFigure } from "./metrics-change.mjs";
 import { rosterScreen } from "./roster-screen.mjs";
 import { trendLine } from "./trend-line.mjs";
+
+/** How many years the table shows at most, the newest last (mock Layout A, owner, Nov 12: "A plus the years table"). */
+const YEARS_SHOWN = 5;
 
 /**
  * `sections`: the /api/metrics sections; `words`: controls.metrics; `title`: the list's heading.
@@ -69,6 +73,47 @@ export function metricsScreen({ sections, words, title }) {
               },
             })
           : null;
+        // The years table: each measure's figure for the last few years; a row opens its timeline.
+        const years = [
+          ...new Set(section.rows.flatMap((r) => r.history.map((h) => h.year))),
+        ]
+          .sort((a, b) => a - b)
+          .slice(-YEARS_SHOWN);
+        const cell = (text, at) =>
+          el("span", {
+            className: `metrics-ycell${at === years.length - 1 ? " now" : ""}`,
+            textContent: text,
+          });
+        const table = el(
+          "div",
+          { className: "metrics-years" },
+          el(
+            "div",
+            { className: "metrics-yrow metrics-yhead" },
+            el("span", { className: "metrics-ylabel" }),
+            ...years.map((year, at) => cell(String(year), at)),
+          ),
+          ...section.rows.map((row) => {
+            const byYear = new Map(row.history.map((h) => [h.year, h.value]));
+            const button = makeButton({ className: "metrics-yrow" });
+            button.dataset.measure = row.key;
+            button.setAttribute("aria-pressed", String(row === chosen));
+            button.append(
+              el("span", {
+                className: "metrics-ylabel",
+                textContent: words[row.key],
+              }),
+              ...years.map((year, at) =>
+                cell(byYear.has(year) ? figure(row, byYear.get(year)) : "", at),
+              ),
+            );
+            button.addEventListener("click", () => {
+              chosen = row;
+              draw();
+            });
+            return button;
+          }),
+        );
         const page = el(
           "div",
           { className: "metrics-page" },
@@ -85,6 +130,7 @@ export function metricsScreen({ sections, words, title }) {
                 ]
               : []),
             ...(line ? [line] : []),
+            ...(years.length > 1 ? [table] : []),
           ),
         );
         // The page names the measure whose timeline it shows, for a reader to wait on.
