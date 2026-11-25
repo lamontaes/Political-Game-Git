@@ -1,0 +1,30 @@
+{
+  "id": "a-token-from-hard-times-on-the-artists-table",
+  "kind": "detail",
+  "summary": "{member} points an artist toward privately issued tokens from the years the coin will recall.",
+  "realLife": "Members suggested that artists working on the Jackson and Van Buren reverses consult the Hard Times tokens that circulated in that era.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0818_minutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the issue year and an inventory of period references.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The local collection has a token from the period.",
+      "what": "The artist borrows a photograph of its face.",
+      "writesBack": "The photograph goes in the design brief."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The only available token is from a later decade.",
+      "what": "The artist drops the offered reference.",
+      "writesBack": "The researcher strikes it from the reference list."
+    }
+  ]
+}

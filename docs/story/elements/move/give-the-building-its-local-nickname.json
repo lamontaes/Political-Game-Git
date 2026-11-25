@@ -1,0 +1,31 @@
+{
+  "id": "give-the-building-its-local-nickname",
+  "kind": "move",
+  "summary": "{member} wants the name people use for the old building to appear beneath its formal name.",
+  "realLife": "For the Old Mint silver dollar the committee proposed setting the San Francisco building's nickname below a shortened identification of the building. The building's nickname appeared on the front of the issued silver dollar.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0710_minutes.pdf#page=2",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/san-francisco-old-mint/san-francisco-old-mint-silver"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the building's formal and local names.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The nickname still has a local following.",
+      "what": "The shorter building name frees a line.",
+      "writesBack": "The lettering proof goes back to the board."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The nickname belongs to a different building locally.",
+      "what": "Two groups claim the nickname means different places.",
+      "writesBack": "The historical society contests the proposed wording."
+    }
+  ]
+}

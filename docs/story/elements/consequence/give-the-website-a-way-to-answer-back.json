@@ -1,0 +1,30 @@
+{
+  "id": "give-the-website-a-way-to-answer-back",
+  "kind": "consequence",
+  "summary": "{member} takes responsibility for getting public comments into the board's new website by the deadline the board set.",
+  "realLife": "Rita Laws and Ute Wartenberg were assigned to work with Mint technicians after members approved a website with a way for visitors to submit comments and set a July deadline.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2005_0524_minutes.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the website deadline and the address that receives submissions.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Staff can test the public form before launch.",
+      "what": "The board members send a test comment.",
+      "writesBack": "The launch review includes the reply address."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The form cannot deliver to the committee.",
+      "what": "The test comment never arrives.",
+      "writesBack": "The members bring the failure to technical staff."
+    }
+  ]
+}

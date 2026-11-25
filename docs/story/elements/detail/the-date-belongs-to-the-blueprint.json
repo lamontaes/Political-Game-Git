@@ -1,0 +1,31 @@
+{
+  "id": "the-date-belongs-to-the-blueprint",
+  "kind": "detail",
+  "summary": "{member} spots a date that could make a drawing look like a claim about when the building opened.",
+  "realLife": "On the Old Mint gold design, members wanted the date tied explicitly to the architectural plans and placed beneath the building's name. The Mint credited the architect and dated his drawing to 1869 in its description of the issued gold piece. The dates it lists on the coin itself are the earthquake year and its centennial.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/2006_0615_minutes.pdf#page=2",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/san-francisco-old-mint/san-francisco-old-mint-gold"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the drawing's caption and the date on the archived plans.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The plans have a date in the archive.",
+      "what": "The artist labels the drawing with its year.",
+      "writesBack": "The building history can use the same caption."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The plans span several years.",
+      "what": "Members cannot agree which year belongs under the building.",
+      "writesBack": "The board requests the archivist's wording."
+    }
+  ]
+}
