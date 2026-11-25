@@ -1,0 +1,30 @@
+{
+  "id": "hearing-aid-box-identifies-the-batteries",
+  "kind": "detail",
+  "summary": "{shopper} turns over a hearing-aid box to see whether it contains the batteries needed to use it.",
+  "realLife": "After commenters asked to compare models and buy any needed batteries on the same trip, FDA required the outer package to identify their type, quantity and inclusion.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2022-08-17/pdf/2022-17230.pdf#page=19"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{shopper}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: packaging and battery inventory.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The batteries are sold separately.",
+      "what": "The clerk checks the battery compartment against the box.",
+      "writesBack": "The shopper adds their price before comparing two models."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Batteries come with the device.",
+      "what": "The package lists a full starter set.",
+      "writesBack": "The buyer can take the package home without a second purchase."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "hearing-aid-searches-rise-before-access-can-be-measured",
+  "kind": "detail",
+  "summary": "{researcher} brings search activity to a hearing where the committee wants to know who obtained treatment.",
+  "realLife": "Panth and colleagues tracked Google search activity around the start of retail sales. Queries about hearing aids, including prices and vendors, drew interest. In the later congressional audit, FDA officials said they had not studied how the rule affected access to treatment.",
+  "sources": [
+    "https://www.gao.gov/assets/gao-24-106854.pdf#page=6",
+    "https://doi.org/10.1002/ohn.406"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{researcher}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: search data and independently measured access.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The committee wants evidence of public interest.",
+      "what": "The researcher separates searches by subject.",
+      "writesBack": "Staff can enter the search finding with its source."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The committee wants a count of newly treated people.",
+      "what": "A member asks whether the search ended in a purchase.",
+      "writesBack": "It commissions a different measure instead of counting searches as patients."
+    }
+  ]
+}

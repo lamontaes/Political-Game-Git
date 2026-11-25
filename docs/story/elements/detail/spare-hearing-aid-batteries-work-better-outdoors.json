@@ -1,0 +1,28 @@
+{
+  "id": "spare-hearing-aid-batteries-work-better-outdoors",
+  "kind": "detail",
+  "summary": "{buyer} reconsiders a preference for rechargeable hearing aids after taking the replacement pair outdoors.",
+  "realLife": "The participant initially wanted rechargeable aids to save money. He later valued the disposable batteries in his second pair for the flexibility they gave him during outdoor recreation.",
+  "sources": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC10801511/"],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{buyer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: device power source, replacement costs and the wearer’s routine.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The wearer spends long stretches away from a charger.",
+      "what": "The household considers carrying spare batteries.",
+      "writesBack": "The next comparison includes how the aid will be powered away from home."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Buying replacements would strain the household budget.",
+      "what": "The buyer compares the running cost with a rechargeable model.",
+      "writesBack": "That expense goes into the decision alongside convenience."
+    }
+  ]
+}

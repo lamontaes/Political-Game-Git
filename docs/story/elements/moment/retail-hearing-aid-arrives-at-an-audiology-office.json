@@ -1,0 +1,28 @@
+{
+  "id": "retail-hearing-aid-arrives-at-an-audiology-office",
+  "kind": "moment",
+  "summary": "{audiologist} meets a patient who bought a hearing aid elsewhere and wants help using it.",
+  "realLife": "GAO summarized a survey in which most audiologists reported broadly steady patient volume while some reported requests for help with retail devices.",
+  "sources": ["https://www.gao.gov/assets/gao-24-106854.pdf#page=6"],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{audiologist}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: appointment reason and separately priced support.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The practice offers a separate support appointment.",
+      "what": "A receptionist asks what help the patient needs.",
+      "writesBack": "The patient can ask what that visit will cost."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The practice services only devices it supplies.",
+      "what": "The buyer calls the office that fit their previous device.",
+      "writesBack": "The patient takes the support question back to the seller."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "daughter-fitting-informs-a-senators-reservation",
+  "kind": "moment",
+  "summary": "{senator} draws on a child's years of hearing-aid fittings to explain a reservation about adult retail sales.",
+  "realLife": "Mike Enzi recalled his daughter's hearing aids and the expertise her fittings took while questioning the effect of the adult provision on patients' ties to professionals.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CREC-2017-08-03/pdf/CREC-2017-08-03.pdf#page=6"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{senator}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: family ties, device history and the age group a bill covers.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A colleague asks whose fittings the speaker remembers.",
+      "what": "The speaker distinguishes a child's needs from an adult shopper's choices.",
+      "writesBack": "The member explains the family experience and identifies the age group covered by the bill."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A family declines to be identified in the debate.",
+      "what": "The family member asks for privacy.",
+      "writesBack": "The speaker describes the role of a fitter without identifying the patient."
+    }
+  ]
+}

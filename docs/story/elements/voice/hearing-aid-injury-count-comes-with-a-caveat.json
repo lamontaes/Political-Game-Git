@@ -1,0 +1,28 @@
+{
+  "id": "hearing-aid-injury-count-comes-with-a-caveat",
+  "kind": "voice",
+  "summary": "{analyst} explains why the number of hearing-aid complaints cannot tell a committee how often buyers are hurt.",
+  "realLife": "FDA told GAO it had received twelve adverse-event reports by February 2024 and that a system reliant on people reporting problems would miss some experiences.",
+  "sources": ["https://www.gao.gov/assets/gao-24-106854.pdf#page=5"],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{analyst}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: complaint records, reporting method and exposure data.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A member asks what fraction of buyers had problems.",
+      "what": "Staff checks the source of the count.",
+      "writesBack": "The analyst identifies the missing usage and reporting data."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A member asks what the reported problems were.",
+      "what": "The committee requests examples from the reports.",
+      "writesBack": "The analyst can describe the reports without estimating a population rate."
+    }
+  ]
+}

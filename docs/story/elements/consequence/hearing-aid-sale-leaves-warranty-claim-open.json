@@ -1,0 +1,30 @@
+{
+  "id": "hearing-aid-sale-leaves-warranty-claim-open",
+  "kind": "consequence",
+  "summary": "{buyer} can still pursue a warranty claim after learning the hearing aid was legally sold over the counter.",
+  "realLife": "Congress expressly preserved existing private remedies involving warranties, contracts, product liability and consumer protection when it created the retail category.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/PLAW-115publ52/pdf/PLAW-115publ52.pdf#page=63"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{buyer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: warranty terms, sales records and private claims.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The buyer saved a written warranty.",
+      "what": "The buyer brings a dated warranty to the district office.",
+      "writesBack": "The constituent brings its terms and the receipt to a caseworker."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The dispute concerns an oral assurance.",
+      "what": "The seller disputes what was promised.",
+      "writesBack": "The caseworker records what the seller represented before directing the inquiry."
+    }
+  ]
+}

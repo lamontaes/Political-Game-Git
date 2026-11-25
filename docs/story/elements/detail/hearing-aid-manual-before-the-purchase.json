@@ -1,0 +1,30 @@
+{
+  "id": "hearing-aid-manual-before-the-purchase",
+  "kind": "detail",
+  "summary": "{buyer} reads the hearing-aid manual before creating an account or buying the device.",
+  "realLife": "The final rule required a downloadable instruction booklet available without registration or a purchase, alongside the booklet supplied in the package.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2022-08-17/pdf/2022-17230.pdf#page=54"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{buyer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: manual access and purchase requirements.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The instructions answer the buyer's setup question.",
+      "what": "A family member downloads both manuals before visiting the shop.",
+      "writesBack": "The buyer can compare two devices from home."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A manufacturer's download asks for a customer login.",
+      "what": "The download form demands a customer number.",
+      "writesBack": "The constituent sends the blocked page to the oversight office."
+    }
+  ]
+}

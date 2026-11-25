@@ -1,0 +1,31 @@
+{
+  "id": "secure-a-safety-study-while-reserving-judgment",
+  "kind": "move",
+  "summary": "{member} thanks the chair for a follow-up study while keeping a concern about the bill on record.",
+  "realLife": "Enzi credited Lamar Alexander with helping secure a study, then explained his continuing concern about access to professional help. The enacted law required an adverse-event report to Congress.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CREC-2017-08-03/pdf/CREC-2017-08-03.pdf#page=6",
+    "https://www.govinfo.gov/content/pkg/PLAW-115publ52/pdf/PLAW-115publ52.pdf#page=63"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: conference provisions and oversight reporting deadlines.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reporting duty survives conference.",
+      "what": "The compromise names the official who must report.",
+      "writesBack": "The committee puts a follow-up request on its calendar."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The chair offers an informal briefing instead.",
+      "what": "The conference leaves out the reporting provision.",
+      "writesBack": "Members ask who will gather reports after the first briefing."
+    }
+  ]
+}

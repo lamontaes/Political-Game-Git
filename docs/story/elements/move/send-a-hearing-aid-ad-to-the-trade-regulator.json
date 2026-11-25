@@ -1,0 +1,28 @@
+{
+  "id": "send-a-hearing-aid-ad-to-the-trade-regulator",
+  "kind": "move",
+  "summary": "{caseworker} routes a misleading hearing-aid advertisement to the office responsible for advertising claims.",
+  "realLife": "GAO reported that the FTC handles most device advertising claims and that FDA and FTC officials share hearing-aid concerns when needed.",
+  "sources": ["https://www.gao.gov/assets/gao-24-106854.pdf#page=5"],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{caseworker}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: advertising complaints and device reports.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The complaint includes a copy of the advertisement.",
+      "what": "A caseworker preserves the ad and the name of the seller.",
+      "writesBack": "The referral can identify the claim the buyer saw."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The buyer also reports a device malfunction.",
+      "what": "The buyer describes both the sales pitch and a fault in the device.",
+      "writesBack": "Staff records a separate product concern for the device regulator."
+    }
+  ]
+}

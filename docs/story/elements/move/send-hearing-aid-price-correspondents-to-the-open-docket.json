@@ -1,0 +1,30 @@
+{
+  "id": "send-hearing-aid-price-correspondents-to-the-open-docket",
+  "kind": "move",
+  "summary": "{senator} tells the people who wrote about hearing-aid prices how to reach the officials writing the rule.",
+  "realLife": "When the FDA released its proposal, Grassley invited the Iowans who had raised prices with him to comment directly and gave the closing date during his floor remarks.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CREC-2021-10-27/pdf/CREC-2021-10-27-pt1-PgS7411.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{senator}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: constituent correspondence, an open rulemaking docket and its closing date.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The comment window is open.",
+      "what": "Staff sends the constituent the docket and deadline.",
+      "writesBack": "The household can place its experience before the agency."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The constituent calls after the deadline.",
+      "what": "The office explains that the announced comment period has closed.",
+      "writesBack": "Staff can still keep the account for legislative oversight."
+    }
+  ]
+}

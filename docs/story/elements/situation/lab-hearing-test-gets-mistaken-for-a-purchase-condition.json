@@ -1,0 +1,28 @@
+{
+  "id": "lab-hearing-test-gets-mistaken-for-a-purchase-condition",
+  "kind": "situation",
+  "summary": "{staffer} checks why a research participant had a hearing test before trying a retail aid.",
+  "realLife": "A Pittsburgh audiologist tested a participant to confirm his eligibility for the case report. The researchers explained that their examination was a study step and that federal law allowed an eligible adult to buy an over-the-counter aid without it.",
+  "sources": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC10801511/"],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{staffer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: purchase category, research protocol and store instructions.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The store points to the research report as its authority.",
+      "what": "Staff asks which part actually describes a federal sales requirement.",
+      "writesBack": "The constituent gets the rule and the study procedure identified separately."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The shopper wants an examination.",
+      "what": "The caseworker gives them the option of asking a hearing professional.",
+      "writesBack": "The household can decide when to schedule the visit."
+    }
+  ]
+}
