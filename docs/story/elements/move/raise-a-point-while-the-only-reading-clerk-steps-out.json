@@ -1,0 +1,31 @@
+{
+  "id": "raise-a-point-while-the-only-reading-clerk-steps-out",
+  "kind": "move",
+  "summary": "{member} gives the presiding officer a question while the only reading clerk takes a bathroom break.",
+  "realLife": "When illness left Swanson handling the desk alone, he recalled an arrangement for a member to raise a point of order during his brief absence.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=10",
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the desk assignment and the business before the chair.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A colleague can handle the reading.",
+      "what": "The member lets business proceed.",
+      "writesBack": "The relief clerk takes the desk."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Nobody can cover the desk.",
+      "what": "A member raises the agreed point.",
+      "writesBack": "The chair has a question to answer until the clerk returns."
+    }
+  ]
+}

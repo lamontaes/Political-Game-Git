@@ -1,0 +1,31 @@
+{
+  "id": "send-the-pending-amendment-to-both-floor-tables",
+  "kind": "move",
+  "summary": "{member} asks for the actual text while a floor aide is still trying to find a copy.",
+  "realLife": "Anderson recalled working with Republican cloakroom manager Bill Pitts to have copies of offered amendments furnished to both floor tables and both cloakrooms. The enacted provision specified five copies for each committee table and at least one for each cloakroom when an amendment was offered in Committee of the Whole.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=198",
+    "https://www.govinfo.gov/content/pkg/STATUTE-84/pdf/STATUTE-84-Pg1140.pdf#page=19"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the offered text and its distribution list.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The reading clerk has enough copies.",
+      "what": "Staff deliver them to both sides.",
+      "writesBack": "Members compare the same language before voting."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The floor copy differs from an earlier draft.",
+      "what": "Staff retrieve the version actually offered.",
+      "writesBack": "The superseded draft is set aside."
+    }
+  ]
+}

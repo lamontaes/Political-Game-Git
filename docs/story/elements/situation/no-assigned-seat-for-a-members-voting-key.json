@@ -1,0 +1,31 @@
+{
+  "id": "no-assigned-seat-for-a-members-voting-key",
+  "kind": "situation",
+  "summary": "{member} needs to vote from wherever there is a free seat in the chamber.",
+  "realLife": "Anderson explained why a fixed switch at each lawmaker's desk would not suit the House and how personal cards that worked at any station answered the problem.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=87",
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=92"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the seating arrangement and the voting equipment.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A nearby station is free.",
+      "what": "The member uses their card there.",
+      "writesBack": "Their vote reaches the board."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The row has no available station.",
+      "what": "The member moves to another row.",
+      "writesBack": "The vote waits until a station is reached."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "a-late-member-has-to-be-recognized-in-the-well",
+  "kind": "situation",
+  "summary": "{member} reaches the well after the names have been called and looks to the clerk to be recognized.",
+  "realLife": "Swanson described recognizing late voters who came forward, repeating their answers, and leaving the entries to the tally clerk.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": ["The chamber is taking this vote by oral roll call."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: an open oral vote and the late arrival.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The clerk recognizes the member.",
+      "what": "The member gives an answer from the well.",
+      "writesBack": "The tally clerk records the late vote."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The vote has already closed.",
+      "what": "The member reaches the desk too late.",
+      "writesBack": "The announced tally stands."
+    }
+  ]
+}

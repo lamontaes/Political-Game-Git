@@ -1,0 +1,30 @@
+{
+  "id": "read-the-names-still-blank-on-the-roll",
+  "kind": "move",
+  "summary": "{clerk} returns to names without a vote after finishing the first pass through the membership.",
+  "realLife": "Swanson remembered a second call for representatives who had yet to answer the first one.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=11"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": ["The chamber is taking this vote by oral roll call."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the first call and the unmarked names.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The member hears the second call.",
+      "what": "The clerk repeats the answer.",
+      "writesBack": "The tally gains the missing entry."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The member has yet to arrive.",
+      "what": "The clerk goes on to the next blank.",
+      "writesBack": "The member still has no recorded vote."
+    }
+  ]
+}

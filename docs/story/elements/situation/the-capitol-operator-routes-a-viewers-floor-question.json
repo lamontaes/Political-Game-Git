@@ -1,0 +1,30 @@
+{
+  "id": "the-capitol-operator-routes-a-viewers-floor-question",
+  "kind": "situation",
+  "summary": "{clerk} gets a call from someone at home who just heard a motion on television.",
+  "realLife": "Anderson recalled operators routing viewers to the cloakrooms or the Clerk's office and staff explaining floor proceedings without disclosing private strategy.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=196"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community", "home"],
+  "slots": ["{clerk}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the public broadcast and the pending motion.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The caller wants the procedural effect.",
+      "what": "Staff explain what the motion would do.",
+      "writesBack": "The caller can follow the next vote."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The caller asks about a private agreement.",
+      "what": "Staff stick to the public record.",
+      "writesBack": "The caller receives the motion's wording."
+    }
+  ]
+}

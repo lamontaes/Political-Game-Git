@@ -1,0 +1,31 @@
+{
+  "id": "shorter-roll-calls-make-room-for-more-vote-demands",
+  "kind": "consequence",
+  "summary": "{member} gets back to the office sooner after a vote only to be called back for another.",
+  "realLife": "Anderson recalled that shorter electronic votes encouraged so many more recorded decisions and quorum calls that the early change saved less time than members expected.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=89",
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=90"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the frequency of demands and time spent on each vote.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Few members request separate votes.",
+      "what": "The day's vote block ends early.",
+      "writesBack": "The office keeps its afternoon appointments."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Members request a record on amendment after amendment.",
+      "what": "The chamber keeps reopening the vote.",
+      "writesBack": "The office sends new times to waiting visitors."
+    }
+  ]
+}

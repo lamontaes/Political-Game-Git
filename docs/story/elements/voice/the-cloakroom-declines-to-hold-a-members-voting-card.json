@@ -1,0 +1,31 @@
+{
+  "id": "the-cloakroom-declines-to-hold-a-members-voting-card",
+  "kind": "voice",
+  "summary": "{clerk} refuses a request to keep a member's card between votes.",
+  "realLife": "Anderson recalled members asking to leave cards in the cloakroom. He refused because a later request to hand one over would put staff in charge of another person's vote.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=93",
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=94"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a request for safekeeping and the card custody rules.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The member takes the card back.",
+      "what": "The clerk explains the paper alternative.",
+      "writesBack": "The member knows what to do if it is forgotten."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The member insists on office storage.",
+      "what": "Staff ask the member to arrange personal custody.",
+      "writesBack": "The cloakroom retains no card."
+    }
+  ]
+}

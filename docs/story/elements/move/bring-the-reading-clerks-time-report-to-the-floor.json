@@ -1,0 +1,30 @@
+{
+  "id": "bring-the-reading-clerks-time-report-to-the-floor",
+  "kind": "move",
+  "summary": "{member} uses the clerks' own account of time spent calling names to argue for a change in procedure.",
+  "realLife": "The House historian records that Robert Leggett presented the reading clerks' figures in July 1970. Their average for 1967 through 1969 was nearly a quarter of each legislative day.",
+  "sources": [
+    "https://history.house.gov/Exhibitions-and-Publications/Electronic-Technology/Electronic-Voting/"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the clerks' time report and a pending rules proposal.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Members ask to see the underlying period.",
+      "what": "Staff supply the years behind the average.",
+      "writesBack": "The debate has a defined comparison."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Members want a measure of debate time instead.",
+      "what": "The sponsor distinguishes counting votes from debating them.",
+      "writesBack": "The committee asks for a separate estimate."
+    }
+  ]
+}

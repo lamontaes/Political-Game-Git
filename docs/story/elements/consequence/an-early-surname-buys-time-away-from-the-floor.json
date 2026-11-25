@@ -1,0 +1,30 @@
+{
+  "id": "an-early-surname-buys-time-away-from-the-floor",
+  "kind": "consequence",
+  "summary": "{member} can plan a trip back to the office around where the surname falls in an oral roll.",
+  "realLife": "Anderson recalled that representatives called early could answer and leave with considerable time before they might be needed on another roll.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=25"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": ["The chamber is taking this vote by oral roll call."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the roll order and the next likely vote.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The next vote waits for the full oral call.",
+      "what": "The member returns to the office.",
+      "writesBack": "Staff keep the waiting appointment."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The next question comes up sooner than expected.",
+      "what": "The office calls the member back.",
+      "writesBack": "The remaining appointment is shortened."
+    }
+  ]
+}

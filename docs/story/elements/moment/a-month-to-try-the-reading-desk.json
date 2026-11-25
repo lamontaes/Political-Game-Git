@@ -1,0 +1,30 @@
+{
+  "id": "a-month-to-try-the-reading-desk",
+  "kind": "moment",
+  "summary": "{clerk} asks whether the promise of an old job back also applies if it is the clerk who wants to leave.",
+  "realLife": "Swanson recalled Rayburn offering him a trial month as assistant reading clerk and promising him a way back. Swanson asked to keep that choice for himself as well.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/swanson-transcript/#page=10"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the appointment terms and the previous position.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The old office agrees to hold the position.",
+      "what": "The applicant tries the reading desk.",
+      "writesBack": "The appointment carries a review date."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The old position must be filled now.",
+      "what": "The applicant asks for time to decide.",
+      "writesBack": "The clerkship stays open."
+    }
+  ]
+}

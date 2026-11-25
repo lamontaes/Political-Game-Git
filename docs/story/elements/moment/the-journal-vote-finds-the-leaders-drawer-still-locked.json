@@ -1,0 +1,30 @@
+{
+  "id": "the-journal-vote-finds-the-leaders-drawer-still-locked",
+  "kind": "moment",
+  "summary": "{member} reaches for a voting card before an early vote and discovers the drawer still locked.",
+  "realLife": "Anderson recalled forgetting to unlock Tip O'Neill's drawer before a Journal vote. The doorkeeper's public call brought other members asking Anderson to keep their cards too.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=94"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the early vote and the member's access to their card.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The clerk opens the drawer before the call.",
+      "what": "The leader retrieves the card personally.",
+      "writesBack": "The first vote passes without a delay at the desk."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The call comes while the drawer is locked.",
+      "what": "The doorkeeper calls for assistance.",
+      "writesBack": "Staff must explain who actually holds the card."
+    }
+  ]
+}

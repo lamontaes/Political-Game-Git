@@ -1,0 +1,30 @@
+{
+  "id": "a-dark-panel-sends-the-house-back-to-an-oral-roll",
+  "kind": "consequence",
+  "summary": "{clerk} calls for the standby procedure when a display fails even though the votes may still be reaching the system.",
+  "realLife": "Anderson said his office would set aside the electronic equipment over a display fault and use an oral call until the system could be trusted.",
+  "sources": [
+    "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/anderson-transcript/#page=268"
+  ],
+  "fits": ["office", "journal", "speeches", "news", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the display status and the standby procedure.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The panel passes its check before voting starts.",
+      "what": "Staff clear the equipment for use.",
+      "writesBack": "The electronic roll opens."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The display stays dark.",
+      "what": "Staff use the oral procedure.",
+      "writesBack": "The tally rests on the clerks' recorded answers."
+    }
+  ]
+}
