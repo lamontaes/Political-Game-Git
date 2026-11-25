@@ -482,6 +482,7 @@
     },
     {
       "id": "door-first",
+      "each": true,
       "receive": {
         "age": "any",
         "counterpart": "apart",
@@ -498,13 +499,14 @@
       "pool": ["named"],
       "where": "pool",
       "player": "anyone",
-      "cast": "a resident who opened their door to the player's own canvass for the first time, the one whose agreement with the player's platform, for or against, is the day's strongest",
+      "cast": "each resident who opened their door to the player's own canvass for the first time and has a reason of their own on record (a layoff, a rent notice, an illness at home, a tie to the player, a shared party), in the order the session reached them",
       "typeKey": "door-ask",
       "impactParameter": "directorCircumstanceDoorImpact",
       "everyParameter": "directorCircumstanceDoorEveryDays"
     },
     {
       "id": "door-again",
+      "each": true,
       "receive": {
         "age": "any",
         "counterpart": "apart",
@@ -521,13 +523,14 @@
       "pool": ["named"],
       "where": "pool",
       "player": "anyone",
-      "cast": "a resident the player's canvass has knocked on before, who opens the door again, the one whose agreement with the player's platform, for or against, is the day's strongest",
+      "cast": "each resident the player's canvass has knocked on before who opens the door again and has a reason of their own on record, in the order the session reached them",
       "typeKey": "door-ask",
       "impactParameter": "directorCircumstanceDoorImpact",
       "everyParameter": "directorCircumstanceDoorEveryDays"
     },
     {
       "id": "door-petition",
+      "each": true,
       "receive": {
         "age": "any",
         "counterpart": "apart",
@@ -543,7 +546,7 @@
       "pool": ["named"],
       "where": "pool",
       "player": "anyone",
-      "cast": "a resident who opened their door to the player's own canvass while the player's petition circulates, the one whose agreement with the player's platform, for or against, is the day's strongest; the campaign engine asked them to sign, and the record says whether they did",
+      "cast": "each resident who opened their door to the player's own canvass while the player's petition circulates and has a reason of their own on record, in the order the session reached them; the campaign engine asked them to sign, and the record says whether they did",
       "typeKey": "door-signature",
       "impactParameter": "directorCircumstanceDoorImpact",
       "everyParameter": "directorCircumstanceDoorEveryDays"

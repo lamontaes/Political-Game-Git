@@ -1758,52 +1758,71 @@ export function createDirector(
           ),
       );
       if (!pick) continue;
-      const base = param(pick.row.impactParameter);
-      const raw = one + pick.closeness;
-      const impact = base * raw;
-      const change: Change = {
-        causeId: pick.record.id,
-        causeKind:
-          pick.record.kind === "job" || pick.record.kind === "household-member"
-            ? pick.record.kind
-            : `event:${pick.record.kind}`,
-        counterparts: new Set([pick.castId]),
-        raw: new Map([["circumstance", raw]]),
-        renewals: new Set(),
-        ...(pick.record.placeId ? { placeId: pick.record.placeId } : {}),
-      };
-      const label = circumstanceLabel(pick.row.id);
-      storeMoment(
-        core,
-        book,
-        change,
-        label,
-        impact,
-        [
-          {
-            channel: "circumstance",
-            raw,
-            scale: base,
-            traitWeight: one,
-            traits: [],
-            contribution: impact,
-          },
-        ],
-        pick.record.dueOn,
-      );
-      // Spaced from the day it was written, staged or not, so a circumstance
-      // met as a journal line does not come again the next day.
-      ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
-      ledger.circumstanceLast.set(`${book.personId}|*`, date);
-      ledger.circumstanceLast.set(
-        `${book.personId}|cast|${pick.castId}|${pick.record.id}`,
-        date,
-      );
-      if (pick.row.keepsDays)
+      const stage = (pick: (typeof picks)[number]) => {
+        const base = param(pick.row.impactParameter);
+        const raw = one + pick.closeness;
+        const impact = base * raw;
+        const change: Change = {
+          causeId: pick.record.id,
+          causeKind:
+            pick.record.kind === "job" ||
+            pick.record.kind === "household-member"
+              ? pick.record.kind
+              : `event:${pick.record.kind}`,
+          counterparts: new Set([pick.castId]),
+          raw: new Map([["circumstance", raw]]),
+          renewals: new Set(),
+          ...(pick.record.placeId ? { placeId: pick.record.placeId } : {}),
+        };
+        const label = circumstanceLabel(pick.row.id);
+        storeMoment(
+          core,
+          book,
+          change,
+          label,
+          impact,
+          [
+            {
+              channel: "circumstance",
+              raw,
+              scale: base,
+              traitWeight: one,
+              traits: [],
+              contribution: impact,
+            },
+          ],
+          pick.record.dueOn,
+        );
+        // Spaced from the day it was written, staged or not, so a circumstance
+        // met as a journal line does not come again the next day.
+        ledger.circumstanceLast.set(`${book.personId}|${pick.row.id}`, date);
+        ledger.circumstanceLast.set(`${book.personId}|*`, date);
         ledger.circumstanceLast.set(
-          `${book.personId}|${pick.row.id}|${pick.record.id}`,
+          `${book.personId}|cast|${pick.castId}|${pick.record.id}`,
           date,
         );
+        if (pick.row.keepsDays)
+          ledger.circumstanceLast.set(
+            `${book.personId}|${pick.row.id}|${pick.record.id}`,
+            date,
+          );
+      };
+      // A canvassing session's doors with a stake each stage their scene, in
+      // the order the session reached them (owner, Nov 24: "You might get 32
+      // and have 2 scenes"); any other row stages the day's one pick.
+      const session = pick.row.each
+        ? picks
+            .filter(
+              (row) => row.row.each && row.record.kind === pick.record.kind,
+            )
+            .sort(
+              (a, b) =>
+                Number(a.record.facts.minuteIn ?? zero) -
+                  Number(b.record.facts.minuteIn ?? zero) ||
+                a.record.id.localeCompare(b.record.id),
+            )
+        : [pick];
+      for (const row of session) stage(row);
     }
   }
 

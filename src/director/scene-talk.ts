@@ -1028,7 +1028,9 @@ export function composeSceneTalk(
     };
     // The setup is told from the player's side: a purpose asked both ways (a
     // vote) has the player's own setup under the type's key, and the
-    // purpose's setup plays where the bank has none.
+    // purpose's setup plays where the bank has none. A variant's setup falls
+    // back to its family's, as its request does (a door with a reason,
+    // `ask-support.sick`, opens on the family's door narration).
     const setup = (at: string) =>
       render(
         {
@@ -1037,6 +1039,7 @@ export function composeSceneTalk(
           role: "narrator",
           purpose,
           key: at,
+          ...(family ? { family } : {}),
         },
         cast.askerId,
         {},
