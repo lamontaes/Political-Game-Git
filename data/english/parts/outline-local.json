@@ -4576,6 +4576,254 @@
       "date": "2026-11-25",
       "elements": ["mayor-closes-on-community-with-an-invitation"],
       "issues": ["none"]
+    },
+    {
+      "key": "outline-local.question.what-would-it-take-for-to",
+      "move": "question",
+      "kind": "spoken",
+      "text": "What would it take for {realm-name} to {to}?",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "realm-name"],
+          "excludesFacts": ["law-in-force", "said-contrast"]
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "realm-name"],
+          "excludesFacts": ["law-in-force", "said-contrast"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-analytical",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
+    },
+    {
+      "key": "outline-local.question.who-will-if-we-don-t",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Who will {to} if we don't?",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-for"],
+          "excludesFacts": ["law-in-force", "said-contrast"]
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-for"],
+          "excludesFacts": ["law-in-force", "said-contrast"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
+    },
+    {
+      "key": "outline-local.question.can-afford-not-to",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Can {realm-name} afford not to {to}?",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "realm-name", "stance-for"],
+          "excludesFacts": ["law-in-force", "said-contrast"]
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "realm-name", "stance-for"],
+          "excludesFacts": ["law-in-force", "said-contrast"]
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-devoted"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
+    },
+    {
+      "key": "outline-local.question.do-we-really-need-to",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Do we really need to {to}?",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-against"],
+          "excludesFacts": [
+            "law-in-force",
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "stance-against"],
+          "excludesFacts": [
+            "law-in-force",
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
+    },
+    {
+      "key": "outline-local.question.who-asked-to",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Who asked {realm-name} to {to}?",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "realm-name", "stance-against"],
+          "excludesFacts": [
+            "law-in-force",
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "question",
+          "tie": "stand",
+          "requiresFacts": ["to", "realm-name", "stance-against"],
+          "excludesFacts": [
+            "law-in-force",
+            "policy:budget:administration",
+            "policy:budget:corrections",
+            "policy:budget:federal:agriculture",
+            "policy:budget:federal:communityAndRegionalDevelopment",
+            "policy:budget:federal:education",
+            "policy:budget:federal:health",
+            "policy:budget:federal:incomeSecurity",
+            "policy:budget:federal:internationalAffairs",
+            "policy:budget:federal:medicare",
+            "policy:budget:federal:nationalDefense",
+            "policy:budget:federal:socialSecurity",
+            "policy:budget:federal:transportation",
+            "policy:budget:federal:veterans",
+            "policy:budget:fire",
+            "policy:budget:healthAndHospitals",
+            "policy:budget:higherEducation",
+            "policy:budget:highways",
+            "policy:budget:housing",
+            "policy:budget:naturalResources",
+            "policy:budget:parks",
+            "policy:budget:police",
+            "policy:budget:schools",
+            "policy:budget:welfareAndMedicaid",
+            "said-contrast"
+          ]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     }
   ]
 }
