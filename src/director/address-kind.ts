@@ -13,6 +13,7 @@
  * picks it. It holds no sentence: the English engine's bank writes the
  * address in the chosen kind's manner.
  */
+import { historyOf } from "../core2/past";
 import type { CoreState, PersonState } from "../core2/types";
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
@@ -121,8 +122,12 @@ function griefOf(core: Readonly<CoreState>): {
 } {
   let grief = P.zero,
     griefId: string | undefined;
-  for (const id of core.logByKind.get("hazard.disaster") ?? []) {
-    const event = core.durableLog.get(id);
+  for (const disaster of historyOf(
+    core as CoreState,
+    { nation: true },
+    { kinds: ["hazard.disaster"], from: "played" },
+  )) {
+    const event = core.durableLog.get(disaster.id);
     const severity = Number(event?.facts?.severity);
     if (!event || !Number.isFinite(severity)) continue;
     const age = daysBetweenText(event.date, core.date);

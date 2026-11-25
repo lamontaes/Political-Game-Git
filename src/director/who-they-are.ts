@@ -23,6 +23,7 @@
  * `relationFacts`), family, a partner or a housemate: the first name says
  * enough there.
  */
+import { historyOf } from "../core2/past";
 import { officeSaid } from "./cause-facts";
 import { metRecords, relationFacts, type MetRecord } from "./relation-facts";
 import { P } from "../core2/parameters";
@@ -145,7 +146,12 @@ function officeOf(
     }
   // An appointed post: the town clerk, a department head, a cabinet secretary.
   if (core.modules.has(EXECUTIVE_MODULE_ID)) {
-    for (const id of core.logByPerson.get(personId) ?? []) {
+    for (const appointed of historyOf(
+      core as CoreState,
+      { person: personId as PersonId },
+      { kinds: ["official-appointed"], from: "played" },
+    )) {
+      const id = appointed.id;
       const record = core.durableLog.get(id);
       if (record?.kind !== "official-appointed") continue;
       if (record.personIds[P.zero] !== personId) continue;

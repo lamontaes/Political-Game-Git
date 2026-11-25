@@ -25,6 +25,7 @@
  * opening-speech bank's `story-open` and `story-turn` pieces of the story's
  * topic say it.
  */
+import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import type { MacroMonth } from "../core2/macro-model";
@@ -273,8 +274,12 @@ function scandalRun(
       .flatMap((row) => (row.holder?.personId ? [row.holder.personId] : [])),
   );
   const since = addDays(core.date as IsoDate, -STORIES.disasterDays.value);
-  const reported = [...(core.logByKind.get(SCANDAL_REPORTED) ?? [])]
-    .map((id) => core.durableLog.get(id))
+  const reported = historyOf(
+    core as CoreState,
+    { nation: true },
+    { kinds: [SCANDAL_REPORTED], from: "played" },
+  )
+    .map((row) => core.durableLog.get(row.id as never))
     .filter(
       (event) =>
         !!event &&

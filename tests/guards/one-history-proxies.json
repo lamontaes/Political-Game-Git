@@ -28,25 +28,14 @@
       "src/bench/reached.ts": 2,
       "src/bench/scene.ts": 1,
       "src/bench/world.ts": 1,
-      "src/director/address-anchor.ts": 1,
-      "src/director/address-kind.ts": 1,
       "src/director/address-render.ts": 1,
-      "src/director/address-story.ts": 1,
       "src/director/address-telling.ts": 1,
-      "src/director/arc-variant.ts": 1,
-      "src/director/bribe-facts.ts": 2,
-      "src/director/conversation.ts": 16,
-      "src/director/home-work-facts.ts": 2,
-      "src/director/journal.ts": 20,
-      "src/director/ledger.ts": 5,
-      "src/director/life-news.ts": 1,
+      "src/director/conversation.ts": 5,
+      "src/director/journal.ts": 2,
+      "src/director/ledger.ts": 2,
       "src/director/meeting-facts.ts": 2,
       "src/director/opening-story.ts": 2,
-      "src/director/relation-facts.ts": 1,
-      "src/director/speech-builder.ts": 2,
-      "src/director/speech-outline.ts": 2,
-      "src/director/subject-tie.ts": 2,
-      "src/director/who-they-are.ts": 1
+      "src/director/speech-outline.ts": 2
     }
   }
 }

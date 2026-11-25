@@ -17,6 +17,7 @@
  * The facts are the person's name and town and what touches them, each cited
  * to the record that holds it; the words are the banks'.
  */
+import { historyOf } from "../core2/past";
 import type { EntityId } from "../core2/kernel/brands";
 import { ageOnDate } from "../core2/kernel/dates";
 import { fullHouseholdIncomes } from "../core2/household-cost";
@@ -88,7 +89,12 @@ const BURDENS: Readonly<Record<string, (core: CoreState) => Reader>> = {
   },
   justice: (core) => {
     const crimes = new Map<string, string[]>();
-    for (const id of core.logByKind.get(CRIME_EVENT) ?? []) {
+    for (const crime of historyOf(
+      core as CoreState,
+      { nation: true },
+      { kinds: [CRIME_EVENT], from: "played" },
+    )) {
+      const id = crime.id;
       const record = core.durableLog.get(id);
       if (!record || record.date > core.date) continue;
       for (const personId of record.personIds)
