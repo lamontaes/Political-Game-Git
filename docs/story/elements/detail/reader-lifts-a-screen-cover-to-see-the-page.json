@@ -1,0 +1,39 @@
+{
+  "id": "reader-lifts-a-screen-cover-to-see-the-page",
+  "kind": "detail",
+  "summary": "A patron struggling with a dim display treats a privacy screen as an obstacle to reading.",
+  "realLife": "The trial record described patrons trying to remove privacy screens to improve brightness or visibility.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=to%20remove%20them%20in%20order%20to%20improve%20the%20brightness",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=48"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "home",
+    "loading"
+  ],
+  "slots": ["{reader}", "{station}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: screen condition and available stations.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Another station has a clearer display.",
+      "what": "Staff offer to move the session.",
+      "writesBack": "The original cover stays in place."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "No other station is free.",
+      "what": "The librarian records the visibility problem.",
+      "writesBack": "The next equipment review includes the reader's experience."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "staff-workstation-is-an-offer-at-the-librarians-discretion",
+  "kind": "situation",
+  "summary": "A reader's chance to use a staff computer depends on who is available to supervise.",
+  "realLife": "Some libraries in the trial said staff could allow supervised use of a staff computer on request, but none described that access as guaranteed.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=access%20on%20a%20staff%20computer%20upon%20request%2C%20but%20none",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=52"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "home",
+    "loading"
+  ],
+  "slots": ["{librarian}", "{reader}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: staff workstation policy and available coverage.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A librarian can supervise.",
+      "what": "The reader is offered the staff station.",
+      "writesBack": "Access depends on accepting that arrangement."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The desk has no one free to supervise.",
+      "what": "Staff explain why they cannot offer the station now.",
+      "writesBack": "The reader leaves without using it."
+    }
+  ]
+}

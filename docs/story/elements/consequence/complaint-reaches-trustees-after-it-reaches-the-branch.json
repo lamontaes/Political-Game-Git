@@ -1,0 +1,31 @@
+{
+  "id": "complaint-reaches-trustees-after-it-reaches-the-branch",
+  "kind": "consequence",
+  "summary": "A complaint changes the board discussion when trustees hear for the first time what happened at the branch.",
+  "realLife": "Greenville trustees first learned at the special meeting that children had seen explicit material displayed on other patrons' screens.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=the%20Board%20of%20Trustees%20held%20a%20special%20board%20meeting",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=44"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{board}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: complaints received and date trustees learned of them.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Staff can identify the earlier complaint.",
+      "what": "A trustee asks how complaints reach the board.",
+      "writesBack": "The next packet includes the reporting route."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "No one can establish when the complaint reached a branch.",
+      "what": "The chair asks for the original account.",
+      "writesBack": "The minutes distinguish testimony from a verified date."
+    }
+  ]
+}

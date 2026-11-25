@@ -1,0 +1,38 @@
+{
+  "id": "trustees-consider-turning-off-public-internet",
+  "kind": "moment",
+  "summary": "A board dissatisfied with successive computer rules considers whether to keep offering the service.",
+  "realLife": "Greenville trustees considered ending internet access before choosing mandatory filtering after other measures had disappointed them.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=result%2C%20it%20implemented%20a%20mandatory%20filtering%20policy.%20We%20note",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=45"
+  ],
+  "fits": [
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{board}", "{service}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: earlier trial policies and decision before the board.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The board wants to preserve access.",
+      "what": "Trustees debate conditions for keeping the terminals online.",
+      "writesBack": "The service continues under a revised rule."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The motion would end access entirely.",
+      "what": "A trustee asks which patrons depend on the branch to get online.",
+      "writesBack": "Loss of service becomes part of the vote."
+    }
+  ]
+}

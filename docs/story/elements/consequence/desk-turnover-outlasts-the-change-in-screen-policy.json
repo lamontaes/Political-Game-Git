@@ -1,0 +1,31 @@
+{
+  "id": "desk-turnover-outlasts-the-change-in-screen-policy",
+  "kind": "consequence",
+  "summary": "Trustees weighing a new computer rule also face turnover among the librarians assigned to that area.",
+  "realLife": "Greenville experienced high turnover among reference librarians working within sight of the terminals during its attempts to manage what patrons could see.",
+  "sources": [
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=library%20experienced%20a%20high%20turnover%20rate%20among%20reference%20librarians",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=45"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{librarian}", "{branch}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: vacancies and dates of policy changes.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Vacancy records cover the trial period.",
+      "what": "A trustee asks which shifts went uncovered.",
+      "writesBack": "The staffing question stays on the board agenda."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The dates do not establish why someone left.",
+      "what": "The director reports the vacancy without assigning a motive.",
+      "writesBack": "The minutes leave the cause open."
+    }
+  ]
+}
