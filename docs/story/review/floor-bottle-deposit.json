@@ -25669,10 +25669,10 @@
     "elements": ["price-the-space-behind-the-return-counter"]
   },
   {
-    "key": "scene-talk.follow-thank.let-s-put-both-routes-on-the-same-drawing-a-door-that-s-handy-for-unloading-a-trunk-might-be-round-the-back-for-somebody-arriving-on-foot",
+    "key": "scene-talk.follow-thank.let-s-put-both-routes-on-the-same-drawing-a-door-that-s-handy-for-unloading-a-trunk-might-mean-walking-around-the-building-for-somebody-on-foot",
     "kind": "spoken",
     "move": "follow-thank",
-    "text": "Let's put both routes on the same drawing. A door that's handy for unloading a trunk might be round the back for somebody arriving on foot.",
+    "text": "Let's put both routes on the same drawing. A door that's handy for unloading a trunk might mean walking around the building for somebody on foot.",
     "uses": [
       {
         "subject": "scene",
