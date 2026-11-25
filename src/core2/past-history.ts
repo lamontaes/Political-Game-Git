@@ -142,6 +142,7 @@ const TABLE = table as unknown as {
   householdFacts: readonly string[];
   employerFacts: readonly string[];
   jurisdictionFacts: readonly string[];
+  levelFact: string;
   nation: string;
 };
 
@@ -238,32 +239,59 @@ function unitWhere(id: string): HistoryWhere | null {
   return held;
 }
 
+const NATION: HistoryWhere = { place: null, state: null, nation: true };
+
 /**
- * Where a record happened, read the same way for every record: its place
- * (and that place's state), or, for a record with no place, the government
- * its facts name (a government unit, a state's key or the nation's), or the
+ * The government an id names: the nation (US), a state (US-UT), or a
+ * government unit (its place), alone, after `national:`, or leading an
+ * office, seat, chamber or law id (`office:US:president`,
+ * `law:US-FL:state:...`, `office:gus2025:161724:council`). The first id of a
+ * list is read.
+ */
+function governmentOf(value: string): HistoryWhere | null {
+  const first = value.trim().split(/\s+/)[0] ?? "";
+  const named =
+    /^(?:national:|(?:law|office|seat):)?(US(?:-[A-Z]{2})?|gus2025:\d+)(?::|$)/.exec(
+      first,
+    )?.[1];
+  if (!named) return null;
+  if (named === TABLE.nation) return NATION;
+  if (/^US-[A-Z]{2}$/.test(named))
+    return { place: null, state: named, nation: false };
+  return unitWhere(named);
+}
+
+/**
+ * Where a record happened, read the same way for every record (an engine
+ * writes a national or state record at the player's town, so its own facts
+ * come first): its level (federal is the nation's; state is the state's),
+ * then the government its facts name, then its place id (`national:US`,
+ * `national:US-ND`, `US-DC`, or a place, with that place's state), and the
  * nation's own when it names none (the economy's months).
  */
 export function whereOf(
   row: Pick<HistoryEvent, "placeId" | "facts">,
 ): HistoryWhere {
-  if (row.placeId)
-    return {
-      place: row.placeId,
-      state: stateKeyOf(row.placeId),
-      nation: false,
-    };
+  const level = row.facts?.[TABLE.levelFact];
+  if (level === "federal") return NATION;
+  let named: HistoryWhere | null = null;
   for (const key of TABLE.jurisdictionFacts) {
-    const named = row.facts?.[key];
-    if (!named) continue;
-    if (named === TABLE.nation)
-      return { place: null, state: null, nation: true };
-    if (/^US-[A-Z]{2}$/.test(named))
-      return { place: null, state: named, nation: false };
-    const unit = unitWhere(named);
-    if (unit) return unit;
+    const value = row.facts?.[key];
+    if (value && (named = governmentOf(value))) break;
   }
-  return { place: null, state: null, nation: true };
+  const at = row.placeId ? (governmentOf(row.placeId) ?? null) : null;
+  const local: HistoryWhere | null = row.placeId
+    ? (at ?? {
+        place: row.placeId,
+        state: stateKeyOf(row.placeId),
+        nation: false,
+      })
+    : null;
+  if (level === "state") {
+    const state = named?.state ?? local?.state ?? null;
+    return state ? { place: null, state, nation: false } : NATION;
+  }
+  return named ?? local ?? NATION;
 }
 
 /** Whether a public row belongs to a place, a state or the nation. */

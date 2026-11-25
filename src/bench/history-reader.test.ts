@@ -10,6 +10,7 @@ import { lifeOf } from "../core2/person-life";
 import {
   historyEvent,
   historyOf,
+  preStartHistory,
   whereOf,
   type HistoryEvent,
   type HistoryScope,
@@ -130,6 +131,44 @@ describe(`the one history reader (${where})`, () => {
     for (const event of told.get("the nation")!)
       if (event.record !== "century.presidency")
         expect(whereOf(event).nation, `${event.id} at ${where}`).toBe(true);
+  });
+
+  it("holds every public record in the history of where it happened", () => {
+    const ids = (name: string) =>
+      new Set(told.get(name)!.map((event) => event.id));
+    const inTown = ids("the town");
+    const inState = ids("the state");
+    const inNation = ids("the nation");
+    const records = [
+      ...preStartHistory(core).filter((row) => row.publicRecord),
+      ...[...core.durableLog.values()].filter(
+        (row) =>
+          row.publicRecord ||
+          row.news ||
+          row.visibility === "public" ||
+          row.visibility === "news",
+      ),
+    ];
+    let checked = 0;
+    for (const record of records) {
+      const at = whereOf({
+        placeId: record.placeId as PlaceId | undefined,
+        facts: Object.fromEntries(
+          Object.entries(record.facts ?? {}).map(([key, value]) => [
+            key,
+            String(value),
+          ]),
+        ),
+      });
+      const label = `${record.kind} ${record.id} at ${where}`;
+      if (at.nation) expect(inNation.has(record.id), label).toBe(true);
+      else if (at.place === town)
+        expect(inTown.has(record.id), label).toBe(true);
+      if (!at.nation && at.state === state)
+        expect(inState.has(record.id), label).toBe(true);
+      checked += 1;
+    }
+    expect(checked, where).toBeGreaterThan(0);
   });
 
   it("tells the century's presidencies as the nation's history", () => {
