@@ -74,8 +74,14 @@ function playThrough(date: string, personId: string) {
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     } else if (packet?.kind === "choice")
       player.resume({ kind: "own-choice", pauseId: packet.pauseId });
-    else if (core.date >= date) return;
-    else player.advance("day");
+    else if (core.date >= date) {
+      // The character is left with nothing held for the player: a held
+      // entry (their own bill's hearing) can't be waived by a switch, so
+      // the day's held entries are done as the character would.
+      for (const entry of waitingEntries(api, personId))
+        if (entry.stop && entry.date <= core.date) actOn(api, entry);
+      return;
+    } else player.advance("day");
   }
   throw new Error(`The day did not reach ${date}`);
 }
