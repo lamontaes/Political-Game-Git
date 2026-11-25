@@ -29,7 +29,7 @@ These are his rulings. Each one has failed a line in today's pre-grades.
 
   Write around them.
 
-- **A line that leans on the one before needs `after`.** That includes any line opening on That, That's, It, It's, This, These, Those, So, And or "Not me". `src/english/outline-planner.test.ts` checks it.
+- **A line that leans on the one before needs `after`.** That includes any line opening on That, That's, It, It's, This, These, Those, So, And or "Not me". the outline planner's test (on story/first-evening until it merges) checks it.
 - **Sources set shape only.** Real speeches and real people show what kinds of moves exist. Quote no more than 15 words, and never use a real person's words or name.
 - **Shapes he has rejected, word for word:**
   - "Hold me to it";
@@ -93,14 +93,14 @@ The shared element bank is `docs/story/elements/<kind>/<id>.json` (kinds: moment
 ## Issues: the game's laws decide what gets made (the CTO, Nov 24, 7140057819)
 
 - **Every element names its issues** in `issues`: a list of the bill catalog's policy ids (`src/core2/data/legislature/bill-catalog.json`, for example `budget:highways` or `question:us-policy-positions:housing-land-use.rent-stabilization`), or `["none"]` for a moment no policy touches (a funeral, a birthday). `tests/guards/english/element-issues.test.ts` holds every id to the catalog.
-- **A line can require a live policy:** the planner adds `policy:<catalog id>` to the facts for every policy the text cites (`withPolicyFacts`, `src/english/outline-planner.ts`) (a budget line as `policy:budget:<line>`, the catalog's own id), so a line with `"requiresFacts": ["policy:question:…"]` plays only where the world has put that policy in the text, and beats a general line there. A line may also name its policies in its own `issues` field; it is about a policy through its own `issues`, a required `policy:` fact or an element it cites.
+- **A line can require a live policy:** the planner adds `policy:<catalog id>` to the facts for every policy the text cites (`withPolicyFacts`, the outline planner (on story/first-evening until it merges)) (a budget line as `policy:budget:<line>`, the catalog's own id), so a line with `"requiresFacts": ["policy:question:…"]` plays only where the world has put that policy in the text, and beats a general line there. A line may also name its policies in its own `issues` field; it is about a policy through its own `issues`, a required `policy:` fact or an element it cites.
 - **Pick by gap, issue first:** `node --import tsx scripts/story/coverage.ts` writes `docs/story/coverage.md`, each policy by kind of text, elements/lines per cell. Take a policy with thin cells, find real moments about it, write elements with turns for both directions, then the lines.
 
 ## Checks before you post
 
 ```
 OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" npm run -s words:rules
-npx vitest run tests/guards/english tests/english-parts-banks.test.ts src/english/outline-planner.test.ts src/english/least-recent-wording.test.ts
+npx vitest run tests/guards/english tests/english-parts-banks.test.ts src/english/least-recent-wording.test.ts
 KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-six.jsonl
 SIXES=10 KIND=inaugural node --import tsx scripts/sameness/gate.ts scripts/sameness/inputs/inaugural-drawn.jsonl
 BANK=data/english/parts/<your bank>.json KIND=<kind> node --import tsx scripts/sameness/draw-count.ts scripts/sameness/inputs/<kind>-drawn.jsonl
@@ -113,7 +113,7 @@ SEEDS=aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e node --import tsx scripts/words/
 - **The gate:** part 2 prints the failing frames by slot, and `V=1` lists them. Your slots' counts must fall batch by batch.
   - The inputs hold the six packet worlds with drawn traits, so slots a world fact gates (a disaster, a good year) are overcounted.
   - `inaugural-drawn.jsonl` holds 60 drawn lives, one each; `SIXES=10` reads each once. That is the count the hourly report gives. The Journal's and the talk's drawn inputs follow as `<kind>-drawn.jsonl`.
-- **The draw count** (`scripts/sameness/draw-count.ts`, W1's method, #9750 7134029654): lists, by move, every line of your bank that no telling picked over the inputs under 60 trait draws. A line gated on a fact no input world holds is not dead. A line whose facts the worlds hold and that never plays is: usually a slot the row's `budgets` let into one sentence only (`term-left`, `theme-name`, `theme-short`, `the-disaster` in an address), already said by the move before. Rewrite or delete it; a dead line is not depth. Give each fact set 20 or more live lines.
+- **The draw count** (the sameness draw count (on story/first-evening until it merges), W1's method, #9750 7134029654): lists, by move, every line of your bank that no telling picked over the inputs under 60 trait draws. A line gated on a fact no input world holds is not dead. A line whose facts the worlds hold and that never plays is: usually a slot the row's `budgets` let into one sentence only (`term-left`, `theme-name`, `theme-short`, `the-disaster` in an address), already said by the move before. Rewrite or delete it; a dead line is not depth. Give each fact set 20 or more live lines.
 - **The packet:** read your slot's lines as they play in all six places.
 
 **The CTO's gate (7131781243),** over 20 drawn sixes:
@@ -131,7 +131,7 @@ SEEDS=aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e node --import tsx scripts/words/
 
 ## The lanes
 
-### Call and charge: `data/english/parts/outline-call.json`
+### Call and charge: the outline-call bank (on story/first-evening until it merges)
 
 - **`charge`:** the line after the oath or election opener that names what the speech is about (`after: ["oath", "hired"]`). It requires `theme-name` and `about`. Example of the slot: "what work pays".
 - **`call`:** what the President asks of the people, in the call section (shapes `call-alone`, `address-run`).
@@ -145,7 +145,7 @@ SEEDS=aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e node --import tsx scripts/words/
   - the run flags: `run-hard`, `run-good`, `run-jobs-lost`, `run-prices-ahead`, `run-pay-ahead`.
 - **Target:** 40 calls and 30 charges, no two sharing a frame. Now: 25 calls, 18 charges.
 
-### Stand and close: `data/english/parts/outline-theme.json`
+### Stand and close: the outline-theme bank (on story/first-evening until it merges)
 
 - **The stand's moves:**
 
@@ -170,7 +170,7 @@ SEEDS=aecea4,66265b,bd3806,2d2283,3c42e6,d8e52e node --import tsx scripts/words/
 - **Then:** the governor's and mayor's addresses. They aren't on the planner yet; the Story lead will add their spec.
 - **Target:** 20 or more lines per move that's said in most addresses (`value`, `send-off`, `creed`, `pledge`, `stand`, `stand-reason`).
 
-### Diary: `data/english/parts/outline-diary.json`
+### Diary: the outline-diary bank (on story/first-evening until it merges)
 
 The Journal's entry for the first evening, written in the first person and in the past tense (`kind: "written"`).
 
@@ -188,7 +188,7 @@ The Journal's entry for the first evening, written in the first person and in th
 - **Then:** a week as a paragraph. The Story lead will add its spec.
 - **Target:** 20 or more per move, no two sharing a frame. Now: 2 to 7 per move.
 
-### Talk at home: `data/english/parts/outline-talk.json`
+### Talk at home: the outline-talk bank (on story/first-evening until it merges)
 
 The housemate's word on the address, and the player's replies.
 
@@ -206,7 +206,7 @@ The housemate's word on the address, and the player's replies.
   - Write replies there in your branch; only you touch that file.
 - **Target:** 20 or more per lead and verdict move. Every reply set has two or more replies.
 
-### News: `data/english/parts/outline-news.json`
+### News: the outline-news bank (on story/first-evening until it merges)
 
 A story's lede and body (`kind: "written"`).
 
