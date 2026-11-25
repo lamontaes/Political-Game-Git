@@ -5,6 +5,7 @@
  * scene); `askedId` is the one who answers. Kin, acquaintance, closeness and
  * the side of the tie all come from here; nothing else re-reads them.
  */
+import { historyOf } from "../core2/past";
 import {
   closenessBetween,
   lastMetOnRow,
@@ -69,9 +70,13 @@ function passedBetween(
     helpedBefore: [],
     refusedBefore: [],
   };
-  const ids = core.logByKind.get("scene.reply");
-  if (!ids) return passed;
-  for (const id of ids) {
+  // The two people's earlier replies to each other, from their history.
+  for (const reply of historyOf(
+    core as CoreState,
+    { person: askerId },
+    { kinds: ["scene.reply"], from: "played", with: askedId },
+  )) {
+    const id = reply.id;
     const event = core.durableLog.get(id);
     if (!event) continue;
     if (event.date >= core.date) continue;

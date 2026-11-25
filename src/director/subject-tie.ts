@@ -11,6 +11,7 @@
  * tie it found; a Subject made of the speaker's or hearer's own record is
  * tied by its kind (`OWN_RECORD_KINDS`).
  */
+import { historyEvent, historyOf } from "../core2/past";
 import type { PartTie } from "../english/bank-parts";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Story } from "../core2/modules/news";
@@ -116,9 +117,16 @@ export function belongsToPair(
     // A bare person id is the person, not a record of theirs.
     (!names.includes(id) &&
       (names.some((name) => id.includes(name)) ||
-        people.some((person) =>
-          core.logByPerson.get(person.id)?.has(id as never),
-        )));
+        people.some((person) => {
+          // A logged record of play that names them, or that they saw happen.
+          const record = historyEvent(core as CoreState, id);
+          return (
+            record?.from === "played" &&
+            core.durableLog.has(id as never) &&
+            (record.personIds.includes(person.id) ||
+              !!record.witnessIds?.includes(person.id))
+          );
+        })));
 }
 
 /**
@@ -180,7 +188,12 @@ function recordedAct(
 ): string | null {
   const bill = story.facts.billId;
   const question = story.topic;
-  for (const id of core.logByPerson.get(personId) ?? []) {
+  for (const done of historyOf(
+    core as CoreState,
+    { person: personId as PersonId },
+    { from: "played" },
+  )) {
+    const id = done.id;
     const record = core.durableLog.get(id as never);
     const by = record && ACT_RECORDS[record.kind];
     if (!by) continue;

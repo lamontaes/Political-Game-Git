@@ -60,12 +60,15 @@ export interface HistoryAsk {
   readonly since?: string;
   /** On or before this day. */
   readonly through?: string;
-  /** Only records that also name this person. */
+  /** Only records that also name this person, or that they saw happen. */
   readonly with?: PersonId;
   /**
    * Only what came from one source: what a person was made with (`built`:
    * every fact their record was made with, or those of `kinds`, in the order
    * the record holds them), the simulated past (`past`) or play (`played`).
+   * A person's `past` or `played` history is every record of that source
+   * that names them, of any kind unless `kinds` narrows it. A read of one
+   * source keeps its order: the past by day, play as it was recorded.
    */
   readonly from?: "built" | "past" | "played";
 }
@@ -87,6 +90,8 @@ export interface HistoryEvent {
   readonly personIds: readonly PersonId[];
   /** In a person's history, the others the record names; else everyone. */
   readonly withIds: readonly PersonId[];
+  /** The people who saw it happen, where the record keeps them (a record of play). */
+  readonly witnessIds?: readonly PersonId[];
   readonly placeId?: PlaceId;
   readonly facts?: Readonly<Record<string, string>>;
   /** The records that caused it, by id, each one a record that exists. */
@@ -219,6 +224,7 @@ function logRow(row: Readonly<LogRecord>): HistoryRow {
     from: "played",
     personIds: row.personIds,
     withIds: row.personIds,
+    ...(row.witnessIds?.length ? { witnessIds: row.witnessIds } : {}),
     ...(row.placeId ? { placeId: row.placeId } : {}),
     facts: asText(row.facts),
     publicRecord: isPublicLog(row),
@@ -367,7 +373,12 @@ function asked(row: HistoryRow, ask: HistoryAsk): boolean {
   if (ask.kinds && !ask.kinds.includes(row.record)) return false;
   if (ask.since && row.date < ask.since) return false;
   if (ask.through && row.date > ask.through) return false;
-  if (ask.with && !row.personIds.includes(ask.with)) return false;
+  if (
+    ask.with &&
+    !row.personIds.includes(ask.with) &&
+    !row.witnessIds?.includes(ask.with)
+  )
+    return false;
   return true;
 }
 
@@ -384,11 +395,16 @@ function recordRows(
     // A person's or household's records: the indexes by person.
     const seen = new Set<string>();
     for (const personId of people) {
-      for (const row of preStartHistory(core, { personId }))
-        if (!seen.has(`p:${row.id}`) && (!kinds || kinds.includes(row.kind))) {
-          seen.add(`p:${row.id}`);
-          out.push(pastRow(row));
-        }
+      if (ask.from !== "played")
+        for (const row of preStartHistory(core, { personId }))
+          if (
+            !seen.has(`p:${row.id}`) &&
+            (!kinds || kinds.includes(row.kind))
+          ) {
+            seen.add(`p:${row.id}`);
+            out.push(pastRow(row));
+          }
+      if (ask.from === "past") continue;
       for (const id of core.logByPerson.get(personId) ?? []) {
         const row = core.durableLog.get(id as never);
         if (!row || seen.has(`l:${row.id}`)) continue;
@@ -397,7 +413,7 @@ function recordRows(
         out.push(logRow(row));
       }
     }
-    if ("household" in scope)
+    if ("household" in scope && ask.from !== "played")
       for (const key of TABLE.householdFacts)
         for (const row of pastRowsNaming(core, key, scope.household))
           if (
@@ -413,21 +429,28 @@ function recordRows(
     "employer" in scope
       ? namesFact(row, TABLE.employerFacts, scope.employer)
       : inPlaceScope(row, scope, ask);
+  // A read of play alone never walks the past, and a read of the past alone
+  // never walks the log.
   const pastSet =
-    "employer" in scope
-      ? TABLE.employerFacts.flatMap((key) =>
-          pastRowsNaming(core, key, scope.employer),
-        )
-      : kinds
-        ? kinds.flatMap((kind) => preStartHistory(core, { kind }))
-        : pastRowsOf(core);
+    ask.from === "played"
+      ? []
+      : "employer" in scope
+        ? TABLE.employerFacts.flatMap((key) =>
+            pastRowsNaming(core, key, scope.employer),
+          )
+        : kinds
+          ? kinds.flatMap((kind) => preStartHistory(core, { kind }))
+          : pastRowsOf(core);
   for (const row of pastSet) {
     const told = pastRow(row);
     if (keep(told)) out.push(told);
   }
-  const logIds = kinds
-    ? kinds.flatMap((kind) => [...(core.logByKind.get(kind) ?? [])])
-    : [...core.durableLog.keys()];
+  const logIds =
+    ask.from === "past"
+      ? []
+      : kinds
+        ? kinds.flatMap((kind) => [...(core.logByKind.get(kind) ?? [])])
+        : [...core.durableLog.keys()];
   for (const id of logIds) {
     const row = core.durableLog.get(id as never);
     if (!row) continue;
@@ -589,15 +612,20 @@ export function historyOf(
   // writes nothing, and a household's, employer's or place's opens nobody.
   const people = peopleOf(core, scope);
   const { life, others } = sourcesOf(core);
-  if (life && "person" in scope && !ask.kinds) life.open?.(core, scope.person);
-  if (life && people.length)
+  // A read of one source of records (`past`, `played`) reads the records
+  // themselves: no life is built and no one is opened.
+  const records = ask.from === "past" || ask.from === "played";
+  if (life && "person" in scope && !ask.kinds && !ask.from)
+    life.open?.(core, scope.person);
+  if (life && people.length && !records)
     for (const personId of people) {
       let at = 0;
       for (const row of life.rows(core, { person: personId }, ask))
         take(row, at++);
     }
   const fromLife = new Set(ids);
-  const wider = ask.from !== "built" && (!("person" in scope) || !!ask.kinds);
+  const wider =
+    ask.from !== "built" && (!("person" in scope) || !!ask.kinds || records);
   if (wider) {
     for (const row of recordRows(core, scope, ask))
       if (!fromLife.has(row.id)) take(row);
@@ -616,8 +644,9 @@ export function historyOf(
           (event, at) => out.findIndex((other) => other.id === event.id) === at,
         )
       : out;
-  // What a person was made with is told in the order their record holds it.
-  if (ask.from === "built") return [...once];
+  // A read of one source keeps that source's order: what a person was made
+  // with as their record holds it, the past by day, play as it was recorded.
+  if (ask.from) return [...once];
   return [...once].sort(
     (a, b) =>
       a.date.localeCompare(b.date) ||
