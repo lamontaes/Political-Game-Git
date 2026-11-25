@@ -3166,58 +3166,6 @@
       "elements": ["concession-states-the-loss-plainly"]
     },
     {
-      "key": "scene-talk.reply-refuse.i-m-not-calling-opponent-yet",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I'm not calling {opponent} yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["opponent"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "refuse",
-        "key": "loss"
-      },
-      "elements": ["concession-reframes-the-loss"]
-    },
-    {
-      "key": "scene-talk.reply-refuse.i-m-not-ready-to-hand-office-over",
-      "move": "reply-refuse",
-      "kind": "spoken",
-      "text": "I'm not ready to give up the race for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "refuse",
-          "role": "asked",
-          "purpose": "concession-call",
-          "key": "loss",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "the local and campaign speeches writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "refuse",
-        "key": "loss"
-      },
-      "elements": ["concession-reframes-the-loss"]
-    },
-    {
       "key": "scene-talk.follow-thank.you-ran-a-good-race-for-office-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
@@ -3378,6 +3326,58 @@
         "key": "loss"
       },
       "elements": ["concession-night-situation"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-call-opponent-until-i-ve-thanked-the-people-who-worked-for-me",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't call {opponent} until I've thanked the people who worked for me. They shouldn't hear it on the news.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["opponent"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-thanks-family-then-staff-then-donors"]
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-won-t-give-up-the-race-for-office-until-i-ve-read-the-numbers-myself",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I won't give up the race for {office} until I've read the numbers myself. I owe that to everyone who voted for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      },
+      "elements": ["concession-states-the-loss-plainly"]
     },
     {
       "key": "scene-talk.open-greet.first-you-did-it",
