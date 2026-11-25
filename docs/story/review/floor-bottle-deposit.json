@@ -3915,10 +3915,10 @@
     "elements": ["refund-pays-for-school-club"]
   },
   {
-    "key": "scene-talk.state-tell.i-m-willing-to-change-what-a-store-gets-paid-for-handling-returns-here-we-re-being-asked-to-end-the-customer-s-refund-that-s-where-i-part-company-with-the-sponsor",
+    "key": "scene-talk.state-tell.change-the-handling-fee-if-the-stores-are-coming-up-short-why-take-the-refund-away-from-the-person-who-brings-the-bottle-back-i-ll-vote-to-keep-it",
     "kind": "spoken",
     "move": "state-tell",
-    "text": "I'm willing to change what a store gets paid for handling returns. Here we're being asked to end the customer's refund. That's where I part company with the sponsor.",
+    "text": "Change the handling fee if the stores are coming up short. Why take the refund away from the person who brings the bottle back? I'll vote to keep it.",
     "uses": [
       {
         "subject": "scene",
@@ -11977,10 +11977,10 @@
     "elements": ["county-dropoff-survives-deposit-repeal"]
   },
   {
-    "key": "scene-talk.reply-disagree.i-can-t-vote-with-the-sponsor-presiding-somebody-who-walks-to-the-grocery-may-have-no-ride-out-to-the-county-yard-with-a-box-of-glass",
+    "key": "scene-talk.reply-disagree.i-d-keep-the-refund-presiding-somebody-who-walks-to-the-grocery-may-have-no-ride-out-to-the-county-yard-with-a-box-of-glass",
     "kind": "spoken",
     "move": "reply-disagree",
-    "text": "I can't vote with the sponsor, {presiding}. Somebody who walks to the grocery may have no ride out to the county yard with a box of glass.",
+    "text": "I'd keep the refund, {presiding}. Somebody who walks to the grocery may have no ride out to the county yard with a box of glass.",
     "uses": [
       {
         "subject": "scene",
@@ -12095,7 +12095,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-disagree.i-can-t-vote-with-the-sponsor-presiding-somebody-who-walks-to-the-grocery-may-have-no-ride-out-to-the-county-yard-with-a-box-of-glass"
+        "after": "scene-talk.reply-disagree.i-d-keep-the-refund-presiding-somebody-who-walks-to-the-grocery-may-have-no-ride-out-to-the-county-yard-with-a-box-of-glass"
       }
     ],
     "bearing": "curious",
@@ -12109,10 +12109,10 @@
     "elements": ["county-dropoff-survives-deposit-repeal"]
   },
   {
-    "key": "scene-talk.reply-agree.i-d-vote-with-the-sponsor-to-end-the-deposit-a-shopper-deserves-to-know-which-bottles-the-clerk-will-take-before-hauling-a-bag-down-to-the-store",
+    "key": "scene-talk.reply-agree.i-m-for-ending-the-deposit-a-shopper-deserves-to-know-which-bottles-the-clerk-will-take-before-hauling-a-bag-down-to-the-store",
     "kind": "spoken",
     "move": "reply-agree",
-    "text": "I'd vote with the sponsor to end the deposit. A shopper deserves to know which bottles the clerk will take before hauling a bag down to the store.",
+    "text": "I'm for ending the deposit. A shopper deserves to know which bottles the clerk will take before hauling a bag down to the store.",
     "uses": [
       {
         "subject": "scene",
@@ -12226,7 +12226,7 @@
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-for"
         ],
-        "after": "scene-talk.reply-agree.i-d-vote-with-the-sponsor-to-end-the-deposit-a-shopper-deserves-to-know-which-bottles-the-clerk-will-take-before-hauling-a-bag-down-to-the-store",
+        "after": "scene-talk.reply-agree.i-m-for-ending-the-deposit-a-shopper-deserves-to-know-which-bottles-the-clerk-will-take-before-hauling-a-bag-down-to-the-store",
         "onlyWhen": ["bill"]
       }
     ],
@@ -17226,7 +17226,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.state-tell.i-m-willing-to-change-what-a-store-gets-paid-for-handling-returns-here-we-re-being-asked-to-end-the-customer-s-refund-that-s-where-i-part-company-with-the-sponsor"
+        "after": "scene-talk.state-tell.change-the-handling-fee-if-the-stores-are-coming-up-short-why-take-the-refund-away-from-the-person-who-brings-the-bottle-back-i-ll-vote-to-keep-it"
       },
       {
         "subject": "scene",
@@ -17329,7 +17329,7 @@
           "proposes-repeal:us-policy-positions:environment-energy.bottle-deposit",
           "speaks-against"
         ],
-        "after": "scene-talk.state-tell.i-m-willing-to-change-what-a-store-gets-paid-for-handling-returns-here-we-re-being-asked-to-end-the-customer-s-refund-that-s-where-i-part-company-with-the-sponsor",
+        "after": "scene-talk.state-tell.change-the-handling-fee-if-the-stores-are-coming-up-short-why-take-the-refund-away-from-the-person-who-brings-the-bottle-back-i-ll-vote-to-keep-it",
         "onlyWhen": ["bill"]
       },
       {
@@ -17434,7 +17434,7 @@
           "speaks-against",
           "name"
         ],
-        "after": "scene-talk.state-tell.i-m-willing-to-change-what-a-store-gets-paid-for-handling-returns-here-we-re-being-asked-to-end-the-customer-s-refund-that-s-where-i-part-company-with-the-sponsor"
+        "after": "scene-talk.state-tell.change-the-handling-fee-if-the-stores-are-coming-up-short-why-take-the-refund-away-from-the-person-who-brings-the-bottle-back-i-ll-vote-to-keep-it"
       },
       {
         "subject": "scene",
@@ -25905,5 +25905,253 @@
     "origin": "authored",
     "author": "Codex writer B",
     "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-brought-this-bill-here-with-a-school-collection-in-mind-a-parent-can-leave-the-empties-at-practice-and-the-kids-can-turn-them-in-for-the-trip-home-from-a-tournament",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I brought this bill here with a school collection in mind. A parent can leave the empties at practice, and the kids can turn them in for the trip home from a tournament.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "speaker-wrote-it"
+        ],
+        "onlyWhen": ["body-formal", "reason-own-bill"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.state-tell.as-sponsor-i-d-welcome-an-amendment-on-the-handling-fee-show-me-where-a-corner-grocer-can-stack-wet-bottles-without-losing-the-aisle-to-the-stockroom",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "As sponsor, I'd welcome an amendment on the handling fee. Show me where a corner grocer can stack wet bottles without losing the aisle to the stockroom.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "speaker-wrote-it"
+        ],
+        "onlyWhen": ["body-formal", "reason-own-bill"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.state-tell.what-do-i-want-the-cashier-to-do-with-a-bottle-she-doesn-t-recognize-check-what-kind-of-drink-it-held-that-s-the-rule-i-d-defend-as-the-member-bringing-this-bill",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "What do I want the cashier to do with a bottle she doesn't recognize? Check what kind of drink it held. That's the rule I'd defend as the member bringing this bill.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "speaker-wrote-it"
+        ],
+        "onlyWhen": ["body-formal", "reason-own-bill"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["cashier-checks-beverage-type-before-brand"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-put-the-deposit-before-this-chamber-because-i-d-like-a-refillable-bottle-to-make-it-all-the-way-back-to-the-washer-taking-it-across-the-counter-gets-us-only-as-far-as-the-stockroom",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I put the deposit before this chamber because I'd like a refillable bottle to make it all the way back to the washer. Taking it across the counter gets us only as far as the stockroom.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "speaker-wrote-it"
+        ],
+        "onlyWhen": ["body-formal", "reason-own-bill"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.state-tell.if-there-s-a-better-way-to-get-empties-onto-a-truck-bring-me-the-amendment-my-reason-for-sponsoring-the-deposit-is-to-get-those-bottles-moving-out-of-the-shop-again",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "If there's a better way to get empties onto a truck, bring me the amendment. My reason for sponsoring the deposit is to get those bottles moving out of the shop again.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "speaker-wrote-it"
+        ],
+        "onlyWhen": ["body-formal", "reason-own-bill"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["distributors-share-the-return-truck"]
+  },
+  {
+    "key": "scene-talk.state-tell.will-the-buyer-take-a-bale-as-it-comes-off-the-press-as-the-member-who-brought-the-deposit-here-i-d-like-an-answer-before-we-tell-a-town-what-its-collected-plastic-will-fetch",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Will the buyer take a bale as it comes off the press? As the member who brought the deposit here, I'd like an answer before we tell a town what its collected plastic will fetch.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "speaker-wrote-it"
+        ],
+        "onlyWhen": ["body-formal", "reason-own-bill"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.state-tell.my-bill-asks-people-to-bring-their-empties-back-it-falls-to-us-to-make-that-workable-for-the-clerk-who-has-a-sack-to-count-and-a-lunch-line-waiting",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "My bill asks people to bring their empties back. It falls to us to make that workable for the clerk who has a sack to count and a lunch line waiting.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "speaker-wrote-it"
+        ],
+        "onlyWhen": ["body-formal", "reason-own-bill"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.state-tell.put-the-grocer-s-question-to-me-she-paid-out-the-refund-and-the-truck-on-her-route-didn-t-deliver-that-water-i-brought-the-bill-and-i-owe-her-an-answer-about-how-she-gets-her-cash-back",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Put the grocer's question to me. She paid out the refund and the truck on her route didn't deliver that water. I brought the bill, and I owe her an answer about how she gets her cash back.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "speaker-wrote-it"
+        ],
+        "onlyWhen": ["body-formal", "reason-own-bill"]
+      }
+    ],
+    "bearing": "firm",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["water-deposits-cross-distribution-territories"]
   }
 ]
