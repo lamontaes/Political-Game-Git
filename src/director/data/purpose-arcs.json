@@ -4546,16 +4546,15 @@
     },
     "study-reported": {
       "state": "tell",
-      "replies": ["agree", "disagree", "ask", "deflect"],
+      "replies": ["agree", "disagree", "ask"],
       "follow": {
         "agree": ["thank"],
         "disagree": ["press"],
-        "ask": ["answer"],
-        "deflect": ["accept"]
+        "ask": ["answer"]
       },
       "again": {
-        "press": ["agree", "disagree", "leave"],
-        "answer": ["agree", "disagree", "leave"]
+        "press": ["agree", "disagree"],
+        "answer": ["agree", "disagree"]
       },
       "endings": [
         {
@@ -4580,14 +4579,6 @@
           "keeps": "none",
           "when": {
             "reply": ["ask"]
-          }
-        },
-        {
-          "id": "let-it-stand",
-          "label": "You let the finding stand",
-          "keeps": "none",
-          "when": {
-            "reply": ["deflect", "leave"]
           }
         },
         {

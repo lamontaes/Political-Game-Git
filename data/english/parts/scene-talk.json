@@ -12121,31 +12121,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.all-right-i-ll-go-with-the-committee",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "All right. I'll go with the committee.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "study-reported",
-          "key": "colleague-word",
-          "after": "press"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (carry #9328, Words lead ruling-2 fault 5)",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "agree",
-        "key": "colleague-word"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.how-did-the-members-come-down",
       "move": "reply-ask",
       "kind": "spoken",
@@ -12168,6 +12143,444 @@
         "move": "ask",
         "key": "colleague-word"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.chaired-the-study-of-and-has-come-to-tell-you-what-it-found",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} chaired the study of {bill} and has come to tell you what it found.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["asker-chairs", "bill"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-study-of-has-reported-to-the-and-finds-you-afterward",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The study of {bill} has reported to the {body}, and {name} finds you afterward.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["asker-chairs", "bill", "body"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.the-committee-on-found-for-it-we-reported-that-to-the-and-i-wanted-you-to-h",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The committee on {bill} found for it. We reported that to the {body}, and I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-for", "bill", "body"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.the-committee-on-found-against-it-i-told-the-so-and-i-wanted-you-to-hear-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The committee on {bill} found against it. I told the {body} so, and I wanted you to hear it from me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-against", "bill", "body"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.my-report-on-seems-to-have-moved-you-toward-what-the-committee-found-where",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "My report on {bill} seems to have moved you toward what the committee found. Where do you stand now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["moved-for", "bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.state-tell.my-report-on-seems-to-have-moved-you-toward-what-the-committee-found-i-d-li",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "My report on {bill} seems to have moved you toward what the committee found. I'd like to know where that leaves you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["moved-against", "bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-trust-it-sat-on-it-and-i-d-take-their-word-on",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I trust it. {members} sat on it, and I'd take their word on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["members", "bill"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-back-the-finding-it-s-where-i-was-already-leaning-on",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll back the finding. It's where I was already leaning on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-disagree.it-doesn-t-move-me-i-made-up-my-mind-on-a-while-ago-and-nothing-in-the-repo",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "It doesn't move me. I made up my mind on {bill} a while ago, and nothing in the report is new to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "disagree",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-read-the-report-on-and-i-still-can-t-back-it-i-ll-say-so-when-it-comes-to",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I read the report on {bill} and I still can't back it. I'll say so when it comes to the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "disagree",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.who-besides-you-sat-on-the-study-of",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who besides you sat on the study of {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-the-say-when-you-reported-on",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did the {body} say when you reported on {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["body", "bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-it-matters-that-you-ll-stand-with-the-committee-on",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. It matters that you'll stand with the committee on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "after": "agree",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.then-tell-me-what-you-d-change-about-and-i-ll-take-it-back-to-the",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then tell me what you'd change about {bill}, and I'll take it back to the {body}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "after": "disagree",
+          "requiresFacts": ["bill", "body"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-answer.sat-on-it-with-me-and-they-signed-the-report",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{members} sat on it with me, and they signed the report.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "after": "ask",
+          "requiresFacts": ["members"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      },
+      "elements": [
+        "the-design-subcommittee-ends-with-its-report",
+        "minority-report-loses-its-signers"
+      ]
     },
     {
       "key": "scene-talk.state-tell.opponent-s-people-knocked-on-my-door-this-week-they-wanted-to-talk-about-issue",
