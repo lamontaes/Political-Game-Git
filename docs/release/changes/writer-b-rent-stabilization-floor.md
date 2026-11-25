@@ -12,3 +12,5 @@ Members debating enactment can ask how a departing tenant recovers an overpaymen
 Debaters describe what happens to tenants and owners in their own words. Local examples can use the other member's recorded town, general examples cover seats without one, and only the bill's sponsor can claim to have written it.
 
 Members can agree or disagree with a specific point about a renewal, repair, overpayment or hearing witness. The speaker can acknowledge the reason or press the objection before the vote.
+
+Members who want to keep the ceiling can explain what the renewal date means for a household budget, how rent debt carries forward, what a family witness asked for or why a signed freeze mattered on moving day.
