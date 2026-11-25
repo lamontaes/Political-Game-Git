@@ -2,10 +2,13 @@
   "id": "the-license-question-starts-in-a-professional-forum",
   "kind": "voice",
   "summary": "{member} brings colleagues' accounts of moving across state lines to a meeting about who can practice.",
-  "realLife": "Freeman said dispensers in online forums described long waits to register in New York. He connected that concern with the difficulty of finding providers in his own practice.",
+  "realLife": "Freeman said dispensers in online forums described long waits to register in New York. He connected that concern with the difficulty of finding providers in his own practice. In September 2026 staff reported that individual dispenser licenses rose while licensed businesses fell between July 2025 and July 2026. The accompanying individual-license tables count licensees and give no measure of how long a newcomer waited.",
   "sources": [
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=41",
-    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=42"
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=42",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-9-8-26#page=1",
+    "https://dos.ny.gov/hadd-statistics-report-july-2025#page=1",
+    "https://dos.ny.gov/hadd-statistics-report-july-2026#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

@@ -2,11 +2,13 @@
   "id": "bring-an-old-agenda-to-ask-for-the-missing-reports",
   "kind": "move",
   "summary": "{advocate} pulls out an earlier agenda to show which reports disappeared from the meeting packet.",
-  "realLife": "Ahern used an old agenda to name the enforcement, application processing, education and exam reports she wanted restored to future meetings.",
+  "realLife": "Ahern used an old agenda to name the enforcement, application processing, education and exam reports she wanted restored to future meetings. In June and again in September 2026, the department's draft summaries record staff delivering all four kinds of report Ahern had requested.",
   "sources": [
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=33",
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=34",
-    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-52824#page=2"
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-52824#page=2",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-06-09-26#page=1",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-9-8-26#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{advocate}"],

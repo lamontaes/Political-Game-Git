@@ -2,11 +2,13 @@
   "id": "check-the-statute-before-promising-a-new-license-route",
   "kind": "move",
   "summary": "{member} learns which question to take to a legislator if the board cannot change the qualification itself.",
-  "realLife": "Mossberg offered to check whether the barrier to experienced out-of-state dispensers was statutory. Freeman observed that a change in statute would need a legislator to take it up.",
+  "realLife": "Mossberg offered to check whether the barrier to experienced out-of-state dispensers was statutory. Freeman observed that a change in statute would need a legislator to take it up. The state law booklet identifies an existing route for a license from a state the secretary finds to have at least equivalent requirements. When Freeman returned to broader reciprocity in June 2026, Mossberg said the change under discussion would need legislation.",
   "sources": [
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=44",
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=45",
-    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-52824#page=2"
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-52824#page=2",
+    "https://dos.ny.gov/system/files/documents/2026/03/registration-of-hearing-aid-dispensers-law_03.2026.pdf#page=4",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-06-09-26#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

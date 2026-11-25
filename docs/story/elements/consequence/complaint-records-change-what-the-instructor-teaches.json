@@ -2,10 +2,11 @@
   "id": "complaint-records-change-what-the-instructor-teaches",
   "kind": "consequence",
   "summary": "{instructor} asks which licensing provisions draw complaints before preparing a course for dispensers.",
-  "realLife": "Ahern taught the industry's continuing education session on state law and wanted the enforcement report so she could give recurring problems more class time.",
+  "realLife": "Ahern taught the industry's continuing education session on state law and wanted the enforcement report so she could give recurring problems more class time. At the June 2026 meeting, enforcement staff reported one open business complaint that year. When Campbell asked how that compared with past years, Casey offered to check. The summary does not identify a violation or a change to Ahern's course.",
   "sources": [
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=34",
-    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=35"
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=35",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-06-09-26#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{instructor}"],

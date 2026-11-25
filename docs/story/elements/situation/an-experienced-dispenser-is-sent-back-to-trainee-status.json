@@ -2,10 +2,11 @@
   "id": "an-experienced-dispenser-is-sent-back-to-trainee-status",
   "kind": "situation",
   "summary": "{worker} brings years of practice from another state but lacks an old exam record the receiving state expects.",
-  "realLife": "Goosen described a dispenser with a long career whose earlier licensing system lacked a matching test. He asked whether experienced arrivals could qualify through another route.",
+  "realLife": "Goosen described a dispenser with a long career whose earlier licensing system lacked a matching test. He asked whether experienced arrivals could qualify through another route. The department's March 2026 law booklet sets out a route for applicants with a valid out-of-state credential when the secretary finds the originating state's requirements at least equivalent to New York's. Years of practice alone do not establish that finding.",
   "sources": [
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=42",
-    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=43"
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=43",
+    "https://dos.ny.gov/system/files/documents/2026/03/registration-of-hearing-aid-dispensers-law_03.2026.pdf#page=4"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
   "slots": ["{worker}"],

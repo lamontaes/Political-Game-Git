@@ -2,9 +2,10 @@
   "id": "add-a-test-site-before-another-examiner-is-hired",
   "kind": "move",
   "summary": "{member} hears what the department did about the practical exam wait and what still needs a licensed worker.",
-  "realLife": "Lacy reported that staff added Rockland County as an exam location and advertised for practical examiners through the state's hiring site.",
+  "realLife": "Lacy reported that staff added Rockland County as an exam location and advertised for practical examiners through the state's hiring site. In September 2026, Heidi Hicks reported that the department was seeking another examiner in the New York City area and invited applicants to send a résumé.",
   "sources": [
-    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=5"
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=5",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-9-8-26#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

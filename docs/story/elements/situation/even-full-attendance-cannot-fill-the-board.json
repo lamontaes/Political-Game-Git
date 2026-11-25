@@ -2,10 +2,13 @@
   "id": "even-full-attendance-cannot-fill-the-board",
   "kind": "situation",
   "summary": "{member} counts vacant seats and realizes that calling every serving member still cannot produce a quorum.",
-  "realLife": "Bergman counted eight vacancies on a board with thirteen seats. He said some had been vacant for years and asked what was being done to fill them.",
+  "realLife": "Bergman counted eight vacancies on a board with thirteen seats. He said some had been vacant for years and asked what was being done to fill them. The department's published roster lists eight vacant appointed seats. Its June 2026 draft attendance sheet lists Freeman as the sole appointed member present, and the September sheet lists none. The draft summaries record no quorum at either meeting.",
   "sources": [
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=15",
-    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=16"
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=16",
+    "https://dos.ny.gov/node/45051",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-06-09-26#page=1",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-9-8-26#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

@@ -2,10 +2,11 @@
   "id": "the-last-training-credit-falls-days-before-renewal",
   "kind": "detail",
   "summary": "{worker} has a date for the last class and an expiration date later that same week.",
-  "realLife": "Goosen described a dispenser due to earn her remaining credits on June 10 against a June 14 deadline. He wanted someone at the department who could answer the timing question.",
+  "realLife": "Goosen described a dispenser due to earn her remaining credits on June 10 against a June 14 deadline. He wanted someone at the department who could answer the timing question. In June 2026 Freeman asked about a common annual renewal date to help dispensers plan their credits. Mossberg said that would require legislation and recalled the workload when renewals had once come due together.",
   "sources": [
     "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=37",
-    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=38"
+    "https://dos.ny.gov/system/files/documents/2024/07/nys-hearing-aid-dispensing-advisory-board-transcript-5-28-24.pdf#page=38",
+    "https://dos.ny.gov/draft-hearing-aid-dispensing-meeting-summary-06-09-26#page=1"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
   "slots": ["{worker}"],
