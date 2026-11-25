@@ -1249,6 +1249,20 @@
           "speaks-for",
           "issue"
         ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for",
+          "issue"
+        ],
+        "after": "scene-talk.state-tell.if-there-s-a-better-way-to-get-empties-onto-a-truck-bring-me-the-amendment-my-reason-for-sponsoring-the-deposit-is-to-get-those-bottles-moving-out-of-the-shop-again"
       }
     ],
     "bearing": "calm",
@@ -25114,6 +25128,20 @@
           "speaks-for"
         ],
         "onlyWhen": ["body-formal"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.i-brought-this-bill-here-with-a-school-collection-in-mind-a-parent-can-leave-the-empties-at-practice-and-the-kids-can-turn-them-in-for-the-trip-home-from-a-tournament"
       }
     ],
     "bearing": "calm",
@@ -25204,6 +25232,20 @@
           "speaks-for"
         ],
         "onlyWhen": ["body-formal"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.my-bill-asks-people-to-bring-their-empties-back-it-falls-to-us-to-make-that-workable-for-the-clerk-who-has-a-sack-to-count-and-a-lunch-line-waiting"
       }
     ],
     "bearing": "calm",
@@ -25384,6 +25426,20 @@
           "speaks-for"
         ],
         "onlyWhen": ["body-formal"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.i-put-the-deposit-before-this-chamber-because-i-d-like-a-refillable-bottle-to-make-it-all-the-way-back-to-the-washer-taking-it-across-the-counter-gets-us-only-as-far-as-the-stockroom"
       }
     ],
     "bearing": "calm",
@@ -25474,6 +25530,20 @@
           "speaks-for"
         ],
         "onlyWhen": ["body-formal"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.put-the-grocer-s-question-to-me-she-paid-out-the-refund-and-the-truck-on-her-route-didn-t-deliver-that-water-i-brought-the-bill-and-i-owe-her-an-answer-about-how-she-gets-her-cash-back"
       }
     ],
     "bearing": "calm",
@@ -25654,6 +25724,20 @@
           "speaks-for"
         ],
         "onlyWhen": ["body-formal"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.what-do-i-want-the-cashier-to-do-with-a-bottle-she-doesn-t-recognize-check-what-kind-of-drink-it-held-that-s-the-rule-i-d-defend-as-the-member-bringing-this-bill"
       }
     ],
     "bearing": "calm",
@@ -25744,6 +25828,20 @@
           "speaks-for"
         ],
         "onlyWhen": ["body-formal"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.will-the-buyer-take-a-bale-as-it-comes-off-the-press-as-the-member-who-brought-the-deposit-here-i-d-like-an-answer-before-we-tell-a-town-what-its-collected-plastic-will-fetch"
       }
     ],
     "bearing": "calm",
@@ -25834,6 +25932,20 @@
           "speaks-for"
         ],
         "onlyWhen": ["body-formal"]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.as-sponsor-i-d-welcome-an-amendment-on-the-handling-fee-show-me-where-a-corner-grocer-can-stack-wet-bottles-without-losing-the-aisle-to-the-stockroom"
       }
     ],
     "bearing": "calm",
@@ -26147,6 +26259,1462 @@
     "bearing": "firm",
     "tag": {
       "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["water-deposits-cross-distribution-territories"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-d-save-the-empties-from-the-concession-stand-for-the-kids-where-could-a-coach-take-a-car-full-of-bags-after-the-game",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'd save the empties from the concession stand for the kids. Where could a coach take a car full of bags after the game?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.i-brought-this-bill-here-with-a-school-collection-in-mind-a-parent-can-leave-the-empties-at-practice-and-the-kids-can-turn-them-in-for-the-trip-home-from-a-tournament"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-thank.let-the-club-find-a-place-willing-to-take-the-whole-collection-before-the-coach-promises-anybody-a-ride",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Let the club find a place willing to take the whole collection before the coach promises anybody a ride.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-d-save-the-empties-from-the-concession-stand-for-the-kids-where-could-a-coach-take-a-car-full-of-bags-after-the-game"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-agree.the-parents-could-leave-bottles-even-if-they-didn-t-have-cash-for-the-team-that-s-a-collection-i-d-help-with",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "The parents could leave bottles even if they didn't have cash for the team. That's a collection I'd help with.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.i-brought-this-bill-here-with-a-school-collection-in-mind-a-parent-can-leave-the-empties-at-practice-and-the-kids-can-turn-them-in-for-the-trip-home-from-a-tournament"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-thank.it-gives-the-family-that-already-paid-the-deposit-a-choice-about-who-gets-it-back-thanks-for-putting-it-that-way",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "It gives the family that already paid the deposit a choice about who gets it back. Thanks for putting it that way.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.the-parents-could-leave-bottles-even-if-they-didn-t-have-cash-for-the-team-that-s-a-collection-i-d-help-with"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-d-take-you-up-on-that-amendment-let-the-grocer-bring-in-a-sketch-with-the-delivery-door-marked",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'd take you up on that amendment. Let the grocer bring in a sketch with the delivery door marked.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.as-sponsor-i-d-welcome-an-amendment-on-the-handling-fee-show-me-where-a-corner-grocer-can-stack-wet-bottles-without-losing-the-aisle-to-the-stockroom"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-thank.bring-the-route-the-hand-truck-takes-too-the-only-open-corner-in-the-drawing-may-be-the-way-the-driver-gets-to-the-shelves",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Bring the route the hand truck takes, too. The only open corner in the drawing may be the way the driver gets to the shelves.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-d-take-you-up-on-that-amendment-let-the-grocer-bring-in-a-sketch-with-the-delivery-door-marked"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.reply-agree.room-behind-the-counter-costs-the-shop-money-even-when-nobody-brings-in-a-bottle-count-me-in-on-a-hearing-about-the-fee",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Room behind the counter costs the shop money even when nobody brings in a bottle. Count me in on a hearing about the fee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.as-sponsor-i-d-welcome-an-amendment-on-the-handling-fee-show-me-where-a-corner-grocer-can-stack-wet-bottles-without-losing-the-aisle-to-the-stockroom"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-thank.then-i-ll-ask-for-the-rent-and-the-clerk-s-time-on-separate-lines-a-slow-return-day-changes-only-one-of-those",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Then I'll ask for the rent and the clerk's time on separate lines. A slow return day changes only one of those.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.room-behind-the-counter-costs-the-shop-money-even-when-nobody-brings-in-a-bottle-count-me-in-on-a-hearing-about-the-fee"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-m-with-you-a-bottle-from-a-different-bottler-can-still-hold-the-same-kind-of-drink-the-cashier-sells",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'm with you. A bottle from a different bottler can still hold the same kind of drink the cashier sells.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.what-do-i-want-the-cashier-to-do-with-a-bottle-she-doesn-t-recognize-check-what-kind-of-drink-it-held-that-s-the-rule-i-d-defend-as-the-member-bringing-this-bill"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["cashier-checks-beverage-type-before-brand"]
+  },
+  {
+    "key": "scene-talk.follow-thank.that-s-something-a-clerk-can-explain-with-a-walk-to-the-shelf-there-s-no-need-to-guess-which-shop-rang-up-the-sale",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "That's something a clerk can explain with a walk to the shelf. There's no need to guess which shop rang up the sale.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-m-with-you-a-bottle-from-a-different-bottler-can-still-hold-the-same-kind-of-drink-the-cashier-sells"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["cashier-checks-beverage-type-before-brand"]
+  },
+  {
+    "key": "scene-talk.reply-agree.let-the-cashier-show-me-which-drinks-the-store-takes-i-don-t-keep-the-receipt-for-every-soda-i-buy",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Let the cashier show me which drinks the store takes. I don't keep the receipt for every soda I buy.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.what-do-i-want-the-cashier-to-do-with-a-bottle-she-doesn-t-recognize-check-what-kind-of-drink-it-held-that-s-the-rule-i-d-defend-as-the-member-bringing-this-bill"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["cashier-checks-beverage-type-before-brand"]
+  },
+  {
+    "key": "scene-talk.follow-thank.neither-would-i-ask-a-shopper-to-carry-that-slip-back-the-drink-in-the-bottle-is-what-the-clerk-needs-to-check",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Neither would I ask a shopper to carry that slip back. The drink in the bottle is what the clerk needs to check.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.let-the-cashier-show-me-which-drinks-the-store-takes-i-don-t-keep-the-receipt-for-every-soda-i-buy"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["cashier-checks-beverage-type-before-brand"]
+  },
+  {
+    "key": "scene-talk.reply-agree.the-bottler-would-get-a-lot-more-use-out-of-that-glass-if-the-driver-had-room-for-the-empty-cases-on-the-way-home",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "The bottler would get a lot more use out of that glass if the driver had room for the empty cases on the way home.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.i-put-the-deposit-before-this-chamber-because-i-d-like-a-refillable-bottle-to-make-it-all-the-way-back-to-the-washer-taking-it-across-the-counter-gets-us-only-as-far-as-the-stockroom"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.follow-thank.let-s-ask-the-driver-about-that-return-leg-while-we-can-still-change-the-pickup-arrangements",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Let's ask the driver about that return leg while we can still change the pickup arrangements.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.the-bottler-would-get-a-lot-more-use-out-of-that-glass-if-the-driver-had-room-for-the-empty-cases-on-the-way-home"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.reply-agree.a-crate-at-the-back-door-can-sit-there-all-week-i-d-want-the-wash-plant-in-the-discussion-with-the-stores",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "A crate at the back door can sit there all week. I'd want the wash plant in the discussion with the stores.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.i-put-the-deposit-before-this-chamber-because-i-d-like-a-refillable-bottle-to-make-it-all-the-way-back-to-the-washer-taking-it-across-the-counter-gets-us-only-as-far-as-the-stockroom"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.follow-thank.whoever-takes-delivery-at-the-washer-should-hear-what-time-the-shop-can-have-the-cases-ready-i-ll-ask-both",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Whoever takes delivery at the washer should hear what time the shop can have the cases ready. I'll ask both.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.a-crate-at-the-back-door-can-sit-there-all-week-i-d-want-the-wash-plant-in-the-discussion-with-the-stores"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.reply-agree.could-the-distributors-send-one-truck-for-the-lot-i-d-sign-on-to-an-amendment-that-spared-a-grocer-from-waiting-for-each-company-separately",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Could the distributors send one truck for the lot? I'd sign on to an amendment that spared a grocer from waiting for each company separately.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.if-there-s-a-better-way-to-get-empties-onto-a-truck-bring-me-the-amendment-my-reason-for-sponsoring-the-deposit-is-to-get-those-bottles-moving-out-of-the-shop-again"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["distributors-share-the-return-truck"]
+  },
+  {
+    "key": "scene-talk.follow-thank.put-me-down-to-hear-it-i-d-want-the-dispatchers-there-to-explain-who-calls-the-shop-if-the-pickup-falls-through",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Put me down to hear it. I'd want the dispatchers there to explain who calls the shop if the pickup falls through.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.could-the-distributors-send-one-truck-for-the-lot-i-d-sign-on-to-an-amendment-that-spared-a-grocer-from-waiting-for-each-company-separately"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["distributors-share-the-return-truck"]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-a-clerk-ought-to-be-able-to-tell-the-next-shift-which-driver-is-due-for-those-empties",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Yes. A clerk ought to be able to tell the next shift which driver is due for those empties.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.if-there-s-a-better-way-to-get-empties-onto-a-truck-bring-me-the-amendment-my-reason-for-sponsoring-the-deposit-is-to-get-those-bottles-moving-out-of-the-shop-again"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["distributors-share-the-return-truck"]
+  },
+  {
+    "key": "scene-talk.follow-thank.that-s-a-fair-test-of-the-pickup-agreement-can-the-person-who-opens-tomorrow-find-out-when-to-clear-the-space-by-the-door",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "That's a fair test of the pickup agreement. Can the person who opens tomorrow find out when to clear the space by the door?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.yes-a-clerk-ought-to-be-able-to-tell-the-next-shift-which-driver-is-due-for-those-empties"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["distributors-share-the-return-truck"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-wouldn-t-promise-a-town-the-price-of-clean-flakes-for-a-bale-that-still-needs-grinding-let-s-get-the-buyer-in-here",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I wouldn't promise a town the price of clean flakes for a bale that still needs grinding. Let's get the buyer in here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.will-the-buyer-take-a-bale-as-it-comes-off-the-press-as-the-member-who-brought-the-deposit-here-i-d-like-an-answer-before-we-tell-a-town-what-its-collected-plastic-will-fetch"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-ll-ask-for-the-order-sheet-the-town-should-see-what-the-buyer-will-accept-before-it-pencils-in-that-income",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I'll ask for the order sheet. The town should see what the buyer will accept before it pencils in that income.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-wouldn-t-promise-a-town-the-price-of-clean-flakes-for-a-bale-that-still-needs-grinding-let-s-get-the-buyer-in-here"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.reply-agree.the-processor-could-bring-us-a-sample-of-what-comes-off-its-line-i-d-like-the-buyer-to-say-whether-it-can-take-that-material-as-it-stands",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "The processor could bring us a sample of what comes off its line. I'd like the buyer to say whether it can take that material as it stands.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.will-the-buyer-take-a-bale-as-it-comes-off-the-press-as-the-member-who-brought-the-deposit-here-i-d-like-an-answer-before-we-tell-a-town-what-its-collected-plastic-will-fetch"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.follow-thank.good-then-whoever-has-to-pay-for-another-pass-through-a-grinder-can-tell-us-what-that-does-to-the-sale",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Good. Then whoever has to pay for another pass through a grinder can tell us what that does to the sale.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.the-processor-could-bring-us-a-sample-of-what-comes-off-its-line-i-d-like-the-buyer-to-say-whether-it-can-take-that-material-as-it-stands"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.reply-agree.give-the-market-a-way-to-tell-customers-its-limit-before-they-carry-all-those-bags-through-the-lunch-line-i-d-vote-for-that",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Give the market a way to tell customers its limit before they carry all those bags through the lunch line. I'd vote for that.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.my-bill-asks-people-to-bring-their-empties-back-it-falls-to-us-to-make-that-workable-for-the-clerk-who-has-a-sack-to-count-and-a-lunch-line-waiting"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.follow-thank.the-front-entrance-would-work-somebody-with-a-sack-ought-to-see-the-limit-before-anybody-has-to-start-counting",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "The front entrance would work. Somebody with a sack ought to see the limit before anybody has to start counting.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.give-the-market-a-way-to-tell-customers-its-limit-before-they-carry-all-those-bags-through-the-lunch-line-i-d-vote-for-that"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.reply-agree.if-the-clerk-s-by-herself-at-noon-let-the-shop-set-a-daily-limit-she-could-still-take-back-a-customer-s-empties-on-a-busy-day",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "If the clerk's by herself at noon, let the shop set a daily limit. She could still take back a customer's empties on a busy day.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.my-bill-asks-people-to-bring-their-empties-back-it-falls-to-us-to-make-that-workable-for-the-clerk-who-has-a-sack-to-count-and-a-lunch-line-waiting"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-d-hear-that-amendment-ask-the-clerk-how-she-d-handle-the-customer-already-in-line-when-the-day-s-allowance-for-that-person-runs-out",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I'd hear that amendment. Ask the clerk how she'd handle the customer already in line when the day's allowance for that person runs out.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.if-the-clerk-s-by-herself-at-noon-let-the-shop-set-a-daily-limit-she-could-still-take-back-a-customer-s-empties-on-a-busy-day"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-m-with-the-grocer-on-this-pay-her-for-what-she-took-back-and-let-the-distributors-settle-whose-route-it-was",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "I'm with the grocer on this. Pay her for what she took back and let the distributors settle whose route it was.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.put-the-grocer-s-question-to-me-she-paid-out-the-refund-and-the-truck-on-her-route-didn-t-deliver-that-water-i-brought-the-bill-and-i-owe-her-an-answer-about-how-she-gets-her-cash-back"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["water-deposits-cross-distribution-territories"]
+  },
+  {
+    "key": "scene-talk.follow-thank.then-the-store-s-receipt-should-follow-the-cash-she-paid-out-sorting-the-routes-can-happen-after-she-gets-it-back",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Then the store's receipt should follow the cash she paid out. Sorting the routes can happen after she gets it back.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-m-with-the-grocer-on-this-pay-her-for-what-she-took-back-and-let-the-distributors-settle-whose-route-it-was"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["water-deposits-cross-distribution-territories"]
+  },
+  {
+    "key": "scene-talk.reply-agree.your-grocer-can-t-tell-from-that-empty-water-bottle-which-distributor-stocked-the-shelf-across-town-give-her-one-place-to-send-her-claim",
+    "kind": "spoken",
+    "move": "reply-agree",
+    "text": "Your grocer can't tell from that empty water bottle which distributor stocked the shelf across town. Give her one place to send her claim.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "onlyWhen": ["body-formal"],
+        "after": "scene-talk.state-tell.put-the-grocer-s-question-to-me-she-paid-out-the-refund-and-the-truck-on-her-route-didn-t-deliver-that-water-i-brought-the-bill-and-i-owe-her-an-answer-about-how-she-gets-her-cash-back"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "agree",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["water-deposits-cross-distribution-territories"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-ll-ask-whoever-runs-the-collection-to-show-us-where-she-d-send-it-a-list-of-delivery-routes-isn-t-an-answer-she-can-use-at-the-register",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I'll ask whoever runs the collection to show us where she'd send it. A list of delivery routes isn't an answer she can use at the register.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.your-grocer-can-t-tell-from-that-empty-water-bottle-which-distributor-stocked-the-shelf-across-town-give-her-one-place-to-send-her-claim"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["water-deposits-cross-distribution-territories"]
+  },
+  {
+    "key": "scene-talk.follow-thank.saturday-evening-is-what-i-d-ask-about-a-counter-that-s-closed-by-the-final-whistle-doesn-t-do-that-coach-much-good",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Saturday evening is what I'd ask about. A counter that's closed by the final whistle doesn't do that coach much good.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-d-save-the-empties-from-the-concession-stand-for-the-kids-where-could-a-coach-take-a-car-full-of-bags-after-the-game"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-thank.would-you-take-the-first-shift-collecting-after-a-game-the-team-could-tell-us-what-happens-to-the-bags-once-the-last-parent-leaves",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Would you take the first shift collecting after a game? The team could tell us what happens to the bags once the last parent leaves.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.the-parents-could-leave-bottles-even-if-they-didn-t-have-cash-for-the-team-that-s-a-collection-i-d-help-with"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refund-pays-for-school-club"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-d-put-that-drawing-on-the-hearing-table-and-give-the-grocer-the-pencil-let-her-show-where-a-delivery-would-have-to-stop",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I'd put that drawing on the hearing table and give the grocer the pencil. Let her show where a delivery would have to stop.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-d-take-you-up-on-that-amendment-let-the-grocer-bring-in-a-sketch-with-the-delivery-door-marked"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-thank.what-would-the-grocer-do-with-that-corner-if-the-bottles-weren-t-there-i-d-like-the-store-owner-to-be-able-to-answer-that-at-the-hearing",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "What would the grocer do with that corner if the bottles weren't there? I'd like the store owner to be able to answer that at the hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.room-behind-the-counter-costs-the-shop-money-even-when-nobody-brings-in-a-bottle-count-me-in-on-a-hearing-about-the-fee"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["price-the-space-behind-the-return-counter"]
+  },
+  {
+    "key": "scene-talk.follow-thank.that-s-the-distinction-i-wanted-stocking-that-kind-of-drink-ought-to-count-even-when-another-bottler-s-name-is-on-the-label",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "That's the distinction I wanted. Stocking that kind of drink ought to count even when another bottler's name is on the label.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-m-with-you-a-bottle-from-a-different-bottler-can-still-hold-the-same-kind-of-drink-the-cashier-sells"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["cashier-checks-beverage-type-before-brand"]
+  },
+  {
+    "key": "scene-talk.follow-thank.keep-the-receipt-for-your-groceries-if-you-want-it-i-can-t-see-asking-a-clerk-to-search-it-for-a-bottle-we-can-identify-at-the-counter",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Keep the receipt for your groceries if you want it. I can't see asking a clerk to search it for a bottle we can identify at the counter.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.let-the-cashier-show-me-which-drinks-the-store-takes-i-don-t-keep-the-receipt-for-every-soda-i-buy"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["cashier-checks-beverage-type-before-brand"]
+  },
+  {
+    "key": "scene-talk.follow-thank.can-the-driver-take-a-case-when-the-truck-is-only-halfway-through-the-route-i-d-put-that-question-to-the-dispatcher-before-promising-the-shop-a-pickup",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Can the driver take a case when the truck is only halfway through the route? I'd put that question to the dispatcher before promising the shop a pickup.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.the-bottler-would-get-a-lot-more-use-out-of-that-glass-if-the-driver-had-room-for-the-empty-cases-on-the-way-home"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.follow-thank.have-the-wash-plant-tell-us-which-crates-it-can-use-the-grocer-shouldn-t-have-to-clear-a-space-for-cases-destined-to-sit-there",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Have the wash plant tell us which crates it can use. The grocer shouldn't have to clear a space for cases destined to sit there.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.a-crate-at-the-back-door-can-sit-there-all-week-i-d-want-the-wash-plant-in-the-discussion-with-the-stores"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["refillable-bottles-lose-the-backhaul"]
+  },
+  {
+    "key": "scene-talk.follow-thank.let-s-hear-the-distributors-on-that-amendment-if-they-ll-share-the-truck-we-ought-to-ask-who-signs-for-the-cases-it-takes",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Let's hear the distributors on that amendment. If they'll share the truck, we ought to ask who signs for the cases it takes.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.could-the-distributors-send-one-truck-for-the-lot-i-d-sign-on-to-an-amendment-that-spared-a-grocer-from-waiting-for-each-company-separately"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["distributors-share-the-return-truck"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-d-put-a-missed-pickup-to-the-dispatcher-whose-name-does-the-clerk-leave-for-the-morning-shift-if-the-bottles-are-still-there-at-closing",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I'd put a missed pickup to the dispatcher. Whose name does the clerk leave for the morning shift if the bottles are still there at closing?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.yes-a-clerk-ought-to-be-able-to-tell-the-next-shift-which-driver-is-due-for-those-empties"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["distributors-share-the-return-truck"]
+  },
+  {
+    "key": "scene-talk.follow-thank.good-ask-the-buyer-to-price-the-bale-the-town-actually-has-on-hand-it-can-get-a-grinding-estimate-before-it-decides-whether-to-take-that-offer",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Good. Ask the buyer to price the bale the town actually has on hand. It can get a grinding estimate before it decides whether to take that offer.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-wouldn-t-promise-a-town-the-price-of-clean-flakes-for-a-bale-that-still-needs-grinding-let-s-get-the-buyer-in-here"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.follow-thank.bring-the-sample-to-the-hearing-someone-from-the-buying-plant-can-point-out-what-its-equipment-can-feed-through-the-line",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Bring the sample to the hearing. Someone from the buying plant can point out what its equipment can feed through the line.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.the-processor-could-bring-us-a-sample-of-what-comes-off-its-line-i-d-like-the-buyer-to-say-whether-it-can-take-that-material-as-it-stands"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["buyer-orders-flakes-instead-of-bales"]
+  },
+  {
+    "key": "scene-talk.follow-thank.could-the-market-put-the-limit-on-its-phone-recording-too-a-shopper-could-find-out-before-getting-on-the-bus-with-the-bags",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Could the market put the limit on its phone recording too? A shopper could find out before getting on the bus with the bags.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.give-the-market-a-way-to-tell-customers-its-limit-before-they-carry-all-those-bags-through-the-lunch-line-i-d-vote-for-that"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-d-give-the-clerk-a-limit-she-can-explain-to-the-person-in-front-of-her-counting-out-the-last-eligible-bottle-is-awkward-enough-with-a-line-behind-you",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I'd give the clerk a limit she can explain to the person in front of her. Counting out the last eligible bottle is awkward enough with a line behind you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.if-the-clerk-s-by-herself-at-noon-let-the-shop-set-a-daily-limit-she-could-still-take-back-a-customer-s-empties-on-a-busy-day"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["small-store-counts-one-customers-empties"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-d-want-the-first-payment-on-the-ledger-to-be-the-grocer-s-the-companies-can-mark-their-shares-when-they-settle-up-later",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "I'd want the first payment on the ledger to be the grocer's. The companies can mark their shares when they settle up later.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.i-m-with-the-grocer-on-this-pay-her-for-what-she-took-back-and-let-the-distributors-settle-whose-route-it-was"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": ["water-deposits-cross-distribution-territories"]
+  },
+  {
+    "key": "scene-talk.follow-thank.give-me-the-address-they-d-put-on-her-claim-envelope-if-the-distributors-can-t-agree-on-that-yet-we-ve-found-the-work-left-to-do",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Give me the address they'd put on her claim envelope. If the distributors can't agree on that yet, we've found the work left to do.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-agree.your-grocer-can-t-tell-from-that-empty-water-bottle-which-distributor-stocked-the-shelf-across-town-give-her-one-place-to-send-her-claim"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "thank",
       "key": "honor"
     },
     "date": "2026-11-25",
