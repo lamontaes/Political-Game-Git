@@ -6,7 +6,6 @@ import {
   type SceneTalkLine,
   type TreeNode,
 } from "../director/scene-talk";
-import { dateSaid } from "../english/day-words";
 import { shipped, wordPiece, type Fact } from "../english/scene-talk-words";
 import { bodyPicture } from "./legislature";
 import { officeWords } from "../english/said-as";
@@ -284,30 +283,19 @@ export function storyScene(
     // same voice that speaks between its lines; the situation's paragraph is
     // for a moment with no exchange (the plan of Oct 28, section 1: "Two
     // narrators per scene ... One narrator, the director's").
-    // Every scene's first line names the day, the place and the person
-    // (owner, Nov 8): a purpose's own setup that already names the day
-    // (the filing counter) keeps its own.
+    // The situation's arrival line is for a scene with no exchange. One with
+    // a purpose opens on its own narration alone: the clock and the place are
+    // on the screen (owner, Nov 24: "you already know what day and time it
+    // is"), and saying them beside the scene's own lead is a second narrator
+    // (the plan of Oct 28, section 1, which story-one-narrator.test.ts holds).
+    // This replaces the Nov 8 arrival before a purpose's setup (3acdf74dfc).
     narration:
       purpose?.kind === "composed" && purpose.scene.talk.narration.length
-        ? [
-            ...(scene.arrival &&
-            !purpose.scene.talk.narration.some((line) =>
-              line.text.includes(dateSaid(core.date)),
-            )
-              ? [
-                  {
-                    text: scene.arrival.text,
-                    parts: scene.arrival.parts ?? [],
-                    held: false,
-                  },
-                ]
-              : []),
-            ...purpose.scene.talk.narration.map((line) => ({
-              text: line.text,
-              parts: line.parts,
-              held: !line.parts.every(shipped),
-            })),
-          ]
+        ? purpose.scene.talk.narration.map((line) => ({
+            text: line.text,
+            parts: line.parts,
+            held: !line.parts.every(shipped),
+          }))
         : scene.narration,
     talkToId: scene.talkToId,
     // A speech heard plays in its speaker's own words, from its record. The
