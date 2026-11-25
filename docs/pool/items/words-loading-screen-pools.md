@@ -36,4 +36,4 @@ Seen: the owner's sitting on v0.113.0, Nov 17.
 
 **Files.** src/bench/data/controls.json
 
-**Notes.**
+**Notes.** Nov 24, Story lead: built on story/first-evening (#10390). W7's loading-steps bank (from 743df957; cut to 37 lines at ce58b11b after the owner's 'remove the old stuff', each tied to an element) replaces the old step pools. The plain step names stay in src/bench/data/controls.json, the warmup now 'Giving the world a head start'. The escalating 'Printing money' series plays in order (Stuck fixes' fifth item).
