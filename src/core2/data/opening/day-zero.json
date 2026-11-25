@@ -1158,9 +1158,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Officials have voting records from the prior term (OWNER-DECISIONS, Oct: officials have voting records from the prior term). Empty at creation at Washington (and filled by year 1) but already 9,938 rows at Lewiston, so the mark applies at Washington only.",
-      "knownRed": "opening-record-votes-empty-at-day-0",
-      "knownRedPlaces": ["1150000"]
+      "reason": "Officials have voting records from the prior term (OWNER-DECISIONS, Oct: officials have voting records from the prior term). A one-chamber council such as Washington's now has a prior term too (#10392), so Washington opens with its record votes filled (147 rows)."
     },
     {
       "table": "core2-renewal-v1.births",
