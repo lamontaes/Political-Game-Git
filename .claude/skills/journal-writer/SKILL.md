@@ -34,17 +34,20 @@ Read `story-writer` first, and your area's part of its `references/his-words.md`
 7. **The life story is plain.** No quips, epigrams or jokes about the state. On Nov 24 he failed "By 2012 the state had you in a classroom in Meadow. That's how the state says hello." and "...Utah has its usual problems, and Meadow has saved you a seat." (`no-literary-phrasing`).
 8. **No line restates what the screen shows.** He failed "It's January 2025" on Nov 24: "the date is in the bottom left."
 9. **No opener comes back in every life.** He failed "You were born in 2007, and nobody asked you first." on Nov 24: "Why is this still coming up?" Every chapter opening has many versions tied to the life's own facts.
-10. **The loading screen's progress messages carry the sarcasm.** These are the lines that say what the game is doing while it builds the world (they're in `src/bench/data/controls.json`).
+10. **The loading screen's progress messages carry the sarcasm.** These are the lines that say what the game is doing while it builds the world (the bank is `data/english/parts/loading-steps.json` on the Story branch).
     - **Short.** One short phrase per step (owner, Nov 24: "These need to be short.").
     - **Dry and sarcastic about something the game really builds.** His kind, as concepts: handing out government contracts, buying data from data brokers (point at the game's "a consumer data privacy law"), fudging some numbers, writing the history books, checking the ballot boxes one more time, bribing Congress, falling behind.
     - **Escalating series:** a step can come back in the next steps, rising each time ("Printing money", "Printing more money", "Printing even more money").
     - **Mix in plain steps.** He likes "Appointing the cabinet".
+    - **The whole country, never the town.** A step says what's being built across the country and never names the player's town or state. Owner, Nov 25: "it's talking about Evendale. Stop. It should not be that specific. It's talking about the country at wide." The rule `loading-steps-speak-of-the-country` fails the build.
+    - **No aside about someone waiting or being there.** Owner, Nov 25, on "Sending reporters to the town hall in Evendale. They will wait.": "they will wait, or someone is there with you, like, that type of shit, I hate that. Remove it all."
     - **Never developer talk.** He named it on Nov 24: "Wiring Greeley to the rest of Colorado, so one thing can affect another", "Everyone has a desk and a view on the desk", "Letting the country, the state and the town run two months on their own", "Greeley is running without you, and it will remind you of that". None of those come back.
 11. **History is simulated from 1925.** History lines tell what the simulation made; nothing is drawn from a list (`day-one-in-motion`). Childhood lines claim no outcomes the record doesn't hold (`childhood-lines-claim-no-outcomes`).
 12. **The player's own side** is written only where the player gave it.
 
 ## Gotchas
 
+- Nov 25: all 37 loading steps named the town or state, so that each carried a slot like other lines. Loading steps are the exception to the slot rule. The CTO made them country-wide on the Story branch (4054f490).
 - Nov 24, morning: the writers put quips into the life story and left the progress messages plain. That's backwards. The life story is plain, and the progress messages are sarcastic.
 - Nov 24, afternoon: the first sarcastic steps were long sentences that explained the engine ("so one thing can affect another"). He wants short jokes about what's being built.
 - Nov 19: the Journal bank was 336 one-sentence pieces, one per event. A bank of single lines can't tell a week; the planner groups events into a paragraph, and the lines are written to sit together.

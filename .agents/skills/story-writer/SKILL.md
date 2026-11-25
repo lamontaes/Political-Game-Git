@@ -38,6 +38,7 @@ The format of a line, the bank files, the moves and facts of each lane and the e
 9. **Delete, don't fix.** A line or a stretch that isn't working is deleted, and the old lines a new batch replaces go in the same change (owner, Nov 17, three times; "replaced means deleted").
 10. **The gate, in order:** `npm run words:rules`, the tests, the sameness gate, the draw count, the pre-grade (`pre-grade`), then his ear on a grading page. Nothing reaches main until he passes it in a played game (his approved plan, Nov 23). You never grade your own lines.
 11. **Nobody waits.** Cite elements from main, from open element PRs or from branches. If something blocks you, post it once and keep writing. Only his own decisions wait. Big batches.
+12. **Lines he passed stay.** A batch that replaces a bank keeps every line he graded up in `data/english/grades/`. Never delete one to make room. `tests/guards/english/liked-lines-stay.test.ts` on the Story branch fails the build if one goes, and its baseline lists the 105 already lost to rewrites; put those back where they fit. Owner, Nov 25: "there was grading that was good. Why am I reverting to the beginning every single time?"
 
 ## The loop, one batch
 
@@ -63,6 +64,7 @@ The format of a line, the bank files, the moves and facts of each lane and the e
 From his grades. `scene-standard` holds the rest.
 
 - **Jobs happen in the background. No job talk.** Applying, being hired, the first day, coworkers, quitting, the last day and layoffs change the records and the money; none of them stops the player for a talk. Scenes set at work are fine when they matter to the story (a boss and a vote, a coworker hit by a law); job mechanics as talk never are. The player's job is 40 hours a week, 9 to 5, and no line names odd hours (owner, Nov 24: "it should be 40 hours a week, 9 to 5 ... Why is shit 36 hours?"). Owner, Nov 24: "remove all the dialogue shit for these jobs. Like, literally, they just need to happen in the background so your character can get money."
+- **No line only agrees, accepts or waits.** "Proudly, yes.", "I'm with you.", "Count me in.", "Of course." and "I'll wait." fail the build (`no-agreement-only-line`). A yes says what it agrees to and why. Owner, Nov 25: "there are replies like, I agree. Proudly so. Why are these coming back in?"
 - **No reply that says nothing.** Every reply takes a stance with its reason from the record: yes because…, no because…, not yet because…. There are no `leave`, `deflect` or `stall` replies ("Sorry, busy now", "I need time", "Please, no"). Leaving is the screen's Leave control (his Oct 8 rule R2). Owner, Nov 24: "it's been a project rule for I don't know how long, those dumbass answers."
 - **Four replies, four stances.** Owner, Nov 24: "all four of them are saying the same things." A short set beats four rewordings of one answer.
 - **Small talk loses to anything with a record.** Owner, Nov 24: "Those sound like shitty filler lines there." Nov 12, on "What do you do?": "a useless interaction. It just shouldn't even be there." A talk fires on a record or not at all.
@@ -78,6 +80,8 @@ From his grades. `scene-standard` holds the rest.
 
 ## Gotchas
 
+- Nov 25: "Proudly, yes." (Nov 24) and "Okay, yes." (Nov 18) came back as twins of "All right, yes.", which he graded down on Nov 9. A grade binds one key, so a reworded twin passes. Check new lines against the meaning of his grades, not only their keys.
+- Nov 25: of the 117 lines he had graded up, only 6 were still in the banks under their own keys. Bank rewrites deleted the rest, so each grading page started over with lines he'd never heard.
 - Nov 24: five writers were scoped to slots of one evening (the address call, the first evening's entry, the talk about the address). The owner: "Don't work on the address. Work on speeches." Scope by system.
 - Nov 24: Codex writer A stopped to wait for a CTO merge. The owner: "It keeps stopping at every little step." Cite from the open PR and keep going.
 - Nov 24: element PRs failed Prettier, then `release:check`. Run `npx prettier --write docs/story/elements`. Since #10429 and #10467 an element-only PR carries no `docs/release/changes/` file: one file outside `docs/story/elements/` makes Audit scan, New game and Instruction checks run on it (78 of 189 queued runs came from element PRs that carried one; the Coordinator, 7143409809 on #9750). Open element PRs ready for review, never as drafts: the merge watcher skips drafts.
