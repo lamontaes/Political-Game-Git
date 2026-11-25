@@ -18,3 +18,5 @@ Members who want to keep the ceiling can explain what the renewal date means for
 Members arguing for repeal can challenge the ceiling on renewal dates, repair financing, a family witness’s request or the treatment of a signed freeze. The opposing speaker can press each objection on its own terms.
 
 Members agreeing with an objection to a new ceiling can compare the full cost of two leases, ask when an overcharge will be repaid or examine whether a tax break lasts longer than the promised freeze.
+
+A player defending a new ceiling can explain how a tenant proves an overpayment, ask an owner to document fuel costs or distinguish a rent limit from a proposed tax concession. The opposing member can challenge each remedy.
