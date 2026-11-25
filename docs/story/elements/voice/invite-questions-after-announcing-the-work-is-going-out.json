@@ -1,0 +1,32 @@
+{
+  "id": "invite-questions-after-announcing-the-work-is-going-out",
+  "kind": "voice",
+  "summary": "A manager at {workplace} invites questions after telling the crew its work will go to a contractor.",
+  "realLife": "Fibreboard told the machinists that it had decided to outsource maintenance and would answer questions, although it saw no point in negotiating a new agreement.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep379/usrep379203/usrep379203.pdf#page=4"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the written decision, effective date and remaining bargaining opportunity."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: written decision, effective date and remaining bargaining opportunity.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The union records when it first learned of the transfer.",
+      "pulledBy": "The decision is final",
+      "writesBack": "Management letter and receipt date."
+    },
+    {
+      "turn": "another-way",
+      "what": "The crew can submit a competing plan.",
+      "pulledBy": "Management leaves the proposal open",
+      "writesBack": "Bargaining agenda."
+    }
+  ]
+}

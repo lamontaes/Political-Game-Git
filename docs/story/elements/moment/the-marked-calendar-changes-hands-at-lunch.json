@@ -1,0 +1,32 @@
+{
+  "id": "the-marked-calendar-changes-hands-at-lunch",
+  "kind": "moment",
+  "summary": "The lunch relief at {place} becomes responsible for recording which bills members want held.",
+  "realLife": "Letchworth recalled Oliver Dompierre leaving the leader's working calendar with her at lunch and telling her to record calls adding or removing holds.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/letchworth-elizabeth-full-transcript-with-index.pdf#page=15"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the working calendar and member's instruction."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: working calendar and member's instruction.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Enter it on the calendar.",
+      "pulledBy": "A member requests a hold.",
+      "writesBack": "Hold and time of instruction."
+    },
+    {
+      "turn": "another-way",
+      "what": "Clear the entry.",
+      "pulledBy": "The member withdraws the hold.",
+      "writesBack": "Hold and time of instruction."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "the-retiring-leaders-page-packs-the-office-archive",
+  "kind": "consequence",
+  "summary": "The end of the leader's tenure gives {person} a final job among the office papers.",
+  "realLife": "Letchworth helped pack and archive Scott's office when he retired before moving on to cloakroom work.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/letchworth-elizabeth-full-transcript-with-index.pdf#page=12"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the outgoing leader's office and assigned records."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: outgoing leader's office and assigned records.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Pack it with the archive.",
+      "pulledBy": "An office file is ready for transfer.",
+      "writesBack": "File disposition."
+    },
+    {
+      "turn": "another-way",
+      "what": "Keep it available to the departing staff.",
+      "pulledBy": "A file is still needed for closeout.",
+      "writesBack": "File disposition."
+    }
+  ]
+}

@@ -15,7 +15,9 @@
     "appeal-vote": 0.6
   },
   "inGame": "the appeal vote, the staff approval, an area plan's height rule, a hazard report; needs: a lawsuit record and a hazard report the neighbors can contest",
-  "issues": ["none"],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
+  ],
   "turns": [
     {
       "name": "neighbors sue over the area plan",

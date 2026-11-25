@@ -1,0 +1,32 @@
+{
+  "id": "the-packer-keeps-a-second-set-of-bins",
+  "kind": "detail",
+  "summary": "The packer at {place} keeps the reserve fruit apart from the fruit available for sale.",
+  "realLife": "Under the historical raisin order, handlers stored the committee's portion separately while the balance could go to the ordinary domestic market.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the bin inventory and applicable reserve order."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: bin inventory and applicable reserve order.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Set aside the reserve bins.",
+      "pulledBy": "A reserve is in effect for this lot.",
+      "writesBack": "Bin designation and quantity."
+    },
+    {
+      "turn": "another-way",
+      "what": "Release bins assigned to ordinary sales.",
+      "pulledBy": "The lot belongs to the unrestricted share.",
+      "writesBack": "Bin designation and quantity."
+    }
+  ]
+}
