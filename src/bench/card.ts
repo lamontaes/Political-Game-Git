@@ -1159,10 +1159,10 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       ...(stretchWay ? { then: stretchWay.text } : {}),
       ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
       // The subject of a sentence about them, from their record's pronouns
-      // (the they form says "they"; the player's own life says "I").
+      // (subject is capitalized, as it opens its sentence: the they form says "They", the player's own life "I").
       who: first
         ? teller.name
-        : (teller.words?.subject ?? (voice === "i" ? "I" : "they")),
+        : (teller.words?.subject ?? (voice === "i" ? "I" : "They")),
       whom: first ? teller.name : (teller.words?.object ?? ""),
       their: teller.words?.possessive ?? (first ? "their" : ""),
     };
@@ -1187,11 +1187,18 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
         )
       : [];
     // A sentence that follows its stretch's first says no time of its own.
-    const timeless = opens
-      ? []
-      : allWays.filter(
-          (key) => !/\{(?:year|then)\}/.test(partText("person-history", key)),
-        );
+    const noTime = (key: string) =>
+      !/\{(?:year|then)\}/.test(partText("person-history", key));
+    const ownTimeless = opens ? [] : allWays.filter(noTime);
+    // A they or first-person kind with no time-free wording of its own takes
+    // the third form's, which read the same ({who} is filled for every form).
+    const timeless =
+      opens || ownTimeless.length || voice === "third"
+        ? ownTimeless
+        : screenWays(
+            "person-history",
+            `person-history.story.${again}.third`,
+          ).filter(noTime);
     const ways = byStretch.length
       ? byStretch
       : timeless.length
