@@ -2,6 +2,16 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## Nov 25, 2026, about 1:00 p.m.: no town in the loading steps, no waiting asides, no agree-only replies (owner, verbatim; recorded by the CTO)
+
+- "sending reporters to the town hall on Evendale, they will wait. First of all, whatever that shit, like, they will wait, or someone is there with you, like, that type of shit, I hate that. Remove it all."
+- "Second, it's talking about Evendale. Stop. It should not be that specific. It's talking about the country at wide."
+  - The loading steps speak of the whole country being built and never name the player's town or state. This replaces the Story lead's Nov 24 note that each step names the build's town or state. The loading story of the player's own life still names their town.
+- "Third, there are replies like, I agree. Proudly so. Why are these coming back in? Look, oh my God, there was grading that was good. Why am I reverting to the beginning every single time?"
+  - No line only agrees, accepts or waits ("Proudly, yes.", "I'm with you.", "Count me in.", "I'll wait.").
+  - Lines he graded up stay in the banks. A batch that replaces a bank keeps his passed lines.
+- Done by the CTO on story/first-evening at 4054f490: the lines cut, and two rules that fail the build (`no-agreement-only-line`, `loading-steps-speak-of-the-country`). The word-for-word notes are in `cto-notes/grading/2026-11-25-verbatim.md`.
+
 ## Nov 25, 2026, about 12:50 p.m.: campaign first (owner, verbatim; recorded by the CTO)
 
 - "Wait, what was done yesterday? Why are we still doing the president stuff and the stuff you're how? Why are we not doing campaign stuff?"
