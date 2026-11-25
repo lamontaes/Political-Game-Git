@@ -17,6 +17,7 @@
 import data from "../../data/english/composed-checks.json" with { type: "json" };
 import lineRules from "../../data/english/line-rules.json" with { type: "json" };
 import questionNames from "../../data/english/question-names.json" with { type: "json" };
+import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 
 /** The composed checks' word lists, for readers outside the English engine. */
 export const COMPOSED_CHECKS_DATA = data;
@@ -387,6 +388,71 @@ export const noEchoBetweenSpeakers: ComposedCheck = (text, sample) => {
             ),
           );
       }
+    }
+  });
+  return found;
+};
+
+// ---- no-catalog-name-in-speech ----
+
+const CATALOG_NAMES: readonly string[] = (
+  billCatalogData as unknown as {
+    subjects: { topics: { policies: { name: string }[] }[] }[];
+  }
+).subjects.flatMap((subject) =>
+  subject.topics.flatMap((topic) =>
+    topic.policies.map((policy) => policy.name),
+  ),
+);
+
+/** The phrases a record names a policy by: the bill catalog's policy names and each question's `about` noun phrase. */
+const POLICY_PHRASES: readonly string[] = [
+  ...new Set(
+    [
+      ...CATALOG_NAMES,
+      ...Object.values(
+        (
+          questionNames as unknown as {
+            names: Record<string, { about?: string }>;
+          }
+        ).names,
+      ).map((row) => row.about ?? ""),
+    ]
+      .map((phrase) => plainSentence(plainQuotes(phrase)))
+      .filter((phrase) => phrase.split(" ").length >= 2),
+  ),
+];
+
+/**
+ * The policy phrase a spoken line holds, when its filled text names a policy
+ * by the bill catalog's policy name or by the question's `about` noun phrase
+ * (owner, Nov 24, on a mother's "So the President wants a higher top income
+ * tax rate": "No person would say that. They'd be like, finally, someone
+ * wants to tax the rich"; Nov 23: "random ass laws like ban the box public
+ * hiring. What does that mean?"). Null when the line names none.
+ */
+export function holdsCatalogName(text: string): string | null {
+  const plain = ` ${plainSentence(plainQuotes(text))} `;
+  return POLICY_PHRASES.find((phrase) => plain.includes(` ${phrase} `)) ?? null;
+}
+
+/** A spoken line whose filled text holds a policy's catalog name or its `about` wording. */
+export const noCatalogNameInSpeech: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines) {
+      if (!line.speakerId) continue;
+      const phrase = holdsCatalogName(line.text);
+      if (phrase)
+        found.push(
+          breakOf(
+            "no-catalog-name-in-speech",
+            text,
+            at,
+            `a spoken line names a policy by the catalog's words ("${phrase}")`,
+            line.text,
+          ),
+        );
     }
   });
   return found;
@@ -1204,6 +1270,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "no-daily-subject-loop": noDailySubjectLoop,
   "no-echo-between-speakers": noEchoBetweenSpeakers,
   "no-non-reply": noNonReply,
+  "no-catalog-name-in-speech": noCatalogNameInSpeech,
   "not-asked-after-while-present": notAskedAfterWhilePresent,
   "housemate-does-not-ask-known-fact": housemateDoesNotAskKnownFact,
   "speech-names-no-stray-place": speechNamesNoStrayPlace,
