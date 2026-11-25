@@ -3547,12 +3547,11 @@
     },
     "office-doubt": {
       "state": "ask",
-      "replies": ["tell", "comfort", "promise", "deflect"],
+      "replies": ["tell", "comfort", "promise"],
       "follow": {
         "tell": ["accept", "press"],
         "comfort": ["accept", "press"],
-        "promise": ["thank", "press"],
-        "deflect": ["press"]
+        "promise": ["thank", "press"]
       },
       "again": {
         "press": ["tell", "promise", "comfort", "leave"]
@@ -4354,15 +4353,15 @@
     },
     "party-welcome": {
       "state": "request",
-      "replies": ["agree", "ask", "deflect"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank"],
         "ask": ["answer"],
-        "deflect": ["press", "accept"]
+        "decline": ["accept"]
       },
       "again": {
         "press": ["agree", "leave"],
-        "answer": ["agree", "deflect"]
+        "answer": ["agree", "decline"]
       },
       "endings": [
         {

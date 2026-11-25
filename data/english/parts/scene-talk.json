@@ -79739,6 +79739,260 @@
         "key": "news-received"
       },
       "elements": ["first-hour-outside-stores-yields-nothing"]
+    },
+    {
+      "key": "scene-talk.reply-tell.yes-a-little-i-saw-how-many-people-came-out-in-and-i-didn-t-know-what-they",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Yes, a little. I saw how many people came out in {place}, and I didn't know what they'd do. I'd rather say so than carry it by myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      },
+      "elements": [
+        "spouse-calls-a-run-a-huge-sacrifice",
+        "a-crowd-gathers-before-the-meeting",
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-tell.not-the-way-you-think-the-crowd-in-was-loud-but-they-were-angry-about-the-b",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Not the way you think. The crowd in {place} was loud, but they were angry about the bill, not about us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      },
+      "elements": [
+        "spouse-calls-a-run-a-huge-sacrifice",
+        "a-crowd-gathers-before-the-meeting",
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-telling-me-i-d-rather-know-than-wonder-what-happened-in",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for telling me. I'd rather know than wonder what happened in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      },
+      "elements": [
+        "spouse-calls-a-run-a-huge-sacrifice",
+        "a-crowd-gathers-before-the-meeting",
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving"
+      ]
+    },
+    {
+      "key": "scene-talk.follow-press.is-that-all-of-it-you-went-quiet-when-came-up",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is that all of it? You went quiet when {place} came up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "after": "tell",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      },
+      "elements": [
+        "spouse-calls-a-run-a-huge-sacrifice",
+        "a-crowd-gathers-before-the-meeting",
+        "a-spouse-self-censors-at-the-in-laws-thanksgiving"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-season-i-ve-only-just-joined-the-and-i-d-rather-learn-how-it-runs",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this season. I've only just joined the {party}, and I'd rather learn how it runs before I sit on anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-take-a-committee-right-now-i-d-say-yes-and-then-miss-meetings-and-i-won-t-do-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't take a committee right now. I'd say yes and then miss meetings, and I won't do that to the {party}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "blunt",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "decline",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-as-long-as-the-tells-me-up-front-what-the-committee-does-and-how-much-t",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, as long as the {party} tells me up front what the committee does and how much time it takes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "agree",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-come-to-a-meeting-of-the-first-and-we-ll-ask-you-again-once-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. Come to a meeting of the {party} first, and we'll ask you again once you know us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "after": "decline",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-a-few-meetings-first-then-the-will-still-be-here",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. A few meetings first, then. The {party} will still be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "party-welcome",
+          "key": "welcomed",
+          "after": "decline",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "plain",
+      "origin": "authored",
+      "author": "the before-and-around writer",
+      "date": "2026-11-24",
+      "tag": {
+        "move": "accept",
+        "key": "welcomed"
+      },
+      "elements": ["library-work-displaces-a-party-meeting"]
     }
   ]
 }
