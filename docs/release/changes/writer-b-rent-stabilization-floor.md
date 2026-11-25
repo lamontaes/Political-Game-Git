@@ -22,3 +22,5 @@ Members agreeing with an objection to a new ceiling can compare the full cost of
 A player defending a new ceiling can explain how a tenant proves an overpayment, ask an owner to document fuel costs or distinguish a rent limit from a proposed tax concession. The opposing member can challenge each remedy.
 
 Members who support a new ceiling can pick up a colleague’s argument by name. The speaker can respond briefly about a specific document, date or payment or explain why it matters.
+
+Members questioning a new ceiling can challenge the duration of a tax concession, the timing of a rent credit or the treatment of costs already charged under a lease. The speaker can answer with a brief question or press for a specific remedy.
