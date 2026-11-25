@@ -29,6 +29,5 @@
       "pulledBy": "The file contains protected personal information.",
       "writesBack": "The production log identifies what was withheld."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

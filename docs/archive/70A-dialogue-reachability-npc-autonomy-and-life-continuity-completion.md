@@ -488,7 +488,7 @@ mistaken for a suite that was flaky and then agreed with us.
 
 - **#86 (graphics)** branches from `6311dd6` and is current with main. This
   packet added `src/player/PlayerConversation.tsx` and touched
-  `src/player/PlayerGame.tsx` (removed) and `src/player/player.css`. #86 also touches
+  `src/player/PlayerGame.tsx` and `src/player/player.css`. #86 also touches
   `PlayerGame.tsx` and `player.css`, so those two are the expected conflict
   points; the new component is additive. Every conversation beat now carries its
   room, its bound people and its place, which is what #86's surface binding

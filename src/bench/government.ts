@@ -57,7 +57,7 @@ import {
   partyStands,
   partyTie,
 } from "../core2/modules/parties";
-import { policyNames, standWords } from "./words";
+import { policyNames } from "./words";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { ownRace } from "./results";
 
@@ -560,13 +560,7 @@ export function localRaces(core: CoreState) {
                 const [question, value] = entry.split("=");
                 return { question: question ?? "", position: Number(value) };
               })
-              .filter((s) => s.question && Number.isFinite(s.position))
-              // What the stand is about, in the question's own plain words; null
-              // where the bank has none (the screen then names the question).
-              .map((s) => ({
-                ...s,
-                said: standWords(s.question),
-              })),
+              .filter((s) => s.question && Number.isFinite(s.position)),
           };
         })
         .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));

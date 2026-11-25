@@ -27,6 +27,5 @@
       "pulledBy": "The installed inlet sits above ordinary water level.",
       "writesBack": "Monitoring records when water reaches the channel."
     }
-  ],
-  "issues": ["budget:naturalResources"]
+  ]
 }

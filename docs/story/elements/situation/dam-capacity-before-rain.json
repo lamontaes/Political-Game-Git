@@ -27,6 +27,5 @@
       "pulledBy": "The operator still limits how high the reservoir can rise.",
       "writesBack": "The seasonal briefing records the revised capacity."
     }
-  ],
-  "issues": ["budget:naturalResources"]
+  ]
 }

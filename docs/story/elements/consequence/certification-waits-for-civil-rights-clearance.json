@@ -23,6 +23,5 @@
       "pulledBy": "A return inspection confirms the hospital has changed how it assigns beds.",
       "writesBack": "The certification carries the later effective date."
     }
-  ],
-  "issues": ["budget:federal:medicare"]
+  ]
 }

@@ -26,6 +26,5 @@
       "pulledBy": "The roll starts before another seat arrives.",
       "writesBack": "The roll lists both members despite the seating."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

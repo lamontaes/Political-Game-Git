@@ -15,7 +15,7 @@ It is an exact, `git apply --check`-verified patch against base
   token; existing setup encodings stay byte-identical;
 - `src/presentation/setup-questionnaire-flow.ts`: retain ordinary-life calibration
   context for the authored practice start; no invented judicial questionnaire;
-- `src/player/PlayerGame.tsx` (removed): Custom option, canonical role-based Work entry,
+- `src/player/PlayerGame.tsx`: Custom option, canonical role-based Work entry,
   and feature panel inside the existing close/Escape overlay and save owner.
 
 This patch intentionally uses `judicial-office-practice`, not a purported

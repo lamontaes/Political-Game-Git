@@ -2,7 +2,7 @@
 
 An item at the standard (`standard: 2`, `.agents/rules/pool-item-standard.md`) names one of these ids in its `root:` field, or `none` when it belongs to no design and no root cause (a stray bug). One line each: the id, one plain sentence, the document it comes from. `npm run pool -- --check` refuses a root that is not listed here. Add a line here in the same pull request as the first item that needs it.
 
-The ten root causes come from the Fable audit of Nov 9, 2026 (`docs/audits/fable-vision-2026-11-09.md` (removed) on branch `audit/fable-vision`), numbered as it ranks them.
+The ten root causes come from the Fable audit of Nov 9, 2026 (`docs/audits/fable-vision-2026-11-09.md` on branch `audit/fable-vision`), numbered as it ranks them.
 
 ## Root causes (the audit)
 

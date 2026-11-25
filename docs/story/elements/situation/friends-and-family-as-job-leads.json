@@ -34,6 +34,5 @@
       "pulledBy": ["a relative in need", "the player's standing in town"],
       "writesBack": "A favor is asked, and the player's tie to the relative is tested."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

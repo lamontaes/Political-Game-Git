@@ -335,7 +335,7 @@ Seconds are wall time for the file on a shared four-core machine, so they overst
 - `tests/nationwide/local-governing-body-candidacy.test.ts`
 - `tests/nationwide/local-mayor.test.ts`
 - `tests/nationwide/office-pay-law.test.ts`
-- `tests/nationwide/office-salary-initialization.test.ts` (removed)
+- `tests/nationwide/office-salary-initialization.test.ts`
 - `tests/nationwide/pay-stack-ordinary-regression.test.ts`
 - `tests/nationwide/player-town-payroll.test.ts`
 - `tests/nationwide/primary-date-law.test.ts`

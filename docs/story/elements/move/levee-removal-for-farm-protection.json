@@ -29,6 +29,5 @@
       "pulledBy": "The farm access agreement limits when heavy equipment can enter.",
       "writesBack": "The remaining section goes on the next construction schedule."
     }
-  ],
-  "issues": ["budget:naturalResources"]
+  ]
 }

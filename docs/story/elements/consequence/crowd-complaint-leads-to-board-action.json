@@ -31,6 +31,5 @@
       "pulledBy": ["responsive board"],
       "writesBack": "partial win; neighbors still watch"
     }
-  ],
-  "issues": ["none"]
+  ]
 }

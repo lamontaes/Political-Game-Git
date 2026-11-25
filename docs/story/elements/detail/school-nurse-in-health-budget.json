@@ -29,6 +29,5 @@
       "pulledBy": "The funded appropriation covers only one position.",
       "writesBack": "The assignment calendar divides the nurse's time."
     }
-  ],
-  "issues": ["budget:schools", "budget:healthAndHospitals"]
+  ]
 }

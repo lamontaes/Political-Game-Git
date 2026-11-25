@@ -8,7 +8,7 @@ files that branch is still writing in.
 ## Why it is not already done
 
 At `becd3058`, `claude/player-facing-text-client` is unmerged and carries 537
-changed lines in `src/player/PlayerGame.tsx` (removed), 114 in `SceneBackdrop.tsx` and
+changed lines in `src/player/PlayerGame.tsx`, 114 in `SceneBackdrop.tsx` and
 15 in `SceneSurfaceLayer.tsx`. One writer per overlapping surface, so #383
 changed only the Today block at roughly line 5,577, well clear of that
 branch's last hunk around 5,116, and stopped there.

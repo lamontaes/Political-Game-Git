@@ -14,7 +14,6 @@ import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { knownCard } from "./card";
 import { buildBenchWorld } from "./world";
-import personHistory from "../../data/english/parts/person-history.json" with { type: "json" };
 
 // Pinned (Nov 16, trial batch). Before, the seed came at run time from
 // process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
@@ -34,51 +33,21 @@ interface TermRow {
 }
 
 /**
- * The words a history sentence may open on, read from the bank (`person-history.json`): every
- * short piece that ends in a comma ("During {year},", "Aged {age},", "The same year,"). A list typed
- * here lagged the bank twice (Nov 19, the history written again: "During", "Aged", "Next, in"
- * and "The same year" came in), which turned this test red on a line that opened correctly.
+ * A sentence after the time it opens on, when it opens on one ("In 1985,",
+ * "At 14,", "That same year,"; words-life-story-has-one-wording-for-each-
+ * kind-of-event).
  */
-const openers: string[] = [];
-const collect = (node: unknown): void => {
-  if (Array.isArray(node)) node.forEach(collect);
-  else if (node && typeof node === "object") {
-    const text = (node as { text?: unknown }).text;
-    if (typeof text === "string" && text.length < 40 && text.endsWith(","))
-      openers.push(text);
-    Object.values(node).forEach(collect);
-  }
-};
-collect(personHistory);
-const openerPattern = new RegExp(
-  `^(?:${openers
-    .map((text) =>
-      text
-        .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-        .replace("\\{year\\}", "\\d{4}")
-        .replace("\\{age\\}", "\\d+"),
-    )
-    .join("|")}) `,
-);
-
-/** A sentence after the time it opens on, when it opens on one (an opener the bank holds). */
-const afterTime = (text: string) => text.replace(openerPattern, "");
+const afterTime = (text: string) =>
+  text.replace(
+    /^(?:(?:In|Back in|Then in|Later, in) \d{4}|At (?:age )?\d+|That same year), /,
+    "",
+  );
 
 /** Sentences, not fragments: a capital first letter and a closing period. */
 function expectSentences(where: string, lines: readonly { text: string }[]) {
   for (const line of lines)
     expect(line.text, `${where}: "${line.text}"`).toMatch(/^[A-Z].*[.]$/);
 }
-
-it("reads its time openers from the bank", () => {
-  expect(
-    openers.length,
-    "no time opener found in person-history.json",
-  ).toBeGreaterThan(0);
-  expect(afterTime("During 2000, Michael Franklin won.")).toBe(
-    "Michael Franklin won.",
-  );
-});
 
 it("draws its pinned place from the fixed seed", () => {
   expect(drawPlace(seed, "card-history-story")).toMatchObject({

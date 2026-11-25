@@ -104,7 +104,7 @@ The wardrobe replaces the outfit sheets with parts:
   - hair 1–12.
   - About 90 pieces that failed are being repainted; a part that came out too thin is left out of `parts.json` until it's redone.
 - **Crowd poses:** clapping (`nat-r1`) is cut and cast at rallies. Cheering (`r2`), holding a blank sign (`r3`, the sign is a live surface for campaign text), clapping from behind (`r5`) and sitting forward on a bench (`c5`) are painting.
-- **Proofs** in `art/people-rooms/wardrobe-proof/` (removed):
+- **Proofs** in `art/people-rooms/wardrobe-proof/`:
   - creator sheets for a woman and a man;
   - everyday and women's outfits on all six bodies;
   - `every-pose-dressed.jpg`;

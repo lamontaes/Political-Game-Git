@@ -8,10 +8,9 @@ The plant bank for `pre-grade`. **Only the Pre-grader reads this file. Never giv
 - After each grading page he answers, add every line the pre-grade got wrong to its class the same day, with its stretch.
 
 **Sources:**
-
-- His Nov 24 grades of the Desk packet, quoted here in full from his chat. The lines are numbered and played as in `docs/story/first-evening-pregrade-8.md` (new) on branch `story/first-evening-pregrade` (merged head a880050828).
-- His Nov 23 sitting: `docs/coordination/playtest/2026-11-23-1-verbatim.md` (new) on branch `claude/cto-playtest-nov23`.
-- His Nov 12 life 1 note: `docs/grading/2026-11-12-life-1/owner-voice-note.md` (new), played in `lines.md`, both on branch `grading/nov12-life-1`.
+- His Nov 24 grades of the Desk packet, quoted here in full from his chat. The lines are numbered and played as in `docs/story/first-evening-pregrade-8.md` on branch `story/first-evening-pregrade` (merged head a880050828).
+- His Nov 23 sitting: `docs/coordination/playtest/2026-11-23-1-verbatim.md` on branch `claude/cto-playtest-nov23`.
+- His Nov 12 life 1 note: `docs/grading/2026-11-12-life-1/owner-voice-note.md`, played in `lines.md`, both on branch `grading/nov12-life-1`.
 
 ## Classes he fails
 

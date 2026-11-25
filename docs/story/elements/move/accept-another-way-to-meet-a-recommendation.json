@@ -25,6 +25,5 @@
       "pulledBy": "The report documents checks at only some sites.",
       "writesBack": "The remaining sites stay under review."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

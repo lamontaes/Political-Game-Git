@@ -1,6 +1,6 @@
 /**
  * What the law does when an elected term ends with no successor qualified,
- * by place and office family, from src/core2/data/offices/holdover.json. A place with
+ * by place and office family, from data/offices/holdover.json. A place with
  * no row of its own follows the family default, which carries its estimate.
  */
 import holdover from "./data/offices/holdover.json" with { type: "json" };

@@ -26,6 +26,5 @@
       "pulledBy": "The host cannot assemble enough support to file.",
       "writesBack": "The broadcast job ends without a new candidacy."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

@@ -26,6 +26,5 @@
       "pulledBy": "A member leaves the requested committee during the term.",
       "writesBack": "The transfer takes effect midterm."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

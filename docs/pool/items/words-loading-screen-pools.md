@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: story/first-evening
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,7 +16,6 @@ model: fable
 effort: medium
 root: none
 source: owner, Nov 17, verbatim on #9750 ("I don't like how boring the loading screen is... skimming a little off the top, closing alphabet agencies, legislating bureaucracy... things that are kind of sarcastic."); the CTO's note of 21:25Z
-claimed-at: 2026-11-24T23:43:59.811Z
 ---
 
 **What.** The loading card shows the step names and nothing else, and the "letting the world run two months" step sits for a long time. The owner wants a stream of short, dry, sarcastic lines about government and politics while each step runs. His three lines show the tone; they are not the list.

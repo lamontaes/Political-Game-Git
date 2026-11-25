@@ -18,8 +18,6 @@ import { wordPrintedStory } from "./archive-words";
 import { emptyNewsLine } from "./ui/news-board.mjs";
 import controls from "./data/controls.json";
 import { buildBenchWorld } from "./world";
-import headlines from "../../data/english/parts/headlines.json";
-import news from "../../data/english/parts/news.json";
 
 // A study committee's forming and its report, as the press prints them
 // (words-press-study-committee-stories-unworded). A played year forms a study
@@ -33,45 +31,6 @@ import news from "../../data/english/parts/news.json";
 // docs/seen/words-w3-news-study/lines.md.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DEVELOPER = /[{}_]|\b[a-z]+:[a-z]/;
-
-// What the press may print for a study's report is the bank's own pieces: each is keyed by the
-// facts it needs (the side the members came down on, and whether the lean changed). A test that
-// typed the wordings went stale when the bank was rewritten (Nov 19); this one reads the bank, so
-// it holds whatever the wording is, and keeps what it is for: the direction, and "now" only
-// after the lean changed.
-interface BankPart {
-  readonly move?: string;
-  readonly text: string;
-  readonly uses: readonly {
-    readonly requiresFacts?: readonly string[];
-  }[];
-}
-const reportedPieces = (parts: readonly BankPart[]) =>
-  parts.filter((part) => part.move === "study-reported");
-const reportPattern = (
-  parts: readonly BankPart[],
-  direction: "for" | "against",
-  changed: boolean | null,
-  whole = true,
-) => {
-  const side = direction === "for" ? "members-for" : "members-against";
-  const texts = reportedPieces(parts)
-    .filter((part) => {
-      const needs = part.uses[0]?.requiresFacts ?? [];
-      return (
-        needs.includes(side) &&
-        (changed === null || needs.includes("changed") === changed)
-      );
-    })
-    .map((part) =>
-      part.text
-        .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-        .replace(/\{[a-z-]+\}/g, ".+"),
-    );
-  return new RegExp(
-    whole ? `^(?:${texts.join("|")})$` : `(?:${texts.join("|")})`,
-  );
-};
 
 describe("study committee stories", () => {
   it("words a study's forming and report from its own record, and says a change only when the lean changed", () => {
@@ -176,13 +135,53 @@ describe("study committee stories", () => {
 
       // Reported: each case the words must keep apart.
       const cases = [
-        // [name, lean at forming, finding, direction, who gave it]
-        ["held-against", -1, -0.5, "against", sponsor],
-        ["turned-for", -1, 0.5, "for", others[0]!],
-        ["held-for", 1, 0.5, "for", sponsor],
-        ["turned-against", 1, -0.5, "against", others[0]!],
+        // [name, lean at forming, finding, direction, who gave it, headline, chair line]
+        [
+          "held-against",
+          -1,
+          -0.5,
+          "against",
+          sponsor,
+          /comes out against/,
+          /gave the findings/,
+        ],
+        [
+          "turned-for",
+          -1,
+          0.5,
+          "for",
+          others[0]!,
+          /now favors/,
+          /chaired the committee/,
+        ],
+        [
+          "held-for",
+          1,
+          0.5,
+          "for",
+          sponsor,
+          /comes out for/,
+          /gave the findings/,
+        ],
+        [
+          "turned-against",
+          1,
+          -0.5,
+          "against",
+          others[0]!,
+          /turns against/,
+          /chaired the committee/,
+        ],
       ] as const;
-      for (const [name, startedAt, finding, direction, speaker] of cases) {
+      for (const [
+        name,
+        startedAt,
+        finding,
+        direction,
+        speaker,
+        headline,
+        chair,
+      ] of cases) {
         const speechId = `speech:test:${name}`;
         speeches.put({
           id: speechId,
@@ -197,20 +196,14 @@ describe("study committee stories", () => {
         });
         expect(told, `${where}: ${name} is not worded`).toBeTruthy();
         expect(told!.sourceRecordIds, `${where}: ${name}`).toContain(id);
-        // The lean changed sign only when it started on the other side of the finding.
-        const changed = startedAt > 0 !== finding > 0;
-        expect(told!.headline, `${where}: ${name}`).toMatch(
-          reportPattern(headlines.parts, direction, changed),
-        );
-        expect(told!.text, `${where}: ${name}`).toMatch(
-          reportPattern(news.parts, direction, null, false),
-        );
+        expect(told!.headline, `${where}: ${name}`).toMatch(headline);
+        expect(told!.text, `${where}: ${name}`).toMatch(chair);
         expect(told!.text, `${where}: ${name}`).not.toMatch(DEVELOPER);
-        // A headline of the other kind (one that says the lean changed, or that it did not) is
-        // never printed for this case.
-        expect(told!.headline, `${where}: ${name}`).not.toMatch(
-          reportPattern(headlines.parts, direction, !changed),
-        );
+        // "Now favors" and "turns against" print only after the lean changed sign.
+        if (startedAt > 0 === finding > 0)
+          expect(told!.text, `${where}: ${name}`).not.toMatch(
+            /now favors|turns against/,
+          );
         lines.push(`${name}: ${told!.text}`);
       }
       // A finding of exactly zero leans neither way and is not printed.

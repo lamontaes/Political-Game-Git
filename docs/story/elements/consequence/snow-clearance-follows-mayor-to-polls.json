@@ -30,6 +30,5 @@
       "pulledBy": "Service logs show a gap between main routes and side streets.",
       "writesBack": "The campaign records which routes residents named."
     }
-  ],
-  "issues": ["budget:highways"]
+  ]
 }

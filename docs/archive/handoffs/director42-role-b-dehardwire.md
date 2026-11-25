@@ -61,7 +61,7 @@ Git route appears to be what this wave is actually using.
 - Shared-root composition, `#255` / `#256` / `#257` reconciliation — **LAND**
 
 **Overlap ROLE C and ROLE D should know about.** No `.tsx` player surface was
-edited in this increment. `src/player/PlayerGame.tsx` (removed), `DocketWorkspace.tsx`,
+edited in this increment. `src/player/PlayerGame.tsx`, `DocketWorkspace.tsx`,
 `MeasurePaperWorkspace.tsx` and `MeasureFloorSurface.tsx` were read, and left
 alone: they already take the measure's identity from the world record, which is
 what made this fixable underneath them. Two interface facts they depend on:

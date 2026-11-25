@@ -128,10 +128,7 @@ import type {
   Source,
 } from "../types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
-import {
-  isExplicitlyControlledPersonV1,
-  snapshotExplicitControlV1,
-} from "../player-control-state-v1";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
@@ -4313,23 +4310,6 @@ function hireCounted(
       counted: 1,
     },
   });
-  // Someone hired where the player works is someone the player meets: the
-  // hire is filled in as a full person (two-level population, AGENTS.md:
-  // people the player meets are full people), so the workplace's new face
-  // is a coworker the director can introduce (circumstance `new-coworker`).
-  // The player, or whoever they play now (the jobs engine's `controlled`).
-  const players = [c.playerId, snapshotExplicitControlV1(c).personId];
-  if (
-    players.some((id) => {
-      const job = id ? c.jobs.get(c.people.get(id)?.jobId ?? "") : undefined;
-      return (
-        job !== undefined &&
-        job.endsAt === undefined &&
-        job.organizationId === position.organizationId
-      );
-    })
-  )
-    fillInPerson(c, seeker.personId);
   return true;
 }
 
@@ -5851,6 +5831,3 @@ export {
 export { nationalMedianAnnualWage } from "../town-pay";
 export { workedToday } from "../job-lifecycle";
 export { openingWorkStatus } from "../jobs-elsewhere";
-// Re-exported so the director tells the outside market (work out of town) from a public employer
-// that owns its government's outside pay authority: both carry `outsideFlow`.
-export { OUTSIDE_MARKET_KIND } from "../opening-outside-market";

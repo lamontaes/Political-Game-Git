@@ -25,6 +25,5 @@
       "pulledBy": "Everyone who booked a ride calls to say they have transportation.",
       "writesBack": "The log shows canceled requests and no completed trips."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

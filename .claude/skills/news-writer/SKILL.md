@@ -17,7 +17,7 @@ The owner, word for word:
 - Nov 1, as recorded in `docs/coordination/OWNER-DECISIONS.md`: "none of this is a story."
 - Nov 12, on the news line after the address: "Neither does the news toast."
 
-Read `story-writer` first, and your area's part of its `references/his-words.md`: what he already said, so you don't start from scratch. The lane's kinds and facts are in `docs/story/writer-spec.md` on branch `story/first-evening`; the address's and a vote's facts are built in `src/bench/printed-words.ts`.
+Read `story-writer` first. The lane's kinds and facts are in `docs/story/writer-spec.md` on branch `story/first-evening`; the address's and a vote's facts are built in `src/bench/printed-words.ts`.
 
 ## The rules that must hold
 

@@ -58,18 +58,6 @@ export const STORY_KINDS = {
     headline: ["candidate-filed"],
     lede: ["candidate-filed"],
   },
-  // A candidate who says they are running before filing opens.
-  announcement: {
-    story: "announcement",
-    headline: ["candidate-announced"],
-    lede: ["candidate-announced"],
-  },
-  // A relative's access to someone in custody, earned by an official's referral.
-  "visit-access": {
-    story: "visit-access",
-    headline: ["visiting-access"],
-    lede: ["visiting-access"],
-  },
   // The clerk's notice of an election, a brief: the place, the day and every
   // office on the ballot.
   "election-notice": {

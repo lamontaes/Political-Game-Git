@@ -29,6 +29,5 @@
       "pulledBy": "Too few food samples meet the study criteria.",
       "writesBack": "The interim report identifies the missing measure."
     }
-  ],
-  "issues": ["budget:naturalResources"]
+  ]
 }

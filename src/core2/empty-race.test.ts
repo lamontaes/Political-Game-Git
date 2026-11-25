@@ -1,6 +1,6 @@
 /**
  * An election nobody ran in resolves by the place's own law for the office
- * (src/core2/data/offices/holdover.json): the holder serves on, or the seat is vacant
+ * (data/offices/holdover.json): the holder serves on, or the seat is vacant
  * and the vacancy rule runs, which for an empty special election means the
  * next special. Each result leaves a record with its reason. A place is drawn
  * from all 56; set GOLDEN_PATH_SEED to reproduce a run.

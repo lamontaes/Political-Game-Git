@@ -23,6 +23,5 @@
       "pulledBy": "Child memory.",
       "writesBack": "Journal line."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

@@ -29,6 +29,5 @@
       "pulledBy": "The next measurement is due before the warning expires.",
       "writesBack": "The notice lists the next briefing time."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

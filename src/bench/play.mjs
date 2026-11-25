@@ -227,32 +227,26 @@ window.addEventListener("resize", clearDock);
 
 /** A click on anyone on a strip opens their card (P9), through the one showPerson. */
 const openCard = (person) => showPerson({ personId: person.personId });
+/** How many people stand on the talk box's strip at most (the owner's sizes: one, two and four). */
+const TALK_STRIP_PEOPLE = 4;
 /** Who is in the room now: the people the strip names, how many more, and what a click on one does. */
 let here = { people: [], more: 0 };
-/** What a click on a person in the room does when nobody talks: a way into a talk. */
-let hereClick;
 /**
- * Who is here, small and packed in the top-right corner of the screen (ui/bust-strip.mjs;
- * owner, Nov 16: "the people in the top tight like c", mock C, and Nov 24: "they're
- * supposed to be at the top right"): a room is its painting, and the people in it
- * are a few busts in the corner. `scene` is anything with `people` and `more` (a
- * scene, a visit, a story beat); none clears it. `onClick` makes each person with
- * something to say a way into a talk, until a talk is open: then a click opens a card.
+ * Who is here, along the foot of the room (ui/bust-strip.mjs): a room is its
+ * painting, and the people in it are a strip of busts. `scene` is anything
+ * with `people` and `more` (a scene, a visit, a story beat); none clears it.
+ * `onClick` makes each person with something to say a way into a talk.
  */
 function drawHere(scene, onClick) {
   here = { people: scene?.people ?? [], more: scene?.more ?? 0 };
-  hereClick = onClick;
   $("here").replaceChildren(
     ...(here.people.length
       ? [
           bustStrip({
             people: here.people,
             more: here.more,
-            words: { more: controls.here.more },
-            onClick: onClick
-              ? (person) =>
-                  $("talk").hidden ? hereClick?.(person) : openCard(person)
-              : undefined,
+            words: controls.here,
+            onClick,
             onCard: openCard,
           }),
         ]
@@ -261,10 +255,9 @@ function drawHere(scene, onClick) {
   drawTalkStrip();
 }
 /**
- * The speaker of a talk: their bust on the talk box. The rest of the room stay in
- * the corner (the speaker's own place there is empty while the talk lasts). A
- * speaker who is not in the room (a caller, someone a scene brings in) stands on
- * the box by the face their card gave.
+ * The same people on top of the talk box while a talk is open, whoever speaks
+ * lit and a little larger. A speaker who is not in the room (a caller, someone
+ * a scene brings in) stands first, by the face their card gave.
  */
 let talkFace;
 /** Who you are talking to, when someone speaks; nobody while the narrator does. */
@@ -279,25 +272,30 @@ function drawTalkStrip() {
     talkPersonId && !inRoom && !talkApart && talkFace
       ? [{ personId: talkPersonId, name, face: talkFace }]
       : [];
+  const others = here.people.filter((p) => p.personId !== talkPersonId);
   const speaking = talkApart
     ? []
     : here.people.filter((p) => p.personId === talkPersonId);
-  // Whoever speaks leaves their place in the corner while the talk lasts (play.css).
-  for (const cell of $("here").querySelectorAll(".busts-person"))
-    cell.classList.toggle(
-      "in-talk",
-      !talkApart && cell.dataset.person === (talkPersonId ?? "-"),
+  // The speaker is always among those shown; the rest keep the room's order.
+  const shown = [...speaker, ...speaking, ...others]
+    .slice(0, TALK_STRIP_PEOPLE)
+    .sort(
+      (a, b) =>
+        (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
+        (speaker.includes(b) ? -1 : here.people.indexOf(b)),
     );
-  const onBox = [...speaker, ...speaking];
-  if (!onBox.length) return $("talk-strip").replaceChildren();
-  const node = bustStrip({
-    people: onBox,
-    speakingId: talkPersonId,
-    // Anyone named in a talk opens their card, whoever they are to you.
-    onCard: openCard,
-  });
-  node.classList.add("talk-speaker");
-  $("talk-strip").replaceChildren(node);
+  $("talk-strip").replaceChildren(
+    ...(shown.length
+      ? [
+          bustStrip({
+            people: shown,
+            // Nobody on the strip speaks while the narrator does: all stand small.
+            speakingId: talkPersonId ?? null,
+            onCard: openCard,
+          }),
+        ]
+      : []),
+  );
 }
 
 /**
@@ -305,13 +303,6 @@ function drawTalkStrip() {
  * medium): the speaker's bust on a set over the room, with the station under
  * their name and Live over it. Anything else clears it.
  */
-/** The television set holds the corner's top right; the room's people stand just below it. */
-new ResizeObserver(() =>
-  $("game").style.setProperty(
-    "--tv-bottom",
-    `${Math.round($("tv").getBoundingClientRect().bottom)}px`,
-  ),
-).observe($("tv"));
 let tvRequest = 0;
 /** The glass of the television the shown picture paints, when it paints one. */
 let backdropScreen;
@@ -1944,17 +1935,6 @@ function partyRows(party) {
     });
     return b;
   });
-}
-
-/**
- * The Budgets board's columns: the departments at the left, and the chosen department's rows over
- * the government's totals in one column at the right, so a short department does not stand in a
- * column of its own with the panel empty under it.
- */
-function stackRight(columns) {
-  return columns.length === 3
-    ? [columns[0], [...columns[1], ...columns[2]]]
-    : columns;
 }
 
 /** The campaign record's count of volunteers, worded (one count for every line that shows it). */
@@ -4751,7 +4731,7 @@ const sheets = {
       stripBoard({
         tabs,
         fiscal: `${words.fiscalYear} ${latest.fiscalYear}`,
-        columns: stackRight([
+        columns: [
           [
             stripSection(
               1,
@@ -4848,23 +4828,21 @@ const sheets = {
                   ),
                 ]
               : []),
-            // Who wrote it is the body on the adoption record (a budget the body voted); an opening
-            // or carried budget has no named author, so nothing stands in for one.
-            ...(latest.adoptedOn && latest.adoptedBy?.tallies?.[0]?.title
+            ...(latest.adoptedOn
               ? [
                   stripSection(
                     5,
                     words.whoWrote,
-                    typedRow(
-                      words.adoptedBy,
-                      latest.adoptedBy.tallies[0].title,
+                    // `latest.adoptedBy` is the adoption record (body, tallies, bill, amendments);
+                    // Screens words it from the record with the Budgets labels.
+                    introText(
+                      `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
                     ),
-                    typedRow(labels.adopted, dateWords(latest.adoptedOn)),
                   ),
                 ]
               : []),
           ],
-        ]),
+        ],
       }),
     ];
   },
@@ -5531,9 +5509,7 @@ const sheets = {
                 ? [
                     dotRows(
                       f.stances.map((st) => ({
-                        // The question's own plain words, never a catalog's name
-                        // ("a bigger police budget", not "Police protection").
-                        label: st.said ?? policyLabel(st.question),
+                        label: policyLabel(st.question),
                         value:
                           st.position > 0
                             ? (stance.for ?? "")
@@ -5646,25 +5622,7 @@ const sheets = {
         rosterCols(
           // A candidate's name opens their card; there is no rally to go to
           // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
-          // The candidates sit in one box that keeps whole candidates, so the last
-          // stand is never cut at the panel's foot; the rest is a scroll in the box.
-          stripSection(
-            1,
-            labels.whoIsRunning,
-            race.filers.length
-              ? pager({
-                  items: candidates,
-                  render: (node) => node,
-                  rows: Math.max(200, viewHeight() - 330),
-                  columns: 1,
-                  rowHeight: 1,
-                  gap: 0,
-                  growRows: true,
-                  wholeRows: true,
-                  className: "candidate-pager",
-                })
-              : candidates[0],
-          ),
+          stripSection(1, labels.whoIsRunning, ...candidates),
           rosterSide(
             // An at-large race fills several seats at once.
             ...(race.seats > 1
@@ -5820,33 +5778,31 @@ const sheets = {
           ? `${race.title} · ${labels.countyOffice}`
           : race.title,
       // A race the player filed for says so before anything about filing:
-      // its page offers no filing, so its line must not either. Every row has
-      // an aside, so every row breaks alike: a race with no one filed says so.
-      aside:
-        (filed.has(race.contestId)
-          ? status(race)
-          : race.announced
-            ? labels.youAnnounced
-            : // Old enough only after this race's filing closes: filing never
-              // opens for them in this race, so its line names no filing day.
-              own && race.cannotFile?.metOn && tooYoungFor(race)
-              ? race.filers.length
-                ? status(race)
-                : ""
-              : own && race.cannotFile?.metOn
-                ? `${labels.filingOpens} ${dateWords(
-                    race.filingOpens && race.filingOpens > race.cannotFile.metOn
-                      ? race.filingOpens
-                      : race.cannotFile.metOn,
-                    { year: today() },
-                  )}`
-                : own && race.bar === "window-not-open" && race.filingOpens
-                  ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
-                  : own && race.playerMayFile && race.filingOpen
-                    ? labels.fileForIt
-                    : race.filers.length
-                      ? status(race)
-                      : "") || labels.noFilers,
+      // its page offers no filing, so its line must not either.
+      aside: filed.has(race.contestId)
+        ? status(race)
+        : race.announced
+          ? labels.youAnnounced
+          : // Old enough only after this race's filing closes: filing never
+            // opens for them in this race, so its line names no filing day.
+            own && race.cannotFile?.metOn && tooYoungFor(race)
+            ? race.filers.length
+              ? status(race)
+              : ""
+            : own && race.cannotFile?.metOn
+              ? `${labels.filingOpens} ${dateWords(
+                  race.filingOpens && race.filingOpens > race.cannotFile.metOn
+                    ? race.filingOpens
+                    : race.cannotFile.metOn,
+                  { year: today() },
+                )}`
+              : own && race.bar === "window-not-open" && race.filingOpens
+                ? `${labels.filingOpens} ${dateWords(race.filingOpens, { year: today() })}`
+                : own && race.playerMayFile && race.filingOpen
+                  ? labels.fileForIt
+                  : race.filers.length
+                    ? status(race)
+                    : "",
       data: { contest: race.contestId },
       race,
     });
@@ -5865,44 +5821,36 @@ const sheets = {
               title: askWords.title,
               entries: asked.asks.map((ask) => ({
                 key: ask.id,
-                // Office first, like every row of the list; the page names who asks.
-                label: ask.race,
-                aside: askWords.title,
+                label: ask.candidate,
+                aside: roundedMoney(ask.suggestedMinor),
                 data: { ask: ask.id },
                 ask,
               })),
             },
           ]
         : []),
-      // One list, no headings over it (owner, Nov 24): the offices the player
-      // runs for come first, each with when they can file, then the rest of the
-      // ballot by election day; a race's page says its day.
-      ...(mine.length || byDate.size
+      // The offices the player runs for come first, each with when they can file.
+      ...(mine.length
         ? [
             {
-              entries: [
-                ...mine.map((race) => entryOf(race, true)),
-                ...[...byDate.entries()]
-                  .sort(([a], [b]) => a.localeCompare(b))
-                  .flatMap(([, races]) =>
-                    races.map((race) => entryOf(race, false)),
-                  ),
-              ],
+              title: labels.yourOffices,
+              entries: mine.map((race) => entryOf(race, true)),
             },
           ]
         : []),
+      ...[...byDate.entries()]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([day, races]) => ({
+          title: `${labels.alsoOnBallot} · ${dateWords(day, { year: today() })}`,
+          entries: races.map((race) => entryOf(race, false)),
+        }))
+        .filter((group) => group.entries.length),
     ];
     if (!groups.length) return [prose(labels.noBallot, "record-empty")];
     return rosterScreen({
       title: labels.title,
       groups,
       className: "elections-screen",
-      // The tab already says Elections; every row takes its aside on its own
-      // line, and the list shows whole rows only.
-      headed: false,
-      stacked: true,
-      wholeRows: true,
-      rowHeight: 54,
       render: async (entry) =>
         entry.ask
           ? askPage(entry.ask)
@@ -6196,15 +6144,6 @@ const sheets = {
           })),
         ),
       );
-      // What is coming up sits under the chief, and only when something is scheduled (no filler
-      // line for an empty calendar; the CTO, Nov 24).
-      const comingItems = executive
-        .flatMap((o) => o.comingUp)
-        .sort((x, y) => x.date.localeCompare(y.date))
-        .slice(0, 4);
-      const coming = comingItems.length
-        ? [stripSection(3, labels.comingUp, comingList(comingItems))]
-        : [];
       return {
         main: chief
           ? [
@@ -6230,7 +6169,16 @@ const sheets = {
                     ),
                   ]
                 : []),
-              ...coming,
+              stripSection(
+                3,
+                labels.comingUp,
+                comingList(
+                  executive
+                    .flatMap((o) => o.comingUp)
+                    .sort((a, b) => a.date.localeCompare(b.date))
+                    .slice(0, 4),
+                ),
+              ),
             ]
           : [],
         side: runs
@@ -6303,15 +6251,7 @@ const sheets = {
         : (offered[0] ?? "legislative");
       const redraw = async () => {
         const node = await screen();
-        if (openTab === "government") {
-          $("sheet-body").replaceChildren(node);
-          // A government page with only its main column (a town with only a mayor) is as wide
-          // as what it holds; one with a side column takes the window.
-          $("sheet").classList.toggle(
-            "fits",
-            node.classList.contains("single"),
-          );
-        }
+        if (openTab === "government") $("sheet-body").replaceChildren(node);
       };
       const levels = tabBar({
         attr: "level",
@@ -6981,9 +6921,7 @@ async function openSheet(tab) {
     "fits",
     !["calendar", "people", "watch", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
-      !$("sheet-body").querySelector(
-        ".screen-grid, .split-screen:not(.single.government-screen)",
-      ),
+      !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
   // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
   $("sheet").classList.toggle("hugs", tab === "bills");

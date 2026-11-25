@@ -29,6 +29,5 @@
       "pulledBy": "Site access is restricted while wildlife is nesting.",
       "writesBack": "The maintenance order records the new work window."
     }
-  ],
-  "issues": ["budget:naturalResources"]
+  ]
 }

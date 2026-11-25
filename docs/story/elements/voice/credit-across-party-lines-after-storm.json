@@ -27,6 +27,5 @@
       "pulledBy": "Delivery records show some towns are still waiting.",
       "writesBack": "The remarks identify which deliveries remain outstanding."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

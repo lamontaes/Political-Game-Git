@@ -20,7 +20,7 @@ two says it, once.
 
 ## Adding a kind
 
-1. **The kind.** Add a row to `kinds` in `src/director/data/promise-kinds.json` (removed)
+1. **The kind.** Add a row to `kinds` in `src/director/data/promise-kinds.json`
    with these fields:
    - `tie`: the cause facts it carries, for example `billId`, `meetingId`.
    - `settle`: an operation and the `eventKind` or `relationshipCause` that

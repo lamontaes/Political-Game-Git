@@ -769,7 +769,7 @@ Team 1 release to Team 3, September 29, 8:27 ruling and AGREED contract in 00: n
 | Team 2 | `src/simulation/world-setup/integrity.ts` | 2026-09-30T00:50:00Z |
 | Team 2 | `data/research/midterm-calibration.json` | 2026-09-30T00:50:00Z |
 
-| Team 5 | `src/player/PlayerGame.tsx` (removed) | 2026-09-30T01:05:04.609558+00:00 |
+| Team 5 | `src/player/PlayerGame.tsx` | 2026-09-30T01:05:04.609558+00:00 |
 | Team 5 | `src/presentation/backdrop-people.ts` | 2026-09-30T01:05:04.609558+00:00 |
 | Team 5 | `src/presentation/backdrop-people.test.ts` | 2026-09-30T01:05:04.609558+00:00 |
 

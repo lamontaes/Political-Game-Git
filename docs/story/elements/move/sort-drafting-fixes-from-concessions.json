@@ -25,6 +25,5 @@
       "pulledBy": "A single edit changes both a reference and an eligibility condition.",
       "writesBack": "Members can vote on the two changes separately."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

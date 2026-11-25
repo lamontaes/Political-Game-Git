@@ -27,6 +27,5 @@
       "pulledBy": "The alternate site can handle counting but lacks a public counter.",
       "writesBack": "The election notice lists both locations and their functions."
     }
-  ],
-  "issues": ["budget:administration"]
+  ]
 }

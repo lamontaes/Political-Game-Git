@@ -1458,8 +1458,7 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
-    if (filing.status === "refused")
-      withdrawFiling(api, contest.id, personId, "announced");
+    if (filing.status === "refused") withdrawFiling(api, contest.id, personId);
   }
   // A runner the filing day's weighing no longer holds (gone from the town,
   // dead) is refused for the rules they no longer meet, so every decision to
@@ -1480,7 +1479,7 @@ export function fileRunners(
     table(api).put({ ...decision, filing: refused } as unknown as {
       id: string;
     });
-    withdrawFiling(api, contest.id, decision.personId, "announced");
+    withdrawFiling(api, contest.id, decision.personId);
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;

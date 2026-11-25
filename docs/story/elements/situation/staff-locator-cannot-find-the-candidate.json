@@ -25,6 +25,5 @@
       "pulledBy": "A meeting ran longer than the desk expected.",
       "writesBack": "The worker logs the new location and a return call."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

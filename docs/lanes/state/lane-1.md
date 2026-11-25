@@ -113,7 +113,7 @@ Unit 1b fit, then unit 5 (uncontested seats: in these runs 87% of running holder
 
 - **The clone is shallow.** Run `git fetch --shallow-since=<date> origin main` before merging main into an old branch.
 - **Pool commands check out main.** Commit first, and never run one while a test runs in that checkout.
-- **The stopgap register is one file per family.** A branch carrying `src/core2/data/stopgaps.json` (removed) moves its rows into `src/core2/data/stopgaps/<family>.json` when it merges main.
+- **The stopgap register is one file per family.** A branch carrying `src/core2/data/stopgaps.json` moves its rows into `src/core2/data/stopgaps/<family>.json` when it merges main.
 
 ## Confirmer
 

@@ -13,7 +13,7 @@ Pre-start history is context for the world you start in, not a daily replay. Old
 
 ## What exists
 
-- **New core:** the opening is dated January 2021 (stopgap `SG-P8-opening-vintage`), while starting law is 2026's (owner, Sept 28: games start with real current law). `src/core2/deep-past.ts` (removed) adds a supplied life's past (birth, schools, job tenure) with three public eras through 2021. OPUS-PEOPLE adds real schools, coworkers, falling-outs, dated moves and favors. The story director turns past facts into moments.
+- **New core:** the opening is dated January 2021 (stopgap `SG-P8-opening-vintage`), while starting law is 2026's (owner, Sept 28: games start with real current law). `src/core2/deep-past.ts` adds a supplied life's past (birth, schools, job tenure) with three public eras through 2021. OPUS-PEOPLE adds real schools, coworkers, falling-outs, dated moves and favors. The story director turns past facts into moments.
 - **Old core:** the one-day pre-start run (`src/presentation/production-world.ts`, `new-game.ts`), which the owner replaced, and pre-start adult and child histories in `src/simulation/character-history.ts`.
 - **Data:** CPI 2020 to 2026 and state minimum wages 2020 to 2024 (`data/research/money/historical-world-inputs.json`), 2020 to 2024 election returns, BEA regional income 1969 to 2024, LAUS, FEMA disasters, storm events 2000 to 2024.
 

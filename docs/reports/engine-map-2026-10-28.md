@@ -252,7 +252,7 @@ The grade measures the owner's rule of one engine per mechanic, with levels, off
 
 ### The opening
 
-- **Engine:** none: 3 partial engines in the director and 1 in the bench. `src/director/opening-sequence.ts` (removed) (the stage list, `openingSequence` :119), `opening-story.ts` (the address plan, the night's news and the record, `composeOpeningStory` :900, `recordOpeningStory` :1021), `opening-facts.ts`; and `src/bench/opening.ts` (`openingFrames` :56: pictures, cast, employers ranked by job count).
+- **Engine:** none: 3 partial engines in the director and 1 in the bench. `src/director/opening-sequence.ts` (the stage list, `openingSequence` :119), `opening-story.ts` (the address plan, the night's news and the record, `composeOpeningStory` :900, `recordOpeningStory` :1021), `opening-facts.ts`; and `src/bench/opening.ts` (`openingFrames` :56: pictures, cast, employers ranked by job count).
 - **Does:** plans and composes the President's address through the English engine's `composeAddress`, a newscast, the stages and the hand-off home.
 - **Level enters:** stage rows in `src/director/data/opening-story.json`; code branches by stage name (`src/bench/opening.ts:189-196`, `office.kind === "president"` :346) and `opening-sequence.ts:77-82`.
 - **Read by:** `/api/opening` (`handler.ts:1192`), `src/bench/world.ts:72`.

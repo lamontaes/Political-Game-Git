@@ -38,7 +38,7 @@
 
 **Out of scope:** game features, Steam, art, deleting branches without your word (the owner's word), history rewrites without your word.
 
-**Owned files:** `src/core2/{state,life,calendar,journal,accounts,saves,focus}.ts`, `src/core2/data/stopgaps.json` (removed), `src/core2/data/parameters.json`, `scripts/`, `tests/`, `.github/workflows/`, `desktop/`, `docs/pool/`, `docs/roadmap/`, `docs/STATE.md`.
+**Owned files:** `src/core2/{state,life,calendar,journal,accounts,saves,focus}.ts`, `src/core2/data/stopgaps.json`, `src/core2/data/parameters.json`, `scripts/`, `tests/`, `.github/workflows/`, `desktop/`, `docs/pool/`, `docs/roadmap/`, `docs/STATE.md`.
 
 **Handoffs:** Lane 1, `1-5.md`. Lane 2, `2-5.md`. Lane 4, `4-5.md`. May edit test helpers in any lane's folder; the second to merge updates.
 

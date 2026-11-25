@@ -35,6 +35,9 @@ async function elections(tag) {
   await page.locator('#sheet-tabs [data-tab="campaigns"]').click();
   await page.locator("#sheet-body .roster-row").first().waitFor();
   const read = await page.evaluate(() => ({
+    groups: [...document.querySelectorAll("#sheet-body .roster-group")].map(
+      (g) => g.innerText.replace(/\s+/g, " ").trim(),
+    ),
     rows: [...document.querySelectorAll("#sheet-body .roster-row")].map((e) =>
       e.innerText.replace(/\s+/g, " ").trim(),
     ),

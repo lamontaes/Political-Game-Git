@@ -44,7 +44,7 @@ its place**, so the honest refusal is the whole experience.
 
 Its player-visible consequence is the reported one: naming Illinois opens a
 legislative start and naming Chicago closes it
-(`src/presentation/new-game.ts:302`, `src/player/PlayerGame.tsx:1831` (removed)).
+(`src/presentation/new-game.ts:302`, `src/player/PlayerGame.tsx:1831`).
 
 ## Four findings that change what should be built
 

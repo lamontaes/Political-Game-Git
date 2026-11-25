@@ -17,7 +17,7 @@ When your character dies or is retired, the screen does not jump to "who do you 
 
 ## Existing code to extend (verified)
 
-- `src/player/LifeContinuationPanel.tsx:18` (heading :95-101, successor choices, "View this life's record"); mounted `src/player/PlayerGame.tsx:2747` (removed), `onViewRecord` at :2767.
+- `src/player/LifeContinuationPanel.tsx:18` (heading :95-101, successor choices, "View this life's record"); mounted `src/player/PlayerGame.tsx:2747`, `onViewRecord` at :2767.
 - `src/presentation/people-continuation.ts:77 LifeContinuationView`, `:97 projectLifeContinuation`; `src/simulation/people-continuation.ts:172 lifeEnd`, `:273 successorCandidates`, `:132 controlledLineage`. `src/simulation/crisis/death-causes.ts:128 deathSentence`; `src/simulation/vitality.ts:68 recordPersonDeath`.
 - Journal today: `src/presentation/journal-views.ts:41-42` (retrospective voice marked PENDING RESEARCH, question `journal-chronicle-voice`), `:128 CHRONICLE_PARAGRAPH_SENTENCES = 4`, `:186 chronicleLines`, `:247 projectJournalView`; `world39-journal.ts:74 projectWorld39Journal`, `:515 inOwnVoice`; `journal-first-person.ts:114,173` (pronoun swap); `journal-significance.ts:4,19`.
 - Loading-time journal: `src/presentation/life-so-far-english.ts:25 projectLifeSoFarEnglish` (Session 7 is building chapters here: reuse its composer and kin naming, do not fork). `life-record.ts:77 projectLifeRecord`; `simulation/narrative-threads.ts:203 narrativeThreads`; `speech-remembered-english.ts` (D-3).

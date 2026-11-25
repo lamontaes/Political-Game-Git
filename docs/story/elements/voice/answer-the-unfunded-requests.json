@@ -29,6 +29,5 @@
       "pulledBy": "The full request exceeds available money.",
       "writesBack": "The proposal records the site and duration of the trial."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

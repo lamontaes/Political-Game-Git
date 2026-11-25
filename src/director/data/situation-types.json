@@ -1066,7 +1066,6 @@
     },
     {
       "key": "first-day",
-      "stopsDay": true,
       "receive": {
         "age": "any",
         "counterpart": "any",

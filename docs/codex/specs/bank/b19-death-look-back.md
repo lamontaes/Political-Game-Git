@@ -16,7 +16,7 @@ When your character dies (or you retire them from play), the screen does not jum
 ## Existing code it must use
 
 - `src/player/LifeContinuationPanel.tsx:18` — the panel shown when a played life ends; heading :92-101, successor choices :104-148, "View this life's record" :162-166.
-- `src/player/PlayerGame.tsx:2747` (removed) — mounts the panel; :2767 `onViewRecord` opens the person page.
+- `src/player/PlayerGame.tsx:2747` — mounts the panel; :2767 `onViewRecord` opens the person page.
 - `src/presentation/people-continuation.ts:77` `LifeContinuationView` and `:97 projectLifeContinuation` — pure view of the ended life; heading from `deathSentence`.
 - `src/simulation/people-continuation.ts:172 lifeEnd` (death or retirement), `:273 successorCandidates`, `:132 controlledLineage`.
 - `src/simulation/crisis/death-causes.ts:128 deathSentence`; `src/simulation/vitality.ts:68 recordPersonDeath` (writes `history.personDeaths`).

@@ -21,7 +21,7 @@ The owner, word for word:
 - Nov 24, grading page 1: "I would say something like 2025 was my first election. I vividly remember watching President Cunningham's speech together ... At the time, you know, I didn't pay that much attention."
 - Nov 24, grading page 1, on loading: "Printing money. Printing more money. Printing even more money. Like, those could pop up consecutively ... These need to be short."
 
-Read `story-writer` first, and your area's part of its `references/his-words.md`: what he already said, so you don't start from scratch. The lane's moves and facts are in `docs/story/writer-spec.md` on branch `story/first-evening`.
+Read `story-writer` first. The lane's moves and facts are in `docs/story/writer-spec.md` on branch `story/first-evening`.
 
 ## The rules that must hold
 

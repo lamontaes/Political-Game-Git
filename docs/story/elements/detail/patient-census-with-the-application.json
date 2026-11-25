@@ -23,6 +23,5 @@
       "pulledBy": "Its first return omitted one unit.",
       "writesBack": "The revised census becomes part of the review file."
     }
-  ],
-  "issues": ["budget:federal:medicare"]
+  ]
 }

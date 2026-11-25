@@ -69,7 +69,7 @@ Components:
 
 Touched:
 
-- `src/player/PlayerGame.tsx` (removed) — `PlayingScreen` now composes the shell.
+- `src/player/PlayerGame.tsx` — `PlayingScreen` now composes the shell.
 - `src/player/PlayerConversation.tsx` — one optional `initialAddressee` prop.
 - `src/presentation/browser-world-repository.ts` — the database migration.
 - `src/main.tsx` — one stylesheet import.

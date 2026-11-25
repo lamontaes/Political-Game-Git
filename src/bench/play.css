@@ -306,17 +306,25 @@ ol {
   width: calc(var(--mine) * 1.9);
   height: calc(var(--mine) * 1.6);
   transform: translate(-50%, -50%);
-  /* Eased all the way out, so on a bright sky it is a faint shade and never a patch
-     (CTO, Nov 24: nothing hard-edged). */
   background: radial-gradient(
     closest-side,
-    rgba(24, 20, 16, 0.26),
-    rgba(24, 20, 16, 0.2) 25%,
-    rgba(24, 20, 16, 0.11) 50%,
-    rgba(24, 20, 16, 0.04) 75%,
+    rgba(24, 20, 16, 0.62),
+    rgba(24, 20, 16, 0.3) 55%,
     transparent
   );
   pointer-events: none;
+}
+/* The label stands above the people, at the strip's left end, so it never lies over a name. */
+.bust-strip .busts-label {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  padding-bottom: 4px;
+  font: var(--group-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 .bust-strip .busts-row {
   position: relative;
@@ -359,13 +367,10 @@ ol {
 /* The office a scene names someone by, under their name; . */
 .bust-strip .busts-role {
   font: 500 var(--t-label) var(--ui);
-  color: var(--text);
+  color: var(--muted);
   padding-bottom: 8px;
   white-space: nowrap;
-  /* Read on a bright sky now that no dark pool sits behind it. */
-  text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.9),
-    0 0 6px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 .bust-strip .busts-person:has(.busts-role) .busts-name {
   padding-bottom: 0;
@@ -446,6 +451,7 @@ ol {
   --bust: min(100cqw, 100cqh);
   height: 100%;
 }
+#tv-screen .busts-glass,
 #tv-screen .busts-name {
   display: none;
 }
@@ -468,34 +474,17 @@ ol {
 #game:has(#person:not([hidden])) #tv {
   display: none;
 }
-/* Who is here: small and packed in the top-right corner of the screen, like mock C
-   (owner, Nov 24: "they're supposed to be at the top right"; docs/mocks/2026-11-16-speaker). */
+/* Who is here: along the foot of the room, clear of the player card. */
 #here {
   position: absolute;
-  top: calc(var(--gutter) + 1px);
-  right: var(--gutter);
+  left: 472px;
+  right: 40px;
+  bottom: 26px;
 }
-#here .bust-strip {
-  --bust: 96px;
-}
-/* A menu or the front screens take the room. */
+/* A talk, a menu or the front screens take the foot of the room. */
+#game:has(#talk:not([hidden])) #here,
 #game.sheet-open #here,
 #game:has(#front:not([hidden])) #here {
-  display: none;
-}
-/* The news toast has the corner's top right while it shows: the people stand just
-   left of it, and go back when it closes. */
-#here {
-  transition: right 0.25s ease;
-}
-#game:has(#news-surface:not([hidden])) #here {
-  right: calc(var(--gutter) + 340px + 16px);
-}
-#game:has(#tv:not([hidden])) #here {
-  top: calc(var(--tv-bottom, 190px) + 12px);
-}
-/* Whoever speaks leaves their place in the corner while the talk lasts. */
-#game:has(#talk:not([hidden])) #here .busts-person.in-talk {
   display: none;
 }
 /* A panel at the side of the room (the meeting, the desk, the ballot, election
@@ -518,6 +507,12 @@ ol {
   .busts-row {
   padding: 0 8px;
 }
+/* The band is too narrow there for its label beside the names. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-label {
+  display: none;
+}
 /* Three stand in the room the panel leaves; the rest are the faces on it. */
 #game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
   #here
@@ -537,27 +532,16 @@ ol {
 #game:has(#person:not([hidden])) #here {
   visibility: hidden;
 }
-/* In a talk the speaker's bust sits on the talk box's top edge and comes down to
-   it from the corner (owner, Nov 16; Nov 24). */
+/* On the talk box the strip joins its top edge, and the busts follow how many
+   stand there (the owner's sizes: one, two, and three or four). */
 #talk-strip {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 100%;
 }
-#talk-strip .talk-speaker {
+#talk-strip .bust-strip {
   --bust: 190px;
-  animation: talk-down 0.45s ease-out;
-}
-@keyframes talk-down {
-  from {
-    transform: translateY(calc(-1 * (var(--gutter) + 40vh)));
-    opacity: 0.4;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
 }
 #stage.cut {
   animation: cut 0.6s ease-out;
@@ -1953,6 +1937,10 @@ body:not(.dev) .dev-only {
 }
 #journal-note:has(#journal-line:empty) {
   display: none;
+}
+/* With people in the room, the note sits above their strip, never on a face. */
+#game:has(#here .bust-strip) #journal-note {
+  bottom: calc(26px + 140px + 28px);
 }
 
 /* ---- Menus: the rail on the left, the open screen beside it ---- */
@@ -4945,18 +4933,6 @@ select.release-pick {
   font-variant-numeric: lining-nums tabular-nums;
   color: #f6dfae;
 }
-/* Tabular figures widen a space in the font: a name in a value reads as one word, spaced once. */
-.strip-screen .dotvalue .nm {
-  font-variant-numeric: lining-nums;
-}
-/* A stand wrapped over two lines keeps its For or Against on the last line, beside the leader. */
-.candidate .dotrow {
-  align-items: last baseline;
-}
-.candidate .dotvalue {
-  flex: none;
-  white-space: nowrap;
-}
 #person.dossier .sheet-head {
   position: absolute;
   top: 22px;
@@ -5652,17 +5628,6 @@ select.release-pick {
   font: var(--pick-aside-font);
   color: var(--muted);
   white-space: nowrap;
-}
-/* A list whose rows all break alike (Elections): the aside always sits on its own
-   line under the name, so one row never carries it beside the name and the next
-   under it (owner, Nov 23: "Why is the 2021 on a different line?"). */
-.pick-list.roster-stacked .pick,
-#sheet-body .pick-list.roster-stacked .pick {
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 2px;
 }
 #sheet-body .pick-list .pick:hover,
 #sheet-body .pick-list .pick:focus-visible {

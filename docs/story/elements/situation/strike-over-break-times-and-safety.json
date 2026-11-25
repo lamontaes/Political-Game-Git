@@ -31,9 +31,5 @@
       "pulledBy": ["employer worried about orders"],
       "writesBack": "workers' trust in the union rises"
     }
-  ],
-  "issues": [
-    "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
-    "law:minimum-wage"
   ]
 }

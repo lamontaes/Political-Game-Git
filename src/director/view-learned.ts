@@ -16,7 +16,7 @@
  * taught it. Nothing here decides what anyone believes: it only moves what
  * the views engine already holds into what the player knows.
  */
-import { isOutsideMarket, organizationName } from "./words";
+import { organizationName } from "./words";
 import { closenessBetween } from "../core2/closeness";
 import {
   VIEWS_MODULE_ID,
@@ -215,7 +215,7 @@ export function viewReason(
   if (
     !job ||
     !employer ||
-    isOutsideMarket(employer) ||
+    employer.outsideFlow ||
     employer.kind === "government-treasury"
   )
     return null;

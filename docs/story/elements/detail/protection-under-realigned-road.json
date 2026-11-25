@@ -27,6 +27,5 @@
       "pulledBy": "The first inspection leaves a buried component unverified.",
       "writesBack": "The acceptance record gives the later inspection date."
     }
-  ],
-  "issues": ["budget:naturalResources", "budget:highways"]
+  ]
 }

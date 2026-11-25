@@ -7,7 +7,7 @@ Head this was written against: branch `cursor/p29-c-talk-focus-layout-a942`.
 
 ## Mount
 
-In `src/player/PlayerGame.tsx` (removed):
+In `src/player/PlayerGame.tsx`:
 
 1. `InvokerFocusReturn` inside the play `main`, with
    `personId={conversation ? null : returnFocusTo}` and `onDone` clearing that

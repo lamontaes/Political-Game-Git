@@ -18,7 +18,7 @@ On election night you are somewhere real: your living room for a small race, a r
 - `src/simulation/living-world/local-elections.ts:1146` (caller), `:1163 localElectionCountHandler` (Session 13 is folding all levels into the contest path).
 - `src/presentation/national-election-results.ts:16 projectNationalElectionResults`: reads `unit-result` records with `unitKey` (:31): the existing results-by-unit pattern to reuse for every level.
 - `src/simulation/speech-reception.ts:119 electionNightWitnesses`: who is in the room (household, family and close friends in the same place, active campaign staff). `:146 speechReactionOf`: each witness's reaction from reasons.
-- `src/simulation/campaign-speeches.ts:42 ELECTION_NIGHT_LOCATION_KEY`, `:155 recordElectionSpeech`; `src/presentation/place-backdrops.ts:277 electionNightLocationKey`; `src/player/PlayerGame.tsx:1619` (removed) (election night overrides the home backdrop).
+- `src/simulation/campaign-speeches.ts:42 ELECTION_NIGHT_LOCATION_KEY`, `:155 recordElectionSpeech`; `src/presentation/place-backdrops.ts:277 electionNightLocationKey`; `src/player/PlayerGame.tsx:1619` (election night overrides the home backdrop).
 - `src/presentation/backdrop-surfaces.ts:568-600 readResults`: the room TV shows a decided count for three days.
 - `src/presentation/campaign-projection.ts:233 displayedSharePercents`: shares that add to 100.
 - `src/simulation/campaigns.ts:2099 closeCampaignAfterElection`: ends staff work at `result.resolvedAt` (:2136-2152) BEFORE the player gives a speech, so `electionNightWitnesses` (active staff only, :127-133) drops the player's own staff from the room. Bug to fix here.

@@ -9,7 +9,6 @@
  * controls; every row is record data and every id opens in Trace.
  */
 import { coreAPI } from "../../core2/state";
-import { isOutsideMarket } from "../../director/words";
 import { LAWS_MODULE_ID, lawChain } from "../../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../../core2/business-module-id";
 import { closeByChoice, ownerOf } from "../../core2/modules/business";
@@ -106,7 +105,7 @@ export function townBusinesses(dev: Devish) {
   const rows = [];
   for (const [id, book] of core.finance.businesses) {
     const org = core.organizations.get(id);
-    if (!org || org.placeId !== town || isOutsideMarket(org)) continue;
+    if (!org || org.placeId !== town || org.outsideFlow) continue;
     const month = last.get(id);
     rows.push({
       organizationId: id,
@@ -333,7 +332,7 @@ export function whatCameOf(
   for (const row of tradingRows(api)) {
     if (row.date < from) continue;
     const other = core.organizations.get(row.organizationId);
-    if (!other || other.placeId !== town || isOutsideMarket(other)) continue;
+    if (!other || other.placeId !== town || other.outsideFlow) continue;
     const month = row.date.slice(0, 7);
     const sales = byMonth.get(month) ?? {};
     const industry = other.classification ?? other.kind;

@@ -1101,6 +1101,8 @@
     "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
     "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
     "cantFile": "You can't file for this race.",
+    "yourOffices": "Offices you can run for",
+    "alsoOnBallot": "Also on your ballot",
     "countyOffice": "County office",
     "refusal": {
       "not-your-office": "You can't run for this office.",
@@ -1124,6 +1126,7 @@
     "saved": "Graded"
   },
   "here": {
+    "label": "Here",
     "more": "and {count} more"
   },
   "tv": {

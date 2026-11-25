@@ -25,6 +25,5 @@
       "pulledBy": "The floor schedule leaves no common meeting time.",
       "writesBack": "The negotiator receives a written list organized by title."
     }
-  ],
-  "issues": ["none"]
+  ]
 }

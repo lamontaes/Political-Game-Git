@@ -208,15 +208,12 @@ export interface RegisteredLine {
   requires: string[];
   /** Whether an engine can offer it: conversation lines are checked against the engine's own data; other banks are read as a whole by their consumer. */
   reach: Reach;
-  /** The ids of the story elements (docs/story/elements) the piece draws on; empty until it is matched to one (owner, Nov 24: every line needs matching to an element). */
-  elements: string[];
 }
 
 interface RawPiece {
   key: string;
   move?: string;
   text: string;
-  elements?: string[];
   uses?: {
     requiresFacts?: string[];
     onlyWhen?: string[];
@@ -380,9 +377,6 @@ function readBankLines(): RegisteredLine[] {
             : reached.has(piece.key)
               ? "reached"
               : "unreached",
-        elements: Array.isArray(piece.elements)
-          ? piece.elements.filter((id) => typeof id === "string" && id)
-          : [],
       });
   }
   return lines;
