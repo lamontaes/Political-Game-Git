@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: merged
+status: dropped
 standard: 2
 claimed-by: claude/pt-board-favor-job
 pr: #10531
@@ -18,6 +18,8 @@ model: opus
 effort: high
 root: none
 merged-at: 2026-11-25T00:18:00.582Z
+seen-by: Dead stops tracer
+seen-at: 2026-11-25T01:25:56.447Z
 ---
 
 **What.** The friend's call (type `reach-out`, purpose `favor-job`, circumstance `job-lost-calls`) had no proof in a played world, and a probe that wrote the layoff and advanced the core directly saw no call. Seen: someone the working player knows, living apart, is laid off, and the next day they call the player to ask for a word.
@@ -37,3 +39,5 @@ merged-at: 2026-11-25T00:18:00.582Z
 **Files.** src/bench/dev-mode.ts, src/director/favor-job-played.test.ts (new)
 
 **Notes.** Filed by Board mock (lane 8), Nov 24. The Coordinator's brief was to stack this on the tracer's #10526 (`director.runningFor`); the call needs no `runningFor` when days pass through the player's clock, and the test passes on main at Washington, D.C., so it is cut from main. Dev mode's Run until is the path `runningFor` serves.
+
+Seen in the game (2026-11-25, Dead stops tracer): Bryantown, Maryland, seed cda9151f-4336-4e38-9d47-71c8904f3110, main b84540133d: The player, a cashier, used dev mode's Force on reach-out, which laid off Janice Munoz (person_08658e5b9d7b863c) on January 20, 2025; one Day (to January 21, 7:00 AM) brought no call, and the next morning the call came on screen: First thing on January 22nd, you pick up, and it's Janice Munoz, a job-lost-calls reach-out stopping the day (scene-now). The call is one day later than the Done-when's single Day press; favor-job-played.test.ts passed (Elk Point, South Dakota).

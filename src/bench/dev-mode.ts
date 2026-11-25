@@ -114,6 +114,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { EntityId } from "../core2/kernel/brands";
 import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { applyForOpening, layOffWorker } from "../core2/modules/jobs";
+import { leaveJobAs } from "./openings";
 import {
   beginSeriousIllness,
   COVERAGE_MODULE_ID,
@@ -154,6 +155,9 @@ const SCENE_RECIPES: Readonly<Record<string, string>> = {
   "life.death": "death",
   "work.job-lost": "layoff",
   "health.serious-illness": "illness",
+  // A job the player leaves by their own press (the last day at work): the
+  // moment's label, since the job record also causes a first meeting.
+  "money:job-left": "quit",
   // An offer comes only to a player who applied (owner, Nov 16): apply for the
   // town's openings each day, the Openings screen's own call, until one calls.
   "job-offered": "apply",
@@ -1452,6 +1456,24 @@ export class DevMode {
    * record of why, the work.job-lost event, the state claim and the news follow as for any layoff. A
    * worker who played today's day is let go the next day, which this says.
    */
+  /**
+   * The player leaves their job by their own press, the game's own call (`leaveJobAs`, the same as
+   * the Leave work control): the jobs engine ends it as a job left, never lost, and the household,
+   * the coworkers' farewell and the Journal read it so.
+   */
+  forceQuit(personId: string) {
+    const person = personOrFillIn(this.core, personId);
+    if (!person) throw new Error("No such person.");
+    const jobId = person.jobId;
+    if (!jobId) throw new Error("They have no job to leave.");
+    const out = leaveJobAs(this.core, personId);
+    if (!out.left) throw new Error(`The job stays: ${out.why}.`);
+    return {
+      mark: this.mark("quit", [personId], { personId, jobId }),
+      quit: out,
+    };
+  }
+
   forceLayoff(personId: string) {
     const person = personOrFillIn(this.core, personId);
     if (!person) throw new Error("No such person.");
@@ -1760,6 +1782,8 @@ export class DevMode {
     const personId =
       (scene.recipe === "death" ? input.mournedId : input.forId) ??
       input.personId ??
+      // The player leaves their own job.
+      (scene.recipe === "quit" ? player?.id : undefined) ??
       (scene.recipe === "layoff"
         ? [player?.id, ...circle].find(
             (id) => id && this.core.people.get(id)?.jobId,
@@ -1783,7 +1807,9 @@ export class DevMode {
     const out =
       scene.recipe === "layoff"
         ? this.forceLayoff(personId)
-        : this.forceIllness(personId);
+        : scene.recipe === "quit"
+          ? this.forceQuit(personId)
+          : this.forceIllness(personId);
     // An illness is the player's own where the type is about them, or one at home's where the type is
     // about the one who comes to them (a care visit), so the scene follows from it.
     return {
