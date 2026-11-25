@@ -32,7 +32,7 @@ seen-at: 2026-11-25T01:25:56.447Z
 
 **Rules.** Every effect can be triggered from the game's own code in dev mode and traced (owner, Nov 14): dev mode's existing layoff control and its mark.
 
-**Done when.** A second session, in a drawn place whose player works and knows a working person in another household, uses dev mode's scene control on "reach-out" for that person, presses Day, and sees that person call to ask for a word; `src/director/favor-job-played.test.ts` passes.
+**Done when.** A second session, in a drawn place whose player works and knows a working person in another household, uses dev mode's scene control on "reach-out" for that person, presses Day (within a few presses: scenes from circumstance are picked at a day's close, one a day, so the call can come on the first or second morning), and sees that person call to ask for a word; `src/director/favor-job-played.test.ts` passes.
 
 **Waits on.** Nothing.
 
@@ -41,3 +41,5 @@ seen-at: 2026-11-25T01:25:56.447Z
 **Notes.** Filed by Board mock (lane 8), Nov 24. The Coordinator's brief was to stack this on the tracer's #10526 (`director.runningFor`); the call needs no `runningFor` when days pass through the player's clock, and the test passes on main at Washington, D.C., so it is cut from main. Dev mode's Run until is the path `runningFor` serves.
 
 Seen in the game (2026-11-25, Dead stops tracer): Bryantown, Maryland, seed cda9151f-4336-4e38-9d47-71c8904f3110, main b84540133d: The player, a cashier, used dev mode's Force on reach-out, which laid off Janice Munoz (person_08658e5b9d7b863c) on January 20, 2025; one Day (to January 21, 7:00 AM) brought no call, and the next morning the call came on screen: First thing on January 22nd, you pick up, and it's Janice Munoz, a job-lost-calls reach-out stopping the day (scene-now). The call is one day later than the Done-when's single Day press; favor-job-played.test.ts passed (Elk Point, South Dakota).
+
+Done-when corrected (Board mock, 2026-11-25): "presses Day" meant within a few presses, as the played test waits up to five days; the reach-out row stages at its cause and the director picks one scene from circumstance at each day's close, so the second morning at Bryantown is the design, not a late call.
