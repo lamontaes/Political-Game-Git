@@ -124,3 +124,162 @@ describe("one history: readers move off the generated past", () => {
     expect(proxyReads('"work:tenure-summary-v2"', kinds)).toEqual([]);
   });
 });
+
+/**
+ * One reader (owner, Nov 25, 2026: "THE JOURNAL, DIRECTOR, PERSON CARDS, ETC
+ * ALL PULL FROM THE SAME HISTORY. STOP MAKING NEW SYSTEMS FOR NEW THINGS WHEN
+ * THEY ALL USE THE SAME THING"): a screen, scene, journal line, news story or
+ * speech reads what already happened through the one history reader
+ * (`historyOf`, src/core2/past-history.ts), never by rebuilding a past from
+ * the records itself. A rebuild is a raw past reader called by name, a scan
+ * of the log (by kind, by person, or all of it), or a person's own facts or
+ * remembered list read directly. Reading one record by its id
+ * (`durableLog.get`) is not a past: a scene's cause is read that way.
+ */
+const VIEW_DIRS = ["src/bench", "src/director", "src/english"];
+const RAW_PAST_READERS = [
+  "preStartHistory",
+  "lifeOf",
+  "openWholePast",
+  "schoolsAttended",
+  "schoolsOf",
+  "pastWorkOf",
+  "pastWorkFor",
+  "pastWorkHistory",
+  "pastMovesFor",
+  "pastMovesHistory",
+  "pastPartnersFor",
+  "pastHealthFor",
+  "pastServiceFor",
+  "pastJusticeFor",
+  "schoolHistory",
+  "schoolHistoryFor",
+  "schoolSpans",
+  "centuryOf",
+  "centuryPresidency",
+  "centuryLegislatures",
+  "centuryRace",
+  "centurySeatRace",
+  "centuryCongressSeat",
+  "centuryLaw",
+  "centuryParties",
+  "lawHistory",
+  "pastTable",
+  "pastElections",
+  "sharedHistory",
+  "heldSinceRecord",
+  "bornIn",
+  "residenceOn",
+  "openPastTerms",
+  "pastIdsOf",
+  "pastRowsNaming",
+  "pastRowsOf",
+];
+const LOG_SCANS: readonly RegExp[] = [
+  /\blogByKind\b/g,
+  /\blogByPerson\b/g,
+  /\bdurableLog\s*\.\s*(values|keys|entries|forEach)\b|\.\.\.\s*[\w.]*durableLog\b|\bof\s+[\w.]*durableLog\b/g,
+  /\.pastFacts\b/g,
+  /\.remembered\b/g,
+];
+const IMPORTS = /import\s+(?:type\s+)?\{([^}]*)\}\s*from\s*["'][^"']+["']/g;
+
+/**
+ * How many times a source rebuilds a past outside the reader, comments
+ * skipped: each raw past reader it imports (under any name it gives it) and each call of it, and each log scan or read of a person's own
+ * facts or remembered list.
+ */
+export function pastRebuilds(source: string): number {
+  const code = source
+    .replace(/\/\*[\s\S]*?\*\//g, " ")
+    .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1");
+  let count = 0;
+  const local = code.replace(IMPORTS, (_whole, names: string) => {
+    for (const part of names.split(",")) {
+      const [name, alias] = part
+        .replace(/^\s*type\s+/, "")
+        .split(/\s+as\s+/)
+        .map((word) => word.trim());
+      if (!name || !RAW_PAST_READERS.includes(name)) continue;
+      count += 1;
+      const called = new RegExp(`(^|[^.\\w])${alias ?? name}\\s*\\(`, "g");
+      count += code.match(called)?.length ?? 0;
+    }
+    return " ";
+  });
+  return LOG_SCANS.reduce(
+    (sum, pattern) => sum + (local.match(pattern)?.length ?? 0),
+    count,
+  );
+}
+
+describe("one history: every system reads the one history reader", () => {
+  const allowed = (
+    list as unknown as {
+      readsOutsideTheReader: { files: Record<string, number> };
+    }
+  ).readsOutsideTheReader.files;
+  const files = execFileSync("git", ["ls-files", ...VIEW_DIRS], {
+    cwd: ROOT,
+    encoding: "utf8",
+  })
+    .split("\n")
+    .filter(
+      (file) =>
+        /\.(ts|tsx|mjs)$/.test(file) &&
+        !/\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
+    );
+  const found = new Map(
+    files
+      .map(
+        (file) =>
+          [
+            file,
+            pastRebuilds(readFileSync(path.join(ROOT, file), "utf8")),
+          ] as const,
+      )
+      .filter(([, n]) => n > 0),
+  );
+
+  it("builds no new past outside the reader", () => {
+    const over = [...found]
+      .filter(([file, n]) => n > (allowed[file] ?? 0))
+      .map(
+        ([file, n]) =>
+          `${file}: rebuilds a past from the records ${n} times (${allowed[file] ?? 0} allowed). Read historyOf (src/core2/past.ts) instead.`,
+      );
+    expect(over).toEqual([]);
+  });
+
+  it("lowers a file's count as soon as it reads the reader", () => {
+    const stale = Object.entries(allowed)
+      .filter(([file, n]) => (found.get(file) ?? 0) < n)
+      .map(
+        ([file, n]) =>
+          `${file}: lower ${n} to ${found.get(file) ?? 0} in tests/guards/one-history-proxies.json (readsOutsideTheReader)`,
+      );
+    expect(stale).toEqual([]);
+  });
+
+  it("counts a raw past read and a log scan, and nothing else", () => {
+    expect(
+      pastRebuilds(
+        'import { preStartHistory } from "../core2/past";\npreStartHistory(core, { personId });',
+      ),
+    ).toBe(2);
+    expect(
+      pastRebuilds(
+        'import { bornIn as birthplaceOf } from "../core2/past-module";\nbirthplaceOf(core, person);',
+      ),
+    ).toBe(2);
+    expect(pastRebuilds("const bornIn = placeLabel(born);")).toBe(0);
+    expect(
+      pastRebuilds("for (const id of core.logByKind.get(kind) ?? [])"),
+    ).toBe(1);
+    expect(pastRebuilds("[...core.durableLog.values()]")).toBe(1);
+    expect(pastRebuilds("person.pastFacts ?? []")).toBe(1);
+    expect(pastRebuilds("core.durableLog.get(cause)")).toBe(0);
+    expect(pastRebuilds("historyOf(core, { person })")).toBe(0);
+    expect(pastRebuilds("// preStartHistory in a comment")).toBe(0);
+  });
+});

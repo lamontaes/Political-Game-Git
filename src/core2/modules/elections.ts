@@ -47,6 +47,12 @@ import filingTerms from "../../../data/research/elections/candidate-filing-terms
 import petitionRules from "../data/elections/petition-rules.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
+import {
+  centuryOf,
+  historyMode,
+  type CenturyPresidency,
+} from "../electorate-century";
+import type { HistoryModule, HistoryRow, HistorySource } from "../past";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -308,8 +314,57 @@ export interface FilingRow {
   readonly ticketWith?: string;
 }
 
-export const ELECTIONS_MODULE: CoreModule = {
+/** A presidency of the century as the one history reader tells it: the term, from the day it began. */
+function presidencyHistory(row: CenturyPresidency): HistoryRow {
+  return {
+    id: row.id,
+    date: row.termStart as HistoryRow["date"],
+    life: "politics",
+    what: "presidency",
+    record: "century.presidency",
+    from: "past",
+    personIds: [],
+    withIds: [],
+    facts: {
+      year: String(row.year),
+      termStart: row.termStart,
+      termEnd: row.termEnd,
+      winnerParty: row.winnerParty,
+      presidentId: row.presidentId,
+      personTerms: String(row.personTerms),
+      partyTerms: String(row.partyTerms),
+      incumbentRan: String(row.incumbentRan),
+    },
+  };
+}
+
+/**
+ * The century the world ran from 1925 is the nation's history: every
+ * presidency, read by the one history reader (src/core2/past-history.ts).
+ * A world that opened on today's real record ran no century and has none.
+ */
+const CENTURY_HISTORY: HistorySource = {
+  id: "century",
+  rows(core, scope, ask) {
+    if (!("nation" in scope) || historyMode(core.seed) !== "century") return [];
+    if (ask.kinds && !ask.kinds.includes("century.presidency")) return [];
+    return centuryOf(core.seed, core.startedAt).presidencies.map(
+      presidencyHistory,
+    );
+  },
+  row(core, id) {
+    if (!id.startsWith("century:") || historyMode(core.seed) !== "century")
+      return undefined;
+    const row = centuryOf(core.seed, core.startedAt).presidencies.find(
+      (held) => held.id === id,
+    );
+    return row ? presidencyHistory(row) : undefined;
+  },
+};
+
+export const ELECTIONS_MODULE: CoreModule & HistoryModule = {
   id: ELECTIONS_MODULE_ID,
+  history: CENTURY_HISTORY,
   state: {
     schemaVersion: 1,
     tables: {

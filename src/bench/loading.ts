@@ -1,5 +1,4 @@
 import type { EntityId } from "../core2/kernel/brands";
-import { lifeOf, openWholePast } from "../core2/modules/people";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { spoken, stateInSentence } from "../director/words";
 import type { GroundedEnglishFact } from "../english/grounded-english";
@@ -7,15 +6,13 @@ import { tell, type TellingInput } from "../english/outline-planner";
 import type { CoreState, PersonId } from "../core2/types";
 import { governmentMap } from "./map";
 import { coreAPI } from "../core2/state";
-import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { townSeats } from "../core2/modules/offices";
-import { centuryOf, historyMode } from "../core2/modules/elections";
 import { ageOnDate } from "../core2/kernel/dates";
 import { jobTitleByKind } from "../core2/person-work";
 import { sayableJobTitle } from "../english/said-as";
 import { withArticle } from "../english/journal-words";
 import { employerWords } from "../director/words";
-import { schoolsAttended } from "../core2/past";
+import { historyOf, SCHOOL_STARTED, schoolName } from "../core2/past";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
 const SECTION_YEAR: Readonly<Record<string, string>> = {
@@ -32,7 +29,7 @@ const SECTION_YEAR: Readonly<Record<string, string>> = {
 /**
  * The player's life as the loading card tells it (owner, Nov 23, P5 and P6:
  * "a little sarcastic", "It's still not written as a story"): the outline
- * row `loading-story` told from the player's own life records (lifeOf), each
+ * row `loading-story` told from the player's own history (historyOf), each
  * sentence shown at its record's year. Nothing is said that the records do
  * not hold.
  */
@@ -42,11 +39,9 @@ export function loadingTelling(
 ): TellingInput | null {
   const person = core.people.get(playerId);
   if (!person) return null;
-  // The whole past is written before it is read, as the person card writes
-  // it, so the story cites the records the card shows (writing it replaces
-  // the records a partial past stood on).
-  openWholePast(core, playerId as PersonId);
-  const events = lifeOf(core, playerId as PersonId);
+  // The one history reader writes the whole past before it reads it, so the
+  // story cites the records the card shows.
+  const events = historyOf(core, { person: playerId as PersonId });
   const facts: Record<string, GroundedEnglishFact> = {};
   const put = (key: string, text: string, id: string) => {
     facts[key] ??= { text, sourceRecordIds: [id as EntityId] };
@@ -134,37 +129,32 @@ export function loadingTelling(
   }
   // The first school's name, from the school engine's own records, where it
   // names one (a school with no name leaves the fact out).
-  const firstSchool = schoolsAttended(core, playerId)[0];
-  if (firstSchool?.name)
-    put("school-name", firstSchool.name, firstSchool.recordId);
+  const firstSchool = events.find((event) => event.record === SCHOOL_STARTED);
+  const firstSchoolName = firstSchool
+    ? schoolName(core, String(firstSchool.facts?.schoolId ?? ""))
+    : undefined;
+  if (firstSchool && firstSchoolName)
+    put("school-name", firstSchoolName, firstSchool.id);
   // The family moved before the child started school: the school's own
   // start came at the new home, so the move is part of why it is where it is.
   if (days.moved && days.school && days.moved.date < days.school.date)
     put("moved-before-school", "yes", days.moved.id);
-  // The first job, from the jobs module's earliest hire row for this
-  // person (the same table `lastLayoff` reads for the office-hours scene).
-  if (core.modules.has(JOBS_MODULE_ID)) {
-    const hires = (
-      coreAPI(core)
-        .moduleState(JOBS_MODULE_ID)
-        .table("changes")
-        .query("byPerson", [playerId]) as unknown as {
-        id: string;
-        date: string;
-        kind: string;
-        organizationId: string;
-      }[]
-    )
-      .filter((row) => row.kind === "hire" && row.date <= core.date)
-      .sort((x, y) => x.date.localeCompare(y.date) || x.id.localeCompare(y.id));
-    if (hires[0]) {
-      put("first-job-year", yearOf(hires[0].date), hires[0].id);
-      // The first employer's name, said as the world says an employer, where
-      // the organization still has a record to say it from.
-      const first = core.organizations.get(hires[0].organizationId as never);
-      const said = first ? employerWords(first) : null;
-      if (said) put("first-employer", said, first!.id);
-    }
+  // The first job: the earliest hire the history holds for this person (the
+  // jobs engine's change records, read through the one reader).
+  const hires = historyOf(
+    core,
+    { person: playerId as PersonId },
+    { kinds: ["job-change:hire"], through: core.date },
+  ).sort((x, y) => x.date.localeCompare(y.date) || x.id.localeCompare(y.id));
+  if (hires[0]) {
+    put("first-job-year", yearOf(hires[0].date), hires[0].id);
+    // The first employer's name, said as the world says an employer, where
+    // the organization still has a record to say it from.
+    const first = core.organizations.get(
+      String(hires[0].facts?.organizationId ?? "") as never,
+    );
+    const said = first ? employerWords(first) : null;
+    if (said) put("first-employer", said, first!.id);
   }
   // Who held the White House when each part of the life began, from the
   // history the world ran from 1925 (the century's presidency rows). The
@@ -283,19 +273,28 @@ export function loadingTelling(
 /**
  * The party in the White House on a day, and whether it had held it a term or
  * more before that (the party's straight terms, never said as a count), from
- * the century's presidency row whose term spans the day. Nothing where the
- * world did not run the century ("today" history) or the day falls outside it.
+ * the nation's history: the presidency whose term spans the day. Nothing where
+ * the world ran no century ("today" history) or the day falls outside it.
  */
 function presidencyParty(
   core: CoreState,
   date: string,
 ): { party: string; again: boolean; rowId: string } | null {
-  if (historyMode(core.seed) !== "century") return null;
-  const row = centuryOf(core.seed, core.startedAt).presidencies.find(
-    (r) => r.termStart <= date && date < r.termEnd,
+  const row = historyOf(
+    core,
+    { nation: true },
+    { kinds: ["century.presidency"] },
+  ).find(
+    (event) =>
+      String(event.facts?.termStart) <= date &&
+      date < String(event.facts?.termEnd),
   );
   return row
-    ? { party: row.winnerParty, again: row.partyTerms > 1, rowId: row.id }
+    ? {
+        party: String(row.facts?.winnerParty),
+        again: Number(row.facts?.partyTerms) > 1,
+        rowId: row.id,
+      }
     : null;
 }
 
