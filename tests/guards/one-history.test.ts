@@ -175,23 +175,41 @@ const RAW_PAST_READERS = [
   "pastRowsNaming",
   "pastRowsOf",
 ];
-const REBUILDS: readonly RegExp[] = [
-  ...RAW_PAST_READERS.map((name) => new RegExp(`\\b${name}\\b`, "g")),
+const LOG_SCANS: readonly RegExp[] = [
   /\blogByKind\b/g,
   /\blogByPerson\b/g,
   /\bdurableLog\s*\.\s*(values|keys|entries|forEach)\b|\.\.\.\s*[\w.]*durableLog\b|\bof\s+[\w.]*durableLog\b/g,
   /\.pastFacts\b/g,
   /\.remembered\b/g,
 ];
+const IMPORTS = /import\s+(?:type\s+)?\{([^}]*)\}\s*from\s*["'][^"']+["']/g;
 
-/** How many times a source rebuilds a past outside the reader; comments skipped. */
+/**
+ * How many times a source rebuilds a past outside the reader, comments
+ * skipped: each raw past reader it imports (under any name it gives it) and each call of it, and each log scan or read of a person's own
+ * facts or remembered list.
+ */
 export function pastRebuilds(source: string): number {
   const code = source
     .replace(/\/\*[\s\S]*?\*\//g, " ")
     .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1");
-  return REBUILDS.reduce(
-    (sum, pattern) => sum + (code.match(pattern)?.length ?? 0),
-    0,
+  let count = 0;
+  const local = code.replace(IMPORTS, (_whole, names: string) => {
+    for (const part of names.split(",")) {
+      const [name, alias] = part
+        .replace(/^\s*type\s+/, "")
+        .split(/\s+as\s+/)
+        .map((word) => word.trim());
+      if (!name || !RAW_PAST_READERS.includes(name)) continue;
+      count += 1;
+      const called = new RegExp(`(^|[^.\\w])${alias ?? name}\\s*\\(`, "g");
+      count += code.match(called)?.length ?? 0;
+    }
+    return " ";
+  });
+  return LOG_SCANS.reduce(
+    (sum, pattern) => sum + (local.match(pattern)?.length ?? 0),
+    count,
   );
 }
 
@@ -244,7 +262,17 @@ describe("one history: every system reads the one history reader", () => {
   });
 
   it("counts a raw past read and a log scan, and nothing else", () => {
-    expect(pastRebuilds("preStartHistory(core, { personId })")).toBe(1);
+    expect(
+      pastRebuilds(
+        'import { preStartHistory } from "../core2/past";\npreStartHistory(core, { personId });',
+      ),
+    ).toBe(2);
+    expect(
+      pastRebuilds(
+        'import { bornIn as birthplaceOf } from "../core2/past-module";\nbirthplaceOf(core, person);',
+      ),
+    ).toBe(2);
+    expect(pastRebuilds("const bornIn = placeLabel(born);")).toBe(0);
     expect(
       pastRebuilds("for (const id of core.logByKind.get(kind) ?? [])"),
     ).toBe(1);
