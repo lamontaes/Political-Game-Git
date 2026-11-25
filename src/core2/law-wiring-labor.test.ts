@@ -37,8 +37,16 @@ import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState, JobInput } from "./types";
 
 const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-/** Every law here needs its subject in the drawn town (a worker under the federal floor, a seated council member, a teacher, a full and a counted claimant, a claimant above the weekly maximum), so a draw often has none. */
-const TRIES = 10;
+/**
+ * Every law here needs its subject in the drawn town (a worker under the
+ * federal floor, a seated council member, a teacher, a full and a counted
+ * claimant, a claimant above the weekly maximum), so a draw often has none.
+ * At seed 7762e3e4 (Baxter Village, South Carolina) ten places in a row had
+ * none (four no claimant above the weekly maximum, three no teacher, two no
+ * seated council member, one no worker paid under the federal floor), so a
+ * draw goes on until a place has every subject, up to thirty places.
+ */
+const TRIES = 30;
 const WINDOW = 35;
 const Q = (s: string) => `us-policy-positions:${s}`;
 const KEYS = {
@@ -710,6 +718,12 @@ describe(
         for (let n = 0; n < TRIES; n += 1) {
           try {
             const { where, problems } = run(`labor-${n}`);
+            // Name what the draw passed over, so a run that needed many
+            // places says so instead of looking like a first draw.
+            if (tried.length)
+              process.stdout.write(
+                `labor law-wiring: ran in try ${n} (${where}), after passing over ${tried.join("; ")}\n`,
+              );
             expect(problems, where).toEqual([]);
             return;
           } catch (error) {
