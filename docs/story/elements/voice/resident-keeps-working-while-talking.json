@@ -1,0 +1,30 @@
+{
+  "id": "resident-keeps-working-while-talking",
+  "kind": "voice",
+  "summary": "A resident stays at a chore, such as spraying plants, and answers the canvasser from the yard.",
+  "realLife": "A New Jersey account has a father spraying plants with ammonia who said he would vote for the next guy.",
+  "sources": [
+    "Philadelphia Inquirer, NJ-3 Andy Kim and Tom MacArthur canvassing volunteers knock doors, 2018-10-22: https://www.inquirer.com/philly/news/new_jersey/shore/nj-3-andy-kim-tom-macarthur-election-2018-political-canvassing-volunteers-knock-doors-swing-left-20181022.html"
+  ],
+  "fits": ["campaign"],
+  "slots": ["issue"],
+  "gates": [],
+  "inGame": "household's activity at the door hour; the resident's lean from views",
+  "weights": {
+    "door": 0.5
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The resident keeps working and gives a one-line lean",
+      "pulledBy": "a busy hour",
+      "writesBack": "the list entry gets a lean, no long scene"
+    },
+    {
+      "turn": "The resident puts the tool down and listens",
+      "pulledBy": "interest in the office",
+      "writesBack": "a longer talk in the yard"
+    }
+  ]
+}

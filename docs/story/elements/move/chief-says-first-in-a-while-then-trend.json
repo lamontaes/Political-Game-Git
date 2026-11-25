@@ -1,0 +1,34 @@
+{
+  "id": "chief-says-first-in-a-while-then-trend",
+  "kind": "move",
+  "summary": "The chief calls it the first of its kind in a while, then says the region has seen more.",
+  "realLife": "A police chief called it the village's first daytime burglary in a while, then said the area was seeing more.",
+  "sources": [
+    "Patch (Palos, Illinois), 'Daytime Burglar Breaks Into Palos Park Home, Takes Cash And Jewelry', Nov. 29, 2022: https://patch.com/illinois/palos/daytime-burglar-breaks-palos-park-home-takes-cash-jewelry",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news", "office"],
+  "slots": ["name", "quote"],
+  "gates": [],
+  "weights": {
+    "crime": 0.9
+  },
+  "inGame": "the police chief as an official and the town's crime counts month to month (`conditions` up or down)",
+  "turns": [
+    {
+      "name": "the chief says it is part of a pattern",
+      "pulledBy": "several break-ins in a month",
+      "writes": "the chief names the count",
+      "requiresFacts": ["burglary"],
+      "excludesFacts": []
+    },
+    {
+      "name": "the chief says it is rare",
+      "pulledBy": "a quiet town",
+      "writes": "the chief says it is the only one this year",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,35 @@
+{
+  "id": "withhold-airport-payment",
+  "kind": "move",
+  "summary": "{person} holds up payment on a public project over who gets the contracts.",
+  "realLife": "Atlanta mayor Maynard Jackson withheld airport expansion payments while seeking work for minority contractors.",
+  "sources": [
+    "https://ajc.com/news/atlanta-black-history/how-maynard-jackson-jr-broke-the-good-old-boys-grip-on-city-funds/XGXLGKHP2VAUND7QRRBES5LKDM",
+    "https://en.wikipedia.org/wiki/Maynard_Jackson"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A contract payment is due and the city has authority to review its conditions."
+  ],
+  "weights": [
+    "A larger discrepancy in subcontracting records favors closer review."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the conditions for releasing a contract payment.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The city pays the invoice in full.",
+      "pulledBy": "An audit confirms the contractor met the participation requirement.",
+      "writesBack": "The payment ledger records the release."
+    },
+    {
+      "turn": "partial",
+      "what": "The city pays for accepted work and withholds the disputed portion.",
+      "pulledBy": "The contract separates the items under review.",
+      "writesBack": "The invoice shows the paid balance and the amount held."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,7 +1,7 @@
 /**
  * Law reach, group A (see index.ts): labor, business, housing, justice,
  * rights, technology and government policies. Every policy in
- * `data/laws/reach-group-a.json` puts its effect on the records of the named
+ * `src/core2/data/laws/reach-group-a.json` puts its effect on the records of the named
  * people, organizations, officeholders and counted groups it reaches; where
  * a mechanic runs (minimum wages, the leave premium, budget lines' staff and
  * money, election costs) it runs through the engine that owns the thing.

@@ -199,6 +199,7 @@ import {
   organizationName,
   businessNameSaid,
   employerWords,
+  isOutsideMarket,
   properName,
   spoken,
   spokenDate,
@@ -1274,6 +1275,11 @@ function victimizationSubjects(
       kind: "victimization",
       aboutId: moment.causeId,
       stage: type,
+      // The speaker's own moment of this crime is the record the subject
+      // rests on: the crime record itself is kept in the log only for those
+      // the player's circle names (retainLog), so a victim outside it has the
+      // moment in their book and no log row to tie the subject to.
+      tie: { kind: "record" as const, recordIds: [moment.causeId] },
       facts: {
         victimized: { text: "", sourceRecordIds: [moment.causeId] },
         when: {
@@ -2439,6 +2445,7 @@ function printedHeard(
       director,
       speakerId,
       listenerId,
+      refused,
     );
     if (!subject) continue;
     // A story with no tie to the pair is passed over for the next one.
@@ -2528,15 +2535,14 @@ function printedSubject(
   director: Director | undefined,
   tellerId: PersonId,
   listenerId: PersonId,
+  // Told each subject the tie rule refused; the story's words are written for
+  // it too, so the trace's row cites what they cite.
+  refused?: (subject: Subject) => void,
 ): Subject | null {
   if (story.kind !== PRINTED_STORY) return null;
   // A child tells no policy story with a side (stands, conversation-rules.json).
   if (!takesStands(core, tellerId)) return null;
   {
-    // Told by its question, never by its headline: the story's words are
-    // only cited when the paper has them.
-    const said = director?.storyWords?.(core as CoreState, story);
-    const cited = [story.id, ...(said?.sourceRecordIds ?? [])];
     const outlet = story.outletId
       ? core.organizations.get(story.outletId as EntityId)
       : undefined;
@@ -2581,6 +2587,15 @@ function printedSubject(
     // Raised only where the story is tied to the speaker or the hearer.
     const tie = storyTie(core, story, tellerId, listenerId);
     const sponsor = storySponsor(core, story);
+    // Told by its question, never by its headline: the story's words are
+    // only cited when the paper has them. Writing them is the costly step, so
+    // it is done only for a subject that is kept (tied) or handed to the
+    // refusal trace; an untied one nobody reads is never worded.
+    const said =
+      tie || refused
+        ? director?.storyWords?.(core as CoreState, story)
+        : undefined;
+    const cited = [story.id, ...(said?.sourceRecordIds ?? [])];
     return {
       id: `news:${story.id}`,
       kind: "news",
@@ -6951,7 +6966,7 @@ function lieClaims(
     const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
       .map((id) => jobOf(core, core.people.get(id)!)?.org)
       // The market's stand-in for work out of town is no employer to claim.
-      .filter((org) => org && org.id !== own.value && !org.outsideFlow);
+      .filter((org) => org && org.id !== own.value && !isOutsideMarket(org));
     const other = nearby.sort((a, b) =>
       stableHash(`${key}:${a!.id}`).localeCompare(
         stableHash(`${key}:${b!.id}`),

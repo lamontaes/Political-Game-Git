@@ -1,0 +1,30 @@
+{
+  "id": "skip-referral-to-a-hostile-chair",
+  "kind": "move",
+  "summary": "A leader puts a bill directly on the calendar when referral would leave it with a hostile chair.",
+  "realLife": "Mansfield bypassed Eastland’s Judiciary Committee to get the House civil rights bill before the Senate.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{leader}", "{committee}", "{bill}"],
+  "gates": ["The chamber permits direct placement on its calendar."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "bill-held-in-committee identifies a chair's hold. needs: a procedural choice to bypass referral before a chair obtains the bill.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The leader sends the bill to committee after the chair commits to a hearing date.",
+      "pulledBy": "The chair gives a public undertaking before referral.",
+      "writesBack": "The bill enters committee with a date members can check."
+    },
+    {
+      "turn": "partial",
+      "what": "The chamber sends one question to committee and keeps the rest before it.",
+      "pulledBy": "Members want a record on a narrow provision without delaying the entire bill.",
+      "writesBack": "The referral covers only the named question."
+    }
+  ],
+  "issues": ["none"]
+}

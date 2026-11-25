@@ -6,7 +6,6 @@
     "countyLine": "in {county}",
     "previous": "Previous {row}",
     "next": "Next {row}",
-    "randomPlace": "Random place",
     "missingGender": "Choose a gender to continue.",
     "missingName": "Type a first and last name to continue.",
     "missingPlace": "Choose where you are from to continue.",
@@ -153,8 +152,7 @@
   },
   "opening": {
     "news": "News",
-    "closeNews": "Close the news",
-    "newsToastSeconds": 8
+    "closeNews": "Close the news"
   },
   "person": {
     "whoIs": "Who {lower} is",
@@ -788,7 +786,6 @@
     "whoIAm": "Who I am",
     "whatImLike": "What I'm like",
     "myPeople": "My people",
-    "myLife": "My life",
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
@@ -814,7 +811,9 @@
     "nothingYet": "Nothing here yet.",
     "desk": "Around town",
     "printedNothing": "Nothing from {name} yet.",
-    "followsNone": "You don't follow a paper or a station."
+    "followsNone": "You don't follow a paper or a station.",
+    "follow": "Follow",
+    "unfollow": "Unfollow"
   },
   "jobs": {
     "work": "Work",
@@ -1102,8 +1101,6 @@
     "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
     "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
     "cantFile": "You can't file for this race.",
-    "yourOffices": "Offices you can run for",
-    "alsoOnBallot": "Also on your ballot",
     "countyOffice": "County office",
     "refusal": {
       "not-your-office": "You can't run for this office.",
@@ -1127,7 +1124,6 @@
     "saved": "Graded"
   },
   "here": {
-    "label": "Here",
     "more": "and {count} more"
   },
   "tv": {

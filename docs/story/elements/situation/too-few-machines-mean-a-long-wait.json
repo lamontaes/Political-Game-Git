@@ -1,0 +1,29 @@
+{
+  "id": "too-few-machines-mean-a-long-wait",
+  "kind": "situation",
+  "summary": "A polling place with few working machines makes voters wait for hours.",
+  "realLife": "One Georgia site had voters waiting nearly three hours with only three machines until more arrived.",
+  "sources": [
+    "ProPublica, Georgia voters face hours-long waits as the state scrambles to accommodate turnout: https://www.propublica.org/article/georgia-voters-face-hours-long-waits-as-state-scrambles-to-accommodate-turnout"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["place", "due"],
+  "gates": [],
+  "weights": {
+    "polling-place": 0.8
+  },
+  "inGame": "the voting module's polling place and ballot rows; needs: machine counts and a line",
+  "turns": [
+    {
+      "turn": "The place has enough machines",
+      "pull": "the budget",
+      "writes": "writes a quick vote"
+    },
+    {
+      "turn": "The line scares some voters off",
+      "pull": "a long wait",
+      "writes": "writes a lower turnout row"
+    }
+  ],
+  "usedBy": ["polling-place"]
+}

@@ -60,10 +60,6 @@
       "how": "writer",
       "reason": "circumstance"
     },
-    "last-day": {
-      "how": "writer",
-      "reason": "circumstance"
-    },
     "date": {
       "how": "writer",
       "reason": "journal-line"

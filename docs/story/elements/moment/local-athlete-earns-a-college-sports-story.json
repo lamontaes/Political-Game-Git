@@ -1,0 +1,31 @@
+{
+  "id": "local-athlete-earns-a-college-sports-story",
+  "kind": "moment",
+  "summary": "A local athlete’s move into Division I competition makes the town paper.",
+  "realLife": "Local signing-day coverage in Uxbridge, Massachusetts, followed four field hockey players making their college commitments just hours before a high school playoff game. Kendall Gilmore signed to play for Maryland.",
+  "sources": [
+    "https://sports.yahoo.com/article/dream-big-local-high-school-232707176.html",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L83"
+  ],
+  "inGame": "needs: a recorded athletic achievement with its competition level available to the local news desk.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{athlete}", "{place}", "{outlet}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The paper holds the story until the college confirms the athlete is on the roster.",
+      "pulledBy": "The family has announced plans and the roster has yet to be published.",
+      "writesBack": "The published story uses the confirmed entry date."
+    },
+    {
+      "turn": "partial",
+      "what": "The athlete makes the college roster and spends the opener on the bench.",
+      "pulledBy": "The official roster includes the athlete and the game report records no playing time.",
+      "writesBack": "The hometown story reports the roster spot and saves the debut for the first appearance."
+    }
+  ],
+  "issues": ["none"]
+}

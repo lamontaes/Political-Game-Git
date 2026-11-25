@@ -1,0 +1,32 @@
+{
+  "id": "tell-the-driver-before-paying-for-the-family",
+  "kind": "moment",
+  "summary": "A parent boarding in {place} tells the driver how many people they are paying for before tapping the card.",
+  "realLife": "RideKC told passengers paying for companions to tell the operator the group size first so the reader could be set for multiple fares.",
+  "sources": ["https://ridekc.org/fares-passes/"],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "A carrier permits one payer to cover a group and publishes the boarding procedure."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "inGame": "needs: a carrier permits one payer to cover a group and publishes the boarding procedure.",
+  "turns": [
+    {
+      "turn": "group",
+      "pulledBy": "The payer identifies companions before tapping.",
+      "what": "Use the group payment procedure.",
+      "writesBack": "Keep the passenger count with the transaction."
+    },
+    {
+      "turn": "single",
+      "pulledBy": "The payer is traveling alone.",
+      "what": "Use the ordinary single-rider procedure.",
+      "writesBack": "Record a single boarding."
+    }
+  ]
+}

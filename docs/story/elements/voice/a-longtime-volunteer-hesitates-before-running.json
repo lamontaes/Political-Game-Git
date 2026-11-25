@@ -1,0 +1,30 @@
+{
+  "id": "a-longtime-volunteer-hesitates-before-running",
+  "kind": "voice",
+  "summary": "A woman long active in civic groups says she saw herself as an administrator, watched local fights from the side, then agreed times had changed.",
+  "realLife": "In an oral history a county board member recalled leading civic groups, being teased about a church council as practice, and deciding to run once she had served on the planning body.",
+  "sources": [
+    "Arlington Public Library, oral history on getting involved in local politics, Mar. 7, 2019: https://library.arlingtonva.us/2019/03/07/oral-history-getting-involved-in-local-politics/"
+  ],
+  "fits": ["campaign", "journal"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "civic roles and appointments in a person's record; offer-to-run",
+  "weights": {
+    "volunteer": 0.5
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "She says no this cycle and watches",
+      "pulledBy": "a cautious trait and a divided town",
+      "writesBack": "a decline in the Journal and a later offer"
+    },
+    {
+      "turn": "She decides to run after a seat on a commission",
+      "pulledBy": "a prior appointment",
+      "writesBack": "a filing and a first campaign"
+    }
+  ]
+}

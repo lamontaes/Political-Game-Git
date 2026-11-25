@@ -1,0 +1,30 @@
+{
+  "id": "an-objection-board-removes-a-candidate-for-filing-early",
+  "kind": "consequence",
+  "summary": "A rival's objection to a candidate's nomination papers is upheld because the papers came in before the window opened.",
+  "realLife": "An electoral board removed a mayoral candidate after an objector argued her nomination papers were filed before the legal window; her side said election officials had told them the timing was fine, and they planned to appeal.",
+  "sources": [
+    "Shaw Local, candidate bounced from the ballot for mayor, Nov. 20, 2024: https://www.shawlocal.com/daily-chronicle/2024/11/20/linh-nguyen-bounced-from-2025-ballot-for-dekalb-mayor/"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office", "place"],
+  "gates": [],
+  "inGame": "needs: an objection step with a hearing by a local board, and a filing window the clerk enforces",
+  "weights": {
+    "filing": 0.8
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The board dismisses the objection",
+      "pulledBy": "a window that was clear and met",
+      "writesBack": "the candidate stays and the objector's fee is lost"
+    },
+    {
+      "turn": "The board upholds it and the candidate turns to write-in",
+      "pulledBy": "a mandatory rule broken",
+      "writesBack": "a name off the ballot and a write-in plan"
+    }
+  ]
+}

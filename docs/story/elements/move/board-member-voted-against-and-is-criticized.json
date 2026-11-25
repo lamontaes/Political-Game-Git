@@ -1,0 +1,36 @@
+{
+  "id": "board-member-voted-against-and-is-criticized",
+  "kind": "move",
+  "summary": "Taxpayers come to a board meeting to back a tax decision and criticize the member who voted against it.",
+  "realLife": "At a crowded school board meeting, residents including teachers, retirees and parents backed a tax rate decision and criticized the board member who voted no.",
+  "sources": [
+    "Patch, Mehlville school board meeting moved for crowd: https://patch.com/missouri/mehlville-oakville/mehlville-school-board-meeting-moves-to-hs-library-to3981ed913a"
+  ],
+  "fits": ["work-community"],
+  "slots": ["school", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "a body vote record and a member's voting record; needs: a public-comment record naming a member",
+  "turns": [
+    {
+      "turn": "member-explains",
+      "summary": "The member explains their reasons and holds their position.",
+      "pulledBy": ["firm trait"],
+      "writesBack": "stands apart; some respect"
+    },
+    {
+      "turn": "member-apologizes",
+      "summary": "The member backs down.",
+      "pulledBy": ["wants peace"],
+      "writesBack": "a vote reversal later"
+    },
+    {
+      "turn": "member-stays-silent",
+      "summary": "The member says nothing during comment.",
+      "pulledBy": ["cautious"],
+      "writesBack": "critics read it as contempt"
+    }
+  ],
+  "issues": ["none"]
+}

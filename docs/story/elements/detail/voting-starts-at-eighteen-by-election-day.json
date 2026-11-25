@@ -1,0 +1,31 @@
+{
+  "id": "voting-starts-at-eighteen-by-election-day",
+  "kind": "detail",
+  "summary": "A person can vote if they are a citizen, meet state residency and are eighteen on or before Election Day.",
+  "realLife": "Eligibility is U.S. citizenship, state residency, being 18 on or before Election Day, and registering by the state deadline.",
+  "sources": [
+    "USAGov, Who can and cannot vote: https://www.usa.gov/who-can-vote"
+  ],
+  "fits": ["loading"],
+  "slots": ["start-year"],
+  "gates": [],
+  "weights": {
+    "age": 0.7
+  },
+  "inGame": "the player's age at the opening (18 unless chosen) and the registration record.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The person turns eighteen the day after Election Day and waits a whole cycle.",
+      "pulledBy": "the birth date against the election day",
+      "writesBack": "the first vote is one cycle later"
+    },
+    {
+      "turn": "partial",
+      "what": "The person votes in a primary at seventeen where the state allows.",
+      "pulledBy": "the state's primary rule",
+      "writesBack": "a primary vote on the record"
+    }
+  ]
+}

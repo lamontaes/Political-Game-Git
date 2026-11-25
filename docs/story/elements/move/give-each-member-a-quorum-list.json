@@ -1,0 +1,30 @@
+{
+  "id": "give-each-member-a-quorum-list",
+  "kind": "move",
+  "summary": "A member has a short list of colleagues to bring to the chamber when the clerk calls the roll.",
+  "realLife": "Humphrey and Kuchel divided responsibility for getting supporters to quorum calls.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{member}", "{colleague}", "{chamber}"],
+  "gates": ["Supporters must be present to establish a quorum."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: responsibility for attendance calls and a record of who answered each call.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The floor manager keeps one central list for the evening.",
+      "pulledBy": "Too few members remain in the building to cover separate lists.",
+      "writesBack": "The manager's desk handles every attendance check."
+    },
+    {
+      "turn": "partial",
+      "what": "A member hands the last two names back to the desk.",
+      "pulledBy": "Those colleagues have already left for committee business.",
+      "writesBack": "The desk takes responsibility for locating them."
+    }
+  ],
+  "issues": ["none"]
+}

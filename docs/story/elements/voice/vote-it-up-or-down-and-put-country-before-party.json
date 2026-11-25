@@ -1,0 +1,31 @@
+{
+  "id": "vote-it-up-or-down-and-put-country-before-party",
+  "kind": "voice",
+  "summary": "A speaker hands the legislature a long list of asks and tells it to vote each one yes or no rather than let it sit.",
+  "realLife": "Johnson's State of the Union, January 8, 1964, asked Congress for the pending civil rights and tax bills, new poverty measures and more, urged quick votes up or down, and warned it would be judged harshly if partisan quarrels held things up.",
+  "sources": [
+    "https://presidency.ucsb.edu/documents/annual-message-the-congress-the-state-the-union-25",
+    "Read the full address and noted the list of requests and the way he speaks to Congress."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "The `call` section, with list length and urgency pulled by assertive and by how many bills the speaker's party has pending.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The speaker asks for one thing and defers to the committee's timing.",
+      "pulledBy": "low assertive; high humble",
+      "writesBack": "The call section holds one ask and no deadline."
+    },
+    {
+      "turn": "neutral",
+      "what": "The speaker lists several asks and thanks the body for its work so far.",
+      "pulledBy": "a legislature of the speaker's own party",
+      "writesBack": "The speech records the asks with no warning."
+    }
+  ]
+}

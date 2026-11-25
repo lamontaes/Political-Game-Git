@@ -1,0 +1,33 @@
+{
+  "id": "price-a-contractors-savings-in-shifts-and-benefits",
+  "kind": "detail",
+  "summary": "A contractor bidding on work at {workplace} explains which labor costs it expects to reduce.",
+  "realLife": "Fluor told Fibreboard it could reduce staffing, overtime and benefits and plan maintenance work in advance. Its contract provided for costs plus a monthly fee.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep379/usrep379203/usrep379203.pdf#page=4",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep379/usrep379203/usrep379203.pdf#page=5"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the contractor bid, staffing plan and fee schedule."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: contractor bid, staffing plan and fee schedule.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Workers can price an alternative using the same assumptions.",
+      "pulledBy": "The committee has the cost breakdown",
+      "writesBack": "Competing estimate."
+    },
+    {
+      "turn": "another-way",
+      "what": "The bargaining team requests the assumptions behind it.",
+      "pulledBy": "Only the total bid is available",
+      "writesBack": "Outstanding cost questions."
+    }
+  ]
+}

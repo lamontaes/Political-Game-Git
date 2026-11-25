@@ -1,0 +1,28 @@
+{
+  "id": "a-failed-increase-leaves-the-original-payment",
+  "kind": "consequence",
+  "summary": "A campaign can lose a bid for extra money and still receive the smaller contribution originally proposed.",
+  "realLife": "Members of the 34th Democrats rejected Chippendale’s proposed increase for Teresa Mosqueda and then approved the chair’s original contribution package.",
+  "sources": ["https://34dems.org/2023-08-09-membership-meeting/"],
+  "fits": ["campaign", "journal", "news", "office"],
+  "slots": ["{chair}", "{campaign}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the amendment, underlying package and separate outcomes of both votes.",
+  "turns": [
+    {
+      "turn": "original-passes",
+      "what": "The treasurer enters the original amount for the candidate.",
+      "pulledBy": "Members reject the increase and approve the package.",
+      "writesBack": "The rejected increase never becomes a payable contribution."
+    },
+    {
+      "turn": "package-fails",
+      "what": "The chair returns the spending question to the committee.",
+      "pulledBy": "The increase fails and the underlying package also loses.",
+      "writesBack": "Neither amount is authorized."
+    }
+  ]
+}

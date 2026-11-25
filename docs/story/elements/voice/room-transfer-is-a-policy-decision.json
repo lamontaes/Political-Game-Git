@@ -1,0 +1,30 @@
+{
+  "id": "room-transfer-is-a-policy-decision",
+  "kind": "voice",
+  "summary": "An official explains how granting an individual room request can amount to discrimination by the hospital.",
+  "realLife": "In correspondence with Representative Fountain, federal officials rejected race alone as grounds for accommodating a patient’s transfer request.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/GPO-CRECB-1966-pt13/pdf/GPO-CRECB-1966-pt13-4.pdf"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{official}", "{representative}", "{hospital}"],
+  "gates": ["A member has challenged how a hospital applies the rule."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a hospital room request with its stated grounds and the institution's ruling.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "Staff address a patient's privacy concern without changing the roommate assignment.",
+      "pulledBy": "A documented privacy need can be met within the room.",
+      "writesBack": "The care note records the accommodation and existing placement."
+    },
+    {
+      "turn": "opposite",
+      "what": "Staff approve a transfer on documented medical grounds.",
+      "pulledBy": "The treating team identifies an isolation need independent of the roommate's race.",
+      "writesBack": "The placement record states the medical reason."
+    }
+  ],
+  "issues": ["budget:federal:medicare"]
+}

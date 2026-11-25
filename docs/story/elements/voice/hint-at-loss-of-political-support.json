@@ -1,0 +1,31 @@
+{
+  "id": "hint-at-loss-of-political-support",
+  "kind": "voice",
+  "summary": "During a negotiation someone hints that their political support depends on the answer.",
+  "realLife": "As the House prepared to vote on NAFTA, Citizens Trade Alliance leader Jim Jontz described reminding lawmakers that their campaigns depended on people his coalition represented. He presented his warning as advice from a friend.",
+  "sources": [
+    "https://www.washingtonpost.com/archive/politics/1993/11/16/are-labor-tactics-on-nafta-real-threats-or-tough-love/e9fcf407-c1d5-40cc-a491-1f3e1017ff6b/",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L54"
+  ],
+  "inGame": "needs: a conditional political consequence that the counterpart can actually bring about.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{member}", "{counterpart}", "{request}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The member asks which commitment is in doubt and the counterpart declines to specify.",
+      "pulledBy": "The counterpart has only informal influence over the organization.",
+      "writesBack": "The meeting records uncertainty and no confirmed withdrawal."
+    },
+    {
+      "turn": "opposite",
+      "what": "A union delegate says the local’s endorsement must go to a membership vote whatever happens at this meeting.",
+      "pulledBy": "The local’s rules reserve endorsement to the members, and no vote has occurred.",
+      "writesBack": "The office removes the supposed commitment from its count."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "county-jail-in-floodplain",
+  "kind": "situation",
+  "summary": "{person} has to plan where people in county custody could go if the river rises.",
+  "realLife": "King County reviewed the possible transfer of people held at the Maleng Regional Justice Center ahead of winter flooding.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "An occupied county facility lies within the area under flood review."
+  ],
+  "weights": [
+    "A greater number of people needing accessible transport lengthens relocation planning."
+  ],
+  "usedBy": [],
+  "inGame": "needs: custody placements during a flood advisory.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "People in custody remain at the facility.",
+      "pulledBy": "An updated assessment keeps the jail outside the projected flooding.",
+      "writesBack": "The county cancels the transfer request."
+    },
+    {
+      "turn": "partial",
+      "what": "The county moves only the occupied ground-floor units.",
+      "pulledBy": "Upper floors and essential services remain available.",
+      "writesBack": "The roster identifies the transfers and receiving locations."
+    }
+  ],
+  "issues": ["budget:corrections"]
+}

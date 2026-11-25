@@ -1,0 +1,36 @@
+{
+  "id": "references-and-other-openings-offered",
+  "kind": "move",
+  "summary": "The employer offers a written reference and to consider the person for other openings.",
+  "realLife": "An HR article advises written job references, outplacement help for résumés and networking, and consideration for other company openings. It also notes the WARN Act requires 60 days' notice for a mass layoff.",
+  "sources": [
+    "Workforce magazine, A humane approach to layoffs: https://workforce.com/news/a-humane-approach-to-layoffs"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: references; other openings inside the same employer can ride on the jobs module's open positions. Scene: needs a producer for layoff-terms.",
+  "turns": [
+    {
+      "turn": "no-reference-offered",
+      "summary": "The employer lets the person go with no reference and no other openings.",
+      "pulledBy": ["a cold or rushed employer", "a layoff for money reasons"],
+      "writesBack": "The search is harder, and the tie to the employer ends cold."
+    },
+    {
+      "turn": "reference-only",
+      "summary": "The employer gives a written reference but says no other openings exist.",
+      "pulledBy": ["a fair employer", "a small workplace"],
+      "writesBack": "The person leaves with the reference, and the tie stays civil."
+    },
+    {
+      "turn": "moved-to-another-opening",
+      "summary": "The employer places the person in another opening within the same business.",
+      "pulledBy": ["a warm boss", "a large employer with open positions"],
+      "writesBack": "The job record changes, and a promise to keep the person on is kept."
+    }
+  ],
+  "issues": ["none"]
+}

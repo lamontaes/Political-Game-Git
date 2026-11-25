@@ -1,0 +1,36 @@
+{
+  "id": "sotu-close-appeals-to-the-whole-people",
+  "kind": "move",
+  "summary": "The close appeals to the whole people and to unity, not to Congress.",
+  "realLife": "Four of six addresses read closed with an appeal to everyone or to unity (Roosevelt, Reagan, Clinton, Trump); one closed with an ask of Congress (Eisenhower).",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/state-the-union-message-congress",
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-congress-the-state-the-union",
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-the-congress-the-state-the-union-6",
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-the-congress-the-state-the-union-25",
+    "https://www.presidency.ucsb.edu/documents/annual-message-the-congress-the-state-the-union-6",
+    "Read Nov 24, 2026: the first and last paragraphs of each address on the Presidency Project page; the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "The `call` section's address-run shape speaks to groups; the close shapes are send-off and blessing. needs: an appeal piece in the close.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The close asks Congress for a named act.",
+      "pulledBy": "a speaker with a law not in force",
+      "writesBack": "The ask becomes a bill record."
+    },
+    {
+      "turn": "neutral",
+      "what": "A thank-you to the people, no ask.",
+      "pulledBy": "a polite speaker",
+      "writesBack": "No promise record."
+    }
+  ]
+}

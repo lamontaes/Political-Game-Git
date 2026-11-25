@@ -94,7 +94,7 @@ import { bodySaid } from "./body-said";
 import { earlierAddressPieces } from "./address-render";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
-import { stateInSentence } from "./words";
+import { isOutsideMarket, stateInSentence } from "./words";
 import { changeSaid, countSaid, moneySaid } from "../english/count-words";
 import { measureWords } from "../english/area-names";
 import { addDays, daysBetweenText } from "../core2/kernel/dates";
@@ -1739,7 +1739,7 @@ function closingOfYear(core: CoreState, yearAgo: string): Facts | null {
       org: core.organizations.get(row.organizationId),
       jobs: row.endedJobIds.length + row.endedCountedJobIds.length,
     }))
-    .filter((found) => found.org && !found.org.outsideFlow)
+    .filter((found) => found.org && !isOutsideMarket(found.org))
     .sort(
       (a, b) =>
         b.jobs - a.jobs ||

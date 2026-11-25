@@ -72,7 +72,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Checked against main on Oct 16, 2026 (pool item gov-needs-gov-69). Every line below is either closed, with the code that closes it, or has a pool item. The pool is the only list of what is left.
 
-**Law reach stopgaps (audit 13, Oct 12).** Each open `SG-GOV-REACH-A` and `SG-GOV-REACH-B` row is tracked by a `laws-stopgap-*` pool item (or `laws-family-*`, `world-stopgap-place-prices-faked-mechanic`); the full text is in `src/core2/data/stopgaps.json`. Closed: `SG-GOV-REACH-B-sales-tax-collection`, `SG-GOV-REACH-B-nonattainment-data`; `SG-GOV-REACH-B-public-school-staff` is in PR #4534.
+**Law reach stopgaps (audit 13, Oct 12).** Each open `SG-GOV-REACH-A` and `SG-GOV-REACH-B` row is tracked by a `laws-stopgap-*` pool item (or `laws-family-*`, `world-stopgap-place-prices-faked-mechanic`); the full text is in `src/core2/data/stopgaps.json` (removed). Closed: `SG-GOV-REACH-B-sales-tax-collection`, `SG-GOV-REACH-B-nonattainment-data`; `SG-GOV-REACH-B-public-school-staff` is in PR #4534.
 
 **Closed (the code is on main).**
 

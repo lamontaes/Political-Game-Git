@@ -1,0 +1,58 @@
+{
+  "id": "pattern-b5-08-the-call-with-an-offer",
+  "kind": "situation",
+  "summary": "The call with an offer: {the offerer} offers {the job}, and the player must say yes or no before the household's bills come due.",
+  "realLife": "One life: A twenty-five-year-old near St. Louis who missed a call from a security company's hiring office, returned it, interviewed and was hired as a receptionist at fourteen dollars an hour. The hours let her and her boyfriend share the one car. She still faced a backlog of bills that delayed their plans. Another: A fifty-year-old with a master's degree who had earned over six figures until his employer collapsed in 2002. After more than a year out and hundreds of applications he took a ten-dollar-an-hour work-from-home job, where take-home would be below his unemployment check. He weighed pride against ending the joblessness. Another: He was laid off again, then took an offer at about a third of his old pay with benefits, and was dismissed less than a week into training after failing an exam. A woman laid off from IT weighed selling her ring or house, then took a lower-paid job at a law firm. Another: After nearly five years in prison on drug charges he took whatever work he could find. Housemates in his sober living home invited him to volunteer at a food bank, and in 2021 its director interviewed him and gave him a warehouse job because she believed in him.",
+  "sources": [
+    "https://www.kunc.org/npr-news/2011-03-31/the-thrill-of-a-job-and-the-worry-over-digging-out",
+    "https://www.kunc.org/npr-news/2011-02-23/the-relief-of-finding-a-less-than-perfect-job",
+    "https://www.kunc.org/npr-news/2011-12-30/when-the-road-back-to-work-detours",
+    "https://www.wkar.org/2025-11-14/much-more-than-a-job-food-bank-workers-reflect-on-the-joy-they-find-in-their-work"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["the offerer", "the job", "the household", "the one who vouched"],
+  "gates": [
+    "The work record shows the player out of work or looking.",
+    "{the offerer} has {the job} open on the job record.",
+    "{the offerer} and the player are in touch on the records.",
+    "The player has not accepted or refused {the job} yet."
+  ],
+  "weights": [
+    "How long the player has been out of work.",
+    "How much {the job} pays against the last one.",
+    "Whether health cover comes with it.",
+    "Whether a household member depends on the income.",
+    "Whether {the one who vouched} exists on the records.",
+    "Whether the player has a record that employers shun."
+  ],
+  "pattern": "B5-08",
+  "choices": [
+    "accept and ask for the start date",
+    "accept and ask for better terms first",
+    "say you need a day to talk to the household",
+    "refuse and say why"
+  ],
+  "branches": [
+    {
+      "when": "the player accepts",
+      "then": "The job joins the work record from the start date, the household's money record changes, and a first-day scene is placed on the calendar."
+    },
+    {
+      "when": "the player refuses",
+      "then": "The refusal is written and {the offerer} remembers it, and the search record shows more weeks."
+    },
+    {
+      "when": "{the job} pays less than the player's old one",
+      "then": "The pride and the money are both written, and the household's later votes of confidence read them."
+    },
+    {
+      "when": "{the one who vouched} is on the records",
+      "then": "A debt of thanks goes on the favor record, and the vouching person is named later."
+    },
+    {
+      "when": "the player is tied to a justice record",
+      "then": "The offer may exist only because someone chose to take the risk, and that person's trust is written."
+    }
+  ],
+  "usedBy": ["job-offer"]
+}

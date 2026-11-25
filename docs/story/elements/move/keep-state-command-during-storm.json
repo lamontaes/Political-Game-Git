@@ -1,0 +1,32 @@
+{
+  "id": "keep-state-command-during-storm",
+  "kind": "move",
+  "summary": "{person} declines a presidential offer to transfer command of the state guard during a disaster.",
+  "realLife": "Blanco kept Louisiana’s National Guard under state authority during the Katrina response.",
+  "sources": ["https://en.wikipedia.org/wiki/Kathleen_Blanco"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "State and federal officials have proposed a change in command during a storm."
+  ],
+  "weights": [
+    "A history of joint operations favors coordinating through officers both sides know."
+  ],
+  "usedBy": [],
+  "inGame": "needs: who holds command during a joint response.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor accepts the federal command arrangement.",
+      "pulledBy": "The governor approves the proposed transfer.",
+      "writesBack": "The response record names the new authority."
+    },
+    {
+      "turn": "partial",
+      "what": "The state keeps command and shares a liaison with federal officials.",
+      "pulledBy": "The parties agree on coordination without a transfer.",
+      "writesBack": "The agreement names a liaison and retains state command."
+    }
+  ],
+  "issues": ["none"]
+}

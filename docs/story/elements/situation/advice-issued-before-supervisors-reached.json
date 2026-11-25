@@ -1,0 +1,34 @@
+{
+  "id": "advice-issued-before-supervisors-reached",
+  "kind": "situation",
+  "summary": "{person} receives advice from an agency whose own commissioners have yet to hear it.",
+  "realLife": "Federal regulatory staff recommended evacuation to Pennsylvania before they could consult the commissioners, according to an NRC historical presentation.",
+  "sources": [
+    "https://www.nrc.gov/sites/default/files/doc_library/cdn/legacy/reading-rm/doc-collections/commission/tr/2004/20040303a.pdf"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
+  "gates": [
+    "A recommendation has reached the executive before supervisory confirmation."
+  ],
+  "weights": [
+    "Less time before the decision deadline makes acting on provisional advice more likely."
+  ],
+  "usedBy": [],
+  "inGame": "needs: agency approval before a recommendation goes outside.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The chair returns the call before staff send their advice.",
+      "pulledBy": "The chair is on the briefing call.",
+      "writesBack": "The governor receives a recommendation approved by the chair."
+    },
+    {
+      "turn": "partial",
+      "what": "Staff relay what they observed and hold back their recommendation.",
+      "pulledBy": "The chair is unavailable and the observations have been verified.",
+      "writesBack": "The briefing records the observations and leaves the recommendation pending."
+    }
+  ],
+  "issues": ["none"]
+}

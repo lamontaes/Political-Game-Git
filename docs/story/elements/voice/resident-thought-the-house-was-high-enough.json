@@ -1,0 +1,29 @@
+{
+  "id": "resident-thought-the-house-was-high-enough",
+  "kind": "voice",
+  "summary": "After the storm a resident tells {person} that the height of their house shaped their decision to stay.",
+  "realLife": "In the city's survey, some Zone A respondents said they had expected their homes to sit above the floodwater.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=12"
+  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{person}"],
+  "gates": ["The resident personally gives elevation as a reason for staying."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the resident personally gives elevation as a reason for staying.",
+  "turns": [
+    {
+      "turn": "the-resident-wants-the-zone-explained",
+      "pulledBy": "The resident wants the zone explained.",
+      "what": "Check the address against the official map together.",
+      "writesBack": "The household receives its mapped zone."
+    },
+    {
+      "turn": "the-resident-is-describing-the-past-decision",
+      "pulledBy": "The resident is describing the past decision.",
+      "what": "Preserve their reason in the interview notes.",
+      "writesBack": "The interview retains the resident's own explanation."
+    }
+  ]
+}

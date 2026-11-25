@@ -1,0 +1,34 @@
+{
+  "id": "why-order-sandbags-now",
+  "kind": "voice",
+  "summary": "{person} points to the months available to buy tools and sandbags as a reason to act today.",
+  "realLife": "Council chair Dow Constantine argued that advance notice gave King County a chance to start buying levee supplies immediately.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "Flood preparation requires a decision about buying supplies before the water rises."
+  ],
+  "weights": [
+    "Less usable stock and longer delivery times favor an immediate order."
+  ],
+  "usedBy": [],
+  "inGame": "needs: timing of supply orders against forecast lead time.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The council delays the order.",
+      "pulledBy": "The county already holds enough supplies for the current forecast.",
+      "writesBack": "The inventory review sets the next reorder date."
+    },
+    {
+      "turn": "partial",
+      "what": "The county buys a first shipment and reserves the remainder.",
+      "pulledBy": "Storage space is limited until another site opens.",
+      "writesBack": "The order separates immediate delivery from the reserved quantity."
+    }
+  ],
+  "issues": ["budget:naturalResources"]
+}

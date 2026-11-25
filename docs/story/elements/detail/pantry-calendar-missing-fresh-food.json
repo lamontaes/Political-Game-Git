@@ -1,0 +1,32 @@
+{
+  "id": "pantry-calendar-missing-fresh-food",
+  "kind": "detail",
+  "summary": "The distribution date in {place} is settled, but the organizer still cannot tell families whether fresh food will arrive.",
+  "realLife": "The Nourish New York sponsors described a Queens provider that struggled to secure predictable supplies of produce and dairy.",
+  "sources": [
+    "https://www.nysenate.gov/sites/default/files/press-release/attachment/6.17.21_senator_borrello_joins_colleagues_to_urge_governor_to_sign_nourish_ny_f.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "A scheduled distribution and dated information from its provider about expected supplies."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a scheduled distribution and dated information from its provider about expected supplies.",
+  "turns": [
+    {
+      "turn": "confirmed",
+      "pulledBy": "The provider confirms a shipment.",
+      "what": "Tell families what the provider expects to distribute.",
+      "writesBack": "Save its confirmation date."
+    },
+    {
+      "turn": "uncertain",
+      "pulledBy": "The supply remains unsettled.",
+      "what": "Give families the confirmed event details.",
+      "writesBack": "Leave the contents of the delivery open."
+    }
+  ]
+}

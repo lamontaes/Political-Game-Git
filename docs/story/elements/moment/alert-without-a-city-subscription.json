@@ -1,0 +1,31 @@
+{
+  "id": "alert-without-a-city-subscription",
+  "kind": "moment",
+  "summary": "A visitor's phone in {place} lights up with an evacuation message from a city they never subscribed to.",
+  "realLife": "After Bloomberg ordered Zone A to evacuate, the city sent a geographically targeted alert to compatible phones.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
+  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "An authorized alert covers the visitor's location and the phone can receive it."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an authorized alert covers the visitor's location and the phone can receive it.",
+  "turns": [
+    {
+      "turn": "the-alert-arrives",
+      "pulledBy": "The alert arrives.",
+      "what": "The visitor checks which zone the order covers.",
+      "writesBack": "The visitor knows where to check the applicable zone."
+    },
+    {
+      "turn": "delivery-is-unconfirmed",
+      "pulledBy": "Delivery is unconfirmed.",
+      "what": "An aide gives the visitor the published order directly.",
+      "writesBack": "The visitor receives the notice from a second channel."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "a-strike-ends-with-a-no-reprisals-clause",
+  "kind": "consequence",
+  "summary": "A teachers' strike ends with a deal barring punishment of tenured strikers and barring strikers from harassing co-workers who worked.",
+  "realLife": "In Middletown Township, New Jersey, in 1998, the board had voted to fire nontenured staff who stayed out, then rehired them with two frozen years of pay as part of the settlement.",
+  "sources": [
+    "Education Week, N.J. Teachers Return to Classroom After Strike: https://www.edweek.org/teaching-learning/n-j-teachers-return-to-classroom-after-strike/1998/09"
+  ],
+  "fits": ["work-community"],
+  "slots": ["workplace", "employer"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "a protest or strike formed by the public-action engine ends; job records of strikers and non-strikers continue; coworker ties between them change.",
+  "turns": [
+    {
+      "turn": "everyone-keeps-working-side-by-side",
+      "summary": "Staff go back to work and stay civil.",
+      "pulledBy": ["no-reprisal clause", "professional norms"],
+      "writesBack": "coworker ties mend slowly"
+    },
+    {
+      "turn": "coworker-ties-stay-cold",
+      "summary": "Strikers and non-strikers avoid each other.",
+      "pulledBy": ["bitter picket-line memory"],
+      "writesBack": "coworker closeness lower"
+    },
+    {
+      "turn": "some-staff-leave-the-district",
+      "summary": "A few transfer to another district.",
+      "pulledBy": ["frozen pay", "hard feelings"],
+      "writesBack": "job-ended events"
+    }
+  ]
+}

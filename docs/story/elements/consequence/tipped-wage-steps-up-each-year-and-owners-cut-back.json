@@ -1,0 +1,42 @@
+{
+  "id": "tipped-wage-steps-up-each-year-and-owners-cut-back",
+  "kind": "consequence",
+  "summary": "A scheduled yearly step toward one wage leads some owners to raise prices and cut staff.",
+  "realLife": "A city set tipped pay to rise eight percent a year until it matches the standard minimum in a set year, with owners required to cover any shortfall. At the July step, some trade members said the increases had forced closures, while others raised prices or cut hours and staff. Another city that passed a similar rule earlier had a mayor asking for its repeal. Advocates hoped to take the rule statewide.",
+  "sources": [
+    "CBS News Chicago (Chicago, Illinois), 'Tipped minimum wage set to go up in Chicago July 1, and some restaurateurs aren't pleased', June 23, 2025: https://www.cbsnews.com/amp/chicago/news/tipped-minimum-wage-chicago-some-restaurateurs-not-pleased",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["law", "percent", "from", "up", "date"],
+  "gates": [],
+  "weights": {
+    "law-takes-effect": 0.8
+  },
+  "inGame": "wage-schedule law record, business payroll, menu prices and closures; needs: a yearly step as a stored schedule",
+  "issues": ["law:minimum-wage"],
+  "turns": [
+    {
+      "name": "owners cut hours and raise prices",
+      "pulledBy": "a step that adds to payroll",
+      "writes": "menu prices rise and shifts shrink",
+      "requiresFacts": ["up"],
+      "excludesFacts": []
+    },
+    {
+      "name": "a restaurant closes",
+      "pulledBy": "a business whose margin the step erases",
+      "writes": "a closure is recorded",
+      "requiresFacts": ["down"],
+      "excludesFacts": []
+    },
+    {
+      "name": "the next city moves to repeal",
+      "pulledBy": "a mayor who sees small businesses hurt",
+      "writes": "a repeal bill is filed",
+      "requiresFacts": ["delayed"],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

@@ -13,7 +13,7 @@ source: "words-needs-words-60 triage, Oct 16"
 claimed-at:
 ---
 
-**What.** The opening's President stage shows the White House exterior even for the State of the Union, which is given in the House chamber (`src/bench/data/opening-pictures.json`, `stages.president`). Show the House floor for that kind of address, so the picture matches what the Speaker's salutation says.
+**What.** The opening's President stage shows the White House exterior even for the State of the Union, which is given in the House chamber (`src/bench/data/opening-pictures.json` (removed), `stages.president`). Show the House floor for that kind of address, so the picture matches what the Speaker's salutation says.
 
 **Rules.** No hand-written player text: the picture is chosen by the speech kind in data. Preserve asset originals and lineage.
 

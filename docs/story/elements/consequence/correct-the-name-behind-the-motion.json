@@ -1,0 +1,30 @@
+{
+  "id": "correct-the-name-behind-the-motion",
+  "kind": "consequence",
+  "summary": "A correction changes who gets credit for a motion while leaving its result intact.",
+  "realLife": "The Mojave Desert club corrected its September 2019 minutes to credit Kolar rather than Johnson with the motion to repay Victorville for missing decorations (October 26, 2019).",
+  "sources": [
+    "https://mojavedemocrats.org/sample-page/meeting-minutes/#:~:text=October%2026%2C%202019"
+  ],
+  "fits": ["campaign", "journal", "news"],
+  "slots": ["{secretary}", "{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the original motion, its recorded mover and the accepted correction.",
+  "turns": [
+    {
+      "turn": "minutes-approved",
+      "what": "The secretary changes the mover’s name.",
+      "pulledBy": "Members accept the correction when reviewing the minutes.",
+      "writesBack": "The vote and obligation remain as recorded."
+    },
+    {
+      "turn": "uncertain-attribution",
+      "what": "The secretary asks for the original notes.",
+      "pulledBy": "Members disagree over who made the motion.",
+      "writesBack": "The disputed attribution stays open without a second vote on repayment."
+    }
+  ]
+}

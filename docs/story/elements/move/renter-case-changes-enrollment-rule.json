@@ -1,0 +1,29 @@
+{
+  "id": "renter-case-changes-enrollment-rule",
+  "kind": "move",
+  "summary": "A council aide asks {person} whether correcting one tenant's debt also changed how landlords can open accounts.",
+  "realLife": "After an ombudsman inquiry, Portland agreed both to reduce a tenant's debt and to revise the enrollment policy that allowed the account to be opened.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20landlord%20signed%20their%20tenant%20up%20for%20water%20service"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
+  "gates": ["A case decision and a separate policy commitment are on file."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a case decision and a separate policy commitment are on file.",
+  "turns": [
+    {
+      "turn": "the-revised-enrollment-procedure-has-taken-effect",
+      "pulledBy": "The revised enrollment procedure has taken effect.",
+      "what": "Give other renters its effective date.",
+      "writesBack": "The referral cites the revised enrollment procedure."
+    },
+    {
+      "turn": "the-bureau-has-agreed-to-a-change-but-has-yet-to-issue-it",
+      "pulledBy": "The bureau has agreed to a change but has yet to issue it.",
+      "what": "Keep the policy follow-up open after the account is corrected.",
+      "writesBack": "The individual case and outstanding policy change have separate statuses."
+    }
+  ]
+}

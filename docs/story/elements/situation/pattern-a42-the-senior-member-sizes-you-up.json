@@ -1,0 +1,41 @@
+{
+  "id": "pattern-a42-the-senior-member-sizes-you-up",
+  "kind": "situation",
+  "summary": "The senior member sizes you up: {senior member} asks you to stop by in your first month and to back them on a procedural vote.",
+  "realLife": "One life: In 1967 the first Black woman in the Texas Senate won respect by befriending conservatives, among them the chamber's most powerful member, and was named outstanding freshman. Another: He took his Assembly seat at 23, expected by the old members to keep quiet.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Barbara_Jordan",
+    "https://www.trlibrary.com/tr/new-york-politics/assembly"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["senior member"],
+  "gates": [
+    "First term in a legislature.",
+    "{senior member} holds power over committees or the calendar."
+  ],
+  "weights": [
+    "How far your stances are from theirs.",
+    "Traits that are diligent or that charm."
+  ],
+  "pattern": "A42",
+  "choices": [
+    "back them",
+    "say you will decide on the merits",
+    "ask what they can do for your district's bill"
+  ],
+  "branches": [
+    {
+      "when": "you are the first of your kind, or the youngest",
+      "then": "The room expects you to keep quiet, and a first floor speech changes that."
+    },
+    {
+      "when": "the presiding officer",
+      "then": "Months later you are asked to be vice-chair of the committee that draws districts."
+    },
+    {
+      "when": "you are prepared",
+      "then": "You know their bill better than they do and say so politely. They respect it or resent it, by their traits."
+    }
+  ],
+  "usedBy": []
+}

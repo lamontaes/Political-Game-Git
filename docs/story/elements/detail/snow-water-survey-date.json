@@ -1,0 +1,32 @@
+{
+  "id": "snow-water-survey-date",
+  "kind": "detail",
+  "summary": "Before the cameras arrive, {person} finds the date and region behind the claim about how much water the snow holds.",
+  "realLife": "California's March 2023 order cited a March 3 survey that found above-average water content in much of the Sierra Nevada, with some regions approaching records.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2023/03/3.24.23-Drought-update-executive-order.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A dated snow survey gives regional water-content observations and a comparison baseline."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a dated snow survey gives regional water-content observations and a comparison baseline.",
+  "turns": [
+    {
+      "turn": "matched",
+      "pulledBy": "The survey and locality cover the same area.",
+      "what": "Use the comparison for the surveyed region.",
+      "writesBack": "Keep the survey date in the briefing."
+    },
+    {
+      "turn": "elsewhere",
+      "pulledBy": "The quoted survey covers another region.",
+      "what": "Ask for the relevant region's survey.",
+      "writesBack": "Leave the local comparison open."
+    }
+  ]
+}

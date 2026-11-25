@@ -1,0 +1,32 @@
+{
+  "id": "extend-the-grant-route-to-a-crossing",
+  "kind": "move",
+  "summary": "{treasurer} asks whether local money could take a grant-funded sidewalk the rest of the way to a usable crossing.",
+  "realLife": "Sulphur officials discussed paying for a sidewalk segment beyond the grant’s coverage so the route would end at a suitable crossing.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home", "speeches"],
+  "slots": ["{treasurer}"],
+  "gates": [
+    "Grant limits, a proposed crossing and a locally funded extension under consideration."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:highways"],
+  "inGame": "needs: grant limits, a proposed crossing and a locally funded extension under consideration.",
+  "turns": [
+    {
+      "turn": "extend",
+      "pulledBy": "The local share can cover the extension.",
+      "what": "Price the segment to the crossing.",
+      "writesBack": "Record the local funding request.."
+    },
+    {
+      "turn": "wait",
+      "pulledBy": "No local funds are available.",
+      "what": "Show residents where the grant-funded segment ends.",
+      "writesBack": "Leave the extension listed separately.."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "pattern-c23-the-case-against-you",
+  "kind": "situation",
+  "summary": "The case against you: {prosecutor} has opened a case about you, your campaign's money or what you kept, and it will run for years.",
+  "realLife": "One life: He was indicted in 2011 over more than $1 million from backers used to hide his affair during the 2008 race. In 2012 the jury found him not guilty on one count and deadlocked on the rest, and the government dropped the case. Another: In May 2024 a New York jury convicted him on 34 felony counts over payments booked as business expenses; he won the election that fall and was sentenced to an unconditional discharge. The federal cases were dropped after his win. Another: A secret inquiry into whether his recall campaign coordinated with outside groups ran for years under a gag order until Wisconsin's supreme court ended it in 2015.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/John_Edwards",
+    "https://en.wikipedia.org/wiki/John_Edwards_extramarital_affair",
+    "https://en.wikipedia.org/wiki/Indictments_against_Donald_Trump",
+    "https://en.wikipedia.org/wiki/Donald_Trump",
+    "https://en.wikipedia.org/wiki/Scott_Walker_(politician)"
+  ],
+  "fits": [
+    "campaign",
+    "home",
+    "journal",
+    "news",
+    "office",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["prosecutor", "backer"],
+  "gates": [
+    "You hold or held an office, or are running.",
+    "A case naming you or your campaign is open on record."
+  ],
+  "weights": [
+    "How strong the evidence is.",
+    "How long it has run.",
+    "How your backers see the prosecutor."
+  ],
+  "pattern": "C23",
+  "choices": [
+    "fight it in court",
+    "cooperate",
+    "attack {prosecutor} in public",
+    "take a plea",
+    "pay back what is owed"
+  ],
+  "branches": [
+    {
+      "when": "money from {backer} hid something",
+      "then": "It is the heart of the case. The jury acquits on one count and cannot agree on the rest; the case is dropped, and your career is over anyway."
+    },
+    {
+      "when": "you are convicted while running",
+      "then": "You are the first in your office with a felony conviction. You win anyway, and the sentence is no sentence."
+    },
+    {
+      "when": "the case is kept secret",
+      "then": "Subpoenas and searches go on under a gag order, and the highest court in the place ends it after years."
+    },
+    {
+      "when": "you win the office during the case",
+      "then": "The case is dropped under the rule against charging the one who holds the office."
+    }
+  ],
+  "usedBy": []
+}

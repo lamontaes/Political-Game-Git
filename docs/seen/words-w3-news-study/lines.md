@@ -2,7 +2,7 @@
 
 Words builder W3, Nov 13, 2026. Pool item `words-press-study-committee-stories-unworded`. Regenerated on branch head 291639d822 after the bill-purpose frame changed.
 
-Each story is printed as the News reader words it, headline in bold, then its sentences. They come from a year of the bench world with every module installed (`scripts/words/w3-news-year.ts`). Each outlet words the same record with its own choice of lines, so one record can appear more than once.
+Each story is printed as the News reader words it, headline in bold, then its sentences. They come from a year of the bench world with every module installed (`scripts/words/w3-news-year.ts` (removed)). Each outlet words the same record with its own choice of lines, so one record can appear more than once.
 
 Not seen in these draws: a "now favors" headline (a committee whose members came to lean for a bill they leaned against at forming) and a "{name} chaired the committee." line (a report a member gave because the chair had died). Both are held by `src/bench/printed-study.test.ts`, which words each case from the study's own row. Passed over, with no study committee in the year or no such case: Walpole, Massachusetts (`w3-study-f`), Jacksonville, Illinois (`w3-study-g`), Wattsville, Virginia (`w3-study-h`), Hadar, Nebraska (`w3-study-a`), East Hope, Idaho (`w3-study-c`) and Sparks, Nevada (`w3-study-d`).
 

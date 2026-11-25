@@ -1,0 +1,30 @@
+{
+  "id": "a-second-proclamation-adds-an-offense",
+  "kind": "moment",
+  "summary": "{president} expands an earlier pardon and the intake office has to change which offenses it checks.",
+  "realLife": "The Justice Department explained that Biden's December 2023 proclamation broadened earlier federal marijuana relief to include attempted possession and use.",
+  "sources": [
+    "https://www.justice.gov/iqextranet/EForm.aspx?__cid=Pardon_prod&__fid=5#:~:text=another%20proclamation"
+  ],
+  "fits": ["office", "home", "journal", "work-community"],
+  "slots": ["{president}"],
+  "gates": ["Two dated proclamations and their distinct offense definitions."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: two dated proclamations and their distinct offense definitions.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "A file fits the newly added category.",
+      "what": "Review it under the later proclamation.",
+      "writesBack": "The certificate identifies the applicable authority."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The charge falls outside both grants.",
+      "what": "Explain the scope of each one.",
+      "writesBack": "The request records which terms failed to match."
+    }
+  ]
+}

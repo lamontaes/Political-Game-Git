@@ -1,0 +1,32 @@
+{
+  "id": "school-pickup-complaint",
+  "kind": "moment",
+  "summary": "A neighbor raises {issue} while {person} is picking up a child.",
+  "realLife": "Councilor McClure described fielding questions about town business at school pickup.",
+  "sources": [
+    "https://www.creators.com/read/my-so-called-millennial-life/08/24/from-stranger-to-councilor"
+  ],
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{issue}", "{person}"],
+  "gates": [
+    "A resident and the official are at school pickup and a local issue concerns the resident."
+  ],
+  "weights": ["A personal or confidential concern favors a private follow-up."],
+  "usedBy": [],
+  "inGame": "needs: where and when a constituent raised an issue.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The resident asks for an appointment instead of discussing the issue in public.",
+      "pulledBy": "The complaint involves a child's private circumstances.",
+      "writesBack": "A confidential appointment enters the office calendar."
+    },
+    {
+      "turn": "late",
+      "what": "The conversation resumes after pickup.",
+      "pulledBy": "The official has to collect a child before the doors close.",
+      "writesBack": "The resident and official agree on a callback time."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "head-office-cannot-confirm-the-local-meal-rule",
+  "kind": "detail",
+  "summary": "A manager checks whether a meal rule actually applies at {workplace}.",
+  "realLife": "Collins had received free meals at a previous store. Headquarters could not confirm whether the prohibition applied at her new location, and the investigator stopped questioning her.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep420/usrep420251/usrep420251.pdf#page=5",
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep420/usrep420251/usrep420251.pdf#page=6"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the prior workplace practice and headquarters response for current location."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: prior workplace practice and headquarters response for current location.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The investigator suspends questioning.",
+      "pulledBy": "Headquarters cannot confirm local coverage",
+      "writesBack": "Unresolved policy question."
+    },
+    {
+      "turn": "another-way",
+      "what": "The parties can check whether staff received it.",
+      "pulledBy": "A dated local instruction exists",
+      "writesBack": "Instruction and evidence of notice."
+    }
+  ]
+}
