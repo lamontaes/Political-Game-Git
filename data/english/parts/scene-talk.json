@@ -80017,7 +80017,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.let-me-count-my-own-mail-on-bill-first",
@@ -80042,7 +80043,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.you-know-their-bill-is-up-too",
@@ -80068,7 +80070,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.i-ve-got-their-bill-coming-up-myself",
@@ -80094,7 +80097,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.it-s-section-price-section-i-can-t-go-home-with-all-of-it",
@@ -80120,7 +80124,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.not-yet-ask-me-after-i-ve-read-bill",
@@ -80145,7 +80150,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.let-me-read-bill-before-i-give-you-a-number",
@@ -80170,7 +80176,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.i-haven-t-made-up-my-mind-on-bill-give-me-time-to-read-it",
@@ -80195,7 +80202,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.i-want-to-read-bill-one-more-time-before-i-say",
@@ -80220,7 +80228,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.let-me-think-about-cause-first",
@@ -80245,7 +80254,8 @@
       "tag": {
         "move": "undecided",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["door-lets-a-candidate-meet-neighbors"]
     },
     {
       "key": "scene-talk.reply-undecided.let-me-see-what-rival-has-to-say-first-then-ask-me-again",
@@ -80271,37 +80281,7 @@
         "move": "undecided",
         "key": "door"
       },
-      "elements": [
-        "door-answer-is-frustration-with-the-body",
-        "door-ask-is-what-should-the-office-do",
-        "door-lets-a-candidate-meet-neighbors"
-      ]
-    },
-    {
-      "key": "scene-talk.follow-defer.read-it-that-s-all-i-m-asking",
-      "move": "follow-defer",
-      "kind": "spoken",
-      "text": "Read it. That's all I'm asking.",
-      "origin": "authored",
-      "author": "Words lead (Nov 15), second ask of the same person",
-      "date": "2026-11-15",
-      "tag": {
-        "move": "defer",
-        "key": "bill-sign-on"
-      },
-      "bearing": "calm",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "defer",
-          "role": "asker",
-          "purpose": "cosponsor-ask",
-          "key": "bill-sign-on",
-          "after": "undecided",
-          "requiresFacts": ["asked-before"]
-        }
-      ]
+      "elements": ["door-lets-a-candidate-meet-neighbors"]
     },
     {
       "key": "scene-talk.follow-plea.i-m-counting-on-you-for-bill-don-t-make-me-count-again",
@@ -80327,7 +80307,8 @@
       "tag": {
         "move": "plea",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-accept.okay-take-your-time-with-bill-and-i-ll-ask-again",
@@ -80353,7 +80334,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-accept.read-bill-first-i-d-rather-you-vote-knowing-what-s-in-it",
@@ -80379,7 +80361,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.follow-accept.that-s-fair-i-ll-let-you-read-bill-before-i-ask-again",
@@ -80405,7 +80388,8 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.i-m-not-sold-on-bill-yet-give-me-a-reason-to-put-it-on-the-calendar",
@@ -80430,7 +80414,8 @@
       "tag": {
         "move": "undecided",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.i-haven-t-read-bill-all-the-way-through-it-gets-a-hearing-when-i-know-what-s-in-it",
@@ -80455,7 +80440,8 @@
       "tag": {
         "move": "undecided",
         "key": "favor-asked"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.i-m-close-on-bill-but-i-m-not-there-give-me-a-reason-to-put-my-name-next-to-yours",
@@ -80480,7 +80466,8 @@
       "tag": {
         "move": "undecided",
         "key": "bill-sign-on"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     },
     {
       "key": "scene-talk.reply-undecided.i-haven-t-read-bill-all-the-way-through-my-name-doesn-t-go-on-a-bill-i-haven-t-read",
@@ -80505,7 +80492,8 @@
       "tag": {
         "move": "undecided",
         "key": "bill-sign-on"
-      }
+      },
+      "elements": ["member-asked-for-a-vote-stays-undecided-until-the-floor"]
     }
   ]
 }
