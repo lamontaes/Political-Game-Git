@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: merged
+status: done
 standard: 2
 claimed-by:
 pr: #10536
@@ -17,6 +17,8 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 merged-at: 2026-11-25T00:44:35.634Z
+seen-by: Replay
+seen-at: 2026-11-25T01:09:22.570Z
 ---
 
 **What.** The CTO, Nov 24 (N16-21, send-back), caught that the Guide Quorum entry has a note reading from that body own recorded rules; where no quorum rule has been recorded, the game says so instead of assuming a majority. That is developer text about how the game works, not something a player reads.
@@ -35,3 +37,5 @@ Seen: Guide, the Quorum entry, at 1440 by 900. Seen: Guide, Quorum with its defi
 **Waits on.** Nothing
 
 **Files.** data/research/glossary/terms.json,src/bench/guide-quorum-note.browser.mjs (new)
+
+**Notes.** Seen in the game (2026-11-25, Replay): Show Low, Arizona, seed fee13d66-6ea0-40b0-b8f6-0566efe0a812, main abff6c6c08: Guide entry for Quorum shows definition and Related only, no recorded-rules note
