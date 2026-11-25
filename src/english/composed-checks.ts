@@ -393,6 +393,48 @@ export const noEchoBetweenSpeakers: ComposedCheck = (text, sample) => {
   return found;
 };
 
+// ---- narration-not-opening-on-the-clock-or-date ----
+
+/**
+ * The words that open a line on a clock time or a date are the line rule's
+ * own patterns (`no-day-or-place-in-narration` in data/english/line-rules.json,
+ * the ones that are not a slot), so a bank line and a composed text are
+ * judged by one list.
+ */
+const OPENING_ON_TIME: RegExp[] = (
+  (
+    lineRules.rules.find((rule) => rule.id === "no-day-or-place-in-narration")
+      ?.test as { patterns?: string[] } | undefined
+  )?.patterns ?? []
+).map((source) => new RegExp(source, "i"));
+
+/**
+ * A line of narration that opens on a clock time or a date (owner, Nov 24:
+ * "shouldn't really say this because the date is in the bottom left"; "you
+ * already know what day and time it is"). Naming the occasion ("It's the
+ * evening of January 20.") is not listed.
+ */
+export const narrationNotOpeningOnTheClockOrDate: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      if (
+        !line.speakerId &&
+        OPENING_ON_TIME.some((pattern) => pattern.test(line.text.trim()))
+      )
+        found.push(
+          breakOf(
+            "narration-not-opening-on-the-clock-or-date",
+            text,
+            at,
+            "narration opens on a clock time or a date",
+            line.text,
+          ),
+        );
+  });
+  return found;
+};
+
 // ---- no-catalog-name-in-speech ----
 
 const CATALOG_NAMES: readonly string[] = (
@@ -1270,6 +1312,8 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "no-daily-subject-loop": noDailySubjectLoop,
   "no-echo-between-speakers": noEchoBetweenSpeakers,
   "no-non-reply": noNonReply,
+  "narration-not-opening-on-the-clock-or-date":
+    narrationNotOpeningOnTheClockOrDate,
   "no-catalog-name-in-speech": noCatalogNameInSpeech,
   "not-asked-after-while-present": notAskedAfterWhilePresent,
   "housemate-does-not-ask-known-fact": housemateDoesNotAskKnownFact,

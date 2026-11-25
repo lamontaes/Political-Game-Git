@@ -193,13 +193,23 @@
     },
     {
       "id": "no-day-or-place-in-narration",
-      "says": "Narration never names the day, the date, the time or the place; the screen already shows them.",
+      "says": "Narration never names the day, the date, the time or the place; the screen already shows them. A line of narration never opens on a clock time or a date, typed or filled; naming the occasion (\"the evening of January 20\") is fine.",
       "judges": "line",
       "from": [
         {
           "date": "2026-10-26",
           "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right.",
           "via": "quoted in a skill with 'owner, Oct 26'"
+        },
+        {
+          "date": "2026-11-24",
+          "words": "Okay, again, shouldn't really say this because the date is in the bottom left.",
+          "via": "his Nov 24 grades, on 'It's January 2025.' (owner-grades.md, class 3)"
+        },
+        {
+          "date": "2026-11-24",
+          "words": "no ... you already know what day and time it is. Like, it says it on your thing.",
+          "via": "his Nov 24 page 1, on 'Late in the morning on January 21st, you knock' (owner-grades.md, class 3)"
         }
       ],
       "status": "enforced",
@@ -207,7 +217,12 @@
       "test": {
         "kind": "patterns",
         "patterns": [
-          "\\{(?:weekday|day|month|date|time|today|place|town|city|room)\\}"
+          "\\{(?:weekday|day|month|date|time|today|place|town|city|room)\\}",
+          "^(?:it(?:'s| is)\\s+)?(?:(?:at|around|about|by)\\s+)?\\d{1,2}(?::\\d{2})?\\s*(?:a\\.?m\\.?|p\\.?m\\.?|o'clock)(?![\\w])",
+          "^(?:it(?:'s| is)\\s+)?\\d{1,2}:\\d{2}(?![\\w])",
+          "^(?:(?:it(?:'s| is)|on)\\s+)?(?:(?:a|an)\\s+)?(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|april|june|july|august|september|october|november|december)\\b",
+          "^(?:(?:it(?:'s| is)|on)\\s+)?(?:(?:a|an)\\s+)?(?:may|march)\\s+\\d",
+          "^(?:[a-z']+\\s+){0,5}on\\s+(?:(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)\\b|(?:january|february|april|june|july|august|september|october|november|december|may|march)\\s+\\d)"
         ]
       },
       "applies": {
@@ -215,9 +230,39 @@
       },
       "catches": [
         "It's {weekday}, and {name} calls.",
-        "{name} recognizes you in {place}."
+        "{name} recognizes you in {place}.",
+        "It's January 2025. Washington has a new President, and Meadow has saved you a seat.",
+        "Late in the morning on January 21st, you knock, and {name} opens the door.",
+        "At 7:45 a.m. the line is already out the door.",
+        "It is a Monday in January. You're at home."
       ],
-      "spares": ["{name} catches you on the steps."]
+      "spares": [
+        "{name} catches you on the steps.",
+        "It's the evening of January 20. The news replays {president}'s noon speech.",
+        "Late in the morning, you knock, and {name} opens the door."
+      ]
+    },
+    {
+      "id": "narration-opens-on-the-occasion-not-the-clock",
+      "says": "A line of narration never opens on a clock time or a date as played; it may name the occasion (\"the evening of January 20\").",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-24",
+          "words": "Okay, again, shouldn't really say this because the date is in the bottom left."
+        },
+        {
+          "date": "2026-11-24",
+          "words": "you already know what day and time it is. Like, it says it on your thing."
+        }
+      ],
+      "note": "Composed check narration-not-opening-on-the-clock-or-date over whole texts played in drawn worlds (npm run words:composed), reading the patterns of no-day-or-place-in-narration, which fails the build over bank lines. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["narration-not-opening-on-the-clock-or-date"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
     },
     {
       "id": "no-day-or-place-in-scene-words",
