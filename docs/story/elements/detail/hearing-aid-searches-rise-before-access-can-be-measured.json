@@ -2,8 +2,11 @@
   "id": "hearing-aid-searches-rise-before-access-can-be-measured",
   "kind": "detail",
   "summary": "{researcher} brings search activity to a hearing where the committee wants to know who obtained treatment.",
-  "realLife": "GAO described a study finding more online searches about vendors, prices and reviews after the rule. FDA officials told GAO they had not studied its effect on access.",
-  "sources": ["https://www.gao.gov/assets/gao-24-106854.pdf#page=6"],
+  "realLife": "Panth and colleagues tracked Google search activity around the start of retail sales. Queries about hearing aids, including prices and vendors, drew interest. In the later congressional audit, FDA officials said they had not studied how the rule affected access to treatment.",
+  "sources": [
+    "https://www.gao.gov/assets/gao-24-106854.pdf#page=6",
+    "https://doi.org/10.1002/ohn.406"
+  ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{researcher}"],
   "gates": [],

@@ -1,0 +1,28 @@
+{
+  "id": "household-rates-the-same-hearing-problem-twice",
+  "kind": "moment",
+  "summary": "{spouse} completes a separate account of the conversations a household is having trouble hearing.",
+  "realLife": "In a Pittsburgh case report, a retiree and his spouse answered parallel questions independently. Before he used the aids, she reported more difficulty overall than he did. Both recorded improvement at follow-up.",
+  "sources": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC10801511/"],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{spouse}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: separate household accounts and dates of follow-up.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "Both people agree to share their answers.",
+      "what": "The caseworker records who noticed each difficulty.",
+      "writesBack": "A later check can ask each person about the same situations."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "Only the wearer wants to speak.",
+      "what": "Staff takes the account the wearer volunteers.",
+      "writesBack": "The file leaves the spouse’s view open."
+    }
+  ]
+}

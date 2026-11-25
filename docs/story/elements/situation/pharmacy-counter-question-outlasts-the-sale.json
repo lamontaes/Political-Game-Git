@@ -2,8 +2,11 @@
   "id": "pharmacy-counter-question-outlasts-the-sale",
   "kind": "situation",
   "summary": "{pharmacist} is asked to walk a customer through a hearing-aid choice their training barely covered.",
-  "realLife": "A study cited by GAO found that about two-thirds of surveyed pharmacists felt they lacked the knowledge to counsel patients on over-the-counter hearing aids.",
-  "sources": ["https://www.gao.gov/assets/gao-24-106854.pdf#page=7"],
+  "realLife": "In a 2021 volunteer survey conducted before retail sales began, most responding pharmacists felt unprepared to advise patients about these aids. Respondents identified training and contacts with hearing professionals as resources they could use.",
+  "sources": [
+    "https://www.gao.gov/assets/gao-24-106854.pdf#page=7",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC9680367/"
+  ],
   "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
   "slots": ["{pharmacist}"],
   "gates": [],

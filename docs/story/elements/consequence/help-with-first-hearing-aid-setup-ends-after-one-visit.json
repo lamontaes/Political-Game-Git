@@ -1,0 +1,28 @@
+{
+  "id": "help-with-first-hearing-aid-setup-ends-after-one-visit",
+  "kind": "consequence",
+  "summary": "{wearer} needs company to set up the hearing aid and then uses it independently.",
+  "realLife": "In the Pittsburgh case, the retiree needed help downloading and using the second pair’s app. He continued using that pair for six months without further help.",
+  "sources": ["https://pmc.ncbi.nlm.nih.gov/articles/PMC10801511/"],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{wearer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: who helped with setup and a later account from the wearer.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The wearer can operate the device after setup.",
+      "what": "The helper leaves the ordinary controls with the wearer.",
+      "writesBack": "A follow-up records independent use after an assisted start."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The wearer still needs another person to operate the controls.",
+      "what": "The helper asks which task remains difficult.",
+      "writesBack": "The next appointment can focus on that task."
+    }
+  ]
+}
