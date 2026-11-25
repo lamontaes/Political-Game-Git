@@ -262,9 +262,14 @@ export function partsOf(
 const slotsOf = (text: string) =>
   [...text.matchAll(/\{([\w-]+)\}/g)].map((match) => match[1]!);
 
-/** What a slot says, the key its budget is counted by: two slots that say the same words count together. */
+/**
+ * What a slot says, the key its budget is counted by: two slots that say the
+ * same words count together, as a clause or as its own sentence (a belief said
+ * as "{belief-sentence}" and again inside a stand as "{belief}"; pre-grade,
+ * Nov 25: a governor gave the photo-ID reason twice in one paragraph).
+ */
 const saidOf = (facts: TellingFacts, slot: string) =>
-  (facts[slot]?.text ?? slot).toLowerCase();
+  (facts[slot]?.text ?? slot).toLowerCase().replace(/[.!?]+$/, "");
 
 /** How many sentences may say a slot's words: the slot's own budget, else the row's default (`*`). */
 const budgetOf = (kind: string, slot: string) => {

@@ -137,6 +137,35 @@ describe("the outline planner", () => {
       }
   });
 
+  // Pre-grade, Nov 25: a governor gave the photo-ID reason as its own
+  // sentence and again inside the stand, in one paragraph.
+  it("says the speaker's reason once, whether as a clause or as its own sentence", () => {
+    for (const kind of ["inaugural", "state-of-the-state", "town-address"])
+      for (const traits of PROFILES)
+        for (const key of ["a", "b", "c", "d", "e", "f"]) {
+          const text = tell({
+            kind,
+            // The question's own reason for the side, in the same words as the
+            // speaker's belief (as photo ID's was).
+            facts: {
+              ...facts,
+              "reason-against": f("a cap on rent means fewer homes get built"),
+            },
+            momentKey: key,
+            worldSeed: "seed",
+            sourceRecordIds: ["record:test"],
+            knower: "person:president",
+            traits,
+          })?.paragraphs.join(" ");
+          if (!text) continue;
+          expect(
+            text.toLowerCase().split("a cap on rent means fewer homes").length -
+              1,
+            `${kind}: ${text}`,
+          ).toBeLessThanOrEqual(1);
+        }
+  });
+
   it("ends no point of an inaugural in an ask of Congress more than once", () => {
     for (const traits of PROFILES) {
       const text = told(traits)!.paragraphs.join(" ");
