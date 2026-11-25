@@ -1274,6 +1274,90 @@
           "speaks-for"
         ],
         "after": "scene-talk.reply-ask.i-d-like-name-to-put-the-union-ballot-beside-the-pay-stub-which-of-those-does-a-ban-on-required-fees-change"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.if-i-m-the-one-waiting-in-the-hall-what-would-name-tell-me-i-can-refuse-and-still-keep-my-shift"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-union-in-place-keeps-the-same-voting-list-what-changes-for-the-worker-whose-pay-helped-cover-the-negotiations"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.help-me-follow-the-worker-back-to-the-plant-presiding-if-they-still-don-t-get-a-ballot-what-can-they-do-about-paying-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.i-heard-name-say-the-worker-ought-to-have-a-choice-do-they-get-to-choose-about-paying-the-local-voting-on-the-deal-or-both"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.would-name-tell-the-worker-to-ask-the-steward-for-a-ballot-or-tell-payroll-they-can-turn-down-the-fee-once-the-ban-applies"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.let-me-put-the-question-from-outside-the-meeting-room-presiding-if-i-turn-down-the-fee-who-decides-whether-i-get-to-vote"
       }
     ],
     "bearing": "calm",
@@ -1394,6 +1478,90 @@
           "speaks-for"
         ],
         "after": "scene-talk.reply-ask.i-d-like-name-to-put-the-union-ballot-beside-the-pay-stub-which-of-those-does-a-ban-on-required-fees-change"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.if-i-m-the-one-waiting-in-the-hall-what-would-name-tell-me-i-can-refuse-and-still-keep-my-shift"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-union-in-place-keeps-the-same-voting-list-what-changes-for-the-worker-whose-pay-helped-cover-the-negotiations"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.help-me-follow-the-worker-back-to-the-plant-presiding-if-they-still-don-t-get-a-ballot-what-can-they-do-about-paying-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.i-heard-name-say-the-worker-ought-to-have-a-choice-do-they-get-to-choose-about-paying-the-local-voting-on-the-deal-or-both"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.would-name-tell-the-worker-to-ask-the-steward-for-a-ballot-or-tell-payroll-they-can-turn-down-the-fee-once-the-ban-applies"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding",
+          "speaks-for"
+        ],
+        "after": "scene-talk.reply-ask.let-me-put-the-question-from-outside-the-meeting-room-presiding-if-i-turn-down-the-fee-who-decides-whether-i-get-to-vote"
       }
     ],
     "bearing": "calm",
@@ -1876,32 +2044,6 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
-        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
-        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
       },
       {
         "subject": "scene",
@@ -9304,32 +9446,6 @@
           "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
           "place"
         ],
-        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "place"
-        ],
-        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "place"
-        ],
         "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
       },
       {
@@ -9650,32 +9766,6 @@
           "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
           "name"
         ],
-        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
-        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
         "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
       },
       {
@@ -9984,32 +10074,6 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
-        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
-        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
       },
       {
         "subject": "scene",
@@ -13728,32 +13792,6 @@
           "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
           "name"
         ],
-        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
-        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
         "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
       },
       {
@@ -15318,6 +15356,90 @@
           "presiding"
         ],
         "after": "scene-talk.reply-ask.i-d-like-name-to-put-the-union-ballot-beside-the-pay-stub-which-of-those-does-a-ban-on-required-fees-change"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.if-i-m-the-one-waiting-in-the-hall-what-would-name-tell-me-i-can-refuse-and-still-keep-my-shift"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-union-in-place-keeps-the-same-voting-list-what-changes-for-the-worker-whose-pay-helped-cover-the-negotiations"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.help-me-follow-the-worker-back-to-the-plant-presiding-if-they-still-don-t-get-a-ballot-what-can-they-do-about-paying-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.i-heard-name-say-the-worker-ought-to-have-a-choice-do-they-get-to-choose-about-paying-the-local-voting-on-the-deal-or-both"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.would-name-tell-the-worker-to-ask-the-steward-for-a-ballot-or-tell-payroll-they-can-turn-down-the-fee-once-the-ban-applies"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.let-me-put-the-question-from-outside-the-meeting-room-presiding-if-i-turn-down-the-fee-who-decides-whether-i-get-to-vote"
       }
     ],
     "bearing": "warm",
@@ -15438,6 +15560,90 @@
           "presiding"
         ],
         "after": "scene-talk.reply-ask.i-d-like-name-to-put-the-union-ballot-beside-the-pay-stub-which-of-those-does-a-ban-on-required-fees-change"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.if-i-m-the-one-waiting-in-the-hall-what-would-name-tell-me-i-can-refuse-and-still-keep-my-shift"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-union-in-place-keeps-the-same-voting-list-what-changes-for-the-worker-whose-pay-helped-cover-the-negotiations"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.help-me-follow-the-worker-back-to-the-plant-presiding-if-they-still-don-t-get-a-ballot-what-can-they-do-about-paying-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.i-heard-name-say-the-worker-ought-to-have-a-choice-do-they-get-to-choose-about-paying-the-local-voting-on-the-deal-or-both"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.would-name-tell-the-worker-to-ask-the-steward-for-a-ballot-or-tell-payroll-they-can-turn-down-the-fee-once-the-ban-applies"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.let-me-put-the-question-from-outside-the-meeting-room-presiding-if-i-turn-down-the-fee-who-decides-whether-i-get-to-vote"
       }
     ],
     "bearing": "firm",
@@ -20734,38 +20940,6 @@
           "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
           "name"
         ],
-        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice",
-        "excludesFacts": [
-          "place"
-        ]
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
-        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either",
-        "excludesFacts": [
-          "place"
-        ]
-      },
-      {
-        "subject": "scene",
-        "step": "reply",
-        "move": "ask",
-        "role": "asked",
-        "purpose": "floor-debate",
-        "key": "honor",
-        "requiresFacts": [
-          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
-          "name"
-        ],
         "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it",
         "excludesFacts": [
           "place"
@@ -24474,6 +24648,300 @@
     "author": "Codex writer B",
     "elements": [
       "a-state-ruling-reopens-one-plants-bargaining-agenda"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-i-m-the-one-waiting-in-the-hall-what-would-name-tell-me-i-can-refuse-and-still-keep-my-shift",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "If I'm the one waiting in the hall, what would {name} tell me I can refuse and still keep my shift?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.suppose-the-union-in-place-keeps-the-same-voting-list-what-changes-for-the-worker-whose-pay-helped-cover-the-negotiations",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Suppose the union in {place} keeps the same voting list. What changes for the worker whose pay helped cover the negotiations?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.help-me-follow-the-worker-back-to-the-plant-presiding-if-they-still-don-t-get-a-ballot-what-can-they-do-about-paying-the-fee",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Help me follow the worker back to the plant, {presiding}. If they still don't get a ballot, what can they do about paying the fee?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      }
+    ],
+    "bearing": "calm",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.i-heard-name-say-the-worker-ought-to-have-a-choice-do-they-get-to-choose-about-paying-the-local-voting-on-the-deal-or-both",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "I heard {name} say the worker ought to have a choice. Do they get to choose about paying the local, voting on the deal, or both?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.would-name-tell-the-worker-to-ask-the-steward-for-a-ballot-or-tell-payroll-they-can-turn-down-the-fee-once-the-ban-applies",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Would {name} tell the worker to ask the steward for a ballot or tell payroll they can turn down the fee once the ban applies?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.let-me-put-the-question-from-outside-the-meeting-room-presiding-if-i-turn-down-the-fee-who-decides-whether-i-get-to-vote",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Let me put the question from outside the meeting room, {presiding}. If I turn down the fee, who decides whether I get to vote?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either",
+        "excludesFacts": [
+          "place"
+        ]
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
     ],
     "issues": [
       "question:us-policy-positions:labor-workforce.right-to-work"
