@@ -1,0 +1,39 @@
+{
+  "id": "first-meeting-roundtable-reveals-different-kinds-of-help",
+  "kind": "situation",
+  "summary": "A newcomer can say whether they came to knock doors, seek a precinct job or serve as a delegate.",
+  "realLife": "At its February 2026 meeting the 31st District invited optional introductions; newcomers described interest in convention service, precinct office and canvassing.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-february-26-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading",
+    "home"
+  ],
+  "slots": ["{newcomer}", "{organizer}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: voluntary introduction and expressed interest.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The newcomer chooses a kind of work.",
+      "what": "An organizer offers the corresponding contact.",
+      "writesBack": "The first assignment follows the volunteer's own interest."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The newcomer would rather listen.",
+      "what": "The chair moves on without assigning a role.",
+      "writesBack": "Attendance alone does not put a name on the work list."
+    }
+  ]
+}

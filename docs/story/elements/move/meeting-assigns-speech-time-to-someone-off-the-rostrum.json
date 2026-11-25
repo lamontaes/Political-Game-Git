@@ -1,0 +1,35 @@
+{
+  "id": "meeting-assigns-speech-time-to-someone-off-the-rostrum",
+  "kind": "move",
+  "summary": "A member can take a small working job keeping speakers to time while the chair handles the floor.",
+  "realLife": "The 21st District appointed Ahamad Ceesay to time caucus speeches while a separate committee was responsible for counting votes.",
+  "sources": ["https://21dems.org/2018-caucus-minutes/"],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{timekeeper}", "{speaker}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: appointed timekeeper and speaking rules.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The speaker is nearing the limit.",
+      "what": "The timekeeper gives the agreed signal.",
+      "writesBack": "The chair can recognize the next speaker."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The caucus has not set a limit for this item.",
+      "what": "The timekeeper asks the chair what rule applies.",
+      "writesBack": "The speaker gets a ruling before the clock is enforced."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "online-and-room-tallies-leave-a-tie-for-the-chair",
+  "kind": "consequence",
+  "summary": "A motion that appears to lose in the hall can still reach the chair tied when remote votes are included.",
+  "realLife": "On a second assessor endorsement the 31st District recorded separate in-person and online totals; together they tied, and the chair voted against the motion to break the tie.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-march-25-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{chair}", "{motion}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: both tallies and the chair's tie authority.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The remote tally offsets the room tally.",
+      "what": "The chair announces the combined tie before voting.",
+      "writesBack": "The minutes distinguish the members' votes from the deciding vote."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The combined tally is decisive.",
+      "what": "The chair announces the result without casting a tie vote.",
+      "writesBack": "The record shows why the chair did not decide it."
+    }
+  ]
+}

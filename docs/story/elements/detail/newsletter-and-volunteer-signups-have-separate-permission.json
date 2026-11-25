@@ -1,0 +1,38 @@
+{
+  "id": "newsletter-and-volunteer-signups-have-separate-permission",
+  "kind": "detail",
+  "summary": "A communications volunteer cannot assume that someone who signed up for a task also wants the newsletter.",
+  "realLife": "The 31st District's newsletter report distinguished two mailing lists, described the newsletter as opt-in and proposed separate signup codes for volunteers and readers.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-march-25-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{volunteer}", "{list}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: signup purpose and communication permission.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A newcomer asks for the newsletter alone.",
+      "what": "The volunteer uses the newsletter signup.",
+      "writesBack": "The person's name stays off the task list."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A helper wants a shift but no newsletter.",
+      "what": "The organizer records only the work request.",
+      "writesBack": "The two lists stay separate."
+    }
+  ]
+}

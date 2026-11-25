@@ -1,0 +1,38 @@
+{
+  "id": "new-member-volunteers-for-membership-chair",
+  "kind": "moment",
+  "summary": "A member's offer to welcome other newcomers can lead to an executive board seat.",
+  "realLife": "A new 31st District member volunteered to chair membership, another officer described his qualifications and the membership approved him for the role and the executive board.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-february-26-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community",
+    "loading"
+  ],
+  "slots": ["{member}", "{board}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: volunteer, open role and required vote.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The nominee accepts the board duties as well.",
+      "what": "The members vote on the appointment.",
+      "writesBack": "The new chair joins the executive board."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The volunteer can help with welcomes but cannot attend board meetings.",
+      "what": "The chair separates the volunteer task from the office.",
+      "writesBack": "The board seat still needs a nominee."
+    }
+  ]
+}

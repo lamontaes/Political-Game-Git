@@ -1,0 +1,37 @@
+{
+  "id": "local-committee-fills-a-named-precinct-assignment",
+  "kind": "move",
+  "summary": "A local committee turns a neighbor's willingness to serve into a recorded precinct appointment.",
+  "realLife": "The February minutes record a motion, a second and unanimous approval of Jill Gilliom as a precinct committee officer in Milton.",
+  "sources": [
+    "https://31stdistrictdemocrats.org/meeting-minutes-february-26-2026/"
+  ],
+  "fits": [
+    "campaign",
+    "office",
+    "journal",
+    "news",
+    "speeches",
+    "work-community"
+  ],
+  "slots": ["{precinct}", "{nominee}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: named precinct, nominee and appointment procedure.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The precinct and nominee are both identified.",
+      "what": "The chair puts the appointment to a vote.",
+      "writesBack": "The minutes link the new officer to the place served."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The notice names the volunteer but omits the precinct.",
+      "what": "The secretary asks which assignment is proposed.",
+      "writesBack": "The record is completed before a vote."
+    }
+  ]
+}
