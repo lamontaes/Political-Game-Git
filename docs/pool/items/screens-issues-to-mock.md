@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: screens lane (Nov 17)
-pr: 9827
+pr: #9827
 blocked-on:
 source: crew line item 4, the remaining approved mocks
 after:
@@ -16,6 +16,7 @@ lead: play-first
 model: opus
 effort: medium
 root: none
+merged-at: 2026-11-25T13:05:38.712Z
 ---
 
 **What.** Politics > Issues differed from its approved mock (`pl-issues`). The mock lists the subjects in a column of their own, each with how many laws it holds, beside the chosen subject's laws and the chosen law. The game hid the subjects in a Subject dropdown under two rows of bars.
