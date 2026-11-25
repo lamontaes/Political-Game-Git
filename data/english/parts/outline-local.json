@@ -882,7 +882,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "told-contrast"
           ]
         },
         {
@@ -918,7 +919,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "told-contrast"
           ]
         }
       ],
@@ -1438,14 +1440,14 @@
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
+          "excludesFacts": ["told-contrast"]
         },
         {
           "subject": "campaign-speech",
           "role": "stand",
           "tie": "stand",
           "requiresFacts": ["to", "stance-for", "law-not-in-force"],
-          "excludesFacts": []
+          "excludesFacts": ["told-contrast"]
         }
       ],
       "after": ["today", "contrast"],
@@ -1494,7 +1496,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "told-contrast"
           ]
         },
         {
@@ -1530,7 +1533,8 @@
             "policy:budget:parks",
             "policy:budget:police",
             "policy:budget:schools",
-            "policy:budget:welfareAndMedicaid"
+            "policy:budget:welfareAndMedicaid",
+            "told-contrast"
           ]
         }
       ],
@@ -4240,6 +4244,151 @@
       "author": "the local and campaign speeches writer",
       "date": "2026-11-24",
       "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-m-not-with-them-on-it-because",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm not with them on it, because {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief", "told-contrast"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief", "told-contrast"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-m-against-it-and-i-ll-say-why",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm against it, and I'll say why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief", "told-contrast"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief", "told-contrast"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-can-t-go-along-with-it-since",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I can't go along with it, since {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief", "told-contrast"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-against", "belief", "told-contrast"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-m-for-it-and-here-s-why",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm for it, and here's why: {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "belief", "told-contrast"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "belief", "told-contrast"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.stand.i-m-with-those-who-want-it-because",
+      "move": "stand",
+      "kind": "spoken",
+      "text": "I'm with those who want it, because {belief}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "belief", "told-contrast"],
+          "excludesFacts": []
+        },
+        {
+          "subject": "campaign-speech",
+          "role": "stand",
+          "tie": "stand",
+          "requiresFacts": ["stance-for", "belief", "told-contrast"],
+          "excludesFacts": []
+        }
+      ],
+      "after": ["contrast"],
+      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"],
       "issues": ["none"]
     }
   ]
