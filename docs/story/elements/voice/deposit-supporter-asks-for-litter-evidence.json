@@ -1,0 +1,28 @@
+{
+  "id": "deposit-supporter-asks-for-litter-evidence",
+  "kind": "voice",
+  "summary": "The mayor asks how the city will know whether an alternative keeps discarded containers off the streets.",
+  "realLife": "Hindman wanted assurance that Columbia could control beverage litter at least as well before changing its ordinance.",
+  "sources": ["https://www.como.gov/Council/Minutes/2001/min01_mar19.php"],
+  "fits": ["office", "journal", "news", "speeches", "campaign"],
+  "slots": ["{mayor}", "{street}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The catalog supports city action on bottle deposits. needs: comparable litter observations.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The mayor asks staff to walk the same streets after implementation.",
+      "pulledBy": "Inspectors have a baseline for the same streets.",
+      "writesBack": "The council can request a comparable count after a change."
+    },
+    {
+      "turn": "opposite",
+      "what": "A sanitation worker explains why a full truck says little about litter left on the curb.",
+      "pulledBy": "The count covers only material picked up at the curb.",
+      "writesBack": "The mayor asks for street observations before drawing a conclusion."
+    }
+  ]
+}

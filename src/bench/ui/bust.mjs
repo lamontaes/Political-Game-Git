@@ -17,10 +17,17 @@ export function bustStack(bust, alt = "") {
   // A person is shown whole or not yet: the stack stays clear until every
   // piece has arrived, so nobody is ever a head with no shoulders.
   stack.classList.add("loading");
+  // `ready` settles when every piece is in, so a screen that swaps one person
+  // for another can keep the old one up until the new one can be shown whole.
   let waiting = bust.layers.length;
+  let shown;
+  stack.ready = new Promise((resolve) => (shown = resolve));
   const arrived = () => {
     waiting -= 1;
-    if (waiting <= 0) stack.classList.remove("loading");
+    if (waiting <= 0) {
+      stack.classList.remove("loading");
+      shown();
+    }
   };
   for (const src of bust.layers) {
     const piece = el("img", { src, alt: "", draggable: false });

@@ -1,0 +1,30 @@
+{
+  "id": "accept-another-way-to-meet-a-recommendation",
+  "kind": "move",
+  "summary": "Board members vote on whether a company’s substitute for the requested review meets the same safety goal.",
+  "realLife": "Cenovus hired a specialist to check manuals at facilities without an overall technology licensor. After receiving the report, the Chemical Safety Board accepted that approach and closed its recommendation.",
+  "sources": [
+    "https://www.csb.gov/assets/recommendation/status_change_summary_cenovus_%28husky_r10%29_c-aaa.pdf"
+  ],
+  "fits": ["office", "work-community", "news", "journal", "speeches"],
+  "slots": ["{board}", "{company}", "{recommendation}"],
+  "gates": ["The company has submitted evidence of its alternative."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an open safety recommendation and a board disposition on substitute evidence.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The board sends the company's substitute review back for more work.",
+      "pulledBy": "The review leaves one facility outside its scope.",
+      "writesBack": "The recommendation stays open with the missing facility identified."
+    },
+    {
+      "turn": "partial",
+      "what": "The board closes the recommendation for the facilities the review covers.",
+      "pulledBy": "The report documents checks at only some sites.",
+      "writesBack": "The remaining sites stay under review."
+    }
+  ],
+  "issues": ["none"]
+}

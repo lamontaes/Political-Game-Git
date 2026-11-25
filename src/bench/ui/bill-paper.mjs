@@ -42,6 +42,12 @@ const estimateOf = (estimate) => [
   ...estimate.lines.filter(Boolean).map((text) => line(text)),
 ];
 
+const sponsorLine = (text) => {
+  const node = line(text);
+  node.dataset.noTerms = "";
+  return node;
+};
+
 /**
  * The paper as the legislation mock draws it (docs/mocks/2026-11-08-legislation/, "Following a
  * bill"): three columns, where it is on the left, the bill typed on the paper in the middle, the
@@ -87,8 +93,17 @@ export function billPaper(paper) {
       ? estimates(paper.sections[0])
       : estimateOf(paper.blank)),
   );
-  const showEstimate = (section) =>
+  // The estimate's strip shows only when the records give it something to say: a section with no
+  // figure and no step leaves no heading over an empty card.
+  const estimateStrip = stripSection(4, paper.estimateLabel, aside);
+  const fitEstimate = () => {
+    estimateStrip.hidden = !aside.childElementCount;
+  };
+  fitEstimate();
+  const showEstimate = (section) => {
     aside.replaceChildren(...estimates(section));
+    fitEstimate();
+  };
   // The bill as typed: Compare strikes the clause the law in force holds and inserts the bill's;
   // Clean copy shows the bill's alone (the views are the same records, drawn two ways).
   const views = paper.views;
@@ -156,7 +171,9 @@ export function billPaper(paper) {
     ...(viewBar ? [viewBar] : []),
     heading(paper.spoken, "h2"),
     prose(paper.title),
-    line(paper.sponsor),
+    // A field and a name, not prose: the glossary does not underline the label (CTO, Nov 24:
+    // "Sponsor is underlined like a link").
+    sponsorLine(paper.sponsor),
     ...(views ? [changes] : []),
     // A section the paper has typed above is not listed again; one with no
     // typed clause is listed here, so every section can be clicked once.
@@ -222,7 +239,7 @@ export function billPaper(paper) {
       el(
         "div",
         { className: "mx3col" },
-        stripSection(4, paper.estimateLabel, aside),
+        estimateStrip,
         ...(paper.extra ?? []),
         ...(votes.length ? [stripSection(2, paper.voteLabel, ...votes)] : []),
       ),

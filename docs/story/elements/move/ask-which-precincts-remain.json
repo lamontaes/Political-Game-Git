@@ -1,0 +1,31 @@
+{
+  "id": "ask-which-precincts-remain",
+  "kind": "move",
+  "summary": "Before making a concession call, a candidate asks which returns are still outstanding.",
+  "realLife": "As Gore’s motorcade approached the Nashville rally, field director Michael Whouley paged an aide about Florida’s shrinking margin and the votes still outstanding. The aide relayed the update to the campaign chairman.",
+  "sources": [
+    "https://p2000.us/gore110700.html",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-story-rulings-nov13-16.md#L139"
+  ],
+  "inGame": "needs: individual outstanding precincts exposed to the concession dialogue.",
+  "fits": ["campaign", "journal", "news", "home"],
+  "slots": ["{candidate}", "{manager}", "{precinct}"],
+  "gates": ["Outstanding returns are known."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The manager names the missing precinct and says its absentee total is still unknown.",
+      "pulledBy": "The board has posted a precinct list without a ballot count.",
+      "writesBack": "The candidate has the location and an unresolved count."
+    },
+    {
+      "turn": "opposite",
+      "what": "The county clerk says every precinct has reported, then points to a tray of absentee ballots still to be counted.",
+      "pulledBy": "The county reports precinct returns and outstanding absentee ballots separately.",
+      "writesBack": "The campaign marks the precinct list complete and carries the absentee count into its next briefing."
+    }
+  ],
+  "issues": ["none"]
+}

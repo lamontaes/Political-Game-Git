@@ -1,0 +1,32 @@
+{
+  "id": "builder-still-waits-after-other-supply-lines-reopen",
+  "kind": "detail",
+  "summary": "A builder in {place} still lacks supplies after other businesses begin receiving theirs again.",
+  "realLife": "Contacts reported that some Chinese supply connections had resumed and firms could use stocks or alternatives, while builders in some US districts still reported disruption.",
+  "sources": [
+    "https://www.federalreserve.gov/monetarypolicy/files/fomcminutes20200315.pdf#page=7"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the sector-specific delivery reports and outstanding order."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: sector-specific delivery reports and outstanding order.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Their orders proceed while the builder waits.",
+      "pulledBy": "Other buyers can switch suppliers",
+      "writesBack": "Different delivery dates in the two sector reports."
+    },
+    {
+      "turn": "another-way",
+      "what": "The construction delay can be revised.",
+      "pulledBy": "The builder secures the missing materials",
+      "writesBack": "Revised material receipt date on the building schedule."
+    }
+  ]
+}

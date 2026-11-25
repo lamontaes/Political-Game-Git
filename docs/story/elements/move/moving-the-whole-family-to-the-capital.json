@@ -1,0 +1,44 @@
+{
+  "id": "moving-the-whole-family-to-the-capital",
+  "kind": "move",
+  "summary": "A congressman with nine children moved his family to Washington on a veteran's advice so he would see them more.",
+  "realLife": "A California congressman with nine children took his whole family to Washington after advice from a former member, believing he would see them more that way. He said his wife was like a single mother while he was away.",
+  "sources": [
+    "https://rollcall.com/2011/08/02/lawmakers-learn-to-juggle-family-office-duty/"
+  ],
+  "fits": ["home", "journal", "office"],
+  "slots": ["{the household}", "{the capital}", "{the spouse}"],
+  "gates": [
+    "A seat is held at a capital away from home.",
+    "The household has children."
+  ],
+  "weights": [
+    "Number of children",
+    "Spouse's job",
+    "Cost of a second home",
+    "Distance from the capital"
+  ],
+  "inGame": "A move, a household and a seat held at a capital away from home can carry it; the new school follows the address.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family stays home and the official commutes.",
+      "pulledBy": "A spouse's job, roots, cost.",
+      "writesBack": "Household stays; the official gets a second place."
+    },
+    {
+      "turn": "partial",
+      "what": "The family moves for the school year and returns in summer.",
+      "pulledBy": "A seat that sits only part of the year.",
+      "writesBack": "Two addresses on the household record."
+    },
+    {
+      "turn": "late",
+      "what": "They move after a first term and a lost year with the children.",
+      "pulledBy": "Regret over time away.",
+      "writesBack": "A move record; the children change school."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -33,6 +33,8 @@ import {
   type OfficialRow,
 } from "./modules/officials";
 import {
+  lifeShift,
+  openingRecord,
   ownOpeningStance,
   stanceOn,
   viewOf,
@@ -182,6 +184,10 @@ export function partyFirmness(api: CoreAPI, personId: string): number {
 
 const NO_VOTES: readonly VoteRecordRow[] = [];
 
+/** The record behind a stand: a vote cast, a named official's recorded position, their own circumstances, their faith or degree, or what has reached them. */
+export type RecordGround =
+  "voted" | "office-record" | "circumstance" | "faith" | "degree" | "heard";
+
 /**
  * Where one candidate stands on policy questions under one party label, for
  * a caller that asks many (an interview scores every question for each
@@ -253,6 +259,36 @@ export class StanceReader {
     if (this.votesOn(question).length) return "vote";
     if (this.ownStance(question) !== null) return "view";
     return positionOf(this.ofParty(), question) === null ? null : "party";
+  }
+
+  /**
+   * The record that gives them a reason to run on a question, or null for
+   * none (owner, Nov 23: "random issues and stances with no reason why those
+   * are chosen"; the CTO, Nov 24: a candidate runs only on stands their own
+   * record gives a reason for). In order: a vote they cast on it; for a named
+   * official, the position their row records; for a person, what their own
+   * life adds to it today (`lifeShift`), what their faith or degree adds
+   * (`openingRecord`), or what has reached them about it (`stanceOn`).
+   */
+  ground(question: string): RecordGround | null {
+    if (this.votesOn(question).length) return "voted";
+    if (!this.officialRead) {
+      this.official = officialOf(this.api, this.personId);
+      this.officialRead = true;
+    }
+    if (this.official)
+      return officialStance(this.api, this.personId, question) === null
+        ? null
+        : "office-record";
+    if (!this.api.state.people.has(this.personId as PersonId)) return null;
+    const id = this.personId as PersonId;
+    if (lifeShift(this.api, id, question) !== 0) return "circumstance";
+    const opening = openingRecord(this.api, id, question);
+    if (opening && opening.total !== 0)
+      return opening.reasons.reduce((a, b) =>
+        Math.abs(b.adds) > Math.abs(a.adds) ? b : a,
+      ).kind;
+    return stanceOn(this.api, id, question) !== 0 ? "heard" : null;
   }
 
   /** Their record's last vote on a question, or undefined for none. */
@@ -363,6 +399,8 @@ export function candidateLean(
 /** One question a candidate could run on, scored by the platform rule. */
 export interface PlatformScore {
   readonly question: string;
+  /** The record that gives them a reason to run on it. */
+  readonly ground: RecordGround;
   /** Where the candidate stands on it, in [-1, 1] (their own, unchanged). */
   readonly position: number;
   /** How strongly they hold it: the position's size, 0 to 1. */
@@ -380,8 +418,10 @@ export interface PlatformScore {
  * times exp(slope × the percent of the electorate on their side, by the
  * stance the ballot reads a voter's agreement from: `electorateSides`), so
  * of two views held about as strongly, the one more of the town shares is
- * talked about. The research's record term (how far the candidate's own
- * votes and job bear on the question) is left out for now. Positions never
+ * talked about. The research's record term gates the choice: a question the
+ * candidate's own record gives no reason for (`StanceReader.ground`) is not
+ * run on (its weighting of the score, how far votes and job bear, is still
+ * left out). Positions never
  * move for it; only which questions are run on.
  */
 export function platformScores(
@@ -403,11 +443,16 @@ export function platformScores(
   for (const question of positions) {
     const position = reader.stance(question);
     if (position === null || position === 0) continue;
+    // A stand needs a reason in the candidate's own record (the research's
+    // record term, as a gate: no record on it, not a stand).
+    const ground = reader.ground(question);
+    if (ground === null) continue;
     const sides = electorateSides(api, question);
     const support = 100 * (position > 0 ? sides.yes : sides.no);
     const conviction = Math.abs(position);
     scores.push({
       question,
+      ground,
       position,
       conviction,
       support,

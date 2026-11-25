@@ -1,0 +1,31 @@
+{
+  "id": "audience-gathers-to-hear-governor-challenged",
+  "kind": "situation",
+  "summary": "A speaker makes a public case against the governor while the player listens.",
+  "realLife": "During Wisconsin’s 2012 recall campaign, Tom Barrett’s supporters gathered in Milwaukee’s Pere Marquette Park to hear Bill Clinton make the case for replacing Governor Scott Walker. Clinton stayed to talk with people after the speech.",
+  "sources": [
+    "https://urbanmilwaukee.com/2012/06/01/bill-clinton-campaigns-with-barrett-at-pere-marquette-park/",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L109"
+  ],
+  "inGame": "needs: an opposition speech, its subject and the player’s attendance.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{speaker}", "{governor}", "{issue}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The player arrives in time for the questions after the speech.",
+      "pulledBy": "A prior commitment ran past the advertised start.",
+      "writesBack": "Their recollection covers the exchange they heard."
+    },
+    {
+      "turn": "opposite",
+      "what": "At the microphone a listener defends the governor’s decision and asks the speaker to explain a local exception.",
+      "pulledBy": "The chair opens questions and the listener has the notice granting the exception.",
+      "writesBack": "The meeting account includes the question and the speaker’s answer."
+    }
+  ],
+  "issues": ["none"]
+}

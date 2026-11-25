@@ -1,0 +1,30 @@
+{
+  "id": "a-local-tie-takes-one-member-out-of-the-vote",
+  "kind": "consequence",
+  "summary": "A member’s connection to a place changes who casts a vote on its name.",
+  "realLife": "One committee member abstained on the Florida channel because of a personal tie to the area. The change passed.",
+  "sources": [
+    "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/files/DNC%20874_May8_2025_Minutes.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{member}", "{channel}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: the member’s declared connection, the abstention, the quorum rule and the recorded tally.",
+  "turns": [
+    {
+      "turn": "the-clerk-enters-the-abstention",
+      "what": "The clerk enters the abstention.",
+      "pulledBy": "The member discloses a tie and abstains.",
+      "writesBack": "The tally distinguishes it from opposition."
+    },
+    {
+      "turn": "the-chair-schedules-another-hearing",
+      "what": "The chair schedules another hearing.",
+      "pulledBy": "The remaining voters cannot act under the quorum rule.",
+      "writesBack": "The proposal stays pending."
+    }
+  ]
+}

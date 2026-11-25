@@ -1,0 +1,31 @@
+{
+  "id": "state-the-political-consequence-openly",
+  "kind": "voice",
+  "summary": "A counterpart tells a member directly what political support they will withdraw if they disagree.",
+  "realLife": "During the 1999 Senate campaign finance fight, John McCain and Russ Feingold proposed dropping restrictions on outside groups. The Washington Post reported that some Democratic senators warned they would withdraw support if the provision came out.",
+  "sources": [
+    "https://www.washingtonpost.com/archive/opinions/1999/09/16/on-to-the-senate/a8750e1c-91f6-426d-bde0-69a038ede35d/",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L54"
+  ],
+  "inGame": "needs: a known political commitment the counterpart can withdraw.",
+  "fits": ["journal", "office", "news"],
+  "slots": ["{member}", "{counterpart}", "{request}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The counterpart says their existing support will stand despite the disagreement.",
+      "pulledBy": "Their endorsement was based on an earlier commitment independent of this vote.",
+      "writesBack": "The endorsement remains in place after the dispute."
+    },
+    {
+      "turn": "partial",
+      "what": "A supporter withdraws permission to use their name in the mailer but keeps a promise to host a public forum.",
+      "pulledBy": "The endorsement and the forum invitation are recorded separately.",
+      "writesBack": "The printer drops the name and the scheduler keeps the forum date."
+    }
+  ],
+  "issues": ["none"]
+}

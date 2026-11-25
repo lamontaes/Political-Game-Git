@@ -1,0 +1,29 @@
+{
+  "id": "poll-workers-run-short",
+  "kind": "detail",
+  "summary": "A poll manager says there are not enough workers to watch the room and the curb.",
+  "realLife": "An Anderson County poll manager said he lacked workers to watch voters inside and outside.",
+  "sources": [
+    "Boston.com, Election Day voting problems, 2018: https://www.boston.com/news/politics/2018/11/06/election-day-voting-problems/"
+  ],
+  "fits": ["campaign"],
+  "slots": ["place"],
+  "gates": [],
+  "weights": {
+    "polling-place": 0.8
+  },
+  "inGame": "needs: poll worker counts as a record; polling-place scene's workers role",
+  "turns": [
+    {
+      "turn": "The place is fully staffed",
+      "pull": "volunteers",
+      "writes": "writes an easy day"
+    },
+    {
+      "turn": "A worker leaves mid-shift",
+      "pull": "an illness record",
+      "writes": "writes a closed line"
+    }
+  ],
+  "usedBy": ["polling-place"]
+}

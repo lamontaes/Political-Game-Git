@@ -1,0 +1,36 @@
+{
+  "id": "voluntold-at-church",
+  "kind": "move",
+  "summary": "A member is quietly assigned a job at church before agreeing to it.",
+  "realLife": "A woman recalling the late 1970s said that after high school she helped whenever called on at church, and joked she was voluntold.",
+  "sources": [
+    "From the Rock Wall, oral history clip of a church member: https://www.fromtherockwall.org/oral-histories/patricia-pat-jackson-on-her-work-in-the-church-clip"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: congregation roles; an ask-to-help is a tie event between a member and the person asked",
+  "turns": [
+    {
+      "turn": "accepts-gladly",
+      "summary": "The person accepts and feels welcome.",
+      "pulledBy": ["eager trait", "new in the group"],
+      "writesBack": "tie to the elder warms; a role is held"
+    },
+    {
+      "turn": "accepts-resentfully",
+      "summary": "The person agrees because refusing would be awkward.",
+      "pulledBy": ["agreeable trait", "weak tie"],
+      "writesBack": "quiet resentment; a promise to serve"
+    },
+    {
+      "turn": "declines-kindly",
+      "summary": "The person says no and offers something smaller.",
+      "pulledBy": ["busy", "assertive trait"],
+      "writesBack": "tie holds; smaller promise recorded"
+    }
+  ],
+  "issues": ["none"]
+}

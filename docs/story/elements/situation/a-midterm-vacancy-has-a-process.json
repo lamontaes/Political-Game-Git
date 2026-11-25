@@ -1,0 +1,29 @@
+{
+  "id": "a-midterm-vacancy-has-a-process",
+  "kind": "situation",
+  "summary": "A midterm vacancy follows a published process with steps and dates.",
+  "realLife": "Salt Lake City publishes its midterm vacancy process.",
+  "sources": [
+    "Salt Lake City, midterm vacancy process: https://www.slc.gov/midtermvacancy/"
+  ],
+  "fits": ["campaign", "office"],
+  "slots": ["office", "place"],
+  "gates": [],
+  "weights": {
+    "serve-sought": 0.8
+  },
+  "inGame": "the office and term records for a seat that opens; needs: a vacancy timeline",
+  "turns": [
+    {
+      "turn": "The vacancy is filled by special election instead",
+      "pull": "the place's rule",
+      "writes": "writes a campaign scene"
+    },
+    {
+      "turn": "The process stalls",
+      "pull": "a vacant council",
+      "writes": "writes a hearing line"
+    }
+  ],
+  "usedBy": ["serve-sought"]
+}

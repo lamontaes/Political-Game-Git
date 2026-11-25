@@ -1,0 +1,35 @@
+{
+  "id": "zoning-left-out-of-order",
+  "kind": "detail",
+  "summary": "An order curbs a council member’s say over permits in {place} but leaves zoning decisions alone.",
+  "realLife": "Chicago mayor Lori Lightfoot limited aldermen’s influence over licensing and permitting while leaving zoning outside her inaugural order.",
+  "sources": [
+    "https://www.wbez.org/chicago/2019/05/20/lightfoot-inauguration",
+    "https://www.wbez.org/chicago/2019/07/01/how-far-should-mayor-lightfoot-go-to-curb-chicago-aldermen"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "A proposed change affects local permit authority while zoning follows a separate process."
+  ],
+  "weights": [
+    "A pending zoning dispute increases attention to the boundary between the two powers."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the scope of local permitting authority.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The council includes zoning in the reform.",
+      "pulledBy": "A separate zoning amendment wins the required vote.",
+      "writesBack": "The ordinance records the changed approval process."
+    },
+    {
+      "turn": "partial",
+      "what": "The council tries the permit change in a single district.",
+      "pulledBy": "The adopted measure authorizes a pilot.",
+      "writesBack": "The permit record carries the district boundary and review date."
+    }
+  ],
+  "issues": ["none"]
+}

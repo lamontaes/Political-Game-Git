@@ -1,0 +1,31 @@
+{
+  "id": "interpreter-at-the-storm-briefing",
+  "kind": "moment",
+  "summary": "A resident in {place} follows the signing at the mayor's live storm briefing.",
+  "realLife": "Interpreters signed at the city's live press conferences during Sandy.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=8"
+  ],
+  "fits": ["office", "news", "journal", "work-community", "home"],
+  "slots": ["{place}"],
+  "gates": [
+    "A briefing has an interpreter and the resident uses sign language."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a briefing has an interpreter and the resident uses sign language.",
+  "turns": [
+    {
+      "turn": "the-broadcast-shows-the-interpreter",
+      "pulledBy": "The broadcast shows the interpreter.",
+      "what": "The resident gets the instruction during the briefing.",
+      "writesBack": "The resident receives the warning in sign language."
+    },
+    {
+      "turn": "the-feed-cuts-away-from-the-interpreter",
+      "pulledBy": "The feed cuts away from the interpreter.",
+      "what": "The resident asks where to see the complete briefing.",
+      "writesBack": "The resident's request for an accessible feed remains open."
+    }
+  ]
+}

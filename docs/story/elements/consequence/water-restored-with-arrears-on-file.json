@@ -1,0 +1,29 @@
+{
+  "id": "water-restored-with-arrears-on-file",
+  "kind": "consequence",
+  "summary": "A household asks {person} whether water can be restored while the remaining debt is worked out.",
+  "realLife": "Portland accepted recommendations that included reconnecting one household, forgiving penalties and renegotiating repayment.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20first-time%20renter%20raised%20concerns%20about%20the%20Portland%20Water"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{person}"],
+  "gates": ["A shutoff and a bureau decision on reconnection are documented."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a shutoff and a bureau decision on reconnection are documented.",
+  "turns": [
+    {
+      "turn": "the-bureau-authorizes-reconnection",
+      "pulledBy": "The bureau authorizes reconnection.",
+      "what": "Confirm the service order separately from the payment agreement.",
+      "writesBack": "The case tracks reconnection and repayment separately."
+    },
+    {
+      "turn": "authorization-is-still-pending",
+      "pulledBy": "Authorization is still pending.",
+      "what": "Keep the service request open alongside the debt review.",
+      "writesBack": "The household's service remains an open question."
+    }
+  ]
+}

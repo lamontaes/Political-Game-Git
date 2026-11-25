@@ -1,0 +1,30 @@
+{
+  "id": "opens-with-who-the-writer-is-and-where-they-live",
+  "kind": "move",
+  "summary": "The first entry of a life or diary states the writer's situation: home, household, work and standing.",
+  "realLife": "Pepys opened his diary with his situation: a garret in Axe Yard, his wife and servant, a clerk to Mr. Downing, with uncertain prospects.",
+  "sources": [
+    "Diary of Samuel Pepys, January 1660, Wikisource: https://en.wikisource.org/wiki/Diary_of_Samuel_Pepys/1660/January"
+  ],
+  "fits": ["journal"],
+  "slots": ["place", "age"],
+  "gates": [],
+  "inGame": "The first chapter of the life story: `memoir-whenAge`, `household:livelihood`, `memoir-movedFrom`, with `place` from the household record.",
+  "weights": {
+    "opening": 0.7
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The writer starts mid-story.",
+      "pulledBy": "a life already under way, no opening record",
+      "writesBack": "the entry opens on the day and fills in later"
+    },
+    {
+      "turn": "The writer is new in town.",
+      "pulledBy": "a recent move on the record",
+      "writesBack": "the entry opens on the move first"
+    }
+  ],
+  "issues": ["none"]
+}

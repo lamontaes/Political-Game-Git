@@ -1,0 +1,32 @@
+{
+  "id": "unspent-drought-balance",
+  "kind": "move",
+  "summary": "Before asking for new money, {person} asks finance which existing balances could pay for the drought work.",
+  "realLife": "Newsom directed agencies to identify unused money that might be redirected to drought projects and to consult the finance department.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A finance review names a balance and records whether it can be redirected."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:naturalResources"],
+  "inGame": "needs: a finance review names a balance and records whether it can be redirected.",
+  "turns": [
+    {
+      "turn": "available",
+      "pulledBy": "Finance identifies funds eligible for the project.",
+      "what": "Put the eligible balance beside the project cost.",
+      "writesBack": "Record it as a potential source."
+    },
+    {
+      "turn": "restricted",
+      "pulledBy": "The balance carries a binding restriction.",
+      "what": "Show the restriction to the project sponsor.",
+      "writesBack": "Keep the funding gap open."
+    }
+  ]
+}

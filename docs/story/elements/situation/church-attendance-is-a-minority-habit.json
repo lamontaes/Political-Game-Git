@@ -1,0 +1,36 @@
+{
+  "id": "church-attendance-is-a-minority-habit",
+  "kind": "situation",
+  "summary": "Only about three in ten adults go to services weekly, so a congregation is one group among many.",
+  "realLife": "Gallup found about 30 percent of adults attend weekly or nearly weekly, down from 42 percent two decades earlier, with large differences by religious group.",
+  "sources": [
+    "Gallup, church attendance by religious group: https://news.gallup.com/poll/642548/church-attendance-declined-religious-groups.aspx"
+  ],
+  "fits": ["work-community"],
+  "slots": ["place"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "needs: religion as a trait or tie; attendance as a person-level record",
+  "turns": [
+    {
+      "turn": "regular-attender",
+      "summary": "The person goes most weeks and knows the others by name.",
+      "pulledBy": ["faith trait", "family habit"],
+      "writesBack": "ties form to the congregation"
+    },
+    {
+      "turn": "occasional-attender",
+      "summary": "The person goes at holidays and funerals only.",
+      "pulledBy": ["lapsed"],
+      "writesBack": "few ties; known by sight"
+    },
+    {
+      "turn": "never-attends",
+      "summary": "The person has no connection to any congregation.",
+      "pulledBy": ["no affiliation"],
+      "writesBack": "church-based asks never reach them"
+    }
+  ],
+  "issues": ["none"]
+}

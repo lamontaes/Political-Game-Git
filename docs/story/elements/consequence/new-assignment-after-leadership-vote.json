@@ -1,0 +1,31 @@
+{
+  "id": "new-assignment-after-leadership-vote",
+  "kind": "consequence",
+  "summary": "A member gets a different committee assignment after helping elect a floor leader.",
+  "realLife": "Shirley Chisholm endorsed Hale Boggs for majority leader. He helped her win a seat on Education and Labor while she was still serving on Veterans’ Affairs.",
+  "sources": [
+    "https://history.house.gov/People/Detail?id=10918",
+    "https://en.wikipedia.org/wiki/Shirley_Chisholm"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{member}", "{leader}", "{committee}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a member's leadership vote linked to a committee assignment decision.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The member backs the winning leader and stays on the old committee.",
+      "pulledBy": "Every seat on the requested panel is filled.",
+      "writesBack": "The assignment roster keeps the member on the old panel."
+    },
+    {
+      "turn": "late",
+      "what": "The leader calls the member back when a panel vacancy opens.",
+      "pulledBy": "A member leaves the requested committee during the term.",
+      "writesBack": "The transfer takes effect midterm."
+    }
+  ],
+  "issues": ["none"]
+}

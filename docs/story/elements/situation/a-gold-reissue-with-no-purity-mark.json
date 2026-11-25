@@ -1,0 +1,34 @@
+{
+  "id": "a-gold-reissue-with-no-purity-mark",
+  "kind": "situation",
+  "summary": "Reissuing {coin} in gold raises a question about where the metal content belongs.",
+  "realLife": "For a proposed gold anniversary edition of the Sacagawea dollar, the original design lacked weight and purity marks and members discussed whether and where to add them. The committee recommended production, and the chair described the proposed issue to Treasury as retaining the original inscriptions without adding either mark.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=5",
+    "https://www.ccac.gov/system/files/2025-03/meeting_minutes_2-18-2025.pdf#page=6",
+    "https://www.ccac.gov/system/files/2025-03/Sec-letter-Sacagewea.pdf#page=1"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{coin}"],
+  "gates": [
+    "A proposed anniversary piece changes the metal and retains the original artwork."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: metal specifications and anniversary design.",
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The old design fits the new metal markings.",
+      "pulledBy": "A rim study leaves enough space.",
+      "writesBack": "The proof identifies weight and purity at the edge."
+    },
+    {
+      "turn": "partial",
+      "what": "The added marks crowd the original image.",
+      "pulledBy": "The anniversary brief calls for the original appearance.",
+      "writesBack": "The placement question returns to the board."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "hard-cut-between-points",
+  "kind": "move",
+  "summary": "Points often join with no bridge at all, most of all in inaugurals.",
+  "realLife": "45% of inaugural points joined the next by a plain cut, against 19% in State of the State addresses.",
+  "sources": [
+    "https://avalon.law.yale.edu/19th_century/lincoln2.asp",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-8",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-11",
+    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-5",
+    "https://www.flgov.com/eog/news/press/2024/governor-ron-desantis-delivers-state-state-address",
+    "https://www.wsbtv.com/news/local/read-gov-brian-kemps-2024-state-state-address/ODQCKR5IUVEA3MLPWQCKFPVC6A/?outputType=amp",
+    "https://sltrib.com/news/politics/2024/01/18/read-gov-spencer-cox-discusses",
+    "https://ktar.com/arizona-news/read-full-transcript-of-arizona-gov-katie-hobbs-2024-state-of-the-state-address-2/5556443/",
+    "https://governor.state.nm.us/2024/01/16/new-mexico-is-made-to-lead-governor-delivers-second-state-of-the-state-address-announces-legislative-agenda",
+    "https://www.nbcconnecticut.com/news/local/read-the-governors-2024-state-of-the-state-address/3213365/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.45
+  },
+  "usedBy": [],
+  "inGame": "The `joins` flag on a section in data/english/outlines.json: a section without it starts a new paragraph (a hard cut), one with it stays in the paragraph.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Every point is joined by a bridge word.",
+      "pulledBy": "a polite or meticulous speaker",
+      "writesBack": "The speech reads as one argument."
+    },
+    {
+      "turn": "neutral",
+      "what": "A cut between the story and the theme only.",
+      "pulledBy": "the default `joins` flags",
+      "writesBack": "The paragraph break marks the turn to the stand."
+    }
+  ],
+  "issues": ["none"]
+}

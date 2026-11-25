@@ -1,0 +1,32 @@
+{
+  "id": "a-cleared-purchase-opens-a-second-inquiry",
+  "kind": "moment",
+  "summary": "After an investigator clears one purchase at {workplace}, the employee mentions a different practice.",
+  "realLife": "After the investigator accepted Collins's account of the chicken sale, she volunteered that she took her lunch without paying, and the questioning turned to meals.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep420/usrep420251/usrep420251.pdf#page=5"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{workplace}"],
+  "gates": [
+    "The case record identifies the closure of initial allegation and a new statement."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: closure of initial allegation and a new statement.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The investigator opens a separate line of questioning.",
+      "pulledBy": "The employee mentions another practice",
+      "writesBack": "New subject entered in the interview notes."
+    },
+    {
+      "turn": "another-way",
+      "what": "The original inquiry closes.",
+      "pulledBy": "Nothing further is raised",
+      "writesBack": "Disposition of the purchase allegation."
+    }
+  ]
+}

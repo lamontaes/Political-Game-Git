@@ -1,0 +1,28 @@
+{
+  "id": "donor-freeze-meets-committee-business",
+  "kind": "consequence",
+  "summary": "Lobbyists ask clients to reconsider a donation freeze as the affected members stand to gain committee power.",
+  "realLife": "After companies paused donations over the election certification vote, lobbyists pointed out that the affected lawmakers could still chair committees.",
+  "sources": ["https://popular.info/p/corporate-lobbyists-bite-back"],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{industry}", "{committee}", "{member}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a donor's suspension of contributions and a committee assignment tied to the same member.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The client keeps the freeze in place after its lobbyist calls.",
+      "pulledBy": "The client's board has voted to suspend donations through the cycle.",
+      "writesBack": "The contribution stays suspended."
+    },
+    {
+      "turn": "partial",
+      "what": "The client resumes policy meetings while its contributions stay frozen.",
+      "pulledBy": "A hearing affecting the client is on the calendar.",
+      "writesBack": "The meeting is recorded separately from donations."
+    }
+  ],
+  "issues": ["none"]
+}

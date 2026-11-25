@@ -18,7 +18,11 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import { screenLine, screenPick, screenWays } from "../english/screen-words";
+import {
+  screenLineByMove,
+  screenPick,
+  screenWays,
+} from "../english/screen-words";
 import type { CoreState, LogRecord } from "../core2/types";
 import { freshSince, storiesHeard } from "../core2/modules/news";
 
@@ -124,8 +128,12 @@ export function calendarItems(
         groups.set(key, group);
       }
     for (const group of groups.values()) {
-      const variant = group.own ? "own" : group.ids.length > 1 ? "seats" : "1";
-      const line = screenLine("calendar", `calendar.${group.kind}.${variant}`, {
+      const variant = group.own
+        ? "own"
+        : group.ids.length > 1
+          ? "seats"
+          : "plain";
+      const line = screenLineByMove("calendar", group.kind, variant, {
         office: group.office,
         count: group.ids.length,
       });
@@ -141,7 +149,12 @@ export function calendarItems(
   }
   const person = core.people.get(personId);
   // The person's own birthday, beside the family's, first among the day's lines.
-  const yourBirthday = screenLine("calendar", "calendar.your-birthday.1", {});
+  const yourBirthday = screenLineByMove(
+    "calendar",
+    "your-birthday",
+    "plain",
+    {},
+  );
   // Only the next one: two of your own birthdays would both sort first.
   const nextBirthday = person
     ? [Number(from.slice(0, 4)), Number(from.slice(0, 4)) + 1]
@@ -184,7 +197,7 @@ export function calendarItems(
       Number(from.slice(0, 4)) + 1,
     ]) {
       const date = `${year}${other.birthDate.slice(4)}`;
-      const line = screenLine("calendar", "calendar.birthday.1", {
+      const line = screenLineByMove("calendar", "birthday", "plain", {
         name: `${other.givenName} ${other.familyName}`,
       });
       if (inWindow(date) && line)
@@ -232,7 +245,7 @@ export function calendarItems(
       });
   }
   for (const [officeId, body] of bodies) {
-    const line = screenLine("calendar", "calendar.meeting.1", {
+    const line = screenLineByMove("calendar", "meeting", "plain", {
       body: body.title,
     });
     // Only the person the clock is held for can mark a meeting (the engine
@@ -273,7 +286,9 @@ export function calendarItems(
       // The holiday's name is the federal calendar's record; the line says it.
       const name = federalHolidayName(id);
       const line = name
-        ? screenLine("calendar", "calendar.holiday.name", { holiday: name })
+        ? screenLineByMove("calendar", "holiday", "plain", {
+            holiday: name,
+          })
         : null;
       if (inWindow(date) && line)
         items.push({

@@ -1,0 +1,34 @@
+{
+  "id": "lede-opens-on-the-absence-at-city-hall",
+  "kind": "move",
+  "summary": "The lede opens on someone's familiar face missing at city hall.",
+  "realLife": "A story opened on the clerk's absence from her seat at the start of the new year.",
+  "sources": [
+    "Patch (Murrieta, California), 'Retiring Murrieta City Clerk Lauded for 22 Years of Service', Jan. 4, 2014: https://patch.com/california/murrieta/retiring-murrieta-city-clerk-lauded-for-22-years-of-service",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["place", "date"],
+  "gates": [],
+  "weights": {
+    "retirement": 0.9
+  },
+  "inGame": "the `retirement` news kind and the filled-in official's service record; the staffing change",
+  "turns": [
+    {
+      "name": "opens on the ceremony",
+      "pulledBy": "a night of tributes",
+      "writes": "the lede says what the council gave",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "opens on the number",
+      "pulledBy": "a long service",
+      "writes": "the lede gives the years",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

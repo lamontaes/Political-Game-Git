@@ -1,0 +1,32 @@
+{
+  "id": "show-freedom-in-a-dancers-movement",
+  "kind": "voice",
+  "summary": "A member asks whether {artist} could show freedom in the way a body moves.",
+  "realLife": "Harcourt Fuller offered dance as one way to depict liberty while members were developing the next design brief.",
+  "sources": [
+    "https://www.ccac.gov/system/files/2025-04/4.15.2025_minutes_FINAL.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{artist}"],
+  "gates": [
+    "Members are discussing how an artist could depict liberty through movement."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: dance proposal and artist brief.",
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The dancer reads as an athlete on the proof.",
+      "pulledBy": "The small image loses the movement of the hands.",
+      "writesBack": "The artist is asked for a second pose."
+    },
+    {
+      "turn": "partial",
+      "what": "Members recognize the movement at once.",
+      "pulledBy": "The silhouette keeps its shape in a small impression.",
+      "writesBack": "The dance study advances."
+    }
+  ],
+  "issues": ["none"]
+}

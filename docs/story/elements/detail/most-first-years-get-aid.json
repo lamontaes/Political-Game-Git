@@ -1,0 +1,31 @@
+{
+  "id": "most-first-years-get-aid",
+  "kind": "detail",
+  "summary": "Most first-time full-time students at four-year schools are awarded some aid.",
+  "realLife": "In 2020-21 about 87 percent were awarded aid at four-year schools and 82 percent at two-year schools.",
+  "sources": [
+    "NCES, Fast Facts: Financial aid: https://nces.ed.gov/fastfacts/display.asp?id=31"
+  ],
+  "fits": ["loading"],
+  "slots": ["college-year"],
+  "gates": [],
+  "weights": {
+    "money": 0.5
+  },
+  "inGame": "needs: an aid award on the college-started record.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The student gets no aid, because the family's income is too high or the forms were late.",
+      "pulledBy": "household income and a filing date",
+      "writesBack": "an unfunded first year on the record"
+    },
+    {
+      "turn": "late",
+      "what": "Aid arrives in the second year after a form is fixed.",
+      "pulledBy": "a form's correction",
+      "writesBack": "a second-year grant on the record"
+    }
+  ]
+}

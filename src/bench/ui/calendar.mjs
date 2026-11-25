@@ -81,11 +81,11 @@ export function calendarScreen({
     byDate = new Map();
     for (const item of items)
       byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-    // Coming up lists the player's own dates first, then everything else by date.
+    // Coming up runs in date order; the player's own come first only within one day (N16-48).
     ahead = items
       .filter((i) => i.date >= date)
       .toSorted(
-        (a, b) => Number(b.own) - Number(a.own) || a.date.localeCompare(b.date),
+        (a, b) => a.date.localeCompare(b.date) || Number(b.own) - Number(a.own),
       );
   };
   rebuild();

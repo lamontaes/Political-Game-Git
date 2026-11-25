@@ -6,7 +6,7 @@ Why it exists (the owner, Nov 17, on round 4): "It just defaulted back to floati
 
 ## Start from these
 
-- **The keeper (base for every screen):** round 3's Government screen, `approved/government-round3-keeper.png`. Its files are on branch `menu-test-3b1/sol-politics`: `docs/menu-test/out3/sol/government/index.html`, with `../politics/menus.css` and `../politics/art/`. Keep its structure: the place's painting on one side, the title plate on it, and the content beside it filling the frame. Fix what he called out (below): the boxed rows, the photo-real painting and the hard picture edge.
+- **The keeper (base for every screen):** round 3's Government screen, `approved/government-round3-keeper.png`. Its files are on branch `menu-test-3b1/sol-politics`: `docs/menu-test/out3/sol/government/index.html` (removed), with `../politics/menus.css` and `../politics/art/`. Keep its structure: the place's painting on one side, the title plate on it, and the content beside it filling the frame. Fix what he called out (below): the boxed rows, the photo-real painting and the hard picture edge.
 - **His approved screens** (rendered from the game's menu examples, Nov 5 to 7):
   - `approved/you-ol-g.png`: **You** ("perfect", the reference for every menu).
   - `approved/per-hale.png`: the **person card**.
@@ -35,7 +35,7 @@ Why it exists (the owner, Nov 17, on round 4): "It just defaulted back to floati
 
 ## Color and type
 
-- **Palette: the game's own colors** (`src/bench/play.css`): `--solid-top #262628`, `--solid-bottom #151517`, `--iron #1c1a18`, `--brass #9c8350`, `--gold #d6bd84`, `--brass-hi #f3dba7`, `--text #f2ede4`, `--cream #f2e6c9`, `--red #b9584a`. He also likes **red, white and blue**: make one screen each in round 3A's `civic` palette as a second version (branch `menu-test-3a/sol-palettes`, `docs/menu-test/out3/sol/elections/civic/`).
+- **Palette: the game's own colors** (`src/bench/play.css`): `--solid-top #262628`, `--solid-bottom #151517`, `--iron #1c1a18`, `--brass #9c8350`, `--gold #d6bd84`, `--brass-hi #f3dba7`, `--text #f2ede4`, `--cream #f2e6c9`, `--red #b9584a`. He also likes **red, white and blue**: make one screen each in round 3A's `civic` palette as a second version (branch `menu-test-3a/sol-palettes`, `docs/menu-test/out3/sol/elections/civic/` (removed)).
 - **Text at least 15 px.** Labels are about 14 px, in capitals with letter spacing. Use Cinzel for titles only, Andada Pro for narrative, and Fira Sans with tabular, lining digits for every figure (`public/fonts/kit12/`).
 
 ## Controls

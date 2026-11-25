@@ -1,0 +1,35 @@
+{
+  "id": "successor-slipped-in-at-the-thanks",
+  "kind": "detail",
+  "summary": "The successor's appointment is slipped in where she thanks her team.",
+  "realLife": "The acting clerk was named at the same meeting, in the middle of the thanks.",
+  "sources": [
+    "Patch (Clark, New Jersey), 'Clark Bids Farewell To Municipal Clerk Edith Merkel After 24 Years Of Service', May 19, 2026: https://patch.com/new-jersey/clark/clark-bids-farewell-municipal-clerk-edith-merkel-after-24-years-service",
+    "Patch (Murrieta, California), 'Retiring Murrieta City Clerk Lauded for 22 Years of Service', Jan. 4, 2014: https://patch.com/california/murrieta/retiring-murrieta-city-clerk-lauded-for-22-years-of-service",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {
+    "retirement": 0.9
+  },
+  "inGame": "`seat-vacated` and `vacancy-fill` news kinds and the offices table; the staffing change (`public-staffing-changed`)",
+  "turns": [
+    {
+      "name": "no successor yet",
+      "pulledBy": "a search under way",
+      "writes": "the story says one has not been named",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "an outside hire",
+      "pulledBy": "a search that found someone",
+      "writes": "the story names where they come from",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

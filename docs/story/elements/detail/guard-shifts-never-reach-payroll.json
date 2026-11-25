@@ -1,0 +1,32 @@
+{
+  "id": "guard-shifts-never-reach-payroll",
+  "kind": "detail",
+  "summary": "{person} worked shifts that the supervisor never passed along to payroll.",
+  "realLife": "A security guard raised that problem with Denver Labor, which compared the worker's evidence with company records and recovered missing wages.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Inner%20Parish%20Security"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A worker reports a discrepancy between scheduled work and hours submitted for pay."
+  ],
+  "weights": ["A supervisor's shift record helps locate the missing hours."],
+  "usedBy": [],
+  "inGame": "needs: the worked shifts and hours transmitted to payroll.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The supervisor submitted the shifts.",
+      "pulledBy": "The transmission receipt lists them.",
+      "writesBack": "The inquiry moves to payroll processing."
+    },
+    {
+      "turn": "partial",
+      "what": "One shift lacks confirmation.",
+      "pulledBy": "The schedule alone does not establish attendance.",
+      "writesBack": "The office requests the site log."
+    }
+  ],
+  "issues": ["none"]
+}

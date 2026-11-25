@@ -1,0 +1,30 @@
+{
+  "id": "a-long-walk-costs-shoes-and-feet",
+  "kind": "detail",
+  "summary": "A canvassing day can cover many miles on foot and ruin a pair of shoes.",
+  "realLife": "A bootcamp account said some days ran well past ten miles, with blisters and wrecked shoes common.",
+  "sources": [
+    "PhillyVoice, I put myself through canvassing bootcamp in Philly and emerged stronger, undated: https://www.phillyvoice.com/i-put-myself-through-canvassing-bootcamp-philly-and-emerged-stronger-american/"
+  ],
+  "fits": ["campaign"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "the shift's hours and the walking energy of the player",
+  "weights": {
+    "door": 0.4
+  },
+  "usedBy": ["journal"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The player pushes through and finishes the turf",
+      "pulledBy": "a strong constitution",
+      "writesBack": "the turf is done and the feet pay for it"
+    },
+    {
+      "turn": "The player quits early",
+      "pulledBy": "poor health or little time",
+      "writesBack": "the list is half worked"
+    }
+  ]
+}

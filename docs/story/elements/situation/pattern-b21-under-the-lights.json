@@ -1,0 +1,36 @@
+{
+  "id": "pattern-b21-under-the-lights",
+  "kind": "situation",
+  "summary": "Under the lights: The first televised debate is tonight, and {staffer} asks how you want to look.",
+  "realLife": "Before the first televised debate in 1960, Nixon had been ill and hurt his knee and looked pale in a gray suit that blended into the set; accounts differ on his makeup. Kennedy had practiced and rested. The claim that radio listeners judged it differently rests on thin polling.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kennedy%E2%80%93Nixon_debates",
+    "https://www.historynewsnetwork.org/article/161042"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["staffer"],
+  "gates": ["Candidate.", "A televised debate on the calendar."],
+  "weights": ["Prep traits.", "How tired you are on the record."],
+  "pattern": "B21",
+  "choices": [
+    "take the makeup",
+    "rest instead of cramming",
+    "cram the briefing book",
+    "change your clothes for the set"
+  ],
+  "branches": [
+    {
+      "when": "you were just ill",
+      "then": "You look pale under the lights, and people talk about how you looked more than what you said."
+    },
+    {
+      "when": "{rival} rested and practiced",
+      "then": "They look fresh, and the comparison is made for you."
+    },
+    {
+      "when": "who won is argued",
+      "then": "The papers argue for weeks about whether it mattered."
+    }
+  ],
+  "usedBy": []
+}

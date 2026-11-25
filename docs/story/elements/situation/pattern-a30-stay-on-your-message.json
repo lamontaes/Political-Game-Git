@@ -1,0 +1,42 @@
+{
+  "id": "pattern-a30-stay-on-your-message",
+  "kind": "situation",
+  "summary": "Stay on your message: {campaign manager} hands you {incumbent}'s new mailer, which is about something other than {the problem} you run on.",
+  "realLife": "In 2017 the former local reporter ran for the Virginia House on fixing a clogged commuter road, said her 25-year incumbent spent more time on bathroom policy, knocked thousands of doors and won.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Danica_Roem",
+    "https://theintercept.com/2017/06/13/a-transgender-candidate-won-her-virginia-primary-with-a-focus-on-fixing-route-28/"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["campaign manager", "the problem"],
+  "gates": [
+    "Candidate.",
+    "Your platform centers on {the problem}.",
+    "{incumbent}'s campaign attacked you on another subject."
+  ],
+  "weights": [
+    "How much {the problem} has cost the district.",
+    "How far the attack goes."
+  ],
+  "pattern": "A30",
+  "choices": [
+    "answer the mailer directly",
+    "say nothing and keep talking about {the problem}",
+    "turn it around: how little {incumbent} has done on {the problem}"
+  ],
+  "branches": [
+    {
+      "when": "at a door",
+      "then": "A resident who lives with {the problem} every day asks one thing: when it will be fixed. Your answer is a promise."
+    },
+    {
+      "when": "your old job was covering {the body}",
+      "then": "{incumbent} says you broke your outlet's trust, and your old editor calls."
+    },
+    {
+      "when": "you win",
+      "then": "{the problem} is your first bill, and later scenes read whether it got fixed."
+    }
+  ],
+  "usedBy": []
+}

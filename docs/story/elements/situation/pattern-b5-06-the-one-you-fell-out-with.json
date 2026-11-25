@@ -1,0 +1,57 @@
+{
+  "id": "pattern-b5-06-the-one-you-fell-out-with",
+  "kind": "situation",
+  "summary": "The one you fell out with: The player has a chance to speak to {the estranged}, and what is said first decides whether the quarrel ends or sets.",
+  "realLife": "One life: The oldest of eight was put out of his father's house as a teen after being found out. As each younger sibling left or was thrown out, he reached out to be their big brother again. Some resisted at first, but the eight became close. Another: Two brothers who grew up in a hard home. After their mother died of cancer the older one tormented the younger. Their grandmother urged the younger to call before the older deployed. Each admitted jealousy of the other, and they became close. Another: A high school senior stuck between her mother and her aunt, who had fallen out. Her mother saw her contact with the aunt as disloyalty. The aunt said she would never shut her niece out over the quarrel and told her to make her own choices. Another: A Brooklyn father set days when his children could confess anything without punishment or discussion. His son admitted boyhood mischief. The father admitted burning a table with firecrackers and told how his own father had calmed him about it.",
+  "sources": [
+    "https://www.kunc.org/2013-01-24/after-years-of-estrangement-eight-siblings-become-a-family",
+    "https://www.kaxe.org/news/2020-01-31/i-just-needed-help-how-2-brothers-opened-up-to-forge-a-bond-in-adulthood",
+    "https://whyy.org/articles/story-corps-caught-in-the-middle-of-a-family-feud/",
+    "https://www.kunc.org/2019-10-11/a-great-burden-was-lifted-a-fathers-made-up-day-of-forgiveness"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["the estranged", "the go-between", "the cause", "the witness"],
+  "gates": [
+    "The tie record shows {the estranged} and the player (or someone the player loves) at odds.",
+    "{the cause} is on the record.",
+    "A way to reach {the estranged} exists: an address, a number, or a go-between.",
+    "The player has not already settled it with {the estranged}."
+  ],
+  "weights": [
+    "How long they have been apart.",
+    "How much hurt {the cause} caused.",
+    "Whether {the go-between} presses for it.",
+    "Whether the player's work or office adds to the pressure.",
+    "Traits that forgive or hold on."
+  ],
+  "pattern": "B5-06",
+  "choices": [
+    "reach out and name what the player did",
+    "reach out and say nothing of the quarrel yet",
+    "wait for {the estranged} to come",
+    "ask {the go-between} to carry a word"
+  ],
+  "branches": [
+    {
+      "when": "the player reaches out first",
+      "then": "The tie record warms or stays cold depending on the reply, and a later scene reads who moved first."
+    },
+    {
+      "when": "the player admits the harm",
+      "then": "The grudge record softens and an old ally may return later."
+    },
+    {
+      "when": "{the go-between} is a child or a grandparent",
+      "then": "The player is asked to put the quarrel aside for them, and the answer is written."
+    },
+    {
+      "when": "{the estranged} was cast out for who they are",
+      "then": "The player's stand, for or against, is on the tie record and read by others in the family."
+    },
+    {
+      "when": "the player is a candidate",
+      "then": "{the estranged} may be asked to endorse or oppose, and the quarrel enters the race."
+    }
+  ],
+  "usedBy": ["apology", "argument", "reconciliation"]
+}

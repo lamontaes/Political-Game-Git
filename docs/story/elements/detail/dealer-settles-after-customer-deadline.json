@@ -1,0 +1,31 @@
+{
+  "id": "dealer-settles-after-customer-deadline",
+  "kind": "detail",
+  "summary": "The customer’s last refund day and the shop’s last reimbursement day fall on different pages of the calendar.",
+  "realLife": "Delaware allowed distributors’ reimbursements to dealers to continue through February after consumer redemption ended in January.",
+  "sources": [
+    "https://legis.delaware.gov/BillDetail?legislationId=19844",
+    "https://documents.dnrec.delaware.gov/dwhs/Recycling/RPAC/Tenth-Annual-Report.pdf#page=39"
+  ],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{dealer}", "{distributor}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: separate dealer and consumer deadlines.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The dealer submits its final eligible refunds during the extra settlement period.",
+      "pulledBy": "The dealer made an eligible refund and still has time to present it.",
+      "writesBack": "The settlement includes the dealer’s claim."
+    },
+    {
+      "turn": "opposite",
+      "what": "After the dealer deadline, the distributor closes the remaining deposit liability under the transition rule.",
+      "pulledBy": "The dealer submits after distributor liability has ended.",
+      "writesBack": "The claim is recorded as out of time."
+    }
+  ]
+}

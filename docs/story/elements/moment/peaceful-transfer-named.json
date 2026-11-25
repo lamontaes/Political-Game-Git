@@ -1,0 +1,33 @@
+{
+  "id": "peaceful-transfer-named",
+  "kind": "moment",
+  "summary": "The address names the peaceful transfer of power as something rare.",
+  "realLife": "Bush opened on the peaceful transfer of authority being rare in history and common here.",
+  "sources": [
+    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["term-left"],
+  "gates": ["took-oath"],
+  "weights": {
+    "inaugural": 0.15
+  },
+  "usedBy": [],
+  "inGame": "took-oath and elected-last-fall are facts on the inaugural row. needs: a fact that party control changed hands (party-democratic describes the speaker only).",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The transfer is not mentioned; the speech starts on the work.",
+      "pulledBy": "a speaker high in blunt",
+      "writesBack": "The first line is the job."
+    },
+    {
+      "turn": "late",
+      "what": "The transfer is named near the close, as a point of pride.",
+      "pulledBy": "a duty-bound speaker",
+      "writesBack": "The close carries it."
+    }
+  ],
+  "issues": ["none"]
+}

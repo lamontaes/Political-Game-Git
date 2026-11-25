@@ -1,0 +1,34 @@
+{
+  "id": "late-room-registrations-change-last-years-count",
+  "kind": "detail",
+  "summary": "A revised count for {category} changes as owners submit overdue registrations.",
+  "realLife": "A memo in the 2025 hotel proceeding warned that past annual counts had been updated as owners continued to file registrations late.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2025/07/2025-Hotel-ES.pdf#page=9"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{category}"],
+  "gates": [
+    "The case record identifies the registration year, extract date and revised series."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: registration year, extract date and revised series.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Staff revise the earlier count.",
+      "pulledBy": "Late filings arrive",
+      "writesBack": "New extract and revision date."
+    },
+    {
+      "turn": "another-way",
+      "what": "Staff verify the comparison without treating it as a new count.",
+      "pulledBy": "The same extract is used twice",
+      "writesBack": "Matched extract dates."
+    }
+  ]
+}

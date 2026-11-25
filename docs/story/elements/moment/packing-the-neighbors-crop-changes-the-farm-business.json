@@ -1,0 +1,30 @@
+{
+  "id": "packing-the-neighbors-crop-changes-the-farm-business",
+  "kind": "moment",
+  "summary": "The packing line at {place} starts handling enough neighboring farms' fruit to raise a question about the family's legal role.",
+  "realLife": "The Horne family partnership bought packing equipment and charged more than sixty other growers to process raisins, with its own crop accounting for a minority of the total.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=8"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": ["The record identifies the packing contracts and crop ownership."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: packing contracts and crop ownership.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Open a hearing on the packing business.",
+      "pulledBy": "Neighboring growers buy packing services.",
+      "writesBack": "Source and ownership of the reviewed lot."
+    },
+    {
+      "turn": "another-way",
+      "what": "Document fruit grown and handled solely for the farm.",
+      "pulledBy": "The reviewed lot is the family's own crop.",
+      "writesBack": "Source and ownership of the reviewed lot."
+    }
+  ]
+}

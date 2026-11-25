@@ -1,0 +1,40 @@
+{
+  "id": "workspace-ready-on-arrival",
+  "kind": "detail",
+  "summary": "A desk, login and supplies are already set up when the new hire walks in.",
+  "realLife": "Newcomers who found their workspace prepared on arrival adjusted to the job earlier in one study of new hires. A workspace not ready is a common small sign that nobody expected them.",
+  "sources": [
+    "Portland State University scholarly record, Day 1 newcomer resources and adjustment study: https://pdxscholar.library.pdx.edu/busadmin_fac/198"
+  ],
+  "fits": ["work-community"],
+  "slots": ["workplace", "position"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "Carried by the job record (employer, position, workplace, pay, tenure) in the jobs module and the workplace record; a ready or missing desk can be read from the employer's size and the new-coworker event.",
+  "turns": [
+    {
+      "turn": "nothing-set-up",
+      "summary": "The new hire arrives to find no desk, login or supplies ready.",
+      "pulledBy": [
+        "a small or disorganized employer",
+        "a manager who is distracted",
+        "the new-coworker event"
+      ],
+      "writesBack": "The new hire's mood dips, and a note in the journal says the first day was rough."
+    },
+    {
+      "turn": "partly-ready",
+      "summary": "The desk is there but the login does not work until the afternoon.",
+      "pulledBy": ["a mid-sized employer", "a busy coworker who helps out"],
+      "writesBack": "A tie with the coworker who helped gets closer, and the first day runs slow."
+    },
+    {
+      "turn": "coworker-covers-the-gap",
+      "summary": "A friendly coworker shares their own supplies and screen until things arrive.",
+      "pulledBy": ["a warm coworker", "a tie of coworker to the new hire"],
+      "writesBack": "A friendly tie forms and a small favor is owed."
+    }
+  ],
+  "issues": ["none"]
+}
