@@ -6,15 +6,15 @@ The game now receives an anonymous electoral calibration projection and independ
 
 **Measured:** The projection retains all 636 structured electoral observations and presidential vote totals while excluding governor names, personal source URLs, portraits, biographies and election notes. The source-integrity test reconciles the projection against the preserved corpus in `src/simulation/world-setup/electoral-calibration-source.test.ts:81`.
 
-**Measured:** All 62 research files, captures and locks checked against the baseline remain byte-identical. Their hashes and paths are recorded in `docs/reports/2026-10-data-fix-preserved-research.json:4`.
+**Measured:** All 62 research files, captures and locks checked against the baseline remain byte-identical. Their hashes and paths are recorded in `docs/reports/2026-10-data-fix-preserved-research.json:4` (removed).
 
-**Measured:** The salary exporter reads 122 official facts with URLs, locators and reference periods. It reads no CSG salary capture or derivative. The generation entry point is `scripts/source/regional-money/export-office-pay.ts:70`.
+**Measured:** The salary exporter reads 122 official facts with URLs, locators and reference periods. It reads no CSG salary capture or derivative. The generation entry point is `scripts/source/regional-money/export-office-pay.ts:70` (removed).
 
 **Measured:** The replacement contains 51 governor, 29 legislator and 42 trial-court judge salaries. Historical reference periods vary; this is calibration data, not a complete current-pay register. The fact journal explains that scope in `data/source/official-office-pay/facts.json:4`.
 
-**Measured:** Of the 146 former direct salary rows, 99 amounts remain unchanged. Twenty rows now use a different official amount, 27 use the existing estimate, and three previously absent governor rows now have official facts. Every changed or omitted row appears in `docs/reports/2026-10-data-fix-salary-diff.json:4`.
+**Measured:** Of the 146 former direct salary rows, 99 amounts remain unchanged. Twenty rows now use a different official amount, 27 use the existing estimate, and three previously absent governor rows now have official facts. Every changed or omitted row appears in `docs/reports/2026-10-data-fix-salary-diff.json:4` (removed).
 
-**Measured:** All 168 office/place combinations produce positive annual pay: 122 sourced values and 46 estimates across 56 jurisdictions. The receipt records each place and the estimate's references in `docs/reports/2026-10-data-fix-all-56.json:4`.
+**Measured:** All 168 office/place combinations produce positive annual pay: 122 sourced values and 46 estimates across 56 jurisdictions. The receipt records each place and the estimate's references in `docs/reports/2026-10-data-fix-all-56.json:4` (removed).
 
 **Measured:** The salary reader and payment calculation retain their logic. The recorded baseline-to-head diff covers both components and contains only source documentation and attribution changes in [the validation receipt](2026-10-data-fix-checks.json).
 
@@ -28,7 +28,7 @@ The game now receives an anonymous electoral calibration projection and independ
 
 **Measured:** The calibration and world-setup tests passed 24 tests. Salary and shipping-integrity tests passed 14 tests, followed by six passing integrity tests after the type repairs and three passing scanner regression tests. The bounded generated-opening test also passed. [The validation receipt](2026-10-data-fix-checks.json) preserves those test outputs and commands.
 
-**Measured:** The baseline observer salary-initialization test failed before this correction and when reproduced with the clean baseline files. It expected history sequence 86,385 and received 86,387. [The clean-baseline control receipt](2026-10-data-fix-checks.json) records the failure at `tests/nationwide/office-salary-initialization.test.ts:144`.
+**Measured:** The baseline observer salary-initialization test failed before this correction and when reproduced with the clean baseline files. It expected history sequence 86,385 and received 86,387. [The clean-baseline control receipt](2026-10-data-fix-checks.json) records the failure at `tests/nationwide/office-salary-initialization.test.ts:144` (removed).
 
 **Measured:** The production scanner rejects the 50 corpus governor names, the flagged election-note names and a predecessor name. It also checks identifying source URLs, salary capture tokens and research artifact digests. The policy is in `scripts/world/check-data-shipping.mjs:22`.
 
