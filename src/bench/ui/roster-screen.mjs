@@ -35,9 +35,10 @@ export function rosterScreen({
   const entries = groups.flatMap((g) => g.entries);
   let chosen = entries.find((e) => e.key === chosenKey) ?? entries[0];
   let request = 0;
-  const roster = el("nav", {
-    className: stacked ? "pick-list roster roster-stacked" : "pick-list roster",
-  });
+  // Stacked rows are marked by an attribute, not a class: the menu look guard
+  // names a scroller by its classes, so a class would make a new name of the list.
+  const roster = el("nav", { className: "pick-list roster" });
+  if (stacked) roster.dataset.stacked = "";
   roster.setAttribute("aria-label", title);
   const page = el("div", { className: "roster-page strip-screen strips" });
   const items = groups.flatMap((g) => [

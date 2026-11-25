@@ -32,6 +32,7 @@ import { buildBenchWorld, PLAYER_MIN_AGE } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
+import { countedResidents } from "../../src/core2/electorate";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import NATALITY from "../../data/research/renewal/natality-2024.json" with { type: "json" };
@@ -793,11 +794,26 @@ function playWorld(seed: string) {
   // (src/core2/modules/candidacy.ts, `endRunsOfTheDead`), as in Mokuleia,
   // Hawaii, where the one challenger for board seat 0 filed and died while
   // gathering signatures.
-  const diedBeforeBallot = decidedToRun.filter(
-    (d) =>
-      core.people.get(String(d.personId))?.alive === false &&
-      (d.filing as { status?: string } | undefined)?.status === "refused",
-  );
+  // A decider who was a counted adult when they decided and had left the
+  // town's counts by the day filing opened (died or moved away: the counts
+  // keep no record of which) is refused the same way, as in Crocker,
+  // Washington, where a counted adult who decided for board seat 0 on
+  // 2025-01-21 was no longer counted when filing opened on 2025-03-10
+  // (src/core2/modules/candidacy.ts, `fileRunners`: only those still in the
+  // town's counts weigh the seat). One still counted and refused fails.
+  const stillCounted = new Set(countedResidents(core).map((v) => v.id));
+  const diedBeforeBallot = decidedToRun.filter((d) => {
+    const filing = d.filing as
+      { status?: string; unmet?: readonly string[] } | undefined;
+    const person = core.people.get(String(d.personId));
+    return (
+      filing?.status === "refused" &&
+      (person
+        ? person.alive === false
+        : filing.unmet?.includes("not-available") &&
+          !stillCounted.has(String(d.personId)))
+    );
+  });
   const wantedToRun = decidedToRun.filter(
     (d) => !diedOnBallot.includes(d) && !diedBeforeBallot.includes(d),
   );
@@ -830,7 +846,7 @@ function playWorld(seed: string) {
             )
           : !wantedToRun.length && diedBeforeBallot.length
             ? unobserved(
-                `${diedBeforeBallot.length} adults other than the incumbent chose to run in the ${held.length} races decided and died before reaching the ballot (${String(diedBeforeBallot[0]!.id)})`,
+                `${diedBeforeBallot.length} adults other than the incumbent chose to run in the ${held.length} races decided and died or left the town's counts before reaching the ballot (${String(diedBeforeBallot[0]!.id)})`,
               )
             : !wantedToRun.length
               ? unobserved(
