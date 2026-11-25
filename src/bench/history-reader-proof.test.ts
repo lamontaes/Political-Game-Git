@@ -2,6 +2,7 @@
 // The world first, as the game loads it.
 import {
   buildBenchWorldInStages,
+  NoPlayerHereError,
   OPENING_WARMUP_DAYS,
   type BenchWorld,
 } from "./world";
@@ -269,22 +270,41 @@ describe("every past event a system shows comes from the one history reader", ()
       });
 
   for (let draw = 0; draw < DRAWN; draw++)
-    it(`drawn place ${draw + 1}`, { timeout: 600_000 }, async () => {
-      const drawSeed = draw === 0 ? seed : `${seed}:${draw}`;
-      const place = drawPlace(drawSeed, "history-reader-proof");
-      const where = `${place.name} (${place.key}), seed ${drawSeed}`;
-      // Built as a new life is, the opening's warm-up included, so the
-      // Journal and the news hold what a player meets.
-      const world = await buildBenchWorldInStages(
-        place.seed,
-        gameStartDate(),
-        {
-          twoLevel: true,
-          placeKey: place.key,
-          warmUpDays: OPENING_WARMUP_DAYS,
-        },
-        () => undefined,
-      );
+    it(`drawn place ${draw + 1}`, { timeout: 900_000 }, async () => {
+      // A place where no adult lives in a household (all of them in group
+      // quarters) has no one to play: it is passed over by name and the
+      // place drawn again.
+      const passed: string[] = [];
+      let world: BenchWorld | undefined;
+      let where = "";
+      for (let again = 0; !world; again++) {
+        const drawSeed =
+          (draw === 0 ? seed : `${seed}:${draw}`) +
+          (again ? `:again:${again}` : "");
+        const place = drawPlace(drawSeed, "history-reader-proof");
+        where = `${place.name} (${place.key}), seed ${drawSeed}`;
+        try {
+          // Built as a new life is, the opening's warm-up included, so the
+          // Journal and the news hold what a player meets.
+          world = await buildBenchWorldInStages(
+            place.seed,
+            gameStartDate(),
+            {
+              twoLevel: true,
+              placeKey: place.key,
+              warmUpDays: OPENING_WARMUP_DAYS,
+            },
+            () => undefined,
+          );
+        } catch (error) {
+          if (!(error instanceof NoPlayerHereError) || again >= 4) throw error;
+          passed.push(`${where}: ${error.message}`);
+        }
+      }
+      if (passed.length)
+        process.stdout.write(
+          `history proof: passed over ${passed.join("; ")}\n`,
+        );
       const rows = proveWorld(
         world.core,
         world.director,
