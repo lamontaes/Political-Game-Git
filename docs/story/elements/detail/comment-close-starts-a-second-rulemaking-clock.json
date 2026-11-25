@@ -1,0 +1,30 @@
+{
+  "id": "comment-close-starts-a-second-rulemaking-clock",
+  "kind": "detail",
+  "summary": "{clerk} keeps one date for the proposed hearing-aid rule and another for the final decision.",
+  "realLife": "Section 709 gave HHS three years to propose regulations and started a separate 180-day deadline when public comments closed.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/PLAW-115publ52/pdf/PLAW-115publ52.pdf#page=62"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{clerk}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: enactment, proposed-rule publication and docket closure dates.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The docket closes on a recorded date.",
+      "what": "The clerk finds the docket entry ending public comment.",
+      "writesBack": "Staff can give the member a due date for the final rule."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The hearing only establishes when the proposal appeared.",
+      "what": "The published notice contains only the proposal date.",
+      "writesBack": "The clerk requests the closing notice before calculating the second deadline."
+    }
+  ]
+}

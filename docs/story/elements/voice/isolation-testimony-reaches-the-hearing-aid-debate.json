@@ -1,0 +1,30 @@
+{
+  "id": "isolation-testimony-reaches-the-hearing-aid-debate",
+  "kind": "voice",
+  "summary": "{senator} brings an aging committee's testimony about isolation into a debate over the price of hearing aids.",
+  "realLife": "Susan Collins told the Senate that an Aging Committee hearing had connected untreated hearing loss with isolation among older adults, and argued that lower-cost aids could help.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CREC-2017-08-03/pdf/CREC-2017-08-03.pdf#page=6"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{senator}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: committee testimony, floor speakers and consent to share constituent accounts.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "An older constituent describes losing track of a conversation.",
+      "what": "The constituent agrees to share the incident.",
+      "writesBack": "The member opens with the family visit that grew quiet."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A budget question cuts the floor time short.",
+      "what": "The floor manager calls for the cost estimate.",
+      "writesBack": "The member submits the hearing account for the record."
+    }
+  ]
+}

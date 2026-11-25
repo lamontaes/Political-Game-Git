@@ -1,0 +1,28 @@
+{
+  "id": "pharmacy-counter-question-outlasts-the-sale",
+  "kind": "situation",
+  "summary": "{pharmacist} is asked to walk a customer through a hearing-aid choice their training barely covered.",
+  "realLife": "A study cited by GAO found that about two-thirds of surveyed pharmacists felt they lacked the knowledge to counsel patients on over-the-counter hearing aids.",
+  "sources": ["https://www.gao.gov/assets/gao-24-106854.pdf#page=7"],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{pharmacist}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: pharmacy staffing and counseling availability.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The pharmacy has a trained colleague available.",
+      "what": "The pharmacist calls over a trained colleague.",
+      "writesBack": "The shopper can ask for that person before paying."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The pharmacy has no such colleague on duty.",
+      "what": "The customer asks for help that the person on duty cannot provide.",
+      "writesBack": "The shopper leaves with a referral or returns another day."
+    }
+  ]
+}

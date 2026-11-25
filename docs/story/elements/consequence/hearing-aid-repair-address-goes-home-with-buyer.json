@@ -1,0 +1,30 @@
+{
+  "id": "hearing-aid-repair-address-goes-home-with-buyer",
+  "kind": "consequence",
+  "summary": "{owner} finds a specific place to take or send a hearing aid for repair in the instructions.",
+  "realLife": "Commenters asked how customers would know where to get repairs. FDA added a requirement for directions to repair or replacement service with at least one actual address.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2022-08-17/pdf/2022-17230.pdf#page=21"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{owner}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: manufacturer service addresses and repair attempts.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The listed service accepts mailed devices.",
+      "what": "The owner calls the service center named in the booklet.",
+      "writesBack": "The owner can start the repair from home."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The service address cannot accept the device.",
+      "what": "The parcel comes back undelivered.",
+      "writesBack": "The owner gives the manufacturer the instructions that sent them there."
+    }
+  ]
+}

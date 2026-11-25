@@ -1,0 +1,30 @@
+{
+  "id": "ask-for-the-return-terms-before-opening-a-hearing-aid",
+  "kind": "move",
+  "summary": "{shopper} asks whether they can return a hearing aid after trying it at home.",
+  "realLife": "FDA declined to impose a universal return period and required package notice of the manufacturer's return policy, including the absence of one.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2022-08-17/pdf/2022-17230.pdf#page=37"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community", "home"],
+  "slots": ["{shopper}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: manufacturer return terms and the purchase date.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The policy offers a trial period.",
+      "what": "A clerk shows the customer the return terms.",
+      "writesBack": "The shopper writes down the deadline before taking the box home."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The manufacturer accepts no returns.",
+      "what": "A buyer asks what happens if the aid proves unsuitable at home.",
+      "writesBack": "The shopper can reconsider before breaking the seal."
+    }
+  ]
+}

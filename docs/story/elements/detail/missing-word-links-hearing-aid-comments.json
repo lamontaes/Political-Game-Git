@@ -1,0 +1,30 @@
+{
+  "id": "missing-word-links-hearing-aid-comments",
+  "kind": "detail",
+  "summary": "{analyst} notices the same missing word in submissions counted as separate letters.",
+  "realLife": "Senate investigators grouped sixteen comments that each dropped the same word from a sentence about an amplification limit.",
+  "sources": [
+    "https://www.grassley.senate.gov/imo/media/doc/fda_hearing_aid_report.pdf#page=14"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "work-community"],
+  "slots": ["{analyst}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: matching text and individual submissions.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The original submissions survive.",
+      "what": "The clerk groups the matching passages.",
+      "writesBack": "Staff can show which comments share the omission."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "A signer adds a personal account below the shared passage.",
+      "what": "An investigator reads beyond the boilerplate.",
+      "writesBack": "The account gets a separate entry in the testimony summary."
+    }
+  ]
+}
