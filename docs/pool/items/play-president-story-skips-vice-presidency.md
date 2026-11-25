@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10328
 after:
 blocked-on:
 lead: play-first
@@ -18,6 +18,7 @@ root: rc9-place-facts-one-default
 source: "Owner's Nov 23 sitting, row C3 (docs/coordination/playtest/2026-11-23-1.md, PR #10292)"
 checked:
 claimed-at:
+merged-at: 2026-11-25T12:55:26.241Z
 ---
 
 **What.** When a vice president succeeds to the presidency, the new President's card tells only the presidency; the years as vice president are in the terms table but absent from the story. The player reads a President with no past. Seen: the official's card, the story under the name, after a succession.
