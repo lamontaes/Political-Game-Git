@@ -4390,6 +4390,192 @@
       "date": "2026-11-24",
       "elements": ["inaugural-point-opens-on-a-contrast"],
       "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.bring-a-neighbor-to-the-next-meeting-of",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Bring a neighbor to the next meeting of {body-name}, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["body-name", "realm-bare"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-charming"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.my-thanks-to-everyone-who-works-for-and-to-their-families",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "My thanks to everyone who works for {realm-name}, and to their families.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-supportive",
+        "personality-v1:facet-humble"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.if-you-disagree-with-me-about-i-want-to-hear-it-before-the-vote",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "If you disagree with me about {theme-short}, I want to hear it before the vote.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["theme-short"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-fair-minded",
+        "personality-v1:facet-mediating"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.the-next-budget-comes-to-soon-and-you-can-speak-on-it",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The next budget comes to {body-name} soon, and you can speak on it.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["body-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-analytical"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.thank-you-for-sitting-through-all-of-that",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Thank you for sitting through all of that, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-calm", "personality-v1:facet-humble"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.the-people-who-show-up-are-the-ones-who-change-things-in-thank-you-for",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "The people who show up are the ones who change things in {realm-name}. Thank you for showing up.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-name"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-devoted"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.get-home-safe",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "Get home safe, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-comforting",
+        "personality-v1:facet-friendly"
+      ],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
+    },
+    {
+      "key": "outline-local.send-off.my-office-is-open-if-you-d-rather-talk-one-on-one",
+      "move": "send-off",
+      "kind": "spoken",
+      "text": "My office is open if you'd rather talk one on one, {realm-bare}.",
+      "uses": [
+        {
+          "subject": "town-address",
+          "role": "send-off",
+          "tie": "frame",
+          "requiresFacts": ["realm-bare"],
+          "excludesFacts": []
+        }
+      ],
+      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the local and campaign speeches writer",
+      "date": "2026-11-25",
+      "elements": ["mayor-closes-on-community-with-an-invitation"],
+      "issues": ["none"]
     }
   ]
 }
