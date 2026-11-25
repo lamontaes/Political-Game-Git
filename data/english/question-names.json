@@ -144,7 +144,7 @@
       "again": "the fee"
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
-      "about": "public broadband",
+      "about": "public internet service for every home",
       "said": "internet service",
       "to": "build public broadband",
       "for": "build public broadband",
@@ -159,8 +159,8 @@
           "against": "The government runs an internet network in competition with the companies that pay taxes here."
         }
       },
-      "repeal": "repeal public broadband",
-      "keep": "keep public broadband on the books",
+      "repeal": "end public internet service",
+      "keep": "keep public internet service on the books",
       "family": "transit",
       "pole": "a",
       "number": "one",
@@ -187,7 +187,7 @@
           ]
         }
       },
-      "law": "public broadband",
+      "law": "public internet service",
       "principles": {
         "for": [2],
         "against": [1]
@@ -196,7 +196,7 @@
         "for": "every home deserves an internet line, not only the ones a company finds worth wiring",
         "against": "government shouldn't compete with the companies already building internet lines"
       },
-      "again": "a public network"
+      "again": "the public network"
     },
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "about": "shifting highway money to transit",
@@ -434,7 +434,7 @@
       "again": "the work requirement for assistance"
     },
     "us-policy-positions:education.universal-preschool": {
-      "about": "universal preschool",
+      "about": "preschool for every child",
       "said": "preschool",
       "to": "offer preschool to every child",
       "for": "offer preschool to every child",
@@ -449,8 +449,8 @@
           "against": "Every taxpayer pays for preschool, whether a family wants it or not."
         }
       },
-      "repeal": "repeal universal preschool",
-      "keep": "keep universal preschool on the books",
+      "repeal": "end preschool for every child",
+      "keep": "keep preschool for every child on the books",
       "family": "schools",
       "pole": "a",
       "number": "one",
@@ -482,7 +482,7 @@
           ]
         }
       },
-      "law": "universal preschool",
+      "law": "preschool for every child",
       "principles": {
         "for": [1, 2, 3],
         "against": [1, 3]
@@ -491,7 +491,7 @@
         "for": "every child should start school ready to learn",
         "against": "parents should decide whether their little one goes to preschool"
       },
-      "again": "universal preschool"
+      "again": "the preschool plan"
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
       "about": "public money for private schools",
@@ -1124,7 +1124,7 @@
       "again": "the affordable-housing requirement for new buildings"
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
-      "about": "rent stabilization",
+      "about": "a limit on how much rents can rise in a year",
       "said": "rents",
       "to": "limit how much rents can rise",
       "for": "limit how much rents can rise",
@@ -1139,8 +1139,8 @@
           "against": "The state tells landlords what they can charge, and fewer new homes get built."
         }
       },
-      "repeal": "repeal rent stabilization",
-      "keep": "keep rent stabilization on the books",
+      "repeal": "end the limit on yearly rent increases",
+      "keep": "keep the limit on yearly rent increases on the books",
       "family": "housing",
       "pole": "a",
       "number": "one",
@@ -1172,7 +1172,7 @@
           ]
         }
       },
-      "law": "rent stabilization",
+      "law": "the limit on yearly rent increases",
       "principles": {
         "for": [1, 3],
         "against": [1, 2]
@@ -1427,7 +1427,7 @@
       "again": "the higher minimum wage"
     },
     "us-policy-positions:labor-workforce.paid-family-leave": {
-      "about": "paid family leave",
+      "about": "paid time off for a new baby or a sick relative",
       "said": "family leave",
       "to": "give workers paid family leave",
       "for": "give workers paid family leave",
@@ -1442,8 +1442,8 @@
           "against": "Every paycheck pays into a leave program, and small businesses have to cover for the time off."
         }
       },
-      "repeal": "repeal paid family leave",
-      "keep": "keep paid family leave on the books",
+      "repeal": "end paid leave for a new baby or a sick relative",
+      "keep": "keep paid leave for a new baby or a sick relative on the books",
       "family": "wages",
       "pole": "a",
       "number": "one",
@@ -1470,7 +1470,7 @@
           ]
         }
       },
-      "law": "paid family leave",
+      "law": "paid leave for a new baby or a sick relative",
       "principles": {
         "for": [2],
         "against": [3, 4]
@@ -1479,7 +1479,7 @@
         "for": "no worker should lose a paycheck caring for a new baby or a sick parent",
         "against": "time off is between workers and the people who hire them"
       },
-      "again": "paid family leave"
+      "again": "that leave"
     },
     "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
       "about": "collective bargaining for public workers",
@@ -2762,7 +2762,7 @@
       "again": "mail ballots"
     },
     "us-policy-positions:government-operations.automatic-voter-registration": {
-      "about": "automatic voter registration",
+      "about": "signing up eligible voters automatically",
       "said": "voter registration",
       "to": "register eligible voters automatically",
       "for": "register eligible voters automatically",
@@ -2777,8 +2777,8 @@
           "against": "People are put on the voter rolls whether they asked to be or not."
         }
       },
-      "repeal": "repeal automatic voter registration",
-      "keep": "keep automatic voter registration on the books",
+      "repeal": "end automatic voter sign-up",
+      "keep": "keep automatic voter sign-up on the books",
       "family": "elections",
       "pole": "a",
       "number": "one",
@@ -2805,7 +2805,7 @@
           ]
         }
       },
-      "law": "automatic voter registration",
+      "law": "automatic voter sign-up",
       "principles": {
         "for": [1, 2, 3],
         "against": [2]
@@ -2814,10 +2814,10 @@
         "for": "every eligible citizen should be on the rolls",
         "against": "signing up to vote should be a citizen's own choice"
       },
-      "again": "automatic voter registration"
+      "again": "automatic sign-up"
     },
     "us-policy-positions:government-operations.independent-redistricting": {
-      "about": "independent redistricting",
+      "about": "an independent commission to draw the district lines",
       "said": "the district lines",
       "to": "draw district lines with an independent commission",
       "for": "draw district lines with an independent commission",
@@ -2832,8 +2832,8 @@
           "against": "The lines are drawn by a commission no voter ever elected."
         }
       },
-      "repeal": "repeal independent redistricting",
-      "keep": "keep independent redistricting on the books",
+      "repeal": "end the independent commission",
+      "keep": "keep the independent commission on the books",
       "family": "ethics",
       "pole": "a",
       "number": "one",
@@ -2860,7 +2860,7 @@
           ]
         }
       },
-      "law": "independent redistricting",
+      "law": "the independent district-line commission",
       "principles": {
         "for": [2],
         "against": [2, 4]
@@ -5303,6 +5303,226 @@
           "The road budget grows while what we have goes unfixed."
         ]
       }
+    },
+    "budget-line:administration": {
+      "about": "more money for running government",
+      "said": "the cost of government",
+      "to": "put more into running government",
+      "for": "put more into running government",
+      "against": "keep the cost of government where it is",
+      "today": {
+        "without": {
+          "for": "The offices that answer the phones and process the permits are short-handed.",
+          "against": "Running the offices costs more every year, and it isn't what people see."
+        },
+        "with": {
+          "for": "The offices that answer the phones and process the permits are short-handed.",
+          "against": "Running the offices costs more every year, and it isn't what people see."
+        }
+      },
+      "repeal": "keep the cost of government where it is",
+      "keep": "keep the bigger budget for running government in the budget",
+      "family": "budget",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Permits and records take longer because the offices are short-handed.",
+            "The people who answer the phones are covering two jobs."
+          ],
+          "against": [
+            "The cost of running the offices has grown faster than the services people see.",
+            "Every dollar for the offices is a dollar not spent on the streets or the schools."
+          ]
+        },
+        "with": {
+          "for": [
+            "Permits and records take longer because the offices are short-handed.",
+            "The people who answer the phones are covering two jobs."
+          ],
+          "against": [
+            "The cost of running the offices has grown faster than the services people see.",
+            "Every dollar for the offices is a dollar not spent on the streets or the schools."
+          ]
+        }
+      },
+      "law": "the bigger budget for running government",
+      "principles": {
+        "for": [],
+        "against": []
+      },
+      "reasons": {
+        "for": "a permit shouldn't wait months because an office is short a clerk",
+        "against": "money spent on paperwork is money not spent on people"
+      },
+      "again": "the bigger budget for running government"
+    },
+    "budget-line:otherPrograms": {
+      "about": "more money for the smaller programs",
+      "said": "money for smaller programs",
+      "to": "fund the smaller programs",
+      "for": "fund the smaller programs",
+      "against": "keep the smaller programs where they are",
+      "today": {
+        "without": {
+          "for": "The smaller programs are the first to be trimmed when money is tight.",
+          "against": "The smaller programs add up, and few people can say what each one does."
+        },
+        "with": {
+          "for": "The smaller programs are the first to be trimmed when money is tight.",
+          "against": "The smaller programs add up, and few people can say what each one does."
+        }
+      },
+      "repeal": "keep the smaller programs where they are",
+      "keep": "keep the bigger budget for the smaller programs in the budget",
+      "family": "budget",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "A program that serves only a few people still serves them.",
+            "Small programs rarely have anyone speaking up for them at budget time."
+          ],
+          "against": [
+            "Programs that are hard to measure are hard to defend.",
+            "Each small program is a dollar that could go to something people use every day."
+          ]
+        },
+        "with": {
+          "for": [
+            "A program that serves only a few people still serves them.",
+            "Small programs rarely have anyone speaking up for them at budget time."
+          ],
+          "against": [
+            "Programs that are hard to measure are hard to defend.",
+            "Each small program is a dollar that could go to something people use every day."
+          ]
+        }
+      },
+      "law": "the bigger budget for the smaller programs",
+      "principles": {
+        "for": [],
+        "against": []
+      },
+      "reasons": {
+        "for": "the small programs are often the ones a neighbor depends on",
+        "against": "a program that can't show what it does shouldn't keep growing"
+      },
+      "again": "the bigger budget for the smaller programs"
+    },
+    "budget-line:localAid": {
+      "about": "more state aid to towns",
+      "said": "state aid to towns",
+      "to": "send more state money to the towns",
+      "for": "send more state money to the towns",
+      "against": "keep state aid to towns where it is",
+      "today": {
+        "without": {
+          "for": "The state asks towns to do more and sends less to pay for it.",
+          "against": "State aid to towns has grown, and the state has its own bills."
+        },
+        "with": {
+          "for": "The state asks towns to do more and sends less to pay for it.",
+          "against": "State aid to towns has grown, and the state has its own bills."
+        }
+      },
+      "repeal": "keep state aid to towns where it is",
+      "keep": "keep the bigger state aid to towns in the budget",
+      "family": "self-rule",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "Towns raise property taxes to cover what state aid used to pay.",
+            "The state hands towns more to do and not more to do it with."
+          ],
+          "against": [
+            "State aid to towns has grown, and the state's own needs haven't waited.",
+            "Every dollar the state sends to towns is a dollar it doesn't spend itself."
+          ]
+        },
+        "with": {
+          "for": [
+            "Towns raise property taxes to cover what state aid used to pay.",
+            "The state hands towns more to do and not more to do it with."
+          ],
+          "against": [
+            "State aid to towns has grown, and the state's own needs haven't waited.",
+            "Every dollar the state sends to towns is a dollar it doesn't spend itself."
+          ]
+        }
+      },
+      "law": "the bigger state aid to towns",
+      "principles": {
+        "for": [],
+        "against": []
+      },
+      "reasons": {
+        "for": "a town shouldn't have to raise property taxes to cover what the state hands it to do",
+        "against": "the state has its own bills to pay before it sends more to the towns"
+      },
+      "again": "the bigger state aid to towns"
+    },
+    "budget-line:interest": {
+      "about": "more money to pay down debt",
+      "said": "paying down debt",
+      "to": "put more toward paying off the debt",
+      "for": "put more toward paying off the debt",
+      "against": "keep the debt payments where they are",
+      "today": {
+        "without": {
+          "for": "Every year we pay interest on what we borrowed, and that money buys nothing new.",
+          "against": "Paying down debt faster means cutting something people use now."
+        },
+        "with": {
+          "for": "Every year we pay interest on what we borrowed, and that money buys nothing new.",
+          "against": "Paying down debt faster means cutting something people use now."
+        }
+      },
+      "repeal": "keep the debt payments where they are",
+      "keep": "keep the bigger debt payment in the budget",
+      "family": "budget",
+      "pole": "a",
+      "number": "one",
+      "figures": [],
+      "todayMore": {
+        "without": {
+          "for": [
+            "The longer we owe it, the more of every tax dollar goes to the lender.",
+            "Interest takes a share of the budget before anything else is paid for."
+          ],
+          "against": [
+            "Extra payments on old debt come out of the same budget as the roads and the schools.",
+            "The debt payments are already in the budget, and a bigger one means a cut somewhere else."
+          ]
+        },
+        "with": {
+          "for": [
+            "The longer we owe it, the more of every tax dollar goes to the lender.",
+            "Interest takes a share of the budget before anything else is paid for."
+          ],
+          "against": [
+            "Extra payments on old debt come out of the same budget as the roads and the schools.",
+            "The debt payments are already in the budget, and a bigger one means a cut somewhere else."
+          ]
+        }
+      },
+      "law": "the bigger debt payment",
+      "principles": {
+        "for": [],
+        "against": []
+      },
+      "reasons": {
+        "for": "the sooner a debt is paid off, the less of our money goes to interest",
+        "against": "paying a debt off early shouldn't come before the things people need now"
+      },
+      "again": "the bigger debt payment"
     }
   }
 }
