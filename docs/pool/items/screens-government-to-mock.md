@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: screens lane (Nov 17)
-pr: 9800
+pr: #9800
 blocked-on:
 source: crew line item 4, the remaining approved mocks
 after:
@@ -16,6 +16,7 @@ lead: play-first
 model: opus
 effort: medium
 root: none
+merged-at: 2026-11-25T13:08:43.908Z
 ---
 
 **What.** Politics > Government differed from its approved mocks in two ways. The sheet's title stood on its own row above the tabs, and the room's painting was a tall picture in the left column only. The mocks put the tabs beside the title and the room as a short strip across the screen.
