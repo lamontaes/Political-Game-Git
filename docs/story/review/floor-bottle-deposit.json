@@ -21148,5 +21148,797 @@
     "elements": [
       "water-deposits-cross-distribution-territories"
     ]
+  },
+  {
+    "key": "scene-talk.follow-answer.start-with-the-store-presiding-i-d-ask-the-distributor-to-bring-in-an-invoice-for-changing-the-labels-before-it-drew-an-allowance-of-its-own",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Start with the store, {presiding}. I'd ask the distributor to bring in an invoice for changing the labels before it drew an allowance of its own.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.would-name-pay-a-grocer-for-counting-returns-even-if-the-distributor-got-nothing-for-marking-the-packages"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "divide-handling-allowance-between-store-and-distributor"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.how-would-name-find-out-what-a-return-costs-the-shop-on-an-ordinary-afternoon",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "How would {name} find out what a return costs the shop on an ordinary afternoon?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-grocer-can-mark-the-minutes-a-clerk-spends-counting-bottles-what-goes-on-the-distributor-s-claim-i-d-hold-my-vote-presiding-until-i-see-what-we-re-paying-each-of-them-to-do"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "divide-handling-allowance-between-store-and-distributor"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.stand-at-the-counter-with-the-owner-presiding-i-d-time-a-return-from-the-moment-the-clerk-leaves-the-till-until-the-empty-is-put-away",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Stand at the counter with the owner, {presiding}. I'd time a return from the moment the clerk leaves the till until the empty is put away.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.how-would-name-find-out-what-a-return-costs-the-shop-on-an-ordinary-afternoon"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "divide-handling-allowance-between-store-and-distributor"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-ask-the-clerk-to-keep-a-slip-by-the-register-first-write-down-when-a-customer-brings-empties-in-and-when-the-clerk-can-get-back-to-selling-groceries",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd ask the clerk to keep a slip by the register, {first}. Write down when a customer brings empties in and when the clerk can get back to selling groceries.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "first"
+        ],
+        "after": "scene-talk.reply-ask.how-would-name-find-out-what-a-return-costs-the-shop-on-an-ordinary-afternoon"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "divide-handling-allowance-between-store-and-distributor"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.a-driver-ought-to-be-able-to-point-to-the-cases-the-truck-will-take-first-if-there-s-an-exception-tell-the-store-before-it-wheels-the-cases-out",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "A driver ought to be able to point to the cases the truck will take, {first}. If there's an exception, tell the store before it wheels the cases out.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "first"
+        ],
+        "after": "scene-talk.reply-ask.what-would-name-want-written-on-the-driver-s-pickup-sheet-before-the-truck-leaves-the-yard"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "distributors-share-the-return-truck"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.a-grocer-signs-for-the-pickup-and-finds-a-stack-of-cases-still-on-the-dock-whom-should-the-grocer-call-presiding",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "A grocer signs for the pickup and finds a stack of cases still on the dock. Whom should the grocer call, {presiding}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-m-looking-at-this-from-the-loading-dock-presiding-a-driver-with-a-mixed-load-ought-to-know-whose-empties-can-ride-i-d-want-that-settled-before-stores-have-to-start-taking-them"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "distributors-share-the-return-truck"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-dispatcher-who-sent-that-truck-first-i-d-put-that-number-on-the-pickup-slip-so-the-grocer-doesn-t-have-to-go-down-a-list-of-bottlers",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "The dispatcher who sent that truck, {first}. I'd put that number on the pickup slip so the grocer doesn't have to go down a list of bottlers.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "first"
+        ],
+        "after": "scene-talk.reply-ask.a-grocer-signs-for-the-pickup-and-finds-a-stack-of-cases-still-on-the-dock-whom-should-the-grocer-call-presiding"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "distributors-share-the-return-truck"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-have-the-distributors-who-share-the-route-give-the-store-a-single-contact-presiding-the-grocer-shouldn-t-have-to-know-which-driver-was-meant-to-clear-the-dock",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd have the distributors who share the route give the store a single contact, {presiding}. The grocer shouldn't have to know which driver was meant to clear the dock.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.a-grocer-signs-for-the-pickup-and-finds-a-stack-of-cases-still-on-the-dock-whom-should-the-grocer-call-presiding"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "distributors-share-the-return-truck"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-want-the-road-crew-s-account-too-first-ask-the-crew-where-it-still-has-to-stop-and-pull-bottles-out-of-the-grass",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I want the road crew's account too, {first}. Ask the crew where it still has to stop and pull bottles out of the grass.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "first"
+        ],
+        "after": "scene-talk.reply-ask.if-the-bottlers-get-that-extra-session-how-would-name-tell-whether-their-cleanup-lasted"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "industry-asks-for-one-more-session"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.what-would-make-name-bring-the-deposit-proposal-back-when-we-next-meet",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "What would make {name} bring the deposit proposal back when we next meet?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-bottlers-say-they-can-get-the-empties-off-the-roadside-themselves-give-them-until-we-meet-again-presiding-when-we-come-back-i-want-to-see-the-road-they-picked"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "industry-asks-for-one-more-session"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.if-the-bottlers-come-back-with-a-cleanup-day-and-nothing-for-the-weeks-after-it-i-ll-ask-for-another-hearing-presiding",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "If the bottlers come back with a cleanup day and nothing for the weeks after it, I'll ask for another hearing, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.what-would-make-name-bring-the-deposit-proposal-back-when-we-next-meet"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "industry-asks-for-one-more-session"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-walk-that-road-with-the-people-who-mow-it-first-if-they-re-still-stopping-the-mower-to-pick-glass-off-the-shoulder-i-d-put-the-deposit-back-before-the-chamber",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd walk that road with the people who mow it, {first}. If they're still stopping the mower to pick glass off the shoulder, I'd put the deposit back before the chamber.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "first"
+        ],
+        "after": "scene-talk.reply-ask.what-would-make-name-bring-the-deposit-proposal-back-when-we-next-meet"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "industry-asks-for-one-more-session"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.let-the-small-shop-post-what-it-can-take-presiding-a-family-with-more-than-that-should-find-out-while-it-can-still-choose-a-different-stop",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Let the small shop post what it can take, {presiding}. A family with more than that should find out while it can still choose a different stop.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.would-name-let-a-small-shop-limit-what-each-customer-brings-back-in-a-day"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "small-store-counts-one-customers-empties"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.where-does-that-leave-someone-who-can-only-get-a-ride-into-town-on-saturdays-presiding",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Where does that leave someone who can only get a ride into town on Saturdays, {presiding}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-clerk-working-alone-can-t-leave-the-lunch-line-to-count-a-customer-s-whole-sack-of-cans-i-d-need-some-leeway-for-the-little-stores-presiding-before-i-could-vote-for-a-deposit"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "small-store-counts-one-customers-empties"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-ask-which-nearby-store-could-take-the-whole-load-first-a-daily-limit-is-a-poor-answer-if-the-shopper-has-to-hire-another-ride",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd ask which nearby store could take the whole load, {first}. A daily limit is a poor answer if the shopper has to hire another ride.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "first"
+        ],
+        "after": "scene-talk.reply-ask.where-does-that-leave-someone-who-can-only-get-a-ride-into-town-on-saturdays-presiding"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "small-store-counts-one-customers-empties"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.let-the-grocer-arrange-a-time-for-a-big-return-presiding-that-saturday-customer-could-come-when-another-clerk-is-there-to-cover-the-till",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Let the grocer arrange a time for a big return, {presiding}. That Saturday customer could come when another clerk is there to cover the till.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.where-does-that-leave-someone-who-can-only-get-a-ride-into-town-on-saturdays-presiding"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "small-store-counts-one-customers-empties"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-refund-ought-to-be-legible-on-the-empty-container-itself-presiding-a-shopper-won-t-always-have-a-receipt-from-the-store-where-it-was-bought",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "The refund ought to be legible on the empty container itself, {presiding}. A shopper won't always have a receipt from the store where it was bought.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.what-could-the-customer-check-before-bringing-those-bottles-back-presiding"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.if-somebody-learns-at-the-till-that-a-bottle-won-t-earn-a-refund-what-should-the-cashier-be-able-to-show-them-presiding",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "If somebody learns at the till that a bottle won't earn a refund, what should the cashier be able to show them, {presiding}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.look-at-the-drink-cases-the-way-a-cashier-sees-them-presiding-same-size-bottle-same-cap-if-only-one-carries-a-refund-i-d-want-the-cashier-to-have-something-to-go-by-besides-the-flavor"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.a-matching-pair-with-the-marks-visible-first-the-customer-should-be-able-to-see-the-difference-without-taking-the-cashier-s-word-for-it",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "A matching pair with the marks visible, {first}. The customer should be able to see the difference without taking the cashier's word for it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "first"
+        ],
+        "after": "scene-talk.reply-ask.if-somebody-learns-at-the-till-that-a-bottle-won-t-earn-a-refund-what-should-the-cashier-be-able-to-show-them-presiding"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-keep-a-guide-to-the-marks-beside-the-register-presiding-if-the-rule-takes-a-manager-to-explain-every-time-the-packaging-still-needs-work",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I'd keep a guide to the marks beside the register, {presiding}. If the rule takes a manager to explain every time, the packaging still needs work.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.if-somebody-learns-at-the-till-that-a-bottle-won-t-earn-a-refund-what-should-the-cashier-be-able-to-show-them-presiding"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "two-bottles-one-refund"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.give-the-store-one-place-to-file-presiding-the-distributors-can-work-out-their-shares-from-their-delivery-records-after-the-grocer-gets-paid",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Give the store one place to file, {presiding}. The distributors can work out their shares from their delivery records after the grocer gets paid.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.suppose-the-label-tells-the-clerk-the-bottle-carries-a-refund-but-nobody-knows-which-truck-brought-it-who-would-name-send-the-claim-to"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "water-deposits-cross-distribution-territories"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.would-name-make-the-shopper-return-the-water-bottle-to-the-store-that-sold-it",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Would {name} make the shopper return the water bottle to the store that sold it?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-water-delivery-routes-overlap-presiding-a-store-could-hand-back-money-on-another-distributor-s-bottles-all-week-i-d-want-that-store-paid-before-i-voted-to-start-collecting-deposits"
+      }
+    ],
+    "bearing": "curious",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "water-deposits-cross-distribution-territories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-wouldn-t-presiding-people-buy-water-on-the-road-and-bring-the-empty-home-i-d-have-the-companies-work-out-the-route-between-them",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "I wouldn't, {presiding}. People buy water on the road and bring the empty home. I'd have the companies work out the route between them.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "presiding"
+        ],
+        "after": "scene-talk.reply-ask.would-name-make-the-shopper-return-the-water-bottle-to-the-store-that-sold-it"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "water-deposits-cross-distribution-territories"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.a-shopper-saving-an-empty-shouldn-t-have-to-save-a-receipt-for-it-too-first-let-a-store-that-takes-the-bottle-claim-the-refund-through-the-distributors",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "A shopper saving an empty shouldn't have to save a receipt for it too, {first}. Let a store that takes the bottle claim the refund through the distributors.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:environment-energy.bottle-deposit",
+          "speaks-against",
+          "first"
+        ],
+        "after": "scene-talk.reply-ask.would-name-make-the-shopper-return-the-water-bottle-to-the-store-that-sold-it"
+      }
+    ],
+    "bearing": "guarded",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "water-deposits-cross-distribution-territories"
+    ]
   }
 ]
