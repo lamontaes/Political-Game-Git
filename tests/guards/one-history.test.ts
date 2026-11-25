@@ -173,7 +173,6 @@ const RAW_PAST_READERS = [
   "centuryParties",
   "lawHistory",
   "pastTable",
-  "pastElections",
   "heldSinceRecord",
   "bornIn",
   "residenceOn",
@@ -216,6 +215,13 @@ const READ_THROUGH_THE_READER: readonly {
     file: "src/core2/past-school.ts",
     scope: "function",
     reason: "its runs of school years come from schoolsAttended",
+  },
+  {
+    name: "pastElections",
+    file: "src/core2/modules/offices.ts",
+    scope: "function",
+    reason:
+      "a seat's elections come from historyOf (the offices engine's terms, its module's history)",
   },
   {
     name: "sharedHistory",

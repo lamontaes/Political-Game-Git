@@ -126,6 +126,7 @@ export {
   historyEvent,
   historyOf,
   historyOrder,
+  openHistory,
   recordDate,
   recordOf,
   whereOf,

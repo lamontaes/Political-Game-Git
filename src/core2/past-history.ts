@@ -63,6 +63,8 @@ export interface HistoryAsk {
   readonly through?: string;
   /** Only records that also name this person, or that they saw happen. */
   readonly with?: PersonId;
+  /** Only records whose facts name this id (a seat, a law, a bill). */
+  readonly about?: string;
   /**
    * Only what came from one source: what a person was made with (`built`:
    * every fact their record was made with, or those of `kinds`, in the order
@@ -372,6 +374,8 @@ function peopleOf(core: CoreState, scope: HistoryScope): readonly PersonId[] {
 /** Whether a row is in the window and kinds asked for. */
 function asked(row: HistoryRow, ask: HistoryAsk): boolean {
   if (ask.from && row.from !== ask.from) return false;
+  if (ask.about && !Object.values(row.facts ?? {}).includes(ask.about))
+    return false;
   if (ask.kinds && !ask.kinds.includes(row.record)) return false;
   if (ask.since && row.date < ask.since) return false;
   if (ask.through && row.date > ask.through) return false;
@@ -711,4 +715,13 @@ export function recordOf(
     if (row) return { from: "source", record: row };
   }
   return undefined;
+}
+
+/**
+ * Writes a person's whole past (or an official's earlier terms) before it is
+ * read, once, as reading their own life does: what a card opened for someone
+ * the history holds no life for yet calls.
+ */
+export function openHistory(core: CoreState, personId: PersonId): void {
+  sourcesOf(core).life?.open?.(core, personId);
 }
