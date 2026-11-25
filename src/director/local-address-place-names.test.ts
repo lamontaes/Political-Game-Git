@@ -85,7 +85,10 @@ describe("a township head's address names the place and its board", () => {
         row.board.replace(/^the /, "").toLocaleLowerCase("en-US"),
       );
       const text = story!.text.toLocaleLowerCase("en-US");
-      if (/\bboard\b/.test(text))
+      // The speech may say "this board"; a board it names as a township's is
+      // named whole, never doubled ("Township Township Board").
+      expect(text, where).not.toMatch(/township township/);
+      if (/township board/.test(text))
         expect(text, where).toContain(row.board.toLocaleLowerCase("en-US"));
     }, 180_000);
   }
