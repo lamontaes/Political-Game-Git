@@ -54,7 +54,7 @@ A PW package is finished when all of these are true, and the PR body says so in 
 - Every acceptance check in the package passes in the played-world run on two fresh seeds, and the PR body names both places, both seeds and the record ids.
 - The checks the package was assigned in PW-1's test are no longer marked as expected failures; they pass.
 - The golden-path suite, the speed guard and the money-balancing check are green on the branch.
-- Every shortcut is a registered stopgap: a marker in the code, a row in `src/core2/data/stopgaps.json` (id, kind, file, line, whatItFakes, why, addedBy, date, replacedBy). An unregistered placeholder is a defect and the tripwire tests fail on it.
+- Every shortcut is a registered stopgap: a marker in the code, a row in `src/core2/data/stopgaps.json` (removed) (id, kind, file, line, whatItFakes, why, addedBy, date, replacedBy). An unregistered placeholder is a defect and the tripwire tests fail on it.
 - Every new number is in the parameter table, tagged SOURCED (with citation), ESTIMATED (with source and spread) or TUNABLE (with the spread it's checked against). No number is a bare literal in logic.
 - No dice: no seeded roll or fixed percentage decides what a person, business or official does. Their traits, views, relationships, money, health, the law in force and the place's conditions decide, and the decision records say why. `npm run zero-dice` is green.
 - No state, city or GEOID is named in logic. Place facts come from data rows.

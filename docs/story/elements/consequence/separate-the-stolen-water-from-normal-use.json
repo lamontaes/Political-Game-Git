@@ -1,0 +1,31 @@
+{
+  "id": "separate-the-stolen-water-from-normal-use",
+  "kind": "consequence",
+  "summary": "A restaurant asks {person} which portion of an extraordinary bill the utility will credit.",
+  "realLife": "After review, Portland credited a restaurant for charges attributed to likely theft rather than treating its ordinary water use as part of the loss.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20restaurant%20received%20a%20water%20bill%20showing%20significantly%20higher"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home"],
+  "slots": ["{person}"],
+  "gates": [
+    "The utility has accepted an adjustment and identified the disputed use."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the utility has accepted an adjustment and identified the disputed use.",
+  "turns": [
+    {
+      "turn": "the-utility-itemizes-the-adjustment",
+      "pulledBy": "The utility itemizes the adjustment.",
+      "what": "Reconcile the credit against the exceptional charge.",
+      "writesBack": "The owner can see what normal use remains payable."
+    },
+    {
+      "turn": "the-credit-appears-as-one-unexplained-total",
+      "pulledBy": "The credit appears as one unexplained total.",
+      "what": "Ask the utility for its calculation.",
+      "writesBack": "The unexplained credit remains on the follow-up list."
+    }
+  ]
+}

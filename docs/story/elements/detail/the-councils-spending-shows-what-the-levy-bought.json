@@ -1,0 +1,32 @@
+{
+  "id": "the-councils-spending-shows-what-the-levy-bought",
+  "kind": "detail",
+  "summary": "The accounts at {place} show which of several authorized purposes actually received the levy money.",
+  "realLife": "The mushroom law authorized research and information projects as well as promotion, but the parties agreed that generic advertising took most of the money.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep533/usrep533405/usrep533405.pdf#page=4"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the council expenditure ledger and authorized uses."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: council expenditure ledger and authorized uses.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Report the share actually spent on advertising.",
+      "pulledBy": "The yearly accounts have closed.",
+      "writesBack": "Actual or proposed spending category."
+    },
+    {
+      "turn": "another-way",
+      "what": "Separate proposed research spending from money already spent.",
+      "pulledBy": "The research item appears only in the proposed budget.",
+      "writesBack": "Actual or proposed spending category."
+    }
+  ]
+}

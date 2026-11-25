@@ -1,0 +1,35 @@
+{
+  "id": "withdraw-the-proposal-before-restarting-the-rent-vote",
+  "kind": "moment",
+  "summary": "After testimony on tenants' incomes, {board} withdraws its earlier proposal and reopens the terms for longer leases.",
+  "realLife": "In 2025 the New York City board cited testimony about incomes lagging living costs when explaining its restart and a more flexible proposal for two-year leases.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2025/07/Apt-Order-57.pdf#page=3",
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2025/07/2025-Apartment-ES.pdf#page=2"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{board}"],
+  "gates": [
+    "The case record identifies the first proposal, withdrawal and revised proposal."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: first proposal, withdrawal and revised proposal.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Witnesses can comment on the revised range.",
+      "pulledBy": "The board restarts rulemaking",
+      "writesBack": "Withdrawal and new proposal date."
+    },
+    {
+      "turn": "another-way",
+      "what": "The final hearing uses the previously published proposal.",
+      "pulledBy": "The board keeps the original range",
+      "writesBack": "Operative hearing notice."
+    }
+  ]
+}

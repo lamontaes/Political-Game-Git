@@ -1,0 +1,34 @@
+{
+  "id": "ask-what-the-hotel-earns-outside-its-permanent-rent-roll",
+  "kind": "voice",
+  "summary": "A tenant advocate asks {board} to look beyond permanent residents' payments when evaluating a building's income.",
+  "realLife": "Testimony in the 2025 hotel proceeding argued that some SRO buildings received significant income from government contracts or other uses and urged the board to examine those receipts.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2025/07/2025-Hotel-ES.pdf#page=2"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{board}"],
+  "gates": [
+    "The case record identifies the testimony, property uses and any supporting income records."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: testimony, property uses and any supporting income records.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "They can be considered separately from residential rents.",
+      "pulledBy": "Other receipts are documented",
+      "writesBack": "Itemized receipts."
+    },
+    {
+      "turn": "another-way",
+      "what": "The minutes preserve the argument as testimony.",
+      "pulledBy": "No building-specific records are supplied",
+      "writesBack": "Attributed claim and evidence request."
+    }
+  ]
+}

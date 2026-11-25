@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10409
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-25T00:44:40.050Z
 ---
 
 **What.** The CTO, Nov 24 (comment 7131781243), caught that the Town of Alderson's Executive page has an empty right half with only the mayor on it. A town with no other officers to list has no right column, so the one column ran the whole width and its content sat in the left part.
