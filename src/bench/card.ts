@@ -15,19 +15,16 @@ import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness, lastMetOnRow } from "../core2/closeness";
 import {
-  COUNTED_MOVES_MODULE_ID,
-  countedMoves,
   familyFactsOf,
   livesElsewhere,
   MOVED_AWAY_EVENT,
 } from "../core2/modules/people";
 import { townFacts } from "../core2/modules/laws";
-import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { jobLeaveBlock } from "../core2/modules/jobs";
 import { PAST_MODULE_ID, bornIn as birthplaceOf } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
-import type { CoreState, PersonId } from "../core2/types";
+import type { CoreState, PersonId, PersonState, PlaceId } from "../core2/types";
 import {
   partText,
   screenLine,
@@ -74,7 +71,6 @@ import { questionAbout } from "../english/question-names";
 import {
   historyOf,
   organizationName as organizationNameAt,
-  preStartHistory,
   sharedHistory,
   type HistoryEvent,
 } from "../core2/past";
@@ -504,18 +500,14 @@ function parentSaid(
   const gender = partner?.looks?.gender;
   const role =
     gender === "male" ? "father" : gender === "female" ? "mother" : "parent";
+  // Their children together, by each child's family record (the one reader
+  // of family facts).
+  const parentOf = (child: PersonState, id: string) =>
+    ["parent", "other-parent"].includes(
+      familyFactsOf(child).get(id as PersonId)?.relation ?? "",
+    );
   const children = [...core.people.values()].filter(
-    (child) =>
-      (child.pastFacts ?? []).some(
-        (fact) =>
-          ["family:parent", "family:other-parent"].includes(fact.kind) &&
-          fact.facts?.otherPersonId === partnerId,
-      ) &&
-      (child.pastFacts ?? []).some(
-        (fact) =>
-          ["family:parent", "family:other-parent"].includes(fact.kind) &&
-          fact.facts?.otherPersonId === person.id,
-      ),
+    (child) => parentOf(child, partnerId) && parentOf(child, person.id),
   );
   if (children.some((child) => child.id === viewerId)) return `your ${role}`;
   const only = children.length === 1 ? children[0]! : undefined;
@@ -1380,21 +1372,21 @@ export function townMoves(core: CoreState, town: string) {
   let arrivals = 0;
   let departures = 0;
   const recordIds: string[] = [];
-  if (core.modules.has(COUNTED_MOVES_MODULE_ID))
-    for (const move of countedMoves(api)) {
-      if (move.date < from) continue;
-      if (move.direction === "in" && move.toPlace === town)
-        arrivals += move.people;
-      else if (move.direction === "out" && move.fromPlace === town)
-        departures += move.people;
-      else continue;
-      recordIds.push(move.id);
-    }
-  for (const id of core.logByKind.get(MOVED_AWAY_EVENT) ?? []) {
-    const row = core.durableLog.get(id as EntityId);
-    if (!row || row.placeId !== town || row.date < from) continue;
-    departures += row.personIds?.length ?? 0;
-    recordIds.push(row.id);
+  // This year's moves in and out of the town, from its history: the counted
+  // households' moves and the people who moved away.
+  for (const move of historyOf(
+    core,
+    { place: town as PlaceId },
+    {
+      kinds: ["counted-move:in", "counted-move:out", MOVED_AWAY_EVENT],
+      since: from,
+    },
+  )) {
+    if (move.record === MOVED_AWAY_EVENT) departures += move.personIds.length;
+    else if (move.record === "counted-move:in")
+      arrivals += Number(move.facts?.people ?? 0);
+    else departures += Number(move.facts?.people ?? 0);
+    recordIds.push(move.id);
   }
   return {
     population: Math.round(townFacts(api, town).modeled),
@@ -1974,14 +1966,18 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       (bornStateName ? stateInSentence(bornStateName) : null))
     : null;
   const run = officeRunOf(lines, servingOffices(core, otherId)[0]);
-  // The office a President held before, from their record.
-  const prior = (other.pastFacts ?? []).find(
-    (row) => row.kind === "career:prior-office",
+  // The office a President held before, and the year they won the office
+  // they hold now, from their history (the facts their record was made with).
+  const career = historyOf(
+    core,
+    { person: otherId as PersonId },
+    { kinds: ["career:prior-office", "campaign:elected"] },
+  );
+  const prior = career.find(
+    (row) => row.record === "career:prior-office",
   )?.facts;
-  // The year they won the office they hold now, from the same record.
-  const elected = (other.pastFacts ?? []).find(
-    (row) => row.kind === "campaign:elected",
-  )?.facts?.year;
+  const elected = career.find((row) => row.record === "campaign:elected")?.facts
+    ?.year;
   const priorOffice =
     run && typeof prior?.office === "string"
       ? {
@@ -2113,18 +2109,19 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // before day one, each with the term record it stands on.
     // The office they serve in now is dated from the run's first term, as
     // the lines under the name say it.
-    seats: preStartHistory(core, {
-      kind: "office.seat-reached",
-      personId: otherId,
-    }).map((row) => {
-      const office = officeTitle(core, String(row.facts.officeId));
+    seats: historyOf(
+      core,
+      { person: otherId as PersonId },
+      { kinds: ["office.seat-reached"] },
+    ).map((row) => {
+      const office = officeTitle(core, String(row.facts?.officeId));
       const since =
         run && office && inSentence(office) === run.office
           ? run.since
           : row.date;
       return {
         recordId: row.id,
-        termId: String(row.facts.termId),
+        termId: String(row.facts?.termId),
         office,
         year: Number(since.slice(0, 4)),
       };

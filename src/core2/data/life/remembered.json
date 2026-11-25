@@ -1098,6 +1098,16 @@
       "life": "health",
       "what": "hospital-stay"
     },
-    { "kind": "election.lost-before-start", "life": "politics", "what": "lost" }
+    {
+      "kind": "election.lost-before-start",
+      "life": "politics",
+      "what": "lost"
+    },
+    {
+      "kind": "housing.home-bought",
+      "life": "home",
+      "what": "bought",
+      "ofAge": true
+    }
   ]
 }

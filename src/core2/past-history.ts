@@ -138,6 +138,7 @@ function sourcesOf(core: CoreState): {
 }
 
 const TABLE = table as unknown as {
+  dateFacts: readonly string[];
   causeFacts: readonly string[];
   householdFacts: readonly string[];
   employerFacts: readonly string[];
@@ -171,10 +172,26 @@ function wordsOf(kind: string): { life: string; what: string } {
     : { life: kind.slice(0, at), what: kind.slice(at + 1) };
 }
 
+/**
+ * The day a record of the past is told on: its own date, or the earlier day
+ * its facts name (`dateFacts`) when the run began after it happened and
+ * dated the record on its first day (a home bought decades before).
+ */
+export function recordDate(
+  row: Pick<HistoryRecord, "date" | "facts">,
+): IsoDate {
+  for (const key of TABLE.dateFacts) {
+    const named = row.facts[key];
+    if (typeof named === "string" && /^\d{4}-\d{2}-\d{2}$/.test(named))
+      return (named < row.date ? named : row.date) as IsoDate;
+  }
+  return row.date;
+}
+
 function pastRow(row: HistoryRecord): HistoryRow {
   return {
     id: row.id,
-    date: row.date,
+    date: recordDate(row),
     ...wordsOf(row.kind),
     record: row.kind,
     from: "past",
@@ -294,15 +311,29 @@ export function whereOf(
   return named ?? local ?? NATION;
 }
 
-/** Whether a public row belongs to a place, a state or the nation. */
-function inPublicScope(row: HistoryRow, scope: HistoryScope): boolean {
-  if (!row.publicRecord) return false;
+/**
+ * Whether a row belongs to a place, a state or the nation: where it happened
+ * (`whereOf`), and, for a history read without kinds, only what anyone may
+ * read. A read that names its kinds gets every record of those kinds there
+ * (a town's moves away, which name a household's people, are no public
+ * record, but they are the town's).
+ */
+function inPlaceScope(
+  row: HistoryRow,
+  scope: HistoryScope,
+  ask: HistoryAsk,
+): boolean {
+  if (!ask.kinds && !row.publicRecord) return false;
   const where = whereOf(row);
   if ("place" in scope) return where.place === scope.place;
   if ("state" in scope) return where.state === scope.state;
   if ("nation" in scope) return where.nation;
   return false;
 }
+
+/** Whether a scope is a place, a state or the nation. */
+const isPlaceScope = (scope: HistoryScope) =>
+  "place" in scope || "state" in scope || "nation" in scope;
 
 /** Whether a row names a household or an employer through the table's facts. */
 function namesFact(
@@ -371,7 +402,7 @@ function recordRows(
   const keep = (row: HistoryRow) =>
     "employer" in scope
       ? namesFact(row, TABLE.employerFacts, scope.employer)
-      : inPublicScope(row, scope);
+      : inPlaceScope(row, scope, ask);
   const pastSet =
     "employer" in scope
       ? TABLE.employerFacts.flatMap((key) =>
@@ -490,18 +521,26 @@ function ledToIndex(core: CoreState): Map<string, string[]> {
   return byCause;
 }
 
-function told(
-  core: CoreState,
-  row: HistoryRow,
-  ledTo: Map<string, string[]>,
-): HistoryEvent {
+/**
+ * An event as a reader gets it: the row, with its causes and what it led to
+ * read the first time a reader asks for them (a lookup by kind that reads
+ * only dates and facts never builds the index of what led to what).
+ */
+function told(core: CoreState, row: HistoryRow): HistoryEvent {
   const { publicRecord: _public, ...event } = row;
   void _public;
-  return {
-    ...event,
-    causeIds: causesOf(core, row.id, row.facts),
-    ledTo: [...(ledTo.get(row.id) ?? [])].sort(),
-  };
+  let causes: string[] | undefined;
+  let later: string[] | undefined;
+  return Object.defineProperties(event, {
+    causeIds: {
+      enumerable: true,
+      get: () => (causes ??= causesOf(core, row.id, row.facts)),
+    },
+    ledTo: {
+      enumerable: true,
+      get: () => (later ??= [...(ledToIndex(core).get(row.id) ?? [])].sort()),
+    },
+  }) as HistoryEvent;
 }
 
 /**
@@ -511,30 +550,30 @@ function told(
  * that names them. A household's is its members' and its own; an employer's,
  * every record that names it; a place's, a state's and the nation's, the
  * public records there. Reading spends no game time and writes nothing,
- * except that a person's whole past is written before it is read, as their
- * card has always written it (`openWholePast`), so every reader cites the same
- * records.
+ * except that a person's whole past is written before their own life is read
+ * (`openWholePast`, once), as their card has always written it, so every
+ * reader cites the same records. A read by kind never opens anyone.
  */
 export function historyOf(
   core: CoreState,
   scope: HistoryScope,
   ask: HistoryAsk = {},
 ): HistoryEvent[] {
-  const ledTo = ledToIndex(core);
   const out: HistoryEvent[] = [];
   const ids = new Set<string>();
   const take = (row: HistoryRow) => {
     if (!asked(row, ask)) return;
-    out.push(told(core, row, ledTo));
+    out.push(told(core, row));
     ids.add(row.id);
   };
   // A person's life comes first, in its own words (a vote won by one and lost
   // by the rest): every other source's copy of the same record is skipped.
+  // Only a read of a person's own life opens them (their whole past written
+  // once, as their card always wrote it); a read by kind is a lookup and
+  // writes nothing, and a household's, employer's or place's opens nobody.
   const people = peopleOf(core, scope);
   const { life, others } = sourcesOf(core);
-  // Only a person's own history opens them: a household's, an employer's or
-  // a place's reads the rows already written and opens nobody.
-  if (life && "person" in scope) life.open?.(core, scope.person);
+  if (life && "person" in scope && !ask.kinds) life.open?.(core, scope.person);
   if (life && people.length)
     for (const personId of people)
       for (const row of life.rows(core, { person: personId }, ask)) take(row);
@@ -545,7 +584,11 @@ export function historyOf(
       if (!fromLife.has(row.id)) take(row);
     for (const source of others)
       for (const row of source.rows(core, scope, ask))
-        if (!fromLife.has(row.id)) take(row);
+        if (
+          !fromLife.has(row.id) &&
+          (!isPlaceScope(scope) || inPlaceScope(row, scope, ask))
+        )
+          take(row);
   }
   // A household's members can share a record: it is told once.
   const once =
@@ -563,5 +606,5 @@ export function historyEvent(
   id: string,
 ): HistoryEvent | undefined {
   const row = recordById(core, id);
-  return row ? told(core, row, ledToIndex(core)) : undefined;
+  return row ? told(core, row) : undefined;
 }

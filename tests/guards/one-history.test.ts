@@ -141,8 +141,6 @@ const RAW_PAST_READERS = [
   "preStartHistory",
   "lifeOf",
   "openWholePast",
-  "schoolsAttended",
-  "schoolsOf",
   "pastWorkOf",
   "pastWorkFor",
   "pastWorkHistory",
