@@ -29241,40 +29241,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.not-right-now",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Not right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "letter-ask",
-          "key": "news-received"
-        },
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "leave",
-        "key": "loss"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
       "key": "scene-talk.reply-confront.it-s-too-late",
       "move": "reply-confront",
       "kind": "spoken",
@@ -37273,85 +37239,6 @@
         "move": "agree",
         "key": "favor-asked"
       }
-    },
-    {
-      "key": "scene-talk.reply-agree.of-course",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Of course.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "homecoming",
-          "key": "arrival",
-          "requiresFacts": ["asker-back"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "introduction",
-          "key": "arrival",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["employer"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["schoolmate", "school"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "friend-ask",
-          "key": "routine",
-          "onlyWhen": ["meeting", "body"]
-        },
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "proposal-ask",
-          "key": "favor-asked"
-        },
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story helper (Sonnet), reviewed by Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
     },
     {
       "key": "scene-talk.narrate-narrate.name-stands-in-the-doorway-with-a-bag-new-to-the-house",
@@ -80220,32 +80107,6 @@
       "elements": ["volunteers-need-a-specific-ask"]
     },
     {
-      "key": "scene-talk.reply-agree.always-for-you-volunteer-tie-friend",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Always, for you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "agree",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
       "key": "scene-talk.reply-agree.don-t-thank-me-volunteer-tie-rival",
       "move": "reply-agree",
       "kind": "spoken",
@@ -80293,58 +80154,6 @@
       "date": "2026-11-24",
       "tag": {
         "move": "agree",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-decline.i-m-too-busy-volunteer",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'm too busy.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "excludesFacts": ["tie-friend", "tie-rival"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
-        "key": "volunteer"
-      },
-      "elements": ["volunteers-need-a-specific-ask"]
-    },
-    {
-      "key": "scene-talk.reply-decline.sorry-i-can-t-volunteer-tie-friend",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "Sorry, I can't.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "campaign-answer",
-          "key": "volunteer",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["tie-friend"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "decline",
         "key": "volunteer"
       },
       "elements": ["volunteers-need-a-specific-ask"]
@@ -80875,32 +80684,6 @@
       "elements": ["door-count-is-how-people-measure-effort"]
     },
     {
-      "key": "scene-talk.state-request.hello-i-m-self-i-m-running-for-office-in-place-can-i-count-on-your-vote",
-      "move": "state-request",
-      "kind": "spoken",
-      "text": "Hello, I'm {self}. I'm running for {office} in {place}. Can I count on your vote?",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support",
-          "key": "door",
-          "step": "state",
-          "move": "request",
-          "role": "asker",
-          "requiresFacts": ["self", "office", "place"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "request",
-        "key": "door"
-      },
-      "elements": ["door-on-a-small-town-street"]
-    },
-    {
       "key": "scene-talk.state-request.good-to-meet-you-i-m-self-running-for-office-have-i-got-your-support",
       "move": "state-request",
       "kind": "spoken",
@@ -81243,32 +81026,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.we-want-the-same-thing-on-this-that-s-reason-enough-for-me-to-vote-for-you-in-place",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "We want the same thing on this. That's reason enough for me to vote for you in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "requiresFacts": ["stand-with", "place"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-25",
-      "tag": {
-        "move": "agree",
-        "key": "door"
-      },
-      "elements": ["resident-will-vote-but-does-not-share"]
-    },
-    {
       "key": "scene-talk.reply-agree.i-voted-last-time-and-nobody-came-to-my-door-you-did-so-you-have-my-vote-in-place",
       "move": "reply-agree",
       "kind": "spoken",
@@ -81293,32 +81050,6 @@
         "key": "door"
       },
       "elements": ["literature-goes-at-the-door-never-in-the-mailbox"]
-    },
-    {
-      "key": "scene-talk.reply-decline.that-s-not-where-i-stand-on-it-i-can-t-vote-for-you-in-place-over-that",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "That's not where I stand on it. I can't vote for you in {place} over that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "ask-support.plain",
-          "key": "door",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "requiresFacts": ["stand-apart", "place"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "the campaigning writer",
-      "date": "2026-11-25",
-      "tag": {
-        "move": "decline",
-        "key": "door"
-      },
-      "elements": ["resident-says-take-me-off-your-list"]
     },
     {
       "key": "scene-talk.reply-decline.i-sat-out-the-last-one-and-i-m-not-sure-i-ll-vote-at-all-this-time-in-place",
@@ -82827,6 +82558,162 @@
       "tag": {
         "move": "accept",
         "key": "welcomed"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-d-stand-too-so-you-have-my-vote",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'd {stand} too, so you have my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["stand-with", "stand"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "door"
+      },
+      "elements": ["resident-will-vote-but-does-not-share"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-wouldn-t-stand-i-can-t-vote-for-you-over-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I wouldn't {stand}. I can't vote for you over that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support.plain",
+          "key": "door",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "requiresFacts": ["stand-apart", "stand"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "door"
+      },
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.follow-state.hello-i-m-self-i-m-running-for-office-can-i-count-on-your-vote",
+      "move": "follow-state",
+      "kind": "spoken",
+      "text": "Hello, I'm {self}. I'm running for {office}. Can I count on your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "state",
+          "move": "state",
+          "role": "asker",
+          "requiresFacts": ["self", "office"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "state",
+        "key": "door"
+      },
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.reply-agree.count-on-me-volunteer-tie-friend",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.name-the-day-volunteer-tie-friend",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Name the day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      },
+      "elements": ["volunteers-need-a-specific-ask"]
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-be-there-volunteer-tie-friend",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
       },
       "elements": ["volunteers-need-a-specific-ask"]
     }

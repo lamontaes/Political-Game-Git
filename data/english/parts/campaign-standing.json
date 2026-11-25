@@ -598,69 +598,6 @@
       "date": "2026-11-19"
     },
     {
-      "key": "campaign-standing.gave.amount-came-in-from-name",
-      "move": "gave",
-      "kind": "written",
-      "text": "{amount} came in from {name}.",
-      "uses": [
-        {
-          "move": "gave",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "gave"
-        }
-      ],
-      "tag": {
-        "move": "deliver-news",
-        "key": "gave"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "campaign-standing.not-warm.name-doesn-t-feel-like-giving-to-your-campaign-yet",
-      "move": "not-warm",
-      "kind": "written",
-      "text": "{name} doesn't feel like giving to your campaign yet.",
-      "uses": [
-        {
-          "move": "not-warm",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "not-warm"
-        }
-      ],
-      "tag": {
-        "move": "deliver-news",
-        "key": "not-warm"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "campaign-standing.not-warm.name-is-holding-back-for-now",
-      "move": "not-warm",
-      "kind": "written",
-      "text": "{name} is holding back for now.",
-      "uses": [
-        {
-          "move": "not-warm",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "not-warm"
-        }
-      ],
-      "tag": {
-        "move": "deliver-news",
-        "key": "not-warm"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
       "key": "campaign-standing.no-spare.name-is-short-on-money-this-month",
       "move": "no-spare",
       "kind": "written",
@@ -739,27 +676,6 @@
       "tag": {
         "move": "deliver-news",
         "key": "small"
-      },
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19"
-    },
-    {
-      "key": "campaign-standing.total.you-asked-asked-people-and-gave-gave-amount-together",
-      "move": "total",
-      "kind": "written",
-      "text": "You asked {asked} people, and {gave} gave {amount} together.",
-      "uses": [
-        {
-          "move": "total",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "total"
-        }
-      ],
-      "tag": {
-        "move": "deliver-news",
-        "key": "total"
       },
       "origin": "authored",
       "author": "Story helper, for the Story lead",
@@ -1488,6 +1404,182 @@
       "author": "the campaigning writer",
       "date": "2026-11-24",
       "elements": ["official-declines-to-endorse"]
+    },
+    {
+      "key": "campaign-standing.not-warm.name-hasn-t-warmed-to-you-enough-to-give",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} hasn't warmed to you enough to give.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "not-warm"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "campaign-standing.not-warm.name-wants-to-know-you-better-before-giving",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} wants to know you better before giving.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "not-warm"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "campaign-standing.not-warm.name-said-no-to-your-ask-but-kept-it-friendly",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} said no to your ask, but kept it friendly.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "not-warm"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "campaign-standing.not-warm.name-isn-t-close-enough-to-you-yet-to-give",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} isn't close enough to you yet to give.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "not-warm"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "campaign-standing.not-warm.name-wasn-t-ready-to-back-you-with-money",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} wasn't ready to back you with money.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "not-warm"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "campaign-standing.gave.name-sent-amount-to-your-campaign",
+      "move": "gave",
+      "kind": "written",
+      "text": "{name} sent {amount} to your campaign.",
+      "uses": [
+        {
+          "move": "gave",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "gave"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "gave"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "campaign-standing.gave.name-put-amount-toward-your-campaign",
+      "move": "gave",
+      "kind": "written",
+      "text": "{name} put {amount} toward your campaign.",
+      "uses": [
+        {
+          "move": "gave",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "gave"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "gave"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "campaign-standing.total.you-asked-asked-people-and-gave-gave-amount-in-all",
+      "move": "total",
+      "kind": "written",
+      "text": "You asked {asked} people, and {gave} gave, {amount} in all.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "total"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      },
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "elements": ["resident-says-take-me-off-your-list"]
     }
   ]
 }
