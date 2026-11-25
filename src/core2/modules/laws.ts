@@ -73,7 +73,10 @@ export { webReach, webFactorFor } from "../outcome-web-reach";
 export { townFacts, townStatePlaces } from "../law-reach/group-b-people";
 /** Who a law reached, by key, for the speeches that say what a law did. */
 export { reachedBy, reachOn } from "../law-reach/host";
-export { assistanceIncomeByHousehold } from "../law-reach/group-b-money";
+export {
+  assistanceIncomeByHousehold,
+  ssiIncomeByHousehold,
+} from "../law-reach/group-b-money";
 export { veteransIncomeByHousehold } from "../law-reach/group-b-veterans";
 /** The poverty guideline for a household, for the medical bills' weighing of a household's income. */
 export { povertyLineDollars } from "../law-reach/poverty-line";

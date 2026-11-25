@@ -68,6 +68,7 @@ import {
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
 import { personLean } from "../campaign-views";
+import { appointeeHourlyMinor } from "../town-labor-pay";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { leanOf, mayorVeto, memberKey, members } from "./legislature";
@@ -274,8 +275,7 @@ function keepAppointeeHousehold(
     personId,
     stateKey,
     annualMinor:
-      campaignParameter("appointeeHourlyMinor") *
-      treasuryParameter("fullTimeHoursPerYear"),
+      appointeeHourlyMinor(api) * treasuryParameter("fullTimeHoursPerYear"),
     governmentKey: stateKey,
   });
   if (!given) return;
@@ -827,7 +827,7 @@ function fillTownPost(
       employerId: employer,
       post,
       title: spec.title,
-      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      hourlyMinor: appointeeHourlyMinor(api),
       maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
       // A county that runs the place has no jobs of its own to follow: its heads follow the town's pay calendar.
       scheduleFromPlaceId: town,
@@ -1071,7 +1071,7 @@ function seatCabinetPerson(
       employerId: employer,
       post,
       title: spec.title,
-      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      hourlyMinor: appointeeHourlyMinor(api),
       maxDailyMinor,
       scheduleFromPlaceId: lawChain(api).townPlaceId,
       citation: `Appointment ${input.appointmentId}`,
@@ -1377,7 +1377,7 @@ function seatDrawnOfficer(
       employerId: employer,
       post,
       title: spec.title,
-      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      hourlyMinor: appointeeHourlyMinor(api),
       maxDailyMinor: postPayCapDaily(api, employer, post, 1),
       scheduleFromPlaceId: lawChain(api).townPlaceId,
       citation: `Appointment ${id}`,
@@ -1770,7 +1770,7 @@ export function appointStatePost(
         employerId: gov.organizationId,
         post: `state:${spec.key}`,
         title: spec.title,
-        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+        hourlyMinor: appointeeHourlyMinor(api),
         citation: `Appointment ${row.id}`,
       });
   if (!jobId) return null;

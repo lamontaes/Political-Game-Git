@@ -106,6 +106,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/scene-pictures.test.ts"),
   },
   {
+    id: "test-in-a-shard",
+    rule: "Every test file is run by some shard, or names what runs it: a test file the hosted full run does not discover is on a list with its command, and the list only shrinks.",
+    readMore:
+      "tests/guards/test-in-a-shard.test.ts, its header; tests/guards/test-runners.json",
+    command: vitest("tests/guards/test-in-a-shard.test.ts"),
+  },
+  {
     id: "bring-it-up-lean",
     rule: "A race's result brought up in talk is read on one path, and a line that claims a ballot or a shared side plays only where that path sets the fact; no line says a figure, a place or a first name.",
     readMore:

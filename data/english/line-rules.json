@@ -5764,8 +5764,8 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Sample: it reports, it pulls no bank line. An answer to an agreeing or disagreeing reply that only says they agree or differ is caught too (answer-adds-something).",
-      "status": "sample",
+      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Enforced over the composed reply sets (tests/guards/english/composed-reply-sets.test.ts): a reply play can offer that only acknowledges fails the build, apart from the known list that only shrinks; the talk-level counts stay npm run words:composed. An answer to an agreeing or disagreeing reply that only says they agree or differ is caught too (answer-adds-something).",
+      "status": "enforced",
       "test": {
         "kind": "composed",
         "check": ["no-non-reply", "answer-adds-something"],

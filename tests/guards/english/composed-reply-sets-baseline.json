@@ -1,0 +1,11 @@
+{
+  "about": "Offered replies that only acknowledge (the rule no-non-replies, owner Nov 12, enforced over the composed reply sets): the known list only shrinks. Fix or cut a line, then remove its key here.",
+  "onlyAcknowledges": [
+    "scene-talk.follow-accept.all-right",
+    "scene-talk.follow-accept.okay",
+    "scene-talk.reply-agree.alright-yes",
+    "scene-talk.reply-agree.okay-yes-2",
+    "scene-talk.reply-agree.sure",
+    "scene-talk.reply-tell.good-to-know"
+  ]
+}

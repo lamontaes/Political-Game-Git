@@ -60,9 +60,7 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Businesses operating state.",
-      "knownRed": "opening-town-life-empty-at-day-0",
-      "knownRedPlaces": ["2338740"]
+      "reason": "Businesses operating state."
     },
     {
       "table": "business.outsideCosts",
@@ -1009,8 +1007,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Some seats are vacant on any day (resigned, died, not yet filled).",
-      "zeroAtPlaces": ["1150000"]
+      "reason": "Some seats are vacant on any day (resigned, died, not yet filled)."
     },
     {
       "table": "core2-outcome-web-v1.baselines",
@@ -1147,7 +1144,7 @@
       "filledBy": "day 31",
       "reason": "Permits held (carry, storage).",
       "knownRed": "opening-town-life-empty-at-day-0",
-      "knownRedPlaces": ["2338740"]
+      "knownRedPlaces": ["1150000"]
     },
     {
       "table": "core2-public-safety-v1.storage",
@@ -1161,9 +1158,7 @@
       "level": "town, state and federal",
       "call": "stock",
       "filledBy": "year 1",
-      "reason": "Officials have voting records from the prior term (OWNER-DECISIONS, Oct: officials have voting records from the prior term). Empty at creation at Washington (and filled by year 1) but already 9,938 rows at Lewiston, so the mark applies at Washington only.",
-      "knownRed": "opening-record-votes-empty-at-day-0",
-      "knownRedPlaces": ["1150000"]
+      "reason": "Officials have voting records from the prior term (OWNER-DECISIONS, Oct: officials have voting records from the prior term). A one-chamber council such as Washington's now has a prior term too (#10392), so Washington opens with its record votes filled (147 rows)."
     },
     {
       "table": "core2-renewal-v1.births",
@@ -2385,14 +2380,16 @@
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Prices people know and feel."
+      "reason": "Prices people know and feel.",
+      "zeroAtPlaces": ["1150000"]
     },
     {
       "table": "place-prices.learned",
       "level": "town (people and places)",
       "call": "stock",
       "filledBy": "day 31",
-      "reason": "Same."
+      "reason": "Same.",
+      "zeroAtPlaces": ["1150000", "2338740"]
     },
     {
       "table": "place-prices.rules",

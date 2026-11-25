@@ -68,6 +68,8 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
+  /* Issues: the space between the Level and In force bars. */
+  --issues-gap: 18px;
   /* A week's row in the calendar's month: room for two things named on a day. */
   --month-row: 96px;
   /* A thing named on its day in the calendar's month. */
@@ -158,6 +160,8 @@
   --night-nation-columns: 3;
   --night-nation-gap: 28px;
   /* A row a player picks in a list beside its page. */
+  /* Government's room painting, a strip across the screen (gov-local mock). */
+  --room-strip-h: 112px;
   /* The person card's bust column. */
   --card-bust: 440px;
   --pick-pad: 6px 12px;
@@ -2062,7 +2066,30 @@ body:not(.dev) .dev-only {
 .sheet-head .acts {
   flex: none;
 }
-#sheet-tabs:empty + #sheet-body {
+/* A sheet's tabs sit in its head row, between the title and the close (the
+   approved Government, People and Metrics mocks: "Politics" with its tabs
+   beside it). */
+.sheet-head > #sheet-tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: center;
+}
+.sheet-head:has(> #sheet-tabs:empty) > #sheet-tabs {
+  display: none;
+}
+.sheet-head.tabs-below {
+  flex-wrap: wrap;
+  row-gap: 0;
+}
+.sheet-head.tabs-below > #sheet-tabs {
+  order: 3;
+  flex-basis: 100%;
+}
+/* Tabs on their own row are spaced as they were before they joined the head. */
+.sheet-head.tabs-below + #sheet-body {
+  margin-top: 0;
+}
+#sheet-body {
   margin-top: 14px;
 }
 #sheet-body {
@@ -3915,6 +3942,12 @@ details.entry[open] {
   flex-direction: column;
   gap: 3px;
 }
+/* Government's room runs across the screen as a short strip under its tabs. */
+.government-screen > .chamber {
+  height: var(--room-strip-h);
+  margin: 0 0 12px;
+  background-position: center 45%;
+}
 .chamber-name {
   font: 800 var(--t-h3)/1.1 var(--name);
   letter-spacing: 0.04em;
@@ -5044,6 +5077,12 @@ select.release-pick {
 .strip-screen .dotrow.typed .dotvalue {
   white-space: nowrap;
 }
+/* A vote's name in Recent votes wraps rather than ending in an ellipsis: a long bill name reads whole. */
+.vote-rows .dotrow.typed .dotlabel {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
 .strip-board {
   width: 100%;
 }
@@ -5726,23 +5765,48 @@ select.release-pick {
   gap: 12px;
 }
 .issue-filter-row > span {
-  color: var(--text-strong);
+  color: var(--muted);
+  font: var(--head-font);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 .issue-filter-row .tab-rail {
   margin: 0;
 }
-.issue-filter-row select.issue-filter {
-  justify-self: start;
-  min-width: 260px;
+/* The subjects beside their laws (pl-issues): the roster's list, each subject with its count. */
+.issues-subjects > .roster .roster-row span {
+  min-width: 1.5em;
+  text-align: right;
+}
+/* The Level and In force bars side by side, over the subjects and laws. */
+.issues-bars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--issues-gap);
+}
+/* The subjects and the laws stand as tall as the panel holds; the box pages inside itself
+   (ui/pager.mjs), never a scroll with free room below it (owner, Nov 23). */
+.issues-subjects > .roster,
+.issues-laws > .roster {
+  max-height: none;
+  overflow: visible;
+  margin: 0;
 }
 .issues-laws {
   width: auto;
   max-width: 100%;
-  grid-template-columns: 270px minmax(0, 1fr);
+  grid-template-columns: 390px minmax(0, 1fr);
 }
 .issues-laws .roster-row span {
   min-width: 1.5em;
   text-align: right;
+}
+/* A law's value that is long wraps inside its row, never runs out of the column. */
+.issues-laws .roster-row span {
+  white-space: normal;
+  overflow-wrap: break-word;
+  min-width: min-content;
+  max-width: 60%;
 }
 
 /* Your office (pl-office): my seat, my desk and the budget and deals in three columns. */
@@ -6178,6 +6242,50 @@ body.color-blind .meeting-member.vote-abstain {
 .metric-timeline .trend-line {
   max-width: none;
   margin: 14px 0 0;
+}
+/* The years table under the timeline: a row per measure, a column per year, the newest last. */
+.metrics-years {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 14px;
+}
+#sheet-body .metrics-yrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(5, 64px);
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  min-height: 0;
+  padding: 3px 8px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  text-align: left;
+  font: 400 var(--t-label) / 1.3 var(--ui);
+  color: var(--text);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+#sheet-body button.metrics-yrow {
+  cursor: pointer;
+}
+#sheet-body button.metrics-yrow:hover,
+#sheet-body button.metrics-yrow[aria-pressed="true"] {
+  background: var(--pick-hover);
+}
+#sheet-body button.metrics-yrow .metrics-ylabel {
+  color: var(--brass-hi);
+}
+.metrics-yhead {
+  font-weight: 600;
+  color: var(--text-3);
+}
+.metrics-ycell {
+  text-align: right;
+}
+.metrics-ycell.now {
+  font-weight: 700;
+  color: var(--text-strong);
 }
 
 /* Patch notes: headed sections of short bullets (owner, Nov 16: "like real patch notes"). */

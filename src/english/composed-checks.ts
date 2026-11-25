@@ -506,7 +506,7 @@ const ACKS = new Set(data.acknowledgments);
 const CHECK_IN = data.checkInClose.map((source) => new RegExp(source, "i"));
 
 /** Whether a line only acknowledges: a few words, each piece of it an acknowledgment. */
-function onlyAcknowledges(text: string): boolean {
+export function onlyAcknowledges(text: string): boolean {
   const all = words(text);
   if (!all.length || all.length > value("ackMostWords")) return false;
   return plainQuotes(text)

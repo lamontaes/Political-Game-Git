@@ -1,0 +1,627 @@
+<!doctype html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Campaign Board</title>
+<!--
+  The one campaign board (owner, Oct 27, OWNER-DECISIONS.md line 774), as a mock for him to see
+  before anything is built. It reuses the approved menu look as it stands: the styles and the
+  pack v4 figures of docs/mocks/2026-11-07-approved/. Names, dates and numbers are sample record
+  data, not player lines. Which game and ruling each part follows: README.md in this folder.
+-->
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Fira+Sans:wght@400;500;600;700&family=Andada+Pro:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@600;700&display=swap"
+/>
+<link rel="stylesheet" href="../2026-11-07-approved/base-proto.css" />
+<link rel="stylesheet" href="../2026-11-07-approved/ex.css" />
+<style>
+  /* only what the board adds; every surface, strip, outline, button and bust is the approved set's */
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: #0d0c0b;
+  }
+  .wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    gap: 0;
+  }
+  .viewport {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .cboard {
+    gap: 10px;
+  }
+  .cboard .govpic {
+    height: 56px;
+  }
+  .cboard .govpic div {
+    bottom: 7px;
+  }
+  .bcols {
+    display: grid;
+    grid-template-columns: 1.04fr 1.1fr 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  /* the race: every candidate who announced or filed, face, party and where they stand */
+  .cand {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 4px 8px;
+    margin: 0 -8px 2px;
+    border-radius: 3px;
+  }
+  .cand b {
+    display: block;
+    font:
+      600 19px/1.15 "Playfair Display",
+      Georgia,
+      serif;
+    color: #f2e6c9;
+  }
+  .cand p {
+    margin: 2px 0 0;
+    font: 500 14.5px var(--f-ui);
+    color: var(--muted);
+  }
+  .cand p .pt {
+    font-style: normal;
+    font-weight: 600;
+  }
+  .cand p .st {
+    color: #f6dfae;
+  }
+  .cboard .saidtag {
+    margin: 10px 0 2px;
+  }
+  .cboard .bstot {
+    gap: 3px;
+  }
+  .cboard .dl {
+    margin: 0;
+  }
+  .pollsrc {
+    margin: 0 0 4px;
+    font: 500 14.5px var(--f-ui);
+    color: var(--muted);
+  }
+  /* the inbox: each request a row of facts with its answers beside it */
+  .ask {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 3px 8px 5px;
+    margin: 0 -8px 2px;
+    border-radius: 3px;
+  }
+  .ask .saidtag {
+    margin: 0 0 2px;
+  }
+  .ask p {
+    margin: 0;
+    font: 400 15.5px/1.4 var(--f-story);
+    color: #f3ead8;
+  }
+  .ask p + p {
+    font: 500 14.5px var(--f-ui);
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .ask .acts {
+    display: flex;
+    gap: 6px;
+  }
+  .ask .kbtn,
+  .mate .kbtn {
+    padding: 7px 13px;
+    font-size: 14.5px;
+  }
+  /* the team: the manager as a fading bust, the rest as faces with how you know them */
+  .mgr {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .mgr .wants2 {
+    margin-top: 6px;
+  }
+  .mgr .wants2 p {
+    font-size: 15px;
+  }
+  .mate {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 3px 8px;
+    margin: 0 -8px 1px;
+    border-radius: 3px;
+  }
+  .mate b {
+    font: 600 16.5px var(--f-ui);
+    color: #f6dfae;
+  }
+  .mate p {
+    margin: 1px 0 0;
+    font: 500 14.5px var(--f-ui);
+    color: var(--muted);
+  }
+  .vols {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .vols span {
+    font: 600 16.5px var(--f-ui);
+    color: #f2e6c9;
+  }
+  /* the money, typed like the approved budget page */
+  .moneyrow {
+    margin-left: auto;
+    margin-right: 48px;
+    display: flex;
+    gap: 26px;
+  }
+  .moneyrow div span {
+    display: block;
+    font: 600 12.5px var(--f-ui);
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: var(--gold2);
+  }
+  .moneyrow div b {
+    display: block;
+    font: 500 22px/1.1 var(--f-ui);
+    font-variant-numeric: lining-nums tabular-nums;
+    color: #f2e6c9;
+  }
+  /* the actions: the trail first, then each kind of outing, every one a scene you go to */
+  .outs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .outs .kbtn {
+    padding: 8px 15px;
+    font-size: 15px;
+  }
+  .outs .kbtn.big {
+    padding: 10px 22px;
+    font-size: 16px;
+    margin-right: 6px;
+  }
+</style>
+<div class="wrap">
+  <div class="viewport" id="viewport">
+    <div class="stage nav-row menu-open nf-a close-a glow-on" id="stage">
+      <div
+        class="scene"
+        style="
+          background-image: url(../2026-11-07-approved/img/house-suburban-living__midday.jpg);
+        "
+      ></div>
+      <div id="menuhost">
+        <div class="frost"></div>
+        <section class="panel" aria-label="Politics">
+          <button class="x" type="button" aria-label="Close">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            >
+              <path d="M6 6l12 12M18 6 6 18" />
+            </svg>
+          </button>
+          <div class="phead">
+            <h2 class="ptitle">Politics</h2>
+            <div class="tabrail">
+              <button type="button">Government</button
+              ><button type="button">Elections</button
+              ><button type="button">Parties</button
+              ><button type="button">Issues</button
+              ><button type="button">Budgets</button
+              ><button type="button">Metrics</button
+              ><button type="button" class="on">Campaign</button>
+            </div>
+            <!-- THE MONEY, as The Political Process's Finances strip (Funds, Overhead, Remaining) -->
+            <div class="moneyrow" aria-label="The money">
+              <div><span>Raised</span><b>$3,140</b></div>
+              <div><span>Spent</span><b>$1,905</b></div>
+              <div><span>Cash on hand</span><b>$1,235</b></div>
+            </div>
+          </div>
+          <div class="pbody">
+            <div class="ex gov2 cboard">
+              <!-- the race's own body, painted, as Government heads its bodies -->
+              <div
+                class="govpic"
+                style="
+                  background-image: url(../2026-11-07-approved/img/public-meeting-room__midday.jpg);
+                "
+              >
+                <div>
+                  <b>Bloomsbury Borough Council</b
+                  ><span
+                    >2 seats · 3 running · Election day, Tuesday, November
+                    4</span
+                  >
+                </div>
+              </div>
+
+              <div class="bcols">
+                <!-- THE RACE: every rival who announced or filed (P35), as The Political Process's Opponents and Poll Data -->
+                <section class="sec strips dp1">
+                  <h3 class="sechead">Who's running</h3>
+                  <div class="secbody">
+                    <div class="cand pick" tabindex="0" role="button">
+                      <span data-face="velasquez" data-px="58"></span>
+                      <div>
+                        <b>Mary Velasquez</b>
+                        <p>
+                          <em class="pt ptR">Republican</em> · Seat held ·
+                          <span class="st">Filed on August 28</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="cand pick" tabindex="0" role="button">
+                      <span data-face="me" data-px="58"></span>
+                      <div>
+                        <b>Owen Pierce</b>
+                        <p>
+                          <em class="pt ptD">Democrat</em> ·
+                          <span class="st">You are running</span> · Filed on
+                          August 21
+                        </p>
+                      </div>
+                    </div>
+                    <div class="cand pick" tabindex="0" role="button">
+                      <span data-face="riley" data-px="58"></span>
+                      <div>
+                        <b>Christopher Riley</b>
+                        <p>
+                          <em class="pt ptI">independent</em> ·
+                          <span class="st">Announced</span> September 9
+                        </p>
+                      </div>
+                    </div>
+                    <span class="saidtag">Poll</span>
+                    <p class="pollsrc">
+                      <span class="nm pick" tabindex="0" role="button"
+                        >Hunterdon Ledger</span
+                      >
+                      · October 2 · 180 voters
+                    </p>
+                    <div class="ink bstot">
+                      <div class="dl">
+                        <div class="t">
+                          <span>Mary Velasquez</span><i></i><em>64</em>
+                        </div>
+                      </div>
+                      <div class="dl">
+                        <div class="t">
+                          <span>Owen Pierce</span><i></i><em>51</em>
+                        </div>
+                      </div>
+                      <div class="dl">
+                        <div class="t">
+                          <span>Christopher Riley</span><i></i><em>38</em>
+                        </div>
+                      </div>
+                      <div class="dl">
+                        <div class="t">
+                          <span>Not sure</span><i></i><em>27</em>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- THE INBOX (owner, Oct 27), as The Political Process's Campaign Opportunities rows -->
+                <section class="sec strips dp2">
+                  <h3 class="sechead">Waiting for your answer</h3>
+                  <div class="secbody">
+                    <div class="ask pick" tabindex="0" role="button">
+                      <div>
+                        <span class="saidtag">Debate invitation</span>
+                        <p>
+                          Bloomsbury Fire Company hall · Thursday, October 16, 7
+                          PM
+                        </p>
+                        <p>
+                          Accepted:
+                          <span class="nm pick" tabindex="0" role="button"
+                            >Mary Velasquez</span
+                          >,
+                          <span class="nm pick" tabindex="0" role="button"
+                            >Christopher Riley</span
+                          >
+                        </p>
+                      </div>
+                      <div class="acts">
+                        <button class="kbtn" type="button">Accept</button
+                        ><button class="kbtn" type="button">Decline</button>
+                      </div>
+                    </div>
+                    <div class="ask pick" tabindex="0" role="button">
+                      <div>
+                        <span class="saidtag">Interview request</span>
+                        <p>
+                          <span class="nm pick" tabindex="0" role="button"
+                            >Dana Whitlock</span
+                          >, Hunterdon Ledger
+                        </p>
+                        <p>Answer by Friday, October 10</p>
+                      </div>
+                      <div class="acts">
+                        <button class="kbtn" type="button">Accept</button
+                        ><button class="kbtn" type="button">Decline</button>
+                      </div>
+                    </div>
+                    <div class="ask pick" tabindex="0" role="button">
+                      <div>
+                        <span class="saidtag">Wants to meet</span>
+                        <p>
+                          <span class="nm pick" tabindex="0" role="button"
+                            >Ray Castillo</span
+                          >, Castillo Hardware
+                        </p>
+                        <p>Saturday, October 11, 10 AM</p>
+                      </div>
+                      <div class="acts">
+                        <button class="kbtn" type="button">Answer</button>
+                      </div>
+                    </div>
+                    <div class="ask pick" tabindex="0" role="button">
+                      <div>
+                        <span class="saidtag">Endorsements</span>
+                        <p>Hunterdon County Democratic Committee</p>
+                        <p>Answer by Tuesday, October 14</p>
+                      </div>
+                      <div class="acts">
+                        <button class="kbtn" type="button">Answer</button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- THE TEAM and THE MANAGER (owner, Oct 27), as The Political Process's Staff and its manager portrait -->
+                <section class="sec strips dp3">
+                  <h3 class="sechead">Your team</h3>
+                  <div class="secbody">
+                    <div class="mgr">
+                      <span
+                        data-bust="greene"
+                        data-w="150"
+                        data-end="150"
+                        data-k="1.25"
+                      ></span>
+                      <div class="lead2text">
+                        <h4>
+                          <span class="nm pick" tabindex="0" role="button"
+                            >Tasha Greene</span
+                          >
+                        </h4>
+                        <p class="lead2sub">
+                          Campaign manager · my best friend
+                        </p>
+                        <div class="wants2">
+                          <p>Booked the fire hall debate</p>
+                          <p>Signed up 9 of the 14 volunteers</p>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="saidtag">On your staff</span>
+                    <div class="mate pick" tabindex="0" role="button">
+                      <span data-face="ortega" data-px="52"></span>
+                      <div>
+                        <b>Luis Ortega</b>
+                        <p>Treasurer · my brother-in-law</p>
+                      </div>
+                    </div>
+                    <div class="mate pick" tabindex="0" role="button">
+                      <span data-face="marsh" data-px="52"></span>
+                      <div>
+                        <b>Ellen Marsh</b>
+                        <p>Yard signs · my neighbor</p>
+                      </div>
+                    </div>
+                    <div class="vols">
+                      <span>14 volunteers</span
+                      ><button class="kbtn" type="button">Ask someone</button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <!-- THE ACTIONS, as The Political Process's Events tab; each one goes to its scene -->
+              <section class="sec strips dp4">
+                <h3 class="sechead">Out and about</h3>
+                <div class="secbody">
+                  <div class="outs">
+                    <button class="kbtn big on" type="button">
+                      Go out on the trail</button
+                    ><button class="kbtn" type="button">Knock on doors</button
+                    ><button class="kbtn" type="button">Give a speech</button
+                    ><button class="kbtn" type="button">Host a forum</button
+                    ><button class="kbtn" type="button">
+                      Ask for an interview</button
+                    ><button class="kbtn" type="button">Call donors</button
+                    ><button class="kbtn" type="button">Ad</button
+                    ><button class="kbtn" type="button">Mail</button
+                    ><button class="kbtn" type="button">Poll</button>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="hud" id="hud">
+        <nav class="navrow" aria-label="Menus">
+          <button type="button" class="rbtn" aria-label="Journal">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M6 3.5h11a1.5 1.5 0 0 1 1.5 1.5v14.5H7.5A1.5 1.5 0 0 1 6 18z"
+              />
+              <path d="M6 18a1.5 1.5 0 0 1 1.5-1.5h11" />
+              <path d="M13.5 3.5v6.2l-1.8-1.3-1.8 1.3V3.5" /></svg
+            ><span class="tip">Journal</span></button
+          ><button type="button" class="rbtn" aria-label="Calendar">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="5.5" width="16" height="14.5" rx="1.5" />
+              <path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" />
+              <rect x="13" y="13" width="3.5" height="3.5" rx=".5" /></svg
+            ><span class="tip">Calendar</span></button
+          ><button type="button" class="rbtn" aria-label="Money">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2.5" y="6.5" width="19" height="11" rx="1.5" />
+              <circle cx="12" cy="12" r="2.6" />
+              <path d="M5.6 9.6h.01M18.4 14.4h.01" /></svg
+            ><span class="tip">Money</span></button
+          ><button type="button" class="rbtn on" aria-label="Politics">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M4 20h16M5.8 20v-6.2M9.6 20v-6.2M14.4 20v-6.2M18.2 20v-6.2M4 13.8h16M7 13.8a5 5 0 0 1 10 0M12 8.8V5.2M12 5.2h2"
+              /></svg
+            ><span class="tip">Politics</span></button
+          ><button type="button" class="rbtn" aria-label="News">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M4.5 5.5h12v13a1.5 1.5 0 0 0 1.5 1.5H6a1.5 1.5 0 0 1-1.5-1.5z"
+              />
+              <path d="M16.5 9h3v9.5a1.5 1.5 0 0 1-3 0" />
+              <path d="M7.5 9h6M7.5 12h6M7.5 15h4" /></svg
+            ><span class="tip">News</span></button
+          ><button type="button" class="rbtn" aria-label="People">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="9" cy="8.5" r="3" />
+              <path d="M3.5 19c.5-3.4 2.7-5.2 5.5-5.2s5 1.8 5.5 5.2" />
+              <circle cx="16.6" cy="9.4" r="2.4" />
+              <path d="M15.6 13.9c2.5 0 4.4 1.6 5 4.6" /></svg
+            ><span class="tip">People</span></button
+          ><button type="button" class="rbtn" aria-label="Travel">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 21s-6-5.4-6-10.2a6 6 0 0 1 12 0C18 15.6 12 21 12 21z"
+              />
+              <circle cx="12" cy="10.6" r="2.2" /></svg
+            ><span class="tip">Travel</span></button
+          ><button type="button" class="rbtn" aria-label="Guide">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="M9.6 9.6a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.6" />
+              <path d="M12 16.9h.01" /></svg
+            ><span class="tip">Guide</span>
+          </button>
+        </nav>
+        <div class="pcard">
+          <button class="me" type="button" aria-label="You">
+            <span data-face="me" data-px="104"></span>
+          </button>
+          <div class="pinfo">
+            <b>Owen Pierce</b><span>Bloomsbury, New Jersey</span
+            ><span class="when">Monday, October 6, 2025</span
+            ><span>9:15 AM</span>
+          </div>
+          <div class="tbtns">
+            <button class="kbtn" type="button">Day</button
+            ><button class="kbtn" type="button">Week</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  /* eslint-disable */
+  /* Faces and busts: crops of pack v4 figures, one figure per named person, with the head boxes
+     the approved set measured (docs/mocks/2026-11-07-approved/ex.js, LOOKS). */
+  const IMG = "../2026-11-07-approved/img/";
+  const LOOKS = {
+    me: {
+      f: "people/man-slim-look-suitcharcoal-gesture-tq-right.png",
+      w: 271,
+      h: 642,
+      x: 176.5,
+      t: 5,
+      hw: 73,
+    },
+    greene: {
+      f: "people/woman-slim-look-pantsuitblack-stand-front.png",
+      w: 234,
+      h: 707,
+      x: 116.0,
+      t: 5,
+      hw: 82,
+    },
+    velasquez: {
+      f: "people/woman-medium-look-pantsuitnavy-stand-front.png",
+      w: 232,
+      h: 710,
+      x: 114.5,
+      t: 8,
+      hw: 81,
+    },
+    riley: {
+      f: "people/man-heavy-look-suitnavy-stand-front.png",
+      w: 240,
+      h: 707,
+      x: 120.0,
+      t: 6,
+      hw: 80,
+    },
+    ortega: {
+      f: "people/man-medium-look-suitnavy-s05.png",
+      w: 261,
+      h: 675,
+      x: 125.0,
+      t: 4,
+      hw: 90,
+    },
+    marsh: {
+      f: "people/woman-heavy-look-blazercamel-s05.png",
+      w: 260,
+      h: 622,
+      x: 121.5,
+      t: 6,
+      hw: 95,
+    },
+  };
+  for (const el of document.querySelectorAll("[data-face]")) {
+    const L = LOOKS[el.dataset.face],
+      px = +el.dataset.px;
+    const side = L.hw * 2.3,
+      k = px / side,
+      x0 = L.x - side / 2,
+      y0 = L.t - L.hw * 0.18;
+    el.outerHTML = `<span class="face" role="img" style="width:${px}px;height:${px}px"><i style="background-image:url(${IMG}${L.f});background-size:${(L.w * k).toFixed(1)}px ${(L.h * k).toFixed(1)}px;background-position:${(-x0 * k).toFixed(1)}px ${(-y0 * k).toFixed(1)}px"></i></span>`;
+  }
+  for (const el of document.querySelectorAll("[data-bust]")) {
+    const L = LOOKS[el.dataset.bust],
+      w = +el.dataset.w,
+      end = +el.dataset.end,
+      k = +el.dataset.k;
+    el.outerHTML = `<div class="mxglow gbglow" style="width:${w}px"><div class="mxbust" style="width:${w}px;height:${Math.round(end * k) + 6}px"><img src="${IMG}${L.f}" alt="" style="height:${Math.round(L.h * k)}px;left:${Math.round(w / 2 - L.x * k)}px;top:6px"></div></div>`;
+  }
+  /* the stage is drawn at 1440 by 900 and scaled to the window, as the approved set does */
+  const vp = document.getElementById("viewport"),
+    stage = document.getElementById("stage");
+  const fit = () => (stage.style.transform = `scale(${vp.clientWidth / 1440})`);
+  addEventListener("resize", fit);
+  fit();
+  const pn = document.querySelector(".panel"),
+    fr = document.querySelector(".frost");
+  requestAnimationFrame(() => (fr.style.height = pn.offsetHeight - 4 + "px"));
+</script>

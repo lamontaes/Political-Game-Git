@@ -104,7 +104,7 @@
     },
     "town.foundedParties": {
       "made": "decision",
-      "by": "src/core2/electorate-century.ts foundingStep: each presidential cycle the share of the century's voters left unreached (each by the part of partyIdentityReach of the way to their side's party that their lean falls short of, a sliding scale) adds to a pressure that fades by centuryFoundingFade; a party is founded when the pressure outweighs centuryFoundingCost (stopgap SG-HIST-century-founding-cost), at the centroid of those voters. Under the world setting history \"today\", none."
+      "by": "src/core2/electorate-century.ts foundingStep: each presidential cycle the share of the century's voters left unreached (each by the part of partyIdentityReach of the way to their side's party that their lean falls short of, a sliding scale) adds to a pressure that fades by centuryFoundingFade; a party is founded when the pressure outweighs centuryFoundingCost (stopgap SG-HIST-century-founding-cost), at the centroid of those voters; from the next presidential year it stands a ticket on the one count (electorate-century.ts presidentialElection, position and pull read by electorate.ts countedAppeal), and its share of every vote is the race's (CenturyPresidency.foundedParty); when its share has fallen in each of centuryFoundedPartyFallCycles straight races it merges into the national party nearest its position and its ticket ends. Under the world setting history \"today\", none."
     },
     "town.congresses": {
       "made": "decision",
@@ -407,10 +407,6 @@
     "src/core2/modules/health.ts#resilienceLine": {
       "made": "generation",
       "what": "How much a person can take before illness, a stable hash of the world seed and the person (owner's ruling, Oct 9)"
-    },
-    "src/core2/modules/jobs.ts#bandRatio": {
-      "made": "world-offset",
-      "what": "Pay band ratios"
     },
     "src/core2/modules/jobs.ts#loseAwayWorkByTurnover": {
       "made": "ad-hoc-draw",
