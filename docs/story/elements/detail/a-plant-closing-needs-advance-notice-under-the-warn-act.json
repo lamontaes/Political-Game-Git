@@ -1,0 +1,30 @@
+{
+  "id": "a-plant-closing-needs-advance-notice-under-the-warn-act",
+  "kind": "detail",
+  "summary": "A plant closing or mass layoff has to be announced ahead of time under the WARN Act.",
+  "realLife": "The Worker Adjustment and Retraining Notification Act helps ensure advance notice in cases of qualified plant closings and mass layoffs.",
+  "sources": [
+    "U.S. Department of Labor, WARN Act Compliance Assistance: https://www.dol.gov/agencies/eta/layoffs/warn"
+  ],
+  "fits": ["loading"],
+  "slots": ["place"],
+  "gates": [],
+  "weights": {},
+  "inGame": "the jobs module's change rows (layoff, closure), read by the loading story's past (loading-steps.past).",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A closing comes with no notice and workers learn on the day.",
+      "pulledBy": "an employer's failure to meet the notice rule",
+      "writesBack": "a layoff row dated the same day as the closing"
+    },
+    {
+      "turn": "partial",
+      "what": "A layoff is below the size that needs notice.",
+      "pulledBy": "a small staff cut",
+      "writesBack": "a layoff row with no notice period"
+    }
+  ],
+  "issues": ["none"]
+}

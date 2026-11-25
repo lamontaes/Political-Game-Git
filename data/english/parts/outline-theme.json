@@ -81,7 +81,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-here-s-what-i-believe",
@@ -111,7 +112,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-i-ve-believed-for-a-long-time-that",
@@ -145,7 +147,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.pledge.inaugural-so-if-a-bill-for-reaches-my-desk-it-goes-back-unsigned",
@@ -164,7 +167,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "outline-theme.pledge.inaugural-as-long-as-i-m-president-won-t-become-law",
@@ -183,7 +187,8 @@
       "lean": ["personality-v1:facet-assertive", "personality-v1:facet-proud"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-work-to-undo-and-i-ll-start-this-week",
@@ -217,7 +222,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "outline-theme.pledge.inaugural-so-i-mean-to-see-gone-before-my-term-is-up",
@@ -239,7 +245,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-keep-pushing-to-until-it-s-done",
@@ -273,7 +280,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "outline-theme.pledge.inaugural-so-i-m-going-to-ask-congress-to-and-i-m-going-to-keep-asking",
@@ -295,7 +303,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "outline-theme.pledge.inaugural-i-ll-defend-for-as-long-as-i-hold-this-office",
@@ -317,7 +326,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-vows-as-we-will-promises"]
     },
     {
       "key": "outline-theme.today.inaugural-",
@@ -347,7 +357,8 @@
       "lean": ["personality-v1:facet-analytical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-theme.today.inaugural-right-now",
@@ -380,7 +391,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["diagnosis-before-acts"]
     },
     {
       "key": "outline-theme.stand.inaugural-and-that-s-why-i-want-to-undo",
@@ -411,7 +423,8 @@
       "lean": ["personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-ll-defend-for-all",
@@ -438,7 +451,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-m-not-one-of-them-because",
@@ -472,7 +486,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-not-me",
@@ -507,7 +522,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.contrast.inaugural-there-are-people-in-washington-who-want-to",
@@ -528,7 +544,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-you-ll-hear-plenty-of-folks-in-washington-say-we-ought-to",
@@ -549,7 +566,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.question.inaugural-should-we",
@@ -585,7 +603,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-should-this-country",
@@ -607,7 +626,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.answer.inaugural-my-answer-is-no-because",
@@ -638,7 +658,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.answer.inaugural-not-while-i-m-president-i-believe",
@@ -657,7 +678,8 @@
       "lean": ["personality-v1:facet-assertive", "personality-v1:facet-proud"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.answer.inaugural-my-answer-is-yes-because",
@@ -688,7 +710,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-m-against-and-i-ll-tell-you-why",
@@ -733,7 +756,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-want-to-because",
@@ -763,7 +787,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-want-to-undo-because",
@@ -808,7 +833,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-ll-defend-because",
@@ -838,7 +864,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-duty-bound"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.blessing.inaugural-god-bless-america",
@@ -858,7 +885,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-ends-god-bless-america"]
     },
     {
       "key": "outline-theme.blessing.inaugural-thank-you",
@@ -875,7 +903,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-ends-god-bless-america"]
     },
     {
       "key": "outline-theme.blessing.inaugural-thank-you-everybody",
@@ -895,7 +924,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-ends-god-bless-america"]
     },
     {
       "key": "outline-theme.blessing.inaugural-god-bless-you",
@@ -915,7 +945,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-ends-god-bless-america"]
     },
     {
       "key": "outline-theme.value.inaugural-i-ll-be-judged-on-and-i-should-be",
@@ -949,7 +980,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-on-i-d-rather-be-clear-than-liked",
@@ -984,7 +1016,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-mean-to-change-that-and-is-where-i-start",
@@ -1033,7 +1066,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.question.inaugural-should-we-keep",
@@ -1066,7 +1100,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.stand.inaugural-that-s-why-i-ll-keep-on-the-books-as-long-as-i-m-here",
@@ -1100,7 +1135,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.inaugural-i-think-that-was-a-mistake-and-i-ll-ask-congress-to-undo",
@@ -1119,7 +1155,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-analytical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.value.inaugural-if-i-get-wrong-you-ll-know-it-and-you-should-say-so",
@@ -1154,7 +1191,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-nobody-voted-for-me-so-i-could-stay-quiet-about",
@@ -1177,7 +1215,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-ask-anyone-who-s-worked-with-me-and-they-ll-tell-you-i-think",
@@ -1207,7 +1246,8 @@
       "lean": ["personality-v1:facet-proud", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-if-you-want-to-know-where-i-start-it-s-here",
@@ -1237,7 +1277,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.creed.inaugural-some-things-i-won-t-change-my-mind-on-one-of-them-is-that",
@@ -1270,7 +1311,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.contrast.inaugural-some-in-congress-would-rather",
@@ -1291,7 +1333,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.contrast.inaugural-the-other-side-has-a-plan-and-it-s-to",
@@ -1324,7 +1367,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-contrast"]
     },
     {
       "key": "outline-theme.question.inaugural-here-s-the-question-in-front-of-us-do-we",
@@ -1360,7 +1404,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.question.inaugural-people-ask-me-whether-we-should-keep",
@@ -1393,7 +1438,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline-theme.value.inaugural-you-ll-know-by-next-year-whether-i-meant-it-on",
@@ -1424,7 +1470,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-there-s-no-version-of-where-everybody-s-happy-and-i-won-t-pretend-there-is",
@@ -1458,7 +1505,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-i-ve-changed-my-mind-on-plenty-of-things-not-on",
@@ -1492,7 +1540,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-i-ll-keep-saying-it-plainly-on-even-when-it-costs-me",
@@ -1523,7 +1572,8 @@
       "lean": ["personality-v1:facet-devoted", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-watch-what-i-do-on-not-just-what-i-say-today",
@@ -1554,7 +1604,8 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-some-of-you-will-be-angry-with-me-over-that-comes-with-the-job",
@@ -1585,7 +1636,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-duty-bound"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-m-for-for-one-reason",
@@ -1615,7 +1667,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-my-answer-on-is-no-because",
@@ -1660,7 +1713,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-stays-because",
@@ -1693,7 +1747,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.stand-reason.inaugural-i-d-like-to-see-gone-because",
@@ -1738,7 +1793,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["ask-in-the-middle-belief-after"]
     },
     {
       "key": "outline-theme.creed.inaugural-my-whole-case-rests-on-one-idea-that",
@@ -3753,7 +3809,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-i-know-won-t-get-fixed-in-a-day-and-i-m-not-going-to-say-it-will",
@@ -3787,7 +3844,8 @@
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-some-of-you-will-disagree-with-me-on-and-that-s-fair",
@@ -3824,7 +3882,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-of-everything-in-this-job-is-what-i-d-least-like-to-get-wrong",
@@ -3858,7 +3917,8 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-if-i-m-right-about-you-ll-see-it-if-i-m-wrong-you-ll-see-that-too",
@@ -3892,7 +3952,8 @@
       "lean": ["personality-v1:facet-calm", "personality-v1:facet-analytical"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-i-ll-take-the-criticism-on-if-it-means-getting-it-right",
@@ -3929,7 +3990,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-on-i-d-rather-do-the-slow-thing-that-works",
@@ -3966,7 +4028,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.value.inaugural-whatever-else-happens-stays-near-the-top-of-my-list",
@@ -4003,7 +4066,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.contrast.inaugural-not-everyone-agrees-some-would",
@@ -4545,10 +4609,10 @@
       "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
-      "key": "outline-theme.question.inaugural-should-stay-as-it-is",
+      "key": "outline-theme.question.what-should-become-of-law-name",
       "move": "question",
       "kind": "spoken",
-      "text": "Should {law-name} stay as it is?",
+      "text": "What should become of {law-name}?",
       "uses": [
         {
           "subject": "inaugural",
@@ -4741,518 +4805,6 @@
       "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
-      "key": "outline-theme.send-off.spoken-i-ll-start-on-tomorrow-morning-before-anything-else-is-on-my",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll start on whether to {to} tomorrow morning, before anything else is on my desk.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-the-first-meeting-on-my-schedule-is-about",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The first meeting on my schedule is about whether to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-tomorrow-i-ll-call-the-people-in-congress-who-can-move-and-i",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Tomorrow I'll call the people in Congress who can decide whether to {to}, and I'll start with the ones who disagree.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-if-you-want-to-know-where-i-ll-be-tomorrow-i-ll-be-working-o",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "If you want to know where I'll be tomorrow, I'll be working on whether to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-find-out-this-week-who-in-congress-will-work-with-me-on",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll find out this week who in Congress will work with me on whether to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-my-staff-will-have-a-plan-for-on-my-desk-by-the-end-of-the-w",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "My staff will have a briefing on whether to {to} on my desk by the end of the week.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-work-centered"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-over-the-next-few-weeks-i-ll-be-meeting-people-on-both-sides",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Over the next few weeks I'll be meeting people on both sides of whether to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-studious"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-tomorrow-starts-with-and-i-m-glad-it-does",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Tomorrow starts with whether to {to}, and I'm glad it does.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-meet-with-people-on-both-sides-of-this-week-starting-wi",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll meet with people on both sides of whether to {to} this week, starting with the ones who disagree with me.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-keep-the-people-who-disagree-with-me-about-in-the-room",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll keep the people who disagree with me on whether to {to} in the room for every meeting.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-persistent"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-tomorrow-i-ll-call-the-members-of-the-who-can-move-and-i-ll",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Tomorrow I'll call the members of the {body-word} who can decide whether to {to}, and I'll start with the ones who disagree.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-find-out-this-week-who-in-the-will-work-with-me-on",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll find out this week who in the {body-word} will work with me on whether to {to}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme", "body-word"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-and-i-start-work-tomorrow-morning",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I start work tomorrow morning.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-blunt"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-and-i-will-meet-tomorrow-to-set-our-first-week-s-schedule",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I will meet tomorrow to set our first week's schedule.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-tomorrow-and-i-sit-down-with-congress",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Tomorrow {the-vice-president} and I sit down with Congress.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-polite"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-see-you-at-work-tomorrow-along-with",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll see you at work tomorrow, along with {the-vice-president}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
       "key": "outline-theme.blessing.spoken-god-bless-us",
       "move": "blessing",
       "kind": "spoken",
@@ -5367,33 +4919,6 @@
       "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
-      "key": "outline-theme.blessing.spoken-thank-you-again",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "Thank you again.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
-    },
-    {
       "key": "outline-theme.blessing.spoken-thank-you-friends",
       "move": "blessing",
       "kind": "spoken",
@@ -5422,102 +4947,6 @@
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
       "elements": ["closes-on-a-blessing-after-a-pledge"]
-    },
-    {
-      "key": "outline-theme.blessing.spoken-godspeed-america",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "Godspeed, America.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-dramatic"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": [
-        "closes-on-a-blessing-after-a-pledge",
-        "sotu-close-ends-god-bless-america"
-      ]
-    },
-    {
-      "key": "outline-theme.blessing.spoken-bless-you-all",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "Bless you all.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-comforting",
-        "personality-v1:facet-nurturing"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
-    },
-    {
-      "key": "outline-theme.blessing.spoken-god-bless-americans",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "God bless Americans.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-sincere"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": [
-        "closes-on-a-blessing-after-a-pledge",
-        "sotu-close-ends-god-bless-america"
-      ]
     },
     {
       "key": "outline-theme.blessing.spoken-good-night-america",
@@ -5575,610 +5004,6 @@
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
       "elements": ["closes-on-a-blessing-after-a-pledge"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-the-people-who-disagree-with-me-on-will-hear-from-my-office",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The people who disagree with me on whether to {to} will hear from my office this week.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-ask-the-people-who-know-best-to-come-see-me-before-the",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll ask the people who know the most about whether to {to} to come see me before the month is out.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-humble", "personality-v1:facet-studious"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-on-my-first-step-is-a-meeting-not-a-speech-and-it-s-tomorrow",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "On whether to {to}, my first step is a meeting, not a speech, and it's tomorrow.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-tomorrow-i-ll-read-what-the-experts-have-written-on-and-then",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Tomorrow I'll read what the experts have written on whether to {to}, and then I'll ask them questions.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-analytical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-spend-part-of-tomorrow-with-people-who-ve-been-affected",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll spend part of tomorrow with people who'd be affected if we {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-somebody-in-my-office-will-be-reading-every-letter-about-sta",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Somebody in my office will be reading every letter on whether to {to} starting tomorrow.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-call-the-leaders-of-both-parties-about-before-the-end-o",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll call the leaders of both parties about whether to {to} before the end of the week.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-assertive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-by-the-end-of-the-month-i-ll-have-a-list-of-what-can-move-on",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "By the end of the month I'll have a list of what can move if we {to}, and what can't.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-the-first-memo-i-read-tomorrow-will-be-about",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "The first memo I read tomorrow will be about whether to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-before-i-do-anything-on-i-ll-ask-the-people-it-affects-what",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Before I decide whether to {to}, I'll ask the people it affects what they need.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-fair-minded"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-go-over-again-tomorrow-with-fresh-eyes-and-a-long-list",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll go over whether to {to} again tomorrow with fresh eyes and a long list of questions.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-studious",
-        "personality-v1:facet-persistent"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-next-week-i-ll-hold-a-meeting-on-and-anyone-with-a-stake-can",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Next week I'll hold a meeting on whether to {to}, and anyone with a stake can come.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": []
-    },
-    {
-      "key": "outline-theme.send-off.spoken-has-a-full-schedule-tomorrow-and-so-do-i",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "{the-vice-president} has a full schedule tomorrow, and so do I.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-informal"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-and-i-will-go-over-the-week-s-calendar-tomorrow-morning",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I will go over the week's calendar tomorrow morning.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-meticulous",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-i-ll-go-over-the-calendar-with-tomorrow-morning",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll go over the calendar with {the-vice-president} tomorrow morning.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-practical", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-and-i-are-on-duty-from-tomorrow-morning",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "{the-vice-president} and I are on duty from tomorrow morning.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-duty-bound", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
-    },
-    {
-      "key": "outline-theme.send-off.spoken-tomorrow-morning-i-meet-with-to-start-on-the-list",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "Tomorrow morning I meet with {the-vice-president} to start on the list.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-work-centered",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.send-off.spoken-my-first-call-tomorrow-is-to-and-then-we-start",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "My first call tomorrow is to {the-vice-president}, and then we start.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["the-vice-president"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-informal",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["victory-ends-on-a-call-to-work"]
     },
     {
       "key": "outline-theme.creed.inaugural-i-ve-held-the-view-for-years-that",
@@ -6565,10 +5390,10 @@
       "elements": ["point-opens-on-a-claim"]
     },
     {
-      "key": "outline-theme.stand.inaugural-i-d-keep-just-as-it-is",
+      "key": "outline-theme.stand.id-leave-law-name-exactly-as-written",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'd keep {law-name} just as it is.",
+      "text": "I'd leave {law-name} exactly as written.",
       "uses": [
         {
           "subject": "inaugural",
@@ -6945,30 +5770,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-theme.value.inaugural-of-everything-on-my-list-is-where-i-expect-to-be-tested-first",
-      "move": "value",
-      "kind": "spoken",
-      "text": "Of everything on my list, {theme-short} is where I expect to be tested first.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "value",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["pledge", "stand", "answer", "stand-reason"],
-      "lean": [
-        "personality-v1:facet-humble",
-        "personality-v1:facet-duty-bound"
-      ],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
       "key": "outline-theme.today.inaugural-as-of-today",
@@ -7149,7 +5952,8 @@
       "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "outline-theme.send-off.inaugural-i-hope-to-sign-before-long",
@@ -7171,7 +5975,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "outline-theme.send-off.inaugural-i-d-like-on-my-desk-before-long",
@@ -7193,7 +5998,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "outline-theme.send-off.inaugural-i-hope-never-reaches-my-desk",
@@ -7212,7 +6018,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "outline-theme.send-off.inaugural-i-ll-make-sure-keeps-working-for-as-long-as-i-m-here",
@@ -7234,7 +6041,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "outline-theme.send-off.inaugural-before-i-m-through-i-d-like-repealed",
@@ -7256,7 +6064,8 @@
       ],
       "origin": "authored",
       "author": "the stand-and-close writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-close-looks-ahead"]
     },
     {
       "key": "outline-theme.stand.spoken-i-mean-to-change-that-and-are-where-i-start-plural",
@@ -7305,7 +6114,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.spoken-in-light-of-that-have-to-change-plural",

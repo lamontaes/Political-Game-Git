@@ -5,6 +5,7 @@
   "kinds": {
     "inaugural": {
       "surface": "dialogue",
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -33,6 +34,7 @@
             "hard-run-told",
             "hard-run-asked",
             "good-run-told",
+            "disaster-placed",
             "disaster-told",
             "disaster-asked"
           ]
@@ -42,6 +44,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -55,6 +59,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -83,7 +89,6 @@
           "shapes": [
             "send-off-then-blessing",
             "blessing-alone",
-            "blessing-then-send-off",
             "send-off-alone"
           ]
         }
@@ -158,6 +163,7 @@
     },
     "state-of-the-union": {
       "surface": "dialogue",
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -186,6 +192,7 @@
             "hard-run-told",
             "hard-run-asked",
             "good-run-told",
+            "disaster-placed",
             "disaster-told",
             "disaster-asked"
           ]
@@ -195,6 +202,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -208,6 +217,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -236,7 +247,6 @@
           "shapes": [
             "send-off-then-blessing",
             "blessing-alone",
-            "blessing-then-send-off",
             "send-off-alone"
           ]
         }
@@ -317,6 +327,7 @@
     },
     "state-of-the-state": {
       "surface": "dialogue",
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -346,6 +357,7 @@
             "hard-run-told",
             "hard-run-asked",
             "good-run-told",
+            "disaster-placed",
             "disaster-told",
             "disaster-asked"
           ]
@@ -355,6 +367,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -368,6 +382,8 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
+            "contrast-stand-reason",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -396,7 +412,6 @@
           "shapes": [
             "send-off-then-blessing",
             "blessing-alone",
-            "blessing-then-send-off",
             "send-off-alone"
           ]
         }
@@ -623,7 +638,9 @@
     "news-roll-call": {
       "surface": "dialogue",
       "budgets": {
-        "*": 2
+        "*": 2,
+        "sponsor": 1,
+        "voted-against": 1
       },
       "sections": [
         {
@@ -634,12 +651,13 @@
         {
           "name": "body",
           "joins": true,
-          "shapes": ["margin"]
+          "shapes": ["margin-then-who-then-effect", "margin"]
         }
       ]
     },
     "town-address": {
       "surface": "dialogue",
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -678,6 +696,7 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -691,6 +710,7 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -719,7 +739,6 @@
           "shapes": [
             "send-off-then-blessing",
             "blessing-alone",
-            "blessing-then-send-off",
             "send-off-alone"
           ]
         }
@@ -794,6 +813,7 @@
     },
     "campaign-speech": {
       "surface": "dialogue",
+      "bridges": ["theme", "second"],
       "budgets": {
         "*": 3,
         "theme-name": 1,
@@ -832,6 +852,7 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -845,6 +866,7 @@
           "when": ["about"],
           "camera": "country",
           "shapes": [
+            "anchor-then-stand",
             "creed-then-pledge",
             "today-then-stand",
             "contrast-then-stand",
@@ -873,7 +895,6 @@
           "shapes": [
             "send-off-then-blessing",
             "blessing-alone",
-            "blessing-then-send-off",
             "send-off-alone"
           ]
         }
@@ -1232,15 +1253,6 @@
         "personality-v1:facet-independent"
       ]
     },
-    "blessing-then-send-off": {
-      "moves": ["blessing", "send-off"],
-      "pull": [
-        "personality-v1:facet-devoted",
-        "personality-v1:facet-zealous",
-        "personality-v1:facet-dramatic",
-        "personality-v1:facet-sincere"
-      ]
-    },
     "running-alone": {
       "moves": ["running"],
       "fallback": true
@@ -1253,6 +1265,24 @@
     },
     "chapter-open-moved": {
       "moves": ["moved"]
+    },
+    "anchor-then-stand": {
+      "moves": ["anchor", "stand?", "stand-reason?", "long-view?"]
+    },
+    "contrast-stand-reason": {
+      "moves": [
+        "contrast",
+        "stand",
+        "stand-reason?",
+        "acknowledge?",
+        "long-view?"
+      ]
+    },
+    "disaster-placed": {
+      "moves": ["disaster", "disaster-meaning?", "disaster-help?"]
+    },
+    "margin-then-who-then-effect": {
+      "moves": ["margin", "who?", "why?", "effect?"]
     }
   },
   "weights": {
@@ -1305,6 +1335,12 @@
     "self": {
       "subject": "I",
       "object": "me"
+    },
+    "letterDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "spread": "14 to 45",
+      "note": "How many days back a relative's letter (family.contact) is still this evening's news for the entry."
     }
   }
 }

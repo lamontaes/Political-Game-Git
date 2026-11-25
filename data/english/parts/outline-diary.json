@@ -9,7 +9,7 @@
     "run-span": "how long the economy's run lasted, in words, from the macro months (address-story.ts)",
     "the-disaster": "the year's worst declared disaster as people say it after 'the' (outlines.json disasterWords), from the national events engine's row",
     "about": "the policy question's spoken noun phrase (question-names.json)",
-    "to": "the policy question's spoken verb phrase",
+    "to": "what the question would do, as a verb phrase (question-names.json to)",
     "law-name": "the law in force or proposed, named (question-names.json law)",
     "other-side": "what the other side of the speaker's stand wants done, as a verb phrase",
     "belief": "the speaker's reason on the question, as a clause (question-names.json reasons)",
@@ -19,7 +19,7 @@
     "the-vice-president": "the Vice President by office and name, from the officials engine's seat",
     "president": "the President, said by the said-as reader (role first, then pronoun)",
     "president-object": "the President in the object case",
-    "said": "what the President's point was about, as people say it",
+    "said": "the question in plain words, as people say it (question-names.json said)",
     "decider": "who decides it (Congress), from said-as",
     "place": "the speaker's town",
     "employer": "the speaker's employer, through the said-as reader",
@@ -48,37 +48,19 @@
     "body": "the body that voted, as its record names it",
     "law": "the bill or law by its name, never its number",
     "purpose": "what the bill does, as a noun phrase from the bill catalog",
-    "count": "the vote count in words and figures (\"3 to 2\")"
+    "count": "the vote count in words and figures (\"3 to 2\")",
+    "reason-for": "the reason people give for the question, as a clause (question-names.json reasons.for)",
+    "reason-against": "the reason people give against it, as a clause (question-names.json reasons.against)",
+    "housemate-worker": "a housemate's given name, from the job record",
+    "housemate-employer": "that housemate's employer as people say it, from the employer record",
+    "kin-wrote": "a relative's given name, from a family.contact letter in the past month",
+    "kin-wrote-from": "the town that relative wrote from",
+    "stakes": "what the President said is at stake, as the President's side tells how things stand today, as a sentence (question-names.json today)",
+    "stakes-clause": "the same, as a clause that follows 'that'",
+    "watchers-count": "how many watched, in words, whenever anyone watched with the player"
   },
   "maxWords": 30,
   "parts": [
-    {
-      "key": "outline-diary.ahead.journal-evening-tomorrow-i-start-working-out-where-i-fit-in",
-      "move": "ahead",
-      "kind": "written",
-      "text": "Tomorrow I start working out where I fit in {place}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "ahead",
-          "tie": "record",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-enterprising",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "ordinary-day-follows-the-event",
-        "ends-the-entry-on-bed"
-      ]
-    },
     {
       "key": "outline-diary.watched.journal-evening-caught-s-speech-on-the-news-tonight",
       "move": "watched",
@@ -123,80 +105,6 @@
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
         "names-who-else-was-listening"
-      ]
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-the-president-came-out-against",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President came out against {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-against"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
-      ]
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-the-president-came-out-for",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President came out for {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-work-centered"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
-      ]
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-the-president-means-to-keep",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President means to keep {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for", "law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-contented"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
       ]
     },
     {
@@ -250,33 +158,6 @@
       ]
     },
     {
-      "key": "outline-diary.stance.journal-evening-the-president-put-real-weight-behind",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President put real weight behind {about}.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-polite"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
-      ]
-    },
-    {
       "key": "outline-diary.watched.journal-evening-spoke-for-a-while-tonight-and-i-had-nobody-to-talk-it-over-with",
       "move": "watched",
       "kind": "written",
@@ -300,194 +181,6 @@
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
         "names-who-else-was-listening"
-      ]
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-supper-was-over-when-came-on-and-stayed-put-until-it-ended",
-      "move": "watched",
-      "kind": "written",
-      "text": "Supper was over when {president-name} came on, and {we} stayed put until it ended.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["we", "president-name"],
-          "excludesFacts": ["watched-many"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-contented"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "names-who-else-was-listening"
-      ]
-    },
-    {
-      "key": "outline-diary.watched.journal-evening-nobody-talked-while-spoke-just-listened",
-      "move": "watched",
-      "kind": "written",
-      "text": "Nobody talked while {president-name} spoke; {we} just listened.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "watched",
-          "tie": "record",
-          "requiresFacts": ["we", "president-name"],
-          "excludesFacts": ["watched-many"]
-        }
-      ],
-      "lean": ["personality-v1:facet-calm", "personality-v1:facet-shy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "names-who-else-was-listening"
-      ]
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-the-president-said-has-to-go",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President said {about} has to go.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": [
-            "about",
-            "president-against",
-            "law-in-force",
-            "about-one"
-          ]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
-      ]
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-the-president-said-have-to-go-many",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President said {about} have to go.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": [
-            "about",
-            "president-against",
-            "law-in-force",
-            "about-many"
-          ]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-sassy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
-      ]
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-according-to-the-president-is-overdue",
-      "move": "stance",
-      "kind": "written",
-      "text": "According to the President, {about} is overdue.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for", "about-one"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-observant",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
-      ]
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-according-to-the-president-are-overdue-many",
-      "move": "stance",
-      "kind": "written",
-      "text": "According to the President, {about} are overdue.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for", "about-many"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": [
-        "personality-v1:facet-observant",
-        "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
-      ]
-    },
-    {
-      "key": "outline-diary.ahead.journal-evening-i-will-ask-around-tomorrow-and-see-who-was-listening",
-      "move": "ahead",
-      "kind": "written",
-      "text": "I will ask around {place} tomorrow and see who was listening.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "ahead",
-          "tie": "record",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-friendly",
-        "personality-v1:facet-imaginative"
-      ],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "ordinary-day-follows-the-event",
-        "ends-the-entry-on-bed"
       ]
     },
     {
@@ -531,30 +224,6 @@
       ],
       "after": ["watched", "said", "stance"],
       "lean": ["personality-v1:facet-observant", "personality-v1:facet-shy"],
-      "origin": "authored",
-      "author": "the diary writer",
-      "date": "2026-11-24",
-      "elements": [
-        "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event"
-      ]
-    },
-    {
-      "key": "outline-diary.stance.journal-evening-the-president-asked-for-in-the-speech",
-      "move": "stance",
-      "kind": "written",
-      "text": "The President asked for {about} in the speech.",
-      "uses": [
-        {
-          "subject": "journal-evening",
-          "role": "stance",
-          "tie": "record",
-          "requiresFacts": ["about", "president-for"],
-          "excludesFacts": ["law-in-force"]
-        }
-      ],
-      "after": ["start", "watched", "said"],
-      "lean": ["personality-v1:facet-cynical", "personality-v1:facet-friendly"],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24",
@@ -698,21 +367,630 @@
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-i-do-not-know-yet-what-i-think-about",
+      "key": "outline-diary.stance.journal-evening-the-president-wants-to",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President wants to {to}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["to", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-practical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-argued-that",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President argued that {reason-for}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["reason-for", "president-for"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": ["personality-v1:facet-mediating", "personality-v1:facet-sassy"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-said-the-law-on-should-stay",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President said the law on {said} should stay.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["said", "president-for", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-friendly",
+        "personality-v1:facet-contented"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-does-not-want-to",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President does not want to {to}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["to", "president-against"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-supportive"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-said-the-law-on-should-go",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President said the law on {said} should go.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["said", "president-against", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-work-centered",
+        "personality-v1:facet-comforting"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-agree-with-the-president-about-because",
       "move": "mine",
       "kind": "written",
-      "text": "I do not know yet what I think about {theme-short}.",
+      "text": "I agree with the President about {said}, because {reason-for}.",
       "uses": [
         {
           "subject": "journal-evening",
           "role": "mine",
           "tie": "record",
-          "requiresFacts": ["theme-short", "stand-unsure"]
+          "requiresFacts": ["said", "reason-for", "stand-with", "president-for"]
         }
       ],
       "after": ["said", "stance"],
       "lean": [
-        "personality-v1:facet-argumentative",
+        "personality-v1:facet-guarded",
+        "personality-v1:facet-duty-bound"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-disagree-with-the-president-about-because",
+      "move": "mine",
+      "kind": "written",
+      "text": "I disagree with the President about {said}, because {reason-against}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": [
+            "said",
+            "reason-against",
+            "stand-against",
+            "president-for"
+          ]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-defensive",
+        "personality-v1:facet-cynical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-would-want-to",
+      "move": "mine",
+      "kind": "written",
+      "text": "I would want to {to}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["to", "stand-with"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-would-not-want-to",
+      "move": "mine",
+      "kind": "written",
+      "text": "I would not want to {to}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": ["to", "stand-against"]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-blunt"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-the-president-argued-that-against",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President argued that {reason-against}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["reason-against", "president-against"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-defensive",
+        "personality-v1:facet-contented"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-agree-because-against-side",
+      "move": "mine",
+      "kind": "written",
+      "text": "I agree with the President about {said}, because {reason-against}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": [
+            "said",
+            "reason-against",
+            "stand-with",
+            "president-against"
+          ]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-independent",
+        "personality-v1:facet-enterprising"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.mine.journal-evening-i-disagree-because-for-side",
+      "move": "mine",
+      "kind": "written",
+      "text": "I disagree with the President about {said}, because {reason-for}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "mine",
+          "tie": "record",
+          "requiresFacts": [
+            "said",
+            "reason-for",
+            "stand-against",
+            "president-against"
+          ]
+        }
+      ],
+      "after": ["said", "stance"],
+      "lean": [
+        "personality-v1:facet-cynical",
+        "personality-v1:facet-comforting"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "notes-who-came-round-to-the-nominee"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-the-whole-house-had-the-news-on-for-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "The whole house had the news on for {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-meticulous",
+        "personality-v1:facet-mediating"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-gave-the-first-speech-as-president-tonight-and-the-whole-house-watched",
+      "move": "watched",
+      "kind": "written",
+      "text": "{president-name} gave the first speech as President tonight, and the whole house watched.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-informal",
+        "personality-v1:facet-charming"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-the-whole-house-stayed-for-all-of-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "The whole house stayed for all of {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["watched-many", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-enterprising",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-turned-on-the-news-and-watched-give-the-first-speech-as-president",
+      "move": "watched",
+      "kind": "written",
+      "text": "{we} turned on the news and watched {president-name} give the first speech as President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-meticulous", "personality-v1:facet-calm"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-stayed-for-all-of-s-speech",
+      "move": "watched",
+      "kind": "written",
+      "text": "{we} stayed for all of {president-name}'s speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["we", "president-name"],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-skeptical", "personality-v1:facet-polite"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-alone-i-put-the-news-on-and-watched-give-the-first-speech-as-president",
+      "move": "watched",
+      "kind": "written",
+      "text": "I put the news on and watched {president-name} give the first speech as President.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-tender-hearted",
+        "personality-v1:facet-work-centered"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-alone-i-stayed-for-all-of-s-speech-by-myself",
+      "move": "watched",
+      "kind": "written",
+      "text": "I stayed for all of {president-name}'s speech, by myself.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": ["alone", "president-name"]
+        }
+      ],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-friendly"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-we-got-home-from-in-time-to-watch-with",
+      "move": "watched",
+      "kind": "written",
+      "text": "{housemate-worker} got home from {housemate-employer} in time to watch {president-name} with {us}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": [
+            "housemate-worker",
+            "housemate-employer",
+            "we",
+            "us",
+            "president-name"
+          ],
+          "excludesFacts": ["watched-many"]
+        }
+      ],
+      "lean": ["personality-v1:facet-sassy", "personality-v1:facet-skeptical"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.watched.journal-evening-many-got-home-from-in-time-to-watch-with-the-rest-of-the-house",
+      "move": "watched",
+      "kind": "written",
+      "text": "{housemate-worker} got home from {housemate-employer} in time to watch {president-name} with the rest of the house.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "watched",
+          "tie": "record",
+          "requiresFacts": [
+            "housemate-worker",
+            "housemate-employer",
+            "watched-many",
+            "president-name"
+          ]
+        }
+      ],
+      "lean": ["personality-v1:facet-tactful", "personality-v1:facet-studious"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "names-who-else-was-listening"
+      ]
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-housemate-back-at-work-tomorrow",
+      "move": "ahead",
+      "kind": "written",
+      "text": "Tomorrow {housemate-worker} is back at {housemate-employer}, and I will ask what they thought of the speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["housemate-worker", "housemate-employer"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-self-conscious",
+        "personality-v1:facet-deferential"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "ordinary-day-follows-the-event"
+      ]
+    },
+    {
+      "key": "outline-diary.ahead.journal-evening-tell-the-relative-who-wrote",
+      "move": "ahead",
+      "kind": "written",
+      "text": "I want to tell {kin-wrote} in {kin-wrote-from} what I thought of the speech.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "ahead",
+          "tie": "record",
+          "requiresFacts": ["kin-wrote", "kin-wrote-from"]
+        }
+      ],
+      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-guarded"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event",
+        "ordinary-day-follows-the-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-president-for-a-change-on",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President came out for a change on {said}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["said", "president-for"],
+          "excludesFacts": ["law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-meticulous",
         "personality-v1:facet-tender-hearted"
       ],
       "origin": "authored",
@@ -720,107 +998,239 @@
       "date": "2026-11-24",
       "elements": [
         "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
+        "diary-entry-for-the-evening-of-a-public-event"
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-i-want-to-read-more-about-before-i-decide",
-      "move": "mine",
+      "key": "outline-diary.stance.journal-evening-president-against-a-change-on",
+      "move": "stance",
       "kind": "written",
-      "text": "I want to read more about {theme-short} before I decide.",
+      "text": "The President came out against any change on {said}.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "mine",
+          "role": "stance",
           "tie": "record",
-          "requiresFacts": ["theme-short", "stand-unsure"]
+          "requiresFacts": ["said", "president-against"],
+          "excludesFacts": ["law-in-force"]
         }
       ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-friendly", "personality-v1:facet-sincere"],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-polite"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24",
       "elements": [
         "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
+        "diary-entry-for-the-evening-of-a-public-event"
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-i-cannot-say-yet-whether-the-president-is-right-about",
-      "move": "mine",
+      "key": "outline-diary.stance.journal-evening-president-leaves-the-law-as-it-is",
+      "move": "stance",
       "kind": "written",
-      "text": "I cannot say yet whether the President is right about {theme-short}.",
+      "text": "The President wants to leave the law on {said} as it is.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "mine",
+          "role": "stance",
           "tie": "record",
-          "requiresFacts": ["theme-short", "stand-unsure"]
+          "requiresFacts": ["said", "president-for", "law-in-force"]
         }
       ],
-      "after": ["said", "stance"],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-persistent",
+        "personality-v1:facet-meticulous"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.said.journal-evening-part-i-paid-attention-to",
+      "move": "said",
+      "kind": "written",
+      "text": "The part I paid most attention to was {said}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name", "said"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": ["personality-v1:facet-guarded", "personality-v1:facet-cynical"],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-case-for-stakes",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President's point was that {stakes-clause}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["stakes-clause", "president-for"]
+        }
+      ],
+      "lean": [
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-deferential"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ],
+      "after": ["start", "watched", "said"]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-case-against-stakes",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President made the case that {stakes-clause}.",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["stakes-clause", "president-against"]
+        }
+      ],
       "lean": [
         "personality-v1:facet-tender-hearted",
-        "personality-v1:facet-generous"
+        "personality-v1:facet-assertive"
       ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24",
       "elements": [
         "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "day-called-memorable-before-it-is-understood"
-      ]
+        "diary-entry-for-the-evening-of-a-public-event"
+      ],
+      "after": ["start", "watched", "said"]
     },
     {
-      "key": "outline-diary.mine.journal-evening-i-will-tell-people-i-agree-about",
-      "move": "mine",
+      "key": "outline-diary.watched.journal-evening-count-of-us",
+      "move": "watched",
       "kind": "written",
-      "text": "I will tell people I agree about {theme-short}.",
+      "text": "{watchers-count} of us watched {president-name} tonight.",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "mine",
+          "role": "watched",
           "tie": "record",
-          "requiresFacts": ["theme-short", "stand-with"]
+          "requiresFacts": ["watchers-count", "president-name"]
         }
       ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-shy", "personality-v1:facet-teasing"],
+      "lean": [
+        "personality-v1:facet-argumentative",
+        "personality-v1:facet-work-centered"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24",
       "elements": [
         "plain-first-person-past-tense-diary",
         "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
+        "names-who-else-was-listening"
       ]
     },
     {
-      "key": "outline-diary.mine.journal-evening-i-will-tell-people-i-disagree-about",
-      "move": "mine",
+      "key": "outline-diary.stance.journal-evening-described-it-for-law",
+      "move": "stance",
       "kind": "written",
-      "text": "I will tell people I disagree about {theme-short}.",
+      "text": "The President described how things stand: {stakes}",
       "uses": [
         {
           "subject": "journal-evening",
-          "role": "mine",
+          "role": "stance",
           "tie": "record",
-          "requiresFacts": ["theme-short", "stand-against"]
+          "requiresFacts": ["stakes", "president-for", "law-in-force"]
         }
       ],
-      "after": ["said", "stance"],
-      "lean": ["personality-v1:facet-nurturing", "personality-v1:facet-calm"],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-self-conscious"
+      ],
       "origin": "authored",
       "author": "the diary writer",
       "date": "2026-11-24",
       "elements": [
         "plain-first-person-past-tense-diary",
-        "diary-entry-for-the-evening-of-a-public-event",
-        "notes-who-came-round-to-the-nominee"
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.stance.journal-evening-described-it-against-law",
+      "move": "stance",
+      "kind": "written",
+      "text": "The President laid out how things stand: {stakes}",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "stance",
+          "tie": "record",
+          "requiresFacts": ["stakes", "president-against", "law-in-force"]
+        }
+      ],
+      "after": ["start", "watched", "said"],
+      "lean": [
+        "personality-v1:facet-practical",
+        "personality-v1:facet-self-conscious"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
+      ]
+    },
+    {
+      "key": "outline-diary.said.journal-evening-started-from-how-things-stand",
+      "move": "said",
+      "kind": "written",
+      "text": "The speech started from how things stand: {stakes}",
+      "uses": [
+        {
+          "subject": "journal-evening",
+          "role": "said",
+          "tie": "record",
+          "requiresFacts": ["theme-name", "stakes"]
+        }
+      ],
+      "after": ["watched", "said", "stance"],
+      "lean": [
+        "personality-v1:facet-enterprising",
+        "personality-v1:facet-skeptical"
+      ],
+      "origin": "authored",
+      "author": "the diary writer",
+      "date": "2026-11-24",
+      "elements": [
+        "plain-first-person-past-tense-diary",
+        "diary-entry-for-the-evening-of-a-public-event"
       ]
     }
   ]

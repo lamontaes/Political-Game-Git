@@ -5040,60 +5040,6 @@
       "elements": ["first-vote-at-eighteen"]
     },
     {
-      "key": "journal.life-line-came-of-age.i-could-vote",
-      "move": "life-line-came-of-age",
-      "kind": "spoken",
-      "text": "I could vote.",
-      "uses": [
-        {
-          "move": "life-line-came-of-age",
-          "subject": "life",
-          "role": "line",
-          "choice": "came-of-age",
-          "journal": [
-            {
-              "kindPrefix": "life:came-of-age",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["first-vote-at-eighteen"]
-    },
-    {
-      "key": "journal.life-line-came-of-age.voting-age-came",
-      "move": "life-line-came-of-age",
-      "kind": "spoken",
-      "text": "Voting age came.",
-      "uses": [
-        {
-          "move": "life-line-came-of-age",
-          "subject": "life",
-          "role": "line",
-          "choice": "came-of-age",
-          "journal": [
-            {
-              "kindPrefix": "life:came-of-age",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story helper, for the Story lead",
-      "date": "2026-11-19",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["first-vote-at-eighteen"]
-    },
-    {
       "key": "journal.home-line-born.i-was-born-in-place",
       "move": "home-line-born",
       "kind": "spoken",
@@ -9306,33 +9252,6 @@
       }
     },
     {
-      "key": "journal.memoir-againWait.nothing-had-come-in-since",
-      "move": "memoir-againWait",
-      "kind": "spoken",
-      "text": "Nothing had come in since {last_employer}.",
-      "uses": [
-        {
-          "move": "memoir-againWait",
-          "subject": "memoir",
-          "role": "againWait",
-          "choice": "againWait",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "againWait"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["pattern-b5-03-the-job-ends"]
-    },
-    {
       "key": "journal.memoir-againWait.my-last-pay-came-from",
       "move": "memoir-againWait",
       "kind": "spoken",
@@ -9374,33 +9293,6 @@
             {
               "kindPrefix": "memoir:",
               "field": "againWait"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["pattern-b5-03-the-job-ends"]
-    },
-    {
-      "key": "journal.memoir-hard.nothing-replaced-right-away",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "Nothing replaced {lost_employer} right away.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
             }
           ]
         }
@@ -9628,33 +9520,6 @@
         "move": "tell"
       },
       "elements": ["births-and-deaths-in-the-family-set-down-plainly"]
-    },
-    {
-      "key": "journal.memoir-whenAge.this-was-when-i-was",
-      "move": "memoir-whenAge",
-      "kind": "spoken",
-      "text": "This was when I was {age}.",
-      "uses": [
-        {
-          "move": "memoir-whenAge",
-          "subject": "memoir",
-          "role": "whenAge",
-          "choice": "whenAge",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "whenAge"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["a-turning-year-stated-in-the-life-story"]
     },
     {
       "key": "journal.memoir-whenAge.i-was-then",
@@ -9921,33 +9786,6 @@
       }
     },
     {
-      "key": "journal.memoir-became.rose-to",
-      "move": "memoir-became",
-      "kind": "spoken",
-      "text": "{name} rose to {office}.",
-      "uses": [
-        {
-          "move": "memoir-became",
-          "subject": "memoir",
-          "role": "became",
-          "choice": "became",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "became"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["local-offices-won-listed-with-their-pay"]
-    },
-    {
       "key": "journal.memoir-became.took-on-the-job-of",
       "move": "memoir-became",
       "kind": "spoken",
@@ -10027,111 +9865,6 @@
         "move": "tell"
       },
       "elements": ["friendship-began-on-the-job"]
-    },
-    {
-      "key": "journal.memoir-joinCause.because-of-this",
-      "move": "memoir-joinCause",
-      "kind": "spoken",
-      "text": "Because of this.",
-      "uses": [
-        {
-          "move": "memoir-joinCause",
-          "subject": "memoir",
-          "role": "joinCause",
-          "choice": "joinCause",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinCause"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-joinLater.down-the-road",
-      "move": "memoir-joinLater",
-      "kind": "spoken",
-      "text": "{span} down the road.",
-      "uses": [
-        {
-          "move": "memoir-joinLater",
-          "subject": "memoir",
-          "role": "joinLater",
-          "choice": "joinLater",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinLater"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-joinLater.on",
-      "move": "memoir-joinLater",
-      "kind": "spoken",
-      "text": "{span} on.",
-      "uses": [
-        {
-          "move": "memoir-joinLater",
-          "subject": "memoir",
-          "role": "joinLater",
-          "choice": "joinLater",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "joinLater"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-schoolAge.i-was-when-it-happened",
-      "move": "memoir-schoolAge",
-      "kind": "spoken",
-      "text": "I was {age_then} when it happened.",
-      "uses": [
-        {
-          "move": "memoir-schoolAge",
-          "subject": "memoir",
-          "role": "schoolAge",
-          "choice": "schoolAge",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "schoolAge"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "the Journal writer",
-      "date": "2026-11-24",
-      "tag": {
-        "move": "tell"
-      },
-      "elements": ["children-going-to-school-noted"]
     },
     {
       "key": "journal.memoir-birthAge.was-born-when-i-was",

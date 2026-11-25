@@ -70,7 +70,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.greeting.inaugural-fellow-citizens",
@@ -91,7 +92,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.greeting.inaugural-thank-you-everyone",
@@ -108,7 +110,8 @@
       "lean": ["personality-v1:facet-charming", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-a-few-minutes-ago-i-swore-to-defend-the-constitution-for-the",
@@ -130,7 +133,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-the-oath-i-just-took-is-one-sentence-long-keeping-it-for-is-",
@@ -153,7 +157,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-i-ve-taken-the-oath-and-from-here-on-you-get-to-judge-me-by-",
@@ -175,7 +180,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-last-november-you-hired-me-for",
@@ -194,7 +200,8 @@
       "lean": ["personality-v1:facet-informal", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-last-november-you-gave-me-this-job-for-and-today-i-start-it",
@@ -216,7 +223,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-you-voted-last-november-and-as-of-noon-today-the-next-are-on",
@@ -239,7 +247,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.run.inaugural-prices-have-outrun-paychecks-for-and-nobody-here-needed-a-go",
@@ -261,7 +270,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.run.inaugural-for-the-grocery-bill-has-grown-faster-than-the-paycheck-that",
@@ -282,7 +292,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.run.inaugural-more-people-are-looking-for-work-today-than-ago",
@@ -304,7 +315,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.run.inaugural-the-last-have-been-hard-on-working-families",
@@ -325,7 +337,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.run.inaugural-there-s-more-work-out-there-than-there-was-ago",
@@ -347,7 +360,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "outline.run-meaning.inaugural-i-didn-t-make-that-mess-but-for-the-next-it-s-mine-to-clean-",
@@ -370,7 +384,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.run-meaning.inaugural-no-speech-fixes-of-that-work-does",
@@ -392,7 +407,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.run-meaning.inaugural-i-own-my-share-of-those-and-i-m-not-going-to-blame-anyone-el",
@@ -411,7 +427,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-humble"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.run-question.inaugural-how-many-of-you-have-stood-at-a-checkout-in-the-last-and-put",
@@ -432,7 +449,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline.run-question.inaugural-who-here-hasn-t-carried-home-less-from-the-store-these-last-",
@@ -453,7 +471,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline.run-question.inaugural-how-many-of-you-know-someone-who-s-been-out-of-work-for-most",
@@ -474,7 +493,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inaugural-point-opens-on-a-question-to-the-listeners"]
     },
     {
       "key": "outline.run-answer.inaugural-that-isn-t-your-failing-washington-spent-looking-the-other-w",
@@ -496,7 +516,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.run-answer.inaugural-you-didn-t-do-anything-wrong-and-i-m-not-going-to-spend-tell",
@@ -518,7 +539,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["hard-year-names-the-trouble-first"]
     },
     {
       "key": "outline.disaster.inaugural-some-of-you-are-still-cleaning-up-after-the-and-you-deserve-",
@@ -539,7 +561,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.disaster.inaugural-the-this-past-year-took-homes-and-jobs-and-the-rebuilding-is",
@@ -560,7 +583,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.disaster-image.inaugural-think-about-the-families-who-lived-through-the-this-past-yea",
@@ -582,7 +606,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.disaster-meaning.inaugural-the-cameras-have-moved-on-for-the-next-i-won-t",
@@ -601,7 +626,8 @@
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-devoted"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.disaster-meaning.inaugural-rebuilding-after-the-stays-on-my-desk-long-after-it-leaves-t",
@@ -623,7 +649,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.address-to.inaugural-if-you-didn-t-vote-for-me-i-ll-spend-the-next-trying-to-earn",
@@ -645,7 +672,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "outline.address-to.inaugural-to-everyone-who-voted-against-me-last-november-i-work-for-yo",
@@ -667,7 +695,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "outline.address-to.inaugural-to-the-families-still-rebuilding-after-the-the-government-yo",
@@ -688,7 +717,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "outline.address-to.inaugural-to-anyone-who-has-spent-the-last-looking-for-work-this-gover",
@@ -709,7 +739,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "outline.address-to.inaugural-to-everyone-stretching-a-paycheck-i-took-this-job-for-you",
@@ -730,7 +761,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "outline.address-to.inaugural-to-the-people-who-sent-me-here-thank-you-and-keep-an-eye-on-",
@@ -751,7 +783,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "outline.oath.inaugural-a-few-minutes-ago-i-swore-the-same-oath-took-just-before-me",
@@ -773,7 +806,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-you-sent-me-here-in-november-to-do-a-job-and-i-have-to-do-it",
@@ -795,7 +829,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-the-campaign-is-over-you-picked-me-in-november-and-the-next-start-now",
@@ -817,7 +852,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-i-just-made-a-promise-to-this-whole-country-and-i-have-to-keep-it",
@@ -836,7 +872,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-devoted"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.run.inaugural-for-the-paycheck-has-gone-a-little-further-at-the-grocery-store",
@@ -857,7 +894,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "outline.disaster-meaning.inaugural-washington-has-a-short-memory-for-places-like-yours-mine-will-last",
@@ -879,7 +917,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.disaster.inaugural-for-the-families-the-hit-this-past-year-has-been-about-getting-a-roof-back",
@@ -900,7 +939,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.run.inaugural-a-lot-of-families-have-a-little-more-room-at-the-end-of-the-month-than-they-did-ago",
@@ -921,7 +961,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "outline.disaster-meaning.inaugural-some-of-that-rebuilding-will-take-all-and-i-ll-be-here-for-all-of-it",
@@ -943,7 +984,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.disaster.inaugural-plenty-of-families-are-still-waiting-to-get-back-home-after-the-this-past-year",
@@ -964,7 +1006,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["sotu-opens-on-a-shared-trouble"]
     },
     {
       "key": "outline.run.inaugural-more-families-can-cover-the-rent-and-still-put-something-away-than-could-ago",
@@ -982,7 +1025,8 @@
       "lean": ["personality-v1:facet-analytical", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["inventory-of-wins"]
     },
     {
       "key": "outline.oath.inaugural-for-i-answer-to-all-of-you-under-that-oath-not-just-the-ones-who-voted-for-me",
@@ -1004,7 +1048,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-i-raised-my-right-hand-a-few-minutes-ago-and-the-job-became-mine-for",
@@ -1023,7 +1068,8 @@
       "lean": ["personality-v1:facet-sincere", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-the-oath-is-short-the-after-it-are-not",
@@ -1045,7 +1091,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-every-president-before-me-said-the-same-words-i-just-said-and-each-one-found-out-what-they-cost-over",
@@ -1067,7 +1114,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-as-of-the-oath-the-office-is-mine-for-and-so-is-every-hard-call-that-comes-with-it",
@@ -1089,7 +1137,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.oath.inaugural-the-oath-doesn-t-promise-you-a-perfect-president-it-promises-you-one-who-answers-to-you-for",
@@ -1111,29 +1160,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline.oath.inaugural-i-swore-to-protect-the-constitution-and-for-that-comes-before-everything-else-on-my-list",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "I swore to protect the Constitution, and for {term-left}, that comes before everything else on my list.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "frame",
-          "requiresFacts": ["took-oath", "term-left"]
-        }
-      ],
-      "after": ["greeting"],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-in-november-you-made-a-choice-and-i-m-the-result-for-the-next",
@@ -1155,7 +1183,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-you-voted-in-november-now-it-s-my-turn-to-show-up-for",
@@ -1177,7 +1206,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-november-s-votes-are-counted-and-today-i-start-earning-them-for",
@@ -1199,7 +1229,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-the-election-ended-in-november-the-job-starts-today-and-runs",
@@ -1218,7 +1249,8 @@
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-last-fall-the-country-picked-a-direction-and-i-ve-got-to-follow-it-through",
@@ -1240,7 +1272,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-you-trusted-me-with-your-vote-in-november-and-i-ll-try-to-be-worth-it-for",
@@ -1259,7 +1292,8 @@
       "lean": ["personality-v1:facet-humble", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.hired.inaugural-in-november-the-votes-came-in-and-now-the-work-is-mine-for",
@@ -1281,7 +1315,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["opens-on-the-occasion"]
     },
     {
       "key": "outline.address-to.inaugural-to-the-young-people-who-voted-for-the-first-time-last-fall-the-next-are-yours-as-much-as-mine",
@@ -1302,7 +1337,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "outline.address-to.inaugural-to-everyone-working-a-shift-right-now-i-m-working-for-you-too-for-all",
@@ -1323,7 +1359,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     },
     {
       "key": "outline.address-to.inaugural-to-anyone-who-s-given-up-on-washington-give-me-to-change-your-mind",
@@ -1344,7 +1381,8 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "elements": ["parallel-run-of-to-those-addresses"]
     }
   ]
 }
