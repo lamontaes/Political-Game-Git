@@ -1,0 +1,32 @@
+{
+  "id": "give-the-customer-the-privacy-notice-at-intake",
+  "kind": "move",
+  "summary": "A shop gives the customer written instructions for protecting their data before taking the device.",
+  "realLife": "Washington HB 1483 (2025). The final report requires authorized and independent providers to explain their safeguards and recommend steps customers can take before repairs.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
+  ],
+  "inGame": "needs: a covered shop is about to take custody of a customer's product.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{customer}", "{shop}"],
+  "gates": ["A covered shop is about to take custody of a customer's product."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The shop gives the owner time to prepare.",
+      "pulledBy": "The customer wants time to follow the instructions.",
+      "writesBack": "The device stays with the customer."
+    },
+    {
+      "turn": "partial",
+      "what": "The customer is ready to hand over the device.",
+      "pulledBy": "The customer already completed the steps.",
+      "writesBack": "The shop accepts the device that day."
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:technology-privacy.consumer-data-privacy-law"
+  ]
+}

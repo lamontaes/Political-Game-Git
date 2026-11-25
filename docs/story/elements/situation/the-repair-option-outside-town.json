@@ -1,0 +1,32 @@
+{
+  "id": "the-repair-option-outside-town",
+  "kind": "situation",
+  "summary": "A rural resident asks how far someone must go to get a device working again.",
+  "realLife": "Washington HB 1483 (2025). Senate supporters described rural residents facing greater difficulty keeping electronics in service.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/Senate/1483-S.E%20SBR%20APS%2025.pdf"
+  ],
+  "inGame": "needs: the resident lives outside the service area of the available shop.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{resident}", "{shop}"],
+  "gates": [
+    "The resident lives outside the service area of the available shop."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The resident finds service nearby.",
+      "pulledBy": "A local provider takes the job.",
+      "writesBack": "The resident avoids the trip."
+    },
+    {
+      "turn": "partial",
+      "what": "Mail delivery saves only part of the journey.",
+      "pulledBy": "The part comes by mail but the shop still needs the device.",
+      "writesBack": "The resident makes one trip with both."
+    }
+  ],
+  "issues": ["none"]
+}

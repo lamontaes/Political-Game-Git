@@ -1,0 +1,30 @@
+{
+  "id": "a-free-replacement-settles-the-repair-request",
+  "kind": "consequence",
+  "summary": "An owner offered a ready replacement has to compare it with the product that broke.",
+  "realLife": "Washington HB 1483 (2025). The final report describes an exception when the manufacturer provides a readily available equivalent or better product free to the owner.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
+  ],
+  "inGame": "needs: the manufacturer invokes the free-replacement exception.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{owner}", "{replacement}"],
+  "gates": ["The manufacturer invokes the free-replacement exception."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The replacement falls short of the original.",
+      "pulledBy": "The replacement lacks a feature the owner needs and the original had.",
+      "writesBack": "Equivalence becomes the disputed fact."
+    },
+    {
+      "turn": "partial",
+      "what": "An equivalent device can go home with the owner.",
+      "pulledBy": "The replacement matches the original and is available now at no cost.",
+      "writesBack": "The replacement offer meets those conditions."
+    }
+  ],
+  "issues": ["none"]
+}

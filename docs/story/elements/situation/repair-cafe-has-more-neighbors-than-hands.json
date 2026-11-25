@@ -1,0 +1,32 @@
+{
+  "id": "repair-cafe-has-more-neighbors-than-hands",
+  "kind": "situation",
+  "summary": "Residents bring their broken devices to a community repair table.",
+  "realLife": "Washington HB 1483 (2025). House supporters reported demand for repair cafes when arguing for access to parts and instructions.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a community repair session is scheduled and residents have signed up.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{resident}", "{volunteer}"],
+  "gates": [
+    "A community repair session is scheduled and residents have signed up."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The cafe opens another repair station.",
+      "pulledBy": "A second volunteer takes a station.",
+      "writesBack": "Another resident gets a turn."
+    },
+    {
+      "turn": "partial",
+      "what": "The table offers a diagnosis.",
+      "pulledBy": "The volunteer can diagnose the fault but lacks the part.",
+      "writesBack": "The owner leaves with a part number."
+    }
+  ],
+  "issues": ["none"]
+}

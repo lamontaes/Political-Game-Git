@@ -1,0 +1,32 @@
+{
+  "id": "a-part-on-the-authorized-shops-order-sheet",
+  "kind": "detail",
+  "summary": "A committee changes which replacement parts count by looking at what an authorized shop can obtain.",
+  "realLife": "Washington HB 1483 (2025). The House substitute shifted the definition from parts used by an authorized provider to parts the manufacturer makes available to one, while retaining generally available parts.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a committee compares the original and substitute definitions against a disputed part.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{shop}", "{part}"],
+  "gates": [
+    "A committee compares the original and substitute definitions against a disputed part."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The order sheet settles the member's question.",
+      "pulledBy": "The authorized shop can order it.",
+      "writesBack": "The order sheet supports including the part."
+    },
+    {
+      "turn": "partial",
+      "what": "Past use falls outside the new test in this case.",
+      "pulledBy": "A technician used it but the manufacturer never offered it and it is not generally available.",
+      "writesBack": "Past use alone no longer settles coverage."
+    }
+  ],
+  "issues": ["none"]
+}

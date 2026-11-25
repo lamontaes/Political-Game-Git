@@ -1,0 +1,30 @@
+{
+  "id": "borrow-a-neighbors-definition-of-a-device",
+  "kind": "move",
+  "summary": "A witness asks lawmakers to use a neighboring state's definition of covered equipment.",
+  "realLife": "Washington HB 1483 (2025). Senate supporters recommended aligning Washington's definition with Oregon's.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/Senate/1483-S.E%20SBR%20APS%2025.pdf"
+  ],
+  "inGame": "needs: neighboring states define the products differently.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{witness}", "{state}"],
+  "gates": ["Neighboring states define the products differently."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Two states use one definition.",
+      "pulledBy": "Members adopt the neighboring definition.",
+      "writesBack": "The same product list can serve both states."
+    },
+    {
+      "turn": "partial",
+      "what": "A local exception survives the amendment.",
+      "pulledBy": "Members keep a local exception.",
+      "writesBack": "The supplier maintains a separate list for that category."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "give-the-small-shop-a-way-to-fix-one-device",
+  "kind": "move",
+  "summary": "A manufacturer offers a single-device repair method in place of factory equipment that handles many devices together.",
+  "realLife": "Washington HB 1483 (2025). The final report exempts certain multi-device machine tools and manuals if adequate alternatives are made available for the repair.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
+  ],
+  "inGame": "needs: a shop requests access to equipment used exclusively for batch repairs.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{shop}", "{tool}"],
+  "gates": [
+    "A shop requests access to equipment used exclusively for batch repairs."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The independent shop can do the job one device at a time.",
+      "pulledBy": "The alternative completes the same repair.",
+      "writesBack": "The shop can take individual jobs."
+    },
+    {
+      "turn": "partial",
+      "what": "The proposed alternative leaves one operation out.",
+      "pulledBy": "The alternative cannot complete the repair.",
+      "writesBack": "The shop documents the missing capability."
+    }
+  ],
+  "issues": ["none"]
+}
