@@ -1,0 +1,31 @@
+{
+  "id": "governors-are-elected-state-by-state-on-their-own-years",
+  "kind": "detail",
+  "summary": "Each state elects its governor on its own schedule, and each governor has their own party, whatever party holds the White House.",
+  "realLife": "Governors are elected state by state, most for four-year terms, in different years. The election lists show each governor's party, which can be the same as the President's or not.",
+  "sources": [
+    "National Governors Association, Gubernatorial Elections: https://www.nga.org/governors/elections/"
+  ],
+  "fits": ["loading"],
+  "slots": ["governor-party", "start-president-party", "state"],
+  "gates": [],
+  "weights": {
+    "state": 0.6
+  },
+  "inGame": "the offices engine's governor seat at the opening (townSeats; read by loadingTelling as governor-party, citing the term row), and the century's presidency row for the White House party.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The governor and the White House share a party, and the state and Washington pull the same way.",
+      "pulledBy": "the party of each seat at the opening",
+      "writesBack": "the governor-matches-white-house fact, told in the loading story"
+    },
+    {
+      "turn": "partial",
+      "what": "The governor's party changes at the next state election while the White House stays.",
+      "pulledBy": "the state's election year",
+      "writesBack": "a later governor row with another party, told at that year"
+    }
+  ],
+  "usedBy": []
+}

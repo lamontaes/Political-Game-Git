@@ -44,8 +44,12 @@ describe("patch notes for the title", () => {
             {
               title: "Each new world opens with its own business climate",
               text: "Each new game opens with its own closure rate, drawn around the published figures.",
+              headline: "Each new world opens with its own business climate",
             },
-            { text: "A second point with code in it." },
+            {
+              text: "A second point with code in it.",
+              headline: "A second point with code in it",
+            },
           ],
         },
       ],
@@ -54,6 +58,7 @@ describe("patch notes for the title", () => {
       {
         title: "Winners take office on the record",
         text: "The seat changes hands.",
+        headline: "Winners take office on the record",
       },
     ]);
   });
@@ -69,7 +74,9 @@ describe("patch notes for the title", () => {
       expect(release.version).toMatch(/^\d+\.\d+\.\d+$/);
       expect(release.title).not.toMatch(/UNRELEASED|CANDIDATE/);
       for (const group of release.groups)
-        for (const { title, text } of group.notes) {
+        for (const { title, text, headline } of group.notes) {
+          // The screen lists one line per change: its headline.
+          expect(headline.length).toBeGreaterThan(0);
           expect(`${title ?? ""} ${text}`).not.toMatch(/\*\*/);
           expect(text).not.toMatch(/^[-*] /);
         }

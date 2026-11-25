@@ -18,7 +18,8 @@ estimate (see `estimate-not-unknown`), never a branch that skips it.
 Watched runs, demos and new tests pick a random place from the full list of
 56, not a fixed favorite. Every report of a watched run names the exact place
 and seed so it can be reproduced. A pinned seed is fine only as a named
-regression case beside a drawn-place test.
+regression case beside a drawn-place test, with a CTO line approving that
+pull request (`done-proof`).
 
 ## Check your own work
 

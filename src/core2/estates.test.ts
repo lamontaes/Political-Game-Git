@@ -118,10 +118,13 @@ describe("estates (money audit defect 6)", () => {
     expect(core.people.get("dead")!.liquidMinor).toBe(900);
   });
 
-  it("passes an old person's estate by their will, in shares by how close each heir was", () => {
+  it("passes the estate of a person with savings and children by their will, in shares by how close each heir was", () => {
+    // Years of their living cost saved, and two children to leave it to
+    // (estates.ts willReasons).
     const old = {
       ...person("dead", 30_000, { a: "child", b: "child" }),
       birthDate: "1925-01-01",
+      livingCostDailyMinor: 10,
     };
     const core = world([
       old,

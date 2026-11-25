@@ -20,7 +20,7 @@ branch: lane3/journal-links
 
 **Done when.** In two played worlds (buildBenchWorld, two years) named with place and seed, every line after the first has a link to the line before with record ids, and a cause link names records of both lines (journal-story.test.ts).
 
-**Files.** src/director/journal.ts, src/director/journal-story.test.ts
+**Files.** src/director/journal.ts
 
 **Notes.** Lane 3, Nov 4: built on lane3/journal-links.
 

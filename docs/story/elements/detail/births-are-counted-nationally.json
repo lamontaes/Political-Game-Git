@@ -1,0 +1,31 @@
+{
+  "id": "births-are-counted-nationally",
+  "kind": "detail",
+  "summary": "Federal law has every birth in the country collected and published as one statistic.",
+  "realLife": "Federal law requires national collection of births and other vital statistics, a joint effort of the national center and the states, built on the certificates.",
+  "sources": [
+    "CDC National Center for Health Statistics, NVSS Birth Data: https://www.cdc.gov/nchs/nvss/births.htm"
+  ],
+  "fits": ["loading"],
+  "slots": ["born-year"],
+  "gates": [],
+  "weights": {
+    "year": 0.4
+  },
+  "inGame": "needs: a national births count read from the world's born records, for a line about being one of them.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "neutral",
+      "what": "The birth is counted with everyone else's and nothing about it is told.",
+      "pulledBy": "no pull",
+      "writesBack": "nothing written back"
+    },
+    {
+      "turn": "opposite",
+      "what": "The player was born abroad, so a different country's count holds the birth.",
+      "pulledBy": "the born record's place outside the country",
+      "writesBack": "the loading story says where the birth was filed"
+    }
+  ]
+}

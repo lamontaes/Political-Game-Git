@@ -36,44 +36,49 @@ it(`a tie that grows over time together is a becoming-friends scene, in ${place.
   const api = coreAPI(core);
   const lines: string[] = [];
 
-  // An acquaintance the player knows only a little, by their tie record. A
-  // player who just turned 18 may open knowing only family
-  // (SG-WIRE-PEOPLE-SCHOOLMATES): they meet a townsperson who shares no
-  // household, family or employer with them, as the encounters engine meets
-  // a group's members.
-  const contacts = () =>
-    [...(core.relationshipsByPerson.get(playerId) ?? [])]
-      .map((id) => core.relationships.get(id)!)
-      .filter((row) => row.kind === "contact");
-  if (!contacts().length) {
-    const player = core.people.get(playerId)!;
-    const stranger = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          row.tier !== "husk" &&
-          row.id !== playerId &&
-          row.householdId !== player.householdId &&
-          !player.familyIds.has(row.id) &&
-          !sharedHistory(core, playerId, row.id as PersonId).length,
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))[0]!;
-    api.meet(playerId, stranger.id, {
-      placeId: player.placeId,
-      sourceId: "fixture-meeting",
-      cause: "met-in-group",
-      hours: 1,
-    });
-  }
-  const tie = contacts()
+  // An acquaintance the player knows only a little, by their tie record: they
+  // meet a townsperson who shares no household, family, employer, school or
+  // campaign with them and whom they have no tie to yet, as the encounters
+  // engine meets a group's members. The ties a world opens with are not used:
+  // one made at work or school is labeled by that history (ledger.ts,
+  // MADE_AT), and one made by a seat is the seat's (a played person can open
+  // holding an office).
+  const player = core.people.get(playerId)!;
+  const tied = new Set(
+    [...(core.relationshipsByPerson.get(playerId) ?? [])].flatMap((id) => {
+      const row = core.relationships.get(id)!;
+      return [row.actorId, row.otherId];
+    }),
+  );
+  const stranger = [...core.people.values()]
+    .filter(
+      (row) =>
+        row.alive &&
+        row.tier !== "husk" &&
+        row.id !== playerId &&
+        row.placeId === player.placeId &&
+        row.householdId !== player.householdId &&
+        !player.familyIds.has(row.id) &&
+        !tied.has(row.id) &&
+        !sharedHistory(core, playerId, row.id as PersonId).length,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+  api.meet(playerId, stranger.id, {
+    placeId: player.placeId,
+    sourceId: "fixture-meeting",
+    cause: "met-in-group",
+    hours: 1,
+  });
+  const tie = [...(core.relationshipsByPerson.get(playerId) ?? [])]
+    .map((id) => core.relationships.get(id)!)
+    .filter((row) => row.kind === "contact")
     .map((row) => ({
       row,
       otherId: (row.actorId === playerId
         ? row.otherId
         : row.actorId) as PersonId,
     }))
-    .filter(({ otherId }) => core.people.get(otherId)?.alive)
-    .sort((a, b) => a.row.id.localeCompare(b.row.id))[0];
+    .find(({ otherId }) => otherId === stranger.id);
   expect(tie, "an acquaintance on record").toBeTruthy();
   const { row, otherId } = tie!;
   const book = director.ledger.people.get(playerId)!;

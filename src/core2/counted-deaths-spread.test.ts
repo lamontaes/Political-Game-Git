@@ -7,24 +7,14 @@ import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
-import { cohortDeathChance } from "./births-counted";
-import { corePlaceByKey } from "./place-lookup";
-import stateMortality from "./data/state-mortality.json" with { type: "json" };
+import { periodDeathChance } from "./births-counted";
 import { generatedOpening } from "./tooling/generated-world";
 
 // Counted deaths follow each cohort's hazard, not only the oldest first, and
 // the year's total matches what the life tables expect. A random place from
 // all 56, named with its seed on a failure.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
-// A place whose state's death rate sits well off the nation's (a third of the
-// 56 do), so the scaling is something the check can see.
-const ratioOf = (key: string) =>
-  (stateMortality.ratioByState as Record<string, number>)[
-    corePlaceByKey(key)?.stateJurisdictionKey ?? ""
-  ] ?? 1;
-let place = drawPlace(seed, "counted-deaths-spread");
-for (let i = 1; i < 40 && Math.abs(ratioOf(place.key) - 1) < 0.1; i += 1)
-  place = drawPlace(`${seed}:${i}`, "counted-deaths-spread");
+const place = drawPlace(seed, "counted-deaths-spread");
 
 describe(`counted deaths in ${place.name} (seed ${seed})`, () => {
   it("fall across ages in proportion to hazard, and total what the tables expect", () => {
@@ -81,25 +71,24 @@ describe(`counted deaths in ${place.name} (seed ${seed})`, () => {
       where,
     ).toBeLessThanOrEqual(1e-6);
     // The year's expected deaths are the engine's own sum of each member's
-    // hazard, the life table scaled by the state's ratio. The table is read
+    // hazard, the one curve a full person's strain is built on, scaled by the
+    // person's own housing and web factors. The table is read
     // here for the report, never as a band the run must land in (owner,
     // Nov 8: a value passes when its records explain it): what is asserted
     // is the cause, the death rows' own expected count and that every death
     // is an illness's end, above.
-    const ratio = ratioOf(place.key);
     const unscaled = starters.reduce(
       (n, who) =>
         n +
-        cohortDeathChance(
+        periodDeathChance(
           who.gender,
-          Number(who.birth.slice(0, 4)),
           ageOnDate(makeIsoDate(who.birth), makeIsoDate(start)),
         ),
       0,
     );
     expect(expected, where).toBeGreaterThan(0);
     console.log(
-      `${where}: expected ${expected.toFixed(1)} deaths, tables times the state's ratio ${(unscaled * ratio).toFixed(1)}, ${deaths.length} died`,
+      `${where}: expected ${expected.toFixed(1)} deaths, table sum ${unscaled.toFixed(1)}, ${deaths.length} died`,
     );
     // Not the oldest first: taking the oldest N people would give the dead no
     // one younger than the Nth oldest at the start.

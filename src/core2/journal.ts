@@ -65,13 +65,43 @@ export interface CashOwnerSnapshot {
   liquidMinor: number;
   /** Complete registered account index for this owner, including every fund. */
   accountIds: readonly string[];
-  outsideNetMinor?: number;
+  /** Signed net flow since the world opened: a bigint only past the safe range. */
+  outsideNetMinor?: CashJournalSignedLifetimeMinor;
+}
+
+/**
+ * A signed sum since the world opened, in minor units: a plain number while it
+ * is a safe integer, the exact bigint once it passes 2^53 either way. An
+ * outside owner's net flow is one (the federal treasury's outside side pays
+ * out about 573 billion dollars a month, so its net passes the limit in a
+ * save's thirteenth year).
+ */
+export type CashJournalSignedLifetimeMinor = number | bigint;
+
+const maxSafeSigned = BigInt(Number.MAX_SAFE_INTEGER);
+
+/** A signed lifetime sum is a safe number, or a bigint only outside the safe range. */
+export function isCashJournalSignedLifetimeMinor(
+  value: unknown,
+): value is CashJournalSignedLifetimeMinor {
+  return typeof value === "bigint"
+    ? value > maxSafeSigned || value < -maxSafeSigned
+    : Number.isSafeInteger(value);
+}
+
+/** The one spelling of an exact signed sum: a number while safe, the bigint past it. */
+export function cashJournalSignedLifetimeMinor(
+  value: bigint,
+): CashJournalSignedLifetimeMinor {
+  return value > maxSafeSigned || value < -maxSafeSigned
+    ? value
+    : Number(value);
 }
 
 export interface CashJournalExternalFlowChange {
   ownerId: string;
-  beforeNetMinor: number;
-  afterNetMinor: number;
+  beforeNetMinor: CashJournalSignedLifetimeMinor;
+  afterNetMinor: CashJournalSignedLifetimeMinor;
   outgoingMinor: number;
   incomingMinor: number;
 }
@@ -182,15 +212,6 @@ function journalExactMinor(zero: number, value: bigint, field: string): number {
     throw new Error(`Journal amount overflows exact minor units: ${field}`);
   return result;
 }
-function journalExactSignedMinor(value: bigint, field: string): number {
-  const result = Number(value);
-  if (!Number.isSafeInteger(result) || BigInt(result) !== value)
-    throw new Error(
-      `Journal signed flow overflows exact minor units: ${field}`,
-    );
-  return result;
-}
-
 export function projectCashJournal(
   input: Readonly<CashJournalInput>,
   context: Readonly<CashJournalContext>,
@@ -366,7 +387,7 @@ export function projectCashJournal(
       if (
         owner.liquidMinor !== zero ||
         owner.accountIds.length !== one ||
-        !Number.isSafeInteger(owner.outsideNetMinor)
+        !isCashJournalSignedLifetimeMinor(owner.outsideNetMinor)
       )
         throw new Error(
           "An outside account has zero opening stock and one flow account.",
@@ -412,9 +433,10 @@ export function projectCashJournal(
           if (delta < zeroExact) outgoing -= delta;
           else incoming += delta;
         }
-      const afterNetMinor = journalExactSignedMinor(
+      // The net since the world opened has no bound: it stays exact as a
+      // bigint past 2^53, as the gross totals beside it do.
+      const afterNetMinor = cashJournalSignedLifetimeMinor(
         BigInt(owner.outsideNetMinor) + incoming - outgoing,
-        "outside net flow",
       );
       externalFlows.set(ownerId, {
         ownerId,

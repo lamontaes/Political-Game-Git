@@ -1,0 +1,30 @@
+{
+  "id": "a-lost-race-in-one-plain-line",
+  "kind": "move",
+  "summary": "A lost election is written as a single plain sentence, no excuse and no comment.",
+  "realLife": "Young recorded his own loss for county clerk in one short sentence among crop and meeting notes.",
+  "sources": [
+    "Kansas Historical Quarterly, A Hoosier in Kansas: the diary of Hiram H. Young, 1893: https://www.kansashistory.gov/p/a-hoosier-in-kansas-the-diary-of-hiram-h-young-4/13049"
+  ],
+  "fits": ["journal"],
+  "slots": ["office"],
+  "gates": [],
+  "inGame": "`event:election-result` with the player as the loser: office from `lost-office`, `lost-year` from the filing record.",
+  "weights": {
+    "office": 0.7
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "A win in one plain line.",
+      "pulledBy": "the filing record's result is a win",
+      "writesBack": "the entry says the writer won, with no comment"
+    },
+    {
+      "turn": "A loss told at length.",
+      "pulledBy": "a close margin or a bitter rival (trait: brooding)",
+      "writesBack": "the entry says how close and who won"
+    }
+  ],
+  "issues": ["none"]
+}

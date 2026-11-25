@@ -1,0 +1,34 @@
+{
+  "id": "superintendent-answers-the-auditor-in-writing",
+  "kind": "voice",
+  "summary": "{person} reads the department’s own answer beside the auditor’s recommendation.",
+  "realLife": "Seattle parks superintendent Anthony-Paul Diaz sent City Auditor David Jones a written response, and the audit published the department’s replies.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A published recommendation and an attributable departmental response."
+  ],
+  "weights": [
+    "A difference between accepting a recommendation and completing it makes the response worth revisiting."
+  ],
+  "usedBy": [],
+  "inGame": "needs: recommendation ID, signed departmental response, due date and follow-up evidence.",
+  "turns": [
+    {
+      "turn": "commitment",
+      "what": "The board sets a return meeting.",
+      "pulledBy": "The director accepts the recommendation and supplies a date.",
+      "writesBack": "Record the commitment and due date."
+    },
+    {
+      "turn": "pending",
+      "what": "The auditor asks what evidence would show completion.",
+      "pulledBy": "The reply describes work still under review.",
+      "writesBack": "Retain the recommendation as unresolved."
+    }
+  ],
+  "issues": ["budget:parks"]
+}

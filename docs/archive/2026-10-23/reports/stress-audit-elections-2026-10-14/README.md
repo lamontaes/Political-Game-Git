@@ -124,7 +124,7 @@ Each part of a voter's pull toward a candidate runs on roughly a −1 to +1 scal
 - **The filing office.** North Carolina's municipal filing office ("County board of elections") is read from data with its statute cited (`elections.ts`, `filingRequirements`; measured from the mayor's filing).
 - **Taking office, apart from defect 18.** Terms start on time, and a special-election winner is seated the same day (`voting.ts`, `takeOffice`; measured from the term rows). The vacancy the winner leaves is filled by the state's appointment rule.
 - **No mechanic without a basis.** Exit polls, interviews, debates, endorsements, polls, recalls and ballot measures all trace to the golden path, _The Political Process_ baseline or a scheduled milestone (inferred from `docs/roadmap/political-process-baseline.md` and the milestone list).
-- **Registered stopgaps.** All 14 stopgap IDs the election code calls have rows in the stopgap register (`src/core2/data/stopgaps.json`; inferred from the code).
+- **Registered stopgaps.** All 14 stopgap IDs the election code calls have rows in the stopgap register (`src/core2/data/stopgaps.json` (removed); inferred from the code).
 
 ## For the owner
 

@@ -1,0 +1,32 @@
+{
+  "id": "land-deal-waits-on-two-approvals",
+  "kind": "situation",
+  "summary": "A housing group can lose its site even after it signs the lease.",
+  "realLife": "The religious order that held the Lincoln Green site agreed to sell at a price the federal program allowed. Both the lease and the sale would lapse if the builder failed to get rezoning or federal aid.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep429/usrep429252/usrep429252.pdf#page=5"
+  ],
+  "inGame": "needs: a permit case record with lease, approval, funding. A board member asks the applicant what becomes of the land if the vote goes against it.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{lease}", "{approval}", "{funding}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The funding letter arrives the morning after the zoning hearing.",
+      "pulledBy": "The board continued the application and the seller's deadline is still ahead.",
+      "writesBack": "The clerk adds the letter to the continued case."
+    },
+    {
+      "turn": "opposite",
+      "what": "The owner takes the land off the table while the housing group still has a funding application in.",
+      "pulledBy": "The signed option has expired and the owner has declined an extension.",
+      "writesBack": "The group tells the funder it has lost control of the site."
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
+  ]
+}

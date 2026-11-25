@@ -1,0 +1,31 @@
+{
+  "id": "one-parent-children-increasingly-live-with-a-father",
+  "kind": "detail",
+  "summary": "Of children who live with one parent, a larger share now live with their father than in 1976.",
+  "realLife": "Among children living with one parent, 19% lived with a father in 2026, compared with 7% in 1976.",
+  "sources": [
+    "U.S. Census Bureau, Census Bureau Releases New Estimates on America's Families and Living Arrangements (Nov 17, 2026): https://www.census.gov/newsroom/press-releases/2026/new-estimates-on-families-and-living-arrangements.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["child", "household-members"],
+  "gates": [],
+  "weights": {
+    "child": 0.5
+  },
+  "inGame": "the household record's members at the opening (person.householdId), as `loadingTelling` reads the household for the start facts and the child's custody records (the custody facts the director reads). needs: which parent the child lives with.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A child who lives with their mother after a split.",
+      "pulledBy": "custody records",
+      "writesBack": "the mother as the household head"
+    },
+    {
+      "turn": "partial",
+      "what": "A child who splits time between two homes.",
+      "pulledBy": "a custody record with shared time",
+      "writesBack": "two households told at the move"
+    }
+  ],
+  "usedBy": []
+}

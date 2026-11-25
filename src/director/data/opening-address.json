@@ -113,5 +113,96 @@
     "health": 10,
     "roads": 10,
     "environment": 10
+  },
+  "stories": {
+    "about": "The world's story an address opens on, before the speaker's own issues (Story thread #9750 part 4; owner, Nov 16: \"a mix of hopefulness, maybe a little braggadocious, and sets expectations ... or maybe it's warning because ... the economy's been terrible ... or maybe corruption\"). Read by src/director/address-story.ts: each row's `gate` is the facts its record must hold, `weight` multiplies the amount the record gives it (the economy's run in points, a disaster's recency, a scandal's count), and `sections` is the order the address says its sections in, by level, so a warning and a brag do not share a skeleton (owner, Nov 14: \"they all follow the very same format\"). The highest weight times amount wins, a tie by name; with none the address keeps its kind's own order. The words are the opening-speech bank's `story-open` and `story-turn` pieces whose topic is the row's name. No roll.",
+    "runYears": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "spread": "2 to 6",
+      "note": "How many years back the economy's run is read: one presidential term, the span a President inherits or answers for."
+    },
+    "runLeast": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "0.5 to 2",
+      "note": "The fewest points (pay lost to prices plus unemployment gained, or the reverse) that make the run a story; under it the run is ordinary and not said."
+    },
+    "runScale": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "spread": "4 to 10",
+      "note": "The points a run is said to have gone sharply at; the thirds below are mild and steady. Checked against 2000 to 2024 four-year spans in the FRED months (CPIAUCSL, AHETPI, UNRATE), where the 2008 and 2021 spans run about five to seven points."
+    },
+    "ownShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.4 to 0.75",
+      "note": "The share of the run's days the speaker must have held office for the run to be their own record rather than one they inherited."
+    },
+    "disasterDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "spread": "180 to 540",
+      "note": "How long a disaster or a scandal stays the year's story, weighted down a straight line to nothing."
+    },
+    "disasterStatesMany": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "spread": "2 to 5",
+      "note": "How many states a year's disasters reached for a President to say they hit many places."
+    },
+    "howFacts": ["run-mild", "run-steady", "run-sharp"],
+    "rows": {
+      "hard-run": {
+        "gate": ["run-hard"],
+        "weight": {
+          "value": 1,
+          "tag": "TUNABLE",
+          "spread": "0.5 to 1.5",
+          "note": "Per point of the run; a hard run outweighs a year's disaster once it passes a point or two."
+        },
+        "sections": {
+          "federal": ["salutation", "story", "theme", "call", "close"]
+        }
+      },
+      "good-run": {
+        "gate": ["run-good"],
+        "weight": {
+          "value": 0.75,
+          "tag": "TUNABLE",
+          "spread": "0.5 to 1",
+          "note": "Per point; good news leads a little less readily than bad, as real addresses open on trouble before credit."
+        },
+        "sections": {
+          "federal": ["salutation", "story", "creed", "theme", "hope", "close"]
+        }
+      },
+      "disaster": {
+        "gate": ["story-disaster"],
+        "weight": {
+          "value": 4,
+          "tag": "TUNABLE",
+          "spread": "2 to 6",
+          "note": "A disaster this week weighs four points of a run, falling to nothing over the disaster days."
+        },
+        "sections": {
+          "federal": ["salutation", "story", "families", "theme", "close"],
+          "local": ["salutation", "story", "theme", "close"]
+        }
+      },
+      "scandal": {
+        "gate": ["story-scandal"],
+        "weight": {
+          "value": 3,
+          "tag": "TUNABLE",
+          "spread": "1 to 5",
+          "note": "A reported bribe in the speaker's own body weighs three points of a run."
+        },
+        "sections": {
+          "local": ["salutation", "story", "theme", "close"]
+        }
+      }
+    }
   }
 }

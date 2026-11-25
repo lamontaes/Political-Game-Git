@@ -1,0 +1,34 @@
+{
+  "id": "headline-pulls-the-strongest-quote",
+  "kind": "detail",
+  "summary": "The headline and the photo caption carry the owner's strongest line.",
+  "realLife": "The same sentence about every dish telling a story ran in the headline and the caption.",
+  "sources": [
+    "Patch (Naperville, Illinois), 'We Want Every Dish To Tell A Story: Taco Grill Cantina Now Open In Naperville', Nov. 23, 2026: https://patch.com/illinois/naperville/we-want-every-dish-tell-story-taco-grill-cantina-now-open-naperville",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["quote", "name"],
+  "gates": [],
+  "weights": {
+    "opening": 0.8
+  },
+  "inGame": "a news headline can carry a quote kept from an interview; needs: a kept quote",
+  "turns": [
+    {
+      "name": "headline is a fact",
+      "pulledBy": "a plain opening",
+      "writes": "the headline says what opened and where",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "headline is a number",
+      "pulledBy": "a big opening",
+      "writes": "the headline gives the seats or jobs",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

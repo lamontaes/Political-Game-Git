@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T06:41:47.465Z
 
 **Done when.** In two drawn places over two played years (buildBenchWorld), no chapter after the first opens on another person's filing or oath, and no chapter title is another person's name; others' filings and oaths are told inside the player's chapters; src/director/journal-story.test.ts shows it with place, seed and record ids, and fails without the change.
 
-**Files.** src/director/journal.ts, src/director/data/journal-rows.json, src/english/journal-words.ts, src/director/journal-story.test.ts
+**Files.** src/director/journal.ts, src/director/data/journal-rows.json, src/english/journal-words.ts
 
 **Notes.** Filed by Lane 3 (Nov 4); built on lane3/journal-story.

@@ -42,6 +42,6 @@ merged-at: 2026-11-11T16:22:42.930Z
 
 **Waits on.** The reader from words-first-journal-note-says-the-same-sentence-twice.
 
-**Files.** src/bench/card.ts, src/english/journal-words.ts, src/english/english-composition.ts, data/english/parts/person-history.json, data/english/part-grades.json, src/bench/card-history.test.ts (new), tests/guards/english/line-inserts-baseline.json
+**Files.** src/bench/card.ts, src/english/journal-words.ts, src/english/english-composition.ts, data/english/parts/person-history.json, data/english/part-grades.json, (new), tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Found by the lead on Nov 11, 2026. The Journal tells a life from src/director/journal.ts and the card from src/bench/card.ts; making them one teller is the life record's item, not this one.

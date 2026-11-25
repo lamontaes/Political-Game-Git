@@ -10,7 +10,7 @@ claimed-by:
 pr: #6191
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** The screens work order requires one shared panel frame template, while the first panel PR consolidates only close buttons and the visibility helper. Keep that first bounded change useful without calling the broader template requirement complete. Replace the remaining repeated panel frame markup through the existing shared UI part and preserve its visual appearance.

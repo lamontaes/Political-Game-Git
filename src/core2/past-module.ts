@@ -198,9 +198,12 @@ export interface PastElectionRow {
   /**
    * The count this world's `totalVotes` was drawn around (the recorded total
    * where the corpus has the race, else the electorate's ballots times
-   * turnout), whole votes: the world never prints it as its own.
+   * turnout), whole votes: the world never prints it as its own. None for a
+   * race the century counted (`centuryRecordId`), whose count is its own.
    */
-  readonly sourceVotes: number;
+  readonly sourceVotes?: number;
+  /** The century's record of the race (`century:presidential:<year>`), where the century counted it. */
+  readonly centuryRecordId?: string;
   /** The town's voter groups: their ballots and the winner's share of them. */
   readonly townGroups: readonly {
     readonly groupId: string;

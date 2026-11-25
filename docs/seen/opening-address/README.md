@@ -43,4 +43,4 @@ The "after" texts and pictures were retaken on the same seeds after both reads:
 
 The addresses are shorter than before (12 to 15 sentences against 25 to 31), because each priority is now one sentence instead of four.
 
-The test `src/director/opening-address-versions.test.ts` checks all of this on ten drawn worlds every run.
+The test `src/director/opening-address-versions.test.ts` (removed) checks all of this on ten drawn worlds every run.

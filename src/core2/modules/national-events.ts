@@ -33,6 +33,7 @@ import budgetBases from "../../../data/research/money/public-budget-bases.json" 
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { placeStateKey } from "../place-map";
 import { registerModule } from "../state";
+import { seededUnit } from "../seeded";
 import {
   hazardOfIncident,
   RECORD_END,
@@ -378,35 +379,13 @@ function putEvent(api: CoreAPI, row: NationalEventRow, citation: string): void {
   });
 }
 
-/** The month's calendar: inside the record FEMA's real disasters, after it the disasters the climate's hazard levels give. */
+/** The month's calendar: the disasters the world's own hazard levels give (owner, Nov 16: "disasters come from each world's own risks"). */
 function generateMonth(api: CoreAPI, month: string): void {
-  const today = api.state.date;
-  const last = lastDayOf(month);
-  if (`${month}-01` > RECORD_END) return generateFromLevels(api, month, last);
-  (recordedHistory().get(month) ?? []).forEach((one, n) => {
-    // A recorded day the game month lacks (February 29, the 31st) is its last.
-    const date = `${month}-${String(Math.min(one.day, last)).padStart(2, "0")}`;
-    if (date > RECORD_END) return;
-    // Only a day still ahead is scheduled (a day gone is the world's past).
-    if (date <= today) return;
-    putEvent(
-      api,
-      {
-        id: `national-event:disaster:${month}:${one.stateKey}:${one.incidentType}:${n}`,
-        kind: "disaster",
-        date,
-        stateKey: one.stateKey,
-        counties: one.counties,
-        incidentType: one.incidentType,
-        disasterNumber: one.number,
-      },
-      "FEMA's declarations, the real disaster on its real date (owner, Oct 16, 2026).",
-    );
-  });
+  generateFromLevels(api, month, lastDayOf(month));
 }
 
 /**
- * After the record: each state's exposure to each hazard grows by the
+ * Each state's exposure to each hazard grows by the
  * disasters its counties' recorded declarations give this month, moved by the
  * climate's level for the hazard (`stateHazardRate`, counties declared per
  * disaster at the state's recorded mean). A disaster happens the month the
@@ -431,11 +410,17 @@ function generateFromLevels(api: CoreAPI, month: string, last: number): void {
           monthNumber,
         ) / perDisaster;
       const id = `exposure:${stateKey}:${hazard}`;
+      // A world opens with a fraction of a disaster already built up in each
+      // state and hazard, its own (the generation of the world's start, from
+      // its seed); the exposure then grows only with the climate's levels.
       const row = (exposures.get(id) as unknown as Exposure | undefined) ?? {
         id,
         stateKey,
         hazard,
-        expected: 0,
+        expected: seededUnit(
+          api.state.seed,
+          `exposure-start:${stateKey}:${hazard}`,
+        ),
         fired: 0,
       };
       const expected = row.expected + rate;

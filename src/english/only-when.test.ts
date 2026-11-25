@@ -78,10 +78,12 @@ const TOP_ASK = [
   "People keep asking why you voted that way on {bill}.",
   "Who did you talk to before you voted on {bill}?",
 ];
+// The rescue's lines were rewritten from its packet (#10138, Nov 18): the child in the house is
+// the record the opening request names, so its three lines lead.
 const TOP_RESCUE = [
-  "The youngest in the house, {child}, was in the room when you got sick. Will you sit down with {child} yourself?",
-  "Will you let me call the rest of the family? They should hear what happened from someone who was here.",
-  "Will you let the others in the house sit with you for a while? They have been worried about you.",
+  "Will you tell {child} what's true?",
+  "Would you sit with {child} for a while?",
+  "{child} keeps asking if you're going to be okay.",
 ];
 const top = (move: SceneMove, facts: Record<string, Fact>) =>
   fitting(move, facts)
@@ -89,60 +91,70 @@ const top = (move: SceneMove, facts: Record<string, Fact>) =>
     .sort();
 
 describe("the line about the moment is said, in played scenes", () => {
-  it("the reporter opens on the vote (Bothell, Washington; seed rank-m4:1)", () => {
-    const facts = played({
-      name: "Naomi",
-      first: "Jeffrey",
-      place: "Bothell",
-      bill: "Ordinance 2025-2",
-      "vote-held": "2025-2",
-      "voted-no": "2025-2",
-      outlet: "Bothell Record",
-      stranger: "Naomi",
-      "day-after": "yes",
-      daytime: "yes",
-      morning: "yes",
-      story: "Ordinance 2025-2",
-      "read-town-against": "yes",
-    });
-    const move: SceneMove = {
-      step: "open",
-      move: "greet",
-      role: "asker",
-      purpose: "press-comment.hostile",
-      key: "routine",
-      family: "press-comment",
-    };
-    expect(top(move, facts)).toEqual(TOP_GREET);
-  });
+  // The cut of Nov 17 (#10063) emptied the in-office press lines; they come back with pool item
+  // story-lines-office-press-and-pressure (CTO, #9750 and #9747, Nov 19 04:53Z).
+  it.fails(
+    "the reporter opens on the vote (Bothell, Washington; seed rank-m4:1)",
+    () => {
+      const facts = played({
+        name: "Naomi",
+        first: "Jeffrey",
+        place: "Bothell",
+        bill: "Ordinance 2025-2",
+        "vote-held": "2025-2",
+        "voted-no": "2025-2",
+        outlet: "Bothell Record",
+        stranger: "Naomi",
+        "day-after": "yes",
+        daytime: "yes",
+        morning: "yes",
+        story: "Ordinance 2025-2",
+        "read-town-against": "yes",
+      });
+      const move: SceneMove = {
+        step: "open",
+        move: "greet",
+        role: "asker",
+        purpose: "press-comment.hostile",
+        key: "routine",
+        family: "press-comment",
+      };
+      expect(top(move, facts)).toEqual(TOP_GREET);
+    },
+  );
 
-  it("the hostile reporter asks about the vote (Salem, Ohio; seed rank-m4)", () => {
-    const facts = played({
-      name: "River",
-      first: "Keanu",
-      place: "Salem",
-      bill: "Ordinance 2025-1",
-      "vote-held": "2025-1",
-      "voted-no": "2025-1",
-      outlet: "Salem Herald",
-      stranger: "River",
-      "day-after": "yes",
-      daytime: "yes",
-      morning: "yes",
-      story: "Ordinance 2025-1",
-    });
-    const move: SceneMove = {
-      step: "state",
-      move: "ask",
-      role: "asker",
-      purpose: "press-comment.hostile",
-      key: "routine",
-      family: "press-comment",
-    };
-    expect(top(move, facts)).toEqual(TOP_ASK);
-  });
+  // The cut of Nov 17 (#10063) emptied the in-office press lines; they come back with pool item
+  // story-lines-office-press-and-pressure (CTO, #9750 and #9747, Nov 19 04:53Z).
+  it.fails(
+    "the hostile reporter asks about the vote (Salem, Ohio; seed rank-m4)",
+    () => {
+      const facts = played({
+        name: "River",
+        first: "Keanu",
+        place: "Salem",
+        bill: "Ordinance 2025-1",
+        "vote-held": "2025-1",
+        "voted-no": "2025-1",
+        outlet: "Salem Herald",
+        stranger: "River",
+        "day-after": "yes",
+        daytime: "yes",
+        morning: "yes",
+        story: "Ordinance 2025-1",
+      });
+      const move: SceneMove = {
+        step: "state",
+        move: "ask",
+        role: "asker",
+        purpose: "press-comment.hostile",
+        key: "routine",
+        family: "press-comment",
+      };
+      expect(top(move, facts)).toEqual(TOP_ASK);
+    },
+  );
 
-  it("the rescuer asks to call the family (North Ridgeville, Ohio; seed r1)", () => {
+  it("the rescuer asks about the child in the house (North Ridgeville, Ohio; seed r1)", () => {
     const facts = played({
       name: "William",
       first: "Sean",

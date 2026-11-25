@@ -1,0 +1,30 @@
+{
+  "id": "resident-who-is-not-on-the-list-talks-for-forty-minutes",
+  "kind": "voice",
+  "summary": "A person who is not the listed voter stands in the sun and talks with the canvasser for most of an hour about school and why a vote hardly matters.",
+  "realLife": "A canvasser in California talked about forty minutes with a farm mechanic who was not the listed voter and doubted votes counted.",
+  "sources": [
+    "San Francisco Chronicle, canvassing in California's Central Valley, undated: https://preview-prod.w.sfchronicle.com/politics/article/canvassing-california-central-valley-19852147.php"
+  ],
+  "fits": ["campaign"],
+  "slots": ["issue", "name"],
+  "gates": [],
+  "inGame": "resident's views record (distrust of voting, children's schooling); not the listed voter",
+  "weights": {
+    "door": 0.6
+  },
+  "usedBy": ["ask-support"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The talk runs long and the canvasser loses the rest of the street",
+      "pulledBy": "an open resident with a grievance",
+      "writesBack": "the shift record shows few doors, one long talk"
+    },
+    {
+      "turn": "The canvasser ends it kindly and asks him to tell his grown children",
+      "pulledBy": "a time budget on the shift",
+      "writesBack": "a short promise to talk to the listed voters"
+    }
+  ]
+}

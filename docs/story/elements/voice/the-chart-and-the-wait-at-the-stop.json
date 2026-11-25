@@ -1,0 +1,34 @@
+{
+  "id": "the-chart-and-the-wait-at-the-stop",
+  "kind": "voice",
+  "summary": "A rider in {place} tells the transportation chair how the wait felt after staff presented their reliability figures.",
+  "realLife": "Boston's report described improved reliability measures alongside mixed rider perceptions of how service had changed.",
+  "sources": [
+    "https://www.boston.gov/sites/default/files/file/2023/03/Fare%20Free%20Mid%20Program%20Report.pdf#page=25"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The body has a measured reliability series and a separately attributed rider observation."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "inGame": "needs: the body has a measured reliability series and a separately attributed rider observation.",
+  "turns": [
+    {
+      "turn": "consistent",
+      "pulledBy": "The records describe a similar change.",
+      "what": "Present both accounts with their distinct sources.",
+      "writesBack": "Keep the rider's route and period attached."
+    },
+    {
+      "turn": "different",
+      "pulledBy": "The rider's account differs from the wider measure.",
+      "what": "Ask about that stop and time of day.",
+      "writesBack": "Preserve the local observation alongside the overall series."
+    }
+  ]
+}

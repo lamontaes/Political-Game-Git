@@ -481,6 +481,13 @@
   "amounts": {
     "income-tax": {
       "subject": "the local income tax rate",
+      "subjectAt": {
+        "federal": "the federal income tax rate",
+        "state": "the state income tax rate",
+        "county": "the county income tax rate",
+        "city": "the local income tax rate",
+        "township": "the township income tax rate"
+      },
       "purpose": "set the rate of the local income tax",
       "raise": "the local income tax rate shall be raised from {before} to {value}",
       "lower": "the local income tax rate shall be lowered from {before} to {value}",
@@ -489,6 +496,13 @@
     },
     "sales-tax": {
       "subject": "the local sales tax rate",
+      "subjectAt": {
+        "federal": "the federal sales tax rate",
+        "state": "the state sales tax rate",
+        "county": "the county sales tax rate",
+        "city": "the local sales tax rate",
+        "township": "the township sales tax rate"
+      },
       "purpose": "set the rate of the local sales tax",
       "raise": "the local sales tax rate shall be raised from {before} to {value}",
       "lower": "the local sales tax rate shall be lowered from {before} to {value}",

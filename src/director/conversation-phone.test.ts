@@ -128,224 +128,163 @@ const CALL_CASES = [
   ["phone-pin-c-long-gap", "5c1b2e77d3a94f10", LONG_DAYS],
 ] as const;
 
-describe("every call is a call (Words lead, Nov 14: five faults)", () => {
-  it.each(CALL_CASES)(
-    "%s: a call to a housemate, a relative or someone met says hello first, never introduces, never says a doorway goodbye",
-    (name, seed, days) => {
-      setBookkeeping(false);
-      const place = drawPlace(seed, "phone:0");
-      const { core, director, playerId } = buildBenchWorld(
-        place.seed,
-        gameStartDate(),
-        { twoLevel: true, placeKey: place.key },
+const everyCallIsACall = (
+  name: (typeof CALL_CASES)[number][0],
+  seed: string,
+  days: readonly number[],
+) => {
+  setBookkeeping(false);
+  const place = drawPlace(seed, "phone:0");
+  const { core, director, playerId } = buildBenchWorld(
+    place.seed,
+    gameStartDate(),
+    { twoLevel: true, placeKey: place.key },
+  );
+  director.watch(core, playerId);
+  core.focusPersonIds.add(playerId);
+  const me = core.people.get(playerId as PersonId)!;
+  const api = coreAPI(core);
+  const housemates = [...core.people.values()].filter(
+    (row) =>
+      row.alive && row.id !== me.id && row.householdId === me.householdId,
+  );
+  const relatives = [...core.people.values()].filter(
+    (row) =>
+      row.alive &&
+      row.householdId !== me.householdId &&
+      me.familyIds.has(row.id as PersonId),
+  );
+  const met = [...core.people.values()]
+    .filter(
+      (row) =>
+        row.alive &&
+        row.tier !== "husk" &&
+        row.id !== me.id &&
+        row.householdId !== me.householdId &&
+        !me.familyIds.has(row.id as PersonId) &&
+        row.jobId !== undefined,
+    )
+    .slice(0, 8);
+  for (const row of met)
+    api.meet(me.id, row.id, {
+      placeId: me.placeId,
+      sourceId: "fixture-meeting",
+      cause: "met-in-group",
+      hours: 1,
+    });
+  const callees = [...housemates.slice(0, 3), ...relatives.slice(0, 3), ...met];
+  expect(callees.length, `${place.name}: someone to call`).toBeGreaterThan(0);
+  let heardGoodbye = 0;
+  let callsOffered = 0;
+  let offeredEmpty = 0;
+  const transcript: string[] = [
+    `# Played at ${process.env.PHONE_SHA ?? "(sha not given)"}`,
+    `## ${place.name} (${place.key}), seed ${seed}`,
+  ];
+  const start = makeIsoDate(core.date);
+  for (const day of days) {
+    if (day) advanceCore(core, addDays(start, day));
+    // One call at a time, as a player makes them: looked at, opened,
+    // then played, so what one call told is heard by the next.
+    for (const row of callees) {
+      const where = `${place.name} day ${day}, call to ${row.givenName}`;
+      // A call with nothing to say is not offered: the room's own check
+      // (look) says so, and the call the player would make says nothing.
+      const offered =
+        openConversation(core, playerId as PersonId, row.id, {
+          director,
+          byPhone: true,
+          look: true,
+        }).lines.length > 0;
+      const call = openConversation(core, playerId as PersonId, row.id, {
+        director,
+        byPhone: true,
+      });
+      if (offered && !call.lines.length) offeredEmpty += 1;
+      if (!call.lines.length) continue;
+      callsOffered += 1;
+      // What the game does as a call opens: the two have spoken, and what
+      // was said is heard today (the talk's own bench road).
+      meetOverTalk(core, call);
+      noteHeard(core, call);
+      // The person answering says hello, as a call is answered.
+      expect(call.lines[0]!.speakerId, where).toBe(row.id);
+      expect(call.lines[0]!.text, where).toMatch(/^(Hello\?|Yes, hello\?)$/);
+      expect(call.lines[1]!.speakerId, where).toBe(playerId);
+      // The talk goes on to its end: each offered reply in turn.
+      let talk = call;
+      for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
+        talk = say(core, talk, talk.choices[turn % talk.choices.length]!.key);
+      transcript.push(
+        `### ${where}`,
+        ...talk.lines.map(
+          (line) =>
+            `  ${line.speakerId === playerId ? "You" : row.givenName}: ${line.text}`,
+        ),
+        "",
       );
-      director.watch(core, playerId);
-      core.focusPersonIds.add(playerId);
-      const me = core.people.get(playerId as PersonId)!;
-      const api = coreAPI(core);
-      const housemates = [...core.people.values()].filter(
-        (row) =>
-          row.alive && row.id !== me.id && row.householdId === me.householdId,
-      );
-      const relatives = [...core.people.values()].filter(
-        (row) =>
-          row.alive &&
-          row.householdId !== me.householdId &&
-          me.familyIds.has(row.id as PersonId),
-      );
-      const met = [...core.people.values()]
-        .filter(
-          (row) =>
-            row.alive &&
-            row.tier !== "husk" &&
-            row.id !== me.id &&
-            row.householdId !== me.householdId &&
-            !me.familyIds.has(row.id as PersonId) &&
-            row.jobId !== undefined,
-        )
-        .slice(0, 8);
-      for (const row of met)
-        api.meet(me.id, row.id, {
-          placeId: me.placeId,
-          sourceId: "fixture-meeting",
-          cause: "met-in-group",
-          hours: 1,
-        });
-      const callees = [
-        ...housemates.slice(0, 3),
-        ...relatives.slice(0, 3),
-        ...met,
-      ];
-      expect(callees.length, `${place.name}: someone to call`).toBeGreaterThan(
-        0,
-      );
-      let heardGoodbye = 0;
-      let callsOffered = 0;
-      let offeredEmpty = 0;
-      const transcript: string[] = [
-        `# Played at ${process.env.PHONE_SHA ?? "(sha not given)"}`,
-        `## ${place.name} (${place.key}), seed ${seed}`,
-      ];
-      const start = makeIsoDate(core.date);
-      for (const day of days) {
-        if (day) advanceCore(core, addDays(start, day));
-        // One call at a time, as a player makes them: looked at, opened,
-        // then played, so what one call told is heard by the next.
-        for (const row of callees) {
-          const where = `${place.name} day ${day}, call to ${row.givenName}`;
-          // A call with nothing to say is not offered: the room's own check
-          // (look) says so, and the call the player would make says nothing.
-          const offered =
-            openConversation(core, playerId as PersonId, row.id, {
-              director,
-              byPhone: true,
-              look: true,
-            }).lines.length > 0;
-          const call = openConversation(core, playerId as PersonId, row.id, {
-            director,
-            byPhone: true,
-          });
-          if (offered && !call.lines.length) offeredEmpty += 1;
-          if (!call.lines.length) continue;
-          callsOffered += 1;
-          // What the game does as a call opens: the two have spoken, and what
-          // was said is heard today (the talk's own bench road).
-          meetOverTalk(core, call);
-          noteHeard(core, call);
-          // The person answering says hello, as a call is answered.
-          expect(call.lines[0]!.speakerId, where).toBe(row.id);
-          expect(call.lines[0]!.text, where).toMatch(
-            /^(Hello\?|Yes, hello\?)$/,
-          );
-          expect(call.lines[1]!.speakerId, where).toBe(playerId);
-          // The talk goes on to its end: each offered reply in turn.
-          let talk = call;
-          for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
-            talk = say(
-              core,
-              talk,
-              talk.choices[turn % talk.choices.length]!.key,
-            );
-          transcript.push(
-            `### ${where}`,
-            ...talk.lines.map(
-              (line) =>
-                `  ${line.speakerId === playerId ? "You" : row.givenName}: ${line.text}`,
-            ),
-            "",
-          );
-          if (process.env.PHONE_OUT)
-            writeFileSync(
-              `${process.env.PHONE_OUT}-${seed}${name.endsWith("long-gap") ? "-long-gap" : ""}.md`,
-              transcript.join("\n"),
-            );
-          // A question the person puts to the player gives the player the
-          // next turn: the person never goes straight on to their own news
-          // (Words lead, Nov 14), and the hello's own "Hello?" is answered.
-          talk.lines.forEach((line, at) => {
-            const next = talk.lines[at + 1];
-            if (
-              next &&
-              line.speakerId === row.id &&
-              next.speakerId === row.id &&
-              /\?$/.test(line.text) &&
-              !GREETING_FORMULA.test(line.text)
-            )
-              expect.fail(
-                `${where}: "${line.text}" is followed at once by "${next.text}"`,
-              );
-          });
-          // The goodbye never says again what the hello said (Words lead, Nov 14).
-          const said = talk.lines
-            .filter((line) => line.speakerId === row.id)
-            .map((line) => line.text.toLowerCase());
-          expect(
-            said.filter((text) => /hear your voice/.test(text)).length,
-            `${where}: glad to hear the voice, once`,
-          ).toBeLessThanOrEqual(1);
-          // A question the player asked is answered: the call never ends on it.
-          const last = talk.lines.at(-1)!;
-          expect(last.text, `${where}: ends on a question`).not.toMatch(/\?$/);
-          // A call ends on a goodbye, always the other person's.
-          expect(last.kind, `${where}: a call ends on a goodbye`).toBe(
-            "farewell",
-          );
-          expect(last.speakerId, where).toBe(row.id);
-          for (const line of talk.lines) {
-            expect(line.text, where).not.toMatch(AT_THE_DOOR);
-            expect(line.text, where).not.toMatch(IN_ROOM);
-            PLAYED.add(line.text);
-            if (line.kind === "farewell") heardGoodbye += 1;
-          }
-        }
-      }
-      expect(
-        callsOffered,
-        `${place.name}: a call is offered to someone`,
-      ).toBeGreaterThan(0);
       if (process.env.PHONE_OUT)
         writeFileSync(
           `${process.env.PHONE_OUT}-${seed}${name.endsWith("long-gap") ? "-long-gap" : ""}.md`,
           transcript.join("\n"),
         );
-      process.stdout.write(
-        `PHONE ${place.name}: ${callees.length} people, ${callsOffered} calls with words, ${offeredEmpty} the room's check offered that opened on nothing, ${heardGoodbye} goodbyes\n`,
-      );
-    },
-    100_000,
-  );
-});
-
-describe("the bank holds the doorway words off a call", () => {
-  type Part = {
-    key: string;
-    move: string;
-    text: string;
-    uses: { requiresFacts?: string[]; excludesFacts?: string[] }[];
-  };
-  const parts = (bank as unknown as { parts: Part[] }).parts;
-  const offCalls = (part: Part) =>
-    part.uses.every((use) => use.excludesFacts?.includes("by-phone"));
-  it("every hello that is not the phone's own is held off a call", () => {
-    const hellos = parts.filter(
-      (part) => part.move === "greet-open-hello" && !/\.phone-/.test(part.key),
-    );
-    expect(hellos.length).toBeGreaterThan(0);
-    for (const part of hellos)
-      expect(offCalls(part), `"${part.text}" can open a call`).toBe(true);
-  });
-  it("the doorway goodbyes and in-person greetings are held off a call", () => {
-    for (const text of [
-      "Heading out.",
-      "See you again.",
-      "Thanks for stopping, {player-first}.",
-      "Thanks for stopping by, {player-first}.",
-      "Nice to see a friendly face.",
-      "You again. I saw you {when}.",
-      "Back again? I saw you just {when}.",
-      "{name}, back again? I saw you {when}.",
-    ]) {
-      const part = parts.find((row) => row.text === text);
-      expect(part, `"${text}" is in the bank`).toBeDefined();
-      expect(offCalls(part!), `"${text}" can be said on a call`).toBe(true);
+      // A question the person puts to the player gives the player the
+      // next turn: the person never goes straight on to their own news
+      // (Words lead, Nov 14), and the hello's own "Hello?" is answered.
+      talk.lines.forEach((line, at) => {
+        const next = talk.lines[at + 1];
+        if (
+          next &&
+          line.speakerId === row.id &&
+          next.speakerId === row.id &&
+          /\?$/.test(line.text) &&
+          !GREETING_FORMULA.test(line.text)
+        )
+          expect.fail(
+            `${where}: "${line.text}" is followed at once by "${next.text}"`,
+          );
+      });
+      // The goodbye never says again what the hello said (Words lead, Nov 14).
+      const said = talk.lines
+        .filter((line) => line.speakerId === row.id)
+        .map((line) => line.text.toLowerCase());
+      expect(
+        said.filter((text) => /hear your voice/.test(text)).length,
+        `${where}: glad to hear the voice, once`,
+      ).toBeLessThanOrEqual(1);
+      // A question the player asked is answered: the call never ends on it.
+      const last = talk.lines.at(-1)!;
+      expect(last.text, `${where}: ends on a question`).not.toMatch(/\?$/);
+      // A call ends on a goodbye, always the other person's.
+      expect(last.kind, `${where}: a call ends on a goodbye`).toBe("farewell");
+      expect(last.speakerId, where).toBe(row.id);
+      for (const line of talk.lines) {
+        expect(line.text, where).not.toMatch(AT_THE_DOOR);
+        expect(line.text, where).not.toMatch(IN_ROOM);
+        PLAYED.add(line.text);
+        if (line.kind === "farewell") heardGoodbye += 1;
+      }
     }
-  });
-  it("a call has its own goodbyes", () => {
-    const own = parts
-      .filter((part) =>
-        part.uses.some((use) => use.requiresFacts?.includes("by-phone")),
-      )
-      .filter((part) => part.move === "farewell-core")
-      .map((part) => part.text);
-    expect(own).toEqual(
-      expect.arrayContaining([
-        "Call anytime.",
-        "I'll let you go.",
-        "Thanks for calling.",
-        "Glad you called.",
-      ]),
+  }
+  expect(
+    callsOffered,
+    `${place.name}: a call is offered to someone`,
+  ).toBeGreaterThan(0);
+  if (process.env.PHONE_OUT)
+    writeFileSync(
+      `${process.env.PHONE_OUT}-${seed}${name.endsWith("long-gap") ? "-long-gap" : ""}.md`,
+      transcript.join("\n"),
     );
-  });
+  process.stdout.write(
+    `PHONE ${place.name}: ${callees.length} people, ${callsOffered} calls with words, ${offeredEmpty} the room's check offered that opened on nothing, ${heardGoodbye} goodbyes\n`,
+  );
+};
+
+const CALL_TITLE =
+  "%s: a call to a housemate, a relative or someone met says hello first, never introduces, never says a doorway goodbye";
+
+describe("every call is a call (Words lead, Nov 14: five faults)", () => {
+  it.each(CALL_CASES)(CALL_TITLE, everyCallIsACall, 100_000);
 });
 
 describe("every line the call has of its own is played", () => {

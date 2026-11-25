@@ -102,12 +102,15 @@ export function graduationResults(
 export function schoolResult(
   core: Readonly<CoreState>,
   id: string,
-): { passed: boolean; schoolId: string | undefined } | undefined {
+):
+  | { passed: boolean; schoolId: string | undefined; personId: PersonId }
+  | undefined {
   const row = school(core)?.table("results").get(id) as unknown as
     ResultRow | undefined;
   if (!row || row.measure !== GRADUATION) return undefined;
   return {
     passed: row.passed,
     schoolId: attendedSchool(core, row.personId as PersonId)?.schoolId,
+    personId: row.personId as PersonId,
   };
 }

@@ -34,7 +34,7 @@ branch:
 5. **What it writes back.** `replyInScene` (purpose-scene.ts) writes `scene.reply` with the ending's `keeps` (`promise`, `meeting-set`, `trust-lost`, `relationship-strained`); the meetings engine keeps the host's answer on the town hall row. Name the record ids in the pull request.
 6. **Delete what this replaces, with every reference.** The 61 lines with no insert under `town-hall-question`, except the one the owner graded good, "People say a lot of things.", which stays as an opener of the deflect reply and keeps its grade row. A piece that also serves another purpose (45 do, many shared with donor-ask and press-comment) loses only this use. Then `npm run words:grade` and `npm run words:rules` twice.
 7. **Lower the guard's count** for `scene-talk` in tests/guards/english/line-inserts-baseline.json.
-8. **Tests.** In src/director/town-hall-question-scene.test.ts, on drawn places: a resident who lost a job names the employer in their question's reason; a host who answered against the resident's view hears a different answer than one who agreed; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
+8. **Tests.** In src/director/town-hall-question-scene.test.ts (removed), on drawn places: a resident who lost a job names the employer in their question's reason; a host who answered against the resident's view hears a different answer than one who agreed; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
 
 **Time box.** 5 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -44,6 +44,6 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/arc-variants.json, src/director/town-hall-question-scene.test.ts, src/director/reply-set-check.ts, src/english/scene-talk-words.ts, src/core2/modules/meetings.ts, src/core2/modules/public-action.ts, src/core2/trait-decisions.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/arc-variants.json, src/director/reply-set-check.ts, src/english/scene-talk-words.ts, src/core2/modules/meetings.ts, src/core2/modules/public-action.ts, src/core2/trait-decisions.ts, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 103 lines, 61 with no insert and not excused. Three today: "Good. I'll hold you to that.", "People say a lot of things." (graded good, kept), "At least you said it to my face." The protest and strike lines are a stopgap (`SG-WORDS-action-confront-town-hall-lines` in purpose-scene.ts); this item keeps that registration.

@@ -1,0 +1,35 @@
+{
+  "id": "mayor-tours-the-departments",
+  "kind": "move",
+  "summary": "The mayor walks through the departments and thanks each head by name.",
+  "realLife": "Five of six give a department by department tour with the head thanked: police, fire, water, parks, public works.",
+  "sources": [
+    "Charles Patricelli, Watervliet (New York) mayor, State of the City, Feb 20, 2025: https://watervlietny.gov/wp-content/uploads/2025/02/State-of-City-2025_JPR-Edits.pdf",
+    "Harford County (Maryland) executive, State of the County, 2026: https://www.harfordcountymd.gov/DocumentCenter/View/29859/2026-State-of-the-County-Address-Speech",
+    "Jen Metzger, Ulster County (New York) executive, State of the County, Feb 18, 2026: https://www.ulstercountyny.gov/files/assets/countysite/v/1/county-executive/documents/state-of-the-county-2026/ulster-county-executive-2026-state-of-the-county-address-english.pdf",
+    "Joseph Winfield, Oro Valley (Arizona) mayor, State of the Town, Oct 30, 2025: https://www.orovalleyaz.gov/files/assets/public/v/1/documents/mayor-and-council/state-of-the-town/2025-state-of-the-town-address-transcript.pdf",
+    "Derrick Wood, Dumfries (Virginia) mayor, State of the Town, June 5, 2025: https://derrickrwood.com/news/2025-state-of-town-transcript",
+    "Read in full by the local and campaign speeches writer's helper, Nov 24, 2026; every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["department"],
+  "gates": ["state-of-the-city"],
+  "weights": {
+    "town-address": 0.7
+  },
+  "usedBy": [],
+  "inGame": "offices module lists local departments and heads; budget lines by department (budget engine)",
+  "turns": [
+    {
+      "way": "The mayor skips the departments and speaks of one project.",
+      "pulledBy": "one large project this year",
+      "writes": "the speech is that project"
+    },
+    {
+      "way": "The mayor reads only what went wrong.",
+      "pulledBy": "a hard budget year",
+      "writes": "a tour of the shortfalls"
+    }
+  ],
+  "issues": ["budget:police", "budget:fire", "budget:highways"]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "other-party-welcomes-parts-and-names-what-is-missing",
+  "kind": "voice",
+  "summary": "Members of the other party praise a few lines of the address and then name the one thing it left out.",
+  "realLife": "Legislators from both parties in one state's capital gave short reactions to a governor's address, the other party welcoming a teacher raise, rural internet and a hate crimes bill while saying the speech fell short on the Capitol riot, taxes and relief. In a second state a senator said the address left out public transit.",
+  "sources": [
+    "Talk Business & Politics (Arkansas), 'Legislators react to Gov. Hutchinson's State of the State address', January 12, 2021: https://talkbusiness.net/2021/01/legislators-react-to-gov-hutchinsons-state-of-the-state-address/",
+    "FOX 2 Detroit (Michigan), 'Michigan State of the State: Lawmakers react to Gov. Whitmer's address', February 26, 2025: https://www.fox2detroit.com/news/michigan-state-state-lawmakers-react-gov-whitmers-address",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "quote", "about"],
+  "gates": [],
+  "weights": {
+    "address": 0.5
+  },
+  "inGame": "a legislator's stated reasons and the policy areas in the speech; needs: a list of what an address left out",
+  "issues": ["budget:schools", "budget:highways"],
+  "turns": [
+    {
+      "name": "pledge to work on both",
+      "pulledBy": "the legislator sees common ground on one law",
+      "writes": "the story quotes an offer to work together and names the law",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "welcome and then a hard no",
+      "pulledBy": "the legislator's district would lose from the funding plan",
+      "writes": "the story pairs thanks for one line with a refusal on the money",
+      "requiresFacts": [],
+      "excludesFacts": ["common-ground"]
+    },
+    {
+      "name": "the speech was comfortable",
+      "pulledBy": "the governor is in the last term and has no campaign ahead",
+      "writes": "the story quotes a legislator calling the tone easy and moves on to the details",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

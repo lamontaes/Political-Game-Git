@@ -176,6 +176,8 @@ export function renderGroundedEnglish(
   // A slot that ends on an appositive's closing comma ("Jose Salgado, the
   // town clerk,") drops it before the sentence's own mark (said-as
   // `nameWithWhat`, rule 136): no comma ever stands before . ! ? ; : or another comma.
+  // A piece that ends on its own comma is an opener ("In {year},"), said before a
+  // sentence by the joiner (`framedByAge`): it keeps it.
   // A slot the line itself follows with a comma or a possessive ("{{name}}'s
   // name") takes the bare name: no appositive inside a possessive.
   const text = (
@@ -191,7 +193,7 @@ export function renderGroundedEnglish(
               : fact.text;
           },
         )
-  ).replace(/,+(?=[.!?;:,)"\u201d]|$)/g, "");
+  ).replace(/,+(?=[.!?;:,)"\u201d])/g, "");
 
   const sourceRecordIds = new Set<EntityId>(packet.sourceRecordIds);
   for (const key of factKeys)

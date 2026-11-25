@@ -1,0 +1,37 @@
+{
+  "id": "floor-minimum-wage-argued-through-the-people-behind-the-wage",
+  "kind": "voice",
+  "summary": "On the floor, the speaker argues a minimum wage bill through named kinds of people and their bills, in the plain speech of a neighbor who knows them.",
+  "realLife": "In a floor debate on a bill to cap minimum wage increases, senators spoke of families living paycheck to paycheck in their own town, students they coach who leave practice early to work, and the gap between a wage and rent, groceries and child care. A veteran senator years earlier pressed the same point more sharply, accusing colleagues of pleasing business groups at the poor's expense.",
+  "sources": [
+    "Nebraska state senator Quick, floor debate on LB258, Apr 1, 2025: https://nebraskalegislature.gov/FloorDocs/109/PDF/Transcripts/FloorDebate/r1day54.pdf",
+    "Nebraska state senator McKinney, floor debate on LB258, Apr 1, 2025: https://nebraskalegislature.gov/FloorDocs/109/PDF/Transcripts/FloorDebate/r1day54.pdf",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; some pages were read in part or through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": ["body-name", "office-title"],
+  "gates": [],
+  "weights": {
+    "floor": 0.7
+  },
+  "usedBy": [],
+  "inGame": "personality-v1 facets assertive and friendly on the legislator, with the minimum-wage law in force and the share of the district paid at the minimum",
+  "turns": [
+    {
+      "way": "The legislator argues the bill from the employer's side and the cost of hiring.",
+      "pulledBy": "a practical legislator for a business district",
+      "writes": "the employer's cost first, the worker second"
+    },
+    {
+      "way": "The legislator turns sharp and accuses the other side by name.",
+      "pulledBy": "a blunt legislator who has lost this vote before",
+      "writes": "an accusing close in place of the neighbor's voice"
+    },
+    {
+      "way": "The legislator keeps to one kind of worker and does not argue the principle.",
+      "pulledBy": "a calm, humble legislator",
+      "writes": "a single worker's week, with no argument for the whole bill"
+    }
+  ],
+  "issues": ["law:minimum-wage"]
+}

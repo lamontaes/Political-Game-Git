@@ -1,0 +1,31 @@
+{
+  "id": "paper-ballots-in-the-budget-count",
+  "kind": "detail",
+  "summary": "The clerk in {place} sets the stack of paper ballots beside the online tally.",
+  "realLife": "Most New Yorkers who took part in the 2026 budget vote marked paper ballots in person.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "Paper and online voting were both available and the clerk can see which returns have arrived."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: paper and online voting were both available and the clerk can see which returns have arrived.",
+  "turns": [
+    {
+      "turn": "both-counts-have-arrived",
+      "pulledBy": "Both counts have arrived.",
+      "what": "Publish the combined turnout.",
+      "writesBack": "Store the complete turnout."
+    },
+    {
+      "turn": "only-digital-returns-are-in",
+      "pulledBy": "Only digital returns are in.",
+      "what": "Label the count partial.",
+      "writesBack": "Leave the paper subtotal outstanding."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "pattern-b12-not-one-of-us",
+  "kind": "situation",
+  "summary": "Not one of us: {rival} says you are not really from here: your schooling, your money or the years you lived elsewhere.",
+  "realLife": "One life: Running for an open West Texas House seat in 1978, he was painted by Democrat Kent Hance as out of touch with rural Texans. He lost, the only race he ever lost. Another: A newcomer to Arizona accused of carpetbagging in 1982, he answered at a candidates' forum that the longest he had lived anywhere was Hanoi, as a prisoner of war. He won.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Kent_Hance",
+    "https://en.wikipedia.org/wiki/George_W._Bush",
+    "https://en.wikipedia.org/wiki/House_and_Senate_career_of_John_McCain_until_2000"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches"],
+  "slots": ["rival"],
+  "gates": [
+    "Candidate.",
+    "A fact on your record the charge can stand on: schooling elsewhere, a recent move, family money."
+  ],
+  "weights": [
+    "How recently you moved.",
+    "How far your background is from the district's."
+  ],
+  "pattern": "B12",
+  "choices": [
+    "answer with where you were and why",
+    "answer with your roots",
+    "turn it on {rival}",
+    "let it go"
+  ],
+  "branches": [
+    {
+      "when": "you were away serving",
+      "then": "The answer is the service, said once at a forum, and it ends the charge."
+    },
+    {
+      "when": "you were away at school, from money",
+      "then": "{rival} sets your school beside theirs, and it sticks unless you have something local to point to."
+    },
+    {
+      "when": "you lose on it",
+      "then": "You never let yourself be outdone on roots again, a stance later scenes read."
+    }
+  ],
+  "usedBy": []
+}

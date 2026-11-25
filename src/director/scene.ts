@@ -8,6 +8,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { relationPhrase } from "../english/journal-words";
 import { causeRecordFacts } from "./cause-facts";
 import { happenedSaid } from "../english/happened-words";
+import { moneySaid } from "../english/count-words";
 import {
   sceneParagraph,
   wordSceneLine,
@@ -22,7 +23,7 @@ import {
   type SceneBinding,
   type ScheduleEntry,
 } from "./scheduling";
-import { organizationName, spoken } from "./words";
+import { isOutsideMarket, organizationName, spoken } from "./words";
 import { dayOpening } from "../english/day-words";
 import { homeAloneDayFacts } from "./day-part";
 import { nameWithWhat, officeWords, sceneSaysWhat } from "../english/said-as";
@@ -224,7 +225,8 @@ export function composeScene(
     kind === "workplace" || kind === "office" || kind === "school"
       ? core.organizations.get(binding.setting.recordId)
       : undefined;
-  const settingOrg = settingRow?.outsideFlow ? undefined : settingRow;
+  const settingOrg =
+    settingRow && isOutsideMarket(settingRow) ? undefined : settingRow;
   // A scene whose setting stands in for its own room opens on the day alone.
   const dayOnly =
     SITUATION_LIBRARY.types.find((row) => row.key === binding.typeKey)
@@ -406,11 +408,10 @@ export function composeScene(
           if (learned?.kind === "law.effect-learned") {
             const moved = Number(learned.facts?.movedMinor ?? P.zero);
             if (Number.isFinite(moved) && moved !== P.zero)
+              // Said as people say a sum ("about $6"); the Journal and the
+              // books keep the exact figure (CTO, Nov 18, on #10190).
               facts[moved < P.zero ? "cost" : "refund"] = {
-                text: new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(Math.abs(moved) / P.minorPerDollar),
+                text: moneySaid(Math.abs(moved)),
                 sourceRecordIds: [moment.causeId],
               };
           }

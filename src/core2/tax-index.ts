@@ -42,3 +42,19 @@ export function taxIndexOf(
     return now && then && now > 0 && then > 0 ? now / then : 1;
   };
 }
+
+/**
+ * How far this world's own prices or pay have moved since the year it opened,
+ * for a threshold written in the opening year's dollars: exactly 1 through the
+ * opening year and in a world with no economy, then January's reading over
+ * the opening January. Read once per pass by whoever holds the threshold.
+ */
+export function sinceOpeningIndex(
+  api: CoreAPI,
+  by: TaxIndexBy,
+  date: string = api.state.date,
+): number {
+  const index = taxIndexOf(api, date);
+  if (!index) return 1;
+  return index(by, Number(api.state.startedAt.slice(0, 4)));
+}

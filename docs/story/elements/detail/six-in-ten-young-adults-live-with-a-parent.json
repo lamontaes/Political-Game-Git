@@ -1,0 +1,31 @@
+{
+  "id": "six-in-ten-young-adults-live-with-a-parent",
+  "kind": "detail",
+  "summary": "About six in ten adults aged 18 to 24 live in a parent's home.",
+  "realLife": "In 2026, 60% of adults ages 18 to 24 lived in their parental home.",
+  "sources": [
+    "U.S. Census Bureau, Census Bureau Releases New Estimates on America's Families and Living Arrangements (Nov 17, 2026): https://www.census.gov/newsroom/press-releases/2026/new-estimates-on-families-and-living-arrangements.html"
+  ],
+  "fits": ["loading"],
+  "slots": ["age", "household-members"],
+  "gates": [],
+  "weights": {
+    "age": 0.5
+  },
+  "inGame": "the household record's members at the opening (person.householdId), as `loadingTelling` reads the household for the start facts and the player's age: a parent among the household members. needs: a lives-with-parent fact.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "An 18-year-old who has moved out, alone or with a partner or housemates.",
+      "pulledBy": "the player's own household at the opening",
+      "writesBack": "no parent in the household; a place of their own"
+    },
+    {
+      "turn": "partial",
+      "what": "A young adult who lives at a parent's home most of the year and elsewhere for school.",
+      "pulledBy": "a college record",
+      "writesBack": "two addresses, told at the move"
+    }
+  ],
+  "usedBy": []
+}

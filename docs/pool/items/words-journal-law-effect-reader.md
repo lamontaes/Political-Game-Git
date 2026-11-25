@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a played world (buildBenchWorld) in a drawn place with a seed the builder did not choose, a resident whose law.effect-learned record becomes their moment has a journal line read from the shipping bank that names the law by its enacting bill and cites the record, the law row and the bill by record id; the test fails with the journal row removed.
 
-**Files.** src/director/data/journal-rows.json, data/english/parts/journal.json, src/director/journal-law-effect.test.ts
+**Files.** src/director/data/journal-rows.json, data/english/parts/journal.json
 
 **Notes.** TODO
 

@@ -117,8 +117,11 @@ function playedTalk(
   ].join("\n");
 }
 
+// Banks, ID: the cut of Nov 17 left the second ask's lines unwritten;
+// the lines are story-lines-office-press-and-pressure (CTO, Nov 19 00:38Z
+// on #9750). Wilmont, MN is red on the train as well and is not marked.
 for (const pin of PINS)
-  it(
+  (pin.name.startsWith("Banks") ? it.fails : it)(
     `a colleague asked again for their vote says they were asked before (${pin.name})`,
     { timeout: 170_000 },
     () => {

@@ -1,0 +1,483 @@
+{
+  "schema": "scene-sample/1",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "scene": {
+    "typeKey": "reach-out",
+    "purpose": "favor-job",
+    "title": "Reach out"
+  },
+  "world": {
+    "place": "Sumatra, Florida",
+    "placeKey": "1269025",
+    "seed": "story-batch-2",
+    "date": "2025-09-02"
+  },
+  "player": {
+    "name": "Haris Michael",
+    "standing": "a resident of Sumatra, Florida, not in office"
+  },
+  "cause": {
+    "id": "event:work.job-lost:2025-09-01:work-relationship_ff377c8e54b82ac5",
+    "label": "circumstance:job-lost-calls"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_a6417d0fe450de35",
+      "name": "Christian Ferguson"
+    },
+    {
+      "role": "asked",
+      "id": "person_5c1598b9ffd6149a",
+      "name": "Haris Michael"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "Christian catches you on the street.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.name-catches-you-outside-the-hardware-store-you-ve-known-each-other-a-"
+      ],
+      "wordings": [],
+      "asks": false
+    },
+    {
+      "n": 2,
+      "speaker": "Christian Ferguson",
+      "role": "asker",
+      "text": "Can I ask you something, and you tell me no if it's wrong?",
+      "move": "greet",
+      "pieces": [
+        "scene-talk.open-greet.can-i-ask-you-something-and-you-tell-me-no-if-it-s-wrong"
+      ],
+      "wordings": [],
+      "asks": true
+    }
+  ],
+  "ask": {
+    "n": 3,
+    "speaker": "Christian Ferguson",
+    "role": "asker",
+    "text": "My son needs a job. Anything at city hall. He's a good kid.",
+    "move": "request",
+    "pieces": [
+      "scene-talk.state-request.my-son-needs-a-job-anything-at-city-hall-he-s-a-good-kid"
+    ],
+    "wordings": [],
+    "asks": false
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "I can't do that. If I make that call, it's in the paper by Friday, and he's the one who pays for it.",
+          "move": "refuse",
+          "pieces": [
+            "scene-talk.reply-refuse.i-can-t-do-that-if-i-make-that-call-it-s-in-the-paper-by-friday-and-he"
+          ],
+          "wordings": [],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 8,
+              "speaker": "Christian Ferguson",
+              "role": "asker",
+              "text": "I figured. I had to ask.",
+              "move": "accept",
+              "pieces": ["scene-talk.follow-accept.i-figured-i-had-to-ask"],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "refused",
+            "ending": {
+              "id": "refused",
+              "label": "Refused",
+              "keeps": "relationship-strained"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "Tell him to apply to the posting. I'll make sure somebody reads it.",
+          "move": "offer",
+          "pieces": [
+            "scene-talk.reply-offer.tell-him-to-apply-to-the-posting-i-ll-make-sure-somebody-reads-it"
+          ],
+          "wordings": [],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 9,
+              "speaker": "Christian Ferguson",
+              "role": "asker",
+              "text": "Somebody. Not you?",
+              "move": "press",
+              "pieces": ["scene-talk.follow-press.somebody-not-you"],
+              "wordings": [],
+              "asks": true
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "Not me. That's the whole point.",
+                "move": "refuse",
+                "pieces": [
+                  "scene-talk.reply-refuse.not-me-that-s-the-whole-point"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 12,
+                    "speaker": "Christian Ferguson",
+                    "role": "asker",
+                    "text": "I figured. I had to ask.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.i-figured-i-had-to-ask"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "refused",
+                  "ending": {
+                    "id": "held-to-posting",
+                    "label": "You held to the posting",
+                    "keeps": "none"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 11,
+                "speaker": "You",
+                "role": "player",
+                "text": "Alright. Me. Have him send it to me directly.",
+                "move": "promise",
+                "pieces": [
+                  "scene-talk.reply-promise.all-right-me-have-him-send-it-to-me-directly"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 13,
+                    "speaker": "Christian Ferguson",
+                    "role": "asker",
+                    "text": "That's all I'm asking.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-accept.that-s-all-i-m-asking"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "favor-done",
+                    "label": "You'll make the call",
+                    "keeps": "favor-owed"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "Have him call my office Monday. I'll see what's open.",
+          "move": "promise",
+          "pieces": [
+            "scene-talk.reply-promise.have-him-call-my-office-monday-i-ll-see-what-s-open"
+          ],
+          "wordings": [],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 14,
+              "speaker": "Christian Ferguson",
+              "role": "asker",
+              "text": "That's all I'm asking.",
+              "move": "thank",
+              "pieces": ["scene-talk.follow-accept.that-s-all-i-m-asking"],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "favor-done",
+              "label": "You'll make the call",
+              "keeps": "favor-owed"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 7,
+          "speaker": "You",
+          "role": "player",
+          "text": "What's he done so far?",
+          "move": "ask",
+          "pieces": ["scene-talk.reply-ask.what-s-he-done-so-far"],
+          "wordings": [],
+          "asks": true
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 15,
+              "speaker": "Christian Ferguson",
+              "role": "asker",
+              "text": "He's been looking a long time. Nothing comes through.",
+              "move": "answer",
+              "pieces": [
+                "scene-talk.follow-answer.he-s-been-looking-a-long-time-nothing-comes-through"
+              ],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 16,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'm sorry. I can't be the one who gets him in.",
+                "move": "refuse",
+                "pieces": [
+                  "scene-talk.reply-refuse.i-m-sorry-i-can-t-be-the-one-who-gets-him-in"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 19,
+                    "speaker": "Christian Ferguson",
+                    "role": "asker",
+                    "text": "I figured. I had to ask.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.i-figured-i-had-to-ask"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "refused",
+                  "ending": {
+                    "id": "refused",
+                    "label": "Refused",
+                    "keeps": "relationship-strained"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 17,
+                "speaker": "You",
+                "role": "player",
+                "text": "There's a posting at public works this week. Tell him to apply by Friday and use my name as a reference.",
+                "move": "offer",
+                "pieces": [
+                  "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 20,
+                    "speaker": "Christian Ferguson",
+                    "role": "asker",
+                    "text": "Somebody. Not you?",
+                    "move": "press",
+                    "pieces": ["scene-talk.follow-press.somebody-not-you"],
+                    "wordings": [],
+                    "asks": true
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 21,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Not me. That's the whole point.",
+                      "move": "refuse",
+                      "pieces": [
+                        "scene-talk.reply-refuse.not-me-that-s-the-whole-point"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 23,
+                          "speaker": "Christian Ferguson",
+                          "role": "asker",
+                          "text": "I figured. I had to ask.",
+                          "move": "accept",
+                          "pieces": [
+                            "scene-talk.follow-accept.i-figured-i-had-to-ask"
+                          ],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "refused",
+                        "ending": {
+                          "id": "held-to-posting",
+                          "label": "You held to the posting",
+                          "keeps": "none"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 22,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Alright. Me. Have him send it to me directly.",
+                      "move": "promise",
+                      "pieces": [
+                        "scene-talk.reply-promise.all-right-me-have-him-send-it-to-me-directly"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 24,
+                          "speaker": "Christian Ferguson",
+                          "role": "asker",
+                          "text": "That's all I'm asking.",
+                          "move": "thank",
+                          "pieces": [
+                            "scene-talk.follow-accept.that-s-all-i-m-asking"
+                          ],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "favor-done",
+                          "label": "You'll make the call",
+                          "keeps": "favor-owed"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "line": {
+                "n": 18,
+                "speaker": "You",
+                "role": "player",
+                "text": "Have him call me. I'll see what's real.",
+                "move": "promise",
+                "pieces": [
+                  "scene-talk.reply-promise.have-him-call-me-i-ll-see-what-s-real"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 25,
+                    "speaker": "Christian Ferguson",
+                    "role": "asker",
+                    "text": "That's all I'm asking.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-accept.that-s-all-i-m-asking"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "favor-done",
+                    "label": "You'll make the call",
+                    "keeps": "favor-owed"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "endings": {
+    "refused": 2,
+    "held-to-posting": 2,
+    "favor-done": 4
+  },
+  "depth": 3,
+  "gaps": []
+}

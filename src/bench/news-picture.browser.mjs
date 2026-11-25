@@ -48,7 +48,7 @@ const openNews = async () => {
 const board = () =>
   page.evaluate(() => {
     const lead = document.querySelector(".news-board .news-story.lead");
-    const first = document.querySelector(".news-board .board-cols .mx3col");
+    const first = document.querySelector(".news-board .news-page");
     return {
       outlet: document.querySelector(".news-board").dataset.outlet ?? "",
       lead: lead?.querySelector(".news-headline")?.textContent.trim() ?? null,

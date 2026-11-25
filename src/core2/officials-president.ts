@@ -5,14 +5,15 @@
  * may name a place only from these facts, and the opening's screens read the
  * home state and the office before. No campaign runs: who the President is
  * was drawn once from the world's seed, and which states were contested is
- * the real 2024 map.
+ * the century's 2024 map (century.ts), or the real one under "today".
  */
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreStateName } from "./place-lookup";
 import { OFFICIALS_DATA, uniform } from "./officials-roster";
 import { partySide } from "./appointments";
 import type { CoreState, PersonInput, Source } from "./types";
-import { worldSwing } from "./modules/elections";
+import { centuryRace, worldSwing } from "./modules/elections";
+import { gameStartDate } from "./game-start";
 
 type PastFact = NonNullable<PersonInput["pastFacts"]>[number];
 
@@ -43,16 +44,41 @@ const MAP = (
   }))
   .sort((a, b) => a.usps.localeCompare(b.usps));
 
-/** This world's 2024 map: each state's Democratic two-party share, moved by the world's swing. */
-function worldMap(seed: string): readonly { usps: string; share: number }[] {
+/**
+ * This world's 2024 map, each state's Democratic two-party share: the century's own count of
+ * that election (century.ts), or under "today" the real map moved by the world's swing.
+ */
+function worldMap(
+  seed: string,
+  date: string = gameStartDate(),
+): readonly { usps: string; share: number }[] {
+  const century = centuryRace(seed, date, ELECTION_YEAR);
+  if (century)
+    return century.states
+      .map((row) => ({
+        usps: row.stateKey.slice(3),
+        share: 1 - row.republicanShare,
+      }))
+      .sort((a, b) => a.usps.localeCompare(b.usps));
   return MAP.map((row) => ({
     usps: row.usps,
     share: Math.max(0, Math.min(1, row.share - worldSwing(seed, row.usps))),
   }));
 }
 
-const MAP_SOURCE =
+/** The election whose map the President's record reads. */
+const ELECTION_YEAR = 2024;
+
+const REAL_MAP_SOURCE =
   "Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (data/source/electoral-calibration-2024).";
+const CENTURY_MAP_SOURCE =
+  "The century's count of the 2024 presidential election (src/core2/century.ts), state by state.";
+/** Where the map comes from in this world. */
+function mapSource(seed: string, date: string = gameStartDate()): string {
+  return centuryRace(seed, date, ELECTION_YEAR)
+    ? CENTURY_MAP_SOURCE
+    : REAL_MAP_SOURCE;
+}
 
 /** Past-fact kinds the President's record uses. */
 export const PRESIDENT_FACT = {
@@ -63,12 +89,15 @@ export const PRESIDENT_FACT = {
 } as const;
 
 /** The states contested on the 2024 map: a two-party share near even. */
-export function contestedStates2024(seed: string): readonly {
+export function contestedStates2024(
+  seed: string,
+  date?: string,
+): readonly {
   usps: string;
   democraticTwoPartyShare: number;
 }[] {
   const margin = DATA.contestedMargin.value;
-  return worldMap(seed)
+  return worldMap(seed, date)
     .filter((row) => Math.abs(row.share - 0.5) < margin)
     .map((row) => ({
       usps: row.usps,
@@ -93,9 +122,10 @@ export function nationalHomeState(
   seed: string,
   who: string,
   party: string | null,
+  date?: string,
 ): { usps: string; share: number } {
   const side = partySide(party);
-  const map = worldMap(seed);
+  const map = worldMap(seed, date);
   const carried = map.filter((row) =>
     side > 0 ? row.share < 0.5 : side < 0 ? row.share > 0.5 : true,
   );
@@ -124,7 +154,13 @@ export function presidentRecord(input: {
     estimatedFrom: "src/core2/data/officials/officials.json#president",
   });
   // A home state the President's party carried in 2024.
-  const home = nationalHomeState(input.seed, "president", input.party);
+  const home = nationalHomeState(
+    input.seed,
+    "president",
+    input.party,
+    input.date,
+  );
+  const mapCitation = mapSource(input.seed, input.date);
   const homeKey = `US-${home.usps}`;
   const facts: PastFact[] = [
     {
@@ -133,7 +169,7 @@ export function presidentRecord(input: {
       kind: PRESIDENT_FACT.homeState,
       summary: homeKey,
       source: source(
-        `A state the President's party carried in 2024 (${MAP_SOURCE}), drawn once from the world's seed.`,
+        `A state the President's party carried in 2024 (${mapCitation}), drawn once from the world's seed.`,
       ),
       facts: {
         stateKey: homeKey,
@@ -169,11 +205,11 @@ export function presidentRecord(input: {
     date: DATA.electionDay.value,
     kind: PRESIDENT_FACT.elected,
     summary: "president",
-    source: { tag: "SOURCED", citation: MAP_SOURCE, asOf: input.date },
+    source: { tag: "SOURCED", citation: mapCitation, asOf: input.date },
     facts: { office: "president", year: DATA.electionDay.value.slice(0, 4) },
   });
   // Every contested state, and the home state.
-  const contested = contestedStates2024(input.seed);
+  const contested = contestedStates2024(input.seed, input.date);
   const visited = new Map(
     contested.map((row) => [`US-${row.usps}`, row.democraticTwoPartyShare]),
   );
@@ -193,7 +229,7 @@ export function presidentRecord(input: {
       summary: stateKey,
       source: {
         tag: "ESTIMATED",
-        citation: `${MAP_SOURCE} A contested state (two-party share within ${DATA.contestedMargin.value} of even) or the home state; the day is drawn once from the world's seed.`,
+        citation: `${mapCitation} A contested state (two-party share within ${DATA.contestedMargin.value} of even) or the home state; the day is drawn once from the world's seed.`,
         asOf: input.date,
         estimatedFrom: "src/core2/data/officials/officials.json#president",
       },

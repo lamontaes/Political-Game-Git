@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/fable-journal-reads-life
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/fable-journal-reads-life
 ---
 
 **What.** A person's card and the You screen tell a life from one list. The Journal still builds its own lines from the records by its own rules, so the same event can read differently in two places or show in one and not the other. This part makes the Journal a reader of the same list and deletes its own assembly.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/director/journal.ts, src/core2/person-life.ts (new), src/bench/play.mjs
 
 **Notes.** Being built on branch claude/fable-journal-reads-life by a helper on Fable's review (Nov 10). Whoever takes this item takes that branch.
+
+Released by next (2026-11-18): no push to claude/fable-journal-reads-life since 2026-11-12 17:07 UTC, more than twice its 8-hour time box. Continue on branch claude/fable-journal-reads-life.

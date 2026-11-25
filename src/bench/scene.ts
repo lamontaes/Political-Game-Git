@@ -1,4 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
+import { roleWord } from "./card";
 import { hash as fnv, readRecipe } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
@@ -565,10 +566,18 @@ export function backdropFile(
     rows.find((r) => r.variant === wanted) ??
     rows.find((r) => r.variant === "midday") ??
     rows[0]!;
+  // stopgapId: SG-BENCH-painted-tv-rooms-checked
+  // The table's rows are the number arrays; its `about` note is a string.
+  const screen = Object.entries(scenePlaces.paintedScreens).find(
+    (entry): entry is [string, number[]] =>
+      entry[0] === place && Array.isArray(entry[1]),
+  )?.[1];
   return {
     file: row.file,
     variant: row.variant,
     url: `/art/backdrops/${row.file}`,
+    /** The glass of a television this picture paints, in percent of the picture. */
+    ...(screen ? { screen } : {}),
   };
 }
 
@@ -701,7 +710,7 @@ const PLATED = new Set(
   plates().map((plate) => placeOfBackdrop(plate.backdrop)),
 );
 
-/** How many people the who's-here strip names before it counts the rest (data/whole-figures.json). */
+/** How many people the who's-here strip names before it counts the rest (src/bench/data/whole-figures.json). */
 const HERE_SHOWN = figureRules.here.shown;
 /** The reasons that put someone first in the strip: the scene is about them. */
 const FRONT: ReadonlySet<StageReason> = new Set(["act", "moment", "clerk"]);
@@ -724,6 +733,8 @@ export function peopleHere(
     name: string;
     reason: StageReason;
     role?: string;
+    /** The occasion is a formal one for them (the address names them by their office): they wear formal clothes. */
+    formal?: boolean;
   }[],
   /** Whose speech it is: first in the strip. */
   speaker?: string,
@@ -732,12 +743,23 @@ export function peopleHere(
   const viewer = ids.find((entry) => entry.reason === "you")?.id;
   const known = viewer ? core.people.get(viewer)?.knownIds : undefined;
   const seen = new Set<string>();
-  const present = ids.flatMap(({ id, name, reason, role }) => {
+  const present = ids.flatMap(({ id, name, reason, role, formal }) => {
     if (!reason || reason === "you" || seen.has(id)) return [];
     seen.add(id);
-    const face = faceOf(core, id, place);
+    const face = faceOf(core, id, place, formal);
+    // Under their name: the office the scene names them by, else their tie to the
+    // viewer or the office they serve in now (mock C).
+    const under = role ?? roleWord(core, viewer ?? "", id);
     return face
-      ? [{ personId: id, name, reason, face, ...(role ? { role } : {}) }]
+      ? [
+          {
+            personId: id,
+            name,
+            reason,
+            face,
+            ...(under ? { role: under } : {}),
+          },
+        ]
       : [];
   });
   // First whoever speaks and whoever the scene is about, then the people the
@@ -782,10 +804,13 @@ export function faceOf(
   core: CoreState,
   id: string,
   place: string,
+  /** A formal occasion dresses anyone formally, an officeholder or not (P10). */
+  formal = false,
 ): PersonFace | null {
   const looks = looksOf(core, id);
   if (!looks) return null;
-  const bust = bustOf(core, whoOf(core, id, looks), place);
+  const who = whoOf(core, id, looks);
+  const bust = bustOf(core, formal ? { ...who, official: true } : who, place);
   return bust ? { bust } : null;
 }
 

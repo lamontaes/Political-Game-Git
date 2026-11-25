@@ -20,7 +20,7 @@ root: none
 
 **What.** When someone the player gave their word to brings up a broken promise, the player can own it, explain or deny it. The player has no answer for having been forced to break it, such as a party order on the floor. The Words lead's line for that answer is "I had no choice on that one." It may be offered only when a record shows a cause. Seen: in a talk with a running mate after the player votes against the proposal they promised to back.
 
-**Cause.** Found in code: `promiseAnswers` (src/director/promise-talk.ts) offers the same broken answers from src/director/data/promise-kinds.json (own-it, explain, deny, make-it-right) for every broken promise, whatever settled it. Two kinds of record could show a forced vote, and nothing reads either one into the answers: the whip's asks before a floor vote (`whipCount`, src/core2/modules/legislature.ts) and a bill's `overridden` status.
+**Cause.** Found in code: `promiseAnswers` (src/director/promise-talk.ts) offers the same broken answers from src/core2/data/promises/promise-kinds.json (own-it, explain, deny, make-it-right) for every broken promise, whatever settled it. Two kinds of record could show a forced vote, and nothing reads either one into the answers: the whip's asks before a floor vote (`whipCount`, src/core2/modules/legislature.ts) and a bill's `overridden` status.
 
 **Fix.** Add a broken answer row `no-choice` to promise-kinds.json, with a condition read from the record that settled the promise (`endedBy`). The condition holds when the player's vote at that roll call was asked by their party's whip, or when the act was a veto that was overridden. Do not offer the answer otherwise. Add the Words lead's line "I had no choice on that one." as `promise-broken-answer-no-choice` in data/english/parts/conversation.json. Decide its tie move with the Words lead.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** gov-serve-ask-price-said-aloud.
 
-**Files.** src/director/data/promise-kinds.json, src/director/promise-talk.ts, data/english/parts/conversation.json, src/director/serve-price-scene.test.ts
+**Files.** src/core2/data/promises/promise-kinds.json, src/director/promise-talk.ts, data/english/parts/conversation.json

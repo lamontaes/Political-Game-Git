@@ -1,0 +1,32 @@
+{
+  "id": "the-grower-gets-a-classification-letter-before-harvest",
+  "kind": "move",
+  "summary": "An agency letter tells {person} how it would classify the planned packing operation.",
+  "realLife": "USDA advised the Hornes in 2001 that their proposed packing arrangements would make them handlers under the order.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep569/usrep569513/usrep569513.pdf#page=8"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the dated agency letter and proposed operation."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: dated agency letter and proposed operation.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Change the packing plan after the letter.",
+      "pulledBy": "The family changes its proposed service.",
+      "writesBack": "Response to classification letter."
+    },
+    {
+      "turn": "another-way",
+      "what": "Keep the plan and preserve the disagreement.",
+      "pulledBy": "The family proceeds despite the agency's advice.",
+      "writesBack": "Response to classification letter."
+    }
+  ]
+}

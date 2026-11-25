@@ -20,6 +20,7 @@ import rows from "../data/press/parameters.json" with { type: "json" };
 import briefs from "../data/press/briefs.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import endorsing from "../data/press/endorsements.json" with { type: "json" };
+import type { EntityId } from "../kernel/brands";
 import { bookkeeping } from "../bookkeeping";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import {
@@ -54,7 +55,9 @@ import {
   NATIONAL_ENGAGEMENT,
 } from "../electorate";
 import {
+  announcedIn,
   ballot,
+  inTheRace,
   ELECTIONS_MODULE_ID,
   standing,
   type ContestRow,
@@ -438,6 +441,12 @@ export const PRESS_MODULE: CoreModule = {
       // press-interview scene), or that they declined: the paper's story
       // of that record carries it (printed-words, commentFacts).
       comments: {},
+      /**
+       * A person's own say about an outlet: they follow it, or they dropped it.
+       * Read over the week's audiences (followersOf), so a paper a person chose
+       * is read by every engine that reads who follows what.
+       */
+      follows: { indexes: { byPerson: { fields: ["personId"] } } },
       digs: {},
       tips: {},
       // Stories the press wrote about the year before day one.
@@ -1412,8 +1421,74 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
     }
     for (const [id, list] of lists) map.set(id, list);
   }
+  // What a person chose themselves stands over the audiences' shares.
+  for (const raw of table(api, "follows").rows() as unknown as FollowRow[]) {
+    const list = map.get(raw.outletId);
+    if (!list) continue;
+    const without = list.filter((p) => p !== raw.personId);
+    map.set(raw.outletId, raw.follows ? [...without, raw.personId] : without);
+  }
   followCache.set(api.state, { date: api.state.date, map });
   return map.get(outletId) ?? [];
+}
+
+type FollowRow = {
+  id: string;
+  personId: string;
+  outletId: string;
+  follows: boolean;
+  since: string;
+};
+
+/**
+ * A person follows an outlet, or stops: their choice stands over the week's
+ * audiences until they change it. Settles at once, not at the next week.
+ */
+export function setFollow(
+  api: CoreAPI,
+  personId: string,
+  outletId: string,
+  follows: boolean,
+): void {
+  table(api, "follows").put({
+    id: `${personId}:${outletId}`,
+    personId,
+    outletId,
+    follows,
+    since: api.state.date,
+  } as unknown as ModuleRow);
+  followCache.delete(api.state);
+}
+
+/**
+ * A household knows its paper and its station from day one: each adult in it
+ * follows, of each kind of local outlet the town has, the one nearest their own
+ * lean (the same selective exposure `followersOf` gives the audiences), so the
+ * household is never one that has no outlet to read. Opening stock: the
+ * engine's own pick, kept as the person's own follow.
+ */
+export function openHouseholdOutlets(api: CoreAPI, householdId: string): void {
+  const household = api.state.households.get(householdId as EntityId);
+  if (!household) return;
+  const date = api.state.date;
+  const adultAge = api.parameter("votingAge");
+  const local = outletsHere(api).filter((o) => o.tier === "local");
+  for (const id of household.memberIds) {
+    const p = api.state.people.get(id);
+    if (!p?.alive || ageOn(p, date) < adultAge) continue;
+    const lean = leanOf(api, id);
+    for (const kind of ALL_KINDS) {
+      const own = local.filter((o) => o.kind === kind);
+      if (!own.length) continue;
+      const nearest = own.reduce((best, o) =>
+        Math.abs((o.lean ?? 0) - lean) < Math.abs((best.lean ?? 0) - lean)
+          ? o
+          : best,
+      );
+      if (!table(api, "follows").get(`${id}:${nearest.id}`))
+        setFollow(api, id, nearest.id, true);
+    }
+  }
 }
 
 /**
@@ -2313,7 +2388,7 @@ function arrangeWith(
   if (filing) {
     if (
       contestOf(api, filing.contestId).electionDate < api.state.date ||
-      !standing(filing)
+      !inTheRace(api, filing)
     )
       return declined("race-over");
     if (already(api, outletId, filing.id))
@@ -2339,13 +2414,19 @@ function arrangeWith(
       interest,
     );
   if (!interest && worth < bar) return declined("not-newsworthy");
-  return record(api, {
+  const arranged = record(api, {
     ...base,
     status: "invited",
     reason: null,
     interest,
     questions: interviewQuestions(api, speaker, outlet),
   });
+  // A paper that says yes to the candidate's own ask sits down with them: the
+  // same invitation event an outlet's own ask puts, which the director stages
+  // as the interview.
+  if (askedBy === "candidate" && arranged.status === "invited")
+    invitation(api, arranged);
+  return arranged;
 }
 
 /**
@@ -3367,7 +3448,12 @@ export function leakToReporter(
     sourceId: `leak:${input.crimeId}`,
     access: "told",
   });
-  api.relationship(input.leakerId, input.reporterId, "contact", 0.5);
+  api.relationship(
+    input.leakerId,
+    input.reporterId,
+    "contact",
+    api.parameter("sourceMeetingMinutes") / api.parameter("minutesPerHour"),
+  );
   return row;
 }
 
@@ -4437,7 +4523,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         refuse(api, row);
   if (!contests.length) return;
   const filings = contests
-    .flatMap((c) => ballot(api, c.id))
+    .flatMap((c) => [...ballot(api, c.id), ...announcedIn(api, c.id)])
     .map((f) => ({ f, worth: newsworthiness(api, f) }));
   // The player's invitations this week, put to them as one.
   const invitedThisWeek = new Map<string, InterviewRow[]>();
@@ -4583,6 +4669,8 @@ function snubbed(
   outletId: string,
   byId: string,
   sourceId: string,
+  /** Those in the room when it was said (an attack in a speech): they saw it, so nobody tells them of it. */
+  presentIds: readonly string[] = [],
 ): void {
   const outlet = table(api, "outlets").get(outletId) as unknown as
     OutletRow | undefined;
@@ -4598,6 +4686,16 @@ function snubbed(
     date: api.state.date,
     kind,
     personIds: staff,
+    ...(presentIds.length
+      ? {
+          witnessIds: presentIds.filter(
+            (id) =>
+              id !== byId &&
+              !staff.includes(id) &&
+              api.state.people.get(id)?.alive,
+          ),
+        }
+      : {}),
     placeId: outlet.placeId,
     // The one who snubbed or attacked them is the responsible party.
     topic: byId,
@@ -4620,13 +4718,9 @@ export const INTERVIEW_INVITED_EVENT = "interview-invited";
  * candidate's answers, said there, publish the interview (`answerInterview`).
  */
 export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
-/** The replies in an invitation's scene that accept it. */
-export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
-  "agree",
-  "relent",
-]);
-/** The replies in an invitation's scene that turn it down. */
-export const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline"]);
+// The replies that accept or turn down an ask live with every engine that reads them.
+import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
+export { ACCEPTING_MOVES, REFUSING_MOVES };
 
 /**
  * The races an outlet takes up this week. Each week a race in its horizon
@@ -5057,7 +5151,14 @@ export function attackOutlet(
       audienceIds: input.audienceIds,
       occasion: { recordId: id, kind: "attack" },
     });
-  snubbed(api, "press.attacked", outlet.id, input.speakerId, id);
+  snubbed(
+    api,
+    "press.attacked",
+    outlet.id,
+    input.speakerId,
+    id,
+    input.audienceIds,
+  );
   followCache.delete(api.state);
   return id;
 }

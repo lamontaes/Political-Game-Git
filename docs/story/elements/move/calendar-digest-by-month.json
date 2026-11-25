@@ -1,0 +1,35 @@
+{
+  "id": "calendar-digest-by-month",
+  "kind": "move",
+  "summary": "A digest runs month by month under short subheads, each item with its date, time and place.",
+  "realLife": "A chamber roundup listed ribbon cuttings by month, each with an address and an hour.",
+  "sources": [
+    "Shaw Local (The Herald-News), 'Celebrating milestones in 2025: Joliet chamber marks ribbon-cuttings, anniversaries and grand openings', June 17, 2025 (written by the chamber, not a staff reporter): https://www.shawlocal.com/the-herald-news/2025/06/17/celebrating-milestones-in-2025-joliet-chamber-marks-ribbon-cuttings-anniversaries-and-grand-openings",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "place", "subject"],
+  "gates": [],
+  "weights": {
+    "opening": 0.8,
+    "meetings": 0.8
+  },
+  "inGame": "the `ribbon-cut` and `meetings-week` builders; the town's opening rows",
+  "turns": [
+    {
+      "name": "a single event",
+      "pulledBy": "a quiet month",
+      "writes": "one dated line",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a season digest",
+      "pulledBy": "a busy spring",
+      "writes": "the digest groups by season",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

@@ -105,6 +105,7 @@ import {
 import { budgetProposalDue } from "../core2/modules/office-day";
 import { budgetsOf, governmentOfJurisdiction } from "../core2/modules/budgets";
 import { lineName } from "./budget";
+import { headsExecutive } from "../core2/offices-executives";
 
 /** A bill as the meeting and the desk show it: its real name, number, sponsor, remarks and votes; its sections are on the paper (Read the bill). */
 export function billItem(core: CoreState, bill: BillRow) {
@@ -394,9 +395,6 @@ const STOP_SWITCHES = [
   { key: "desk", kinds: ["desk"] },
 ] as const;
 
-/** The elected executive seats whose desk a passed bill reaches (the legislature engine's own set). */
-const EXECUTIVE_OFFICE = /^(mayor|governor|county-executive|president)$/;
-
 /** Which switches this seat has: a local body's meetings, a legislator's floor, an executive's desk. */
 function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -408,9 +406,7 @@ function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
   ).some((term) => {
     const office = offices.table("offices").get(term.officeId) as unknown as
       { kind: string } | undefined;
-    return (
-      term.status === "serving" && EXECUTIVE_OFFICE.test(office?.kind ?? "")
-    );
+    return term.status === "serving" && headsExecutive(office?.kind ?? "");
   });
   const federal = federalSeatOf(api, personId);
   const has: Record<(typeof STOP_SWITCHES)[number]["key"], boolean> = {
@@ -418,7 +414,7 @@ function seatSwitches(api: ReturnType<typeof coreAPI>, personId: string) {
     // office has a body record (kind "mayor") but no meetings, so no switch for nothing.
     meetings: officeJobsOf(api, personId).some((j) => {
       const body = bodyOf(api, j.officeId);
-      return body !== undefined && !EXECUTIVE_OFFICE.test(body.kind);
+      return body !== undefined && !headsExecutive(body.kind);
     }),
     floor:
       stateOfficeOf(api, personId)?.role === "legislator" ||

@@ -10,6 +10,7 @@
  * so the words never change after it was given and never differ by who reads
  * them.
  */
+import { SENTENCE_WORDS } from "../english/english-composition";
 import {
   OPENING_SPEECH_BANK,
   type OpeningLevel,
@@ -67,10 +68,16 @@ export function sentenceText(
           ? sentence.bare[name]!
           : (sentence.values[name] ?? ""),
     );
+    // A word that takes a capital only at a sentence's start is said lower
+    // case after a piece that ends on a comma ("Because I hold that ...,
+    // don't look for my name ..."; the Story lead's read of #9831, Alaska).
+    const first = /^[^\s,]+/.exec(filled)?.[P.zero] ?? "";
     const piece =
       !text || /[.!?]["”]?$/.test(text)
         ? filled.charAt(P.zero).toUpperCase() + filled.slice(P.one)
-        : filled;
+        : /,$/.test(text) && SENTENCE_WORDS.has(first)
+          ? filled.charAt(P.zero).toLowerCase() + filled.slice(P.one)
+          : filled;
     text = text ? `${text} ${piece}` : piece;
   }
   return text.replace(/,+(?=[.!?;:)"”])/g, "");

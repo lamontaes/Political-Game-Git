@@ -147,7 +147,7 @@ function months(core: CoreState): WebMonth[] {
 describe("price and sales-tax laws reach people and move money", () => {
   afterAll(() => setJournalTrace(null));
 
-  it("is followed to households, groups, sellers and treasuries", () => {
+  it("is followed to households, groups, sellers and treasuries (just like today: needs the state's real price laws)", () => {
     setBookkeeping(false);
     const tried: string[] = [];
     try {
@@ -190,6 +190,7 @@ function run(
   const where = `seed ${drawn.seed}, place ${drawn.key} ${drawn.name}`;
   const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: drawn.key,
   });
   const api = coreAPI(core);
@@ -283,7 +284,35 @@ function run(
     remittances.get(
       core.cashJournal.residualAccountByOwner.get(sellerId) ?? "",
     );
+  const repealedInPlay = new Map<string, string>();
   for (const law of PRICE_LAWS) {
+    // A year of play includes the state legislature's own sessions: where it
+    // passed a bill that sets the law to no during the year (Louisiana's
+    // 2025-08-01 bills), the test's row is no longer the one in force, the
+    // price rule ended with it and so did the rows it recorded. That is the
+    // effect landing, so it is read as such and named, not passed over.
+    const standing = lawInForce(api, law.key);
+    if (standing.value !== 1) {
+      const ending = standing.governing;
+      expect(
+        ending?.id,
+        `${where}: ${law.key} is no longer in force under the test's own row`,
+      ).not.toBe(lawIds.get(law.key));
+      expect(
+        (ending?.effectiveDate ?? "") > enactedOn,
+        `${where}: ${law.key} ended by ${ending?.id}, which is not a later law`,
+      ).toBe(true);
+      const own = current(applied(core, law.key), enactedOn).filter(
+        (r) => r.lawId === lawIds.get(law.key),
+      );
+      for (const row of own)
+        expect(
+          row.endedOn !== null && row.endedOn >= ending!.effectiveDate,
+          `${where}: ${row.id} is still open after ${ending!.id} (${ending!.effectiveDate}) ended ${law.key}`,
+        ).toBe(true);
+      repealedInPlay.set(law.key, ending!.id);
+      continue;
+    }
     const rule = rules.find((r) => r.cause.includes(law.key));
     expect(rule, `${where}: ${law.key} price rule`).toBeDefined();
     const all = current(applied(core, law.key), enactedOn);
@@ -632,6 +661,7 @@ function run(
   // Every law of the family is named by an applied row, a journal entry and
   // the household or person it reached.
   for (const key of [...YES_LAWS, SALES_TAX]) {
+    if (repealedInPlay.has(key)) continue;
     const named = evidence[key];
     expect(named, `${where}: evidence for ${key}`).toBeDefined();
     for (const value of Object.values(named!))
@@ -641,7 +671,7 @@ function run(
       ).toBeTruthy();
   }
   console.info(
-    `prices family evidence, ${where}\n${JSON.stringify(evidence, null, 1)}`,
+    `prices family evidence, ${where}, ended by the state's own bill in play ${JSON.stringify([...repealedInPlay])}\n${JSON.stringify(evidence, null, 1)}`,
   );
   void tried;
   void payers;
@@ -651,7 +681,7 @@ function run(
 describe("the ban on new gas hookups reaches a builder and the cost of its project", () => {
   afterAll(() => setJournalTrace(null));
 
-  it("is followed to the builder's applied row and its first payment", () => {
+  it("is followed to the builder's applied row and its first payment (just like today: needs the state's real price laws)", () => {
     setBookkeeping(false);
     const tried: string[] = [];
     try {
@@ -691,6 +721,7 @@ function runGasBan(drawn: ReturnType<typeof drawPlace>): boolean {
   const where = `seed ${drawn.seed}, place ${drawn.key} ${drawn.name}`;
   const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: drawn.key,
   });
   const api = coreAPI(core);
@@ -729,7 +760,18 @@ function runGasBan(drawn: ReturnType<typeof drawPlace>): boolean {
     measureId: "test:gas-ban:on",
     citation: "Controlled law case in a generated year.",
   });
-  const governing = lawInForce(api, GAS_BAN).governing;
+  const inForce = lawInForce(api, GAS_BAN);
+  // A state's governing "no" outranks a town's yes where it preempts local
+  // bans (South Dakota, Enemy Swim): the row is there but the ban is not in
+  // force, and the housing engine rightly reads no ban. The place is passed
+  // over by name and another is drawn.
+  if (inForce.value !== 1) {
+    console.info(
+      `gas hookup ban passed over, ${where}: the town's yes is outranked by ${inForce.governing?.id ?? "no governing row"} (value ${inForce.value})`,
+    );
+    return false;
+  }
+  const governing = inForce.governing;
   expect(governing, `${where}: the ban in force`).toBeTruthy();
   const lawId = governing!.id;
   const enactedOn = core.date;

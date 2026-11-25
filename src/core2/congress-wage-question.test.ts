@@ -26,7 +26,10 @@ const place = drawPlace(replay, "congress-wage-question");
 const shared = "us-policy-positions:labor-workforce.raise-minimum-wage";
 const canonical =
   "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
-it(`Congress uses one wage rule through either catalog name: ${place.name}, replay ${replay}`, () => {
+// One label per rule at a level (Laws and effects, Nov 17, on issue 9747; item
+// laws-congress-holds-two-questions-for-one-federal-wage-rule): Congress drafts the
+// wage rule under its own federal label only, and the states' label is not Congress's.
+it(`Congress drafts the one wage rule under its own label: ${place.name}, replay ${replay}`, () => {
   setBookkeeping(false);
   try {
     const world = buildBenchWorld(place.seed, gameStartDate(), {
@@ -38,12 +41,22 @@ it(`Congress uses one wage rule through either catalog name: ${place.name}, repl
       billCatalog(api, "federal", "US").flatMap((s) =>
         s.topics.flatMap((t) => t.policies),
       );
-    const common = () => menu().find((p) => p.id === `question:${shared}`)!;
     const legacy = () => menu().find((p) => p.id === `question:${canonical}`)!;
-    expect(common()).toBeDefined();
-    expect(common().authority.allowed).toBe(true);
-    expect(common().inForceRecordId).toBe(legacy().inForceRecordId);
-    const before = lawInForce(api, "minimum-wage").levels.find(
+    // The menu offers the rule once, under Congress's label.
+    expect(menu().some((p) => p.id === `question:${shared}`)).toBe(false);
+    expect(legacy()).toBeDefined();
+    expect(legacy().authority.allowed).toBe(true);
+    // A federal bill under the states' label is refused: Congress decides the
+    // rule under its own label.
+    const statesLabel = draftBill(api, {
+      bodyOfficeId: FEDERAL_HOUSE,
+      sponsorId: memberKey(members(api, FEDERAL_HOUSE)[0]!),
+      provisions: [
+        provisionFor({ policyId: `question:${shared}`, operation: "enact" }),
+      ],
+    });
+    expect(statesLabel.authority.some((a) => !a.allowed)).toBe(true);
+    let before = lawInForce(api, "minimum-wage").levels.find(
       (l) => l.level === "federal",
     )!.row!;
     // Controlled stronger state floor proves the 29 USC 218(a) savings rule.
@@ -59,12 +72,21 @@ it(`Congress uses one wage rule through either catalog name: ${place.name}, repl
       citation: "29 USC 218(a) reader fixture, not a vote",
     });
     const records: string[] = [];
-    for (const [question, operation] of [
-      [shared, "enact"],
-      [shared, "repeal"],
+    // A world whose history already has Congress saying yes to the rule opens
+    // with the question standing and the raised floor in force on the opening
+    // day (the century's session passed it before day one). An enactment then
+    // restates what is in force and changes nothing, so that world starts by
+    // repealing it: the floor must fall back below the raised one, and that
+    // lower floor is what the enactments after it must raise.
+    const standsAtOpening = legacy().inForce === 1;
+    const sequence = [
+      ...(standsAtOpening ? [[canonical, "repeal"] as const] : []),
       [canonical, "enact"],
-      [shared, "repeal"],
-    ] as const) {
+      [canonical, "repeal"],
+      [canonical, "enact"],
+      [canonical, "repeal"],
+    ] as const;
+    for (const [index, [question, operation]] of sequence.entries()) {
       const effectiveDate = addDays(makeIsoDate(api.state.date), 1);
       const bill = draftBill(api, {
         bodyOfficeId: FEDERAL_HOUSE,
@@ -88,18 +110,21 @@ it(`Congress uses one wage rule through either catalog name: ${place.name}, repl
         } as unknown as ModuleRow);
       expect(executiveDecision(api, bill.id, true).status).toBe("enacted");
       advanceCore(world.core, addDays(makeIsoDate(effectiveDate), 1));
-      expect(common().inForce).toBe(operation === "enact" ? 1 : 0);
-      expect(common().inForceRecordId).toBe(legacy().inForceRecordId);
+      expect(legacy().inForce).toBe(operation === "enact" ? 1 : 0);
+      expect(legacy().inForceRecordId).toBeTruthy();
       const answer = lawInForce(api, "minimum-wage");
       const federal = answer.levels.find((l) => l.level === "federal")!.row!;
       if (operation === "enact")
         expect(federal.value).toBeGreaterThan(before.value!);
-      else expect(federal.value).toBe(before.value);
+      else if (standsAtOpening && index === 0) {
+        expect(federal.value).toBeLessThan(before.value!);
+        before = federal;
+      } else expect(federal.value).toBe(before.value);
       expect(answer.value).toBe(5000);
       expect(
         answer.levels.find((l) => l.row?.id === stronger.id)?.setAside,
       ).toBeUndefined();
-      records.push(common().inForceRecordId!, federal.id);
+      records.push(legacy().inForceRecordId!, federal.id);
     }
     const duplicate = api
       .moduleState(LAWS_MODULE_ID)
@@ -115,6 +140,7 @@ it(`Congress uses one wage rule through either catalog name: ${place.name}, repl
         worldSeed: place.seed,
         body: FEDERAL_HOUSE,
         priorFederal: before.id,
+        questionStoodAtOpening: standsAtOpening,
         records,
         higherStateFixture: stronger.id,
       }),

@@ -1,0 +1,30 @@
+{
+  "id": "write-down-which-precincts-have-votes",
+  "kind": "move",
+  "summary": "While the votes come in, a delegate notes how much say the neighborhoods back home could have.",
+  "realLife": "Harrington wrote down the voting strength of several predominantly Black Jackson precincts and linked those numbers to who might be elected if more people attended the first meetings.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=6"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office", "home"],
+  "slots": ["{delegate}", "{precinct}"],
+  "gates": ["The county convention reports voting strength by precinct."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: precinct voting weights and the delegate’s own notes.",
+  "turns": [
+    {
+      "turn": "missing-precinct-checked",
+      "what": "The delegate leaves that line blank and asks the secretary afterward.",
+      "pulledBy": "A tally skips one precinct.",
+      "writesBack": "The notebook retains a source for the missing figure."
+    },
+    {
+      "turn": "organizer-takes-notes",
+      "what": "The delegate passes that person the figures.",
+      "pulledBy": "The precinct has elected someone willing to organize its next meeting.",
+      "writesBack": "A named organizer takes the precinct tally sheet home."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "candidate-blames-the-circulator-firm-but-takes-the-count",
+  "kind": "voice",
+  "summary": "A candidate who falls short after a challenge says they should have checked the pages, blames the paid circulators, and accepts the county's count.",
+  "realLife": "A mayoral candidate left the ballot after a signature review left him short; he said he should have verified the signatures before filing, denied any forgery, and blamed the firm that hired the circulators.",
+  "sources": [
+    "Yahoo News, mayoral candidate withdraws after signatures disqualified, April 2024: https://www.yahoo.com/news/glendale-mayoral-candidate-jamie-aldama-232803412.html"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office"],
+  "gates": [],
+  "inGame": "petition-short; paid circulator vendor; the clerk's count",
+  "weights": {
+    "petition": 0.8
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "He owns the lapse and says nothing against the count",
+      "pulledBy": "a candidate who takes blame",
+      "writesBack": "a withdrawal with no suit"
+    },
+    {
+      "turn": "He points at the rival who filed the challenge",
+      "pulledBy": "a grievance with the incumbent",
+      "writesBack": "a charge the rival's side calls a distraction"
+    }
+  ]
+}

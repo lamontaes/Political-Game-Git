@@ -1,4 +1,5 @@
 /** Policy authority from the shared research catalog and current state laws. */
+import { labelOfAnotherAtLevel, policySeriesAtLevel } from "./policy-answers";
 import type { GovernmentLevel } from "./government-level";
 import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import mapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
@@ -59,6 +60,7 @@ function stateLaw(api: CoreAPI, question: string): LawRowInput | undefined {
 }
 
 /** A recorded unknown blocks introduction; it is never silently treated as a grant. */
+
 export function policyAuthority(
   api: CoreAPI,
   question: string,
@@ -99,6 +101,15 @@ export function policyAuthority(
   if (!row) return unsettled();
   if (!row.levels.some((reach) => own.includes(reach)))
     return result(false, "level-lacks-power");
+  // One label per rule at a level: where this level reads the question as
+  // another platform question's rule, it decides that rule under that label
+  // (the states' wage question is Congress's federal wage question).
+  if (labelOfAnotherAtLevel(question, level))
+    return result(
+      false,
+      "level-lacks-power",
+      `data/research/powers-catalog/question-powers.json#${question} (seriesByLevel.${level}: ${policySeriesAtLevel(question, level)})`,
+    );
   const listed = DIALS.get(row.dial)?.[column];
   // A territory's cell the catalog has not read is its state cell: the organic
   // acts give a territorial legislature the rightful subjects of legislation

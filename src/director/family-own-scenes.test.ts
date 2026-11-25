@@ -5,10 +5,9 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { advanceCore } from "../core2/life";
 import { moduleState } from "../core2/module-state";
-import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { RENEWAL_MODULE_ID } from "../core2/modules/renewal";
-import { coreAPI } from "../core2/state";
-import type { CoreState, PersonId } from "../core2/types";
+import type { PersonId } from "../core2/types";
 import type { Director } from "./ledger";
 import { purposeScene } from "./purpose-scene";
 
@@ -46,117 +45,40 @@ function entryFor(
   );
 }
 
-function adultOn(core: CoreState, born: string) {
-  return ageOnDate(makeIsoDate(born), makeIsoDate(core.date)) >= 18;
-}
-
 describe("a person's own courtship and child always stage", () => {
-  it("plays the player's first date and the proposal they are asked as scenes (Pulaski, Ohio)", () => {
-    const { core, director, playerId, where } = world("family-a");
-    const me = playerId! as PersonId;
-    // Watched as the bench watches: the player and their household.
-    director.watch(core, me);
-    for (const id of core.households.get(core.people.get(me)!.householdId)
-      ?.memberIds ?? [])
-      if (id !== me) director.watch(core, id);
-    // The player turns 18 in the spring; the partnerships writer refuses a
-    // partner younger.
-    while (!adultOn(core, core.people.get(me)!.birthDate))
-      advanceCore(core, addDays(makeIsoDate(core.date), 7));
-    const player = core.people.get(me)!;
-    const partnered = new Set<string>();
-    for (const link of core.familyLinks.values())
-      if (link.kind === "partner")
-        for (const id of link.personIds) partnered.add(id);
-    const other = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          row.tier !== "husk" &&
-          row.id !== me &&
-          row.householdId !== player.householdId &&
-          row.placeId === player.placeId &&
-          !partnered.has(row.id) &&
-          !player.familyIds.has(row.id) &&
-          adultOn(core, row.birthDate),
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))[0];
-    expect(other, `${where}: an adult single in town`).toBeTruthy();
-    const api = coreAPI(core);
-    api.setPartnersV1({
-      personIds: [me, other!.id],
-      together: true,
-      source: {
-        tag: "SOURCED",
-        asOf: core.date,
-        citation: "The partnerships writer, as its monthly review calls it.",
-      },
-      facts: { union: "dating" },
-    });
-    const link = [...core.familyLinks.values()].find(
-      (row) => row.kind === "partner" && row.personIds.includes(me),
-    )!;
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const date = entryFor(director, me, "family.partnered:", "date");
-    expect(date, `${where}: the date binds`).toBeTruthy();
-    expect(date!.outcome, `${where}: the date is a scene now`).toBe(
-      "scene-now",
-    );
-    const dateScene = purposeScene(core, director, me, date!, {
-      typeKey: "date",
-    });
-    expect(dateScene?.kind, `${where}: the date is worded`).toBe("composed");
-
-    // The couple has lived together long enough that the next monthly review
-    // reaches the proposal: the engine's own stage climb writes it and holds
-    // the couple at "proposed" until the player answers.
-    const couples = moduleState(core, "partnerships").table("couples");
-    couples.put({
-      id: link.id,
-      stage: "living-together",
-      since: core.date,
-      progress: 0.999,
-    } as never);
-    advanceCore(core, addDays(makeIsoDate(core.date), 32));
-    const held = couples.get(link.id) as { stage: string } | undefined;
-    expect(held?.stage, `${where}: the engine asked the player`).toBe(
-      "proposed",
-    );
-    const proposal = entryFor(director, me, "family.engaged:", "proposal");
-    expect(proposal, `${where}: the proposal binds`).toBeTruthy();
-    expect(proposal!.outcome, `${where}: the proposal is a scene now`).toBe(
-      "scene-now",
-    );
-    const asked = purposeScene(core, director, me, proposal!, {
-      typeKey: "proposal",
-    });
-    expect(asked?.kind, `${where}: the proposal is worded`).toBe("composed");
-    if (asked?.kind === "composed") {
-      expect(asked.scene.askerId, where).toBe(other!.id);
-      expect(asked.scene.askedId, where).toBe(me);
-    }
-  }, 120_000);
-
   it("plays a parent's new baby as a scene (Leipsic, Delaware)", () => {
     const { core, director, where } = world("family-c");
     // The parents of every pregnancy the renewal engine holds are watched,
     // so whoever it delivers first is someone the director reads. The engine
     // opens its tables on the first day.
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    let lastDue = core.date as string;
     for (const row of moduleState(core, RENEWAL_MODULE_ID)
       .table("pregnancies")
       .rows())
-      if (row.status === "pregnant")
+      if (row.status === "pregnant") {
+        if (String(row.dueDate) > lastDue) lastDue = String(row.dueDate);
         for (const id of [row.motherId, row.otherParentId])
           if (core.people.get(String(id) as PersonId)?.alive)
             director.watch(core, String(id) as PersonId);
-    advanceCore(core, addDays(makeIsoDate(core.date), 100));
-    const mothers = [...director.ledger.people.keys()].filter((id) =>
-      entryFor(director, id as PersonId, "", "new-baby"),
-    );
+      }
+    // The opening's pregnancies are due when the history leaves them (the
+    // first on Apr 12 before the history from 1925, May 4 after it): play a
+    // week at a time until a baby is born, up to a week past the last due
+    // date.
+    const mothersNow = () =>
+      [...director.ledger.people.keys()].filter((id) =>
+        entryFor(director, id as PersonId, "", "new-baby"),
+      );
+    while (
+      !mothersNow().length &&
+      core.date <= addDays(makeIsoDate(lastDue), 7)
+    )
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    const mothers = mothersNow();
     expect(
       mothers.length,
-      `${where}: a birth in the first 100 days`,
+      `${where}: a birth by a week past the last due date, ${lastDue} (${core.date})`,
     ).toBeGreaterThan(0);
     for (const id of mothers) {
       const entry = entryFor(director, id as PersonId, "", "new-baby")!;

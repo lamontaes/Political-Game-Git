@@ -28,8 +28,8 @@ root: none
 
 **Rules.** No dice: the replies offered follow the record of what the player's news was. No new lines: the reply rows come from the words pull request.
 
-**Done when.** src/director/player-news-reply-stage.test.ts (South Vienna OH, seed c1, the shipped data with the player-news replies staged "job-left", the row the words pull request ships) fails without the change and passes with it; a second session, in a drawn place with its seed named, sees a staged reply offered after the player's news in a played talk once the words pull request is in.
+**Done when.** src/director/player-news-reply-stage.test.ts (removed) (South Vienna OH, seed c1, the shipped data with the player-news replies staged "job-left", the row the words pull request ships) fails without the change and passes with it; a second session, in a drawn place with its seed named, sees a staged reply offered after the player's news in a played talk once the words pull request is in.
 
 **Waits on.** nothing.
 
-**Files.** src/director/conversation.ts, src/director/player-news-reply-stage.test.ts (new)
+**Files.** src/director/conversation.ts, (new)

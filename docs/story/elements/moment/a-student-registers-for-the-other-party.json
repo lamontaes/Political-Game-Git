@@ -1,0 +1,43 @@
+{
+  "id": "a-student-registers-for-the-other-party",
+  "kind": "moment",
+  "summary": "A college student registered for the other party than her father and found that their debates opened more talk at home.",
+  "realLife": "A student said that in high school, around a presidential debate, she realized her views differed from her parents. When she registered as a Democrat her father was surprised, but he accepted it, and their debates increased political talk at home. Another student, raised in a conservative religious home, became more liberal after joining high school debate and had a heated fight with family over gay marriage. Her parents still respected her choices and made sure the children registered to vote.",
+  "sources": [
+    "https://tuftsdaily.com/article/2008/10/voting-apple-often-falls-far-from-the-tree"
+  ],
+  "fits": ["home", "campaign"],
+  "slots": ["{the teen}", "{the parent}", "{the party}"],
+  "gates": [
+    "The teen reaches voting age and picks a party different from the parent's.",
+    "They share a home."
+  ],
+  "weights": [
+    "Debate or school experience of the teen.",
+    "The parent's respect for the child's choices.",
+    "Religion or tradition at home."
+  ],
+  "inGame": "Stands, households and kin ties are on record; needs: a record of party registration against parents' party.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The parent refuses to speak of it and the teen moves out.",
+      "pulledBy": "Strict parent, strong tie to a cause.",
+      "writesBack": "Quarrel record and a move."
+    },
+    {
+      "turn": "neutral",
+      "what": "The teen changes nothing and keeps the parent's party.",
+      "pulledBy": "Low rebellion.",
+      "writesBack": "None."
+    },
+    {
+      "turn": "late",
+      "what": "The teen switches back to the parent's party years later after a job change.",
+      "pulledBy": "Job pressures.",
+      "writesBack": "Stand change with reasons."
+    }
+  ],
+  "issues": ["none"]
+}

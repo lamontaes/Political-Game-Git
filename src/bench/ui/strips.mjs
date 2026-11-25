@@ -32,26 +32,46 @@ export function stripSection(depth, title, ...nodes) {
  * The strip screen: `name` and `role` over a `bust` at the left, `columns`
  * (an array of arrays of sections) beside it.
  */
-export function stripScreen({ name, role, face, columns }) {
+export function stripScreen({
+  name,
+  role,
+  face,
+  columns,
+  nameBeside = false,
+  bustColumn,
+  underBust = [],
+}) {
+  const banner = el(
+    "div",
+    { className: "mxbanner" },
+    el("h2", { className: "strip-name", textContent: name }),
+    ...(role ? [el("p", { className: "strip-role", textContent: role })] : []),
+  );
+  // `nameBeside`: the name over the sections, beside the bust (the approved
+  // person card on People, pl-people); otherwise over the bust (You).
   return el(
     "div",
-    { className: "strip-screen mx3 strips ol-g glow-on" },
+    {
+      className: `strip-screen mx3 strips ol-g glow-on${nameBeside ? " name-beside" : ""}`,
+    },
     el(
       "div",
       { className: "mx3left" },
-      el(
-        "div",
-        { className: "mxbanner" },
-        el("h2", { className: "strip-name", textContent: name }),
-        ...(role
-          ? [el("p", { className: "strip-role", textContent: role })]
-          : []),
-      ),
-      drawFace(face, { shape: "bust", alt: name }),
+      ...(nameBeside ? [] : [banner]),
+      drawFace(face, {
+        shape: "bust",
+        alt: name,
+        ...(bustColumn ? { column: bustColumn } : {}),
+      }),
+      // `underBust`: sections set in the bust's own column, under it, so the
+      // portrait column leaves no hole (owner on People, Nov 16: "still lots
+      // of empty space").
+      ...underBust,
     ),
     el(
       "div",
       { className: "mx3main" },
+      ...(nameBeside ? [banner] : []),
       el(
         "div",
         { className: `mx3cols${columns.length === 1 ? " one" : ""}` },
@@ -177,11 +197,11 @@ export function peopleSentence(people) {
   return line;
 }
 
-/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }; a value may be a node (a name that opens its card). */
-export function dotRows(rows) {
+/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }; a value may be a node (a name that opens its card). `oneLine` keeps each label and figure whole on its row, for a date and a name that must not break. */
+export function dotRows(rows, { oneLine = false } = {}) {
   return el(
     "div",
-    { className: "dotrows" },
+    { className: oneLine ? "dotrows one-line" : "dotrows" },
     ...rows.map((row) =>
       el(
         "div",
@@ -295,7 +315,7 @@ export function voteRows(rows) {
       const node = typedRow(row.title, row.result, row.when);
       if (!row.onOpen) return node;
       // A row with a paper behind it opens it: a button for the pointer and the keyboard.
-      node.classList.add("pick");
+      node.classList.add("open-row");
       node.tabIndex = 0;
       node.setAttribute("role", "button");
       node.addEventListener("click", row.onOpen);
@@ -352,6 +372,8 @@ export function patchNotesScreen({ builds, title }) {
   return rosterScreen({
     title,
     className: "patch-notes",
+    // The panel takes the whole window, so the list shows as many builds as the window holds.
+    maxRows: 20,
     groups: [
       {
         entries: builds.map((build, at) => ({
@@ -367,7 +389,12 @@ export function patchNotesScreen({ builds, title }) {
         stripSection(
           Math.min(at + 2, 5),
           group.heading,
-          ...group.notes.map((note) => introText(note)),
+          // Short bullets under a heading, like a real patch note.
+          el(
+            "ul",
+            { className: "patch-list" },
+            ...group.notes.map((note) => el("li", { textContent: note })),
+          ),
         ),
       ),
   });

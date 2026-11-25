@@ -692,8 +692,16 @@ export function stateOffices(
     // sub-districts, a tribe's delegate in Maine) still seat their sitting
     // members, elected by their own district: none covers the town. An
     // at-large seat is elected by the whole state, the town included.
+    // A chamber with no district geography at all (a territory's, whose
+    // roster names its districts but no place in them) is elected by the
+    // whole territory until the districts are read, as with no roster below:
+    // otherwise no seat would cover any of its towns.
+    const unplaced = geography.length === 0;
+    if (unplaced && Object.keys(rows).length)
+      stopgap("SG-GOV-territory-legislature-districts");
     for (const [name, members] of Object.entries(rows))
-      if (!matched.has(name)) add(name, members, /large/i.test(name));
+      if (!matched.has(name))
+        add(name, members, unplaced || /large/i.test(name));
     // A chamber with a recorded size but no district geography or roster (a
     // territory's legislature): its seats are elected by the whole territory
     // until the districts are read, so the body can meet and vote.

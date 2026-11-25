@@ -1,0 +1,102 @@
+# Play walks
+
+Part of the `verify` skill. Until Nov 17, 2026 this was the `play-walks` skill; the CTO merged it here when the skills were capped (owner: "Let's go ahead"). What it covered: Plays a new life the way a player does, with scripts that click what a player clicks (the people at home, the places Travel lists, the filing office, every menu) and write down every line on screen. Use before a build goes to the owner, after a train of screen or words pull requests, when reading a words or screen pull request on screen, or when someone says the game says nothing. Not one item's finish line (seen-in-game), a played-year proof (played-world-proof), or a pass-or-fail check.
+
+**A walk plays the game and writes down what it saw. It asserts nothing; a person or a session reads it.** The tests say whether a rule holds. A walk says what the player gets.
+
+On Nov 11, three walks before the morning's Mac build found what no test had:
+
+- **A talk on the first evening cost the player a day.** After two talks at home, Day landed on Wednesday.
+- **A visit did not last.** After any talk at a place the player was back in their own kitchen, with the person they had just left standing in it.
+- **The talk a player has most was written for another hour.** At 7:00 AM, to a 17-year-old with no job: "Busy one at work today?", answered only with "I'm beat. Just glad to be home."
+- **A parent was in two rooms at once:** at the factory at 8:25 AM and at home at 8:42 AM.
+
+Each was one or two presses from the opening. Each would have been the first thing the owner saw.
+
+## The walks
+
+They live in `scripts/play-walks/` and share `scripts/play-walks/lib.mjs`. Each takes a folder for its pictures and log, starts a new life through the one helper every browser check uses (`src/bench/start-life.mjs`), and prints the log at the end.
+
+| Walk           | What it plays                                                                                                                                                                                      | Run                                                     |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| `at-home.mjs`  | Each day for a few days: a talk with everyone at home who has something to say, then Day                                                                                                           | `node scripts/play-walks/at-home.mjs <out-dir> [days]`  |
+| `meet.mjs`     | The first morning, then the places Travel lists one after another: who is there, a talk with up to two of them, and the way home                                                                   | `node scripts/play-walks/meet.mjs <out-dir> [places]`   |
+| `menus.mjs`    | The office that takes filings (what the counter says and offers), then the first screenful of words on every menu                                                                                  | `node scripts/play-walks/menus.mjs <out-dir>`           |
+| `official.mjs` | The Advanced start: steps in as a member of a local body, presses Day for some weeks, and writes down every stop, scene, note and what Politics says on the first and last day                     | `node scripts/play-walks/official.mjs <out-dir> [days]` |
+| `cards.mjs`    | The first evening: "Who I am", then the card of each person named under the people the player is closest to, pictured with every line on it (the words bar's before and after of a person's story) | `node scripts/play-walks/cards.mjs <out-dir> [people]`  |
+
+The log has one block per thing said: the clock, who spoke, the last lines of the talk box, and the replies offered. A reply is taken in turn (first, then second, and so on), so a walk hears more than the first answer.
+
+A new life starts at 18 only; a walk never starts one at another age (Account lead, Nov 16).
+
+## How to run one
+
+1. Start a fresh bench on the tree you want to read: `npm run bench` (port 3000; `BENCH_PORT` changes it). The bench serves the checkout it was started in. After a change to server code (`src/bench/*.ts`), stop it and start it again; a change to the page (`play.mjs`, `play.css`) needs only a new life.
+2. Run the walk. The world draws its own place; the log's first line names the place and the seed.
+3. To play the same life again, on another tree or after a fix, set `BENCH_SEED` to that seed. Use it for before and after. Never use a seed you chose to say something is seen: the place is drawn (skill `done-proof`, seen-in-game part).
+4. Read the log top to bottom, as the player would hear it. Open a picture when a line makes you doubt the screen.
+
+One bench and one walk at a time. A walk takes two to five minutes, most of it the world being built.
+
+Pictures and `lines.md` files copied into `docs/seen/` for a pull request go through prettier before the commit (`npx prettier --write docs/seen/<folder>/`): the walk writes `lines.md` unformatted, and CI's `repository` check runs prettier on every changed file (Nov 13: #8987 and #8957 failed on six and three `lines.md` files).
+
+## What to read for
+
+The review rules in the skill `words-engine` (its lessons of Nov 11), and these, which only show in play:
+
+- **The hour.** Is what is said right for the time on the card and for where the player is standing?
+- **The person.** Is the question one this person could be asked (a job, a school, a town they do not have)?
+- **The same thing again.** The same opener two days running; two strangers with the same four lines; a name said in full three times in one short talk.
+- **The clock and the room.** After each press: did the clock move by what the act took, and is the player still where they went?
+- **Who is here.** Does the strip name people who are somewhere else at this hour?
+- **Nothing.** A day, a place or a menu with nothing in it is a finding too. Say which.
+
+## What to do with a finding
+
+1. **Look first** (skill `look-first`): the pool and the open pull requests. A built fix may be waiting for a desk; then replay it and send it to one.
+2. **If it is small and yours, fix it** on its own pull request, with the walk's place and seed, the line before and after, and a test that fails without the fix.
+3. **Otherwise write the item with its cause** on the hour's notes branch (skill `pool-notes`), quoting the lines as played, and name a builder for it.
+4. **Post it** on the crew's issue with the place, the seed and the lines. A finding nobody can replay is a rumor.
+
+## Traps
+
+- **A walk that continues a saved life reads someone else's day.** The walks always start a new life. A browser check run on the same bench afterward may continue the walk's life, wherever the walk left it.
+- **A life played to its election (Playtester P1, Nov 13).** Day and Week land at 7:00 AM, and a filing office opens at 8:00, so Travel reads "Closed now" every morning; press Hour once, as a player does, before deciding the office is shut. Week always lands on the same weekday, so a walk that checks Travel only after Week can miss an office's open days. A filing is not in `/api/government` without the player's `id`; read the counter's own words ("Your name's in", COLLECTING SIGNATURES) to know the walk filed. A campaign is played from Travel: the card "The campaign trail", then "Knock on doors" and Go; a walk that only presses Week files and never campaigns, and the petition comes up short. Election night is offered only the night of the count and the day after; a walk that reads the returns must check for the `#returns` panel after every press, and the ballot is the `#ballot` panel (one `.ballot-race` each, `.ballot-choice` to mark).
+- **A stop opens its talk a moment after Continue shows.** Wait a second or two before pressing Continue at a stop, or the walk resumes the week past the scene, and the talk then opens days later with "First thing on" a date the clock has left behind. That is the walk's race, not the game's.
+- **Some browser checks write pictures into tracked folders.** After running one in your own tree, look at `git status` and put back what it changed.
+- **A before and after of another branch: check it out detached, and write down the head.** A branch that is checked out in a helper copy cannot be checked out in the main checkout, and `git checkout -q <branch>` in a script fails without a word, so the bench serves the old tree and the "after" pictures are the wrong branch's (Life records builder, Nov 12: three branches' pictures were all the school branch's). Use `git fetch origin <branch> && git checkout --detach FETCH_HEAD`, save `git log --oneline -1` beside the pictures, and read it before you trust them. Two benches at once need two ports (`BENCH_PORT`), and stopping one by `pkill -f src/bench/server.ts` stops both.
+- **Do not change the checkout a walk is running from.** A walk started from a checkout loads its scripts as it goes; switching that checkout's branch under it makes the next walk in the queue fail with "Cannot find module". Run walks from a checkout you will not touch until they finish, or from a copy of `scripts/play-walks/` beside the bench.
+- **The bench serves its working tree.** A patch applied there for a look is in every picture taken after it. Put the tree back (`git status`) before taking a "before".
+- **Escape does not close a menu.** In play it puts Options over the open menu, and the clock stays covered, so the next press of Day never lands. Close a menu with `closeMenu` from the library (the menu's own close button), until the item play-escape-opens-options-over-an-open-menu is on main.
+- **A quiet walk is a finding too.** Twenty-four days as a seated county commissioner played one street scene, and the board passed its budget on its meeting day with no stop for the player's vote. Read what did not happen against what Politics said was coming up, and post that.
+- **A walk is not a pass.** "The walk ran with no page errors" says nothing about what was said. Quote lines.
+- **Do not turn a walk into a test by adding asserts.** When a walk finds a rule worth holding, the rule goes into a test or a guard in the area that owns it, and the walk stays a walk.
+- **A walk works a panel through and leaves it (Nov 11).** The official's walk pressed the first button of the meeting panel each time, which was Read the bill, then Back to the meeting, five hundred times, and wrote five hundred pictures. It now reads the first bill once, votes each item, adjourns, and stops with a line if it presses one control six times at a stop. It takes a new picture only when the panel's words change. Replay a life with `BENCH_SEED` to take before and after pictures of the same meeting.
+- **A new control name needs the bench restarted (Nov 11).** The page's control names are read when the server starts. A label added to `src/bench/data/controls.json` shows as an empty space until the bench is restarted; page files and styles need only a new life.
+- **A slow press is the script until the server says otherwise (Nov 13).** Playtester P3 reported a seven-minute week that was its own wait loop: the loop polled 600 times every 0.7 seconds and had no exit for the meeting panel, so every meeting day "took" 420 seconds after the game had stopped. Before reporting a slow press, give every wait loop an exit for each panel that can stop the clock, and read the bench server's CPU time (`/proc/<pid>/stat`, fields 14 and 15, in hundredths of a second) before and after the press; a press that used a few seconds of CPU was not slow.
+- **A played file for a words PR is one script at named places (Nov 15).** `scripts/play-walks/turnout-looks.mts <good|bad> <seed> <label>` builds a place, stages the term's rows the way the outcome web writes them, runs the game's days, composes every scene the town's officials hold for each public-action record through `purposeScene`, and words each record's paper story through `wordPrintedStory` (trying 24 outlet ids, because each outlet takes its own wording). Make the file by running it over several drawn labels of one pinned seed, read which wordings played where, and say in the file's head which wordings never played: a line that never plays at any place is deleted, not shipped. The reader will not stamp a file made at another sha.
+- **A scene and the paper must read one record (Nov 15).** A look the scene says ("a group has gathered") and a count the paper prints ("2 residents protested") disagree when each reads its own source or the same source at a different month. Keep the look as a fact on the record the paper prints from, set when the record is made from the headcount and the share together, and test it at named places small and large.
+- **Play every office of a counter, not one (Nov 15).** The Vicco and West Point KY greeting ("I take the filings for Vicco" in the Secretary of State's mouth) and the South Vienna OH rule office ("with the board of elections of the most populous county in the district") were found by reading each office's counter at named places, not the town clerk's alone. Open `openBenchFilingVisit` for every distinct filing office in the place (loop the weeks until each race's window opens), print the clerk's lines and the visit's opening, and run every distinct `filedWith` in `data/research/elections/filing-requirements.json` through the same check, so the class is fixed and not the one example.
+
+- **Before and after screens, same script, same seed (Nov 15).** For a screen change, make the walk take the place key and world seed from the environment (`NEWS_PLACE_KEY`, `NEWS_SEED`) and a mode that records without asserting (`NEWS_BEFORE=1`), run it on the changed branch, then `git stash -u`, restart the bench (`pkill -f src/bench/`, `npm run bench`) and run it again on the train code, then `git stash pop`. The git-excluded `.walk/` and `src/bench/zz-*.mjs` files survive the stash. A copy of the script that the train lacks goes in `src/bench/zz-<name>.mjs` (add it to `.git/info/exclude`). The family a creator life draws depends on its identity, so a before and an after run draw different people: compare how the family relates to the player, not the same faces. ImageMagick `montage` turns per-card shots into one sheet.
+- **Wait for a picture to finish loading before the shot (Nov 15).** A story picture is a file fetched on show; the check read `naturalWidth` after 300 ms and called a loaded picture "did not load". Wait for `img.complete` first.
+- **A walk can start in a chosen place (Nov 15).** The new-life request takes `placeKey` (a place's key from `searchCorePlaces`, such as `1562600` for Pearl City, Hawaii), which a script adds with a `page.route` on `**/api/newlife*`, as `bill-amend.browser.mjs` does with `BENCH_PLACEKEY`. Use it to see one wording at named places (an own-named body, a state's reading, a new row) instead of waiting for a draw. A place takes about two minutes to build and open.
+
+## Opening a menu while a day runs (Blockers lane, Nov 17)
+
+The rail stays live while Day runs, so a walk that presses Day and then opens a menu reproduces what a player does when the day is slow. Until #9756, a scene that came due then was drawn under the menu, Day stayed held, and nothing could be pressed: the owner's "I think I'm stuck... I pressed escape". A browser check that must open the menu before the day lands holds the day's request with `page.route` on a gate made before Day is pressed (`gate = new Promise(...)` and the route awaits it), never a `release` function set inside the route handler: the day's request can reach the route after the menu shows, and then the release fires before the route waits for it and the check hangs.
+
+## Replaying Visit or Call (Nov 15, Visit/Call thread)
+
+A new life offers no Call on day 1: calls need weeks of play, and the card's ties are housemates and relatives elsewhere, so a replay needs a life where the player has met someone. Advance with `POST /api/advance?mode=week`, then reload `/play` and click `front-continue` before reading the card.
+
+## Two walk traps from the fee bills (Nov 15)
+
+- At a State House seat the clock halts on a Yes, No, Abstain card for another member's bill, and the halt covers the rings. A walk answers the card the way a player does, and opens tabs with an evaluate click.
+- A fault seen in a walk is checked on the clean train at the same place and seed before it is blamed on a pull request, and a watch on a walk's first output line fires too soon.
+
+## Reading a talk and staging a layoff (Nov 15)
+
+- **A talk's opening subject is on `talk.last.subject.kind`, not on the line's kind.** Before calling a talk reachable or unreachable, read the holds in conversation.ts (rule 52 asks "Where are you from?" only of two people from different places). A played town's people all live in it; the only full people living elsewhere are officials, and no screen puts a player in a talk with them.
+- **Stage a layoff with `layOffWorker(api, jobId)` (jobs.ts) and a closure with `closeBusinessByChoice`.** The closure moves the town's own rate more than the layoff (Marion OR: 1.6, 2.5, 3.3 percent), so the same town can read differently. Vitest sets the env var MODE; name your own switch something else.
+- **A walk waits for the box to change after a press.** A walk that rereads the talk box on a timer and presses the first reply again while the first answer is in flight sends the turn before and the bench refuses it ("Not an offered line: 1:yes", the Journal walk at New Haven, Vermont). `playTalk` in scripts/play-walks/lib.mjs waits until the box differs or closes; a double press in the real page is checked by src/bench/talk-double-press.browser.mjs (by hand).

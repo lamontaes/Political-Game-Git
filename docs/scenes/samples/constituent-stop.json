@@ -1,0 +1,258 @@
+{
+  "schema": "scene-sample/1",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "scene": {
+    "typeKey": "constituent-stop",
+    "purpose": "law-reaches",
+    "title": "Constituent stop"
+  },
+  "world": {
+    "place": "Troutman, North Carolina",
+    "placeKey": "3768500",
+    "seed": "story-batch-4",
+    "date": "2025-09-10"
+  },
+  "player": {
+    "name": "Reese Schultz",
+    "standing": "mayor at Troutman, North Carolina"
+  },
+  "cause": {
+    "id": "news.read:printed:outlet:radio:0:jurisdiction_2fb82a27f23e3e16:law-took-effect:law:US-MO:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-08-28:2025-1:2025-09-09",
+    "label": "circumstance:law-news-street"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_1e3c83a67fa534e1",
+      "name": "Mila Sheppard"
+    },
+    {
+      "role": "asked",
+      "id": "person_2b15bfa1809ef461",
+      "name": "Reese Schultz"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "Mila recognizes you on the street.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.name-recognizes-you-on-the-street"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.narrate-narrate.name-crosses-the-street-to-catch-you",
+          "text": "{name} crosses the street to catch you."
+        }
+      ],
+      "asks": false
+    }
+  ],
+  "ask": {
+    "n": 2,
+    "speaker": "Mila Sheppard",
+    "role": "asker",
+    "text": "Missouri did that, not North Carolina.",
+    "move": "tell",
+    "pieces": ["scene-talk.state-tell.lawstate-did-that-not-homestate"],
+    "wordings": [
+      {
+        "key": "scene-talk.state-tell.that-s-a-law-in-lawstate-it-doesn-t-apply-in-homestate",
+        "text": "That's a law in {lawstate}. It doesn't apply in {homestate}."
+      },
+      {
+        "key": "scene-talk.state-tell.that-changes-things-in-lawstate-not-in-homestate",
+        "text": "That changes things in {lawstate}, not in {homestate}."
+      }
+    ],
+    "asks": false
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 3,
+          "speaker": "You",
+          "role": "player",
+          "text": "No, that's not our law. It doesn't reach Troutman.",
+          "move": "tell",
+          "pieces": [
+            "scene-talk.reply-tell.no-that-s-not-our-law-it-doesn-t-reach-place"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-tell.that-s-another-state-s-law-it-doesn-t-reach-us-here-in-place",
+              "text": "That's another state's law. It doesn't reach us here in {place}."
+            },
+            {
+              "key": "scene-talk.reply-tell.that-one-isn-t-ours-nothing-in-place-changed",
+              "text": "That one isn't ours. Nothing in {place} changed."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 5,
+              "speaker": "Mila Sheppard",
+              "role": "asker",
+              "text": "Then I read it wrong. That's not us.",
+              "move": "accept",
+              "pieces": [
+                "scene-talk.follow-accept.then-i-read-it-wrong-first-that-s-not-us"
+              ],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-accept.good-the-paper-made-it-sound-like-it-was-ours-first",
+                  "text": "Good. The paper made it sound like it was ours."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "explained",
+              "label": "You explained your vote",
+              "keeps": "none"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "This isn't the place.",
+          "move": "deflect",
+          "pieces": ["scene-talk.reply-deflect.this-isn-t-the-place"],
+          "wordings": [],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 6,
+              "speaker": "Mila Sheppard",
+              "role": "asker",
+              "text": "Then where? You're the one we elected.",
+              "move": "press",
+              "pieces": [
+                "scene-talk.follow-press.then-where-you-re-the-one-we-elected"
+              ],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 7,
+                "speaker": "You",
+                "role": "player",
+                "text": "That one isn't ours. Nothing in Troutman changed.",
+                "move": "tell",
+                "pieces": [
+                  "scene-talk.reply-tell.that-one-isn-t-ours-nothing-in-place-changed"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-tell.that-s-another-state-s-law-it-doesn-t-reach-us-here-in-place",
+                    "text": "That's another state's law. It doesn't reach us here in {place}."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 9,
+                    "speaker": "Mila Sheppard",
+                    "role": "asker",
+                    "text": "Good. The paper made it sound like it was ours.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.good-the-paper-made-it-sound-like-it-was-ours-first"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-accept.then-i-read-it-wrong-first-that-s-not-us",
+                        "text": "Then I read it wrong. That's not us."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "explained",
+                    "label": "You explained your vote",
+                    "keeps": "none"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 8,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'm sorry. I have to go.",
+                "move": "leave",
+                "pieces": ["scene-talk.reply-leave.i-m-sorry-i-have-to-go"],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "left-angry",
+                    "label": "They left angry",
+                    "keeps": "relationship-strained"
+                  },
+                  "close": {
+                    "n": 10,
+                    "speaker": "Mila Sheppard",
+                    "role": "asker",
+                    "text": "I'll remember this at the next election.",
+                    "move": "warn",
+                    "pieces": [
+                      "scene-talk.close-warn.i-ll-remember-this-at-the-next-election"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "endings": {
+    "explained": 2,
+    "left-angry": 1
+  },
+  "depth": 2,
+  "gaps": [
+    "law-reaches/menu/ask after root of a tell has no ask reply",
+    "law-reaches/menu/tell after fewer than three replies at root",
+    "law-reaches/reply/blame after tell",
+    "law-reaches/reply/promise after press",
+    "law-reaches/reply/promise after tell"
+  ]
+}

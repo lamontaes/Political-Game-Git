@@ -17,13 +17,13 @@ seen-by: second-session-2
 seen-at: 2026-11-11T00:43:29.683Z
 ---
 
-**What.** src/director/budget-cut-scene.test.ts picks a department head at game start, plays a year and then expects the budget-cut scene to cast that same person. On seed 394907bded87e789979eb7c8e9de22236b4bf5bb (Enigma, Georgia) the fire chief's appointment, appointment:town:fire-chief, changed hands during the year (person_389165228263e140 to person_ea881e5352de3cf8), and the director rightly cast the new chief; the test failed on clean main.
+**What.** src/director/budget-cut-scene.test.ts (removed) picks a department head at game start, plays a year and then expects the budget-cut scene to cast that same person. On seed 394907bded87e789979eb7c8e9de22236b4bf5bb (Enigma, Georgia) the fire chief's appointment, appointment:town:fire-chief, changed hands during the year (person_389165228263e140 to person_ea881e5352de3cf8), and the director rightly cast the new chief; the test failed on clean main.
 
 **Rules.** The test follows the engine: the head is whoever holds the appointment on the day of the cut. Nothing in the director changes; no dice.
 
-**Done when.** src/director/budget-cut-scene.test.ts passes in the played world drawn for seed 394907bded87e789979eb7c8e9de22236b4bf5bb (Enigma, Georgia), where the fire chief changed during the year and the scene casts the new holder of appointment:town:fire-chief, and on a second drawn seed; the test reads the holder from the appointment record on the day of the cut.
+**Done when.** src/director/budget-cut-scene.test.ts (removed) passes in the played world drawn for seed 394907bded87e789979eb7c8e9de22236b4bf5bb (Enigma, Georgia), where the fire chief changed during the year and the scene casts the new holder of appointment:town:fire-chief, and on a second drawn seed; the test reads the holder from the appointment record on the day of the cut.
 
-**Files.** src/director/budget-cut-scene.test.ts
+**Files.**
 
 **Notes.** Found while checking #8097's unit run.
 

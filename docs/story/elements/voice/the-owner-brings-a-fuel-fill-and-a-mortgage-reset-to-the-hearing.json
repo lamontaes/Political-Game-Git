@@ -1,0 +1,34 @@
+{
+  "id": "the-owner-brings-a-fuel-fill-and-a-mortgage-reset-to-the-hearing",
+  "kind": "voice",
+  "summary": "An owner asks {board} to consider the cost of filling the oil tank alongside a higher mortgage payment.",
+  "realLife": "In the 2026 proceeding an owner reported a higher mortgage rate, the price of an oil delivery and several tenants behind on rent while describing the pressure on an older building.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2026/06/2026-Apartment-ES.pdf#page=7"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{board}"],
+  "gates": [
+    "The case record identifies the owner submission, financing terms and fuel expenses."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: owner submission, financing terms and fuel expenses.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Staff can distinguish financing from operations.",
+      "pulledBy": "Bills substantiate both pressures",
+      "writesBack": "Two expense categories."
+    },
+    {
+      "turn": "another-way",
+      "what": "The member requests a breakdown.",
+      "pulledBy": "Only a combined estimate is available",
+      "writesBack": "Outstanding expense documentation."
+    }
+  ]
+}

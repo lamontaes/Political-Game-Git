@@ -1,0 +1,34 @@
+{
+  "id": "briefing-travels-through-county",
+  "kind": "move",
+  "summary": "A state official passes a briefing from {person} through county offices to local emergency directors.",
+  "realLife": "Pennsylvania's emergency management director relayed information from the governor's meetings to county organizations early in the accident.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-96jhrg55895O/pdf/CHRG-96jhrg55895O.pdf"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A state briefing and a county contact for an affected locality are on record."
+  ],
+  "weights": [
+    "More affected towns give greater weight to relaying the briefing through counties."
+  ],
+  "usedBy": [],
+  "inGame": "The governor’s emergency offer provides the incident, deadline and return meeting. needs: the recipients and timing of successive briefings.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Town officials hear the state briefing directly.",
+      "pulledBy": "Local directors have joined the state call.",
+      "writesBack": "The attendance record shows which towns heard the decision firsthand."
+    },
+    {
+      "turn": "late",
+      "what": "A county director repeats the briefing when a town calls back.",
+      "pulledBy": "The town missed the scheduled call.",
+      "writesBack": "The town's receipt carries the later time."
+    }
+  ],
+  "issues": ["none"]
+}

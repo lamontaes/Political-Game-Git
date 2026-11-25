@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** `src/director/bring-it-up-election.test.ts` at Astoria, Oregon (4103150), seed 0c04a6002f604427e427591b0e1749643730d79a9b5ed334c1a9e3ab91be8e63, fails on the train: "result talks: expected 1 to be greater than 3". It passed when #9279 folded it in (train 808bea72). Seen: after a count, a played week at Astoria should hold several neighbors bringing up the result, each citing it; the train's run holds one.
+**What.** `src/director/bring-it-up-election.test.ts` (removed) at Astoria, Oregon (4103150), seed 0c04a6002f604427e427591b0e1749643730d79a9b5ed334c1a9e3ab91be8e63, fails on the train: "result talks: expected 1 to be greater than 3". It passed when #9279 folded it in (train 808bea72). Seen: after a count, a played week at Astoria should hold several neighbors bringing up the result, each citing it; the train's run holds one.
 
 **Cause.** Measured: at Astoria's seed above, by bisecting the 41 train folds from 808bea72 to aa927a84 with the test alone: the first red fold is c01ae17c ("Fold #9388 ff296651", talk-stranger-introduces-first-before-any-news). The news is not lost (the builder of #9388, Nov 15, with played talks at /mnt/project-files/words-lead/intro-first/played-ff296651.md): a stranger now opens with the introduction (a line of kind "here"), and the news follows in the same talk after the player gives their name (`raiseBroughtNews` runs in the `say` branch after `here-back`, src/director/conversation.ts). The test counts a talk only when the opening's last line (`before = talk.lines.at(-1)`) cites the result, so strangers drop out of the count and only people who already know the player are counted.
 
@@ -34,4 +34,4 @@ root: none
 
 **Waits on.** Nothing.
 
-**Files.** src/director/bring-it-up-election.test.ts, src/director/conversation.ts
+**Files.** src/director/conversation.ts

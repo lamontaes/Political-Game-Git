@@ -14,9 +14,10 @@
   "maxWords": 30,
   "parts": [
     {
-      "key": "speech-stages.stage-opener.thank-you-all-for-coming",
+      "key": "speech-stages.stage-opener.thank-you-all-for-coming-out-to-place",
       "move": "stage-opener",
-      "text": "Thank you all for coming out tonight in {place}.",
+      "kind": "spoken",
+      "text": "Thank you all for coming out to {place}.",
       "uses": [
         {
           "move": "stage-opener",
@@ -29,14 +30,14 @@
         "move": "greet"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-opener.it-s-great-to-be-here",
+      "key": "speech-stages.stage-opener.what-a-pleasure-to-stand-here-in-place",
       "move": "stage-opener",
-      "text": "It's great to be here in {place}.",
+      "kind": "spoken",
+      "text": "What a pleasure to stand here in {place}.",
       "uses": [
         {
           "move": "stage-opener",
@@ -49,14 +50,14 @@
         "move": "greet"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-opener.i-m-glad-to-be-here",
+      "key": "speech-stages.stage-opener.i-m-glad-to-be-among-friends-in-place",
       "move": "stage-opener",
-      "text": "I'm glad to be with you in {place}.",
+      "kind": "spoken",
+      "text": "I'm glad to be among friends in {place}.",
       "uses": [
         {
           "move": "stage-opener",
@@ -69,14 +70,14 @@
         "move": "greet"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-opener.it-s-good-to-be-in-place",
+      "key": "speech-stages.stage-opener.it-means-a-lot-to-be-in-place-with-you",
       "move": "stage-opener",
-      "text": "It's good to be in {place}.",
+      "kind": "spoken",
+      "text": "It means a lot to be in {place} with you.",
       "uses": [
         {
           "move": "stage-opener",
@@ -89,14 +90,14 @@
         "move": "greet"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-opener.good-to-see-you-all",
+      "key": "speech-stages.stage-opener.so-many-neighbors-showed-up-here-in-place",
       "move": "stage-opener",
-      "text": "Good to see so many of you here in {place}.",
+      "kind": "spoken",
+      "text": "So many neighbors showed up here in {place}.",
       "uses": [
         {
           "move": "stage-opener",
@@ -109,14 +110,14 @@
         "move": "greet"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-closer.thank-you-very-much",
+      "key": "speech-stages.stage-closer.thank-you-for-hearing-me-out-place",
       "move": "stage-closer",
-      "text": "Thank you very much, {place}.",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out, {place}.",
       "uses": [
         {
           "move": "stage-closer",
@@ -129,14 +130,14 @@
         "move": "close"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-closer.thank-you-all",
+      "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-place",
       "move": "stage-closer",
-      "text": "Thank you all.",
+      "kind": "spoken",
+      "text": "God bless you, and God bless {place}.",
       "uses": [
         {
           "move": "stage-closer",
@@ -149,14 +150,14 @@
         "move": "close"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-closer.thank-you-and-god-bless-you",
+      "key": "speech-stages.stage-closer.that-s-what-i-came-to-say-place-thank-you",
       "move": "stage-closer",
-      "text": "Thank you, {place}, and God bless you.",
+      "kind": "spoken",
+      "text": "That's what I came to say, {place}. Thank you.",
       "uses": [
         {
           "move": "stage-closer",
@@ -169,14 +170,14 @@
         "move": "close"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-america",
+      "key": "speech-stages.stage-closer.let-s-go-build-a-better-place",
       "move": "stage-closer",
-      "text": "God bless you, God bless {place}, and God bless America.",
+      "kind": "spoken",
+      "text": "Let's go build a better {place}.",
       "uses": [
         {
           "move": "stage-closer",
@@ -189,54 +190,14 @@
         "move": "close"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-closer.that-s-all-i-have-to-say",
-      "move": "stage-closer",
-      "text": "That's all I have to say tonight, {place}.",
-      "uses": [
-        {
-          "move": "stage-closer",
-          "subject": "stage",
-          "role": "closer",
-          "choice": "closer"
-        }
-      ],
-      "tag": {
-        "move": "close"
-      },
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-closer.let-s-get-to-work",
-      "move": "stage-closer",
-      "text": "Let's get to work for {place}.",
-      "uses": [
-        {
-          "move": "stage-closer",
-          "subject": "stage",
-          "role": "closer",
-          "choice": "closer"
-        }
-      ],
-      "tag": {
-        "move": "close"
-      },
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-work.i-worked-at-employer-for-years-years",
+      "key": "speech-stages.stage-work.i-worked-at-employer-for-years-years-i-know-what-it-takes-to-earn-a-paycheck-in",
       "move": "stage-work",
-      "text": "I worked at {employer} for {years} years. I know what a paycheck means in {place}.",
+      "kind": "spoken",
+      "text": "I worked at {employer} for {years} years. I know what it takes to earn a paycheck in {place}.",
       "uses": [
         {
           "move": "stage-work",
@@ -249,14 +210,14 @@
         "move": "tell"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-work.i-work-at-employer-i-know-what-a-pay",
+      "key": "speech-stages.stage-work.i-work-at-employer-and-i-earn-my-living-right-here-in-place",
       "move": "stage-work",
-      "text": "I work at {employer}. I know what a paycheck means in {place}, because I earn mine here.",
+      "kind": "spoken",
+      "text": "I work at {employer}, and I earn my living right here in {place}.",
       "uses": [
         {
           "move": "stage-work",
@@ -269,14 +230,14 @@
         "move": "tell"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-home.i-live-in-place-i-know-these-streets",
+      "key": "speech-stages.stage-home.i-call-place-home-i-know-these-streets-and-the-people-on-them",
       "move": "stage-home",
-      "text": "I live in {place}. I know these streets, and I know the people who live on them.",
+      "kind": "spoken",
+      "text": "I call {place} home. I know these streets and the people on them.",
       "uses": [
         {
           "move": "stage-home",
@@ -289,14 +250,14 @@
         "move": "tell"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-children.i-m-raising-number-children-here-in-",
+      "key": "speech-stages.stage-children.i-m-raising-number-children-in-place-what-we-decide-now-is-what-they-inherit",
       "move": "stage-children",
-      "text": "I'm raising {number} children here in {place}. Every choice we make now is one they'll live with.",
+      "kind": "spoken",
+      "text": "I'm raising {number} children in {place}. What we decide now is what they inherit.",
       "uses": [
         {
           "move": "stage-children",
@@ -309,14 +270,14 @@
         "move": "tell"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-school.i-went-to-school-what-we-teach-our-k",
+      "key": "speech-stages.stage-school.i-went-to-school-what-our-kids-learn-there-is-what-we-hand-to-the-next-generatio",
       "move": "stage-school",
-      "text": "I went to {school}. What we teach our kids there is what we leave behind.",
+      "kind": "spoken",
+      "text": "I went to {school}. What our kids learn there is what we hand to the next generation.",
       "uses": [
         {
           "move": "stage-school",
@@ -329,275 +290,248 @@
         "move": "tell"
       },
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "speech-stages.stage-stance-enact.let-me-talk-about-issue-goal-i-m-for",
+      "key": "speech-stages.stage-stance-enact.let-s-talk-about-issue-goal-i-say-yes-and-i-ll-say-it-again-anywhere-in-place",
       "move": "stage-stance-enact",
-      "text": "Let me talk about {issue}. {goal}? I'm for it, and I'm saying so here in {place}.",
-      "uses": [
-        {
-          "move": "stage-stance-enact",
-          "subject": "stage",
-          "role": "stance-enact",
-          "choice": "stance-enact"
-        }
-      ],
-      "tag": {
-        "move": "promise"
-      },
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-stance-enact.on-issue-i-ll-be-plain-goal-i-m-for-",
-      "move": "stage-stance-enact",
-      "text": "On {issue}, I'll be plain. {goal}? I'm for it. Ask me why, and I'll tell you.",
-      "uses": [
-        {
-          "move": "stage-stance-enact",
-          "subject": "stage",
-          "role": "stance-enact",
-          "choice": "stance-enact"
-        }
-      ],
-      "tag": {
-        "move": "promise"
-      },
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-stance-enact.i-want-to-talk-about-issue-goal-i-m-",
-      "move": "stage-stance-enact",
-      "text": "I want to talk about {issue}. {goal}? I'm for it, and I'd like you to hold me to that.",
-      "uses": [
-        {
-          "move": "stage-stance-enact",
-          "subject": "stage",
-          "role": "stance-enact",
-          "choice": "stance-enact"
-        }
-      ],
-      "tag": {
-        "move": "promise"
-      },
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-stance-repeal.let-me-talk-about-issue-goal-i-m-aga",
-      "move": "stage-stance-repeal",
-      "text": "Let me talk about {issue}. {goal}? I'm against it, and I'm saying so here in {place}.",
-      "uses": [
-        {
-          "move": "stage-stance-repeal",
-          "subject": "stage",
-          "role": "stance-repeal",
-          "choice": "stance-repeal"
-        }
-      ],
-      "tag": {
-        "move": "promise"
-      },
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-stance-repeal.on-issue-i-ll-be-plain-goal-i-m-agai",
-      "move": "stage-stance-repeal",
-      "text": "On {issue}, I'll be plain. {goal}? I'm against it. Ask me why, and I'll tell you.",
-      "uses": [
-        {
-          "move": "stage-stance-repeal",
-          "subject": "stage",
-          "role": "stance-repeal",
-          "choice": "stance-repeal"
-        }
-      ],
-      "tag": {
-        "move": "promise"
-      },
-      "origin": "authored",
-      "author": "Claude (director line), civic-prose",
-      "date": "2026-10-15",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-area-worse.i-keep-hearing-about-issue-here-in-place-and",
-      "move": "stage-area-worse",
-      "text": "I keep hearing about {issue} here in {place}, and it is worse than it was. I won't pretend otherwise.",
-      "uses": [
-        {
-          "move": "stage-area-worse",
-          "subject": "stage",
-          "role": "area-worse",
-          "choice": "stage-area-worse"
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-area-worse.ask-anyone-in-place-about-issue-and-you-will",
-      "move": "stage-area-worse",
-      "text": "Ask anyone in {place} about {issue} and you will hear the same thing: it has gotten worse.",
-      "uses": [
-        {
-          "move": "stage-area-worse",
-          "subject": "stage",
-          "role": "area-worse",
-          "choice": "stage-area-worse"
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-area-worse.something-has-gone-wrong-with-issue-in-place-and",
-      "move": "stage-area-worse",
-      "text": "Something has gone wrong with {issue} in {place}, and we owe it to each other to say so.",
-      "uses": [
-        {
-          "move": "stage-area-worse",
-          "subject": "stage",
-          "role": "area-worse",
-          "choice": "stage-area-worse"
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-area-worse.when-this-term-began-issue-in-place-was-better",
-      "move": "stage-area-worse",
-      "text": "When this term began, {issue} in {place} was better than it is today. That is what I am hearing, and I am here to talk about it.",
-      "uses": [
-        {
-          "move": "stage-area-worse",
-          "subject": "stage",
-          "role": "area-worse",
-          "choice": "stage-area-worse"
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-area-better.let-me-say-something-good-about-issue-in-place",
-      "move": "stage-area-better",
-      "text": "Let me say something good about {issue} in {place}: it is better than it was, and that is thanks to the people here.",
-      "uses": [
-        {
-          "move": "stage-area-better",
-          "subject": "stage",
-          "role": "area-better",
-          "choice": "stage-area-better"
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-area-better.not-everything-tonight-is-a-complaint-issue-in-place",
-      "move": "stage-area-better",
-      "text": "Not everything tonight is a complaint. {issue} in {place} is getting better, and we should say so.",
-      "uses": [
-        {
-          "move": "stage-area-better",
-          "subject": "stage",
-          "role": "area-better",
-          "choice": "stage-area-better"
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-area-better.lets-be-glad-about-issue-in-place-it-has",
-      "move": "stage-area-better",
-      "text": "Let's be glad about {issue} in {place}. It has improved, and we should not take that for granted.",
-      "uses": [
-        {
-          "move": "stage-area-better",
-          "subject": "stage",
-          "role": "area-better",
-          "choice": "stage-area-better"
-        }
-      ],
-      "tag": {
-        "move": "tell"
-      },
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "kind": "spoken"
-    },
-    {
-      "key": "speech-stages.stage-opener.thank-you-all-for-being-here",
-      "move": "stage-opener",
       "kind": "spoken",
-      "text": "Thank you all for being here, {place}.",
+      "text": "Let's talk about {issue}. {goal}? I say yes, and I'll say it again anywhere in {place}.",
       "uses": [
         {
-          "move": "stage-opener",
+          "move": "stage-stance-enact",
           "subject": "stage",
-          "role": "opener",
-          "choice": "opener"
+          "role": "stance-enact",
+          "choice": "stance-enact"
         }
       ],
-      "source": {
-        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
-        "date": "2026-09-09",
-        "granule": "DCPD-202600590",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
-        "move": "greet"
+        "move": "promise"
       },
-      "restoredFrom": "address.hearing-open.thank-you-all-for-being-here",
-      "restoredOn": "2026-11-08"
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.on-issue-here-s-where-i-stand-goal-yes-ask-me-why-and-i-ll-tell-you",
+      "move": "stage-stance-enact",
+      "kind": "spoken",
+      "text": "On {issue}, here's where I stand. {goal}? Yes. Ask me why and I'll tell you.",
+      "uses": [
+        {
+          "move": "stage-stance-enact",
+          "subject": "stage",
+          "role": "stance-enact",
+          "choice": "stance-enact"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.i-want-to-be-clear-about-issue-goal-yes-and-i-want-you-to-hold-me-to-it",
+      "move": "stage-stance-enact",
+      "kind": "spoken",
+      "text": "I want to be clear about {issue}. {goal}? Yes, and I want you to hold me to it.",
+      "uses": [
+        {
+          "move": "stage-stance-enact",
+          "subject": "stage",
+          "role": "stance-enact",
+          "choice": "stance-enact"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-repeal.let-s-talk-about-issue-goal-i-say-no-and-i-ll-say-it-again-anywhere-in-place",
+      "move": "stage-stance-repeal",
+      "kind": "spoken",
+      "text": "Let's talk about {issue}. {goal}? I say no, and I'll say it again anywhere in {place}.",
+      "uses": [
+        {
+          "move": "stage-stance-repeal",
+          "subject": "stage",
+          "role": "stance-repeal",
+          "choice": "stance-repeal"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-stance-repeal.on-issue-here-s-where-i-stand-goal-no-ask-me-why-and-i-ll-tell-you",
+      "move": "stage-stance-repeal",
+      "kind": "spoken",
+      "text": "On {issue}, here's where I stand. {goal}? No. Ask me why and I'll tell you.",
+      "uses": [
+        {
+          "move": "stage-stance-repeal",
+          "subject": "stage",
+          "role": "stance-repeal",
+          "choice": "stance-repeal"
+        }
+      ],
+      "tag": {
+        "move": "promise"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.people-in-place-keep-telling-me-issue-has-gotten-worse-and-i-believe-them",
+      "move": "stage-area-worse",
+      "kind": "spoken",
+      "text": "People in {place} keep telling me {issue} has gotten worse, and I believe them.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.ask-around-place-about-issue-and-the-answer-is-the-same-it-is-worse-than-it-was",
+      "move": "stage-area-worse",
+      "kind": "spoken",
+      "text": "Ask around {place} about {issue} and the answer is the same: it is worse than it was.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.something-has-slipped-on-issue-in-place-and-we-should-be-honest-about-it",
+      "move": "stage-area-worse",
+      "kind": "spoken",
+      "text": "Something has slipped on {issue} in {place}, and we should be honest about it.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-worse.issue-in-place-was-better-when-this-term-began-i-want-to-talk-about-what-changed",
+      "move": "stage-area-worse",
+      "kind": "spoken",
+      "text": "{issue} in {place} was better when this term began. I want to talk about what changed.",
+      "uses": [
+        {
+          "move": "stage-area-worse",
+          "subject": "stage",
+          "role": "area-worse",
+          "choice": "stage-area-worse"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-better.i-have-good-news-on-issue-in-place-it-is-better-than-it-was-and-that-is-your-doi",
+      "move": "stage-area-better",
+      "kind": "spoken",
+      "text": "I have good news on {issue} in {place}: it is better than it was, and that is your doing.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-better.not-everything-tonight-is-a-complaint-issue-in-place-has-improved-and-we-should",
+      "move": "stage-area-better",
+      "kind": "spoken",
+      "text": "Not everything tonight is a complaint. {issue} in {place} has improved, and we should say so.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "speech-stages.stage-area-better.issue-in-place-has-gotten-better-we-should-be-proud-of-that-and-keep-it-going",
+      "move": "stage-area-better",
+      "kind": "spoken",
+      "text": "{issue} in {place} has gotten better. We should be proud of that and keep it going.",
+      "uses": [
+        {
+          "move": "stage-area-better",
+          "subject": "stage",
+          "role": "area-better",
+          "choice": "stage-area-better"
+        }
+      ],
+      "tag": {
+        "move": "tell"
+      },
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     }
   ]
 }

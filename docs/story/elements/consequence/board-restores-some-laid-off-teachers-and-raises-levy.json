@@ -1,0 +1,43 @@
+{
+  "id": "board-restores-some-laid-off-teachers-and-raises-levy",
+  "kind": "consequence",
+  "summary": "A school board brings back only part of the laid-off teachers and pays for it with a higher tax levy.",
+  "realLife": "After parents marched for the return of nearly three hundred laid-off staff, mostly teachers, a school board with a deficit of about six million dollars and an unclear set of books voted to raise the levy by about a hundred fifty dollars per home. It brought back more than eighty-six teachers at once and about a hundred in June, fewer than the parents wanted. A state audit was under way.",
+  "sources": [
+    "ABC7 New York (Bayonne, New Jersey), 'Bayonne BOE votes to restore some laid off teachers, but raise property taxes', date not shown on the page: https://abc7ny.com/post/bayonne-boe-votes-to-restore-some-laid-off-teachers-but-raise-property-taxes/1970099/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["count", "percent", "body"],
+  "gates": [],
+  "weights": {
+    "budget": 0.7,
+    "schools": 0.6
+  },
+  "inGame": "school staff records of layoffs and rehiring; the district's levy and deficit; needs: a rehire date on a laid-off job",
+  "issues": ["budget:schools", "law:property-tax"],
+  "turns": [
+    {
+      "name": "some staff return at once and some later",
+      "pulledBy": "a levy rise that covers part of the gap",
+      "writes": "the staff record shows two rehire dates and the levy goes up",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "all staff return and the levy rises more",
+      "pulledBy": "a board that agrees with the parents",
+      "writes": "the layoffs are undone and the levy is higher than first planned",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "none return because the books cannot be trusted",
+      "pulledBy": "an audit that cannot say how large the deficit is",
+      "writes": "the layoffs stand until the audit is done",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

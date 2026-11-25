@@ -379,41 +379,62 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
       willing.length,
       `fewer than three willing volunteers in ${where}`,
     ).toBeGreaterThanOrEqual(3);
-    const [busy, first, second] = willing as [
-      PersonState,
+    // A fixture for the edge case: one volunteer works an evening shift that
+    // covers the canvass on this very day, once a week. The shift is also
+    // weekly work, which weakens their reasons (`volunteerReason` takes the
+    // week's work off), so the one chosen is the most willing whose reasons
+    // still send them with the shift on their week: only the hours then keep
+    // them home.
+    const from = campaignParameter("canvassStartHour") * 60;
+    const setShift = (p: PersonState) => {
+      const shiftId = `test-evening-shift:${p.id}`;
+      core.work.commitments.set(shiftId, {
+        id: shiftId,
+        jobId: `test-evening-job:${p.id}`,
+        personId: p.id,
+        organizationId: "test-evening-employer",
+        startsAt: core.date,
+        anchorDate: core.date,
+        periodDays: 7,
+        slots: [{ offsetDays: 0, startMinute: from, minutes: shiftHours * 60 }],
+        expectedWeeklyMinutes: shiftHours * 60,
+        hourlyMinor: 0,
+        scheduleSource: {
+          tag: "SOURCED",
+          citation: "Test fixture: an evening shift on the canvass night",
+          asOf: core.date,
+        },
+        paySource: {
+          tag: "SOURCED",
+          citation: "Test fixture: an evening shift on the canvass night",
+          asOf: core.date,
+        },
+      });
+      const held = new Set(core.work.commitmentsByPerson.get(p.id) ?? []);
+      core.work.commitmentsByPerson.set(p.id, new Set([...held, shiftId]));
+      return () => {
+        core.work.commitments.delete(shiftId);
+        core.work.commitmentsByPerson.set(p.id, held);
+      };
+    };
+    let found: PersonState | undefined;
+    for (const candidate of willing) {
+      const clear = setShift(candidate);
+      if (goes(candidate)) {
+        found = candidate;
+        break;
+      }
+      clear();
+    }
+    expect(
+      found,
+      `no volunteer whose reasons still send them with an evening shift on their week in ${where}`,
+    ).toBeDefined();
+    const busy = found!;
+    const [first, second] = willing.filter((p) => p.id !== busy.id) as [
       PersonState,
       PersonState,
     ];
-    // A fixture for the edge case: the most willing works an evening shift
-    // that covers the canvass on this very day, once a week.
-    const from = campaignParameter("canvassStartHour") * 60;
-    const shiftId = `test-evening-shift:${busy.id}`;
-    core.work.commitments.set(shiftId, {
-      id: shiftId,
-      jobId: `test-evening-job:${busy.id}`,
-      personId: busy.id,
-      organizationId: "test-evening-employer",
-      startsAt: core.date,
-      anchorDate: core.date,
-      periodDays: 7,
-      slots: [{ offsetDays: 0, startMinute: from, minutes: shiftHours * 60 }],
-      expectedWeeklyMinutes: shiftHours * 60,
-      hourlyMinor: 0,
-      scheduleSource: {
-        tag: "SOURCED",
-        citation: "Test fixture: an evening shift on the canvass night",
-        asOf: core.date,
-      },
-      paySource: {
-        tag: "SOURCED",
-        citation: "Test fixture: an evening shift on the canvass night",
-        asOf: core.date,
-      },
-    });
-    core.work.commitmentsByPerson.set(
-      busy.id,
-      new Set([...(core.work.commitmentsByPerson.get(busy.id) ?? []), shiftId]),
-    );
     expect(canvassHoursFree(api, busy)).toBe(0);
     // Their reasons would still send them: only the hours keep them home.
     expect(goes(busy)).toBe(true);

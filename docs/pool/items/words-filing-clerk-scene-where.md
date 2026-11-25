@@ -16,9 +16,9 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: the where is the filing office the records name (filingClerkFor in src/core2/modules/filing-clerk.ts: the clerk, registrar or board of elections that takes this filing), spoken from its record, never typed. No hand-written player text: the lines are the bank's. Once the clerk scene can be worded, the play screen plays both scenes a filing stages, the clerk's at the counter and the household's at home, in that order.
 
-**Done when.** In a played world built with buildBenchWorld in a place drawn from all 56 (seed named), a resident's filing composes the filing-clerk scene in the lines that play, with a where fact citing the filing office's record and the clerk cast from filingClerkFor, and the story screen shows it before the household's scene; shown by src/director/purpose-scenes.test.ts or its own test.
+**Done when.** In a played world built with buildBenchWorld in a place drawn from all 56 (seed named), a resident's filing composes the filing-clerk scene in the lines that play, with a where fact citing the filing office's record and the clerk cast from filingClerkFor, and the story screen shows it before the household's scene; shown by src/director/purpose-scenes.test.ts (removed) or its own test.
 
-**Files.** src/director/purpose-scene.ts, src/bench/story.ts, src/core2/modules/filing-clerk.ts, src/director/purpose-scenes.test.ts
+**Files.** src/director/purpose-scene.ts, src/bench/story.ts, src/core2/modules/filing-clerk.ts
 
 **Notes.** TODO
 

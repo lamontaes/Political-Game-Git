@@ -1,0 +1,30 @@
+{
+  "id": "two-names-share-one-precinct-vote",
+  "kind": "detail",
+  "summary": "Two people on the roll each have half of their precinct’s vote.",
+  "realLife": "At the Hinds County meeting, Harrington and Mrs. Black divided the single vote from their Jackson precinct.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=4"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "work-community"],
+  "slots": ["{delegate}", "{precinct}"],
+  "gates": ["A certified return divides a single precinct vote."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: certified vote shares for each delegate and alternate.",
+  "turns": [
+    {
+      "turn": "alternate-inherits-share",
+      "what": "The clerk keeps the fraction beside the substitute’s name.",
+      "pulledBy": "One delegate’s alternate takes over.",
+      "writesBack": "The precinct’s total voting strength stays the same."
+    },
+    {
+      "turn": "vote-weight-corrected",
+      "what": "The clerk reads the correction before the ballot.",
+      "pulledBy": "A corrected return awards the entire vote to one delegate.",
+      "writesBack": "The division list uses the corrected weight."
+    }
+  ]
+}

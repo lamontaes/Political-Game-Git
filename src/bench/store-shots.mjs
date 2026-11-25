@@ -54,7 +54,8 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   // The creator: a drawn name and birthday, the first state and town.
   await page.waitForSelector("#cr-screen:not([hidden])");
   await page.click("[data-gender=male]");
-  await page.click("#cr-random-name");
+  await page.fill("#cr-given", "Test");
+  await page.fill("#cr-family", "Person");
   await page.waitForFunction(() => document.getElementById("cr-given").value);
   await page.click("#cr-states button");
   await page.click("#cr-towns button");

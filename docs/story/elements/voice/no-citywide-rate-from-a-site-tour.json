@@ -1,0 +1,32 @@
+{
+  "id": "no-citywide-rate-from-a-site-tour",
+  "kind": "voice",
+  "summary": "{person} says what inspectors saw without turning their stops into a citywide rate.",
+  "realLife": "Seattle’s auditors distinguished stops selected by crews from their own deliberately chosen sites and declined to generalize the sample to all restrooms.",
+  "sources": [
+    "https://www.seattle.gov/documents/Departments/CityAuditor/auditreports/2025/ParkRestroomsAuditFinalReport.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A site-visit sample with its selection method recorded."],
+  "weights": [
+    "A request for a citywide figure makes the selection method relevant."
+  ],
+  "usedBy": [],
+  "inGame": "needs: inspection sites, visit observations and how the sites were selected.",
+  "turns": [
+    {
+      "turn": "estimate",
+      "what": "The auditor proposes a different sampling plan.",
+      "pulledBy": "Council wants a representative estimate.",
+      "writesBack": "Record a new measurement request."
+    },
+    {
+      "turn": "repair-list",
+      "what": "The auditor supplies the observed locations.",
+      "pulledBy": "Council needs a repair list today.",
+      "writesBack": "Send those specific facilities to maintenance."
+    }
+  ],
+  "issues": ["budget:parks"]
+}

@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-sew1gc
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 source: "Interview check thread, Nov 14, 2026, gating #9267 on train 9ed4bf9c"
 root: none
 claimed-at:
+branch: claude/project-thread-sew1gc
 ---
 
 **What.** A resident who reads two stories from the same paper or station on the same day keeps only the second as the outlet's story, so the first can no longer be brought up or traced to the outlet that printed it. `src/core2/outcome-news.test.ts`, case "moves a reader's view through an ordinary year's condition stories", fails this way at Depauville, New York (seed 6f8bd0dad10d6bec) on the clean train head 9ed4bf9c4b065f8c4d260fd3431b28e7a35ab936 and on #9267 alike: "person_2f3831b8525a64f7 on 2025-04-15 by news.read:printed:outlet:television:3:jurisdiction_4850c25f2c63744f:outcome-web.month:jurisdiction_4850c25f2c63744f:2025-04:2025-04-15:repeal:budget-line:police: remembers who printed it: expected false to be true". It passes at the other draws seen (Olive Hill, Kentucky). Seen: a neighbor who read two stories in the town paper that day brings up only the later one.
@@ -34,3 +35,5 @@ claimed-at:
 **Waits on.** Nothing.
 
 **Files.** src/core2/press-desk.ts, src/core2/outcome-news.test.ts
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-sew1gc since 2026-11-15 19:13 UTC, more than twice its 2-hour time box. Continue on branch claude/project-thread-sew1gc.

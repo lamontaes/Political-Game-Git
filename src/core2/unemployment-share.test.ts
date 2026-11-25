@@ -15,6 +15,11 @@ it(`reads plausible weekly benefit shares from every jurisdiction's law, replay 
   const states = corePlaceStateIdentities();
   expect(states).toHaveLength(56);
   const observed: unknown[] = [];
+  // One world, read in every jurisdiction: the world's past (the century its
+  // legislatures ran from 1925) is the world's own, run once for its seed and
+  // read by each state's laws, as in play. A world for each state ran the
+  // century 56 times (about four seconds each) and passed the 300 s limit.
+  const world = createHash("sha256").update(`${replay}:world`).digest("hex");
   for (const state of states) {
     const seed = createHash("sha256")
       .update(`${replay}:${state.jurisdictionKey}`)
@@ -26,7 +31,7 @@ it(`reads plausible weekly benefit shares from every jurisdiction's law, replay 
     // A laws-reader fixture only; the played-year proof uses buildBenchWorld.
     const core = createLifeCore(
       {
-        seed,
+        seed: world,
         startedAt: gameStartDate(),
         people: [],
         households: [],
@@ -42,11 +47,12 @@ it(`reads plausible weekly benefit shares from every jurisdiction's law, replay 
     );
     openLaws(core);
     const terms = unemploymentTerms(coreAPI(core));
-    const where = `${place.displayName} (${place.key}), ${state.jurisdictionKey}, seed ${seed}, ${terms.lawId}`;
+    const where = `${place.displayName} (${place.key}), ${state.jurisdictionKey}, place seed ${seed}, world seed ${world}, ${terms.lawId}`;
     observed.push({
       town: place.displayName,
       key: place.key,
       seed,
+      world,
       state: state.jurisdictionKey,
       hasProgram: terms.hasProgram,
       weeklyShare: terms.weeklyShare,

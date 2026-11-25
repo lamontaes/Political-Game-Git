@@ -1,0 +1,45 @@
+{
+  "id": "neighbors-sue-after-the-council-upholds-a-staff-approval",
+  "kind": "consequence",
+  "summary": "Neighbors sue after a council backs the staff's approval of an apartment complex on a steep site.",
+  "realLife": "A council voted six to three to uphold planners' approval of an apartment complex for homeless young adults. Neighbors argued the height and density broke the area plan and that a hazard report on a steep slope was thin. A motion to send the report to a state survey failed. Supporters said they trusted staff and wanted no more delay. A resident and two groups then sued to overturn it, and the city would not comment.",
+  "sources": [
+    "Colorado Politics (Colorado Springs, Colorado), 'City of Colorado Springs sued over controversial apartment complex for homeless young adults', September 6, 2023: https://www.coloradopolitics.com/2023/09/06/city-of-colorado-springs-sued-over-controversial-apartment-complex-for-homeless-young-adults-bbec7839-8fe8-59ed-a831-28016f476e27",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "count", "place"],
+  "gates": [],
+  "weights": {
+    "roll-call": 0.5,
+    "appeal-vote": 0.6
+  },
+  "inGame": "the appeal vote, the staff approval, an area plan's height rule, a hazard report; needs: a lawsuit record and a hazard report the neighbors can contest",
+  "issues": [
+    "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones"
+  ],
+  "turns": [
+    {
+      "name": "neighbors sue over the area plan",
+      "pulledBy": "residents who read the plan as binding",
+      "writes": "a lawsuit says the approval departed from the plan and the case waits in court",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a second review is ordered",
+      "pulledBy": "a motion to send the hazard report out passes",
+      "writes": "the report goes to outside review and the project waits",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "the approval stands unchallenged",
+      "pulledBy": "neighbors who accept staff's engineers",
+      "writes": "construction proceeds and the hazard report is filed",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

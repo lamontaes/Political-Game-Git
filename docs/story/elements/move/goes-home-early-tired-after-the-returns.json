@@ -1,0 +1,30 @@
+{
+  "id": "goes-home-early-tired-after-the-returns",
+  "kind": "move",
+  "summary": "An election night entry ends with the writer going home early, cold and tired.",
+  "realLife": "After collecting the returns at the newspaper offices, Strong went home early because he was cold and tired.",
+  "sources": [
+    "Emerging Civil War, Strong's election-day diary entries 1840 to 1872: https://emergingcivilwar.com/2020/11/03/this-momentous-day-presidential-elections-process-in-19th-century-nyc/"
+  ],
+  "fits": ["journal"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "The `ahead` move of the first evening, and the end of an election-night entry (`event:election-result`).",
+  "weights": {
+    "night": 0.5
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "Stayed late.",
+      "pulledBy": "the writer's side won or lost narrowly",
+      "writesBack": "the entry says how late and who stayed"
+    },
+    {
+      "turn": "Went to a party.",
+      "pulledBy": "a campaign event on the evening's record",
+      "writesBack": "the entry names the party"
+    }
+  ],
+  "issues": ["none"]
+}

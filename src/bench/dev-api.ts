@@ -236,6 +236,11 @@ export async function handleDev(
           repeal: input.repeal === true,
           billId: input.billId === undefined ? undefined : String(input.billId),
           schedule: input.schedule === true,
+          line: input.line === undefined ? undefined : String(input.line),
+          deltaMinor:
+            input.deltaMinor === undefined
+              ? undefined
+              : Number(input.deltaMinor),
         }),
       );
       return true;

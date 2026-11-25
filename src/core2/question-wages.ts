@@ -45,11 +45,20 @@ function setLevelWage(
   level: { level: string; jurisdiction: string },
   target: number,
   lawId: string,
+  effectiveDate: string = tomorrow(api.state.date),
 ): void {
   const id = `${key}:${level.jurisdiction}`;
   const held = mechanicRow(api, id);
   if (held?.active) return;
-  const prior = levelWage(api, level.jurisdiction);
+  // The wage this level held before: its own row, or, where the level's floor
+  // in force here is written under another jurisdiction (a territory's own
+  // federal rate, 29 USC 206(a)(3), sits under the territory, not "US"), that
+  // level's floor in force, so a repeal writes it back.
+  const prior =
+    levelWage(api, level.jurisdiction) ??
+    lawInForce(api, "minimum-wage").levels.find((l) => l.level === level.level)
+      ?.row?.value ??
+    null;
   if (prior !== null && prior >= target) return;
   enactLaw(api, {
     jurisdiction: level.jurisdiction,
@@ -57,7 +66,7 @@ function setLevelWage(
     series: "minimum-wage",
     value: target,
     unit: "minor/hour",
-    effectiveDate: tomorrow(api.state.date),
+    effectiveDate,
     measureId: lawId,
     citation: `Minimum wage set by ${lawId}`,
   });
@@ -172,8 +181,15 @@ export function holdFederalWage(
   const federal = lawChain(api).levels.find((l) => l.level === "federal");
   if (!federal) return;
   const standing = yesLevels(api, FEDERAL_KEY).length > 0;
-  // The opening's researched answer is the federal floor already in force.
-  if (standing && change.lawId.endsWith(":starting")) return;
+  // The opening's researched answer is the federal floor already in force; a
+  // century's session that passed the raise left its amount as law, which
+  // nothing else writes.
+  const centurys =
+    (
+      api.moduleState(LAWS_MODULE_ID).table("laws").get(change.lawId) as
+        { terms?: { centuryRecordId?: string } } | undefined
+    )?.terms?.centuryRecordId !== undefined;
+  if (standing && change.lawId.endsWith(":starting") && !centurys) return;
   if (standing)
     setLevelWage(
       api,
@@ -181,6 +197,9 @@ export function holdFederalWage(
       federal,
       reachParameter("federalMinimumWageTargetMinor"),
       change.lawId,
+      // A century's session passed the raise before day one, so it is law on
+      // the opening day itself and the warm-up has the pay raised before play.
+      centurys ? api.state.date : undefined,
     );
   else restoreWages(api, FEDERAL_KEY, change.lawId);
 }

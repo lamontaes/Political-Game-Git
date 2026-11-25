@@ -1,0 +1,34 @@
+{
+  "id": "unfinished-project-keeps-its-balance",
+  "kind": "consequence",
+  "summary": "{person} checks whether an unfinished park project can carry its money into the next year.",
+  "realLife": "Seattle’s ordinance let the parks appropriation carry forward until spent or abandoned by a later ordinance.",
+  "sources": [
+    "https://seattle.legistar.com/LegislationDetail.aspx?FullText=1&GUID=610D894E-9C83-4C16-9312-4F93FE485B0A&ID=6992988"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A project with an unspent balance, a fiscal year boundary and a carryforward provision."
+  ],
+  "weights": [
+    "A delayed start near year-end makes the provision consequential."
+  ],
+  "usedBy": [],
+  "inGame": "needs: unspent project balance, fiscal year, carryforward clause and any abandonment ordinance.",
+  "turns": [
+    {
+      "turn": "resumed",
+      "what": "Finance confirms the prior balance is available.",
+      "pulledBy": "The project resumes the following spring.",
+      "writesBack": "Charge the work to the carried appropriation."
+    },
+    {
+      "turn": "abandoned",
+      "what": "The project manager withdraws the spending plan.",
+      "pulledBy": "Council formally abandons the work.",
+      "writesBack": "Link the closure to the later ordinance."
+    }
+  ],
+  "issues": ["budget:parks", "law:local-power:dedicated-parks-funding"]
+}

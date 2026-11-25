@@ -13,8 +13,20 @@ interface Line {
 
 const BY_STATE = guidelines.states as Readonly<Record<string, Line>>;
 
-/** The poverty guideline, in dollars a year, for a household of this size in this state. */
-export function povertyLineDollars(stateKey: string, size: number): number {
+/**
+ * The poverty guideline, in dollars a year, for a household of this size in
+ * this state. The table is written in 2026 dollars; `priceIndex` is how far
+ * this world's own prices have moved since it opened (`sinceOpeningIndex`,
+ * read once per pass), 1 on day one.
+ * stopgapId: SG-WORLD-tax-index-january
+ */
+export function povertyLineDollars(
+  stateKey: string,
+  size: number,
+  priceIndex = 1,
+): number {
   const line = BY_STATE[stateKey] ?? guidelines.default;
-  return line.oneDollars + line.stepDollars * (Math.max(1, size) - 1);
+  return (
+    (line.oneDollars + line.stepDollars * (Math.max(1, size) - 1)) * priceIndex
+  );
 }

@@ -38,3 +38,5 @@ checked:
 **Notes.**
 
 - Nov 15: found while giving the pay-on-time promise a real loan (#9517). The promises tests use the New game creator's birthday to pick a player who heads a home; that stays until this lands.
+
+**Notes.** Handoff, Nov 17: the player a New game birthday picks never borrowed or missed a payment in ten drawn places (born 1995-03-01, 200 days each), three places (400 days) and six birth years at New Union, Tennessee (1960 to 2000, 400 days), while the town missed 15 to 65 payments a year. The promise tests now play the town's own borrowers (`findTownBorrower`, tests/support/real-borrower.ts). The player-case talk waits on this item and is posted for Blockers on #9747.

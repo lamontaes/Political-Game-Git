@@ -1,0 +1,43 @@
+{
+  "id": "address-gives-the-president-little-change-in-approval",
+  "kind": "consequence",
+  "summary": "A joint address usually changes the president's approval very little because the audience is mostly supporters.",
+  "realLife": "A long look at polls found that a president's approval rarely moved after a yearly address, because viewers were mostly the president's own supporters. One year in the 1990s showed a large rise during a strong economy and a scandal, and a rise in 2005 came with the same week's elections abroad.",
+  "sources": [
+    "Gallup (United States), 'President's Support Usually Unaffected by State of Union', January 26, 2010: https://news.gallup.com/poll/125396/president-support-usually-unaffected-state-union.aspx",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["date", "about"],
+  "gates": [],
+  "weights": {
+    "address": 0.5,
+    "poll": 0.5
+  },
+  "inGame": "the national opinion record and the approval measure; needs: a before and after poll around the address",
+  "issues": ["none"],
+  "turns": [
+    {
+      "name": "no change",
+      "pulledBy": "the audience was mostly the president's own party",
+      "writes": "the approval figure stays within a point of before",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a rise in a good year",
+      "pulledBy": "a strong economy and a big event the same week",
+      "writes": "approval rises a few points and the story credits the economy too",
+      "requiresFacts": ["strong-economy"],
+      "excludesFacts": []
+    },
+    {
+      "name": "a rise that fades",
+      "pulledBy": "the speech reaches few outside the party",
+      "writes": "approval goes up for days and then returns",
+      "requiresFacts": [],
+      "excludesFacts": ["strong-economy"]
+    }
+  ],
+  "usedBy": []
+}

@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/red-main-filing-fixed-date-core2
+claimed-by:
 pr:
 blocked-on:
 source: fixer of tests-door-pledge-turnout-race-open-by-draw (PR #8902), Nov 12, from the coordinator's order
@@ -17,7 +17,8 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-12
-claimed-at: 2026-11-13T01:19:11.304Z
+claimed-at:
+branch: claude/red-main-filing-fixed-date-core2
 ---
 
 **What.** Thirteen test files build a world in a drawn place, read `openContests` on the start date and file for what is open, without moving the clock to the day a window opens. Each is a red by draw waiting for a seed whose drawn place has no window open on that day; `src/core2/door-pledge.test.ts` was the first (eleven of twelve places, seed f26db0f13c6bffec4a68430111c0bdb5), and race-told-scene was another on Nov 12. The files and the line where each files:
@@ -53,3 +54,5 @@ Seen: no player screen; these tests guard the filing, campaign and scene paths a
 **Files.** src/core2/campaign-calibration.test.ts, src/core2/record.test.ts, src/core2/donor-meeting.test.ts, src/core2/campaign-day.test.ts, src/core2/ballot-order.test.ts, src/core2/parties.test.ts, src/core2/campaign-door-balance.test.ts, src/core2/campaign-money-calibration.test.ts, src/core2/door-fill-in.test.ts, src/bench/player-day-morning.test.ts, src/bench/scene-hours.test.ts, src/bench/campaign-mail.test.ts, src/bench/donor-calls.test.ts
 
 **Notes.** Twins searched Nov 12: `tests-filing-starts-where-filing-opens` and `campaigns-test-waits-for-filing-window` (done, other files), `elections-filing-test-waits-for-filing-window` (dropped), `tests-door-pledge-turnout-race-open-by-draw` (door-pledge only, PR #8902). Not run: none of the thirteen was run; the list is from a grep and the line numbers are where each first calls `openContests` or `fileCandidacy` on main e298200245 plus the merge of 3fba4132b9.
+
+Released by next (2026-11-18): no push to claude/red-main-filing-fixed-date-core2 since 2026-11-13 05:30 UTC, more than twice its 3-hour time box. Continue on branch claude/red-main-filing-fixed-date-core2.

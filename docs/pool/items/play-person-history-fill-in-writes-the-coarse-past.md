@@ -27,7 +27,7 @@ claimed-at: 2026-10-29T17:51:50.596Z
 
 **Done when.** In the played world (buildBenchWorld) of a drawn place (place and seed named), card-history.test.ts opens a sitting state legislator, a counted neighbor and a counted coworker with no tie to the player and finds at least four dated lines each, every one on a record id in the pre-start history or the durable log; screenshots of two cards at 1440x900 land in docs/play-first/shots.
 
-**Files.** src/core2/pre-start.ts, src/core2/state.ts, src/core2/past-work.ts, src/core2/past-moves.ts, src/bench/card.ts, src/bench/card-history.test.ts
+**Files.** src/core2/pre-start.ts, src/core2/state.ts, src/core2/past-work.ts, src/core2/past-moves.ts, src/bench/card.ts
 
 **Notes.** Filed by the play-first lane, Oct 29, from play-person-history-for-everyone-you-open (the card side landed there). Read: OWNER-DECISIONS (Oct 29), LAW section 5; searched: person history, pre-start, fill-in.
 

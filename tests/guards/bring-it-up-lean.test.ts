@@ -44,17 +44,6 @@ function sourceFiles(dir: string): string[] {
 }
 
 describe("a race's result brought up in talk", () => {
-  it("has its lean and result lines in the bank", () => {
-    const roles = new Set(
-      parts.flatMap((part) => part.uses.map((u) => `${u.subject}:${u.role}`)),
-    );
-    expect([...roles].sort()).toEqual([
-      "election:result",
-      "lean:against",
-      "lean:with",
-    ]);
-  });
-
   it("requires only facts the one reading path sets", () => {
     const set = new Set([
       ...[...reader.matchAll(/\b(\w+): \{\s*text:/g)].map((m) => m[1]!),

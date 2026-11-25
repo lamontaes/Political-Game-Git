@@ -1,0 +1,29 @@
+{
+  "id": "printed-directions-to-charge-a-phone",
+  "kind": "detail",
+  "summary": "A resident in {place} finds the phone charging site on a paper notice.",
+  "realLife": "New York City used printed notices to publicize charging locations when residents could not get information online.",
+  "sources": [
+    "https://www.nyc.gov/assets/em/downloads/pdf/hurricane_sandy_aar.pdf#page=9"
+  ],
+  "fits": ["office", "news", "journal", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A posted notice gives a confirmed local charging location."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a posted notice gives a confirmed local charging location.",
+  "turns": [
+    {
+      "turn": "the-site-is-still-operating",
+      "pulledBy": "The site is still operating.",
+      "what": "The resident takes the address along.",
+      "writesBack": "The resident has a current charging address."
+    },
+    {
+      "turn": "the-site-moved",
+      "pulledBy": "The site moved.",
+      "what": "Replace the notice at the same posting spot.",
+      "writesBack": "The outdated posting is marked for replacement."
+    }
+  ]
+}

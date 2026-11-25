@@ -25,7 +25,11 @@ import {
   spendingPaymentsOf,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
-import { chargedSinceClose, treasuryMonthsOf } from "./budgets-treasury";
+import {
+  chargedSinceClose,
+  federalDebtOf,
+  treasuryMonthsOf,
+} from "./budgets-treasury";
 import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
 import { residentsRuntime } from "./modules/residents";
@@ -149,6 +153,14 @@ describe(
         )
           .filter((row) => row.governmentId === gov.id)
           .reduce((n, row) => n + row.amountMinor, 0);
+        // What the federal treasury paid the holders of its debt out of a
+        // surplus (`repayFederalSurplus`, #9835): each holder's row keeps what
+        // it was repaid.
+        if (gov.level === "federal")
+          closes -= federalDebtOf(api).reduce(
+            (n, holder) => n + holder.repaidMinor,
+            0,
+          );
         // What it paid suppliers outside the town since its last close (a
         // commission's month, an election's costs), not yet in a month.
         closes -= chargedSinceClose(api, gov.id);

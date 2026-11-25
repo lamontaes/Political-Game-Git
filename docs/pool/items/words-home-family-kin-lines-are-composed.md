@@ -35,7 +35,7 @@ merged-at: 2026-11-11T16:20:49.717Z
 5. **What it writes back.** Give the `kin` subject an `own` the way `own-work` has one (`{ key: "person:<relativeId>:relation", value: <the relation> }`), so `say` records it through its existing `tell` (the `conversation.told` event, `data.toldEvent`) when the player answers it: the player then knows who the relative is to the speaker, and the next talk asks after them by name instead of introducing them again (`kin` is raised only for a relative the listener does not know). No new record kind. Name the record id in the pull request.
 6. **Delete what this replaces, with every reference.** The 13 lines with no insert under `family` and `kin`; a piece that also serves another subject (4 do) loses only those uses. None is graded good. Then `npm run words:grade` and `npm run words:rules` twice.
 7. **Lower the guard's count** for `conversation` in tests/guards/english/line-inserts-baseline.json.
-8. **Tests.** In src/director/family-news-talk.test.ts, on drawn places: an ill relative's answer names when they fell ill; a relative who moved names the place; a `kin` mention names the relative's town or work when they live elsewhere or work; the replies pass `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
+8. **Tests.** In src/director/family-news-talk.test.ts (removed), on drawn places: an ill relative's answer names when they fell ill; a relative who moved names the place; a `kin` mention names the relative's town or work when they live elsewhere or work; the replies pass `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
 
 **Time box.** 4 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -45,7 +45,7 @@ merged-at: 2026-11-11T16:20:49.717Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/director/family-news-talk.test.ts, src/english/conversation-words.ts, src/core2/closeness.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/english/conversation-words.ts, src/core2/closeness.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 50 lines, 13 with no insert and not excused (family 33 and 8, kin 17 and 5). Three today: "He's in the hospital.", "My father passed away.", "I don't think so." The relatives' own lives outside the town come from the `lives` skill's engines; this item only reads them.
 

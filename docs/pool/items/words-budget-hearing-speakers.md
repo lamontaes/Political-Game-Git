@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) a budget bill that goes to a vote on the town body produces a hearing scene whose lines name the bill by its title, call at least one recorded public-comment speaker by name, and announce the recorded counts, each line citing its record ids; a test in `src/director/` or `scripts/english-corpus/` covers it. The owner plays it: attends a council budget meeting and hears the chair, a neighbor and a member speak in their own words.
 
-**Files.** src/core2/modules/meetings.ts, scripts/english-corpus/body-bank.ts, src/director/scene.ts, data/english/parts/hearing.json, data/english/parts/meeting.json
+**Files.** src/core2/modules/meetings.ts, scripts/english-corpus/body-bank.ts, src/director/scene.ts, data/english/parts/meeting.json
 
 **Notes.** Written Oct 20 (claude/budget-hearing-spec) from the code: the composer and its played-world test (`scripts/english-corpus/body-bank-world.test.ts`, PR #5187) already word a parks budget vote from a bill's own records. Missing: the speakers (public-comment statements) in the scene, and a director or bench reader. Waits on #5187 for the bank and composer.
 

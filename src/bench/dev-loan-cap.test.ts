@@ -29,7 +29,7 @@ type Row = Record<string, unknown>;
 
 describe(`the loan cap through dev mode (seed ${seed})`, () => {
   it(
-    "a cap passed by a real bill is read by the lender past the lag",
+    "a cap passed by a real bill is read by the lender past the lag (just like today: needs the state's real consumer loan cap)",
     { timeout: 3_600_000 },
     () => {
       const tried: string[] = [];
@@ -41,6 +41,7 @@ describe(`the loan cap through dev mode (seed ${seed})`, () => {
         }
         const world = buildBenchWorld(drawn.seed, gameStartDate(), {
           twoLevel: true,
+          settings: { history: "today" },
           placeKey: drawn.key,
         });
         const api = coreAPI(world.core);

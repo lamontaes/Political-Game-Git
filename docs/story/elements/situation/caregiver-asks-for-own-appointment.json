@@ -1,0 +1,29 @@
+{
+  "id": "caregiver-asks-for-own-appointment",
+  "kind": "situation",
+  "summary": "A caregiver in {place} asks whether the program has anyone they can talk to for themselves.",
+  "realLife": "Brooklyn voters chose a project offering mental health and wellness support to caregivers of young people with special needs.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["The local program accepts caregivers as clients."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: the local program accepts caregivers as clients.",
+  "turns": [
+    {
+      "turn": "caregiver-appointments-are-open",
+      "pulledBy": "Caregiver appointments are open.",
+      "what": "Give the caregiver an intake contact.",
+      "writesBack": "Record a caregiver referral."
+    },
+    {
+      "turn": "the-service-is-still-being-organized",
+      "pulledBy": "The service is still being organized.",
+      "what": "Log interest for the operator.",
+      "writesBack": "Keep the request open until intake begins."
+    }
+  ]
+}

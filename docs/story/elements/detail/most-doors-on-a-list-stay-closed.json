@@ -1,0 +1,33 @@
+{
+  "id": "most-doors-on-a-list-stay-closed",
+  "kind": "detail",
+  "summary": "Most doors on a canvasser's list are never opened, and an empty house gets a knock, a pause and a flyer.",
+  "realLife": "Reporters and volunteers describe many houses with no answer, residents who pretend to be out, and one canvasser who left just before the owner drove up.",
+  "sources": [
+    "Yahoo News, Canvassers descend on Phoenix for one last push: what it is like on both sides of the door, undated: https://www.yahoo.com/news/canvassers-descend-phoenix-one-last-200537117.html",
+    "Daily Kos, Tales from the Field: Hitting the Doors in NOVA, 2021-10-31: https://www.dailykos.com/stories/2021/10/31/2061272/-Tales-from-the-Field-Hitting-the-Doors-in-NOVA",
+    "Philadelphia Inquirer, NJ-3 Andy Kim and Tom MacArthur canvassing volunteers knock doors, 2018-10-22: https://www.inquirer.com/philly/news/new_jersey/shore/nj-3-andy-kim-tom-macarthur-election-2018-political-canvassing-volunteers-knock-doors-swing-left-20181022.html",
+    "Ronald Claiborne Substack, Confessions of a campaign canvasser, undated: https://ronaldclaiborne.substack.com/p/confessions-of-a-campaign-canvasser"
+  ],
+  "fits": ["campaign"],
+  "slots": ["place"],
+  "gates": [],
+  "inGame": "canvass shift record: doors tried against doors opened; the household's home record",
+  "weights": {
+    "door": 0.7
+  },
+  "usedBy": ["news"],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "Almost no one is home on a weekday afternoon",
+      "pulledBy": "a workday hour",
+      "writesBack": "a shift of many knocks and no scene"
+    },
+    {
+      "turn": "A cool Sunday afternoon fills the doorsteps",
+      "pulledBy": "a weekend hour",
+      "writesBack": "several talks in a row"
+    }
+  ]
+}

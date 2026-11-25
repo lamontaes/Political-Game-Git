@@ -68,7 +68,7 @@ detail, filled in when needed.
 
 ## 6. Proof run
 
-A played-world run in a place drawn from all 56 (`played-world-proof`)
+A played-world run in a place drawn from all 56 (`done-proof` (played-world-proof part))
 listing every case and outcome against the checks. Name the seed and place.
 
 ## 7. Worked example

@@ -1,0 +1,30 @@
+{
+  "id": "credit-the-keeper-of-the-cases",
+  "kind": "move",
+  "summary": "A writer puts the colleague who collected the underlying cases first on a reference book.",
+  "realLife": "Riddick said he wrote the first volume of Senate Procedure and gave Watkins first billing for assembling precedents and checking the manuscript.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=39"
+  ],
+  "fits": ["office", "journal", "speeches", "news"],
+  "slots": ["{author}", "{reviewer}", "{volume}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a shared publication and documented contributions.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The writer asks to describe both contributions in the preface.",
+      "pulledBy": "The collector declines first billing.",
+      "writesBack": "Readers can tell who did what."
+    },
+    {
+      "turn": "late",
+      "what": "Publication waits for the correct case.",
+      "pulledBy": "The review catches a mistaken citation.",
+      "writesBack": "Both names appear on the corrected volume."
+    }
+  ],
+  "issues": ["none"]
+}

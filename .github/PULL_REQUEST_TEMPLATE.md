@@ -2,7 +2,7 @@ Pool item: <id>
 
 Checks (changed files): <eslint, prettier, typecheck, the changed tests, zero-dice, release:check --mode pr, pool --check>, <results>.
 
-<!-- Line 1 must be exactly "Pool item: <id>" with no backticks: the merge flips that item to merged, and a second session's check in the running game makes it done (seen-in-game). Line 3 is the gate line the merger reads. -->
+<!-- Line 1 must be exactly "Pool item: <id>" with no backticks: the merge flips that item to merged, and a second session's check in the running game makes it done (done-proof, seen-in-game part). Line 3 is the gate line the merger reads. -->
 
 **What changed for the player.** <Plain words: what the owner can now see or do. "Before:" and "After:" where that helps.>
 

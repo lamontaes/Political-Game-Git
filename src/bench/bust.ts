@@ -24,6 +24,8 @@ type Outfit = Readonly<Partial<Record<ClothesLayer, string>>>;
 interface BustStyle {
   style: string;
   files: Readonly<Record<string, string>>;
+  /** A head shape's own refitted painting of the style, by color, where the standard one does not fit it. */
+  byShape?: Readonly<Record<string, Readonly<Record<string, string>>>>;
 }
 interface BustSet {
   /** The folder of this set's pieces, under the pack. */
@@ -32,8 +34,14 @@ interface BustSet {
   head: { top: number; middle: number; width: number };
   /** The skin tones the set paints, lightest first. */
   tones: readonly string[];
-  /** A tone's heads: as an adult and as an older face. */
-  heads: Readonly<Record<string, { adult: string; older: string }>>;
+  /** The head shapes the set paints, the standard one first. */
+  shapes: readonly string[];
+  /** A shape's heads by tone: as an adult and as an older face. */
+  heads: Readonly<
+    Record<string, Readonly<Record<string, { adult: string; older: string }>>>
+  >;
+  /** Pairs of a head and a hair or facial hair piece the art checks flag; never drawn together. */
+  doNotCombine: readonly { piece: string; head: string }[];
   /** The clothes the set paints, by layer: each style with one painted file for each color. */
   clothes: Readonly<Record<ClothesLayer, readonly BustStyle[]>>;
   /** What each way of dressing wears: the outfits a person may have, by the style of each layer. */
@@ -58,6 +66,13 @@ interface Manifest {
 const MANIFEST = JSON.parse(
   readFileSync(new URL("manifest.json", PACK_DIR), "utf8"),
 ) as Manifest;
+/** Each set's flagged pairs as `head|piece`, for a look-up. */
+const BLOCKED = new Map(
+  Object.entries(MANIFEST.sets).map(([sex, set]) => [
+    sex,
+    new Set(set.doNotCombine.map((row) => `${row.head}|${row.piece}`)),
+  ]),
+);
 
 /** A bust as the screen draws it: the pieces' urls from the bottom up, and where the head is. */
 export interface PersonBust {
@@ -89,8 +104,11 @@ export interface BustPerson {
   readonly id: string;
   /** The bank's word: woman or man. */
   readonly sex: string;
+  /** Their skin among the tones their set paints, 0 the lightest. */
   readonly tone: number;
-  /** The tone's own name in the manifest: light, medium or dark. */
+  /** How many tones their set paints. */
+  readonly tones: number;
+  /** The tone's own name in the manifest: fair, light, olive, medium, brown or dark. */
   readonly toneName: string;
 }
 const PEOPLE: readonly BustPerson[] = MANIFEST.people.map((row) => ({
@@ -98,6 +116,7 @@ const PEOPLE: readonly BustPerson[] = MANIFEST.people.map((row) => ({
   sex: row.sex,
   toneName: row.tone,
   tone: Math.max(0, MANIFEST.sets[row.sex]?.tones.indexOf(row.tone) ?? 0),
+  tones: MANIFEST.sets[row.sex]?.tones.length ?? 1,
 }));
 const BY_ID = new Map(PEOPLE.map((row) => [row.id, row]));
 /** Every person the bank paints, in the manifest's order. */
@@ -116,6 +135,8 @@ const url = (set: BustSet, file: string) =>
 export interface BustLook {
   /** One of the bank's people (`bustPerson`). */
   person: string;
+  /** The head shape, one of the person's set's; absent for the standard one. */
+  shape?: string;
   /** The hairstyle, one of the person's set's. */
   hair: string;
   /** The hair's color, one the style is painted in. */
@@ -148,12 +169,33 @@ function stack(
   };
 }
 
+/** A head shape of the set: the one named, else the standard one. */
+const shapeIn = (set: BustSet, shape: string | undefined) =>
+  shape && set.shapes.includes(shape) ? shape : set.shapes[0]!;
+/** A person's head file in a shape, as an adult or older. */
+const headFile = (
+  set: BustSet,
+  person: BustPerson,
+  shape: string,
+  older: boolean,
+) => set.heads[shape]![person.toneName]![older ? "older" : "adult"];
+/** A hair or facial hair style's file for a head shape in a color: the shape's own painting where it has one, else the standard one; the style's first painted color where it lacks that one. */
+const pieceIn = (style: BustStyle, shape: string, color: string) => {
+  const own = style.byShape?.[shape];
+  return (
+    own?.[color] ?? style.files[color] ?? Object.values(own ?? style.files)[0]
+  );
+};
+/** Whether the art checks flag a hair or facial hair piece on a head. */
+const blocked = (
+  sex: string,
+  head: string,
+  piece: string | undefined,
+): boolean => !!piece && !!BLOCKED.get(sex)?.has(`${head}|${piece}`);
+
 /** The colors an adult of a tone may have, or the one an older head wears. */
 const hairColorsOf = (person: BustPerson, older: boolean) =>
   older ? [MANIFEST.olderHair] : (MANIFEST.hairColors[person.toneName] ?? []);
-/** Facial hair in the hair's color where it is painted so, else in its first painted color. */
-const faceFile = (style: BustStyle, color: string) =>
-  style.files[color] ?? Object.values(style.files)[0];
 
 /** A layer's style in the set, by name. */
 const styleOf = (
@@ -196,22 +238,33 @@ export function bustFor(
   const n = Math.abs(Math.trunc(pick));
   const colors = hairColorsOf(person, older);
   const color = colors[Math.floor(n / 11) % colors.length]!;
-  const hair = set.hair[n % set.hair.length]!;
-  // One person in each (styles + 1) wears no facial hair.
-  const face =
+  const shape = set.shapes[Math.floor(n / 29) % set.shapes.length]!;
+  const head = headFile(set, person, shape, older);
+  // The first hairstyle from their pick on that the art checks do not flag on this head.
+  const hairs = set.hair.map((_, i) => set.hair[(n + i) % set.hair.length]!);
+  const hair =
+    hairs.find(
+      (row) => !blocked(person.sex, head, pieceIn(row, shape, color)),
+    ) ?? hairs[0]!;
+  // One person in each (styles + 1) wears no facial hair, nor does one the art checks flag on this head.
+  const wears =
     facialHair && set.face.length
       ? set.face[Math.floor(n / 7) % (set.face.length + 1)]
+      : undefined;
+  const face =
+    wears && !blocked(person.sex, head, pieceIn(wears, shape, color))
+      ? wears
       : undefined;
   const outfits = set.dress[dress];
   const outfit = outfits[Math.floor(n / 13) % outfits.length] ?? {};
   return stack(set, {
-    head: set.heads[person.toneName]![older ? "older" : "adult"],
+    head,
     top: byNumber(styleOf(set, "top", outfit.top), Math.floor(n / 17)),
     shirt: byNumber(styleOf(set, "shirt", outfit.shirt), Math.floor(n / 17)),
     tie: byNumber(styleOf(set, "tie", outfit.tie), Math.floor(n / 19)),
     jacket: byNumber(styleOf(set, "jacket", outfit.jacket), Math.floor(n / 23)),
-    face: face && faceFile(face, color),
-    hair: hair.files[color] ?? Object.values(hair.files)[0],
+    face: face && pieceIn(face, shape, color),
+    hair: pieceIn(hair, shape, color),
   });
 }
 
@@ -266,12 +319,21 @@ export function bustOfLook(
   if (!set) return null;
   const hair = set.hair.find((row) => row.style === look.hair);
   const color = older ? MANIFEST.olderHair : look.hairColor;
-  if (!hair?.files[color]) return null;
+  const shape = shapeIn(set, look.shape);
+  if (!hair || !pieceIn(hair, shape, color)) return null;
   const face =
     look.face === undefined
       ? undefined
       : set.face.find((row) => row.style === look.face);
   if (look.face !== undefined && !face) return null;
+  const head = headFile(set, person, shape, older);
+  const hairPiece = pieceIn(hair, shape, color);
+  const facePiece = face && pieceIn(face, shape, color);
+  if (
+    blocked(person.sex, head, hairPiece) ||
+    blocked(person.sex, head, facePiece)
+  )
+    return null;
   const first = (layer: ClothesLayer) => set.clothes[layer][0];
   const everyday = lookTop(look);
   const top =
@@ -279,7 +341,7 @@ export function bustOfLook(
       ? inColor(styleOf(set, "top", everyday.top), everyday.color)
       : undefined;
   return stack(set, {
-    head: set.heads[person.toneName]![older ? "older" : "adult"],
+    head,
     top,
     shirt: top ? undefined : inColor(first("shirt"), look.shirt),
     tie: top || !look.tie ? undefined : inColor(first("tie"), look.tie),
@@ -287,8 +349,34 @@ export function bustOfLook(
       top || dress !== "official"
         ? undefined
         : inColor(first("jacket"), look.jacket),
-    face: face && faceFile(face, color),
-    hair: hair.files[color],
+    face: facePiece,
+    hair: hairPiece,
+  });
+}
+
+/**
+ * Whether a look's head, hair and facial hair go together at every age:
+ * none of its pieces is one the art checks flag on its head, as an adult in
+ * its own hair color or as an older face in gray. The creator offers, and
+ * the game draws, only looks that fit.
+ */
+export function bustFits(look: BustLook): boolean {
+  const person = BY_ID.get(look.person);
+  const set = person && MANIFEST.sets[person.sex];
+  const hair = set?.hair.find((row) => row.style === look.hair);
+  if (!person || !set || !hair) return false;
+  const face =
+    look.face === undefined
+      ? undefined
+      : set.face.find((row) => row.style === look.face);
+  const shape = shapeIn(set, look.shape);
+  return [false, true].every((older) => {
+    const color = older ? MANIFEST.olderHair : look.hairColor;
+    const head = headFile(set, person, shape, older);
+    return (
+      !blocked(person.sex, head, pieceIn(hair, shape, color)) &&
+      !blocked(person.sex, head, face && pieceIn(face, shape, color))
+    );
   });
 }
 
@@ -309,6 +397,7 @@ const named = (key: string): BustChoice => ({
  * in the manifest's order.
  */
 export function bustChoices(person: BustPerson): {
+  shape: readonly BustChoice[];
   hair: readonly BustChoice[];
   hairColor: readonly BustChoice[];
   face: readonly BustChoice[];
@@ -321,6 +410,7 @@ export function bustChoices(person: BustPerson): {
   const colors = (layer: ClothesLayer) =>
     Object.keys(set?.clothes[layer][0]?.files ?? {}).map(named);
   return {
+    shape: (set?.shapes ?? []).map(named),
     hair: (set?.hair ?? []).map((row) => named(row.style)),
     hairColor: hairColorsOf(person, false).map(named),
     face: (set?.face ?? []).map((row) => named(row.style)),
@@ -347,12 +437,19 @@ export const skinLabel = (person: BustPerson) =>
 export function bustPieces(): readonly string[] {
   return Object.values(MANIFEST.sets).flatMap((set) =>
     [
-      ...Object.values(set.heads).flatMap((head) => [head.adult, head.older]),
+      ...Object.values(set.heads).flatMap((tones) =>
+        Object.values(tones).flatMap((head) => [head.adult, head.older]),
+      ),
       ...[
         ...CLOTHES.flatMap((layer) => set.clothes[layer]),
         ...set.face,
         ...set.hair,
-      ].flatMap((row) => Object.values(row.files)),
+      ].flatMap((row) => [
+        ...Object.values(row.files),
+        ...Object.values(row.byShape ?? {}).flatMap((own) =>
+          Object.values(own),
+        ),
+      ]),
     ].map((file) => url(set, file)),
   );
 }

@@ -1891,7 +1891,7 @@
           "policies": [
             {
               "id": "question:us-federal-positions:territories-culture.statehood-for-dc",
-              "name": "statehood for dc",
+              "name": "statehood for D.C.",
               "kind": "policy-question",
               "question": "us-federal-positions:territories-culture.statehood-for-dc",
               "operations": ["enact", "repeal"],

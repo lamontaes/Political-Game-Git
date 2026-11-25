@@ -1,0 +1,32 @@
+{
+  "id": "same-precinct-separate-rows",
+  "kind": "situation",
+  "summary": "A delegate can see the rest of the precinct near the front from the row where the ushers sent them.",
+  "realLife": "Harrington described himself and Chapman alone in a back row in Hinds County while white members of their precinct sat near the front, despite the usual precinct seating.",
+  "sources": [
+    "https://crmvet.lib.duke.edu/docs/640623_mfdp_black_candidates2.pdf#page=4"
+  ],
+  "fits": ["campaign", "journal", "news", "speeches", "office"],
+  "slots": ["{delegate}", "{precinct}"],
+  "gates": [
+    "The seating assignment separates a delegate from their own precinct."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: precinct assignments and actual seating by row.",
+  "turns": [
+    {
+      "turn": "colleague-changes-rows",
+      "what": "The two can consult each other during votes.",
+      "pulledBy": "Another member brings a chair to the back.",
+      "writesBack": "The seating record still shows the original separation."
+    },
+    {
+      "turn": "precinct-reunited",
+      "what": "An usher clears a place in its row.",
+      "pulledBy": "The chair grants the delegate’s request to sit with the precinct.",
+      "writesBack": "The corrected assignment appears on the seating chart."
+    }
+  ]
+}

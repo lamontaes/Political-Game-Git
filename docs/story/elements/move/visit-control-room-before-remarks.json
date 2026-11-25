@@ -1,0 +1,32 @@
+{
+  "id": "visit-control-room-before-remarks",
+  "kind": "move",
+  "summary": "Before speaking publicly in {place}, the president goes to see the room where operators are working.",
+  "realLife": "Carter visited the Three Mile Island control room during his trip and spoke to reporters at the town hall.",
+  "sources": ["https://www.presidency.ucsb.edu/node/249528"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The executive is visiting an operating site and has a public appearance scheduled."
+  ],
+  "weights": [
+    "A shift change or unresolved operating problem favors delaying access to the room."
+  ],
+  "usedBy": [],
+  "inGame": "needs: where a visiting official can observe operations.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Operators brief the president outside their workroom.",
+      "pulledBy": "The shift supervisor asks to keep the room clear during a handover.",
+      "writesBack": "The itinerary records a briefing outside the operating area."
+    },
+    {
+      "turn": "late",
+      "what": "The visit takes place after the press appearance.",
+      "pulledBy": "The operating staff delays entry until the shift change ends.",
+      "writesBack": "The itinerary shows which observations came after the public statement."
+    }
+  ],
+  "issues": ["none"]
+}

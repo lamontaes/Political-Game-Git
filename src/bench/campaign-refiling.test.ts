@@ -13,6 +13,9 @@ import { buildPopulation } from "../core2/population";
 import { createLifeCore } from "../core2/life";
 import { openOffices } from "../core2/modules/offices";
 import { corePlaceByKey } from "../core2/place-lookup";
+import { placeStateKey } from "../core2/place-map";
+import { localOfficesForPlace } from "../core2/offices-local";
+import { nextElectionForSeat } from "../core2/elections-calendar";
 import { publishedPlacePopulation } from "../core2/gov-rules/place-population";
 import { gameStartDate } from "../core2/game-start";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
@@ -40,7 +43,7 @@ import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-refiling:${Date.now()}`).digest("hex");
-/** Draws tried (under a second each, about one in thirty qualifies) before the test says no place qualified. */
+/** Draws tried (about one in fifteen small towns passes the calendar read, and about one in a hundred and fifty draws qualifies) before the test says no place qualified. */
 const DRAWS = 300;
 /** A town this size or smaller plays a year quickly. */
 const SMALL_TOWN = 25_000;
@@ -65,6 +68,29 @@ function qualifies(placeKey: string, seed: string, start: string) {
   const geoid = corePlaceByKey(placeKey)?.sourceGeoid;
   const people = geoid ? publishedPlacePopulation(geoid) : null;
   if (people === null || people > SMALL_TOWN) return null;
+  // Building a town's offices runs its state's century (several seconds a
+  // place), so the town's own election calendar is read first: a seat's race
+  // is never sooner than its office's next regular election, so a town with
+  // no local office electing within the first race's reach cannot qualify.
+  const stateKey = placeStateKey(placeKey);
+  if (
+    !geoid ||
+    !stateKey ||
+    !localOfficesForPlace(placeKey).some((office) => {
+      if (!office.elected) return false;
+      const next = nextElectionForSeat({
+        office,
+        stateKey,
+        placeGeoid: geoid,
+        termEnd: null,
+        onDate: start,
+      });
+      return (
+        next !== null && days(start, next.electionDate) <= FIRST_WITHIN_DAYS
+      );
+    })
+  )
+    return null;
   const core = createLifeCore(
     buildPopulation({ seed, placeKey, startedAt: start, minimumPeople: 300 }),
   );

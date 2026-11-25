@@ -1,0 +1,38 @@
+{
+  "id": "housing-denial-ends-in-state-suit-and-a-move",
+  "kind": "consequence",
+  "summary": "A council turns down a supportive housing project, the state and the developer sue, and the city pays and moves the project to another site.",
+  "realLife": "Elk Grove's council rejected the 67-unit Oak Rose Apartments in July 2022, saying the site did not meet its zoning standards. California sued in May 2023 under state housing law; the city settled with the developer in February 2024 to move the project to city land and with the state in September 2024, agreeing to pay $150,000 in fees, report on future housing and find another site to rezone.",
+  "sources": [
+    "California Governor's Office, settlement over Elk Grove denial of housing project, Sep 4, 2024: https://www.gov.ca.gov/2024/09/04/governor-newsom-and-attorney-general-bonta-announce-settlement-resolving-elk-groves-unlawful-denial-of-housing-project/",
+    "CBS Sacramento, new location of Elk Grove affordable housing project after settlement, Feb 2024: https://www.cbsnews.com/sacramento/news/new-location-of-elk-grove-affordable-housing-project-released-after-city-developers-settle-lawsuit",
+    "California Attorney General, statement on Elk Grove's failure to approve housing, Sep 28, 2023: https://oag.ca.gov/node/574369",
+    "Read by the local and campaign speeches writer's helper, Nov 24, 2026; pages were read through a page summary, and every description is a paraphrase."
+  ],
+  "fits": ["speeches", "campaign"],
+  "slots": [],
+  "gates": ["lost", "incumbent"],
+  "weights": {
+    "housing": 0.8
+  },
+  "usedBy": [],
+  "inGame": "a housing bill's vote stage and a denial record; a lawsuit and settlement the next budget reads as a payment",
+  "turns": [
+    {
+      "way": "The council approves the project on the first vote.",
+      "pulledBy": "a state warning heeded",
+      "writes": "the speech takes credit for yes"
+    },
+    {
+      "way": "The city fights the suit to a ruling.",
+      "pulledBy": "a council that digs in",
+      "writes": "the speech defends the denial and its legal bills"
+    },
+    {
+      "way": "The project moves to a new site by agreement.",
+      "pulledBy": "a settlement",
+      "writes": "the speech says the homes were built, just elsewhere"
+    }
+  ],
+  "issues": ["budget:housing"]
+}

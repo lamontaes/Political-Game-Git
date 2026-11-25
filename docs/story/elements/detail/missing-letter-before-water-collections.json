@@ -1,0 +1,31 @@
+{
+  "id": "missing-letter-before-water-collections",
+  "kind": "detail",
+  "summary": "A collections letter reaches a resident in {place} who never received the required earlier warning.",
+  "realLife": "When Portland's ombudsman asked about an old water debt, bureau staff discovered they had missed the required notice before collection.",
+  "sources": [
+    "https://www.portland.gov/auditor/ombudsman/case-examples/bureau#:~:text=A%20disabled%20community%20member%20received%20a%20letter%20saying%20that"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "A local notice requirement applies and the bureau can check its correspondence history."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a local notice requirement applies and the bureau can check its correspondence history.",
+  "turns": [
+    {
+      "turn": "the-earlier-notice-is-absent",
+      "pulledBy": "The earlier notice is absent.",
+      "what": "Ask the bureau to recall the referral.",
+      "writesBack": "The collection referral is under review for missing notice."
+    },
+    {
+      "turn": "the-bureau-finds-a-mailing-record",
+      "pulledBy": "The bureau finds a mailing record.",
+      "what": "Check its date and address with the resident.",
+      "writesBack": "The file identifies the address and date the bureau used."
+    }
+  ]
+}

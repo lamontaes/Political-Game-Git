@@ -19,6 +19,6 @@ claimed-at: 2026-11-04T12:02:03.980Z
 
 **Done when.** In a played world (family-loss-stake-scene.test.ts, drawn places, place and seed named), the Journal lines about a relative's door-knocking name the relative, never 'Someone' or 'A volunteer'.
 
-**Files.** src/english/journal-words.ts, src/director/journal.ts, data/english/parts/journal.json, src/director/family-loss-stake-scene.test.ts
+**Files.** src/english/journal-words.ts, src/director/journal.ts, data/english/parts/journal.json
 
 **Notes.** Lane 3, Nov 4: built on lane3/journal-names-helper.

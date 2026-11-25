@@ -28,7 +28,8 @@ it("drafts a bill in a body that has no regular meeting", () => {
       placeKey: place.key,
     });
     const api = coreAPI(world.core);
-    tried.push(`${place.name} (${place.key})`);
+    tried.push(`${place.name} (${place.key}), seed ${seed}:${draw}`);
+    process.stdout.write(`seat-no-meeting: drew ${tried.at(-1)}\n`);
     const terms = (seatId: string) =>
       api
         .moduleState(OFFICES_MODULE_ID)
@@ -37,8 +38,14 @@ it("drafts a bill in a body that has no regular meeting", () => {
     for (const { seat } of townSeats(api)) {
       const holder = terms(seat.id)[0]?.personId;
       if (!holder || !world.core.people.has(holder)) continue;
+      // A body the holder sits on: an executive's bill goes to their
+      // government's body through a member (`seatAsk`), never drafted in
+      // their name, so a body they send bills to by request is not theirs to
+      // draft in.
       const seatBody = seatView(world.core, holder).bodies.find(
-        (body) => !upcomingMeeting(api, body.officeId),
+        (body) =>
+          !upcomingMeeting(api, body.officeId) &&
+          !("byRequest" in body && body.byRequest),
       );
       if (!seatBody) continue;
       const question = seatView(world.core, holder).questions[0];

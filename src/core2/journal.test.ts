@@ -253,17 +253,41 @@ describe("source-qualified outside payments with zero opening stock", () => {
     rejectedWithoutMutation(ordinary, /Ordinary cash/);
   });
 
-  it("rejects signed flow overflow while ordinary receiving cash remains within range", () => {
-    const f = outsideFixture(P.one);
-    f.context.owners = new Map(
-      [...f.context.owners].map(([id, row]) => [
-        id,
-        id === ownerB
-          ? { ...row, outsideNetMinor: -Number.MAX_SAFE_INTEGER }
-          : row,
-      ]),
-    );
-    rejectedWithoutMutation(f, /signed flow overflows/);
+  // Was "rejects signed flow overflow": that refusal stopped a long save in
+  // its thirteenth year (Inarajan, Guam, world seed 426e846c..., 2037-10-01).
+  // A net since the world opened has no bound, so it stays exact instead.
+  it("keeps a signed flow exact past the limit while ordinary receiving cash remains within range", () => {
+    const withNet = (outsideNetMinor: number | bigint) => {
+      const f = outsideFixture(P.one);
+      f.context.owners = new Map(
+        [...f.context.owners].map(([id, row]) => [
+          id,
+          id === ownerB ? { ...row, outsideNetMinor } : row,
+        ]),
+      );
+      return f;
+    };
+    const f = withNet(-Number.MAX_SAFE_INTEGER),
+      before = snapshot(f),
+      flow = projectCashJournal(f.input, f.context).externalFlows.get(ownerB)!;
+    expect(snapshot(f)).toBe(before);
+    expect(flow.beforeNetMinor).toBe(-Number.MAX_SAFE_INTEGER);
+    expect(flow.afterNetMinor).toBe(-BigInt(Number.MAX_SAFE_INTEGER) - 1n);
+    const past = -BigInt(Number.MAX_SAFE_INTEGER) - 5n;
+    expect(
+      projectCashJournal(
+        withNet(past).input,
+        withNet(past).context,
+      ).externalFlows.get(ownerB)!.afterNetMinor,
+    ).toBe(past - 1n);
+    // A net that is not an exact sum is still refused: an unsafe number, or
+    // a bigint inside the range a plain number holds.
+    for (const malformed of [-(2 ** 60), Number.NaN, -5n]) {
+      const bad = withNet(malformed);
+      expect(() => projectCashJournal(bad.input, bad.context)).toThrow(
+        /outside account has zero/,
+      );
+    }
   });
 });
 

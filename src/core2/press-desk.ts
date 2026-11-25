@@ -17,7 +17,7 @@ import { OUTCOME_MONTH_KIND } from "./outcome-news";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./campaign-views";
-import { closenessBetween } from "./closeness";
+import { closenessBetween, grudgeBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
@@ -250,11 +250,7 @@ export function grudge(
   holderId: string,
   targetId: string,
 ): number {
-  const person = api.state.people.get(holderId);
-  if (!person) return 0;
-  // A grudge's id names its target (the drives engine's `kind:topic`).
-  const drive = person.drives.get(`grudge:grudge:${targetId}`);
-  return drive ? clamp(drive.strength, 0, 1) : 0;
+  return grudgeBetween(api.state as CoreState, holderId, targetId);
 }
 
 /**

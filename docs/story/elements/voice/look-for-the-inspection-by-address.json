@@ -1,0 +1,32 @@
+{
+  "id": "look-for-the-inspection-by-address",
+  "kind": "voice",
+  "summary": "{forester} asks the auditor to search by street address after the complaint number turns up nothing.",
+  "realLife": "Parks responded that its address-based system could retain a site's inspection even when the request number lacked a link.",
+  "sources": [
+    "https://comptroller.nyc.gov/wp-content/uploads/documents/MH18-058A.pdf#page=24"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{forester}"],
+  "gates": [
+    "Request missing an inspection link and searchable address-level records."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: request missing an inspection link and searchable address-level records.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The address search finds the visit.",
+      "what": "Show its date and reconcile the complaint link.",
+      "writesBack": "Connect the records.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "The address search also comes up empty.",
+      "what": "Ask for a field check.",
+      "writesBack": "Keep the visit unverified.."
+    }
+  ]
+}

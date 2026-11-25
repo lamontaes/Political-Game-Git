@@ -186,26 +186,33 @@ async function launch() {
       quitShown: !document.getElementById("front-quit")?.hidden,
     };
   });
-  // The title shows exactly the monuments src/bench/title.ts lists, read from
-  // that list so the two cannot drift apart.
-  const monuments = [
-    ...(readFileSync(
-      path.join(
-        path.dirname(fileURLToPath(import.meta.url)),
-        "..",
-        "..",
-        "src",
-        "bench",
-        "title.ts",
-      ),
-      "utf8",
-    )
-      .match(/TITLE_MONUMENTS = \[([^\]]*)\]/)?.[1]
+  // The title shows exactly the monuments src/bench/title.ts lists: the
+  // national ones it names, read from that file, and every state capitol the
+  // art manifest paints (the same rule title.ts applies), so the two cannot
+  // drift apart.
+  const repoRoot = path.join(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "..",
+    "..",
+  );
+  const national = [
+    ...(readFileSync(path.join(repoRoot, "src", "bench", "title.ts"), "utf8")
+      .match(/NATIONAL_MONUMENTS = \[([^\]]*)\]/)?.[1]
       ?.matchAll(/"([a-z0-9-]+)"/g) ?? []),
   ].map((m) => m[1]);
-  if (!monuments.length)
+  const manifest = JSON.parse(
+    readFileSync(
+      path.join(repoRoot, "art", "backdrops", "manifest.json"),
+      "utf8",
+    ),
+  );
+  const capitols = manifest.backdrops
+    .map((row) => row.place)
+    .filter((place) => /^state-capitol-[a-z]{2}$/.test(place));
+  const monuments = [...new Set([...national, ...capitols])];
+  if (!national.length || !monuments.length)
     throw new Error(
-      "TITLE_MONUMENTS could not be read from src/bench/title.ts",
+      "NATIONAL_MONUMENTS could not be read from src/bench/title.ts",
     );
   const titleBackdrop = new RegExp(
     `^/art/backdrops/(${monuments.join("|")})__`,

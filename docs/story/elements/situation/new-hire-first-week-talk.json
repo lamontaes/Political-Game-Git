@@ -1,0 +1,37 @@
+{
+  "id": "new-hire-first-week-talk",
+  "kind": "situation",
+  "summary": "A new hire watches who sits with whom and learns the floor's politics in a week.",
+  "realLife": "Worker accounts show organizing and card-signing talk reaching new hires in the first days and weeks, before they know the place well.",
+  "sources": [
+    "Forge Organizing, worker accounts of a food-plant union drive: https://forgeorganizing.org/article/we-wanted-keep-those-jobs/",
+    "Slate, labor organizer interview transcript: https://www.slate.com/articles/podcasts/working/2017/03/what_s_it_like_to_be_a_labor_organizer.html"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "job record start date, coworker ties; needs: a coworker-opinion record about the employer",
+  "turns": [
+    {
+      "turn": "guided-by-a-friendly-coworker",
+      "summary": "A coworker takes the new hire under their wing.",
+      "pulledBy": ["friendly coworker"],
+      "writesBack": "first tie forms; their opinions pass on"
+    },
+    {
+      "turn": "left-to-figure-it-out",
+      "summary": "Nobody talks to them until day four.",
+      "pulledBy": ["cold workplace"],
+      "writesBack": "slow tie formation"
+    },
+    {
+      "turn": "recruited-early",
+      "summary": "Someone's agenda reaches them on day one.",
+      "pulledBy": ["organizer on the floor"],
+      "writesBack": "asked to take a side before ready"
+    }
+  ],
+  "issues": ["none"]
+}

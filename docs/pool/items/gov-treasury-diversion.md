@@ -28,7 +28,7 @@ checked: fable 2026-11-10
 
 **Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
-**Rules.** The chain is the acceptance: one diverted dollar is followed from the line it left to where it went, to the person shorted, to who learned of it and how, to the story in the paper and the voter who weighed it, by record id. No dice. Ask why. Follow .agents/skills/seen-in-game/SKILL.md.
+**Rules.** The chain is the acceptance: one diverted dollar is followed from the line it left to where it went, to the person shorted, to who learned of it and how, to the story in the paper and the voter who weighed it, by record id. No dice. Ask why. Follow .agents/skills/done-proof/references/seen-in-game.md.
 
 **Done when.** A second session, not a builder of any part, plays a drawn place (place and seed named) on main and follows one diversion end to end by record id: the cause, the official's choice with its reasons, the journal entries, the shorted line's smaller payment, the department head or auditor who learned of it, their decision, the scandal in News, the case on the one justice path through to its sentence and the money paid back to the treasury, and one voter's ballot reasons that cite it. It also plays an executive, takes the quiet move in the scene, and sees the same chain start from the player's own choice.
 

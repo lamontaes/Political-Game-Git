@@ -35,10 +35,10 @@ branch:
 
 **Rules.** No hand-written player text in code: every line is in the bank. Every line carries an insert read from the world. Real speech: short, plain American English in each voice. Skills `civic-prose`, `scene-standard`, `words-engine`.
 
-**Done when.** `src/director/opening-address-versions.test.ts` names no thin group it passed over in ten fresh seeds in a row, which its output lists, and a second session, in the running game on main at 1440x900, starts three new lives in drawn places it names with their seeds and reads three different addresses.
+**Done when.** `src/director/opening-address-versions.test.ts` (removed) names no thin group it passed over in ten fresh seeds in a row, which its output lists, and a second session, in the running game on main at 1440x900, starts three new lives in drawn places it names with their seeds and reads three different addresses.
 
 **Waits on.** #8838 (the policy kind, and the test's list of thin groups it passes over).
 
-**Files.** data/english/parts/opening-speech.json, src/director/opening-address-versions.test.ts
+**Files.** data/english/parts/opening-speech.json
 
 **Notes.** Fable B, Nov 11, 16:01Z: the policy kind now, because it is the address every new life opens on, and "do not write the other ~360 this week". The count here is by topic as well, which is why it comes to about 520.

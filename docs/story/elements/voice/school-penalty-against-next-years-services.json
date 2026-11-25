@@ -1,0 +1,32 @@
+{
+  "id": "school-penalty-against-next-years-services",
+  "kind": "voice",
+  "summary": "A district official in {place} explains what cutting a check to the state could mean for students still in school.",
+  "realLife": "Assemblymember Didi Barrett said the proposed Spackenkill recovery could force choices between higher taxes and cuts to services.",
+  "sources": [
+    "https://www.nysenate.gov/sites/default/files/press-release/attachment/legislation_to_safeguardspackenkill_students_and_taxpayers_heads_to_governors_desk.pdf"
+  ],
+  "fits": ["office", "journal", "news", "work-community", "home", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "A proposed recovery, a district budget and an attributed forecast of its effects."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:schools"],
+  "inGame": "needs: a proposed recovery, a district budget and an attributed forecast of its effects.",
+  "turns": [
+    {
+      "turn": "projected",
+      "pulledBy": "The district provides a forecast.",
+      "what": "Explain the choices in the district's own budget terms.",
+      "writesBack": "Mark the service impact as projected."
+    },
+    {
+      "turn": "adopted",
+      "pulledBy": "The board adopts a budget response.",
+      "what": "Tell families which measure passed.",
+      "writesBack": "Link the notice to the board action."
+    }
+  ]
+}

@@ -65,7 +65,8 @@ it(`an offerer who presses after a refusal is a scene for the player (seed ${see
         offererId: offerer.id,
         officialId: me,
         stakeMinor: 50000000,
-        subjectId: `fixture-contract:${offerer.id}`,
+        // A contract award's id (contracts.ts), so the favor is a contract the scene can name.
+        subjectId: `contract:fixture:${offerer.id}:highways:2025-01-01`,
       });
       if (!record?.pending) continue;
       offers += 1;

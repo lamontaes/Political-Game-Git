@@ -1,0 +1,606 @@
+{
+  "schema": "scene-sample/1",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "scene": {
+    "typeKey": "office-hours",
+    "purpose": "constituent-help",
+    "title": "Office hours"
+  },
+  "world": {
+    "place": "Troutman, North Carolina",
+    "placeKey": "3768500",
+    "seed": "story-batch-4",
+    "date": "2025-02-20"
+  },
+  "player": {
+    "name": "Reese Schultz",
+    "standing": "mayor at Troutman, North Carolina"
+  },
+  "cause": {
+    "id": "office-approached:case:person_8d0058352463b19a:2025-02-19",
+    "label": "cause:event:office.approached"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_8d0058352463b19a",
+      "name": "Anna Nolan"
+    },
+    {
+      "role": "asked",
+      "id": "person_2b15bfa1809ef461",
+      "name": "Reese Schultz"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "Anna still has the work jacket on and hasn't unzipped it.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.name-still-has-the-work-jacket-on-and-hasn-t-unzipped-it"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.narrate-narrate.name-sits-down-with-a-manila-folder-and-keeps-both-hands-flat-on-it",
+          "text": "{name} sits down with a manila folder and keeps both hands flat on it."
+        }
+      ],
+      "asks": false
+    },
+    {
+      "n": 2,
+      "speaker": "Anna Nolan",
+      "role": "asker",
+      "text": "Got a second?",
+      "move": "greet",
+      "pieces": ["scene-talk.open-greet.got-a-second"],
+      "wordings": [],
+      "asks": true
+    }
+  ],
+  "ask": {
+    "n": 3,
+    "speaker": "Anna Nolan",
+    "role": "asker",
+    "text": "Nobody's hiring me, and my savings are almost gone.",
+    "move": "request",
+    "pieces": ["scene-talk.state-request.case-help-3"],
+    "wordings": [
+      {
+        "key": "scene-talk.state-request.case-help-1",
+        "text": "I've been out of work a while, and my savings are {money-left}."
+      },
+      {
+        "key": "scene-talk.state-request.case-help-2",
+        "text": "I need a job. What I saved is {money-left}."
+      }
+    ],
+    "asks": false
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "This goes from my office to the workforce office today, with my name on it.",
+          "move": "promise",
+          "pieces": ["scene-talk.reply-promise.case-help-3"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-promise.case-help-1",
+              "text": "I'll send your case to {agency} today."
+            },
+            {
+              "key": "scene-talk.reply-promise.case-help-2",
+              "text": "I'll call {agency} about it before the day is out."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 8,
+              "speaker": "Anna Nolan",
+              "role": "asker",
+              "text": "Thank you. I'll watch for their call.",
+              "move": "thank",
+              "pieces": ["scene-talk.follow-thank.case-help-1"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-thank.case-help-2",
+                  "text": "Thank you for taking it up."
+                },
+                {
+                  "key": "scene-talk.follow-thank.case-help-3",
+                  "text": "Alright, then. Thank you."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "will-call",
+              "label": "You'll make the call",
+              "keeps": "promise"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "I can't take it on right now.",
+          "move": "decline",
+          "pieces": ["scene-talk.reply-decline.case-help-2"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-decline.case-help-1",
+              "text": "I can't take this one on right now."
+            },
+            {
+              "key": "scene-talk.reply-decline.case-help-3",
+              "text": "Not this one. My hands are full."
+            },
+            {
+              "key": "scene-talk.reply-decline.case-help-4",
+              "text": "You'll have to go to {agency} yourself. My office can't carry it."
+            },
+            {
+              "key": "scene-talk.reply-decline.case-help-5",
+              "text": "{agency} takes these directly. I'm not taking it on."
+            },
+            {
+              "key": "scene-talk.reply-decline.case-help-6",
+              "text": "I can't take this one. {agency} is where it goes."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 9,
+              "speaker": "Anna Nolan",
+              "role": "asker",
+              "text": "Please take it. I don't know who else to ask.",
+              "move": "plea",
+              "pieces": ["scene-talk.follow-plea.case-help-5"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-plea.case-help-4",
+                  "text": "Please. Even a phone call would help."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'll call the workforce office about it before the day is out.",
+                "move": "promise",
+                "pieces": ["scene-talk.reply-promise.case-help-2"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-promise.case-help-1",
+                    "text": "I'll send your case to {agency} today."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 13,
+                    "speaker": "Anna Nolan",
+                    "role": "asker",
+                    "text": "Thank you. I'll watch for their call.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.case-help-1"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.case-help-2",
+                        "text": "Thank you for taking it up."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.case-help-3",
+                        "text": "Alright, then. Thank you."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "will-call",
+                    "label": "You'll make the call",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 11,
+                "speaker": "You",
+                "role": "player",
+                "text": "Write it all down for the desk. It goes to the workforce office from my office.",
+                "move": "offer",
+                "pieces": ["scene-talk.reply-offer.case-help-6"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-offer.case-help-4",
+                    "text": "Leave your details at the desk. My office files it with {agency}."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 14,
+                    "speaker": "Anna Nolan",
+                    "role": "asker",
+                    "text": "Thank you. I'll leave everything at the desk.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.case-help-7"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.case-help-8",
+                        "text": "Thanks. The desk will have my number."
+                      },
+                      {
+                        "key": "scene-talk.follow-thank.case-help-9",
+                        "text": "Thank you. I'll write it all down."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "caseworker",
+                    "label": "Handed to a caseworker",
+                    "keeps": "meeting-set"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 12,
+                "speaker": "You",
+                "role": "player",
+                "text": "You'll have to go to the workforce office yourself. My office can't carry it.",
+                "move": "decline",
+                "pieces": ["scene-talk.reply-decline.case-help-4"],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-decline.case-help-1",
+                    "text": "I can't take this one on right now."
+                  },
+                  {
+                    "key": "scene-talk.reply-decline.case-help-3",
+                    "text": "Not this one. My hands are full."
+                  },
+                  {
+                    "key": "scene-talk.reply-decline.case-help-5",
+                    "text": "{agency} takes these directly. I'm not taking it on."
+                  },
+                  {
+                    "key": "scene-talk.reply-decline.case-help-6",
+                    "text": "I can't take this one. {agency} is where it goes."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 15,
+                    "speaker": "Anna Nolan",
+                    "role": "asker",
+                    "text": "Please. Even a phone call would help.",
+                    "move": "plea",
+                    "pieces": ["scene-talk.follow-plea.case-help-4"],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 16,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'll send your case to the workforce office today.",
+                      "move": "promise",
+                      "pieces": ["scene-talk.reply-promise.case-help-1"],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 19,
+                          "speaker": "Anna Nolan",
+                          "role": "asker",
+                          "text": "Alright, then. Thank you.",
+                          "move": "thank",
+                          "pieces": ["scene-talk.follow-thank.case-help-3"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-thank.case-help-1",
+                              "text": "Thank you. I'll watch for their call."
+                            },
+                            {
+                              "key": "scene-talk.follow-thank.case-help-2",
+                              "text": "Thank you for taking it up."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "will-call",
+                          "label": "You'll make the call",
+                          "keeps": "promise"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 17,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Leave your details at the desk. My office files it with the workforce office.",
+                      "move": "offer",
+                      "pieces": ["scene-talk.reply-offer.case-help-4"],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 20,
+                          "speaker": "Anna Nolan",
+                          "role": "asker",
+                          "text": "Thank you. I'll leave everything at the desk.",
+                          "move": "thank",
+                          "pieces": ["scene-talk.follow-thank.case-help-7"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-thank.case-help-8",
+                              "text": "Thanks. The desk will have my number."
+                            },
+                            {
+                              "key": "scene-talk.follow-thank.case-help-9",
+                              "text": "Thank you. I'll write it all down."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "caseworker",
+                          "label": "Handed to a caseworker",
+                          "keeps": "meeting-set"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 18,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I can't take this one on right now.",
+                      "move": "decline",
+                      "pieces": ["scene-talk.reply-decline.case-help-1"],
+                      "wordings": [
+                        {
+                          "key": "scene-talk.reply-decline.case-help-3",
+                          "text": "Not this one. My hands are full."
+                        },
+                        {
+                          "key": "scene-talk.reply-decline.case-help-5",
+                          "text": "{agency} takes these directly. I'm not taking it on."
+                        },
+                        {
+                          "key": "scene-talk.reply-decline.case-help-6",
+                          "text": "I can't take this one. {agency} is where it goes."
+                        }
+                      ],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 21,
+                          "speaker": "Anna Nolan",
+                          "role": "asker",
+                          "text": "Fine. I'll take it on without you.",
+                          "move": "accept",
+                          "pieces": ["scene-talk.follow-accept.case-help-4"],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.follow-accept.case-help-3",
+                              "text": "Then I'll take it up myself."
+                            },
+                            {
+                              "key": "scene-talk.follow-accept.case-help-5",
+                              "text": "I'll go it alone, then."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "refused",
+                        "ending": {
+                          "id": "cant-help",
+                          "label": "Can't help",
+                          "keeps": "relationship-strained"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "Give the desk your number, and my office will take it to the workforce office.",
+          "move": "offer",
+          "pieces": ["scene-talk.reply-offer.case-help-5"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-offer.case-help-4",
+              "text": "Leave your details at the desk. My office files it with {agency}."
+            },
+            {
+              "key": "scene-talk.reply-offer.case-help-6",
+              "text": "Write it all down for the desk. It goes to {agency} from my office."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 22,
+              "speaker": "Anna Nolan",
+              "role": "asker",
+              "text": "Thanks. The desk will have my number.",
+              "move": "thank",
+              "pieces": ["scene-talk.follow-thank.case-help-8"],
+              "wordings": [
+                {
+                  "key": "scene-talk.follow-thank.case-help-7",
+                  "text": "Thank you. I'll leave everything at the desk."
+                },
+                {
+                  "key": "scene-talk.follow-thank.case-help-9",
+                  "text": "Thank you. I'll write it all down."
+                }
+              ],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "caseworker",
+              "label": "Handed to a caseworker",
+              "keeps": "meeting-set"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 7,
+          "speaker": "You",
+          "role": "player",
+          "text": "I already called them about your case.",
+          "move": "lie",
+          "pieces": ["scene-talk.reply-lie.case-help-1"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-lie.case-help-2",
+              "text": "They have your case already. I sent it."
+            },
+            {
+              "key": "scene-talk.reply-lie.case-help-3",
+              "text": "I talked to them about this last week."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [],
+          "replies": [],
+          "branches": [
+            {
+              "label": "if not",
+              "knows": false,
+              "node": {
+                "lines": [
+                  {
+                    "n": 23,
+                    "speaker": "Anna Nolan",
+                    "role": "asker",
+                    "text": "Thank you. I'll wait to hear from them, then.",
+                    "move": "thank",
+                    "pieces": ["scene-talk.follow-thank.case-help-10"],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.follow-thank.case-help-11",
+                        "text": "Thank you. I didn't know they already had it."
+                      }
+                    ],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "false-call",
+                    "label": "A call you never made",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "endings": {
+    "will-call": 3,
+    "caseworker": 3,
+    "cant-help": 1,
+    "false-call": 1
+  },
+  "depth": 3,
+  "gaps": [
+    "constituent-help/menu/ask after root of a request has no ask reply",
+    "constituent-help/reply/ask after request"
+  ]
+}

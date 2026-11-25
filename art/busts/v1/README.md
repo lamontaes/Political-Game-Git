@@ -84,3 +84,7 @@ Every shirt × (no tie or each tie) × (no jacket or each jacket), plus every wh
 - Ties drift at most 2.4 px from knot to bottom edge.
 
 The sheets are `sheets/men-clothes-front-colors.jpg` and `sheets/women-clothes-front-colors.jpg`.
+
+# Head shapes, shades, more hairstyles and tops (in the game Nov 18, 2026)
+
+The CTO's Nov 17 pieces (#10070) are in the manifest and the game. Each sex has five head shapes (`shapes`, the standard first; men: round, long, square, narrow; women: round, long, square, heart), six skin shades (fair, light, olive, medium, brown, dark) and `heads` by shape then shade, as an adult and older. A hairstyle or facial hair style may carry a shape's own painting (`byShape`); any other shape wears the standard one. `doNotCombine` lists the pairs of a head and a hair or facial hair piece the art checks flag: the creator does not offer a look that has one at any age, and townspeople are never drawn with one. Eight more tops per sex (each in three colors) are in `clothes.top` and in the `everyday` and `work` dresses by use. `bust.ts` reads it all; the creator's Head row is the shape. The pieces the last round's measure flags but the CTO has not moved to `doNotCombine` are still offered.

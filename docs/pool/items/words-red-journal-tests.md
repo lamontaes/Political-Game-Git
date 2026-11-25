@@ -21,6 +21,6 @@ seen-at: 2026-11-11T02:58:07.088Z
 
 **Done when.** journal.test.ts and journal-story.test.ts pass at seeds 11, 222 and 3333.
 
-**Files.** src/director/local-address.ts, src/director/journal.test.ts, src/director/journal-story.test.ts
+**Files.** src/director/local-address.ts, src/director/journal.test.ts
 
 **Notes.** Seen in the game (2026-11-11, second-session-2): drawn test worlds, seeds 11, 222, 3333, seed 11, 222, 3333, main 67947ae8: journal.test.ts and journal-story.test.ts passed 22 of 22 at seeds 11, 222 and 3333, though seed 3333 took about 18 minutes

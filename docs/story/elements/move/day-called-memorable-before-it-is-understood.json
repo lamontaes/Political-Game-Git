@@ -1,0 +1,30 @@
+{
+  "id": "day-called-memorable-before-it-is-understood",
+  "kind": "move",
+  "summary": "A diary can call a day memorable without yet saying what it will turn out to mean.",
+  "realLife": "George Templeton Strong closed election day 1860 by calling it a memorable day, without saying yet what it would be remembered for.",
+  "sources": [
+    "House Divided, Dickinson College, George Templeton Strong's diary, election day 6 Nov 1860: https://hd.housedivided.dickinson.edu/node/34626"
+  ],
+  "fits": ["journal"],
+  "slots": ["theme-short"],
+  "gates": ["stand-unsure"],
+  "inGame": "The `mine` move for a writer with `stand-unsure`; the old memoir-revise move can later say what it came to mean.",
+  "weights": {
+    "stand": 0.5
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "The writer already knows what it means.",
+      "pulledBy": "a stand recorded (`stand-with` or `stand-against`)",
+      "writesBack": "the entry says what it means and why"
+    },
+    {
+      "turn": "The day was forgettable.",
+      "pulledBy": "no stake for the writer in the theme",
+      "writesBack": "the entry says so plainly and moves to the ordinary day"
+    }
+  ],
+  "issues": ["none"]
+}

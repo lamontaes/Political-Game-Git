@@ -1,0 +1,30 @@
+{
+  "id": "fuel-price-replacement-cost",
+  "kind": "detail",
+  "summary": "{person} brings the cost of the next fuel delivery into a debate over today's price.",
+  "realLife": "Carter argued for pricing energy with the cost of replacing it in mind.",
+  "sources": [
+    "https://millercenter.org/the-presidency/presidential-speeches/april-18-1977-address-nation-energy"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A price proposal is being weighed against future supply costs."],
+  "weights": ["Replacement contracts cost more than current inventory."],
+  "usedBy": [],
+  "inGame": "needs: the replacement price and expiration of the supply contract.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The next contract costs less.",
+      "pulledBy": "A supplier lowers its bid.",
+      "writesBack": "The estimate falls."
+    },
+    {
+      "turn": "late",
+      "what": "A fixed contract delays the change.",
+      "pulledBy": "The current price holds until renewal.",
+      "writesBack": "The projection shows the renewal date."
+    }
+  ],
+  "issues": ["none"]
+}

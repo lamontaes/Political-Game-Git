@@ -7,6 +7,8 @@
  */
 import { putOutputNumber } from "../output-numbers";
 import { housingPast, housingPastLater } from "../housing-past";
+/** Day one's rentals and the leases they came from, read through this entry (the dev view). */
+export { openingRentals } from "../housing-past";
 import type { PreStartModule } from "../past-module";
 import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
@@ -595,6 +597,20 @@ export function expectedRenterHouseholds(
   const tenure = tenureOfTown(town, c.seed);
   if (!tenure || !rentValueOf(town.county, c.seed)[0]) return 0;
   return homes.length - Math.round((homes.length * tenure[1]) / tenure[0]);
+}
+
+/** Each town home's tenure as the opening wrote it (`withHousing`), by household id; empty before it. */
+export function openingTenureOf(world: {
+  readonly placeMetadata?: Readonly<Record<string, string>>;
+}): ReadonlyMap<string, "own" | "rent"> {
+  const rows = JSON.parse(world.placeMetadata?.[DWELLINGS_KEY] ?? "[]") as [
+    string,
+    string,
+  ][];
+  const tenure = new Map<string, "own" | "rent">();
+  for (const [id, kind] of rows)
+    if (kind === "own" || kind === "rent") tenure.set(id, kind);
+  return tenure;
 }
 
 export function withHousing(input: CoreInput): CoreInput {

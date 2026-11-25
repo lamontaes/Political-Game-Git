@@ -1,0 +1,35 @@
+{
+  "id": "pattern-a10-the-mentor-who-makes-a-call",
+  "kind": "situation",
+  "summary": "The mentor who makes a call: {mentor}, who now holds or seeks an office, offers to call someone to get you {the job}.",
+  "realLife": "His high school government teacher and boxing coach, Mike O'Callaghan, called a congressman to insist on a promised job when it fell through; Reid got a police job that helped pay for law school.",
+  "sources": [
+    "https://thenevadaindependent.com/article/harry-reid-recalls-his-mentor-the-late-gov-ocallaghan",
+    "https://en.wikipedia.org/wiki/Harry_Reid"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["mentor", "the job"],
+  "gates": [
+    "Not in office.",
+    "A mentor tie with someone now in politics.",
+    "You need work or money for school."
+  ],
+  "weights": ["How strong the mentor tie is.", "Your household's money."],
+  "pattern": "A10",
+  "choices": [
+    "accept the help",
+    "turn it down and get there on your own",
+    "ask for a different kind of help, such as a reference"
+  ],
+  "branches": [
+    {
+      "when": "the job falls through",
+      "then": "The office loses your paperwork. {mentor} calls a second time, and the job comes with a debt you both carry."
+    },
+    {
+      "when": "you nearly quit later",
+      "then": "Under pressure in the job, you think about leaving, and {mentor} says you will regret it."
+    }
+  ],
+  "usedBy": []
+}

@@ -65,6 +65,8 @@ export interface LocalStory {
   readonly level: LocalLevel;
   readonly date: string;
   readonly addressKind: AddressKind;
+  /** The world's story the address opens on (address-story.ts), "steady" when none. */
+  readonly story: string;
   readonly speakerId: PersonId;
   readonly sentences: readonly OpeningSentence[];
   readonly text: string;
@@ -324,6 +326,7 @@ export function composeLocalAddress(
     level,
     date: core.date,
     addressKind: plan.addressKind,
+    story: plan.story,
     theme: plan.theme,
     asks: plan.asks,
     points: plan.points,

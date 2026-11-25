@@ -1,0 +1,30 @@
+{
+  "id": "interim-chair-while-outsider-sought",
+  "kind": "move",
+  "summary": "{person} asks a sitting commissioner to lead the agency while looking outside it for a permanent chair.",
+  "realLife": "Carter named John Ahearne to serve as NRC chair in the interim and announced his intention to recruit an outsider.",
+  "sources": ["https://www.presidency.ucsb.edu/node/248009"],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The commission chair is vacant and an interim appointment is authorized."
+  ],
+  "weights": ["A longer outside search favors naming an acting chair."],
+  "usedBy": [],
+  "inGame": "needs: an acting term and permanent chair appointment.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The executive appoints a permanent chair from the current commission.",
+      "pulledBy": "An eligible commissioner accepts and clears the appointment process.",
+      "writesBack": "The appointment record opens a permanent term."
+    },
+    {
+      "turn": "late",
+      "what": "The acting chair stays through another meeting.",
+      "pulledBy": "The outside candidate has yet to complete review.",
+      "writesBack": "The next meeting minutes name the acting chair."
+    }
+  ],
+  "issues": ["none"]
+}
