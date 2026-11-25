@@ -9,13 +9,13 @@ import { governmentMap } from "./map";
 import { coreAPI } from "../core2/state";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { townSeats } from "../core2/modules/offices";
-import { centuryOf, historyMode } from "../core2/modules/elections";
+import { centuryOf, historyMode } from "../core2/electorate-century";
 import { ageOnDate } from "../core2/kernel/dates";
 import { jobTitleByKind } from "../core2/person-work";
 import { sayableJobTitle } from "../english/said-as";
 import { withArticle } from "../english/journal-words";
 import { employerWords } from "../director/words";
-import { schoolsAttended } from "../core2/past";
+import { schoolsAttended } from "../core2/past-school";
 
 /** The year a section of the loading story is shown at, by the fact that dates it. */
 const SECTION_YEAR: Readonly<Record<string, string>> = {
@@ -56,10 +56,6 @@ export function loadingTelling(
     const place = id ? corePlaceByJurisdictionId(id as never) : undefined;
     return place ? spoken(place) : undefined;
   };
-  const stateSaid = (id: string | undefined) => {
-    const place = id ? corePlaceByJurisdictionId(id as never) : undefined;
-    return place?.withinName ? stateInSentence(place.withinName) : undefined;
-  };
   // The day each part of the life began, for reading who held the White
   // House then (presidencyParty below).
   const days: Record<string, { date: string; id: string }> = {};
@@ -75,8 +71,6 @@ export function loadingTelling(
         days.school ??= { date: event.date, id: event.id };
         put("school-year", yearOf(event.date), event.id);
         put("school-place", where, event.id);
-        const schoolState = stateSaid(event.placeId);
-        if (schoolState) put("school-state", schoolState, event.id);
       }
     }
     if (at === "move/moved-in" && !facts["moved-year"]) {
@@ -87,18 +81,6 @@ export function loadingTelling(
         put("moved-year", yearOf(event.date), event.id);
         put("moved-from", from, event.id);
         put("moved-to", to, event.id);
-        // Whether the move crossed a state line, from the two places' states.
-        const fromState = stateSaid(String(event.facts?.fromPlaceId ?? ""));
-        const toState = stateSaid(String(event.facts?.toPlaceId ?? ""));
-        if (fromState && toState) {
-          put("moved-from-state", fromState, event.id);
-          put("moved-to-state", toState, event.id);
-          put(
-            fromState === toState ? "moved-within-state" : "moved-across-state",
-            "yes",
-            event.id,
-          );
-        }
         if (String(event.facts?.pushedBy ?? "").startsWith("economy"))
           put("moved-for-work", "yes", event.id);
       }

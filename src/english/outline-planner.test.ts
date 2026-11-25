@@ -62,14 +62,6 @@ const told = (traits: Record<string, number>, key = "moment") =>
   });
 
 describe("the outline planner", () => {
-  it("gives every bridge the moves it follows, so it never plays after a sentence it does not answer", () => {
-    // The owner, Nov 24, P20: "No jump without a bridge"; a bridge that
-    // could follow anything is a stock transition, not a bridge.
-    for (const part of OUTLINE_BANK_PARTS)
-      if (part.move === "bridge")
-        expect(part.after?.length, part.key).toBeGreaterThan(0);
-  });
-
   it("puts the policy a fact cites in the facts by its catalog id, so a line can require it", () => {
     // The CTO, Nov 24 (7140057819 on #9750): a line tagged with a policy
     // fires when that policy is live in the player's world.

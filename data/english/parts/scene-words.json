@@ -538,10 +538,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-other.you-knock-and-name-opens-the-door",
+      "key": "scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "You knock, and {name} opens the door.",
+      "text": "{begins}, you knock, and {name} opens the door.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -555,14 +555,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
+      }
     },
     {
-      "key": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
+      "key": "scene-words.arrival-other-home-other.begins-you-ring-the-bell-and-name-answers",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "You ring the bell, and {name} answers.",
+      "text": "{begins}, you ring the bell, and {name} answers.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -576,14 +575,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
+      }
     },
     {
-      "key": "scene-words.arrival-other-home-other.you-walk-up-the-drive-and-name-waves-you-in",
+      "key": "scene-words.arrival-other-home-other.begins-you-walk-up-the-drive-and-name-waves-you-in",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "You walk up the drive, and {name} waves you in.",
+      "text": "{begins}, you walk up the drive, and {name} waves you in.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -597,14 +595,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
+      }
     },
     {
-      "key": "scene-words.arrival-other-home-alone.you-ring-twice",
+      "key": "scene-words.arrival-other-home-alone.begins-you-walk-up-to-a-house-and-ring-the-bell",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "You ring twice.",
+      "text": "{begins}, you walk up to a house and ring the bell.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -618,14 +615,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
+      }
     },
     {
-      "key": "scene-words.arrival-other-home-alone.you-knock-twice",
+      "key": "scene-words.arrival-other-home-alone.begins-you-climb-a-porch-and-knock",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "You knock twice.",
+      "text": "{begins}, you climb a porch and knock.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -639,14 +635,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
+      }
     },
     {
-      "key": "scene-words.arrival-other-home-alone.you-step-up",
+      "key": "scene-words.arrival-other-home-alone.begins-you-cross-a-yard-to-a-front-door",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "You step up.",
+      "text": "{begins}, you cross a yard to a front door.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -660,14 +655,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
+      }
     },
     {
-      "key": "scene-words.arrival-phone-other.the-phone-rings-and-name-is-on-the-line",
+      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "The phone rings, and {name} is on the line.",
+      "text": "{begins}, the phone rings, and {name} is on the line.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -681,14 +675,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+      }
     },
     {
-      "key": "scene-words.arrival-phone-other.the-phone-rings-name-is-calling",
+      "key": "scene-words.arrival-phone-other.begins-you-pick-up-and-it-s-name",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "The phone rings. {name} is calling.",
+      "text": "{begins}, you pick up, and it's {name}.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -702,14 +695,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+      }
     },
     {
-      "key": "scene-words.arrival-phone-other.name-calls-and-happened-is-the-subject",
+      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-name-is-calling",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{name} calls, and {happened} is the subject.",
+      "text": "{begins}, the phone rings. {name} is calling.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -723,14 +715,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+      }
     },
     {
-      "key": "scene-words.arrival-phone-other.you-pick-up-and-name-starts-in-on-happened",
+      "key": "scene-words.arrival-phone-other.begins-name-calls-and-happened-is-the-subject",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "You pick up, and {name} starts in on {happened}.",
+      "text": "{begins}, {name} calls, and {happened} is the subject.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -744,14 +735,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+      }
     },
     {
-      "key": "scene-words.arrival-phone-other.the-phone-rings-with-name-calling-about-happened",
+      "key": "scene-words.arrival-phone-other.begins-you-pick-up-and-name-starts-in-on-happened",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "The phone rings with {name} calling about {happened}.",
+      "text": "{begins}, you pick up, and {name} starts in on {happened}.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -765,14 +755,33 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+      }
     },
     {
-      "key": "scene-words.arrival-phone-alone.the-phone-rings",
+      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-with-name-calling-about-happened",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings with {name} calling about {happened}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
+      "date": "2026-11-18",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-alone.begins-the-phone-rings",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "The phone rings.",
+      "text": "{begins}, the phone rings.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -786,14 +795,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+      }
     },
     {
-      "key": "scene-words.arrival-phone-alone.your-phone-buzzes",
+      "key": "scene-words.arrival-phone-alone.begins-your-phone-buzzes-on-the-table",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "Your phone buzzes.",
+      "text": "{begins}, your phone buzzes on the table.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -807,14 +815,13 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+      }
     },
     {
-      "key": "scene-words.arrival-phone-alone.your-phone-rings",
+      "key": "scene-words.arrival-phone-alone.begins-the-phone-starts-to-ring-in-your-hand",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "Your phone rings.",
+      "text": "{begins}, the phone starts to ring in your hand.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -828,8 +835,7 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      },
-      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
+      }
     },
     {
       "key": "scene-words.arrival-letter-other.begins-a-letter-from-name-arrives",
@@ -8993,8 +8999,7 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
+      "date": "2026-11-24"
     },
     {
       "key": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president",
@@ -9012,8 +9017,7 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
+      "date": "2026-11-24"
     },
     {
       "key": "scene-words.arrival-home-alone.it-s-the-news-is-running-s-speech-to-congress",
@@ -9032,8 +9036,7 @@
       ],
       "origin": "authored",
       "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
+      "date": "2026-11-24"
     }
   ]
 }

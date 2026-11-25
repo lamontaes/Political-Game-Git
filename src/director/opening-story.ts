@@ -98,8 +98,6 @@ export interface OpeningSentence {
   readonly facts: readonly string[];
   /** The bank pieces it was joined from, by key. */
   readonly pieces: readonly string[];
-  /** The outline section it was told in ("greeting", "occasion", "story", ...), where the one planner told it. */
-  readonly section?: string;
   /** What each of those facts said in the sentence, the figure or name filled in. */
   readonly values: Readonly<Record<string, string>>;
   /** A slot's bare name where the fact keeps one ("Jose Salgado" for "Jose Salgado, the town clerk,"). */
@@ -838,14 +836,7 @@ export function composeOpeningStory(
   const home = pastFact(PRESIDENT_FACT.homeState);
   const prior = pastFact(PRESIDENT_FACT.priorOffice);
   const elected = pastFact(PRESIDENT_FACT.elected);
-  // The line people remember is the President's own stand, where the
-  // address takes one: never the other side's view it answers (a news story
-  // quoted "You'll hear plenty of folks… say we ought to raise the retirement
-  // age" from a President against it).
   const remembered =
-    sentences.find(
-      (row) => !!row.values["stance-for"] || !!row.values["stance-against"],
-    ) ??
     sentences.find(
       (row) => row.level === "congress" && row.sourceRecordIds.length > P.one,
     ) ??

@@ -152,12 +152,6 @@
       "spread": "2 to 5",
       "note": "How many states a year's disasters reached for a President to say they hit many places."
     },
-    "disasterStatesNamed": {
-      "value": 3,
-      "tag": "TUNABLE",
-      "spread": "2 to 4",
-      "note": "The most states a President names where a year's disaster of one kind struck, before the line says many places instead (the owner, Nov 24, P26: name the storms and places)."
-    },
     "howFacts": ["run-mild", "run-steady", "run-sharp"],
     "rows": {
       "hard-run": {

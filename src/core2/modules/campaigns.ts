@@ -8790,6 +8790,3 @@ function answerPetitionShort(
     return;
   takeCampaignDayChoice(api, filingId, "canvass");
 }
-
-/** The party a person files under (candidate-pool.ts), the elections family's face for readers outside it. */
-export { partyOf } from "../candidate-pool";

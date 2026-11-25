@@ -14,7 +14,6 @@
  */
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { format } from "prettier";
 import { catalogPolicies } from "./policies";
 
 // Run from the repository's root.
@@ -162,8 +161,7 @@ for (const policy of policies) {
     `| ${policy.name} (\`${policy.id}\`) | ${policy.levels.join(", ")} | ${KINDS.map((kind) => said(row?.get(kind))).join(" | ")} |`,
   );
 }
-// Formatted as the repository formats Markdown, so the generated file passes the format check.
-writeFileSync(OUT, await format(`${out.join("\n")}\n`, { parser: "markdown" }));
+writeFileSync(OUT, `${out.join("\n")}\n`);
 console.log(
   `${policies.length} policies, ${empty} empty; ${tagged} of ${elements} elements tagged; ${aboutPolicy} of ${lines} lines about a policy. Wrote ${path.relative(ROOT, OUT)}.`,
 );

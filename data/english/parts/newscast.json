@@ -342,6 +342,27 @@
       }
     },
     {
+      "key": "newscast.reporter-field.we-are-in-place",
+      "move": "reporter-field",
+      "kind": "spoken",
+      "text": "We are in {place}.",
+      "uses": [
+        {
+          "move": "reporter-field",
+          "subject": "reporter",
+          "role": "field",
+          "choice": "field"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "newscast.reporter-field.i-m-standing-in-place",
       "move": "reporter-field",
       "kind": "spoken",

@@ -16,8 +16,6 @@
  * way (the campaign speech for the player as a candidate for the town's
  * executive seat, no filed race needed).
  *
- * The inaugural is recorded the same way, on the opening day it is given.
- *
  * Run: node --import tsx scripts/sameness/record-address-inputs.mts
  *   SEEDS=aecea4,66265b,... to choose the worlds (the six packet worlds by default).
  *   DRAWN=1 appends one freshly drawn world to the `-drawn.jsonl` files
@@ -57,7 +55,6 @@ const dir = process.env.DRAWN_DIR ?? "scripts/sameness/inputs";
 const file = (kind: string) =>
   `${dir}/${kind}-${drawn ? "drawn" : "six"}.jsonl`;
 const out = {
-  inaugural: file("inaugural"),
   "state-of-the-union": file("state-of-the-union"),
   "state-of-the-state": file("state-of-the-state"),
   "town-address": file("town-address"),
@@ -85,19 +82,15 @@ for (const seed of seeds) {
   const { core } = world;
   const official = officialsIn(coreAPI(core), "US:president")[0];
   const president = official ? core.people.get(official.id) : undefined;
-  const national = (kind: "inaugural" | "state-of-the-union") =>
+  const union =
     official && president
       ? addressTelling(
           core,
-          kind,
+          "state-of-the-union",
           presidentSpeaker(president, official),
           `${OPENING_ADDRESS_EVENT}:${core.date}`,
         )
       : null;
-  // The opening day is Inauguration Day: the inaugural is the address the
-  // household watches, told from the same world.
-  const inaugural = national("inaugural");
-  const union = national("state-of-the-union");
   const state = localAddressTelling(core, "state");
   const town = localAddressTelling(core, "town");
   // The campaign speech needs no filed race to be planned: the player is asked
@@ -109,7 +102,6 @@ for (const seed of seeds) {
     seat && core.playerId
       ? campaignSpeechTelling(core, core.playerId, seat.office.id, null)
       : null;
-  if (inaugural) appendFileSync(out.inaugural, line(inaugural));
   if (union) appendFileSync(out["state-of-the-union"], line(union));
   if (state) appendFileSync(out["state-of-the-state"], line(state));
   if (town) appendFileSync(out["town-address"], line(town));

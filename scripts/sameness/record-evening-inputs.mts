@@ -44,9 +44,7 @@ const seeds = process.env.SEEDS
   : Array.from({ length: Number(process.env.N ?? 1) }, () =>
       randomBytes(8).toString("hex"),
     );
-// OUT_DIR records elsewhere (a long run that should not touch the inputs
-// writers gate against until it ends); the inputs folder otherwise.
-const dir = process.env.OUT_DIR ?? "scripts/sameness/inputs";
+const dir = "scripts/sameness/inputs";
 const POINT = "address-point";
 
 /** One gate input line from a telling. */

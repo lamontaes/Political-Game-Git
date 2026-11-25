@@ -1970,6 +1970,3 @@ export function bribeRefusedBy(
     .get(crimeId) as unknown as CrimeRecord | undefined;
   return crime && !crime.taken ? crime.officialId : undefined;
 }
-
-/** The crime engine's record of a crime against a person or household, read by the director and the press. */
-export { CRIME_EVENT } from "./crime";

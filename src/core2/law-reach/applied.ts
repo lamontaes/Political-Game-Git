@@ -596,6 +596,3 @@ export function lawReach(
     people,
   };
 }
-
-/** Whom a law applies to by its data, before any count (scope.ts): the laws family's face for the screens and the press. */
-export { reachScopeOf } from "./scope";

@@ -43,7 +43,6 @@ import {
   type SpeechPlan,
 } from "./speech-outline";
 import { themeNameBy } from "./theme-words";
-import { anchorFacts } from "./address-anchor";
 
 type Facts = Record<string, GroundedEnglishFact>;
 
@@ -148,9 +147,6 @@ export function addressFacts(
   // names one subject and argues another (a crisis address answers with a
   // question outside its theme).
   const family = plan.points[P.zero]?.family ?? plan.theme;
-  // The resident the speech tells its problem through, from the records of
-  // the town where it is watched (P21; address-anchor.ts).
-  Object.assign(facts, anchorFacts(core, family ?? null));
   const theme = family ? themeNameBy(person.traits, family) : undefined;
   if (theme) facts["theme-name"] = fact(theme, ids);
   const short = family ? THEME.themeShort[family] : undefined;
@@ -236,7 +232,6 @@ function asOpening(
   return {
     level: (row.camera ?? "country") as OpeningLevel,
     part: row.paragraph,
-    section: row.section,
     text: row.text,
     // A sentence on the stand cites its question, so every view of the
     // address (the talk at home, the Journal, the news) finds the point it
