@@ -2,8 +2,11 @@
   "id": "the-pay-stub-page-is-where-workers-leave",
   "kind": "moment",
   "summary": "A calculator loses the most users on the page that asks them to copy figures from a paycheck.",
-  "realLife": "IRS tracking showed the pay-stub entry page was the most common exit point in its 2018 withholding calculator.",
-  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=24"],
+  "realLife": "IRS tracking showed the pay-stub entry page was the most common exit point in its 2018 withholding calculator. For multiple-job households, IRS later described a paper worksheet in its redesigned W-4 instructions for workers who could not use the online estimator.",
+  "sources": [
+    "https://www.gao.gov/assets/gao-18-548.pdf#page=24",
+    "https://www.irs.gov/newsroom/faqs-on-the-2020-form-w-4"
+  ],
   "inGame": "needs: page-level figures identify a particular step as the most common exit.",
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{worker}", "{analyst}"],
@@ -24,6 +27,12 @@
       "what": "The analyst reports where people stopped.",
       "pulledBy": "Only traffic data are available.",
       "writesBack": "The reason stays open in the oversight record."
+    },
+    {
+      "turn": "late",
+      "what": "A volunteer helps find the multiple-jobs worksheet on the paper form.",
+      "pulledBy": "A worker who left the calculator returns after the redesign with pay estimates for both jobs and no internet access.",
+      "writesBack": "The worker leaves with a completed calculation to use with payroll."
     }
   ],
   "issues": ["law:income-tax"]

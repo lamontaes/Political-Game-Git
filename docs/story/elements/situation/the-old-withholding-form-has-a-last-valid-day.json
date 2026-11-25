@@ -2,8 +2,11 @@
   "id": "the-old-withholding-form-has-a-last-valid-day",
   "kind": "situation",
   "summary": "A worker can hand in last year's form while the agency finishes replacing it.",
-  "realLife": "In January 2018 the IRS temporarily allowed employees to keep using the 2017 W-4 through March 30 while the revised form was being introduced.",
-  "sources": ["https://www.gao.gov/assets/gao-18-548.pdf#page=19"],
+  "realLife": "In January 2018 the IRS temporarily allowed employees to keep using the 2017 W-4 through March 30 while the revised form was being introduced. IRS drew a different distinction in 2020. An ordinary W-4 already on file could continue to govern pay, while a worker changing an election had to use the redesigned form.",
+  "sources": [
+    "https://www.gao.gov/assets/gao-18-548.pdf#page=19",
+    "https://www.irs.gov/newsroom/faqs-on-the-2020-form-w-4"
+  ],
   "inGame": "needs: a transition notice gives the prior form a specific end date.",
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{worker}", "{employer}"],
@@ -22,6 +25,12 @@
       "what": "Payroll requests the new edition.",
       "pulledBy": "It arrives after the window closes.",
       "writesBack": "The employee gets a second paperwork task."
+    },
+    {
+      "turn": "late",
+      "what": "Payroll keeps the existing election when the redesigned form arrives.",
+      "pulledBy": "In a later payroll review, the same employee still has an ordinary pre-2020 election on file and requests no change.",
+      "writesBack": "The payroll record retains the original filing date without flagging the employee for a missing form."
     }
   ],
   "issues": ["law:income-tax"]
