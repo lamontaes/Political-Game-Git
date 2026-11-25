@@ -11703,7 +11703,12 @@
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
-      "after": ["greeting"]
+      "after": ["greeting"],
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
     },
     {
       "key": "outline-call.oath.w2-thevicepresident-took-the-same-oath-beside-me-which-means-nation",
@@ -11821,7 +11826,12 @@
       "elements": ["ask-of-listeners-comes-last"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
     },
     {
       "key": "outline-call.call.w2-if-you-have-a-skill-nation-needs-a-trade-or",
@@ -11847,7 +11857,12 @@
       "elements": ["ask-of-listeners-comes-last"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
     },
     {
       "key": "outline-call.call.w2-tell-me-where-i-am-wrong-in-writing-and-sign",
@@ -11977,7 +11992,12 @@
       "elements": ["ask-of-listeners-comes-last"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
     },
     {
       "key": "outline-call.call.w2-call-someone-you-disagree-with-and-ask-what-happened-to",
@@ -12003,7 +12023,12 @@
       "elements": ["ask-of-listeners-comes-last"],
       "origin": "authored",
       "author": "the call-and-charge writer",
-      "date": "2026-11-24"
+      "date": "2026-11-24",
+      "lean": [
+        "personality-v1:facet-charming",
+        "personality-v1:facet-assertive",
+        "personality-v1:facet-ambitious"
+      ]
     },
     {
       "key": "outline-call.call.w2-read-a-law-that-affects-you-from-start-to-finish",
