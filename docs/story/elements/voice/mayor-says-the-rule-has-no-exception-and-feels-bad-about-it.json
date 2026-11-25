@@ -1,0 +1,30 @@
+{
+  "id": "mayor-says-the-rule-has-no-exception-and-feels-bad-about-it",
+  "kind": "voice",
+  "summary": "An official tells a candidate disqualified by a minute that he likes him but nothing can be done.",
+  "realLife": "A city mayor said the city could not make an exception for a council candidate recorded as filing his financial form a minute late, because an exception would hurt the election's integrity.",
+  "sources": [
+    "FOX 13 Salt Lake City, council candidate disqualified for filing one minute late, Aug. 13, 2019: https://www.fox13now.com/2019/08/13/draper-city-council-candidate-disqualified-for-filing-documents-one-minute-late"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office", "place"],
+  "gates": [],
+  "inGame": "the clerk's received time; filing deadline record",
+  "weights": {
+    "filing": 0.8
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The mayor holds the line and says why",
+      "pulledBy": "a respect for the rule",
+      "writesBack": "the candidate is off the ballot and the official's regret is in the story"
+    },
+    {
+      "turn": "The mayor finds a way to hold a hearing",
+      "pulledBy": "a sympathetic board and a clerk's own error",
+      "writesBack": "an appeal and a delayed ruling"
+    }
+  ]
+}

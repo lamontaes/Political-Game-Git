@@ -188,7 +188,7 @@ Seconds in the profiled run. File and line come from the AFTER tree; a few share
 | 26  | knownPublicTargets `src/core2/modules/life.ts:46`                |      0.5 |     0.5 |    +0.0 |
 | 27  | projectCashJournal `src/core2/journal.ts:137`                    |      0.0 |     0.5 |    +0.5 |
 | 28  | projectWorkNeeds `src/core2/life.ts:104`                         |      0.2 |     0.5 |    +0.3 |
-| 29  | (anonymous) `src/core2/deep-past.ts`                             |      0.6 |     0.5 |    -0.1 |
+| 29  | (anonymous) `src/core2/deep-past.ts` (removed)                   |      0.6 |     0.5 |    -0.1 |
 | 30  | protectJournalObjects `src/core2/journal-state.ts:170`           |      0.0 |     0.5 |    +0.5 |
 | 31  | runScheduledWork `src/core2/modules/work.ts:307`                 |      0.1 |     0.4 |    +0.3 |
 | 32  | discretionaryHours `src/core2/modules/work.ts:264`               |      0.4 |     0.4 |    -0.0 |
@@ -287,7 +287,7 @@ Seconds in the profiled run. File and line come from the AFTER tree; a few share
 | writeWithWorldIntegrityOnce `src/simulation/world.ts:633`                  |      0.8 |     0.8 |
 | ensureTownEmployment `src/simulation/living-world/town-employment.ts:1230` |      0.8 |     0.8 |
 | withWorldIntegrityDeferred `src/simulation/world.ts:600`                   |      0.8 |     0.8 |
-| buildDeepPast `src/core2/deep-past.ts:109`                                 |      0.8 |     0.6 |
+| buildDeepPast `src/core2/deep-past.ts:109` (removed)                       |      0.8 |     0.6 |
 | realLocalities `src/core2/places.ts:11`                                    |      0.7 |     0.7 |
 | fillTownJobs `src/simulation/living-world/town-employment.ts:1380`         |      0.7 |     0.7 |
 | (anonymous) `src/core2/places.ts`                                          |      0.7 |     0.7 |

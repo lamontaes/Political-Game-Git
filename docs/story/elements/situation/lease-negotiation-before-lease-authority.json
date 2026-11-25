@@ -1,0 +1,32 @@
+{
+  "id": "lease-negotiation-before-lease-authority",
+  "kind": "situation",
+  "summary": "The county has a negotiating agreement for {place} and still has to ask what it can sign.",
+  "realLife": "Los Angeles County and California had reached an exclusive negotiating agreement while Archuleta's bill to authorize leasing was before the governor.",
+  "sources": [
+    "https://sd30.senate.ca.gov/news/press-release/ca-legislature-approves-archuleta-bill-convert-unused-property-metropolitan"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{place}"],
+  "gates": [
+    "A negotiating agreement, proposed lease authority and a dated executive status."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a negotiating agreement, proposed lease authority and a dated executive status.",
+  "turns": [
+    {
+      "turn": "authorized",
+      "pulledBy": "The leasing authority takes effect.",
+      "what": "Send the proposed lease to the authorized office.",
+      "writesBack": "Keep lease execution as a separate step."
+    },
+    {
+      "turn": "pending",
+      "pulledBy": "The authority has not taken effect.",
+      "what": "Report what the negotiating agreement permits.",
+      "writesBack": "Leave the lease unsigned."
+    }
+  ]
+}

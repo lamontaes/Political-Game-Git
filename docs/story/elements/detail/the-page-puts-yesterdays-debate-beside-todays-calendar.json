@@ -1,0 +1,32 @@
+{
+  "id": "the-page-puts-yesterdays-debate-beside-todays-calendar",
+  "kind": "detail",
+  "summary": "Before the session at {place}, a page sets out the previous proceedings and the day's calendar on members' desks.",
+  "realLife": "Johnson began his floor assignment by laying out the Congressional Record and the daily Senate calendar each morning.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/johnson-michael-a-full-transcript-with-index.pdf#page=12"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the historical desk routine and sitting day."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: historical desk routine and sitting day.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Finish the desk before the session.",
+      "pulledBy": "Both publications have arrived.",
+      "writesBack": "Desk delivery."
+    },
+    {
+      "turn": "another-way",
+      "what": "Return for the missing publication.",
+      "pulledBy": "The new calendar is still at the office.",
+      "writesBack": "Desk delivery."
+    }
+  ]
+}

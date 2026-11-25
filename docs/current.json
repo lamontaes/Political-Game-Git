@@ -1705,6 +1705,114 @@
       "now": "deleted with the bank lines it asserted (owner, Nov 17: delete everything the engine did not write); restore it from commit b9f4d4a247b8189dd4c97a2935ae002f9c0da5ab",
       "when": "2026-11-18",
       "why": "Its one case needed the first letter from a relative to stage as a scene so the repeat a month later could go to the journal; the letter scene has no lines since the cut, so it is not staged."
+    },
+    {
+      "old": "src/core2/data/stopgaps.json",
+      "now": "split into one register file per family under src/core2/data/stopgaps/, with the director's own at src/director/data/stopgaps.json (tooling-stopgaps-register-per-family)",
+      "when": "2026-11-24",
+      "why": "The single register file was split into family files; the move script still names the old one."
+    },
+    {
+      "old": "art/people-rooms/wardrobe-proof",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "Proof pictures for the wardrobe were not kept in the repository."
+    },
+    {
+      "old": "art/backdrops-redraw",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The redraw folder named in the wanted-pictures list is not in the repository."
+    },
+    {
+      "old": "src/player/PlayerGame.tsx",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The old player screen went with the old front end; the bench is the front end."
+    },
+    {
+      "old": "docs/audits/fable-vision-2026-11-09.md",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The audit page is not in the repository."
+    },
+    {
+      "old": "docs/menu-test/out3",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "Generated menu-test output was not kept; the rules file named it as an example."
+    },
+    {
+      "old": "src/bench/data/opening-pictures.json",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The opening's picture list is not in the repository."
+    },
+    {
+      "old": "src/director/opening-sequence.ts",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The opening sequence file is not in the repository."
+    },
+    {
+      "old": "docs/archive/2026-10-19",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The Oct 19 archive folder is not in the repository; the archive that remains is docs/archive/2026-10-23."
+    },
+    {
+      "old": "docs/reports/2026-10-data-fix-preserved-research.json",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "A data file the Oct data-fix report named was not kept."
+    },
+    {
+      "old": "docs/reports/2026-10-data-fix-salary-diff.json",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "A data file the Oct data-fix report named was not kept."
+    },
+    {
+      "old": "docs/reports/2026-10-data-fix-all-56.json",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "A data file the Oct data-fix report named was not kept."
+    },
+    {
+      "old": "scripts/source/regional-money/export-office-pay.ts",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The export script the Oct data-fix report named is not in the repository."
+    },
+    {
+      "old": "tests/nationwide/office-salary-initialization.test.ts",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The test the Oct data-fix report named is not in the repository."
+    },
+    {
+      "old": "src/core2/deep-past.ts",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "A profile report named this file; it is not in the repository."
+    },
+    {
+      "old": "src/core2/modules/law-reach",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The Oct 19 audit named this folder; it is not in the repository."
+    },
+    {
+      "old": "scripts/words/w3-news-year.ts",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "A news study named this script; it is not in the repository."
+    },
+    {
+      "old": "tests/guards/english/bank-elements.test.ts",
+      "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
+      "when": "2026-11-24",
+      "why": "The line-register guard's comment named this test; it is not in the repository."
     }
   ]
 }

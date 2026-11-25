@@ -1,0 +1,51 @@
+{
+  "id": "pattern-c45-the-work-between-races",
+  "kind": "situation",
+  "summary": "The work between races: You lost or left, and {offerer} offers you {the job}.",
+  "realLife": "One life: After losing two House races he hosted a statewide radio show, calling himself a decaf version of a famous host, and quit it to run for an open seat in 2000. Another: After losing his seat, he was recruited to a law and lobbying firm by Bob Dole, the former Republican Senate leader. Another: Weeks after resigning in 2014 he became vice chairman of an investment bank. Another: Fox News ended her contributor contract in 2013 after she began her Senate run. Another: After losing his first race in 1972 he went to law school and became a prosecutor.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Mike_Pence",
+    "https://en.wikipedia.org/wiki/Tom_Daschle",
+    "https://en.wikipedia.org/wiki/Eric_Cantor",
+    "https://en.wikipedia.org/wiki/Liz_Cheney",
+    "https://en.wikipedia.org/wiki/John_Kerry"
+  ],
+  "fits": ["campaign", "home", "journal", "news", "work-community"],
+  "slots": ["offerer", "the job"],
+  "gates": [
+    "You lost or left an office on record.",
+    "An offer of {the job} is on record."
+  ],
+  "weights": [
+    "The money.",
+    "How visible it keeps you.",
+    "Rules on lobbying for former officials."
+  ],
+  "pattern": "C45",
+  "choices": [
+    "take the show",
+    "take the firm",
+    "go back to your old trade",
+    "teach",
+    "start a group of your own"
+  ],
+  "branches": [
+    {
+      "when": "you take a show",
+      "then": "You become a voice across the place, and the contract ends the day you file again."
+    },
+    {
+      "when": "an old rival recruits you to a firm",
+      "then": "The pay and the perks become the problem when you are named to a post (C44)."
+    },
+    {
+      "when": "you go back to your old trade",
+      "then": "You become a prosecutor and wait for your boss's job to open."
+    },
+    {
+      "when": "you take a bank job within weeks",
+      "then": "Reporters call it the revolving door."
+    }
+  ],
+  "usedBy": []
+}

@@ -1,0 +1,44 @@
+{
+  "id": "a-childs-later-views-drift-from-a-politically-engaged-home",
+  "kind": "consequence",
+  "summary": "A child who grew up in an openly political home often took on the parents' party early and moved away from it once adult life added new voices.",
+  "realLife": "A London School of Economics blog describes research on British and US households. Children from politically engaged homes were more likely to take on the parents' party view early, and also more likely to leave it in adulthood. The author ties this to university, work and new social networks. The same children updated their views more after major events such as a war or a scandal. The article gives no number for this.",
+  "sources": [
+    "https://blogs.lse.ac.uk/europpblog/2013/05/17/children-with-politically-engaged-parents-are-more-likely-to-deviate-from-their-parents-political-views-in-adulthood/ (LSE EUROPP blog on parental politicization and later views)"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the child}", "{the parent}", "{the party}"],
+  "gates": [
+    "a parent ran or worked in politics",
+    "the child grew up in the home",
+    "the child has left home"
+  ],
+  "weights": [
+    "the bond with the parent",
+    "the child's new circles",
+    "a major event"
+  ],
+  "inGame": "needs: a child's party view that is set from the parent at home and re-read when the child leaves home or a major event occurs",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the child leaves the party",
+      "what": "The adult child votes differently and the parent hears it at a visit.",
+      "pulledBy": "new circles and a major event",
+      "writesBack": "child party view; relationship"
+    },
+    {
+      "turn": "the child stays",
+      "what": "A close tie keeps the child in the parent's party and the child works for the next campaign.",
+      "pulledBy": "a strong bond",
+      "writesBack": "child party view"
+    },
+    {
+      "turn": "the child joins in",
+      "what": "The child takes a role in the parent's next run.",
+      "pulledBy": "a child who wants to help",
+      "writesBack": "child's role in a campaign"
+    }
+  ],
+  "issues": ["none"]
+}

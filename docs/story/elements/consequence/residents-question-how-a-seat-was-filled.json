@@ -1,0 +1,29 @@
+{
+  "id": "residents-question-how-a-seat-was-filled",
+  "kind": "consequence",
+  "summary": "Residents say the appointment process was informal and the runner-up deserved an interview.",
+  "realLife": "Lakeville residents questioned how the council appointed a member to a vacant seat.",
+  "sources": [
+    "Star Tribune, Lakeville residents question City Council vacancy appointment process: https://www.startribune.com/lakeville-residents-question-city-council-vacancy-appointment-process/600243370"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["office", "name"],
+  "gates": [],
+  "weights": {
+    "serve-sought": 0.8
+  },
+  "inGame": "serve-asked outcome; the press desk; needs: public comment on an appointment",
+  "turns": [
+    {
+      "turn": "Nobody objects",
+      "pull": "a clear process",
+      "writes": "writes a quiet appointment"
+    },
+    {
+      "turn": "Residents file a complaint",
+      "pull": "a close tie to the appointee",
+      "writes": "writes a public comment scene"
+    }
+  ],
+  "usedBy": ["serve-sought"]
+}

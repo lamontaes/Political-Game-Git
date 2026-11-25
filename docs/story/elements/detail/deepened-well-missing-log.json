@@ -1,0 +1,32 @@
+{
+  "id": "deepened-well-missing-log",
+  "kind": "detail",
+  "summary": "After a driller deepens the well at {place}, the county clerk looks for its new depth in the well log.",
+  "realLife": "California enlisted counties and groundwater agencies to help get drillers' logs in promptly for new wells and wells drilled deeper.",
+  "sources": [
+    "https://www.gov.ca.gov/wp-content/uploads/2021/04/4.21.21-Emergency-Proclamation-1.pdf#page=3"
+  ],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{place}"],
+  "gates": [
+    "A dated completion notice and the well log register cover the same well."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a dated completion notice and the well log register cover the same well.",
+  "turns": [
+    {
+      "turn": "received",
+      "pulledBy": "The driller submits the new log.",
+      "what": "Replace the stale depth with the filed measurement.",
+      "writesBack": "Keep the date and driller on the record."
+    },
+    {
+      "turn": "late",
+      "pulledBy": "The new log is overdue.",
+      "what": "Ask the driller for the completion log.",
+      "writesBack": "Mark the earlier depth as historical."
+    }
+  ]
+}

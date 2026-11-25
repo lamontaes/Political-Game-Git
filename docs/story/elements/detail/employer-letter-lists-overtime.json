@@ -1,0 +1,34 @@
+{
+  "id": "employer-letter-lists-overtime",
+  "kind": "detail",
+  "summary": "{person} brings the employer's own letter showing time worked past the regular shift.",
+  "realLife": "A former taco shop employee gave Denver Labor an employer letter listing overtime, prompting a request for payroll covering other workers.",
+  "sources": [
+    "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Restitution-Stories#:~:text=Kike%E2%80%99s%20Red%20Tacos"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "A wage dispute includes a written statement of hours from the employer."
+  ],
+  "weights": [
+    "A discrepancy with the pay record makes the letter more relevant."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the employer's letter, the time sheet and the paid overtime.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The letter agrees with the payment.",
+      "pulledBy": "Payroll shows the correct overtime premium.",
+      "writesBack": "The comparison resolves the disputed shift."
+    },
+    {
+      "turn": "partial",
+      "what": "The letter covers one pay period.",
+      "pulledBy": "The complaint spans several pay periods.",
+      "writesBack": "Investigators request the other time sheets."
+    }
+  ],
+  "issues": ["none"]
+}

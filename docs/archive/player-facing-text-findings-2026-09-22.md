@@ -29,7 +29,7 @@ a fix and is not one.
 Relayed from the playtest lane's walk. It does not hold here, and the
 difference matters enough to check before it reaches a report.
 
-In `src/player/PlayerGame.tsx` the three are separate cases with their own
+In `src/player/PlayerGame.tsx` (removed) the three are separate cases with their own
 frames and titles — `"Budget & economy"`, `"Transit service"`,
 `"Taxes and public receipts"`. A player with no office is not shown a budget in
 place of tax: `politicsIssueAccess` returns false and the screen renders

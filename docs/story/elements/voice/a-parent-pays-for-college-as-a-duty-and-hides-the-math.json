@@ -1,0 +1,48 @@
+{
+  "id": "a-parent-pays-for-college-as-a-duty-and-hides-the-math",
+  "kind": "voice",
+  "summary": "Parents talk of paying for college as a moral obligation, put off the money talk with the child, and keep the strain private.",
+  "realLife": "A researcher who interviewed about 160 students and parents found families usually avoid the money talk with a child until a crisis forces it. Parents saw draining savings as proof they valued school, and called paying a moral obligation more than a budget problem. The strain is worked out privately, apart from the public arguments about tuition and debt.",
+  "sources": [
+    "https://www.kuow.org/2019-09-17/what-the-strain-of-paying-for-college-does-to-families (public radio segment on a book about paying for college)"
+  ],
+  "fits": ["home"],
+  "slots": ["{the speaker}", "{the listener}", "{the school}"],
+  "gates": [
+    "the speaker has a child heading to college or in it",
+    "the household pays or borrows for tuition",
+    "the child does not yet see the household's accounts"
+  ],
+  "weights": [
+    "how much the speaker has saved",
+    "how many children are in line",
+    "whether the child has asked about cost"
+  ],
+  "inGame": "reads the school's tuition and fees against the household's savings and debt; needs: the household's school-paying plan kept private from the child until asked",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "the parent finally says the number",
+      "what": "She tells the child what the loans will be.",
+      "pulledBy": "the first bill or the aid letter arrives",
+      "writesBack": "the child's record learns the household debt; the tie is tested"
+    },
+    {
+      "turn": "the child chooses the cheaper school",
+      "what": "The child says he will go to the state school.",
+      "pulledBy": "the child learns the cost",
+      "writesBack": "the school choice record changes; savings are spared"
+    },
+    {
+      "turn": "a program covers it",
+      "what": "The parent says the grant makes it free.",
+      "pulledBy": "a program or fee cut reaches the household",
+      "writesBack": "tuition cost falls; the stand on public college funding warms"
+    }
+  ],
+  "issues": [
+    "budget:higherEducation",
+    "law:fee-level:education",
+    "question:us-federal-positions:education.forgive-student-loans"
+  ]
+}

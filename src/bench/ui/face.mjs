@@ -35,7 +35,8 @@ export function face(
 ) {
   if (shape === "bust") return columnBust(record, alt, column);
   if (shape === "strip") return stripStack(record, alt);
-  if (shape === "head" || shape === "chest") return crop(record, shape, alt);
+  if (shape === "head" || shape === "chest" || shape === "bust-small")
+    return crop(record, shape, alt);
   return round(record);
 }
 
@@ -83,6 +84,8 @@ function columnBust(record, alt, column) {
 const CROPS = {
   head: { share: 0.5, top: 0.2 },
   chest: { share: 0.3, top: 0.1 },
+  // A member in a list: the head and the shoulders to the upper chest, the foot fading out in CSS.
+  "bust-small": { share: 0.4, top: 0.04 },
 };
 function crop(record, shape, alt) {
   const frame = el("span", { className: `crop crop-${shape}` });

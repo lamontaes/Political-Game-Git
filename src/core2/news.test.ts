@@ -7,6 +7,7 @@ import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 import newsParameters from "./data/news/parameters.json" with { type: "json" };
 import { drawPlace } from "../../scripts/core2-year/place";
+import { OPENING_WARMUP_DAYS } from "../bench/world";
 
 // M2-09: a public record reaches residents through outlets, at each person's
 // own habits, and through the people they talk to; people who never hear it
@@ -22,6 +23,13 @@ const input = buildPopulation({
 });
 const core = createLifeCore(input, { modules: [viewsModule, newsModule] });
 const api = coreAPI(core);
+// The town runs the New game route's warm-up before the story, so the test
+// stands on the world a player gets: a played world has run 31 days before
+// day one (OPENING_WARMUP_DAYS). A fresh core's housemates first share
+// their week's home time on its seventh day (people.ts, shareHomeTime), so
+// a story published on the core's first day could reach every resident of
+// a town whose outlets are quick before anyone had a chance to tell it.
+advanceCore(core, addDays(makeIsoDate(core.date), OPENING_WARMUP_DAYS));
 const subject = [...core.people.values()].find(
   (row) => row.tier !== "husk" && row.alive,
 )!;

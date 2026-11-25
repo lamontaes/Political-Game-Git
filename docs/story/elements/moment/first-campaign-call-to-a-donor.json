@@ -1,0 +1,31 @@
+{
+  "id": "first-campaign-call-to-a-donor",
+  "kind": "moment",
+  "summary": "A first-time candidate makes a personal call to someone who might help fund the race.",
+  "realLife": "Joe Lieberman recalled putting off his first fundraising call for a week or two after his staff asked him to start. Over the course of the campaign, how the calls went began to affect his mood at the end of the day.",
+  "sources": [
+    "https://www.pbs.org/wgbh/pages/frontline/shows/scandal/interviews/lieberman.html",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L128"
+  ],
+  "inGame": "The donor-ask situation supplies the request; first-campaign wording requires candidacy history.",
+  "fits": ["journal", "campaign", "speeches"],
+  "slots": ["{candidate}", "{donor}", "{contest}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The prospective donor asks to see the filing before discussing a contribution.",
+      "pulledBy": "The candidate has announced and the paperwork is still being processed.",
+      "writesBack": "The call produces a request for information and no pledge."
+    },
+    {
+      "turn": "opposite",
+      "what": "The former coworker cannot afford a donation and offers the use of a kitchen for a gathering.",
+      "pulledBy": "The candidate knows the caller personally and the caller has offered space without promising money.",
+      "writesBack": "The campaign records a possible host and leaves the cash tally alone."
+    }
+  ],
+  "issues": ["none"]
+}

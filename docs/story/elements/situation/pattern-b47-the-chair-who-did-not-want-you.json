@@ -1,0 +1,36 @@
+{
+  "id": "pattern-b47-the-chair-who-did-not-want-you",
+  "kind": "situation",
+  "summary": "The chair who did not want you: {committee chair}, who did not want you on the committee, slights you and {other newcomer} in front of everyone at the first meeting.",
+  "realLife": "In 1973 Armed Services chairman F. Edward Hébert set out a single chair for the two newcomers he had opposed. They shared it as a silent protest, and Hébert lost his chairmanship in 1975.",
+  "sources": ["https://history.house.gov/Blog/Detail/15032398449"],
+  "fits": ["journal", "office"],
+  "slots": ["committee chair", "other newcomer"],
+  "gates": [
+    "You were put on a committee over its chair's objection.",
+    "{other newcomer} is on the same committee."
+  ],
+  "weights": ["How hostile the chair is.", "Patience traits."],
+  "pattern": "B47",
+  "choices": [
+    "take it together as a silent protest",
+    "refuse it out loud",
+    "go to the chamber's leader",
+    "tell the press"
+  ],
+  "branches": [
+    {
+      "when": "the slight is one chair for two",
+      "then": "You and {other newcomer} share a single chair at the table, and the room sees it."
+    },
+    {
+      "when": "{other newcomer} got the seat only because the leader stepped in",
+      "then": "You two are allies from here."
+    },
+    {
+      "when": "the chair loses power later",
+      "then": "Reforms take the gavel away, and your silent protest is remembered."
+    }
+  ],
+  "usedBy": []
+}

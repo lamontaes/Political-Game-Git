@@ -1,0 +1,30 @@
+{
+  "id": "trailing-candidate-calls-the-winner-then-posts-an-honor",
+  "kind": "voice",
+  "summary": "After a late count flips the lead, the one behind phones the winner and posts a short note that running was an honor.",
+  "realLife": "A council president candidate conceded after counting went on for days, called the leader, and posted that it was an honor to run; the winner said they would meet for coffee.",
+  "sources": [
+    "The Spokesman-Review, concession after the late count, Nov. 14, 2019: https://www.spokesman.com/stories/2019/nov/14/cindy-wendle-concedes-city-council-president-race-"
+  ],
+  "fits": ["campaign", "news", "journal"],
+  "slots": ["office"],
+  "gates": [],
+  "inGame": "close count read over several days; both candidates' ties",
+  "weights": {
+    "loss": 0.6
+  },
+  "usedBy": [],
+  "issues": ["none"],
+  "turns": [
+    {
+      "turn": "The call is cordial and a meeting is set",
+      "pulledBy": "warm ties between the two",
+      "writesBack": "coffee on the calendar"
+    },
+    {
+      "turn": "The call is short and the post is the only public word",
+      "pulledBy": "cool ties",
+      "writesBack": "no meeting and a brief note"
+    }
+  ]
+}

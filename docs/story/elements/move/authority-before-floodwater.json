@@ -1,0 +1,34 @@
+{
+  "id": "authority-before-floodwater",
+  "kind": "move",
+  "summary": "The council gives {person} authority to declare an emergency while the river is still in its banks.",
+  "realLife": "King County council members voted unanimously to let Executive Kurt Triplett act ahead of Green River flooding.",
+  "sources": [
+    "https://kingcounty.gov/en/dept/council/governance-leadership/county-council/newsroom/archived-news/2009/august/jp_howardhanson"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": [
+    "The council can authorize an emergency measure while flooding is still forecast."
+  ],
+  "weights": [
+    "Long procurement lead times favor granting authority in advance."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the limits of a county emergency authorization.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The council reserves the decision until the river rises.",
+      "pulledBy": "The vote to grant advance authority falls short.",
+      "writesBack": "The minutes leave the ordinary declaration process in effect."
+    },
+    {
+      "turn": "partial",
+      "what": "The council authorizes advance purchases up to a limit.",
+      "pulledBy": "Members approve supplies and withhold broader contracting authority.",
+      "writesBack": "The ordinance records the spending ceiling."
+    }
+  ],
+  "issues": ["none"]
+}

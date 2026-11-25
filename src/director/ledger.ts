@@ -151,6 +151,18 @@ export interface Director {
   /** "live" or "skipping": while skipping, waiting scenes become journal lines. */
   setMode(mode: "live" | "skipping"): void;
   /**
+   * Stages today's scenes from circumstance now, as the day's close would, so
+   * a doors outing's porch scene comes on Go and not hours later. A cause that
+   * already staged a scene today stages no second one.
+   */
+  stageDoors(core: CoreState, outingPlayerId?: PersonId): void;
+  /**
+   * The player whose story goes on while dev mode runs the world's clock
+   * without them (undefined when the run ends): their scenes from
+   * circumstance stage as on the player's own clock.
+   */
+  runningFor(personId: PersonId | undefined): void;
+  /**
    * The player's interrupt setting: the scene kinds allowed to stop their
    * day (situation-type keys), or null for every kind. Read by scheduling.
    */
@@ -1199,16 +1211,30 @@ export function createDirector(
             : !priorJob && nowJob
               ? "job-started"
               : "job-changed";
-        change(
+        // The person's own job is sized by their own pay as well as the
+        // household's: a first job beside earning parents is a whole change
+        // for the one who took it, a small one for the house. Daily pay is
+        // read as `householdPay` reads it (`wageDailyMinor`).
+        const daily = (id: string | undefined) =>
+          (id ? core.jobs.get(id)?.wageDailyMinor : undefined) ?? zero;
+        const ownBase = Math.max(daily(priorJob), daily(nowJob));
+        const own =
+          memberId === book.personId && ownBase > zero
+            ? Math.abs(daily(nowJob) - daily(priorJob)) / ownBase
+            : zero;
+        const made = change(
           named ? named.event.id : (priorJob ?? nowJob)!,
           kind,
           "money",
-          raw,
+          Math.max(raw, own),
           memberId === book.personId ? [] : [memberId],
           named && ledger.broadEvents.has(named.event.id)
             ? named.event.id
             : undefined,
         );
+        // The person's own job starting or ending is their own record: met
+        // where its scene is set (a first day at work stops the day there).
+        if (memberId === book.personId) made.selfNamed = true;
         break;
       }
     }
@@ -1587,6 +1613,25 @@ export function createDirector(
   }
 
   /**
+   * The player a doors outing is being staged for, set only while `stageDoors`
+   * runs: a new life's player is not explicitly controlled until the first
+   * advance binds the clock, so the outing's own player counts as controlled
+   * for staging its porch scene and registering its stop (P41).
+   */
+  let outingPlayer: PersonId | undefined;
+  /**
+   * The player dev mode runs the world's clock for (`runningFor`): dev mode
+   * lets go of the player's clock while it runs days, so without this the
+   * player's scenes from circumstance (a new coworker, a friend's call) never
+   * staged in a dev run.
+   */
+  let runPlayer: PersonId | undefined;
+  const controlled = (core: Readonly<CoreState>, personId: PersonId) =>
+    personId === outingPlayer ||
+    personId === runPlayer ||
+    isExplicitlyControlledPersonV1(core, personId);
+
+  /**
    * Scenes from circumstance (circumstance.ts): for each controlled person,
    * the day's records that put someone with a reason where they are. At most
    * one a day, spaced by each row's days and by the days between any two,
@@ -1605,7 +1650,7 @@ export function createDirector(
       }
     const queue = [...circumstanceQueue.splice(zero), ...due];
     for (const book of ledger.people.values()) {
-      if (!isExplicitlyControlledPersonV1(core, book.personId)) continue;
+      if (!controlled(core, book.personId)) continue;
       const records = [
         ...queue,
         ...newCoworkers(core, book.personId),
@@ -1856,7 +1901,7 @@ export function createDirector(
     const line = param("directorInterruptImpact");
     for (const { moment, entry } of interrupts.splice(zero)) {
       if (
-        !isExplicitlyControlledPersonV1(core, moment.personId) ||
+        !controlled(core, moment.personId) ||
         !core.people.get(moment.personId)?.alive
       )
         continue;
@@ -1872,14 +1917,30 @@ export function createDirector(
         entry.closed = data.waitingStop.nothingSaid;
         continue;
       }
-      const at = openedAt(
+      const frontier = playerClockFrontierV1(core, moment.personId);
+      const opened = openedAt(
         core,
-        playerClockFrontierV1(core, moment.personId) ?? {
+        frontier ?? {
           date: addDays(makeIsoDate(core.date), one),
           minuteOfDay: zero,
         },
         entry.bindings[zero]?.setting.kind,
       );
+      // A moment made while the clock is paused (a reply said in a scene: an
+      // offer taken on the call) would stop it at the very minute of that
+      // pause, and answering the pause acknowledges every stop there: it
+      // stops the clock the next minute instead (a first day lost, Nov 24).
+      const atPause =
+        frontier !== undefined &&
+        opened.date === frontier.date &&
+        opened.minuteOfDay === frontier.minuteOfDay;
+      const at = atPause
+        ? openedAt(
+            core,
+            { date: opened.date, minuteOfDay: opened.minuteOfDay + one },
+            entry.bindings[zero]?.setting.kind,
+          )
+        : opened;
       registerModuleStopV1(core, {
         moduleId: module.id,
         recordId: moment.id,
@@ -1969,10 +2030,7 @@ export function createDirector(
   function registerWaiting(core: CoreState): void {
     const date = makeIsoDate(core.date);
     for (const personId of waiting.keys()) {
-      if (
-        !isExplicitlyControlledPersonV1(core, personId) ||
-        !core.people.get(personId)?.alive
-      )
+      if (!controlled(core, personId) || !core.people.get(personId)?.alive)
         continue;
       const rows = waitingFor(personId, date);
       for (const row of rows)
@@ -2312,6 +2370,20 @@ export function createDirector(
     },
     setMode(next) {
       mode = next;
+    },
+    stageDoors(core, outingPlayerId) {
+      if (!started) return;
+      outingPlayer = outingPlayerId;
+      try {
+        produceCircumstances(core);
+        registerInterrupts(core);
+        registerWaiting(core);
+      } finally {
+        outingPlayer = undefined;
+      }
+    },
+    runningFor(personId) {
+      runPlayer = personId;
     },
     setSceneFilter(personId, allowedKinds, date) {
       if (!allowedKinds) {

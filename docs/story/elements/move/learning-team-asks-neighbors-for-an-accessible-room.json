@@ -1,0 +1,30 @@
+{
+  "id": "learning-team-asks-neighbors-for-an-accessible-room",
+  "kind": "move",
+  "summary": "A library team ready to teach asks community groups to find a room it can use without a fee.",
+  "realLife": "The library president asked South End organizations to identify accessible space that the community learning team could occupy free of charge.",
+  "sources": [
+    "https://www.bpl.org/wp-content/uploads/sites/30/2023/09/Submited-Public-Comments-9.26.23.pdf#page=9"
+  ],
+  "fits": ["office", "journal", "news", "speeches", "home", "work-community"],
+  "slots": ["{host}", "{program}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: staff availability and room requirements.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "A group offers an accessible room at no charge.",
+      "what": "The team checks dates with the host.",
+      "writesBack": "An off-site session can be listed once the host confirms."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The offered room is free but inaccessible.",
+      "what": "Staff ask about a different room in the same building.",
+      "writesBack": "The first offer stays off the public schedule."
+    }
+  ]
+}

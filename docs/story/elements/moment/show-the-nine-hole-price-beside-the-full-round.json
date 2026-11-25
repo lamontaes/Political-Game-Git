@@ -1,0 +1,32 @@
+{
+  "id": "show-the-nine-hole-price-beside-the-full-round",
+  "kind": "moment",
+  "summary": "{golfer} brings two adult prices to the hearing because a shorter round is the one they can usually fit in.",
+  "realLife": "Portland's budget note identified both nine-hole and eighteen-hole adult rounds when it directed staff where to seek additional revenue.",
+  "sources": [
+    "https://www.portland.gov/budget/2025-2026-budget/documents/fy-25-26-adopted-budget-amendment-full-list-changes-updated-june/download#page=66"
+  ],
+  "fits": ["office", "news", "journal", "campaign", "speeches"],
+  "slots": ["{golfer}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: prices for both lengths of play and the resident's usual booking.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "The shorter booking now costs more than the player's available cash.",
+      "what": "The player asks about a different time or course.",
+      "writesBack": "The booking records the alternative they chose."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "The shorter round falls within the player's budget after the cut.",
+      "what": "The player reserves it on a workday.",
+      "writesBack": "The receipt identifies a nine-hole booking."
+    }
+  ]
+}

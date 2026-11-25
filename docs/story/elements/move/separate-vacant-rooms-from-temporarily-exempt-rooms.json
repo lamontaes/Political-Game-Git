@@ -1,0 +1,34 @@
+{
+  "id": "separate-vacant-rooms-from-temporarily-exempt-rooms",
+  "kind": "move",
+  "summary": "A board member checking the room supply in {place} asks how many recorded units are vacant and how many are exempt.",
+  "realLife": "A memo in the 2025 New York City hotel record broke registrations into stabilized rooms, vacancies and temporary and permanent exemptions.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2025/07/2025-Hotel-ES.pdf#page=9"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The case record identifies the registration categories, geography and reporting year."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: registration categories, geography and reporting year.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "It enters the vacancy tally.",
+      "pulledBy": "A room is registered vacant",
+      "writesBack": "Registration status and year."
+    },
+    {
+      "turn": "another-way",
+      "what": "Staff keep it in a different count.",
+      "pulledBy": "A room is temporarily exempt",
+      "writesBack": "Exemption category."
+    }
+  ]
+}

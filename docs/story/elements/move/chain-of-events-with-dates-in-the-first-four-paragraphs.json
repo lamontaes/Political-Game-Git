@@ -1,0 +1,34 @@
+{
+  "id": "chain-of-events-with-dates-in-the-first-four-paragraphs",
+  "kind": "move",
+  "summary": "The whole chain is laid out in the first four paragraphs, each with a date.",
+  "realLife": "Resignation, appointment and the ballot swap were all dated in the opening.",
+  "sources": [
+    "Patch (Gloucester Township, New Jersey), 'Council Member Who Won Primary, Resigned, Gets Replaced On Gloucester Twp. Election Ballot', Aug. 6, 2025: https://patch.com/new-jersey/gloucestertownship/newly-appointed-gloucester-twp-councilman-replaces-successor-who-won",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "date"],
+  "gates": [],
+  "weights": {
+    "vacancy": 1.0
+  },
+  "inGame": "`seat-vacated` and `vacancy-fill` news kinds and the offices table; the resignation and appointment dates",
+  "turns": [
+    {
+      "name": "only the latest step",
+      "pulledBy": "a story that follows an earlier one",
+      "writes": "the story links back and starts at the new step",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "one date",
+      "pulledBy": "a simple vacancy",
+      "writes": "the story gives one date",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

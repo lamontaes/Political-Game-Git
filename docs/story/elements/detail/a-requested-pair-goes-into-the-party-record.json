@@ -1,0 +1,32 @@
+{
+  "id": "a-requested-pair-goes-into-the-party-record",
+  "kind": "detail",
+  "summary": "Alongside a missed vote at {place}, the floor staff record a member's request for a pair.",
+  "realLife": "Vander Zee recalled that the majority staff preserved requests for voting pairs as well as the names of absent members in their records.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/vandeer-zee-rein-j-full-transcript-with-index.pdf#page=87"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the absent member and documented pair request."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: absent member and documented pair request.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Annotate the party record.",
+      "pulledBy": "A member requested a pair.",
+      "writesBack": "Absence and pair-request entry."
+    },
+    {
+      "turn": "another-way",
+      "what": "Record the absence on its own.",
+      "pulledBy": "Only the absence is documented.",
+      "writesBack": "Absence and pair-request entry."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "custody-still-with-security",
+  "kind": "situation",
+  "summary": "{person} can account for the rest of the shipment while one sculpture is still with security.",
+  "realLife": "For Emmanuel Macron's June visit the White House reported several objects already archived and a sculpture still expected from the Secret Service.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/FR-2026-01-29/pdf/2026-01805.pdf#page=4"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A security handoff outstanding on a partly received shipment."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: a security handoff outstanding on a partly received shipment.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The press asks whether the sculpture is missing",
+      "what": "Identify the outstanding handoff",
+      "writesBack": "The answer names the last reported custodian"
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "Security delivers the piece",
+      "what": "Match it to the open entry",
+      "writesBack": "The inventory closes"
+    }
+  ]
+}

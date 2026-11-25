@@ -1,0 +1,32 @@
+{
+  "id": "an-allied-group-disowns-a-vote",
+  "kind": "consequence",
+  "summary": "An organization allied with a new member distances itself from an early vote.",
+  "realLife": "A national suffrage organization broke with Jeannette Rankin over her vote against US entry into World War I.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/GPO-CDOC-108hdoc223/pdf/GPO-CDOC-108hdoc223.pdf",
+    "https://webharvest.gov/congress115th/20181223195351/https://history.house.gov/People/Detail/20147",
+    "https://en.wikipedia.org/wiki/Jeannette_Rankin"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{organization}", "{member}", "{vote}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: an organization's response to a named member's recorded vote.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The officers defend the member at the next meeting.",
+      "pulledBy": "The organization's adopted position matches the vote.",
+      "writesBack": "The group puts its support on record."
+    },
+    {
+      "turn": "partial",
+      "what": "The officers keep the member on the program but withdraw their invitation to speak.",
+      "pulledBy": "Local chapters split over the vote.",
+      "writesBack": "The member attends as a guest."
+    }
+  ],
+  "issues": ["none"]
+}

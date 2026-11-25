@@ -1,0 +1,56 @@
+{
+  "id": "pattern-b7-11-no-and-then-again",
+  "kind": "situation",
+  "summary": "No, and then again: The person whose offer the player refused comes back, pressing harder, and the player has to say what they will do.",
+  "realLife": "One life: An Illinois legislator was recorded in a government sting turning down cash from an informant several times before he took it, in exchange for a letter backing a grant application; his lawyer argued entrapment from the repeated offers and the jury convicted him. Another: A member who voted no on a bill was allegedly texted by the speaker, warned by a lobbyist that members who vote against him lose posts and funds, and then offered through an intermediary a pass on the vote if he deleted the texts. He told the FBI. These are prosecutors' claims, not proven facts. Another: A former Arkansas legislator testified that a senator came back a few days after their first talk about making money with a plan to take a share of grant money steered to two groups; the account is of a man who went along, not one who refused. Another: A Michigan representative was charged after prosecutors said texts show he pressed a union to gather money from other unions to sway colleagues on a wage law vote. He denied it, and the speaker removed him from his posts and asked him to step down.",
+  "sources": [
+    "https://www.kvpr.org/2014-06-10/illinois-lawmaker-found-guilty-of-accepting-7-000-payoff",
+    "https://bgindependentmedia.org/?p=42932",
+    "https://www.arkansasonline.com/news/2018/apr/12/woods-accounts-negative-u-s-says-201804/",
+    "https://www.wkar.org/politics-government/2019-05-16/michigan-lawmaker-denies-cash-for-vote-scheme-wont-quit"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the offerer", "the staffer", "the body", "the clerk"],
+  "gates": [
+    "The corruption record shows an offer to the player that the player refused.",
+    "{the offerer} has a stake on the bill or contract record that the offer was about.",
+    "{the offerer} still has a way to reach the player."
+  ],
+  "weights": [
+    "How much {the offerer} stands to gain or lose.",
+    "How the offerer's temper runs, veiled or open.",
+    "Whether the player's household is in money trouble.",
+    "Whether {the staffer} knows of the first offer.",
+    "How long since the first refusal."
+  ],
+  "pattern": "B7-11",
+  "choices": [
+    "hold the line and say no again",
+    "say you will report it",
+    "say you will think and put off the talk",
+    "end the talk and walk out"
+  ],
+  "branches": [
+    {
+      "when": "the player holds the line",
+      "then": "The second refusal is written on the corruption record and the pressure may grow, or stop."
+    },
+    {
+      "when": "the player says they will report it",
+      "then": "The record shows the player's word; {the clerk} or an investigator is told, and the offerer's tie is cut."
+    },
+    {
+      "when": "the player puts the talk off",
+      "then": "The delay is written; if it is read as a maybe, the offerer comes back a third time."
+    },
+    {
+      "when": "the offerer threatens the player's bills, posts or campaign",
+      "then": "The threat is written as a pressure on the tie; the player's reply is read by whoever later reviews the record."
+    },
+    {
+      "when": "the player is in money trouble and the offer lands on it",
+      "then": "The talk turns on need; the player's answer is the one that is written, and no figure is said aloud."
+    }
+  ],
+  "usedBy": ["bribe-pressed"]
+}

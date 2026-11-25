@@ -1,0 +1,31 @@
+{
+  "id": "household-raises-news-that-affects-them",
+  "kind": "situation",
+  "summary": "Someone at home brings up news because it affects a person or concern the household recognizes.",
+  "realLife": "During the 2017 Senate health care debate, a New Jersey mother shared her son’s hospital bill to explain what lifetime insurance limits could mean for his care. His condition kept the family from attending large protests.",
+  "sources": [
+    "https://time.com/4835791/senate-health-bill-activists-parents-sick-kids/",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L211"
+  ],
+  "inGame": "needs: a household-to-story relevance read for the opening news exchange.",
+  "fits": ["journal", "office", "news", "home"],
+  "slots": ["{household_member}", "{story}", "{concern}"],
+  "gates": ["A connection between this household and the story is recorded."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "late",
+      "what": "The family returns to the story when a letter confirms which household member it affects.",
+      "pulledBy": "The broadcast gave no effective date and the letter supplies one.",
+      "writesBack": "The later conversation refers to both the news and the notice."
+    },
+    {
+      "turn": "partial",
+      "what": "A parent brings the hospital statement to the kitchen table and asks whether the proposal would change the child’s existing coverage.",
+      "pulledBy": "The household has the statement and its insurance policy, while the legislation is still pending.",
+      "writesBack": "The family writes down the coverage question for the district office and keeps the existing bill amount on record."
+    }
+  ],
+  "issues": ["none"]
+}

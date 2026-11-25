@@ -1,0 +1,32 @@
+{
+  "id": "a-family-ballgame-enters-the-vote-schedule",
+  "kind": "situation",
+  "summary": "A senator tells {person} about a child's game while asking when it might be possible to leave.",
+  "realLife": "Letchworth described members confiding family plans to cloakroom staff in hopes of finding an opening between votes.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/letchworth-elizabeth-full-transcript-with-index.pdf#page=17"
+  ],
+  "fits": ["office", "journal", "home", "news", "speeches", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "The record identifies the member's voluntary scheduling request and expected vote time."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: member's voluntary scheduling request and expected vote time.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Tell the member when to return.",
+      "pulledBy": "The schedule leaves an opening.",
+      "writesBack": "Member's availability without the private reason."
+    },
+    {
+      "turn": "another-way",
+      "what": "Warn the member of the conflict.",
+      "pulledBy": "Votes are likely during the game.",
+      "writesBack": "Member's availability without the private reason."
+    }
+  ]
+}

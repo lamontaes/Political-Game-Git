@@ -1,0 +1,33 @@
+{
+  "id": "compromise-after-losing-in-court",
+  "kind": "move",
+  "summary": "After losing in court, {person} goes back to the board to negotiate over appointments.",
+  "realLife": "Sanders reached an accommodation with Burlington aldermen after his legal challenge failed.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/1981_Burlington,_Vermont_mayoral_election",
+    "https://en.wikipedia.org/wiki/Mayoralty_of_Bernie_Sanders"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["An adverse ruling leaves an appointment dispute unsettled."],
+  "weights": [
+    "More posts awaiting confirmation favor an agreement covering several nominees."
+  ],
+  "usedBy": [],
+  "inGame": "needs: settlement terms for disputed appointments.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The mayor lets the nominations lapse.",
+      "pulledBy": "The council rejects the remaining candidates.",
+      "writesBack": "The appointment docket closes without a settlement."
+    },
+    {
+      "turn": "partial",
+      "what": "The council accepts one nominee while negotiations continue.",
+      "pulledBy": "One candidate has enough recorded support.",
+      "writesBack": "The appointment record keeps the other posts open."
+    }
+  ],
+  "issues": ["none"]
+}

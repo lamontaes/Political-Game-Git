@@ -1,0 +1,31 @@
+{
+  "id": "hotel-plans-dropped-for-the-living-room",
+  "kind": "moment",
+  "summary": "The family drops a big hotel watch party and watches the returns upstairs at home with a few people.",
+  "realLife": "On election night 2000 George W. Bush's family left the hotel plan and watched in the upstairs living room of the governor's mansion. Barbara Bush said it was hard to be intimate with 100 kids running around, and when her husband said the mood was worse than 1992, she answered with one word.",
+  "sources": ["https://www.salon.com/2000/11/07/bush_voting"],
+  "fits": ["home", "news"],
+  "slots": ["{the family}", "{the count}", "{the household}"],
+  "gates": [
+    "An election result is pending.",
+    "Parents of the candidate are alive."
+  ],
+  "weights": ["Large noisy campaign party.", "Anxious family."],
+  "inGame": "household and election-day scene can carry it.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "They go to the big party and nobody gets a quiet hour.",
+      "pulledBy": "Large staff.",
+      "writesBack": "Household stress rises."
+    },
+    {
+      "turn": "neutral",
+      "what": "They watch at home but have nothing to say.",
+      "pulledBy": "Tight race.",
+      "writesBack": "Spouse tie unchanged."
+    }
+  ],
+  "issues": ["none"]
+}

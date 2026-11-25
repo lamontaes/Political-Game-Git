@@ -1,0 +1,38 @@
+{
+  "id": "asks-of-lawmakers-in-state-addresses",
+  "kind": "move",
+  "summary": "A State of the State asks the legislature for things; an inaugural rarely does.",
+  "realLife": "13% of State of the State points ended in an ask of lawmakers, against 1% of inaugural points.",
+  "sources": [
+    "https://www.flgov.com/eog/news/press/2024/governor-ron-desantis-delivers-state-state-address",
+    "https://www.wsbtv.com/news/local/read-gov-brian-kemps-2024-state-state-address/ODQCKR5IUVEA3MLPWQCKFPVC6A/?outputType=amp",
+    "https://sltrib.com/news/politics/2024/01/18/read-gov-spencer-cox-discusses",
+    "https://ktar.com/arizona-news/read-full-transcript-of-arizona-gov-katie-hobbs-2024-state-of-the-state-address-2/5556443/",
+    "https://governor.state.nm.us/2024/01/16/new-mexico-is-made-to-lead-governor-delivers-second-state-of-the-state-address-announces-legislative-agenda",
+    "https://www.nbcconnecticut.com/news/local/read-the-governors-2024-state-of-the-state-address/3213365/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["about"],
+  "gates": ["stance-for"],
+  "weights": {
+    "state": 0.13
+  },
+  "usedBy": [],
+  "inGame": "The state-of-the-state row (kinds.state-of-the-state in data/english/outlines.json) with body-word (the legislature) and realm-name; stance and law facts gate pledge and stand.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "No ask of the legislature; the speaker asks the public.",
+      "pulledBy": "a body held by the other party (party-holds-body false)",
+      "writesBack": "The paper reports an appeal over the legislature's head."
+    },
+    {
+      "turn": "partial",
+      "what": "A soft ask: the speaker names a bill and waits.",
+      "pulledBy": "a body held by the speaker's party",
+      "writesBack": "The bill record can move without a pledge on it."
+    }
+  ],
+  "issues": ["none"]
+}

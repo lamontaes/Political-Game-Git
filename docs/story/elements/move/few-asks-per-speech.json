@@ -1,0 +1,45 @@
+{
+  "id": "few-asks-per-speech",
+  "kind": "move",
+  "summary": "Few points end in an ask; how many asks a speech makes is the speaker's trait and the kind of speech.",
+  "realLife": "Only 15% of points ended in an ask, and asks per speech ran from none (Lincoln, Lujan Grisham) to eight (Hobbs).",
+  "sources": [
+    "https://avalon.law.yale.edu/19th_century/lincoln2.asp",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-8",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-2",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-11",
+    "https://teachingamericanhistory.org/document/first-inaugural-address-gwbush/",
+    "https://www.presidency.ucsb.edu/documents/inaugural-address-5",
+    "https://www.flgov.com/eog/news/press/2024/governor-ron-desantis-delivers-state-state-address",
+    "https://www.wsbtv.com/news/local/read-gov-brian-kemps-2024-state-state-address/ODQCKR5IUVEA3MLPWQCKFPVC6A/?outputType=amp",
+    "https://sltrib.com/news/politics/2024/01/18/read-gov-spencer-cox-discusses",
+    "https://ktar.com/arizona-news/read-full-transcript-of-arizona-gov-katie-hobbs-2024-state-of-the-state-address-2/5556443/",
+    "https://governor.state.nm.us/2024/01/16/new-mexico-is-made-to-lead-governor-delivers-second-state-of-the-state-address-announces-legislative-agenda",
+    "https://www.nbcconnecticut.com/news/local/read-the-governors-2024-state-of-the-state-address/3213365/",
+    "docs/story/research/address-moves.md (Elections lane, Nov 24, 2026: 6 inaugurals and 6 State of the State addresses read whole, 175 points coded)"
+  ],
+  "fits": ["speeches"],
+  "slots": ["about"],
+  "gates": [],
+  "weights": {
+    "inaugural": 0.11,
+    "state": 0.17
+  },
+  "usedBy": [],
+  "inGame": "The `call` section is optional and its shapes (call-alone, address-run) are picked by the speaker's trait `pull`, so asks per speech vary with the speaker; there is no per-point ask.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Asks in most points, as Arizona's governor did (eight in one speech).",
+      "pulledBy": "a speaker high in assertive or work-centered; a state kind with a legislature that holds a bill",
+      "writesBack": "The talk at home can reply to several asks; a promise record can follow each."
+    },
+    {
+      "turn": "neutral",
+      "what": "One ask, near the close.",
+      "pulledBy": "most worlds; the speaker's `call` section said once",
+      "writesBack": "The ask is the line the news story and the housemate answer."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "pattern-b6-04-news-of-a-baby",
+  "kind": "situation",
+  "summary": "News of a baby: News of a baby reaches the family and {the parent-to-be} asks the player for help, a visit or a promise.",
+  "realLife": "One life: A college junior of 19 told her mother first and asked her to tell the family. One aunt kept the secret then told others, causing a rift with her mother; other aunts were hurt but threw a baby shower. The family's blessing came before the birth. Another: A baby born at about 28 weeks in the Davenport, Iowa, area. Staff limited visitors, so only Kelly's mother was at the birth. A prayer chain started by a grandmother helped, the baby avoided intensive care, and he went home after two days. Another: A study of hunter-gatherers in Congo found babies had about eight regular hands-on caregivers besides their mothers, with help arriving within seconds of a cry. Researchers argue that parents without that circle, mostly in Western homes, face more isolation and postpartum depression.",
+  "sources": [
+    "https://www.powertodecide.org/news/telling-family-i-was-pregnant",
+    "https://archive.storycorps.org/interviews/birth-of-onyx-houston-paone/",
+    "https://www.nhpr.org/2023-12-01/bringing-up-a-baby-can-be-a-tough-and-lonely-job-heres-a-solution-alloparents"
+  ],
+  "fits": ["campaign", "home", "journal", "work-community"],
+  "slots": ["the parent-to-be", "the one who is told first", "the relatives"],
+  "gates": [
+    "{the parent-to-be} is on the tie record and a baby is on the way or born.",
+    "{the one who is told first} is on the records.",
+    "The relatives are not all in one place."
+  ],
+  "weights": [
+    "Age and money of the parent-to-be.",
+    "Whether the birth came early or with risk.",
+    "Whether the baby is welcome to {the relatives}.",
+    "Whether anyone near is ill or has died."
+  ],
+  "pattern": "B6-04",
+  "choices": [
+    "promise a visit and a hand",
+    "ask what is needed and give it",
+    "say congratulations and keep distance",
+    "say you cannot promise"
+  ],
+  "branches": [
+    {
+      "when": "{the one who is told first} keeps the secret",
+      "then": "The telling happens on {the parent-to-be}'s own time and the tie holds."
+    },
+    {
+      "when": "{the one who is told first} tells the rest",
+      "then": "A rift opens between them and {the parent-to-be}'s side; hurt relatives later come round and help."
+    },
+    {
+      "when": "the birth is early or at risk",
+      "then": "Visitors are limited; the family's help comes as prayer, a call chain or food, and the household's cost record rises."
+    },
+    {
+      "when": "a relative asks the player for help or a promise",
+      "then": "The answer is written on the favor record and the player's word is remembered."
+    },
+    {
+      "when": "the player holds an office",
+      "then": "The news and what the player does for the family is on the town's record."
+    },
+    {
+      "when": "relatives, neighbors or friends offer to share the care of the baby",
+      "then": "The new parent has more rest and less isolation on the household record, and the helpers earn a favor owed; if nobody offers, the isolation is written."
+    }
+  ],
+  "usedBy": ["new-baby", "celebration"]
+}

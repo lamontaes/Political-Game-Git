@@ -1,0 +1,32 @@
+{
+  "id": "separate-tee-receipts-from-snack-bar-sales",
+  "kind": "move",
+  "summary": "{member} asks how much of the course's revenue came from playing rather than from the concession stand.",
+  "realLife": "The December golf advisory minutes reported food and beverage growth separately from overall revenue and discussed the contribution of the tracking-range attraction.",
+  "sources": [
+    "https://www.portland.gov/parks/sports/documents/golf-advisory-committee-meeting-minutes-december-2025/download#page=2"
+  ],
+  "fits": ["office", "news", "journal", "campaign", "speeches"],
+  "slots": ["{member}"],
+  "gates": [
+    "The local government runs the recreation service and is considering or implementing a change to its fee."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["law:fee-level:parks-and-recreation"],
+  "inGame": "The park fee series supplies the jurisdiction's change in the charge level. needs: admission and concession receipts for the comparison period.",
+  "turns": [
+    {
+      "turn": "raise",
+      "pulledBy": "Total sales rise after a fee increase but concessions account for much of the change.",
+      "what": "The member asks for the admissions line.",
+      "writesBack": "The hearing record shows the two revenue sources."
+    },
+    {
+      "turn": "lower",
+      "pulledBy": "A lower playing fee draws customers who spend money at the counter.",
+      "what": "The director compares both streams before forecasting the fund balance.",
+      "writesBack": "The forecast preserves separate receipts."
+    }
+  ]
+}

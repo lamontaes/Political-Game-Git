@@ -1,0 +1,30 @@
+{
+  "id": "inspector-returns-after-the-sidewalk-is-poured",
+  "kind": "moment",
+  "summary": "{owner} meets the inspector again after the contractor finishes the sidewalk.",
+  "realLife": "The city's guidance calls for Parks to inspect the completed independent repair and the tree before granting sign-off.",
+  "sources": [
+    "https://portal.311.nyc.gov/article/?kanumber=KA-01505#:~:text=Once%20repairs%20are%20complete"
+  ],
+  "fits": ["office", "journal", "home", "news", "work-community"],
+  "slots": ["{owner}"],
+  "gates": ["Completed private repair and tree-protection permit conditions."],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: completed private repair and tree-protection permit conditions.",
+  "turns": [
+    {
+      "turn": "first",
+      "pulledBy": "The repair and tree meet the conditions.",
+      "what": "Request written sign-off.",
+      "writesBack": "Close the permit inspection.."
+    },
+    {
+      "turn": "alternative",
+      "pulledBy": "A permit condition still needs attention.",
+      "what": "Record the inspector's finding.",
+      "writesBack": "Keep sign-off pending.."
+    }
+  ]
+}

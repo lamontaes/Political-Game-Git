@@ -1,0 +1,32 @@
+{
+  "id": "reimbursement-filed-before-the-answer-came-back",
+  "kind": "moment",
+  "summary": "{manager} reports that an airport land reimbursement request went in while a question about the appraisal was still outstanding.",
+  "realLife": "Sulphur’s manager said he had submitted the reimbursement materials after unsuccessful attempts to get an answer about the appraisal.",
+  "sources": [
+    "https://static1.squarespace.com/static/633b503b5c01642ad540f4a2/t/6616995661c5865b0089fbd0/1712757078980/March%2B11%2C%2B2024%2BMinutes.pdf#page=2"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{manager}"],
+  "gates": [
+    "Dated reimbursement submission and documented attempts to clarify a valuation question."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: dated reimbursement submission and documented attempts to clarify a valuation question.",
+  "turns": [
+    {
+      "turn": "accepted",
+      "pulledBy": "The reviewing agency accepts the submission.",
+      "what": "Record its decision and any amount paid.",
+      "writesBack": "Close only the portion it approved.."
+    },
+    {
+      "turn": "further-support",
+      "pulledBy": "The agency asks for further support.",
+      "what": "Send the outstanding question to the appraiser.",
+      "writesBack": "Keep the claim pending.."
+    }
+  ]
+}

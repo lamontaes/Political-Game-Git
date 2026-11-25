@@ -25,6 +25,7 @@ import {
   termLimitReached,
 } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-data";
+import { standReasons } from "../contest-positions";
 import { shareValue } from "../shares";
 import { describesByRule, ruleOfficeBody } from "../filing-rule-office";
 import {
@@ -281,6 +282,8 @@ export interface FilingRow {
   readonly filedOn: string;
   readonly filedWith: string;
   readonly platform: readonly string[];
+  /** Why each stand was open to this seat, "question=<record>;<seat>" (`standReasons`, src/core2/contest-positions.ts): the candidate's own record that gives the reason (a vote, their position as an official, their circumstances, faith or degree, what reached them), then why the seat can act on it (the office's own work, or what its government may decide). */
+  readonly platformWhy?: readonly string[];
   /** The party label on the ballot, where the candidate runs under one. */
   readonly party?: string | null;
   /**
@@ -381,6 +384,8 @@ interface ReadRequirements {
   readonly party?: ReadSide;
   readonly independent?: ReadSide;
   readonly minimumAge?: number | null;
+  /** An office of the family whose own law sets another age (a Northern Marianas Mayor, 25, beside its council's 21). */
+  readonly minimumAgeByOffice?: Readonly<Record<string, number>>;
   readonly residency?: string | null;
   readonly registeredVoterRequired?: boolean | null;
   readonly filingDeadlineRule?: string | null;
@@ -654,7 +659,12 @@ export function filingRulesFor(
     (contest.district
       ? readRequirements(town(api).stateKey, contest.family)?.districtSeatsRead
       : undefined) ?? contest.family;
-  const stateRules = filingRequirements(town(api).stateKey, family, side);
+  const kind = contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1);
+  const familyRules = filingRequirements(town(api).stateKey, family, side);
+  const ownAge = readRequirements(town(api).stateKey, family)
+    ?.minimumAgeByOffice?.[kind];
+  const stateRules =
+    ownAge === undefined ? familyRules : { ...familyRules, minimumAge: ownAge };
   // A Senate or presidential candidate meets the Constitution's age, which a
   // state's age for its own statewide offices cannot lower.
   const federal = (
@@ -662,7 +672,7 @@ export function filingRulesFor(
       string,
       { value: number; citation: string }
     >
-  )[contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1)];
+  )[kind];
   const rules =
     federal && federal.value > stateRules.minimumAge
       ? {
@@ -1834,6 +1844,13 @@ export function fileCandidacy(
     filedOn: today,
     filedWith: rules.filedWith,
     platform: [...input.platform],
+    platformWhy: standReasons(
+      api,
+      contest,
+      input.platform,
+      input.personId,
+      input.party,
+    ),
     party: input.party ?? null,
     status: "petitioning",
     ...(announced?.status === "announced"
@@ -1916,6 +1933,13 @@ export function announceCandidacy(
     announcedOn: today,
     filedWith: rules.filedWith,
     platform: [...input.platform],
+    platformWhy: standReasons(
+      api,
+      contest,
+      input.platform,
+      input.personId,
+      input.party,
+    ),
     party: input.party ?? null,
     status: "announced",
   };
@@ -1947,20 +1971,50 @@ export function announceCandidacy(
 }
 
 /**
- * An announcement whose candidate the counter refused, or who is gone, on the
- * day their window opened leaves the race then, not at the deadline: the race
- * page and the campaign board stop counting them.
+ * A candidacy the race no longer holds leaves it that day, not at the
+ * deadline: an announcement whose candidate the counter refused, or who is
+ * gone, on the day their window opened, and an announcement or a filing still
+ * gathering signatures whose candidate died (`pendingFilingsOf`, read by the
+ * candidacy engine's death). The race page, the campaign board and the
+ * clerk's petition check stop counting them. A filing already on the ballot
+ * stays; `ballot` leaves out a candidate who died.
  */
-export function withdrawAnnouncement(
+export function withdrawFiling(
   api: CoreAPI,
   contestId: string,
   personId: string,
+  /**
+   * What may leave: every filing the clerk has not decided (a death), or only
+   * an announcement (the day filing opens: a refusal of the runner's own
+   * filing never pulls a filing they already made another way).
+   */
+  which: "undecided" | "announced" = "undecided",
 ): void {
   const filings = table(api, "filings");
   const row = filings.get(`filing:${contestId}:${personId}`) as unknown as
     FilingRow | undefined;
-  if (row?.status === "announced")
+  if (
+    row &&
+    (which === "announced" ? row.status === "announced" : undecided(row))
+  )
     filings.put({ ...row, status: "withdrawn" } as unknown as ModuleRow);
+}
+
+/** A filing not yet decided by the clerk: announced, or gathering signatures. */
+function undecided(filing: Readonly<Pick<FilingRow, "status">>): boolean {
+  return filing.status === "announced" || filing.status === "petitioning";
+}
+
+/** A person's filings the clerk has not yet decided (`withdrawFiling`). */
+export function pendingFilingsOf(
+  api: CoreAPI,
+  personId: string,
+): readonly FilingRow[] {
+  return (
+    table(api, "filings").query("byPerson", [
+      personId,
+    ]) as unknown as FilingRow[]
+  ).filter(undecided);
 }
 
 /**
@@ -2058,6 +2112,39 @@ export const RIVAL_FILED_EVENT = "rival-filed";
  */
 export function standing(filing: Readonly<Pick<FilingRow, "status">>): boolean {
   return filing.status === "on-ballot" || filing.status === "petitioning";
+}
+
+/**
+ * Whether a candidate is in the race for the press: a filing that stands, or
+ * an announced one whose race is still ahead (owner, Nov 17: "Run now, file on
+ * the date"). An announced candidate is already campaigning in the open, so
+ * the papers ask them and they can be asked.
+ */
+export function inTheRace(
+  api: CoreAPI,
+  filing: Readonly<Pick<FilingRow, "status" | "contestId">>,
+): boolean {
+  return (
+    standing(filing) ||
+    (filing.status === "announced" && raceAhead(api, filing))
+  );
+}
+
+/** The living candidates who announced for a contest and have not yet filed. */
+export function announcedIn(
+  api: CoreAPI,
+  contestId: string,
+): readonly FilingRow[] {
+  return (
+    table(api, "filings").query("byContest", [
+      contestId,
+    ]) as unknown as FilingRow[]
+  ).filter(
+    (f) =>
+      f.status === "announced" &&
+      raceAhead(api, f) &&
+      api.state.people.get(f.personId)?.alive !== false,
+  );
 }
 
 /**

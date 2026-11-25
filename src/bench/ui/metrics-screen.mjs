@@ -62,7 +62,7 @@ export function metricsScreen({ sections, words, title }) {
           ? trendLine(chosen.history, {
               width: 520,
               height: 260,
-              valueOf: (point) => point.value,
+              amountOf: (point) => point.value,
               labels: {
                 value: (point) => figure(chosen, point.value),
                 year: (point) => String(point.year),

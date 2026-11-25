@@ -1,0 +1,30 @@
+{
+  "id": "trustee-puts-a-shadow-on-the-park-plan",
+  "kind": "move",
+  "summary": "A trustee assessing a taller branch asks what its shadow would do to the park next door.",
+  "realLife": "The South End design team summarized support for preserving Library Park and concerns about shade cast by a taller building.",
+  "sources": [
+    "https://www.bpl.org/wp-content/uploads/sites/30/2024/06/2024-06-12_South-End-Library-Community-Meeting-3.pdf#page=13"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{park}", "{building}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["none"],
+  "inGame": "needs: proposed building height and adjacent park.",
+  "turns": [
+    {
+      "turn": "partial",
+      "pulledBy": "The shadow study shows afternoon shade on a heavily used area.",
+      "what": "The designer tests a different building mass.",
+      "writesBack": "The next drawing shows the park at the same time of day."
+    },
+    {
+      "turn": "opposite",
+      "pulledBy": "The affected area is outside the park's main gathering space.",
+      "what": "Trustees ask neighbors to review the study.",
+      "writesBack": "The response records which concern remains."
+    }
+  ]
+}

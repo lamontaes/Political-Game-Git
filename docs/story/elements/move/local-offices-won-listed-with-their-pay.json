@@ -1,0 +1,30 @@
+{
+  "id": "local-offices-won-listed-with-their-pay",
+  "kind": "move",
+  "summary": "Local offices won are listed with what they paid.",
+  "realLife": "Young noted winning the school treasurer and township trustee elections and the pay for a township assessor job, six dollars for one task.",
+  "sources": [
+    "Kansas Historical Quarterly, A Hoosier in Kansas: the diary of Hiram H. Young, 1890 to 1891: https://www.kansashistory.gov/p/kansas-historical-quarterly-a-hoosier-in-kansas-2/13032"
+  ],
+  "fits": ["journal"],
+  "slots": ["office", "wage"],
+  "gates": [],
+  "inGame": "`event:took-office` and `household:livelihood:office` rows with `office` from the office record; pay from the term's wage.",
+  "weights": {
+    "office": 0.7
+  },
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "A seat with no pay.",
+      "pulledBy": "the office's pay is zero on its record",
+      "writesBack": "the entry says it paid nothing"
+    },
+    {
+      "turn": "An office lost at the next race.",
+      "pulledBy": "a later `event:election-result` as the loser",
+      "writesBack": "the entry says the term ended and who followed"
+    }
+  ],
+  "issues": ["none"]
+}

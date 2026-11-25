@@ -89,12 +89,12 @@ try {
     assert.ok(beats.length >= 2, `the address has only ${beats.length} parts`);
     assert.match(
       beats[0].backdrop,
-      /^us-(house|senate)-floor/,
-      "the address does not start in the chamber",
+      /^(inaugural-stand|us-capitol-exterior)/,
+      "the inaugural is not given at the Capitol's stand",
     );
     assert.ok(
       beats[0].people >= 1,
-      "the President is not on the strip in the chamber",
+      "the President is not on the strip at the stand",
     );
     // Each part its own picture, up to three: the chamber, a cutaway, home.
     assert.ok(
@@ -109,6 +109,12 @@ try {
     // never on the strip among them (the Player's beat 4, #9995 Nov 19
     // 09:40Z). The cutaways between (the country along a route, the state's
     // capitol) are the owner's montage and keep their pictures.
+    for (const [at, beat] of beats.entries())
+      if (beat.backdrop.startsWith("train-depot"))
+        assert.ok(
+          !beat.strip.includes(beat.who.trim()),
+          `part ${at + 1}: ${beat.who} stands on the strip in the America cutaway as well as on the set`,
+        );
     for (const [at, beat] of beats.entries())
       if (beat.backdrop === beats.at(-1).backdrop)
         assert.ok(

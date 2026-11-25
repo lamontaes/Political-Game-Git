@@ -18,7 +18,7 @@ The separate person patch implements an older overlay for the same selected-pers
 
 ## Shared adapter seam
 
-UI owns `src/App.tsx`, `src/player/PlayerGame.tsx`, shared shell/navigation/CSS and creator transition wiring. Feature owners deliver immutable World input, canonical playerPersonId and `onWorldChange(nextWorld)` output; navigation/entity requests use explicit canonical IDs. Components must not instantiate a replacement World during render. Provide exact commit and feature-local files plus a proposed root patch against this recipient for review. Root patches remain UI-owned.
+UI owns `src/App.tsx`, `src/player/PlayerGame.tsx` (removed), shared shell/navigation/CSS and creator transition wiring. Feature owners deliver immutable World input, canonical playerPersonId and `onWorldChange(nextWorld)` output; navigation/entity requests use explicit canonical IDs. Components must not instantiate a replacement World during render. Provide exact commit and feature-local files plus a proposed root patch against this recipient for review. Root patches remain UI-owned.
 
 OPENING's `OpeningLifeFlow` / `OpeningLifePanel` and controller seam received; PEOPLE and ENV supply existing deterministic person/scene adapters with released-art gating. MUNI provides feature-local canonical public-work panel. DEV/JUD/EXEC/LIFE requests posted successfully via gh to PRs #138–141; connector comments failed 403. Native outgoing task tools unavailable here. No heavy gates running yet.
 

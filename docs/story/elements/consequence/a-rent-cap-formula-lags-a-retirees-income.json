@@ -1,0 +1,47 @@
+{
+  "id": "a-rent-cap-formula-lags-a-retirees-income",
+  "kind": "consequence",
+  "summary": "A city rent rule lets rents rise about as fast as prices, so a retiree whose Social Security rose less pays more each year for less left over.",
+  "realLife": "Los Angeles covers about three quarters of its apartments with a yearly cap set by a price formula, plus extra for utilities a landlord pays. Authors of a tenant-side report proposed a different measure; housing staff recommended dropping the utility add-on and calculated a 2 percent cap under the alternative. The council had not voted before the next February rise, so the older formula held. One senior said her benefit was rising 2.5 percent while her rent was scheduled to rise 5 percent. Another tenant's rent was projected to rise about $135 a month after the February step. Landlords said labor, materials and insurance costs justify higher rises.",
+  "sources": [
+    "https://laist.com/news/housing-homelessness/los-angeles-rent-control-limits-increase-hikes-housing-tenant-landlord-rso-february-1 (LAist on Los Angeles rent control and the February increase)"
+  ],
+  "fits": ["home", "journal", "news"],
+  "slots": ["{the household}", "{the policy}", "{the place}"],
+  "gates": [
+    "a rent cap tied to a price formula is in force",
+    "the household rents",
+    "the household's income rises on a different schedule"
+  ],
+  "weights": [
+    "the gap between the cap and income growth",
+    "how long the household has lived there",
+    "landlord costs"
+  ],
+  "inGame": "question:us-policy-positions:housing-land-use.rent-stabilization read by the rent a landlord may charge; the household budget reads rent against income; budget:housing; needs: the cap formula as a law the rent step reads",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "rent outruns income",
+      "what": "The yearly step lands before the benefit rise, and the household cuts something else.",
+      "pulledBy": "a cap tied to a formula that tracks prices",
+      "writesBack": "household rent; discretionary spending"
+    },
+    {
+      "turn": "the cap is lowered",
+      "what": "The council ties the cap to a slower measure and the next step is smaller than the benefit rise.",
+      "pulledBy": "a council vote before the next step",
+      "writesBack": "law in force; rent"
+    },
+    {
+      "turn": "landlord sells or converts",
+      "what": "A landlord who cannot pass on costs sells the building and the household moves.",
+      "pulledBy": "landlord cost pressure",
+      "writesBack": "household residence"
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization",
+    "budget:housing"
+  ]
+}

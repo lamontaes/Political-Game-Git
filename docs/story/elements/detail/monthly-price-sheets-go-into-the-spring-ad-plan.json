@@ -1,0 +1,32 @@
+{
+  "id": "monthly-price-sheets-go-into-the-spring-ad-plan",
+  "kind": "detail",
+  "summary": "Staff at {place} bring a promotion plan built from monthly prices and reports about shoppers.",
+  "realLife": "The California fruit committees' staff used monthly information about market conditions, consumers and prices to prepare the coming season's promotion proposal.",
+  "sources": [
+    "https://tile.loc.gov/storage-services/service/ll/usrep/usrep521/usrep521457/usrep521457.pdf#page=9"
+  ],
+  "fits": ["office", "work-community", "journal", "news", "speeches"],
+  "slots": ["{place}"],
+  "gates": [
+    "The record identifies the monthly market reports and proposed campaign."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["budget:federal:agriculture"],
+  "inGame": "needs: monthly market reports and proposed campaign.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "Revise the campaign to reflect a changed market.",
+      "pulledBy": "Staff see a change in buying patterns.",
+      "writesBack": "Version of the seasonal ad proposal."
+    },
+    {
+      "turn": "another-way",
+      "what": "Carry the staff proposal into the spring meeting.",
+      "pulledBy": "The latest reports support the plan.",
+      "writesBack": "Version of the seasonal ad proposal."
+    }
+  ]
+}

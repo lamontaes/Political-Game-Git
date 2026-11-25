@@ -1,0 +1,38 @@
+{
+  "id": "pattern-a20-your-plan-goes-to-the-voters",
+  "kind": "situation",
+  "summary": "Your plan goes to the voters: {opponent} says what they fear about {your plan}, which {the body} must send to the voters.",
+  "realLife": "On the Sumter County, Georgia, school board he pushed to merge and reorganize the schools. Voters rejected it in a referendum, partly from fear it would lead to integration.",
+  "sources": [
+    "https://www.georgiaencyclopedia.org/articles/government-politics/jimmy-carter-b-1924",
+    "https://en.wikipedia.org/wiki/Jimmy_Carter"
+  ],
+  "fits": ["campaign", "journal", "office", "work-community"],
+  "slots": ["your plan", "opponent", "board chair"],
+  "gates": [
+    "You hold a seat on a local board.",
+    "{your plan} needs a vote of the people."
+  ],
+  "weights": [
+    "How much the plan changes.",
+    "How strong the opposition is on the record."
+  ],
+  "pattern": "A20",
+  "choices": [
+    "send it to the ballot as written",
+    "change it to win over the opponents",
+    "pull it",
+    "answer the fear head on"
+  ],
+  "branches": [
+    {
+      "when": "the voters say no",
+      "then": "Your name is on a losing measure, and rivals bring it up when you run."
+    },
+    {
+      "when": "it passes narrowly",
+      "then": "The changes it makes produce effects that come back as scenes."
+    }
+  ],
+  "usedBy": []
+}

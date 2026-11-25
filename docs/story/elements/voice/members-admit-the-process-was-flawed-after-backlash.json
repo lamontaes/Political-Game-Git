@@ -1,0 +1,43 @@
+{
+  "id": "members-admit-the-process-was-flawed-after-backlash",
+  "kind": "voice",
+  "summary": "After public anger over their own pay raise, members say the process fell short and one asks for a do-over.",
+  "realLife": "Weeks after a council more than doubled its own pay, every member who spoke said the process was poor. One asked for a redo and said the job is far more than a few hours of meetings. Another doubted higher pay would bring better candidates, since recent elections drew many. Supporters said low pay turns service into a hobby for the wealthy. They agreed to bring back a smaller raise for a formal vote with public comment.",
+  "sources": [
+    "TownLift (Park City, Utah), 'Park City Council rescinds doubled salaries, directs staff to draft a smaller raise', June 12, 2026: https://townlift.com/2026/06/park-city-council-rescinds-doubled-salaries-directs-staff-to-draft-a-smaller-raise/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["name", "surname", "body", "percent", "count"],
+  "gates": [],
+  "weights": {
+    "roll-call": 0.4,
+    "pay-vote": 0.6
+  },
+  "inGame": "the pay ordinance, the public-comment record, each member's recorded view on pay; needs: a stated view on process kept per member",
+  "issues": ["budget:administration"],
+  "turns": [
+    {
+      "name": "a member asks for a do-over",
+      "pulledBy": "a member who agrees with the criticism of the process",
+      "writes": "the story quotes the member and a redo is listed as pending",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a member defends the first raise",
+      "pulledBy": "a member who thinks pay had fallen too low",
+      "writes": "the story quotes the defense and the original raise stays on the books",
+      "requiresFacts": [],
+      "excludesFacts": []
+    },
+    {
+      "name": "a member doubts higher pay helps",
+      "pulledBy": "recent races drew many candidates",
+      "writes": "the story quotes the doubt and the candidate count is cited",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

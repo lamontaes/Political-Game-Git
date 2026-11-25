@@ -1,0 +1,30 @@
+{
+  "id": "keep-the-other-leaders-question-private",
+  "kind": "move",
+  "summary": "A floor adviser helps one leader without revealing what the other leader asked in confidence.",
+  "realLife": "Riddick said both Senate leaders needed to trust him with plans that the other side would have liked to know.",
+  "sources": [
+    "https://www.senate.gov/about/resources/pdf/riddick-floyd-m-full-transcript-with-index.pdf#page=43"
+  ],
+  "fits": ["office", "journal", "speeches", "home"],
+  "slots": ["{leader}", "{adviser}", "{question}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: separate consultations with floor leaders.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The adviser explains the common procedural issue.",
+      "pulledBy": "Both leaders authorize a joint meeting.",
+      "writesBack": "Each leader speaks for their own plan."
+    },
+    {
+      "turn": "partial",
+      "what": "The adviser returns to the rule.",
+      "pulledBy": "One leader asks who raised the issue first.",
+      "writesBack": "The other consultation stays private."
+    }
+  ],
+  "issues": ["none"]
+}
