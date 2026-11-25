@@ -2,14 +2,18 @@
   "id": "the-maker-no-longer-has-the-tool-either",
   "kind": "detail",
   "summary": "A parts request turns on whether even the manufacturer can still obtain the physical tool.",
-  "realLife": "Washington HB 1483 (2025). The final House report describes an exception for parts or physical tools no longer available to the manufacturer.",
+  "realLife": "Washington HB 1483 (2025), section 3. Washington made parts and physical tools available on specified terms starting in 2026, with an exception when the manufacturer itself can no longer obtain the item.",
   "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/House/1483-S.SL.pdf",
     "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
   ],
   "inGame": "needs: an owner requests a tool and its availability is disputed.",
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{owner}", "{tool}"],
-  "gates": ["An owner requests a tool and its availability is disputed."],
+  "gates": [
+    "An owner requests a tool and its availability is disputed.",
+    "The supply rule is in effect and covers the product’s manufacture and first sale or use in the state."
+  ],
   "weights": [],
   "usedBy": [],
   "turns": [

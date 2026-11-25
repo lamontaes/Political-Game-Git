@@ -2,14 +2,18 @@
   "id": "a-fingerprint-reader-built-into-the-replacement",
   "kind": "detail",
   "summary": "A member checks whether a biometric reader is separate or bundled into a commonly replaced part.",
-  "realLife": "Washington HB 1483 (2025). The final report describes a limited parts-pairing exception for stand-alone authentication components, distinguishing them from components bundled with screens or other commonly replaced parts.",
+  "realLife": "Washington HB 1483 (2025), section 3. Washington allowed manufacturers to pair a separate biometric authentication component. A reader bundled with a commonly replaced component such as a screen falls outside that exception.",
   "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/House/1483-S.SL.pdf",
     "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
   ],
   "inGame": "needs: a covered product's authentication component is at issue.",
   "fits": ["office", "journal", "news", "work-community"],
   "slots": ["{member}", "{component}"],
-  "gates": ["A covered product's authentication component is at issue."],
+  "gates": [
+    "A covered product's authentication component is at issue.",
+    "Both first manufacture and first sale or use in the state fall after the pairing rule’s cutoff."
+  ],
   "weights": [],
   "usedBy": [],
   "turns": [

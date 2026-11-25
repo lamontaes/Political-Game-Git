@@ -2,8 +2,9 @@
   "id": "give-the-small-shop-a-way-to-fix-one-device",
   "kind": "move",
   "summary": "A manufacturer offers a single-device repair method in place of factory equipment that handles many devices together.",
-  "realLife": "Washington HB 1483 (2025). The final report exempts certain multi-device machine tools and manuals if adequate alternatives are made available for the repair.",
+  "realLife": "Washington HB 1483 (2025), section 5. Washington allowed makers to withhold manuals and tools exclusive to machines that repair multiple devices at once if both owners and independent shops can obtain adequate alternatives.",
   "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/House/1483-S.SL.pdf",
     "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
   ],
   "inGame": "needs: a shop requests access to equipment used exclusively for batch repairs.",

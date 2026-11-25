@@ -2,8 +2,9 @@
   "id": "the-shop-or-the-factory-caused-the-failure",
   "kind": "situation",
   "summary": "A second failure sends a customer back to find out whether the repair or an original defect caused it.",
-  "realLife": "Washington HB 1483 (2025). The final report separates damage caused during independent repairs from failures attributable to design or manufacture.",
+  "realLife": "Washington HB 1483 (2025), section 6. Washington limited manufacturers’ and authorized providers’ liability for damage caused by an owner or independent repairer. The distinction turns on who caused the damage and whether a design or manufacturing defect caused the failure.",
   "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/House/1483-S.SL.pdf",
     "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
   ],
   "inGame": "needs: a device fails after an independent shop returns it.",
