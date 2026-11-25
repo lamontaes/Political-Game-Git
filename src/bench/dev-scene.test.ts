@@ -30,7 +30,7 @@ describe(`dev scenes: ${where}`, () => {
       const by = (recipe: string | null) =>
         scenes.filter((row) => row.recipe === recipe);
       process.stderr.write(
-        `${where}: ${scenes.length} types: ${by("death").length} death, ${by("layoff").length} layoff, ${by("wait").length} run-until-it-happens, ${by(null).length} no engine writes the cause\n`,
+        `${where}: ${scenes.length} types: ${by("death").length} death, ${by("wait").length} run-until-it-happens, ${by(null).length} no engine writes the cause\n`,
       );
       // The Scenes panel's three headings, from the same rows: what dev mode can do for each kind.
       const state = (name: string) =>
@@ -43,7 +43,6 @@ describe(`dev scenes: ${where}`, () => {
       );
       expect(scenes.length, where).toBeGreaterThan(50);
       expect(by("death").length, where).toBeGreaterThan(0);
-      expect(by("layoff").length, where).toBeGreaterThan(0);
       expect(by("wait").length, where).toBeGreaterThan(20);
       // A type no engine writes a cause for says so.
       expect(() => dev.forceScene({ typeKey: by(null)[0]!.key })).toThrow(
@@ -63,16 +62,6 @@ describe(`dev scenes: ${where}`, () => {
         onset.length,
         `${where}: the onset is on the record`,
       ).toBeGreaterThan(0);
-      // A layoff: the jobs engine's separation, or the engine's own refusal (worked today).
-      let layoff: string;
-      try {
-        layoff = String(
-          dev.forceScene({ typeKey: by("layoff")[0]!.key }).personId,
-        );
-      } catch (error) {
-        layoff = (error as Error).message;
-        expect(layoff, where).toMatch(/worked today|No one|no job|staff/i);
-      }
       // A cause an engine writes on its own schedule: the world runs until one names the player.
       const wait = by("wait").find((row) =>
         row.causeRecords.includes("news.read"),
@@ -81,7 +70,7 @@ describe(`dev scenes: ${where}`, () => {
       const waited = dev.forceScene({ typeKey: wait!.key });
       expect(waited.recipe, where).toBe("wait");
       process.stderr.write(
-        `${where}: death ${death.personId}; layoff ${layoff}; ${wait!.key} ${waited.ran?.reason} after ${waited.ran?.days} days ${waited.ran?.records.join(", ")}\n`,
+        `${where}: death ${death.personId}; ${wait!.key} ${waited.ran?.reason} after ${waited.ran?.days} days ${waited.ran?.records.join(", ")}\n`,
       );
     },
   );

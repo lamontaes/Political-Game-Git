@@ -42,7 +42,7 @@ const FORCE = (
   }
 ).types;
 /** The recipes that already cause a cause through an engine's own function: the map never overrides them. */
-const OWN_RECIPES = ["death", "illness", "layoff", "quit"];
+const OWN_RECIPES = ["death", "illness"];
 
 const MOMENTS = 20;
 

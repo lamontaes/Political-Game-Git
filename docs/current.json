@@ -1813,6 +1813,18 @@
       "now": "removed; no file stands in its place (found by the pointer guard on Nov 24; restore it from git history if it is ever needed)",
       "when": "2026-11-24",
       "why": "The line-register guard's comment named this test; it is not in the repository."
+    },
+    {
+      "old": "src/director/last-day-played.test.ts",
+      "now": "removed; no file stands in its place: jobs happen in the background, so the scene it played is deleted",
+      "when": "2026-11-25",
+      "why": "The owner's Nov 24 ruling (CTO 7149991369 on #10377): job events stop the player for no talk. It was the last day at work's played test."
+    },
+    {
+      "old": "src/director/favor-job-played.test.ts",
+      "now": "removed; no file stands in its place: jobs happen in the background, so the scene it played is deleted",
+      "when": "2026-11-25",
+      "why": "The owner's Nov 24 ruling (CTO 7149991369 on #10377): job events stop the player for no talk. It was the laid-off friend's call's played test."
     }
   ]
 }

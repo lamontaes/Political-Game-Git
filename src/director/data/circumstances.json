@@ -89,23 +89,6 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
-      "id": "job-lost-calls",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "recordKinds": ["work.job-lost"],
-      "place": "phone",
-      "pool": ["named"],
-      "where": "known",
-      "player": "working-or-public",
-      "cast": "someone the player knows who lost their job that day and calls to ask for a word, scored on tie and sociability",
-      "typeKey": "reach-out",
-      "impactParameter": "directorCircumstanceNewsImpact",
-      "everyParameter": "directorCircumstanceStreetEveryDays"
-    },
-    {
       "id": "organizing-warning",
       "receive": {
         "age": "any",

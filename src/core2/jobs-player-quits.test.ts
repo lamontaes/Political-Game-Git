@@ -3,7 +3,7 @@
  * at a place pinned below: the player takes a job offered through the jobs engine, works it, then
  * quits through `quitJob`, the call the bench's Leave this job button makes. Shown: the household's
  * cash and the employer's staffing before and after, that the pay stops, that the employer opens the
- * role again, and that the director reads the end as a job left (never a lost one).
+ * role again, and that the director reads the end as a job left (never a lost one) and stages no talk.
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -15,7 +15,6 @@ import { setBookkeeping } from "./bookkeeping";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { P } from "./parameters";
 import { advancePlayerV1, resumePlayerV1 } from "./player-v1";
-import { purposeScene } from "../director/purpose-scene";
 import { personCard } from "../bench/card";
 import { leaveJobAs } from "../bench/openings";
 import {
@@ -135,8 +134,9 @@ describe(
       const after = state();
       expect(after.staff).toBe(before.staff - 1);
       expect(after.need).toBeGreaterThan(before.need!);
-      // The day after, as the bench plays it: the director reads a job left (a farewell with the former
-      // coworkers at the workplace), never a job lost.
+      // The day after, as the bench plays it: the director reads a job left, never a job lost, and
+      // stages no talk from it: jobs happen in the background (owner, Nov 24: "they just need to
+      // happen in the background so your character can get money").
       play(3);
       const book = director.ledger.people.get(playerId)!;
       const moments = [...book.momentsById.values()].map((m) => m.label);
@@ -145,19 +145,16 @@ describe(
       );
       expect(moments).toContain("money:job-left");
       expect(moments).not.toContain("money:job-ended");
-      // The farewell with the former coworkers is staged from that moment and composes.
-      const entry = book.schedule.find((row) =>
-        row.bindings.some((b) => b.typeKey === "last-day"),
-      );
-      expect(entry, "the farewell is on the schedule").toBeDefined();
-      const scene = purposeScene(core, director, playerId, entry!, {
-        typeKey: "last-day",
-      });
-      expect(scene?.kind).toBe("composed");
-      if (scene?.kind === "composed")
-        console.log(
-          `quit-job: farewell\n${scene.scene.talk.lines.map((l) => `  ${l.speaker}: ${l.text}`).join("\n")}\n  replies: ${scene.scene.talk.tree.replies.map((r) => r.line.text).join(" | ")}`,
-        );
+      const left = [...book.momentsById.values()].find(
+        (m) => m.label === "money:job-left",
+      )!;
+      // The Journal tells it (a line with no one cast), and no talk is staged.
+      expect(
+        book.schedule
+          .filter((row) => row.momentId === left.id)
+          .flatMap((row) => row.bindings.map((b) => b.typeKey)),
+        "no talk is staged from the job left",
+      ).toEqual([]);
       // Pay stops: no shift is worked at the job after the day it ended, and its work commitment ends
       // that day. (Pay for days already worked is still owed and paid in arrears, as for any leaver.)
       const pressedOn = pressed;

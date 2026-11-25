@@ -1233,64 +1233,6 @@
         }
       ]
     },
-    "layoff-terms": {
-      "state": "deliver-news",
-      "replies": ["ask", "bargain", "confront", "accept"],
-      "follow": {
-        "ask": ["answer"],
-        "bargain": ["accept", "refuse"],
-        "confront": ["apologize", "deflect"],
-        "accept": ["promise"]
-      },
-      "again": {
-        "answer": ["bargain", "confront", "accept", "leave"],
-        "refuse": ["accept", "confront", "leave"],
-        "apologize": ["bargain", "accept", "leave"],
-        "deflect": ["confront", "bargain", "leave"],
-        "promise": ["thank", "leave"]
-      },
-      "endings": [
-        {
-          "id": "severance-won",
-          "label": "More severance",
-          "keeps": "money",
-          "when": {
-            "reply": ["bargain"],
-            "asker": ["accept"]
-          }
-        },
-        {
-          "id": "reference",
-          "label": "A reference promised",
-          "keeps": "promise",
-          "when": {
-            "asker": ["promise"]
-          }
-        },
-        {
-          "id": "signed",
-          "label": "You signed",
-          "keeps": "none",
-          "when": {
-            "reply": ["accept", "thank"]
-          }
-        },
-        {
-          "id": "walked-out",
-          "label": "You walked out",
-          "keeps": "relationship-strained",
-          "when": {
-            "reply": ["leave", "confront"]
-          }
-        },
-        {
-          "id": "left-there",
-          "label": "Left it there",
-          "keeps": "none",
-          "when": {}
-        }
-      ]
-    },
     "scandal-comment": {
       "state": "ask",
       "replies": ["confess", "refuse", "confront", "lie"],
@@ -1874,71 +1816,6 @@
           "keeps": "relationship-strained",
           "when": {
             "reply": ["leave"]
-          }
-        },
-        {
-          "id": "left-there",
-          "label": "Left it there",
-          "keeps": "none",
-          "when": {}
-        }
-      ]
-    },
-    "favor-job": {
-      "state": "request",
-      "replies": ["refuse", "offer", "promise", "ask"],
-      "follow": {
-        "refuse": ["plea", "accept"],
-        "offer": ["thank", "press"],
-        "promise": ["thank"],
-        "ask": ["answer"]
-      },
-      "again": {
-        "answer": ["refuse", "offer", "promise"],
-        "plea": ["refuse", "offer", "promise"],
-        "press": ["refuse", "offer", "promise"]
-      },
-      "endings": [
-        {
-          "id": "favor-done",
-          "label": "You'll make the call",
-          "keeps": "favor-owed",
-          "when": {
-            "reply": ["promise"]
-          }
-        },
-        {
-          "id": "process",
-          "label": "Pointed to the posting",
-          "keeps": "none",
-          "when": {
-            "reply": ["offer"]
-          }
-        },
-        {
-          "id": "held-to-posting",
-          "label": "You held to the posting",
-          "keeps": "none",
-          "when": {
-            "anyReply": ["offer"],
-            "reply": ["refuse"]
-          }
-        },
-        {
-          "id": "refused",
-          "label": "Refused",
-          "keeps": "relationship-strained",
-          "when": {
-            "reply": ["refuse"],
-            "asker": ["accept"]
-          }
-        },
-        {
-          "id": "refused-pleaded",
-          "label": "Refused, after a plea",
-          "keeps": "relationship-strained",
-          "when": {
-            "reply": ["refuse"]
           }
         },
         {

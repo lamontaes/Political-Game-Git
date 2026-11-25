@@ -37,3 +37,5 @@ merged-at: 2026-11-24T23:04:20.426Z
 **Files.** src/director/words.ts, src/director/scene.ts, src/director/view-learned.ts, src/director/speech-outline.ts, src/director/conversation.ts, src/core2/modules/jobs.ts, src/director/public-employer-said.test.ts (new)
 
 **Notes.** Filed by Board mock (lane 8), Nov 24. The Coordinator asked for all five director reads through one helper (19:35Z). The bench reads `outsideFlow` the same way and is left for the Screens session: src/bench/card.ts (95, 124, 1250, 1816), src/bench/printed-words.ts (3391, 3504), src/bench/campaign.ts (382) and src/bench/dev-views/dev-closing.ts (108, 335).
+
+Dropped (Board mock, 2026-11-25, on the CTO's order 7149991369 on #10377): ruled out by the owner on Nov 24: "remove all the dialogue shit for these jobs. Like, literally, they just need to happen in the background so your character can get money." Jobs happen in the background; the scene is deleted in claude/pt-board-remove-job-scenes. Only its scene use goes: `employerWords` naming a public employer stays, for records the Journal and the person card tell.

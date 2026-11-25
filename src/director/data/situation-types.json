@@ -575,58 +575,6 @@
       "stakes": ["what-happened"]
     },
     {
-      "key": "reach-out",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "roles": [
-        {
-          "key": "asking",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["request", "tell", "recall", "offer"],
-          "wants": ["engage", "commit"],
-          "bearing": "hopeful"
-        },
-        {
-          "key": "asked",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["agree", "decline", "request", "thank"],
-          "wants": ["engage"],
-          "bearing": "curious"
-        }
-      ],
-      "setting": ["phone"],
-      "timing": "at-cause",
-      "causes": [
-        {
-          "match": {
-            "label": "circumstance:job-lost-calls"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "work.job-lost",
-          "bind": {
-            "asking": "counterpart",
-            "asked": "subject"
-          },
-          "opener": "asking",
-          "setting": ["phone"]
-        }
-      ],
-      "tag": {
-        "key": "favor-asked",
-        "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
-      },
-      "purpose": "favor-job",
-      "asker": "asking",
-      "asked": "asked",
-      "stakes": ["kid", "job"]
-    },
-    {
       "key": "becoming-friends",
       "receive": {
         "age": "any",
@@ -1148,7 +1096,7 @@
           "bearing": "tender"
         }
       ],
-      "setting": ["school", "workplace"],
+      "setting": ["school"],
       "timing": "effective-date",
       "causes": [
         {
@@ -1161,28 +1109,13 @@
             "leaving": "subject",
             "staying": "counterpart"
           },
-          "sceneKey": "school-goodbye",
           "opener": "staying",
           "opening": "farewell",
           "setting": ["school"]
-        },
-        {
-          "match": {
-            "label": "money:job-left"
-          },
-          "causeEngine": "jobs",
-          "causeRecord": "job",
-          "bind": {
-            "leaving": "subject",
-            "staying": "former-coworkers"
-          },
-          "opener": "leaving",
-          "opening": "farewell",
-          "setting": ["workplace"]
         }
       ],
       "tag": {
-        "key": "departure",
+        "key": "school-goodbye",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
       },
@@ -2893,75 +2826,6 @@
       "asker": "clerk",
       "asked": "candidate",
       "stakes": ["office", "petition"]
-    },
-    {
-      "key": "layoff",
-      "receive": {
-        "age": "any",
-        "counterpart": "apart",
-        "seat": "any"
-      },
-      "roles": [
-        {
-          "key": "worker",
-          "fill": "subject",
-          "count": "one",
-          "moves": ["ask", "request", "blame", "thank"],
-          "wants": ["keep-same"],
-          "bearing": "braced"
-        },
-        {
-          "key": "boss",
-          "fill": "counterpart",
-          "count": "one",
-          "moves": ["deliver-news", "apologize", "offer", "close"],
-          "wants": ["keep-same"],
-          "bearing": "contrite"
-        },
-        {
-          "key": "coworkers",
-          "fill": "coworkers",
-          "count": "some",
-          "moves": ["comfort", "condole"],
-          "wants": ["help-others"],
-          "bearing": "solemn"
-        }
-      ],
-      "setting": ["workplace"],
-      "timing": "at-cause",
-      "causes": [
-        {
-          "match": {
-            "label": "money:job-ended",
-            "counterpart": "none",
-            "causeFacts": [
-              {
-                "key": "decidedBy",
-                "is": "other"
-              }
-            ]
-          },
-          "causeEngine": "work",
-          "causeRecord": "work.job-lost",
-          "bind": {
-            "worker": "subject",
-            "boss": "decider",
-            "coworkers": "coworkers"
-          },
-          "opener": "boss",
-          "opening": "deliver-news"
-        }
-      ],
-      "yieldsTo": ["news-arrives"],
-      "tag": {
-        "key": "loss",
-        "endpoint": "money",
-        "registers": ["conversation", "scene-words", "journal"]
-      },
-      "purpose": "layoff-terms",
-      "asker": "boss",
-      "asked": "worker",
-      "stakes": ["job", "years"]
     },
     {
       "eachCause": true,

@@ -1,8 +1,7 @@
 /**
  * What the scenes of home and work life may say about what happened, from the
- * record that caused each one and the engines that own the rest: the employer,
- * the position and the years held (a layoff, a call from a friend about the lost
- * job, the first day at a new job); the school and whether the senior passed
+ * record that caused each one and the engines that own the rest: the employer
+ * and the position (the first day at a new job); the school and whether the senior passed
  * (the day after school ends); how long two have been together and the child
  * at home (a proposal, a breakup); who died and of what (a funeral); and what
  * a quarrel or a soured tie was over (an apology, an argument, making up).
@@ -12,33 +11,28 @@
  * invented, so the lines that need it never play.
  */
 import { ageOnDate, daysBetweenText } from "../core2/kernel/dates";
-import { heldSinceRecord, schoolsAttended } from "../core2/past";
-import { JOBS_MODULE_ID } from "../core2/modules/jobs";
+import { schoolsAttended } from "../core2/past";
 import { FAMILY_QUARREL } from "../core2/modules/people";
 import { unionStart } from "../core2/modules/partnerships";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { DEATH_CAUSE_FACT_KEY } from "../core2/modules/health";
 import type { CoreState, PersonId } from "../core2/types";
-import { countSaid } from "../english/count-words";
 import { withArticle } from "../english/journal-words";
 import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import { sayableJobTitle } from "../english/said-as";
-import { SPOKEN_DAYS_PER_YEAR, spanSaid } from "../english/span-words";
+import { spanSaid } from "../english/span-words";
 import type { NewsFact } from "./life-news";
 import { schoolResult } from "./school";
 import { employerWords, organizationName } from "./words";
 import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../core2/modules/business";
 
-/** The jobs engine's layoff record (`work.job-lost`). */
-const JOB_LOST = "work.job-lost";
 const FAMILY_ENGAGED = "family.engaged";
 const FAMILY_SEPARATED = "family.separated";
 const LIFE_DEATH = "life.death";
 
 /** The scene types that read each record's facts. */
-const LAYOFF_TYPES: readonly string[] = ["layoff", "reach-out"];
 const FIRST_DAY_TYPES: readonly string[] = ["first-day"];
 const SCHOOL_TYPES: readonly string[] = [
   "diploma-home",
@@ -52,9 +46,6 @@ const QUARREL_TYPES: readonly string[] = [
   "argument",
   "reconciliation",
 ];
-
-/** A job change's id as the jobs engine writes it: `job-change:<date>:<job id>:<kind>`; a job id may hold colons. */
-const LAYOFF_CHANGE = /^job-change:\d{4}-\d{2}-\d{2}:(.+):layoff$/;
 
 type Facts = Record<string, NewsFact>;
 
@@ -78,8 +69,6 @@ export function homeWorkFacts(
   void askedId;
   const record = core.durableLog.get(causeId);
   const said = (record?.facts ?? {}) as Readonly<Record<string, string>>;
-  if (LAYOFF_TYPES.includes(typeKey) && record?.kind === JOB_LOST)
-    return layoffFacts(core, causeId, record.date, said);
   if (FIRST_DAY_TYPES.includes(typeKey)) return startedFacts(core, causeId);
   if (SCHOOL_TYPES.includes(typeKey)) return schoolFacts(core, causeId);
   if (
@@ -132,72 +121,6 @@ function workFacts(
       text: withArticle(held.job.title),
       sourceRecordIds: [causeId, held.job.id],
     };
-  return facts;
-}
-
-/**
- * The day a person's job began and the record that says so: the working life
- * before the start for a job held on day one, else the jobs engine's own record
- * of the hire (the earliest, where a job was hired twice).
- */
-function startOfJob(
-  core: Readonly<CoreState>,
-  personId: string,
-  jobId: string,
-): { date: string; recordId: string } | null {
-  const held = heldSinceRecord(core as CoreState, personId as PersonId, jobId);
-  if (held?.facts.startedAt)
-    return { date: String(held.facts.startedAt), recordId: held.id };
-  if (!core.modules.has(JOBS_MODULE_ID)) return null;
-  const changes = coreAPI(core as CoreState)
-    .moduleState(JOBS_MODULE_ID)
-    .table("changes")
-    .query("byPerson", [personId]) as unknown as {
-    id: string;
-    date: string;
-    kind: string;
-    jobId: string;
-  }[];
-  const [hire] = changes
-    .filter((row) => row.kind === "hire" && row.jobId === jobId)
-    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
-  return hire ? { date: hire.date, recordId: hire.id } : null;
-}
-
-/**
- * A lost job: the employer, the position and how long the worker held it
- * (`tenure` as people say a span, `years` as the whole count when it was two
- * or more). A job held under a year says nothing of how long.
- */
-function layoffFacts(
-  core: Readonly<CoreState>,
-  causeId: string,
-  lostOn: string,
-  said: Readonly<Record<string, string>>,
-): Facts {
-  const jobId = LAYOFF_CHANGE.exec(said.jobChangeId ?? "")?.[P.one];
-  const facts = workFacts(core, jobId, causeId);
-  const held = jobAndEmployer(core, jobId);
-  if (!held || !jobId) return facts;
-  const began = startOfJob(core, held.job.personId, jobId);
-  if (!began) return facts;
-  // Under a full year held says nothing of how long. A year or more is said
-  // as a whole count of years, and `tenure` and `years` come from that one
-  // count so a line that holds both never says two different spans.
-  if (ageOnDate(began.date, lostOn) < P.one) return facts;
-  const count = Math.round(
-    daysBetweenText(began.date, lostOn) / SPOKEN_DAYS_PER_YEAR,
-  );
-  const cites = [causeId, held.job.id, began.recordId];
-  const days = daysBetweenText(began.date, lostOn);
-  // One year is said as the span itself ("a year", "a year and a half"); two or
-  // more from the whole count `years` also says.
-  facts.tenure = {
-    text: spanSaid(count > P.one ? count * SPOKEN_DAYS_PER_YEAR : days),
-    sourceRecordIds: cites,
-  };
-  if (count > P.one)
-    facts.years = { text: countSaid(count, Infinity), sourceRecordIds: cites };
   return facts;
 }
 

@@ -18,7 +18,6 @@
   "causes": [
     "tie:contact",
     "money:job-ended",
-    "money:job-left",
     "money:job-started",
     "home:moved",
     "feeling:event:life.death",
@@ -56,7 +55,6 @@
     "last-day",
     "breakup",
     "arrival",
-    "layoff",
     "polling-place",
     "race-won",
     "race-lost",

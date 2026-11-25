@@ -1,9 +1,9 @@
 /**
  * Dev mode's scene trace (src/bench/dev-views/scene-trace.ts) through the bench's own request
  * handler on a built world: Abney Crossroads, South Carolina (4500165), the draw "8341-pin"/"p7".
- * (Re-pinned Nov 16 from Ridgeville, Alabama, the draw "8341-pin"/"p6": the default player there is
- * now born in 1947 with no job and no worker in the circle, and forcing a layoff needs a worker. The
- * premise is a player or someone in their circle with a job; Abney Crossroads has the player at work.) Every situation type is listed with how dev mode can cause it (89 types: 5 caused at
+ * (Re-pinned Nov 16 from Ridgeville, Alabama, the draw "8341-pin"/"p6", when the forced scene was a
+ * layoff; a job event is no scene since the owner's Nov 24 ruling, so the forced scene is a proposal,
+ * whose cause record the force writes naming the player.) Every situation type is listed with how dev mode can cause it (89 types: 5 caused at
  * once, 81 by running the world until their cause record comes, 1 no engine writes: polling-place),
  * the register's tie class is read for a scene's lines, and a forced scene is a dev mark, never a
  * played scene.
@@ -127,7 +127,9 @@ it("the scene trace lists every scene, ties its lines and marks a forced scene (
 
   // Forcing a scene causes its cause through the game's own code and marks it as a dev act.
   const before = devModeMarks(world.core).length;
-  const forced = await ask("POST", "scene-trace/force", { typeKey: "layoff" });
+  const forced = await ask("POST", "scene-trace/force", {
+    typeKey: "proposal",
+  });
   expect(forced.status, `${where}: ${JSON.stringify(forced.value)}`).toBe(200);
   expect(devModeMarks(world.core).length).toBeGreaterThan(before);
   expect(

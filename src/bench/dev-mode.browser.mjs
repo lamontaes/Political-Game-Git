@@ -91,14 +91,15 @@ try {
   );
   {
     const expected = /Begun for|worked today|staff|job|No one in the player/;
-    // The layoff kind: the one the scenes list marks with that recipe.
+    // A death kind: the one the scenes list marks with that recipe (a job event is no scene:
+    // jobs happen in the background, owner, Nov 24).
     const rows = await (
       await page.request.get(
         `http://localhost:${process.env.BENCH_PORT ?? 3000}/api/dev/scenes`,
       )
     ).json();
-    const value = rows.find((row) => row.recipe === "layoff")?.key;
-    // A world with no layoff kind the game can start skips this step.
+    const value = rows.find((row) => row.recipe === "death")?.key;
+    // A world with no death kind the game can start skips this step.
     if (value) {
       await expect_enabled();
       // Picked and pressed in one step: the sheet may still be redrawing from the last press.

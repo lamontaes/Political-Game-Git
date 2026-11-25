@@ -265,7 +265,7 @@
       "group": "workplace",
       "subject": "boardroom",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "bus-stop": {
@@ -320,14 +320,14 @@
       "group": "workplace",
       "subject": "central bank boardroom",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "central-bank-lobby": {
       "group": "workplace",
       "subject": "central bank lobby",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "church-exterior": {
@@ -507,7 +507,7 @@
       "group": "workplace",
       "subject": "construction site",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "convention-hall": {
@@ -1201,14 +1201,14 @@
       "group": "workplace",
       "subject": "factory exterior",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "factory-floor": {
       "group": "workplace",
       "subject": "factory floor",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "family-court": {
@@ -1223,14 +1223,14 @@
       "group": "workplace",
       "subject": "farm field",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "farm-yard": {
       "group": "workplace",
       "subject": "farm yard",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "farmers-market": {
@@ -1266,7 +1266,7 @@
       "group": "workplace",
       "subject": "federal reserve boardroom",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "fire-station": {
@@ -1794,7 +1794,7 @@
       "group": "workplace",
       "subject": "office",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "oval-address-standard": {
@@ -1916,7 +1916,7 @@
       "group": "workplace",
       "subject": "power plant",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "press-briefing-room": {
@@ -2337,7 +2337,7 @@
       "group": "workplace",
       "subject": "solar farm",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "state-capitol-ak": {
@@ -3245,7 +3245,7 @@
       "group": "workplace",
       "subject": "wind farm",
       "serves": ["workplace"],
-      "scenes": ["first-day", "last-day", "layoff"],
+      "scenes": ["first-day", "last-day"],
       "basis": "name"
     },
     "workforce-center": {

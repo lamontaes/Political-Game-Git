@@ -26,13 +26,13 @@ seen-at: 2026-11-25T01:25:56.447Z
 
 **Cause.** Found in code: nothing in the engine. The call is a scene from circumstance, which the director makes only for an explicitly controlled player (`controlled` in src/director/ledger.ts) and only when a day closes. A probe that advances the core outside the player's clock, or stops the clock at midnight so no day closes, sees nothing. Through the player's own clock (`advancePlayerV1` past midnight), the jobs engine's `work.job-lost` from `layOffWorker` stages `circumstance:job-lost-calls` the same day and the scene composes.
 
-**Fix.** Dev mode could not bring the call on from its screen: the Scenes panel's For list holds only the people the director tells stories for (the player and their home), and with no one picked the layoff recipe laid off the player first. Now, for a type whose circumstance row says the caller lives apart, a press with no one picked lays off the first person the player knows in another home who works and can be laid off today, through `layOffWorker` (src/bench/dev-mode.ts). And a drawn-place played test, `src/director/favor-job-played.test.ts`: dev mode's layoff for a working friend apart (`forceScene` with `forId`, the existing `layoff` recipe), days through the player's clock, and the call staged with the one laid off as the caller and composed. No engine change, no new hook.
+**Fix.** Dev mode could not bring the call on from its screen: the Scenes panel's For list holds only the people the director tells stories for (the player and their home), and with no one picked the layoff recipe laid off the player first. Now, for a type whose circumstance row says the caller lives apart, a press with no one picked lays off the first person the player knows in another home who works and can be laid off today, through `layOffWorker` (src/bench/dev-mode.ts). And a drawn-place played test, `src/director/favor-job-played.test.ts` (removed): dev mode's layoff for a working friend apart (`forceScene` with `forId`, the existing `layoff` recipe), days through the player's clock, and the call staged with the one laid off as the caller and composed. No engine change, no new hook.
 
 **Time box.** 1 hour.
 
 **Rules.** Every effect can be triggered from the game's own code in dev mode and traced (owner, Nov 14): dev mode's existing layoff control and its mark.
 
-**Done when.** A second session, in a drawn place whose player works and knows a working person in another household, uses dev mode's scene control on "reach-out" for that person, presses Day, and sees that person call to ask for a word; `src/director/favor-job-played.test.ts` passes.
+**Done when.** A second session, in a drawn place whose player works and knows a working person in another household, uses dev mode's scene control on "reach-out" for that person, presses Day, and sees that person call to ask for a word; `src/director/favor-job-played.test.ts` (removed) passes.
 
 **Waits on.** Nothing.
 
@@ -41,3 +41,5 @@ seen-at: 2026-11-25T01:25:56.447Z
 **Notes.** Filed by Board mock (lane 8), Nov 24. The Coordinator's brief was to stack this on the tracer's #10526 (`director.runningFor`); the call needs no `runningFor` when days pass through the player's clock, and the test passes on main at Washington, D.C., so it is cut from main. Dev mode's Run until is the path `runningFor` serves.
 
 Seen in the game (2026-11-25, Dead stops tracer): Bryantown, Maryland, seed cda9151f-4336-4e38-9d47-71c8904f3110, main b84540133d: The player, a cashier, used dev mode's Force on reach-out, which laid off Janice Munoz (person_08658e5b9d7b863c) on January 20, 2025; one Day (to January 21, 7:00 AM) brought no call, and the next morning the call came on screen: First thing on January 22nd, you pick up, and it's Janice Munoz, a job-lost-calls reach-out stopping the day (scene-now). The call is one day later than the Done-when's single Day press; favor-job-played.test.ts passed (Elk Point, South Dakota).
+
+Dropped (Board mock, 2026-11-25, on the CTO's order 7149991369 on #10377): ruled out by the owner on Nov 24: "remove all the dialogue shit for these jobs. Like, literally, they just need to happen in the background so your character can get money." Jobs happen in the background; the scene is deleted in claude/pt-board-remove-job-scenes.
