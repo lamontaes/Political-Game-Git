@@ -79441,6 +79441,100 @@
         "key": "door"
       },
       "elements": ["resident-says-take-me-off-your-list"]
+    },
+    {
+      "key": "scene-talk.reply-decline.no-the-sheets-still-need-signatures-names-and-i-can-t-give-that-many-hours-to-the-race",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. The sheets still need {signatures} names, and I can't give that many hours to the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["signatures"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["signatures"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      },
+      "elements": ["first-hour-outside-stores-yields-nothing"]
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-pass-on-running-in-place-the-petition-is-short-and-i-d-rather-not-beg-my-way-onto-the-ballot",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll pass on running in {place}. The petition is short, and I'd rather not beg my way onto the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "tell",
+          "requiresFacts": ["place"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "answer",
+          "requiresFacts": ["place"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "petition-short",
+          "key": "news-received",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "after": "press",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      },
+      "elements": ["first-hour-outside-stores-yields-nothing"]
     }
   ]
 }
