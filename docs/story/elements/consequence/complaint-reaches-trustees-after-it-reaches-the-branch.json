@@ -4,7 +4,8 @@
   "summary": "A complaint changes the board discussion when trustees hear for the first time what happened at the branch.",
   "realLife": "Greenville trustees first learned at the special meeting that children had seen explicit material displayed on other patrons' screens.",
   "sources": [
-    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=the%20Board%20of%20Trustees%20held%20a%20special%20board%20meeting"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=the%20Board%20of%20Trustees%20held%20a%20special%20board%20meeting",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=44"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{board}", "{branch}"],

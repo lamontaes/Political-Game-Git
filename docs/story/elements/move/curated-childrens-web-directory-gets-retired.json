@@ -4,7 +4,8 @@
   "summary": "A library drops a staff-selected web directory when it confines children's research too tightly.",
   "realLife": "Westerville ended its Library Channel after several years because its list limited what children could reach and the system had technical problems.",
   "sources": [
-    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=years%2C%20Westerville%20stopped%20using%20the%20Library%20Channel%20system%20because"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=years%2C%20Westerville%20stopped%20using%20the%20Library%20Channel%20system%20because",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=47"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{branch}", "{directory}"],

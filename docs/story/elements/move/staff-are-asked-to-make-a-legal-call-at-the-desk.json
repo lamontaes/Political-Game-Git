@@ -4,7 +4,8 @@
   "summary": "A board rule leaves the librarian on duty to decide when to interrupt a patron.",
   "realLife": "Greenville trustees expected library staff to learn South Carolina's obscenity law and intervene when use of the computers violated the policy.",
   "sources": [
-    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=expected%20to%20be%20familiar%20with%20the%20South%20Carolina%20obscenity"
+    "https://law.justia.com/cases/federal/district-courts/FSupp2/201/401/2481737/#:~:text=expected%20to%20be%20familiar%20with%20the%20South%20Carolina%20obscenity",
+    "https://archive.epic.org/free_speech/cipa/cipa_ruling.pdf#page=44"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{librarian}", "{board}"],
