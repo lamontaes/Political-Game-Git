@@ -3648,7 +3648,7 @@
     "key": "scene-talk.state-request.i-ve-got-the-next-committee-meeting-on-my-calendar-for-meeting-when-is-that-a-date-you-can-commit-to-or-should-i-count-you-out-for-the-evening",
     "kind": "spoken",
     "move": "state-request",
-    "text": "I've got the next committee meeting on my calendar for {meeting-when}. Is that a date you can commit to, or should I count you out for the evening?",
+    "text": "The committee meets {meeting-when}. Is that a date you can commit to, or should I count you out for the evening?",
     "uses": [
       {
         "subject": "scene",
