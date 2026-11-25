@@ -16,10 +16,11 @@
  * scene words them differently; none of them builds its own past.
  */
 import table from "./data/history/reader.json" with { type: "json" };
+import { placeStateKey } from "./place-map";
 import {
-  corePlaceByJurisdictionId,
-  coreStateKeyOfJurisdictionId,
-} from "./places";
+  governmentUnit,
+  governmentUnitJurisdictionId,
+} from "./reference/government-units";
 import {
   pastIdsOf,
   pastRowsNaming,
@@ -27,7 +28,14 @@ import {
   preStartHistory,
   type HistoryRecord,
 } from "./pre-start";
-import type { CoreState, IsoDate, LogRecord, PersonId, PlaceId } from "./types";
+import type {
+  CoreModule,
+  CoreState,
+  IsoDate,
+  LogRecord,
+  PersonId,
+  PlaceId,
+} from "./types";
 
 /** Who or what a history is about. */
 export type HistoryScope =
@@ -192,42 +200,79 @@ function logRow(row: Readonly<LogRecord>): HistoryRow {
   };
 }
 
-const statesOfPlaces = new Map<string, string | null>();
+/** The place map's state for each place a reader has asked about (`placeStateKey`, read once a place). */
+const placeStates = new Map<string, string | null>();
 
-/** The state (`US-UT`) a place id is in: the state's own id, or a place inside it. */
-export function stateOfPlace(placeId: string | undefined): string | null {
-  if (!placeId) return null;
-  let held = statesOfPlaces.get(placeId);
+const stateKeyOf = (placeId: string): string | null => {
+  let held = placeStates.get(placeId);
   if (held === undefined) {
-    held =
-      coreStateKeyOfJurisdictionId(placeId) ??
-      corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
-      null;
-    statesOfPlaces.set(placeId, held);
+    held = placeStateKey(placeId);
+    placeStates.set(placeId, held);
+  }
+  return held;
+};
+
+/** Where a record happened: its place, the state that place is in, or the nation's own. */
+export interface HistoryWhere {
+  readonly place: string | null;
+  readonly state: string | null;
+  readonly nation: boolean;
+}
+
+const unitPlaces = new Map<string, HistoryWhere | null>();
+
+/** A government unit's place and state (`gus2025:<id>`, the offices' jurisdictions). */
+function unitWhere(id: string): HistoryWhere | null {
+  let held = unitPlaces.get(id);
+  if (held === undefined) {
+    const unit = governmentUnit(id);
+    held = unit
+      ? {
+          place: governmentUnitJurisdictionId(unit),
+          state: `US-${unit.stateUsps}`,
+          nation: false,
+        }
+      : null;
+    unitPlaces.set(id, held);
   }
   return held;
 }
 
-/** The government a row with no place names in its facts: a state's key, or the nation's. */
-function jurisdictionOf(row: HistoryRow): string | null {
+/**
+ * Where a record happened, read the same way for every record: its place
+ * (and that place's state), or, for a record with no place, the government
+ * its facts name (a government unit, a state's key or the nation's), or the
+ * nation's own when it names none (the economy's months).
+ */
+export function whereOf(
+  row: Pick<HistoryEvent, "placeId" | "facts">,
+): HistoryWhere {
+  if (row.placeId)
+    return {
+      place: row.placeId,
+      state: stateKeyOf(row.placeId),
+      nation: false,
+    };
   for (const key of TABLE.jurisdictionFacts) {
-    const value = row.facts?.[key];
-    if (value) return value;
+    const named = row.facts?.[key];
+    if (!named) continue;
+    if (named === TABLE.nation)
+      return { place: null, state: null, nation: true };
+    if (/^US-[A-Z]{2}$/.test(named))
+      return { place: null, state: named, nation: false };
+    const unit = unitWhere(named);
+    if (unit) return unit;
   }
-  return null;
+  return { place: null, state: null, nation: true };
 }
 
 /** Whether a public row belongs to a place, a state or the nation. */
 function inPublicScope(row: HistoryRow, scope: HistoryScope): boolean {
   if (!row.publicRecord) return false;
-  const named = row.placeId ? null : jurisdictionOf(row);
-  if ("place" in scope) return row.placeId === scope.place;
-  if ("state" in scope)
-    return row.placeId
-      ? stateOfPlace(row.placeId) === scope.state
-      : named === scope.state;
-  if ("nation" in scope)
-    return row.placeId ? false : !named || named === TABLE.nation;
+  const where = whereOf(row);
+  if ("place" in scope) return where.place === scope.place;
+  if ("state" in scope) return where.state === scope.state;
+  if ("nation" in scope) return where.nation;
   return false;
 }
 

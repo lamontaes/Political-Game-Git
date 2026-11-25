@@ -10,7 +10,7 @@ import { lifeOf } from "../core2/person-life";
 import {
   historyEvent,
   historyOf,
-  stateOfPlace,
+  whereOf,
   type HistoryEvent,
   type HistoryScope,
 } from "../core2/past";
@@ -34,7 +34,7 @@ const core = world.core;
 const me = world.playerId as PersonId;
 const player = core.people.get(me)!;
 const town = player.placeId as PlaceId;
-const state = stateOfPlace(town)!;
+const state = whereOf({ placeId: town }).state!;
 const household = core.households.get(player.householdId)!;
 const employer = player.jobId
   ? core.jobs.get(player.jobId)?.organizationId
@@ -124,16 +124,12 @@ describe(`the one history reader (${where})`, () => {
 
   it("keeps a place's, a state's and the nation's records where they happened", () => {
     for (const event of told.get("the town")!)
-      expect(event.placeId, `${event.id} at ${where}`).toBe(town);
+      expect(whereOf(event).place, `${event.id} at ${where}`).toBe(town);
     for (const event of told.get("the state")!)
-      expect(
-        event.placeId
-          ? stateOfPlace(event.placeId)
-          : (event.facts?.jurisdiction ?? null),
-        `${event.id} at ${where}`,
-      ).toBe(state);
+      expect(whereOf(event).state, `${event.id} at ${where}`).toBe(state);
     for (const event of told.get("the nation")!)
-      expect(event.placeId, `${event.id} at ${where}`).toBeUndefined();
+      if (event.record !== "century.presidency")
+        expect(whereOf(event).nation, `${event.id} at ${where}`).toBe(true);
   });
 
   it("tells the century's presidencies as the nation's history", () => {

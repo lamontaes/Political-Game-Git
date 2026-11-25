@@ -126,13 +126,14 @@ export {
   historyEvent,
   historyOf,
   historyOrder,
-  stateOfPlace,
+  whereOf,
   type HistoryAsk,
   type HistoryEvent,
   type HistoryModule,
   type HistoryRow,
   type HistoryScope,
   type HistorySource,
+  type HistoryWhere,
 } from "./past-history";
 export {
   PAST_WORK_OUT,
