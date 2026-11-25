@@ -1,0 +1,30 @@
+{
+  "id": "the-cupboard-full-of-retired-devices",
+  "kind": "voice",
+  "summary": "A resident describes keeping devices long after the family stops using them.",
+  "realLife": "Washington HB 1483 (2025). House supporters described households accumulating electronics they did not know how to dispose of.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a resident has retained unused electronics.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{resident}", "{device}"],
+  "gates": ["A resident has retained unused electronics."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family finds a collection site.",
+      "pulledBy": "A collection site accepts the devices.",
+      "writesBack": "The family clears the cupboard."
+    },
+    {
+      "turn": "partial",
+      "what": "One of the stored laptops stays in use.",
+      "pulledBy": "One laptop can still be repaired.",
+      "writesBack": "The family sets that one aside."
+    }
+  ],
+  "issues": ["none"]
+}

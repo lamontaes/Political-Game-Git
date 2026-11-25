@@ -1,0 +1,30 @@
+{
+  "id": "bring-the-makers-own-repair-program-to-the-hearing",
+  "kind": "move",
+  "summary": "An opponent points members to a repair program the manufacturer already offers.",
+  "realLife": "Washington HB 1483 (2025). House opponents cited manufacturers that had begun offering self-repair programs.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a manufacturer has a documented program for owners.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{owner}", "{model}"],
+  "gates": ["A manufacturer has a documented program for owners."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The program supplies what this owner needs.",
+      "pulledBy": "The customer's model is covered.",
+      "writesBack": "The owner orders through that program."
+    },
+    {
+      "turn": "partial",
+      "what": "The program helps owners of another model.",
+      "pulledBy": "Only a different model is covered.",
+      "writesBack": "The legislator asks which owners the program reaches."
+    }
+  ],
+  "issues": ["none"]
+}

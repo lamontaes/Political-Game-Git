@@ -1,0 +1,33 @@
+{
+  "id": "the-repair-complaint-goes-to-the-state",
+  "kind": "consequence",
+  "summary": "A constituent's repair complaint reaches a legislator who can identify the public office with enforcement authority.",
+  "realLife": "Washington HB 1483 (2025), section 7. Washington gave the state attorney general exclusive power to enforce the repair act under its consumer protection law.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/House/1483-S.SL.pdf",
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
+  ],
+  "inGame": "needs: a constituent is seeking enforcement of this specific repair statute.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{constituent}", "{office}"],
+  "gates": [
+    "A constituent is seeking enforcement of this specific repair statute."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The constituent brings a documented denial.",
+      "pulledBy": "The constituent supplies the manufacturer's written refusal.",
+      "writesBack": "The complaint packet includes the disputed terms."
+    },
+    {
+      "turn": "partial",
+      "what": "The complaint starts with an account given from memory.",
+      "pulledBy": "The constituent has only a verbal estimate.",
+      "writesBack": "The intake record identifies what still needs documenting."
+    }
+  ],
+  "issues": ["none"]
+}

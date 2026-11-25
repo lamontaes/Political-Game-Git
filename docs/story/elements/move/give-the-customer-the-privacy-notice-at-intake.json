@@ -1,0 +1,33 @@
+{
+  "id": "give-the-customer-the-privacy-notice-at-intake",
+  "kind": "move",
+  "summary": "At intake, a repairer tells the customer how the shop handles private data and what the customer can do before handing over the device.",
+  "realLife": "Washington HB 1483 (2025), section 4. Washington required repairers to give customers a paper or electronic notice before intake. It describes the shop’s precautions, including when it takes none, and recommends steps customers can take with their own data.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/House/1483-S.SL.pdf",
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483-S.E%20HBR%20FBR%2025.pdf"
+  ],
+  "inGame": "needs: a covered shop is about to take custody of a customer's product.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{customer}", "{shop}"],
+  "gates": ["A covered shop is about to take custody of a customer's product."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The customer takes the device home after reading the notice.",
+      "pulledBy": "The shop reports taking no precautions and the customer wants to make a backup first.",
+      "writesBack": "The customer keeps custody and the repair has no start date."
+    },
+    {
+      "turn": "partial",
+      "what": "The customer pauses at the counter to sign out of a personal account.",
+      "pulledBy": "The notice reaches the customer’s phone before the handoff, and the account is still open.",
+      "writesBack": "The shop receives the device after the customer signs out."
+    }
+  ],
+  "issues": [
+    "question:us-policy-positions:technology-privacy.consumer-data-privacy-law"
+  ]
+}

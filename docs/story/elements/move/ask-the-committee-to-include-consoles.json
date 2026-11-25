@@ -1,0 +1,30 @@
+{
+  "id": "ask-the-committee-to-include-consoles",
+  "kind": "move",
+  "summary": "A witness asks members to extend the repair proposal to game consoles.",
+  "realLife": "Washington HB 1483 (2025). Supporters before the House called for video games to be included in the bill.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a hearing concerns the products covered by repair rules.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{witness}", "{console}"],
+  "gates": ["A hearing concerns the products covered by repair rules."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Members broaden the proposal.",
+      "pulledBy": "The committee adds consoles.",
+      "writesBack": "Console owners come within the proposed change."
+    },
+    {
+      "turn": "partial",
+      "what": "The committee defers its decision on consoles.",
+      "pulledBy": "Members request evidence specific to consoles.",
+      "writesBack": "The requested expansion stays open."
+    }
+  ],
+  "issues": ["none"]
+}

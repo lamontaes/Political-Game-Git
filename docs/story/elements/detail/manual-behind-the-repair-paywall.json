@@ -1,0 +1,30 @@
+{
+  "id": "manual-behind-the-repair-paywall",
+  "kind": "detail",
+  "summary": "A shop has the tool on the bench but has to pay to read the instructions.",
+  "realLife": "Washington HB 1483 (2025). House supporters described paid manuals and extra approvals as obstacles that waste repair time.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/1483%20HBR%20TEDV%2025.pdf"
+  ],
+  "inGame": "needs: a shop needs a manual to finish a repair.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{shop}", "{manual}"],
+  "gates": ["A shop needs a manual to finish a repair."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The manual is available without a fee.",
+      "pulledBy": "The owner brings an accessible copy.",
+      "writesBack": "The technician can start without buying access."
+    },
+    {
+      "turn": "partial",
+      "what": "The shop buys access for the day.",
+      "pulledBy": "The shop pays for a single job.",
+      "writesBack": "The estimate now includes access to the manual."
+    }
+  ],
+  "issues": ["none"]
+}

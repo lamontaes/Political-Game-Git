@@ -1,0 +1,30 @@
+{
+  "id": "the-repair-bill-comes-back-for-another-session",
+  "kind": "moment",
+  "summary": "Members hear a familiar repair proposal after other jurisdictions have acted.",
+  "realLife": "Washington HB 1483 (2025). Senate testimony placed the hearing in the eighth year of discussion and pointed to action elsewhere.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/Senate/1483-S.E%20SBR%20APS%2025.pdf"
+  ],
+  "inGame": "needs: a proposal has come back after earlier hearings.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{member}", "{bill}"],
+  "gates": ["A proposal has come back after earlier hearings."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A newcomer reopens the basic question.",
+      "pulledBy": "A newly elected member asks to hear the original case.",
+      "writesBack": "The sponsor revisits the first complaints."
+    },
+    {
+      "turn": "partial",
+      "what": "Members narrow the discussion to this session's revisions.",
+      "pulledBy": "Returning members request only the changes.",
+      "writesBack": "The hearing turns to the revised language."
+    }
+  ],
+  "issues": ["none"]
+}
