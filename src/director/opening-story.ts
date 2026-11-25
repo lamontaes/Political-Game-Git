@@ -24,6 +24,7 @@
  *   carries it to the town and anyone who hears it can bring it up; the whole
  *   opening is kept on the director's ledger for the screens.
  */
+import { factsMadeWith } from "./life-news";
 import { addressAiring } from "./address-airing";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
@@ -352,7 +353,7 @@ export function composeBlocks(
   // recorded, and each campaign stop on their record (a rally speech there).
   const craft = [
     ...addressesGivenBy(coreAPI(core), president.id),
-    ...(president.pastFacts ?? [])
+    ...factsMadeWith(core, president.id as PersonId)
       .filter((row) => row.kind === PRESIDENT_FACT.visit)
       .map((row) => row.id),
   ];
@@ -834,7 +835,9 @@ export function composeOpeningStory(
   if (!composed?.sentences.length) return null;
   const { sentences, addressKind, story, theme, asks, points } = composed;
   const pastFact = (kindKey: string) =>
-    (president.pastFacts ?? []).find((row) => row.kind === kindKey);
+    factsMadeWith(core, president.id as PersonId).find(
+      (row) => row.kind === kindKey,
+    );
   const home = pastFact(PRESIDENT_FACT.homeState);
   const prior = pastFact(PRESIDENT_FACT.priorOffice);
   const elected = pastFact(PRESIDENT_FACT.elected);

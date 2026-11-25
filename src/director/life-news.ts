@@ -41,6 +41,19 @@ export function recordsSince(
 }
 
 /**
+ * The facts a person was made with (a President's home state, prior office
+ * and election), from the one history reader, in the order their record
+ * holds them: each by its id, kind and facts.
+ */
+export function factsMadeWith(core: Readonly<CoreState>, personId: PersonId) {
+  return historyOf(
+    core as CoreState,
+    { person: personId },
+    { from: "built" },
+  ).map((fact) => ({ id: fact.id, kind: fact.record, facts: fact.facts }));
+}
+
+/**
  * The record of the job a person holds on day one, with when they started it
  * (`startedAt`): the working-life spell their history holds for that job.
  */

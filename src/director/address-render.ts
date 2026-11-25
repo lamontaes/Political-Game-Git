@@ -10,6 +10,7 @@
  * so the words never change after it was given and never differ by who reads
  * them.
  */
+import { historyOf } from "../core2/past";
 import { SENTENCE_WORDS } from "../english/english-composition";
 import {
   OPENING_SPEECH_BANK,
@@ -168,7 +169,9 @@ export function earlierAddressPieces(
 ): string[] {
   // stopgapId: SG-WORDS-address-pieces-log-scan
   markWordsStopgap("SG-WORDS-address-pieces-log-scan");
-  return [...core.durableLog.values()]
+  // Every address given in play, from the nation's history (a scan of all
+  // of it, which is the stopgap above).
+  return historyOf(core, { nation: true }, { from: "played" })
     .filter(
       (row) =>
         // Before today, so the day's own address, once recorded, composes

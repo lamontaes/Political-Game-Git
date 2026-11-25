@@ -34,6 +34,7 @@ import type {
   IsoDate,
   LogRecord,
   PersonId,
+  PersonState,
   PlaceId,
 } from "./types";
 
@@ -326,8 +327,9 @@ export function whereOf(
 
 /**
  * Whether a row belongs to a place, a state or the nation: where it happened
- * (`whereOf`), and, for a history read without kinds, only what anyone may
- * read. A read that names its kinds gets every record of those kinds there
+ * (`whereOf`), and, for a history read without kinds or a source, only what
+ * anyone may read. A read that names its kinds or its source gets every
+ * record of them there
  * (a town's moves away, which name a household's people, are no public
  * record, but they are the town's).
  */
@@ -336,7 +338,7 @@ function inPlaceScope(
   scope: HistoryScope,
   ask: HistoryAsk,
 ): boolean {
-  if (!ask.kinds && !row.publicRecord) return false;
+  if (!ask.kinds && !ask.from && !row.publicRecord) return false;
   const where = whereOf(row);
   if ("place" in scope) return where.place === scope.place;
   if ("state" in scope) return where.state === scope.state;
@@ -666,4 +668,47 @@ export function historyEvent(
 ): HistoryEvent | undefined {
   const row = recordById(core, id);
   return row ? told(core, row) : undefined;
+}
+
+/**
+ * The stored record behind an event, by its id, as the store that holds it
+ * keeps it: a record of the simulated past, a record of play, or an engine
+ * table's row (what dev mode's Trace opens, with its source and module).
+ */
+export function recordOf(
+  core: CoreState,
+  id: string,
+  /** The person a fact they were made with would be kept on, where the caller knows them. */
+  personId?: PersonId,
+):
+  | { readonly from: "past"; readonly record: HistoryRecord }
+  | { readonly from: "played"; readonly record: LogRecord }
+  | { readonly from: "source"; readonly record: HistoryRow }
+  | {
+      readonly from: "built";
+      readonly record: NonNullable<PersonState["pastFacts"]>[number];
+      readonly personId: PersonId;
+    }
+  | undefined {
+  // A fact a person was made with: on the person named, or (an id that names
+  // no one, a hash) on whoever holds it.
+  const owners = personId
+    ? [core.people.get(personId)]
+    : id.startsWith("fact_")
+      ? [...core.people.values()]
+      : [];
+  for (const person of owners) {
+    const fact = person?.pastFacts?.find((row) => row.id === id);
+    if (fact && person)
+      return { from: "built", record: fact, personId: person.id };
+  }
+  const logged = core.durableLog.get(id as never);
+  if (logged) return { from: "played", record: logged };
+  const past = pastIdsOf(core).get(id);
+  if (past) return { from: "past", record: past };
+  for (const source of sourcesOf(core).others) {
+    const row = source.row?.(core, id);
+    if (row) return { from: "source", record: row };
+  }
+  return undefined;
 }

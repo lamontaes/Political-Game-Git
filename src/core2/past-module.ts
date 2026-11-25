@@ -127,6 +127,7 @@ export {
   historyOf,
   historyOrder,
   recordDate,
+  recordOf,
   whereOf,
   type HistoryAsk,
   type HistoryEvent,

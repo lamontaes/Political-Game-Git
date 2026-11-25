@@ -11,31 +11,9 @@
   "readsOutsideTheReader": {
     "about": "The one history reader (src/core2/past-history.ts; owner, Nov 25, 2026: \"THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM THE SAME HISTORY. STOP MAKING NEW SYSTEMS FOR NEW THINGS WHEN THEY ALL USE THE SAME THING\"; \"make the history reader work game wide. so ALL systems are reading the same thing\"). Every screen, scene, journal line, news story and speech reads what already happened through historyOf. These are the files in src/bench, src/director and src/english that still build a past from the records themselves (a raw past reader by name, a scan of the log, a person's own facts or remembered list), with their counts. A count only goes down, and the list is empty when every system reads the one reader.",
     "files": {
-      "src/bench/calendar.ts": 1,
-      "src/bench/card.ts": 6,
-      "src/bench/changes.ts": 1,
-      "src/bench/dev-mode.ts": 6,
-      "src/bench/dev-trace.ts": 8,
-      "src/bench/dev-views/address-parts.ts": 1,
-      "src/bench/dev-views/dev-closing.ts": 1,
+      "src/bench/card.ts": 4,
       "src/bench/dev-views/opening.ts": 13,
-      "src/bench/dev-why.ts": 2,
-      "src/bench/government.ts": 2,
-      "src/bench/m0-check.ts": 2,
-      "src/bench/m1-12-check.ts": 3,
-      "src/bench/m1-14-check.ts": 6,
-      "src/bench/progress.ts": 1,
-      "src/bench/reached.ts": 2,
-      "src/bench/scene.ts": 1,
-      "src/bench/world.ts": 1,
-      "src/director/address-render.ts": 1,
-      "src/director/address-telling.ts": 1,
-      "src/director/conversation.ts": 5,
-      "src/director/journal.ts": 2,
-      "src/director/ledger.ts": 2,
-      "src/director/meeting-facts.ts": 2,
-      "src/director/opening-story.ts": 2,
-      "src/director/speech-outline.ts": 2
+      "src/bench/government.ts": 2
     }
   }
 }

@@ -3,6 +3,7 @@
 // golden-path runner drew (GOLDEN_PATH_SEED, GOLDEN_PATH_PLACE_KEY).
 // Usage: node --import tsx src/bench/m0-check.ts M0-02
 import { createHash } from "node:crypto";
+import { historyOf } from "../core2/past";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { earliestPlayerStopV1 } from "../core2/player-v1";
@@ -142,7 +143,9 @@ const specs: Record<string, () => string> = {
     check(w.core.sequence === before, "A refused answer changed records.");
     let mine = 0,
       others = 0;
-    for (const record of [...w.core.durableLog.values()].slice(start)) {
+    for (const record of historyOf(w.core, { nation: true }, { from: "played" })
+      .flatMap((event) => w.core.durableLog.get(event.id as never) ?? [])
+      .slice(start)) {
       const row = record as {
         kind: string;
         actorId?: string;
@@ -270,7 +273,8 @@ const specs: Record<string, () => string> = {
     const seen = new Set<string>(),
       sample: string[] = [];
     const newDecisions = () =>
-      [...(w.core.logByPerson.get(chosen.id) ?? [])]
+      historyOf(w.core, { person: chosen.id }, { from: "played" })
+        .map((event) => event.id)
         .filter((id) => {
           const row = w.core.durableLog.get(id);
           return (
