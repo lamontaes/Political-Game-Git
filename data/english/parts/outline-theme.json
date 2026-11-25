@@ -889,24 +889,6 @@
       "elements": ["sotu-close-ends-god-bless-america"]
     },
     {
-      "key": "outline-theme.blessing.inaugural-thank-you",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "Thank you.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "blessing",
-          "tie": "frame"
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": ["sotu-close-ends-god-bless-america"]
-    },
-    {
       "key": "outline-theme.blessing.inaugural-thank-you-everybody",
       "move": "blessing",
       "kind": "spoken",
@@ -2586,41 +2568,6 @@
       "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
-      "key": "outline-theme.pledge.inaugural-my-door-is-open-on-a-lot-of-things-but-not-on",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "My door is open on a lot of things, but not on whether to {to}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-leans-on-belief-image-pledge"]
-    },
-    {
       "key": "outline-theme.pledge.inaugural-anyone-planning-on-should-plan-on-talking-to-me-first",
       "move": "pledge",
       "kind": "spoken",
@@ -4010,40 +3957,6 @@
       "elements": ["inaugural-leans-on-belief-image-pledge"]
     },
     {
-      "key": "outline-theme.contrast.inaugural-not-everyone-agrees-some-would",
-      "move": "contrast",
-      "kind": "spoken",
-      "text": "Not everyone agrees. Some would {other-side}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "contrast",
-          "tie": "stand",
-          "requiresFacts": ["other-side"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-informal"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-point-opens-on-a-contrast"]
-    },
-    {
       "key": "outline-theme.contrast.inaugural-a-few-in-congress-would-tomorrow-if-they-could",
       "move": "contrast",
       "kind": "spoken",
@@ -4685,40 +4598,6 @@
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24",
-      "elements": ["diagnosis-before-acts"]
-    },
-    {
-      "key": "outline-theme.today.inaugural-the-way-i-see-it",
-      "move": "today",
-      "kind": "spoken",
-      "text": "The way I see it, {today-clause}",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today-clause"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today-clause"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "today",
-          "tie": "stand",
-          "requiresFacts": ["today-clause"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-informal", "personality-v1:facet-sincere"],
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24",
@@ -5921,29 +5800,6 @@
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-guarded"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24",
-      "elements": ["sotu-close-looks-ahead"]
-    },
-    {
-      "key": "outline-theme.send-off.inaugural-i-ll-make-sure-keeps-working-for-as-long-as-i-m-here",
-      "move": "send-off",
-      "kind": "spoken",
-      "text": "I'll make sure {law-name} keeps working for as long as I'm here.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "send-off",
-          "tie": "frame",
-          "requiresFacts": ["law-name", "stance-for", "law-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-duty-bound",
-        "personality-v1:facet-devoted"
-      ],
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24",

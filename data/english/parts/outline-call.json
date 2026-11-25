@@ -97,42 +97,6 @@
       "elements": ["point-opens-on-a-claim"]
     },
     {
-      "key": "outline-call.charge.inaugural-i-didn-t-run-to-keep-a-chair-warm-i-ran-because-of",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "I didn't run to keep a chair warm. What I came to talk about is {theme-name}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"]
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"]
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-competitive",
-        "personality-v1:facet-proud",
-        "personality-v1:facet-cocky"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
       "key": "outline-call.call.inaugural-and-i-m-asking-every-one-of-you-to-talk-with-a-neighbor-who-",
       "move": "call",
       "kind": "spoken",
@@ -1136,40 +1100,6 @@
       "elements": ["point-opens-on-a-claim"]
     },
     {
-      "key": "outline-call.call.inaugural-ask-your-kids-what-they-think-about-they-ll-be-living-with-what-we-decide",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Ask your kids what they think about {theme-short}. They'll be living with what we decide.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"]
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["theme-short"]
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-nurturing",
-        "personality-v1:facet-friendly"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": ["ask-of-listeners-comes-last"]
-    },
-    {
       "key": "outline-call.call.inaugural-keep-your-patience-with-each-other-we-re-going-to-disagree-about-a-lot-in",
       "move": "call",
       "kind": "spoken",
@@ -2011,7 +1941,7 @@
       "key": "outline-call.disaster.spoken-i-m-thinking-today-about-everyone-the-touched",
       "move": "disaster",
       "kind": "spoken",
-      "text": "I'm thinking today about everyone the {the-disaster} touched.",
+      "text": "Something else is on my mind alongside all that: everyone the {the-disaster} touched.",
       "uses": [
         {
           "subject": "inaugural",
@@ -2390,7 +2320,7 @@
       "key": "outline-call.run.spoken-after-of-steady-raises-people-are-planning-again",
       "move": "run",
       "kind": "spoken",
-      "text": "After {run-span} of steady raises, people are planning again.",
+      "text": "Look at what that did for pay: after {run-span} of steady raises, people are planning again.",
       "uses": [
         {
           "subject": "inaugural",
@@ -2893,30 +2823,6 @@
       "elements": ["point-opens-on-a-claim"]
     },
     {
-      "key": "outline-call.charge.spoken-why-because-it-reaches-more-households-than-most-things-on-my-desk",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Why {theme-name}? Because it reaches more households than most things on my desk.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["oath", "hired"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-practical"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
       "key": "outline-call.charge.spoken-i-ran-on-and-i-m-going-to-begin-there",
       "move": "charge",
       "kind": "spoken",
@@ -2981,44 +2887,6 @@
       ],
       "after": ["hired", "oath", "report"],
       "lean": ["personality-v1:facet-practical", "personality-v1:facet-blunt"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
-    },
-    {
-      "key": "outline-call.charge.spoken-most-of-the-work-ahead-depends-on-getting-right-so-i-m-starting-there",
-      "move": "charge",
-      "kind": "spoken",
-      "text": "Most of the work ahead depends on getting {theme-name} right, so I'm starting there.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "charge",
-          "tie": "frame",
-          "requiresFacts": ["theme-name", "about"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["hired", "oath", "report"],
-      "lean": [
-        "personality-v1:facet-analytical",
-        "personality-v1:facet-work-centered"
-      ],
       "origin": "authored",
       "author": "the call-and-charge writer",
       "date": "2026-11-24",
@@ -3659,7 +3527,7 @@
       "key": "outline-call.disaster.spoken-people-the-hit-are-still-dealing-with-insurance-repairs-and-paperwork",
       "move": "disaster",
       "kind": "spoken",
-      "text": "People the {the-disaster} hit are still dealing with insurance, repairs and paperwork.",
+      "text": "Meanwhile, people the {the-disaster} hit are still dealing with insurance, repairs and paperwork.",
       "uses": [
         {
           "subject": "inaugural",
@@ -3861,43 +3729,6 @@
       "lean": [
         "personality-v1:facet-polite",
         "personality-v1:facet-supportive"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["parallel-run-of-to-those-addresses"]
-    },
-    {
-      "key": "outline-call.address-to.spoken-to-the-voters-who-backed-someone-else-you-ll-get-the-same-hearing-from",
-      "move": "address-to",
-      "kind": "spoken",
-      "text": "To the voters who backed someone else: you'll get the same hearing from my office as anyone, over {term-left}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "address-to",
-          "tie": "frame",
-          "requiresFacts": ["term-left"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-fair-minded",
-        "personality-v1:facet-polite"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -4195,33 +4026,6 @@
         "closes-on-a-blessing-after-a-pledge",
         "sotu-close-ends-god-bless-america"
       ]
-    },
-    {
-      "key": "outline-call.blessing.state-of-the-union-thank-you",
-      "move": "blessing",
-      "kind": "spoken",
-      "text": "Thank you.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "blessing",
-          "tie": "frame",
-          "requiresFacts": [],
-          "excludesFacts": []
-        }
-      ],
-      "lean": ["personality-v1:facet-polite", "personality-v1:facet-humble"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["closes-on-a-blessing-after-a-pledge"]
     },
     {
       "key": "outline-call.blessing.state-of-the-state-god-bless",
@@ -5357,29 +5161,6 @@
       "lean": [
         "personality-v1:facet-studious",
         "personality-v1:facet-meticulous"
-      ],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["asks-of-lawmakers-in-state-addresses"]
-    },
-    {
-      "key": "outline-call.call.state-of-the-state-check-how-works-in-the-next-state-over-and-compare",
-      "move": "call",
-      "kind": "spoken",
-      "text": "Check whether the next state over has chosen to {to}, and compare.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "call",
-          "tie": "frame",
-          "requiresFacts": ["to", "told-theme", "about-one"],
-          "excludesFacts": []
-        }
-      ],
-      "lean": [
-        "personality-v1:facet-assertive",
-        "personality-v1:facet-work-centered"
       ],
       "origin": "authored",
       "author": "the call-and-charge writer",
@@ -7052,26 +6833,6 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.ask-anyone-in-nation-how-the-last-runspan-went-and",
-      "move": "bridge",
-      "kind": "spoken",
-      "text": "Ask anyone in {nation} how the last {run-span} went, and you'll hear why I say this.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "bridge",
-          "tie": "record",
-          "requiresFacts": ["run-hard", "run-span", "nation"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["report", "charge"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-calling-back"]
-    },
-    {
       "key": "outline-call.bridge.it-starts-with-runspan-that-took-more-from-people-than",
       "move": "bridge",
       "kind": "spoken",
@@ -7156,26 +6917,6 @@
       "move": "bridge",
       "kind": "spoken",
       "text": "That did not come from nowhere: {run-span} of steady work in {nation} put it there.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "bridge",
-          "tie": "record",
-          "requiresFacts": ["run-good", "run-span", "nation"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["report", "charge"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-calling-back"]
-    },
-    {
-      "key": "outline-call.bridge.ask-anyone-in-nation-how-the-last-runspan-went-and-good",
-      "move": "bridge",
-      "kind": "spoken",
-      "text": "Ask anyone in {nation} how the last {run-span} went, and you may hear something different than you did before.",
       "uses": [
         {
           "subject": "state-of-the-union",
@@ -7432,26 +7173,6 @@
       "elements": ["point-opens-calling-back"]
     },
     {
-      "key": "outline-call.bridge.ask-people-in-realmname-how-their-year-went-and-youll",
-      "move": "bridge",
-      "kind": "spoken",
-      "text": "Ask people in {realm-name} how their year went, and you'll hear why I say this.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "bridge",
-          "tie": "record",
-          "requiresFacts": ["pay-worse", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["report", "charge"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-calling-back"]
-    },
-    {
       "key": "outline-call.bridge.money-was-tighter-for-people-in-realmname-this-year-and",
       "move": "bridge",
       "kind": "spoken",
@@ -7556,26 +7277,6 @@
       "move": "bridge",
       "kind": "spoken",
       "text": "Money went further for people in {realm-name} this year, and that is where I'll start.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "bridge",
-          "tie": "record",
-          "requiresFacts": ["pay-better", "realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["report", "charge"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "elements": ["point-opens-calling-back"]
-    },
-    {
-      "key": "outline-call.bridge.ask-people-in-realmname-how-their-year-went-and-you",
-      "move": "bridge",
-      "kind": "spoken",
-      "text": "Ask people in {realm-name} how their year went, and you may hear something better than you did before.",
       "uses": [
         {
           "subject": "state-of-the-state",
@@ -10273,66 +9974,6 @@
       "date": "2026-11-24"
     },
     {
-      "key": "outline-call.bridge.that-settled-there-is-a-harder-question-in-front-of",
-      "move": "bridge",
-      "kind": "spoken",
-      "text": "That settled, there is a harder question in front of {nation}.",
-      "uses": [
-        {
-          "subject": "state-of-the-union",
-          "role": "bridge",
-          "tie": "record",
-          "requiresFacts": ["nation"],
-          "excludesFacts": []
-        }
-      ],
-      "after": [
-        "stand",
-        "stand-reason",
-        "pledge",
-        "answer",
-        "value",
-        "acknowledge",
-        "long-view",
-        "today",
-        "creed"
-      ],
-      "elements": ["turn-word-joins"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
-      "key": "outline-call.bridge.that-settled-there-is-a-harder-question-in-front-of-realm",
-      "move": "bridge",
-      "kind": "spoken",
-      "text": "That settled, there is a harder question in front of {realm-name}.",
-      "uses": [
-        {
-          "subject": "state-of-the-state",
-          "role": "bridge",
-          "tie": "record",
-          "requiresFacts": ["realm-name"],
-          "excludesFacts": []
-        }
-      ],
-      "after": [
-        "stand",
-        "stand-reason",
-        "pledge",
-        "answer",
-        "value",
-        "acknowledge",
-        "long-view",
-        "today",
-        "creed"
-      ],
-      "elements": ["turn-word-joins"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24"
-    },
-    {
       "key": "outline-call.bridge.plenty-in-nation-agree-on-that-much-and-plenty-split",
       "move": "bridge",
       "kind": "spoken",
@@ -11576,26 +11217,6 @@
           "role": "oath",
           "tie": "record",
           "requiresFacts": ["took-oath", "nation", "kind-crisis"],
-          "excludesFacts": []
-        }
-      ],
-      "elements": ["opens-on-the-occasion"],
-      "origin": "authored",
-      "author": "the call-and-charge writer",
-      "date": "2026-11-24",
-      "after": ["greeting"]
-    },
-    {
-      "key": "outline-call.oath.w2-i-have-taken-an-oath-of-office-before-and-it",
-      "move": "oath",
-      "kind": "spoken",
-      "text": "I have taken an oath of office before, and it never got lighter; today it is heavier because it is for all of {nation}.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "oath",
-          "tie": "record",
-          "requiresFacts": ["took-oath", "nation", "prior-office"],
           "excludesFacts": []
         }
       ],
