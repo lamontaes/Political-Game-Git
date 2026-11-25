@@ -45,6 +45,7 @@ export type HistoryScope =
   | { readonly place: PlaceId }
   /** A state by its key (`US-UT`): its own records and its places'. */
   | { readonly state: string }
+  /** The nation: its own records and its states' (`whereOf(event).nation` is the nation's own). */
   | { readonly nation: true };
 
 /** What part of a history a reader wants. */
@@ -327,7 +328,9 @@ function inPlaceScope(
   const where = whereOf(row);
   if ("place" in scope) return where.place === scope.place;
   if ("state" in scope) return where.state === scope.state;
-  if ("nation" in scope) return where.nation;
+  // The nation holds its states' records as a state holds its places'
+  // (`whereOf(event).nation` is the nation's own).
+  if ("nation" in scope) return true;
   return false;
 }
 

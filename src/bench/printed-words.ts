@@ -52,7 +52,10 @@ import {
 } from "../core2/modules/press";
 import { placeNameSaid, coreStateName } from "../core2/place-lookup";
 import { familyFactsOf, SPEECH_MODULE_ID } from "../core2/modules/people";
-import { preStartHistory } from "../core2/past";
+import { historyOf } from "../core2/past";
+
+/** The fact a person is made with that names where they were born (the people engine's own kind). */
+const BIRTHPLACE = "birthplace";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
@@ -2477,12 +2480,39 @@ const tookOffice: Builder = (read, f) => {
     ])
     .filter((term) => term.endDate && term.endDate <= read.happened)
     .sort((a, b) => (b.endDate ?? "").localeCompare(a.endDate ?? ""))[0];
+  // With no term ended in play, the seat's last holder before day one, from
+  // the seat's history (each seat reached before the start; the offices
+  // table holds those terms only once someone opens them).
+  const reached = ended
+    ? undefined
+    : historyOf(
+        read.core,
+        { nation: true },
+        { kinds: ["office.seat-reached"], through: read.happened },
+      )
+        .filter((event) => event.facts?.seatId === f.seatId)
+        .at(-1);
+  const holder = reached?.personIds[0]
+    ? read.core.people.get(reached.personIds[0])
+    : undefined;
+  const earlier = ended
+    ? {
+        personId: ended.personId,
+        name: `${ended.identity.givenName} ${ended.identity.familyName}`,
+        recordId: ended.id,
+      }
+    : holder && reached
+      ? {
+          personId: holder.id,
+          name: `${holder.givenName} ${holder.familyName}`,
+          recordId: reached.id,
+        }
+      : undefined;
   const before =
-    ended &&
-    ended.personId !== f.winnerId &&
-    `${ended.identity.givenName} ${ended.identity.familyName}` !==
-      named.name?.text
-      ? `${ended.identity.givenName} ${ended.identity.familyName}`
+    earlier &&
+    earlier.personId !== f.winnerId &&
+    earlier.name !== named.name?.text
+      ? earlier.name
       : null;
   const vacancy = read.row<VacancyRow>(
     OFFICES_MODULE_ID,
@@ -2494,7 +2524,7 @@ const tookOffice: Builder = (read, f) => {
     "took-office",
     {
       ...named,
-      ...(before ? { before: read.fact(before, ended!.id) } : {}),
+      ...(before ? { before: read.fact(before, earlier!.recordId) } : {}),
       ...(by ? { by: read.fact(by, f.vacancyId ?? "") } : {}),
       ...(vacancy?.cause === "death"
         ? { died: read.fact("yes", vacancy.id) }
@@ -2608,9 +2638,11 @@ const exposed: Builder = (read, f) => {
   const when = read.happened || read.story.date;
   const exposures =
     conflict && firm && id && mine
-      ? [...(read.core.logByKind.get("press.exposed") ?? [])]
-          .map((logId) => read.core.durableLog.get(logId as EntityId))
-          .filter((row) => row?.personIds[0] === id)
+      ? historyOf(
+          read.core,
+          { person: id as PersonId },
+          { kinds: ["press.exposed"] },
+        ).filter((row) => row.personIds[0] === id)
       : [];
   // This story's own finding: two found the same day are told in award
   // order, so the first is not called the second (Wall, South Dakota, seed
@@ -3515,12 +3547,20 @@ const death: Builder = (read) => {
     person && read.happened
       ? yearsBetween(person.birthDate, read.happened)
       : undefined;
-  const born = person
-    ? preStartHistory(read.core, {
-        kind: "person.birth",
-        personId: person.id,
-      })[0]
-    : undefined;
+  // Where they were born, from their history: the birth the run recorded,
+  // else the birthplace their record was made with (a life that began before
+  // the run's window has no birth record of its own, and the obituary of
+  // anyone born before it said nothing of where they came from).
+  const birth = person
+    ? historyOf(
+        read.core,
+        { person: person.id },
+        { kinds: ["person.birth", BIRTHPLACE] },
+      )
+    : [];
+  const born =
+    birth.find((event) => event.record === "person.birth") ??
+    birth.find((event) => event.record === BIRTHPLACE && event.placeId);
   const bornIn = placeLabel(born?.placeId);
   // Their latest work: the commitment that started last, and its employer.
   const work = person
