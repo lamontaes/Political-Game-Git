@@ -1,0 +1,32 @@
+{
+  "id": "the-receipt-separates-the-bag-from-the-groceries",
+  "kind": "detail",
+  "summary": "A shopper can find what the store charged for the bag on the receipt.",
+  "realLife": "Section 3 of the 2020 act required the retailer to show bag charges on the customer's receipt and treated the charge as a taxable retail sale.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a qualifying bag charge appears in a taxable transaction under a comparable law.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{shopper}", "{receipt}"],
+  "gates": [
+    "A qualifying bag charge appears in a taxable transaction under a comparable law."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The shopper checks the receipt on the way out.",
+      "pulledBy": "The receipt identifies the bag charge correctly.",
+      "writesBack": "The shopper can check the charge against the bags received."
+    },
+    {
+      "turn": "another-way",
+      "what": "The shopper returns to the till for a correction.",
+      "pulledBy": "The receipt shows a bag the shopper never received.",
+      "writesBack": "The cashier can correct that item and its tax."
+    }
+  ],
+  "issues": ["law:sales-tax"]
+}

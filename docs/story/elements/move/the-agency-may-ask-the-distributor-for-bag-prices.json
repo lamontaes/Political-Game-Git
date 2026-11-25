@@ -1,0 +1,32 @@
+{
+  "id": "the-agency-may-ask-the-distributor-for-bag-prices",
+  "kind": "move",
+  "summary": "A legislative review can depend on a supplier choosing to share its price records.",
+  "realLife": "Section 7 told agencies to assess bag cost and availability and allowed them to request pricing information without compelling stores or distributors to furnish it.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: the agency is preparing the pricing portion of a required review.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{agency}", "{supplier}"],
+  "gates": [
+    "The agency is preparing the pricing portion of a required review."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The agency obtains the supplier's price records.",
+      "pulledBy": "A distributor provides its invoices.",
+      "writesBack": "Analysts can compare purchase costs with the charge."
+    },
+    {
+      "turn": "another-way",
+      "what": "The review proceeds without the supplier's invoices.",
+      "pulledBy": "The supplier declines the request.",
+      "writesBack": "The report records the missing information and its limits."
+    }
+  ],
+  "issues": ["none"]
+}

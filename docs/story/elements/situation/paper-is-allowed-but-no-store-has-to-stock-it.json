@@ -1,0 +1,30 @@
+{
+  "id": "paper-is-allowed-but-no-store-has-to-stock-it",
+  "kind": "situation",
+  "summary": "A paper worker asks whether a checkout rule will actually bring the mill any customers.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House Finance testimony pointed out that permitting paper bags did not require stores to offer them.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+  ],
+  "inGame": "needs: a proposal permits paper and a mill is forecasting sales.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{worker}", "{store}"],
+  "gates": ["A proposal permits paper and a mill is forecasting sales."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "A buyer signs for the mill's paper.",
+      "pulledBy": "A chain signs a paper supply agreement.",
+      "writesBack": "The mill adds the order to its production schedule."
+    },
+    {
+      "turn": "another-way",
+      "what": "The mill calls its sales estimate back for review.",
+      "pulledBy": "Shoppers bring their own bags and the chain places no order.",
+      "writesBack": "The mill revises the forecast using actual purchases."
+    }
+  ],
+  "issues": ["none"]
+}

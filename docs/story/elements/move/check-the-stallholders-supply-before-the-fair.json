@@ -1,0 +1,32 @@
+{
+  "id": "check-the-stallholders-supply-before-the-fair",
+  "kind": "move",
+  "summary": "A fair organizer includes temporary vendors when explaining the checkout rule.",
+  "realLife": "Section 2 of Washington's 2020 act included street-fair, festival and farmers-market vendors in its retail definition.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: an event vendor provides a bag to carry purchases away under comparable rules.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{vendor}", "{fair}"],
+  "gates": [
+    "An event vendor provides a bag to carry purchases away under comparable rules."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The stall opens with bags on hand.",
+      "pulledBy": "The vendor has compliant bags ready.",
+      "writesBack": "The organizer marks the stall ready to open."
+    },
+    {
+      "turn": "another-way",
+      "what": "The organizer changes the notice to shoppers.",
+      "pulledBy": "The vendor chooses to offer no carryout bags.",
+      "writesBack": "Customers are told to bring a carrier before they arrive."
+    }
+  ],
+  "issues": ["none"]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "a-second-use-before-the-checkout-bag-is-trash",
+  "kind": "voice",
+  "summary": "A shopper asks the committee to count what happens to the bag after it leaves the store.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House opponents argued that customers found additional uses for bags classified as single use and that substitutes did not serve every purpose equally well.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+  ],
+  "inGame": "needs: household reuse has been raised in testimony.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{shopper}", "{bag}"],
+  "gates": ["Household reuse has been raised in testimony."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The household uses a bag it already has.",
+      "pulledBy": "The household switches to a washable substitute it already owns.",
+      "writesBack": "Its earlier use continues without a new purchase."
+    },
+    {
+      "turn": "another-way",
+      "what": "The household adds liners to the shopping list.",
+      "pulledBy": "The household buys separate liners.",
+      "writesBack": "The replacement expense enters the household account."
+    }
+  ],
+  "issues": ["none"]
+}

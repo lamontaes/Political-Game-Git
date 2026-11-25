@@ -1,0 +1,30 @@
+{
+  "id": "the-town-reads-the-bag-complaint-and-visits-the-store",
+  "kind": "consequence",
+  "summary": "A complaint filed with the state can lead to a local official explaining the rule at the store.",
+  "realLife": "Section 5 provided for complaint-based enforcement and let local governments review complaints in the state system for education and outreach.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a complaint identifies a store within the town's jurisdiction.",
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{town}", "{store}"],
+  "gates": ["A complaint identifies a store within the town's jurisdiction."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The local official closes the inquiry after a records check.",
+      "pulledBy": "Store records show the bag was exempt.",
+      "writesBack": "The official explains the exception to the complainant."
+    },
+    {
+      "turn": "another-way",
+      "what": "The official returns to go over the rule with store staff.",
+      "pulledBy": "The complaint reveals staff confusion about checkout charges.",
+      "writesBack": "The store arranges a training session."
+    }
+  ],
+  "issues": ["none"]
+}

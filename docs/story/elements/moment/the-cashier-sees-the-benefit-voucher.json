@@ -1,0 +1,30 @@
+{
+  "id": "the-cashier-sees-the-benefit-voucher",
+  "kind": "moment",
+  "summary": "A shopper using a qualifying benefit can receive a carryout bag without the ordinary charge.",
+  "realLife": "Section 4 of the 2020 act barred collection of the charge from people using specified food or cash assistance vouchers or cards.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: the shopper uses a benefit covered by the applicable exemption.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{shopper}", "{cashier}"],
+  "gates": ["The shopper uses a benefit covered by the applicable exemption."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The sale closes at the exempt price.",
+      "pulledBy": "The till recognizes the payment method.",
+      "writesBack": "The charge is omitted at checkout."
+    },
+    {
+      "turn": "another-way",
+      "what": "The cashier removes the bag fee.",
+      "pulledBy": "The till includes the charge in error.",
+      "writesBack": "The cashier corrects the sale after checking the benefit used."
+    }
+  ],
+  "issues": ["none"]
+}

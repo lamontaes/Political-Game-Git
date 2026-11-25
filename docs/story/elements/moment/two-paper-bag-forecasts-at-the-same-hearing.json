@@ -1,0 +1,32 @@
+{
+  "id": "two-paper-bag-forecasts-at-the-same-hearing",
+  "kind": "moment",
+  "summary": "A committee hears conflicting forecasts for paper orders after a plastic-bag restriction.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House Finance supporters cited rising demand in Washington localities. Opponents cited a decline after California imposed its fee.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+  ],
+  "inGame": "needs: witnesses supply experience from jurisdictions with different bag rules.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{committee}", "{mill}"],
+  "gates": [
+    "Witnesses supply experience from jurisdictions with different bag rules."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The committee asks staff to compare like jurisdictions.",
+      "pulledBy": "Both sides provide comparable order histories.",
+      "writesBack": "Staff can compare paper purchases under each rule."
+    },
+    {
+      "turn": "another-way",
+      "what": "A missing figure keeps one comparison out of the findings.",
+      "pulledBy": "One witness supplies only a statewide total.",
+      "writesBack": "Staff flag the missing local breakdown before using the comparison."
+    }
+  ],
+  "issues": ["none"]
+}

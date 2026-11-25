@@ -1,0 +1,32 @@
+{
+  "id": "ask-the-supplier-which-bag-gauge-is-on-the-shelf",
+  "kind": "move",
+  "summary": "A witness asks members to compare the proposed thickness with bags that suppliers can deliver.",
+  "realLife": "Washington Senate report on SB 5323, 2019. Senate supporters raised the availability of different film thicknesses and sought a standard that suppliers could meet.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/Senate/5323%20SBR%20WM%2019.pdf"
+  ],
+  "inGame": "needs: the committee is considering a minimum thickness and has supplier evidence.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{supplier}", "{committee}"],
+  "gates": [
+    "The committee is considering a minimum thickness and has supplier evidence."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The supplier produces a firm delivery date.",
+      "pulledBy": "The supplier confirms stock meeting the proposed minimum.",
+      "writesBack": "The committee keeps its proposed specification."
+    },
+    {
+      "turn": "another-way",
+      "what": "The committee considers extra time for orders already placed.",
+      "pulledBy": "The supplier can fill only a later order.",
+      "writesBack": "Members ask about a transition period."
+    }
+  ],
+  "issues": ["none"]
+}

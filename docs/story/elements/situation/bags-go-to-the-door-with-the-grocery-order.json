@@ -1,0 +1,30 @@
+{
+  "id": "bags-go-to-the-door-with-the-grocery-order",
+  "kind": "situation",
+  "summary": "A delivery customer receives a carryout bag without ever passing a register.",
+  "realLife": "The 2020 act included bags supplied with home deliveries in the definition of carryout bags.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bills/Session%20Laws/Senate/5323-S.SL.pdf"
+  ],
+  "inGame": "needs: a retail delivery includes a qualifying carryout bag.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{customer}", "{order}"],
+  "gates": ["A retail delivery includes a qualifying carryout bag."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The driver hands the groceries over without a store bag.",
+      "pulledBy": "The customer chooses a delivery option using no store bag.",
+      "writesBack": "The order closes without a bag charge."
+    },
+    {
+      "turn": "another-way",
+      "what": "The delivery uses fewer bags than there are items.",
+      "pulledBy": "Only some items need carryout bags.",
+      "writesBack": "The receipt reflects the qualifying bags actually supplied."
+    }
+  ],
+  "issues": ["none"]
+}

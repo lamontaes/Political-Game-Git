@@ -1,0 +1,32 @@
+{
+  "id": "the-paper-machine-has-already-been-retooled",
+  "kind": "detail",
+  "summary": "A mill town comes to a hearing with money already spent on producing bag material.",
+  "realLife": "Washington House report on ESSB 5323, 2020. House Finance testimony described the Port Angeles plant investing in retooling while other mills considered whether to follow.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/House/5323-S.E%20HBR%20APH%2020.pdf"
+  ],
+  "inGame": "needs: a mill has completed an investment and its neighbors are still weighing theirs.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{mill}", "{town}"],
+  "gates": [
+    "A mill has completed an investment and its neighbors are still weighing theirs."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The converted mill brings a purchase order to the hearing.",
+      "pulledBy": "An order fills the converted line.",
+      "writesBack": "The mill can show members what its investment produces."
+    },
+    {
+      "turn": "another-way",
+      "what": "The next mill waits for a firm buyer.",
+      "pulledBy": "An interested buyer leaves quantities open.",
+      "writesBack": "Other mills defer their conversion decisions."
+    }
+  ],
+  "issues": ["none"]
+}

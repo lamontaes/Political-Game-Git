@@ -1,0 +1,30 @@
+{
+  "id": "film-wraps-around-the-sorting-line",
+  "kind": "detail",
+  "summary": "A plant operator takes a checkout debate back to the time lost clearing the sorting equipment.",
+  "realLife": "Washington Senate report on SB 5323, 2019. Senate supporters described flexible plastic wrapping around sorting machinery and conveyors and requiring labor to clear it.",
+  "sources": [
+    "https://lawfilesext.leg.wa.gov/biennium/2019-20/Pdf/Bill%20Reports/Senate/5323%20SBR%20WM%2019.pdf"
+  ],
+  "inGame": "needs: a recovery facility records a stoppage caused by loose bag film.",
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{plant}", "{shift}"],
+  "gates": ["A recovery facility records a stoppage caused by loose bag film."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "A load reaches the end of the line without interruption.",
+      "pulledBy": "The next incoming load contains no loose film.",
+      "writesBack": "That load passes without a bag-related stoppage."
+    },
+    {
+      "turn": "another-way",
+      "what": "Workers move unsorted material off the line.",
+      "pulledBy": "Only part of the load can reach the sorter.",
+      "writesBack": "Crews record diverted material as well as downtime."
+    }
+  ],
+  "issues": ["none"]
+}
