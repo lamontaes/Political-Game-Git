@@ -21,7 +21,9 @@ These are his rulings. Each one has failed a line in today's pre-grades.
 - **American English, plain words.** Before writing, read `data/english/line-rules.json` (`npm run words:rules` lists every rule and what it flags).
   - "Look after" is British; write "check on".
   - No stock political phrases.
-- **Every line of four or more words carries at least one slot** (`{about}`, `{term-left}`, …) from the facts its use requires. A line that's the same in every world is a stock line, and he cuts those.
+- **Every line of four or more words carries at least one slot** (`{about}`, `{term-left}`, …) from the facts its use requires. A line that's the same in every world is a stock line, and he cuts those. The loading steps are the exception: they speak of the whole country being built and never name the town or state (owner, Nov 25: "It should not be that specific. It's talking about the country at wide."). A slot never stands in for substance.
+- **No line only agrees, accepts or waits** (owner, Nov 25: "there are replies like, I agree. Proudly so. Why are these coming back in?"). "Proudly, yes.", "I'm with you.", "Count me in." and "I'll wait." fail the build (`no-agreement-only-line`). No aside about someone waiting or being there ("They will wait.").
+- **Lines he passed stay.** A batch that replaces a bank keeps every line he graded up (`tests/guards/english/liked-lines-stay.test.ts`). The 105 already gone on Nov 25 are listed in its baseline; put them back where they fit (owner, Nov 25: "Why am I reverting to the beginning every single time?").
 - **No figures in speeches or talk** except what a slot carries. No numbers typed into a line.
 - **Say only what the record holds.** None of these exist in the record:
   - a Bible, family on stage, or a grandmother;
