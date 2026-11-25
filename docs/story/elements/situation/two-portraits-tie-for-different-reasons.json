@@ -2,9 +2,10 @@
   "id": "two-portraits-tie-for-different-reasons",
   "kind": "situation",
   "summary": "{member} faces a tie between the pose people admire and a portrait that carries its subject's signature.",
-  "realLife": "Two older Franklin portraits tied in the committee scoring, with members praising the upward gaze in one drawing and the signature in the other.",
+  "realLife": "Two older Franklin portraits tied in the committee scoring, with members praising the upward gaze in one drawing and the signature in the other. The Mint lists Franklin's signature among the inscriptions on the front of the issued dollar.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/2005_0524_minutes.pdf#page=3"
+    "https://www.ccac.gov/system/files/2025-03/2005_0524_minutes.pdf#page=3",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/benjamin-franklin/benjamin-franklin-founding-father"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

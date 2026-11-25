@@ -2,9 +2,10 @@
   "id": "the-money-stays-and-franklin-comes-off",
   "kind": "consequence",
   "summary": "{member} can meet the law's requirement to show a person's work by removing the person from the picture.",
-  "realLife": "For the older Franklin reverse, members wanted to drop his figure and keep a leaf-bearing note and the sundial face of a coin to show his contribution to early money.",
+  "realLife": "For the older Franklin reverse, members wanted to drop his figure and keep a leaf-bearing note and the sundial face of a coin to show his contribution to early money. The Mint issued a reverse showing the 1776 Continental dollar alone. The paper note the committee had wanted beside it dropped out.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/2005_0524_minutes.pdf#page=3"
+    "https://www.ccac.gov/system/files/2025-03/2005_0524_minutes.pdf#page=3",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/benjamin-franklin/benjamin-franklin-founding-father"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

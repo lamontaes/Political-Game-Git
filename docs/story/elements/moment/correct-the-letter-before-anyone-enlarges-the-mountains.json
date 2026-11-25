@@ -2,9 +2,10 @@
   "id": "correct-the-letter-before-anyone-enlarges-the-mountains",
   "kind": "moment",
   "summary": "{member} catches a recorded instruction to enlarge something the artist has yet to draw.",
-  "realLife": "In revisiting its Nevada quarter recommendation, the committee corrected the instruction about the mountains to specify adding them to the background.",
+  "realLife": "In revisiting its Nevada quarter recommendation, the committee corrected the instruction about the mountains to specify adding them to the background. The issued quarter showed snowy mountains behind three wild horses.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/2005_0315_minutes.pdf#page=1"
+    "https://www.ccac.gov/system/files/2025-03/2005_0315_minutes.pdf#page=1",
+    "https://www.usmint.gov/learn/coins-and-medals/circulating-coins/quarter/50-state-quarters/nevada"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

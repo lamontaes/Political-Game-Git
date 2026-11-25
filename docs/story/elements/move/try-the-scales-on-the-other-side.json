@@ -2,9 +2,10 @@
   "id": "try-the-scales-on-the-other-side",
   "kind": "move",
   "summary": "{member} asks the board to try a drawing passed over for the front on the back.",
-  "realLife": "While considering five views of Little Rock Central High School for the reverse, the committee also scored a set of scales originally submitted for the obverse.",
+  "realLife": "While considering five views of Little Rock Central High School for the reverse, the committee also scored a set of scales originally submitted for the obverse. The issued dollar showed the school building on the reverse and nine stars beside the students on the front.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/2006_0818_minutes.pdf#page=2"
+    "https://www.ccac.gov/system/files/2025-03/2006_0818_minutes.pdf#page=2",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/little-rock-central-high-school-desegregation"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

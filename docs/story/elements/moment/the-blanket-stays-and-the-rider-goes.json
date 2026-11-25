@@ -2,9 +2,10 @@
   "id": "the-blanket-stays-and-the-rider-goes",
   "kind": "moment",
   "summary": "{member} looks past the main figure and asks what a rider in the background adds to the scene.",
-  "realLife": "The committee chose a design of Martha Washington covering a soldier with a blanket and recommended removing the horse and rider behind them.",
+  "realLife": "The committee chose a design of Martha Washington covering a soldier with a blanket and recommended removing the horse and rider behind them. The gold coin ultimately showed Martha Washington sewing a button on George Washington's jacket. The scene the committee preferred stopped at the recommendation.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/2006_0523_minutes.pdf#page=2"
+    "https://www.ccac.gov/system/files/2025-03/2006_0523_minutes.pdf#page=2",
+    "https://www.usmint.gov/learn/coins-and-medals/collectible-coins/first-spouse-coins-and-medals/martha-washington"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

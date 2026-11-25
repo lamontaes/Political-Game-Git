@@ -2,9 +2,10 @@
   "id": "the-date-belongs-to-the-blueprint",
   "kind": "detail",
   "summary": "{member} spots a date that could make a drawing look like a claim about when the building opened.",
-  "realLife": "On the Old Mint gold design, members wanted the date tied explicitly to the architectural plans and placed beneath the building's name.",
+  "realLife": "On the Old Mint gold design, members wanted the date tied explicitly to the architectural plans and placed beneath the building's name. The Mint credited the architect and dated his drawing to 1869 in its description of the issued gold piece. The dates it lists on the coin itself are the earthquake year and its centennial.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/2006_0615_minutes.pdf#page=2"
+    "https://www.ccac.gov/system/files/2025-03/2006_0615_minutes.pdf#page=2",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/san-francisco-old-mint/san-francisco-old-mint-gold"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

@@ -2,9 +2,10 @@
   "id": "name-the-school-change-on-the-inscription",
   "kind": "voice",
   "summary": "{member} wants a stranger reading the coin to know what happened at the school.",
-  "realLife": "The federal advisory committee weighed wording about courage and equality before unanimously recommending words that identified school desegregation directly.",
+  "realLife": "The federal advisory committee weighed wording about courage and equality before unanimously recommending words that identified school desegregation directly. The Mint put the board's wording about desegregation on the side with the students.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/2006_0818_minutes.pdf#page=2"
+    "https://www.ccac.gov/system/files/2025-03/2006_0818_minutes.pdf#page=2",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/little-rock-central-high-school-desegregation"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],

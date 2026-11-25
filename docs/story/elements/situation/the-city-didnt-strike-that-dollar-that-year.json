@@ -2,9 +2,10 @@
   "id": "the-city-didnt-strike-that-dollar-that-year",
   "kind": "situation",
   "summary": "{member} must decide whether an old coin can stand for the mint in a year it never struck that design.",
-  "realLife": "Members knew the Morgan dollar had not been produced in 1906 and still recommended its Liberty image to represent the San Francisco Mint.",
+  "realLife": "Members knew the Morgan dollar had not been produced in 1906 and still recommended its Liberty image to represent the San Francisco Mint. The issued silver dollar used a different part of the old coin. It showed the Mint building on the front and reproduced the eagle from a 1904 Morgan dollar on the back.",
   "sources": [
-    "https://www.ccac.gov/system/files/2025-03/2006_0615_minutes.pdf#page=2"
+    "https://www.ccac.gov/system/files/2025-03/2006_0615_minutes.pdf#page=2",
+    "https://www.usmint.gov/learn/coins-and-medals/commemorative-coins/san-francisco-old-mint/san-francisco-old-mint-silver"
   ],
   "fits": ["office", "journal", "news", "speeches", "work-community"],
   "slots": ["{member}"],
