@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pt-board-last-day
-pr: 10521
+pr: #10521
 blocked-on:
 source: CTO 17:40Z item 5 on #10377 (comment 7139529302), the six work-scene producers; lane 8 took 4 to 6
 claimed-at: 2026-11-24T19:40:00.000Z
@@ -17,6 +17,7 @@ lead: play-first
 model: opus
 effort: high
 root: none
+merged-at: 2026-11-25T01:44:33.393Z
 ---
 
 **What.** The last day at work (type `last-day`, purpose `last-day-farewell`, W8's lines) never staged in a dev run, and a waited year has no quit for a player who never presses Leave work. Seen: a player who leaves their job meets the coworkers still there for a goodbye, and dev mode can bring it on.
