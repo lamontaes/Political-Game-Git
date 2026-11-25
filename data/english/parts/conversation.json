@@ -26424,6 +26424,179 @@
       "date": "2026-11-19"
     },
     {
+      "key": "conversation.school-missed-say-core.i-stayed-home-from-school-yesterday-and-i-d-rather-say-so",
+      "move": "school-missed-say-core",
+      "kind": "spoken",
+      "text": "I stayed home from {school} yesterday, and I'd rather say so.",
+      "uses": [
+        {
+          "move": "school-missed-say-core",
+          "subject": "school-missed-say",
+          "role": "core",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "school-pickup-splits-the-paid-workday",
+        "parents-who-know-more-make-the-talk-count"
+      ]
+    },
+    {
+      "key": "conversation.school-missed-say-core.i-wasn-t-at-school-yesterday-and-the-office-may-call-you",
+      "move": "school-missed-say-core",
+      "kind": "spoken",
+      "text": "I wasn't at {school} yesterday, and the office may call you.",
+      "uses": [
+        {
+          "move": "school-missed-say-core",
+          "subject": "school-missed-say",
+          "role": "core",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "school-pickup-splits-the-paid-workday",
+        "parents-who-know-more-make-the-talk-count"
+      ]
+    },
+    {
+      "key": "conversation.school-missed-say-core.i-skipped-school-yesterday-and-i-didn-t-know-how-to-say",
+      "move": "school-missed-say-core",
+      "kind": "spoken",
+      "text": "I skipped {school} yesterday, and I didn't know how to say.",
+      "uses": [
+        {
+          "move": "school-missed-say-core",
+          "subject": "school-missed-say",
+          "role": "core",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "school-pickup-splits-the-paid-workday",
+        "parents-who-know-more-make-the-talk-count"
+      ]
+    },
+    {
+      "key": "conversation.school-missed-answer-push.go-to-school-today-because-staying-away-makes-it-harder",
+      "move": "school-missed-answer-push",
+      "kind": "spoken",
+      "text": "Go to {school} today, because staying away makes it harder.",
+      "uses": [
+        {
+          "move": "school-missed-answer-push",
+          "subject": "school-missed",
+          "role": "answer",
+          "choice": "push",
+          "requiresFacts": ["school", "school-today"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "school-pickup-splits-the-paid-workday",
+        "parents-who-know-more-make-the-talk-count"
+      ]
+    },
+    {
+      "key": "conversation.school-missed-answer-push.i-m-glad-you-told-me-but-school-needs-you-there",
+      "move": "school-missed-answer-push",
+      "kind": "spoken",
+      "text": "I'm glad you told me, but {school} needs you there.",
+      "uses": [
+        {
+          "move": "school-missed-answer-push",
+          "subject": "school-missed",
+          "role": "answer",
+          "choice": "push",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "school-pickup-splits-the-paid-workday",
+        "parents-who-know-more-make-the-talk-count"
+      ]
+    },
+    {
+      "key": "conversation.school-missed-answer-let.i-ll-let-school-go-this-once-since-you-told-me-yourself",
+      "move": "school-missed-answer-let",
+      "kind": "spoken",
+      "text": "I'll let {school} go this once, since you told me yourself.",
+      "uses": [
+        {
+          "move": "school-missed-answer-let",
+          "subject": "school-missed",
+          "role": "answer",
+          "choice": "let",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "school-pickup-splits-the-paid-workday",
+        "parents-who-know-more-make-the-talk-count"
+      ]
+    },
+    {
+      "key": "conversation.school-missed-answer-let.i-m-not-angry-about-school-because-it-was-one-day",
+      "move": "school-missed-answer-let",
+      "kind": "spoken",
+      "text": "I'm not angry about {school}, because it was one day.",
+      "uses": [
+        {
+          "move": "school-missed-answer-let",
+          "subject": "school-missed",
+          "role": "answer",
+          "choice": "let",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the talk at home writer",
+      "date": "2026-11-25",
+      "elements": [
+        "school-pickup-splits-the-paid-workday",
+        "parents-who-know-more-make-the-talk-count"
+      ]
+    },
+    {
       "key": "conversation.news-touch-say-core.outlet-ran-a-story-about-employer-ran",
       "move": "news-touch-say-core",
       "kind": "spoken",
