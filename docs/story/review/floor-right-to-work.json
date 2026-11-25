@@ -224,6 +224,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "curious",
@@ -946,6 +1050,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "curious",
@@ -1668,6 +1876,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "curious",
@@ -2334,6 +2646,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "curious",
@@ -6800,6 +7216,110 @@
           "place"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "curious",
@@ -7042,6 +7562,110 @@
           "place"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "firm",
@@ -7284,6 +7908,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "curious",
@@ -7526,6 +8254,110 @@
           "place"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "braced",
@@ -7768,6 +8600,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "warm",
@@ -8010,6 +8946,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "curious",
@@ -8252,6 +9292,110 @@
           "place"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "guarded",
@@ -8494,6 +9638,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "calm",
@@ -8736,6 +9984,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "curious",
@@ -8978,6 +10330,110 @@
           "place"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "calm",
@@ -9220,6 +10676,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "curious",
@@ -9462,6 +11022,110 @@
           "place"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "curious",
@@ -11360,6 +13024,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "guarded",
@@ -11602,6 +13370,110 @@
           "place"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "warm",
@@ -11844,6 +13716,110 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee"
       }
     ],
     "bearing": "guarded",
@@ -12086,6 +14062,110 @@
           "place"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice"
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "place"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no"
       }
     ],
     "bearing": "braced",
@@ -17379,6 +19459,134 @@
         "excludesFacts": [
           "place"
         ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no",
+        "excludesFacts": [
+          "place"
+        ]
       }
     ],
     "bearing": "curious",
@@ -17669,6 +19877,134 @@
           "presiding"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no",
         "excludesFacts": [
           "place"
         ]
@@ -17965,6 +20301,134 @@
         "excludesFacts": [
           "place"
         ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee",
+        "excludesFacts": [
+          "place"
+        ]
       }
     ],
     "bearing": "braced",
@@ -18255,6 +20719,134 @@
           "name"
         ],
         "after": "scene-talk.state-tell.the-store-and-the-local-could-sit-down-with-a-new-hire-and-explain-the-fee-together-i-d-rather-have-that-conversation-at-the-store-than-settle-it-for-them-here-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee",
         "excludesFacts": [
           "place"
         ]
@@ -18551,6 +21143,134 @@
         "excludesFacts": [
           "place"
         ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no",
+        "excludesFacts": [
+          "place"
+        ]
       }
     ],
     "bearing": "calm",
@@ -18841,6 +21561,134 @@
           "name"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no",
         "excludesFacts": [
           "place"
         ]
@@ -19962,6 +22810,134 @@
         "excludesFacts": [
           "place"
         ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "name"
+        ],
+        "after": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee",
+        "excludesFacts": [
+          "place"
+        ]
       }
     ],
     "bearing": "warm",
@@ -20252,6 +23228,134 @@
           "presiding"
         ],
         "after": "scene-talk.state-tell.suppose-the-employer-would-accept-a-fee-in-exchange-for-something-the-crew-wants-how-can-we-know-from-these-desks-what-they-d-be-willing-to-trade-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice",
+        "excludesFacts": [
+          "place"
+        ]
+      },
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "presiding"
+        ],
+        "after": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no",
         "excludesFacts": [
           "place"
         ]
@@ -20755,6 +23859,614 @@
     "bearing": "braced",
     "tag": {
       "move": "ask",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "a-state-ruling-reopens-one-plants-bargaining-agenda"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.a-transfer-ought-to-come-with-a-start-date-and-directions-to-the-new-plant-presiding-it-shouldn-t-come-with-a-choice-between-a-union-payment-and-a-job",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "A transfer ought to come with a start date and directions to the new plant, {presiding}. It shouldn't come with a choice between a union payment and a job.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "one-national-contract-has-a-state-exception"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.i-d-tell-first-to-look-at-the-return-address-on-a-worker-s-check-and-then-ask-where-that-worker-clocks-in-a-company-can-pay-from-somewhere-else-i-want-the-person-working-here-free-to-turn-down-the-fee",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I'd tell {first} to look at the return address on a worker's check and then ask where that worker clocks in. A company can pay from somewhere else. I want the person working here free to turn down the fee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "first"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "one-national-contract-has-a-state-exception"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.there-s-a-crew-on-each-side-of-that-line-put-my-vote-down-for-the-worker-on-this-side-getting-to-say-no-presiding",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "There's a crew on each side of that line. Put my vote down for the worker on this side getting to say no, {presiding}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "one-national-contract-has-a-state-exception"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.if-first-and-i-went-through-that-plant-gate-tomorrow-as-new-hires-i-d-want-each-of-us-to-decide-about-paying-the-local-for-ourselves",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "If {first} and I went through that plant gate tomorrow as new hires, I'd want each of us to decide about paying the local for ourselves.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "first"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "one-national-contract-has-a-state-exception"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.as-the-ballots-go-around-the-hall-somebody-who-paid-for-the-bargaining-can-still-be-left-waiting-outside-i-can-t-make-the-local-hand-over-a-ballot-presiding-i-can-vote-to-make-the-payment-a-choice",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "As the ballots go around the hall, somebody who paid for the bargaining can still be left waiting outside. I can't make the local hand over a ballot, {presiding}. I can vote to make the payment a choice.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.i-wouldn-t-ask-first-to-buy-a-say-in-a-contract-the-local-won-t-let-a-nonmember-vote-on-a-fee-shouldn-t-be-the-price-of-keeping-a-shift-either",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I wouldn't ask {first} to buy a say in a contract the local won't let a nonmember vote on. A fee shouldn't be the price of keeping a shift, either.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "first"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.here-s-where-i-come-down-presiding-a-worker-who-thinks-the-local-earned-the-money-can-still-pay-it-the-worker-beside-them-ought-to-be-able-to-keep-it",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Here's where I come down, {presiding}. A worker who thinks the local earned the money can still pay it. The worker beside them ought to be able to keep it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.put-two-workers-on-the-same-line-one-signs-a-union-card-and-one-doesn-t-i-d-want-first-to-be-able-to-tell-both-of-them-they-still-have-a-job-tomorrow",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Put two workers on the same line. One signs a union card and one doesn't. I'd want {first} to be able to tell both of them they still have a job tomorrow.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "first"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "paying-a-fee-does-not-get-a-ratification-ballot"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.the-clerk-on-nights-sees-the-notice-long-after-the-manager-who-posted-it-has-gone-home-i-want-that-clerk-to-be-able-to-finish-the-shift-presiding-without-promising-anybody-a-fee",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "The clerk on nights sees the notice long after the manager who posted it has gone home. I want that clerk to be able to finish the shift, {presiding}, without promising anybody a fee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "the-union-and-store-post-one-notice-about-fees"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.if-first-were-reading-that-notice-on-a-first-day-at-work-i-d-want-the-part-about-keeping-the-job-to-be-plain-you-can-turn-the-local-down-and-stay",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "If {first} were reading that notice on a first day at work, I'd want the part about keeping the job to be plain. You can turn the local down and stay.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "first"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "the-union-and-store-post-one-notice-about-fees"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.when-the-agreement-changes-take-the-old-notice-off-the-wall-don-t-leave-a-clerk-guessing-about-a-payment-that-could-come-out-of-the-grocery-money-presiding-i-m-for-making-it-voluntary",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "When the agreement changes, take the old notice off the wall. Don't leave a clerk guessing about a payment that could come out of the grocery money, {presiding}. I'm for making it voluntary.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "the-union-and-store-post-one-notice-about-fees"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.a-store-gives-a-new-hire-a-work-schedule-the-local-offers-representation-neither-one-presiding-ought-to-get-to-say-the-schedule-depends-on-paying-the-fee",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "A store gives a new hire a work schedule. The local offers representation. Neither one, {presiding}, ought to get to say the schedule depends on paying the fee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "the-union-and-store-post-one-notice-about-fees"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.hear-the-steward-out-about-what-it-costs-to-handle-a-grievance-then-leave-the-decision-about-sending-money-with-the-worker-presiding-that-s-the-vote-i-m-casting",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Hear the steward out about what it costs to handle a grievance. Then leave the decision about sending money with the worker, {presiding}. That's the vote I'm casting.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "a-state-ruling-reopens-one-plants-bargaining-agenda"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.what-i-d-put-to-first-is-simple-enough-let-the-company-and-the-local-settle-hours-between-them-leave-each-person-who-works-those-hours-free-to-decline-a-union-payment",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "What I'd put to {first} is simple enough. Let the company and the local settle hours between them. Leave each person who works those hours free to decline a union payment.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "first"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-24",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "a-state-ruling-reopens-one-plants-bargaining-agenda"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.management-and-the-steward-may-both-want-a-contribution-from-everybody-there-s-one-signature-missing-from-that-bargain-presiding-the-worker-ought-to-get-a-choice",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Management and the steward may both want a contribution from everybody. There's one signature missing from that bargain, {presiding}. The worker ought to get a choice.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "presiding"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "date": "2026-11-25",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "elements": [
+      "a-state-ruling-reopens-one-plants-bargaining-agenda"
+    ],
+    "issues": [
+      "question:us-policy-positions:labor-workforce.right-to-work"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.when-those-negotiators-push-their-chairs-back-it-s-somebody-on-the-shop-floor-who-has-to-pay-what-they-settled-on-i-d-ask-first-to-leave-that-person-room-to-say-no",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "When those negotiators push their chairs back, it's somebody on the shop floor who has to pay what they settled on. I'd ask {first} to leave that person room to say no.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "floor-debate",
+        "key": "honor",
+        "requiresFacts": [
+          "proposes-enact:us-policy-positions:labor-workforce.right-to-work",
+          "speaks-for",
+          "first"
+        ],
+        "onlyWhen": [
+          "body-formal"
+        ]
+      }
+    ],
+    "bearing": "steady",
+    "tag": {
+      "move": "tell",
       "key": "honor"
     },
     "date": "2026-11-25",
