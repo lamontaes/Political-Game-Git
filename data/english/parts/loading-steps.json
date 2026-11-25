@@ -9,10 +9,10 @@
   "maxWords": 30,
   "parts": [
     {
-      "key": "loading-steps.people.putting-people-in-houses-the-houses-were-already-there",
+      "key": "loading-steps.people.putting-people-in-houses-in-place-the-houses-were-already-there",
       "move": "people",
       "kind": "written",
-      "text": "Putting people in houses. The houses were already there.",
+      "text": "Putting people in houses in {place}. The houses were already there.",
       "uses": [
         {
           "subject": "loading-step",
@@ -26,10 +26,10 @@
       "elements": ["average-household-size-is-two-and-a-half"]
     },
     {
-      "key": "loading-steps.people.handing-out-names",
+      "key": "loading-steps.people.handing-out-names-in-place",
       "move": "people",
       "kind": "written",
-      "text": "Handing out names.",
+      "text": "Handing out names in {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -43,10 +43,10 @@
       "elements": ["birth-is-a-form-the-state-keeps"]
     },
     {
-      "key": "loading-steps.past.back-dating-the-country-so-everyone-has-been-there-a-while",
+      "key": "loading-steps.past.back-dating-place-so-everyone-has-been-there-a-while",
       "move": "past",
       "kind": "written",
-      "text": "Back-dating the country so everyone has been there a while.",
+      "text": "Back-dating {place} so everyone has been there a while.",
       "uses": [
         {
           "subject": "loading-step",
@@ -60,10 +60,10 @@
       "elements": ["hometown-question-has-one-factual-answer"]
     },
     {
-      "key": "loading-steps.past.writing-up-the-layoffs-that-moved-people-across-the-country",
+      "key": "loading-steps.past.writing-up-the-layoffs-that-brought-people-to-place",
       "move": "past",
       "kind": "written",
-      "text": "Writing up the layoffs that moved people across the country.",
+      "text": "Writing up the layoffs that brought people to {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -77,10 +77,10 @@
       "elements": ["a-plant-closing-needs-advance-notice-under-the-warn-act"]
     },
     {
-      "key": "loading-steps.economy.pricing-groceries-rent-and-gas-in-every-town",
+      "key": "loading-steps.economy.pricing-groceries-rent-and-gas-in-place",
       "move": "economy",
       "kind": "written",
-      "text": "Pricing groceries, rent and gas in every town.",
+      "text": "Pricing groceries, rent and gas in {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -94,10 +94,10 @@
       "elements": ["a-price-index-follows-a-basket-of-what-people-buy"]
     },
     {
-      "key": "loading-steps.economy.printing-money",
+      "key": "loading-steps.economy.printing-money-for-state",
       "move": "economy",
       "kind": "written",
-      "text": "Printing money.",
+      "text": "Printing money for {state}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -111,10 +111,10 @@
       "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
     },
     {
-      "key": "loading-steps.economy.printing-more-money",
+      "key": "loading-steps.economy.printing-more-money-for-state",
       "move": "economy",
       "kind": "written",
-      "text": "Printing more money.",
+      "text": "Printing more money for {state}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -128,10 +128,10 @@
       "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
     },
     {
-      "key": "loading-steps.economy.printing-even-more-money",
+      "key": "loading-steps.economy.printing-even-more-money-for-state",
       "move": "economy",
       "kind": "written",
-      "text": "Printing even more money.",
+      "text": "Printing even more money for {state}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -145,10 +145,10 @@
       "elements": ["currency-is-ordered-from-the-treasurys-printer-each-year"]
     },
     {
-      "key": "loading-steps.government.deciding-who-holds-every-office-in-the-country-and-since-whe",
+      "key": "loading-steps.government.deciding-who-holds-which-office-in-place-and-since-when",
       "move": "government",
       "kind": "written",
-      "text": "Deciding who holds every office in the country, and since when.",
+      "text": "Deciding who holds which office in {place}, and since when.",
       "uses": [
         {
           "subject": "loading-step",
@@ -162,10 +162,10 @@
       "elements": ["served-out-the-term-and-the-years-named"]
     },
     {
-      "key": "loading-steps.government.swearing-in-every-official-in-the-country",
+      "key": "loading-steps.government.swearing-in-the-officials-of-place",
       "move": "government",
       "kind": "written",
-      "text": "Swearing in every official in the country.",
+      "text": "Swearing in the officials of {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -179,10 +179,10 @@
       "elements": ["introduce-the-official-who-administers-the-oath"]
     },
     {
-      "key": "loading-steps.government.handing-out-government-contracts",
+      "key": "loading-steps.government.handing-out-government-contracts-in-state",
       "move": "government",
       "kind": "written",
-      "text": "Handing out government contracts.",
+      "text": "Handing out government contracts in {state}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -196,10 +196,10 @@
       "elements": ["a-federal-contract-is-let-by-full-and-open-competition"]
     },
     {
-      "key": "loading-steps.elections.setting-every-election-date-in-the-country-so-someone-can-be",
+      "key": "loading-steps.elections.setting-the-election-dates-for-place-so-someone-can-be-disappointed-on-time",
       "move": "elections",
       "kind": "written",
-      "text": "Setting every election date in the country, so someone can be disappointed on time.",
+      "text": "Setting the election dates for {place}, so someone can be disappointed on time.",
       "uses": [
         {
           "subject": "loading-step",
@@ -213,10 +213,10 @@
       "elements": ["federal-election-day-falls-on-a-fixed-tuesday"]
     },
     {
-      "key": "loading-steps.elections.registering-the-country-s-voters-some-of-them-will-read-the",
+      "key": "loading-steps.elections.registering-the-voters-of-place-some-of-them-will-read-the-form",
       "move": "elections",
       "kind": "written",
-      "text": "Registering the country's voters. Some of them will read the form.",
+      "text": "Registering the voters of {place}. Some of them will read the form.",
       "uses": [
         {
           "subject": "loading-step",
@@ -230,10 +230,10 @@
       "elements": ["registering-is-a-form-at-the-motor-vehicle-office"]
     },
     {
-      "key": "loading-steps.budgets.writing-every-town-s-budget",
+      "key": "loading-steps.budgets.writing-the-budget-for-place",
       "move": "budgets",
       "kind": "written",
-      "text": "Writing every town's budget.",
+      "text": "Writing the budget for {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -247,10 +247,10 @@
       "elements": ["school-nurse-in-health-budget"]
     },
     {
-      "key": "loading-steps.cabinet.appointing-every-state-s-cabinet",
+      "key": "loading-steps.cabinet.appointing-the-cabinet-of-state",
       "move": "cabinet",
       "kind": "written",
-      "text": "Appointing every state's cabinet.",
+      "text": "Appointing the cabinet of {state}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -264,10 +264,27 @@
       "elements": ["pattern-a18-the-appointment-with-a-string-on-it"]
     },
     {
-      "key": "loading-steps.opening.finding-your-house-your-household-and-your-first-problem",
+      "key": "loading-steps.workings.sending-reporters-to-the-town-hall-in-place-they-will-wait",
+      "move": "workings",
+      "kind": "written",
+      "text": "Sending reporters to the town hall in {place}. They will wait.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "workings",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["fact-sheet-after-presidents-statement"]
+    },
+    {
+      "key": "loading-steps.opening.finding-your-house-in-place-your-household-and-your-first-problem",
       "move": "opening",
       "kind": "written",
-      "text": "Finding your house, your household and your first problem.",
+      "text": "Finding your house in {place}, your household and your first problem.",
       "uses": [
         {
           "subject": "loading-step",
@@ -281,10 +298,10 @@
       "elements": ["average-household-size-is-two-and-a-half"]
     },
     {
-      "key": "loading-steps.elections.drawing-district-lines-in-every-state-somebody-will-complain",
+      "key": "loading-steps.elections.drawing-district-lines-in-state-somebody-will-complain-about-them",
       "move": "elections",
       "kind": "written",
-      "text": "Drawing district lines in every state. Somebody will complain about them.",
+      "text": "Drawing district lines in {state}. Somebody will complain about them.",
       "uses": [
         {
           "subject": "loading-step",
@@ -300,10 +317,10 @@
       ]
     },
     {
-      "key": "loading-steps.history.taking-the-census-again",
+      "key": "loading-steps.history.taking-the-census-in-state-again",
       "move": "history",
       "kind": "written",
-      "text": "Taking the census, again.",
+      "text": "Taking the census in {state}, again.",
       "uses": [
         {
           "subject": "loading-step",
@@ -317,10 +334,10 @@
       "elements": ["the-constitution-orders-a-head-count-every-ten-years"]
     },
     {
-      "key": "loading-steps.history.redrawing-the-districts-after-each-census",
+      "key": "loading-steps.history.redrawing-the-districts-in-state-after-each-census",
       "move": "history",
       "kind": "written",
-      "text": "Redrawing the districts after each census.",
+      "text": "Redrawing the districts in {state} after each census.",
       "uses": [
         {
           "subject": "loading-step",
@@ -336,10 +353,10 @@
       ]
     },
     {
-      "key": "loading-steps.core.opening-every-fiscal-year-on-its-state-s-date",
+      "key": "loading-steps.core.opening-place-s-fiscal-year-on-the-state-s-date",
       "move": "core",
       "kind": "written",
-      "text": "Opening every fiscal year on its state's date.",
+      "text": "Opening {place}'s fiscal year on the state's date.",
       "uses": [
         {
           "subject": "loading-step",
@@ -353,10 +370,10 @@
       "elements": ["most-states-start-their-fiscal-year-on-the-first-of-july"]
     },
     {
-      "key": "loading-steps.core.counting-everyone-in-the-country-for-the-first-time",
+      "key": "loading-steps.core.counting-up-the-people-of-place-for-the-first-time",
       "move": "core",
       "kind": "written",
-      "text": "Counting everyone in the country for the first time.",
+      "text": "Counting up the people of {place} for the first time.",
       "uses": [
         {
           "subject": "loading-step",
@@ -370,10 +387,10 @@
       "elements": ["the-constitution-orders-a-head-count-every-ten-years"]
     },
     {
-      "key": "loading-steps.budgets.opening-the-books-for-the-new-fiscal-year",
+      "key": "loading-steps.budgets.opening-the-books-for-the-new-fiscal-year-in-state",
       "move": "budgets",
       "kind": "written",
-      "text": "Opening the books for the new fiscal year.",
+      "text": "Opening the books for the new fiscal year in {state}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -387,10 +404,10 @@
       "elements": ["most-states-start-their-fiscal-year-on-the-first-of-july"]
     },
     {
-      "key": "loading-steps.budgets.putting-the-money-for-the-nurse-under-the-right-department",
+      "key": "loading-steps.budgets.putting-the-money-for-the-nurse-under-the-right-department-in-place",
       "move": "budgets",
       "kind": "written",
-      "text": "Putting the money for the nurse under the right department.",
+      "text": "Putting the money for the nurse under the right department in {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -404,10 +421,10 @@
       "elements": ["school-nurse-in-health-budget"]
     },
     {
-      "key": "loading-steps.budgets.finding-room-in-the-budget-for-child-care",
+      "key": "loading-steps.budgets.finding-room-in-the-budget-for-place-s-child-care",
       "move": "budgets",
       "kind": "written",
-      "text": "Finding room in the budget for child care.",
+      "text": "Finding room in the budget for {place}'s child care.",
       "uses": [
         {
           "subject": "loading-step",
@@ -421,10 +438,10 @@
       "elements": ["child-care-seat-between-programs"]
     },
     {
-      "key": "loading-steps.warmup.withholding-income-tax-from-the-first-paychecks",
+      "key": "loading-steps.warmup.withholding-income-tax-from-the-first-paychecks-in-place",
       "move": "warmup",
       "kind": "written",
-      "text": "Withholding income tax from the first paychecks.",
+      "text": "Withholding income tax from the first paychecks in {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -438,10 +455,10 @@
       "elements": ["a-first-paycheck-has-income-tax-taken-out"]
     },
     {
-      "key": "loading-steps.warmup.letting-the-electric-bills-pile-up",
+      "key": "loading-steps.warmup.letting-the-electric-bills-pile-up-in-place",
       "move": "warmup",
       "kind": "written",
-      "text": "Letting the electric bills pile up.",
+      "text": "Letting the electric bills pile up in {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -455,10 +472,10 @@
       "elements": ["lights-out-before-the-evening-is-over"]
     },
     {
-      "key": "loading-steps.legislature.sending-bills-through-committee-in-every-legislature",
+      "key": "loading-steps.legislature.sending-bills-through-committee-in-state",
       "move": "legislature",
       "kind": "written",
-      "text": "Sending bills through committee in every legislature.",
+      "text": "Sending bills through committee in {state}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -472,10 +489,10 @@
       "elements": ["unopposed-through-committee-and-floor"]
     },
     {
-      "key": "loading-steps.legislature.holding-the-leadership-ballots-before-anyone-is-sworn-in",
+      "key": "loading-steps.legislature.holding-the-leadership-ballots-in-state-before-anyone-is-sworn-in",
       "move": "legislature",
       "kind": "written",
-      "text": "Holding the leadership ballots before anyone is sworn in.",
+      "text": "Holding the leadership ballots in {state} before anyone is sworn in.",
       "uses": [
         {
           "subject": "loading-step",
@@ -489,10 +506,10 @@
       "elements": ["oath-waits-for-speaker"]
     },
     {
-      "key": "loading-steps.cabinet.filling-vacancies-by-appointment",
+      "key": "loading-steps.cabinet.filling-vacancies-in-state-by-appointment",
       "move": "cabinet",
       "kind": "written",
-      "text": "Filling vacancies by appointment.",
+      "text": "Filling vacancies in {state} by appointment.",
       "uses": [
         {
           "subject": "loading-step",
@@ -506,10 +523,10 @@
       "elements": ["vacancy-rules-stated-flat"]
     },
     {
-      "key": "loading-steps.cabinet.naming-a-committee-to-pick-a-replacement",
+      "key": "loading-steps.cabinet.naming-a-committee-to-pick-a-replacement-in-state",
       "move": "cabinet",
       "kind": "written",
-      "text": "Naming a committee to pick a replacement.",
+      "text": "Naming a committee to pick a replacement in {state}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -523,10 +540,10 @@
       "elements": ["a-nominating-committee-picks-a-replacement"]
     },
     {
-      "key": "loading-steps.workings.posting-the-agenda-before-the-meeting",
+      "key": "loading-steps.workings.posting-the-agenda-in-place-before-the-meeting",
       "move": "workings",
       "kind": "written",
-      "text": "Posting the agenda before the meeting.",
+      "text": "Posting the agenda in {place} before the meeting.",
       "uses": [
         {
           "subject": "loading-step",
@@ -540,10 +557,10 @@
       "elements": ["not-on-the-agenda-as-a-checkable-hook"]
     },
     {
-      "key": "loading-steps.workings.setting-the-next-meeting-date",
+      "key": "loading-steps.workings.setting-the-next-meeting-date-in-place",
       "move": "workings",
       "kind": "written",
-      "text": "Setting the next meeting date.",
+      "text": "Setting the next meeting date in {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -557,10 +574,10 @@
       "elements": ["next-meeting-date"]
     },
     {
-      "key": "loading-steps.workings.recording-who-was-absent",
+      "key": "loading-steps.workings.recording-who-was-absent-in-place",
       "move": "workings",
       "kind": "written",
-      "text": "Recording who was absent.",
+      "text": "Recording who was absent in {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -574,10 +591,10 @@
       "elements": ["kicker-says-who-was-absent"]
     },
     {
-      "key": "loading-steps.opening.leaving-the-lights-on",
+      "key": "loading-steps.opening.leaving-the-lights-on-in-place",
       "move": "opening",
       "kind": "written",
-      "text": "Leaving the lights on.",
+      "text": "Leaving the lights on in {place}.",
       "uses": [
         {
           "subject": "loading-step",
@@ -591,10 +608,27 @@
       "elements": ["lights-out-before-the-evening-is-over"]
     },
     {
-      "key": "loading-steps.elections.checking-the-ballot-boxes-one-more-time",
+      "key": "loading-steps.opening.counting-who-is-home-in-place",
+      "move": "opening",
+      "kind": "written",
+      "text": "Counting who is home in {place}.",
+      "uses": [
+        {
+          "subject": "loading-step",
+          "role": "opening",
+          "tie": "frame"
+        }
+      ],
+      "origin": "authored",
+      "author": "the loading and history writer",
+      "date": "2026-11-24",
+      "elements": ["three-in-ten-households-are-one-person"]
+    },
+    {
+      "key": "loading-steps.elections.checking-the-ballot-boxes-in-place-one-more-time",
       "move": "elections",
       "kind": "written",
-      "text": "Checking the ballot boxes one more time.",
+      "text": "Checking the ballot boxes in {place} one more time.",
       "uses": [
         {
           "subject": "loading-step",

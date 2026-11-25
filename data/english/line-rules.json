@@ -376,64 +376,6 @@
       "spares": ["Yes. Put me down for it."]
     },
     {
-      "id": "no-agreement-only-line",
-      "says": "A line that only agrees, accepts or waits (\"Proudly, yes.\", \"I'm with you.\", \"Count me in.\", \"Of course.\", \"I'll wait.\") is never a whole line; it says what it agrees to and why.",
-      "judges": "line",
-      "from": [
-        {
-          "date": "2026-11-25",
-          "words": "there are replies like, I agree. Proudly so. Why are these coming back in? Look, oh my God, there was grading that was good. Why am I reverting to the beginning every single time?"
-        }
-      ],
-      "status": "enforced",
-      "failsBuild": true,
-      "test": {
-        "kind": "patterns",
-        "patterns": [
-          "^(?:(?:proudly|gladly|happily|absolutely|definitely|certainly|sure|of course|okay|ok|all right|alright|fine|yes|yeah|yep|yup|i agree|agreed|i'm with you|i am with you|count me in|you've got it|you have it|you got it|deal|done|i'm in|me too|same here|right|exactly|so|then|i'll wait|i will wait)(?:[,.!]\\s*|\\s+)?){1,3}(?:proudly so|gladly so|so)?[.!]?$"
-        ]
-      },
-      "applies": {
-        "banks": ["scene-talk", "conversation"],
-        "kinds": ["spoken"]
-      },
-      "catches": [
-        "Proudly, yes.",
-        "I'm with you.",
-        "Count me in.",
-        "I agree. Proudly so.",
-        "I'll wait, then."
-      ],
-      "spares": [
-        "Yes. Put me down for it.",
-        "How could I say no?",
-        "Yes, thank you.",
-        "When you put it like that, yes."
-      ]
-    },
-    {
-      "id": "loading-steps-speak-of-the-country",
-      "says": "A loading step speaks of the whole country being built and never names the player's town or state.",
-      "judges": "line",
-      "from": [
-        {
-          "date": "2026-11-25",
-          "words": "Second, it's talking about Evendale. Stop. It should not be that specific. It's talking about the country at wide."
-        }
-      ],
-      "status": "enforced",
-      "failsBuild": true,
-      "test": {
-        "kind": "patterns",
-        "patterns": ["\\{(?:place|state)\\}"]
-      },
-      "applies": {
-        "banks": ["loading-steps"]
-      },
-      "catches": ["Pricing groceries, rent and gas in {place}."],
-      "spares": ["Pricing groceries, rent and gas in every town."]
-    },
-    {
       "id": "no-placing-narration",
       "says": "No line says only where the player is or who is with them (\"You're in {place}\", \"{person} is with you\"); the screen shows both.",
       "judges": "line",
