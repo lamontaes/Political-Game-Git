@@ -180,7 +180,14 @@ export interface SituationType {
    * Nov 13, rule 13: "a debate opens in the room it is held in, never from a
    * street stop").
    */
-  arrivesBy?: "day";
+  /**
+   * "talk": the scene's own talk opens on where the player is (a door on a
+   * canvass: "two hours into your walk"), so the staged scene leaves out the
+   * arrival's clock and opens on that narration where the talk has one (owner,
+   * Nov 24, P45: "you already know what day and time it is"; CTO row: "The
+   * narration never repeats the clock").
+   */
+  arrivesBy?: "day" | "talk";
   /**
    * A scene that is an event in itself (a swearing-in, owner Oct 29; a
    * person's own first date, the proposal they are asked, the birth of their

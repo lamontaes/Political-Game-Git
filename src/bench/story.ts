@@ -20,6 +20,7 @@ import {
 import { backdropFor, peopleHere, type StageReason } from "./scene";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
+import { SITUATION_LIBRARY } from "../director/scheduling";
 
 /**
  * Dev mode's "why this reply": the scene's facts with the records each cites,
@@ -286,11 +287,16 @@ export function storyScene(
     // narrators per scene ... One narrator, the director's").
     // Every scene's first line names the day, the place and the person
     // (owner, Nov 8): a purpose's own setup that already names the day
-    // (the filing counter) keeps its own.
+    // (the filing counter) keeps its own. A scene that arrives by its talk (a
+    // door on a canvass) opens on where the player is in the session, never
+    // the clock (owner, Nov 24, P45).
     narration:
       purpose?.kind === "composed" && purpose.scene.talk.narration.length
         ? [
             ...(scene.arrival &&
+            SITUATION_LIBRARY.types.find(
+              (row) => row.key === purpose.scene.typeKey,
+            )?.arrivesBy !== "talk" &&
             !purpose.scene.talk.narration.some((line) =>
               line.text.includes(dateSaid(core.date)),
             )
