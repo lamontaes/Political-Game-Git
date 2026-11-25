@@ -1,0 +1,30 @@
+{
+  "id": "a-corporate-tax-headline-follows-a-household-tax-bill",
+  "kind": "voice",
+  "summary": "A retiree hearing about a company's taxes asks how the rules apply across town and across the country.",
+  "realLife": "After learning of her household's federal balance, Allington described how a broadcast about Amazon's taxes sharpened her frustration.",
+  "sources": ["https://missoulacurrent.com/irs-tax-law/"],
+  "inGame": "needs: a constituent connects a household balance with a specific corporate news report.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{retiree}", "{legislator}"],
+  "gates": [
+    "A constituent connects a household balance with a specific corporate news report."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The legislator can address the reported measure.",
+      "pulledBy": "The office obtains the underlying corporate filing.",
+      "writesBack": "The reply cites the reporting period."
+    },
+    {
+      "turn": "partial",
+      "what": "The office asks for the broadcast before using it.",
+      "pulledBy": "Only the caller's recollection is available.",
+      "writesBack": "The question is logged without endorsing the claim."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

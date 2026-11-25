@@ -1,0 +1,39 @@
+{
+  "id": "variable-earnings-make-a-refund-feel-safer",
+  "kind": "voice",
+  "summary": "A family with uneven earnings would give up some take-home pay for a predictable filing season.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. McCreanor described how variable household income, chiefly from his wife's telecommunications work, made avoiding a surprise bill important to them. In guidance on its redesigned 2020 form, IRS explained how a worker who wanted a larger cushion could specify an extra amount for each paycheck.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=180",
+    "https://www.irs.gov/newsroom/faqs-on-the-2020-form-w-4"
+  ],
+  "inGame": "needs: an earnings history shows swings and the household has stated a preference for a cushion.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{worker}"],
+  "gates": [
+    "An earnings history shows swings and the household has stated a preference for a cushion."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The worker asks payroll for a larger deduction.",
+      "pulledBy": "A high-earning month creates room.",
+      "writesBack": "The next stub becomes a point of comparison."
+    },
+    {
+      "turn": "partial",
+      "what": "The family defers the change.",
+      "pulledBy": "A lean month falls before rent.",
+      "writesBack": "Its preference stays on record for a later conversation."
+    },
+    {
+      "turn": "late",
+      "what": "The worker enters a fixed extra deduction for each payday.",
+      "pulledBy": "The worker’s earnings rise after the revised form becomes available and the household agrees on a specific cushion.",
+      "writesBack": "The family can compare the first affected stub with the amount it chose."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

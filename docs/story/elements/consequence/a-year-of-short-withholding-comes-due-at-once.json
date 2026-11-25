@@ -1,0 +1,32 @@
+{
+  "id": "a-year-of-short-withholding-comes-due-at-once",
+  "kind": "consequence",
+  "summary": "A household that can cover the tax still has to find the whole payment in one month.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. Kraft said the couple could cover the bill and recognized how much of it they otherwise would have paid during the year.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=179"
+  ],
+  "inGame": "needs: a filed balance comes due after a year of smaller payroll deductions.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{employer}"],
+  "gates": [
+    "A filed balance comes due after a year of smaller payroll deductions."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "It draws down the reserve.",
+      "pulledBy": "The household has liquid savings.",
+      "writesBack": "The next household scene starts with a smaller cushion."
+    },
+    {
+      "turn": "partial",
+      "what": "The family asks about payment arrangements.",
+      "pulledBy": "The reserve is committed to another expense.",
+      "writesBack": "The caseworker has a dated follow-up."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

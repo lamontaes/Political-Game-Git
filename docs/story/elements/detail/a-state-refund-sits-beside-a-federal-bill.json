@@ -1,0 +1,30 @@
+{
+  "id": "a-state-refund-sits-beside-a-federal-bill",
+  "kind": "detail",
+  "summary": "A state refund arrives on one return while a much larger federal balance appears on the other.",
+  "realLife": "Allington's household expected a small Montana refund and owed thousands on its federal return.",
+  "sources": ["https://missoulacurrent.com/irs-tax-law/"],
+  "inGame": "needs: the same household has filed with both jurisdictions and the balances run in opposite directions.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{staffer}"],
+  "gates": [
+    "The same household has filed with both jurisdictions and the balances run in opposite directions."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "Staff separates the two amounts and deadlines.",
+      "pulledBy": "The caller brings both notices.",
+      "writesBack": "The case file points to the right office for each."
+    },
+    {
+      "turn": "partial",
+      "what": "Staff asks for the federal return before discussing its balance.",
+      "pulledBy": "The caller has only the state notice.",
+      "writesBack": "The federal question remains on the callback list."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

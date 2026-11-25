@@ -1,0 +1,30 @@
+{
+  "id": "a-filer-rebuilds-the-calculation-by-hand",
+  "kind": "move",
+  "summary": "A filer works backward through the tax rules to find the step that changed the answer.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. Kraft described assembling the figures himself and studying IRS material after the balance surprised him.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=179"
+  ],
+  "inGame": "needs: a filer brings the worksheets behind a disputed estimate.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{filer}", "{caseworker}"],
+  "gates": ["A filer brings the worksheets behind a disputed estimate."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The caseworker checks the underlying entry.",
+      "pulledBy": "The filer can point to a particular line.",
+      "writesBack": "The reply addresses a specific calculation."
+    },
+    {
+      "turn": "partial",
+      "what": "The caseworker requests the matching year's instructions.",
+      "pulledBy": "The worksheets cover different years.",
+      "writesBack": "The case waits for the dated worksheet."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}

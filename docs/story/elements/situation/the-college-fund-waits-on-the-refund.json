@@ -1,0 +1,32 @@
+{
+  "id": "the-college-fund-waits-on-the-refund",
+  "kind": "situation",
+  "summary": "A smaller refund leaves less money for a family's customary college contribution.",
+  "realLife": "An Associated Press account entered in a 2019 House hearing record reported this case. In Milton, Georgia, the McCreanors reserved their refunds for their daughters' education and received far less than the previous year.",
+  "sources": [
+    "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36241/pdf/CHRG-116hhrg36241.pdf#page=180"
+  ],
+  "inGame": "needs: the education budget counts on the refund from a particular return.",
+  "fits": ["office", "journal", "news", "home"],
+  "slots": ["{household}", "{student}"],
+  "gates": [
+    "The education budget counts on the refund from a particular return."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The family covers the gap from another account.",
+      "pulledBy": "The semester deposit is due soon.",
+      "writesBack": "The household postpones a different purchase."
+    },
+    {
+      "turn": "partial",
+      "what": "The family moves the contribution to a later paycheck.",
+      "pulledBy": "The deposit can wait.",
+      "writesBack": "The education calendar carries the new date."
+    }
+  ],
+  "issues": ["law:income-tax"]
+}
