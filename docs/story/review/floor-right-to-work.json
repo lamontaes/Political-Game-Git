@@ -301,7 +301,7 @@
           "presiding",
           "speaks-for"
         ],
-        "after": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check"
+        "after": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant"
       },
       {
         "subject": "scene",
@@ -393,7 +393,7 @@
           "presiding",
           "speaks-for"
         ],
-        "after": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check"
+        "after": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant"
       },
       {
         "subject": "scene",
@@ -485,7 +485,7 @@
           "presiding",
           "speaks-against"
         ],
-        "after": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check"
+        "after": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant"
       },
       {
         "subject": "scene",
@@ -577,7 +577,7 @@
           "presiding",
           "speaks-against"
         ],
-        "after": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check"
+        "after": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant"
       },
       {
         "subject": "scene",
@@ -6164,10 +6164,10 @@
     ]
   },
   {
-    "key": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check",
+    "key": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant",
     "kind": "spoken",
     "move": "reply-ask",
-    "text": "Where would {name} tell a worker to look after a transfer across the state line? The employer's name stays the same on the check.",
+    "text": "The worker transfers across the state line and the same company signs the check. Which state's fee rule would {name} apply at the new plant?",
     "uses": [
       {
         "subject": "scene",
@@ -11819,7 +11819,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check"
+        "after": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant"
       },
       {
         "subject": "scene",
@@ -11911,7 +11911,7 @@
           "speaks-for",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check"
+        "after": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant"
       },
       {
         "subject": "scene",
@@ -12003,7 +12003,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check"
+        "after": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant"
       },
       {
         "subject": "scene",
@@ -12095,7 +12095,7 @@
           "speaks-against",
           "presiding"
         ],
-        "after": "scene-talk.reply-ask.where-would-name-tell-a-worker-to-look-after-a-transfer-across-the-state-line-the-employer-s-name-stays-the-same-on-the-check"
+        "after": "scene-talk.reply-ask.the-worker-transfers-across-the-state-line-and-the-same-company-signs-the-check-which-state-s-fee-rule-would-name-apply-at-the-new-plant"
       },
       {
         "subject": "scene",
