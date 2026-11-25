@@ -50,6 +50,8 @@ const past = (key: string) => PAST[key]!.value;
 const FIRST_AGE = 13;
 const BY_18 = 18;
 const BY_23 = 23;
+/** The trait that stands for conscientiousness in the people engine (data/health.json `conscientiousnessTrait`). */
+const RELIABILITY_TRAIT = "people-mind-v1:reliability";
 
 /** The share arrested by an age: from none at 13, through the study's shares at 18 and 23. */
 function arrestedBy(age: number): number {
@@ -83,7 +85,16 @@ export function pastArrestOf(
   if (last <= FIRST_AGE) return undefined;
   const rng = new SeededRng(core.seed).fork(`past-arrest:${person.id}`);
   const line = lineOf(rng.fork("arrest"));
-  const pullBy = (age: number) => -Math.log(1 - arrestedBy(age));
+  // Their own reliability (conscientiousness, -2..2) moves the pull on the log
+  // scale: a steadier young person is arrested less, a less steady one more.
+  // The published shares are the baseline at the trait's middle, fitted once;
+  // no one's arrest is a share of anything, it is their own pull reaching
+  // their own line.
+  const own = Math.exp(
+    -past("pastArrestLogPerReliabilityLevel") *
+      (person.traits[RELIABILITY_TRAIT] ?? 0),
+  );
+  const pullBy = (age: number) => own * -Math.log(1 - arrestedBy(age));
   if (pullBy(last) < line) return undefined;
   // The age the pull reaches the line, between the whole years around it.
   let age = FIRST_AGE;

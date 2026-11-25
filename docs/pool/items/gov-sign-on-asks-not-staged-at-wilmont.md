@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 9664
+pr: #9664
 blocked-on:
 source: "the Account lead, Nov 16: bill-sign-on Wilmont MN red on Train 2 head ef708196, found while gating the favor fix"
 claimed-at:
@@ -17,6 +17,7 @@ lead: laws
 model: sonnet
 effort: medium
 root: rc3-thin-life-record
+merged-at: 2026-11-16T19:58:43.915Z
 ---
 
 **What.** The test `the player asks, the colleague answers from the record, and a yes is a name the chair weighs` in `src/director/bill-sign-on.test.ts` fails at Wilmont, Minnesota, where the player's bills are drafted and no sign-on ask is staged on the player's schedule. A player there who drafts bills is never asked by the game to go to colleagues for their names. Seen: the played world at Wilmont, Minnesota (place 2770582, world seed 2cb5aaf15d55f6b06548834319221a87402931e3d1570c6e674f546d2ff2025f), after drafting a bill on each question and playing two days.

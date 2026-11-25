@@ -1,0 +1,30 @@
+{
+  "id": "clear-the-calendar-before-long-debate",
+  "kind": "move",
+  "summary": "Members finish work on other bills before one debate can occupy the floor for weeks.",
+  "realLife": "Mansfield got tax and farm legislation through before bringing up civil rights.",
+  "sources": [
+    "https://www.senate.gov/legislative/landmark-legislation/civil-rights-act-of-1964/proponents-build-a-strategy-for-success-essay.htm"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{leader}", "{pending_bill}", "{other_bill}"],
+  "gates": ["Several bills are awaiting floor time."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a floor calendar that records the sequence chosen by the floor manager.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The leader brings up the disputed bill with routine measures still pending.",
+      "pulledBy": "The time available for the disputed bill is running out.",
+      "writesBack": "The routine measures remain on the calendar behind it."
+    },
+    {
+      "turn": "partial",
+      "what": "The chamber disposes of the tax bill and carries the farm bill over.",
+      "pulledBy": "Only the tax agreement is ready for a vote.",
+      "writesBack": "One pending item follows members into the long debate."
+    }
+  ],
+  "issues": ["none"]
+}

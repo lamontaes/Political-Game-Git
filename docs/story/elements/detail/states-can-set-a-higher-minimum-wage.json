@@ -1,0 +1,31 @@
+{
+  "id": "states-can-set-a-higher-minimum-wage",
+  "kind": "detail",
+  "summary": "Many states have their own minimum wage laws, and an employer must follow the one that protects the worker more.",
+  "realLife": "Many states have their own minimum wage laws, and where state law gives more protection, employers must follow both.",
+  "sources": [
+    "U.S. Department of Labor, Minimum Wage: https://www.dol.gov/agencies/whd/minimum-wage"
+  ],
+  "fits": ["loading"],
+  "slots": ["wage", "state"],
+  "gates": [],
+  "weights": {
+    "wage": 0.5
+  },
+  "inGame": "the minimum wage law in force at the player's place (the laws module's wage floor by jurisdiction).",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A state that has no minimum wage of its own and falls back to the federal one.",
+      "pulledBy": "the state's law table",
+      "writesBack": "the federal floor applies"
+    },
+    {
+      "turn": "partial",
+      "what": "A town that sets its own higher floor.",
+      "pulledBy": "a local ordinance",
+      "writesBack": "a third floor applies"
+    }
+  ],
+  "usedBy": []
+}

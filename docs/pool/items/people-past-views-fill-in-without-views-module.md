@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-8fxsy5-views
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,6 +16,8 @@ source: "Account lead laws thread, Nov 15, 2026, running src/core2/residents.tes
 model: sonnet
 effort: low
 root: rc2-done-from-records
+claimed-at:
+branch: claude/project-thread-8fxsy5-views
 ---
 
 **What.** In a world built without the views module, filling in a counted person throws `Module has no registered state.`, so `src/core2/residents.test.ts` "keeps no past in the counts and runs the same one at every fill-in" is red in every place it draws (Flomaton, Alabama, seed b0fe7d0b36fad01dafef1820e79dd84c; Sinajana, Guam, seed f696c6e2c2220d2f257437f19f34c1d1), with and without the Social Security change on train head 2190669e. The fill-in guarantee it checks (the same past at every fill-in) is proved by nothing while it is red. Guards: the two-level population's fill-in in every world, including a unit test's small one.
@@ -33,3 +35,5 @@ root: rc2-done-from-records
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/views.ts
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5-views since 2026-11-15 02:46 UTC, more than twice its 1-hour time box. Continue on branch claude/project-thread-8fxsy5-views.

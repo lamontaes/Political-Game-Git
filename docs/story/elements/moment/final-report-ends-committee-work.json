@@ -1,0 +1,32 @@
+{
+  "id": "final-report-ends-committee-work",
+  "kind": "moment",
+  "summary": "{person} turns in a final report and the committee’s assignment ends.",
+  "realLife": "Charles Fahy’s committee on equal treatment in the military finished its work with a report submitted in May 1950.",
+  "sources": [
+    "https://www.archives.gov/milestone-documents/executive-order-9981"
+  ],
+  "fits": ["office", "journal", "news", "speeches"],
+  "slots": ["{person}"],
+  "gates": ["A temporary committee has submitted its final report."],
+  "weights": [
+    "Unresolved questions from implementing agencies favor a follow-up assignment."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the closing date of a temporary committee.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The committee continues after its report.",
+      "pulledBy": "The executive assigns a follow-up review.",
+      "writesBack": "Its mandate gains a second reporting date."
+    },
+    {
+      "turn": "partial",
+      "what": "A smaller group stays to answer implementation questions.",
+      "pulledBy": "Agencies still need interpretations of two findings.",
+      "writesBack": "The new roster names the members who remain."
+    }
+  ],
+  "issues": ["none"]
+}

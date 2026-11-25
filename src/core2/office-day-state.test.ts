@@ -515,8 +515,17 @@ it("every one of the 56 places has a district week and an interim committee day,
 });
 
 it("dev start seats the player through the offices term writer: serving term ended, dev-start term put, took-office emitted", () => {
-  const seed = randomBytes(8).toString("hex");
+  const seed = process.env.GOLDEN_PATH_SEED ?? "pin-office-state-dev-start";
   const place = drawPlace(seed, "office-state-dev-start");
+  console.log(
+    `office-state-dev-start: ${place.name} [${place.key}], seed ${seed}`,
+  );
+  // The fixed seed still draws its pinned place.
+  if (!process.env.GOLDEN_PATH_SEED)
+    expect(place).toMatchObject({
+      key: "territory:AS:afao",
+      name: "Afao, American Samoa",
+    });
   const where = `${place.name} [${place.key}], seed ${seed}`;
   setBookkeeping(false);
   const { core } = buildBenchWorld(seed, gameStartDate(), {
@@ -568,4 +577,8 @@ it("dev start seats the player through the offices term writer: serving term end
   const later = stateOfficeOf(api, player.id);
   expect(later?.personId, `${where}: the state office day`).toBe(player.id);
   expect(later?.termId, `${where}: the term read`).toBe(mine.id);
-});
+  // Pinned (Nov 16): the seed was drawn at run time with randomBytes and never printed. The fixed
+  // seed draws Afao, American Samoa first, where the player is seated as governor; GOLDEN_PATH_SEED
+  // replays another draw, and the line above prints it. Alone the case took 13 s here and 31 s in
+  // the lead's run (Nov 16, Train 2ef89906); its limit is about twice the slower, 65 s.
+}, 65_000);

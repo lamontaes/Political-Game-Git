@@ -19,6 +19,7 @@ import { considerBribe } from "./modules/corruption";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const seed = "ce7a4fce5dcd8334";
 
@@ -46,7 +47,7 @@ describe(`a layoff after officials are imprisoned (seed ${seed})`, () => {
           .map((t) => t.personId!),
       ),
     ].slice(0, 12);
-    const rich = [...core.people.values()]
+    const rich = townResidentsByCash(core, coreAPI(core))
       .filter(
         (p) =>
           p.alive &&
@@ -54,7 +55,6 @@ describe(`a layoff after officials are imprisoned (seed ${seed})`, () => {
           !members.includes(p.id) &&
           alive(p.id),
       )
-      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
       .slice(0, 15);
     // The only forced part is the offers; everything after is the engines' own.
     for (const offerer of rich)

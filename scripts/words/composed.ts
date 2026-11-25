@@ -38,10 +38,8 @@ import { realLocalities } from "../../src/core2/places";
 import { racesOf } from "../../src/core2/modules/voting";
 import { coreAPI } from "../../src/core2/state";
 import { recordLocalAddress } from "../../src/director/local-address";
-import {
-  ADDRESS_FACT,
-  ADDRESS_PART_BREAK,
-} from "../../src/director/opening-facts";
+import { addressPartsOf, saidOf } from "../../src/director/address-render";
+import { ADDRESS_FACT } from "../../src/director/opening-facts";
 import {
   baselineFailures,
   runComposedRules,
@@ -364,15 +362,13 @@ export async function playLife(
       const facts = (row.facts ?? {}) as Json;
       if (
         /^(president|governor|mayor)\.address$/.test(kind) &&
-        facts[ADDRESS_FACT.text]
+        saidOf(facts as Record<string, unknown>).length
       )
         addSpeech(
           kind,
           String(row.id),
           String(facts[ADDRESS_FACT.speaker] ?? ""),
-          String(facts[ADDRESS_FACT.parts] ?? facts[ADDRESS_FACT.text]).split(
-            ADDRESS_PART_BREAK,
-          ),
+          addressPartsOf(facts as Record<string, unknown>),
           [me],
         );
     }

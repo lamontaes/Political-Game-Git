@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -11,10 +10,20 @@ import { buildBenchWorld } from "./world";
 
 // Before the vote the player sees what colleagues told them and their aide's estimate, in words and marked as
 // able to be wrong: it reads only what members told the player, and members who have not said are the margin.
-const seed =
-  process.env.AIDE_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env AIDE_SEED, GOLDEN_PATH_SEED or randomBytes, so the places it drew
+// changed every run. The fixed seed below draws Ta'ū, American Samoa
+// (territory:AS:tau) first for "aide-estimate".
+// Limit: the slowest case took 81 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 170 s.
+const seed = "pin-bill-aide";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "aide-estimate")).toMatchObject({
+    key: "territory:AS:tau",
+    name: "Ta'\u016b, American Samoa",
+  });
+});
 
 describe(`the aide's estimate on the paper (seed ${seed})`, () => {
   it("is drawn from what members told the player and leaves the rest as the margin", () => {
@@ -99,5 +108,5 @@ describe(`the aide's estimate on the paper (seed ${seed})`, () => {
     throw new Error(
       `no drawn place had a body of three (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 170_000);
 });

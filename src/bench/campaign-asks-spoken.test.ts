@@ -15,6 +15,13 @@ import { buildBenchWorld } from "./world";
 // The volunteer and endorsement asks are answered in each person's own
 // spoken words (agreements/3-4.md, Lane 3's campaignAnswer), the name shown
 // as the speaker, never narrated inside the line. Drawn places, a fresh seed.
+// The seed is drawn each run (GOLDEN_PATH_SEED replays one), and the test
+// passes over places where nobody could file. An acquaintance who is still in
+// the counts is filled in when the candidate asks them, so every answer has a
+// speaker and a line (item tests-campaign-ask-answer-is-an-empty-line: at
+// St. Hedwig, Texas the answer came from someone never filled in).
+// Limit: 1,800 s, the drawn test's own limit before it was pinned; one place
+// took 118 s on a machine shared with a 20-year run.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const YEAR = 365;
 
@@ -32,11 +39,18 @@ it("campaign asks are answered in the speaker's own words on the bench", () => {
     for (let day = 0; !openContests(api).length && day < YEAR; day += 7)
       advanceCore(core, addDays(makeIsoDate(core.date), 7));
     // A grown resident of the town files and plays (as election night's
-    // check does): the campaign is theirs.
+    // check does): the campaign is theirs. The asks go to the people the
+    // candidate knows, so the candidate is one who knows someone (at Banks,
+    // Alabama, seed 04a7be993b4e732c:0, the first resident who could file
+    // knew nobody, and nobody was asked).
     const townId = core.people.get(playerId!)?.placeId;
     const town = [...core.people.values()]
       .filter(
-        (p) => p.alive && p.placeId === townId && p.birthDate < "1990-01-01",
+        (p) =>
+          p.alive &&
+          p.placeId === townId &&
+          p.birthDate < "1990-01-01" &&
+          p.knownIds.size > 0,
       )
       .sort((a, b) => a.id.localeCompare(b.id))
       .slice(0, 30);
@@ -83,11 +97,11 @@ it("campaign asks are answered in the speaker's own words on the bench", () => {
           `${person.givenName} ${person.familyName}`,
         );
       }
-      console.log(
-        `${where}: ${kind}: ${result.answers
+      process.stdout.write(
+        `${where} (passed over: ${notes.join("; ") || "none"}): ${kind}: ${result.answers
           .slice(0, 2)
           .map((a) => `${a.name}: "${a.line}"`)
-          .join(" | ")}`,
+          .join(" | ")}\n`,
       );
     }
     return;

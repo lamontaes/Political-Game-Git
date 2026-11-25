@@ -9,6 +9,7 @@ import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { BRIBE_OFFERED, considerBribe } from "../core2/modules/corruption";
 import { coreAPI } from "../core2/state";
 import { purposeScene } from "./purpose-scene";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // The one offering money says what they want (Words lead, Nov 14: "the
 // person offering does not spell out the money or the deal, but the path
@@ -38,17 +39,13 @@ describe("a bribe offer names what it wants", () => {
       .rows()[0] as unknown as { id: string };
     expect(gov, where).toBeTruthy();
     const subjectId = `contract:${gov.id}:highways:${core.date}`;
-    const offerers = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.id !== playerId &&
-          row.alive &&
-          row.placeId === player.placeId &&
-          row.liquidMinor > 0,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const offerers = townResidentsByCash(core, coreAPI(core)).filter(
+      (row) =>
+        row.id !== playerId &&
+        row.alive &&
+        row.placeId === player.placeId &&
+        row.liquidMinor > 0,
+    );
     let crimeId: string | undefined;
     for (const offerer of offerers.slice(0, 40)) {
       const record = considerBribe(api, {

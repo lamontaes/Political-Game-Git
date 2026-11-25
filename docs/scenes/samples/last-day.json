@@ -1,0 +1,615 @@
+{
+  "schema": "scene-sample/1",
+  "head": "5e72741a0af8735be027a854ac1e6a43831964bf",
+  "scene": {
+    "typeKey": "last-day",
+    "purpose": "last-day-farewell",
+    "title": "Last day"
+  },
+  "world": {
+    "place": "Troutman, North Carolina",
+    "placeKey": "3768500",
+    "seed": "story-batch-4",
+    "date": "2025-03-02"
+  },
+  "player": {
+    "name": "Reese Schultz",
+    "standing": "mayor at Troutman, North Carolina"
+  },
+  "cause": {
+    "id": "job:commuter:person_2b15bea1809ef2ae:2025-01-21",
+    "label": "money:job-left"
+  },
+  "cast": [
+    {
+      "role": "asker",
+      "id": "person_003def7843571f29",
+      "name": "Sierra Washington"
+    },
+    {
+      "role": "asked",
+      "id": "person_2b15bfa1809ef461",
+      "name": "Reese Schultz"
+    }
+  ],
+  "opening": [
+    {
+      "n": 1,
+      "speaker": "Narrator",
+      "role": "narrator",
+      "text": "It's your last day. Your office is packed into boxes, and Sierra leans in the doorway, same as every morning for years.",
+      "move": "narrate",
+      "pieces": [
+        "scene-talk.narrate-narrate.it-s-your-last-day-your-office-is-packed-into-boxes-and-name-leans-in-"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.narrate-narrate.your-last-box-is-taped-shut-name-hangs-back-in-the-doorway-with-two-cu",
+          "text": "Your last box is taped shut. {name} hangs back in the doorway with two cups of coffee."
+        }
+      ],
+      "asks": false
+    },
+    {
+      "n": 2,
+      "speaker": "Sierra Washington",
+      "role": "asker",
+      "text": "Figured you could use one more of these.",
+      "move": "greet",
+      "pieces": [
+        "scene-talk.open-greet.figured-you-could-use-one-more-of-these"
+      ],
+      "wordings": [
+        {
+          "key": "scene-talk.open-greet.so-that-s-it-then",
+          "text": "So that's it, then."
+        }
+      ],
+      "asks": false
+    }
+  ],
+  "ask": {
+    "n": 3,
+    "speaker": "Sierra Washington",
+    "role": "asker",
+    "text": "So. Are you going to miss it, or is that a dumb question?",
+    "move": "ask",
+    "pieces": [
+      "scene-talk.state-ask.so-are-you-going-to-miss-it-or-is-that-a-dumb-question"
+    ],
+    "wordings": [
+      {
+        "key": "scene-talk.state-ask.off-the-record-now-that-it-doesn-t-matter-was-it-worth-it",
+        "text": "Off the record, now that it doesn't matter. Was it worth it?"
+      }
+    ],
+    "asks": true
+  },
+  "tree": {
+    "lines": [],
+    "replies": [
+      {
+        "line": {
+          "n": 4,
+          "speaker": "You",
+          "role": "player",
+          "text": "More than I thought I would.",
+          "move": "tell",
+          "pieces": ["scene-talk.reply-tell.more-than-i-thought-i-would"],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-tell.i-ll-miss-walking-in-here-and-knowing-exactly-where-everything-is",
+              "text": "I'll miss walking in here and knowing exactly where everything is."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 8,
+              "speaker": "Sierra Washington",
+              "role": "asker",
+              "text": "Me too. Don't tell anybody.",
+              "move": "accept",
+              "pieces": ["scene-talk.follow-accept.me-too-don-t-tell-anybody"],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "said-it",
+              "label": "You said what it meant",
+              "keeps": "none"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 5,
+          "speaker": "You",
+          "role": "player",
+          "text": "Are you staying on with whoever's next?",
+          "move": "ask",
+          "pieces": [
+            "scene-talk.reply-ask.are-you-staying-on-with-whoever-s-next"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next",
+              "text": "Are you going to be all right with whoever comes in next?"
+            }
+          ],
+          "asks": true
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 9,
+              "speaker": "Sierra Washington",
+              "role": "asker",
+              "text": "If they'll have me. Somebody has to remember where the files are.",
+              "move": "answer",
+              "pieces": [
+                "scene-talk.follow-answer.if-they-ll-have-me-somebody-has-to-remember-where-the-files-are"
+              ],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 10,
+                "speaker": "You",
+                "role": "player",
+                "text": "Then do me a favor. Tell them the truth about me, the good and the rest.",
+                "move": "tell",
+                "pieces": [
+                  "scene-talk.reply-tell.then-do-me-a-favor-tell-them-the-truth-about-me-the-good-and-the-rest"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 13,
+                    "speaker": "Sierra Washington",
+                    "role": "asker",
+                    "text": "I will. Mostly the good.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.follow-accept.i-will-mostly-the-good"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "said-it",
+                    "label": "You said what it meant",
+                    "keeps": "none"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 11,
+                "speaker": "You",
+                "role": "player",
+                "text": "Then I'll call you when I need to find a file. Which will be next week.",
+                "move": "promise",
+                "pieces": [
+                  "scene-talk.reply-promise.then-i-ll-call-you-when-i-need-to-find-a-file-which-will-be-next-week"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 14,
+                    "speaker": "Sierra Washington",
+                    "role": "asker",
+                    "text": "Next week. I'll keep the coffee on.",
+                    "move": "thank",
+                    "pieces": [
+                      "scene-talk.follow-thank.next-week-i-ll-keep-the-coffee-on"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                ],
+                "replies": [],
+                "end": {
+                  "outcome": "resolved",
+                  "ending": {
+                    "id": "kept-in-touch",
+                    "label": "You'll stay in touch",
+                    "keeps": "promise"
+                  }
+                }
+              }
+            },
+            {
+              "line": {
+                "n": 12,
+                "speaker": "You",
+                "role": "player",
+                "text": "I'd better go before I get sentimental.",
+                "move": "leave",
+                "pieces": [
+                  "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.i-should-get-these-to-the-car-before-i-change-my-mind",
+                    "text": "I should get these to the car before I change my mind."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "slipped-out",
+                    "label": "Slipped out",
+                    "keeps": "none"
+                  },
+                  "close": {
+                    "n": 15,
+                    "speaker": "Sierra Washington",
+                    "role": "asker",
+                    "text": "Go on. I'll get the door.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.close-accept.go-on-i-ll-get-the-door"
+                    ],
+                    "wordings": [
+                      {
+                        "key": "scene-talk.close-accept.too-late-for-that-go-on",
+                        "text": "Too late for that. Go on."
+                      }
+                    ],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "line": {
+          "n": 6,
+          "speaker": "You",
+          "role": "player",
+          "text": "Ask me in a year, over lunch. I'm buying.",
+          "move": "promise",
+          "pieces": [
+            "scene-talk.reply-promise.ask-me-in-a-year-over-lunch-i-m-buying"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-promise.ask-me-in-six-months-i-ll-know-by-then",
+              "text": "Ask me in six months. I'll know by then."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 16,
+              "speaker": "Sierra Washington",
+              "role": "asker",
+              "text": "A year. I'm writing it down.",
+              "move": "thank",
+              "pieces": ["scene-talk.follow-thank.a-year-i-m-writing-it-down"],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [],
+          "end": {
+            "outcome": "resolved",
+            "ending": {
+              "id": "kept-in-touch",
+              "label": "You'll stay in touch",
+              "keeps": "promise"
+            }
+          }
+        }
+      },
+      {
+        "line": {
+          "n": 7,
+          "speaker": "You",
+          "role": "player",
+          "text": "Help me with this box, and I'll tell you.",
+          "move": "deflect",
+          "pieces": [
+            "scene-talk.reply-deflect.help-me-with-this-box-and-i-ll-tell-you"
+          ],
+          "wordings": [
+            {
+              "key": "scene-talk.reply-deflect.ask-me-after-the-coffee",
+              "text": "Ask me after the coffee."
+            }
+          ],
+          "asks": false
+        },
+        "leadsTo": {
+          "lines": [
+            {
+              "n": 17,
+              "speaker": "Sierra Washington",
+              "role": "asker",
+              "text": "That's what you always say.",
+              "move": "press",
+              "pieces": ["scene-talk.follow-press.that-s-what-you-always-say"],
+              "wordings": [],
+              "asks": false
+            }
+          ],
+          "replies": [
+            {
+              "line": {
+                "n": 18,
+                "speaker": "You",
+                "role": "player",
+                "text": "It was. Most of it. Now grab the other end.",
+                "move": "tell",
+                "pieces": [
+                  "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end"
+                ],
+                "wordings": [],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [
+                  {
+                    "n": 20,
+                    "speaker": "Sierra Washington",
+                    "role": "asker",
+                    "text": "Which one would you do over?",
+                    "move": "ask",
+                    "pieces": [
+                      "scene-talk.follow-ask.which-one-would-you-do-over"
+                    ],
+                    "wordings": [],
+                    "asks": true
+                  }
+                ],
+                "replies": [
+                  {
+                    "line": {
+                      "n": 21,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "The first budget. I said yes too fast, and I've been paying for it since.",
+                      "move": "tell",
+                      "pieces": [
+                        "scene-talk.reply-tell.the-first-budget-i-said-yes-too-fast-and-i-ve-been-paying-for-it-since"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 25,
+                          "speaker": "Sierra Washington",
+                          "role": "asker",
+                          "text": "Everybody's got one. Yours was a good one to have.",
+                          "move": "accept",
+                          "pieces": [
+                            "scene-talk.follow-accept.everybody-s-got-one-yours-was-a-good-one-to-have"
+                          ],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "said-it",
+                          "label": "You said what it meant",
+                          "keeps": "none"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 22,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Ask me in six months. I'll know by then.",
+                      "move": "promise",
+                      "pieces": [
+                        "scene-talk.reply-promise.ask-me-in-six-months-i-ll-know-by-then"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 26,
+                          "speaker": "Sierra Washington",
+                          "role": "asker",
+                          "text": "Six months. I'm putting it on the calendar.",
+                          "move": "thank",
+                          "pieces": [
+                            "scene-talk.follow-thank.six-months-i-m-putting-it-on-the-calendar"
+                          ],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "kept-in-touch",
+                          "label": "You'll stay in touch",
+                          "keeps": "promise"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 23,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "Ask me over a drink sometime. Not today.",
+                      "move": "deflect",
+                      "pieces": [
+                        "scene-talk.reply-deflect.ask-me-over-a-drink-sometime-not-today"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [
+                        {
+                          "n": 27,
+                          "speaker": "Sierra Washington",
+                          "role": "asker",
+                          "text": "I'll hold you to that.",
+                          "move": "accept",
+                          "pieces": [
+                            "scene-talk.follow-thank.i-ll-hold-you-to-that"
+                          ],
+                          "wordings": [],
+                          "asks": false
+                        }
+                      ],
+                      "replies": [],
+                      "end": {
+                        "outcome": "resolved",
+                        "ending": {
+                          "id": "another-day",
+                          "label": "You'll tell it another day"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "line": {
+                      "n": 24,
+                      "speaker": "You",
+                      "role": "player",
+                      "text": "I'd better go before I get sentimental.",
+                      "move": "leave",
+                      "pieces": [
+                        "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental"
+                      ],
+                      "wordings": [],
+                      "asks": false
+                    },
+                    "leadsTo": {
+                      "lines": [],
+                      "replies": [],
+                      "end": {
+                        "outcome": "open",
+                        "ending": {
+                          "id": "slipped-out",
+                          "label": "Slipped out",
+                          "keeps": "none"
+                        },
+                        "close": {
+                          "n": 28,
+                          "speaker": "Sierra Washington",
+                          "role": "asker",
+                          "text": "Go on. I'll get the door.",
+                          "move": "accept",
+                          "pieces": [
+                            "scene-talk.close-accept.go-on-i-ll-get-the-door"
+                          ],
+                          "wordings": [
+                            {
+                              "key": "scene-talk.close-accept.too-late-for-that-go-on",
+                              "text": "Too late for that. Go on."
+                            }
+                          ],
+                          "asks": false
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "line": {
+                "n": 19,
+                "speaker": "You",
+                "role": "player",
+                "text": "I should get these to the car before I change my mind.",
+                "move": "leave",
+                "pieces": [
+                  "scene-talk.reply-leave.i-should-get-these-to-the-car-before-i-change-my-mind"
+                ],
+                "wordings": [
+                  {
+                    "key": "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental",
+                    "text": "I'd better go before I get sentimental."
+                  }
+                ],
+                "asks": false
+              },
+              "leadsTo": {
+                "lines": [],
+                "replies": [],
+                "end": {
+                  "outcome": "open",
+                  "ending": {
+                    "id": "slipped-out",
+                    "label": "Slipped out",
+                    "keeps": "none"
+                  },
+                  "close": {
+                    "n": 29,
+                    "speaker": "Sierra Washington",
+                    "role": "asker",
+                    "text": "Too late for that. Go on.",
+                    "move": "accept",
+                    "pieces": [
+                      "scene-talk.close-accept.too-late-for-that-go-on"
+                    ],
+                    "wordings": [],
+                    "asks": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "endings": {
+    "said-it": 3,
+    "kept-in-touch": 3,
+    "slipped-out": 3,
+    "another-day": 1
+  },
+  "depth": 3,
+  "gaps": []
+}

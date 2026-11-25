@@ -26,7 +26,7 @@ import { withholdingFor } from "./tax-withholding";
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(replay, "federal-income-tax-adoption");
 const question = "us-policy-positions:fiscal.adopt-income-tax";
-it(`Congress repeals and restores its income tax: ${place.name}, replay ${replay}`, () => {
+it(`Congress repeals and restores its income tax: ${place.name}, replay ${replay} (just like today: needs the nation's real income tax)`, () => {
   setBookkeeping(false);
   try {
     console.log(
@@ -41,6 +41,7 @@ it(`Congress repeals and restores its income tax: ${place.name}, replay ${replay
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       placeKey: place.key,
       twoLevel: true,
+      settings: { history: "today" },
     });
     const api = coreAPI(world.core);
     const currentLevel = () =>

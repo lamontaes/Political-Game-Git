@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
+import {
+  centuryDistrictLean,
+  centuryLegislatures,
+  setHistoryMode,
+} from "./electorate-century";
 import { legislativePlace, worldSwing } from "./electorate-places";
+import { gameStartDate } from "./game-start";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
   legislativeDistrictResult,
@@ -56,7 +63,7 @@ describe("legislative district results", () => {
     expect(legislativeDistrictResult("PR", "lower", "001")).toBeNull();
   });
 
-  it("sets a district's place from its own vote, not the typical margin", () => {
+  it("sets a district's place from its own vote, not the typical margin (just like today)", () => {
     const d = districtIdentityCatalog().find(
       (x) =>
         x.stateUsps === "OH" &&
@@ -65,6 +72,7 @@ describe("legislative district results", () => {
     )!;
     const own = legislativeDistrictResult("OH", "upper", d.districtCode)!;
     const seed = "legislative-district-results";
+    setHistoryMode(seed, "today");
     const place = legislativePlace(
       "OH",
       `seat:US-OH:upper:${d.districtCode}:0`,
@@ -81,4 +89,35 @@ describe("legislative district results", () => {
     );
     expect(place.source).toContain("doi:10.7910/DVN/DODOBJ");
   });
+  it("stands each legislative district where the century's last count left it, at drawn century worlds", () => {
+    const run = `legislative-district-results:${Date.now()}`;
+    const days: string[] = [];
+    const named: string[] = [];
+    for (let i = 0; i < 2; i += 1) {
+      const place = drawPlace(`${run}:${i}`, "legislative-district-results");
+      const where = `${place.name} (${place.key}), world seed ${place.seed}`;
+      named.push(where);
+      setHistoryMode(place.seed, "century", gameStartDate(), place.state);
+      let read = 0;
+      const leans: string[] = [];
+      for (const seat of centuryLegislatures(
+        place.seed,
+        gameStartDate(),
+      ).values()) {
+        const usps = seat.stateKey.slice(3);
+        const at = legislativePlace(usps, seat.key, 10, 0, null, place.seed);
+        const lean = centuryDistrictLean(place.seed, { seatId: seat.key });
+        if (!at || lean === undefined) continue;
+        read += 1;
+        expect(at.rightShare, `${where}: ${seat.key}`).toBe(lean);
+        if (read <= 200) leans.push(lean.toFixed(6));
+      }
+      expect(
+        read,
+        `${where}: legislative districts read from the century`,
+      ).toBeGreaterThan(1000);
+      days.push(leans.join(","));
+    }
+    expect(new Set(days).size, named.join("; ")).toBe(days.length);
+  }, 180_000);
 });

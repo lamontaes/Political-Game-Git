@@ -1,0 +1,28 @@
+{
+  "id": "bottlers-count-the-floor-votes",
+  "kind": "moment",
+  "summary": "A sponsor brings the refund bill to the floor while the affected industries are still lobbying members.",
+  "realLife": "Oregon’s beverage and container industries lobbied against the 1971 measure that passed both chambers and reached Governor McCall.",
+  "sources": ["https://sos.oregon.gov/archives/records/pages/bottle-bill.aspx"],
+  "fits": ["journal", "news", "office", "speeches", "work-community"],
+  "slots": ["{member}", "{chamber}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "issues": ["question:us-policy-positions:environment-energy.bottle-deposit"],
+  "inGame": "The bill catalog supplies the bottle-deposit question. needs: bill stage and dated industry contacts.",
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The clerk sends the adopted bill to the governor.",
+      "pulledBy": "Both chambers have approved the same version.",
+      "writesBack": "The governor receives the enrolled measure."
+    },
+    {
+      "turn": "opposite",
+      "what": "A sponsor seeking repeal asks the same offices to record where they now stand.",
+      "pulledBy": "A repeal sponsor needs commitments before requesting a floor date.",
+      "writesBack": "The count distinguishes members contacted from members committed."
+    }
+  ]
+}

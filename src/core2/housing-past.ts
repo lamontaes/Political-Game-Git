@@ -122,6 +122,8 @@ interface Home {
 
 interface Lease extends Home {
   leaseId: string;
+  /** The renting households this lease stands for: a counted household's weight, a full one's 1. */
+  weight: number;
   /** The rent the opening gave this household (its share of the sourced median). */
   openingRentMinor: number;
 }
@@ -239,6 +241,85 @@ function restatedFacts(
   return change ? { mortgageRestatedFromYear: change.from } : {};
 }
 
+/**
+ * Day one's vacant rentals come from the town's own past, not the national vacancy (History; the
+ * CTO's 16:27Z line on Justice's B item 10): the leases its renters signed in the year before day
+ * one each left a unit empty between tenants for `rentalVacantMonths`, so a town whose renters
+ * stay put opens with few vacant units and one whose renters move often opens with more.
+ */
+function openingVacancy(
+  api: CoreAPI,
+  leases: readonly Lease[],
+  through: string,
+): void {
+  const yearBefore = addDays(makeIsoDate(through), -365);
+  const months = api.parameter("rentalVacantMonths");
+  const signed = new Map<string, number>();
+  for (const lease of leases)
+    if (lease.since > yearBefore)
+      signed.set(
+        lease.placeId,
+        (signed.get(lease.placeId) ?? 0) + lease.weight,
+      );
+  const stock = table(api, "stock");
+  for (const row of stock.rows() as unknown as {
+    id: string;
+    placeId: string;
+    rentalUnits: number;
+    vacantRental: number;
+  }[]) {
+    const renters = row.rentalUnits - row.vacantRental;
+    const vacant = Math.round(
+      ((signed.get(row.placeId) ?? 0) * months) /
+        api.parameter("monthsPerYear"),
+    );
+    stock.put({
+      ...row,
+      rentalUnits: renters + vacant,
+      vacantRental: vacant,
+    } as never);
+  }
+}
+
+/**
+ * A place's rentals on day one as `openingVacancy` left them, with the leases
+ * its renters signed in the year before (each a counted household's weight,
+ * a full one's 1), read from the stock and the pass's records; undefined
+ * where the place has no rental stock.
+ */
+export function openingRentals(
+  api: CoreAPI,
+  placeId: string,
+):
+  | { units: number; vacant: number; signed: number; renters: number }
+  | undefined {
+  const core = api.state as CoreState;
+  const window = preStartWindowOf(core);
+  const stock = (
+    table(api, "stock").rows() as unknown as {
+      placeId: string;
+      rentalUnits: number;
+      vacantRental: number;
+    }[]
+  ).find((row) => row.placeId === placeId);
+  if (!stock || !window) return undefined;
+  const yearBefore = addDays(makeIsoDate(window.through), -365);
+  let signed = 0;
+  let renters = 0;
+  for (const row of preStartHistory(core, { kind: LEASE_SIGNED })) {
+    if (row.placeId !== placeId) continue;
+    const weight = Number(row.facts.weight ?? 1);
+    renters += weight;
+    if (String(row.facts.signedOn) > yearBefore) signed += weight;
+  }
+  return {
+    units: stock.rentalUnits,
+    vacant: stock.vacantRental,
+    signed,
+    renters,
+  };
+}
+
 /** The pre-start pass. Runs in housing's government-phase run, after `openHousing`. */
 export function housingPast(
   api: CoreAPI,
@@ -276,6 +357,7 @@ export function housingPast(
       household,
       memberIds: tenant.memberIds,
       leaseId: tenant.leaseId,
+      weight: tenant.weight,
       openingRentMinor: tenant.rentMinor,
       since: before(
         counted
@@ -394,6 +476,8 @@ export function housingPast(
         householdId: lease.householdId,
         leaseId: lease.leaseId,
         signedOn: lease.since,
+        // The renting households it stands for (a counted household's weight).
+        weight: lease.weight,
         rentMinor: signedRent,
         renewedAt,
         rentNowMinor: rent,
@@ -423,6 +507,7 @@ export function housingPast(
       historyRecordId: `${LEASE_SIGNED}:${lease.householdId}`,
     });
   }
+  openingVacancy(api, leases, window.through);
   for (const home of owned) {
     setSince(api, home);
     history.record({
@@ -470,7 +555,14 @@ export function housingPast(
     const homes = owned.filter((row) => row.placeId === placeId);
     const latest = new Map<
       number,
-      { date: string; id: string; rent: number; value: number }
+      {
+        date: string;
+        id: string;
+        rent: number;
+        value: number;
+        renters: number;
+        owners: number;
+      }
     >();
     for (const date of [...dates].sort()) {
       const renting = rented.filter((row) => row.since <= date);
@@ -498,7 +590,14 @@ export function housingPast(
           "The middle rent of the leases running that day and the middle value of the homes owned then, among the households living in the town on day one.",
         ),
       });
-      latest.set(Number(date.slice(0, 4)), { date, id, rent, value });
+      latest.set(Number(date.slice(0, 4)), {
+        date,
+        id,
+        rent,
+        value,
+        renters: renting.length,
+        owners: owning.length,
+      });
     }
     // The year's last reading is its December (the registry's fold); the last day is day one's.
     for (const [year, row] of latest)
@@ -508,9 +607,11 @@ export function housingPast(
         date: row.date,
         closed: year < startYear,
         recordId: row.id,
+        // A year with no lease running, or no home owned, has no median: the
+        // figure is unknown, never zero.
         values: {
-          "housing.typical-rent": row.rent,
-          "housing.home-prices": row.value,
+          ...(row.renters > 0 ? { "housing.typical-rent": row.rent } : {}),
+          ...(row.owners > 0 ? { "housing.home-prices": row.value } : {}),
         },
       });
   }

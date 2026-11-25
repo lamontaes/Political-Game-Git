@@ -1,0 +1,44 @@
+{
+  "id": "retire-from-teaching-to-serve-and-the-wife-keeps-teaching",
+  "kind": "consequence",
+  "summary": "A teacher-legislator finds he cannot do both, retires from the classroom, and drives to the capital while his wife keeps teaching.",
+  "realLife": "An Indiana House member said he tried for two years to teach and serve at once and found it impossible because of meetings and calls. He retired from teaching and then had freedom to attend. His wife was still teaching, so for seven or eight years he drove back and forth rather than stay overnight. When she retired she went with him, and they kept an apartment near the Capitol. He said families with children had a harder time.",
+  "sources": [
+    "https://ilohi.ihb.in.gov/wp-content/uploads/2024/09/Clyde-Kersey-Transcript.pdf"
+  ],
+  "fits": ["home", "office", "work-community"],
+  "slots": ["{the official}", "{the job}", "{the spouse}", "{the apartment}"],
+  "gates": [
+    "The official holds a job and a seat that both ask for daytime hours.",
+    "The official has a spouse with her own job."
+  ],
+  "weights": [
+    "Hours the job asks for.",
+    "Distance to the capitol.",
+    "Whether the pension allows leaving.",
+    "Whether children are at home."
+  ],
+  "inGame": "Jobs and pay, an official's seat, marriage and a move could carry it; the retirement trigger needs a job-versus-office hours conflict.",
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "He keeps the job by taking unpaid days and the seat suffers from missed meetings.",
+      "pulledBy": "No pension, a need for his pay.",
+      "writesBack": "Missed-meeting count rises; job kept; household income unchanged."
+    },
+    {
+      "turn": "neutral",
+      "what": "The family needs the job, so he drops out of the legislature after one term.",
+      "pulledBy": "Children at home, low savings.",
+      "writesBack": "Seat left; job kept."
+    },
+    {
+      "turn": "late",
+      "what": "After the spouse retires they rent a place near the capital and spend sessions there.",
+      "pulledBy": "Both retired, the session length.",
+      "writesBack": "Second residence added; household splits time."
+    }
+  ],
+  "issues": ["none"]
+}

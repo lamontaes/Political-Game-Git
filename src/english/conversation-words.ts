@@ -190,9 +190,15 @@ export function wordConversationMove(request: {
     [...row.text.matchAll(/\{\{([\w-]+)\}\}/g)].every(
       (slot) => !!request.facts[slot[1]!]?.text,
     );
+  // A wording the stage rules out does not count as another that fits: with
+  // only those left, the hold-back would leave nothing sayable and lose the
+  // answer ("Not right now." is no answer at the working stage).
   const fresh = request.avoid
     ? fitting?.filter(
-        (row) => (!row.part || !request.avoid!.has(row.part)) && sayable(row),
+        (row) =>
+          (!row.part || !request.avoid!.has(row.part)) &&
+          sayable(row) &&
+          (!row.stages || row.stages.includes(stage)),
       )
     : fitting;
   const usable = fresh?.length ? fresh : fitting;

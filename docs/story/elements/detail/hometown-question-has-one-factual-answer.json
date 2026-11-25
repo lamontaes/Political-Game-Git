@@ -1,0 +1,31 @@
+{
+  "id": "hometown-question-has-one-factual-answer",
+  "kind": "detail",
+  "summary": "Asked where they come from, a person answers with the place in their history.",
+  "realLife": "Asked where he was born, former Senator Fred Harris named Walters, Oklahoma, and placed the town in Cotton County. He went on to describe the house where he was born.",
+  "sources": [
+    "https://www.voicesofoklahoma.com/interviews/harris-fred/",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-words.md#L229"
+  ],
+  "inGame": "The biography’s hometown can supply the answer when the question refers to that place.",
+  "fits": ["journal", "home", "work-community"],
+  "slots": ["{person}", "{hometown}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "partial",
+      "what": "The person names their birthplace and then the town where they grew up.",
+      "pulledBy": "Their history records an early move and the question could refer to either place.",
+      "writesBack": "The listener learns which place belongs to each part of the person's history."
+    },
+    {
+      "turn": "opposite",
+      "what": "The visitor names a town the candidate has never lived in. The candidate explains that it was the district office address.",
+      "pulledBy": "The public directory lists the office there and the candidate’s residence history names another town.",
+      "writesBack": "The interviewer corrects the hometown in the profile."
+    }
+  ],
+  "issues": ["none"]
+}

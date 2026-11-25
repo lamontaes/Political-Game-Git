@@ -1,0 +1,30 @@
+{
+  "id": "county-groundwork-before-entry",
+  "kind": "move",
+  "summary": "A local organizer starts learning the county organizations while the candidate is still deciding whether to enter.",
+  "realLife": "Reese had assessed West Virginia counties before O’Brien arrived, Vogelsinger recalled.",
+  "sources": [
+    "https://static.jfklibrary.org/b15d6sdbyd628286gsol7w5w83ro7jd1.pdf"
+  ],
+  "fits": ["journal", "news", "speeches", "campaign", "work-community"],
+  "slots": ["{organizer}", "{county}", "{candidate}"],
+  "gates": ["Entry into the primary is under consideration."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: exploratory work dated before a candidate's filing and a record of who undertook it.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The organizer waits for the candidate's decision before taking on county work.",
+      "pulledBy": "The organizer already owes time to another commitment.",
+      "writesBack": "The first county assignment begins after entry."
+    },
+    {
+      "turn": "partial",
+      "what": "The organizer gathers public meeting dates and holds off on calling local officers.",
+      "pulledBy": "The candidate has authorized an initial look only.",
+      "writesBack": "The exploratory file contains a calendar with no commitments."
+    }
+  ],
+  "issues": ["none"]
+}

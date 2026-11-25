@@ -315,6 +315,23 @@
       ]
     },
     {
+      "id": "candidacy.announce",
+      "site": "src/core2/modules/candidacy.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "traitWeightParameter": "traitWeightCandidacyAnnounce",
+      "options": [
+        {
+          "id": "candidacy-wait-to-file",
+          "actKinds": ["play-safe", "keep-same"]
+        },
+        {
+          "id": "candidacy-announce",
+          "actKinds": ["speak-out", "commit", "take-risk", "engage"]
+        }
+      ]
+    },
+    {
       "id": "speech.retell",
       "site": "src/core2/modules/speech.ts",
       "owner": "OPUS-PEOPLE",
@@ -1798,6 +1815,7 @@
       "owner": "lives lead",
       "route": "formula",
       "traitWeightParameter": "traitWeightPeoplePart",
+      "hardshipWeightParameter": "hardshipWeightPeoplePart",
       "options": [
         {
           "id": "stay-together",

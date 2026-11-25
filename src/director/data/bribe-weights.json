@@ -1,0 +1,15 @@
+{
+  "schema": "director-bribe-weights/1",
+  "note": "How an envelope is said against what the player's household spends to live: in words, never a figure (owner, Nov 11 rule 101). Each row is the largest number of days of the household's living costs the envelope may equal and still be said that way; the first row that holds is the one said. Every cutoff is TUNABLE and registered as SG-STORY-arc-variant-weights beside the variants' own weights.",
+  "tag": "TUNABLE",
+  "spread": [0.5, 2],
+  "checkedAgainst": "Dinner money is under a few days of a household's costs; a month of bills is the rent and the groceries together; the cutoffs are people's own round spans, checked by reading the words aloud for a small, a middling and a large envelope in the walk.",
+  "rows": [
+    { "upToDays": 3, "said": "dinner money" },
+    { "upToDays": 10, "said": "a week of groceries and then some" },
+    { "upToDays": 40, "said": "a month of bills" },
+    { "upToDays": 120, "said": "a few months of bills" },
+    { "upToDays": 400, "said": "most of a year of bills" },
+    { "said": "more than a year of bills" }
+  ]
+}

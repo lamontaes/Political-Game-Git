@@ -1,0 +1,33 @@
+{
+  "id": "sotu-opens-on-a-bipartisan-gesture",
+  "kind": "move",
+  "summary": "The opening says the two sides will work together, before any policy.",
+  "realLife": "Obama in 2011 opened on cooperation being decided the next day, not by who sat together; Clinton in 1999 quoted the Speaker's call for bipartisanship and said to do just that.",
+  "sources": [
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-the-congress-the-state-the-union-17",
+    "https://www.presidency.ucsb.edu/documents/address-before-joint-session-the-congress-the-state-the-union-6",
+    "Read Nov 24, 2026: the first and last paragraphs of each address on the Presidency Project page; the middles were not read."
+  ],
+  "fits": ["speeches"],
+  "slots": [],
+  "gates": [],
+  "weights": {
+    "all": 0.5
+  },
+  "usedBy": [],
+  "inGame": "needs: a record of which party holds the body; party-holds-body exists for state kinds only.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The opening names the other side as the problem.",
+      "pulledBy": "a competitive speaker; the other party holds the body",
+      "writesBack": "The paper reports a divide."
+    },
+    {
+      "turn": "neutral",
+      "what": "A thank-you to the body with no promise.",
+      "pulledBy": "a polite speaker",
+      "writesBack": "No joint-proposal record."
+    }
+  ]
+}

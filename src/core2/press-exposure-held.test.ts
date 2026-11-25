@@ -31,6 +31,7 @@ import {
 import { NEWS_MODULE_ID } from "./modules/news";
 import { coreAPI } from "./state";
 import type { PersonId } from "./types";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const PLACE = "1930630";
 const SEED = "reporters-call-1";
@@ -61,18 +62,14 @@ it("an exposure waits for comment and prints on the paper's next day (Gilbert IA
   /** The richest neighbor not on a paper's staff bribes this member, who takes it, and leaks it. */
   const exposeTaker = (memberId: PersonId) => {
     const member = core.people.get(memberId)!;
-    const offerer = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.id !== memberId &&
-          p.placeId === member.placeId &&
-          !staff.has(p.id) &&
-          !members.some((m) => m.id === p.id),
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      )[0]!;
+    const offerer = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.id !== memberId &&
+        p.placeId === member.placeId &&
+        !staff.has(p.id) &&
+        !members.some((m) => m.id === p.id),
+    )[0]!;
     // The member drafts a bill; the bribe is for their vote on it.
     const seat = seatView(core, memberId);
     const body = seat.bodies[0]!;

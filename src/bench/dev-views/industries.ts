@@ -59,6 +59,7 @@ const view: DevView = {
       "private-school": "Private schools",
       clinic: "Clinics",
       "care-home": "Nursing homes",
+      hospital: "Hospitals",
       recreation: "Recreation",
       restaurant: "Restaurants and bars",
       inn: "Hotels and inns",

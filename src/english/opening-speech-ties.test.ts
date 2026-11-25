@@ -16,12 +16,28 @@ import bank from "../../data/english/parts/opening-speech.json" with { type: "js
 import names from "../../data/english/question-names.json" with { type: "json" };
 import type { PartTie, PartUse } from "./bank-parts";
 
+/** The addresses a `place` tie may be said in: the governor's and the local head's. */
+const PLACE_SUBJECTS = new Set(["state-of-the-state", "town-address"]);
+
 /**
- * Which record a supplied fact comes from, by its name. How a question stands today (`today*`) is
- * the speaker's side's own account of the law in force (question-names.json `today`), so it is
- * the speaker's stand, not the law's.
+ * The facts a governor's or local head's address reads from its own state's or town's records
+ * (speech-outline.ts realmFacts, conditionFacts): its measures over the term, its books, and the
+ * year's event there (a disaster, a closing, the vote). Said in those addresses, they are `place`.
  */
-function factTie(fact: string): PartTie {
+const REALM_FACT =
+  /^(context-|(rent|crime|schools|health|roads|environment)-(worse|better)$|(change|say)-(rent|crime|schools|health|roads|environment)$|budget-|condition-(budget|disaster|closure|jobs-ended|election|elected-here|office))/;
+
+/**
+ * Which record a supplied fact comes from, by its name and the address it is said in. How a
+ * question stands today (`today*`) is the speaker's side's own account of the law in force
+ * (question-names.json `today`), so it is the speaker's stand, not the law's. Whether the
+ * speaker's party holds the body is read from the body's seats, a record.
+ */
+function factTie(fact: string, subject: string): PartTie {
+  if (PLACE_SUBJECTS.has(subject) && REALM_FACT.test(fact)) return "place";
+  if (["party-holds-body", "party-lacks-body"].includes(fact)) return "record";
+  if (["evening", "asked", "body-word"].includes(fact)) return "frame";
+  if (fact === "asked-about") return "law";
   if (fact.startsWith("kind-") || fact === "home-state") return "record";
   if (
     /^(vice-president|speaker|realm-|body-name|presiding|office-title|prior-office|theme-|rank-)/.test(
@@ -47,6 +63,7 @@ function factTie(fact: string): PartTie {
       "to",
       "first-to",
       "turn-to",
+      "turn-from",
       "about",
       "about-one",
       "about-many",
@@ -60,9 +77,6 @@ function factTie(fact: string): PartTie {
 
 const TIES: readonly PartTie[] = ["stand", "place", "law", "record", "frame"];
 
-/** The addresses a `place` tie may be said in: the governor's and the local head's. */
-const PLACE_SUBJECTS = new Set(["state-of-the-state", "town-address"]);
-
 it("every use of the address bank declares a tie its facts bear out", () => {
   const parts = (
     bank as unknown as {
@@ -74,7 +88,7 @@ it("every use of the address bank declares a tie its facts bear out", () => {
     for (const use of part.uses) {
       const needs = new Set(
         [...(use.requiresFacts ?? []), ...(use.onlyWhen ?? [])]
-          .map(factTie)
+          .map((fact) => factTie(fact, use.subject))
           .filter((tie) => tie !== "frame"),
       );
       // An address kind is read from the year's records (address-kind.ts).

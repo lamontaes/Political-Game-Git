@@ -35,6 +35,7 @@ import {
   checkEligibility,
   fileCandidacy,
   filingRequirements,
+  filingSideFor,
   petitionOf,
   petitionSigners,
   type ContestRow,
@@ -43,6 +44,7 @@ import {
 } from "./modules/elections";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 /**
  * The place the first test follows, pinned (it drew six places at run time and
@@ -118,16 +120,12 @@ describe("filing is a petition", () => {
         .moduleState(ELECTIONS_MODULE_ID)
         .table("town")
         .get("town") as unknown as { townPlaceId: string };
-      const adults = [...core.people.values()]
-        .filter(
-          (p) =>
-            p.alive &&
-            p.placeId === townPlaceId &&
-            ageOn(p.birthDate, core.date) >= 25,
-        )
-        .sort(
-          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-        );
+      const adults = townResidentsByCash(core, coreAPI(core)).filter(
+        (p) =>
+          p.alive &&
+          p.placeId === townPlaceId &&
+          ageOn(p.birthDate, core.date) >= 25,
+      );
       let filing: FilingRow | null = null;
       for (const adult of adults) {
         if (
@@ -158,8 +156,11 @@ describe("filing is a petition", () => {
         .table("town")
         .get("town") as unknown as { stateKey: string };
       expect(opened.rule.count, where).toBe(
-        filingRequirements(town.stateKey, contest.family, "independent")
-          .petition.count,
+        filingRequirements(
+          town.stateKey,
+          contest.family,
+          filingSideFor(api, contest, null),
+        ).petition.count,
       );
       // Where the law asks no signatures the clerk takes the filing at the
       // counter, and there is no petition to circulate.
@@ -331,16 +332,12 @@ describe("filing is a petition", () => {
       .moduleState(ELECTIONS_MODULE_ID)
       .table("town")
       .get("town") as unknown as { townPlaceId: string };
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === townPlaceId &&
-          ageOn(p.birthDate, core.date) >= 25,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.placeId === townPlaceId &&
+        ageOn(p.birthDate, core.date) >= 25,
+    );
     let filing: FilingRow | null = null;
     for (const adult of adults) {
       if (

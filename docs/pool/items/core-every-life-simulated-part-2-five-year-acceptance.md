@@ -29,8 +29,8 @@ checked: fable 2026-11-10
 
 **Rules.** One engine per mechanic: a husk's job change, move, birth or death goes through the jobs, housing, people and health engines that already exist, read at a coarse cadence, never a new life simulator. No dice: events follow causes (their place's labor market, their age, health and household), and real rates check totals only. Speed: low intensity holds the bar, so a country's year with husks simulated runs within 20% of the same year without, and nothing scans every husk every day. One model, two tiers: a husk keeps the fields its life needs, and a full fill-in still happens only when the player meets or clicks them.
 
-**Done when.** A second session, in three drawn places (places and seeds named), runs five years of buildBenchWorld and sees every husk adult reviewed by each of the five engines on their cadence, by record ids, and sees the household talk open on a relative's news in src/director/household-talk.test.ts. The yearly share of husks with a life record is printed beside those engines' real rates as figures to report, and `npm run speed:year` stays within 20% of base on the same machine.
+**Done when.** A second session, in three drawn places (places and seeds named), runs five years of buildBenchWorld and sees every husk adult reviewed by each of the five engines on their cadence, by record ids, and sees the household talk open on a relative's news in src/director/household-talk.test.ts (removed). The yearly share of husks with a life record is printed beside those engines' real rates as figures to report, and `npm run speed:year` stays within 20% of base on the same machine.
 
 **Waits on.** core-every-life-simulated-part-1-births-for-couples-elsewhere, core-every-life-partner-from-counts and core-every-life-work-dead-rows merged (core-every-life-partners is done).
 
-**Files.** src/director/household-talk.test.ts, src/core2/modules/people.ts, src/core2/modules/jobs.ts
+**Files.** src/core2/modules/people.ts, src/core2/modules/jobs.ts

@@ -21,6 +21,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { playedNode, type TreeNode } from "./scene-talk";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // The scandal call says what the paper found (owner, Nov 15: "I've got a
 // story about the water rates, and your name is in it... that's very
@@ -101,17 +102,13 @@ it("a scandal call names who paid and what for (Gilbert IA, seed reporters-call-
   expect(bill.status).not.toBe("blocked");
   // The richest neighbor who is not on the paper's staff offers.
   const staff = new Set(outletsHere(api).flatMap((row) => row.reporterIds));
-  const offerer = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.id !== me &&
-        p.placeId === member!.placeId &&
-        !staff.has(p.id),
-    )
-    .sort(
-      (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-    )[0]!;
+  const offerer = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      p.id !== me &&
+      p.placeId === member!.placeId &&
+      !staff.has(p.id),
+  )[0]!;
   const offered = considerBribe(api, {
     offererId: offerer.id,
     officialId: me,

@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -24,10 +23,20 @@ import { BenchPlayer } from "./player";
 // The bill page's one object: the name, the stage and its day, the sponsor, each section's label
 // key, amount, law in force and level, the tally at each stage and where it reaches. A place drawn
 // from all 56 on a seed nobody chose.
-const seed =
-  process.env.BILL_PAGE_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env BILL_PAGE_SEED, GOLDEN_PATH_SEED or randomBytes, so the places it
+// drew changed every run. The fixed seed below draws Rockbridge, Illinois
+// (1764811) first for "bill-page".
+// Limit: the slowest case took 155 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 310 s.
+const seed = "pin-bill-page-view";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "bill-page")).toMatchObject({
+    key: "1764811",
+    name: "Rockbridge, Illinois",
+  });
+});
 
 describe(`the bill page's view (seed ${seed})`, () => {
   it("gives a voted bill everything the page shows, with nothing left to compute", () => {
@@ -135,7 +144,7 @@ describe(`the bill page's view (seed ${seed})`, () => {
     throw new Error(
       `no drawn place showed a bill page (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 310_000);
 
   it("gives a budget line the law-reach data's own scope, with no counts", () => {
     for (let i = 0; i < 16; i += 1) {
@@ -192,8 +201,21 @@ describe(`the bill page's view (seed ${seed})`, () => {
     throw new Error(
       `no drawn place had a council that may set highways (seed ${seed})`,
     );
-  }, 900_000);
+  }, 310_000);
 
+  // Old premise (until Nov 16): the bodies filed budget amendments at the
+  // start of play, so a bill with budget lines was on the books a few days
+  // in. Since a body amends its adopted budget only for a cause on record,
+  // the room the treasury's own months give it (PR 9652, `amendmentRoom`),
+  // and the treasury opens with no closed months, no body files one until a
+  // month of the next fiscal year has closed (Battle Mountain, Nevada: day
+  // 140; item gov-treasury-opens-with-no-closed-months). So a member of the
+  // local body drafts the budget line through the game's own draft request,
+  // the one the writing screen sends (as bill-line-amount does), and the
+  // page's figures are checked on that bill as before. At this seed the
+  // first draw, Battle Mountain, Nevada (3204900), has a member of the county
+  // board draft its highways line up a tenth. The case took 32 s (Nov 16,
+  // Train 6e9df72b), so its limit is about twice that, 70 s.
   it("gives a budget bill each line's change from last year and the bill's total change", () => {
     const tried: string[] = [];
     for (let i = 0; i < 16; i += 1) {
@@ -203,32 +225,45 @@ describe(`the bill page's view (seed ${seed})`, () => {
         placeKey: draw.key,
       });
       const api = coreAPI(world.core);
-      const player = new BenchPlayer(world.core, world.director);
-      const resident = [...world.core.people.keys()][0] as string;
-      player.select(resident);
-      // A few days in, the filings the bodies make at the start of play are on the books.
-      for (let day = 0; day < 4; day += 1) {
-        const packet = player.packet;
-        if (packet?.kind === "choice")
-          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
-        else if (packet?.kind === "stop")
-          player.resume({ kind: "stop", pauseId: packet.pauseId });
-        else player.advance("day");
-      }
-      const bill = (
+      const council = (
         api
-          .moduleState(LEGISLATURE_MODULE_ID)
-          .table("bills")
-          .rows() as unknown as BillRow[]
-      ).find((b) =>
-        b.provisions.some(
-          (p) => p.kind === "budget-line" && p.of !== undefined,
-        ),
+          .moduleState("core2-offices-v1")
+          .table("offices")
+          .rows() as unknown as { id: string; kind: string }[]
+      ).find((o) =>
+        ["council", "township-board", "county-board"].includes(o.kind),
       );
-      if (!bill) {
-        tried.push(`${draw.name}: no budget bill by ${world.core.date}`);
+      const seated = council ? members(api, council.id) : [];
+      if (!council || !seated[0]) {
+        tried.push(`${draw.name}: no local body`);
         continue;
       }
+      const resident = memberKey(seated[0]);
+      const item = seatView(world.core, resident)
+        .bodies.find((b: { officeId: string }) => b.officeId === council.id)
+        ?.menus.flatMap((m: { items: unknown[] }) => m.items)
+        .find(
+          (row: { kind: string; inForce: number | null; allowed: boolean }) =>
+            row.kind === "budget-line" && row.inForce && row.allowed !== false,
+        ) as { line: string; inForce: number } | undefined;
+      if (!item) {
+        tried.push(`${draw.name}: no budget line this body may set`);
+        continue;
+      }
+      const drafted = seatAct(world.core, resident, {
+        kind: "draft",
+        officeId: council.id,
+        line: item.line,
+        value: Math.round(item.inForce * 1.1),
+      }) as { id: string; status: string };
+      if (drafted.status !== "drafted") {
+        tried.push(`${draw.name}: the draft was ${drafted.status}`);
+        continue;
+      }
+      const bill = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .get(drafted.id) as unknown as BillRow;
       const page = billPageView(world.core, bill.id, resident);
       const lines = page.sections.filter((x) => x.kind === "budget-line");
       for (const section of lines) {
@@ -253,9 +288,9 @@ describe(`the bill page's view (seed ${seed})`, () => {
       return;
     }
     throw new Error(
-      `no drawn place had a budget bill in its first days (seed ${seed}): ${tried.join("; ")}`,
+      `no drawn place let a member draft a budget line (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 1_800_000);
+  }, 70_000);
 
   it("names the player's own representative in each chamber that has the bill, and the vote they cast", () => {
     const tried: string[] = [];
@@ -313,7 +348,7 @@ describe(`the bill page's view (seed ${seed})`, () => {
     throw new Error(
       `no drawn place showed the town's House member (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 310_000);
 
   it("gives a drafted bill the sitting it is in, the day it has until, and each section's own estimate", () => {
     const tried: string[] = [];
@@ -367,7 +402,7 @@ describe(`the bill page's view (seed ${seed})`, () => {
     throw new Error(
       `no drawn place showed a sitting for a drafted state bill (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 310_000);
 
   it("offers an amendment only on a section that has a law in force to move from", () => {
     const tried: string[] = [];
@@ -431,5 +466,5 @@ describe(`the bill page's view (seed ${seed})`, () => {
     throw new Error(
       `no drawn place had bills to check (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 310_000);
 });

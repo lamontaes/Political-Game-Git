@@ -71,7 +71,7 @@ function mixed(text: string): number {
   return h >>> 0;
 }
 
-/** Each origin's skin tones in the bust bank, lightest 0 to darkest 2 (a registered stopgap: the bank paints three tones per sex). */
+/** Each origin's skin tones in the bust bank, lightest 0 to darkest 2 (a registered stopgap: the bank's six shades per sex fall into thirds). */
 const ORIGIN_TONES: Readonly<Record<string, readonly number[]>> =
   rules.originTones;
 
@@ -86,7 +86,7 @@ const PACK_SEX: Readonly<Record<string, string>> = rules.packSex;
  */
 /** A bank person's skin tone as the origins name them, lightest 0 to darkest 2. */
 export function toneOf(person: BustPerson): number {
-  return Math.min(2, person.tone);
+  return Math.min(2, Math.floor((person.tone * 3) / person.tones));
 }
 
 /**
@@ -135,7 +135,20 @@ export function bustPersonOf(who: FigurePerson): BustPerson | null {
 /** The same person in the full-body pack, for the rooms: one person, one bust, one figure. */
 export function packPersonOf(who: FigurePerson): PackPerson | null {
   const person = bustPersonOf(who);
-  return (person && packPerson(person.id)) ?? null;
+  if (!person) return null;
+  // The pack paints three skins, one per skin third; a shade it lacks is drawn as the pack's person of the same sex and skin third.
+  return (
+    packPerson(person.id) ??
+    bustPeople()
+      .filter(
+        (row) =>
+          row.sex === person.sex &&
+          toneOf(row) === toneOf(person) &&
+          packPerson(row.id),
+      )
+      .map((row) => packPerson(row.id)!)[0] ??
+    null
+  );
 }
 
 // stopgapId: SG-PLAY-people-everyday-falls-back-to-work
@@ -241,7 +254,7 @@ function figureIn(
  * A figure holding something is drawn only where that thing belongs (owner,
  * Oct 29: phones at a rally or on the street, paper at a hearing or the
  * address desk, pen and paper at a desk; never at home), read from
- * data/whole-figures.json `propPlaces`; one holding nothing goes anywhere.
+ * src/bench/data/whole-figures.json `propPlaces`; one holding nothing goes anywhere.
  */
 const PROP_PLACES: Readonly<Record<string, readonly string[]>> =
   rules.propPlaces;

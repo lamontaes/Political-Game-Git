@@ -1,0 +1,674 @@
+{
+  "world": {
+    "tag": {
+      "value": "v0.113.0",
+      "source": "git tag"
+    },
+    "seed": {
+      "value": "4da16a2f-da10-45c7-b308-18f79c4f5388",
+      "source": "/api/newlife → bench/handler.seed"
+    },
+    "placeKey": {
+      "value": "3832580",
+      "source": "/api/newlife → bench/handler.placeKey"
+    },
+    "place": {
+      "value": "Grano, North Dakota",
+      "source": "/api/newlife → bench/handler.placeName"
+    },
+    "date": {
+      "value": "January 20, 2025",
+      "source": "core.date"
+    },
+    "playerId": {
+      "value": "person_9a7ae1159f2f4e86",
+      "source": "/api/newlife → bench/handler.personId"
+    }
+  },
+  "destinations": [
+    {
+      "organizationId": {
+        "value": "organization_348084cf415d58da",
+        "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].organizationId"
+      },
+      "kindOfWork": {
+        "value": "service:municipal-government",
+        "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].kindOfWork"
+      },
+      "name": {
+        "value": "City of Grano",
+        "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].name"
+      },
+      "place": {
+        "value": "mayor-office",
+        "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].place"
+      },
+      "staff": {
+        "value": 2,
+        "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].staff"
+      },
+      "known": [
+        {
+          "personId": {
+            "value": "person_75729d931e7db678",
+            "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].known[person_75729d931e7db678].personId"
+          },
+          "name": {
+            "value": "Shane Harrison",
+            "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].known[person_75729d931e7db678].name"
+          }
+        }
+      ],
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "work",
+            "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].reasons[organization_348084cf415d58da].kind"
+          },
+          "recordId": {
+            "value": "organization_348084cf415d58da",
+            "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].reasons[organization_348084cf415d58da].recordId"
+          }
+        }
+      ],
+      "presentNames": [
+        {
+          "value": "Shane Harrison",
+          "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].presentNames[0]"
+        }
+      ],
+      "presentCount": {
+        "value": 1,
+        "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/mayor-office__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[organization_348084cf415d58da].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "organization_75f15c21dbcb5863",
+        "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].organizationId"
+      },
+      "kindOfWork": {
+        "value": "membership:labor-union",
+        "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].kindOfWork"
+      },
+      "name": {
+        "value": "Grano Area Workers Union Local",
+        "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].name"
+      },
+      "place": {
+        "value": "union-hall",
+        "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].place"
+      },
+      "staff": {
+        "value": 1,
+        "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].reasons[organization_75f15c21dbcb5863].kind"
+          },
+          "recordId": {
+            "value": "organization_75f15c21dbcb5863",
+            "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].reasons[organization_75f15c21dbcb5863].recordId"
+          }
+        }
+      ],
+      "presentNames": [
+        {
+          "value": "Alexis Harrison",
+          "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].presentNames[0]"
+        }
+      ],
+      "presentCount": {
+        "value": 1,
+        "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/union-hall__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[organization_75f15c21dbcb5863].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "organization_0d3ce59301a21dda",
+        "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].organizationId"
+      },
+      "kindOfWork": {
+        "value": "community:organizing-nonprofit",
+        "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].kindOfWork"
+      },
+      "name": {
+        "value": "Grano Neighbors United",
+        "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].name"
+      },
+      "place": {
+        "value": "union-hall-interior",
+        "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].place"
+      },
+      "staff": {
+        "value": 1,
+        "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].reasons[organization_0d3ce59301a21dda].kind"
+          },
+          "recordId": {
+            "value": "organization_0d3ce59301a21dda",
+            "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].reasons[organization_0d3ce59301a21dda].recordId"
+          }
+        }
+      ],
+      "presentNames": [
+        {
+          "value": "Lori Munoz",
+          "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].presentNames[0]"
+        }
+      ],
+      "presentCount": {
+        "value": 1,
+        "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/union-hall-interior__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[organization_0d3ce59301a21dda].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "organization_71048ff12f299950",
+        "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].organizationId"
+      },
+      "kindOfWork": {
+        "value": "service:clinic",
+        "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].kindOfWork"
+      },
+      "name": {
+        "value": "Munoz Family Clinic",
+        "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].name"
+      },
+      "place": {
+        "value": "doctor-exam-room",
+        "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].place"
+      },
+      "staff": {
+        "value": 1,
+        "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].reasons[organization_71048ff12f299950].kind"
+          },
+          "recordId": {
+            "value": "organization_71048ff12f299950",
+            "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].reasons[organization_71048ff12f299950].recordId"
+          }
+        }
+      ],
+      "presentNames": [
+        {
+          "value": "Chris Munoz",
+          "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].presentNames[0]"
+        }
+      ],
+      "presentCount": {
+        "value": 1,
+        "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/doctor-exam-room__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[organization_71048ff12f299950].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].organizationId"
+      },
+      "kindOfWork": {
+        "value": "sector:restaurant",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].kindOfWork"
+      },
+      "name": {
+        "value": "Carson's Kitchen",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].name"
+      },
+      "place": {
+        "value": "coffee-shop",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].place"
+      },
+      "staff": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].reasons[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].kind"
+          },
+          "recordId": {
+            "value": "employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330",
+            "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].reasons[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].recordId"
+          }
+        }
+      ],
+      "presentNames": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].presentNames"
+      },
+      "presentCount": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/coffee-shop__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:restaurant:jurisdiction_ad78e3acbc5a0330].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "organization:party:US-ND:democratic",
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].organizationId"
+      },
+      "kindOfWork": {
+        "value": "membership:political-party",
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].kindOfWork"
+      },
+      "name": {
+        "value": "Democratic Party",
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].name"
+      },
+      "place": {
+        "value": "campaign-office-storefront",
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].place"
+      },
+      "staff": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].reasons[organization:party:US-ND:democratic].kind"
+          },
+          "recordId": {
+            "value": "organization:party:US-ND:democratic",
+            "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].reasons[organization:party:US-ND:democratic].recordId"
+          }
+        }
+      ],
+      "presentNames": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].presentNames"
+      },
+      "presentCount": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/campaign-office-storefront__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:democratic].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].organizationId"
+      },
+      "kindOfWork": {
+        "value": "sector:retail",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].kindOfWork"
+      },
+      "name": {
+        "value": "Figueroa's Market",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].name"
+      },
+      "place": {
+        "value": "hardware-store-interior",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].place"
+      },
+      "staff": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].reasons[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].kind"
+          },
+          "recordId": {
+            "value": "employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330",
+            "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].reasons[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].recordId"
+          }
+        }
+      ],
+      "presentNames": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].presentNames"
+      },
+      "presentCount": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/hardware-store-interior__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:retail:jurisdiction_ad78e3acbc5a0330].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "opening-retirement-payer:7adeb5f3113701b0",
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].organizationId"
+      },
+      "kindOfWork": {
+        "value": "sector:modeled-retirement-income-account",
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].kindOfWork"
+      },
+      "name": {
+        "value": "Grano, North Dakota retirement-income paying account",
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].name"
+      },
+      "place": {
+        "value": "main-street",
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].place"
+      },
+      "staff": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].reasons[opening-retirement-payer:7adeb5f3113701b0].kind"
+          },
+          "recordId": {
+            "value": "opening-retirement-payer:7adeb5f3113701b0",
+            "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].reasons[opening-retirement-payer:7adeb5f3113701b0].recordId"
+          }
+        }
+      ],
+      "presentNames": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].presentNames"
+      },
+      "presentCount": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/main-street__region-plains.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[opening-retirement-payer:7adeb5f3113701b0].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].organizationId"
+      },
+      "kindOfWork": {
+        "value": "sector:construction",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].kindOfWork"
+      },
+      "name": {
+        "value": "Prince Construction",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].name"
+      },
+      "place": {
+        "value": "construction-site",
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].place"
+      },
+      "staff": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].reasons[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].kind"
+          },
+          "recordId": {
+            "value": "employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330",
+            "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].reasons[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].recordId"
+          }
+        }
+      ],
+      "presentNames": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].presentNames"
+      },
+      "presentCount": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/construction-site__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[employer-elsewhere:construction:jurisdiction_ad78e3acbc5a0330].presentation.imageUrl"
+        }
+      }
+    },
+    {
+      "organizationId": {
+        "value": "organization:party:US-ND:libertarian",
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].organizationId"
+      },
+      "kindOfWork": {
+        "value": "membership:political-party",
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].kindOfWork"
+      },
+      "name": {
+        "value": "Libertarian Party",
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].name"
+      },
+      "place": {
+        "value": "campaign-office-storefront",
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].place"
+      },
+      "staff": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].staff"
+      },
+      "known": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].known"
+      },
+      "actions": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].actions"
+      },
+      "reasons": [
+        {
+          "kind": {
+            "value": "large",
+            "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].reasons[organization:party:US-ND:libertarian].kind"
+          },
+          "recordId": {
+            "value": "organization:party:US-ND:libertarian",
+            "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].reasons[organization:party:US-ND:libertarian].recordId"
+          }
+        }
+      ],
+      "presentNames": {
+        "value": [],
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].presentNames"
+      },
+      "presentCount": {
+        "value": 0,
+        "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].presentCount"
+      },
+      "presentation": {
+        "imageUrl": {
+          "value": "/art/backdrops/campaign-office-storefront__midday.jpg",
+          "source": "/api/goto → bench/handler.townPlaces[organization:party:US-ND:libertarian].presentation.imageUrl"
+        }
+      }
+    }
+  ],
+  "filingCounters": {
+    "value": {},
+    "source": "/api/government → bench/government.governmentView.contests"
+  },
+  "home": {
+    "away": {
+      "value": false,
+      "source": "/api/goto/home → bench/scene.benchScene.away"
+    },
+    "picture": {
+      "value": "/art/backdrops/house-suburban-living__midday.jpg",
+      "source": "/api/goto/home → bench/scene.benchScene.picture"
+    },
+    "who": {
+      "value": [],
+      "source": "/api/goto/home → bench/scene.benchScene.who"
+    }
+  },
+  "labels": {
+    "title": {
+      "value": "Travel",
+      "source": "src/bench/data/controls.json.titles.travel"
+    },
+    "travel": {
+      "value": {
+        "why": "Why it's listed",
+        "reasons": {
+          "work": "You work here",
+          "family": "Someone in your family works here",
+          "study": "Someone in your home goes to school here",
+          "studySelf": "You go to school here",
+          "known": "Someone you know works here",
+          "action": "Something to do now",
+          "serve": "You serve in office",
+          "member": "Your party's office",
+          "seat": "Your office",
+          "ownMeeting": "Your board meets today",
+          "meeting": "Its board meets today",
+          "filing": "You can file to run for office here",
+          "large": "One of the town's biggest workplaces"
+        },
+        "memberHere": "Your party's office",
+        "filing": "Filing office",
+        "go": "Go to",
+        "home": "Home",
+        "goHome": "Go home",
+        "open": "Open now",
+        "closed": "Closed now",
+        "opensAt": "Closed now. Opens {day} at {time}.",
+        "counterTitle": "{office}, {town}",
+        "trail": "The campaign trail",
+        "groupFiling": "Where you file",
+        "groupTrail": "Campaign",
+        "openLabel": "Open",
+        "whoIsThere": "Who's there",
+        "whatICanDo": "What I can do there"
+      },
+      "source": "src/bench/data/controls.json.travel"
+    },
+    "here": {
+      "value": {
+        "label": "Here",
+        "more": "and {count} more"
+      },
+      "source": "src/bench/data/controls.json.here"
+    }
+  },
+  "not_in_game": ["Street addresses for the filing counters."]
+}

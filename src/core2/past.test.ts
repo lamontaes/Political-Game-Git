@@ -25,6 +25,7 @@ import { publicKnowledgeOf } from "./past-public";
 import { openThePast } from "./past";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { coreAPI } from "./state";
+import { centuryLaw } from "./electorate-century";
 
 // The world has a past (owner, Oct 14, 2026), in the world the owner plays:
 // the bench world on a seed nobody chose, every module installed. Every
@@ -49,9 +50,12 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
     const recorded = (id: string) => {
       const match =
         /^law:([^:]+):(?:federal|state):(.+):general:starting$/.exec(id);
-      return match
-        ? POLICY_QUESTIONS[match[2]!]?.answers[match[1]!]?.answer
-        : undefined;
+      if (!match) return undefined;
+      // In a world whose day one is the century's, the answer is the century's law (CTO line
+      // 6935086070 on #9747); under "just like today", the research's.
+      const century = centuryLaw(seed, match[1]!, match[2]!);
+      if (century !== undefined) return century?.value === 1 ? "yes" : "no";
+      return POLICY_QUESTIONS[match[2]!]?.answers[match[1]!]?.answer;
     };
     const noAnswers: string[] = [];
     let yesAnswers = 0;

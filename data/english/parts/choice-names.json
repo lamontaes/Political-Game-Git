@@ -99,10 +99,10 @@
   },
   "parts": [
     {
-      "key": "choice-names.work-shift.go-to-work",
+      "key": "choice-names.work-shift.head-to-work",
       "move": "work-shift",
       "kind": "spoken",
-      "text": "Go to work.",
+      "text": "Head to work.",
       "uses": [
         {
           "move": "work-shift",
@@ -111,27 +111,19 @@
           "choice": "work-shift"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks at the International Association of Fire Fighters Legislative Conference",
-        "date": "2023-03-06",
-        "granule": "DCPD-202300175",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300175/html/DCPD-202300175.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.work-shift.work",
+      "key": "choice-names.work-shift.put-in-a-shift",
       "move": "work-shift",
       "kind": "spoken",
-      "text": "Work.",
+      "text": "Put in a shift.",
       "uses": [
         {
           "move": "work-shift",
@@ -140,32 +132,19 @@
           "choice": "work-shift"
         }
       ],
-      "transcriptsUsing": 18,
-      "bySource": {
-        "crec": 2,
-        "dcpd": 3,
-        "hearings": 1,
-        "nasa": 2,
-        "nasa2": 3,
-        "nih": 3,
-        "nps": 4
-      },
-      "source": {
-        "document": "ALL MEANS ALL: EMPOWERING PEOPLE WITH DISABILITIES TO THRIVE IN CAREERS AND THE WORKPLACE",
-        "date": "2024-02-29",
-        "granule": "CHRG-118shrg56479",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg56479/html/CHRG-118shrg56479.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.rest.stay-home",
+      "key": "choice-names.rest.take-the-day-off",
       "move": "rest",
       "kind": "spoken",
-      "text": "Stay home.",
+      "text": "Take the day off.",
       "uses": [
         {
           "move": "rest",
@@ -174,29 +153,19 @@
           "choice": "rest"
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "briefing": 1,
-        "crec": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
-        "date": "2020-03-26",
-        "granule": "WH-2020-03-26-remarks-president-trump-vice-president-pence-members-coronavirus-task",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-12/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.rest.rest",
+      "key": "choice-names.rest.relax-at-home",
       "move": "rest",
       "kind": "spoken",
-      "text": "Rest.",
+      "text": "Relax at home.",
       "uses": [
         {
           "move": "rest",
@@ -205,28 +174,19 @@
           "choice": "rest"
         }
       ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 1,
-        "dol-osha": 4,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Lod, Israel",
-        "date": "2025-10-12",
-        "granule": "DCPD-202501004",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501004/html/DCPD-202501004.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.rest.take-a-break",
+      "key": "choice-names.rest.sit-this-one-out",
       "move": "rest",
       "kind": "spoken",
-      "text": "Take a break.",
+      "text": "Sit this one out.",
       "uses": [
         {
           "move": "rest",
@@ -235,29 +195,19 @@
           "choice": "rest"
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "house": 1,
-        "nasa": 1,
-        "nps": 1,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "Picnic on the Armory Grounds",
-        "date": "2024-12-01",
-        "granule": "nps-thingstodo-picnic-on-the-grounds-of-the-springfield-armory",
-        "url": "https://www.nps.gov/thingstodo/picnic-on-the-grounds-of-the-springfield-armory.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.rest.take-it-easy",
+      "key": "choice-names.rest.get-some-rest",
       "move": "rest",
       "kind": "spoken",
-      "text": "Take it easy.",
+      "text": "Get some rest.",
       "uses": [
         {
           "move": "rest",
@@ -266,31 +216,19 @@
           "choice": "rest"
         }
       ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "dcpd": 4,
-        "nasa2": 1,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "Remarks During Telerally for Virginia Republican Gubernatorial Candidate Winsome Earle-Sears and Attorney General Candidate Jason S. Miyares",
-        "date": "2025-11-03",
-        "granule": "DCPD-202501085",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501085/html/DCPD-202501085.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.contact-known-person.call-name",
+      "key": "choice-names.contact-known-person.phone-name",
       "move": "contact-known-person",
       "kind": "spoken",
-      "text": "Call {name}.",
+      "text": "Phone {name}.",
       "uses": [
         {
           "move": "contact-known-person",
@@ -305,32 +243,19 @@
           "choice": "lobby-legislator"
         }
       ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 3,
-        "crec": 1,
-        "dcpd": 2,
-        "hearings": 1,
-        "nasa": 1,
-        "nasa2": 2,
-        "nps": 2
-      },
-      "source": {
-        "document": "Remarks at a Democratic National Committee Reception in Beverly Hills, California",
-        "date": "2022-06-10",
-        "granule": "DCPD-202200511",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200511/html/DCPD-202200511.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.contact-known-person.visit-name",
+      "key": "choice-names.contact-known-person.drop-in-on-name",
       "move": "contact-known-person",
       "kind": "spoken",
-      "text": "Visit {name}.",
+      "text": "Drop in on {name}.",
       "uses": [
         {
           "move": "contact-known-person",
@@ -339,29 +264,19 @@
           "choice": "contact-known-person"
         }
       ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "epa": 1,
-        "hearings": 2,
-        "nps.gov": 4,
-        "nps.gov (PDF)": 3
-      },
-      "source": {
-        "document": "EPA Begins Sewer Design Project in Wahikuli, Maui",
-        "date": "2024-09-23",
-        "granule": "epa-2024-09-23-epa-begins-sewer-design-project-in-wahikuli-maui-57c2622f",
-        "url": "https://www.epa.gov/newsreleases/epa-begins-sewer-design-project-wahikuli-maui",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.contact-known-person.go-see-name",
+      "key": "choice-names.contact-known-person.stop-by-and-see-name",
       "move": "contact-known-person",
       "kind": "spoken",
-      "text": "Go see {name}.",
+      "text": "Stop by and see {name}.",
       "uses": [
         {
           "move": "contact-known-person",
@@ -370,27 +285,19 @@
           "choice": "contact-known-person"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 2,
-        "house": 1
-      },
-      "source": {
-        "document": "U.S. House Oral History: Hymel, Gary - Administrative Assistant, Representative Hale Boggs of Louisiana and Speaker Thomas P. “Tip” O’Neill Jr. of Massachusetts - 1965–1981",
-        "date": "2022-10-31",
-        "granule": "house-oh-hymel",
-        "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.contact-known-person.talk-to-name",
+      "key": "choice-names.contact-known-person.have-a-word-with-name",
       "move": "contact-known-person",
       "kind": "spoken",
-      "text": "Talk to {name}.",
+      "text": "Have a word with {name}.",
       "uses": [
         {
           "move": "contact-known-person",
@@ -399,31 +306,40 @@
           "choice": "contact-known-person"
         }
       ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "dcpd": 1,
-        "hearings": 1,
-        "house": 1,
-        "nasa2": 2
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters at Morristown Municipal Airport in Morristown, New Jersey",
-        "date": "2025-04-27",
-        "granule": "DCPD-202500529",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500529/html/DCPD-202500529.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.care-for-relative.take-care-of-relation",
+      "key": "choice-names.contact-known-person.reach-out-to-someone-you-know",
+      "move": "contact-known-person",
+      "kind": "spoken",
+      "text": "Reach out to someone you know.",
+      "uses": [
+        {
+          "move": "contact-known-person",
+          "subject": "action",
+          "role": "contact-known-person",
+          "choice": "contact-known-person"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.care-for-relative.help-out-relation",
       "move": "care-for-relative",
       "kind": "spoken",
-      "text": "Take care of {relation}.",
+      "text": "Help out {relation}.",
       "uses": [
         {
           "move": "care-for-relative",
@@ -432,27 +348,40 @@
           "choice": "care-for-relative"
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "crec": 1,
-        "dcpd": 3
-      },
-      "source": {
-        "document": "Remarks at a Bill Signing Ceremony and an Exchange With Reporters",
-        "date": "2025-05-09",
-        "granule": "DCPD-202500576",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500576/html/DCPD-202500576.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.join-association.join-group",
+      "key": "choice-names.care-for-relative.help-out-a-relative",
+      "move": "care-for-relative",
+      "kind": "spoken",
+      "text": "Help out a relative.",
+      "uses": [
+        {
+          "move": "care-for-relative",
+          "subject": "action",
+          "role": "care-for-relative",
+          "choice": "care-for-relative"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.join-association.become-a-member-of-group",
       "move": "join-association",
       "kind": "spoken",
-      "text": "Join {group}.",
+      "text": "Become a member of {group}.",
       "uses": [
         {
           "move": "join-association",
@@ -467,28 +396,19 @@
           "choice": "join-cause-group"
         }
       ],
-      "transcriptsUsing": 16,
-      "bySource": {
-        "blm": 2,
-        "nps.gov": 13,
-        "nps.gov (PDF)": 1
-      },
-      "source": {
-        "document": "Take a Hike and Make your own Rag Doll: California Trail Interpretive Center announces January programs",
-        "date": "2020-01-03",
-        "granule": "blm-2020-01-03-take-a-hike-and-make-your-own-rag-doll-california-trail-inte-a22083a6",
-        "url": "https://www.blm.gov/press-release/take-hike-and-make-your-own-rag-doll-california-trail-interpretive-center-announces",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.approach-office.call-office",
+      "key": "choice-names.approach-office.phone-office",
       "move": "approach-office",
       "kind": "spoken",
-      "text": "Call {office}.",
+      "text": "Phone {office}.",
       "uses": [
         {
           "move": "approach-office",
@@ -497,27 +417,40 @@
           "choice": "approach-office"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "crec": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Congressional Record, House section, 2019-01-17",
-        "date": "2019-01-17",
-        "granule": "CREC-2019-01-17-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2019-01-17",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.look-up-local-institution.look-it-up",
+      "key": "choice-names.approach-office.stop-by-an-office",
+      "move": "approach-office",
+      "kind": "spoken",
+      "text": "Stop by an office.",
+      "uses": [
+        {
+          "move": "approach-office",
+          "subject": "action",
+          "role": "approach-office",
+          "choice": "approach-office"
+        }
+      ],
+      "tag": {
+        "move": "control-name"
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
+    },
+    {
+      "key": "choice-names.look-up-local-institution.read-up-on-it",
       "move": "look-up-local-institution",
       "kind": "spoken",
-      "text": "Look it up.",
+      "text": "Read up on it.",
       "uses": [
         {
           "move": "look-up-local-institution",
@@ -526,29 +459,19 @@
           "choice": "look-up-local-institution"
         }
       ],
-      "transcriptsUsing": 11,
-      "bySource": {
-        "crec": 2,
-        "dcpd": 7,
-        "hearings": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "HOUSING SOLUTIONS: CUTTING THROUGH GOVERNMENT RED TAPE",
-        "date": "2024-07-24",
-        "granule": "CHRG-118hhrg57120",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57120/html/CHRG-118hhrg57120.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.look-up-local-institution.find-out-more",
+      "key": "choice-names.look-up-local-institution.learn-more-about-it",
       "move": "look-up-local-institution",
       "kind": "spoken",
-      "text": "Find out more.",
+      "text": "Learn more about it.",
       "uses": [
         {
           "move": "look-up-local-institution",
@@ -557,26 +480,19 @@
           "choice": "look-up-local-institution"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "nps.gov": 2
-      },
-      "source": {
-        "document": "Pony Express National Historic Trail Passport Stamp",
-        "date": "2025-09-04",
-        "granule": "nps-articles-pony-express-national-historic-trail-passport-stamp",
-        "url": "https://www.nps.gov/articles/000/pony-express-national-historic-trail-passport-stamp.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.take-up-cause.take-a-stand",
+      "key": "choice-names.take-up-cause.speak-out",
       "move": "take-up-cause",
       "kind": "spoken",
-      "text": "Take a stand.",
+      "text": "Speak out.",
       "uses": [
         {
           "move": "take-up-cause",
@@ -585,27 +501,19 @@
           "choice": "take-up-cause"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 1,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "RESTORING CONGRESSIONAL OVERSIGHT OVER EMERGENCY POWERS: EXPLORING OPTIONS TO REFORM THE NATIONAL EMERGENCIES ACT",
-        "date": "2024-05-22",
-        "granule": "CHRG-118shrg55977",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55977/html/CHRG-118shrg55977.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.take-up-cause.get-involved",
+      "key": "choice-names.take-up-cause.back-cause",
       "move": "take-up-cause",
       "kind": "spoken",
-      "text": "Get involved.",
+      "text": "Back {cause}.",
       "uses": [
         {
           "move": "take-up-cause",
@@ -614,27 +522,19 @@
           "choice": "take-up-cause"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks During a Virtual Grassroots Event and Question-and-Answer Session of the Democratic National Committee",
-        "date": "2021-11-09",
-        "granule": "DCPD-202100939",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202100939/html/DCPD-202100939.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.take-up-cause.speak-up",
+      "key": "choice-names.take-up-cause.work-for-cause",
       "move": "take-up-cause",
       "kind": "spoken",
-      "text": "Speak up.",
+      "text": "Work for {cause}.",
       "uses": [
         {
           "move": "take-up-cause",
@@ -643,29 +543,19 @@
           "choice": "take-up-cause"
         }
       ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "crec": 2,
-        "dcpd": 5,
-        "hearings": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "The President's News Conference in Évian-les-Bains, France",
-        "date": "2026-06-17",
-        "granule": "DCPD-202600410",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600410/html/DCPD-202600410.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.take-up-cause.stand-up-for-cause",
+      "key": "choice-names.take-up-cause.make-a-difference",
       "move": "take-up-cause",
       "kind": "spoken",
-      "text": "Stand up for {cause}.",
+      "text": "Make a difference.",
       "uses": [
         {
           "move": "take-up-cause",
@@ -674,58 +564,19 @@
           "choice": "take-up-cause"
         }
       ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "crec": 6,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks on Energy in Corpus Christi, Texas",
-        "date": "2026-02-27",
-        "granule": "DCPD-202600139",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600139/html/DCPD-202600139.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.take-up-cause.fight-for-cause",
-      "move": "take-up-cause",
-      "kind": "spoken",
-      "text": "Fight for {cause}.",
-      "uses": [
-        {
-          "move": "take-up-cause",
-          "subject": "action",
-          "role": "take-up-cause",
-          "choice": "take-up-cause"
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "crec": 3,
-        "hearings": 2,
-        "house": 1,
-        "hud": 1
-      },
-      "source": {
-        "document": "HUD Secretary Marcia L. Fudge Delivers Remarks at Columbia, SC Branch NAACP 36th Annual Freedom Fund Awards Gala",
-        "date": "2023-09-18",
-        "granule": "hud-2023-09-18-hud-secretary-marcia-l-fudge-delivers-remarks-at-columbia-sc-8ad79a9f",
-        "url": "https://archives.hud.gov/news/2023/pr23-203.cfm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "control-name"
-      }
-    },
-    {
-      "key": "choice-names.hold-grudge.dont-forget-it",
+      "key": "choice-names.hold-grudge.remember-this",
       "move": "hold-grudge",
       "kind": "spoken",
-      "text": "Don't forget it.",
+      "text": "Remember this.",
       "uses": [
         {
           "move": "hold-grudge",
@@ -734,27 +585,19 @@
           "choice": "hold-grudge"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "crec": 1,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Congressional Record, Senate section, 2020-10-25",
-        "date": "2020-10-25",
-        "granule": "CREC-2020-10-25-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2020-10-25",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.carry-on.keep-going",
+      "key": "choice-names.carry-on.press-on",
       "move": "carry-on",
       "kind": "spoken",
-      "text": "Keep going.",
+      "text": "Press on.",
       "uses": [
         {
           "move": "carry-on",
@@ -763,32 +606,19 @@
           "choice": "carry-on"
         }
       ],
-      "transcriptsUsing": 41,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "briefing": 3,
-        "crec": 1,
-        "dcpd": 8,
-        "hearings": 13,
-        "nasa": 2,
-        "nps": 13
-      },
-      "source": {
-        "document": "Remarks on Law Enforcement in Garden City, New York",
-        "date": "2026-08-14",
-        "granule": "DCPD-202600540",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600540/html/DCPD-202600540.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.carry-on.move-on",
+      "key": "choice-names.carry-on.get-back-to-it",
       "move": "carry-on",
       "kind": "spoken",
-      "text": "Move on.",
+      "text": "Get back to it.",
       "uses": [
         {
           "move": "carry-on",
@@ -797,27 +627,19 @@
           "choice": "carry-on"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks With Former Presidents Barack Obama and William J. Clinton in a Question-and-Answer Session Moderated by Stephen T. Colbert at a Campaign Reception in New York City",
-        "date": "2024-03-28",
-        "granule": "DCPD-202400238",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400238/html/DCPD-202400238.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.carry-on.keep-at-it",
+      "key": "choice-names.carry-on.shrug-it-off",
       "move": "carry-on",
       "kind": "spoken",
-      "text": "Keep at it.",
+      "text": "Shrug it off.",
       "uses": [
         {
           "move": "carry-on",
@@ -826,28 +648,19 @@
           "choice": "carry-on"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Karine Jean-Pierre, National Monkeypox Response Coordinator Bob Fenton and Deputy Coordinator Dr. Demetre Daskalakis",
-        "date": "2022-09-07",
-        "granule": "WH-2022-09-07-press-briefing-by-press-secretary-karine-jean-pierre-national-monkeypo",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2022/09/07/press-briefing-by-press-secretary-karine-jean-pierre-national-monkeypox-response-coordinator-bob-fenton-and-deputy-coordinator-dr-demetre-daskalakis/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.carry-on.let-it-go",
+      "key": "choice-names.carry-on.let-it-pass",
       "move": "carry-on",
       "kind": "spoken",
-      "text": "Let it go.",
+      "text": "Let it pass.",
       "uses": [
         {
           "move": "carry-on",
@@ -856,87 +669,19 @@
           "choice": "carry-on"
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "briefing": 1,
-        "crec": 1,
-        "dcpd": 3,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
-        "date": "2020-04-03",
-        "granule": "WH-2020-04-03-remarks-president-trump-vice-president-pence-members-coronavirus-task-x",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-17/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.carry-on.stay-the-course",
-      "move": "carry-on",
-      "kind": "spoken",
-      "text": "Stay the course.",
-      "uses": [
-        {
-          "move": "carry-on",
-          "subject": "action",
-          "role": "carry-on",
-          "choice": "carry-on"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks in a Meeting With Governor Douglas A. Ducey of Arizona and an Exchange With Reporters",
-        "date": "2020-08-05",
-        "granule": "DCPD-202000573",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000573/html/DCPD-202000573.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "control-name"
-      }
-    },
-    {
-      "key": "choice-names.carry-on.keep-your-head-down",
-      "move": "carry-on",
-      "kind": "spoken",
-      "text": "Keep your head down.",
-      "uses": [
-        {
-          "move": "carry-on",
-          "subject": "action",
-          "role": "carry-on",
-          "choice": "carry-on"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 1
-      },
-      "source": {
-        "document": "Press Gaggle by Press Secretary Karine Jean-Pierre and Office of Public Engagement Director Stephen Benjamin en Route Austin, TX",
-        "date": "2024-07-29",
-        "granule": "WH-2024-07-29-press-gaggle-by-press-secretary-karine-jean-pierre-and-office-of-publi",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/07/29/press-gaggle-by-press-secretary-karine-jean-pierre-and-office-of-public-engagement-director-stephen-benjamin-en-route-austin-tx/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "control-name"
-      }
-    },
-    {
-      "key": "choice-names.share-cause.tell-your-friends",
+      "key": "choice-names.share-cause.tell-people-about-it",
       "move": "share-cause",
       "kind": "spoken",
-      "text": "Tell your friends.",
+      "text": "Tell people about it.",
       "uses": [
         {
           "move": "share-cause",
@@ -945,27 +690,19 @@
           "choice": "share-cause"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "briefing": 1,
-        "nps.gov (PDF)": 1
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Jen Psaki and National Security Advisor Jake Sullivan, March 12, 2021",
-        "date": "2021-03-12",
-        "granule": "WH-2021-03-12-press-briefing-by-press-secretary-jen-psaki-march-12-2021",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2021/03/12/press-briefing-by-press-secretary-jen-psaki-march-12-2021/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.share-cause.spread-the-word",
+      "key": "choice-names.share-cause.pass-it-along",
       "move": "share-cause",
       "kind": "spoken",
-      "text": "Spread the word.",
+      "text": "Pass it along.",
       "uses": [
         {
           "move": "share-cause",
@@ -974,26 +711,19 @@
           "choice": "share-cause"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks at a Campaign Event in Philadelphia, Pennsylvania",
-        "date": "2024-05-29",
-        "granule": "DCPD-202400467",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400467/html/DCPD-202400467.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.found-cause-group.organize",
+      "key": "choice-names.found-cause-group.start-a-group",
       "move": "found-cause-group",
       "kind": "spoken",
-      "text": "Organize.",
+      "text": "Start a group.",
       "uses": [
         {
           "move": "found-cause-group",
@@ -1002,27 +732,19 @@
           "choice": "found-cause-group"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "crec": 2,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Remarks at a South Carolina Democratic Party Dinner in Columbia, South Carolina",
-        "date": "2024-01-27",
-        "granule": "DCPD-202400051",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400051/html/DCPD-202400051.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.join-cause-group.sign-up",
+      "key": "choice-names.join-cause-group.add-your-name",
       "move": "join-cause-group",
       "kind": "spoken",
-      "text": "Sign up.",
+      "text": "Add your name.",
       "uses": [
         {
           "move": "join-cause-group",
@@ -1031,28 +753,19 @@
           "choice": "join-cause-group"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 1,
-        "hearings": 1,
-        "nps.gov (PDF)": 1
-      },
-      "source": {
-        "document": "THE DEPARTMENT OF ENERGY'S DUE DILIGENCE PROCESS FOR AWARDING COMPETITIVE GRANTS AND LOANS FUNDED THROUGH THE INFLATION REDUCTION ACT AND THE BIPARTISAN INFRASTRUCTURE LAW AND THE DEPARTMENT'S OVERALL INNOVATION INVESTMENT STRATEGY",
-        "date": "2023-10-19",
-        "granule": "CHRG-118shrg55813",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55813/html/CHRG-118shrg55813.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.join-cause-group.join-them",
+      "key": "choice-names.join-cause-group.become-a-member",
       "move": "join-cause-group",
       "kind": "spoken",
-      "text": "Join them.",
+      "text": "Become a member.",
       "uses": [
         {
           "move": "join-cause-group",
@@ -1061,26 +774,19 @@
           "choice": "join-cause-group"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks on the COVID–19 Response and National Vaccination Efforts and an Exchange With Reporters",
-        "date": "2021-12-21",
-        "granule": "DCPD-202101072",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202101072/html/DCPD-202101072.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.donate-to-cause.donate",
+      "key": "choice-names.donate-to-cause.give-money",
       "move": "donate-to-cause",
       "kind": "spoken",
-      "text": "Donate.",
+      "text": "Give money.",
       "uses": [
         {
           "move": "donate-to-cause",
@@ -1089,27 +795,19 @@
           "choice": "donate-to-cause"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Remarks by President Trump, Vice President Pence, and Members of the C oronavirus Task Force in Press Briefing",
-        "date": "2020-03-20",
-        "granule": "WH-2020-03-20-remarks-president-trump-vice-president-pence-members-c-oronavirus-task",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-c-oronavirus-task-force-press-briefing/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.seek-standing.meet-name",
+      "key": "choice-names.seek-standing.get-to-know-name",
       "move": "seek-standing",
       "kind": "spoken",
-      "text": "Meet {name}.",
+      "text": "Get to know {name}.",
       "uses": [
         {
           "move": "seek-standing",
@@ -1118,27 +816,19 @@
           "choice": "seek-standing"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 1,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "DEPARTMENT OF LABOR, HEALTH AND HUMAN SERVICES, AND EDUCATION, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2019",
-        "date": "2019-11-05",
-        "granule": "CHRG-115shrg89104853",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg89104853/html/CHRG-115shrg89104853.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.run-for-office.run",
+      "key": "choice-names.run-for-office.run-for-office",
       "move": "run-for-office",
       "kind": "spoken",
-      "text": "Run.",
+      "text": "Run for office.",
       "uses": [
         {
           "move": "run-for-office",
@@ -1147,26 +837,19 @@
           "choice": "run-for-office"
         }
       ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
-      "source": {
-        "document": "Remarks to the National Education Association Annual Meeting and Representative Assembly",
-        "date": "2023-07-04",
-        "granule": "DCPD-202300595",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300595/html/DCPD-202300595.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-question.what-do-you-think-about-topic",
+      "key": "choice-names.stance-question.what-is-your-view-on-topic",
       "move": "stance-question",
       "kind": "spoken",
-      "text": "What do you think about {topic}?",
+      "text": "What is your view on {topic}?",
       "uses": [
         {
           "move": "stance-question",
@@ -1175,44 +858,19 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 169,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 4,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "U.S. Senate Historical Office oral history": 9,
-        "briefing": 18,
-        "crec": 1,
-        "dcpd": 57,
-        "hearings": 46,
-        "house": 4,
-        "nasa": 6,
-        "nasa2": 8,
-        "nih": 1,
-        "nps": 6,
-        "nps.gov": 1,
-        "usfa.fema.gov": 1
-      },
-      "source": {
-        "document": "Remarks on United States Nuclear Innovation and an Exchange With Reporters",
-        "date": "2026-07-24",
-        "granule": "DCPD-202600489",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600489/html/DCPD-202600489.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "ask"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-question.how-do-you-feel-about-topic",
+      "key": "choice-names.stance-question.are-you-for-topic",
       "move": "stance-question",
       "kind": "spoken",
-      "text": "How do you feel about {topic}?",
+      "text": "Are you for {topic}?",
       "uses": [
         {
           "move": "stance-question",
@@ -1221,34 +879,19 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 46,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 5,
-        "crec": 2,
-        "dcpd": 21,
-        "hearings": 5,
-        "nasa": 5,
-        "nasa2": 2,
-        "nps": 4,
-        "nps.gov (PDF)": 1
-      },
-      "source": {
-        "document": "Remarks on Affordability in Macungie, Pennsylvania",
-        "date": "2026-06-23",
-        "granule": "DCPD-202600423",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600423/html/DCPD-202600423.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "ask"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-question.do-you-support-topic",
+      "key": "choice-names.stance-question.do-you-think-place-should-change",
       "move": "stance-question",
       "kind": "spoken",
-      "text": "Do you support {topic}?",
+      "text": "Do you think {place} should {change}?",
       "uses": [
         {
           "move": "stance-question",
@@ -1257,29 +900,19 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 150,
-      "bySource": {
-        "briefing": 9,
-        "crec": 2,
-        "dcpd": 54,
-        "hearings": 85
-      },
-      "source": {
-        "document": "Remarks on United States Nuclear Innovation and an Exchange With Reporters",
-        "date": "2026-07-24",
-        "granule": "DCPD-202600489",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600489/html/DCPD-202600489.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "ask"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-question.should-we-change",
+      "key": "choice-names.stance-question.would-you-back-a-move-to-change",
       "move": "stance-question",
       "kind": "spoken",
-      "text": "Should we {change}?",
+      "text": "Would you back a move to {change}?",
       "uses": [
         {
           "move": "stance-question",
@@ -1288,201 +921,19 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 354,
-      "bySource": {
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 4,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 5,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 4,
-        "U.S. Senate Historical Office oral history": 10,
-        "briefing": 86,
-        "crec": 22,
-        "dcpd": 45,
-        "hearings": 123,
-        "house": 8,
-        "nasa": 15,
-        "nasa2": 12,
-        "nih": 1,
-        "nps": 15
-      },
-      "source": {
-        "document": "Remarks on Law Enforcement in Garden City, New York",
-        "date": "2026-08-14",
-        "granule": "DCPD-202600540",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600540/html/DCPD-202600540.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "ask"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-question.should-place-change",
-      "move": "stance-question",
-      "kind": "spoken",
-      "text": "Should {place} {change}?",
-      "uses": [
-        {
-          "move": "stance-question",
-          "subject": "action",
-          "role": "stance-question",
-          "choice": "question"
-        }
-      ],
-      "transcriptsUsing": 61,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "briefing": 8,
-        "dcpd": 32,
-        "hearings": 19,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "Remarks on Efforts To Reduce Prescription Drug Prices and an Exchange With Reporters",
-        "date": "2026-08-31",
-        "granule": "DCPD-202600568",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600568/html/DCPD-202600568.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "choice-names.stance-question.do-you-think-we-should-change",
-      "move": "stance-question",
-      "kind": "spoken",
-      "text": "Do you think we should {change}?",
-      "uses": [
-        {
-          "move": "stance-question",
-          "subject": "action",
-          "role": "stance-question",
-          "choice": "question"
-        }
-      ],
-      "transcriptsUsing": 17,
-      "bySource": {
-        "briefing": 2,
-        "dcpd": 3,
-        "hearings": 11,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
-        "date": "2026-09-04",
-        "granule": "DCPD-202600575",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600575/html/DCPD-202600575.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "choice-names.stance-question.where-do-you-stand-on-topic",
-      "move": "stance-question",
-      "kind": "spoken",
-      "text": "Where do you stand on {topic}?",
-      "uses": [
-        {
-          "move": "stance-question",
-          "subject": "action",
-          "role": "stance-question",
-          "choice": "question"
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 3,
-        "dcpd": 2,
-        "hearings": 4
-      },
-      "source": {
-        "document": "DEPARTMENT OF DEFENSE AUTHORIZATION REQUEST FOR APPROPRIATIONS FOR FISCAL YEAR 2024 AND THE FUTURE YEARS DEFENSE PROGRAM",
-        "date": "2023-05-02",
-        "granule": "CHRG-118shrg60101",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60101/html/CHRG-118shrg60101.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "choice-names.stance-question.whats-your-position-on-topic",
-      "move": "stance-question",
-      "kind": "spoken",
-      "text": "What's your position on {topic}?",
-      "uses": [
-        {
-          "move": "stance-question",
-          "subject": "action",
-          "role": "stance-question",
-          "choice": "question"
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 1,
-        "dcpd": 4,
-        "hearings": 1
-      },
-      "source": {
-        "document": "HEARING TO CONSIDER PENDING LEGISLATION",
-        "date": "2025-12-10",
-        "granule": "CHRG-119shrg62272",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62272/html/CHRG-119shrg62272.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "choice-names.stance-question.is-topic-a-problem",
-      "move": "stance-question",
-      "kind": "spoken",
-      "text": "Is {topic} a problem?",
-      "uses": [
-        {
-          "move": "stance-question",
-          "subject": "action",
-          "role": "stance-question",
-          "choice": "question"
-        }
-      ],
-      "transcriptsUsing": 23,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 2,
-        "briefing": 3,
-        "crec": 1,
-        "dcpd": 3,
-        "hearings": 11,
-        "nasa": 2,
-        "nps": 1
-      },
-      "source": {
-        "document": "HEARING ON THE WEAPONIZATION OF THE FEDERAL GOVERNMENT",
-        "date": "2024-05-15",
-        "granule": "CHRG-118hhrg55746",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55746/html/CHRG-118hhrg55746.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.i-support-it",
+      "key": "choice-names.stance-answer.i-m-for-it",
       "move": "stance-answer",
       "kind": "spoken",
-      "text": "I support it.",
+      "text": "I'm for it.",
       "uses": [
         {
           "move": "stance-answer",
@@ -1491,28 +942,19 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 13,
-      "bySource": {
-        "crec": 5,
-        "dcpd": 3,
-        "hearings": 5
-      },
-      "source": {
-        "document": "dcpd of 2025-02-27",
-        "date": "2025-02-27",
-        "granule": "DCPD-202500307",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500307/html/DCPD-202500307.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "answer"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-answer.i-oppose-it",
+      "key": "choice-names.stance-answer.i-m-against-it",
       "move": "stance-answer",
       "kind": "spoken",
-      "text": "I oppose it.",
+      "text": "I'm against it.",
       "uses": [
         {
           "move": "stance-answer",
@@ -1521,26 +963,19 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "crec": 2
-      },
-      "source": {
-        "document": "Congressional Record, Senate section, 2025-01-21",
-        "date": "2025-01-21",
-        "granule": "CREC-2025-01-21-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-01-21",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "answer"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-answer.im-not-sure",
+      "key": "choice-names.stance-answer.i-can-t-say-yet",
       "move": "stance-answer",
       "kind": "spoken",
-      "text": "I'm not sure.",
+      "text": "I can't say yet.",
       "uses": [
         {
           "move": "stance-answer",
@@ -1549,44 +984,19 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 323,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 7,
-        "National Archives History Office oral history project": 6,
-        "National Archives History Office oral history project (brooks-oral-histories)": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 15,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 8,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
-        "U.S. Senate Historical Office oral history": 24,
-        "briefing": 39,
-        "dcpd": 40,
-        "hearings": 20,
-        "house": 14,
-        "nasa": 37,
-        "nasa2": 23,
-        "nih": 4,
-        "nps": 63
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Ahmad Husayn al-Shara' of Syria and an Exchange With Reporters in Ankara, Turkey",
-        "date": "2026-07-08",
-        "granule": "DCPD-202600451",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600451/html/DCPD-202600451.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "answer"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-answer.i-dont-know",
+      "key": "choice-names.stance-answer.i-haven-t-made-up-my-mind",
       "move": "stance-answer",
       "kind": "spoken",
-      "text": "I don't know.",
+      "text": "I haven't made up my mind.",
       "uses": [
         {
           "move": "stance-answer",
@@ -1595,440 +1005,19 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 2084,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 2,
-        "Federal Election Commission (fec.gov)": 2,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 22,
-        "National Archives History Office oral history project": 25,
-        "National Archives History Office oral history project (brooks-oral-histories)": 7,
-        "National Archives History Office oral history project (nprc-oral-histories)": 7,
-        "National Archives History Office oral history project (nyc-oral-histories)": 6,
-        "National Archives History Office oral history project (ross-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 4,
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 49,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 20,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 71,
-        "U.S. Senate Historical Office oral history": 100,
-        "briefing": 191,
-        "crec": 55,
-        "dcpd": 679,
-        "hearings": 216,
-        "house": 54,
-        "nasa": 169,
-        "nasa2": 125,
-        "nih": 17,
-        "nps": 231,
-        "nps.gov": 2,
-        "wpa": 22
-      },
-      "source": {
-        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60282",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "answer"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.stance-answer.i-havent-decided",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "I haven't decided.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks During a Briefing on Hurricane Helene Recovery Efforts and an Exchange With Reporters in Fletcher, North Carolina",
-        "date": "2025-01-24",
-        "granule": "DCPD-202500174",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500174/html/DCPD-202500174.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.im-in-favor-of-it",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "I'm in favor of it.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
-        "date": "2020-04-20",
-        "granule": "WH-2020-04-20-remarks-president-trump-vice-president-pence-members-coronavirus-task-x",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-28/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.it-depends",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "It depends.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 76,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
-        "National Archives History Office oral history project": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "U.S. Senate Historical Office oral history": 5,
-        "briefing": 2,
-        "dcpd": 39,
-        "hearings": 21,
-        "nasa": 2,
-        "nasa2": 3
-      },
-      "source": {
-        "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60273",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60273/html/CHRG-119shrg60273.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.absolutely",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "Absolutely.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 2239,
-      "bySource": {
-        "Air Force Historical Research Agency, USAF Oral History Program": 1,
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 10,
-        "National Archives History Office oral history project": 15,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 2,
-        "National Archives History Office oral history project (veterans-oral-histories)": 4,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 10,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 32,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 36,
-        "U.S. Senate Historical Office oral history": 51,
-        "briefing": 259,
-        "crec": 28,
-        "dcpd": 389,
-        "hearings": 1066,
-        "house": 50,
-        "nasa": 72,
-        "nasa2": 86,
-        "nih": 6,
-        "nps": 111,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60282",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.absolutely-not",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "Absolutely not.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 243,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 3,
-        "U.S. Election Assistance Commission (eac.gov)": 4,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 54,
-        "crec": 12,
-        "dcpd": 17,
-        "hearings": 119,
-        "house": 2,
-        "nasa": 10,
-        "nasa2": 5,
-        "nps": 9,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
-        "date": "2026-09-09",
-        "granule": "DCPD-202600590",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.definitely",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "Definitely.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 157,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 2,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 5,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 4,
-        "briefing": 2,
-        "dcpd": 21,
-        "hearings": 46,
-        "house": 17,
-        "nasa": 3,
-        "nasa2": 8,
-        "nih": 1,
-        "nps": 39
-      },
-      "source": {
-        "document": "Remarks on Coal and an Exchange With Reporters",
-        "date": "2026-06-04",
-        "granule": "DCPD-202600380",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600380/html/DCPD-202600380.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.definitely-not",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "Definitely not.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 15,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "U.S. Senate Historical Office oral history": 1,
-        "dcpd": 1,
-        "hearings": 7,
-        "house": 1,
-        "nasa2": 2,
-        "nps": 1
-      },
-      "source": {
-        "document": "ANTISEMITIC DISRUPTIONS ON CAMPUS: ENSURING SAFE LEARNING ENVIRONMENTS FOR ALL STUDENTS",
-        "date": "2025-03-27",
-        "granule": "CHRG-119shrg60598",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60598/html/CHRG-119shrg60598.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.no-way",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "No way.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 85,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 6,
-        "U.S. Senate Historical Office oral history": 10,
-        "briefing": 1,
-        "crec": 2,
-        "dcpd": 25,
-        "hearings": 4,
-        "house": 5,
-        "nasa": 11,
-        "nasa2": 8,
-        "nps": 8
-      },
-      "source": {
-        "document": "Remarks During a Rose Garden Club Dinner",
-        "date": "2026-09-02",
-        "granule": "DCPD-202600574",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600574/html/DCPD-202600574.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.of-course",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "Of course.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 468,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project": 4,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "National Archives History Office oral history project (ross-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 5,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 3,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 9,
-        "U.S. Senate Historical Office oral history": 14,
-        "briefing": 60,
-        "crec": 14,
-        "dcpd": 83,
-        "hearings": 188,
-        "house": 11,
-        "nasa": 18,
-        "nasa2": 24,
-        "nps": 26
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
-        "date": "2026-07-08",
-        "granule": "DCPD-202600450",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.take-up-cause.do-something-about-it",
-      "move": "take-up-cause",
-      "kind": "spoken",
-      "text": "Do something about it.",
-      "uses": [
-        {
-          "move": "take-up-cause",
-          "subject": "action",
-          "role": "take-up-cause",
-          "choice": "take-up-cause"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 1,
-        "eisenhower": 2
-      },
-      "source": {
-        "document": "Denying Terrorists Entry To The United States: Examining Visa Security",
-        "date": "2017-05-03",
-        "granule": "CHRG-115hhrg27293",
-        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg27293",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "control-name"
-      }
-    },
-    {
-      "key": "choice-names.guard-family.take-care-of-your-family",
+      "key": "choice-names.guard-family.watch-over-your-family",
       "move": "guard-family",
       "kind": "spoken",
-      "text": "Take care of your family.",
+      "text": "Watch over your family.",
       "uses": [
         {
           "move": "guard-family",
@@ -2037,27 +1026,19 @@
           "choice": "guard-family"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Remarks Honoring the Hard Work, Heroism, and Hope Demonstrated by American Citizens During the Coronavirus Pandemic",
-        "date": "2020-05-15",
-        "granule": "DCPD-202000369",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202000369",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.answer-calling.volunteer",
+      "key": "choice-names.answer-calling.offer-to-help",
       "move": "answer-calling",
       "kind": "spoken",
-      "text": "Volunteer.",
+      "text": "Offer to help.",
       "uses": [
         {
           "move": "answer-calling",
@@ -2072,84 +1053,19 @@
           "choice": "volunteer-for-cause"
         }
       ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Administration of Donald J. Trump, 2018 Remarks at a Federal Emergency Management Agency Aid Distribution Center and an Exchange With Reporters in Lynn Haven, Florida October 15, 2018 The President. T",
-        "date": "2018-10-15",
-        "granule": "DCPD-201800704",
-        "url": "https://www.govinfo.gov/app/details/DCPD-201800704",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.seek-standing.network",
-      "move": "seek-standing",
-      "kind": "spoken",
-      "text": "Network.",
-      "uses": [
-        {
-          "move": "seek-standing",
-          "subject": "action",
-          "role": "seek-standing",
-          "choice": "seek-standing"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 2,
-        "house": 1
-      },
-      "source": {
-        "document": "An Overview Of The Budget Proposal",
-        "date": "2023-05-10",
-        "granule": "CHRG-118hhrg52186",
-        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg52186",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "control-name"
-      }
-    },
-    {
-      "key": "choice-names.stance-answer.im-against-it",
-      "move": "stance-answer",
-      "kind": "spoken",
-      "text": "I'm against it.",
-      "uses": [
-        {
-          "move": "stance-answer",
-          "subject": "action",
-          "role": "stance-answer",
-          "choice": "answer"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Remarks in a Meeting With Governor Jared S. Polis of Colorado and Governor Douglas J. Burgum of North Dakota and an Exchange With Reporters",
-        "date": "2020-05-13",
-        "granule": "DCPD-202000360",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202000360",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "choice-names.organize-meeting.hold-a-meeting",
+      "key": "choice-names.organize-meeting.gather-people-together",
       "move": "organize-meeting",
       "kind": "spoken",
-      "text": "Hold a meeting.",
+      "text": "Gather people together.",
       "uses": [
         {
           "move": "organize-meeting",
@@ -2158,19 +1074,19 @@
           "choice": "organize-meeting"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.office-hours.hold-office-hours",
+      "key": "choice-names.office-hours.open-the-office-to-visitors",
       "move": "office-hours",
       "kind": "spoken",
-      "text": "Hold office hours.",
+      "text": "Open the office to visitors.",
       "uses": [
         {
           "move": "office-hours",
@@ -2179,19 +1095,19 @@
           "choice": "office-hours"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.town-hall.hold-a-town-hall",
+      "key": "choice-names.town-hall.take-questions-at-a-town-hall",
       "move": "town-hall",
       "kind": "spoken",
-      "text": "Hold a town hall.",
+      "text": "Take questions at a town hall.",
       "uses": [
         {
           "move": "town-hall",
@@ -2200,19 +1116,19 @@
           "choice": "town-hall"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.interview.give-an-interview",
+      "key": "choice-names.interview.sit-down-for-an-interview",
       "move": "interview",
       "kind": "spoken",
-      "text": "Give an interview.",
+      "text": "Sit down for an interview.",
       "uses": [
         {
           "move": "interview",
@@ -2221,19 +1137,19 @@
           "choice": "interview"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.meet-department-head.meet-a-department-head",
+      "key": "choice-names.meet-department-head.see-a-department-head",
       "move": "meet-department-head",
       "kind": "spoken",
-      "text": "Meet a department head.",
+      "text": "See a department head.",
       "uses": [
         {
           "move": "meet-department-head",
@@ -2242,19 +1158,19 @@
           "choice": "meet-department-head"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.name-department-head.name-a-department-head",
+      "key": "choice-names.name-department-head.appoint-a-department-head",
       "move": "name-department-head",
       "kind": "spoken",
-      "text": "Name a department head.",
+      "text": "Appoint a department head.",
       "uses": [
         {
           "move": "name-department-head",
@@ -2263,19 +1179,19 @@
           "choice": "name-department-head"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.talk-to-colleague.talk-to-a-colleague-about-your-bill",
+      "key": "choice-names.talk-to-colleague.ask-a-colleague-to-back-your-bill",
       "move": "talk-to-colleague",
       "kind": "spoken",
-      "text": "Talk to a colleague about your bill.",
+      "text": "Ask a colleague to back your bill.",
       "uses": [
         {
           "move": "talk-to-colleague",
@@ -2284,19 +1200,19 @@
           "choice": "talk-to-colleague"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.cut-ribbon.cut-the-ribbon",
+      "key": "choice-names.cut-ribbon.snip-the-ribbon",
       "move": "cut-ribbon",
       "kind": "spoken",
-      "text": "Cut the ribbon.",
+      "text": "Snip the ribbon.",
       "uses": [
         {
           "move": "cut-ribbon",
@@ -2305,19 +1221,19 @@
           "choice": "cut-ribbon"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.vote.vote",
+      "key": "choice-names.vote.cast-your-vote",
       "move": "vote",
       "kind": "spoken",
-      "text": "Vote.",
+      "text": "Cast your vote.",
       "uses": [
         {
           "move": "vote",
@@ -2326,19 +1242,19 @@
           "choice": "vote"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.sign.sign-a-bill",
+      "key": "choice-names.sign.sign-the-bill",
       "move": "sign",
       "kind": "spoken",
-      "text": "Sign a bill.",
+      "text": "Sign the bill.",
       "uses": [
         {
           "move": "sign",
@@ -2347,19 +1263,19 @@
           "choice": "sign"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.veto.veto-a-bill",
+      "key": "choice-names.veto.turn-down-a-bill",
       "move": "veto",
       "kind": "spoken",
-      "text": "Veto a bill.",
+      "text": "Turn down a bill.",
       "uses": [
         {
           "move": "veto",
@@ -2368,19 +1284,19 @@
           "choice": "veto"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.case.help-a-resident-with-a-problem",
+      "key": "choice-names.case.work-on-a-resident-s-problem",
       "move": "case",
       "kind": "spoken",
-      "text": "Help a resident with a problem.",
+      "text": "Work on a resident's problem.",
       "uses": [
         {
           "move": "case",
@@ -2389,19 +1305,19 @@
           "choice": "case"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.speak.give-a-speech",
+      "key": "choice-names.speak.make-a-speech",
       "move": "speak",
       "kind": "spoken",
-      "text": "Give a speech.",
+      "text": "Make a speech.",
       "uses": [
         {
           "move": "speak",
@@ -2410,19 +1326,19 @@
           "choice": "speak"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
+      },
+      "transcriptsUsing": 0,
+      "origin": "authored",
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.state-of-the-city.give-your-yearly-address",
+      "key": "choice-names.state-of-the-city.deliver-your-yearly-address",
       "move": "state-of-the-city",
       "kind": "spoken",
-      "text": "Give your yearly address.",
+      "text": "Deliver your yearly address.",
       "uses": [
         {
           "move": "state-of-the-city",
@@ -2431,61 +1347,19 @@
           "choice": "state-of-the-city"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
-    },
-    {
-      "key": "choice-names.contact-known-person.get-in-touch-with-someone-you-know",
-      "move": "contact-known-person",
-      "kind": "spoken",
-      "text": "Get in touch with someone you know.",
-      "uses": [
-        {
-          "move": "contact-known-person",
-          "subject": "action",
-          "role": "contact-known-person",
-          "choice": "contact-known-person"
-        }
-      ],
+      },
       "transcriptsUsing": 0,
       "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "control-name"
-      }
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     },
     {
-      "key": "choice-names.care-for-relative.take-care-of-a-relative",
-      "move": "care-for-relative",
-      "kind": "spoken",
-      "text": "Take care of a relative.",
-      "uses": [
-        {
-          "move": "care-for-relative",
-          "subject": "action",
-          "role": "care-for-relative",
-          "choice": "care-for-relative"
-        }
-      ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "control-name"
-      }
-    },
-    {
-      "key": "choice-names.join-association.join-a-group",
+      "key": "choice-names.join-association.become-part-of-a-group",
       "move": "join-association",
       "kind": "spoken",
-      "text": "Join a group.",
+      "text": "Become part of a group.",
       "uses": [
         {
           "move": "join-association",
@@ -2494,34 +1368,13 @@
           "choice": "join-association"
         }
       ],
-      "transcriptsUsing": 0,
-      "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
       "tag": {
         "move": "control-name"
-      }
-    },
-    {
-      "key": "choice-names.approach-office.visit-an-office",
-      "move": "approach-office",
-      "kind": "spoken",
-      "text": "Visit an office.",
-      "uses": [
-        {
-          "move": "approach-office",
-          "subject": "action",
-          "role": "approach-office",
-          "choice": "approach-office"
-        }
-      ],
+      },
       "transcriptsUsing": 0,
       "origin": "authored",
-      "author": "Account lead builder (cluster 24, pool item play-stopgap-controls-text)",
-      "date": "2026-11-14",
-      "tag": {
-        "move": "control-name"
-      }
+      "author": "Story helper, for the Story lead",
+      "date": "2026-11-19"
     }
   ]
 }

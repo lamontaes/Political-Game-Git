@@ -33,6 +33,6 @@ root: none
 
 **Waits on.** The second reader's stamp on the played lines.
 
-**Files.** data/english/parts/conversation.json, src/director/interview-sitting-words.test.ts
+**Files.** data/english/parts/conversation.json
 
 **Notes.** Supersedes the finding in words-interview-decline-thanked-as-a-short-answer (the thanks line no longer exists on the train). Filed by hand.

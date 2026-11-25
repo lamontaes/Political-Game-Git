@@ -25,7 +25,7 @@
 import { ageInYears } from "../kernel/dates";
 import data from "../data/crime/victimization.json" with { type: "json" };
 import { registerModule } from "../state";
-import { residentsRuntime, incomeBandOf } from "./residents";
+import { residentsRuntime, incomeBandOn } from "./residents";
 import { fullHouseholdIncomes } from "../counted-income-fifth";
 import { webReach, type WebPart } from "../outcome-web-reach";
 import { baseOf, publishedBaseOf } from "../outcome-web-model";
@@ -167,7 +167,7 @@ function fullUnits(
       if (person?.alive) people.push(person);
     }
     if (!people.length) continue;
-    const fifth = incomeBandOf(incomes.get(home.id) ?? 0);
+    const fifth = incomeBandOn(api, incomes.get(home.id) ?? 0);
     const ages = people.map((p) => ageOn(p.birthDate, c.date));
     const children = ages.filter((a) => a < adultAge).length;
     const kind =

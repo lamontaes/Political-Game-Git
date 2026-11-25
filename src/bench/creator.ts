@@ -19,8 +19,12 @@ import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rul
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
 import { realLocalities } from "../core2/places";
+import { SeededRng } from "../core2/kernel/rng";
+import { generatePersonIdentity } from "../core2/gov-rules/person-identity";
 import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { capitolPlaceFor } from "./backdrop-places";
+import { backdropFile } from "./scene";
 
 /**
  * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
@@ -54,6 +58,39 @@ export function drawName(seed: string, draw: number, gender?: string) {
       corpus.familyNames[
         hash(`${seed}:family:${draw}`) % corpus.familyNames.length
       ]!,
+  };
+}
+
+/**
+ * The gender Random gives a whole character: drawn by the generator the world
+ * uses for every person it invents (`generatePersonIdentity`, with its
+ * published weights), on the visit's seed and draw, so Random makes the same
+ * kind of person the world does and adds no pick of its own.
+ */
+export function drawGender(seed: string, draw: number): CreatorGender {
+  const { gender } = generatePersonIdentity(
+    new SeededRng(`${seed}:gender:${draw}`),
+  );
+  return gender === "unstated" ? "nonbinary" : gender;
+}
+
+/**
+ * The whole character Random draws (owner, Nov 17: "you should be able to
+ * randomize an entire character"): a gender, a name for it, a birthday, a
+ * place from all 56. The look is drawn by the page's next request for the
+ * gender's appearance, on the same seed and draw.
+ */
+export function drawCharacter(seed: string, draw: number) {
+  const gender = drawGender(seed, draw);
+  const birthday = drawBirthday(seed, draw);
+  return {
+    gender,
+    name: drawName(seed, draw, gender),
+    birthday: {
+      ...birthday,
+      age: ageAtStart(birthday.year, birthday.month, birthday.day),
+    },
+    place: creatorRandomPlace(seed, draw),
   };
 }
 
@@ -95,6 +132,23 @@ export function drawBirthday(seed: string, draw: number) {
   return { year, month, day };
 }
 
+/** Midday, in minutes after midnight: the light a capitol is shown in while loading. */
+const NOON = 12 * 60;
+
+/**
+ * The capitol painting of a state, D.C. or a territory, by its jurisdiction
+ * key ("US-TX"), in midday light: what the loading screen shows behind the
+ * world being built (owner, Nov 16: loading shows the player's state). A state
+ * with no capitol painting of its own gets the dome or tower the picture list
+ * (`capitolPlaceFor`) gives it.
+ */
+export function stateCapitolPicture(jurisdictionKey: string | null): string {
+  const usps = jurisdictionKey?.startsWith("US-")
+    ? jurisdictionKey.slice(3)
+    : null;
+  return backdropFile(capitolPlaceFor(usps), NOON).url;
+}
+
 /** The states with places to start in, by name. */
 export function creatorStates() {
   return corePlaceStateIdentities()
@@ -105,7 +159,11 @@ export function creatorStates() {
           scope: "locality",
         }).length > 0,
     )
-    .map((state) => ({ key: state.jurisdictionKey, name: state.name }));
+    .map((state) => ({
+      key: state.jurisdictionKey,
+      name: state.name,
+      capitol: stateCapitolPicture(state.jurisdictionKey),
+    }));
 }
 
 const TOWNS_BY_STATE = new Map<string, ReadonlyMap<string, string>>();
@@ -222,7 +280,13 @@ export function creatorRandomPlace(seed: string, draw: number) {
     (row) => row.key === place.key,
   );
   return {
-    state: { key: stateKey, name: state?.name ?? stateKey },
+    state: {
+      key: stateKey,
+      name: state?.name ?? stateKey,
+      // Random fills the creator like a picked state does: the loading card
+      // shows this state's capitol from the first frame, not the creator's.
+      capitol: stateCapitolPicture(stateKey || null),
+    },
     town: town ?? {
       key: place.key,
       name: place.displayName,

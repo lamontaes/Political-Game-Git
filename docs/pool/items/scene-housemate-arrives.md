@@ -27,6 +27,6 @@ claimed-at: 2026-10-27
 
 **Screenshot.** The composed scene's lines in the PR body, with place and seed.
 
-**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json, src/director/housemate-scene.test.ts
+**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, data/english/parts/scene-talk.json
 
 **Notes.** Built by the finisher with a helper; review by the director engineer (`Review: director`).

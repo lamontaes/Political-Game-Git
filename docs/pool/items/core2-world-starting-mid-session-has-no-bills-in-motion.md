@@ -33,6 +33,6 @@ checked: meetings and floor builder 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/world-legislating.ts, src/bench/world.ts, src/director/floor-debate-ahead.test.ts
+**Files.** src/core2/modules/world-legislating.ts, src/bench/world.ts
 
 **Notes.** Seen: floor-debate-ahead test at meet-s:0 with a March 16 start, Nov 14 2026 (the test now runs the world on from January instead).

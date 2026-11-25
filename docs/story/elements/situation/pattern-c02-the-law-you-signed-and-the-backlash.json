@@ -1,0 +1,49 @@
+{
+  "id": "pattern-c02-the-law-you-signed-and-the-backlash",
+  "kind": "situation",
+  "summary": "The law you signed, and the backlash: Days after you sign {the law}, {employer} says it will take its jobs or its event elsewhere, and your own backers say any change is a betrayal.",
+  "realLife": "One life: In 2015 he signed an Indiana religious-objections law that businesses and conventions called anti-gay. He said on television the law would not change, then signed a revision days later; a company canceled a planned expansion, and backers of the original were angry. The same year he let counties open needle exchanges during an HIV outbreak, which he had opposed. Another: In 2006 the Louisiana governor signed a ban on most abortions to take effect if the Supreme Court allowed it. She thought exceptions for rape and incest were reasonable but felt she should not veto it.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/Religious_Freedom_Restoration_Act_(Indiana)",
+    "https://en.wikipedia.org/wiki/Mike_Pence",
+    "https://en.wikipedia.org/wiki/Kathleen_Blanco"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["the law", "employer"],
+  "gates": [
+    "You hold an executive office.",
+    "You signed {the law}.",
+    "An employer or group on record has said it will pull out, cancel or protest over it."
+  ],
+  "weights": [
+    "How many jobs {employer} holds in the place.",
+    "How close your next race is.",
+    "How strongly your backers wanted the law."
+  ],
+  "pattern": "C02",
+  "choices": [
+    "defend it on the air",
+    "sign a fix that narrows it",
+    "ask {the body} to repeal it",
+    "say nothing and wait for it to pass"
+  ],
+  "branches": [
+    {
+      "when": "you say on the air you will not change it, then sign a fix",
+      "then": "Both sides quote your first words against you."
+    },
+    {
+      "when": "{employer} cancels a planned expansion",
+      "then": "The lost jobs are on the record, and the members who passed the law blame you for the fix or for the signing."
+    },
+    {
+      "when": "you disagreed with part of it",
+      "then": "You sign it anyway, saying a veto was not yours to cast, and your own side splits over it."
+    },
+    {
+      "when": "a health emergency asks you to bend your views",
+      "then": "An outbreak spreads where clinics closed. Allow, for a time, the measure you opposed, or hold to your view."
+    }
+  ],
+  "usedBy": []
+}

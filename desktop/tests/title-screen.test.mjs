@@ -68,11 +68,10 @@ test("the title menu and the creator follow the Oct 12 build", () => {
     "gender-female",
     "gender-male",
     "gender-nonbinary",
-    "creator-randomize-name",
+    "creator-random",
     "start-birth-month",
     "start-birth-day",
     "start-birth-year",
-    "creator-randomize-birthday",
     "state-search",
     "state-choices",
     "creator-change-state",
@@ -85,13 +84,13 @@ test("the title menu and the creator follow the Oct 12 build", () => {
     "begin",
   ])
     assert.match(front, new RegExp(`data-testid="${id}"`), id);
-  // Randomize name works before a gender is chosen (owner, Oct 14).
-  assert.doesNotMatch(
-    front.slice(
-      front.indexOf('id="cr-random-name"'),
-      front.indexOf("Randomize name"),
-    ),
-    /disabled/,
+  // Random works before a gender is chosen (owner, Oct 14; one Random button
+  // since the creator rework).
+  const randomButton = front.slice(
+    front.indexOf('id="cr-random"'),
+    front.indexOf("</button>", front.indexOf('id="cr-random"')),
   );
+  assert.match(randomButton, /data-testid="creator-random"/);
+  assert.doesNotMatch(randomButton, /disabled/);
   assert.doesNotMatch(script, /drawPeople\(title|drawPeople\(v\.preview/);
 });

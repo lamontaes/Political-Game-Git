@@ -1,0 +1,31 @@
+{
+  "id": "reporter-calls-on-a-recorded-no",
+  "kind": "moment",
+  "summary": "A reporter calls after a defeat and asks about the member’s own vote.",
+  "realLife": "On the evening the House defeated the first bank rescue bill in 2008, CNN’s John Roberts asked Linda Sánchez why she had opposed it despite her party leaders’ support. She identified a mortgage provision that had disappeared in negotiations.",
+  "sources": [
+    "https://transcripts.cnn.com/show/ec/date/2008-09-29/segment/01",
+    "https://github.com/lamontaes/Political-Game-Git/blob/8c12d5e45bd5cbd9e3fa2916750c5a686557517f/docs/story/owner-ideas/owner-scene-feedback-nov14-16.md#L21"
+  ],
+  "inGame": "votesOf and the press-comment cause identify the vote and bill.",
+  "fits": ["journal", "office", "news", "speeches"],
+  "slots": ["{reporter}", "{member}", "{bill}"],
+  "gates": ["The vote record identifies the member and the outcome."],
+  "weights": [],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The reporter corrects the question when the member points to the roll.",
+      "pulledBy": "The reporter had read the committee vote and asked about final passage.",
+      "writesBack": "The inquiry now identifies the correct vote and stage."
+    },
+    {
+      "turn": "late",
+      "what": "The reporter calls again when the member votes for the revised bill and asks which change mattered.",
+      "pulledBy": "The roll-call history shows two different votes, and the office has both versions of the text.",
+      "writesBack": "The reporter’s follow-up records the member’s explanation beside the two votes."
+    }
+  ],
+  "issues": ["none"]
+}

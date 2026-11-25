@@ -665,6 +665,64 @@ describe("lifetime totals past the exact-number limit", () => {
     );
   });
 
+  // The nightly long game of Nov 16 (Inarajan, Guam, world seed 426e846c...)
+  // stopped in its thirteenth year here: an outside owner's signed net flow
+  // was a plain number and refused the posting that took it past 2^53.
+  it("keeps an outside owner's signed net flow exact past the limit, in both directions", () => {
+    const f = fixture();
+    f.host.state.people.get(ownerA)!.liquidMinor = P.zero;
+    const cashB = f.host.state.organizations.get(ownerB)!.liquidMinor;
+    // The outside owner pays two local owners; each balance stays safe.
+    postCashJournal(f.runtime, f.host, addOutsidePayment(f, big).input);
+    const withOutside = (local: string, delta: number, id: string) =>
+      postCashJournal(
+        f.runtime,
+        f.host,
+        outsideSource(
+          f,
+          [
+            { id: "fixture:local", accountId: local, deltaMinor: delta },
+            {
+              id: "fixture:outside",
+              accountId: outsideAccountId,
+              deltaMinor: -delta,
+            },
+          ],
+          id,
+        ).input,
+      );
+    withOutside(residualB, big, "fixture:net-2");
+    const flows = () => f.runtime.externalFlowsByOwner.get(outsideOwnerId)!;
+    expect(flows()).toEqual({
+      netMinor: -2n * exact,
+      outgoingMinor: 2n * exact,
+      incomingMinor: P.zero,
+    });
+    expect(f.runtime.latestByOwner.get(outsideOwnerId)).toMatchObject({
+      outsideNetBeforeMinor: -big,
+      outsideNetAfterMinor: -2n * exact,
+    });
+    // A cent back in is still exact past the limit.
+    withOutside(residualA, -1, "fixture:net-3");
+    expect(flows().netMinor).toBe(-2n * exact + 1n);
+    // No plain number holds that net; it would round to another one.
+    expect(BigInt(Number(-2n * exact + 1n))).not.toBe(-2n * exact + 1n);
+    // Back inside the safe range the net is a plain number again.
+    withOutside(residualB, -big, "fixture:net-4");
+    expect(flows()).toEqual({
+      netMinor: -big + 1,
+      outgoingMinor: 2n * exact,
+      incomingMinor: big + 1,
+    });
+    expect(f.host.state.people.get(ownerA)!.liquidMinor).toBe(big - 1);
+    expect(f.host.state.organizations.get(ownerB)!.liquidMinor).toBe(cashB);
+    // A net kept as a bigint inside the safe range is malformed.
+    flows().netMinor = BigInt(-big + 1);
+    expect(() => withOutside(residualA, -1, "fixture:net-5")).toThrow(
+      /outside account has zero opening stock|totals are inconsistent/,
+    );
+  });
+
   it("commits the same lifetime totals in play as with bookkeeping on", () => {
     const run = (checks: boolean): string => {
       const previous = setBookkeeping(checks);

@@ -8,7 +8,6 @@
  * figures all say the amount typed: never today plus the typed amount. Three
  * drawn places; BILL_LINE_SEED replays.
  */
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { moneySaid } from "../english/count-words";
@@ -24,7 +23,20 @@ import { billPageView } from "./bill-stage";
 import { billPaper, seatAct, seatView } from "./legislature";
 import { buildBenchWorld } from "./world";
 
-const seed = process.env.BILL_LINE_SEED ?? randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env BILL_LINE_SEED or randomBytes, so the places it drew changed
+// every run. The fixed seed below draws Thurston, Nebraska (3148900) first for
+// "bill-line-amount".
+// Limit: the slowest case took 118 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 240 s.
+const seed = "pin-bill-line-amount";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "bill-line-amount")).toMatchObject({
+    key: "3148900",
+    name: "Thurston, Nebraska",
+  });
+});
 
 describe(`a budget line's new amount (seed ${seed})`, () => {
   it("is the amount typed on the law, the paper and the bill page", () => {
@@ -102,5 +114,5 @@ describe(`a budget line's new amount (seed ${seed})`, () => {
       `${seen.join("; ")}${passed.length ? `; passed over ${passed.join("; ")}` : ""}`,
     );
     expect(seen.length, passed.join("; ")).toBe(3);
-  }, 900_000);
+  }, 240_000);
 });

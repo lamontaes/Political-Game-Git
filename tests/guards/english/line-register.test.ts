@@ -60,6 +60,20 @@ describe("the line register", () => {
       grew("untied", now.untiedBankLines, BASELINE.untiedBankLines),
     ).toEqual([]);
   });
+  it("adds no bank line that names no story element", () => {
+    // Owner, Nov 24: "every single line in the game right now needs to be go
+    // back and matched to an element." A piece is matched when its
+    // `elements` list holds at least one id; whether the ids are real is
+    // tests/guards/english/bank-elements.test.ts (removed)'s job. The count per bank
+    // only shrinks.
+    expect(
+      grew(
+        "unelemented",
+        now.unelementedBankLines,
+        BASELINE.unelementedBankLines,
+      ),
+    ).toEqual([]);
+  });
   it("adds no short reply that says nothing of its own", () => {
     expect(
       now.saysNothing.filter((key) => !BASELINE.saysNothing.includes(key)),
@@ -80,10 +94,20 @@ describe("the line register", () => {
     expect(
       now.unreadBanks.filter((file) => !BASELINE.unreadBanks.includes(file)),
     ).toEqual([]);
+    expect(
+      now.goodWaitingForReader.filter(
+        (file) => !BASELINE.goodWaitingForReader.includes(file),
+      ),
+    ).toEqual([]);
   });
   it("lowers the baseline as soon as a line is tied, reached, read or moved", () => {
     expect([
       ...stale("untied", now.untiedBankLines, BASELINE.untiedBankLines),
+      ...stale(
+        "unelemented",
+        now.unelementedBankLines,
+        BASELINE.unelementedBankLines,
+      ),
       ...stale("code", now.codeLines, BASELINE.codeLines),
       ...stale("data", now.dataHeldLines, BASELINE.dataHeldLines),
       ...BASELINE.unreachedConversation
@@ -100,6 +124,9 @@ describe("the line register", () => {
         ),
       ...BASELINE.unreadBanks
         .filter((file) => !now.unreadBanks.includes(file))
+        .map((file) => `${file} is read now: remove it from the baseline`),
+      ...BASELINE.goodWaitingForReader
+        .filter((file) => !now.goodWaitingForReader.includes(file))
         .map((file) => `${file} is read now: remove it from the baseline`),
     ]).toEqual([]);
   });

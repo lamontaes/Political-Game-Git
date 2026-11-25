@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/project-thread-csmftn-known
-pr:
+pr: #9539
 after:
 blocked-on:
 lead: people
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: Found by the lying thread, Nov 15 2026, building cause C of legislature-vote-asks-never-written-in-drawn-places
+merged-at: 2026-11-16T20:00:58.675Z
 ---
 
 **What.** In a chamber whose members are filled in, almost every member's daily time with someone they know (`contact-known-person`) goes to the player. At 4846968 (Texas) seed 8647-mason, from Feb 1 to 14, 2025, the player got 177 of these acts from senate colleagues at seat 001 and 197 at seat 016. No other senator got one in either run. The player becomes close to the whole chamber, with mean closeness 0.43 by May 18 and about 24 hours of colleagues' company a day, so the vote on the player's own bill is never short on the eve and the evening ask never comes. Seen: in dev mode, a state legislator player is close to nearly every colleague by spring, while colleagues are close to almost no one but the player.

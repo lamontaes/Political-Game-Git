@@ -29,7 +29,7 @@ checked: meetings and floor builder 2026-11-14
 
 **Rules.** One engine per mechanic; no new stopgaps; no figures or counts in any scene line; plain American English. Names the place and seed.
 
-**Done when.** A second session seats a member at three drawn places (one small board, one council, one state chamber) and sees the floor-debate scene on the meeting day before the roll, in the body's own register, with a reason in the speaker's first line and a pressed reply ending in held-your-ground that the Journal records as a strained tie. Test: src/director/floor-debate-ahead.test.ts.
+**Done when.** A second session seats a member at three drawn places (one small board, one council, one state chamber) and sees the floor-debate scene on the meeting day before the roll, in the body's own register, with a reason in the speaker's first line and a pressed reply ending in held-your-ground that the Journal records as a strained tie. Test: src/director/floor-debate-ahead.test.ts (removed).
 
 **Waits on.** Nothing.
 

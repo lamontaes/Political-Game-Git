@@ -283,7 +283,7 @@ After #5078 merges: `scripts/dead-code/reachable.mjs` (the same walk as `scripts
 
 Result: about **980 files and 27.6 MB** of code gone, one engine.
 
-### 3. Archive (move to `docs/archive/2026-10-19/`)
+### 3. Archive (move to `docs/archive/2026-10-19/` (removed))
 
 `docs/packages/` (49), `docs/work-orders/` (5), the 17 ended-session files in `docs/coordination/`, `docs/coordination/prior-rulings/` and `DECISION-REGISTER.md` (after folding into OWNER-DECISIONS), `docs/decisions/` (1), `docs/plans/` (255), `docs/integration/` (70), `docs/handoff/` (50), `docs/findings/` (21), `docs/connectivity/` (28), `docs/playtest/` (38), `docs/audits/` + `ARCHITECTURE-INTEGRITY-AUDIT.md` (12), `docs/ui/` + `docs/mockups/` (130), `docs/roadmap/{PROGRESS.md, later-specs-draft.md}`, `docs/codex/` (after moving its 3 read files). About **1,980 files, 270 MB**. Since Git keeps history, deleting them is equally safe and keeps clones smaller; the owner's call.
 

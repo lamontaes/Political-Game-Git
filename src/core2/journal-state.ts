@@ -2,7 +2,11 @@
 import { makeIsoDate } from "./kernel/dates";
 import { bookkeeping } from "./bookkeeping";
 import { P } from "./parameters";
-import { projectCashJournal } from "./journal";
+import {
+  isCashJournalSignedLifetimeMinor,
+  projectCashJournal,
+  type CashJournalSignedLifetimeMinor,
+} from "./journal";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import type {
   CashAccountSnapshot,
@@ -108,8 +112,9 @@ export type CashJournalSourceProvider = (
 /**
  * A lifetime sum in minor units: a plain number while it is a safe integer,
  * the exact bigint once it passes 2^53, as the world's and the federal
- * treasury's gross totals do in a long save. Balances, postings and net flows
- * stay safe numbers; only these sums since the world opened grow without end.
+ * treasury's gross totals do in a long save. Balances and postings stay safe
+ * numbers; only the sums since the world opened grow without end (an outside
+ * owner's signed net flow is one too: `CashJournalSignedLifetimeMinor`).
  */
 export type CashJournalLifetimeMinor = number | bigint;
 
@@ -121,7 +126,7 @@ export interface CashJournalTotals {
 }
 
 export interface CashJournalExternalFlowTotals {
-  netMinor: number;
+  netMinor: CashJournalSignedLifetimeMinor;
   outgoingMinor: CashJournalLifetimeMinor;
   incomingMinor: CashJournalLifetimeMinor;
 }
@@ -135,8 +140,8 @@ export interface CashJournalShortResult {
   afterMinor: number;
   grossDebitMinor: number;
   grossCreditMinor: number;
-  outsideNetBeforeMinor?: number;
-  outsideNetAfterMinor?: number;
+  outsideNetBeforeMinor?: CashJournalSignedLifetimeMinor;
+  outsideNetAfterMinor?: CashJournalSignedLifetimeMinor;
 }
 
 export interface CashJournalReceipt extends CashJournalProjection {
@@ -823,7 +828,7 @@ function checkedPortfolios(
         host.state.organizations.get(ownerId) !== cash ||
         beforeCash !== host.parameters.zero ||
         ids.length !== host.parameters.one ||
-        !Number.isSafeInteger(outsideTotals.netMinor) ||
+        !isCashJournalSignedLifetimeMinor(outsideTotals.netMinor) ||
         !isCashJournalLifetimeMinor(
           outsideTotals.incomingMinor,
           host.parameters.zero,

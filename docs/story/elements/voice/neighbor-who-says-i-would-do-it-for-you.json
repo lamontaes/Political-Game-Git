@@ -1,0 +1,36 @@
+{
+  "id": "neighbor-who-says-i-would-do-it-for-you",
+  "kind": "voice",
+  "summary": "A neighbor says they would do favors for others more readily than they expect favors back.",
+  "realLife": "Pew's 2025 survey found people say they would bring in mail or bring a meal for a neighbor more often than they believe neighbors would do the same for them.",
+  "sources": [
+    "Pew Research Center, how connected Americans feel to neighbors (March 2025 survey): https://www.pewresearch.org/short-reads/2025/05/08/how-connected-do-americans-feel-to-their-neighbors/"
+  ],
+  "fits": ["work-community"],
+  "slots": ["name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "inGame": "neighbor ties and traits; the gap between giving and expecting can be carried by a generosity trait and a trust level on the tie",
+  "turns": [
+    {
+      "turn": "trusts-and-asks",
+      "summary": "The neighbor asks for a small favor outright.",
+      "pulledBy": ["high trust", "long tie"],
+      "writesBack": "tie strengthens; favor owed recorded"
+    },
+    {
+      "turn": "never-asks",
+      "summary": "The neighbor would help anyone but never asks for help themself.",
+      "pulledBy": ["proud or private trait"],
+      "writesBack": "tie stays one-way; a quiet resentment may build"
+    },
+    {
+      "turn": "keeps-score",
+      "summary": "The neighbor remembers exactly who owes whom.",
+      "pulledBy": ["wary trait"],
+      "writesBack": "favor-owed note on the tie"
+    }
+  ],
+  "issues": ["none"]
+}

@@ -9,6 +9,7 @@ import { advanceCore } from "./life";
 import { considerBribe } from "./modules/corruption";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 // A named official has a household of their own (owner, Oct 16): a living
 // cost from the Consumer Expenditure basket and a studio's rent, savings
@@ -58,9 +59,8 @@ it(`seated officials keep a household and spend it in ${place.name}, seed ${seed
   );
   expect(spent).toBe(before * days);
   // A bribe offered to a seated official reads their cushion.
-  const rich = [...core.people.values()]
+  const rich = townResidentsByCash(core, coreAPI(core))
     .filter((p) => p.alive && !p.id.startsWith("official:"))
-    .sort((a, b) => b.liquidMinor - a.liquidMinor)
     .slice(0, 12);
   let read: string | undefined;
   for (const offerer of rich) {

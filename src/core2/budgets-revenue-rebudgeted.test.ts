@@ -17,7 +17,11 @@
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { treasuryMonthsOf, treasuryMonthsPerYear } from "./budgets-treasury";
+import {
+  aidRevenueLines,
+  treasuryMonthsOf,
+  treasuryMonthsPerYear,
+} from "./budgets-treasury";
 import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { baseBudget, budgetsOf, governments } from "./modules/budgets";
@@ -26,6 +30,23 @@ import { coreAPI } from "./state";
 const SEED = "7a5e19c2b3d84f60";
 const total = (side: Readonly<Record<string, number>>) =>
   Object.values(side).reduce((a, v) => a + v, 0);
+// A government's own receipts leave out the aid other governments pay it.
+const own = (side: Readonly<Record<string, number>>) =>
+  Object.entries(side).reduce(
+    (a, [line, v]) => (aidRevenueLines().has(line) ? a : a + v),
+    0,
+  );
+const collectedOf = (
+  months: readonly {
+    collectedMinor: number;
+    borrowedMinor: number;
+    aidReceivedMinor: number;
+  }[],
+) =>
+  months.reduce(
+    (a, m) => a + m.collectedMinor - m.borrowedMinor - m.aidReceivedMinor,
+    0,
+  );
 
 describe("revenue is re-budgeted from last year's collections", () => {
   it("moves each level's budgeted revenue year to year (Everett, Georgia)", () => {
@@ -42,6 +63,7 @@ describe("revenue is re-budgeted from last year's collections", () => {
         .slice()
         .sort((a, b) => a.fiscalYear - b.fiscalYear);
       const revenues = new Set<number>();
+      const movedFederal = new Set<number>();
       let rebudgeted = 0;
       for (const row of rows) {
         revenues.add(total(row.revenueMinor));
@@ -53,22 +75,38 @@ describe("revenue is re-budgeted from last year's collections", () => {
         );
         if (months.length !== treasuryMonthsPerYear()) continue;
         const base = baseBudget(api, gov, row.fiscalYear - 1).revenueMinor;
-        const ratio =
-          months.reduce((a, m) => a + m.collectedMinor - m.borrowedMinor, 0) /
-          total(base);
+        const ratio = collectedOf(months) / own(base);
         const lines = baseBudget(api, gov, row.fiscalYear).revenueMinor;
         expect(
           total(row.revenueMinor),
           `${where}: ${level} ${row.fiscalYear}`,
         ).toBe(
-          Object.values(lines).reduce((a, v) => a + Math.round(v * ratio), 0),
+          Object.entries(lines).reduce(
+            (a, [line, v]) =>
+              a + (aidRevenueLines().has(line) ? v : Math.round(v * ratio)),
+            0,
+          ),
         );
-        // A state's or county's spending follows the same ratio; the nation's holds.
-        expect(row.receiptsFactor, `${where}: ${level} spending factor`).toBe(
-          level === "federal" ? 1 : ratio,
-        );
+        // A state's or county's spending carries forward from its last budget by what it collected over that
+        // budget's revenue plan; the nation's lines move with its own people and prices, not with its receipts.
+        const before = rows.find((r) => r.fiscalYear === row.fiscalYear - 1);
+        if (before?.baseSpendingMinor && row.baseSpendingMinor) {
+          const carried = total(row.baseSpendingMinor);
+          const last = total(before.baseSpendingMinor);
+          if (level === "federal") movedFederal.add(carried / last);
+          else
+            expect(
+              carried / last,
+              `${where}: ${level} ${row.fiscalYear} spending carry`,
+            ).toBeCloseTo(collectedOf(months) / own(before.revenueMinor), 4);
+        }
         rebudgeted += 1;
       }
+      if (level === "federal")
+        expect(
+          [...movedFederal].some((r) => r !== 1),
+          `${where}: federal spending moves from year to year`,
+        ).toBe(true);
       expect(
         rebudgeted,
         `${where}: ${level} re-budgeted years`,

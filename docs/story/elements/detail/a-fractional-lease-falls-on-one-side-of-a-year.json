@@ -1,0 +1,34 @@
+{
+  "id": "a-fractional-lease-falls-on-one-side-of-a-year",
+  "kind": "detail",
+  "summary": "The length of an unusual lease at {apartment} determines which guideline applies.",
+  "realLife": "New York City's 2023 order counted terms up to one year in the one-year category and terms over one year through two years in the two-year category.",
+  "sources": [
+    "https://rentguidelinesboard.cityofnewyork.us/wp-content/uploads/2023/06/2023-Apartment-Loft-Order-55.pdf#page=2"
+  ],
+  "fits": ["office", "home", "journal", "news", "speeches"],
+  "slots": ["{apartment}"],
+  "gates": [
+    "The case record identifies the start, end and fractional-term provision."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "issues": [
+    "question:us-policy-positions:housing-land-use.rent-stabilization"
+  ],
+  "inGame": "needs: start, end and fractional-term provision.",
+  "turns": [
+    {
+      "turn": "one-way",
+      "what": "The shorter-term category applies.",
+      "pulledBy": "The term ends within a year",
+      "writesBack": "Term calculation."
+    },
+    {
+      "turn": "another-way",
+      "what": "The clerk checks the longer-term category.",
+      "pulledBy": "The term runs just over a year",
+      "writesBack": "Renewal category and dates."
+    }
+  ]
+}

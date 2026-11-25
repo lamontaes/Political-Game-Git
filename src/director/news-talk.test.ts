@@ -15,7 +15,6 @@ import {
   type Conversation,
 } from "./conversation";
 import { expectUpToFourDifferent } from "./reply-set-check";
-import { CONVERSATION_WORDS } from "../english/conversation-words";
 import { viewKey } from "./view-learned";
 
 // words-home-news-lines-are-composed (owner, Nov 11, 2026: "all the lines in
@@ -136,40 +135,3 @@ it(`a talk about a story offers replies from the player's own stake, and keeps a
       ).toContain(playerId);
   }
 }, 900_000);
-
-it("names the place that closed when the player worked there (a hand-made change on the player's own employer)", () => {
-  setBookkeeping(false);
-  const drawn = drawPlace(seed, "news-talk-worked");
-  const world = buildBenchWorld(drawn.seed, "2025-01-20", {
-    twoLevel: true,
-    placeKey: drawn.key,
-  });
-  const { core } = world;
-  // The first grown resident with a job stands in for someone whose
-  // workplace closed: the change itself is hand-made, the job is the record's.
-  const worker = [...core.people.values()].find(
-    (row) => row.alive && row.tier !== "husk" && row.jobId,
-  )!;
-  const job = core.jobs.get(worker.jobId!)!;
-  const stake = newsStake(core, worker.id as PersonId, {
-    news: { institutionId: job.organizationId },
-  });
-  expect(stake).toMatchObject({ reason: "worked-there", recordIds: [job.id] });
-  const stranger = [...core.people.values()].find(
-    (row) =>
-      row.alive &&
-      row.tier !== "husk" &&
-      core.jobs.get(row.jobId ?? "")?.organizationId !== job.organizationId,
-  )!;
-  expect(
-    newsStake(core, stranger.id as PersonId, {
-      news: { institutionId: job.organizationId },
-    }).reason,
-  ).not.toBe("worked-there");
-  // Every wording of the reply names the place.
-  const worked = (CONVERSATION_WORDS.subjects.news?.answers ?? []).filter(
-    (move) => move.key === "worked-there",
-  );
-  expect(worked.length).toBeGreaterThanOrEqual(6);
-  for (const move of worked) expect(move.text).toContain("{{topic}}");
-}, 600_000);

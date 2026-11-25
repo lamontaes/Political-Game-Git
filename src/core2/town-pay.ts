@@ -6,13 +6,10 @@
  * opening's jobs read it to set their pay; the old world's paydays read it too
  * until they are ported.
  */
-import { placeStateKey } from "./place-map";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { placeCounty } from "./place-map";
 import { TOWN_JOB_SOC } from "./reference/town-job-soc";
 import {
-  FEDERAL_MINIMUM_HOURLY,
-  TOWN_MINIMUM_WAGES,
   TOWN_PAY_COUNTY_AREAS,
   TOWN_PAY_PERCENTILES,
 } from "./reference/town-pay.generated";
@@ -215,7 +212,8 @@ export function townJobRate(
   occupation: string | null,
   jurisdictionId: EntityId | null,
   percentile: number,
-  minimum: number | null = startingMinimumHourly(jurisdictionId),
+  /** The minimum wage where the job is, in dollars an hour: the law in force in play (`minimumHourlyAt`, wage-floor.ts), the starting law at an opening (`startingMinimumHourlyAt`, laws-in-force.ts). */
+  minimum: number | null,
   seed?: string,
 ): TownJobRate | null {
   const soc = occupation ? TOWN_JOB_SOC[occupation] : undefined;
@@ -236,24 +234,6 @@ export function townJobRate(
     };
   }
   return null;
-}
-
-/** The federal minimum wage, or the state's when it is higher; null where the state's is unknown. */
-export function startingStateMinimumHourly(
-  stateKey: string | null,
-): number | null {
-  if (!stateKey || !(stateKey in TOWN_MINIMUM_WAGES))
-    return FEDERAL_MINIMUM_HOURLY;
-  const state = (TOWN_MINIMUM_WAGES as Record<string, number | null>)[stateKey];
-  if (state === null || state === undefined) return null;
-  return Math.max(FEDERAL_MINIMUM_HOURLY, state);
-}
-
-/** The minimum wage on file where a job is: the state's basic rate, or the federal one. */
-export function startingMinimumHourly(
-  jurisdictionId: EntityId | null,
-): number | null {
-  return startingStateMinimumHourly(placeStateKey(jurisdictionId));
 }
 
 /** The hours a week a town job is paid for. */

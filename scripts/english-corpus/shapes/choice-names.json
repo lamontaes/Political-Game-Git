@@ -326,8 +326,7 @@
         "Meet {name}.",
         "Introduce yourself to {name}.",
         "Get to know {name}.",
-        "Make a name for yourself.",
-        "Network."
+        "Make a name for yourself."
       ]
     },
     {
@@ -413,14 +412,7 @@
         "I'm undecided.",
         "I'm in favor of it.",
         "I'm strongly in favor of it.",
-        "I'm strongly opposed to it.",
-        "It depends.",
-        "Absolutely.",
-        "Absolutely not.",
-        "Definitely.",
-        "Definitely not.",
-        "No way.",
-        "Of course."
+        "I'm strongly opposed to it."
       ]
     }
   ]

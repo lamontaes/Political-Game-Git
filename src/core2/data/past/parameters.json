@@ -252,6 +252,19 @@
     "tag": "SOURCED",
     "citation": "Mean days in a Julian year (365 days plus a leap day every fourth year), for turning years into days."
   },
+  "pastArrestLogPerReliabilityLevel": {
+    "value": 0.35,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "How much a person's own reliability (conscientiousness) moves their pull toward a first arrest, on the log scale per trait level (-2 to 2): low self-control and low conscientiousness predict arrest in longitudinal samples (Moffitt and others 2011, Proceedings of the National Academy of Sciences 108(7): a standard-deviation of childhood self-control against adult criminal conviction, hazard ratios near 1.4; Roberts and others 2007, Perspectives on Psychological Science 2(4), conscientiousness against criminality). Quoted from memory of the papers; a researcher should confirm the figure.",
+    "estimatedFrom": "A hazard ratio near 1.4 per standard deviation is a log of 0.34; the trait level of one unit is read as about one standard deviation.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.5,
+      "unit": "log pull per trait level",
+      "citation": "Hazard ratios of 1.2 to 1.6 per standard deviation in the same studies."
+    }
+  },
   "pastArrestShareBy18": {
     "value": 0.159,
     "role": "level",

@@ -6,9 +6,12 @@
  * On the 3rd of each month (the day after world-metrics writes the town's
  * economic row), and again the day a law takes effect, each place gets one
  * dated record: every cause the links read (engine records, the law in
- * force) and every outcome the web keeps, each its modeled base times its
- * links' factors. A link reads its cause as it stood `lagMonths` ago; an
- * outcome a link moves feeds the links that start from it the next month.
+ * force) and every outcome the web keeps. An outcome is a kept level: its
+ * place's opening level in the first month, and after that last month's
+ * level moved by the month's change in its links' push, so whatever else
+ * moved it (the town's own election, for turnout) stays in it. A link reads
+ * its cause as it stood `lagMonths` ago; an outcome a link moves feeds the
+ * links that start from it the next month.
  *
  * Nothing here draws a level or limits a factor. Engines that set a measure
  * themselves read the web's factor for it through `outcomeWebFactor`.
@@ -57,6 +60,8 @@ import {
 import { monthEvent } from "../outcome-news";
 import { closedNewspapers } from "./press";
 import severityData from "../data/disasters/severity.json" with { type: "json" };
+import { ELECTIONS_MODULE_ID } from "./elections";
+import { VOTING_MODULE_ID } from "../voting-module-id";
 
 /** The disasters engine's news event for a disaster, which carries its severity (src/core2/modules/disasters.ts). */
 const DISASTER_KIND = "hazard.disaster";
@@ -125,6 +130,12 @@ export interface WebMonth {
   readonly bases: Readonly<Record<string, number>>;
   /** Each running link's effect: a proportional change, or for a level outcome, units added. */
   readonly effects: Readonly<Record<string, number>>;
+  /**
+   * Each kept outcome's push from its links this month: the product of their factors, or
+   * for a level outcome the units they add. Next month's level is this month's moved by
+   * the change in it.
+   */
+  readonly pushes?: Readonly<Record<string, number>>;
   /** Dated producer rows; null means the opening was read directly from live engine records. */
   readonly engineSources: Readonly<Record<string, string | null>>;
 }
@@ -455,7 +466,9 @@ function causeAt(r: Reading, measure: string, index: number): number | null {
       ? rowAt(r, Math.min(index, r.index - 1))
       : undefined;
   if (keptOutcome(kept)) {
-    const base = baseOf(kept, r.stateKey, r.api.state.seed).value;
+    // Measured against the place's own opening level, not the published one.
+    const base =
+      r.first[kept] ?? baseOf(kept, r.stateKey, r.api.state.seed).value;
     const value = row?.values[kept] ?? base;
     if (!derived) return value;
     if (derived.suffix === ":pct-of-start")
@@ -555,6 +568,72 @@ function effectOf(r: Reading, link: WebLink): number | null {
   return effect === 0 ? 0 : effect;
 }
 
+/**
+ * The town's presidential turnout, from its own count: the share of the eligible voters
+ * the count reached, named and counted alike (the voting module's result row), for a
+ * presidential general election held after `since`. Null where none was.
+ */
+function townPresidentialTurnout(
+  api: CoreAPI,
+  placeId: string,
+  since: string | null,
+): { value: number; recordId: string } | null {
+  const core = api.state as CoreState;
+  if (
+    !core.modules.has(ELECTIONS_MODULE_ID) ||
+    !core.modules.has(VOTING_MODULE_ID) ||
+    core.people.get(core.playerId ?? "")?.placeId !== placeId
+  )
+    return null;
+  const results = api.moduleState(VOTING_MODULE_ID).table("results");
+  let found: { value: number; recordId: string; date: string } | null = null;
+  for (const contest of api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as unknown as readonly {
+    id: string;
+    officeId: string;
+    electionDate: string;
+  }[]) {
+    if (contest.officeId !== "office:US:president") continue;
+    const date = contest.electionDate;
+    if (date > core.date || (since !== null && date <= since)) continue;
+    const result = results.get(`result:${contest.id}`) as unknown as
+      | {
+          id: string;
+          namedTurnout: number;
+          namedEligible: number;
+          countedTurnout: number;
+          countedEligible: number;
+        }
+      | undefined;
+    const eligible =
+      (result?.namedEligible ?? 0) + (result?.countedEligible ?? 0);
+    if (!result || eligible <= 0) continue;
+    if (found && found.date >= date) continue;
+    found = {
+      value:
+        (SETTINGS.indexStart * (result.namedTurnout + result.countedTurnout)) /
+        eligible,
+      recordId: result.id,
+      date,
+    };
+  }
+  return found && { value: found.value, recordId: found.recordId };
+}
+
+/** Outcomes the town's own records set when they are made: the level is then the record. */
+const OWN_RECORDS: Readonly<
+  Record<
+    string,
+    (
+      api: CoreAPI,
+      placeId: string,
+      since: string | null,
+    ) => { value: number; recordId: string } | null
+  >
+> = { "voting.turnout-pct": townPresidentialTurnout };
+
 /** Compute and record one place's month. */
 function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   const date = api.state.date;
@@ -598,22 +677,25 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
       newBaseline = true;
     }
   }
-  if (newBaseline)
-    baselines.put({
-      id: placeId,
-      date: opening?.date ?? date,
-      values: { ...bases },
-    });
   for (const measure of LAW_CAUSES)
     r.values[measure] = lawValue(api, measure.slice(LAW_PREFIX.length), date);
   const effects: Record<string, number> = {};
+  const pushes: Record<string, number> = {};
+  // Last month's record (the nearest earlier one): each outcome carries on from it.
+  const before = rowAt(r, r.index - 1);
   for (const outcome of KEPT_OUTCOMES) {
-    const base = baseOf(outcome, state.stateKey, api.state.seed).value;
-    // An engine's own record of the outcome stands as read (poverty).
-    if (engineOwned(outcome) && r.values[outcome] !== undefined) {
-      bases[outcome] = base;
-      continue;
+    // The place's own opening level, read once: the published level with this world's
+    // draw is the opening only (SG-WEB-opening-levels-published), never a level the
+    // world is rebuilt from.
+    if (bases[outcome] === undefined) {
+      // stopgapId: SG-WEB-opening-levels-published
+      api.stopgap("SG-WEB-opening-levels-published");
+      bases[outcome] = baseOf(outcome, state.stateKey, api.state.seed).value;
+      newBaseline = true;
     }
+    const base = bases[outcome];
+    // An engine's own record of the outcome stands as read (poverty).
+    if (engineOwned(outcome) && r.values[outcome] !== undefined) continue;
     const level = scaleOf(outcome) === "level";
     let product = 1,
       added = 0;
@@ -624,8 +706,27 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
       if (level) added += effect;
       else product *= 1 + effect;
     }
-    bases[outcome] = base;
-    r.values[outcome] = level ? base + added : base * product;
+    const push = level ? added : product;
+    pushes[outcome] = push;
+    const last = before?.values[outcome];
+    const lastPush = before?.pushes?.[outcome];
+    r.values[outcome] =
+      last === undefined || lastPush === undefined
+        ? level
+          ? base + added
+          : base * product
+        : level
+          ? last + (push - lastPush)
+          : lastPush > 0
+            ? last * (push / lastPush)
+            : base * product;
+    // The town's own record of the outcome, where one was made since last month, is
+    // the level from now on (the links go on moving it from there).
+    const own = OWN_RECORDS[outcome]?.(api, placeId, before?.date ?? null);
+    if (own) {
+      r.values[outcome] = own.value;
+      engineSources[outcome] = own.recordId;
+    }
     // An outcome the school engine measures stands on its records: the share
     // its students reached last school year, citing that record.
     const measured = SCHOOL_MEASURED.has(outcome)
@@ -636,6 +737,12 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
       engineSources[outcome] = measured.recordId;
     }
   }
+  if (newBaseline)
+    baselines.put({
+      id: placeId,
+      date: opening?.date ?? date,
+      values: { ...bases },
+    });
   const row: WebMonth = {
     id: `web:${placeId}:${month}`,
     placeId,
@@ -644,6 +751,7 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     values: r.values,
     bases,
     effects,
+    pushes,
     engineSources,
   };
   store(api)
@@ -767,6 +875,8 @@ export function placeOutcome(
   | {
       value: number;
       base?: number;
+      /** The links' push on it this month (a product of factors, or units added for a level). */
+      push?: number;
       month: string;
       recordId: string;
       engineRecordId: string | null;
@@ -784,6 +894,9 @@ export function placeOutcome(
     ? {
         value,
         base: latest.bases[measure],
+        ...(latest.pushes?.[measure] !== undefined
+          ? { push: latest.pushes[measure] }
+          : {}),
         month: latest.month,
         recordId: latest.id,
         engineRecordId: latest.engineSources?.[measure] ?? null,
@@ -803,7 +916,9 @@ export function outcomeWebFactor(
 ): number {
   const record = placeOutcome(api, placeId, measure);
   if (!record || !record.base) return 1;
-  return scaleOf(measure) === "level" ? 1 : record.value / record.base;
+  if (scaleOf(measure) === "level") return 1;
+  // The links' own push: a level the town's records set is not the web's factor.
+  return record.push ?? record.value / record.base;
 }
 
 /**

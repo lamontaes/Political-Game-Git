@@ -32,8 +32,9 @@
  * institution draw at pin-gq-0) returned a room met on day one to the counts
  * with no tenure on the Train at f26c10de (item tests-group-quarters-met-
  * room-returns-without-group-tenure; Mount Hope, West Virginia at pin-gq-2
- * failed the same way); on the Train at 800ae520 it passes, and it stays
- * here as an institution place.
+ * failed the same way); on the Train at 800ae520 it passed, and on the Train
+ * at 6e9df72b it is red again. Both red rows are expected failures (it.fails)
+ * that name their items.
  */
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -94,7 +95,13 @@ const stateFilingRate = (usps: string | undefined) => {
 // 312.5 s and 318.5 s, Storrs 236.8 s and 254.7 s, Holden 68.1 s and 72.6 s;
 // twice the slowest is about 750 s.
 describe("group quarters in the played world", { timeout: 750_000 }, () => {
-  it.each([
+  const rows: {
+    key: string;
+    worldSeed: string;
+    filingCheck: boolean;
+    institutions: boolean;
+    fails?: string;
+  }[] = [
     {
       key: "0973980",
       worldSeed: "pin-gq-1",
@@ -115,283 +122,292 @@ describe("group quarters in the played world", { timeout: 750_000 }, () => {
       filingCheck: false,
       institutions: false,
     },
-    // Red: tests-group-quarters-room-neither-opened-nor-admitted.
     {
       key: "1955110",
       worldSeed:
         "699ba32e2ba2dbfca445ba8ce32f5b6b504de63eb4b81c18db5aa95b075ca764",
       filingCheck: false,
       institutions: false,
+      fails: "tests-group-quarters-room-neither-opened-nor-admitted",
     },
-    // Red at f26c10de, green at 800ae520:
-    // tests-group-quarters-met-room-returns-without-group-tenure.
+    // Red at f26c10de, green at 800ae520, red again on the Train at
+    // 6e9df72b (Nov 16).
     {
       key: "5437948",
       worldSeed:
         "a4c19fc64e5227305fec46c6dbde9b82c542f0de603825ab6e966a3140d4a8c9",
       filingCheck: false,
       institutions: true,
+      fails: "tests-group-quarters-met-room-returns-without-group-tenure",
     },
-  ])(
-    "place $key, world seed $worldSeed: each type's residents are its Census share, and no room rents, owes, is evicted, moves, works outside the labor force and an arrival is housed in a room only by the institution's waiting list",
-    ({ key, worldSeed, filingCheck, institutions }) => {
-      setBookkeeping(false);
-      const started = Date.now();
-      const { core, placeId, place, playerId } = buildBenchWorld(
-        worldSeed,
-        gameStartDate(),
-        { twoLevel: true, placeKey: key },
+  ];
+  const title =
+    "place $key, world seed $worldSeed: each type's residents are its Census share, and no room rents, owes, is evicted, moves, works outside the labor force and an arrival is housed in a room only by the institution's waiting list";
+  const run = ({
+    key,
+    worldSeed,
+    filingCheck,
+    institutions,
+  }: (typeof rows)[number]) => {
+    setBookkeeping(false);
+    const started = Date.now();
+    const { core, placeId, place, playerId } = buildBenchWorld(
+      worldSeed,
+      gameStartDate(),
+      { twoLevel: true, placeKey: key },
+    );
+    console.log(
+      `group-quarters: place ${key} (${place.displayName}), world seed ${worldSeed}`,
+    );
+    const api = coreAPI(core);
+    const rt = residentsRuntime(core)!;
+    const store = rt.store;
+    const start = core.date;
+
+    // The opening: every room record, counted or full, and its members.
+    const opening = new Map<string, GroupQuartersType>();
+    const members = new Map<string, number>();
+    const weighted = new Map<GroupQuartersType, number>();
+    const records = new Map<GroupQuartersType, string[]>();
+    const fullPeople = new Map<GroupQuartersType, number>();
+    let weight = 1;
+    for (const h of store.liveHouseholds()) {
+      if (h.placeId !== placeId || !h.quarters) continue;
+      expect(h.tenure, h.id).toBe("group");
+      opening.set(h.id, h.quarters);
+      members.set(h.id, store.countedCount(h));
+      weight = Math.max(weight, store.weightOf(h));
+      weighted.set(
+        h.quarters,
+        (weighted.get(h.quarters) ?? 0) +
+          store.countedCount(h) * store.weightOf(h),
+      );
+      records.set(h.quarters, [...(records.get(h.quarters) ?? []), h.id]);
+    }
+    for (const home of core.households.values()) {
+      if (home.placeId !== placeId || !home.quarters) continue;
+      opening.set(home.id, home.quarters);
+      const alive = home.memberIds.filter(
+        (id) => core.people.get(id)?.alive,
+      ).length;
+      members.set(home.id, alive);
+      fullPeople.set(
+        home.quarters,
+        (fullPeople.get(home.quarters) ?? 0) + alive,
+      );
+      weighted.set(home.quarters, (weighted.get(home.quarters) ?? 0) + alive);
+      records.set(home.quarters, [
+        ...(records.get(home.quarters) ?? []),
+        home.id,
+      ]);
+    }
+
+    // Each type against this world's share of the Census count.
+    const census = placeGroupQuarters(key);
+    const published = publishedOf(key);
+    const world = Number(core.placeMetadata?.referencePopulation);
+    // The sample the opening drew (the target, or the whole town where it
+    // is smaller) against the one the weight implies: whole households
+    // overshoot the target a little, and each counted person stands for
+    // the weight.
+    const sampleSize = Math.min(parameter("targetPopulation"), world);
+    const overshoot = Math.abs((sampleSize * weight) / world - 1);
+    expect(census, key).not.toBeNull();
+    expect(published, key).toBeGreaterThan(0);
+    for (const type of GROUP_QUARTERS_TYPES) {
+      const expected =
+        (census!.byType[type] * world) / Math.max(published!, census!.total);
+      const held = weighted.get(type) ?? 0;
+      console.log(
+        `group-quarters: ${type} census ${census!.byType[type]}, this world ${expected.toFixed(1)}, held ${held.toFixed(1)} in ${records.get(type)?.length ?? 0} records (${(records.get(type) ?? []).slice(0, 3).join(", ")})`,
+      );
+      if (census!.byType[type] === 0) {
+        expect(records.get(type), `${key} ${type}`).toBeUndefined();
+        continue;
+      }
+      // The sample is whole people: a type's count is within one person's
+      // weight of this world's share, plus the households' overshoot of
+      // the sample, plus each full resident's weight (a full person counts
+      // one); with no weight, within one person.
+      const tolerance =
+        weight === 1
+          ? 1
+          : weight * (1 + (fullPeople.get(type) ?? 0)) + expected * overshoot;
+      expect(Math.abs(held - expected), `${key} ${type}`).toBeLessThanOrEqual(
+        tolerance,
+      );
+    }
+    expect(opening.size, key).toBeGreaterThan(0);
+    // The institution draw holds a prison's, a juvenile facility's or a
+    // base's residents, so the labor-force skips below are exercised.
+    if (institutions)
+      expect(
+        [...opening.values()].some((type) =>
+          (INSTITUTIONS as readonly string[]).includes(type),
+        ),
+        key,
+      ).toBe(true);
+    // The player starts in a household, never in group quarters.
+    const playerHome = core.people.get(playerId!)?.householdId;
+    expect(core.households.get(playerHome!)?.quarters, key).toBeUndefined();
+
+    // One room is met on the first day: filled in whole, it keeps its type
+    // and its group dwelling, and once out of the player's life past the
+    // world's wait it returns to the counts as a room.
+    // (A place whose only room the opening kept full has none to meet.)
+    const met = [...store.liveHouseholds()].find(
+      (h) => h.placeId === placeId && h.quarters && store.countedCount(h),
+    );
+    const metType = met?.quarters;
+    if (met) {
+      fillInPerson(core, store.ids[store.countedMembers(met)[0]!]!);
+      expect(core.households.get(met.id)?.quarters, met.id).toBe(metType);
+      expect(store.liveHousehold(met.id), met.id).toBeUndefined();
+    }
+
+    // A year, month by month, reading the town's renters at each month's end.
+    const renters: number[] = [];
+    for (let month = 1; month <= 12; month += 1) {
+      advanceCore(core, monthsAfter(start, month));
+      renters.push(townFigures(api, placeId).renters);
+    }
+
+    // Outside the rental market all year, by record id.
+    const housing = api.moduleState("housing");
+    const cases = housing.table("cases").rows() as unknown as {
+      id: string;
+      householdId: string;
+      counted?: boolean;
+      filedAt?: string;
+    }[];
+    const cased = new Set(cases.map((row) => row.householdId));
+    const moves = api
+      .moduleState(COUNTED_MOVES_MODULE_ID)
+      .table("moves")
+      .rows() as unknown as {
+      id: string;
+      direction: "in" | "out";
+      householdId: string;
+    }[];
+    for (const [id, type] of opening) {
+      expect(core.finance.contracts.has(`lease:${id}`), id).toBe(false);
+      expect(rt.flows.has(`rent:${id}`), id).toBe(false);
+      expect(cased.has(id), id).toBe(false);
+      const dwelling = housing.table("dwellings").get(`dwelling:${id}`) as
+        { tenure: string; kind: string } | undefined;
+      expect(dwelling?.tenure, id).toBe("group");
+      expect(dwelling?.kind, id).toBe(type);
+      const counted = store.liveHousehold(id);
+      if (counted) {
+        expect(counted.tenure, id).toBe("group");
+        expect(counted.quarters, id).toBe(type);
+        expect(rt.arrears.get(counted.group) ?? 0, id).toBe(0);
+        expect(rt.housingMonth.has(counted.group), id).toBe(false);
+      } else if (core.households.has(id))
+        expect(core.households.get(id)?.quarters, id).toBe(type);
+    }
+    // An arriving household is housed in a room only by the institution's
+    // admission (the waiting list refilling a vacancy, `admitToRooms`);
+    // every other arrival lives in a home with no quarters.
+    const admitted = new Set<string>();
+    for (const row of moves) {
+      if (row.direction === "out") {
+        expect(opening.has(row.householdId), row.id).toBe(false);
+        continue;
+      }
+      const room = store.liveHousehold(row.householdId)?.quarters;
+      if (room === undefined) continue;
+      expect(
+        (row as { fromPlace?: string }).fromPlace,
+        `${row.id} housed in a ${room} room by something other than the institution's waiting list`,
+      ).toBe("waiting-list");
+      admitted.add(row.householdId);
+    }
+    if (met) {
+      const demoted = countedDemotions(api).some(
+        (row) => row.householdId === met.id,
       );
       console.log(
-        `group-quarters: place ${key} (${place.displayName}), world seed ${worldSeed}`,
+        `group-quarters: ${key} room ${met.id} (${metType}) met on day one, ${demoted ? `returned to the counts with tenure ${store.liveHousehold(met.id)?.tenure}` : "still full"} at the year's end`,
       );
-      const api = coreAPI(core);
-      const rt = residentsRuntime(core)!;
-      const store = rt.store;
-      const start = core.date;
-
-      // The opening: every room record, counted or full, and its members.
-      const opening = new Map<string, GroupQuartersType>();
-      const members = new Map<string, number>();
-      const weighted = new Map<GroupQuartersType, number>();
-      const records = new Map<GroupQuartersType, string[]>();
-      const fullPeople = new Map<GroupQuartersType, number>();
-      let weight = 1;
-      for (const h of store.liveHouseholds()) {
-        if (h.placeId !== placeId || !h.quarters) continue;
-        expect(h.tenure, h.id).toBe("group");
-        opening.set(h.id, h.quarters);
-        members.set(h.id, store.countedCount(h));
-        weight = Math.max(weight, store.weightOf(h));
-        weighted.set(
-          h.quarters,
-          (weighted.get(h.quarters) ?? 0) +
-            store.countedCount(h) * store.weightOf(h),
-        );
-        records.set(h.quarters, [...(records.get(h.quarters) ?? []), h.id]);
+      if (demoted) {
+        expect(store.liveHousehold(met.id)?.tenure, met.id).toBe("group");
+        expect(store.liveHousehold(met.id)?.quarters, met.id).toBe(metType);
       }
-      for (const home of core.households.values()) {
-        if (home.placeId !== placeId || !home.quarters) continue;
-        opening.set(home.id, home.quarters);
-        const alive = home.memberIds.filter(
-          (id) => core.people.get(id)?.alive,
-        ).length;
-        members.set(home.id, alive);
-        fullPeople.set(
-          home.quarters,
-          (fullPeople.get(home.quarters) ?? 0) + alive,
+    }
+    // No unexplained rooms: the rooms at the year's end are the opening's
+    // (deaths may empty one) or ones the waiting list filled, none of the
+    // opening's with more members than it opened with, and none outside the
+    // civilian labor force holds a job or a share of the unplaced workers.
+    let outside = 0;
+    for (const h of store.liveHouseholds()) {
+      if (!h.quarters) continue;
+      // A room not in the opening is one the waiting list filled.
+      expect(opening.has(h.id) || admitted.has(h.id), h.id).toBe(true);
+      if (opening.has(h.id))
+        expect(store.countedCount(h), h.id).toBeLessThanOrEqual(
+          members.get(h.id) ?? 0,
         );
-        weighted.set(home.quarters, (weighted.get(home.quarters) ?? 0) + alive);
-        records.set(home.quarters, [
-          ...(records.get(home.quarters) ?? []),
-          home.id,
-        ]);
-      }
-
-      // Each type against this world's share of the Census count.
-      const census = placeGroupQuarters(key);
-      const published = publishedOf(key);
-      const world = Number(core.placeMetadata?.referencePopulation);
-      // The sample the opening drew (the target, or the whole town where it
-      // is smaller) against the one the weight implies: whole households
-      // overshoot the target a little, and each counted person stands for
-      // the weight.
-      const sampleSize = Math.min(parameter("targetPopulation"), world);
-      const overshoot = Math.abs((sampleSize * weight) / world - 1);
-      expect(census, key).not.toBeNull();
-      expect(published, key).toBeGreaterThan(0);
-      for (const type of GROUP_QUARTERS_TYPES) {
-        const expected =
-          (census!.byType[type] * world) / Math.max(published!, census!.total);
-        const held = weighted.get(type) ?? 0;
-        console.log(
-          `group-quarters: ${type} census ${census!.byType[type]}, this world ${expected.toFixed(1)}, held ${held.toFixed(1)} in ${records.get(type)?.length ?? 0} records (${(records.get(type) ?? []).slice(0, 3).join(", ")})`,
-        );
-        if (census!.byType[type] === 0) {
-          expect(records.get(type), `${key} ${type}`).toBeUndefined();
-          continue;
-        }
-        // The sample is whole people: a type's count is within one person's
-        // weight of this world's share, plus the households' overshoot of
-        // the sample, plus each full resident's weight (a full person counts
-        // one); with no weight, within one person.
-        const tolerance =
-          weight === 1
-            ? 1
-            : weight * (1 + (fullPeople.get(type) ?? 0)) + expected * overshoot;
-        expect(Math.abs(held - expected), `${key} ${type}`).toBeLessThanOrEqual(
-          tolerance,
-        );
-      }
-      expect(opening.size, key).toBeGreaterThan(0);
-      // The institution draw holds a prison's, a juvenile facility's or a
-      // base's residents, so the labor-force skips below are exercised.
-      if (institutions)
-        expect(
-          [...opening.values()].some((type) =>
-            (INSTITUTIONS as readonly string[]).includes(type),
-          ),
-          key,
-        ).toBe(true);
-      // The player starts in a household, never in group quarters.
-      const playerHome = core.people.get(playerId!)?.householdId;
-      expect(core.households.get(playerHome!)?.quarters, key).toBeUndefined();
-
-      // One room is met on the first day: filled in whole, it keeps its type
-      // and its group dwelling, and once out of the player's life past the
-      // world's wait it returns to the counts as a room.
-      // (A place whose only room the opening kept full has none to meet.)
-      const met = [...store.liveHouseholds()].find(
-        (h) => h.placeId === placeId && h.quarters && store.countedCount(h),
+      if (!outsideLaborForce(h.quarters)) continue;
+      outside += 1;
+      expect(
+        h.jobs
+          .filter((job) => job.endsAt === undefined)
+          .map((job) => `${job.id} (${job.organizationId})`),
+        `${h.id} (${h.quarters})`,
+      ).toEqual([]);
+      expect(h.unplacedWorkers, h.id).toBe(0);
+    }
+    for (const home of core.households.values()) {
+      if (!home.quarters) continue;
+      expect(opening.has(home.id) || admitted.has(home.id), home.id).toBe(true);
+      const alive = home.memberIds.filter((id) => core.people.get(id)?.alive);
+      expect(alive.length, home.id).toBeLessThanOrEqual(
+        members.get(home.id) ?? Infinity,
       );
-      const metType = met?.quarters;
-      if (met) {
-        fillInPerson(core, store.ids[store.countedMembers(met)[0]!]!);
-        expect(core.households.get(met.id)?.quarters, met.id).toBe(metType);
-        expect(store.liveHousehold(met.id), met.id).toBeUndefined();
-      }
+      if (!outsideLaborForce(home.quarters)) continue;
+      outside += 1;
+      for (const id of alive)
+        expect(core.people.get(id)?.jobId, id).toBeUndefined();
+    }
+    console.log(
+      `group-quarters: ${key} ${outside} rooms outside the civilian labor force at the year's end, none working`,
+    );
 
-      // A year, month by month, reading the town's renters at each month's end.
-      const renters: number[] = [];
-      for (let month = 1; month <= 12; month += 1) {
-        advanceCore(core, monthsAfter(start, month));
-        renters.push(townFigures(api, placeId).renters);
-      }
-
-      // Outside the rental market all year, by record id.
-      const housing = api.moduleState("housing");
-      const cases = housing.table("cases").rows() as unknown as {
-        id: string;
-        householdId: string;
-        counted?: boolean;
-        filedAt?: string;
-      }[];
-      const cased = new Set(cases.map((row) => row.householdId));
-      const moves = api
-        .moduleState(COUNTED_MOVES_MODULE_ID)
-        .table("moves")
-        .rows() as unknown as {
-        id: string;
-        direction: "in" | "out";
-        householdId: string;
-      }[];
-      for (const [id, type] of opening) {
-        expect(core.finance.contracts.has(`lease:${id}`), id).toBe(false);
-        expect(rt.flows.has(`rent:${id}`), id).toBe(false);
-        expect(cased.has(id), id).toBe(false);
-        const dwelling = housing.table("dwellings").get(`dwelling:${id}`) as
-          { tenure: string; kind: string } | undefined;
-        expect(dwelling?.tenure, id).toBe("group");
-        expect(dwelling?.kind, id).toBe(type);
-        const counted = store.liveHousehold(id);
-        if (counted) {
-          expect(counted.tenure, id).toBe("group");
-          expect(counted.quarters, id).toBe(type);
-          expect(rt.arrears.get(counted.group) ?? 0, id).toBe(0);
-          expect(rt.housingMonth.has(counted.group), id).toBe(false);
-        } else if (core.households.has(id))
-          expect(core.households.get(id)?.quarters, id).toBe(type);
-      }
-      // An arriving household is housed in a room only by the institution's
-      // admission (the waiting list refilling a vacancy, `admitToRooms`);
-      // every other arrival lives in a home with no quarters.
-      const admitted = new Set<string>();
-      for (const row of moves) {
-        if (row.direction === "out") {
-          expect(opening.has(row.householdId), row.id).toBe(false);
-          continue;
-        }
-        const room = store.liveHousehold(row.householdId)?.quarters;
-        if (room === undefined) continue;
-        expect(
-          (row as { fromPlace?: string }).fromPlace,
-          `${row.id} housed in a ${room} room by something other than the institution's waiting list`,
-        ).toBe("waiting-list");
-        admitted.add(row.householdId);
-      }
-      if (met) {
-        const demoted = countedDemotions(api).some(
-          (row) => row.householdId === met.id,
-        );
-        console.log(
-          `group-quarters: ${key} room ${met.id} (${metType}) met on day one, ${demoted ? `returned to the counts with tenure ${store.liveHousehold(met.id)?.tenure}` : "still full"} at the year's end`,
-        );
-        if (demoted) {
-          expect(store.liveHousehold(met.id)?.tenure, met.id).toBe("group");
-          expect(store.liveHousehold(met.id)?.quarters, met.id).toBe(metType);
-        }
-      }
-      // No unexplained rooms: the rooms at the year's end are the opening's
-      // (deaths may empty one) or ones the waiting list filled, none of the
-      // opening's with more members than it opened with, and none outside the
-      // civilian labor force holds a job or a share of the unplaced workers.
-      let outside = 0;
-      for (const h of store.liveHouseholds()) {
-        if (!h.quarters) continue;
-        // A room not in the opening is one the waiting list filled.
-        expect(opening.has(h.id) || admitted.has(h.id), h.id).toBe(true);
-        if (opening.has(h.id))
-          expect(store.countedCount(h), h.id).toBeLessThanOrEqual(
-            members.get(h.id) ?? 0,
-          );
-        if (!outsideLaborForce(h.quarters)) continue;
-        outside += 1;
-        expect(
-          h.jobs
-            .filter((job) => job.endsAt === undefined)
-            .map((job) => `${job.id} (${job.organizationId})`),
-          `${h.id} (${h.quarters})`,
-        ).toEqual([]);
-        expect(h.unplacedWorkers, h.id).toBe(0);
-      }
-      for (const home of core.households.values()) {
-        if (!home.quarters) continue;
-        expect(opening.has(home.id) || admitted.has(home.id), home.id).toBe(
-          true,
-        );
-        const alive = home.memberIds.filter((id) => core.people.get(id)?.alive);
-        expect(alive.length, home.id).toBeLessThanOrEqual(
-          members.get(home.id) ?? Infinity,
-        );
-        if (!outsideLaborForce(home.quarters)) continue;
-        outside += 1;
-        for (const id of alive)
-          expect(core.people.get(id)?.jobId, id).toBeUndefined();
-      }
-      console.log(
-        `group-quarters: ${key} ${outside} rooms outside the civilian labor force at the year's end, none working`,
-      );
-
-      // Eviction filings per 100 renter households: a case is one household,
-      // full or counted; renters are the year's mean month-end count.
-      const end = addDays(makeIsoDate(start), 365);
-      const filed = cases.filter(
-        (row) => row.filedAt && row.filedAt >= start && row.filedAt < end,
-      );
-      const weightOfCase = (row: (typeof cases)[number]) => {
-        const at = row.counted
-          ? store.householdOf.get(row.householdId)
-          : undefined;
-        return at === undefined ? 1 : store.weightOf(store.households[at]!);
-      };
-      const meanRenters =
-        renters.reduce((sum, value) => sum + value, 0) / renters.length;
-      const rate = (100 * filed.length) / meanRenters;
-      const weightedRate =
-        (100 * filed.reduce((sum, row) => sum + weightOfCase(row), 0)) /
-        meanRenters;
-      const usps = corePlaceByKey(key)?.stateJurisdictionKey.replace(
-        /^US-/,
-        "",
-      );
-      console.log(
-        `group-quarters: ${key} filings ${filed.length} (${filed.filter((row) => row.counted).length} counted) of ${cases.length} cases, mean renters ${meanRenters.toFixed(1)}: ${rate.toFixed(2)} per 100 renter households (each counted case weighted: ${weightedRate.toFixed(2)}); the states' range ${band.low} to ${band.high}, national ${housingParameters.housingEvictionFilingRate.value}, this state ${stateFilingRate(usps)}; ${((Date.now() - started) / 1000).toFixed(0)} s`,
-      );
-      if (filingCheck) {
-        expect(rate, key).toBeGreaterThanOrEqual(band.low);
-        expect(rate, key).toBeLessThanOrEqual(band.high);
-      }
-    },
+    // Eviction filings per 100 renter households: a case is one household,
+    // full or counted; renters are the year's mean month-end count.
+    const end = addDays(makeIsoDate(start), 365);
+    const filed = cases.filter(
+      (row) => row.filedAt && row.filedAt >= start && row.filedAt < end,
+    );
+    const weightOfCase = (row: (typeof cases)[number]) => {
+      const at = row.counted
+        ? store.householdOf.get(row.householdId)
+        : undefined;
+      return at === undefined ? 1 : store.weightOf(store.households[at]!);
+    };
+    const meanRenters =
+      renters.reduce((sum, value) => sum + value, 0) / renters.length;
+    const rate = (100 * filed.length) / meanRenters;
+    const weightedRate =
+      (100 * filed.reduce((sum, row) => sum + weightOfCase(row), 0)) /
+      meanRenters;
+    const usps = corePlaceByKey(key)?.stateJurisdictionKey.replace(/^US-/, "");
+    console.log(
+      `group-quarters: ${key} filings ${filed.length} (${filed.filter((row) => row.counted).length} counted) of ${cases.length} cases, mean renters ${meanRenters.toFixed(1)}: ${rate.toFixed(2)} per 100 renter households (each counted case weighted: ${weightedRate.toFixed(2)}); the states' range ${band.low} to ${band.high}, national ${housingParameters.housingEvictionFilingRate.value}, this state ${stateFilingRate(usps)}; ${((Date.now() - started) / 1000).toFixed(0)} s`,
+    );
+    if (filingCheck) {
+      expect(rate, key).toBeGreaterThanOrEqual(band.low);
+      expect(rate, key).toBeLessThanOrEqual(band.high);
+    }
+  };
+  it.each(rows.filter((row) => !row.fails))(title, run);
+  // Each red row is an expected failure that names its item (acting CTO,
+  // Nov 16, on #9554): it passes while the fault stands and fails the day
+  // the fault is fixed, which is the signal to move the row back.
+  it.fails.each(rows.filter((row) => row.fails))(
+    `${title} (expected failure, item $fails)`,
+    run,
   );
 });
 

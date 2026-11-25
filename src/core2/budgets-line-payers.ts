@@ -46,6 +46,24 @@ export function registerLineAdditions(
 }
 
 /**
+ * What another government's bills add to a government's own spending line
+ * (a federal grant line a bill raised, paid on to the states and towns that
+ * receive it, raises the line each of them spends it on). Registered by the
+ * treasury; read when a budget is built and again when a bill amends the
+ * federal budget. Each returns dollars to add to a line, and a negative
+ * number takes from it.
+ */
+export type BudgetPassThrough = (
+  api: CoreAPI,
+  gov: GovernmentRow,
+  revenueMinor: Readonly<Record<string, number>>,
+) => Readonly<Record<string, number>>;
+export const budgetPassThroughs: BudgetPassThrough[] = [];
+export function registerBudgetPassThrough(through: BudgetPassThrough): void {
+  if (!budgetPassThroughs.includes(through)) budgetPassThroughs.push(through);
+}
+
+/**
  * The fiscal rules a treasury reads as it budgets (a balanced budget, pension
  * funding, a minimum reserve): each month's close reads the rules in force and
  * applies them to the budget it then pays from, before any line is paid.

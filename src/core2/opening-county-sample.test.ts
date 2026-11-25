@@ -13,12 +13,12 @@ import { setBookkeeping } from "./bookkeeping";
 import { countedResidents } from "./electorate";
 import {
   countyPlaceIdOf,
+  countyPlaceOfWorld,
   statePlaces,
   citizenShareOf,
 } from "./electorate-places";
 import { gameStartDate } from "./game-start";
 import { ageInYears } from "./kernel/dates";
-import { countyPlaceOfWorld } from "./opening-county-sample";
 import { neighborsKnown } from "./opening-ties";
 import { yearsInPlaceOf } from "./opening-tenure";
 import { parameter as p } from "./parameters";

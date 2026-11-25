@@ -45,6 +45,7 @@ import {
   daysBetween,
   makeIsoDate,
 } from "../core2/kernel/dates";
+import { rememberedOf } from "./address-render";
 import {
   ADDRESS_FACT,
   addressPoints,
@@ -197,6 +198,8 @@ import { budgetPurposeSaid } from "../english/bill-names";
 import {
   organizationName,
   businessNameSaid,
+  employerWords,
+  isOutsideMarket,
   properName,
   spoken,
   spokenDate,
@@ -207,7 +210,6 @@ import {
 import { dayParts, sceneMinute } from "./day-part";
 import { employerInTalk } from "./employer-in-talk";
 import {
-  employerSaidAs,
   officeWords,
   personSlot,
   nameOnceThen,
@@ -218,7 +220,7 @@ import {
 } from "../english/said-as";
 import { personWorkOf } from "../core2/person-work";
 import localAddressData from "./data/local-address.json" with { type: "json" };
-import { bodySaid } from "./local-address";
+import { bodySaid } from "./body-said";
 import { saidPersonOf } from "./said-person";
 import {
   answerPromise,
@@ -498,21 +500,6 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   return job && org
     ? { job, org, title: jobTitleByKind(job.title, org.name) }
     : null;
-}
-
-/**
- * An employer as the one said-as reader says it, from its record: a
- * government's payroll as the government, a business by its name, and never
- * the outside market that stands in for work out of town (null).
- */
-function employerWords(org: Readonly<OrganizationInput>): string | null {
-  return employerSaidAs({
-    name: businessNameSaid(org),
-    kind: org.kind,
-    outside: !!org.outsideFlow,
-    ...(org.classification ? { classification: org.classification } : {}),
-    ...(org.governmentFacts ? { governmentFacts: org.governmentFacts } : {}),
-  });
 }
 
 /** A person's job and its employer as said, when the employer can be named. */
@@ -1288,6 +1275,11 @@ function victimizationSubjects(
       kind: "victimization",
       aboutId: moment.causeId,
       stage: type,
+      // The speaker's own moment of this crime is the record the subject
+      // rests on: the crime record itself is kept in the log only for those
+      // the player's circle names (retainLog), so a victim outside it has the
+      // moment in their book and no log row to tie the subject to.
+      tie: { kind: "record" as const, recordIds: [moment.causeId] },
       facts: {
         victimized: { text: "", sourceRecordIds: [moment.causeId] },
         when: {
@@ -1470,6 +1462,7 @@ function jobLost(
     id: `job-lost:${lost.causeId}`,
     kind: "job-lost",
     aboutId: lost.causeId,
+    weight: lost.impact,
     facts,
   };
 }
@@ -2235,7 +2228,10 @@ function governmentNews(
     -GOVERNMENT_NEWS.withinDays.value,
   );
   const api = coreAPI(core as CoreState);
-  const lean = viewOf(api, speaker.id)?.lean;
+  // Where they lean is read only where the views engine is installed.
+  const lean = core.modules.has(VIEWS_MODULE_ID)
+    ? viewOf(api, speaker.id)?.lean
+    : undefined;
   const ids = [...(core.logByPerson.get(speaker.id) ?? [])];
   for (let at = ids.length - one; at >= zero; at -= one) {
     const row = core.durableLog.get(ids[at] as never) as
@@ -2449,6 +2445,7 @@ function printedHeard(
       director,
       speakerId,
       listenerId,
+      refused,
     );
     if (!subject) continue;
     // A story with no tie to the pair is passed over for the next one.
@@ -2538,15 +2535,14 @@ function printedSubject(
   director: Director | undefined,
   tellerId: PersonId,
   listenerId: PersonId,
+  // Told each subject the tie rule refused; the story's words are written for
+  // it too, so the trace's row cites what they cite.
+  refused?: (subject: Subject) => void,
 ): Subject | null {
   if (story.kind !== PRINTED_STORY) return null;
   // A child tells no policy story with a side (stands, conversation-rules.json).
   if (!takesStands(core, tellerId)) return null;
   {
-    // Told by its question, never by its headline: the story's words are
-    // only cited when the paper has them.
-    const said = director?.storyWords?.(core as CoreState, story);
-    const cited = [story.id, ...(said?.sourceRecordIds ?? [])];
     const outlet = story.outletId
       ? core.organizations.get(story.outletId as EntityId)
       : undefined;
@@ -2591,6 +2587,15 @@ function printedSubject(
     // Raised only where the story is tied to the speaker or the hearer.
     const tie = storyTie(core, story, tellerId, listenerId);
     const sponsor = storySponsor(core, story);
+    // Told by its question, never by its headline: the story's words are
+    // only cited when the paper has them. Writing them is the costly step, so
+    // it is done only for a subject that is kept (tied) or handed to the
+    // refusal trace; an untied one nobody reads is never worded.
+    const said =
+      tie || refused
+        ? director?.storyWords?.(core as CoreState, story)
+        : undefined;
+    const cited = [story.id, ...(said?.sourceRecordIds ?? [])];
     return {
       id: `news:${story.id}`,
       kind: "news",
@@ -2796,6 +2801,8 @@ export function subjectsBetween(
     byPhone?: boolean;
     /** Told each subject the tie rule refused (the dev trace and the counts read it). */
     refused?: (subject: Subject) => void;
+    /** The address's points this talk already made: another may follow in the same talk (CTO, Nov 19). */
+    pointed?: readonly string[];
   } = {},
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
@@ -2959,7 +2966,10 @@ export function subjectsBetween(
       ...(listener.jobId
         ? { tie: { kind: "record" as const, recordIds: [listener.jobId] } }
         : {}),
-      facts: {},
+      // Asked of them by name: the asking line says who it asks.
+      facts: {
+        name: { text: listener.givenName, sourceRecordIds: [listenerId] },
+      },
     });
   // Asked only right after they name their work.
   if (theirs && tenureYears(startedOf(core, listener), core.date))
@@ -2967,7 +2977,9 @@ export function subjectsBetween(
       id: `their-tenure:${listenerId}`,
       kind: "their-tenure",
       tie: { kind: "record" as const, recordIds: [theirs.job.id] },
-      facts: {},
+      facts: {
+        name: { text: listener.givenName, sourceRecordIds: [listenerId] },
+      },
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
@@ -3084,10 +3096,26 @@ export function subjectsBetween(
     // saw her today."). The gap as a greeting hears it, from their own tie.
     const seen = lastContact(core, speakerId, id);
     if (seen && spokenWhenRow(seen.date, core.date).gap === "recent") continue;
+    // A person both know is a tie to both: the two relationship rows that
+    // say they know them, and the fact by which the speaker learned of them
+    // (the third person is neither of the pair, so the rule cannot find it
+    // from the facts alone).
+    const mutualTie = [
+      ...new Set(
+        [
+          seen?.tieId,
+          lastContact(core, listenerId, id)?.tieId,
+          speaker.knownIdSources?.[id]?.sourceFactId,
+        ].filter((row): row is string => !!row),
+      ),
+    ];
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
       aboutId: id,
+      ...(mutualTie.length
+        ? { tie: { kind: "record" as const, recordIds: mutualTie } }
+        : {}),
       facts: {
         name: {
           text: spokenName(core, [speakerId, listenerId], id),
@@ -3317,12 +3345,21 @@ export function subjectsBetween(
   // after it was given (its record's date), however late someone heard it.
   const known = core.knowledgeByPerson.get(speakerId);
   const address = known?.get(ADDRESS_FACT.event);
-  const quote = known?.get(ADDRESS_FACT.remembered);
+  // The line they quote is the address's own, as its record keeps it.
+  const quoted = address
+    ? rememberedOf(core.durableLog.get(address.value)?.facts)
+    : null;
   const givenOn =
     address?.value.match(/\d{4}-\d{2}-\d{2}$/)?.[zero] ?? address?.learnedAt;
+  // Only someone who saw or heard the same address can be told about it: the
+  // listener's own record of it, never the date (CTO, Nov 19 05:06Z on #9750).
+  const listenerKnows =
+    core.knowledgeByPerson.get(listenerId)?.get(ADDRESS_FACT.event)?.value ===
+    address?.value;
   if (
     address &&
-    quote &&
+    listenerKnows &&
+    quoted &&
     givenOn &&
     givenOn >
       addDays(
@@ -3335,11 +3372,11 @@ export function subjectsBetween(
       kind: "address",
       aboutId: address.value,
       // The speaker heard it: the record of their hearing ties it (the desk's address scene declares its own).
-      tie: { kind: "frame", recordIds: [address.value, quote.sourceId] },
+      tie: { kind: "frame", recordIds: [address.value, address.sourceId] },
       facts: {
         quote: {
-          text: quote.value,
-          sourceRecordIds: [address.value, quote.sourceId],
+          text: quoted,
+          sourceRecordIds: [address.value, address.sourceId],
         },
         // The day it was given, as people say it ("today", "yesterday").
         when: {
@@ -3358,10 +3395,14 @@ export function subjectsBetween(
     const raisedToday = [...heardNow].some((key) =>
       key.startsWith(`${HEARD_SUBJECT}${POINT}:`),
     );
+    // After a point this talk made, the talk may go on to another point of
+    // the same address (CTO, Nov 19 10:48Z on #9750: the first evening's talk
+    // goes on), never one this talk already made.
+    const pointedHere = room.pointed ?? [];
     const point =
       opening?.id === address.value &&
       takesStands(core, speakerId) &&
-      !raisedToday
+      (!raisedToday || pointedHere.length > zero)
         ? addressPointFor(
             core,
             speakerId,
@@ -3371,7 +3412,9 @@ export function subjectsBetween(
             // they still make theirs (lead, Nov 13: two people in one house
             // agreeing or disagreeing on the same question is the scene).
             fresher(
-              addressPoints(opening),
+              addressPoints(opening).filter(
+                (row) => !pointedHere.includes(row.question),
+              ),
               (row) => !heardNow.has(`${HEARD_QUESTION}${row.question}`),
             ),
             listenerId,
@@ -3396,8 +3439,16 @@ export function subjectsBetween(
   // A stand is the speaker's own, given once: a question a housemate named
   // today is still theirs to stand on (lead, Nov 13: a fact is told once in
   // the house a day, a stand is not blocked by another's).
+  // Right after an address point, the stand they give is on that point (CTO,
+  // Nov 19 10:48Z on #9750: the listener's own view on that point comes first).
+  const onPoint = room.pointed ?? [];
   const stand = takesStands(core, speakerId)
-    ? viewSubjectOf(core, speakerId, listenerId)
+    ? viewSubjectOf(
+        core,
+        speakerId,
+        listenerId,
+        onPoint.length ? (question) => !onPoint.includes(question) : undefined,
+      )
     : null;
   if (stand) {
     // The question they care most about, the side they are on and why, from
@@ -4176,8 +4227,21 @@ function replyFacts(
     case "their-work": {
       const theirs = jobOf(core, listener);
       const said = theirs ? employerWords(theirs.org) : null;
-      // Work out of town for outside buyers has no employer to name.
-      if (theirs && !said) return null;
+      // Work out of town for outside buyers has no employer to name: the
+      // answer is the job's title and, when the record names it, the town.
+      if (theirs && !said)
+        return sayableTitle(theirs.title)
+          ? {
+              facts: {
+                "work-out-of-town": {
+                  text: "yes",
+                  sourceRecordIds: [theirs.job.id, theirs.org.id],
+                },
+                ...workDetail(core, listener, theirs, WORK_SLOTS),
+              },
+              stage: "working",
+            }
+          : null;
       if (theirs && said)
         return {
           facts: {
@@ -5365,7 +5429,7 @@ function raiseSubject(
     conversation.director && !conversation.look
       ? promiseOfRaised(subject)
       : null;
-  if (promise) promiseSaid(core, conversation.director!, promise);
+  if (promise) promiseSaid(core, promise);
   // The policy question it names is named for the house today.
   const question = subject.news?.question ?? subject.point?.question;
   if (question) (conversation.questions ??= []).push(question);
@@ -5436,11 +5500,7 @@ function raiseSubject(
     if (!conversation.topics.length) conversation.topicFacts = subject.facts;
     conversation.topics.push(raised.id);
   }
-  offerChoices(core, conversation, data);
-  // A line the player has no reply to is the other person's last word: the
-  // talk ends there with their goodbye, never on a statement left hanging.
-  if (!conversation.choices.length && !conversation.look)
-    endConversation(core, conversation, data);
+  offerChoicesOrClose(core, conversation, data);
   return true;
 }
 
@@ -5560,11 +5620,14 @@ function ownViewComesUp(
   row: Pick<Subject, "weight" | "news">,
 ): boolean {
   const question = row.news?.question;
+  // Right after an address point, the listener's own view on that very point
+  // is the first related subject (CTO, Nov 19 10:48Z on #9750).
+  const afterPoint = subjectKindOf(conversation.topics[zero] ?? "") === POINT;
   return (
     !!(row.weight ?? zero) &&
     !!question &&
     (conversation.questions ?? []).includes(question) &&
-    !(conversation.pointed ?? []).includes(question)
+    (afterPoint || !(conversation.pointed ?? []).includes(question))
   );
 }
 
@@ -6215,7 +6278,7 @@ function openConversationNow(
     // again?"): a composed greeting's opener is said first, the rest after.
     const parts = greeting.wording?.parts ?? [];
     const split =
-      parts.length > one && parts[zero]!.includes(".greet-open-")
+      parts.length > one && parts[zero]!.includes(".greet-open")
         ? /^(?<hello>.*?[.!?]) (?<rest>.+)$/s.exec(greeting.text)?.groups
         : undefined;
     const said =
@@ -6903,7 +6966,7 @@ function lieClaims(
     const nearby = [...(core.peopleByPlace.get(player.placeId) ?? [])]
       .map((id) => jobOf(core, core.people.get(id)!)?.org)
       // The market's stand-in for work out of town is no employer to claim.
-      .filter((org) => org && org.id !== own.value && !org.outsideFlow);
+      .filter((org) => org && org.id !== own.value && !isOutsideMarket(org));
     const other = nearby.sort((a, b) =>
       stableHash(`${key}:${a!.id}`).localeCompare(
         stableHash(`${key}:${b!.id}`),
@@ -7025,6 +7088,22 @@ function raisable(data: ConversationData, kind: string): boolean {
     conversationHas(kind, "raise", data) &&
     conversationHas(data.replyKinds[kind] ?? kind, "reply", data)
   );
+}
+
+/**
+ * The replies to the last line; where there are none, that line is the other person's last word
+ * and the talk ends there with their goodbye, never on a statement left hanging. Every line they
+ * say that ends a turn goes through here (the answer to a question the player turned back, a
+ * subject they raise), so no talk stops with nothing to press and no goodbye.
+ */
+function offerChoicesOrClose(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): void {
+  offerChoices(core, conversation, data);
+  if (!conversation.choices.length && !conversation.look)
+    endConversation(core, conversation, data);
 }
 
 function offerChoices(
@@ -7204,6 +7283,10 @@ function offerChoices(
         replyFacts(core, otherId, raised)?.facts ?? {},
       )
     )
+      return;
+    // A question the other person has no answer to on record is not offered
+    // (a pressed question is always answered).
+    if (raised && raised !== last.subject && !replyFacts(core, otherId, raised))
       return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
@@ -8162,8 +8245,7 @@ function sayNow(
   // The player's answer to a promise brought up counts (promise-talk.ts).
   const promise =
     !choice.lie && conversation.director ? promiseOfRaised(last.subject) : null;
-  if (promise)
-    answerPromise(core, conversation.director!, promise, playerId, choice.move);
+  if (promise) answerPromise(core, promise, playerId, choice.move);
   // The player's reply to a veto brought up moves the tie through the
   // writer the veto used (veto-talk.ts); the sponsor answers it, and the
   // talk ends there: on their answer, or on the player's leaving.
@@ -8607,7 +8689,7 @@ function sayNow(
     facts: reply.facts,
     stage: reply.stage,
   };
-  offerChoices(core, conversation, data);
+  offerChoicesOrClose(core, conversation, data);
   return conversation;
 }
 

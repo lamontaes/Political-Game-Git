@@ -1,11 +1,9 @@
-/* global process, console, document, getComputedStyle, URLSearchParams */
-// Nothing on the front page invites a click that does nothing (owner, Nov 1:
-// "I click on it, nothing happens"): every headline that is a button opens its
-// story in place, and a brief in the side column is plain type with no pointer
-// and no hover change. The real front page of a drawn place is read first;
-// then the shared newspaper part is fed every kind of story (a place prints
-// its side column of briefs only some days), as an edge-case proof of the
-// look, not of the world.
+/* global process, console, document, URLSearchParams */
+// Every story opens on a click (owner, Nov 1: "I click on it, nothing happens"; Nov 16: "News
+// stories open on click"): each paper lists every story as a headline, and clicking a headline
+// opens that story at the right. The real News page of a drawn place is read: every listed
+// headline is a button and opens its own story, and nothing on the page is a headline that
+// does nothing.
 // Run against a fresh bench: node src/bench/news-clicks.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -52,202 +50,32 @@ try {
   await page.locator('.ring[data-tab="news"]').click();
   await page.locator("#sheet-body .news-story").first().waitFor();
   await page.waitForTimeout(800);
-  // The real front page: every headline that is a button opens its story.
-  const headlines = await page.locator(".news-headline").count();
-  console.log(`${headlines} headlines that open`);
-  for (let i = 0; i < Math.min(headlines, 4); i += 1) {
-    const button = page.locator(".news-headline").nth(i);
-    const text = (await button.innerText()).trim();
-    await button.click();
+  // Every story in the list is a button that opens its own story.
+  const rows = page.locator(".news-board .news-row");
+  const count = await rows.count();
+  console.log(`${count} headlines that open`);
+  assert.ok(count > 0, "the page lists no story");
+  for (let i = 0; i < count; i += 1) {
+    const row = rows.nth(i);
+    assert.equal(await row.evaluate((node) => node.tagName), "BUTTON");
+    const text = (await row.locator(".news-headline").innerText()).trim();
+    const key = await row.getAttribute("data-key");
+    await row.click();
+    await page.waitForSelector(`.news-story.lead[data-key="${key}"]`);
     const lead = (
-      await page.locator(".news-headline.lead").first().innerText()
+      await page.locator(".news-story.lead .news-headline").innerText()
     ).trim();
-    assert.equal(lead, text, `"${text}" did not open in place`);
+    assert.equal(lead, text, `"${text}" did not open`);
+    assert.equal(await row.getAttribute("aria-pressed"), "true");
   }
-  // The shared newspaper part with every kind of story on the page.
-  await page.evaluate(async () => {
-    const { newsBoard } = await import("/ui/news-board.mjs");
-    const story = (n, extra) => ({
-      id: `s${n}`,
-      headline: `Headline ${n}`,
-      ...extra,
-    });
-    const outlets = new Map([
-      [
-        "a",
-        {
-          name: "The Courier",
-          layout: "broadsheet",
-          stories: [
-            story(1, {
-              paragraphs: ["It happened.", "More of it.", "Still more."],
-            }),
-            story(2, { paragraphs: ["A short second story."] }),
-            story(3, { brief: true, paragraphs: ["The vote was 50 to 100."] }),
-            story(4, { brief: true, paragraphs: ["It fell short by 42."] }),
-            story(5, {}),
-          ],
-        },
-      ],
-    ]);
-    document.getElementById("sheet-body").replaceChildren(
-      newsBoard({
-        outlets,
-        labels: { title: "News" },
-        date: "2025-01-20",
-        headlineOf: (item) => item.headline,
-      }),
-    );
+  // Nothing scrolls as a page: the list and the story scroll inside their own columns.
+  const fit = await page.evaluate(() => {
+    const body = document.getElementById("sheet-body");
+    return { all: body.scrollHeight, shown: body.clientHeight };
   });
-  const side = page.locator(".news-brief");
-  const briefs = await side.count();
-  assert.equal(briefs, 2, "the page has no side briefs");
-  for (let i = 0; i < briefs; i += 1) {
-    const item = side.nth(i);
-    assert.notEqual(await item.evaluate((node) => node.tagName), "BUTTON");
-    const before = await item.evaluate((node) => getComputedStyle(node).color);
-    await item.hover();
-    const hovered = await item.evaluate((node) => ({
-      cursor: getComputedStyle(node).cursor,
-      color: getComputedStyle(node).color,
-    }));
-    assert.notEqual(hovered.cursor, "pointer", "a brief shows a pointer");
-    assert.equal(hovered.color, before, "a brief changes on hover");
-  }
-  if (shots) {
-    await side.first().hover();
-    await page.screenshot({ path: `${shots}/brief-hovered-1440x900.png` });
-  }
-  // A headline that opens: the page makes it the lead, in place.
-  const second = page.locator(".news-headline.side").first();
-  const secondText = (await second.innerText()).trim();
-  await second.click();
-  assert.equal(
-    (await page.locator(".news-headline.lead").innerText()).trim(),
-    secondText,
-    "a headline did not open in place",
-  );
+  assert.ok(fit.all <= fit.shown + 1, "News scrolls as a page");
   if (shots)
-    await page.screenshot({ path: `${shots}/story-opened-1440x900.png` });
-  // A brief with a body opens (owner, Nov 14: stories that are not politics
-  // open too): its headline is the button, the story takes the lead, and the
-  // Back control returns it to the strip.
-  await page.evaluate(async () => {
-    const { newsBoard } = await import("/ui/news-board.mjs");
-    document.getElementById("sheet-body").replaceChildren(
-      newsBoard({
-        outlets: new Map([
-          [
-            "a",
-            {
-              name: "The Courier",
-              layout: "broadsheet",
-              stories: [
-                {
-                  id: "s1",
-                  headline: "Council meets",
-                  paragraphs: ["It met.", "It adjourned."],
-                },
-                {
-                  id: "b1",
-                  brief: true,
-                  headline: "Town spelling bee crowns its champion",
-                  paragraphs: [
-                    "A student won this year's town spelling bee.",
-                    "The winner is a student at the middle school.",
-                    "Next comes the regional bee in March.",
-                  ],
-                },
-                {
-                  id: "b2",
-                  brief: true,
-                  headline: "Crime",
-                  paragraphs: ["One."],
-                },
-              ],
-            },
-          ],
-        ]),
-        labels: {
-          title: "News",
-          briefs: "Briefs",
-          backFront: "Back to the front page",
-        },
-        date: "2025-02-20",
-        headlineOf: (item) => item.headline,
-      }),
-    );
-  });
-  assert.equal(await page.locator(".news-brief-opens").count(), 1);
-  assert.equal(
-    await page.locator(".news-brief:not(.news-brief-opens)").count(),
-    1,
-  );
-  if (shots)
-    await page.screenshot({ path: `${shots}/brief-with-body-1440x900.png` });
-  await page.locator(".news-brief-opens .news-headline").click();
-  assert.equal(
-    (await page.locator(".news-headline.lead").innerText()).trim(),
-    "Town spelling bee crowns its champion",
-  );
-  assert.equal(await page.locator(".news-story.lead .news-text p").count(), 3);
-  assert.equal(
-    await page.locator(".news-back").innerText(),
-    "Back to the front page",
-  );
-  if (shots)
-    await page.screenshot({ path: `${shots}/brief-opened-1440x900.png` });
-  await page.locator(".news-back").click();
-  assert.equal(await page.locator(".news-back").count(), 0);
-  assert.equal(await page.locator(".news-brief-opens").count(), 1);
-  // A paper with a column of long briefs (a week of meetings, a home sale,
-  // a police log): each brief takes the room its words need, and none is
-  // printed over the next (seen overprinted in two drawn places on Nov 11).
-  await page.evaluate(async () => {
-    const { newsBoard } = await import("/ui/news-board.mjs");
-    const long = (n) => ({
-      id: `b${n}`,
-      brief: true,
-      headline: `Meetings for the week of April ${n}, 2025`,
-      paragraphs: [
-        `The county board of commissioners and the city council held their regular meetings the week of April ${n}, 2025, with nothing before them, and the school board met twice.`,
-      ],
-    });
-    document.getElementById("sheet-body").replaceChildren(
-      newsBoard({
-        outlets: new Map([
-          [
-            "a",
-            {
-              name: "The Courier",
-              layout: "broadsheet",
-              stories: [
-                {
-                  id: "s1",
-                  headline: "Headline 1",
-                  paragraphs: ["It happened."],
-                },
-                ...[1, 2, 3, 4, 5, 6].map(long),
-              ],
-            },
-          ],
-        ]),
-        labels: { title: "News" },
-        date: "2025-04-11",
-        headlineOf: (item) => item.headline,
-      }),
-    );
-  });
-  // A brief whose words are taller than its row runs into the row below.
-  const over = await page.evaluate(
-    () =>
-      [...document.querySelectorAll(".news-briefs p")].filter(
-        (row) => row.scrollHeight > row.clientHeight + 1,
-      ).length,
-  );
-  if (shots)
-    await page.screenshot({ path: `${shots}/long-briefs-1440x900.png` });
-  assert.equal(over, 0, `${over} briefs are printed over the next one`);
+    await page.screenshot({ path: `${shots}/news-opened-1440x900.png` });
   assert.deepEqual(errors, []);
   console.log("news clicks: pass");
 } finally {

@@ -1,24 +1,22 @@
 /**
  * A town's police log runs in one outlet, its paper of record: in played
- * months of pinned drawn places with more than one outlet, every printed
- * month's log is in the town's paper of record. A tiny town (seed s12, usual
- * of one or two reports) and a town with a ratio of two over a usual of two
- * (seed s10) have no month the town's own record puts well over its usual (the
- * usual rests on enough months and chance rarely gives a month that busy).
+ * months of drawn places with more than one outlet, every printed month's log
+ * is in the town's paper of record, a month the record does not call well
+ * over runs once, and a month it does call well over runs in the paper of
+ * record and nowhere beyond it (the town's outlet of record holds the town as
+ * its full beat; any other outlet carries a town's story only when it clears
+ * that outlet's own bar for its own audience, press-market-stations-seek-
+ * village-candidates).
  *
- * Premise changed Nov 15 (the Account lead's yes). The old premise
- * (coordinator ruling, Nov 14) was that a month well over usual also runs in
- * a second outlet, and Lucky LA (seed s23) and Fries VA (seed s19) had to show
- * one. The lead's 07:23Z call replaces it: the town's outlet of record holds
- * the town as its full beat, and any other outlet carries a town's story only
- * when it clears that outlet's own bar for its own audience
- * (press-market-stations-seek-village-candidates). So at Fries a month well
- * over usual runs in the outlet of record, and the market stations do not
- * carry it. Lucky LA no longer has such a month in its 300 days on the train
- * before this change (the Sept and Oct 2025 logs stand at 7 and 4 times usual
- * and are not called well over); that is pool item
- * tests-police-log-lucky-no-month-well-over, so s23 keeps only the checks
- * every place has.
+ * Premise changed (CTO, Nov 19, "approved as proposed"): the two outcomes the
+ * test used to claim of pinned worlds, that a tiny town (s12) has no month the
+ * record calls busier and that Fries (s19) has one printed, were what chance
+ * gave those worlds. The history from 1925 gives the places other months, so
+ * the rule is read as relationships at every place: the months called busier
+ * have a lower chance on the wire than every month not called busier (among
+ * those whose usual rests on enough months), and a busier month that was
+ * printed ran in the paper of record. A place with no busier month printed is
+ * named in the output, and across all the places at least one must turn up.
  * Places and seeds are named.
  */
 import { appendFileSync } from "node:fs";
@@ -44,6 +42,7 @@ const DAYS: Record<string, number> = {
   s23: 300,
   s19: 250,
 };
+let busyChecked = 0;
 for (const seed of Object.keys(DAYS))
   it(`the town's log runs in its paper of record (seed ${seed})`, () => {
     const place = drawPlace(seed, "police-log");
@@ -119,13 +118,25 @@ for (const seed of Object.keys(DAYS))
     }
     if (seed !== "s12")
       expect(printedBy.size, `${where}: no log printed`).toBeGreaterThan(0);
-    if (seed === "s12")
-      // A tiny town: ratios as large as nine over a usual of one or two
-      // reports, and no month the town's record calls well over.
+    // How the record calls a month against its town's usual is one rule at
+    // every place: among months whose usual rests on enough months (the wire
+    // carries `usual` only then), the ones called busier have a lower chance
+    // than every one not called busier.
+    const judged = [...wire.values()].filter((f) => f.usual && f.chance);
+    const busier = judged
+      .filter((f) => f.busier === "yes")
+      .map((f) => +f.chance!);
+    const calm = judged
+      .filter((f) => f.busier !== "yes")
+      .map((f) => +f.chance!);
+    if (busier.length && calm.length)
       expect(
-        [...wire.values()].filter((f) => f.busier === "yes").length,
-        `${where}: a tiny town's chance month was called busy`,
-      ).toBe(0);
+        Math.max(...busier),
+        `${where}: a month called busier has a lower chance than every month not called busier`,
+      ).toBeLessThan(Math.min(...calm));
+    process.stdout.write(
+      `police-log ${where}: ${wire.size} months, ${busier.length} called busier, ${calm.length} not\n`,
+    );
     for (const [source, by] of printedBy) {
       const record = recordsOf(source);
       expect(
@@ -144,18 +155,25 @@ for (const seed of Object.keys(DAYS))
         `${where}: ${source} vsUsual ${wire.get(source)?.vsUsual ?? "none"} in ${[...by].join(", ")} (record ${[...record].join(", ")})\n`,
       );
     }
-    if (seed === "s19") {
-      const busy = [...printedBy].filter(
-        ([source]) => wire.get(source)?.busier === "yes",
-      );
+    // A busier month that was printed ran in the paper of record and nowhere
+    // beyond it. A place with none is named, not failed.
+    const busyPrinted = [...printedBy].filter(
+      ([source]) => wire.get(source)?.busier === "yes",
+    );
+    for (const [source, by] of busyPrinted)
       expect(
-        busy.length,
-        `${where}: no month well over usual was printed`,
-      ).toBeGreaterThan(0);
-      for (const [source, by] of busy)
-        expect(
-          [...by],
-          `${where}: ${source} (well over usual) ran beyond the outlet of record`,
-        ).toEqual([...recordsOf(source)].filter((id) => by.has(id)));
-    }
+        [...by],
+        `${where}: ${source} (well over usual) ran beyond the outlet of record`,
+      ).toEqual([...recordsOf(source)].filter((id) => by.has(id)));
+    busyChecked += busyPrinted.length;
+    if (!busyPrinted.length)
+      process.stdout.write(
+        `police-log ${where}: no busier month was printed here\n`,
+      );
   }, 170_000);
+
+// Across every place above, at least one busier month turned up printed and
+// was checked: the test never passes on nothing.
+it("a busier month was printed and checked at some place", () => {
+  expect(busyChecked).toBeGreaterThan(0);
+});

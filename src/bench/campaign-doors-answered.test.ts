@@ -15,6 +15,7 @@ import { coreAPI } from "../core2/state";
 import { petitionAsksAtDoors } from "../core2/modules/campaigns";
 import { campaignDay } from "./campaign";
 import { buildBenchWorld } from "./world";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 // A petition outing's strip says the doors that opened, then how many signed
 // (Words lead, Nov 14): every opener is asked once, so the signers can never
@@ -40,7 +41,7 @@ it(`a petition outing's signers never outnumber the doors answered (Otisville NY
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
   const town = corePlaceByKey(PLACE)?.context.jurisdiction.id;
   const start = makeIsoDate(core.date);
-  const adults = [...core.people.values()]
+  const adults = townResidentsByCash(core, coreAPI(core))
     .filter(
       (row) =>
         row.alive &&
@@ -48,7 +49,6 @@ it(`a petition outing's signers never outnumber the doors answered (Otisville NY
         row.tier !== "husk" &&
         ageOnDate(makeIsoDate(row.birthDate), start) >= 35,
     )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
     .slice(0, 60);
   let filed: { personId: string; filingId: string } | null = null;
   for (const adult of adults) {

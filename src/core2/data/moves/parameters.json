@@ -2,7 +2,7 @@
   "movesLifeStageScale": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Scales the American Community Survey 2024 rate of leaving the county for a person's age band and state (data/research/migration/mover-rates-acs-2024.json) into their monthly pull to leave, so that a town's departures over a year, after each person's own ties hold some back, land on that rate. Calibrated in src/core2/moves.test.ts.",
+    "citation": "Scales a full person's rate of leaving at their stage of life (the counted tier's rule for their state, age, pay and tenure: counted-moves.ts countedLeavingRate) into their monthly pull to leave. Nothing scales a town back to a published rate: a full person's pushes (what their home costs, a hardship's stress, kin moving away) and holds (a home owned, children, kin, a job, their temperament) set how far they sit from it. At 1 a drawn town's departures land near the ACS 2024 rate for its adults' ages and state (src/core2/moves.test.ts reports the comparison), because the pushes about offset the holds; the counted households, which carry only the owner and children holds, read their own fitted scale (countedMovesUnheldScale).",
     "spread": {
       "low": 0.5,
       "high": 3,

@@ -18,9 +18,9 @@ claimed-at:
 
 **Rules.** Wire to the world: the scenes fire from the legislature's own trade record, read by the director, with no invented ask. Ask why: each scene names its cause record, and its bill and section come from that record.
 
-**Done when.** src/director/bargain-scenes.test.ts in the played world (buildBenchWorld), on places drawn from all 56 with a seed nobody chose, finds a vote trade and shows the holdout's vote-asked scene with the sponsor as colleague and the sponsor's section-bargain scene with the holdout, both in the record's chamber, composed with the trade's bill number and section and citing the record id.
+**Done when.** src/director/bargain-scenes.test.ts (removed) in the played world (buildBenchWorld), on places drawn from all 56 with a seed nobody chose, finds a vote trade and shows the holdout's vote-asked scene with the sponsor as colleague and the sponsor's section-bargain scene with the holdout, both in the record's chamber, composed with the trade's bill number and section and citing the record id.
 
-**Files.** src/director/data/situation-types.json, src/director/data/director.json, src/director/scheduling.ts, src/director/purpose-scene.ts, src/core2/modules/legislature.ts, src/director/bargain-scenes.test.ts
+**Files.** src/director/data/situation-types.json, src/director/data/director.json, src/director/scheduling.ts, src/director/purpose-scene.ts, src/core2/modules/legislature.ts
 
 **Notes.** TODO
 

@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -21,10 +20,20 @@ import { buildBenchWorld } from "./world";
 
 // A bill's stage view: what a member told the sponsor, then the floor result by name,
 // read from the legislature's own rows. A place drawn from all 56 on a seed nobody chose.
-const seed =
-  process.env.BILL_STAGE_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env BILL_STAGE_SEED, GOLDEN_PATH_SEED or randomBytes, so the places
+// it drew changed every run. The fixed seed below draws Hansboro, North Dakota
+// (3835140) first for "bill-stage".
+// Limit: the slowest case took 64 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 130 s.
+const seed = "pin-bill-stage";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "bill-stage")).toMatchObject({
+    key: "3835140",
+    name: "Hansboro, North Dakota",
+  });
+});
 
 describe(`a bill's stage (seed ${seed})`, () => {
   it("names what members told the sponsor and each chamber's floor result", () => {
@@ -148,5 +157,5 @@ describe(`a bill's stage (seed ${seed})`, () => {
       proved = true;
     }
     expect(proved, "a place where a bill reaches the floor").toBe(true);
-  }, 300_000);
+  }, 130_000);
 });

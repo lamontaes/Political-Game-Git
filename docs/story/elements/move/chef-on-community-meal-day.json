@@ -1,0 +1,29 @@
+{
+  "id": "chef-on-community-meal-day",
+  "kind": "move",
+  "summary": "A chef in {place} asks where the neighborhood meal will be served.",
+  "realLife": "Queens voters backed community meal days with local chefs cooking for residents including seniors and people without housing.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/113/"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{place}"],
+  "gates": ["A meal project assigns local cooks to community serving days."],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a meal project assigns local cooks to community serving days.",
+  "turns": [
+    {
+      "turn": "a-distribution-site-is-booked",
+      "pulledBy": "A distribution site is booked.",
+      "what": "Send the chef the location.",
+      "writesBack": "Record the serving site on the meal schedule."
+    },
+    {
+      "turn": "no-site-is-confirmed",
+      "pulledBy": "No site is confirmed.",
+      "what": "Flag the missing venue for the organizer.",
+      "writesBack": "Leave the meal location open."
+    }
+  ]
+}

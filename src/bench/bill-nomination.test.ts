@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -24,10 +23,13 @@ import { buildBenchWorld } from "./world";
 // confirmation is on the appointment. A post opens when its
 // holder dies (the one hand-set fact here; the rest is the engine's). A place drawn from all 56 on a
 // seed nobody chose.
-const seed =
-  process.env.NOMINATION_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env NOMINATION_SEED, GOLDEN_PATH_SEED or randomBytes, so the places
+// it drew changed every run. The fixed seed below draws Dillonvale, Ohio
+// (3922008) first for "nomination".
+// Limit: the slowest case took 94 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 190 s.
+const seed = "pin-bill-nomination";
 
 /**
  * After a yes, the governor's nomination goes to the chamber: confirmed, the
@@ -64,6 +66,13 @@ function seatedOrTurnedDown(
   ).toContain(post);
   return nomination!.confirmation;
 }
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "nomination")).toMatchObject({
+    key: "3922008",
+    name: "Dillonvale, Ohio",
+  });
+});
 
 describe(`the governor names a cabinet post (seed ${seed})`, () => {
   it("shows the open post with its candidates and seats the one the player names", () => {
@@ -149,7 +158,7 @@ describe(`the governor names a cabinet post (seed ${seed})`, () => {
     throw new Error(
       `no drawn place had a governor with a confirmed post (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 190_000);
 
   it("stops the governor when a cabinet post opens and seats the one they name", () => {
     const tried: string[] = [];
@@ -244,5 +253,5 @@ describe(`the governor names a cabinet post (seed ${seed})`, () => {
     throw new Error(
       `no drawn place stopped a governor for a post (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 190_000);
 });

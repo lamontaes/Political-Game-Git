@@ -18,13 +18,14 @@ const place = drawPlace(replay, "federal-rule-reversal");
 const question =
   "us-policy-positions:health-human-services.medicaid-work-requirement";
 
-it(`the law reader applies federal enactment and restores the lower law after repeal: ${place.name}, replay ${replay}`, () => {
+it(`the law reader applies federal enactment and restores the lower law after repeal: ${place.name}, replay ${replay} (just like today: needs the nation's and state's real laws on the question)`, () => {
   setBookkeeping(false);
   try {
     const opening = gameStartDate();
     const world = buildBenchWorld(place.seed, opening, {
       placeKey: place.key,
       twoLevel: true,
+      settings: { history: "today" },
     });
     const api = coreAPI(world.core);
     const before = lawInForce(api, question);

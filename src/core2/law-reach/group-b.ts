@@ -18,7 +18,7 @@
  * people it serves.
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
-import { payVeterans } from "./group-b-veterans";
+import { payVeterans, veteransIncomeOf } from "./group-b-veterans";
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
 import { povertyLineDollars } from "./poverty-line";
@@ -61,6 +61,7 @@ import {
   putRow,
   setActive,
   setReachReview,
+  STANDING_BENEFIT_PROGRAMS,
   type ActiveRow,
   type Reach,
 } from "./group-b-store";
@@ -712,7 +713,9 @@ function runPolicy(
           ? [...facts.households.values()].filter(
               (h) =>
                 h.incomeDollars <=
-                (povertyLineDollars(chain.stateKey, h.size) * limit) / 100,
+                (povertyLineDollars(chain.stateKey, h.size, facts.priceIndex) *
+                  limit) /
+                  100,
             )
           : [];
       const paid = payEnergyAssistance(api, {
@@ -1122,10 +1125,12 @@ function rerun(api: CoreAPI, row: ActiveRow): void {
 /**
  * The benefit programs a treasury pays or keeps (Medicaid coverage and its
  * work requirement, the SNAP maximum, the assistance work requirement and
- * the welfare line, preschool, vouchers). The budgets engine's monthly close
- * runs them (`registerMonthlyProgram`), so who is paid or covered follows the
- * laws in force and people's records when the treasury pays, not on a
- * schedule of law reach's own.
+ * the welfare line, preschool, vouchers, and the benefits whose amount or
+ * income limit is the law's own value: SSI, child care and home energy
+ * assistance). The budgets engine's monthly close runs them
+ * (`registerMonthlyProgram`), so who is paid or covered follows the laws in
+ * force and people's records when the treasury pays, not on a schedule of
+ * law reach's own.
  */
 const PROGRAM_KEYS: ReadonlySet<string> = new Set([
   MEDICAID_EXPAND,
@@ -1135,6 +1140,7 @@ const PROGRAM_KEYS: ReadonlySet<string> = new Set([
   VOUCHER,
   FOOD_AID_ACTIVE,
   "budget-line:welfareAndMedicaid",
+  ...STANDING_BENEFIT_PROGRAMS,
 ]);
 
 /**
@@ -1189,7 +1195,13 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
-  setAssistanceReader(assistanceIncomeOf);
+  // A counted household's public income: the welfare line's assistance and
+  // the veterans line's benefits, both money income in the poverty measure.
+  setAssistanceReader(
+    (core, householdId) =>
+      assistanceIncomeOf(core, householdId) +
+      veteransIncomeOf(core, householdId),
+  );
   registerMonthlyProgram(runBenefitPrograms);
   registerTreasuryRule(reviewFiscalRules);
   for (const key of TREASURY_RULE_KEYS)

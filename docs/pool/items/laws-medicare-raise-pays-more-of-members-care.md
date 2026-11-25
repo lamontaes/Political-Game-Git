@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/project-thread-8fxsy5
+claimed-by:
 pr:
 after: laws-income-security-raise-pays-through-ssi-and-food-aid
 blocked-on:
@@ -16,6 +16,8 @@ source: Account lead thread "Get every state and federal law working", Nov 15, 2
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+claimed-at:
+branch: claude/project-thread-8fxsy5
 ---
 
 **What.** When Congress raises the Medicare line, the whole raise is paid to recipients elsewhere. No Medicare member in town pays a smaller share of their medical bills, and no seller is paid more. The bill's page and dev mode's bill card name nobody in town. Seen: the law page's "What this did" and dev mode's bill card for a Congress bill that raises Medicare.
@@ -33,3 +35,5 @@ root: rc8-law-judged-by-paperwork
 **Waits on.** Nothing.
 
 **Files.** src/core2/medical-bills.ts, src/core2/law-reach/group-b-money.ts, src/core2/modules/laws.ts, src/core2/law-reach/medicare-line-reach.test.ts (new), src/bench/dev-mode.ts, src/bench/ui/dev-bill-card.mjs, src/bench/dev-bill-budget-reach.test.ts (new)
+
+**Notes.** Released by next (2026-11-18): no push to claude/project-thread-8fxsy5 since 2026-11-15 23:43 UTC, more than twice its 3-hour time box. Continue on branch claude/project-thread-8fxsy5.

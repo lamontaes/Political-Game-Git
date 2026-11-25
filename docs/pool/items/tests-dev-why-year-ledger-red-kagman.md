@@ -34,3 +34,4 @@ Seen: Kagman I, Northern Mariana Islands, seed b99b145d49dbabfd, by `DEV_WHY_SEE
 **Waits on.** Nothing.
 
 **Files.** src/bench/dev-why.test.ts, src/bench/dev-why.ts
+Nov 16 (views thread): the pinned Kagman I ledger case passes on the Train at 8d26a629 with #9713 and #9710 merged in (46 s; all 12 dev-why cases pass), so it is not an expected failure. What made it pass was not traced; the item stays open for the cause of the earlier red.

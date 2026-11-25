@@ -22,6 +22,6 @@ The PR carries the evidence where the merger reads it
 Fixers and mergers use the same list
 Shared docs agree
 
-**Files.** .agents/skills/session-start/SKILL.md, .agents/skills/pr-fixer/SKILL.md, .agents/skills/merger/SKILL.md, .claude/skills/session-start/SKILL.md, .claude/skills/pr-fixer/SKILL.md, .claude/skills/merger/SKILL.md, .github/PULL_REQUEST_TEMPLATE.md, AGENTS.md, docs/pool/README.md
+**Files.** .agents/skills/session-start/SKILL.md, .agents/skills/merger/references/pr-fixer.md, .agents/skills/merger/SKILL.md, .claude/skills/session-start/SKILL.md, .claude/skills/merger/references/pr-fixer.md, .claude/skills/merger/SKILL.md, .github/PULL_REQUEST_TEMPLATE.md, AGENTS.md, docs/pool/README.md
 
 **Notes.** Tracking the existing CTO-authored PR 5761, whose body already contains the five acceptance rows above. Added during merger review because no pool item matched its PR, branch or title. The PR was opened by another session, not this merger.

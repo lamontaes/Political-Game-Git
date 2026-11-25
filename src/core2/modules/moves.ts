@@ -1,29 +1,33 @@
 /**
  * Moves (M1-09, part 2): who leaves town, and why. Leaving is a choice, never
  * a draw. Each adult carries a pull to leave that builds month by month: from
- * their stage of life (how often people their age in their state leave the
- * county, American Community Survey 2024) held back by what ties them to the
- * town (a home they own, children at home, relatives here, a job), and from
- * what happens to them (an eviction, a lost job, a parent, child or sibling
- * moving away). Each month every adult weighs leaving against staying through
- * the core's one chooser; the pull is the reason to go. A householder takes
- * their partner and children; a grown child living with a parent leaves on
- * their own. Where they go is a record, never a draw: to a relative living
- * elsewhere, else where people from their county most often move (IRS).
+ * their stage of life (the counted tier's own leaving rule: how often people
+ * their age in their state leave it this month by the country tier, and the
+ * rest of their state as the destination weighing draws it) held back by
+ * what ties them to the town (a home they own, children at home, relatives
+ * here, a job), and from what happens to them (an eviction, a lost job, a
+ * parent, child or sibling moving away), and their region's work against
+ * their state's. Nothing scales the town back to a published rate. Each
+ * month every adult weighs leaving against staying through the core's one
+ * chooser; the pull is the reason to go. A householder takes their partner
+ * and children; a grown child living with a parent leaves on their own.
+ * Where they go is a record, never a draw: to a relative living elsewhere,
+ * else the state the destination weighing ranks highest for their pay and
+ * tenure (the rest of their own state among them).
  *
  * A leaver's records stay. Their job ends, the household's rent and spending
  * here end, they take the destination as their place (with their household,
  * or in a new one there when others stay), so the town's residents and voter
  * rolls no longer list them, and they are no longer simulated in town (the
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
- * year's totals.
+ * year's totals against the simulation, never set them.
  *
  * Every life is simulated (owner, Nov 1, 2026: "EVERY. LIFE. IS. SIMULATED.
  * ... THIS IS LOW INTENSITY STUFF."): a relative or acquaintance who lives
  * in another real place (the inactive tier, kept minimal until met) builds
  * the same monthly pull at their own stage of life, weighs it through the
- * same chooser and moves to a relative's place, else where people from their
- * county most often go, else elsewhere in their state. Their ties are read
+ * same chooser and moves to a relative's place, else the state the
+ * destination weighing ranks highest, else elsewhere in their state. Their ties are read
  * where they live (their household, partner and relatives there). A move
  * there is the same dated record, witnessed by their relatives in town; it
  * moves no money and fills nobody in (two-level population).
@@ -33,11 +37,9 @@ import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
   corePlaceByJurisdictionId,
-  corePlaceByKey,
   coreStateJurisdiction,
 } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
-import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
 import {
@@ -50,7 +52,11 @@ import { sellHome } from "../housing-sale";
 import { endLivingPlan } from "../cost-of-living";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
-import { regionalLevel, regionalRegistered } from "./regional";
+import {
+  countedLeavingRate,
+  destinationWeights,
+  placeLeavingConditions,
+} from "./counted-moves";
 import { webReach, type Subject } from "../outcome-web-reach";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
@@ -94,9 +100,8 @@ const RATES = moverRates as unknown as {
     >
   >;
 };
-const TOP_DESTINATION = destinations.topDestinationByCounty as Readonly<
-  Record<string, string>
->;
+/** Where no country tier runs (a world without the economy), the ACS rate stands in for its leaving rate. */
+const NO_TIER_STOPGAP = "SG-LIVES-moves-no-tier-rate";
 
 /** The causes an event adds to the pull, by event kind. */
 const EVENT_PULLS: Readonly<Record<string, string>> = {
@@ -117,7 +122,7 @@ export interface Departure {
   fromPlaceId: string;
   /** The place they went: a county or state jurisdiction, from a record. */
   destinationId: string;
-  destinationBasis: "relative" | "county-flow" | "state";
+  destinationBasis: "relative" | "pull" | "state";
   /** The pull that built up, by cause, the latest pushes and what held them. */
   reasons: Readonly<Record<string, number>>;
   /** The records each reason read, by reason. */
@@ -158,6 +163,8 @@ interface Pull {
   openingNet?: number;
   /** Months to go at the opening, before their own pace: the most pushed have the fewest. */
   openingMonths?: number;
+  /** The age band they were ranked in at the opening, whose own pace set their months to go. */
+  openingBand?: string;
 }
 
 function pullOf(api: CoreAPI, person: Readonly<PersonState>): Pull {
@@ -552,6 +559,65 @@ export function householdIncome(
   return { minor, ids, wages, monthDays: perMonth };
 }
 
+/**
+ * What the destination weighing and the leaving rule read of a person, as
+ * they read a counted household: the household's yearly pay per adult in
+ * dollars, and whether it rents (owns no home).
+ */
+function weighedAs(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): { wages: number; renter: boolean } {
+  const core = api.state as CoreState;
+  const adultAge = api.parameter("votingAge");
+  const adults = (core.households.get(person.householdId)?.memberIds ?? [])
+    .map((id) => core.people.get(id))
+    .filter((row) => row?.alive && ageOf(api, row) >= adultAge).length;
+  const monthly = householdIncome(api, person.householdId).minor;
+  return {
+    wages:
+      (monthly * api.parameter("monthsPerYear")) /
+      100 /
+      Math.max(api.parameter("one"), adults),
+    renter: !ownsHome(api, person.householdId),
+  };
+}
+
+/**
+ * A person's yearly rate of leaving their county at their stage of life, by
+ * the counted tier's one rule (counted-moves.ts countedLeavingRate) and the
+ * records it read; where no country tier runs (a world without the economy)
+ * the ACS rate for their age and state stands in (registered stopgap).
+ */
+function stageRate(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  band: string,
+): { rate: number; reads: string[] } {
+  const { wages, renter } = weighedAs(api, person);
+  const tier = countedLeavingRate(
+    api,
+    person.placeId,
+    ageOf(api, person),
+    wages,
+    renter,
+  );
+  if (tier)
+    return {
+      rate: tier.rate * m(api, "movesLifeStageScale"),
+      reads: tier.reads,
+    };
+  // stopgapId: SG-LIVES-moves-no-tier-rate
+  api.stopgap(NO_TIER_STOPGAP);
+  return {
+    rate:
+      lifeStageRate(api, person, band) *
+      worldRateFactor(api.state.seed, "movers") *
+      m(api, "movesLifeStageScale"),
+    reads: [],
+  };
+}
+
 /** A household's own cash, net of what its members owe on credit lines. */
 function householdNetCash(
   api: CoreAPI,
@@ -688,33 +754,18 @@ export function pushesOf(
 }
 
 /**
- * The town's conditions: unemployment in its region against the nation's,
- * as it has moved since the opening (the ACS rates the pull is scaled to
- * are the opening's). A worsening region speeds everyone's pull, sliding;
- * one that improves slows it.
+ * The place's conditions: unemployment in its region against its state's
+ * this month, by the counted tier's same rule (counted-moves.ts
+ * placeLeavingConditions). A region worse off than its state speeds
+ * everyone's pull, sliding; one better off slows it.
  */
 function placeConditions(
   api: CoreAPI,
   placeId: string,
 ): { factor: number; reads: string[] } {
-  const core = api.state as CoreState;
-  if (!core.modules.has("macro") || !regionalRegistered(api))
-    return { factor: api.parameter("one"), reads: [] };
-  const region = regionalLevel(api, placeId);
-  const nation = region
-    ? (api
-        .moduleState("macro")
-        .table("months")
-        .get(`macro-month:${region.month}`) as
-        { id: string; unemploymentPct: number } | undefined)
-    : undefined;
-  if (!region || !nation) return { factor: api.parameter("one"), reads: [] };
-  const change =
-    region.unemploymentPct - nation.unemploymentPct - region.openingGapPct;
-  return {
-    factor: Math.exp(m(api, "movesUnemploymentGapWeight") * change),
-    reads: [region.id, nation.id],
-  };
+  const { factor, reads } = placeLeavingConditions(api, placeId);
+  if (reads.length) m(api, "movesUnemploymentGapWeight");
+  return { factor, reads };
 }
 
 const sum = (values: Readonly<Record<string, number>>, zero: number) =>
@@ -746,13 +797,16 @@ function action(id: string, leaving: boolean): ActionDefinition {
 export const MOVE_AWAY = action("move-away", true);
 export const STAY_PUT = action("stay-put", false);
 
-/** Where they go: a relative living elsewhere, else the county's most common destination, else the state. */
+/** Where they go: a relative living elsewhere, else the state the destination weighing ranks highest, else their own state. */
 function destinationFor(
   api: CoreAPI,
   person: Readonly<PersonState>,
   goingIds: ReadonlySet<PersonId>,
 ): Pick<Departure, "destinationId" | "destinationBasis"> & {
   countyId?: string;
+  /** Why the weighing ranked it first, and the states it ranked highest. */
+  reasons?: Record<string, number>;
+  reads?: string[];
 } {
   const core = api.state as CoreState;
   const kin = kinOf(core);
@@ -777,17 +831,29 @@ function destinationFor(
         ...(relative.countyId ? { countyId: relative.countyId } : {}),
       };
   }
-  const county = person.countyId
-    ? corePlaceByJurisdictionId(person.countyId as EntityId)
-    : undefined;
-  const top = county?.sourceGeoid
-    ? TOP_DESTINATION[county.sourceGeoid]
-    : undefined;
-  const to = top
-    ? corePlaceByKey(`county:${top}`)?.context.jurisdiction.id
-    : undefined;
+  // Else the state the one destination weighing ranks highest for their pay
+  // and tenure, as it weighs a counted household: the rest of their own
+  // state is one of the places weighed.
+  const { wages, renter } = weighedAs(api, person);
+  const ranked = destinationWeights(api, person.placeId, wages, renter);
+  const own = placeStateKey(person.placeId);
+  const top = ranked[0];
+  const to =
+    top && `US-${top.usps}` !== own
+      ? coreStateJurisdiction(`US-${top.usps}`)?.id
+      : undefined;
   if (to && open(to))
-    return { destinationId: to, destinationBasis: "county-flow", countyId: to };
+    return {
+      destinationId: to,
+      destinationBasis: "pull",
+      reasons: Object.fromEntries(
+        Object.entries(top!.causes).map(([key, value]) => [
+          `destination:${key}`,
+          value,
+        ]),
+      ),
+      reads: ranked.slice(0, 3).map((row) => `country-state:US-${row.usps}`),
+    };
   const stateKey = placeStateKey(person.placeId);
   const state = stateKey ? coreStateJurisdiction(stateKey)?.id : undefined;
   return {
@@ -858,7 +924,12 @@ function leave(
   if (person.tier === INACTIVE_TIER)
     return leaveElsewhere(api, person, pull, holds);
   const going = goingWith(api, person);
-  const { countyId, ...where } = destinationFor(api, person, new Set(going));
+  const {
+    countyId,
+    reasons: whereWhy,
+    reads: whereReads,
+    ...where
+  } = destinationFor(api, person, new Set(going));
   const fromPlaceId = person.placeId;
   const household = core.households.get(person.householdId);
   const staying = (household?.memberIds ?? []).filter(
@@ -883,8 +954,12 @@ function leave(
       ...Object.fromEntries(
         Object.entries(holds).map(([key, value]) => [`hold:${key}`, -value]),
       ),
+      ...whereWhy,
     },
-    reads: pull.reads,
+    reads: {
+      ...pull.reads,
+      ...(whereReads ? { destination: whereReads } : {}),
+    },
   };
   // The inactive tier takes them out of town life; the new place takes them
   // off the town's residents and voter rolls.
@@ -1012,7 +1087,12 @@ function leaveElsewhere(
 ): Departure | null {
   const core = api.state as CoreState;
   const going = goingWith(api, person);
-  const { countyId, ...where } = destinationFor(api, person, new Set(going));
+  const {
+    countyId,
+    reasons: whereWhy,
+    reads: whereReads,
+    ...where
+  } = destinationFor(api, person, new Set(going));
   // Someone recorded only at their state's level who goes to no relative
   // moves within their state (about half of those who leave a county stay in
   // its state, ACS 2024): a new home there, in the same state's record.
@@ -1044,8 +1124,12 @@ function leaveElsewhere(
       ...Object.fromEntries(
         Object.entries(holds).map(([key, value]) => [`hold:${key}`, -value]),
       ),
+      ...whereWhy,
     },
-    reads: pull.reads,
+    reads: {
+      ...pull.reads,
+      ...(whereReads ? { destination: whereReads } : {}),
+    },
   };
   // Their housemates who stay, and their relatives in town, know they moved.
   const witnessIds = [
@@ -1186,7 +1270,6 @@ function webLeavingFor(
 function accumulate(
   api: CoreAPI,
   person: Readonly<PersonState>,
-  typical?: ReadonlyMap<string, number>,
   place?: { factor: number; reads: string[] },
 ): void {
   const band = bandOf(api, person);
@@ -1197,16 +1280,14 @@ function accumulate(
   const pull = pullOf(api, person);
   const { factor, pushes } = netFactor(api, person);
   const conditions = place ?? placeConditions(api, person.placeId);
-  // Records decide who of an age leaves, not how many: the person's pushes
-  // over their ties against the town's typical for their age band. The
-  // region's conditions move how many.
+  // The person's pushes over their ties, their place's conditions and the
+  // web set how fast their pull builds: nothing scales the town back to a
+  // published rate, so a town whose people are held more loses fewer.
   const web = webLeavingFor(api, person);
+  const base = stageRate(api, person, band);
   const stage =
-    ((lifeStageRate(api, person, band) *
-      worldRateFactor(api.state.seed, "movers")) /
-      api.parameter("monthsPerYear")) *
-    m(api, "movesLifeStageScale") *
-    (factor / (typical?.get(band) ?? factor)) *
+    (base.rate / api.parameter("monthsPerYear")) *
+    factor *
     conditions.factor *
     web.factor;
   pull.value += stage;
@@ -1217,6 +1298,7 @@ function accumulate(
   pull.reads = {
     ...pull.reads,
     ...pushes.reads,
+    ...(base.reads.length ? { lifeStage: base.reads } : {}),
     ...(conditions.reads.length ? { placeConditions: conditions.reads } : {}),
   };
   pull.pushes = { ...pushes.parts };
@@ -1230,17 +1312,17 @@ function accumulate(
 
 /**
  * Where each adult in town already is in their thinking about moving at the
- * opening, from their records: the town's adults ordered by how hard their
- * records push them out over what holds them, spread evenly over the way to
- * leaving, so departures run steadily from the first month (a town that has
- * been running for years) and the first to go are the ones their records
- * push hardest. Equal records stand at the same place.
+ * opening, from their records. Within each age band the adults are ordered by
+ * how hard their records push them out over what holds them, and spread
+ * evenly over the way to leaving at that band's own pace: the band's share
+ * that leaves in a month follows the band's rate (age sets how many), and the
+ * first of a band to go are the ones their records push hardest (records
+ * decide who). Ranking the whole town at once would send the most pushed
+ * first whatever their age, so an old town's first months would be the
+ * oldest adults leaving, and age would not move the count. Equal records in
+ * a band stand at the same place.
  */
-function openingPulls(
-  api: CoreAPI,
-  adults: readonly PersonState[],
-  typical: ReadonlyMap<string, number>,
-): void {
+function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
   const zero = api.parameter("zero");
   const one = api.parameter("one");
   const seated = officeholders(api);
@@ -1251,47 +1333,60 @@ function openingPulls(
       const net = netFactor(api, person);
       // How fast their pull will build each month once the town runs.
       const gain =
-        (lifeStageRate(api, person, band) / api.parameter("monthsPerYear")) *
-        m(api, "movesLifeStageScale") *
-        (net.factor / (typical.get(band) ?? net.factor));
-      return { person, ...net, gain };
-    })
-    .sort((a, b) => a.net - b.net);
-  const meanGain =
-    rows.reduce((total, row) => total + row.gain, zero) / (rows.length || one);
+        (stageRate(api, person, band).rate / api.parameter("monthsPerYear")) *
+        net.factor;
+      return { person, band, ...net, gain };
+    });
+  const byBand = new Map<string, typeof rows>();
+  for (const row of rows)
+    byBand.set(row.band, [...(byBand.get(row.band) ?? []), row]);
   const stay = m(api, "movesStayPull");
-  let start = zero;
-  while (start < rows.length) {
-    let end = start;
-    while (end + one < rows.length && rows[end + one]!.net === rows[start]!.net)
-      end += one;
-    // The middle of the run of equal records, as a share of the town.
-    const at = ((start + end) / 2 + one / 2) / rows.length;
-    for (let index = start; index <= end; index += one) {
-      const row = rows[index]!;
-      const pull = pullOf(api, row.person);
-      // The months to go are spread evenly with the records' push (the most
-      // pushed go first), the town's departures a year running at the rate
-      // its adults' ages give; the pull left to build is the months to go at
-      // this person's own pace, so a fast builder is not also nearer the bar.
-      const toGo = (one - at) * (row.gain / meanGain);
-      const opening = Math.max(zero, one - toGo) * stay;
-      pull.value += opening;
-      pull.causes = { ...pull.causes, opening };
-      pull.reads = {
-        ...pull.reads,
-        ...row.pushes.reads,
-        opening: Object.keys(row.pushes.parts)
-          .concat(
-            Object.keys(holdsOf(api, row.person)).map((key) => `hold:${key}`),
-          )
-          .sort(),
-      };
-      pull.openingNet = row.net;
-      pull.openingMonths = (one - at) / meanGain;
-      savePull(api, pull);
+  for (const [, members] of [...byBand].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    members.sort(
+      (a, b) => a.net - b.net || a.person.id.localeCompare(b.person.id),
+    );
+    const meanGain =
+      members.reduce((total, row) => total + row.gain, zero) /
+      (members.length || one);
+    let start = zero;
+    while (start < members.length) {
+      let end = start;
+      while (
+        end + one < members.length &&
+        members[end + one]!.net === members[start]!.net
+      )
+        end += one;
+      // The middle of the run of equal records, as a share of the band.
+      const at = ((start + end) / 2 + one / 2) / members.length;
+      for (let index = start; index <= end; index += one) {
+        const row = members[index]!;
+        const pull = pullOf(api, row.person);
+        // The months to go are spread evenly with the records' push (the most
+        // pushed go first) at the band's own pace; the pull left to build is
+        // the months to go at this person's own pace, so a fast builder is
+        // not also nearer the bar.
+        const toGo = (one - at) * (row.gain / meanGain);
+        const opening = Math.max(zero, one - toGo) * stay;
+        pull.value += opening;
+        pull.causes = { ...pull.causes, opening };
+        pull.reads = {
+          ...pull.reads,
+          ...row.pushes.reads,
+          opening: Object.keys(row.pushes.parts)
+            .concat(
+              Object.keys(holdsOf(api, row.person)).map((key) => `hold:${key}`),
+            )
+            .sort(),
+        };
+        pull.openingNet = row.net;
+        pull.openingMonths = (one - at) / meanGain;
+        pull.openingBand = row.band;
+        savePull(api, pull);
+      }
+      start = end + one;
     }
-    start = end + one;
   }
 }
 
@@ -1463,16 +1558,12 @@ function bookReview(api: CoreAPI, personId: PersonId, date: string): void {
 }
 
 /** One adult's month: their pull builds, then they (or their couple) choose. */
-export function reviewMove(
-  api: CoreAPI,
-  personId: PersonId,
-  typical?: ReadonlyMap<string, number>,
-): Departure | null {
+export function reviewMove(api: CoreAPI, personId: PersonId): Departure | null {
   const person = api.state.people.get(personId);
   if (!person || !reviewed(api.state as CoreState, person)) return null;
   if (!decidesAlone(api, person)) return null;
   if (inGroupQuarters(api.state as CoreState, person)) return null;
-  accumulate(api, person, typical);
+  accumulate(api, person);
   return decide(api, person);
 }
 
@@ -1519,49 +1610,16 @@ function monthlyReview(api: CoreAPI): void {
         !inGroupQuarters(core, row),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
-  // The town's typical hold for each age band, from this month's ties.
-  const sums = new Map<string, [number, number]>();
-  for (const person of adults) {
-    const band = bandOf(api, person);
-    if (!band) continue;
-    const [sum, count] = sums.get(band) ?? [
-      api.parameter("zero"),
-      api.parameter("zero"),
-    ];
-    sums.set(band, [
-      sum + netFactor(api, person).factor,
-      count + api.parameter("one"),
-    ]);
-  }
-  const typical = new Map(
-    [...sums].map(([band, [sum, count]]) => [band, sum / count]),
-  );
-  // Everyone living elsewhere, weighed against the typical of their own
-  // kind (their ties are where they live, not the town's).
+  // Everyone living elsewhere, by the same rule (their ties are where they
+  // live, not the town's).
   const elsewhere = [...core.people.values()]
     .filter((row) => livesElsewhere(core, row) && decidesAlone(api, row))
     .sort((a, b) => a.id.localeCompare(b.id));
-  const elsewhereSums = new Map<string, [number, number]>();
-  for (const person of elsewhere) {
-    const band = bandOf(api, person);
-    if (!band) continue;
-    const [sum, count] = elsewhereSums.get(band) ?? [
-      api.parameter("zero"),
-      api.parameter("zero"),
-    ];
-    elsewhereSums.set(band, [
-      sum + netFactor(api, person).factor,
-      count + api.parameter("one"),
-    ]);
-  }
-  const typicalElsewhere = new Map(
-    [...elsewhereSums].map(([band, [sum, count]]) => [band, sum / count]),
-  );
   const state = store(api).table("state").get("moves:state") as
     | { id: string; openingRanked?: boolean; elsewhereRanked?: boolean }
     | undefined;
   if (state && !state.openingRanked) {
-    openingPulls(api, adults, typical);
+    openingPulls(api, adults);
     store(api)
       .table("state")
       .put({ ...state, openingRanked: true });
@@ -1570,7 +1628,7 @@ function monthlyReview(api: CoreAPI): void {
   // spread the same way, once, among themselves.
   const ranked = store(api).table("state").get("moves:state") as typeof state;
   if (ranked && !ranked.elsewhereRanked) {
-    openingPulls(api, elsewhere, typicalElsewhere);
+    openingPulls(api, elsewhere);
     store(api)
       .table("state")
       .put({ ...ranked, elsewhereRanked: true });
@@ -1584,7 +1642,7 @@ function monthlyReview(api: CoreAPI): void {
       places.set(person.placeId, place);
     }
     before.set(person.id, pullOf(api, person).value);
-    accumulate(api, person, typical, place);
+    accumulate(api, person, place);
   }
   for (const person of elsewhere) {
     let place = places.get(person.placeId);
@@ -1593,7 +1651,7 @@ function monthlyReview(api: CoreAPI): void {
       places.set(person.placeId, place);
     }
     before.set(person.id, pullOf(api, person).value);
-    accumulate(api, person, typicalElsewhere, place);
+    accumulate(api, person, place);
   }
   // Each couple or adult alone leaves on the day in the month their pull,
   // building evenly, reaches the point where leaving wins; nobody's choice

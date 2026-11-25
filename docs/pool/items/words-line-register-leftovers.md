@@ -5,10 +5,10 @@ area: words
 kind: cleanup
 priority: 2
 size: L
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: story builder (claude/project-thread-lcf812-leftovers)
+pr: #9692
 after:
 blocked-on:
 lead: words
@@ -16,8 +16,9 @@ model: opus
 effort: medium
 root: none
 source: Words builder A, Nov 16 (owner: every line of dialogue or narration in the code is registered and traced, so there are no leftovers)
-claimed-at:
+claimed-at: 2026-11-16
 checked: words builder A 2026-11-16
+merged-at: 2026-11-16T20:00:22.463Z
 ---
 
 **What.** The register (scripts/words/line-register.ts, baseline tests/guards/english/line-register-baseline.json) lists every line the game can say and what is left to do with it. The baseline goes to zero: no line tied to nothing of the speaker or the hearer, no conversation piece no engine places, no bank nothing reads, no sentence typed in code or in a data file. Seen: the baseline file holds no entry in any list.
@@ -35,3 +36,7 @@ checked: words builder A 2026-11-16
 **Waits on.** Nothing.
 
 **Files.** scripts/words/line-register.ts, tests/guards/english/line-register-baseline.json, data/english/parts/*.json
+
+**Notes.**
+
+- Nov 16, 2026, story builder: #9697 takes the deletion lists (the Words lead's delete list and says-nothing ruling, the 20 unreached pieces) and splits the four graded-good banks out as good lines waiting for a reader. The code and data lists follow in their own pull requests (notes told from player text; player lines into banks; screen labels registered by key).

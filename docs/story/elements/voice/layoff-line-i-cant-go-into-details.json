@@ -1,0 +1,36 @@
+{
+  "id": "layoff-line-i-cant-go-into-details",
+  "kind": "voice",
+  "summary": "In a layoff meeting a manager says they cannot give details, and the worker hears a refusal to explain.",
+  "realLife": "Workers describe layoff meetings where managers and HR say they can't go into the details, which leaves employees without answers and feeling brushed off.",
+  "sources": [
+    "Welcome to the Jungle, frustrating phrases from layoff meetings: https://www.welcometothejungle.com/en/articles/frustrating-phrases-from-layoff-meetings"
+  ],
+  "fits": ["work-community"],
+  "slots": ["employer", "workplace", "name"],
+  "gates": [],
+  "weights": {},
+  "usedBy": [],
+  "issues": ["law:unemployment-insurance"],
+  "inGame": "a job-ended event carries the call; the employer's reason for the cut sits in the record; needs: severance and a way to say a reason was withheld",
+  "turns": [
+    {
+      "turn": "manager-gives-the-real-reason",
+      "summary": "The manager says the plant lost an order and names it plainly.",
+      "pulledBy": ["an honest manager", "a small employer"],
+      "writesBack": "the worker is angry but understands; a tie stays intact"
+    },
+    {
+      "turn": "manager-reads-a-script",
+      "summary": "The manager reads a short script and leaves the room.",
+      "pulledBy": ["a corporate employer", "a manager who dreads it"],
+      "writesBack": "a cooler tie and a bitter journal note"
+    },
+    {
+      "turn": "worker-presses-for-why",
+      "summary": "The worker asks again why them and not the others.",
+      "pulledBy": ["a blunt worker"],
+      "writesBack": "a hard exchange; a grudge recorded"
+    }
+  ]
+}

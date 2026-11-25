@@ -13,6 +13,9 @@ const FIVES = Object.keys(ABOUT)
   .map(Number)
   .sort((a, b) => a - b);
 
+/** The days in a year as people count a span of years aloud (`spanSaid` rounds by it). */
+export const SPOKEN_DAYS_PER_YEAR = data.daysPerYear.value;
+
 /** A span of days: months up to a year, then "a year", "two years", "about thirty years". */
 export function spanSaid(days: number): string {
   const months = Math.round(days / data.daysPerMonth.value);

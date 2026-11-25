@@ -1,0 +1,31 @@
+{
+  "id": "score-before-naming-partner",
+  "kind": "move",
+  "summary": "An applicant asks {person} for an answer while staff are still scoring bids.",
+  "realLife": "The commission scheduled application scoring before its November notification date.",
+  "sources": [
+    "https://www.participate.nyc.gov/processes/Citywidepb2025/f/105/?locale=en"
+  ],
+  "fits": ["office", "journal", "news", "work-community"],
+  "slots": ["{person}"],
+  "gates": [
+    "A group applied to operate the project and the selection calendar is on file."
+  ],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "needs: a group applied to operate the project and the selection calendar is on file.",
+  "turns": [
+    {
+      "turn": "scoring-is-under-way",
+      "pulledBy": "Scoring is under way.",
+      "what": "Record the inquiry and give the notification date.",
+      "writesBack": "Leave the application under review."
+    },
+    {
+      "turn": "the-notice-has-gone-out",
+      "pulledBy": "The notice has gone out.",
+      "what": "Refer the applicant to its decision.",
+      "writesBack": "Mark the applicant notified."
+    }
+  ]
+}

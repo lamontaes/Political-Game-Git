@@ -1,11 +1,18 @@
 ---
 name: words-stamp-read
-description: How a words reader reads a pull request's player-visible words before it folds, and what a builder must send to get that read. Covers finding the PR's own lines by piece against the train it merged, checking every new string is seen played at the exact head, reading each played talk for fit against the owner's rules, the stamp line, limits, carry-overs and send-backs. Use when you are a words reader or second reader, and when you are a builder about to ask for a words stamp. The owner's scene rules themselves live in words-reads; this is the reader's method and the builder's send list. Not for writing lines (civic-prose, words-engine), ruling on a question the rules do not answer (the Words lead), or the code gate (train-gate, checker).
+description: >
+  How a words reader reads a pull request's player-visible words before it
+  folds, and what a builder sends to get that read: finding the PR's own lines
+  by piece, checking every new string is seen played at the exact head,
+  reading each played talk against the owner's rules, the stamp line, limits,
+  carry-overs and send-backs. Use when you are a words reader or second
+  reader, or a builder about to ask for a words stamp. Not for writing lines
+  (civic-prose, words-engine) or the code gate (merger).
 ---
 
 # Words stamp read
 
-A words read answers one question for one exact sha: can a player meet every word this pull request adds or moves, and does each one read right where it is said? The reader writes no lines, makes no ruling, never marks ready, merges or pushes.
+A words read answers one question for one exact sha: can a player meet every word this pull request adds or moves, and does each one read right where it is said? The reader writes no lines, makes no ruling, never marks ready, merges or pushes. The owner's scene rules themselves live in words-reads; this is the reader's method and the builder's send list. A question the rules do not answer goes to the Words lead.
 
 ## What a builder sends
 
@@ -52,6 +59,11 @@ A words read answers one question for one exact sha: can a player meet every wor
 - If a ruling from the Account lead crosses with a stamp already posted, post `Words lead (second reader): stamp withdrawn #N <full sha>` under it with the reason, so nobody folds on the old line.
 - A carry-over line says what was compared (the by-piece lists at both heads) and that the played file at the new head was read; if the old file is deleted, say that "the same" rests on the compare and the read, not on a diff.
 - Thread messages cap at 2,000 characters. A longer read goes in a file beside the played file and is deleted when the head moves or the PR is stamped.
+
+## When the builder's thread is gone (Nov 17, Story lead)
+
+- The Words lead's and its builders' played files were kept under `/mnt/project-files/words-lead/`, which a cloud session on another account cannot read. The reader then remakes the evidence: a Sonnet helper merges main into the branch (a train base that main already holds is read against main), makes the by-piece lists against main, runs the PR's own tests, and plays the lines at the head with the branch's own scripts or one written in its scratchpad (never committed), at two or three drawn seeds. The stamp or hold rests on that run and names it. The same helper then carries the fixes as the branch's fixer, since no builder session remains.
+- The read of #9512 (Nov 17) found four classes a replay catches that a test does not: a figure said in the narration and again in a reply, a reply answered by a line that answers something else (an `after` placing missing), a possessive built after an appositive ("the Select Board,'s team"), and a pin that stopped reaching its case once main moved. Look for each in every replay.
 
 ## Traps found Nov 15 (after #9455, #9369, #9389)
 

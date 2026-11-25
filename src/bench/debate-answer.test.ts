@@ -1,7 +1,9 @@
 /**
  * A debate the outlet invited the player to: the campaign view lists it with
- * its questions, the player answers by position or passes, and the engine holds
- * it with both candidates' answers. A random place from all 56.
+ * its questions, the player accepts it from the Campaign tab (the sitting goes
+ * on the record with the moderator who asked), answers by position or passes,
+ * and the engine holds it with both candidates' answers. A random place from
+ * all 56.
  */
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
@@ -14,14 +16,20 @@ import { coreAPI } from "../core2/state";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   ELECTIONS_MODULE_ID,
+  ballot,
   fileCandidacy,
   openContests,
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import { debatesIn } from "../core2/modules/meetings";
+import {
+  DEBATE_ACCEPTED_EVENT,
+  DEBATE_INVITED_EVENT,
+  debatesIn,
+} from "../core2/modules/meetings";
 import { lawChain } from "../core2/modules/laws";
-import { campaignView, debateAnswer } from "./campaign";
+import { campaignView, debateAccept, debateAnswer } from "./campaign";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -48,16 +56,12 @@ it("lists the invited debate for the player, who answers it, and it is held with
     // Filing refuses a resident of another town (residency), so the
     // candidates are the town's own people.
     const town = lawChain(api).townPlaceId;
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === town &&
-          Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.placeId === town &&
+        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+    );
     let pair: { you: FilingRow; rival: FilingRow } | undefined;
     // The world runs a week at a time until a race on the clerk's list takes
     // two of them; a race that refuses them does not end the wait.
@@ -124,6 +128,18 @@ it("lists the invited debate for the player, who answers it, and it is held with
       continue;
     }
     advanceCore(core, addDays(makeIsoDate(contest.electionDate), -3));
+    const rivals = ballot(api, contest.id).filter(
+      (filing) =>
+        filing.status === "on-ballot" && filing.personId !== core.playerId,
+    );
+    const rival =
+      rivals.find((filing) => filing.id === pair!.rival.id) ?? rivals[0];
+    if (!rival) {
+      tried.push(
+        `${where}: ${contest.id} has no rival on the ballot by ${core.date}`,
+      );
+      continue;
+    }
     const view = campaignView(core, pair.you.personId).campaigns.find(
       (c) => c.filing.id === pair!.you.id,
     );
@@ -138,6 +154,34 @@ it("lists the invited debate for the player, who answers it, and it is held with
       `debate-answer: ${where}, waited ${weeksWaited} weeks, race ${contest.id}`,
     );
     expect(debatesIn(api, contest.id)[0]!.status, where).toBe("invited");
+    expect(invited.accepted, where).toBe(false);
+
+    // Accept, from the Campaign tab: the sitting goes on the record with the
+    // moderator the invitation named, and the debate waits for it.
+    const invitation = core.durableLog.get(
+      `${DEBATE_INVITED_EVENT}:${invited.id}`,
+    );
+    expect(invitation?.facts?.invitedId, where).toBe(pair.you.personId);
+    expect(
+      debateAccept(core, pair.you.personId, invited.id).accepted,
+      where,
+    ).toBe(true);
+    const sitting = core.durableLog.get(
+      `${DEBATE_ACCEPTED_EVENT}:${invited.id}`,
+    );
+    expect(sitting?.personIds[0], where).toBe(pair.you.personId);
+    expect(sitting?.facts?.reporterId, where).toBe(
+      invitation?.facts?.reporterId ?? sitting?.personIds[1],
+    );
+    expect(debatesIn(api, contest.id)[0]!.status, where).toBe("invited");
+    const page = campaignView(core, pair.you.personId)
+      .campaigns.find((c) => c.filing.id === pair!.you.id)!
+      .debates.find((d) => d.id === invited.id);
+    expect(page?.accepted, where).toBe(true);
+    // Said once: a second press finds nothing waiting.
+    expect(() => debateAccept(core, pair!.you.personId, invited.id)).toThrow(
+      /No debate is waiting/,
+    );
 
     // The player takes a position on the first question and passes on the rest.
     const answers = invited.questions.map((question, index) => ({
@@ -162,7 +206,7 @@ it("lists the invited debate for the player, who answers it, and it is held with
       .sort();
     expect(Object.keys(held.answers).sort(), where).toEqual(onBallot);
     expect(onBallot, where).toContain(pair.you.personId);
-    expect(onBallot, where).toContain(pair.rival.personId);
+    expect(onBallot, where).toContain(rival.personId);
     expect(
       held.answers[pair.you.personId]!.map((a) => a.position),
       where,

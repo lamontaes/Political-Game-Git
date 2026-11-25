@@ -36,6 +36,7 @@ import { openPress } from "./modules/press";
 import { viewsModule } from "./modules/views";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 /**
@@ -85,14 +86,12 @@ function world() {
   ).townPlaceId;
   const where = `${place.name}, ${place.state} (${place.key}), place seed ${place.seed}`;
   // Residents of the town old enough to file for something, richest first.
-  const residents = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.placeId === town &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const residents = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      p.placeId === town &&
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+  );
   return { core, api, residents, where };
 }
 

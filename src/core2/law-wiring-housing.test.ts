@@ -208,7 +208,8 @@ function personIn(core: CoreState, householdId: string): string | undefined {
 }
 
 /**
- * The vouchers a raised housing line must buy to reach a full household.
+ * The vouchers a raised housing line must buy to reach a full household and
+ * a counted one.
  * Rent help goes to the renters with the least income per member first
  * (housing-assistance.ts); a counted group takes one voucher for each
  * household it stands for, and a government whose line already stands above
@@ -217,6 +218,12 @@ function personIn(core: CoreState, householdId: string): string | undefined {
  * records at the raise: the weight of every renter ranked ahead of the third
  * full household that no other government's vouchers cover, plus that
  * household. Three, not one, because renters' incomes move over the month.
+ * The same holds for counted groups, which the rent help case for a counted
+ * renter reads: where the poorest renters are full households (Whitney,
+ * Nevada on Nov 18: eighteen full households with no income ranked ahead of
+ * every counted group, while the state's line stood below its base), three
+ * full households are reached before any counted one, so the raise also runs
+ * to the third counted group no other line covers.
  * A county's or state's line reaches the town only in the town's share of
  * its people (townShare, as payRentAssistance reads it), so both the vouchers
  * other lines already buy here and the ones this raise must buy are counted
@@ -245,14 +252,16 @@ function vouchersToReachFullHouseholds(
           b.incomeMinor / b.memberIds.length || a.id.localeCompare(b.id),
     );
   let ahead = 0;
-  let reached = 0;
+  const reached = { full: 0, counted: 0 };
   for (const t of ranked) {
-    if (t.tier === "full" && ahead >= covered) reached += 1;
+    if (ahead >= covered) reached[t.tier] += 1;
     ahead += t.weight;
-    if (reached === 3) break;
+    if (reached.full >= 3 && reached.counted >= 3) break;
   }
   const share = townShare(api, gov);
-  return Math.ceil((reached === 0 ? 100 : ahead) / (share > 0 ? share : 1));
+  return Math.ceil(
+    (reached.full === 0 ? 100 : ahead) / (share > 0 ? share : 1),
+  );
 }
 
 /**

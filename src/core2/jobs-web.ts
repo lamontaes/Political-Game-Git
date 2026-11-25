@@ -20,7 +20,7 @@ import { carriedLink } from "./modules/outcome-web";
 import { completedMonthsBetween, makeIsoDate } from "./kernel/dates";
 import type { HouseholdKind } from "./counted-groups";
 import { parameter } from "./parameters";
-import { webFactorFor, type Subject } from "./outcome-web-reach";
+import { webDayCache, webFactorFor, type Subject } from "./outcome-web-reach";
 import { stopgap } from "./stopgaps";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -201,41 +201,30 @@ export function countedFacts(
 /**
  * Whether the web moves a measure at a place today: an enforcement law in
  * force, say. Only then is a person's seeded work authorization read, so a
- * town with no such law spends nothing on it. Cached per place and day.
+ * town with no such law spends nothing on it. Cached per place in the web's
+ * day cache, stamped with the web's writes: a month the web writes after the
+ * first read (the day a law takes effect) is read the same day, never the
+ * answer from before it.
  */
-const MOVING = new WeakMap<
-  CoreState,
-  { date: string; byKey: Map<string, boolean> }
->();
 function moves(api: CoreAPI, placeId: string, measure: string): boolean {
-  const c = api.state as CoreState;
-  let cache = MOVING.get(c);
-  if (!cache || cache.date !== c.date)
-    MOVING.set(c, (cache = { date: c.date, byKey: new Map() }));
+  const cache = webDayCache<boolean>(api, "jobs-moving");
   const key = `${placeId}|${measure}`;
-  let moving = cache.byKey.get(key);
+  let moving = cache.get(key);
   if (moving === undefined)
-    cache.byKey.set(key, (moving = webFactorFor(api, placeId, measure) !== 1));
+    cache.set(key, (moving = webFactorFor(api, placeId, measure) !== 1));
   return moving;
 }
 
 /**
  * Whether the web moves either work-authorization outcome at a place today,
- * the same reads `moves` makes, kept per place for the day so each worker
- * after the first costs one lookup.
+ * the same reads `moves` makes, kept per place in the web's day cache so each
+ * worker after the first costs one lookup.
  */
-const ENFORCING = new WeakMap<
-  CoreState,
-  { date: string; byPlace: Map<string, boolean> }
->();
 function enforcementMoves(api: CoreAPI, placeId: string): boolean {
-  const c = api.state as CoreState;
-  let cache = ENFORCING.get(c);
-  if (!cache || cache.date !== c.date)
-    ENFORCING.set(c, (cache = { date: c.date, byPlace: new Map() }));
-  let moving = cache.byPlace.get(placeId);
+  const cache = webDayCache<boolean>(api, "jobs-enforcing");
+  let moving = cache.get(placeId);
   if (moving === undefined)
-    cache.byPlace.set(
+    cache.set(
       placeId,
       (moving =
         moves(api, placeId, UNDOCUMENTED) || moves(api, placeId, US_BORN)),
@@ -270,11 +259,6 @@ export function authorizationMeasure(
   return isNoncitizenOf(c.seed, personId, share) ? "" : US_BORN;
 }
 
-const SHIFTS = new WeakMap<
-  CoreState,
-  { date: string; byKey: Map<string, number> }
->();
-
 /**
  * The log of the web's factor on the pull to be at work for this person:
  * mothers of young children, married women and people from the earliest
@@ -282,7 +266,7 @@ const SHIFTS = new WeakMap<
  * a person in several takes each (they are separate causes). The older
  * workers' term is weighted, fitted so a played year moves their share at
  * work by the researched size. Zero where the web moves nothing. Cached per
- * place and band for the day.
+ * place and band in the web's day cache.
  */
 function bandShift(
   api: CoreAPI,
@@ -306,12 +290,9 @@ function bandShift(
   }
   if (!measures.length) return 0;
   if (facts.mother || facts.partnered) stopgap("SG-LABOR-participation-scale");
-  const c = api.state as CoreState;
-  let cache = SHIFTS.get(c);
-  if (!cache || cache.date !== c.date)
-    SHIFTS.set(c, (cache = { date: c.date, byKey: new Map() }));
+  const cache = webDayCache<number>(api, "jobs-band-shift");
   const key = `${placeId}|${measures.join(",")}|${facts.age}|${facts.sex}|${facts.householdKind}|${facts.incomeFifth}`;
-  const known = cache.byKey.get(key);
+  const known = cache.get(key);
   if (known !== undefined) return known;
   const subject: Subject = {
     age: facts.age,
@@ -326,7 +307,7 @@ function bandShift(
     shift +=
       (measure === OLDER_WORK ? p("jobsOlderWorkWebWeight") : 1) *
       Math.log(Math.max(1e-6, webFactorFor(api, placeId, measure, subject)));
-  cache.byKey.set(key, shift);
+  cache.set(key, shift);
   return shift;
 }
 

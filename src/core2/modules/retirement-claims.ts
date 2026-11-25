@@ -8,6 +8,7 @@
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { worldBenefitMonthlyMinor } from "../opening-income";
+import { sinceOpeningIndex } from "../tax-index";
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { claimWaitCase, retirementClaimAgeMonths } from "../retirement-claim";
@@ -319,6 +320,55 @@ export function returnClaimToCounts(
   rt.claimed.set(personId, { ...row, counted: true, obligationId: id });
 }
 
+/**
+ * The monthly award a person's claim sets today (with the age and covered months it rests on), or none where their covered
+ * months are under the minimum. `wageIndex` is how far this world's own pay
+ * has moved since it opened (1 on day one).
+ */
+export function retirementAwardMonthlyMinor(
+  api: CoreAPI,
+  person: Pick<Claimant, "birthDate" | "traits">,
+  wageIndex: number = sinceOpeningIndex(api, "wages"),
+): { monthlyMinor: number; age: number; coveredMonths: number } | undefined {
+  const p = (key: string) => api.parameter(key);
+  const keys = incomeData.parameters;
+  // Covered work from adult life to the claim, as the opening estimates it.
+  const age =
+    (Date.parse(`${api.state.date}T00:00:00Z`) -
+      Date.parse(`${person.birthDate}T00:00:00Z`)) /
+    (p("daysPerMeanYear") * 86_400_000);
+  const reliability = person.traits["people-mind-v1:reliability"] ?? 0;
+  const fraction = Math.max(
+    0,
+    Math.min(
+      1,
+      p(keys.coveredFraction) + reliability * p(keys.coveredTraitPull),
+    ),
+  );
+  const coveredMonths = Math.floor(
+    Math.max(0, age - p(keys.careerStartAgeYears)) * 12 * fraction,
+  );
+  if (coveredMonths < p(keys.minimumCoveredMonths)) return undefined;
+  const factor = Math.max(
+    p(keys.benefitFactorMinimum),
+    Math.min(
+      p(keys.benefitFactorMaximum),
+      coveredMonths / p(keys.benefitReferenceCoveredMonths),
+    ),
+  );
+  // The published average is written in its source year's dollars at the
+  // opening; a claim made later is set at this world's own pay since the
+  // opening year, read from the economy's own months (`taxIndexOf`). Awards
+  // already set are untouched.
+  // stopgapId: SG-WORLD-tax-index-january
+  const monthlyMinor = Math.floor(
+    worldBenefitMonthlyMinor(p(keys.benefitMonthlyMinor), api.state.seed) *
+      factor *
+      wageIndex,
+  );
+  return { monthlyMinor, age, coveredMonths };
+}
+
 function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
   const core = api.state;
   // One award a person: a claim made when work ended stands when the date comes.
@@ -346,35 +396,9 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
     : counted?.input.accounts.find((row) => row.placeId === person.placeId)
         ?.accountId;
   if (!full && !residentsId) return;
-  const p = (key: string) => api.parameter(key);
-  const keys = incomeData.parameters;
-  // Covered work from adult life to the claim, as the opening estimates it.
-  const age =
-    (Date.parse(`${core.date}T00:00:00Z`) -
-      Date.parse(`${person.birthDate}T00:00:00Z`)) /
-    (p("daysPerMeanYear") * 86_400_000);
-  const reliability = person.traits["people-mind-v1:reliability"] ?? 0;
-  const fraction = Math.max(
-    0,
-    Math.min(
-      1,
-      p(keys.coveredFraction) + reliability * p(keys.coveredTraitPull),
-    ),
-  );
-  const coveredMonths = Math.floor(
-    Math.max(0, age - p(keys.careerStartAgeYears)) * 12 * fraction,
-  );
-  if (coveredMonths < p(keys.minimumCoveredMonths)) return;
-  const factor = Math.max(
-    p(keys.benefitFactorMinimum),
-    Math.min(
-      p(keys.benefitFactorMaximum),
-      coveredMonths / p(keys.benefitReferenceCoveredMonths),
-    ),
-  );
-  const monthlyMinor = Math.floor(
-    worldBenefitMonthlyMinor(p(keys.benefitMonthlyMinor), core.seed) * factor,
-  );
+  const award = retirementAwardMonthlyMinor(api, person);
+  if (!award) return;
+  const { monthlyMinor, age, coveredMonths } = award;
   // The federal Social Security outside flow pays (one per world).
   const payer = [...core.organizations.values()].find(
     (row) =>

@@ -15,6 +15,10 @@ describe("the title's monuments", () => {
   it("shows only monuments, in more than one light", () => {
     const places = new Set(TITLE_SCENES.map((frame) => frame.place));
     expect([...places].sort()).toEqual([...TITLE_MONUMENTS].sort());
+    // Many monuments, not three (owner, Nov 17): the national ones and every state's capitol.
+    expect(places.size).toBeGreaterThan(50);
+    expect(places).toContain("supreme-court-exterior");
+    expect(places).toContain("state-capitol-nd");
     for (const frame of TITLE_SCENES)
       expect(frame.place, frame.backdrop.file).not.toMatch(
         /convention|rally|floor|debate|office/,
@@ -32,6 +36,15 @@ describe("the title's monuments", () => {
         TITLE_SCENES.at(i - 1)!.place,
       ),
     );
+  });
+
+  it("starts each launch on other paintings", () => {
+    const starts = new Set(
+      ["a", "b", "c", "d", "e", "f"].map(
+        (launch) => titleScene(`2026-11-17:${launch}`, 0).backdrop.file,
+      ),
+    );
+    expect(starts.size).toBeGreaterThan(2);
   });
 
   it("plays every frame once, starting where the visit starts", () => {

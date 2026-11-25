@@ -58,6 +58,7 @@ import {
   whyNotToday,
 } from "./campaign-day";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const START = "2026-01-05";
 const runSeed =
@@ -91,14 +92,12 @@ function setupAt(
   // The player is the wealthiest adult old enough to file for something
   // (for a town or county race, one who lives in the town).
   const town = lawChain(api).townPlaceId;
-  const adults = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35 &&
-        (!options.local || p.placeId === town),
-    )
-    .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
+  const adults = townResidentsByCash(core, coreAPI(core)).filter(
+    (p) =>
+      p.alive &&
+      Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35 &&
+      (!options.local || p.placeId === town),
+  );
   let filing: FilingRow | null = null;
   for (const candidate of options.bare
     ? []

@@ -31,12 +31,13 @@ beforeAll(() => {
   setBookkeeping(false);
   world = buildBenchWorld(draw.seed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: draw.key,
   });
 }, 120_000);
 
 describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
-  it("reads the law at construction decisions during an ordinary played year", () => {
+  it("reads the law at construction decisions during an ordinary played year (just like today: needs the state's real housing and land-use laws)", () => {
     const { core } = world;
     const api = coreAPI(core);
     const observations: unknown[] = [];
@@ -110,7 +111,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
     );
   }, 180_000);
 
-  it("caps both tiers at renewal and preserves a counted tenant's rent when filled in (controlled edge case)", () => {
+  it("caps both tiers at renewal and preserves a counted tenant's rent when filled in (controlled edge case) (just like today: needs the state's real housing and land-use laws)", () => {
     // A controlled renewal stress case, not claimed as the ordinary year's
     // proof. It needs a town with a renewed tenant in both tiers (a full
     // household's lease and a counted household's rent flow), so places are
@@ -135,6 +136,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
           ? world
           : buildBenchWorld(place.seed, gameStartDate(), {
               twoLevel: true,
+              settings: { history: "today" },
               placeKey: place.key,
             });
       const core = w.core,

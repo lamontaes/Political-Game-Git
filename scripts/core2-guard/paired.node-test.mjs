@@ -13,7 +13,13 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { measuredSpan, nextPairFits, paired, profileFits } from "./paired.mjs";
+import {
+  measuredSpan,
+  nextPairFits,
+  paired,
+  playablePlace,
+  profileFits,
+} from "./paired.mjs";
 import { runMonth } from "./month.mjs";
 const scripts = dirname(fileURLToPath(import.meta.url));
 
@@ -162,4 +168,36 @@ test("the measured span is the longest whose three pairs and two profiles fit wh
   // plays a month, and the pair checks then measure as many pairs as fit.
   assert.equal(measuredSpan(left, [month(10_000, 100)]), 365);
   assert.equal(measuredSpan(left, [month(60_000, 20_000)]), 31);
+});
+
+test("a drawn place with nobody to play is passed over once, for base and head alike", async () => {
+  const draw = {
+    seed: "fixture-seed",
+    key: "drawn",
+    name: "Drawn",
+    state: "XX",
+  };
+  const seen = [];
+  const next = await playablePlace(
+    draw,
+    "2026-01-20",
+    async (key, seed, start) => {
+      seen.push([key, seed, start, process.env.GOLDEN_PATH_PLACE_KEY]);
+      return { key: "next-place", name: "Next" };
+    },
+  );
+  // The build is asked once, for the drawn place, with the draw's key named as
+  // the draw (so the world passes it over); the answer is where both measure.
+  assert.deepEqual(seen, [["drawn", "fixture-seed", "2026-01-20", "drawn"]]);
+  assert.equal(next.key, "next-place");
+  assert.equal(next.seed, "fixture-seed");
+  assert.equal(next.name, "Next");
+  assert.equal(next.passedOver, "drawn");
+  assert.equal(process.env.GOLDEN_PATH_PLACE_KEY, undefined);
+  // Where somebody lives in the draw, it stays the draw.
+  const same = await playablePlace(draw, "2026-01-20", async () => ({
+    key: "drawn",
+    name: "Drawn",
+  }));
+  assert.equal(same, draw);
 });

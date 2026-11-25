@@ -21,6 +21,7 @@ export const CODEOWNERS_PATH = path.join(ROOT, ".github", "CODEOWNERS");
 type Map = {
   owner: string;
   shared: string[];
+  protected?: string[];
   families: { id: string; name: string; paths: string[] }[];
 };
 
@@ -40,6 +41,14 @@ export function codeowners(
       "",
       `# ${family.name} (${family.id})`,
       ...family.paths.map((glob) => `/${glob} ${map.owner}`),
+    );
+  // Last, so it wins over a family's line for the same file: CODEOWNERS
+  // takes the last matching pattern.
+  if (map.protected?.length)
+    lines.push(
+      "",
+      "# Owner-protected: the instructions, the workflows and the checks that judge every change (CTO, Nov 17, on issue 9747)",
+      ...map.protected.map((glob) => `/${glob} ${map.owner}`),
     );
   return `${lines.join("\n")}\n`;
 }

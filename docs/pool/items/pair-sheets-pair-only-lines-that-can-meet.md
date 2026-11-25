@@ -31,4 +31,4 @@ root: none
 
 **Waits on.** M5's yes on each kind of exclusion.
 
-**Files.** src/english/reply-pairs.ts, src/director/scene-talk.ts, src/director/data/purpose-arcs.json, src/director/desk-visit-scene.test.ts
+**Files.** src/english/reply-pairs.ts, src/director/scene-talk.ts, src/director/data/purpose-arcs.json

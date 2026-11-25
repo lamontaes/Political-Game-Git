@@ -17,6 +17,7 @@ import { townSeats } from "../core2/modules/offices";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
 import { campaignFor, giftOf } from "../core2/modules/campaigns";
 import { campaignDay, campaignView } from "./campaign";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
@@ -42,17 +43,13 @@ it("Call donors names each person reached with their gift or why not, and the ra
     const where = `${place.name}, ${place.state} (${place.key}), run seed ${runSeed}, place seed ${place.seed}`;
     placesTried.push(`${place.name}, ${place.state}`);
     const year = Number(core.date.slice(0, 4));
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          // Residents of the town file there (the clerk's residency check).
-          p.placeId === lawChain(api).townPlaceId &&
-          year - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        // Residents of the town file there (the clerk's residency check).
+        p.placeId === lawChain(api).townPlaceId &&
+        year - Number(p.birthDate.slice(0, 4)) >= 35,
+    );
     let tried = 0;
     for (const candidate of adults.slice(0, 80)) {
       if (tried >= 12 || (gifts > 0 && refusals > 0)) break;

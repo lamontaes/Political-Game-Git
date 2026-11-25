@@ -1,0 +1,35 @@
+{
+  "id": "mortgage-rate-history-as-a-mini-tally",
+  "kind": "detail",
+  "summary": "The mortgage rate history is given as a small tally across several years.",
+  "realLife": "A paragraph listed the 30-year rate before the recession, then in two later years, then the latest month.",
+  "sources": [
+    "Ocala Gazette, 'Housing boom', Nov. 27, 2020: https://www.ocalagazette.com/housing-boom/",
+    "Read whole and coded paragraph by paragraph by a helper in this session (Nov 24, 2026); paraphrased, no sentence copied."
+  ],
+  "fits": ["news"],
+  "slots": ["percent", "date"],
+  "gates": [],
+  "weights": {
+    "homes-built": 0.7,
+    "rate": 0.8
+  },
+  "inGame": "the central bank's rate decisions (`central-bank-rate-decision`) and a mortgage rate series; needs: a mortgage rate",
+  "turns": [
+    {
+      "name": "rates rising",
+      "pulledBy": "a rate rise",
+      "writes": "the tally ends on a higher rate",
+      "requiresFacts": ["up"],
+      "excludesFacts": []
+    },
+    {
+      "name": "no rate",
+      "pulledBy": "a story on homes alone",
+      "writes": "the story skips rates",
+      "requiresFacts": ["lone-vote"],
+      "excludesFacts": []
+    }
+  ],
+  "usedBy": []
+}

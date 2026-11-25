@@ -1,0 +1,32 @@
+{
+  "id": "governor-meets-presidential-flight",
+  "kind": "moment",
+  "summary": "{person} meets the president at the airfield and accompanies the president for the visit.",
+  "realLife": "Thornburgh met Carter's helicopter in Middletown and stayed with him during the trip.",
+  "sources": ["https://www.presidency.ucsb.edu/node/249528"],
+  "fits": ["office", "journal", "news"],
+  "slots": ["{person}"],
+  "gates": [
+    "A presidential visit and the governor's attendance are on the schedule."
+  ],
+  "weights": [
+    "Competing duties at the response office favor sending a deputy to meet the flight."
+  ],
+  "usedBy": [],
+  "inGame": "needs: the officials present for a presidential visit.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "A deputy meets the flight and the governor stays at the emergency office.",
+      "pulledBy": "A decision requiring the governor is due during the arrival.",
+      "writesBack": "The visit roster names the deputy."
+    },
+    {
+      "turn": "late",
+      "what": "The governor joins the president at the town hall.",
+      "pulledBy": "The governor's earlier briefing runs past the landing time.",
+      "writesBack": "The itinerary records where the governor joined."
+    }
+  ],
+  "issues": ["none"]
+}

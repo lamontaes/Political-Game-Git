@@ -304,24 +304,31 @@ function adverse(core: CoreState, id = actorId): CoreEventInput {
 
 describe("shared actor chooser and committed effects", () => {
   it("uses the same chooser, reasons, and money effect for player and NPC", () => {
-    const core = createLifeCore({
-      ...workers([actorId, npcId]),
-      playerId: actorId,
-      focusPersonIds: [npcId],
-    });
-    const openingMoney = money(core);
-    const employerOpening = core.organizations.get(employer)!.liquidMinor;
-    const result = advanceCore(core, nextDay);
-    const playerAct = lastAct(core, actorId);
-    const npcAct = lastAct(core, npcId);
+    // The same worker in two identical worlds, once as the player and once
+    // followed as a non-player: neither can reach the other, so what one
+    // does with a free evening cannot change the other's day.
+    const run = (asPlayer: boolean) => {
+      const core = createLifeCore({
+        ...workers([actorId]),
+        ...(asPlayer ? { playerId: actorId } : { focusPersonIds: [actorId] }),
+      });
+      const openingMoney = money(core);
+      const employerOpening = core.organizations.get(employer)!.liquidMinor;
+      const result = advanceCore(core, nextDay);
+      return { core, openingMoney, employerOpening, result };
+    };
+    const player = run(true),
+      npc = run(false);
+    const playerAct = lastAct(player.core, actorId);
+    const npcAct = lastAct(npc.core, actorId);
     const work = definition(SHIFT_EFFECT);
     // P15 part 2b: each activation's free hours can hold more than one act.
-    expect(result).toEqual({
-      simulatedDays: p("one"),
-      decisions: p("two"),
-      acts:
-        core.people.get(actorId)!.actCount + core.people.get(npcId)!.actCount,
-    });
+    for (const world of [player, npc])
+      expect(world.result).toEqual({
+        simulatedDays: p("one"),
+        decisions: p("one"),
+        acts: world.core.people.get(actorId)!.actCount,
+      });
     expect(playerAct.actionId).toBe(work.id);
     expect(npcAct.actionId).toBe(work.id);
     expect(playerAct.decision!.selectedReasons).toEqual(
@@ -340,12 +347,14 @@ describe("shared actor chooser and committed effects", () => {
         row.reasons,
       ]),
     );
-    const pay = core.jobs.get(`job:${actorId}`)!.wageDailyMinor;
-    for (const id of [actorId, npcId]) {
-      const actor = core.people.get(id)!;
+    const pay = player.core.jobs.get(`job:${actorId}`)!.wageDailyMinor;
+    for (const world of [player, npc]) {
+      const actor = world.core.people.get(actorId)!;
       expect(actor.liquidMinor).toBe(pay);
       expect(actor.actsByKind.get(work.id)).toBe(p("one"));
-      expect(actor.actsByKind).toEqual(core.people.get(npcId)!.actsByKind);
+      expect(actor.actsByKind).toEqual(
+        npc.core.people.get(actorId)!.actsByKind,
+      );
       expect(actor.lastActDate).toBe(nextDay);
       expect(actor.lastReason).toBe(playerAct.reasonKey);
       expect(actor.needs[work.need]).toBeGreaterThan(p("zero"));
@@ -353,12 +362,12 @@ describe("shared actor chooser and committed effects", () => {
         kind: work.goalKinds[0],
         urgency: actor.needs[work.need],
       });
+      expect(world.core.organizations.get(employer)!.liquidMinor).toBe(
+        world.employerOpening - pay,
+      );
+      expect(money(world.core)).toBe(world.openingMoney);
+      assertCoreIntegrity(world.core);
     }
-    expect(core.organizations.get(employer)!.liquidMinor).toBe(
-      employerOpening - pay * p("two"),
-    );
-    expect(money(core)).toBe(openingMoney);
-    assertCoreIntegrity(core);
   });
 
   it("re-evaluates resource pressure after wages and commits a different recovery consequence", () => {

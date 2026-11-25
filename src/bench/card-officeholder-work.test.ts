@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
 import { knownCard } from "./card";
@@ -10,8 +9,21 @@ import { personWorkOf } from "../core2/person-work";
 // An officeholder's card tells the office from the office record, never the
 // seat's own pay record as a job at an employer ("Works as president at US.",
 // Fable A on #8928, Nov 12). Fails when a seat's job is told as work.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env GOLDEN_PATH_SEED or randomBytes, so the places it drew changed
+// every run. The fixed seed below draws Alleene, Arkansas (0500820) first for
+// "card-officeholder-work".
+// Limit: the slowest case took 21 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 50 s.
+const seed = "pin-card-officeholder-work";
 const place = drawPlace(seed, "card-officeholder-work");
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(seed, "card-officeholder-work")).toMatchObject({
+    key: "0500820",
+    name: "Alleene, Arkansas",
+  });
+});
 
 it(`an officeholder's card tells the office, not the seat's pay as a job, ${place.name} (${place.key}), seed ${seed}`, () => {
   setBookkeeping(false);
@@ -40,4 +52,4 @@ it(`an officeholder's card tells the office, not the seat's pay as a job, ${plac
   expect(told, `${where}: no officeholder with a seat's job`).toBeGreaterThan(
     0,
   );
-}, 600_000);
+}, 50_000);

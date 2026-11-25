@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T21:00:00.000Z
 
 **Rules.** No new engine. A reply is written on the scene.reply record by id; the endings keep a promise (said yes) or strain the tie (a no that was pressed); every reply is also time together on the tie. No dice: the asker's answers follow the traits through the shared decision table. A fact with no record behind it is left out and the lines that need it never play.
 
-**Done when.** src/director/rescue-scene.test.ts, in worlds drawn from all 56 places, begins the player's illness through the health engine, plays the rescue record the engines wrote, finds each fact in the world's own records, writes a reply by record id and keeps the ending; the English guards and the bank tests pass.
+**Done when.** src/director/rescue-scene.test.ts (removed), in worlds drawn from all 56 places, begins the player's illness through the health engine, plays the rescue record the engines wrote, finds each fact in the world's own records, writes a reply by record id and keeps the ending; the English guards and the bank tests pass.
 
 **Files.** src/director/rescue-facts.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/data/stopgaps.json, data/english/parts/scene-talk.json
 

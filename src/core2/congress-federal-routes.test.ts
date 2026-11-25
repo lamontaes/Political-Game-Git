@@ -1,5 +1,9 @@
 // @vitest-environment node
-/** Eight more federal questions start as sourced law in force and Congress can enact and repeal each from the bill paper. */
+/**
+ * Eight more federal questions start as law in force with its source (the
+ * research's citation, or the session of the history from 1925 that set it),
+ * and Congress can change each from the bill paper and change it back.
+ */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -47,12 +51,13 @@ it(
           `${question} is on the federal bill paper`,
         ).toBe(true);
         const start = lawInForce(api, question);
-        expect(start.value, question).toBe(0);
         const row = start.levels.find((l) => l.level === "federal")?.row;
-        expect(
-          row?.terms?.cite,
-          `${question} carries its citation`,
-        ).toBeTruthy();
+        // Its source: the research's citation, or what the history from 1925
+        // did with it ("The century's sessions: no session enacted it").
+        const cite = row?.terms?.cite ?? row?.source;
+        expect(cite, `${question} carries its source`).toBeTruthy();
+        // The history from 1925 may leave either side in force.
+        const other = start.value ? 0 : 1;
         const enact = (value: number, tag: string) =>
           enactLaw(api, {
             jurisdiction: federal.jurisdiction,
@@ -63,13 +68,19 @@ it(
             measureId: `federal-route-${tag}-${question.split(".")[1]}`,
             citation: "Test: Congress acts on the question",
           });
-        enact(1, "enact");
+        enact(other, "enact");
         advanceCore(world.core, addDays(makeIsoDate(api.state.date), 2));
-        expect(lawInForce(api, question).value, `${question} enacted`).toBe(1);
-        enact(0, "repeal");
+        expect(lawInForce(api, question).value, `${question} enacted`).toBe(
+          other,
+        );
+        enact(start.value, "repeal");
         advanceCore(world.core, addDays(makeIsoDate(api.state.date), 2));
-        expect(lawInForce(api, question).value, `${question} repealed`).toBe(0);
-        trace.push(`${question.split(":")[1]} (${String(row?.terms?.cite)})`);
+        expect(lawInForce(api, question).value, `${question} repealed`).toBe(
+          start.value,
+        );
+        trace.push(
+          `${question.split(":")[1]} ${start.value} to ${other} and back (${String(cite)})`,
+        );
       }
       process.stdout.write(
         `FEDERAL-ROUTES ${place.name} (${place.key}, seed ${place.seed}): enacted and repealed ${trace.join("; ")}\n`,

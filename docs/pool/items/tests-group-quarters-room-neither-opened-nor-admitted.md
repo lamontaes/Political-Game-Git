@@ -38,3 +38,4 @@ Seen: Storrs, Connecticut (0973980), seed 085af212ffbc1c6c40eb8b1d4c7b8799395ba9
 **Notes.**
 
 - Nov 16, views thread: main alone at a fresh draw (Marietta, Georgia, 1349756, seed 1780ee07a861b8eca8b4e3a5a2ef45df1b43c9d3) failed a different check, "household_4c215653074df8dc: expected undefined to be 'group'". The Train at a fresh draw passed all four cases.
+- Nov 16, world-opening thread: Muscatine, Iowa (1955110), seed 699ba32e2ba2dbfca445ba8ce32f5b6b504de63eb4b81c18db5aa95b075ca764, is still red on the Train at 2da4762f6099d0f292cdfd7da892e85ef280e420 (household_2bd1c7d9346b3396: expected false to be true, 355.5 s). Holden, West Virginia (5437948), the case in tests-group-quarters-met-room-returns-without-group-tenure, flips between Train heads: it passes at 800ae520 and is red again at 2da4762f.

@@ -19,6 +19,6 @@ claimed-at: 2026-10-15T23:58:48.677Z
 
 **Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): every bill in the year has a title composed from its provisions' purpose phrases (bill and provision ids named), a catalog test walks every series for a phrase, and the lines are composed through the real engine in a drawn place (named, with seed) and graded by the owner in the next words batch page under `docs/grading/`. The owner plays it: reads the titles of the laws his council passed.
 
-**Files.** src/core2/data/legislature/bill-catalog.json, src/core2/modules/legislature.ts, data/english/parts/legislation.json, scripts/english-corpus/
+**Files.** src/core2/data/legislature/bill-catalog.json, src/core2/modules/legislature.ts, scripts/english-corpus/
 
 **Notes.** Absorbs words-a-purpose-phrase-per-policy-as-catalog (checklist line, dropped as a duplicate as of 2026-10-15).

@@ -5,14 +5,21 @@
  * in force repeats a change toward the same answer, an act waiting on its
  * date closes the question either way, and where no law stands nothing is
  * settled. Opened in a place drawn from all 56 on a seed
- * nobody chose (GOLDEN_PATH_SEED pins one).
+ * nobody chose (GOLDEN_PATH_SEED pins one). The questions are picked by the
+ * answer the world opened with, which its history from 1925 wrote.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { createLifeCore } from "./life";
-import { enactLaw, lawChain, openLaws, questionSettled } from "./modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawRows,
+  openLaws,
+  questionSettled,
+} from "./modules/laws";
 import { buildPopulation } from "./population";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { coreAPI } from "./state";
@@ -33,19 +40,25 @@ it("a change to a policy question is settled by the law in force, or closed by a
   openLaws(core);
   const api = coreAPI(core);
   const state = lawChain(api).stateKey;
-  const answered = (answer: string) =>
-    Object.entries(POLICY_QUESTIONS)
-      .filter(
-        ([q, entry]) =>
-          !q.startsWith("us-federal-positions:") &&
-          entry.answers[state]?.answer === answer,
-      )
-      .map(([q]) => q)
-      .sort();
-  const [yes] = answered("yes");
-  const [no] = answered("no");
-  expect(yes && no, `${where}: answered questions`).toBeTruthy();
   const starting = (q: string) => `law:${state}:state:${q}:general:starting`;
+  // The opening answer is whatever the world's history left in force (the
+  // century's sessions write each question's starting row), not the published
+  // answer, so the questions are picked by the row the world opened with.
+  const answered = (value: number) =>
+    Object.keys(POLICY_QUESTIONS)
+      .filter((q) => !q.startsWith("us-federal-positions:"))
+      .filter((q) => {
+        const rows = lawRows(api, q, state);
+        return (
+          rows.length === 1 &&
+          rows[0]!.id === starting(q) &&
+          rows[0]!.value === value
+        );
+      })
+      .sort();
+  const [yes] = answered(1);
+  const [no] = answered(0);
+  expect(yes && no, `${where}: questions answered each way`).toBeTruthy();
 
   // The starting answer: repeating it changes nothing, reversing it does.
   expect(questionSettled(api, state, yes!, 1), where).toEqual({

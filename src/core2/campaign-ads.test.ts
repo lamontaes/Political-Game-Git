@@ -12,15 +12,14 @@ import { coreAPI } from "./state";
 import { adAudience, adTimeForSale, buyAdTime } from "./modules/campaigns";
 import { campaignParameter } from "./campaign-data";
 import { countedFollowers, followersOf, outletsHere } from "./modules/press";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 const seed = process.env.CAMPAIGN_ADS_SEED || randomBytes(8).toString("hex");
 // A place whose press has a local outlet and a buyer with money to spend.
 const buyerIn = (core: PlayedWorld["core"]) =>
-  [...core.people.values()]
-    .filter((p) => p.alive && p.tier !== "husk" && p.liquidMinor > 50_000)
-    .sort(
-      (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-    )[0];
+  townResidentsByCash(core, coreAPI(core)).filter(
+    (p) => p.alive && p.tier !== "husk" && p.liquidMinor > 50_000,
+  )[0];
 const { world, place } = worldWith(
   seed,
   "campaign-ads",

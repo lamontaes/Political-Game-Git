@@ -39,3 +39,4 @@ Seen: Holden, West Virginia (5437948), the test's drawn place at seed pin-gq-0, 
 
 - Nov 16, views thread: kept in the pinned test as a red case.
 - Nov 16, views thread: the Holden case was red on the Train at f26c10de (household_dbc7dd124856b6e9) and passes at 800ae520 (68.1 s alone, 72.6 s beside), so the pinned test no longer shows this fault. The item stays open for the Marietta seed on main until a session replays it on the Train.
+- Nov 16, world-opening thread: Holden flips between Train heads. It passes at 800ae520 (views thread) and is red again at 2da4762f6099d0f292cdfd7da892e85ef280e420 on the same household and check, household_dbc7dd124856b6e9: "expected undefined to be 'group'" (79.1 s, seed a4c19fc64e5227305fec46c6dbde9b82c542f0de603825ab6e966a3140d4a8c9). No fix until the cause is found.

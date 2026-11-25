@@ -72,6 +72,7 @@ import {
   lawNeedsChange,
   questionSettled,
   type SettledQuestion,
+  LOCAL_WAGE_AUTHORITY_QUESTION,
 } from "./laws";
 import {
   inTownChain,
@@ -83,6 +84,7 @@ import type { LawRowInput } from "../laws-starting";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
+import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
@@ -142,6 +144,7 @@ import {
 } from "../legislature-bill-form";
 import { governmentProperName } from "../government-proper-name";
 import bodyRows from "../data/offices/bodies.json" with { type: "json" };
+import { headsExecutive } from "../offices-executives";
 import { ELECTIONS_MODULE_ID, worldRoster, type FilingRow } from "./elections";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
@@ -342,6 +345,12 @@ export interface MemberPosition {
   readonly press?: number;
   /** A member of Congress's state's stake in the bill's budget lines, within `constituents`. */
   readonly stateStake?: number;
+  /**
+   * The hole the bill would leave in their own government's budget: the share
+   * of the year's planned revenue its sections give up, weighed against the
+   * bill (`budgetHoleWeight`). Absent where the bill gives up none.
+   */
+  readonly budget?: number;
   /** What the member's traits add: every trait's lean toward yes over no. */
   readonly trait: number;
   /** Their own last vote on the question, while the law is fresh: for a bill that keeps it, against one that undoes it. */
@@ -1894,7 +1903,15 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
       .query("bySeries", [
         "local-minimum-wage-authority",
       ]) as unknown as EnactedAuthority[];
-    const authority = localAuthority(rows, enacted, chain, api.state.date);
+    const authority = localAuthority(
+      rows,
+      enacted,
+      chain,
+      api.state.date,
+      laws.query("bySeriesOnly", [
+        LOCAL_WAGE_AUTHORITY_QUESTION,
+      ]) as unknown as LawRowInput[],
+    );
     return authority.allowed
       ? {
           allowed: true,
@@ -2985,10 +3002,11 @@ function bodyLevel(api: CoreAPI, bodyOfficeId: string): GovernmentLevel {
 function checkedText(
   api: CoreAPI,
   bodyOfficeId: string,
-  provisions: readonly Provision[],
+  drafted: readonly Provision[],
 ): Pick<BillRow, "provisions" | "costEstimate" | "authority" | "status"> {
-  if (!provisions.length)
+  if (!drafted.length)
     throw new Error("A bill must have at least one provision.");
+  const provisions = drafted.map((p) => withDirection(api, bodyOfficeId, p));
   if (provisions.some((p) => !subjectKey(p).trim()))
     throw new Error("Every bill provision must name its subject.");
   const level = bodyLevel(api, bodyOfficeId);
@@ -3061,6 +3079,30 @@ function checkedText(
 }
 
 /**
+ * An amount section says which way it moves the law: a section drafted as the
+ * new amount alone (the seat's draft, a carried ask) gets the direction its
+ * amount takes against the law in force where the body legislates, as a
+ * catalog pick records it. A bill is named, worded and told by that direction
+ * ("Wage Floor Increase"); without it the bill had no name, and a veto of it
+ * was never brought up.
+ */
+function withDirection(
+  api: CoreAPI,
+  bodyOfficeId: string,
+  p: Provision,
+): Provision {
+  if (p.kind !== "law-amount" || p.operation || !p.series) return p;
+  if (p.repeal) return { ...p, operation: "repeal" };
+  const inForce = billValueInForce(
+    api,
+    p,
+    bodyJurisdiction(api, bodyOfficeId),
+  ).value;
+  if (inForce === null || inForce === p.value) return p;
+  return { ...p, operation: p.value > inForce ? "raise" : "lower" };
+}
+
+/**
  * The sponsor edits the bill on paper before its vote (the owner's
  * bill-on-paper workflow, September 25, 2026): add a section, replace one or
  * strike one. The paper is the one record of the bill: each edit rewrites
@@ -3102,6 +3144,18 @@ export function reviseBill(
 export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
   if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE)
     return congressMembers(api, officeId);
+  return servingTerms(api, officeId).map((term) => holderOf(api, term));
+}
+
+/**
+ * An office's serving terms in seat order, as they are kept: a holder nobody
+ * has opened stays a name on their term (another place's session reads them
+ * so, `openOutsideSession`); `members` makes each one a person.
+ */
+export function servingTerms(
+  api: CoreAPI,
+  officeId: string,
+): readonly TermRow[] {
   const offices = api.moduleState(OFFICES_MODULE_ID);
   // One query for the office's serving terms, put back in seat order.
   const order = new Map(
@@ -3117,8 +3171,7 @@ export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
       .query("byOfficeStatus", [officeId, "serving"]) as unknown as TermRow[]
   )
     .filter((term) => order.has(term.seatId))
-    .sort((a, b) => order.get(a.seatId)! - order.get(b.seatId)!)
-    .map((term) => holderOf(api, term));
+    .sort((a, b) => order.get(a.seatId)! - order.get(b.seatId)!);
 }
 
 /** Places whose House member does not vote on final passage (House Rule III), from data. */
@@ -3600,6 +3653,39 @@ function billSettledness(api: CoreAPI, bill: BillRow): number {
  */
 let positionMemo: Map<string, MemberPosition> | null = null;
 
+/**
+ * What a bill's sections would take out of its own government's planned
+ * revenue, as a weight against it (zero or below): each section that ends a
+ * tax or lowers its rate, by the share of the budget in force the tax carries
+ * (`revenueGivenUp`), times `budgetHoleWeight`.
+ */
+function budgetHole(api: CoreAPI, bill: BillRow): number {
+  let share = 0;
+  for (const p of bill.provisions) {
+    if (!carriesRevenue(p.question ?? p.series) || p.repeal) continue;
+    const jurisdiction = billJurisdiction(api, bill);
+    share +=
+      p.kind === "policy-question" && p.question
+        ? revenueGivenUp(api, jurisdiction, {
+            question: p.question,
+            direction: p.value,
+          })
+        : p.kind === "law-amount" && p.series
+          ? revenueGivenUp(api, jurisdiction, {
+              series: p.series,
+              from: currentAmount(
+                api,
+                p.series,
+                billLevel(api, bill),
+                jurisdiction,
+              ),
+              to: p.value,
+            })
+          : 0;
+  }
+  return share ? -campaignParameter("budgetHoleWeight") * share : 0;
+}
+
 /** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
 function positionOn(
   api: CoreAPI,
@@ -3674,8 +3760,11 @@ function positionOfMember(
   // What scenes about their vote left: after a veto override with the
   // sponsor, and the evening before this vote with the member who asked.
   const replies = replyPull(api, memberId, bill);
+  // The revenue the bill takes out of the budget this body must still pass:
+  // the same for every member, and larger the more of the budget the law carries.
+  const budget = budgetHole(api, bill);
   // Everything that decides the vote but personality: where they stand, home,
-  // the sponsor, deals, lobbying, party, their record and any bribe.
+  // the sponsor, deals, lobbying, party, their record, any bribe and the budget.
   const bare =
     views +
     answersHome +
@@ -3684,6 +3773,7 @@ function positionOfMember(
     lobby +
     consistency +
     bribe +
+    budget +
     replies.pull +
     (further
       ? further.party + further.wing + further.ambition + further.press
@@ -3712,6 +3802,7 @@ function positionOfMember(
     deal,
     lobby,
     ...(further ?? {}),
+    ...(budget ? { budget } : {}),
     trait,
     consistency,
     bribe,
@@ -3741,7 +3832,12 @@ export function learnStake(
     api.state.people.has(memberId) &&
     memberId !== bill.sponsorId
   )
-    api.relationship(bill.sponsorId, memberId, "contact", 0.05);
+    api.relationship(
+      bill.sponsorId,
+      memberId,
+      "contact",
+      api.parameter("memberTalkMinutes") / api.parameter("minutesPerHour"),
+    );
   const position = memberPosition(api, billId, memberId);
   const learner = learnerId ?? bill.sponsorId;
   // Kept for the player (the character the player controls, as a played official is) and the people they deal with, as reasons are.
@@ -3849,7 +3945,12 @@ export function askToCarry(
     );
   // Asked in person: the conversation brings the two closer.
   if (asker && api.state.people.has(input.memberId))
-    api.relationship(input.askerId, input.memberId, "contact", 0.05);
+    api.relationship(
+      input.askerId,
+      input.memberId,
+      "contact",
+      api.parameter("memberTalkMinutes") / api.parameter("minutesPerHour"),
+    );
   const asked = {
     id: `ask:${input.bodyOfficeId}:${api.state.date}:${input.askerId}`,
     number: "",
@@ -4292,7 +4393,12 @@ export function offerDeal(
     api.state.people.has(input.memberId) &&
     api.state.people.has(bill.sponsorId)
   )
-    api.relationship(bill.sponsorId, input.memberId, "contact", 0.05);
+    api.relationship(
+      bill.sponsorId,
+      input.memberId,
+      "contact",
+      api.parameter("memberTalkMinutes") / api.parameter("minutesPerHour"),
+    );
   return {
     accepted,
     before,
@@ -6336,6 +6442,8 @@ function countVote(api: CoreAPI, billId: string, anyDay: boolean): BillRow {
 export function executiveOf(
   api: CoreAPI,
   bodyOfficeId: string,
+  /** False keeps a holder nobody has opened a name on their term (`servingTerms`). */
+  held = true,
 ): {
   readonly office: { readonly id: string; readonly kind: string } | undefined;
   readonly term: TermRow | undefined;
@@ -6354,10 +6462,7 @@ export function executiveOf(
       kind: string;
       elected: boolean;
     }[]
-  ).find(
-    (o) =>
-      o.elected && /^(mayor|governor|county-executive|president)$/.test(o.kind),
-  );
+  ).find((o) => o.elected && headsExecutive(o.kind));
   const seated = office
     ? (
         offices.table("seats").query("byOffice", [office.id]) as unknown as {
@@ -6373,7 +6478,11 @@ export function executiveOf(
             ]) as unknown as TermRow[],
       )[0]
     : undefined;
-  return { office, term: seated ? holderOf(api, seated) : undefined, federal };
+  return {
+    office,
+    term: seated && held ? holderOf(api, seated) : seated,
+    federal,
+  };
 }
 
 /**
@@ -6631,6 +6740,31 @@ function decideAtDesk(
         }
       : {},
   );
+  // A veto is a refusal the sponsor holds against whoever cast it (whether
+  // or not the body then overrode it): the drives engine reads this record
+  // and answers by the sponsor's own temperament, never by a roll.
+  if (
+    vetoes &&
+    executive.personId &&
+    executive.personId !== bill.sponsorId &&
+    api.state.people.has(bill.sponsorId)
+  )
+    api.emit({
+      id: `bill.vetoed:${bill.id}`,
+      date: api.state.date,
+      kind: "bill.vetoed",
+      personIds: [bill.sponsorId],
+      placeId: lawChain(api).townPlaceId,
+      publicRecord: false,
+      topic: executive.personId,
+      desiredChange: "bill.vetoed",
+      facts: { billId: bill.id, executiveId: executive.personId },
+      source: {
+        tag: "SOURCED",
+        citation: `Veto of ${bill.number}`,
+        asOf: api.state.date,
+      },
+    });
   return { status, decision: { executiveId: key, action: status }, override };
 }
 
@@ -7344,9 +7478,12 @@ function enact(
         level,
         series: provision.series,
         value: provision.value,
+        // A bill sets the law's amount, never its unit: a section that names
+        // no unit amends the law in the law's own unit.
         unit:
           shaped?.unit ??
           provision.unit ??
+          current?.unit ??
           (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
         effectiveDate,
         measureId: bill.number,

@@ -13,6 +13,9 @@ import { buildPopulation } from "../core2/population";
 import { createLifeCore } from "../core2/life";
 import { openOffices } from "../core2/modules/offices";
 import { corePlaceByKey } from "../core2/place-lookup";
+import { placeStateKey } from "../core2/place-map";
+import { localOfficesForPlace } from "../core2/offices-local";
+import { nextElectionForSeat } from "../core2/elections-calendar";
 import { publishedPlacePopulation } from "../core2/gov-rules/place-population";
 import { gameStartDate } from "../core2/game-start";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
@@ -35,11 +38,12 @@ import { campaignDayChoices } from "../core2/campaign-day";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
 import { campaignDay, campaignView } from "./campaign";
 import { filedHere } from "./filing";
+import { townResidentsByCash } from "../core2/resident-adults-test-kit";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-refiling:${Date.now()}`).digest("hex");
-/** Draws tried (under a second each, about one in thirty qualifies) before the test says no place qualified. */
+/** Draws tried (about one in fifteen small towns passes the calendar read, and about one in a hundred and fifty draws qualifies) before the test says no place qualified. */
 const DRAWS = 300;
 /** A town this size or smaller plays a year quickly. */
 const SMALL_TOWN = 25_000;
@@ -64,6 +68,29 @@ function qualifies(placeKey: string, seed: string, start: string) {
   const geoid = corePlaceByKey(placeKey)?.sourceGeoid;
   const people = geoid ? publishedPlacePopulation(geoid) : null;
   if (people === null || people > SMALL_TOWN) return null;
+  // Building a town's offices runs its state's century (several seconds a
+  // place), so the town's own election calendar is read first: a seat's race
+  // is never sooner than its office's next regular election, so a town with
+  // no local office electing within the first race's reach cannot qualify.
+  const stateKey = placeStateKey(placeKey);
+  if (
+    !geoid ||
+    !stateKey ||
+    !localOfficesForPlace(placeKey).some((office) => {
+      if (!office.elected) return false;
+      const next = nextElectionForSeat({
+        office,
+        stateKey,
+        placeGeoid: geoid,
+        termEnd: null,
+        onDate: start,
+      });
+      return (
+        next !== null && days(start, next.electionDate) <= FIRST_WITHIN_DAYS
+      );
+    })
+  )
+    return null;
   const core = createLifeCore(
     buildPopulation({ seed, placeKey, startedAt: start, minimumPeople: 300 }),
   );
@@ -138,16 +165,12 @@ it("a later filing is the live campaign once the earlier race is over", () => {
     });
     const api = coreAPI(core);
     const startYear = Number(core.date.slice(0, 4));
-    const candidate = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === lawChain(api).townPlaceId &&
-          startYear - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      )[0];
+    const candidate = townResidentsByCash(core, coreAPI(core)).filter(
+      (p) =>
+        p.alive &&
+        p.placeId === lawChain(api).townPlaceId &&
+        startYear - Number(p.birthDate.slice(0, 4)) >= 35,
+    )[0];
     if (!candidate) throw new Error(`no adult candidate: ${where}`);
     core.playerId = candidate.id;
     const skip = new Set<string>();

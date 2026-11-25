@@ -1,0 +1,16 @@
+{
+  "version": "revenue-lines-v1",
+  "about": "Which line of a government's own budgeted revenue a law carries, so a member weighing a bill can read what the change takes out of the budget (budget-stakes.ts, revenueGivenUp). A question's entry names the answer that ends the tax; a series' entry is a rate whose cut gives up the same share of its line. Line names are the budget's own (data/research/money/public-budget-bases.json and federal-budget-fy2025.json). A tax with no entry has no line of its own in the budgets.",
+  "questions": {
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "line": "individualIncomeTax",
+      "endsOn": -1
+    }
+  },
+  "series": {
+    "income-tax": { "line": "individualIncomeTax" },
+    "corporate-income-tax": { "line": "corporateIncomeTax" },
+    "sales-tax": { "line": "generalSalesTax" },
+    "property-tax": { "line": "propertyTax" }
+  }
+}

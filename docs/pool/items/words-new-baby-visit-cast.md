@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T23:30:00.000Z
 
 **Rules.** No new engine. A fact with no record behind it is left out. No dice.
 
-**Done when.** src/director/new-baby-scene.test.ts, in worlds drawn from places, plays a year with everyone watched; every parent's new-baby moment composes through the purpose engine with the child's name cited to the birth record, the visitor is never the baby or a parent, and no moment is cast around a non-parent; src/director/birth-scenes.test.ts still passes; the Ophir year tally shows the 4 skips gone.
+**Done when.** src/director/new-baby-scene.test.ts, in worlds drawn from places, plays a year with everyone watched; every parent's new-baby moment composes through the purpose engine with the child's name cited to the birth record, the visitor is never the baby or a parent, and no moment is cast around a non-parent; src/director/birth-scenes.test.ts (removed) still passes; the Ophir year tally shows the 4 skips gone.
 
 **Files.** src/director/birth-facts.ts, src/director/purpose-scene.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/director/data/stopgaps.json, data/english/parts/scene-talk.json
 

@@ -64,14 +64,14 @@ import {
   prisonersServing,
   servedShare,
 } from "./modules/justice";
-import { lawChain } from "./modules/laws";
+import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
   seatTerm,
   type TermRow,
 } from "./modules/offices";
-import { holderOf } from "./modules/officials";
+import { holderOf, officialStance } from "./modules/officials";
 import {
   billOf,
   castMemberVote,
@@ -87,6 +87,7 @@ import {
   scheduleVote,
   voteKeyOf,
   LEGISLATURE_MODULE_ID,
+  type Provision,
 } from "./modules/legislature";
 import {
   COMMITTEES,
@@ -262,6 +263,11 @@ export function stateOfficeOf(
   api: CoreAPI,
   personId: string,
 ): StateOffice | null {
+  // A world without the offices module has no state office to hold: the
+  // sitting calendars are one list for every world in the process
+  // (sitting-closeness.ts), so a small world is asked too, as
+  // `servingTermsOf` allows for.
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const terms = (
     offices.table("terms").query("byPerson", [personId]) as unknown as TermRow[]
@@ -1502,6 +1508,14 @@ function holdsPost(api: CoreAPI, personId: string): boolean {
  */
 function stateOfficeHoursToday(api: CoreAPI): ReadonlyMap<string, OfficeTime> {
   const out = new Map<string, OfficeTime>();
+  // The office-time readers are shared across worlds in the process. A
+  // world contributes state-office time only if it opened the state office day.
+  if (
+    !api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) ||
+    !api.state.modules.has(LAWS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return out;
   const stateKey = lawChain(api).stateKey;
   if (!stateKey) return out;
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -1656,7 +1670,10 @@ export function scheduleGovernorAddresses(api: CoreAPI): void {
       stateDayParameter("stateOfTheStateDaysAfterConvening"),
     );
     if (date < today || date > monthEnd) continue;
-    const key = `governor-address:${personId}:${date}`;
+    // The address belongs to the governor's seat, not to whoever holds it on the
+    // first: a governor who leaves before the day is replaced by a successor who
+    // gives it, so the day reads the seat's holder (`governorAddressDay`).
+    const key = `governor-address:${office.officeId}:${date}`;
     if (calendar.get(key)) continue;
     calendar.schedule({
       key,
@@ -1669,8 +1686,8 @@ export function scheduleGovernorAddresses(api: CoreAPI): void {
         citation: `The State of the State, ${office.stateKey}: ${stateDayParameter("stateOfTheStateDaysAfterConvening")} days after the session convenes`,
         asOf: today,
       },
-      sourceRecordIds: [personId],
-      payload: { personId },
+      sourceRecordIds: [office.officeId],
+      payload: { officeId: office.officeId },
     });
   }
 }
@@ -1681,11 +1698,15 @@ function governorAddressDay(
   work: Readonly<ModuleCalendarWork>,
 ): void {
   if (work.kind !== "governor-address") return;
-  const personId = (work.payload as { personId?: string } | undefined)
-    ?.personId;
-  if (!personId || !api.state.people.get(personId)?.alive) return;
-  const office = stateOfficeOf(api, personId);
-  if (office?.role !== "governor" || personId === controlled(api)) return;
+  const officeId = (work.payload as { officeId?: string } | undefined)
+    ?.officeId;
+  if (!officeId) return;
+  // The seat's holder today, as every engine reads a seat: a successor seated
+  // after the schedule was made gives the address.
+  const office = worldGovernors(api)
+    .map((id) => stateOfficeOf(api, id))
+    .find((o) => o?.role === "governor" && o.officeId === officeId);
+  if (!office) return;
   const entry = stateDay(api, office, work.date).find(
     (e) => e.kind === "state-of-the-state",
   );
@@ -2066,6 +2087,28 @@ registerBillIntroduced((api, billId) => {
   askLeaderForHearing(api, bill.sponsorId, billId, { schedule: false });
 });
 
+/**
+ * How far a bill runs against the person's own position, 0 to 1: the
+ * strongest opposition on any question it moves (their stance, on the scale
+ * members vote by, against the way the bill moves it); 0 for a bill with no
+ * question in it or none they oppose.
+ */
+function crossesLeader(
+  api: CoreAPI,
+  leaderId: string,
+  bill: { readonly provisions: readonly Provision[] },
+): number {
+  let worst = 0;
+  for (const p of bill.provisions) {
+    if (p.kind !== "policy-question" || !p.question) continue;
+    const stance =
+      officialStance(api, leaderId, p.question) ??
+      personStance(leanOf(api, leaderId), p.question);
+    worst = Math.max(worst, -Math.sign(p.value) * stance);
+  }
+  return Math.min(1, worst);
+}
+
 /** A member's request to the floor leader to schedule their bill, and the leader's answer with the reasons. */
 export interface LeaderRequestRow {
   readonly id: string;
@@ -2147,14 +2190,16 @@ export function askLeaderForHearing(
       )
     : 0;
   const bare = reasons.party + reasons.tie + offered;
-  const traits = leanedTerm(
-    api.state,
-    leader,
-    LEADER_DECISION,
-    "grant",
-    "refuse",
-    bare,
-  );
+  // A party carries its own members' bills: the leader's temperament weighs
+  // on one only as far as that bill runs against the leader's own position
+  // on its questions (0 where it does not, 1 at their full opposite), so a
+  // stubborn leader cannot shut the floor to their own side wholesale. A
+  // bill from the other side meets the temperament whole.
+  const crossing =
+    leaderParty === office.party ? crossesLeader(api, leaderId, bill) : 1;
+  const traits =
+    crossing *
+    leanedTerm(api.state, leader, LEADER_DECISION, "grant", "refuse", bare);
   const granted = bare + traits > 0;
   const schedule = options?.schedule ?? true;
   const already = schedule

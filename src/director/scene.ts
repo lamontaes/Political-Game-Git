@@ -1,4 +1,5 @@
-import { ADDRESS_FACT, ADDRESS_PART_BREAK } from "./opening-facts";
+import { ADDRESS_FACT } from "./opening-facts";
+import { addressPartsOf } from "./address-render";
 import { speechOfRecord } from "./local-speeches";
 import { familyFactsOf } from "../core2/modules/people";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -7,6 +8,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { relationPhrase } from "../english/journal-words";
 import { causeRecordFacts } from "./cause-facts";
 import { happenedSaid } from "../english/happened-words";
+import { moneySaid } from "../english/count-words";
 import {
   sceneParagraph,
   wordSceneLine,
@@ -21,7 +23,7 @@ import {
   type SceneBinding,
   type ScheduleEntry,
 } from "./scheduling";
-import { organizationName, spoken } from "./words";
+import { isOutsideMarket, organizationName, spoken } from "./words";
 import { dayOpening } from "../english/day-words";
 import { homeAloneDayFacts } from "./day-part";
 import { nameWithWhat, officeWords, sceneSaysWhat } from "../english/said-as";
@@ -223,7 +225,8 @@ export function composeScene(
     kind === "workplace" || kind === "office" || kind === "school"
       ? core.organizations.get(binding.setting.recordId)
       : undefined;
-  const settingOrg = settingRow?.outsideFlow ? undefined : settingRow;
+  const settingOrg =
+    settingRow && isOutsideMarket(settingRow) ? undefined : settingRow;
   // A scene whose setting stands in for its own room opens on the day alone.
   const dayOnly =
     SITUATION_LIBRARY.types.find((row) => row.key === binding.typeKey)
@@ -405,11 +408,10 @@ export function composeScene(
           if (learned?.kind === "law.effect-learned") {
             const moved = Number(learned.facts?.movedMinor ?? P.zero);
             if (Number.isFinite(moved) && moved !== P.zero)
+              // Said as people say a sum ("about $6"); the Journal and the
+              // books keep the exact figure (CTO, Nov 18, on #10190).
               facts[moved < P.zero ? "cost" : "refund"] = {
-                text: new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(Math.abs(moved) / P.minorPerDollar),
+                text: moneySaid(Math.abs(moved)),
                 sourceRecordIds: [moment.causeId],
               };
           }
@@ -456,7 +458,10 @@ export function composeScene(
   // campaign speech composed from its record by the one planner.
   const record = core.durableLog.get(moment.causeId);
   const castIds = binding.roles.flatMap((row) => row.personIds);
-  const speechText = record?.facts?.[ADDRESS_FACT.text];
+  // An address says what its record keeps, in the one function every view
+  // of it reads (address-render.ts).
+  const addressParts = addressPartsOf(record?.facts);
+  const speechText = addressParts.join(" ");
   // The speaker is the person, or the one the scene's `said` role holds: the
   // President's opening names them as President, every other address as speaker.
   const speakerId =
@@ -466,7 +471,6 @@ export function composeScene(
     ? speechOfRecord(core as CoreState, record, castIds)
     : null;
   const speech =
-    typeof speechText === "string" &&
     speechText &&
     speakerId &&
     (speakerId === personId ||
@@ -479,9 +483,7 @@ export function composeScene(
           speakerId: speakerId as PersonId,
           text: speechText,
           // Played one part per Continue; a speech kept whole is one part.
-          parts: String(record!.facts?.[ADDRESS_FACT.parts] ?? speechText)
-            .split(ADDRESS_PART_BREAK)
-            .filter(Boolean),
+          parts: addressParts,
           sourceRecordIds: [record!.id],
           // The President's address plays over its montage (the desk, the
           // colonnade, the country); a governor's or a town's is heard at

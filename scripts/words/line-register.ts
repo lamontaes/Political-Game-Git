@@ -18,7 +18,11 @@
  */
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { bankLines, type Tie } from "../../src/english/line-register";
+import {
+  bankLines,
+  bankNames,
+  type Tie,
+} from "../../src/english/line-register";
 
 export const ROOT = path.resolve(import.meta.dirname, "../..");
 const PARTS_DIR = path.join(ROOT, "data/english/parts");
@@ -334,12 +338,77 @@ export function unreadBanks(): string[] {
     .sort();
 }
 
+/** The owner's grades by piece (data/english/part-grades.json). */
+function gradedGood(): Set<string> {
+  const grades = JSON.parse(
+    readFileSync(path.join(ROOT, "data/english/part-grades.json"), "utf8"),
+  ) as { parts: Record<string, { good: number; sharedGood: number }> };
+  return new Set(
+    Object.entries(grades.parts)
+      .filter(([, grade]) => grade.good > 0 || grade.sharedGood > 0)
+      .map(([key]) => key),
+  );
+}
+
+/**
+ * Unread banks split in two. A bank whose every piece the owner graded good is
+ * not junk: his Nov 8 ruling keeps a line he graded good, so it waits for the
+ * engine that should read it (each has a pool item naming that scene). Any
+ * other unread bank is a leftover to delete.
+ */
+export function unreadBanksByGrade(): {
+  goodWaitingForReader: string[];
+  unreadBanks: string[];
+} {
+  const good = gradedGood();
+  const waiting: string[] = [];
+  const junk: string[] = [];
+  for (const file of unreadBanks()) {
+    const parts = (
+      JSON.parse(readFileSync(path.join(ROOT, file), "utf8")) as {
+        parts: RawPiece[];
+      }
+    ).parts;
+    (parts.length && parts.every((piece) => good.has(piece.key))
+      ? waiting
+      : junk
+    ).push(file);
+  }
+  return { goodWaitingForReader: waiting, unreadBanks: junk };
+}
+
+/**
+ * Story elements (docs/story/elements/<kind>/<id>.json) with no `turns` list
+ * yet. Printed, never failed on: element pull requests merge before their
+ * turns are written (CTO, Nov 24: "add turns before or after merging").
+ */
+export function elementsWithoutTurns(): { elements: number; noTurns: number } {
+  const dir = path.join(ROOT, "docs/story/elements");
+  let statDir = false;
+  try {
+    statDir = statSync(dir).isDirectory();
+  } catch {
+    statDir = false;
+  }
+  if (!statDir) return { elements: 0, noTurns: 0 };
+  const files = walk(dir, (file) => file.endsWith(".json"));
+  let noTurns = 0;
+  for (const file of files) {
+    const row = JSON.parse(readFileSync(file, "utf8")) as { turns?: unknown };
+    if (!Array.isArray(row.turns) || !row.turns.length) noTurns += 1;
+  }
+  return { elements: files.length, noTurns };
+}
+
 /** The figures the guard and the report read. */
 export function registerCounts() {
   const lines = bankLines();
   const bankCount: Record<string, number> = {};
+  for (const bank of bankNames()) bankCount[bank] = 0;
   /** Lines tied to nothing of the speaker or the hearer: weak, none, or only a slot of the world. They can be said to anyone. */
   const untied: Record<string, number> = {};
+  /** Lines whose piece names no story element (an `elements` list with at least one id). */
+  const unelemented: Record<string, number> = {};
   const byTie: Record<Tie, number> = {
     declared: 0,
     binding: 0,
@@ -356,6 +425,8 @@ export function registerCounts() {
   for (const line of lines) {
     bankCount[line.bank] = (bankCount[line.bank] ?? 0) + 1;
     byTie[line.tie] += 1;
+    if (!line.elements.length)
+      unelemented[line.bank] = (unelemented[line.bank] ?? 0) + 1;
     if (line.tie === "none" || line.tie === "weak" || line.tie === "slot-world")
       untied[line.bank] = (untied[line.bank] ?? 0) + 1;
   }
@@ -363,6 +434,7 @@ export function registerCounts() {
     bankCount,
     byTie,
     untied,
+    unelemented,
     saysNothing: lines
       .filter((line) => line.empty)
       .map((line) => line.key)
@@ -371,7 +443,7 @@ export function registerCounts() {
       .filter((line) => line.reach === "unreached")
       .map((line) => line.key)
       .sort(),
-    unreadBanks: unreadBanks(),
+    ...unreadBanksByGrade(),
     codeLines: codeLines(),
     dataHeldLines: dataHeldLines(),
   };
@@ -381,9 +453,11 @@ export function registerCounts() {
 export function baselineOf(counts = registerCounts()) {
   return {
     untiedBankLines: counts.untied,
+    unelementedBankLines: counts.unelemented,
     saysNothing: counts.saysNothing,
     unreachedConversation: counts.unreachedConversation,
     unreadBanks: counts.unreadBanks,
+    goodWaitingForReader: counts.goodWaitingForReader,
     codeLines: counts.codeLines,
     dataHeldLines: counts.dataHeldLines,
   };
@@ -406,9 +480,13 @@ if (process.argv[1]?.endsWith("line-register.ts")) {
         bankLines: sum(counts.bankCount),
         byTie: counts.byTie,
         untiedBankLines: sum(counts.untied),
+        unelementedBankLines: sum(counts.unelemented),
+        unelementedBankLinesByBank: counts.unelemented,
+        elementsWithNoTurns: elementsWithoutTurns(),
         saysNothingReplies: counts.saysNothing.length,
         unreachedConversationLines: counts.unreachedConversation.length,
         unreadBanks: counts.unreadBanks,
+        goodWaitingForReader: counts.goodWaitingForReader,
         codeLines: sum(counts.codeLines),
         dataHeldLines: sum(counts.dataHeldLines),
       },

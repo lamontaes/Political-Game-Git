@@ -24,7 +24,8 @@
  * the day, and the run reports the records they write. Played in a place
  * drawn from all 56 on a seed nobody chose; a place that already had a law
  * whose link comes due in the days played, when the research's base levels
- * were measured, is drawn again, a bounded number of times.
+ * were measured, is drawn again, a bounded number of times. So is a place
+ * where a bill switches off a controlled price before its comparison.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -38,14 +39,15 @@ import { appliedOn } from "./law-reach/applied";
 import { BUSINESS_MODULE_ID } from "./modules/business";
 import { advanceCore } from "./life";
 import { healthDeathWebOf } from "./modules/health";
-import { enactLaw, lawChain } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import {
   lawValue,
   OUTCOME_WEB_MODULE_ID,
   type WebMonth,
 } from "./modules/outcome-web";
+import { householdComposition, useFactor } from "./modules/place-prices";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
-import { countedHouseholdsByPlace, incomeBandOf } from "./modules/residents";
+import { countedHouseholdsByPlace, incomeBandOn } from "./modules/residents";
 import { CALIBRATED_AT, WEB_LINKS } from "./outcome-web-model";
 import { webLevel, webReach } from "./outcome-web-reach";
 import { coreAPI } from "./state";
@@ -109,6 +111,13 @@ const MUST_RUN = LAW_LINKS.filter(
       addDays(makeIsoDate(gameStartDate()), DAYS),
 );
 const DUE = [...new Set(MUST_RUN.map(seriesOf))];
+const PRICE_COMPARISONS = [
+  [BOTTLE, [DEPOSIT_LINK]],
+  [
+    CARBON,
+    MUST_RUN.filter((row) => row.to === EMISSIONS).map((row) => row.key),
+  ],
+] as const;
 
 /** The same day `months` later, past the 28th read as the 28th, as the web reads a lag. */
 function monthsAfter(date: string, months: number): string {
@@ -131,7 +140,12 @@ function householdBasis(api: CoreAPI, householdId: string) {
     if (job && job.endsAt === undefined)
       pay += (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / 12;
   }
-  return { persons: members.length, pay, fifth: incomeBandOf(pay * 12) };
+  return {
+    persons: members.length,
+    pay,
+    fifth: incomeBandOn(api, pay * 12),
+    fuelUse: useFactor(api, "fuel", "share", householdComposition(c, members)),
+  };
 }
 
 /** One monthly price settle: the web month it read and what each full household paid under each law. */
@@ -162,6 +176,7 @@ function play(drawSeed: string) {
   const place = drawPlace(drawSeed, "environment-played");
   const world = buildBenchWorld(drawSeed, gameStartDate(), {
     twoLevel: true,
+    settings: { history: "today" },
     placeKey: place.key,
   });
   const core = world.core as CoreState;
@@ -173,7 +188,12 @@ function play(drawSeed: string) {
     LAWS.map((series) => [series, lawValue(api, series, CALIBRATED_AT, true)]),
   ) as Record<string, number>;
   const already = DUE.filter((series) => atBase[series] !== 0);
-  if (already.length) return { place, drawSeed, already, result: undefined };
+  if (already.length)
+    return {
+      place,
+      blockedBy: `already law at the base: ${already.join(", ")}`,
+      result: undefined,
+    };
   const effective = core.date;
   for (const series of LAWS)
     for (const level of lawChain(api).levels)
@@ -216,6 +236,21 @@ function play(drawSeed: string) {
       keepCountedUntil = "";
     }
     if (next.slice(8, 10) === "03") {
+      for (const [series, links] of PRICE_COMPARISONS) {
+        const compared = links.every((key) =>
+          settles.some((settle) => (settle.read.effects[key] ?? 0) !== 0),
+        );
+        if (compared) continue;
+        const { value, governing } = lawInForce(api, series, next);
+        if (value !== 1 && governing?.terms?.enactedBy !== undefined) {
+          setBookkeeping(false);
+          return {
+            place,
+            blockedBy: `${governing.id} took effect ${governing.effectiveDate} and switched off ${series} before the comparison at the ${next} settle`,
+            result: undefined,
+          };
+        }
+      }
       // The price engine settles on the 3rd from the latest month row, before the web writes the new month.
       const read = townRows().at(-1)!;
       const households = [...core.households.values()].filter(
@@ -333,8 +368,7 @@ function play(drawSeed: string) {
   ).filter((row) => String(row.cause ?? "").startsWith(`law:${GROUNDWATER}:`));
   return {
     place,
-    drawSeed,
-    already,
+    blockedBy: undefined,
     result: {
       farmland,
       groundwater,
@@ -374,6 +408,9 @@ function sameHouseholds(was: Settle, now: Settle, which: "deposit" | "carbon") {
     .map(([id, row]) => ({
       id,
       fifth: now.before.get(id)!.fifth,
+      wasFifth: was.before.get(id)!.fifth,
+      wasFuelUse: was.before.get(id)!.fuelUse,
+      nowFuelUse: now.before.get(id)!.fuelUse,
       was: was[which].get(id)!.amount,
       now: row.amount,
       rowId: row.rowId,
@@ -382,21 +419,21 @@ function sameHouseholds(was: Settle, now: Settle, which: "deposit" | "carbon") {
 }
 
 describe(`environment laws reach people on the web's own lags in a played world (seed ${seed})`, () => {
-  it("each law's links run once the law is as old as their lag, and the price and death engines read them for the same people", () => {
+  it("each law's links run once the law is as old as their lag, and the price and death engines read them for the same people (just like today: needs the state's real environment laws)", () => {
     const priorBookkeeping = setBookkeeping(false);
     try {
       const tried: string[] = [];
       let drawSeed = seed;
       let run = play(drawSeed);
-      for (let draw = 1; draw < DRAWS && run.already.length; draw += 1) {
-        tried.push(
-          `${run.place.name}, ${run.place.state} (${drawSeed}): already law at the base: ${run.already.join(", ")}`,
-        );
+      for (let draw = 1; draw < DRAWS && run.blockedBy; draw += 1) {
+        const skipped = `${run.place.name}, ${run.place.state} (${run.place.key}), draw and world seed ${drawSeed}: ${run.blockedBy}`;
+        process.stdout.write(`Environment played passed over ${skipped}\n`);
+        tried.push(skipped);
         drawSeed = `${seed}-${draw}`;
         run = play(drawSeed);
       }
       const where = `${run.place.name}, ${run.place.state}, seed ${drawSeed}`;
-      expect(run.already, `${where} (${tried.join("; ")})`).toEqual([]);
+      expect(run.blockedBy, `${where} (${tried.join("; ")})`).toBeUndefined();
       const {
         farmland,
         groundwater,
@@ -474,9 +511,14 @@ describe(`environment laws reach people on the web's own lags in a played world 
           `${where}: ${row.key}: households under the carbon price`,
         ).toBeGreaterThan(0);
         for (const one of households) {
-          const ratio =
-            around.now.factor[one.fifth]! / around.was.factor[one.fifth]!;
-          expect(ratio, `${row.key}: ${one.id}`).toBeLessThan(1);
+          const emissions =
+            around.now.factor[one.fifth]! / around.was.factor[one.wasFifth]!;
+          expect(emissions, `${row.key}: ${one.id} emissions`).toBeLessThan(1);
+          expect(
+            one.wasFuelUse,
+            `${row.key}: ${one.id} prior fuel use`,
+          ).toBeGreaterThan(0);
+          const ratio = emissions * (one.nowFuelUse / one.wasFuelUse);
           expect(
             Math.abs(one.now - one.was * ratio),
             `${where}: ${row.key}: ${one.id} carbon ${one.was} -> ${one.now} at ${ratio}`,

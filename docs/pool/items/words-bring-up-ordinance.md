@@ -21,6 +21,6 @@ seen-at: 2026-11-11T02:00:06.754Z
 
 **Done when.** src/director/bring-up-ordinance.test.ts plays the player's ordinance through the county board in a drawn place (trying a sales-tax cut, a property-tax cut, a wage raise, a sales-tax raise until one passes), prints what each reader says with record ids, and fails on any "your ordinance" line whose bill the player did not sponsor or whose result is not the vote record's.
 
-**Files.** src/director/bring-it-up.ts, src/director/bring-up-ordinance.test.ts
+**Files.** src/director/bring-it-up.ts
 
 **Notes.** Seen in the game (2026-11-11, second-session-2): drawn seed 03f336b4a1ea (test world), seed 03f336b4a1ea, main 32a6683b: bring-up-ordinance.test.ts passed on a fresh seed, playing the player's ordinance through the county board

@@ -101,6 +101,58 @@ const FIXTURES: Record<
   string,
   { catches: ComposedSample; spares: ComposedSample; breaksAt?: number[] }
 > = {
+  "no-capital-after-comma": {
+    catches: sampleOf(
+      text("speech:governor", [
+        [
+          "Because I believe an adult can keep a gun safe at home, Don't look for my name on any bill for it.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:governor", [
+        [
+          "Because I believe an adult can keep a gun safe at home, don't look for my name on any bill for it. In Ohio, Congress decides the rest.",
+        ],
+      ]),
+    ),
+  },
+  "name-check-does-work": {
+    catches: sampleOf(
+      text("speech:president", [
+        [
+          "With Vice President Grace Talbot here, things are looking up for working families.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:president", [
+        [
+          "With help from Vice President Grace Talbot, we passed the farm bill.",
+        ],
+      ]),
+    ),
+  },
+  "close-names-the-body": {
+    catches: sampleOf(
+      text("speech:governor", [
+        [
+          "Members of the Ohio legislature. Collective bargaining for public workers became law this year.",
+        ],
+        [
+          "That's the work in front of Ohio, and I thank you for hearing me out.",
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("speech:governor", [
+        [
+          "Members of the Ohio legislature. Collective bargaining for public workers became law this year.",
+        ],
+        ["On collective bargaining, you have my word. Thank you, Ohio."],
+      ]),
+    ),
+  },
   "full-name-once-per-screen": {
     catches: sampleOf(
       text("speech:president", [
@@ -451,6 +503,32 @@ const FIXTURES: Record<
         [
           "I believe an officer should be judged by people who have done the job.",
         ],
+      ]),
+    ),
+  },
+  "no-catalog-name-in-speech": {
+    catches: sampleOf(
+      talk("sis", [
+        [
+          [
+            "sis",
+            "So the President wants a higher top income tax rate. I'm glad she said it out loud.",
+          ],
+        ],
+      ]),
+      talk("dad", [
+        [["dad", "Did you see the new rule on ban the box public hiring?"]],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("sis", [
+        [
+          [
+            "sis",
+            "So she finally wants to tax the rich. About time somebody said it out loud.",
+          ],
+        ],
+        [[PLAYER, "I don't know. I'd like to hear how it pays for itself."]],
       ]),
     ),
   },

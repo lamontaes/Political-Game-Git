@@ -1,0 +1,30 @@
+{
+  "id": "report-options-without-endorsement",
+  "kind": "detail",
+  "summary": "A committee report lists bills its members can introduce without promising that every member backs them.",
+  "realLife": "A Montana legislative committee released ten proposals and distinguished the list from an endorsement by each participant.",
+  "sources": [
+    "https://montanafreepress.org/2022/12/16/select-committee-offers-legislative-recommendations-in-montana-court-conflict/"
+  ],
+  "fits": ["journal", "news", "office"],
+  "slots": ["{committee}", "{report}", "{proposal}"],
+  "gates": [],
+  "weights": [],
+  "usedBy": [],
+  "inGame": "study-reported supplies a finding and member positions. needs: distinct draft bills and recorded endorsements for each.",
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The committee votes to endorse one draft as a body.",
+      "pulledBy": "A majority agrees on the text before the report is due.",
+      "writesBack": "The report identifies the endorsed draft."
+    },
+    {
+      "turn": "partial",
+      "what": "A member signs one proposal and asks to be left off the others.",
+      "pulledBy": "The drafts address separate questions on which the member has different positions.",
+      "writesBack": "The report credits the member only on the signed draft."
+    }
+  ],
+  "issues": ["none"]
+}

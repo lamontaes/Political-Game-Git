@@ -17,9 +17,11 @@
 import data from "../../data/english/composed-checks.json" with { type: "json" };
 import lineRules from "../../data/english/line-rules.json" with { type: "json" };
 import questionNames from "../../data/english/question-names.json" with { type: "json" };
+import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 
 /** The composed checks' word lists, for readers outside the English engine. */
 export const COMPOSED_CHECKS_DATA = data;
+import { SENTENCE_WORDS } from "./english-composition";
 import {
   linesOf,
   plainSentence,
@@ -386,6 +388,71 @@ export const noEchoBetweenSpeakers: ComposedCheck = (text, sample) => {
             ),
           );
       }
+    }
+  });
+  return found;
+};
+
+// ---- no-catalog-name-in-speech ----
+
+const CATALOG_NAMES: readonly string[] = (
+  billCatalogData as unknown as {
+    subjects: { topics: { policies: { name: string }[] }[] }[];
+  }
+).subjects.flatMap((subject) =>
+  subject.topics.flatMap((topic) =>
+    topic.policies.map((policy) => policy.name),
+  ),
+);
+
+/** The phrases a record names a policy by: the bill catalog's policy names and each question's `about` noun phrase. */
+const POLICY_PHRASES: readonly string[] = [
+  ...new Set(
+    [
+      ...CATALOG_NAMES,
+      ...Object.values(
+        (
+          questionNames as unknown as {
+            names: Record<string, { about?: string }>;
+          }
+        ).names,
+      ).map((row) => row.about ?? ""),
+    ]
+      .map((phrase) => plainSentence(plainQuotes(phrase)))
+      .filter((phrase) => phrase.split(" ").length >= 2),
+  ),
+];
+
+/**
+ * The policy phrase a spoken line holds, when its filled text names a policy
+ * by the bill catalog's policy name or by the question's `about` noun phrase
+ * (owner, Nov 24, on a mother's "So the President wants a higher top income
+ * tax rate": "No person would say that. They'd be like, finally, someone
+ * wants to tax the rich"; Nov 23: "random ass laws like ban the box public
+ * hiring. What does that mean?"). Null when the line names none.
+ */
+export function holdsCatalogName(text: string): string | null {
+  const plain = ` ${plainSentence(plainQuotes(text))} `;
+  return POLICY_PHRASES.find((phrase) => plain.includes(` ${phrase} `)) ?? null;
+}
+
+/** A spoken line whose filled text holds a policy's catalog name or its `about` wording. */
+export const noCatalogNameInSpeech: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines) {
+      if (!line.speakerId) continue;
+      const phrase = holdsCatalogName(line.text);
+      if (phrase)
+        found.push(
+          breakOf(
+            "no-catalog-name-in-speech",
+            text,
+            at,
+            `a spoken line names a policy by the catalog's words ("${phrase}")`,
+            line.text,
+          ),
+        );
     }
   });
   return found;
@@ -1091,6 +1158,109 @@ export const reasonFitsTheSide: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- address-argues-its-points (Story thread #9750, part 4) ----
+
+/** A sentence that opens on someone being in the room ("With Vice President Sandra Solomon here,"). */
+const PRESENCE_LEAD =
+  /^With (?:[A-Z][\w.'-]* ){1,4}(?:here|beside me|with me|in the room|in this room)\b/;
+
+/**
+ * A name said only to say the person is there: a speech sentence that opens
+ * "With <name> here," does no work for the point after it (owner, Nov 16:
+ * "With Vice President Sandra Solomon here, I'll tell you plainly... what
+ * does that have to do with anything?").
+ */
+export const nameCheckDoesWork: ComposedCheck = (text) => {
+  if (!SPEECH_KINDS.includes(text.kind)) return [];
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      for (const sentence of line.sentences)
+        if (PRESENCE_LEAD.test(plainQuotes(sentence)))
+          found.push(
+            breakOf(
+              "name-check-does-work",
+              text,
+              at,
+              "a name said only to say the person is in the room",
+              sentence,
+            ),
+          );
+  });
+  return found;
+};
+
+/**
+ * A speech's close that names nothing from what the speech said (owner, Nov
+ * 16, of "That's the work in front of California, and I thank you for
+ * hearing me out.": "She didn't really say anything that's in front of
+ * it."): the last line shares fewer than `closeSharedWordsLeast` subject
+ * words with the screens before it, places, people and the close's own
+ * frame words (`closeFrameWords`) set aside.
+ */
+export const closeNamesTheBody: ComposedCheck = (text, sample) => {
+  if (!SPEECH_KINDS.includes(text.kind) || text.screens.length < 2) return [];
+  const last = text.screens.at(-one)!;
+  const close = last.lines.at(-one)?.text;
+  if (!close) return [];
+  const names = new Set(
+    [
+      ...sample.people.map((person) => person.full),
+      ...sample.stateNames,
+      sample.townName,
+      ...(data as unknown as { closeFrameWords: string[] }).closeFrameWords,
+    ].flatMap((name) => subjectWords(name)),
+  );
+  const before = new Set(
+    text.screens
+      .slice(zero, -one)
+      .flatMap((screen) => screen.lines)
+      .flatMap((line) => subjectWords(line.text))
+      .filter((word) => !names.has(word)),
+  );
+  const shared = new Set(
+    subjectWords(close).filter((word) => before.has(word) && !names.has(word)),
+  );
+  return shared.size >= value("closeSharedWordsLeast")
+    ? []
+    : [
+        breakOf(
+          "close-names-the-body",
+          text,
+          text.screens.length - one,
+          `the close shares ${shared.size} subject words with the speech`,
+          close,
+        ),
+      ];
+};
+
+/**
+ * Two sentences glued at a comma: a word that only takes a capital at a
+ * sentence's start said with one after a comma ("Because I believe ... their
+ * family, Don't look for my name ..."; the Story lead's read of #9831, the
+ * Alaska governor). The words are the composer's own list of them.
+ */
+export const noCapitalAfterComma: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      for (const [, word] of plainQuotes(line.text).matchAll(
+        /, ([A-Z][A-Za-z']*)\b/g,
+      ))
+        if (SENTENCE_WORDS.has(word!))
+          found.push(
+            breakOf(
+              "no-capital-after-comma",
+              text,
+              at,
+              `"${word}" takes a capital after a comma`,
+              line.text,
+            ),
+          );
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -1100,6 +1270,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "no-daily-subject-loop": noDailySubjectLoop,
   "no-echo-between-speakers": noEchoBetweenSpeakers,
   "no-non-reply": noNonReply,
+  "no-catalog-name-in-speech": noCatalogNameInSpeech,
   "not-asked-after-while-present": notAskedAfterWhilePresent,
   "housemate-does-not-ask-known-fact": housemateDoesNotAskKnownFact,
   "speech-names-no-stray-place": speechNamesNoStrayPlace,
@@ -1115,6 +1286,9 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "reason-fits-the-side": reasonFitsTheSide,
   "no-figure-in-talk": noFigureInTalk,
   "pronoun-fits-the-person": pronounFitsThePerson,
+  "name-check-does-work": nameCheckDoesWork,
+  "close-names-the-body": closeNamesTheBody,
+  "no-capital-after-comma": noCapitalAfterComma,
 };
 
 /** A composed rule's checks, as a list. */

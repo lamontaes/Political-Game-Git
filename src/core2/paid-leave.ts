@@ -6,6 +6,8 @@ import type { CoreAPI } from "./types";
 
 export const PAID_LEAVE_KEY =
   "us-policy-positions:labor-workforce.paid-family-leave";
+/** The law series that sets the program's premium, a share of each paycheck, beside its yes or no question. */
+export const PAID_LEAVE_PREMIUM = "paid-leave-premium";
 export interface PaidLeaveProgram {
   readonly lawId: string;
   readonly governmentId: string;
@@ -30,12 +32,24 @@ export function paidLeaveProgram(api: CoreAPI): PaidLeaveProgram | undefined {
     if (!law || !gov) continue;
     // stopgapId: SG-GOV-REACH-A-leave-claims
     api.stopgap("SG-GOV-REACH-A-leave-claims");
+    // The premium the same level enacted with the program; where no act has
+    // set one yet, the opening share. stopgapId: SG-LAWS-paid-leave-opening-premium
+    const premium = lawInForce(api, PAID_LEAVE_PREMIUM).levels.find(
+      (row) =>
+        row.level === level &&
+        !row.setAside &&
+        typeof row.row?.value === "number" &&
+        row.row.value >= 0,
+    )?.row;
+    if (!premium) api.stopgap("SG-LAWS-paid-leave-opening-premium");
     return {
-      lawId: law.id,
+      lawId: premium?.id ?? law.id,
       governmentId: gov.id,
       treasuryId: gov.organizationId,
       townPlaceId: lawChain(api).townPlaceId,
-      share: parameters.parameters.paidLeavePremiumShare.value,
+      share: premium
+        ? premium.value!
+        : parameters.parameters.paidLeavePremiumShare.value,
     };
   }
 }

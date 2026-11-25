@@ -1,5 +1,6 @@
 /** A generated opening in a place drawn from all 56, the same route as the speed guard's month. */
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { setHistoryMode } from "../modules/elections";
 import { withPrivateTuition } from "../opening-private-tuition";
 import { staffToCustomers } from "../opening-staffing";
 import { representativeSample } from "../representative-sample";
@@ -34,6 +35,8 @@ export function generatedOpening(
 ): CoreInput {
   const settings = options.settings ?? {};
   checkSettings(settings);
+  // Day one from the century or from today's real record, read by the offices as they seat.
+  setHistoryMode(place.seed, settings.history ?? "century");
   return buildOpening(place, options, settings);
 }
 

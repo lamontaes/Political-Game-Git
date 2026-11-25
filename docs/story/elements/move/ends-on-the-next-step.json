@@ -1,0 +1,36 @@
+{
+  "id": "ends-on-the-next-step",
+  "kind": "move",
+  "summary": "A story ends on what happens next: the next meeting, the next reading, the date a rule applies.",
+  "realLife": "Two of 11 stories close on the next step; none closes on a moral or summary.",
+  "sources": [
+    "KTOO (Juneau), a family-run downtown shop is closing its doors: https://www.ktoo.org/2025/12/24/after-more-than-50-years-a-family-run-shop-in-downtown-juneau-is-closing-its-doors/",
+    "Times-Republican (Marshalltown, Iowa), superintendent gets contract extension by a 3-2 vote: https://www.timesrepublican.com/news/todays-news/2025/06/despite-more-public-comment-criticism-stc-superintendent-gets-contract-extension-by-3-2-vote",
+    "docs/story/research/news-and-week-moves.md (Fixer A, Nov 24, 2026): the note that read and coded these stories paragraph by paragraph"
+  ],
+  "fits": ["news"],
+  "slots": ["date", "body"],
+  "gates": [],
+  "weights": {
+    "vote": 0.8,
+    "law": 0.8
+  },
+  "usedBy": ["news-roll-call", "law"],
+  "turns": [
+    {
+      "name": "ends on the vote count",
+      "pulledBy": "a close vote with nothing scheduled after",
+      "writes": "the last line is the margin",
+      "requiresFacts": ["by-one"],
+      "excludesFacts": []
+    },
+    {
+      "name": "ends on a reaction",
+      "pulledBy": "an official or resident with a strong word",
+      "writes": "the last line is their quote",
+      "requiresFacts": [],
+      "excludesFacts": []
+    }
+  ],
+  "inGame": "`roll-call-next`, `signed-next` and `committee-next` rows; the next meeting in `meetings-week`"
+}

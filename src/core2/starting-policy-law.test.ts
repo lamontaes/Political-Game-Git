@@ -2,7 +2,9 @@
  * The state's researched yes/no policy answers are law at the opening (BOARD
  * "next" item 4): each is a state law row in force on the first day, marked an
  * estimate where the research estimated it, and every policy already in force
- * reaches the town's people through its engine from the first day.
+ * reaches the town's people through its engine from the first day. That is the world setting
+ * "just like today" (CTO line 6935086070 on #9747, point 5); a world whose day one is the
+ * century's opens with the century's law (electorate-century-laws.test.ts).
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -10,6 +12,7 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { setHistoryMode } from "./electorate-century";
 import { LAWS_MODULE_ID, openLaws, yesLevels } from "./modules/laws";
 import { openBudgets } from "./modules/budgets";
 import { openLawReach } from "./law-reach/host";
@@ -58,6 +61,7 @@ describe("starting policy answers are law at the opening", () => {
         minimumPeople: 200,
       }),
     );
+    setHistoryMode(core.seed, "today", START);
     openLaws(core);
     openBudgets(core);
     openLawReach(core);

@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -17,10 +16,20 @@ import { seatAct, seatView } from "./legislature";
 
 // A yes-or-no section is amended like an amount: its answer struck, the opposite inserted,
 // with its own estimate and roll call. The stage view lists it as reversible.
-const seed =
-  process.env.BILL_AMEND_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env BILL_AMEND_SEED, GOLDEN_PATH_SEED or randomBytes, so the places
+// it drew changed every run. The fixed seed below draws Sutherland, Nebraska
+// (3147920) first for "bill-amend-reverse".
+// Limit: the slowest case took 26 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 60 s.
+const seed = "pin-bill-amendment-reverse";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "bill-amend-reverse")).toMatchObject({
+    key: "3147920",
+    name: "Sutherland, Nebraska",
+  });
+});
 
 describe(`reversing a yes-or-no section (seed ${seed})`, () => {
   it("strikes the answer, inserts its opposite and votes it by member", () => {
@@ -84,5 +93,5 @@ describe(`reversing a yes-or-no section (seed ${seed})`, () => {
       proved = true;
     }
     expect(proved, "a place where a yes-or-no section is reversed").toBe(true);
-  }, 300_000);
+  }, 60_000);
 });

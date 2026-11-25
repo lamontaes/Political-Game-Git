@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
@@ -28,10 +27,20 @@ import { BenchPlayer } from "./player";
 // takes the presidency, a bill both chambers of Congress passed waits on their desk, the stage view
 // says so with the lean, and once they sign or veto it names them and the reasons. A place drawn
 // from all 56 on a seed nobody chose.
-const seed =
-  process.env.PRESIDENT_DESK_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env PRESIDENT_DESK_SEED, GOLDEN_PATH_SEED or randomBytes, so the
+// places it drew changed every run. The fixed seed below draws Foraker,
+// Oklahoma (4026750) first for "president-desk".
+// Limit: the slowest case took 19 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 40 s.
+const seed = "pin-bill-desk-president";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "president-desk")).toMatchObject({
+    key: "4026750",
+    name: "Foraker, Oklahoma",
+  });
+});
 
 describe(`the president's desk in the stage view (seed ${seed})`, () => {
   it("shows the waiting bill, then who signed or vetoed it and why", () => {
@@ -122,5 +131,5 @@ describe(`the president's desk in the stage view (seed ${seed})`, () => {
     throw new Error(
       `no drawn place sent a Congress bill to the president (seed ${seed}): ${tried.join("; ")}`,
     );
-  }, 900_000);
+  }, 40_000);
 });

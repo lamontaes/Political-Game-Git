@@ -34,6 +34,7 @@ import {
   type ContestRow,
 } from "./modules/elections";
 import { coreAPI } from "./state";
+import { townResidentsByCash } from "./resident-adults-test-kit";
 
 // A named place and world seed where the whole chain holds: a wide race, a
 // filer who can buy a poll, outside gifts and polls (found by drawing with
@@ -85,25 +86,20 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
     }
     if (opensOn > world.core.date)
       advanceCore(world.core, makeIsoDate(opensOn));
-    const adults = [...world.core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          Number(world.core.date.slice(0, 4)) -
-            Number(p.birthDate.slice(0, 4)) >=
-            35 &&
-          // A candidate whose deliberation puts their poll share at zero (the
-          // share is the base share times one plus the trait weight times
-          // deliberation, never below zero) buys none by their own
-          // temperament, so they are no subject for "a funded campaign polls".
-          1 +
-            campaignParameter("spendTraitWeight") *
-              (p.traits["people-mind-v1:deliberation"] ?? 0) >
-            0,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
+    const adults = townResidentsByCash(world.core, coreAPI(world.core)).filter(
+      (p) =>
+        p.alive &&
+        Number(world.core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
+          35 &&
+        // A candidate whose deliberation puts their poll share at zero (the
+        // share is the base share times one plus the trait weight times
+        // deliberation, never below zero) buys none by their own
+        // temperament, so they are no subject for "a funded campaign polls".
+        1 +
+          campaignParameter("spendTraitWeight") *
+            (p.traits["people-mind-v1:deliberation"] ?? 0) >
+          0,
+    );
     const wider = openContests(api)
       .filter(wide)
       .sort((a, b) => b.electionDate.localeCompare(a.electionDate));

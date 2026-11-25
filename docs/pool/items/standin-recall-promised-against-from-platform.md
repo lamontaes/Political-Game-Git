@@ -28,8 +28,8 @@ root: design-story-director
 
 **Rules.** Ask why: a broken promise is said only where a record holds the promise (the filed platform), citing its id. No dice: the platform and the vote decide, never a roll. One rule, all 56 places: no place named in logic. No hand-written player text: the lines already exist in the bank.
 
-**Done when.** A second session plays buildBenchWorld in a drawn place (place and seed named) until a recall petition names a member whose filed platform stood against the bill's question, opens the petition scene and sees the organizer say the promise line with the filing record id in its facts, and in a place where the platform was silent sees no line claiming a promise. src/director/recall-answer.test.ts passes on both cases.
+**Done when.** A second session plays buildBenchWorld in a drawn place (place and seed named) until a recall petition names a member whose filed platform stood against the bill's question, opens the petition scene and sees the organizer say the promise line with the filing record id in its facts, and in a place where the platform was silent sees no line claiming a promise. src/director/recall-answer.test.ts (removed) passes on both cases.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/purpose-scene.ts, src/core2/modules/campaigns.ts, src/core2/modules/recalls.ts, src/director/recall-answer.test.ts, src/director/data/stopgaps.json
+**Files.** src/director/purpose-scene.ts, src/core2/modules/campaigns.ts, src/core2/modules/recalls.ts, src/director/data/stopgaps.json

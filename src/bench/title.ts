@@ -9,11 +9,30 @@ import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
  * once its painting is in the manifest. The latest character in front and
  * passersby wait on the people system (Lane 4, path 1).
  */
-export const TITLE_MONUMENTS = [
+const NATIONAL_MONUMENTS = [
   "us-capitol-exterior",
   "white-house-exterior",
   "lincoln-memorial",
+  "supreme-court-exterior",
 ] as const;
+
+/**
+ * Every capitol the manifest paints, one per state and territory: the title draws from all of
+ * them, not three (owner, Nov 17: "draws from many more monument paintings, and each game
+ * starts on new ones").
+ */
+const STATE_CAPITOLS = [
+  ...new Set(
+    manifest.backdrops
+      .map((row) => row.place)
+      .filter((place) => /^state-capitol-[a-z]{2}$/.test(place)),
+  ),
+].sort();
+
+export const TITLE_MONUMENTS: readonly string[] = [
+  ...NATIONAL_MONUMENTS,
+  ...STATE_CAPITOLS,
+];
 
 /** A painting's light or weather; a room's condition (lived-in) is not one. */
 const LIGHTS = new Set(["morning", "midday", "night", "rain", "winter"]);
@@ -55,7 +74,8 @@ function dayNumber(day: string) {
 
 /**
  * The frame for one visit to the title: the day picks where the rotation
- * starts and each visit moves one frame on.
+ * starts and each visit moves one frame on. A game launch passes its own
+ * stamp with the day, so each launch starts on other paintings.
  */
 export function titleScene(day: string, visit: number) {
   return TITLE_SCENES[(dayNumber(day) + visit) % TITLE_SCENES.length]!;

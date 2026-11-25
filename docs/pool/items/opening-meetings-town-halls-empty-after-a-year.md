@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #10388
 blocked-on:
 source: "found by the opening warm-up measurement (skill day-one-in-motion), Nov 14, train head b7ed6337"
 claimed-at:
@@ -17,6 +17,7 @@ lead: gov
 model: sonnet
 effort: medium
 root: day-one-in-motion
+merged-at: 2026-11-24T10:56:58.998Z
 ---
 
 **What.** After the 31-day opening warm-up (`warmUpDays`, src/core2/player-warm-up.ts) `core2-meetings-v1.townHalls` still has no rows at the two pinned places, and a year of play barely fills it (owner, Nov 14: "The town must be in motion on day one... not just town, but country and state. Remember, it's all one simulation."). A real place has this on an ordinary day: a town has town halls on the calendar. Level: town and county. Seen: the first screens on day 0 read empty where a place already running would show it.

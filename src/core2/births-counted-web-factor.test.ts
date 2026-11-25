@@ -8,6 +8,12 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
+// Loaded first, so its own import of the web module gets the mock below.
+// The web module reaches births-counted through world-metrics and housing;
+// loaded the other way round, births-counted is evaluated inside the mock's
+// copy of the real module and binds the real `outcomeWebFactor` (every seed
+// read the web's own 0.988 where the test held 1).
+import "./births-counted";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";

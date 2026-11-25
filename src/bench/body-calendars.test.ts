@@ -1,5 +1,4 @@
 import { buildBenchWorld } from "./world";
-import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
@@ -16,10 +15,20 @@ import { seatView } from "./legislature";
 // Done-when item 7: every body that makes law meets on a calendar the world keeps (a real
 // sitting date with its source), and the seat of a member at each level shows the body and what
 // it can do. A place drawn from all 56 on a seed nobody chose.
-const seed =
-  process.env.BODY_CALENDARS_SEED ??
-  process.env.GOLDEN_PATH_SEED ??
-  randomBytes(8).toString("hex");
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env BODY_CALENDARS_SEED, GOLDEN_PATH_SEED or randomBytes, so the
+// places it drew changed every run. The fixed seed below draws Fredericksburg,
+// Indiana (1825720) first for "body-calendars".
+// Limit: the slowest case took 113 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 230 s.
+const seed = "pin-body-calendars";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "body-calendars")).toMatchObject({
+    key: "1825720",
+    name: "Fredericksburg, Indiana",
+  });
+});
 
 describe(`bodies meet on real calendars (seed ${seed})`, () => {
   it("every body has a next sitting on or after today with a source, and its member's seat shows the body", () => {
@@ -69,5 +78,5 @@ describe(`bodies meet on real calendars (seed ${seed})`, () => {
     }
     expect(levels.size, "levels of government drawn").toBeGreaterThan(2);
     console.log(report.join("\n"));
-  }, 1_800_000);
+  }, 230_000);
 });

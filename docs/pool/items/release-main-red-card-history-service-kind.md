@@ -18,9 +18,9 @@ root: none
 source: Red desk, Nov 13 (merger codex-4629 and the CTO on #8928, comments 6840076941 and 6840105210)
 ---
 
-**What.** `src/bench/card-history.test.ts` fails on clean main eeec8770 and 0fe39561 at GOLDEN_PATH_SEED=ff1d275d927d964b0ed490723a9dc664f646476d (Madisonville, Louisiana). A card line "He joined the armed forces in 1995." has the kind `service`, and the check's list of the kinds a history line may name leaves it out. Any drawn place where a met person served before the start fails the same way. Seen: a person's card tells of their military service among their other history.
+**What.** `src/bench/card-history.test.ts` (removed) fails on clean main eeec8770 and 0fe39561 at GOLDEN_PATH_SEED=ff1d275d927d964b0ed490723a9dc664f646476d (Madisonville, Louisiana). A card line "He joined the armed forces in 1995." has the kind `service`, and the check's list of the kinds a history line may name leaves it out. Any drawn place where a met person served before the start fails the same way. Seen: a person's card tells of their military service among their other history.
 
-**Cause.** Found in code: `lineOf` in src/bench/card.ts words a person's `service/enlisted` and `service/discharged` past events with the bank's `person-history.story.service` pieces (lines 512 to 514, from the military past record src/core2/past-military.ts added by #8944 on Nov 12), so the line's kind is `service`; the kind list at line 71 of src/bench/card-history.test.ts was written before that record and was never given it.
+**Cause.** Found in code: `lineOf` in src/bench/card.ts words a person's `service/enlisted` and `service/discharged` past events with the bank's `person-history.story.service` pieces (lines 512 to 514, from the military past record src/core2/past-military.ts added by #8944 on Nov 12), so the line's kind is `service`; the kind list at line 71 of src/bench/card-history.test.ts (removed) was written before that record and was never given it.
 
 **Fix.** Test only: add `service` to the kinds a history line may name, the same list as the bank's `person-history.story.*` moves. No other assertion changes.
 
@@ -32,4 +32,4 @@ source: Red desk, Nov 13 (merger codex-4629 and the CTO on #8928, comments 68400
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/card-history.test.ts
+**Files.** src/bench/card-history-story.test.ts

@@ -58,6 +58,18 @@ export const STORY_KINDS = {
     headline: ["candidate-filed"],
     lede: ["candidate-filed"],
   },
+  // A candidate who says they are running before filing opens.
+  announcement: {
+    story: "announcement",
+    headline: ["candidate-announced"],
+    lede: ["candidate-announced"],
+  },
+  // A relative's access to someone in custody, earned by an official's referral.
+  "visit-access": {
+    story: "visit-access",
+    headline: ["visiting-access"],
+    lede: ["visiting-access"],
+  },
   // The clerk's notice of an election, a brief: the place, the day and every
   // office on the ballot.
   "election-notice": {
@@ -319,6 +331,13 @@ export const STORY_KINDS = {
   },
   "homeless-count": { headline: ["homeless-count"], lede: ["homeless-count"] },
   birth: { headline: ["birth"], lede: ["birth"], brief: true },
+  // A birth in another place, printed because a parent holds office there:
+  // it says who the parent is (printed-words.ts birth).
+  "birth-elsewhere": {
+    headline: ["birth-elsewhere"],
+    lede: ["birth-elsewhere"],
+    brief: true,
+  },
   // The week's round birthdays and business anniversaries (the briefs
   // column, from the press's milestones step).
   birthday: { headline: ["birthday"], lede: ["birthday"], brief: true },

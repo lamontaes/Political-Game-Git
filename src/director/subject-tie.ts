@@ -191,12 +191,26 @@ function recordedAct(
   return null;
 }
 
+/** The person ids a story fact holds as a JSON list ("outIds"), none when it holds anything else. */
+function idsOf(value: string | undefined): string[] {
+  if (!value) return [];
+  try {
+    const list: unknown = JSON.parse(value);
+    return Array.isArray(list)
+      ? list.filter((id): id is string => typeof id === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
 /**
  * The tie a printed story has to the pair, from records of theirs, or null.
  * The speaker holding a stance on its question is a view of the story, not a
  * tie to it, and living in the town is not one either: the story must reach
  * one of the two through a record. It does when the person it names (the
- * sponsor, a member) is in the speaker's or hearer's household or kin; when
+ * sponsor, a member, an election's winner or those who lost it, an
+ * appointee or who appointed them) is in the speaker's or hearer's household or kin; when
  * it covers a body the hearer holds a seat on; or when the law it reports
  * took effect on the speaker or the hearer (the law-reach record); or when
  * the speaker or the hearer has a recorded act of their own on its bill or
@@ -212,9 +226,17 @@ export function storyTie(
   const listener = core.people.get(listenerId);
   if (!speaker || !listener) return null;
   const facts = story.facts;
-  const named = [facts.sponsorId, facts.personId, facts.memberId].filter(
-    (id): id is string => !!id,
-  );
+  const named = [
+    facts.sponsorId,
+    facts.personId,
+    facts.memberId,
+    // An election's winner and those who lost it, and the post's appointee and
+    // the one who appointed them: each is named by the story as a person.
+    facts.winnerId,
+    facts.appointee,
+    facts.appointedBy,
+    ...idsOf(facts.outIds),
+  ].filter((id): id is string => !!id);
   for (const id of named) {
     const person = core.people.get(id as PersonId);
     if (!person) continue;

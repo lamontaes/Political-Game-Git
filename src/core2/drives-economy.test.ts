@@ -21,8 +21,9 @@ import { coreAPI } from "./state";
 // red came and went with the commit. Christmas, Florida is the place the
 // file's own seed always played. Maytown, Kentucky is the runner's draw for
 // commit 6eb1ff91, where 1.2 percent of displaced workers set out to prove
-// themselves against a floor of 3.0; it stays here as a red case for item
-// tests-drives-economy-prove-oneself-low-maytown (Needs cause).
+// themselves against a floor of 3.0; it stays here as an expected failure
+// (it.fails) for item tests-drives-economy-prove-oneself-low-maytown (Needs
+// cause).
 // Limit: the whole file runs in 20 s alone and 21 s beside group-quarters
 // (Nov 16, Train 800ae520), nearly all of it building the two worlds at load;
 // each case takes under a second, well inside the default 30 s.
@@ -31,10 +32,15 @@ const PINS = [
   {
     seed: "557be11b36cddcc1a09f8feede0919fb75aa9bf04be095068dbd657c6eae3a6c",
     placeKey: "2151042",
+    fails: "tests-drives-economy-prove-oneself-low-maytown",
   },
 ];
 
-for (const { seed, placeKey } of PINS) {
+for (const { seed, placeKey, fails } of PINS as {
+  seed: string;
+  placeKey: string;
+  fails?: string;
+}[]) {
   const input = buildPopulation({
     seed,
     placeKey,
@@ -71,24 +77,29 @@ for (const { seed, placeKey } of PINS) {
   );
 
   describe(`drives answer closures in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
-    it("forms ambitions at the displaced-worker rate, with most people carrying on", () => {
-      const workers = [...workersByOrg.values()].flat().length;
-      expect(decisions.length).toBe(workers);
-      const share = (id: string) =>
-        decisions.filter((row) => row.chosen.responseId === id).length /
-        decisions.length;
-      // Retraining 10-16% plus a few points of new businesses; the band is for
-      // a whole population and one town's closures are a sample of its workers,
-      // so each bound widens by two standard errors at that sample's size, the
-      // rule the played-year check uses (src/bench/m1-11-check.ts). Mooresville,
-      // Alabama (seed 890a6d11…a73f): 7 of 124, 1.6 standard deviations under
-      // the 9.9% six other drawn towns pooled (109 of 1,102).
-      const n = decisions.length;
-      const slack = (p: number) => 2 * Math.sqrt((p * (1 - p)) / n);
-      expect(share("prove-oneself")).toBeGreaterThan(0.06 - slack(0.06));
-      expect(share("prove-oneself")).toBeLessThan(0.25 + slack(0.25));
-      expect(share("carry-on")).toBeGreaterThan(0.6 - slack(0.6));
-    });
+    // Maytown's red is an expected failure that names its item: it passes
+    // while the fault stands and fails the day it is fixed.
+    (fails ? it.fails : it)(
+      `forms ambitions at the displaced-worker rate, with most people carrying on${fails ? ` (expected failure, item ${fails})` : ""}`,
+      () => {
+        const workers = [...workersByOrg.values()].flat().length;
+        expect(decisions.length).toBe(workers);
+        const share = (id: string) =>
+          decisions.filter((row) => row.chosen.responseId === id).length /
+          decisions.length;
+        // Retraining 10-16% plus a few points of new businesses; the band is for
+        // a whole population and one town's closures are a sample of its workers,
+        // so each bound widens by two standard errors at that sample's size, the
+        // rule the played-year check uses (src/bench/m1-11-check.ts). Mooresville,
+        // Alabama (seed 890a6d11…a73f): 7 of 124, 1.6 standard deviations under
+        // the 9.9% six other drawn towns pooled (109 of 1,102).
+        const n = decisions.length;
+        const slack = (p: number) => 2 * Math.sqrt((p * (1 - p)) / n);
+        expect(share("prove-oneself")).toBeGreaterThan(0.06 - slack(0.06));
+        expect(share("prove-oneself")).toBeLessThan(0.25 + slack(0.25));
+        expect(share("carry-on")).toBeGreaterThan(0.6 - slack(0.6));
+      },
+    );
 
     it("aims every grudge at the business that closed, never a random person", () => {
       for (const drive of report.drives.filter((row) =>

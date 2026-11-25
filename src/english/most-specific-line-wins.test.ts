@@ -155,11 +155,16 @@ describe("the shipped scene-talk bank says its most specific line", () => {
           { part, use: u },
         ]);
 
-  it("says the line tied to the record where one fits, else a generic one", () => {
+  // The press-comment spot's lines were emptied by the cut of Nov 17 (#10063) and come back with
+  // pool item story-lines-office-press-and-pressure (CTO, #9750 and #9747, Nov 19 04:53Z): that
+  // spot is asked on its own, as a known failure, and every other spot as before.
+  const PRESS = "|press-comment|";
+  const check = (asked: (spot: string) => boolean) => {
     let checked = 0;
     const passedOver: string[] = [];
     const wrong: string[] = [];
     for (const [spot, rows] of bySpot) {
+      if (!asked(spot)) continue;
       // A line that checks any fact (requiresFacts or onlyWhen) is not
       // generic: both rank alike (words-a-line-ranks-by-every-fact-it-checks).
       const generic = rows.filter(
@@ -233,5 +238,12 @@ describe("the shipped scene-talk bank says its most specific line", () => {
     expect(passedOver).toEqual([]);
     expect(checked).toBeGreaterThan(0);
     console.log(`most-specific-line-wins: ${checked} spots checked`);
-  });
+  };
+
+  it("says the line tied to the record where one fits, else a generic one", () =>
+    check((spot) => !spot.includes(PRESS)));
+  it.fails(
+    "the press comment says the line tied to the record (story-lines-office-press-and-pressure)",
+    () => check((spot) => spot.includes(PRESS)),
+  );
 });
