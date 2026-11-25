@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: merged
+status: dropped
 standard: 2
 claimed-by: claude/pt-board-last-day
 pr: #10521
