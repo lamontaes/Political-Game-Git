@@ -1763,8 +1763,7 @@ export function composeSceneTalk(
   // The led path's chosen replies, in order, for the flat view.
   const ledChoices = new Map<TreeNode, TreeReply>();
 
-  /** The asker's close after a `leave`: a close piece that names it in `after`. */
-  /** The asker's close written for the player's last move (walking away, a lie told again). */
+  /** The asker's close written for the player's last move (a lie told again): a close piece that names it in `after`. */
   const leaveClose = (
     path: Path,
     reply: SceneTalkLine,
@@ -1969,10 +1968,6 @@ export function composeSceneTalk(
       offered.push(extra);
       break;
     }
-    // At the opening a thin menu is a gap; deeper in, the asker closes the
-    // talk instead of offering two tired options (real exchanges end abruptly).
-    if (path.id === "root" && offered.length < three && offered.length >= two)
-      gap("menu", path.askerMove, `fewer than three replies at ${path.id}`);
     // A question the asker just asked is always answerable: the menu stays
     // open with what fits rather than the talk ending on it.
     const asked = lastAsker?.asks ?? false;
@@ -2001,12 +1996,15 @@ export function composeSceneTalk(
       !offered.some((row) => row.move === "ask")
     )
       gap("menu", "ask", `root of a ${arc.state} has no ask reply`);
-    const fewest = path.id === "root" || !asked ? two : one;
-    if (offered.length < fewest) {
+    // A set holds as many replies as the arc has stances to give, up to four
+    // (owner, Nov 10: "it's also allowed to have less than 4 options
+    // sometimes"; no reply exists to say nothing, so a smaller set is whole):
+    // a scene is skipped only when none of its replies can be worded.
+    if (offered.length < one) {
       if (path.id === "root")
         return {
           kind: "skipped",
-          reason: `fewer than two replies of ${moves.join("/")} can be worded for ${purpose}`,
+          reason: `no reply of ${moves.join("/")} can be worded for ${purpose}`,
         };
       endNode(node, outcome, path, lastAsker);
       continue;
@@ -2043,15 +2041,6 @@ export function composeSceneTalk(
         ]),
       };
 
-      // The way out: the player ends the talk; the asker closes (outcome open).
-      if (reply.move === "leave") {
-        const farewell =
-          leaveClose(childPath, reply) ??
-          closeFor("open", childPath, undefined);
-        next.end = { outcome: "open", ...closed(farewell) };
-        if (!farewell) gap("close", "leave", reply.parts[zero]);
-        continue;
-      }
       // A reply that does the thing asked in its own words ends the talk: one
       // closing line from the asker, worded without the facts the act ended
       // (Words lead, Nov 14: "a reply that names the act ends the talk and

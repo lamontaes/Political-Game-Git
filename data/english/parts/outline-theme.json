@@ -154,13 +154,13 @@
       "key": "outline-theme.pledge.inaugural-so-if-a-bill-for-reaches-my-desk-it-goes-back-unsigned",
       "move": "pledge",
       "kind": "spoken",
-      "text": "So if a bill for {about} reaches my desk, it goes back unsigned.",
+      "text": "So if a bill to {to} reaches my desk, it goes back unsigned.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"]
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"]
         }
       ],
       "after": ["creed"],
@@ -174,13 +174,13 @@
       "key": "outline-theme.pledge.inaugural-as-long-as-i-m-president-won-t-become-law",
       "move": "pledge",
       "kind": "spoken",
-      "text": "As long as I'm President, {about} won't become law.",
+      "text": "As long as I'm President, no bill to {to} will become law.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"]
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"]
         }
       ],
       "after": ["creed"],
@@ -717,14 +717,14 @@
       "key": "outline-theme.stand-reason.inaugural-i-m-against-and-i-ll-tell-you-why",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "I'm against {about}, and I'll tell you why: {belief}.",
+      "text": "I won't {to}, and I'll tell you why: {belief}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -735,7 +735,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -746,7 +746,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -1023,40 +1023,25 @@
       "key": "outline-theme.stand.inaugural-i-mean-to-change-that-and-is-where-i-start",
       "move": "stand",
       "kind": "spoken",
-      "text": "I mean to change that, and {about} is where I start.",
+      "text": "I mean to change that, and I'll start by working to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "about-one"
-          ]
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "about-one"
-          ]
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "about-one"
-          ]
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"]
         }
       ],
       "after": ["today"],
@@ -1643,25 +1628,25 @@
       "key": "outline-theme.stand-reason.inaugural-i-m-for-for-one-reason",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "I'm for {about} for one reason: {belief}.",
+      "text": "I want to {to} for one reason: {belief}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": ["about", "belief", "stance-for", "law-not-in-force"]
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"]
         },
         {
           "subject": "state-of-the-union",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": ["about", "belief", "stance-for", "law-not-in-force"]
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"]
         },
         {
           "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": ["about", "belief", "stance-for", "law-not-in-force"]
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"]
         }
       ],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-practical"],
@@ -1674,14 +1659,14 @@
       "key": "outline-theme.stand-reason.inaugural-my-answer-on-is-no-because",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "My answer on {about} is no, because {belief}.",
+      "text": "My answer on whether to {to} is no, because {belief}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -1692,7 +1677,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -1703,7 +1688,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -1861,27 +1846,27 @@
       "key": "outline-theme.pledge.inaugural-count-on-a-veto-if-ever-reaches-me",
       "move": "pledge",
       "kind": "spoken",
-      "text": "Count on a veto if {about} ever reaches me.",
+      "text": "Count on a veto if a bill to {to} ever reaches me.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -1899,13 +1884,13 @@
       "key": "outline-theme.stand.inaugural-which-is-why-comes-first-for-me",
       "move": "stand",
       "kind": "spoken",
-      "text": "Which is why {about} comes first for me.",
+      "text": "Which is why I want to {to} before anything else.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -1923,42 +1908,27 @@
       "key": "outline-theme.stand-reason.inaugural-to-me-comes-down-to-this",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "To me, {about} comes down to this: {belief}.",
+      "text": "To me, whether to {to} comes down to this: {belief}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "belief",
-            "stance-for",
-            "law-not-in-force"
-          ],
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "belief",
-            "stance-for",
-            "law-not-in-force"
-          ],
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "belief",
-            "stance-for",
-            "law-not-in-force"
-          ],
+          "requiresFacts": ["to", "belief", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -1972,14 +1942,14 @@
       "key": "outline-theme.stand-reason.inaugural-i-can-t-back-since",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "I can't back {about}, since {belief}.",
+      "text": "I can't back a move to {to}, since {belief}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -1991,7 +1961,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -2003,7 +1973,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "belief",
             "stance-against",
             "law-not-in-force"
@@ -2557,27 +2527,27 @@
       "key": "outline-theme.pledge.inaugural-if-stalls-i-ll-bring-it-back-and-then-i-ll-bring-it-back-again",
       "move": "pledge",
       "kind": "spoken",
-      "text": "If {about} stalls, I'll bring it back, and then I'll bring it back again.",
+      "text": "If the effort to {to} stalls, I'll bring it back, and then I'll bring it back again.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -2595,13 +2565,13 @@
       "key": "outline-theme.pledge.inaugural-the-test-of-my-first-year-is-whether-we-get-done",
       "move": "pledge",
       "kind": "spoken",
-      "text": "The test of my first year is whether we get {about} done.",
+      "text": "The test of my first year is whether we {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -2619,27 +2589,27 @@
       "key": "outline-theme.pledge.inaugural-my-door-is-open-on-a-lot-of-things-but-not-on",
       "move": "pledge",
       "kind": "spoken",
-      "text": "My door is open on a lot of things, but not on {about}.",
+      "text": "My door is open on a lot of things, but not on whether to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -2654,13 +2624,13 @@
       "key": "outline-theme.pledge.inaugural-anyone-planning-on-should-plan-on-talking-to-me-first",
       "move": "pledge",
       "kind": "spoken",
-      "text": "Anyone planning on {about} should plan on talking to me first.",
+      "text": "Anyone planning to {to} should plan on talking to me first.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -2675,27 +2645,27 @@
       "key": "outline-theme.pledge.inaugural-i-ll-stand-against-this-year-next-year-and-the-year-after",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll stand against {about} this year, next year and the year after.",
+      "text": "I'll stand against any move to {to} this year, next year and the year after.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -3184,27 +3154,27 @@
       "key": "outline-theme.stand.inaugural-that-s-why-i-m-pushing-for",
       "move": "stand",
       "kind": "spoken",
-      "text": "That's why I'm pushing for {about}.",
+      "text": "That's why I'm pushing to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -3222,27 +3192,27 @@
       "key": "outline-theme.stand.inaugural-i-d-say-that-s-the-best-argument-i-know-for",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'd say that's the best argument I know for {about}.",
+      "text": "I'd say that's the best argument I know to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -3257,27 +3227,27 @@
       "key": "outline-theme.stand.inaugural-that-s-why-i-m-against",
       "move": "stand",
       "kind": "spoken",
-      "text": "That's why I'm against {about}.",
+      "text": "That's why I'm against any move to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -3292,27 +3262,27 @@
       "key": "outline-theme.stand.inaugural-i-d-say-that-s-the-best-argument-i-know-against",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'd say that's the best argument I know against {about}.",
+      "text": "I'd say that's the best argument I know against any move to {to}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -3330,42 +3300,27 @@
       "key": "outline-theme.stand-reason.inaugural-i-back-and-here-s-the-reason",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "I back {about}, and here's the reason: {belief}.",
+      "text": "I want to {to}, and here's the reason: {belief}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "belief"
-          ],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force", "belief"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "belief"
-          ],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force", "belief"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "belief"
-          ],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force", "belief"],
           "excludesFacts": []
         }
       ],
@@ -3379,42 +3334,27 @@
       "key": "outline-theme.stand-reason.inaugural-i-came-around-to-because",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "I came around to {about} because {belief}.",
+      "text": "I came around to wanting to {to}, because {belief}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "belief"
-          ],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force", "belief"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "belief"
-          ],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force", "belief"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand-reason",
           "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "belief"
-          ],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force", "belief"],
           "excludesFacts": []
         }
       ],
@@ -3431,14 +3371,14 @@
       "key": "outline-theme.stand-reason.inaugural-for-me-fails-on-one-point",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "For me, {about} fails on one point: {belief}.",
+      "text": "For me, any plan to {to} fails on one point: {belief}.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief"
@@ -3450,7 +3390,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief"
@@ -3462,7 +3402,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief"
@@ -5080,13 +5020,13 @@
       "key": "outline-theme.pledge.inaugural-i-ll-sign-the-day-it-reaches-my-desk",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'll sign {about} the day it reaches my desk.",
+      "text": "The day a bill to {to} reaches my desk, I'll sign it.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -5104,67 +5044,32 @@
       "key": "outline-theme.pledge.inaugural-send-me-and-you-ll-get-it-back-with-a-veto",
       "move": "pledge",
       "kind": "spoken",
-      "text": "Send me {about} and you'll get it back with a veto.",
+      "text": "Send me a bill to {to} and you'll get it back with a veto.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "pledge",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
       "after": ["creed"],
       "lean": ["personality-v1:facet-blunt", "personality-v1:facet-assertive"],
-      "origin": "authored",
-      "author": "the stand-and-close writer",
-      "date": "2026-11-24",
-      "elements": ["inaugural-leans-on-belief-image-pledge"]
-    },
-    {
-      "key": "outline-theme.pledge.inaugural-i-d-veto-if-it-reached-me",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'd veto {about} if it reached me.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "pledge",
-          "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
-          "excludesFacts": []
-        }
-      ],
-      "after": ["creed"],
-      "lean": ["personality-v1:facet-blunt", "personality-v1:facet-calm"],
       "origin": "authored",
       "author": "the stand-and-close writer",
       "date": "2026-11-24",
@@ -5288,27 +5193,27 @@
       "key": "outline-theme.stand.inaugural-i-m-for-and-i-d-sign-it",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'm for {about}, and I'd sign it.",
+      "text": "I want to {to}, and I'd sign the bill.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -5323,27 +5228,27 @@
       "key": "outline-theme.stand.inaugural-i-m-against-and-i-d-veto-it",
       "move": "stand",
       "kind": "spoken",
-      "text": "I'm against {about}, and I'd veto it.",
+      "text": "I'm against any move to {to}, and I'd veto the bill.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-union",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         },
         {
           "subject": "state-of-the-state",
           "role": "stand",
           "tie": "stand",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -5571,14 +5476,14 @@
       "key": "outline-theme.stand-reason.inaugural-i-m-against",
       "move": "stand-reason",
       "kind": "spoken",
-      "text": "I'm against {about}. {belief-sentence}",
+      "text": "I'm against any move to {to}. {belief-sentence}",
       "uses": [
         {
           "subject": "inaugural",
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief-sentence"
@@ -5590,7 +5495,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief-sentence"
@@ -5602,7 +5507,7 @@
           "role": "stand-reason",
           "tie": "stand",
           "requiresFacts": [
-            "about",
+            "to",
             "stance-against",
             "law-not-in-force",
             "belief-sentence"
@@ -5959,13 +5864,13 @@
       "key": "outline-theme.send-off.inaugural-i-hope-to-sign-before-long",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I hope to sign {about} before long.",
+      "text": "I hope to sign a bill to {to} before long.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -5982,13 +5887,13 @@
       "key": "outline-theme.send-off.inaugural-i-d-like-on-my-desk-before-long",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I'd like {about} on my desk before long.",
+      "text": "I'd like a bill to {to} on my desk before long.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "stance-for", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-for", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -6005,13 +5910,13 @@
       "key": "outline-theme.send-off.inaugural-i-hope-never-reaches-my-desk",
       "move": "send-off",
       "kind": "spoken",
-      "text": "I hope {about} never reaches my desk.",
+      "text": "I hope a bill to {to} never reaches my desk.",
       "uses": [
         {
           "subject": "inaugural",
           "role": "send-off",
           "tie": "frame",
-          "requiresFacts": ["about", "stance-against", "law-not-in-force"],
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"],
           "excludesFacts": []
         }
       ],
@@ -6066,56 +5971,6 @@
       "author": "the stand-and-close writer",
       "date": "2026-11-24",
       "elements": ["sotu-close-looks-ahead"]
-    },
-    {
-      "key": "outline-theme.stand.spoken-i-mean-to-change-that-and-are-where-i-start-plural",
-      "move": "stand",
-      "kind": "spoken",
-      "text": "I mean to change that, and {about} are where I start.",
-      "uses": [
-        {
-          "subject": "inaugural",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "about-many"
-          ]
-        },
-        {
-          "subject": "state-of-the-union",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "about-many"
-          ]
-        },
-        {
-          "subject": "state-of-the-state",
-          "role": "stand",
-          "tie": "stand",
-          "requiresFacts": [
-            "about",
-            "stance-for",
-            "law-not-in-force",
-            "about-many"
-          ]
-        }
-      ],
-      "after": ["today"],
-      "lean": [
-        "personality-v1:facet-practical",
-        "personality-v1:facet-ambitious"
-      ],
-      "origin": "authored",
-      "author": "the Story lead",
-      "date": "2026-11-24",
-      "elements": ["point-opens-on-a-claim"]
     },
     {
       "key": "outline-theme.stand.spoken-in-light-of-that-have-to-change-plural",
