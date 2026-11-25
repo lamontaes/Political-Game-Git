@@ -846,7 +846,7 @@ function playWorld(seed: string) {
             )
           : !wantedToRun.length && diedBeforeBallot.length
             ? unobserved(
-                `${diedBeforeBallot.length} adults other than the incumbent chose to run in the ${held.length} races decided and died before reaching the ballot (${String(diedBeforeBallot[0]!.id)})`,
+                `${diedBeforeBallot.length} adults other than the incumbent chose to run in the ${held.length} races decided and died or left the town's counts before reaching the ballot (${String(diedBeforeBallot[0]!.id)})`,
               )
             : !wantedToRun.length
               ? unobserved(
