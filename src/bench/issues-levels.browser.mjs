@@ -147,20 +147,25 @@ try {
   await browser.close();
 }
 
-// The Subject filter's choices; visit each subject.
+// The subject column's rows (pl-issues); visit each subject.
 async function eachSubject(page, visit) {
-  {
-    const select = page.locator("#sheet-body select.issue-filter");
-    const subjects = await select
-      .locator("option")
-      .evaluateAll((all) => all.map((o) => o.value).filter((v) => v !== "all"));
-    for (const subject of subjects) {
-      await select.selectOption(subject);
-      await page
-        .locator("#sheet-body .issues-laws .roster-row")
-        .first()
-        .waitFor();
-      if ((await visit()) === true) return;
-    }
+  const rows = page.locator(
+    "#sheet-body .issues-subjects > .roster .roster-row",
+  );
+  await rows.first().waitFor();
+  const subjects = await rows.evaluateAll((all) =>
+    all.map((row) => row.dataset.subject),
+  );
+  for (const subject of subjects) {
+    await page
+      .locator(
+        `#sheet-body .issues-subjects > .roster .roster-row[data-subject="${subject}"]`,
+      )
+      .click();
+    await page
+      .locator("#sheet-body .issues-laws .roster-row")
+      .first()
+      .waitFor();
+    if ((await visit()) === true) return;
   }
 }

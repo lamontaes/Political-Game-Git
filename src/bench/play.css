@@ -68,6 +68,8 @@
 
 /* ---- Kit 13 tokens ---- */
 :root {
+  /* Issues: the space between the Level and In force bars. */
+  --issues-gap: 18px;
   /* A week's row in the calendar's month: room for two things named on a day. */
   --month-row: 96px;
   /* A thing named on its day in the calendar's month. */
@@ -5763,23 +5765,48 @@ select.release-pick {
   gap: 12px;
 }
 .issue-filter-row > span {
-  color: var(--text-strong);
+  color: var(--muted);
+  font: var(--head-font);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 .issue-filter-row .tab-rail {
   margin: 0;
 }
-.issue-filter-row select.issue-filter {
-  justify-self: start;
-  min-width: 260px;
+/* The subjects beside their laws (pl-issues): the roster's list, each subject with its count. */
+.issues-subjects > .roster .roster-row span {
+  min-width: 1.5em;
+  text-align: right;
+}
+/* The Level and In force bars side by side, over the subjects and laws. */
+.issues-bars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--issues-gap);
+}
+/* The subjects and the laws stand as tall as the panel holds; the box pages inside itself
+   (ui/pager.mjs), never a scroll with free room below it (owner, Nov 23). */
+.issues-subjects > .roster,
+.issues-laws > .roster {
+  max-height: none;
+  overflow: visible;
+  margin: 0;
 }
 .issues-laws {
   width: auto;
   max-width: 100%;
-  grid-template-columns: 270px minmax(0, 1fr);
+  grid-template-columns: 390px minmax(0, 1fr);
 }
 .issues-laws .roster-row span {
   min-width: 1.5em;
   text-align: right;
+}
+/* A law's value that is long wraps inside its row, never runs out of the column. */
+.issues-laws .roster-row span {
+  white-space: normal;
+  overflow-wrap: break-word;
+  min-width: min-content;
+  max-width: 60%;
 }
 
 /* Your office (pl-office): my seat, my desk and the budget and deals in three columns. */
