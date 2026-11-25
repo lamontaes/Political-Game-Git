@@ -16,7 +16,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { REMEMBERED_RECORD_KINDS, rememberEvent } from "../person-life";
+import { REMEMBERED_RECORD_KINDS, lifeOf, rememberEvent } from "../person-life";
 import {
   addDays,
   daysBetween,
@@ -64,6 +64,8 @@ import {
   pastServiceFor,
   prisonTermOf,
   wholePastOpened,
+  type HistoryModule,
+  type HistorySource,
 } from "../past-module";
 import type {
   ActOffer,
@@ -223,7 +225,8 @@ export { MOVED_AWAY_EVENT } from "./moves";
 // A business's staff in heads and the limit on its outside orders, for dev mode's Businesses.
 export { countedHeadcountOf, limitOutsideSales } from "../residents-economy";
 // A person's life as one list, for the screens that tell it (the card, the You screen).
-export { lifeOf, type LifeEvent } from "../person-life";
+export { type LifeEvent } from "../person-life";
+
 export { heldDrivesOf } from "./drives";
 // A relative's letter and a missed family gathering, for the director's letter scene.
 export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
@@ -809,8 +812,28 @@ export function openStartingCircle(core: CoreState): void {
   }
 }
 
-export const PEOPLE_MODULE: PreStartModule = {
+/**
+ * A person's life, as the one history reader tells it for a person
+ * (src/core2/past-history.ts): their whole past written first, once, so
+ * every reader cites the same records (a card, the loading story and the
+ * Journal read the same rows), then what they went through in order.
+ */
+const LIFE_HISTORY: HistorySource = {
+  id: "life",
+  life: true,
+  open: (core, personId) => openWholePast(core, personId),
+  rows(core, scope) {
+    if (!("person" in scope)) return [];
+    return lifeOf(core, scope.person).map((event) => ({
+      ...event,
+      personIds: [scope.person, ...event.withIds],
+    }));
+  },
+};
+
+export const PEOPLE_MODULE: PreStartModule & HistoryModule = {
   id: PEOPLE_MODULE_ID,
+  history: LIFE_HISTORY,
   // One row per household, replaced each week: what its time at home was made of.
   state: { schemaVersion: 1, tables: { [HOME_TIME_TABLE]: {} } },
   preStart: { phase: "people", run: peopleHistory },
