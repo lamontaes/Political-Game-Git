@@ -79535,6 +79535,286 @@
         "key": "news-received"
       },
       "elements": ["first-hour-outside-stores-yields-nothing"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-been-walking-for-session-hours-when-name-answers-your-knock",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You have been walking for {session-hours} when {name} answers your knock.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.another-door-session-hours-in-name-opens-it-and-waits",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "Another door, {session-hours} in. {name} opens it and waits.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-looks-age-band-and-opens-the-door-before-you-finish-knocking",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} looks {age-band} and opens the door before you finish knocking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.early-in-the-walk-name-is-the-first-to-answer",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "Early in the walk, {name} is the first to answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-early"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-reach-the-next-house-and-name-is-already-at-the-door",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You reach the next house, and {name} is already at the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-steps-out-onto-the-porch-as-you-come-up-the-walk",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "{name} steps out onto the porch as you come up the walk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-curtain-moves-before-the-door-does-name-looks-age-band-and-not-in-a-hurry",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "The curtain moves before the door does. {name} looks {age-band}, and not in a hurry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "age-band"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-session-hours-into-the-street-by-now-and-name-is-the-first-to-say-hello",
+      "move": "narrate-narrate",
+      "kind": "written",
+      "text": "You are {session-hours} into the street by now, and {name} is the first to say hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "ask-support",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        },
+        {
+          "subject": "scene",
+          "purpose": "ask-signature",
+          "key": "door",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["name", "session-hours"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "the campaigning writer",
+      "date": "2026-11-25",
+      "tag": {
+        "move": "narrate",
+        "key": "door"
+      },
+      "elements": ["door-count-is-how-people-measure-effort"]
     }
   ]
 }
