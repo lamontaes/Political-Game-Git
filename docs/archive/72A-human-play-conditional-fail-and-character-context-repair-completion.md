@@ -443,11 +443,11 @@ git merge origin/main          # merge, not rebase — the branch is published
 
 Expected conflict points, all of them known:
 
-| File                             | Why                                                                     |
-| -------------------------------- | ----------------------------------------------------------------------- |
-| `src/player/PlayerGame.tsx`      | #86 binds scene surfaces in the same component this packet restructured |
-| `src/player/player.css`          | Both add rules; this packet's are appended and additive                 |
-| `src/presentation/life-story.ts` | `ScenePerson` is new here and is exactly what #86's binding needs       |
+| File                                  | Why                                                                     |
+| ------------------------------------- | ----------------------------------------------------------------------- |
+| `src/player/PlayerGame.tsx` (removed) | #86 binds scene surfaces in the same component this packet restructured |
+| `src/player/player.css`               | Both add rules; this packet's are appended and additive                 |
+| `src/presentation/life-story.ts`      | `ScenePerson` is new here and is exactly what #86's binding needs       |
 
 `ScenePerson` carries `personId`, `name`, `relationship` and `introduction` for
 everybody in a scene, which is the join #86 needs to put a face beside a name.
@@ -538,7 +538,7 @@ because it is the same branch and the same PR.
 merged clean, because `ScenePerson` was new on this side and #86 never touched
 the file.
 
-**`src/player/PlayerGame.tsx` — resolved to #86.** #86 moved the title screen
+**`src/player/PlayerGame.tsx` (removed) — resolved to #86.** #86 moved the title screen
 out into `src/player/TitleScreen.tsx` so the graphics lane could give it a
 backdrop without permanently living inside another branch's component, and left
 behind a single import. That is the better shape and it is #86's to decide, so

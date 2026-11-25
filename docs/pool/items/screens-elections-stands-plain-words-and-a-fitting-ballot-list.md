@@ -8,7 +8,7 @@ size: M
 status: open
 standard: 2
 claimed-by:
-pr:
+pr: #10520
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,8 @@ model: sonnet
 effort: medium
 root: none
 source: "CTO, Nov 24, about 1:50 p.m. Eastern (comment 7141204837 on #10377), the Replay's picture of #10363's county assessor race at Greenwald, Minnesota; the owner, Nov 23: 'Again, random ass laws like ban the box public hiring. What does that mean?' and 'Why is the 2021 on a different line?'"
+merged-at:
+claimed-at:
 ---
 
 **What.** On the Elections screen (1440 by 900) the CTO found four things. (1) A stand reads as a catalog name: "Government administration: For", "Police protection", "Corrections". (2) The ballot list is cut off: "County Commissioner (District 3) ·" ends mid-row at the panel's foot, with no way to see the rest. (3) Rows break unevenly: "Coroner · County office" has "3 running" on its line, "County assessor · County office" puts "1 running" on the next, and "ALSO ON YOUR BALLOT · NOVEMBER 3" wraps. (4) Three labels ("On my ballot", "Offices you can run for", "Also on your ballot") stack over one list, and the approved menu look has none.
@@ -34,3 +36,5 @@ Seen: Politics, Elections, a race page with candidates, and the ballot list on a
 **Waits on.** Nothing
 
 **Files.** src/bench/play.mjs,src/bench/words.ts,src/bench/government.ts,src/bench/ui/roster-screen.mjs,src/bench/ui/pager.mjs,src/bench/play.css,src/bench/data/controls.json,tests/guards/english/line-register-baseline.json,src/bench/elections-offers.browser.mjs
+
+**Notes.** Not seen in the game (2026-11-25, Replay): Greenwald, Minnesota, seed ba363284-169e-42d3-8b32-bba1c1aa23cd, main abff6c6c08: County assessor race still shows Government administration For and Against in stands
