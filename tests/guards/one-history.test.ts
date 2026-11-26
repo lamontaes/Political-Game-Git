@@ -245,7 +245,37 @@ const READ_THROUGH_THE_READER: readonly {
     reason:
       "its past (work spans, school spans) comes from historyOf; the household, kin, jobs held and campaigns it reads are present state",
   },
+  {
+    name: "laterRecordsOf",
+    file: "src/director/journal-later.ts",
+    scope: "function",
+    reason:
+      "a Journal entry's later offices and bills come from historyOf (the offices engine's terms, the legislature's bills); each bill is opened by its id",
+  },
+  {
+    name: "chamberChanges",
+    file: "src/bench/states.ts",
+    scope: "function",
+    reason:
+      "a chamber's changes are the laws its state passed, from historyOf (the laws engine's law.enacted); each law is opened by its id",
+  },
+  {
+    name: "lawDid",
+    file: "src/bench/law-did.ts",
+    scope: "function",
+    reason:
+      "a law page's rows and the day each was replaced come from historyOf (the laws engine's law.took-effect); each row is opened by its id",
+  },
 ];
+
+/**
+ * A walk of an engine's past table: its laws, terms, bills or enactments read
+ * as a list. A helper on the list above reads those through `historyOf` and
+ * opens one row by its id; a list walk inside it is a past built beside the
+ * reader (CTO, Nov 25: law-did.ts's replaced day was one, at 0 raw reads).
+ */
+const PAST_TABLE = /\.table\(\s*"(?:laws|terms|bills|enactments)"\s*\)/;
+const LIST_WALK = /\.(?:rows|query)\s*\(/;
 
 /** A helper's own code: its exported function up to the next top-level declaration, or its whole file. */
 export function helperCode(
@@ -381,6 +411,10 @@ describe("one history: every system reads the one history reader", () => {
       if (raw.length || scans.length)
         wrong.push(
           `${helper.name} (${helper.file}) reads a raw past: ${[...raw, ...scans.map(String)].join(", ")}`,
+        );
+      if (PAST_TABLE.test(code) && LIST_WALK.test(code))
+        wrong.push(
+          `${helper.name} (${helper.file}) walks an engine's laws, terms, bills or enactments table instead of reading historyOf`,
         );
       if (RAW_PAST_READERS.includes(helper.name))
         wrong.push(`${helper.name} is on both lists`);
