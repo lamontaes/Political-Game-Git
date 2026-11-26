@@ -2298,7 +2298,9 @@ function namesOf(core: Readonly<CoreState>, recordId: string): Set<string> {
 }
 
 /** The person's mood in a moment, by the sign of its channels' sum. */
-function moodOf(moment: Moment | undefined): number {
+function moodOf(
+  moment: { readonly channels?: Moment["channels"] } | undefined,
+): number {
   const sum = (moment?.channels ?? []).reduce(
     (total, row) => total + row.contribution,
     zero,
@@ -2312,7 +2314,13 @@ function moodOf(moment: Moment | undefined): number {
  */
 function linkLines(
   core: Readonly<CoreState>,
-  moments: ReadonlyMap<string, Moment>,
+  moments: ReadonlyMap<
+    string,
+    {
+      readonly echoes: Moment["echoes"];
+      readonly channels?: Moment["channels"];
+    }
+  >,
   chapters: JournalChapter[],
 ): void {
   let before: JournalLine | undefined;
