@@ -260,6 +260,26 @@ const READ_THROUGH_THE_READER: readonly {
       "a chamber's changes are the laws its state passed, from historyOf (the laws engine's law.enacted); each law is opened by its id",
   },
   {
+    name: "sponsoredBills",
+    file: "src/core2/modules/legislature.ts",
+    scope: "function",
+    reason:
+      "a person's sponsored bills come from historyOf (the legislature's bill.introduced); each bill is opened by its id",
+  },
+  {
+    name: "playerRecord",
+    file: "src/bench/campaign.ts",
+    scope: "function",
+    reason:
+      "the record voters read: votes from votesCast, bills from sponsoredBills; a vote's bill is opened by its id",
+  },
+  {
+    name: "seatView",
+    file: "src/bench/legislature.ts",
+    scope: "function",
+    reason: "a member's bills come from sponsoredBills",
+  },
+  {
     name: "lawDid",
     file: "src/bench/law-did.ts",
     scope: "function",

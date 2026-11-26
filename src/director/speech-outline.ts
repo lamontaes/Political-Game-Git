@@ -86,7 +86,7 @@ import billCatalog from "../core2/data/legislature/bill-catalog.json" with { typ
 import { P } from "../core2/parameters";
 import {
   formKindOf,
-  LEGISLATURE_MODULE_ID,
+  sponsoredBills,
   type BillRow,
 } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
@@ -1243,9 +1243,9 @@ function conditionFigure(country: Country, topic: string): Facts {
 /** The bills a person sponsored, newest first, as their history tells them (`sponsoredBills`). */
 function billsSponsoredBy(core: CoreState, personId: string): BillRow[] {
   return sponsoredBills(core, personId).sort(
-      (a, b) =>
-        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
-    );
+    (a, b) =>
+      b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+  );
 }
 
 /** The questions a bill answers: its policy questions and its budget lines. */
