@@ -219,11 +219,6 @@ export function climateNow(api: CoreAPI): ClimateMonth | null {
     : null;
 }
 
-/** Degrees C of warming since the world opened. */
-export function warmingNow(api: CoreAPI): number {
-  return climateNow(api)?.warmingC ?? 0;
-}
-
 /** A hazard's level against the recorded history's own (1 before the climate has a month). */
 export function hazardFactor(api: CoreAPI, hazard: Hazard): number {
   return climateNow(api)?.hazard[hazard] ?? 1;
