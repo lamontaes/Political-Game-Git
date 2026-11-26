@@ -57,6 +57,17 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { recordIncomeTaxApplied } from "./tax-applied";
+export {
+  businessAvailableCredit,
+  endRecipientIncomeAtDeath,
+  handOverContractsAtDeath,
+} from "./finance-state";
+export { drawSavingsToCover } from "./accounts";
+export type {
+  BusinessBooksState,
+  ResidentWageShortfall,
+} from "./finance-types";
 export { bankDeposit, personOutflowsForMonth } from "./accounts";
 export { openOutsideBudgets } from "./modules/outside-budgets";
 export { openEmployerTaxes } from "./modules/employer-taxes";

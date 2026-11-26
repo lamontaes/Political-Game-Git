@@ -34,24 +34,29 @@ import housingParameters from "../data/housing/parameters.json" with { type: "js
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { bookkeeping } from "../bookkeeping";
-import { depositsHeld, withdrawSavings } from "../accounts";
-import { transferCash } from "../world-transfer";
+import { depositsHeld, withdrawSavings } from "./budgets";
+import { transferCash } from "../budgets-treasury";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import { COUNTED_PLACE_PREFIX, type CountedHousehold } from "../counted-groups";
-import type { FinanceContractInput } from "../finance-types";
+import type { FinanceContractInput } from "./finance";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
-import { bankYes, lendMortgage, monthlyIncome, mortgageRoom } from "./credit";
+import {
+  bankYes,
+  lendMortgage,
+  monthlyIncome,
+  mortgageRoom,
+} from "../macro-model";
 import { BUY_PULL, buyMarket, weighHome } from "../housing-buy";
 import {
   buyCountedHomes,
   type CountedBuyWorld,
   settleCountedNewcomers,
 } from "../housing-counted-buy";
-import { CREDIT_PARAMETERS } from "./credit";
+import { CREDIT_PARAMETERS } from "../macro-model";
 import { DEFAULT_DATA } from "../data";
 import {
   MORTGAGE_PREFIX,

@@ -15,7 +15,8 @@
  */
 import causeData from "./data/health/death-causes.json" with { type: "json" };
 import { ssa2023AnnualProbability } from "./health-mortality-table";
-import { webDayCache, webReach, type Subject } from "./outcome-web-reach";
+import { webDayCache, type Subject } from "./laws-in-force";
+import { webReach } from "./modules/laws";
 import { registerWorldMapPart } from "./snapshot";
 import type { CoreAPI, CoreState } from "./types";
 

@@ -14,7 +14,7 @@ import {
   decideUnplanned,
   unplannedExposure,
 } from "../births-unplanned";
-import { transferCash } from "../world-transfer";
+import { transferCash } from "../budgets-treasury";
 import { lawApplied } from "../law-reach/applied";
 import { applyCountedFlows, partnerByAge } from "../births-counted";
 import { nextMonthDay } from "../residents";

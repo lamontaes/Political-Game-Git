@@ -23,6 +23,29 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
+export {
+  DEATH_WEB_REFRESH_DAY,
+  deathWebFactor,
+  markWaitingHealthLinks,
+  youthCannabisWeb,
+} from "./health-web";
+export {
+  PAID_LEAVE_KEY,
+  paidLeavePremium,
+  paidLeaveProgram,
+} from "./paid-leave";
+export { webDayCache } from "./outcome-web-reach";
+export {
+  GOVERNMENT_HEIR,
+  assessEstateTaxes,
+  assessInheritanceTax,
+} from "./laws-death-taxes";
+export type { DeathTax } from "./laws-death-taxes";
+export { mechanicRow } from "./law-reach/group-a-records";
+export { townShare } from "./law-reach/group-b-money";
+export { startingSocialSecurityAges } from "./social-security-law";
+export type { SocialSecurityAges } from "./social-security-law";
+export { baseOf } from "./outcome-web-model";
 export { crimeChange } from "./modules/crime";
 export {
   applyElectionLaws,

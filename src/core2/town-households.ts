@@ -9,7 +9,7 @@ import {
   inventedPersonAge,
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "./gov-rules/invented-person-age";
+} from "./modules/executive";
 import { birthCohortGivenName } from "./gov-rules/given-name-cohorts";
 import { DEFAULT_CORPUS_VERSION } from "./gov-rules/names-data";
 import {

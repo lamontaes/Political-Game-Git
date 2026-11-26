@@ -38,17 +38,17 @@ import {
 // Screens read a full person's circumstances through the views engine.
 export { fullLifeStake };
 import { stableHash, pairKey } from "../kernel/ids";
-import { livedQuestion } from "../outcome-news";
+import { livedQuestion } from "./press";
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
   groupStance,
   personLean,
-  personStance,
   popularity,
   STANCE_LOADINGS,
   type StanceProfile,
-} from "../campaign-views";
+} from "./campaigns";
+import { personStance } from "./elections";
 import { currentCloseness } from "../closeness";
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };

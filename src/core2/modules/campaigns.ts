@@ -152,6 +152,13 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
+export {
+  STANCE_LOADINGS,
+  groupStance,
+  personLean,
+  popularity,
+} from "../campaign-views";
+export type { StanceProfile } from "../campaign-views";
 export { filingClerkFor } from "./filing-clerk";
 export { choosesPresident } from "../electorate-places";
 export {

@@ -37,7 +37,7 @@
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
-import { outsideGovernment } from "./outside-governments";
+import { outsideGovernment } from "./modules/executive";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { coreStateKeyOfPlaceholderId } from "./place-lookup";
 import {
@@ -45,7 +45,7 @@ import {
   assessInheritanceTax,
   GOVERNMENT_HEIR,
   type DeathTax,
-} from "./laws-death-taxes";
+} from "./laws-in-force";
 import { appliedTo, lawApplied } from "./law-reach/applied";
 import { closenessBetween } from "./closeness";
 import { leanedYes } from "./trait-decisions";
@@ -57,7 +57,7 @@ import { isDemoted } from "./counted-groups";
 import {
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
-} from "./finance-state";
+} from "./budgets-treasury";
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { homeSaleOf, recordEstatePaid, sellHome } from "./housing-sale";
 import type {

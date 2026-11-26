@@ -54,12 +54,8 @@ import {
 } from "./reference/living-costs-data";
 import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
-import {
-  nationalMedianAnnualWage,
-  townJobRate,
-  townPayPercentile,
-  weeklyHoursOf,
-} from "./town-pay";
+import { nationalMedianAnnualWage } from "./modules/jobs";
+import { townJobRate, townPayPercentile, weeklyHoursOf } from "./macro-model";
 import { TOWN_PAY_META } from "./reference/town-pay.generated";
 import { startingMinimumHourlyAt } from "./laws-in-force";
 import { hudRentRowFor } from "./hud-rents";
@@ -75,7 +71,7 @@ import {
 import {
   placeGovernmentOrganizations,
   placeLocalGovernmentUnits,
-} from "./gov-rules/local-governments";
+} from "./modules/executive";
 import {
   groupQuartersProfileOf,
   outsideLaborForce,
@@ -91,7 +87,7 @@ import {
 import {
   householdOpeningCash,
   medianTransactionBalance,
-} from "./starting-cash";
+} from "./modules/budgets";
 import { placeEarningsOf } from "./residents";
 import { householdBalanceDraw } from "./household-balance-draw";
 import { seedableTraits } from "./opening-trait-table";
@@ -115,7 +111,7 @@ import {
   type GenderIdentityKey,
 } from "./gov-rules/person-identity";
 import { birthCohortGivenName } from "./gov-rules/given-name-cohorts";
-import { inventedPersonBirthDate } from "./gov-rules/invented-person-age";
+import { inventedPersonBirthDate } from "./modules/executive";
 import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";

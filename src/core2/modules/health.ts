@@ -26,7 +26,7 @@ import {
   deathWebFactor,
   markWaitingHealthLinks,
   youthCannabisWeb,
-} from "../health-web";
+} from "../laws-in-force";
 import {
   assignDeathCause,
   type DeathCause,

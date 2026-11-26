@@ -18,10 +18,10 @@
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
-import { webFactorFor } from "./outcome-web-reach";
+import { webFactorFor } from "./modules/laws";
 import { carriedLink } from "./modules/outcome-web";
 import { stableHash } from "./kernel/ids";
-import { transferCash } from "./world-transfer";
+import { transferCash } from "./budgets-treasury";
 import { lawApplied } from "./law-reach/applied";
 import { townOutsideOf } from "./opening-outside-market";
 import type { CoreAPI, CoreState, Source } from "./types";

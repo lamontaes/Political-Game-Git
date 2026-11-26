@@ -49,7 +49,7 @@ import {
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { sellHome } from "../housing-sale";
-import { endLivingPlan } from "../cost-of-living";
+import { endLivingPlan } from "../macro-model";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
 import {
@@ -57,7 +57,8 @@ import {
   destinationWeights,
   placeLeavingConditions,
 } from "./counted-moves";
-import { webReach, type Subject } from "../outcome-web-reach";
+import { webReach } from "./laws";
+import { type Subject } from "../laws-in-force";
 import { registerModule } from "../state";
 import { isDemoted } from "../counted-groups";
 import { townPlaceOf } from "./residents";

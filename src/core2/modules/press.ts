@@ -4713,6 +4713,7 @@ export const INTERVIEW_INVITED_EVENT = "interview-invited";
 export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
 // The replies that accept or turn down an ask live with every engine that reads them.
 import { ACCEPTING_MOVES, REFUSING_MOVES } from "../scene-replies";
+export { livedQuestion } from "../outcome-news";
 export { monthEvent } from "../outcome-news";
 export { ACCEPTING_MOVES, REFUSING_MOVES };
 

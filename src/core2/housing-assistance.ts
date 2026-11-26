@@ -15,15 +15,15 @@ import {
   HOUSING_LINE_KEY,
   housingLineMeasureId,
 } from "./law-reach/group-a-money";
-import { mechanicRow } from "./law-reach/group-a-records";
-import { townShare } from "./law-reach/group-b-money";
+import { mechanicRow } from "./laws-in-force";
+import { townShare } from "./laws-in-force";
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments, lineExtra } from "./modules/budgets";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { tenants } from "./housing-occupancy";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { noteLinePaid } from "./budgets-treasury";
-import { transferCash } from "./world-transfer";
+import { transferCash } from "./budgets-treasury";
 import type { CoreAPI, CoreState } from "./types";
 
 export const HOUSING_ASSISTANCE_KEY = HOUSING_LINE_KEY;
