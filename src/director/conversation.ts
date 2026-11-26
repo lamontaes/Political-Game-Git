@@ -172,6 +172,7 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  replyHasMatter,
   replyAnswersAsk,
   replyOffered,
   replyReach,
@@ -7075,27 +7076,24 @@ function offerChoices(
     // "Wow." or "Really?" (owner, Nov 12: "the just non-replies").
     if (!replyAnswersAsk({ putQuestion, askedMove, fitting, choiceKey }))
       return;
-    // Never asked what the talk already said, by either of them: a question
-    // whose answer is in an earlier line (its record cited and its words
-    // said) is not offered ("McKenzie's Kitchen for me, 18 years now." then
-    // "How long have you worked there?"; item
-    // words-everyday-talk-asks-the-same-question).
+    // What the reply raises is only offered where it has something to say
+    // (the engine's rule).
+    const theirs = raised ? replyFacts(core, otherId, raised) : undefined;
     if (
-      raised &&
-      alreadyAnswered(
-        conversation,
-        replyFacts(core, otherId, raised)?.facts ?? {},
-      )
+      !replyHasMatter({
+        raised: !raised
+          ? "none"
+          : raised === last.subject
+            ? "turned-back"
+            : "other",
+        alreadyAnswered:
+          !!raised && alreadyAnswered(conversation, theirs?.facts ?? {}),
+        otherHasAnswer: !!theirs,
+        asks: answer.asks,
+        raisesAsMove: !!group.raises,
+      })
     )
       return;
-    // A question the other person has no answer to on record is not offered
-    // (a pressed question is always answered).
-    if (raised && raised !== last.subject && !replyFacts(core, otherId, raised))
-      return;
-    // Turning the question back asks it; nothing more is said.
-    if (raised === last.subject && !answer.asks) return;
-    // A move that turns the question back says nothing without its subject.
-    if (!raised && group.raises && answer.asks) return;
     if (raised && raised !== last.subject) {
       const line = words(
         core,

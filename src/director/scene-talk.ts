@@ -950,6 +950,33 @@ export function replyOffered(input: {
   );
 }
 
+/**
+ * Whether a reply has something to say. A question whose answer the talk
+ * already said, by either of them, is not offered ("McKenzie's Kitchen for me,
+ * 18 years now." then "How long have you worked there?"); nor is a question
+ * the other person has no answer to on record (a pressed question is always
+ * answered); turning the question back asks it and says nothing more; and a
+ * move that turns the question back says nothing without its subject.
+ */
+export function replyHasMatter(input: {
+  /** What the reply raises: nothing, the question just asked (turned back), or another subject. */
+  raised: "none" | "turned-back" | "other";
+  /** The raised subject's answer is already in an earlier line of the talk. */
+  alreadyAnswered: boolean;
+  /** The other person has an answer to the raised subject on record. */
+  otherHasAnswer: boolean;
+  /** The reply's own wording asks a question. */
+  asks: boolean;
+  /** The reply's move is one that turns the question back. */
+  raisesAsMove: boolean;
+}): boolean {
+  if (input.raised !== "none" && input.alreadyAnswered) return false;
+  if (input.raised === "other" && !input.otherHasAnswer) return false;
+  if (input.raised === "turned-back" && !input.asks) return false;
+  if (input.raised === "none" && input.raisesAsMove && input.asks) return false;
+  return true;
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;
