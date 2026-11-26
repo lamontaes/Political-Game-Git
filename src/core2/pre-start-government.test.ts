@@ -8,6 +8,8 @@ import { setBookkeeping } from "./bookkeeping";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { knownCard } from "../bench/card";
 import { preStartHistory } from "./pre-start";
+import { historyOf } from "./past";
+import { LAW_STATUTE } from "./modules/laws";
 import { coreAPI } from "./state";
 
 it("lists how an official reached their seat before the start, by record id", () => {
@@ -47,11 +49,17 @@ it("lists how an official reached their seat before the start, by record id", ()
   expect(carded, `${label}: no seat record names its holder`).toBeGreaterThan(
     0,
   );
-  const phases = preStartHistory(core, { kind: "law.phase" });
+  // A law's dated changes before the start are its statutes, through the one
+  // history reader (one record each; the past keeps no copy).
+  const phases = historyOf(
+    core,
+    { nation: true },
+    { kinds: [LAW_STATUTE] },
+  ).filter((row) => row.date < core.startedAt);
   expect(phases.length, label).toBeGreaterThan(0);
   const laws = coreAPI(core).moduleState("core2-laws-v1").table("laws");
   for (const row of phases) {
-    expect(laws.get(String(row.facts.lawId)), row.id).toBeDefined();
+    expect(laws.get(String(row.facts?.lawId)), row.id).toBeDefined();
     expect(row.date < core.startedAt, row.id).toBe(true);
   }
   // A budget adopted before the start is entered with its own record id; the
