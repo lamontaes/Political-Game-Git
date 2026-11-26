@@ -4707,7 +4707,7 @@
     }
   },
   "home": {
-    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). Where someone says where they stand (`ownView`), the player may ask why (`why`) or agree or disagree (`takes`): the answer to why is composed under `backSubject`, the answer to a take under `takeSubject` by the reply's move, carrying the facts in `takeCarries` that the talk already holds. Where someone tells news (`news`), a reply that takes a side (`sides`) is learned by everyone who heard it, and the answer is composed under `backSubject`; when the player answers a printed story the neighbor asked about with one of `tellsStand`, the neighbor says where they stand under `standSubject`. A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
+    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). Where someone says where they stand (`ownView`), the player may ask why (`why`) or agree or disagree (`takes`): the answer to why is composed under `backSubject`, the answer to a take under `takeSubject` by the reply's move, carrying the facts in `takeCarries` that the talk already holds. Where someone asks the player a small question (`giveBack`), the asker gives their own answer back after the player's: `kinds` are the questions, `answers` the player's moves a give-back answers and its stage for each, `plain` the moves that are the plain answer, and `covers` the raised kinds a give-back already told. Where someone tells news (`news`), a reply that takes a side (`sides`) is learned by everyone who heard it, and the answer is composed under `backSubject`; when the player answers a printed story the neighbor asked about with one of `tellsStand`, the neighbor says where they stand under `standSubject`. A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
     "ownView": {
       "why": "why",
       "takes": ["agree", "disagree"],
@@ -4720,6 +4720,35 @@
       "standSubject": "news-ask",
       "sides": ["for", "against"],
       "tellsStand": ["yes", "no", "react"]
+    },
+    "giveBack": {
+      "about": "Lead, Nov 13, 2026 (conversation.test, Jackson Center: every talk away from home ended on the player's answer): a person who asks the player a small question gives their own answer back after the player's, from their own record, and that closes the talk with something said; a question with nothing to give back is not asked. The asked kinds; their give-back lines are composed under `<kind>-give`.",
+      "kinds": [
+        "home-new",
+        "own-work-new",
+        "asked-kin",
+        "school",
+        "asked-mutual",
+        "shared-school"
+      ],
+      "covers": {
+        "about": "Lead, Nov 14, rule 53 (one fact, once): a give-back already said where the asker lives, so the player's own question about it (a raised `home`) is not answered a second time. The asked kind, then the raised kinds its give-back covers.",
+        "home-new": ["home"]
+      },
+      "answers": {
+        "about": "Coordinator for the account lead, Nov 15 (owner, Nov 14: replies must look like choices): asked about someone both know, the player may answer, or answer and ask back how the asker is or why they ask, never a no against the record; the asker's give-back answers each in its own stage. The asked kind, then each player's move its give-back answers and the give-back's stage for it. Asked whether they remember a school both went to, the asker says how long it has been, or agrees where the player's answer already said it (Cumming, Iowa, seed 7952d3f3e3253ee4, Nov 15).",
+        "asked-mutual": {
+          "turn": "saw",
+          "ask-why": "ask-why"
+        },
+        "shared-school": {
+          "years": "agree"
+        }
+      },
+      "plain": {
+        "about": "Coordinator for the account lead, Nov 15: the moves that are the plain answer a turned-back question (\"Have you?\", \"Why do you ask?\") follows, for an asked kind with no move named plain. The asked kind, then its plain moves in order.",
+        "asked-mutual": ["saw", "not"]
+      }
     },
     "dayBack": {
       "omitsTold": {

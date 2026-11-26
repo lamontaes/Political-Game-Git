@@ -212,6 +212,12 @@ const HOME = (
       dayBack: {
         omitsTold: { kinds: readonly string[]; figures: readonly string[] };
       };
+      giveBack: {
+        kinds: readonly string[];
+        answers: Readonly<Record<string, unknown>>;
+        plain: Readonly<Record<string, unknown>>;
+        covers: Readonly<Record<string, unknown>>;
+      };
       news: {
         backSubject: string;
         standSubject: string;
@@ -787,6 +793,63 @@ export function newsLine(
     input.which === "back" ? HOME.news.backSubject : HOME.news.standSubject,
     input.facts,
     "default",
+    input.momentKey,
+    input.saidParts,
+  );
+}
+
+/** The row of a give-back table for an asked kind (the table's own `about` note is not a kind). */
+function giveRow<T>(
+  table: Readonly<Record<string, unknown>>,
+  kind: string,
+): T | undefined {
+  return kind === "about" ? undefined : (table[kind] as T | undefined);
+}
+
+/** Whether the asker of this small question gives their own answer back after the player's. */
+export function asksGiveBack(kind: string): boolean {
+  return HOME.giveBack.kinds.includes(kind);
+}
+
+/** The stage of the asker's give-back for one of the player's moves, where the give-back answers that move as well as a plain answer. */
+export function giveBackStage(kind: string, move: string): string | undefined {
+  return giveRow<Record<string, string>>(HOME.giveBack.answers, kind)?.[move];
+}
+
+/** The moves that are the plain answer to this question, where it has no move named plain. */
+export function plainAnswersOf(kind: string): readonly string[] {
+  const row = giveRow<string[]>(HOME.giveBack.plain, kind);
+  return Array.isArray(row) ? row : [];
+}
+
+/** Whether the asker's give-back already told a subject of this raised kind. */
+export function giveBackCovers(kind: string, raisedKind: string): boolean {
+  const row = giveRow<string[]>(HOME.giveBack.covers, kind);
+  return Array.isArray(row) && row.includes(raisedKind);
+}
+
+/**
+ * The asker's own answer, given back after the player's: composed under
+ * `<kind>-give` at the stage the give-back chose, from the facts their own
+ * record gave. Null where no wording fits.
+ */
+export function giveBackLine(
+  core: Readonly<CoreState>,
+  input: {
+    kind: string;
+    stage: string;
+    speakerId: PersonId;
+    facts: Readonly<Record<string, Fact>>;
+    momentKey: string;
+    saidParts: readonly string[];
+  },
+): Said | null {
+  return composedLine(
+    core,
+    input.speakerId,
+    `${input.kind}-give`,
+    input.facts,
+    input.stage,
     input.momentKey,
     input.saidParts,
   );

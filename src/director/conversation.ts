@@ -176,6 +176,11 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  asksGiveBack,
+  giveBackCovers,
+  giveBackLine,
+  giveBackStage,
+  plainAnswersOf,
   newsAnswerTellsStand,
   newsBackSubject,
   newsLine,
@@ -4705,27 +4710,6 @@ function askedKind(
 }
 
 /** The other person asks about one of the player's subjects. */
-/** The small questions whose asker gives their own answer back after the player's (conversation-rules.json givesBack). */
-const GIVES_BACK: readonly string[] = (
-  CONVERSATION_RULES as unknown as { givesBack: { kinds: string[] } }
-).givesBack.kinds;
-
-/** The player's moves a give-back answers as well as a plain answer, and its stage for each, by the asked kind (conversation-rules.json givesBack.answers): asked back "Why do you ask?", the asker says why. */
-const GIVES_ANSWER: Readonly<Record<string, Readonly<Record<string, string>>>> =
-  (() => {
-    const answers = {
-      ...((
-        CONVERSATION_RULES as unknown as {
-          givesBack: {
-            answers?: Record<string, Record<string, string> | string>;
-          };
-        }
-      ).givesBack.answers ?? {}),
-    };
-    delete answers.about;
-    return answers as Record<string, Record<string, string>>;
-  })();
-
 /**
  * Whether the asker last saw the person when the player says they did, so
  * their give-back would only say the player's own words again ("I saw him a
@@ -4746,32 +4730,6 @@ function sameWhen(
     spokenWhen(mine.date, core.date) === spokenWhen(seen.date, core.date)
   );
 }
-
-/** The moves that are the plain answer to a question, where it has no move named plain, by the asked kind (conversation-rules.json givesBack.plain). */
-const PLAIN_ANSWERS: Readonly<Record<string, readonly string[]>> = (() => {
-  const plain = {
-    ...((
-      CONVERSATION_RULES as unknown as {
-        givesBack: { plain?: Record<string, string[] | string> };
-      }
-    ).givesBack.plain ?? {}),
-  };
-  delete plain.about;
-  return plain as Record<string, string[]>;
-})();
-
-/** The raised kinds a give-back already told, by the asked kind (conversation-rules.json givesBack.covers). */
-const GIVES_COVER: Readonly<Record<string, readonly string[]>> = (() => {
-  const covers = {
-    ...(
-      CONVERSATION_RULES as unknown as {
-        givesBack: { covers: Record<string, string[] | string> };
-      }
-    ).givesBack.covers,
-  };
-  delete covers.about;
-  return covers as Record<string, string[]>;
-})();
 
 /**
  * What the asker of a small question gives back after the player's answer,
@@ -4899,7 +4857,7 @@ function giveBack(
       // the player's move names in the rules).
       stage: sameWhen(core, playerId, aboutId, seen, move)
         ? "same"
-        : (GIVES_ANSWER[kind]?.[move ?? ""] ?? "saw"),
+        : (giveBackStage(kind, move ?? "") ?? "saw"),
       learned: {},
     };
   }
@@ -4914,7 +4872,7 @@ function giveBack(
     if (!years || said.includes("years")) return null;
     return {
       facts: { you, years },
-      stage: GIVES_ANSWER[kind]?.[move ?? ""] ?? "years",
+      stage: giveBackStage(kind, move ?? "") ?? "years",
       learned: {},
     };
   }
@@ -5018,15 +4976,14 @@ function sayGiveBack(
     move,
   );
   const line = back
-    ? composedLine(
-        core,
-        otherId,
-        `${last.kind}-give`,
-        nameOnce(core, conversation, otherId, playerId, back.facts),
-        back.stage,
-        `${eventId}:give`,
-        saidParts(conversation, otherId),
-      )
+    ? giveBackLine(core, {
+        kind: last.kind,
+        stage: back.stage,
+        speakerId: otherId,
+        facts: nameOnce(core, conversation, otherId, playerId, back.facts),
+        momentKey: `${eventId}:give`,
+        saidParts: saidParts(conversation, otherId),
+      })
     : null;
   if (!back || !line) return false;
   conversation.lines.push({
@@ -5126,7 +5083,7 @@ function askSubject(
   // A small question is asked only when the asker has their own answer to
   // give back (lead, Nov 13).
   if (
-    GIVES_BACK.includes(kind) &&
+    asksGiveBack(kind) &&
     !canGiveBack(core, playerId, otherId, kind, subject)
   ) {
     conversation.used.push(subject.id);
@@ -5256,7 +5213,7 @@ function raiseSubject(
   // give back (lead, Nov 13): a relative with neither work nor a home on
   // record is not asked about.
   if (
-    GIVES_BACK.includes(then.kind) &&
+    asksGiveBack(then.kind) &&
     !canGiveBack(core, playerId, otherId, then.kind, subject)
   )
     return false;
@@ -7130,7 +7087,7 @@ function offerChoices(
       // The plain answer: the move named plain, or the one the rules name
       // for the question (asked about someone both know: when the player saw
       // them, or that they have not).
-      const plain = [...(PLAIN_ANSWERS[last.kind] ?? []), "plain"]
+      const plain = [...plainAnswersOf(last.kind), "plain"]
         .map((key) => groups.get(key) && answerWith(groups.get(key)!, key))
         .find(Boolean);
       if (plain && !plain.asks) {
@@ -7209,7 +7166,7 @@ function offerChoices(
       dayBack(last.kind) ||
       // A question turned back the asker's give-back answers ("Why do you
       // ask?" "Just wondering. I saw her last week.").
-      !!GIVES_ANSWER[last.kind]?.[choiceKey] ||
+      !!giveBackStage(last.kind, choiceKey) ||
       REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
     // A slot that opens a sentence is said with a capital, as every line is.
     const text = sentenceStarts(joinedReply(head, tail));
@@ -8386,7 +8343,7 @@ function sayNow(
   const gave =
     !doubted &&
     !choice.lie &&
-    GIVES_BACK.includes(last.kind) &&
+    asksGiveBack(last.kind) &&
     sayGiveBack(
       core,
       conversation,
@@ -8398,8 +8355,7 @@ function sayNow(
     );
   // A raised answer the give-back already told (where they live, said as the
   // give-back) is not told again (lead, Nov 14, rule 53: one fact, once).
-  const covered =
-    gave && !!raised && GIVES_COVER[last.kind]?.includes(raised.kind) === true;
+  const covered = gave && !!raised && giveBackCovers(last.kind, raised.kind);
   if (gave && (!raised || covered)) {
     carryOn(core, conversation, data);
     return conversation;
