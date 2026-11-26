@@ -524,58 +524,6 @@
         "citation": "Unverified estimate (Nov 14, 2026): the range the value is checked across in a played year; no study measures it. The owner's answer 7: no study measures how many days grief or recall stays raised around an anniversary; the only measured window is one week."
       }
     },
-    "directorPastChildBorn": {
-      "value": 0.39,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Gain of a new family member' row, 39 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates",
-      "spread": {
-        "low": 0.39,
-        "high": 0.52,
-        "unit": "life-change units divided by 100",
-        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
-    },
-    "directorPastPartner": {
-      "value": 0.5,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Marriage' row, 50 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates",
-      "spread": {
-        "low": 0.5,
-        "high": 0.5,
-        "unit": "life-change units divided by 100",
-        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
-    },
-    "directorPastSchoolStage": {
-      "value": 0.26,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Begin or end school' row, 26 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates",
-      "spread": {
-        "low": 0.26,
-        "high": 0.34,
-        "unit": "life-change units divided by 100",
-        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
-    },
-    "directorPastWorkStart": {
-      "value": 0.2,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in work hours or conditions' row, 20 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates",
-      "spread": {
-        "low": 0.2,
-        "high": 0.37,
-        "unit": "life-change units divided by 100",
-        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
-    },
     "directorMemoryRecentDays": {
       "value": 91,
       "tag": "TUNABLE",
@@ -1093,21 +1041,17 @@
   "pastFactMoments": [
     {
       "kindPrefix": "family:child",
-      "parameter": "directorPastChildBorn",
       "counterpart": "child-born-that-day"
     },
     {
       "kindPrefix": "family:partner",
-      "parameter": "directorPastPartner",
       "counterpart": "partner"
     },
     {
-      "kindPrefix": "school.started",
-      "parameter": "directorPastSchoolStage"
+      "kindPrefix": "school.started"
     },
     {
-      "kindPrefix": "work:",
-      "parameter": "directorPastWorkStart"
+      "kindPrefix": "work:"
     }
   ],
   "settingHours": {

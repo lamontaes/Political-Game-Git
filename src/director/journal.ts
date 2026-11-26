@@ -64,6 +64,7 @@ import {
   PAST_WORK_SPELL,
   PERSON_MOVED_IN,
   SCHOOL_STARTED,
+  historyEvent,
   historyOf,
   schoolsAttended,
   sharedHistory,
@@ -72,7 +73,7 @@ import { pastParameter } from "../core2/past-module";
 import { moneySaid } from "../english/count-words";
 
 import { spanSaid } from "../english/span-words";
-import type { Moment } from "./types";
+import type { CallbackLink, Moment } from "./types";
 import { tieSide } from "./relation-facts";
 import {
   OFFICE_DAY_MODULE_ID,
@@ -956,6 +957,61 @@ function sceneEndingMoments(
 }
 
 /**
+ * What the history says about the moments the Journal makes from records
+ * (owner, Nov 25: "THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM THE
+ * SAME HISTORY"): how much each mattered, the history reader's one score for a
+ * record in the person's own history (src/core2/data/history/mattered.json),
+ * which the ledger reads for the same past; and what it echoes, an earlier
+ * moment whose record the reader names among this one's causes. A moment its
+ * history gives no score keeps none.
+ */
+function withWhatMattered(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  moments: readonly JournalMoment[],
+): JournalMoment[] {
+  const scores = new Map<string, number>();
+  for (const from of ["built", "past"] as const)
+    for (const event of historyOf(
+      core as CoreState,
+      { person: personId },
+      { from },
+    ))
+      if (event.mattered !== undefined) scores.set(event.id, event.mattered);
+  const recordOf = (moment: JournalMoment) =>
+    moment.causeFactId ?? moment.causeId;
+  const scored = moments.map((moment) => {
+    const score = scores.get(recordOf(moment));
+    return score === undefined
+      ? moment
+      : // A recorded past weighs then what it weighs now, as the ledger's does.
+        { ...moment, impact: score, hindsight: score };
+  });
+  const byRecord = new Map(scored.map((moment) => [recordOf(moment), moment]));
+  return scored.map((moment) => {
+    const event = historyEvent(core as CoreState, recordOf(moment));
+    if (!event) return moment;
+    const echoes = [...event.causeIds]
+      .flatMap((id) => {
+        const earlier = byRecord.get(id);
+        return earlier && earlier !== moment && earlier.date <= moment.date
+          ? [earlier]
+          : [];
+      })
+      .map((earlier): CallbackLink => ({
+        earlierId: earlier.id,
+        earlierKind: "moment",
+        otherId: earlier.counterpartIds[zero] ?? personId,
+        reason: "caused",
+        strength: earlier.impact,
+      }));
+    return echoes.length
+      ? { ...moment, echoes: [...moment.echoes, ...echoes] }
+      : moment;
+  });
+}
+
+/**
  * What the person did in office, read from the acts the office-day engine
  * keeps (a vote, a town hall, an interview): each is a moment the journal
  * tells, citing the act's own record and, for a vote, the bill.
@@ -1550,11 +1606,13 @@ export function composeJournal(
           ),
       ),
     ),
-    ...sceneEndingMoments(core, book, personId),
-    ...householdMoments(core, person),
-    ...pastWorkMoments(core, person),
-    ...comingOfAgeMoments(core, person),
-    ...schoolFinishedMoments(core, person),
+    ...withWhatMattered(core, personId, [
+      ...sceneEndingMoments(core, book, personId),
+      ...householdMoments(core, person),
+      ...pastWorkMoments(core, person),
+      ...comingOfAgeMoments(core, person),
+      ...schoolFinishedMoments(core, person),
+    ]),
   ]
     .filter((moment) => moment.date <= through)
     .sort(
@@ -2199,7 +2257,9 @@ export function composeJournal(
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
   const kept = chapters.filter((row) => row.lines.length > zero);
-  linkLines(core, book.momentsById, kept);
+  // Every moment the entries tell, the ledger's and the history's, so a
+  // line whose record the one before caused is joined by that cause.
+  linkLines(core, momentsById, kept);
   // A line its records say came of the one before opens on that ("Because
   // of that, ..."); one after a month or more, on the time that passed
   // ("Three months later, ..."). Feeling and a short wait need no words.
