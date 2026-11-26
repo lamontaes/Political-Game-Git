@@ -8,6 +8,8 @@
  *   candidates, the votes, turnout and the town's voter groups' split.
  * - `figures`: what the public knows about each public figure: office,
  *   positions, record, prior election and the reputation a public sees.
+ * - `closures`: each business that closed in the year before day one, by the
+ *   id its archive story cites.
  *
  * The votes themselves go to the record engine's table and the promises to
  * the campaigns engine's, where voting reads them; the archive goes to the
@@ -18,11 +20,18 @@
 import { seededUnit } from "./seeded";
 import rows from "./data/past/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
-import { registerModule } from "./state";
-import type { CoreAPI, CoreState } from "./types";
+import { coreAPI, registerModule } from "./state";
+import type { CoreAPI, CoreState, IsoDate, PersonId } from "./types";
 import type { ModuleRow } from "./module-data";
 import { residenceOn } from "./past-moves";
 import type { HistoryRecord, PreStartModule } from "./pre-start";
+import type { PastClosureRow } from "./past-business";
+import type {
+  HistoryModule,
+  HistoryRow,
+  HistoryScope,
+  HistorySource,
+} from "./past-history";
 
 export const PAST_MODULE_ID = "core2-past-v1";
 
@@ -52,14 +61,166 @@ export function keepPastRacesLost(
   racesLost.set(core, [...(racesLost.get(core) ?? []), ...rows]);
 }
 
-export const PAST_MODULE: PreStartModule = {
+/** How a law's history is keyed (`law-history:<law row id>`, src/core2/past-laws.ts). */
+const LAW_HISTORY = "law-history:";
+/** The record kind of a bill a body voted on before day one, as the one history reader tells it. */
+export const PAST_BILL_VOTED = "past.bill-voted";
+/** The record kind of a law's history before day one (who brought it, who signed it), as the reader tells it. */
+export const PAST_LAW_ENACTED = "past.law-enacted";
+/** The record kind of a business that closed in the year before day one, as the reader tells it. */
+export const PAST_BUSINESS_CLOSED = "past.business-closed";
+/** How the past names a business it closed before day one (src/core2/past-business.ts). */
+const PAST_CLOSURE = "past-closure:";
+
+/** A business that closed before day one: its kind, name, owner and staff. */
+function closureHistory(row: PastClosureRow): HistoryRow {
+  return {
+    id: row.id,
+    date: row.date as IsoDate,
+    life: "business",
+    what: "closed",
+    record: PAST_BUSINESS_CLOSED,
+    from: "past",
+    personIds: [row.ownerId as PersonId],
+    withIds: [row.ownerId as PersonId],
+    placeId: row.placeId as HistoryRow["placeId"],
+    facts: {
+      kindId: row.kindId,
+      name: row.name,
+      ownerId: row.ownerId,
+      cause: row.cause,
+      workers: String(row.workers),
+    },
+    publicRecord: true,
+  };
+}
+
+/**
+ * One body's roll call on a bill before day one, by the record's own key (the
+ * bill and the body: a law's one bill spans its chambers), with the whole
+ * count the world kept.
+ */
+function billHistory(row: PastBillRecord): HistoryRow {
+  return {
+    id: row.id,
+    date: row.date as IsoDate,
+    life: "politics",
+    what: "voted",
+    record: PAST_BILL_VOTED,
+    from: "past",
+    personIds: [],
+    withIds: [],
+    facts: {
+      billId: row.billId,
+      officeId: row.officeId,
+      question: row.question,
+      position: String(row.position),
+      passed: String(row.passed),
+      yes: String(row.yes),
+      no: String(row.no),
+    },
+    publicRecord: true,
+  };
+}
+
+/** A law's history: the day it was enacted, the body, who brought it and who signed it. */
+function lawHistoryRow(row: LawHistoryRow): HistoryRow {
+  const people = [row.sponsorId, row.signedBy].filter(
+    (id): id is string => !!id,
+  ) as PersonId[];
+  return {
+    id: row.id,
+    date: row.enactedOn as IsoDate,
+    life: "politics",
+    what: "enacted",
+    record: PAST_LAW_ENACTED,
+    from: "past",
+    personIds: [...new Set(people)],
+    withIds: [...new Set(people)],
+    facts: {
+      lawId: row.lawId,
+      series: row.series,
+      jurisdiction: row.jurisdiction,
+      level: row.level,
+      body: row.body,
+      billId: row.billId,
+      effectiveDate: row.effectiveDate,
+      ...(row.sponsorId ? { sponsorId: row.sponsorId } : {}),
+      ...(row.signedBy ? { signedBy: row.signedBy } : {}),
+    },
+    publicRecord: true,
+  };
+}
+
+/**
+ * The past's bills and laws are history: the reader tells them by kind, a
+ * person's (a law they brought or signed) or a place's, state's or the
+ * nation's, where they were voted.
+ */
+const PAST_HISTORY: HistorySource = {
   id: PAST_MODULE_ID,
+  *rows(core: CoreState, scope: HistoryScope, ask) {
+    if (!core.modules.has(PAST_MODULE_ID) || !ask.kinds) return;
+    if ("household" in scope || "employer" in scope) return;
+    const api = coreAPI(core);
+    if (ask.kinds.includes(PAST_LAW_ENACTED))
+      for (const row of pastTable(
+        api,
+        "laws",
+      ).rows() as unknown as LawHistoryRow[])
+        if (
+          !("person" in scope) ||
+          row.sponsorId === scope.person ||
+          row.signedBy === scope.person
+        )
+          yield lawHistoryRow(row);
+    if (ask.kinds.includes(PAST_BILL_VOTED) && !("person" in scope))
+      for (const row of (ask.about
+        ? pastTable(api, "bills").query("byOffice", [ask.about])
+        : pastTable(api, "bills").rows()) as unknown as PastBillRecord[])
+        yield billHistory(row);
+    if (ask.kinds.includes(PAST_BUSINESS_CLOSED))
+      for (const row of pastTable(
+        api,
+        "closures",
+      ).rows() as unknown as PastClosureRow[])
+        if (!("person" in scope) || row.ownerId === scope.person)
+          yield closureHistory(row);
+  },
+  row(core, id) {
+    if (!core.modules.has(PAST_MODULE_ID)) return undefined;
+    const api = coreAPI(core);
+    if (id.startsWith(PAST_CLOSURE)) {
+      const row = pastTable(api, "closures").get(id) as unknown as
+        PastClosureRow | undefined;
+      return row ? closureHistory(row) : undefined;
+    }
+    if (id.startsWith(LAW_HISTORY) && !id.includes("|")) {
+      const row = pastTable(api, "laws").get(id) as unknown as
+        LawHistoryRow | undefined;
+      return row ? lawHistoryRow(row) : undefined;
+    }
+    const bills = pastTable(api, "bills");
+    const own = bills.get(id) as unknown as PastBillRecord | undefined;
+    if (own) return billHistory(own);
+    // A bill by its own id (the archive's stories cite it): its first body's roll call.
+    const first = (bills.rows() as unknown as PastBillRecord[])
+      .filter((row) => row.billId === id)
+      .sort((a, b) => a.officeId.localeCompare(b.officeId))[0];
+    return first ? billHistory(first) : undefined;
+  },
+};
+
+export const PAST_MODULE: PreStartModule & HistoryModule = {
+  id: PAST_MODULE_ID,
+  history: PAST_HISTORY,
   state: {
     schemaVersion: 1,
     tables: {
       laws: { indexes: { byLaw: { fields: ["lawId"] } } },
       bills: { indexes: { byOffice: { fields: ["officeId"] } } },
       figures: { indexes: { byPerson: { fields: ["personId"] } } },
+      closures: {},
       loaded: {},
     },
   },
@@ -120,6 +281,24 @@ export {
   type PreStartWindow,
   wholePastOpened,
 } from "./pre-start";
+// The one history reader: what already happened, for a person, a household,
+// an employer, a place, a state or the nation (src/core2/past-history.ts).
+export {
+  historyEvent,
+  historyOf,
+  historyOrder,
+  openHistory,
+  recordDate,
+  recordOf,
+  whereOf,
+  type HistoryAsk,
+  type HistoryEvent,
+  type HistoryModule,
+  type HistoryRow,
+  type HistoryScope,
+  type HistorySource,
+  type HistoryWhere,
+} from "./past-history";
 export {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,

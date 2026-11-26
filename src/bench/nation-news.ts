@@ -3,8 +3,9 @@
  * the laws engine's own rows (owner, Oct 28: every screen is a view of the
  * same records; Nov 5: other places keep only the result; the CTO, Nov 6:
  * tell the ones that matter to this reader by reach and ties, no hand cap).
- * Nothing is stored for it; the English engine words each law from its row
- * when the paper opens.
+ * Nothing is stored for it: the laws come from the one history reader (the
+ * record of each law taking effect), and the English engine words each law
+ * from its row when the paper opens.
  *
  * A law is told when its reach (its state's share of the nation's people,
  * `state-reach.json`) times one plus the reader's ties to that state (family
@@ -14,11 +15,10 @@
  */
 import reach from "../core2/data/places/state-reach.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { parameter } from "../core2/parameters";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { placeStateKey } from "../core2/place-map";
-import { coreAPI } from "../core2/state";
+import { historyOf } from "../core2/past";
 import type { CoreState } from "../core2/types";
 import { wordNationLaw } from "./archive-words";
 
@@ -27,8 +27,10 @@ interface LawRow {
   readonly jurisdiction: string;
   readonly series: string;
   readonly effectiveDate: string;
-  readonly terms?: Record<string, unknown>;
 }
+
+/** The record the laws engine writes the day a law takes effect. */
+const LAW_TOOK_EFFECT = "law-took-effect";
 
 const STATES = reach.states as Record<
   string,
@@ -81,9 +83,13 @@ export function nationScore(
   return (state.population / reach.nationalPopulation) * (1 + ties);
 }
 
-/** Every law another state's own session passed in the window, newest first, before any reader's choice. */
+/**
+ * Every law another state's own session passed in the window, newest first,
+ * before any reader's choice: the nation's history of laws taking effect, the
+ * ones a state's session enacted (`enactedBy`, the session the laws engine
+ * records), not one in the town's chain.
+ */
 export function nationLaws(core: CoreState): readonly LawRow[] {
-  if (!core.modules.has(LAWS_MODULE_ID)) return [];
   const since = addDays(
     makeIsoDate(core.date),
     -parameter("nationNewsDays", core.data.parameters),
@@ -91,24 +97,24 @@ export function nationLaws(core: CoreState): readonly LawRow[] {
   const names = new Set(
     corePlaceStateIdentities().map((row) => row.jurisdictionKey),
   );
-  return (
-    (
-      coreAPI(core)
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .rows() as unknown as LawRow[]
+  return historyOf(
+    core,
+    { nation: true },
+    { kinds: [LAW_TOOK_EFFECT], through: core.date },
+  )
+    .filter(
+      (event) =>
+        event.date > since &&
+        !!event.facts?.enactedBy &&
+        names.has(event.facts?.jurisdiction ?? ""),
     )
-      // A law another state's own session passed (an outside session marks its
-      // law with the session id), not one in the town's chain.
-      .filter(
-        (law) =>
-          typeof law.terms?.session === "string" &&
-          law.effectiveDate > since &&
-          law.effectiveDate <= core.date &&
-          names.has(law.jurisdiction),
-      )
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))
-  );
+    .map((event) => ({
+      id: event.facts!.lawId!,
+      jurisdiction: event.facts!.jurisdiction!,
+      series: event.facts!.series!,
+      effectiveDate: event.date,
+    }))
+    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
 }
 
 /** The stories for News, newest first, under one outlet named for the heading. */

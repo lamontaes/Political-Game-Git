@@ -13,7 +13,8 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
-import { lifeOf, openWholePast } from "./modules/people";
+import { openWholePast } from "./modules/people";
+import { lifeOf } from "./person-life";
 import type { CoreState, PersonId, PersonState } from "./types";
 
 const seed = process.env.LIFE_SEED ?? randomBytes(8).toString("hex");

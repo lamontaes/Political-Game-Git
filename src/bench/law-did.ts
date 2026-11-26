@@ -1,7 +1,9 @@
 /**
  * What a law did (play-what-this-law-did-page): for one series, each law row
  * passed in play on the town's chain (a bill's, or dev mode's), newest first,
- * with whom it reached as the engines recorded it. It reads the core's one
+ * with whom it reached as the engines recorded it. The rows and the day each
+ * was replaced come from the laws engine's history through the one history
+ * reader (`historyOf`, `law.statute`). It reads the core's one
  * reader over every store that records a law applied to someone (`lawReach`,
  * law-reach/applied.ts), the same one dev mode's reach and trace read, so the
  * page and dev mode cannot differ. Full people are named with the money the
@@ -16,8 +18,9 @@ import {
   lawReach,
   TREASURY_ORGANIZATION_PREFIX,
 } from "../core2/law-reach/applied";
-import { organizationName } from "../core2/past";
+import { historyOf, organizationName } from "../core2/past";
 import {
+  LAW_STATUTE,
   lawChain,
   LAWS_MODULE_ID,
   type LawRowInput,
@@ -79,12 +82,21 @@ export function lawDid(core: CoreState, series: string): readonly LawDid[] {
   if (!core.modules.has(LAWS_MODULE_ID)) return [];
   const chain = lawChain(api);
   const here = new Set(chain.levels.map((l) => l.jurisdiction));
-  const rows = (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeriesOnly", [series]) as unknown as LawRowInput[]
-  ).filter(
+  // Every row on the series, as the laws engine's history tells it (each row
+  // on the day it governs from), opened by its id.
+  const table = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const all = historyOf(
+    core,
+    { nation: true },
+    { kinds: [LAW_STATUTE], about: series },
+  )
+    .filter((event) => event.facts?.series === series)
+    .flatMap((event) => {
+      const row = table.get(event.facts?.lawId ?? "") as unknown as
+        LawRowInput | undefined;
+      return row ? [row] : [];
+    });
+  const rows = all.filter(
     (row) =>
       here.has(row.jurisdiction) &&
       // Passed in play: a bill's row, or any row dated from the opening on.
@@ -93,17 +105,10 @@ export function lawDid(core: CoreState, series: string): readonly LawDid[] {
   );
   // The next row on the same level and jurisdiction replaces it the day that row takes effect.
   const replacedOn = (row: LawRowInput) =>
-    (
-      api
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .query("bySeries", [
-          row.jurisdiction,
-          series,
-        ]) as unknown as LawRowInput[]
-    )
+    all
       .filter(
         (other) =>
+          other.jurisdiction === row.jurisdiction &&
           other.id !== row.id &&
           other.level === row.level &&
           other.effectiveDate > row.effectiveDate &&

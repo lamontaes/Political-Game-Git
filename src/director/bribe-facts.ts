@@ -17,6 +17,7 @@
  *   the offerer's side, from the views engine; set only for a vote the player
  *   holds a view on.
  */
+import { historyOf } from "../core2/past";
 import { awardsOn } from "../core2/modules/budgets";
 import { townLean } from "../core2/modules/campaigns";
 import {
@@ -115,8 +116,12 @@ export function bribeReads(
   }
   // A bribe the player has already said they would report.
   const earlier: string[] = [];
-  for (const id of core.logByKind.get(SCANDAL_REPORTED) ?? []) {
-    const event = core.durableLog.get(id);
+  for (const reported of historyOf(
+    core as CoreState,
+    { nation: true },
+    { kinds: [SCANDAL_REPORTED], from: "played" },
+  )) {
+    const event = core.durableLog.get(reported.id);
     if (
       event &&
       event.date < input.date &&
@@ -125,8 +130,12 @@ export function bribeReads(
     )
       earlier.push(event.id);
   }
-  for (const id of core.logByKind.get("scene.reply") ?? []) {
-    const event = core.durableLog.get(id);
+  for (const reply of historyOf(
+    core as CoreState,
+    { person: playerId },
+    { kinds: ["scene.reply"], from: "played" },
+  )) {
+    const event = core.durableLog.get(reply.id);
     if (
       event &&
       event.date < input.date &&

@@ -1,3 +1,4 @@
+import { historyOf } from "../core2/past";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { CLOSENESS, familyFactsOf } from "../core2/modules/people";
 import { bodyOf, nextSittingOf } from "../core2/modules/legislature";
@@ -343,7 +344,10 @@ function newsVisibility(core: CoreState, row: LogRecord) {
 
 /** Public records and news the player can know, newest first. */
 export function newsItems(core: CoreState) {
-  return [...core.durableLog.values()]
+  // The nation's history of play (everything public), as recorded.
+  return historyOf(core, { nation: true }, { from: "played" })
+    .map((event) => core.durableLog.get(event.id as never)!)
+    .filter(Boolean)
     .map((row) => ({ row, visibility: newsVisibility(core, row) }))
     .filter(
       ({ visibility }) => visibility === "public" || visibility === "news",

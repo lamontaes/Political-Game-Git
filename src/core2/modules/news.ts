@@ -17,6 +17,8 @@
  * date, so no day scans the whole town.
  */
 import { countedNewsSourceOf, heardListeners } from "./news-listeners";
+import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import { moduleState } from "../module-state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { IsoDate } from "../kernel/brands";
 import { corePlaceByJurisdictionId } from "../place-lookup";
@@ -583,6 +585,63 @@ export function printStory(
   return scheduleDeliveries(api, story, readerIds, new Set(), new Set(atOnce));
 }
 
+/** A story the paper printed, as the one history reader tells it. */
+function storyHistory(core: CoreState, row: StoryRecord): HistoryRow {
+  const facts: Record<string, string> = {};
+  for (const [key, value] of Object.entries(row.facts ?? {}))
+    if (value !== undefined && value !== null) facts[key] = String(value);
+  if (row.outletId) facts.outletId = row.outletId;
+  return {
+    id: row.id,
+    date: row.date as HistoryRow["date"],
+    life: "news",
+    what: "printed",
+    record: row.kind,
+    from: row.date < core.startedAt ? "past" : "played",
+    personIds: [],
+    withIds: [],
+    ...(row.placeId ? { placeId: row.placeId as HistoryRow["placeId"] } : {}),
+    facts,
+    publicRecord: true,
+  };
+}
+
+interface StoryRecord {
+  readonly id: string;
+  readonly kind: string;
+  readonly date: string;
+  readonly placeId?: string;
+  readonly outletId?: string;
+  readonly facts?: Readonly<Record<string, unknown>>;
+}
+
+/**
+ * The stories the outlets printed are history: a place's, a state's or the
+ * nation's, read by kind (`press.printed`).
+ */
+const NEWS_HISTORY: HistorySource = {
+  id: NEWS_MODULE_ID,
+  rows(core, scope, ask) {
+    if (!ask.kinds || !core.modules.has(NEWS_MODULE_ID)) return [];
+    if ("person" in scope || "household" in scope || "employer" in scope)
+      return [];
+    return (
+      moduleState(core, NEWS_MODULE_ID)
+        .table("stories")
+        .rows() as unknown as StoryRecord[]
+    )
+      .filter((row) => ask.kinds!.includes(row.kind))
+      .map((row) => storyHistory(core, row));
+  },
+  row(core, id) {
+    if (!core.modules.has(NEWS_MODULE_ID)) return undefined;
+    const row = moduleState(core, NEWS_MODULE_ID)
+      .table("stories")
+      .get(id) as unknown as StoryRecord | undefined;
+    return row ? storyHistory(core, row) : undefined;
+  },
+};
+
 /**
  * The news module. `tellable` lists the stories a teller can pass on, each
  * by its id and date, newest first; tests swap in the full rescan
@@ -598,8 +657,9 @@ export function createNewsModule(
     readonly storyDate: string;
   }> = recentList,
 ): CoreModule {
-  return {
+  const module: CoreModule & HistoryModule = {
     id: NEWS_MODULE_ID,
+    history: NEWS_HISTORY,
     state: {
       schemaVersion: 1,
       tables: {
@@ -843,6 +903,7 @@ export function createNewsModule(
       }
     },
   };
+  return module;
 }
 
 export const newsModule: CoreModule = createNewsModule();

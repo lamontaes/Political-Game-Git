@@ -10,7 +10,12 @@
 import type { CoreState } from "../core2/types";
 import { coreAPI } from "../core2/state";
 import { officesOfState } from "../core2/modules/offices";
-import { LAWS_MODULE_ID, type LawRowInput } from "../core2/modules/laws";
+import {
+  LAW_ENACTED,
+  LAWS_MODULE_ID,
+  type LawRowInput,
+} from "../core2/modules/laws";
+import { historyOf } from "../core2/past";
 import { rollCallOf } from "../core2/modules/world-panels";
 import { bodyOf } from "../core2/modules/legislature";
 import { personName } from "./legislature";
@@ -37,12 +42,15 @@ export function chamberChanges(core: CoreState, officeId: string) {
   const api = coreAPI(core);
   const stateKey = officeId.split(":")[1] ?? "";
   if (!core.modules.has(LAWS_MODULE_ID)) return [];
-  return (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .rows() as unknown as LawRowInput[]
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  // The laws the state's sessions passed, as the nation's history tells them.
+  return historyOf(
+    core,
+    { nation: true },
+    { kinds: [LAW_ENACTED], about: stateKey },
   )
+    .map((event) => laws.get(event.id) as unknown as LawRowInput | undefined)
+    .filter((row): row is LawRowInput => !!row)
     .filter(
       (row) =>
         row.jurisdiction === stateKey && typeof row.terms?.session === "string",

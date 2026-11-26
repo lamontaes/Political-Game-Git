@@ -33,12 +33,7 @@ import { lastContact, relationFacts } from "./relation-facts";
 import { seriousIllnessOf } from "../core2/modules/health";
 import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import { jobTitleByKind } from "../core2/person-work";
-import {
-  PERSON_MOVED_IN,
-  heldSinceRecord,
-  preStartHistory,
-  schoolsAttended,
-} from "../core2/past";
+import { PERSON_MOVED_IN, historyOf, schoolsAttended } from "../core2/past";
 import {
   addDays,
   ageOnDate,
@@ -188,7 +183,7 @@ import {
   monthsOfRentDays,
 } from "../english/count-words";
 import { sinceMonthSaid } from "../english/day-words";
-import { ILLNESS_EVENT } from "./life-news";
+import { ILLNESS_EVENT, jobHeldSince } from "./life-news";
 import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import type { FinanceContractInput } from "../core2/modules/finance";
 import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/people";
@@ -601,8 +596,8 @@ function startedOf(
   core: Readonly<CoreState>,
   person: Readonly<PersonState>,
 ): { date: string; factId: string } | null {
-  const held = heldSinceRecord(core as CoreState, person.id, person.jobId);
-  return held ? { date: String(held.facts.startedAt), factId: held.id } : null;
+  const held = jobHeldSince(core, person.id, person.jobId);
+  return held ? { date: String(held.facts?.startedAt), factId: held.id } : null;
 }
 
 /** How far back a recorded event still makes something to talk about. */
@@ -644,9 +639,18 @@ function recordedMoments(
   since: string,
 ): Moment[] {
   const out: Moment[] = [];
-  for (const id of core.logByPerson.get(personId) ?? []) {
-    const row = core.durableLog.get(id as never);
-    if (!row || row.date <= since || row.date > core.date) continue;
+  for (const event of historyOf(
+    core as CoreState,
+    { person: personId },
+    { from: "played", through: core.date },
+  )) {
+    if (event.date <= since) continue;
+    const row = {
+      id: event.id,
+      date: event.date,
+      kind: event.record,
+      personIds: event.personIds,
+    };
     // Only what happened to them (the owner's Q7 happenings): a speech they
     // heard or a vote they cast is not their news.
     const label = `feeling:event:${row.kind}`;
@@ -1442,9 +1446,9 @@ function jobLost(
     ? withArticle(ended.title)
     : undefined;
   if (position) facts.position = fact(position, [ended.id]);
-  const held = heldSinceRecord(core as CoreState, speaker.id, ended.id);
+  const held = jobHeldSince(core, speaker.id, ended.id);
   const years = tenureYears(
-    held ? { date: String(held.facts.startedAt), factId: held.id } : null,
+    held ? { date: String(held.facts?.startedAt), factId: held.id } : null,
     lost.date,
   );
   if (years)
@@ -2232,18 +2236,21 @@ function governmentNews(
   const lean = core.modules.has(VIEWS_MODULE_ID)
     ? viewOf(api, speaker.id)?.lean
     : undefined;
-  const ids = [...(core.logByPerson.get(speaker.id) ?? [])];
-  for (let at = ids.length - one; at >= zero; at -= one) {
-    const row = core.durableLog.get(ids[at] as never) as
-      | {
-          id: string;
-          kind: string;
-          date: string;
-          personIds?: readonly string[];
-          facts?: Readonly<Record<string, string>>;
-        }
-      | undefined;
-    if (!row || row.date <= since || row.date > core.date) continue;
+  const played = historyOf(
+    core as CoreState,
+    { person: speaker.id },
+    { from: "played", through: core.date },
+  );
+  for (let at = played.length - one; at >= zero; at -= one) {
+    const event = played[at]!;
+    const row = {
+      id: event.id,
+      kind: event.record,
+      date: event.date,
+      personIds: event.personIds,
+      facts: event.facts,
+    };
+    if (row.date <= since) continue;
     const facts = row.facts ?? {};
     const cites = [row.id];
     const fact = (text: string, ids = cites): Fact => ({
@@ -2683,15 +2690,15 @@ function actBetween(
   a: PersonId,
   b: PersonId,
 ): { id: string; what: string; byA: boolean } | null {
-  const ofA = core.logByPerson.get(a);
-  const ofB = core.logByPerson.get(b);
-  if (!ofA || !ofB) return null;
-  const [few, many] = ofA.size <= ofB.size ? [ofA, ofB] : [ofB, ofA];
   let best: { id: string; what: string; byA: boolean; date: string } | null =
     null;
-  for (const id of few) {
-    if (!many.has(id)) continue;
-    const record = core.durableLog.get(id);
+  // What the two of them did together in play, from their history.
+  for (const together of historyOf(
+    core as CoreState,
+    { person: a },
+    { from: "played", with: b },
+  )) {
+    const record = core.durableLog.get(together.id);
     const rule = record && KNOWN_BY_ACT.kinds[record.kind];
     if (!record || !rule) continue;
     const what = rule.said
@@ -2700,7 +2707,7 @@ function actBetween(
     if (!what) continue;
     if (best && record.date <= best.date) continue;
     best = {
-      id,
+      id: together.id,
       what,
       byA: record.facts?.[rule.doer] === a,
       date: record.date,
@@ -4570,19 +4577,22 @@ function playerFacts(
   if (last.kind === "home" || last.kind === "home-new") {
     // The move the run of the years before the start recorded, and where
     // the player was born, from the run's birth record (or the opening's).
-    const moved = preStartHistory(core as CoreState, {
-      kind: PERSON_MOVED_IN,
-      personId: player.id,
-    })[zero];
+    const moved = historyOf(
+      core as CoreState,
+      { person: player.id },
+      { kinds: [PERSON_MOVED_IN], from: "past" },
+    )[zero];
     const born =
-      preStartHistory(core as CoreState, {
-        kind: "person.birth",
-        personId: player.id,
-      }).find((row) => row.placeId === player.placeId) ??
-      (player.pastFacts ?? []).find(
-        (row) =>
-          row.kind === "birthplace" && row.facts?.placeId === player.placeId,
-      );
+      historyOf(
+        core as CoreState,
+        { person: player.id },
+        { kinds: ["person.birth"], from: "past" },
+      ).find((row) => row.placeId === player.placeId) ??
+      historyOf(
+        core as CoreState,
+        { person: player.id },
+        { kinds: ["birthplace"], from: "built" },
+      ).find((row) => row.facts?.placeId === player.placeId);
     if (moved) {
       facts.years = {
         text: String(
