@@ -41,7 +41,12 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./modules/budgets";
-import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
+import {
+  appliedOn,
+  lawApplied,
+  lawNoLongerApplies,
+  emitLawEffectLearned,
+} from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./modules/laws";
 import {
   countedRetirementAwards,
@@ -2416,11 +2421,9 @@ function attribute(api: CoreAPI, row: LandedRow): void {
   const person = api.state.people.get(row.personId);
   if (!person?.alive) return;
   const scale = treasuryParameter("benefitChangeImpulseScale");
-  api.emit({
+  emitLawEffectLearned(api, {
     id: `event:law.effect-learned:${api.state.date}:${row.obligationId}`,
-    date: api.state.date,
-    kind: "law.effect-learned",
-    personIds: [row.personId],
+    personId: row.personId,
     placeId: person.placeId,
     topic: row.series,
     desiredChange: row.share < 0 ? "repeal" : "enact",
@@ -2432,7 +2435,6 @@ function attribute(api: CoreAPI, row: LandedRow): void {
       learnedFrom: newsKey(story.id),
       landedId: row.id,
     },
-    publicRecord: false,
     source: {
       tag: "SOURCED",
       citation: `Learned from ${story.id} that ${row.lawId} changed their Social Security`,

@@ -42,6 +42,7 @@ import {
   endAppliedBy,
   lawApplied,
   type AppliedTarget,
+  emitLawEffectLearned,
 } from "../law-reach/applied";
 import type {
   CoreAPI,
@@ -879,11 +880,9 @@ function emitLearned(
     -1,
     Math.min(1, moved / Math.max(input.monthlyEarningsMinor, Math.abs(moved))),
   );
-  api.emit({
+  emitLawEffectLearned(api, {
     id: `event:law.effect-learned:${api.state.date}:${personId}:${lawId}`,
-    date: api.state.date,
-    kind: "law.effect-learned",
-    personIds: [personId],
+    personId,
     placeId: person.placeId,
     topic: input.key,
     desiredChange: moved < 0 ? "repeal" : "enact",
@@ -896,7 +895,6 @@ function emitLearned(
       priceRuleId: input.ruleId,
       movedMinor: String(moved),
     },
-    publicRecord: false,
     source: {
       tag: "SOURCED",
       citation: `Learned from ${storyId} that ${lawId} changed what they pay`,

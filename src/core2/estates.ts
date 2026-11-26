@@ -46,7 +46,11 @@ import {
   GOVERNMENT_HEIR,
   type DeathTax,
 } from "./laws-in-force";
-import { appliedTo, lawApplied } from "./law-reach/applied";
+import {
+  appliedTo,
+  lawApplied,
+  emitLawEffectLearned,
+} from "./law-reach/applied";
 import { closenessBetween } from "./closeness";
 import { leanedYes } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
@@ -1134,11 +1138,9 @@ function noticeTaxes(
     source,
   });
   for (const tax of mine)
-    api.emit({
+    emitLawEffectLearned(api, {
       id: `event:law.effect-learned:${personId}:${heirId}:${tax.lawId}${part}`,
-      date: api.state.date,
-      kind: "law.effect-learned",
-      personIds: [heirId],
+      personId: heirId,
       placeId: heir.placeId,
       topic: tax.series,
       desiredChange: "repeal",
@@ -1147,7 +1149,6 @@ function noticeTaxes(
         learnedFrom: `event:${noticeId}:experienced`,
         amountMinor: String(tax.amountMinor),
       },
-      publicRecord: false,
       source: {
         ...source,
         citation: `Learned from the accounting of the estate of ${personId} that ${tax.lawId} took from the estate`,
