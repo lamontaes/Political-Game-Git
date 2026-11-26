@@ -15,8 +15,8 @@ import {
   HOUSING_LINE_KEY,
   housingLineMeasureId,
 } from "./law-reach/group-a-money";
-import { mechanicRow } from "./laws-in-force";
-import { townShare } from "./laws-in-force";
+import { mechanicRow } from "./law-reach/group-a-records";
+import { townShare } from "./law-reach/group-b-money";
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments, lineExtra } from "./modules/budgets";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";

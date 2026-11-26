@@ -42,8 +42,8 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { residentsRuntime } from "./residents";
-import { isDemoted } from "./residents";
-import { countedResidents } from "./campaigns";
+import { isDemoted } from "../counted-groups";
+import { countedResidents } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -78,13 +78,13 @@ import {
   type InterviewAnswer,
 } from "./press";
 import { closenessBetween } from "../closeness";
-import { personLean, questionAxis } from "./campaigns";
+import { personLean, questionAxis } from "../campaign-views";
 import { homeDistanceMiles } from "../home-distance";
 import { campaignParameter } from "../campaign-data";
 import { type Stance } from "../campaign-data";
 import { agreementWith, countedLean, viewOn } from "./views";
-import { POLICY_QUESTIONS } from "./laws";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
+import { POLICY_QUESTIONS } from "../policy-answers";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { ENCOUNTERS, meetAtMeeting } from "./people";
 
 export const MEETINGS_MODULE_ID = "core2-meetings-v1";

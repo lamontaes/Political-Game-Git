@@ -1,21 +1,6 @@
 /** The national month as the game reads it: the past from the published series, each month since from the sum of the states (country-model.ts). */
 import history from "./data/macro/history.json" with { type: "json" };
 import { worldOffsetUnit } from "./world-draw";
-export { endLivingPlan, setEverydayPurchase } from "./cost-of-living";
-export {
-  CREDIT_PARAMETERS,
-  bankYes,
-  lendMortgage,
-  monthlyIncome,
-  mortgageRoom,
-} from "./modules/credit";
-export { livingCostParts, outsideCostParts } from "./living-cost-split";
-export { splitMarketDemand } from "./business-books";
-export { nextWorkPayrollPeriod, workPayPeriodAtIndex } from "./work-pay-period";
-export type { WorkPayrollCalendarInput } from "./work-pay-period";
-export { admitPublicPayAuthority } from "./public-work-pay";
-export { townJobRate, townPayPercentile, weeklyHoursOf } from "./town-pay";
-export type { ClaimRow } from "./jobs-benefits";
 
 export type MacroParameter = (key: string) => number;
 

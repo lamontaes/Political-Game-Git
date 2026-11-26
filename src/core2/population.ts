@@ -54,8 +54,12 @@ import {
 } from "./reference/living-costs-data";
 import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
-import { nationalMedianAnnualWage } from "./modules/jobs";
-import { townJobRate, townPayPercentile, weeklyHoursOf } from "./macro-model";
+import {
+  nationalMedianAnnualWage,
+  townJobRate,
+  townPayPercentile,
+  weeklyHoursOf,
+} from "./town-pay";
 import { TOWN_PAY_META } from "./reference/town-pay.generated";
 import { startingMinimumHourlyAt } from "./laws-in-force";
 import { hudRentRowFor } from "./hud-rents";
@@ -87,7 +91,7 @@ import {
 import {
   householdOpeningCash,
   medianTransactionBalance,
-} from "./modules/budgets";
+} from "./starting-cash";
 import { placeEarningsOf } from "./residents";
 import { householdBalanceDraw } from "./household-balance-draw";
 import { seedableTraits } from "./opening-trait-table";
