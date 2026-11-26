@@ -158,6 +158,7 @@ jobs:
           else
             base="$(git rev-parse HEAD~1)"
           fi
+          node --import tsx scripts/guards/game-only.ts --base "$base"
           CHANGED_FILES="$(git diff --name-only --diff-filter=AMR "$base" HEAD -- docs/pool/items/)" npm run guards
 
   scope:
