@@ -1,0 +1,2036 @@
+{
+  "about": "The game's bust kit round 4, November 18, 2026. Local candidate for owner review. Each part is its own painting on the 1254 × 1254 v1 canvas at (0, 0).",
+  "canvas": 1254,
+  "order": [
+    "head",
+    "arms",
+    "top",
+    "shirt",
+    "tie",
+    "jacket",
+    "face",
+    "hair"
+  ],
+  "proposedCode": "Yes. In src/bench/bust.ts, resolve heads by shape, shade, and age and apply the pairing exclusions when choosing a saved or seeded appearance. Register each applicable short-sleeve style and its colors. For both bustFor and bustOfLook, add the same-shade arms entry immediately above head when a short-sleeve top is selected. The existing bust.mjs renderer already draws the list of URLs in order.",
+  "names": {
+    "dress-shirt": "Short-sleeve dress shirt",
+    "fine-stripe-shirt": "Fine-stripe dress shirt",
+    "crew-tee": "Short-sleeve crew tee",
+    "camp-shirt": "Camp shirt",
+    "knit-henley": "Short-sleeve knit Henley",
+    "point-collar-blouse": "Point-collar blouse",
+    "pleat-neck-blouse": "Pleated neckline blouse",
+    "ribbed-knit": "Short-sleeve ribbed knit",
+    "flattop": "Flat top",
+    "side-fringe-taper": "Side-fringe taper",
+    "curtains": "Curtain cut",
+    "spacebuns": "Space buns",
+    "crownbraid": "Crown braid",
+    "sideshave": "Side-shaved undercut",
+    "oval": "Oval",
+    "diamond": "Diamond",
+    "pear": "Pear"
+  },
+  "men": {
+    "dir": "men/front",
+    "shapes": [
+      "diamond",
+      "oval",
+      "pear"
+    ],
+    "shades": [
+      "fair",
+      "light",
+      "olive",
+      "medium",
+      "brown",
+      "dark"
+    ],
+    "heads": {
+      "diamond": {
+        "brown": {
+          "adult": {
+            "file": "head-diamond-brown-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-brown-older.png",
+            "from": "pieces"
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-diamond-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-dark-older.png",
+            "from": "pieces"
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-diamond-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-fair-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "adult": {
+            "file": "head-diamond-light-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-light-older.png",
+            "from": "pieces"
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-diamond-medium-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-medium-older.png",
+            "from": "pieces"
+          }
+        },
+        "olive": {
+          "adult": {
+            "file": "head-diamond-olive-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-olive-older.png",
+            "from": "pieces"
+          }
+        }
+      },
+      "oval": {
+        "brown": {
+          "adult": {
+            "file": "head-oval-brown-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-brown-older.png",
+            "from": "pieces"
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-oval-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-dark-older.png",
+            "from": "pieces"
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-oval-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-fair-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "adult": {
+            "file": "head-oval-light-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-light-older.png",
+            "from": "pieces"
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-oval-medium-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-medium-older.png",
+            "from": "pieces"
+          }
+        },
+        "olive": {
+          "adult": {
+            "file": "head-oval-olive-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-olive-older.png",
+            "from": "pieces"
+          }
+        }
+      },
+      "pear": {
+        "brown": {
+          "adult": {
+            "file": "head-pear-brown-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-brown-older.png",
+            "from": "pieces"
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-pear-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-dark-older.png",
+            "from": "pieces"
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-pear-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-fair-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "adult": {
+            "file": "head-pear-light-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-light-older.png",
+            "from": "pieces"
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-pear-medium-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-medium-older.png",
+            "from": "pieces"
+          }
+        },
+        "olive": {
+          "adult": {
+            "file": "head-pear-olive-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-olive-older.png",
+            "from": "pieces"
+          }
+        }
+      }
+    },
+    "armsBareByShade": {
+      "fair": "arms-bare-fair.png",
+      "light": "arms-bare-light.png",
+      "olive": "arms-bare-olive.png",
+      "medium": "arms-bare-medium.png",
+      "brown": "arms-bare-brown.png",
+      "dark": "arms-bare-dark.png"
+    },
+    "tops": {
+      "dress-shirt": [
+        "blue",
+        "white",
+        "lilac"
+      ],
+      "fine-stripe-shirt": [
+        "slate",
+        "sage",
+        "sand"
+      ],
+      "crew-tee": [
+        "teal",
+        "charcoal",
+        "ivory"
+      ],
+      "camp-shirt": [
+        "navy",
+        "rust",
+        "olive"
+      ],
+      "knit-henley": [
+        "pine",
+        "oatmeal",
+        "denim"
+      ]
+    },
+    "topUse": {
+      "dress-shirt": "work",
+      "fine-stripe-shirt": "work",
+      "crew-tee": "everyday",
+      "camp-shirt": "everyday",
+      "knit-henley": "everyday"
+    },
+    "shortSleeveTops": [
+      "dress-shirt",
+      "fine-stripe-shirt",
+      "crew-tee",
+      "camp-shirt",
+      "knit-henley"
+    ],
+    "newHairStyles": [
+      "flattop",
+      "curtains"
+    ],
+    "hairColors": [
+      "darkbrown",
+      "black",
+      "blond",
+      "gray"
+    ],
+    "hairColorsByStyle": {
+      "flattop": [
+        "darkbrown",
+        "black",
+        "blond",
+        "gray"
+      ],
+      "curtains": [
+        "darkbrown",
+        "black",
+        "blond",
+        "gray"
+      ]
+    },
+    "hairByShape": {
+      "flattop": {
+        "diamond": "standard",
+        "long": "standard",
+        "narrow": "standard",
+        "oval": "standard",
+        "pear": "standard",
+        "round": "standard",
+        "square": "standard",
+        "standard": "standard"
+      },
+      "curtains": {
+        "diamond": "standard",
+        "long": "standard",
+        "narrow": "standard",
+        "oval": "standard",
+        "pear": "standard",
+        "round": "standard",
+        "square": "standard",
+        "standard": "standard"
+      }
+    },
+    "files": [
+      "arms-bare-brown.png",
+      "arms-bare-dark.png",
+      "arms-bare-fair.png",
+      "arms-bare-light.png",
+      "arms-bare-medium.png",
+      "arms-bare-olive.png",
+      "hair-curtains-black.png",
+      "hair-curtains-blond.png",
+      "hair-curtains-darkbrown.png",
+      "hair-curtains-gray.png",
+      "hair-flattop-black.png",
+      "hair-flattop-blond.png",
+      "hair-flattop-darkbrown.png",
+      "hair-flattop-gray.png",
+      "head-diamond-brown-adult.png",
+      "head-diamond-brown-older.png",
+      "head-diamond-dark-adult.png",
+      "head-diamond-dark-older.png",
+      "head-diamond-fair-adult.png",
+      "head-diamond-fair-older.png",
+      "head-diamond-light-adult.png",
+      "head-diamond-light-older.png",
+      "head-diamond-medium-adult.png",
+      "head-diamond-medium-older.png",
+      "head-diamond-olive-adult.png",
+      "head-diamond-olive-older.png",
+      "head-oval-brown-adult.png",
+      "head-oval-brown-older.png",
+      "head-oval-dark-adult.png",
+      "head-oval-dark-older.png",
+      "head-oval-fair-adult.png",
+      "head-oval-fair-older.png",
+      "head-oval-light-adult.png",
+      "head-oval-light-older.png",
+      "head-oval-medium-adult.png",
+      "head-oval-medium-older.png",
+      "head-oval-olive-adult.png",
+      "head-oval-olive-older.png",
+      "head-pear-brown-adult.png",
+      "head-pear-brown-older.png",
+      "head-pear-dark-adult.png",
+      "head-pear-dark-older.png",
+      "head-pear-fair-adult.png",
+      "head-pear-fair-older.png",
+      "head-pear-light-adult.png",
+      "head-pear-light-older.png",
+      "head-pear-medium-adult.png",
+      "head-pear-medium-older.png",
+      "head-pear-olive-adult.png",
+      "head-pear-olive-older.png",
+      "top-camp-shirt-navy.png",
+      "top-camp-shirt-olive.png",
+      "top-camp-shirt-rust.png",
+      "top-crew-tee-charcoal.png",
+      "top-crew-tee-ivory.png",
+      "top-crew-tee-teal.png",
+      "top-dress-shirt-blue.png",
+      "top-dress-shirt-lilac.png",
+      "top-dress-shirt-white.png",
+      "top-fine-stripe-shirt-sage.png",
+      "top-fine-stripe-shirt-sand.png",
+      "top-fine-stripe-shirt-slate.png",
+      "top-knit-henley-denim.png",
+      "top-knit-henley-oatmeal.png",
+      "top-knit-henley-pine.png"
+    ],
+    "sources": {
+      "head-diamond-brown-adult.png": "work/paint/men-head-diamond-brown-adult-r4b.png",
+      "head-diamond-brown-older.png": "work/paint/men-head-diamond-brown-older-r4a.png",
+      "head-diamond-dark-adult.png": "work/paint/men-head-diamond-dark-adult-r4b.png",
+      "head-diamond-dark-older.png": "work/paint/men-head-diamond-dark-older-r4b.png",
+      "head-diamond-fair-adult.png": "work/paint/men-head-diamond-fair-adult-r4a.png",
+      "head-diamond-fair-older.png": "work/paint/men-head-diamond-fair-older-r4a.png",
+      "head-diamond-light-adult.png": "work/paint/men-head-diamond-light-adult-r4b.png",
+      "head-diamond-light-older.png": "work/paint/men-head-diamond-light-older-r4b.png",
+      "head-diamond-medium-adult.png": "work/paint/men-head-diamond-medium-adult-r4a.png",
+      "head-diamond-medium-older.png": "work/paint/men-head-diamond-medium-older-r4c.png",
+      "head-diamond-olive-adult.png": "work/paint/men-head-diamond-olive-adult-r4a.png",
+      "head-diamond-olive-older.png": "work/paint/men-head-diamond-olive-older-r4a.png",
+      "head-oval-brown-adult.png": "work/paint/men-head-oval-brown-adult-r4b.png",
+      "head-oval-brown-older.png": "work/paint/men-head-oval-brown-older-r4a.png",
+      "head-oval-dark-adult.png": "work/paint/men-head-oval-dark-adult-r4a.png",
+      "head-oval-dark-older.png": "work/paint/men-head-oval-dark-older-r4a.png",
+      "head-oval-fair-adult.png": "work/paint/men-head-oval-fair-adult-r4a.png",
+      "head-oval-fair-older.png": "work/paint/men-head-oval-fair-older-r4a.png",
+      "head-oval-light-adult.png": "work/paint/men-head-oval-light-adult-r4a.png",
+      "head-oval-light-older.png": "work/paint/men-head-oval-light-older-r4a.png",
+      "head-oval-medium-adult.png": "work/paint/men-head-oval-medium-adult-r4b.png",
+      "head-oval-medium-older.png": "work/paint/men-head-oval-medium-older-r4a.png",
+      "head-oval-olive-adult.png": "work/paint/men-head-oval-olive-adult-r4a.png",
+      "head-oval-olive-older.png": "work/paint/men-head-oval-olive-older-r4c.png",
+      "head-pear-brown-adult.png": "work/paint/men-head-pear-brown-adult-r4a.png",
+      "head-pear-brown-older.png": "work/paint/men-head-pear-brown-older-r4d.png",
+      "head-pear-dark-adult.png": "work/paint/men-head-pear-dark-adult-r4a.png",
+      "head-pear-dark-older.png": "work/paint/men-head-pear-dark-older-r4b.png",
+      "head-pear-fair-adult.png": "work/paint/men-head-pear-fair-adult-r4a.png",
+      "head-pear-fair-older.png": "work/paint/men-head-pear-fair-older-r4a.png",
+      "head-pear-light-adult.png": "work/paint/men-head-pear-light-adult-r4b.png",
+      "head-pear-light-older.png": "work/paint/men-head-pear-light-older-r4d.png",
+      "head-pear-medium-adult.png": "work/paint/men-head-pear-medium-adult-r4a.png",
+      "head-pear-medium-older.png": "work/paint/men-head-pear-medium-older-r4a.png",
+      "head-pear-olive-adult.png": "work/paint/men-head-pear-olive-adult-r4b.png",
+      "head-pear-olive-older.png": "work/paint/men-head-pear-olive-older-r4a.png",
+      "arms-bare-fair.png": "work/paint/men-arms-bare-fair-repaint.png",
+      "arms-bare-light.png": "work/paint/men-arms-bare-light.png",
+      "arms-bare-olive.png": "work/paint/men-arms-bare-olive.png",
+      "arms-bare-medium.png": "work/paint/men-arms-bare-medium-repaint.png",
+      "arms-bare-brown.png": "work/paint/men-arms-bare-brown-repaint.png",
+      "arms-bare-dark.png": "work/paint/men-arms-bare-dark.png",
+      "top-dress-shirt-blue.png": "work/paint/men-top-dress-shirt-blue.png",
+      "top-dress-shirt-white.png": "work/paint/men-top-dress-shirt-white.png",
+      "top-dress-shirt-lilac.png": "work/paint/men-top-dress-shirt-lilac.png",
+      "top-fine-stripe-shirt-slate.png": "work/paint/men-top-fine-stripe-shirt-slate.png",
+      "top-fine-stripe-shirt-sage.png": "work/paint/men-top-fine-stripe-shirt-sage.png",
+      "top-fine-stripe-shirt-sand.png": "work/paint/men-top-fine-stripe-shirt-sand.png",
+      "top-crew-tee-teal.png": "work/paint/men-top-crew-tee-teal-collar2.png",
+      "top-crew-tee-charcoal.png": "work/paint/men-top-crew-tee-charcoal-collar2.png",
+      "top-crew-tee-ivory.png": "work/paint/men-top-crew-tee-ivory-collar2.png",
+      "top-camp-shirt-navy.png": "work/paint/men-top-camp-shirt-navy.png",
+      "top-camp-shirt-rust.png": "work/paint/men-top-camp-shirt-rust.png",
+      "top-camp-shirt-olive.png": "work/paint/men-top-camp-shirt-olive.png",
+      "top-knit-henley-pine.png": "work/paint/men-top-knit-henley-pine-collar.png",
+      "top-knit-henley-oatmeal.png": "work/paint/men-top-knit-henley-oatmeal-collar.png",
+      "top-knit-henley-denim.png": "work/paint/men-top-knit-henley-denim-collar.png",
+      "hair-flattop-darkbrown.png": "work/paint/men-hair-flattop-standard-darkbrown-r4a.png",
+      "hair-flattop-black.png": "work/paint/men-hair-flattop-standard-black-r4a.png",
+      "hair-flattop-blond.png": "work/paint/men-hair-flattop-standard-blond-r4a.png",
+      "hair-flattop-gray.png": "work/paint/men-hair-flattop-standard-gray-r4a.png",
+      "hair-curtains-darkbrown.png": "work/paint/men-hair-curtains-standard-darkbrown-r4a.png",
+      "hair-curtains-black.png": "work/paint/men-hair-curtains-standard-black-r4a.png",
+      "hair-curtains-blond.png": "work/paint/men-hair-curtains-standard-blond-r4a.png",
+      "hair-curtains-gray.png": "work/paint/men-hair-curtains-standard-gray-r4a.png"
+    },
+    "doNotCombine": [
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-long-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-long-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-narrow-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-narrow-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-round-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-round-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-square-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-square-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-diamond-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-diamond-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-oval-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-oval-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-pear-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-blue.png",
+        "head": "head-pear-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-long-light-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-long-light-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-narrow-light-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-narrow-light-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-round-light-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-round-light-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-square-light-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-square-light-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-light-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-light-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-diamond-light-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-diamond-light-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-oval-light-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-oval-light-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-pear-light-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-lilac.png",
+        "head": "head-pear-light-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-long-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-long-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-narrow-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-narrow-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-round-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-round-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-square-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-square-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-diamond-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-diamond-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-oval-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-oval-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-pear-light-adult.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-dress-shirt-white.png",
+        "head": "head-pear-light-older.png",
+        "why": "holes 9"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-long-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-long-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-narrow-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-narrow-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-round-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-round-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-square-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-square-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-diamond-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-diamond-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-oval-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-oval-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-pear-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-sand.png",
+        "head": "head-pear-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-long-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-long-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-narrow-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-narrow-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-round-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-round-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-square-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-square-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-diamond-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-diamond-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-oval-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-oval-fair-older.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-pear-fair-adult.png",
+        "why": "holes 1"
+      },
+      {
+        "piece": "top-fine-stripe-shirt-slate.png",
+        "head": "head-pear-fair-older.png",
+        "why": "holes 1"
+      }
+    ]
+  },
+  "women": {
+    "dir": "women/front",
+    "shapes": [
+      "diamond",
+      "heart",
+      "long",
+      "oval",
+      "pear",
+      "round",
+      "square",
+      "standard"
+    ],
+    "shades": [
+      "fair",
+      "light",
+      "olive",
+      "medium",
+      "brown",
+      "dark"
+    ],
+    "heads": {
+      "diamond": {
+        "brown": {
+          "adult": {
+            "file": "head-diamond-brown-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-brown-older.png",
+            "from": "pieces",
+            "outlineReview": 9
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-diamond-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-dark-older.png",
+            "from": "pieces"
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-diamond-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-fair-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "adult": {
+            "file": "head-diamond-light-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-light-older.png",
+            "from": "pieces",
+            "outlineReview": 7
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-diamond-medium-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-medium-older.png",
+            "from": "pieces"
+          }
+        },
+        "olive": {
+          "adult": {
+            "file": "head-diamond-olive-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-diamond-olive-older.png",
+            "from": "pieces"
+          }
+        }
+      },
+      "heart": {
+        "brown": {
+          "adult": {
+            "file": "head-heart-brown-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-heart-brown-older.png",
+            "from": "pieces",
+            "outlineReview": 5
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-heart-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-heart-dark-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "older": {
+            "file": "head-heart-light-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-heart-light-adult.png",
+            "from": "pieces",
+            "outlineReview": 5
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-heart-medium-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-heart-medium-older.png",
+            "from": "pieces"
+          }
+        },
+        "olive": {
+          "older": {
+            "file": "head-heart-olive-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-heart-olive-adult.png",
+            "from": "pieces",
+            "outlineReview": 8
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-heart-fair-adult.png",
+            "from": "pieces",
+            "outlineReview": 5
+          },
+          "older": {
+            "file": "head-heart-fair-older.png",
+            "from": "pieces",
+            "outlineReview": 7
+          }
+        }
+      },
+      "long": {
+        "brown": {
+          "adult": {
+            "file": "head-long-brown-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-long-brown-older.png",
+            "from": "pieces",
+            "outlineReview": 4
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-long-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-long-dark-older.png",
+            "from": "pieces",
+            "outlineReview": 13
+          }
+        },
+        "fair": {
+          "older": {
+            "file": "head-long-fair-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-long-fair-adult.png",
+            "from": "pieces",
+            "outlineReview": 5
+          }
+        },
+        "light": {
+          "older": {
+            "file": "head-long-light-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-long-light-adult.png",
+            "from": "pieces",
+            "outlineReview": 11
+          }
+        },
+        "medium": {
+          "older": {
+            "file": "head-long-medium-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-long-medium-adult.png",
+            "from": "pieces",
+            "outlineReview": 5
+          }
+        },
+        "olive": {
+          "older": {
+            "file": "head-long-olive-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-long-olive-adult.png",
+            "from": "pieces",
+            "outlineReview": 12
+          }
+        }
+      },
+      "oval": {
+        "brown": {
+          "adult": {
+            "file": "head-oval-brown-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-brown-older.png",
+            "from": "pieces"
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-oval-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-dark-older.png",
+            "from": "pieces"
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-oval-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-fair-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "adult": {
+            "file": "head-oval-light-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-light-older.png",
+            "from": "pieces"
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-oval-medium-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-medium-older.png",
+            "from": "pieces"
+          }
+        },
+        "olive": {
+          "adult": {
+            "file": "head-oval-olive-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-oval-olive-older.png",
+            "from": "pieces"
+          }
+        }
+      },
+      "pear": {
+        "dark": {
+          "adult": {
+            "file": "head-pear-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-dark-older.png",
+            "from": "pieces",
+            "outlineReview": 12
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-pear-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-fair-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "adult": {
+            "file": "head-pear-light-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-pear-light-older.png",
+            "from": "pieces"
+          }
+        },
+        "olive": {
+          "older": {
+            "file": "head-pear-olive-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-pear-olive-adult.png",
+            "from": "pieces",
+            "outlineReview": 6
+          }
+        },
+        "medium": {
+          "older": {
+            "file": "head-pear-medium-older.png",
+            "from": "pieces",
+            "outlineReview": 8
+          },
+          "adult": {
+            "file": "head-pear-medium-adult.png",
+            "from": "pieces",
+            "outlineReview": 10
+          }
+        },
+        "brown": {
+          "adult": {
+            "file": "head-pear-brown-adult.png",
+            "from": "pieces",
+            "outlineReview": 8
+          },
+          "older": {
+            "file": "head-pear-brown-older.png",
+            "from": "pieces",
+            "outlineReview": 8
+          }
+        }
+      },
+      "round": {
+        "brown": {
+          "adult": {
+            "file": "head-round-brown-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-round-brown-older.png",
+            "from": "pieces"
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-round-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-round-dark-older.png",
+            "from": "pieces"
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-round-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-round-fair-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "older": {
+            "file": "head-round-light-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-round-light-adult.png",
+            "from": "pieces",
+            "outlineReview": 5
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-round-medium-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-round-medium-older.png",
+            "from": "pieces"
+          }
+        },
+        "olive": {
+          "adult": {
+            "file": "head-round-olive-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-round-olive-older.png",
+            "from": "pieces"
+          }
+        }
+      },
+      "square": {
+        "dark": {
+          "older": {
+            "file": "head-square-dark-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-square-dark-adult.png",
+            "from": "pieces",
+            "outlineReview": 6
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-square-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-square-fair-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "older": {
+            "file": "head-square-light-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-square-light-adult.png",
+            "from": "pieces",
+            "outlineReview": 6
+          }
+        },
+        "olive": {
+          "older": {
+            "file": "head-square-olive-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-square-olive-adult.png",
+            "from": "pieces",
+            "outlineReview": 6
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-square-medium-adult.png",
+            "from": "pieces",
+            "outlineReview": 5
+          },
+          "older": {
+            "file": "head-square-medium-older.png",
+            "from": "pieces",
+            "outlineReview": 11
+          }
+        },
+        "brown": {
+          "older": {
+            "file": "head-square-brown-older.png",
+            "from": "pieces",
+            "outlineReview": 5
+          },
+          "adult": {
+            "file": "head-square-brown-adult.png",
+            "from": "pieces",
+            "outlineReview": 11
+          }
+        }
+      },
+      "standard": {
+        "brown": {
+          "older": {
+            "file": "head-brown-older.png",
+            "from": "pieces"
+          },
+          "adult": {
+            "file": "head-brown-adult.png",
+            "from": "pieces",
+            "outlineReview": 5
+          }
+        },
+        "dark": {
+          "adult": {
+            "file": "head-dark-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-dark-older.png",
+            "from": "pieces"
+          }
+        },
+        "fair": {
+          "adult": {
+            "file": "head-fair-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-fair-older.png",
+            "from": "pieces",
+            "outlineReview": 13
+          }
+        },
+        "medium": {
+          "adult": {
+            "file": "head-medium-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-medium-older.png",
+            "from": "pieces",
+            "outlineReview": 6
+          }
+        },
+        "olive": {
+          "adult": {
+            "file": "head-olive-adult.png",
+            "from": "pieces"
+          },
+          "older": {
+            "file": "head-olive-older.png",
+            "from": "pieces"
+          }
+        },
+        "light": {
+          "older": {
+            "file": "head-light-older.png",
+            "from": "pieces",
+            "outlineReview": 5
+          },
+          "adult": {
+            "file": "head-light-adult.png",
+            "from": "pieces",
+            "outlineReview": 7
+          }
+        }
+      }
+    },
+    "armsBareByShade": {
+      "fair": "arms-bare-fair.png",
+      "light": "arms-bare-light.png",
+      "olive": "arms-bare-olive.png",
+      "medium": "arms-bare-medium.png",
+      "brown": "arms-bare-brown.png",
+      "dark": "arms-bare-dark.png"
+    },
+    "tops": {
+      "point-collar-blouse": [
+        "blue",
+        "ivory",
+        "lilac"
+      ],
+      "pleat-neck-blouse": [
+        "sage",
+        "navy",
+        "rose"
+      ],
+      "crew-tee": [
+        "teal",
+        "charcoal",
+        "ivory"
+      ],
+      "camp-shirt": [
+        "olive",
+        "blue",
+        "rust"
+      ],
+      "ribbed-knit": [
+        "pine",
+        "oatmeal",
+        "plum"
+      ]
+    },
+    "topUse": {
+      "point-collar-blouse": "work",
+      "pleat-neck-blouse": "work",
+      "crew-tee": "everyday",
+      "camp-shirt": "everyday",
+      "ribbed-knit": "everyday"
+    },
+    "shortSleeveTops": [
+      "point-collar-blouse",
+      "pleat-neck-blouse",
+      "crew-tee",
+      "camp-shirt",
+      "ribbed-knit"
+    ],
+    "newHairStyles": [
+      "spacebuns",
+      "crownbraid",
+      "sideshave"
+    ],
+    "hairColors": [
+      "darkbrown",
+      "black",
+      "blond",
+      "gray"
+    ],
+    "hairColorsByStyle": {
+      "spacebuns": [
+        "darkbrown",
+        "black",
+        "blond",
+        "gray"
+      ],
+      "crownbraid": [
+        "darkbrown",
+        "black",
+        "blond",
+        "gray"
+      ],
+      "sideshave": [
+        "darkbrown",
+        "black",
+        "blond",
+        "gray"
+      ]
+    },
+    "hairByShape": {
+      "spacebuns": {
+        "diamond": "standard",
+        "heart": "standard",
+        "long": "standard",
+        "oval": "standard",
+        "pear": "standard",
+        "round": "standard",
+        "square": "standard",
+        "standard": "standard"
+      },
+      "crownbraid": {
+        "diamond": "standard",
+        "heart": "standard",
+        "long": "standard",
+        "oval": "standard",
+        "pear": "standard",
+        "round": "standard",
+        "square": "standard",
+        "standard": "standard"
+      },
+      "sideshave": {
+        "diamond": "standard",
+        "heart": "standard",
+        "long": "standard",
+        "oval": "standard",
+        "pear": "standard",
+        "round": "standard",
+        "square": "standard",
+        "standard": "standard"
+      }
+    },
+    "files": [
+      "arms-bare-brown.png",
+      "arms-bare-dark.png",
+      "arms-bare-fair.png",
+      "arms-bare-light.png",
+      "arms-bare-medium.png",
+      "arms-bare-olive.png",
+      "hair-crownbraid-black.png",
+      "hair-crownbraid-blond.png",
+      "hair-crownbraid-darkbrown.png",
+      "hair-crownbraid-gray.png",
+      "hair-sideshave-black.png",
+      "hair-sideshave-blond.png",
+      "hair-sideshave-darkbrown.png",
+      "hair-sideshave-gray.png",
+      "hair-spacebuns-black.png",
+      "hair-spacebuns-blond.png",
+      "hair-spacebuns-darkbrown.png",
+      "hair-spacebuns-gray.png",
+      "head-brown-adult.png",
+      "head-brown-older.png",
+      "head-dark-adult.png",
+      "head-dark-older.png",
+      "head-diamond-brown-adult.png",
+      "head-diamond-brown-older.png",
+      "head-diamond-dark-adult.png",
+      "head-diamond-dark-older.png",
+      "head-diamond-fair-adult.png",
+      "head-diamond-fair-older.png",
+      "head-diamond-light-adult.png",
+      "head-diamond-light-older.png",
+      "head-diamond-medium-adult.png",
+      "head-diamond-medium-older.png",
+      "head-diamond-olive-adult.png",
+      "head-diamond-olive-older.png",
+      "head-fair-adult.png",
+      "head-fair-older.png",
+      "head-heart-brown-adult.png",
+      "head-heart-brown-older.png",
+      "head-heart-dark-adult.png",
+      "head-heart-dark-older.png",
+      "head-heart-fair-adult.png",
+      "head-heart-fair-older.png",
+      "head-heart-light-adult.png",
+      "head-heart-light-older.png",
+      "head-heart-medium-adult.png",
+      "head-heart-medium-older.png",
+      "head-heart-olive-adult.png",
+      "head-heart-olive-older.png",
+      "head-light-adult.png",
+      "head-light-older.png",
+      "head-long-brown-adult.png",
+      "head-long-brown-older.png",
+      "head-long-dark-adult.png",
+      "head-long-dark-older.png",
+      "head-long-fair-adult.png",
+      "head-long-fair-older.png",
+      "head-long-light-adult.png",
+      "head-long-light-older.png",
+      "head-long-medium-adult.png",
+      "head-long-medium-older.png",
+      "head-long-olive-adult.png",
+      "head-long-olive-older.png",
+      "head-medium-adult.png",
+      "head-medium-older.png",
+      "head-olive-adult.png",
+      "head-olive-older.png",
+      "head-oval-brown-adult.png",
+      "head-oval-brown-older.png",
+      "head-oval-dark-adult.png",
+      "head-oval-dark-older.png",
+      "head-oval-fair-adult.png",
+      "head-oval-fair-older.png",
+      "head-oval-light-adult.png",
+      "head-oval-light-older.png",
+      "head-oval-medium-adult.png",
+      "head-oval-medium-older.png",
+      "head-oval-olive-adult.png",
+      "head-oval-olive-older.png",
+      "head-pear-brown-adult.png",
+      "head-pear-brown-older.png",
+      "head-pear-dark-adult.png",
+      "head-pear-dark-older.png",
+      "head-pear-fair-adult.png",
+      "head-pear-fair-older.png",
+      "head-pear-light-adult.png",
+      "head-pear-light-older.png",
+      "head-pear-medium-adult.png",
+      "head-pear-medium-older.png",
+      "head-pear-olive-adult.png",
+      "head-pear-olive-older.png",
+      "head-round-brown-adult.png",
+      "head-round-brown-older.png",
+      "head-round-dark-adult.png",
+      "head-round-dark-older.png",
+      "head-round-fair-adult.png",
+      "head-round-fair-older.png",
+      "head-round-light-adult.png",
+      "head-round-light-older.png",
+      "head-round-medium-adult.png",
+      "head-round-medium-older.png",
+      "head-round-olive-adult.png",
+      "head-round-olive-older.png",
+      "head-square-brown-adult.png",
+      "head-square-brown-older.png",
+      "head-square-dark-adult.png",
+      "head-square-dark-older.png",
+      "head-square-fair-adult.png",
+      "head-square-fair-older.png",
+      "head-square-light-adult.png",
+      "head-square-light-older.png",
+      "head-square-medium-adult.png",
+      "head-square-medium-older.png",
+      "head-square-olive-adult.png",
+      "head-square-olive-older.png",
+      "top-camp-shirt-blue.png",
+      "top-camp-shirt-olive.png",
+      "top-camp-shirt-rust.png",
+      "top-crew-tee-charcoal.png",
+      "top-crew-tee-ivory.png",
+      "top-crew-tee-teal.png",
+      "top-pleat-neck-blouse-navy.png",
+      "top-pleat-neck-blouse-rose.png",
+      "top-pleat-neck-blouse-sage.png",
+      "top-point-collar-blouse-blue.png",
+      "top-point-collar-blouse-ivory.png",
+      "top-point-collar-blouse-lilac.png",
+      "top-ribbed-knit-oatmeal.png",
+      "top-ribbed-knit-pine.png",
+      "top-ribbed-knit-plum.png"
+    ],
+    "sources": {
+      "head-diamond-brown-adult.png": "work/paint/women-head-diamond-brown-adult-r4b.png",
+      "head-diamond-dark-adult.png": "work/paint/women-head-diamond-dark-adult-r4a.png",
+      "head-diamond-dark-older.png": "work/paint/women-head-diamond-dark-older-r4a.png",
+      "head-diamond-fair-adult.png": "work/paint/women-head-diamond-fair-adult-r4a.png",
+      "head-diamond-fair-older.png": "work/paint/women-head-diamond-fair-older-r4b.png",
+      "head-diamond-light-adult.png": "work/paint/women-head-diamond-light-adult-r4a.png",
+      "head-diamond-medium-adult.png": "work/paint/women-head-diamond-medium-adult-r4b.png",
+      "head-diamond-medium-older.png": "work/paint/women-head-diamond-medium-older-r4a.png",
+      "head-diamond-olive-adult.png": "work/paint/women-head-diamond-olive-adult-r4c.png",
+      "head-diamond-olive-older.png": "work/paint/women-head-diamond-olive-older-r4a.png",
+      "head-heart-brown-adult.png": "work/paint/women-head-heart-brown-adult-r4a.png",
+      "head-heart-dark-adult.png": "work/paint/women-head-heart-dark-adult-r4a.png",
+      "head-heart-dark-older.png": "work/paint/women-head-heart-dark-older-r4b.png",
+      "head-heart-light-older.png": "work/paint/women-head-heart-light-older-r4a.png",
+      "head-heart-medium-adult.png": "work/paint/women-head-heart-medium-adult-r4a.png",
+      "head-heart-medium-older.png": "work/paint/women-head-heart-medium-older-r4a.png",
+      "head-heart-olive-older.png": "work/paint/women-head-heart-olive-older-r4a.png",
+      "head-long-brown-adult.png": "work/paint/women-head-long-brown-adult-r4b.png",
+      "head-long-dark-adult.png": "work/paint/women-head-long-dark-adult-r4b.png",
+      "head-long-fair-older.png": "work/paint/women-head-long-fair-older-r4a.png",
+      "head-long-light-older.png": "work/paint/women-head-long-light-older-r4c.png",
+      "head-long-medium-older.png": "work/paint/women-head-long-medium-older-r4d.png",
+      "head-long-olive-older.png": "work/paint/women-head-long-olive-older-r4a.png",
+      "head-oval-brown-adult.png": "work/paint/women-head-oval-brown-adult-r4b.png",
+      "head-oval-brown-older.png": "work/paint/women-head-oval-brown-older-r4a.png",
+      "head-oval-dark-adult.png": "work/paint/women-head-oval-dark-adult-r4b.png",
+      "head-oval-dark-older.png": "work/paint/women-head-oval-dark-older-r4a.png",
+      "head-oval-fair-adult.png": "work/paint/women-head-oval-fair-adult-r4a.png",
+      "head-oval-fair-older.png": "work/paint/women-head-oval-fair-older-r4a.png",
+      "head-oval-light-adult.png": "work/paint/women-head-oval-light-adult-r4b.png",
+      "head-oval-light-older.png": "work/paint/women-head-oval-light-older-r4a.png",
+      "head-oval-medium-adult.png": "work/paint/women-head-oval-medium-adult-r4a.png",
+      "head-oval-medium-older.png": "work/paint/women-head-oval-medium-older-r4a.png",
+      "head-oval-olive-adult.png": "work/paint/women-head-oval-olive-adult-r4a.png",
+      "head-oval-olive-older.png": "work/paint/women-head-oval-olive-older-r4a.png",
+      "head-pear-dark-adult.png": "work/paint/women-head-pear-dark-adult-r4a.png",
+      "head-pear-fair-adult.png": "work/paint/women-head-pear-fair-adult-r4a.png",
+      "head-pear-fair-older.png": "work/paint/women-head-pear-fair-older-r4a.png",
+      "head-pear-light-adult.png": "work/paint/women-head-pear-light-adult-r4c.png",
+      "head-pear-light-older.png": "work/paint/women-head-pear-light-older-r4a.png",
+      "head-pear-olive-older.png": "work/paint/women-head-pear-olive-older-r4a.png",
+      "head-round-brown-adult.png": "work/paint/women-head-round-brown-adult-r4b.png",
+      "head-round-brown-older.png": "work/paint/women-head-round-brown-older-r4g.png",
+      "head-round-dark-adult.png": "work/paint/women-head-round-dark-adult-r4a.png",
+      "head-round-dark-older.png": "work/paint/women-head-round-dark-older-r4a.png",
+      "head-round-fair-adult.png": "work/paint/women-head-round-fair-adult-r4a.png",
+      "head-round-fair-older.png": "work/paint/women-head-round-fair-older-r4a.png",
+      "head-round-light-older.png": "work/paint/women-head-round-light-older-r4a.png",
+      "head-round-medium-adult.png": "work/paint/women-head-round-medium-adult-r4b.png",
+      "head-round-medium-older.png": "work/paint/women-head-round-medium-older-r4a.png",
+      "head-round-olive-adult.png": "work/paint/women-head-round-olive-adult-r4a.png",
+      "head-round-olive-older.png": "work/paint/women-head-round-olive-older-r4b.png",
+      "head-square-dark-older.png": "work/paint/women-head-square-dark-older-r4a.png",
+      "head-square-fair-adult.png": "work/paint/women-head-square-fair-adult-r4b.png",
+      "head-square-fair-older.png": "work/paint/women-head-square-fair-older-r4c.png",
+      "head-square-light-older.png": "work/paint/women-head-square-light-older-r4a.png",
+      "head-square-olive-older.png": "work/paint/women-head-square-olive-older-r4a.png",
+      "head-brown-older.png": "work/paint/women-head-standard-brown-older-r4a.png",
+      "head-dark-adult.png": "work/paint/women-head-standard-dark-adult-r4a.png",
+      "head-dark-older.png": "work/paint/women-head-standard-dark-older-r4a.png",
+      "head-fair-adult.png": "work/paint/women-head-standard-fair-adult-r4b.png",
+      "head-medium-adult.png": "work/paint/women-head-standard-medium-adult-r4a.png",
+      "head-olive-adult.png": "work/paint/women-head-standard-olive-adult-r4b.png",
+      "head-olive-older.png": "work/paint/women-head-standard-olive-older-r4a.png",
+      "head-long-brown-older.png": "work/paint/women-head-long-brown-older-r4b.png",
+      "head-heart-light-adult.png": "work/paint/women-head-heart-light-adult-r4b.png",
+      "head-round-light-adult.png": "work/paint/women-head-round-light-adult-r4b.png",
+      "head-long-fair-adult.png": "work/paint/women-head-long-fair-adult-r4b.png",
+      "head-brown-adult.png": "work/paint/women-head-standard-brown-adult-r4b.png",
+      "head-long-medium-adult.png": "work/paint/women-head-long-medium-adult-r4b.png",
+      "head-light-older.png": "work/paint/women-head-standard-light-older-r4b.png",
+      "head-heart-fair-adult.png": "work/paint/women-head-heart-fair-adult-r4b.png",
+      "head-heart-brown-older.png": "work/paint/women-head-heart-brown-older-r4b.png",
+      "head-square-medium-adult.png": "work/paint/women-head-square-medium-adult-r4c.png",
+      "head-square-brown-older.png": "work/paint/women-head-square-brown-older-r4a.png",
+      "head-pear-olive-adult.png": "work/paint/women-head-pear-olive-adult-r4b.png",
+      "head-square-dark-adult.png": "work/paint/women-head-square-dark-adult-r4b.png",
+      "head-medium-older.png": "work/paint/women-head-standard-medium-older-r4b.png",
+      "head-square-olive-adult.png": "work/paint/women-head-square-olive-adult-r4b.png",
+      "head-square-light-adult.png": "work/paint/women-head-square-light-adult-r4b.png",
+      "head-heart-fair-older.png": "work/paint/women-head-heart-fair-older-r4b.png",
+      "head-light-adult.png": "work/paint/women-head-standard-light-adult-r4a.png",
+      "head-diamond-light-older.png": "work/paint/women-head-diamond-light-older-r4e.png",
+      "head-heart-olive-adult.png": "work/paint/women-head-heart-olive-adult-r4b.png",
+      "head-pear-medium-older.png": "work/paint/women-head-pear-medium-older-r4b.png",
+      "head-pear-brown-adult.png": "work/paint/women-head-pear-brown-adult-r4b.png",
+      "head-pear-brown-older.png": "work/paint/women-head-pear-brown-older-r4g.png",
+      "head-diamond-brown-older.png": "work/paint/women-head-diamond-brown-older-r4d.png",
+      "head-pear-medium-adult.png": "work/paint/women-head-pear-medium-adult-r4b.png",
+      "head-long-light-adult.png": "work/paint/women-head-long-light-adult-r4d.png",
+      "head-square-medium-older.png": "work/paint/women-head-square-medium-older-r4a.png",
+      "head-square-brown-adult.png": "work/paint/women-head-square-brown-adult-r4b.png",
+      "head-pear-dark-older.png": "work/paint/women-head-pear-dark-older-r4a.png",
+      "head-long-olive-adult.png": "work/paint/women-head-long-olive-adult-r4d.png",
+      "head-long-dark-older.png": "work/paint/women-head-long-dark-older-r4a.png",
+      "head-fair-older.png": "work/paint/women-head-standard-fair-older-r4c.png",
+      "arms-bare-fair.png": "work/paint/women-arms-bare-fair-fit.png",
+      "arms-bare-light.png": "work/paint/women-arms-bare-light-fit.png",
+      "arms-bare-olive.png": "work/paint/women-arms-bare-olive-fit.png",
+      "arms-bare-medium.png": "work/paint/women-arms-bare-medium-fit.png",
+      "arms-bare-brown.png": "work/paint/women-arms-bare-brown-fit.png",
+      "arms-bare-dark.png": "work/paint/women-arms-bare-dark-fit.png",
+      "top-point-collar-blouse-blue.png": "work/paint/women-top-point-collar-blouse-blue.png",
+      "top-point-collar-blouse-ivory.png": "work/paint/women-top-point-collar-blouse-ivory.png",
+      "top-point-collar-blouse-lilac.png": "work/paint/women-top-point-collar-blouse-lilac-touchup.png",
+      "top-pleat-neck-blouse-sage.png": "work/paint/women-top-pleat-neck-blouse-sage-fitted.png",
+      "top-pleat-neck-blouse-navy.png": "work/paint/women-top-pleat-neck-blouse-navy-fitted.png",
+      "top-pleat-neck-blouse-rose.png": "work/paint/women-top-pleat-neck-blouse-rose-fitted.png",
+      "top-crew-tee-teal.png": "work/paint/women-top-crew-tee-teal-fitted.png",
+      "top-crew-tee-charcoal.png": "work/paint/women-top-crew-tee-charcoal-fitted.png",
+      "top-crew-tee-ivory.png": "work/paint/women-top-crew-tee-ivory-fitted.png",
+      "top-camp-shirt-olive.png": "work/paint/women-top-camp-shirt-olive.png",
+      "top-camp-shirt-blue.png": "work/paint/women-top-camp-shirt-blue.png",
+      "top-camp-shirt-rust.png": "work/paint/women-top-camp-shirt-rust.png",
+      "top-ribbed-knit-pine.png": "work/paint/women-top-ribbed-knit-pine.png",
+      "top-ribbed-knit-oatmeal.png": "work/paint/women-top-ribbed-knit-oatmeal.png",
+      "top-ribbed-knit-plum.png": "work/paint/women-top-ribbed-knit-plum.png",
+      "hair-spacebuns-darkbrown.png": "work/paint/women-hair-spacebuns-standard-darkbrown-r4a.png",
+      "hair-spacebuns-black.png": "work/paint/women-hair-spacebuns-standard-black-r4a.png",
+      "hair-spacebuns-blond.png": "work/paint/women-hair-spacebuns-standard-blond-r4a.png",
+      "hair-spacebuns-gray.png": "work/paint/women-hair-spacebuns-standard-gray-r4a.png",
+      "hair-crownbraid-darkbrown.png": "work/paint/women-hair-crownbraid-standard-darkbrown-r4a.png",
+      "hair-crownbraid-black.png": "work/paint/women-hair-crownbraid-standard-black-r4a.png",
+      "hair-crownbraid-blond.png": "work/paint/women-hair-crownbraid-standard-blond-r4a.png",
+      "hair-crownbraid-gray.png": "work/paint/women-hair-crownbraid-standard-gray-r4a.png",
+      "hair-sideshave-darkbrown.png": "work/paint/women-hair-sideshave-standard-darkbrown-r4a.png",
+      "hair-sideshave-black.png": "work/paint/women-hair-sideshave-standard-black-r4a.png",
+      "hair-sideshave-blond.png": "work/paint/women-hair-sideshave-standard-blond-r4a.png",
+      "hair-sideshave-gray.png": "work/paint/women-hair-sideshave-standard-gray-r4a.png"
+    },
+    "doNotCombine": [
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-diamond-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-diamond-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-heart-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-heart-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-long-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-long-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-oval-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-oval-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-pear-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-pear-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-round-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-round-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-square-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-charcoal.png",
+        "head": "head-square-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-diamond-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-diamond-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-heart-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-heart-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-long-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-long-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-oval-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-oval-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-pear-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-pear-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-round-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-round-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-square-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-ivory.png",
+        "head": "head-square-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-diamond-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-diamond-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-heart-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-heart-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-long-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-long-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-oval-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-oval-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-pear-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-pear-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-round-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-round-dark-older.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-square-dark-adult.png",
+        "why": "holes 30"
+      },
+      {
+        "piece": "top-crew-tee-teal.png",
+        "head": "head-square-dark-older.png",
+        "why": "holes 30"
+      }
+    ]
+  }
+}
