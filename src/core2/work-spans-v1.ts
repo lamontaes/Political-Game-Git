@@ -1,6 +1,6 @@
 /** Pure recorded work boundaries only; no cursor, attendance, earnings or cash effects. */
 import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
-import { FinanceReadGuard } from "./budgets-treasury";
+import { FinanceReadGuard } from "./finance-plan";
 import {
   plannedWorkMinutesBetween,
   plannedWorkMinutesOnDate,
