@@ -75,10 +75,7 @@ import { moneySaid } from "../english/count-words";
 import { spanSaid } from "../english/span-words";
 import type { CallbackLink, Moment } from "./types";
 import { tieSide } from "./relation-facts";
-import {
-  OFFICE_DAY_MODULE_ID,
-  type OfficeActRow,
-} from "../core2/modules/office-day";
+import { OFFICE_ACT, OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 
 /** The school year's end, as the director keeps its moment. */
 const SCHOOL_FINISHED = "event:school.finished";
@@ -1012,9 +1009,10 @@ function withWhatMattered(
 }
 
 /**
- * What the person did in office, read from the acts the office-day engine
- * keeps (a vote, a town hall, an interview): each is a moment the journal
- * tells, citing the act's own record and, for a vote, the bill.
+ * What the person did in office, read from the one history reader (the
+ * office-day engine's acts, `office-act`: a vote, a town hall, an
+ * interview): each is a moment the journal tells, citing the act's own
+ * record and, for a vote, the bill.
  */
 function officeActMoments(
   core: Readonly<CoreState>,
@@ -1023,11 +1021,30 @@ function officeActMoments(
   told: ReadonlySet<string>,
 ): JournalMoment[] {
   if (!core.modules.has(OFFICE_DAY_MODULE_ID)) return [];
-  const api = coreAPI(core as CoreState);
-  const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
-  const acts = api.moduleState(OFFICE_DAY_MODULE_ID).table("acts");
-  return (acts.rows() as unknown as OfficeActRow[])
-    .filter((act) => act.personId === personId)
+  const bills = coreAPI(core as CoreState)
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills");
+  return historyOf(
+    core as CoreState,
+    { person: personId },
+    { kinds: [OFFICE_ACT] },
+  )
+    .flatMap((event) => {
+      // The office day's own acts name their kind; an act a state office
+      // logged as its own record is told by that office's scenes.
+      const facts = event.facts;
+      return facts?.kind
+        ? [
+            {
+              id: event.id,
+              date: event.date,
+              kind: facts.kind,
+              detail: facts.detail ?? "",
+              recordId: facts.recordId ?? "",
+            },
+          ]
+        : [];
+    })
     .flatMap((act): JournalMoment[] => {
       const moment = (causeKind: string, actFacts?: Facts): JournalMoment => ({
         id: act.id,

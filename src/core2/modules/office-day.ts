@@ -23,7 +23,14 @@ import type { ItemVetoSelection } from "../state-item-veto";
  */
 import { coreAPI, registerModule } from "../state";
 import { registerWorldMapPart } from "../snapshot";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  Source,
+} from "../types";
+import type { HistoryModule, HistoryRow, HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain, lawInForce } from "./laws";
@@ -188,8 +195,66 @@ export interface OfficeActRow {
   readonly cooled?: number;
 }
 
-export const OFFICE_DAY_MODULE: CoreModule = {
+/**
+ * An official's act in office as history (`office-act`, the kind the state
+ * office's log keeps for its own acts): a vote, a signing, a veto, a town
+ * hall, an interview, by the act's own id.
+ */
+export const OFFICE_ACT = "office-act";
+
+function actHistory(core: CoreState, act: OfficeActRow): HistoryRow {
+  const personIds = [act.personId as PersonId];
+  return {
+    id: act.id,
+    date: act.date as HistoryRow["date"],
+    life: "politics",
+    what: act.kind,
+    record: OFFICE_ACT,
+    from: act.date < core.startedAt ? "past" : "played",
+    personIds,
+    withIds: personIds,
+    facts: {
+      kind: act.kind,
+      how: act.how,
+      detail: act.detail,
+      recordId: act.recordId,
+    },
+    publicRecord: act.kind !== "district-office",
+  };
+}
+
+/**
+ * The office day's acts are history: every act an official took, the
+ * player's and every other official's. An act the state office logged as
+ * its own record (`office-act:<entry>`) is told from that record, so each
+ * act is told once.
+ */
+const OFFICE_DAY_HISTORY: HistorySource = {
   id: OFFICE_DAY_MODULE_ID,
+  rows(core, scope, ask) {
+    if (!core.modules.has(OFFICE_DAY_MODULE_ID)) return [];
+    if (!ask.kinds?.includes(OFFICE_ACT)) return [];
+    const acts = table(coreAPI(core), "acts");
+    const rows = ("person" in scope
+      ? acts.query("byPerson", [scope.person])
+      : acts.rows()) as unknown as OfficeActRow[];
+    return rows
+      .filter((act) => !core.durableLog.has(`office-act:${act.recordId}`))
+      .map((act) => actHistory(core, act));
+  },
+  row(core, id) {
+    if (!core.modules.has(OFFICE_DAY_MODULE_ID)) return undefined;
+    const act = table(coreAPI(core), "acts").get(id) as unknown as
+      OfficeActRow | undefined;
+    return act ? actHistory(core, act) : undefined;
+  },
+};
+
+export const OFFICE_DAY_MODULE: CoreModule & HistoryModule = {
+  id: OFFICE_DAY_MODULE_ID,
+  // A plain field, not a getter: the finance engine's read check walks the
+  // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
+  history: OFFICE_DAY_HISTORY,
   state: {
     schemaVersion: 1,
     tables: {
