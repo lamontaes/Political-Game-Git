@@ -61,7 +61,8 @@ jobs:
     name: new game
     needs: scope
     # Runs unless the pull request is docs only: a failed or skipped docs-only job never skips it.
-    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (!cancelled() && needs.scope.outputs.docs_only != 'true') }}
+    # A new game runs once per train (owner, Nov 18), plus every dispatch.
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (!cancelled() && needs.scope.outputs.docs_only != 'true') && (github.event_name != 'pull_request' || startsWith(github.head_ref, 'train/')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
