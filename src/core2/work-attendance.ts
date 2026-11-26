@@ -8,7 +8,7 @@ import {
   isExplicitlyControlledPersonV1,
   snapshotExplicitControlV1,
 } from "./player-control-state-v1";
-import { carryTraitScores } from "./choice";
+import { carryTraitScores } from "./trait-lean";
 import { workWeekStart } from "./modules/work";
 import { validateDatedWorkResult } from "./work-state";
 import {

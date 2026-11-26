@@ -343,7 +343,9 @@
         "src/core2/life-stake-rule.ts",
         "src/core2/coverage-module-id.ts",
         "src/core2/modules/promises.ts",
-        "src/core2/modules/views-constants.ts"
+        "src/core2/modules/views-constants.ts",
+        "src/core2/sitting-closeness.ts",
+        "src/core2/trait-lean.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
