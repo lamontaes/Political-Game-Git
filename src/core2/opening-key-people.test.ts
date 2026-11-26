@@ -43,12 +43,19 @@ describe.each([0, 1, 2])("the opening's key people, draw %i", (draw) => {
       const covering = townSeats(api).filter((row) => row.holder);
 
       // The president and vice president, from the seats over the player's town.
+      // Everyone knows them, a territory's town too, whose voters do not choose them (owner
+      // ruling, Oct 19): the one office of each kind, whether or not a seat covers the town.
       for (const kind of ["president", "vice-president"]) {
-        const seat = covering.find((row) => row.office.kind === kind);
+        const office = (
+          api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("offices")
+            .rows() as unknown as { id: string; kind: string }[]
+        ).filter((row) => row.kind === kind);
         expect(
           byReason(kind).map((row) => row.officeId),
           context,
-        ).toEqual(seat ? [seat.office.id] : []);
+        ).toEqual(office.map((row) => row.id));
       }
       // The player's own representatives: council, state legislators, U.S. representative and senators.
       const own = (kinds: string[]) =>
@@ -109,13 +116,22 @@ describe.each([0, 1, 2])("the opening's key people, draw %i", (draw) => {
         );
         expect(chamber, `${leader.name} leads a key chamber`).toBeDefined();
       }
-      // The Politics screen reads the same list the opening does.
+      // The Politics screen reads the same list the opening does, less the state's other
+      // legislators and the governor: those stay behind its State filter (`stateLegislators`,
+      // src/bench/government.ts `POLITICS_KEY_ORDER`; Oct 26, "the rest behind the filters").
+      const onPolitics = (reason: string) =>
+        reason !== "state-legislator" && reason !== "governor";
       expect(
-        governmentView(core, world.playerId!).keyPeople.map(
-          (row) => row.personId,
-        ),
+        governmentView(core, world.playerId!)
+          .keyPeople.map((row) => row.personId)
+          .sort(),
         context,
-      ).toEqual(keys.map((row) => row.id));
+      ).toEqual(
+        keys
+          .filter((row) => row.reasons.some(onPolitics))
+          .map((row) => row.id)
+          .sort(),
+      );
       // Nothing else is key: every key person has at least one ruled reason, and
       // a person appears once.
       expect(new Set(keys.map((row) => row.id)).size).toBe(keys.length);
