@@ -45,7 +45,7 @@ const signOnMoves = replyMoves.signOn;
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS, policySeriesAtLevel } from "../policy-answers";
-import { registerModule } from "../state";
+import { coreAPI, registerModule } from "../state";
 import type {
   ActionDefinition,
   ActOffer,
@@ -53,8 +53,10 @@ import type {
   CoreEventInput,
   CoreModule,
   CoreState,
+  PersonId,
   PersonState,
 } from "../types";
+import type { HistoryModule, HistoryRow, HistorySource } from "../past";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { personLean, personStance } from "../campaign-views";
@@ -369,8 +371,68 @@ export interface MemberPosition {
   readonly total: number;
 }
 
-export const LEGISLATURE_MODULE: CoreModule = {
+/** The record kind of a bill a member brought before a body, as the one history reader tells it. */
+export const BILL_INTRODUCED = "bill.introduced";
+
+/** A bill, told on the day its sponsor brought it: the body, its number and how it stands. */
+function billHistory(core: CoreState, bill: BillRow): HistoryRow {
+  return {
+    id: bill.id,
+    date: bill.introduced as HistoryRow["date"],
+    life: "politics",
+    what: "introduced",
+    record: BILL_INTRODUCED,
+    from: bill.introduced < core.startedAt ? "past" : "played",
+    personIds: bill.sponsorId ? [bill.sponsorId as PersonId] : [],
+    withIds: bill.sponsorId ? [bill.sponsorId as PersonId] : [],
+    facts: {
+      billId: bill.id,
+      number: bill.number,
+      officeId: bill.bodyOfficeId,
+      sponsorId: bill.sponsorId,
+      status: bill.status,
+      ...(bill.passedOn ? { passedOn: bill.passedOn } : {}),
+      ...(bill.failedOn ? { failedOn: bill.failedOn } : {}),
+    },
+    publicRecord: true,
+  };
+}
+
+/**
+ * The legislature's bills are history: a member's (by sponsor), a body's
+ * (by the reader's `about`), or every bill, read by kind.
+ */
+const BILLS_HISTORY: HistorySource = {
   id: LEGISLATURE_MODULE_ID,
+  rows(core, scope, ask) {
+    if (
+      !ask.kinds?.includes(BILL_INTRODUCED) ||
+      !core.modules.has(LEGISLATURE_MODULE_ID)
+    )
+      return [];
+    if ("household" in scope || "employer" in scope) return [];
+    const bills = coreAPI(core)
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills");
+    return (
+      ("person" in scope
+        ? bills.query("bySponsor", [scope.person])
+        : bills.rows()) as unknown as BillRow[]
+    ).map((bill) => billHistory(core, bill));
+  },
+  row(core, id) {
+    if (!core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
+    const bill = coreAPI(core)
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(id) as unknown as BillRow | undefined;
+    return bill ? billHistory(core, bill) : undefined;
+  },
+};
+
+export const LEGISLATURE_MODULE: CoreModule & HistoryModule = {
+  id: LEGISLATURE_MODULE_ID,
+  history: BILLS_HISTORY,
   state: {
     schemaVersion: 1,
     tables: {
