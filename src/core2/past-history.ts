@@ -151,7 +151,7 @@ export interface HistorySource {
   words?(
     core: CoreState,
     personId: PersonId,
-    record: Readonly<HistoryRecord> | Readonly<LogRecord>,
+    record: Readonly<HistoryRecord> | Readonly<LogRecord> | WordedRecord,
     from: "past" | "played",
   ): {
     life: string;
@@ -423,6 +423,40 @@ function asked(row: HistoryRow, ask: HistoryAsk): boolean {
 }
 
 /** The pre-start history and the durable log: the rows of a scope. */
+/** A record as the life source words it: its kind, day, facts and the people it names. */
+interface WordedRecord {
+  readonly id: string;
+  readonly kind: string;
+  readonly date: string;
+  readonly facts?: Readonly<Record<string, unknown>>;
+  readonly personIds: readonly string[];
+}
+
+/**
+ * A row of a person's history in the words their own list tells it in, with
+ * the record's own fields and every fact their list keeps of it that the
+ * record does not already hold (map row 5, Nov 26: one wording, however the
+ * history is read). A row their list words no such way is left as it is.
+ */
+function inTheirWords(
+  core: CoreState,
+  life: HistorySource | undefined,
+  personId: PersonId,
+  record: Readonly<HistoryRecord> | Readonly<LogRecord> | WordedRecord,
+  row: HistoryRow,
+): HistoryRow {
+  if (row.from === "built") return row;
+  const said = life?.words?.(core, personId, record as never, row.from);
+  return said
+    ? {
+        ...row,
+        life: said.life,
+        what: said.what,
+        ...(said.facts ? { facts: { ...said.facts, ...row.facts } } : {}),
+      }
+    : row;
+}
+
 function recordRows(
   core: CoreState,
   scope: HistoryScope,
@@ -437,21 +471,9 @@ function recordRows(
     const { life } = sourcesOf(core);
     const theirs = (
       personId: PersonId,
-      record: Readonly<HistoryRecord> | Readonly<LogRecord>,
+      record: Readonly<HistoryRecord> | Readonly<LogRecord> | WordedRecord,
       row: HistoryRow,
-    ): HistoryRow => {
-      const said = life?.words?.(core, personId, record, row.from as never);
-      // The record's own fields, and every fact the person's list keeps of it
-      // that the record does not already hold.
-      return said
-        ? {
-            ...row,
-            life: said.life,
-            what: said.what,
-            ...(said.facts ? { facts: { ...said.facts, ...row.facts } } : {}),
-          }
-        : row;
-    };
+    ): HistoryRow => inTheirWords(core, life, personId, record, row);
     // A person's or household's records: the indexes by person.
     const seen = new Set<string>();
     for (const personId of people) {
@@ -732,7 +754,24 @@ export function historyOf(
           !fromLife.has(row.id) &&
           (!isPlaceScope(scope) || inPlaceScope(row, scope, ask))
         )
-          take(row);
+          // A person's records from every engine, in their own list's words.
+          take(
+            "person" in scope
+              ? inTheirWords(
+                  core,
+                  life,
+                  scope.person,
+                  {
+                    id: row.id,
+                    kind: row.record,
+                    date: row.date,
+                    facts: row.facts,
+                    personIds: row.personIds,
+                  },
+                  row,
+                )
+              : row,
+          );
   }
   // A household's members can share a record: it is told once.
   const once =
