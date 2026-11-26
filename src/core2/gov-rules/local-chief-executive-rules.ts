@@ -7,54 +7,54 @@ import {
 import { publishedPlacePopulation } from "./place-population";
 
 /**
- * Ported from the old engine's `nationwide-world/local-chief-executive-rules.ts`.
- *
- * Whether a town elects its chief official, and by what title and for how
- * long, for every town with a government of its own.
- *
- * Read where the game has compiled the town's government and its reading says
- * so. Otherwise ESTIMATED FROM AVERAGE: every unread town takes the most
- * common real rule in ICMA's 2018 Municipal Form of Government Survey, as
- * ChatGPT reported it on 2026-09-22 (answer to
- * `local-executive-and-council-rules`, kept verbatim under
- * docs/research/chatgpt-answers/2026-09-22-nationwide-2235/), the same rule
- * for every place (CTO rulings of September 28, 10:32 p.m., and September 29,
- * 1:54 a.m.: no draw where a rule is unread):
- *
- * - the chief elected official is elected directly, as in 75.6% of towns
- *   (by the council 21.3%, the top vote-getter for council 0.9%, rotation
- *   1.6%, other 0.7%);
- * - the term is four years, as in 49.4% of towns (1 year 13.5%, 2 years
- *   28.6%, 3 years 6.1%).
- *
- * Until September 29, 2026, each unread town drew both from those shares.
- *
- * The owner's interim rule, not research (lamontae, 2026-09-23 9:07 p.m. ET,
- * "yes to the democratically elected mayor"): until a city's own rule is read,
- * a city of more than `OWNER_LARGE_CITY_POPULATION` people elects its mayor
- * directly, since nearly every large American city does.
- * A read rule overrides it. It applies only where the town's population is
+ * Ported from the old engine's
+ * `nationwide-world/local-chief-executive-rules.ts`. Whether a town elects
+ * its chief official, and by what title and for how long, for every town with
+ * a government of its own. Read where the game has compiled the town's
+ * government and its reading says so. Otherwise ESTIMATED FROM AVERAGE: every
+ * unread town takes the most common real rule in ICMA's 2018 Municipal Form
+ * of Government Survey, as ChatGPT reported it on, the same rule for every
+ * place: - the chief elected official is elected directly, as in 75.6% of
+ * towns (by the council 21.3%, the top vote-getter for council 0.9%, rotation
+ * 1.6%, other 0.7%); - the term is four years, as in 49.4% of towns (1 year
+ * 13.5%, 2 years 28.6%, 3 years 6.1%). Until, each unread town drew both from
+ * those shares. The owner's interim rule, not research: until a city's own
+ * rule is read, a city of more than `OWNER_LARGE_CITY_POPULATION` people
+ * elects its mayor directly, since nearly every large American city does. A
+ * read rule overrides it. It applies only where the town's population is
  * known, and `place-population.ts` holds none yet, so today it changes no
- * town; it takes effect the day that table is filled.
+ * town; it takes effect the day that table is filled. Only a directly elected
+ * chief official is a race anybody can file for. A town whose council chooses
+ * its mayor from among its members has no mayoral race; the council's choice
+ * is not built yet. ESTIMATED FROM THE ICMA NATIONAL MUNICIPAL AVERAGE
+ * described above, pending town-level research under
+ * `town-mayor-rules-by-town-size`: - shares by town size or state are not
+ * published, so every unread town takes the same national rule, and a town
+ * whose council in fact chooses its mayor has an elected one until its own
+ * rule is read; - the survey's term shares describe every chief elected
+ * official, including council presidents chosen for a year; - a directly
+ * elected chief official is titled "Mayor" unless the town's reading names
+ * another title (ICMA's title shares describe every chief official, including
+ * council presidents chosen by their councils); - term limits (8.6% of towns
+ * in the same survey) are not applied; - whether a sitting council member who
+ * wins the mayoralty gives up the council seat is not settled, so the council
+ * seat is left as it is.
  *
- * Only a directly elected chief official is a race anybody can file for. A
- * town whose council chooses its mayor from among its members has no mayoral
- * race; the council's choice is not built yet.
  *
- * ESTIMATED FROM THE ICMA NATIONAL MUNICIPAL AVERAGE described above, pending
- * town-level research under `town-mayor-rules-by-town-size`:
  *
- * - shares by town size or state are not published, so every unread town
- *   takes the same national rule, and a town whose council in fact chooses
- *   its mayor has an elected one until its own rule is read;
- * - the survey's term shares describe every chief elected official, including
- *   council presidents chosen for a year;
- * - a directly elected chief official is titled "Mayor" unless the town's
- *   reading names another title (ICMA's title shares describe every chief
- *   official, including council presidents chosen by their councils);
- * - term limits (8.6% of towns in the same survey) are not applied;
- * - whether a sitting council member who wins the mayoralty gives up the
- *   council seat is not settled, so the council seat is left as it is.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 export type ChiefExecutiveBasis =

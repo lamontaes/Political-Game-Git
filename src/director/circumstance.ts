@@ -1,20 +1,20 @@
 /**
- * Scenes from circumstance (owner, Oct 27, 2026, 01:30 Eastern: "if the
- * circumstances are right in the simulation, they should be callable, and
- * the English engine handles the words"). A record written anywhere in the
- * world can call a scene for the player when they are at a kind of place
- * that day and someone there has a reason from the record to bring it to
- * them: a resident who read about a vote the player cast stops them in the
- * street, a coworker brings up the national news, a colleague catches them
- * in the capitol's hallway after a committee hearing.
+ * Scenes from circumstance. A record written anywhere in the world can call a
+ * scene for the player when they are at a kind of place that day and someone
+ * there has a reason from the record to bring it to them: a resident who read
+ * about a vote the player cast stops them in the street, a coworker brings up
+ * the national news, a colleague catches them in the capitol's hallway after
+ * a committee hearing. The rows (`src/director/data/circumstances.json`) hold
+ * the structure and no sentence. This file is pure over the core: it reads
+ * only the records written today (each kept as it is recorded,
+ * `CircumstanceQueue`), never history or the whole world, and casts the
+ * person with the highest score; the record id breaks a tie, so nothing is
+ * drawn by chance. The ledger writes the moment it returns and the ordinary
+ * scheduler stages the situation type whose cause carries the row's label.
  *
- * The rows (`src/director/data/circumstances.json`) hold the structure and no sentence.
- * This file is pure over the core: it reads only the records written today
- * (each kept as it is recorded, `CircumstanceQueue`), never history or the
- * whole world, and casts the person with the highest score; the record id
- * breaks a tie, so nothing is drawn by chance. The ledger writes the moment
- * it returns and the ordinary scheduler stages the situation type whose
- * cause carries the row's label.
+ *
+ *
+ *
  */
 import { receives, type ReceiveRule } from "./scheduling";
 import {
@@ -102,7 +102,7 @@ export interface CircumstanceRow {
    * The row's news is one a child can know (their own school year, a newcomer
    * at home, a goodbye): it may cast someone under the news teller's age.
    * Every other row is news of politics, money, law or work, which a child
-   * under that age is never cast to tell (Fable A, Nov 13, rule 28).
+   * under that age is never cast to tell.
    */
   childMayTell?: boolean;
   /**

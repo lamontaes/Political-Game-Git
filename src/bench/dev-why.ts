@@ -1,22 +1,22 @@
 /**
- * Dev mode's "why" panels (owner, Oct 14, 2026, relayed): the trace says what
- * a record is linked to; these say why. Read-only, from records the engines
- * already keep, and where an engine keeps no reason the panel says so (the
- * `gap` line) so the gap can be filed against that engine.
+ * Dev mode's "why" panels: the trace says what a record is linked to; these
+ * say why. Read-only, from records the engines already keep, and where an
+ * engine keeps no reason the panel says so (the `gap` line) so the gap can be
+ * filed against that engine. - a legislative vote: each member's recorded
+ * reasons (the legislature's own decision row), and the sum; - a business
+ * closing: the books behind it (the finance engine's book, the owner's loss
+ * record, the choice's recorded reason); - a budget line change: the measure
+ * and the law behind it, and the line's history; - a person: the year's
+ * ledger (pay, hours, taxes, rent, spending), and their kept decisions (each
+ * act's offered options with every reason, the trait reason first, or the
+ * chosen option's reasons once condensed); - a credit line's repricing: the
+ * line's rate history, each change with the central bank meeting behind it; -
+ * a state of the country tier: its people and jobs, the part its played town
+ * and county hold in full and the rest, which add to the state's.
  *
- *   - a legislative vote: each member's recorded reasons (the legislature's
- *     own decision row), and the sum;
- *   - a business closing: the books behind it (the finance engine's book, the
- *     owner's loss record, the choice's recorded reason);
- *   - a budget line change: the measure and the law behind it, and the line's
- *     history;
- *   - a person: the year's ledger (pay, hours, taxes, rent, spending), and
- *     their kept decisions (each act's offered options with every reason, the
- *     trait reason first, or the chosen option's reasons once condensed);
- *   - a credit line's repricing: the line's rate history, each change with
- *     the central bank meeting behind it;
- *   - a state of the country tier: its people and jobs, the part its played
- *     town and county hold in full and the rest, which add to the state's.
+ *
+ *
+ *
  */
 import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
@@ -838,13 +838,13 @@ function racePanels(
 // ---- The entry point -------------------------------------------------------
 
 /**
- * A counted household's money (owner, Nov 16: what a trace finds, dev mode
- * shows): its share of its group's cash and bank savings, the months they
- * cover its costs, and what it opened with against the survey's median for a
- * family like it, spread by its own savings draw. Then why each of its people
- * out of work is looking: the search's recorded reason and the chooser's
- * terms. All read from the residents and jobs engines; nothing is worked out
- * here that they do not keep.
+ * A counted household's money: its share of its group's cash and bank
+ * savings, the months they cover its costs, and what it opened with against
+ * the survey's median for a family like it, spread by its own savings draw.
+ * Then why each of its people out of work is looking: the search's recorded
+ * reason and the chooser's terms. All read from the residents and jobs
+ * engines; nothing is worked out here that they do not keep.
+ *
  */
 function countedMoneyPanels(core: CoreState, householdId: string): WhyPanel[] {
   const rt = residentsRuntime(core);
@@ -932,11 +932,11 @@ function countedMoneyPanels(core: CoreState, householdId: string): WhyPanel[] {
 }
 
 /**
- * A full household's opening savings draw (owner, Nov 16: what a trace finds,
- * dev mode shows): every household opened at the survey's median for a family
- * like it times this draw, fixed by the world's seed and the household's id
- * and never redrawn (household-balance-draw.ts); a counted household's Money
- * panel shows the same draw beside what it opened with.
+ * A full household's opening savings draw: every household opened at the
+ * survey's median for a family like it times this draw, fixed by the world's
+ * seed and the household's id and never redrawn (household-balance-draw.ts);
+ * a counted household's Money panel shows the same draw beside what it opened
+ * with.
  */
 function openingDrawPanels(core: CoreState, personId: string): WhyPanel[] {
   const householdId = core.people.get(personId as PersonId)?.householdId;
@@ -1015,9 +1015,9 @@ const OUTCOME_SAID: Record<string, string> = {
 };
 
 /**
- * How the story director staged a moment (owner, Nov 16: what a script
- * traces, dev mode traces): the schedule row the director wrote for it,
- * read as kept, never worked out again here.
+ * How the story director staged a moment: the schedule row the director wrote
+ * for it, read as kept, never worked out again here.
+ *
  */
 export function momentStagedPanel(
   entry: ScheduleEntry | undefined,

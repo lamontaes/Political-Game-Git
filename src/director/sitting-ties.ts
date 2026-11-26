@@ -1,8 +1,8 @@
 /**
- * The ties every kind of sitting gives its lines (owner, Oct 26-29: interviews
- * and debates are scenes; the loop is `./sitting`): how the asker stands with
- * the candidate, and the outlet that hosts it. Each is a fact the bank's pieces
- * are fitted by, citing the records it rests on.
+ * The ties every kind of sitting gives its lines: how the asker stands with
+ * the candidate, and the outlet that hosts it. Each is a fact the bank's
+ * pieces are fitted by, citing the records it rests on.
+ *
  */
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";

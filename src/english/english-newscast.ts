@@ -1,18 +1,18 @@
 /**
  * Turns the mined news banks into the words of a news story on TV and in the
- * paper: the anchor's lines (`data/english/parts/newscast.json`), the reporter
- * in the field, the story's own lines, and the paper's headline
+ * paper: the anchor's lines (`data/english/parts/newscast.json`), the
+ * reporter in the field, the story's own lines, and the paper's headline
  * (`headlines.json`) and lede (`news.json`). Every line is a sentence said or
  * written in public-domain federal records with the story's record facts in
  * its slots; a line whose facts the story doesn't carry is left out.
- *
  * Stand-in: the engine has no register card for a newscast, so spoken lines
  * compose under press-briefing until PEOPLE adds one (listed for PEOPLE in
- * docs/coordination/words.md).
+ * docs/coordination/words.md). Folded into the engine for the opening's
+ * evening news; OPUS-WORDS still owns the banks it reads, and
+ * `scripts/english-corpus/ newscast-bank.ts` re-exports it for the corpus
+ * tooling and tests.
  *
- * Folded into the engine for the opening's evening news (Oct 14, 2026);
- * OPUS-WORDS still owns the banks it reads, and `scripts/english-corpus/
- * newscast-bank.ts` re-exports it for the corpus tooling and tests.
+ *
  */
 import newscastJson from "../../data/english/parts/newscast.json" with { type: "json" };
 import headlinesJson from "../../data/english/parts/headlines.json" with { type: "json" };
@@ -88,9 +88,9 @@ export const STORY_KINDS = {
     only: /\{\{subject\}\}|plant|store/,
     headline: ["organization.closed"],
     lede: ["organization.closed"],
-    // A closing is told, not listed (owner, Nov 1: "none of this is a
-    // story"): who ran it, how long and why it closed in one sentence, then
-    // what it leaves the people who worked there.
+    // A closing is told, not listed: who ran it, how long and why it closed in
+    // one sentence, then what it leaves the people who worked there.
+
     context: ["closing-account", "closing-workers"],
   },
   // A brief is a side item: a headline and one line, never paragraphs, and
@@ -225,8 +225,8 @@ export const STORY_KINDS = {
     lede: ["body-meeting"],
     context: ["meeting-bill"],
   },
-  // The week's sittings that took up nothing, in one brief (CTO, Nov 1:
-  // print what the body did, not that it sat).
+  // The week's sittings that took up nothing, in one brief.
+
   "meetings-week": {
     headline: ["meetings-week"],
     lede: ["meetings-week"],
@@ -557,13 +557,13 @@ export function composeNewsStory(
   turn?: number,
 ): NewsStory {
   const roles = STORY_KINDS[kind];
-  // Several outlets printing one record each take their own wordings, by
-  // their order among those that printed it (Words lead, Nov 13, rule 37):
-  // of the sentences a role can say with the story's facts, in key order,
-  // the outlet's turn picks the one it says. The lede turns first; the
-  // body's other sentences turn once more for every round of ledes, so no
-  // two outlets print the same body while there are ledes and sentences
-  // enough.
+  // Several outlets printing one record each take their own wordings, by their
+  // order among those that printed it: of the sentences a role can say with
+  // the story's facts, in key order, the outlet's turn picks the one it says.
+  // The lede turns first; the body's other sentences turn once more for every
+  // round of ledes, so no two outlets print the same body while there are
+  // ledes and sentences enough.
+
   const sayable = (parts: MinedVariant[]) =>
     parts
       .filter((part) =>
@@ -627,9 +627,9 @@ export function composeNewsStory(
       : [];
   const winner = packet.facts.name?.text;
   for (const name of contextRoles) {
-    // No two sentences in a row open with the same person's name (Words
-    // lead, Nov 14): after one that does, a sentence that would open with
-    // the name again gives way to another wording of its role.
+    // No two sentences in a row open with the same person's name: after one that
+    // does, a sentence that would open with the name again gives way to
+    // another wording of its role.
     const previous = context.at(-1) ?? lede ?? "";
     const wordings = variants(
       NEWS_BANK,

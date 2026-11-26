@@ -1,23 +1,23 @@
 /**
- * Public figures are known (owner, Oct 14, 2026): everyone knows what the
- * public knows about the president, the vice president, their governor,
- * their members of Congress and their mayor, distinct from having met them.
- *
- * Each figure gets one record of what the public knows: the office and when
- * they took it, their stated positions (their own causes first), their
- * record on day one (votes, laws sponsored and signed), the election that
- * seated them and their campaign promises, and their reputation: the traits a
- * public sees, furthest from the middle first. Internals stay internal.
- *
- * Knowledge records: each full person the figure's office covers, old enough
- * to follow public life, holds the figure's name, public role and a pointer to
- * the record, with access "public" and learned when the figure took office or
- * the person came of age for it, and the campaigns engine's impression of a
- * voter who has heard of them and knows where they stand (warmth unmoved),
- * which the voting engine reads to weigh their record. Knowing a figure this
- * way never adds them to the people a person has met. A promise counts with a voter only when they
+ * Public figures are known: everyone knows what the public knows about the
+ * president, the vice president, their governor, their members of Congress
+ * and their mayor, distinct from having met them. Each figure gets one record
+ * of what the public knows: the office and when they took it, their stated
+ * positions (their own causes first), their record on day one (votes, laws
+ * sponsored and signed), the election that seated them and their campaign
+ * promises, and their reputation: the traits a public sees, furthest from the
+ * middle first. Internals stay internal. Knowledge records: each full person
+ * the figure's office covers, old enough to follow public life, holds the
+ * figure's name, public role and a pointer to the record, with access
+ * "public" and learned when the figure took office or the person came of age
+ * for it, and the campaigns engine's impression of a voter who has heard of
+ * them and knows where they stand (warmth unmoved), which the voting engine
+ * reads to weigh their record. Knowing a figure this way never adds them to
+ * the people a person has met. A promise counts with a voter only when they
  * heard it made (the record engine), so each covered person who would have
  * heard the campaign by the news engine's rule holds the promise too.
+ *
+ *
  */
 import { placeStateKey } from "./place-map";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";

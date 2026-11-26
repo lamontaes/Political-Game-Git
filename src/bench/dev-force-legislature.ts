@@ -1,22 +1,22 @@
 /**
- * Dev mode forces the legislature's scenes through the legislature's own writers (pool item
- * dev-force-every-scene-through-its-writer; owner, Nov 15: "a part of the dev mode should be able to
- * trace and force every scene to play"). Each recipe writes the cause record the way the engine
- * writes it in play, then runs the next day, and the director stages the scene from that record id
- * through its own scheduling:
- *  - `carry`: someone the player knows asks them to carry a bill (`askToCarry`, carry-asked);
- *  - `held`: the player's own bill, which its committee's chair holds unheard (`draftBill`,
- *    `castChairHearing`, the committee stage: bill-held-in-committee);
- *  - `presented`: a colleague's bill passes and reaches the player's desk as the executive
- *    (`draftBill`, the members' votes, `holdEveryChamber`: bill-presented);
- *  - `introduced`: the player introduces a bill (`draftBill`: office.introduced);
- *  - `count`: a colleague's bill goes to the floor one vote short, and the sponsor's count the
- *    evening before asks the player (`scheduleVote`, the members' votes, `askBeforeTheRoll`:
- *    vote-ahead).
- * A scene of the seat needs a seat: a player who holds none takes the town's seat in the state's
- * lower chamber (or the governorship, for the desk) through the offices engine's dev start
- * (`seatPlayerInStateOffice`), as a winner takes office. Every write is marked by the caller as
- * `scene-forced` and never counts as played.
+ * Dev mode forces the legislature's scenes through the legislature's own
+ * writers. Each recipe writes the cause record the way the engine writes it
+ * in play, then runs the next day, and the director stages the scene from
+ * that record id through its own scheduling: - `carry`: someone the player
+ * knows asks them to carry a bill (`askToCarry`, carry-asked); - `held`: the
+ * player's own bill, which its committee's chair holds unheard (`draftBill`,
+ * `castChairHearing`, the committee stage: bill-held-in-committee); -
+ * `presented`: a colleague's bill passes and reaches the player's desk as the
+ * executive (`draftBill`, the members' votes, `holdEveryChamber`:
+ * bill-presented); - `introduced`: the player introduces a bill (`draftBill`:
+ * office.introduced); - `count`: a colleague's bill goes to the floor one
+ * vote short, and the sponsor's count the evening before asks the player
+ * (`scheduleVote`, the members' votes, `askBeforeTheRoll`: vote-ahead). A
+ * scene of the seat needs a seat: a player who holds none takes the town's
+ * seat in the state's lower chamber (or the governorship, for the desk)
+ * through the offices engine's dev start (`seatPlayerInStateOffice`), as a
+ * winner takes office. Every write is marked by the caller as `scene-forced`
+ * and never counts as played.
  */
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {

@@ -1,9 +1,9 @@
 /* global document, MutationObserver */
-// The one toast part (owner, Oct 26: a toast that never leaves is a defect; CTO, Nov 24,
-// N16-24: "pop-ups vanish before you can read them"). A toast is a `.toast` panel at a
-// screen corner. It never times out: it stays until the player opens or closes it (a
-// `[data-close]` slot, see panel.mjs), and until then it waits behind whatever the player
-// has open: a scene, a talk, a person's card or a menu, and shows when that closes.
+// The one toast part. A toast is a `.toast` panel at a screen corner. It
+// never times out: it stays until the player opens or closes it (a
+// `[data-close]` slot, see panel.mjs), and until then it waits behind
+// whatever the player has open: a scene, a talk, a person's card or a menu,
+// and shows when that closes.
 import { SCENE_PANELS } from "./panel.mjs";
 // What is waiting for the stage to clear.
 const waiting = new Set();

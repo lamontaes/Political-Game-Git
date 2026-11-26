@@ -1,24 +1,24 @@
 /**
- * A household's cost of living (owner, Oct 13, 2026: "it's just rent. That's
- * it. Or mortgage"). Money out of a household is two things: its housing
- * payment (the lease or the mortgage with its escrow, standing bills from
- * housing that fall behind and can end in eviction) and one everyday-living
- * amount a month, paid from what its members hold.
- *
- * The everyday amount starts as the household's opening purchases: the BLS
+ * A household's cost of living. Money out of a household is two things: its
+ * housing payment (the lease or the mortgage with its escrow, standing bills
+ * from housing that fall behind and can end in eviction) and one
+ * everyday-living amount a month, paid from what its members hold. The
+ * everyday amount starts as the household's opening purchases: the BLS
  * Consumer Expenditure Survey's spending for its region and size
  * (living-costs-data), at the town's sellers in the shares the opening gave
  * them (by each seller's recorded capacity). Each month it follows the
  * sellers' prices and the members' pay against what it was. Every household
  * purchase the opening or fill-in hands the core arrives here as one plan per
- * household, not one bill per store on a payday calendar.
+ * household, not one bill per store on a payday calendar. Each month, on the
+ * household's day: the members keep back what their home will cost by their
+ * next such day (the rent or mortgage payments not yet made, and any arrears)
+ * beyond the pay due in before then, and spend up to the everyday amount from
+ * the rest, at the sellers still open. What they can't afford goes unbought;
+ * it is never a debt. Each seller's sale goes through the sales tax at the
+ * seller's place, so sales-tax laws still collect.
  *
- * Each month, on the household's day: the members keep back what their home
- * will cost by their next such day (the rent or mortgage payments not yet made,
- * and any arrears) beyond the pay due in before then, and spend up to the
- * everyday amount from the rest, at the sellers still open. What they can't afford goes
- * unbought; it is never a debt. Each seller's sale goes through the sales tax
- * at the seller's place, so sales-tax laws still collect.
+ *
+ *
  */
 import { transfer } from "./accounts";
 import { daysBetween, makeIsoDate } from "./kernel/dates";

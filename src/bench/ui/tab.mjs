@@ -33,9 +33,9 @@ export function chooseTab(bar, attr, key) {
 }
 
 /**
- * A bar of tabs (`tabs`: { key, label, onSelect }), `active` chosen, keyed by `attr`, on
- * the rail every tab sits on (owner, Oct 29: buttons need "a railing to sit on" and a
- * clear mark on the chosen one).
+ * A bar of tabs (`tabs`: { key, label, onSelect }), `active` chosen, keyed by
+ * `attr`, on the rail every tab sits on.
+ *
  */
 export function tabBar({ tabs, active, attr = "tab", className = "" }) {
   return el(

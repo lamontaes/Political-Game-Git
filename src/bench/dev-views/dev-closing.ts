@@ -162,10 +162,10 @@ export function shrinkBusiness(
 }
 
 /**
- * The business closes today through its owner's own closing (cash to the
- * owner, final pay held back, its jobs, contracts and books ended), the same
- * call as when an owner chooses to close; the books keep dev mode as the
- * reason. The jobs engine, the claims and the news follow from the closing.
+ * The business closes today through its owner's own closing, the same call as
+ * when an owner chooses to close; the books keep dev mode as the reason. The
+ * jobs engine, the claims and the news follow from the closing.
+ *
  */
 export function closeBusiness(dev: Devish, organizationId: string) {
   const core = dev.core;

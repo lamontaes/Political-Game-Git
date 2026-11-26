@@ -1,27 +1,27 @@
 /**
  * What a person is to the player, from the records, said once after their
- * name the first time a narration names someone the player has not met
- * (owner, Nov 15, rule 136: "the narrator should give you context. Jose
- * Salgado, who is the ranking chair member or whatever ... this is an
- * engine-wide thing"). One reader for every scene at every level: it returns
- * a kind and its slots, never words; the said-as reader words it from
- * `data/english/said-as.json` `whatTheyAre` (the Words lead's lines).
+ * name the first time a narration names someone the player has not met. One
+ * reader for every scene at every level: it returns a kind and its slots,
+ * never words; the said-as reader words it from `data/english/said-as.json`
+ * `whatTheyAre` (the Words lead's lines). The kinds, first that holds, by
+ * what matters in a scene: 1. office: a seat they hold (offices and officials
+ * engines) or a post they were appointed to (the executive engine), said by
+ * the office-name reader (`officeSaid`); a presiding officer with a title of
+ * their own ("Speaker") is said by that title. 2. staff: an aide of an
+ * official (the staff engine). 3. constituent: someone in the town a seat the
+ * player holds covers. Someone none of these holds for is named alone. Only
+ * kinds a scene the player reached by their own presses has said are read;
+ * the others' lines wait in the Words lead's lines.md, and pool item
+ * director-narrator-says-who-a-person-is lists them. Nothing is returned for
+ * someone the player has met, family, a partner or a housemate: the first
+ * name says enough there.
  *
- * The kinds, first that holds, by what matters in a scene:
- * 1. office: a seat they hold (offices and officials engines) or a post they
- *    were appointed to (the executive engine), said by the office-name
- *    reader (`officeSaid`); a presiding officer with a title of their own
- *    ("Speaker") is said by that title.
- * 2. staff: an aide of an official (the staff engine).
- * 3. constituent: someone in the town a seat the player holds covers.
- * Someone none of these holds for is named alone. Only kinds a scene the
- * player reached by their own presses has said are read (lead and Words lead,
- * Nov 16); the others' lines wait in the Words lead's lines.md, and pool item
- * director-narrator-says-who-a-person-is lists them.
  *
- * Nothing is returned for someone the player has met (the met record, #9489's
- * `relationFacts`), family, a partner or a housemate: the first name says
- * enough there.
+ *
+ *
+ *
+ *
+ *
  */
 import { historyOf } from "../core2/past";
 import { officeSaid } from "./cause-facts";
@@ -285,18 +285,18 @@ function kindOf(
 }
 
 /**
- * Why a scene names `otherId` the way it does, for dev mode's trace (owner, Nov 16: what a
- * session traces by script, dev mode shows in the game): the phrase said after the first full
- * name and the kind, stage and records it came from; or why they are named alone: family or
- * household, met before (which arm and its record), the scene type's own line saying who they
- * are (said-as.json sceneSaysIt), or nothing on record. The same reads the narration makes, so the
- * trace cannot drift from what is said.
- *
- * `asOf` is the scene's day, for a scene already played: whether they had met is read from the
- * met records' own dates, as the narration read it then. A first sitting together counts on its
- * own day (the narration reads shared hours as they stand that day); every other record only
- * before it, so someone a scene introduced is not "met" in it. A record dated later is returned
- * as `metLater`. The kind (an office, an aide, a constituent) is read from today's rows.
+ * Why a scene names `otherId` the way it does, for dev mode's trace: the
+ * phrase said after the first full name and the kind, stage and records it
+ * came from; or why they are named alone: family or household, met before
+ * (which arm and its record), the scene type's own line saying who they are
+ * (said-as.json sceneSaysIt), or nothing on record. The same reads the
+ * narration makes, so the trace cannot drift from what is said. `asOf` is the
+ * scene's day, for a scene already played: whether they had met is read from
+ * the met records' own dates, as the narration read it then. A first sitting
+ * together counts on its own day (the narration reads shared hours as they
+ * stand that day); every other record only before it, so someone a scene
+ * introduced is not "met" in it. A record dated later is returned as
+ * `metLater`. The kind (an office, an aide, a constituent) is read from today's rows.
  */
 export function whyNamed(
   core: Readonly<CoreState>,

@@ -1,40 +1,40 @@
 /**
  * Every pair (line before, reply) the director can produce, for the judges.
- *
  * `replyPairs(parts)` lists each pair `{ before, reply }` such that the
  * picker (`fitting`, `scene-talk-words.ts`) could return `reply` when the
  * director passes `afterPiece: before` and `after: before`'s move, in a scene
  * where both pieces serve. It asks the picker's own test (`useFit`) for the
  * reply, with the facts that reply's use requires: facts only narrow the
  * choice, so a pair that needs a fact is still a pair. It ignores which of
- * the fitting replies wins by closeness: the verdicts take a reply out
- * before the closest is chosen, so a lower fit may come to be offered.
- *
- * Which line can come right after which, read from `src/director/scene-talk.ts`
- * (every call that words a line with `afterPiece`; line numbers as of Nov 10):
- *   - open -> auto            the asked answers a compliment or news (l. 1021)
- *   - state -> auto, reply    an unprompted line (`withAuto`, l. 1092 to 1109), the replies
- *                             (l. 1419, 1445); in the player's own ask the request is the
- *                             state and the answer a reply (l. 832)
- *   - auto -> follow          the asker answers it (l. 1043, 1130)
- *   - follow -> auto, reply   an unprompted line after an answer (l. 1109), the replies
- *                             (l. 1419, 1445); in the player's own ask, the asker's second ask
- *                             follows the first answer (l. 901) and a reply follows that
- *   - reply -> follow         the asker's answer (l. 1575); after a lie, believed or caught
- *                             (l. 1342, 1375)
- *   - reply -> continue, state, follow   the purpose goes on once (l. 1671; one call, closest fit across the three steps)
- *   - reply -> close          only after a reply some close names in `after` (`leaveClose`,
- *                             l. 1284 to 1295), in the moves such closes are written in; the
- *                             usual close (`closeFor`, l. 1204 to 1227) names no line before it
- * A "continue" is asked like a follow: replies come after it (l. 1419).
- * `answerInTalk` (l. 415 to 421) passes a subject and choice in `afterPiece`, not a
- * bank piece; it makes no pair.
- *
+ * the fitting replies wins by closeness: the verdicts take a reply out before
+ * the closest is chosen, so a lower fit may come to be offered. Which line
+ * can come right after which, read from `src/director/scene-talk.ts`: - open
+ * -> auto the asked answers a compliment or news (l. 1021) - state -> auto,
+ * reply an unprompted line (`withAuto`, l. 1092 to 1109), the replies (l.
+ * 1419, 1445); in the player's own ask the request is the state and the
+ * answer a reply (l. 832) - auto -> follow the asker answers it (l. 1043,
+ * 1130) - follow -> auto, reply an unprompted line after an answer (l. 1109),
+ * the replies (l. 1419, 1445); in the player's own ask, the asker's second
+ * ask follows the first answer (l. 901) and a reply follows that - reply ->
+ * follow the asker's answer (l. 1575); after a lie, believed or caught (l.
+ * 1342, 1375) - reply -> continue, state, follow the purpose goes on once (l.
+ * 1671; one call, closest fit across the three steps) - reply -> close only
+ * after a reply some close names in `after` (`leaveClose`, l. 1284 to 1295),
+ * in the moves such closes are written in; the usual close (`closeFor`, l.
+ * 1204 to 1227) names no line before it A "continue" is asked like a follow:
+ * replies come after it (l. 1419). `answerInTalk` (l. 415 to 421) passes a
+ * subject and choice in `afterPiece`, not a bank piece; it makes no pair.
  * Which moves can follow which is the arc's (purpose-arcs.json and the
  * variants'); the director gives it as a `flow`. Without one, every move
- * counts, which is far too many pairs for any judge.
+ * counts, which is far too many pairs for any judge. Pure: no files, no
+ * world.
  *
- * Pure: no files, no world.
+ *
+ *
+ *
+ *
+ *
+ *
  */
 import {
   useFit,

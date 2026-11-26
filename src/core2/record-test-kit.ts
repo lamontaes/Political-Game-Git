@@ -103,14 +103,14 @@ export function scenario(draw: number, byTurn = false) {
         )
         .map((s) => [s.seat.id, s.holder!.personId as string]),
     );
-    // The town's held seats up for election, soonest election first, so a
-    // draw plays the fewest days to the race's last weeks. Nobody can file
-    // before a race's window opens: at seed rec-probe-4 the November races
-    // opened on January 12, a week after the start, and the first race in
-    // table order was a 2027 one. So the test waits, playing the world on
-    // to a window within WAIT_DAYS, and an incumbent who decides not to run
-    // leaves no record on the ballot to weigh: try the next race, then
-    // draw again.
+    // The town's held seats up for election, soonest election first, so a draw
+    // plays the fewest days to the race's last weeks. Nobody can file before
+    // a race's window opens: at seed rec-probe-4 the November races opened
+    // on, a week after the start, and the first race in table order was a
+    // 2027 one. So the test waits, playing the world on to a window within
+    // WAIT_DAYS, and an incumbent who decides not to run leaves no record on
+    // the ballot to weigh: try the next race, then draw again.
+
     const races = (
       api
         .moduleState(ELECTIONS_MODULE_ID)
@@ -218,11 +218,11 @@ export function scenario(draw: number, byTurn = false) {
     askForDonation(api, rivalFiling.id, id);
   if (byTurn) {
     // The rival's own campaign turn decides to show the record
-    // (campaign-rival-ad-quotes-a-real-vote): no hand call of the ad.
-    // A campaign spends at an even pace to election day, so a turn months
-    // out has no money for a spot (rec-probe-3: $9 to $27 of attack money
-    // 295 days out). The world plays on to the race's last weeks, where a
-    // campaign's turn has money to show the record (CTO, Nov 17).
+    // (campaign-rival-ad-quotes-a-real-vote): no hand call of the ad. A
+    // campaign spends at an even pace to election day, so a turn months out
+    // has no money for a spot (rec-probe-3: $9 to $27 of attack money 295
+    // days out). The world plays on to the race's last weeks, where a
+    // campaign's turn has money to show the record.
     const lastWeeks = addDays(
       makeIsoDate(contest!.electionDate),
       -LAST_WEEKS_DAYS,

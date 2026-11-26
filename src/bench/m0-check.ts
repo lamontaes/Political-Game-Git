@@ -87,10 +87,10 @@ const specs: Record<string, () => string> = {
   },
 
   /**
-   * Seven played days (owner, Oct 14, 2026: Day and Week never open a choice
-   * list): every act of the chosen person is the character's own pick, saved
-   * as its own decision, or answers a stop; an answer nobody was asked for is
-   * refused and changes no record; other residents' lives continue.
+   * Seven played days: every act of the chosen person is the character's own
+   * pick, saved as its own decision, or answers a stop; an answer nobody was
+   * asked for is refused and changes no record; other residents' lives
+   * continue.
    */
   "M0-02"() {
     const w = world(),
@@ -174,8 +174,8 @@ const specs: Record<string, () => string> = {
   /**
    * A skip from a random date stops at the earliest thing that needs the
    * player (a big moment, a deadline) and says which; a routine shift the
-   * character attends on its own never stops it (owner, Oct 12); nothing is
-   * skipped past.
+   * character attends on its own never stops it; nothing is skipped past.
+   *
    */
   "M0-03"() {
     const w = world(),

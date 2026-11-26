@@ -5,9 +5,9 @@
  * candidate is first on an equal share of ballots, by party, the incumbent
  * first, or filing order. A drawing the law requires (the alphabet, a lot) is
  * the world's own recorded draw: the same contest always draws the same
- * order (owner, Oct 14, 2026: where the law says lot, a recorded lot from the
- * world's generator). Every voter reads the first-listed edge from the form
- * of the ballot they hold (`ballotCuesOf`).
+ * order. Every voter reads the first-listed edge from the form of the ballot
+ * they hold (`ballotCuesOf`).
+ *
  */
 import { stableHash } from "./kernel/ids";
 import ballotOrderData from "../../data/research/elections/ballot-order-2026.json" with { type: "json" };

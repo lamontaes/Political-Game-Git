@@ -1,17 +1,17 @@
 /**
- * A settled promise said at the next talk (Words lead brief T and rulings 1,
- * Nov 14 2026): the one who was promised brings it up once to the one who
- * promised, kept or broken, in their own bearing. What is said is the
- * conversation bank's `promise-kept` or `promise-broken` lines for the
- * promise's kind (requiresFacts `promise-<kind>`), with the bill by its name
- * where the promise was a vote. Order (fixed by the conversation engine):
- * the speaker's own hard news leads, then brought-up news, then this.
- *
- * The conversation engine asks `promiseSubject` for the subject between the
- * two, calls `promiseSaid` once it is said and `answerPromise` with the
+ * A settled promise said at the next talk: the one who was promised brings it
+ * up once to the one who promised, kept or broken, in their own bearing. What
+ * is said is the conversation bank's `promise-kept` or `promise-broken` lines
+ * for the promise's kind (requiresFacts `promise-<kind>`), with the bill by
+ * its name where the promise was a vote. Order (fixed by the conversation
+ * engine): the speaker's own hard news leads, then brought-up news, then
+ * this. The conversation engine asks `promiseSubject` for the subject between
+ * the two, calls `promiseSaid` once it is said and `answerPromise` with the
  * player's answer; nothing else here writes a line. The promise itself, how
  * it ended and the tie it moves are the promises engine's
  * (src/core2/modules/promises.ts).
+ *
+ *
  */
 import { billNameOf, billTitleSaid } from "../english/bill-names";
 import { questionAbout, questionSaid } from "../english/question-names";
@@ -98,11 +98,11 @@ export function promiseSubject(
   // short name, as the scene where it was given said it.
   const issue = row.question ? questionSaid(row.question) : null;
   if (issue) facts.issue = fact(issue);
-  // The word was given for the proposal itself ("I'm for {about}"), so the
-  // one owed says it back by the proposal, never by the subject alone, which
-  // names no side (Words lead, Nov 15 10:35Z). Only the side for is priced
-  // (Words lead and Account lead, Nov 15 12:26Z), so {about} is said only
-  // when the word was for it.
+  // The word was given for the proposal itself ("I'm for {about}"), so the one
+  // owed says it back by the proposal, never by the subject alone, which
+  // names no side. Only the side for is priced, so {about} is said only when
+  // the word was for it.
+
   const about =
     row.question && (row.side ?? one) > zero
       ? questionAbout(row.question)
@@ -151,9 +151,9 @@ export function promiseSubject(
 
 /**
  * A payment the game has no name for is never talked about: no fallback name,
- * no empty slot (Account lead, Nov 15). Only kinds a played borrower was seen
- * to miss are named (data/english/payment-words.json); a pay-on-time promise
- * on any other kind is never said. Other promises always pass.
+ * no empty slot. Only kinds a played borrower was seen to miss are named
+ * (data/english/payment-words.json); a pay-on-time promise on any other kind
+ * is never said. Other promises always pass.
  */
 export function paymentNamed(
   core: Readonly<CoreState>,

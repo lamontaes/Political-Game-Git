@@ -1,9 +1,9 @@
 /**
- * Business names (owner, Oct 14): each kind of employer's name styles, in
- * order, from data: a local family's, the town's or the county's name with
- * the words Americans use on that kind of door. No real brands; a business
- * with other locations carries its first location's name, so chains grow
- * from local names. Read-only and pure.
+ * Business names: each kind of employer's name styles, in order, from data: a
+ * local family's, the town's or the county's name with the words Americans
+ * use on that kind of door. No real brands; a business with other locations
+ * carries its first location's name, so chains grow from local names.
+ * Read-only and pure.
  */
 import { governmentProperName } from "./government-proper-name";
 import names from "./data/business/names.json" with { type: "json" };

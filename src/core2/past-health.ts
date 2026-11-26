@@ -1,13 +1,13 @@
 /**
- * The life record, part 6 (owner, Nov 8, 2026: "a girlfriend or a car
- * accident"): a serious illness or injury before the start, told as a night
- * in hospital, written when a person is opened. Each year from the adult age
- * to the start, the share of adults their age with an overnight hospital stay
- * (NHIS 2018, Table P-10a, less childbirth stays) builds a pull against their
- * own seeded line; a pull that reaches it is a stay, and a new line begins.
- * The most recent stay is told, with how many there were. Seeded generation
- * of what happened to them before the world opened; no roll decides what
- * anyone does, and no pregnancy is told (owner, Oct 20).
+ * The life record, part 6: a serious illness or injury before the start, told
+ * as a night in hospital, written when a person is opened. Each year from the
+ * adult age to the start, the share of adults their age with an overnight
+ * hospital stay (NHIS 2018, Table P-10a, less childbirth stays) builds a pull
+ * against their own seeded line; a pull that reaches it is a stay, and a new
+ * line begins. The most recent stay is told, with how many there were. Seeded
+ * generation of what happened to them before the world opened; no roll
+ * decides what anyone does, and no pregnancy is told.
+ *
  */
 import pastRows from "./data/past/parameters.json" with { type: "json" };
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";

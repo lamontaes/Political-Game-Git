@@ -344,14 +344,14 @@ export function seatView(core: CoreState, personId: string) {
 /**
  * Draft a bill from your seat: it goes on the body's next agenda that is not
  * yet posted. Asking a colleague, offering a deal and taking the vote are
- * acts in the day and the meeting scene (office-day), not buttons here.
+ * acts in the day and the meeting scene (office-day), not buttons here. A
+ * phase-in is the same bill in dated steps: one section per step, each the
+ * same law with its own amount and date, never a second bill. The legislature
+ * engine puts each section into law on its own date when the bill is enacted,
+ * for the bill's government and by that government's rule (`enact`), so the
+ * seat names no jurisdiction and computes no date.
  *
- * A phase-in is the same bill in dated steps (the owner's ruling, Sept 12
- * travel clarification, item 1): one section per step, each the same law
- * with its own amount and date, never a second bill. The legislature
- * engine puts each section into law on its own date when the bill is
- * enacted, for the bill's government and by that government's rule
- * (`enact`), so the seat names no jurisdiction and computes no date.
+ *
  */
 export function seatAct(
   core: CoreState,
@@ -555,15 +555,15 @@ export function repealFor(
 
 /**
  * The body's lawyer's warning on a bill whose authority row the drafting
- * engine marked disputed (DECISION-REGISTER, "A law changes the record
- * first", Sept 22: the city attorney warns the player), in the English
- * engine's words. A bill before the town's own body (its office is one of the
- * town's seats and its body row makes the place's law, the council the
- * executive engine staffs departments for) names the lawyer by the title of
- * the town's appointment whose post is its attorney or counsel (the City
- * Attorney the executive engine seats at the opening); any other bill, or a
- * town whose attorney post nobody was appointed to, names the body's lawyer
- * by the body as the bill's enacting clause names it.
+ * engine marked disputed, in the English engine's words. A bill before the
+ * town's own body (its office is one of the town's seats and its body row
+ * makes the place's law, the council the executive engine staffs departments
+ * for) names the lawyer by the title of the town's appointment whose post is
+ * its attorney or counsel (the City Attorney the executive engine seats at
+ * the opening); any other bill, or a town whose attorney post nobody was
+ * appointed to, names the body's lawyer by the body as the bill's enacting
+ * clause names it.
+ *
  */
 function disputedWarning(
   api: ReturnType<typeof coreAPI>,

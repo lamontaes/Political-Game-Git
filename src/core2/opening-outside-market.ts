@@ -207,20 +207,20 @@ function flowPerYear(flow: ResidentFlowInput): number {
 }
 
 /**
- * The firm's trade area (Jobs and economy, Nov 8, 2026). A small town's
- * establishments are in the Census counts because they sell: their receipts
- * equal the books' demand (an identity of the receipts data), and whatever
- * the town's own households and firms do not buy comes from customers beyond
- * the town, the trade area retail analysis calls the pull factor (Stone,
- * "Retail Trade Analysis", Iowa State University Extension, 1995: a town's
- * sales above its residents' spending are trade-area customers' spending).
- * The industry's sourced outside share (`addOutsideMarket`) is a floor.
- * Applied once, after the households are counted, so the town's own buyers
- * are the real ones: the outside flow is raised until the firm's receipts
- * from town households, town firms and outside buyers together meet its
- * books. Without it the firm's sales sit near half its demand at the opening
- * and its staff is laid off toward them (Algiers, Vermont, seed r7: one
- * seeker in the opening, twenty-three thirteen months on).
+ * The firm's trade area. A small town's establishments are in the Census
+ * counts because they sell: their receipts equal the books' demand (an
+ * identity of the receipts data), and whatever the town's own households and
+ * firms do not buy comes from customers beyond the town, the trade area
+ * retail analysis calls the pull factor (Stone, "Retail Trade Analysis", Iowa
+ * State University Extension, 1995: a town's sales above its residents'
+ * spending are trade-area customers' spending). The industry's sourced
+ * outside share (`addOutsideMarket`) is a floor. Applied once, after the
+ * households are counted, so the town's own buyers are the real ones: the
+ * outside flow is raised until the firm's receipts from town households, town
+ * firms and outside buyers together meet its books. Without it the firm's
+ * sales sit near half its demand at the opening and its staff is laid off
+ * toward them (Algiers, Vermont, seed r7: one seeker in the opening,
+ * twenty-three thirteen months on).
  */
 export function addTradeArea(
   input: CoreInput,

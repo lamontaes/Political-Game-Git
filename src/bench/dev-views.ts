@@ -1,11 +1,11 @@
 /**
- * The one place a dev-mode view registers itself (the Account lead's ruling of Nov 16, 2026: each
- * thread's view lives in its own file and registers from there, so no thread edits dev-mode.ts or
- * dev-api.ts to add one). A view is a file in src/bench/dev-views/ whose default export is a
- * `DevView`: its routes under /api/dev/, keyed "GET name" or "POST name", each given the bench's
- * DevMode; the file of its page part in src/bench/ui/ (a module exporting `slots`, read by
- * ui/dev-views.mjs); and the labels that part shows. dev-api.ts answers a route it does not have
- * itself from here, and GET /api/dev/views lists each view's part and labels for the page.
+ * The one place a dev-mode view registers itself. A view is a file in
+ * src/bench/dev-views/ whose default export is a `DevView`: its routes under
+ * /api/dev/, keyed "GET name" or "POST name", each given the bench's DevMode;
+ * the file of its page part in src/bench/ui/ (a module exporting `slots`,
+ * read by ui/dev-views.mjs); and the labels that part shows. dev-api.ts
+ * answers a route it does not have itself from here, and GET /api/dev/views
+ * lists each view's part and labels for the page.
  */
 import { readdir } from "node:fs/promises";
 import type { DevMode } from "./dev-mode";

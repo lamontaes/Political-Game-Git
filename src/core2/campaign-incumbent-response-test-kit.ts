@@ -41,12 +41,12 @@ import { townResidentsByCash } from "./resident-adults-test-kit";
 export const START = "2026-01-05";
 
 /**
- * Each case draws its places (owner, Nov 17: "be random with it"): a case that
- * needs a particular situation (an open race with a serving incumbent who can
- * run again and a poll showing the challenger ahead; a challenger's evening of
- * doors whose word reaches the incumbent; a counted resident who says yes and
- * opens the incumbent's door) takes the first drawn place where it holds, and
- * names every place it passed over and why. GOLDEN_PATH_SEED replays a draw.
+ * Each case draws its places: a case that needs a particular situation (an
+ * open race with a serving incumbent who can run again and a poll showing the
+ * challenger ahead; a challenger's evening of doors whose word reaches the
+ * incumbent; a counted resident who says yes and opens the incumbent's door)
+ * takes the first drawn place where it holds, and names every place it passed
+ * over and why. GOLDEN_PATH_SEED replays a draw.
  */
 export interface DrawnPlace {
   readonly name: string;

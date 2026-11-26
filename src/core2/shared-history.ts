@@ -1,9 +1,9 @@
 /**
  * What two people have done together, read from the records that say so: the
  * one source the director's casting, its scene leads and the conversation
- * read for a tie's history (owner, Oct 27, 4 PM Eastern: "Systems are being
- * made for individually instead of linking everything together"). It writes
- * nothing; each kind names the record it comes from.
+ * read for a tie's history. It writes nothing; each kind names the record it
+ * comes from.
+ *
  */
 import schoolDays from "./data/school-days.json" with { type: "json" };
 import { makeIsoDate } from "./kernel/dates";
@@ -90,7 +90,7 @@ function enrolledAt(
   );
 }
 
-/** The school year a date falls in, by its first calendar year (the year a September 1 start began). */
+/** The school year a date falls in, by its first calendar year. */
 function schoolYearOf(date: string): number {
   const year = Number(date.slice(0, 4));
   return date.slice(5) >= schoolDays.schoolYear.firstDay ? year : year - 1;
@@ -335,9 +335,9 @@ export function sharedHistory(
   const schoolB = attendedSchool(core, b);
   // Together means one school at one stage in one year: a district's
   // elementary, middle and high schools are separate buildings, and a high
-  // schooler and a first grader there were never schoolmates (Account lead,
-  // Nov 15: Kimberly, in high school, asked Dana, in elementary school,
-  // "Remember Dortches Public Schools?").
+  // schooler and a first grader there were never schoolmates.
+
+
   const stageIn = (person: NonNullable<typeof one>, year: number) =>
     stageOf(core, year - kindergartenYear(makeIsoDate(person.birthDate)));
   if (

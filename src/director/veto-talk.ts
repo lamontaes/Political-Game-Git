@@ -1,22 +1,22 @@
 /**
- * A veto said at the next talk (Words lead, desk ruling 5, Nov 15 2026): the
- * sponsor of a bill the player vetoed brings it up once, at the pair's next
- * talk, with the reason the player gave (`OfficeActRow.reason`) and whether
- * the veto stood or the body overrode it. What is said is the conversation
- * bank's `veto-say` pieces (opener by how it ended, the reason, a tail in
- * the opener's bearing); the player's replies are `veto-reply` answers and
- * the sponsor's answer back is `veto-reply-back`.
+ * A veto said at the next talk: the sponsor of a bill the player vetoed
+ * brings it up once, at the pair's next talk, with the reason the player gave
+ * (`OfficeActRow.reason`) and whether the veto stood or the body overrode it.
+ * What is said is the conversation bank's `veto-say` pieces (opener by how it
+ * ended, the reason, a tail in the opener's bearing); the player's replies
+ * are `veto-reply` answers and the sponsor's answer back is
+ * `veto-reply-back`. The veto itself already moved the tie both ways
+ * (`decideDesk`, the whip-answer step). A reply moves it through the same
+ * writer: owning that it hurt gives back a share of the veto's step, by how
+ * readily the sponsor smooths things over (their conflict trait, as an owned
+ * broken promise does); standing by it or leaving is a second quarrel, by how
+ * much they hold on to one. The conversation engine asks `vetoSubject` for
+ * the subject between the two and calls `answerVeto` with the player's reply;
+ * nothing else here writes a line.
  *
- * The veto itself already moved the tie both ways (`decideDesk`, the
- * whip-answer step). A reply moves it through the same writer: owning that
- * it hurt gives back a share of the veto's step, by how readily the sponsor
- * smooths things over (their conflict trait, as an owned broken promise
- * does); standing by it or leaving is a second quarrel, by how much they
- * hold on to one.
  *
- * The conversation engine asks `vetoSubject` for the subject between the
- * two and calls `answerVeto` with the player's reply; nothing else here
- * writes a line.
+ *
+ *
  */
 import { billNameOf, billTitleSaid } from "../english/bill-names";
 import type { Fact } from "../english/conversation-words";

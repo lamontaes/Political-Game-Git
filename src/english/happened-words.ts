@@ -10,10 +10,10 @@ const SAID = (
 ).said;
 
 /**
- * What happened, as a scene's first line says it (a bill by its name),
- * from the first cause-record fact that names a
- * happening, worded by `data/english/happened-words.json`; null when the
- * record names none (Words lead, Nov 15).
+ * What happened, as a scene's first line says it (a bill by its name), from
+ * the first cause-record fact that names a happening, worded by
+ * `data/english/happened-words.json`; null when the record names none.
+ *
  */
 export function happenedSaid(
   facts: Readonly<Record<string, Fact>>,

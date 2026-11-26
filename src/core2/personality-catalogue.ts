@@ -11,30 +11,30 @@ import { personalityTraitEffects } from "./trait-effects";
  * The personality catalog: the named qualities a person can be known for,
  * beyond the five ordinary-life traits. Somebody can be industrious and
  * lustful and bad at keeping secrets at once, because each of these is its
- * own scale rather than one end of a shared one.
- *
- * The scales come from `docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json`,
+ * own scale rather than one end of a shared one. The scales come from
+ * `docs/research/chatgpt-answers/-depth2/personality-scale-dispositions.json`,
  * received whole and generated into `personality-catalogue.generated.ts` by
  * `scripts/traits/personality-catalogue.ts`. That file maps every catalog
  * word to exactly one scale. Four scales mean what the five already mean
  * (deliberation, reliability, conflict and risk) and are left out here, so
- * one meaning never argues twice.
- *
- * **Two kinds of scale.** Eighteen are two-ended: insecure against
- * self-assured. The rest are one-sided: somebody is cocky, or shows no marked
- * cockiness, and that absence is not humility. A one-sided scale is declared
- * `sides: "one"`, so its opposite is never drawn, written or read.
- *
- * **Sparse, on purpose.** Nobody is given ninety-eight readings. A person is
- * seeded with one or two salient qualities, and every other scale stays
- * unrecorded, which is unknown rather than "not like that". The catalog is
- * what a person may be; the record is what they are known to be.
- *
- * **What argues.** Each profile names the kinds of decision its scales are
- * meant for, and a lean is admitted only against a decision that publishes
- * itself. The first is whether an officeholder runs again
+ * one meaning never argues twice. **Two kinds of scale.** Eighteen are
+ * two-ended: insecure against self-assured. The rest are one-sided: somebody
+ * is cocky, or shows no marked cockiness, and that absence is not humility. A
+ * one-sided scale is declared `sides: "one"`, so its opposite is never drawn,
+ * written or read. **Sparse, on purpose.** Nobody is given ninety-eight
+ * readings. A person is seeded with one or two salient qualities, and every
+ * other scale stays unrecorded, which is unknown rather than "not like that".
+ * The catalog is what a person may be; the record is what they are known to
+ * be. **What argues.** Each profile names the kinds of decision its scales
+ * are meant for, and a lean is admitted only against a decision that
+ * publishes itself. The first is whether an officeholder runs again
  * (`CATALOGUE_EFFECTS`); every other quality is recorded, shown and moved by
  * what happens to people, and changes no outcome yet.
+ *
+ *
+ *
+ *
+ *
  */
 
 export const PERSONALITY_PACK = "personality-v1";

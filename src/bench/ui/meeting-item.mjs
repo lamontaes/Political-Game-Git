@@ -1,8 +1,8 @@
-// One agenda item at a meeting, or one bill on the desk: the bill's name, number and
-// sponsor, the members as round faces ringed by how each voted, the tally and its result in words, who spoke, and the buttons under it in rows (the paper and the
-// speeches, then the vote). The panel the meeting and the desk both draw (owner, Oct 29:
-// "the UI is terrible"; the members, the tally and the result on the panel). Every word
-// is a control name or a record's own: the status word, the counts, the member names.
+// One agenda item at a meeting, or one bill on the desk: the bill's name,
+// number and sponsor, the members as round faces ringed by how each voted,
+// the tally and its result in words, who spoke, and the buttons under it in
+// rows (the paper and the speeches, then the vote). The panel the meeting and
+// the desk both draw. Every word is a control name or a record's own: the status word, the counts, the member names.
 import { el } from "./dom.mjs";
 import { face as drawFace } from "./face.mjs";
 

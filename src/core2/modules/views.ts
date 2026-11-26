@@ -144,9 +144,9 @@ export interface PersonView {
 }
 
 /**
- * A move of a person's opening lean by an event in their own past (the
- * owner, Nov 12: a father's lost job "could have turned you super MAGA, or
- * it could have turned you liberal"), by the record that holds the event.
+ * A move of a person's opening lean by an event in their own past, by the
+ * record that holds the event.
+ *
  */
 export interface PastShift {
   /** The record of the event: a work spell that ended in a layoff. */
@@ -172,11 +172,11 @@ const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
 
 /**
  * The causes after one more event. Sources whose latest event is older than
- * `since` drop first (Words, Oct 30: a year's causes and the newest), so a
- * long life's list stays bounded. The new one then replaces its source's
- * kept row (same speaker, same record) and moves to the end, carrying how
- * many events that source has moved the stance, and by how much in all,
- * since it last went quiet for longer than the window.
+ * `since` drop first, so a long life's list stays bounded. The new one then
+ * replaces its source's kept row (same speaker, same record) and moves to the
+ * end, carrying how many events that source has moved the stance, and by how
+ * much in all, since it last went quiet for longer than the window.
+ *
  */
 function withCause(
   causes: Stance["causes"],
@@ -547,21 +547,21 @@ function layoffsOf(api: CoreAPI, personId: PersonId) {
 }
 
 /**
- * How what a person lived through before the start moved their view (part
- * 14; the owner, Nov 12, either way). Two events are read, each from its
- * work-spell record:
- * - A parent laid off while the person was a child. The person moves toward
- *   that parent's view, or away from it, by their own traits (the shared
- *   decision `views.parent-hardship`); further the more the parent follows
- *   politics, since children take on their parents' views more "if the
- *   family is highly politicized" (Jennings, Stoker and Bowers 2009).
- * - Their own layoff as an adult, which moved them toward more support for
- *   welfare spending, "appreciably larger among Republicans", and "short
- *   lived, dissipating as individuals' employment situations improved"
- *   (Margalit 2013): leftward on average, more for those who lean right,
- *   fading with the years back at work; rightward for someone whose traits
- *   lean to blaming outsiders (the shared decision `views.own-layoff`).
- * Each shift keeps its record, so the view's why names the event.
+ * How what a person lived through before the start moved their view. Two
+ * events are read, each from its work-spell record: - A parent laid off while
+ * the person was a child. The person moves toward that parent's view, or away
+ * from it, by their own traits (the shared decision `views.parent-hardship`);
+ * further the more the parent follows politics, since children take on their
+ * parents' views more "if the family is highly politicized" (Jennings, Stoker
+ * and Bowers 2009). - Their own layoff as an adult, which moved them toward
+ * more support for welfare spending, "appreciably larger among Republicans",
+ * and "short lived, dissipating as individuals' employment situations
+ * improved" (13): leftward on average, more for those who lean right, fading
+ * with the years back at work; rightward for someone whose traits lean to
+ * blaming outsiders (the shared decision `views.own-layoff`). Each shift
+ * keeps its record, so the view's why names the event.
+ *
+ *
  */
 export function pastViewShifts(
   api: CoreAPI,
@@ -804,10 +804,10 @@ export function stanceOn(
 }
 
 /**
- * The shift a person took as one of a group of like hearers nobody watches
- * (`hearAsGroups`, owner's level of detail, Nov 9): the group's stance on the
- * question, read by the group the person was first heard in. Zero for anyone
- * never heard as a group. One row read for the membership, one for the stance.
+ * The shift a person took as one of a group of like hearers nobody watches:
+ * the group's stance on the question, read by the group the person was first
+ * heard in. Zero for anyone never heard as a group. One row read for the
+ * membership, one for the stance.
  */
 export function groupShift(
   api: CoreAPI,
@@ -1365,11 +1365,11 @@ export const viewsModule: CoreModule = {
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
     const size = impulse > v("zero") ? impulse : v("one");
     for (const personId of learnedBy) {
-      // Someone back in the counts holds no stance of their own while
-      // counted (two-level rule, Oct 11): their group's record speaks for
-      // them, and meeting them again fills them in from it. Writing theirs
-      // left more stance rows for them than for full people by year 3
-      // (Montpelier, Vermont, Nov 9: 21,093 against 12,880).
+      // Someone back in the counts holds no stance of their own while counted:
+      // their group's record speaks for them, and meeting them again fills
+      // them in from it. Writing theirs left more stance rows for them than
+      // for full people by year 3.
+
       const hearer = api.state.people.get(personId);
       if (hearer && isDemoted(hearer)) continue;
       const view = viewOf(api, personId);
@@ -1398,10 +1398,10 @@ export const viewsModule: CoreModule = {
         event.facts?.[VIEWS_SPEAKER_KEY] ??
         (event.personIds.includes(personId) ? undefined : event.personIds[0]);
       if (speakerId === personId) continue;
-      // Knowing is a read (owner, Oct 14, 2026): an event citing a law, a
-      // vote or a bill moves a stance only for someone who learned of it,
-      // from the case made to them or from a record they hold (a story they
-      // heard, a notice), and the stance cites how they learned.
+      // Knowing is a read: an event citing a law, a vote or a bill moves a stance
+      // only for someone who learned of it, from the case made to them or
+      // from a record they hold (a story they heard, a notice), and the
+      // stance cites how they learned.
       const received = event.facts?.learnedFrom;
       const learnedFrom =
         typeof received === "string" && api.knows(personId, received)

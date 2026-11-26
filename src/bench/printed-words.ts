@@ -228,7 +228,7 @@ const appointerWords = (appointedBy: string | undefined) => {
 const measureName = (series: string) =>
   // A label kept as "what: for whom" ("State campaign contribution limit:
   // governor") is said as a phrase ("campaign contribution limit for
-  // governor"); whose law it is the sentence says (Fable A, Nov 13, rule 15).
+  // governor"); whose law it is the sentence says.
   measureSaid(storyTopicName(series)?.replace(/^the /i, "") ?? spaced(series));
 /** A record key read as words: "finance-director" and "financeDirector" are "finance director". */
 const spaced = (key: string) =>
@@ -647,10 +647,10 @@ class Reader {
   }
   /**
    * A group formed over a stance, named from the cause its side would put on
-   * a sign (group-names.ts `stanceGroupAmong`, Words lead Nov 14). The town's
-   * earlier groups (by the day each was formed, then id) hold their names
-   * first, so no two groups of one town share a name and a name never changes
-   * when a later group forms.
+   * a sign. The town's earlier groups (by the day each was formed, then id)
+   * hold their names first, so no two groups of one town share a name and a
+   * name never changes when a later group forms.
+   *
    */
   stanceGroup(id: EntityId): { name: string; plural: boolean } | null {
     const org = this.core.organizations.get(id);
@@ -1586,10 +1586,10 @@ const townHall: Builder = (read, f) =>
   );
 
 /**
- * A body's sitting that took up business, told by what it took up (CTO,
- * Nov 1: print what the body did, not that it sat). The desk prints one only
- * where none of its votes reached the wire; a sitting that took up nothing
- * is in the week's meetings brief, never a story of its own.
+ * A body's sitting that took up business, told by what it took up. The desk
+ * prints one only where none of its votes reached the wire; a sitting that
+ * took up nothing is in the week's meetings brief, never a story of its own.
+ *
  */
 const publicMeeting: Builder = (read, f) => {
   const body = read.body(f.officeId);
@@ -1806,7 +1806,7 @@ const endorsement: Builder = (read, f) => {
   // 13: "The friends of policing backs Clara Evans", rule 15).
   const form = group ? (causeGroupForm(group) ?? stanceGroupForm(group)) : null;
   // A founded group's name is said as its record names it, with no article
-  // added ("Friends of Transportation back ..."; Fable A, Nov 13).
+  // added.
   const said = group
     ? form
       ? group
@@ -2006,7 +2006,7 @@ const electionResult: Builder = (read, f) => {
   );
   // A race that fills several seats at once (vote for N) is one story that
   // names its winners together, from the race's own count: everyone who did
-  // not miss the cut (Words lead, Nov 13, rule 30).
+  // not miss the cut.
   const seats = num(f.seats) ?? 1;
   // A seat's record names as out only those who filed for that seat, so a
   // race for several seats reads its winners from each seat's result (a tie
@@ -2027,8 +2027,8 @@ const electionResult: Builder = (read, f) => {
     seats > 1
       ? ranked.map(([id]) => id).filter((id) => seatWinners.includes(id))
       : [f.winnerId ?? ""];
-  // No more names on the ballot than seats is a race without opposition,
-  // for one seat or several (rules 32 and the Words lead's read, Nov 14).
+  // No more names on the ballot than seats is a race without opposition, for
+  // one seat or several.
   const unopposed = ranked.length <= seats;
   // The one the winner beat: first among those who missed the cut, read from
   // this race's own count (in an at-large race the other winners were seated
@@ -3307,8 +3307,8 @@ const campaignGift: Builder = (read, f) => {
  * A birth. One the town does not keep a record of (a birth in a place the
  * player can't see) reaches its papers only because a parent holds an office
  * there (press-topics.ts wireItem), so its story says who that parent is,
- * from their term (Words lead, Nov 16: a story printed because of who someone
- * is says who they are); without such a parent it is not printed here.
+ * from their term; without such a parent it is not printed here.
+ *
  */
 const birth: Builder = (read, f) => {
   if (!read.core.durableLog.has(read.sourceId as EntityId)) {
@@ -3326,8 +3326,8 @@ const birth: Builder = (read, f) => {
         ...read.who(f.childId, "child", false),
         ...read.who(holder, "parent", false),
         ...read.who(other, "other-parent", false),
-        // Before a name the title keeps its capitals; in a sentence it is a
-        // common noun with its article (Words lead, Nov 16).
+        // Before a name the title keeps its capitals; in a sentence it is a common
+        // noun with its article.
         office: read.fact(office.text, office.recordId),
         "office-a": read.fact(office.common, office.recordId),
         date: read.date(),
@@ -3377,13 +3377,13 @@ function governmentEmployer(
 
 /**
  * An obituary: who died, the age they reached and the town they lived in,
- * then the life's facts the records hold (words-paper-and-journal-everyday-
- * life; owner, Nov 1: "real ones with some good fluff"): where they were
- * born (the run's birth record, as the Journal reads it), the office they
- * served in (their term), where they last worked and for how long (their
- * latest work record), and the partner and
- * children who survive them (their family records, by name). A fact the
- * records do not hold is left out, never guessed.
+ * then the life's facts the records hold: where they were born (the run's
+ * birth record, as the Journal reads it), the office they served in (their
+ * term), where they last worked and for how long (their latest work record),
+ * and the partner and children who survive them (their family records, by
+ * name). A fact the records do not hold is left out, never guessed.
+ *
+ *
  */
 /** What a relative's own record calls someone, and what that makes the relative to them. */
 const SURVIVOR_BY_THEIR_RECORD: Readonly<Record<string, "partner" | "child">> =
@@ -4205,7 +4205,7 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
     const margin = Math.abs(yes - no);
     // A bill that failed fell short by the votes it lacked for a majority of
     // those cast (the engine passes a bill when its yeas outnumber its nays),
-    // never by the margin (Fable A, Nov 13, rule 15: 61 to 89 is 15 short).
+    // never by the margin.
     const shortBy = Math.floor((yes + no) / 2) + 1 - yes;
     return story(
       "vote-or-law",

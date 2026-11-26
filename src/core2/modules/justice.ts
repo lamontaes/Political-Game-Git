@@ -1,37 +1,37 @@
 /**
- * Justice, the small version (owner, October 14, 2026: "Courts, trials,
- * prisons: build a small version"). A crime the corruption engine recorded
- * reaches a prosecutor only through someone who knows of it: the official
- * who refused a bribe, or someone a party told. Each step is decided from
- * the records, never a roll:
+ * Justice, the small version. A crime the corruption engine recorded reaches
+ * a prosecutor only through someone who knows of it: the official who refused
+ * a bribe, or someone a party told. Each step is decided from the records,
+ * never a roll: 1. Report: the person who knows weighs reporting against
+ * their tie to the accused and their own traits. 2. Investigation: the
+ * prosecutor weighs the evidence, how prominent the corrupted office is and
+ * their own party against the accused's. An open investigation follows the
+ * money: every payment the accused made or took on the books brings in the
+ * other party. 3. Charge and plea: after the charging time, each target is
+ * charged when the evidence clears the prosecutor's bar (raised by the cases
+ * they have lost); a charged defendant pleads when the case against them, net
+ * of what their money buys in defense, would convict. 4. Trial: on the
+ * state's time to disposition, the verdict is the same read of evidence
+ * against defense, with its reasons. 5. Sentence: the state's range for the
+ * offense, slid by the bribe's size and the office; a fine paid to the
+ * treasury on the journal, probation, or prison. A conviction vacates the
+ * person's seats by the place's forfeiture rule. Prison ends the job and the
+ * person's own choices until release; release returns them with the
+ * conviction on record. Every step is an event the news and the director
+ * read: the hearing and the verdict play as scenes when the person is the
+ * player or in their circle. Ordinary crime reaches this engine as counted
+ * cases (one model, two tiers; engine map E13): public safety brings each
+ * month's arrests by offense, court and age band, and this engine files them,
+ * decides them when their time to disposition comes and holds the convicted
+ * in jail, prison or a juvenile placement for their term. A counted case, its
+ * sentence and its custody are rows of the same tables as a named
+ * defendant's, marked `kind: "counted"`.
  *
- * 1. Report: the person who knows weighs reporting against their tie to the
- *    accused and their own traits.
- * 2. Investigation: the prosecutor weighs the evidence, how prominent the
- *    corrupted office is and their own party against the accused's. An open
- *    investigation follows the money: every payment the accused made or took
- *    on the books brings in the other party.
- * 3. Charge and plea: after the charging time, each target is charged when
- *    the evidence clears the prosecutor's bar (raised by the cases they have
- *    lost); a charged defendant pleads when the case against them, net of
- *    what their money buys in defense, would convict.
- * 4. Trial: on the state's time to disposition, the verdict is the same read
- *    of evidence against defense, with its reasons.
- * 5. Sentence: the state's range for the offense, slid by the bribe's size
- *    and the office; a fine paid to the treasury on the journal, probation, or
- *    prison. A conviction vacates the person's seats by the place's
- *    forfeiture rule. Prison ends the job and the person's own choices until
- *    release; release returns them with the conviction on record.
  *
- * Every step is an event the news and the director read: the hearing and the
- * verdict play as scenes when the person is the player or in their circle.
  *
- * Ordinary crime reaches this engine as counted cases (one model, two tiers;
- * engine map E13): public safety brings each month's arrests by offense, court
- * and age band, and this engine files them, decides them when their time to
- * disposition comes and holds the convicted in jail, prison or a juvenile
- * placement for their term. A counted case, its sentence and its custody are
- * rows of the same tables as a named defendant's, marked `kind: "counted"`.
+ *
+ *
+ *
  */
 import { registerModule } from "../state";
 import { completedMonthsBetween, makeIsoDate } from "../kernel/dates";
@@ -1165,8 +1165,8 @@ function payToTreasury(
 }
 
 /**
- * The court escrow fund under a treasury's owner: bail sits here, apart from
- * the cash the government can spend, until the hearing returns it.
+ * The court escrow fund under a treasury's bail sits here, apart from the
+ * cash the government can spend, until the hearing returns it.
  */
 export function escrowOf(api: CoreAPI, treasuryId: string): string {
   const state = api.state as CoreState;

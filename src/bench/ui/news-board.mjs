@@ -1,8 +1,8 @@
-// News (play mock pl-news, on the owner's Nov 16 ruling that every story opens on a click): the
-// outlets as tabs, the paper's name and the day, then every story as a headline in a list at the
-// left and the chosen story at the right, set in type on the dark panel (never a cream sheet:
-// owner, Nov 7). The screen hands it the outlets with their stories in words, the labels, the day and how to name
-// a story. Every story is a headline in a list at the left; clicking one opens it at the right.
+// News: the outlets as tabs, the paper's name and the day, then every story
+// as a headline in a list at the left and the chosen story at the right, set
+// in type on the dark panel. The screen hands it the outlets with their
+// stories in words, the labels, the day and how to name a story. Every story
+// is a headline in a list at the left; clicking one opens it at the right.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
@@ -20,7 +20,7 @@ const told = (story) =>
  * What an empty News page says, from the record of what the player follows:
  * they follow no paper or station anywhere; the outlet open is one they
  * follow and it has nothing yet; or it is one they do not follow. The three
- * read differently (Fable A, Nov 12).
+ * read differently.
  */
 export function emptyNewsLine(outlet, followsAny, labels) {
   if (!followsAny) return labels.followsNone;
@@ -73,8 +73,8 @@ export function newsBoard({
     const outlet = outlets.get(chosen);
     holder.dataset.outlet = chosen;
     const stories = outlet.stories;
-    // Every story is a headline in the list at the left and opens at the right when clicked
-    // (owner, Nov 16: "News stories open on click"). The page opens on its fullest story.
+    // Every story is a headline in the list at the left and opens at the right
+    // when clicked. The page opens on its fullest story.
     const lead = stories.includes(opened)
       ? opened
       : stories.reduce(
@@ -82,8 +82,8 @@ export function newsBoard({
             best && told(best).length >= told(story).length ? best : story,
           undefined,
         );
-    // The day the story ran, as a paper says it ("February 21"); the year
-    // only when it is another year. A clipping keeps its own day.
+    // The day the story ran, as a paper says it; the year only when it is another
+    // year. A clipping keeps its own day.
     const when = (story) =>
       story.date ? dateWords(story.date, { year: date }) : undefined;
     const rows = stories.map((story) => {

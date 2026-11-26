@@ -1,24 +1,24 @@
-// The record screen: the menu type of every screen that reads one person's or one
-// place's records (Who you are, Jobs and study, the Politics guide). A screen is a
-// definition and this renderer draws it; change the type here and every record screen
-// changes (owner, Oct 27: "one for every menu, and then a menu type, and then just
-// insert it").
-//
-// A definition: { controls?: [node], heading?: { name, meta }, lede?, grid?,
-// sections: [{ title, items, wide? }] }. `controls` (a select, a picker) sit above the
-// rest; `grid` lays the sections two across, a `wide` one across both. An item is one of:
-//   { text, tone? }            a line: tone "feature", "narrative", "small", "empty" or "title"
-//   { fact: [label, value] }   a label and its value on one line
-//   { people: [{ name, note, onOpen }] }   names that open their card
-//   { figure: [label, value] } a label and a large value
-//   { stats: [[label, value], ...] }       figures side by side
-//   { picture }                a picture slot (removes itself when the file is missing)
-//   { views: [{ label?, text }] }          short paragraphs side by side
-//   { total: [value, label] }  a large count and what it counts
-//   { pages: [item, ...] }     items one under another
-//   { actions: [{ label, onClick, className?, testid? }] }   buttons in a row
-//   { section: { title, items } }          a section inside a section's pages
-//   { node }                   a node another kit part drew (a chart, a select)
+// The record screen: the menu type of every screen that reads one person's or
+// one place's records (Who you are, Jobs and study, the Politics guide). A
+// screen is a definition and this renderer draws it; change the type here and
+// every record screen changes. A definition: { controls?: [node], heading?: {
+// name, meta }, lede?, grid?, sections: [{ title, items, wide? }] }.
+// `controls` (a select, a picker) sit above the rest; `grid` lays the
+// sections two across, a `wide` one across both. An item is one of: { text,
+// tone? } a line: tone "feature", "narrative", "small", "empty" or "title" {
+// fact: [label, value] } a label and its value on one line { people: [{ name,
+// note, onOpen }] } names that open their card { figure: [label, value] } a
+// label and a large value { stats: [[label, value],...] } figures side by
+// side { picture } a picture slot (removes itself when the file is missing) {
+// views: [{ label?, text }] } short paragraphs side by side { total: [value,
+// label] } a large count and what it counts { pages: [item,...] } items one
+// under another { actions: [{ label, onClick, className?, testid? }] }
+// buttons in a row { section: { title, items } } a section inside a section's
+// pages { node } a node another kit part drew (a chart, a select)
+
+
+
+
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { section } from "./section.mjs";

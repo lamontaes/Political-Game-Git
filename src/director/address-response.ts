@@ -1,13 +1,13 @@
 /**
- * The other side's answer to a governor's State of the State (owner, Nov 8:
- * "speeches against the governor"). On the day of the address, the state
- * legislator of the other party who leads their side (the minority leader, else
- * the one whose ideal is farthest from the governor's) answers on the first
- * thing the governor asked for that they stand against, by their own record of
- * views (the officials engine's ideal and signature issues). Nothing is rolled:
- * no one of the other party who opposes an ask, no answer. The answer is a
- * public record the news carries, and a case the speech engine puts to the
- * governor, so the pressure is on record the same way a protest's is.
+ * The other side's answer to a governor's State of the State. On the day of
+ * the address, the state legislator of the other party who leads their side
+ * (the minority leader, else the one whose ideal is farthest from the
+ * governor's) answers on the first thing the governor asked for that they
+ * stand against, by their own record of views (the officials engine's ideal
+ * and signature issues). Nothing is rolled: no one of the other party who
+ * opposes an ask, no answer. The answer is a public record the news carries,
+ * and a case the speech engine puts to the governor, so the pressure is on
+ * record the same way a protest's is.
  */
 import { placeStateKey } from "../core2/place-map";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";

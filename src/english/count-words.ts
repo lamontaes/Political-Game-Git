@@ -120,8 +120,8 @@ export function countSaid(count: number, limit = 9): string {
 
 /**
  * How many have filed for an office so far, said before the player has filed
- * ("two candidates"): "other" and "before you" are only true once they have
- * (Fable A, Nov 13, rule 1).
+ * ("two candidates"): "other" and "before you" are only true once they have.
+ *
  */
 export function filedSoFarSaid(count: number): string {
   if (count < 1) return "";
@@ -187,9 +187,9 @@ export function daysSaid(days: number): string {
 
 /**
  * A length of time in months as people say it in talk, always in words: under
- * two years in months ("thirteen months"), longer in years rounded to the half
- * year the way a person would ("almost three years" for 34 months, "two and a
- * half years" for 30). Digits stay only in printed pieces (Words lead, Nov 14).
+ * two years in months ("thirteen months"), longer in years rounded to the
+ * half year the way a person would ("almost three years" for 34 months, "two
+ * and a half years" for 30). Digits stay only in printed pieces.
  */
 export function lengthSaid(months: number): string {
   const count = Math.max(1, Math.round(months));

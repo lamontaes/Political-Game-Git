@@ -4,47 +4,47 @@
  * drawn place is built as the player gets it (`buildBenchWorld`, every module
  * installed) and plays one game year with the cash journal watched
  * (setJournalTrace), so every posting a treasury made or took is read as the
- * journal admitted it. Passes when:
- * (1) every government the world has (federal, state, county, city or
- *     township) adopted a budget in the year, on the day its fiscal year
- *     starts, with an adoption event on record and who adopted it: federal
- *     October 1 (the Treasury statement's fiscal year ends September 30,
- *     data/research/money/federal-budget-fy2025.json), a state on the start
- *     NASBO's Budget Processes in the States records
- *     (data/research/money/government-budgets-2026.json), a county or city on
- *     the fiscal year of the Census 2024 unit nearest it in population
- *     (src/core2/data/budgets/local-fiscal-years.json);
- * (2) federal money reached named residents and the town, and so did the
- *     state's: at least one journal entry from the federal treasury, and one
- *     from the state's, to a named person of the world, and one to the town
- *     (a town business, the town's resident group or the town's own
- *     government), by entry id;
- * (3) every dollar balances: every journal entry a treasury was part of nets
- *     to zero, and each treasury's balance at the end is its balance at the
- *     start plus what the journal moved through it;
- * (4) spending and taxes per resident: the budget in force at the end of the
- *     year for the state, and for the county and city together, has taxes and
- *     spending per resident inside the range the 50 states and D.C. recorded
- *     (Census Annual Survey of State and Local Government Finances, fiscal
- *     2022, data/research/money/state-local-finances-2022.json, carried to the
- *     opening year by the same factor the budgets use,
- *     data/research/money/public-budget-bases.json calibration), and what the
- *     state's and the local treasuries really paid out in the year per
- *     resident (journal, to anyone but another government) is inside the
- *     spending range. An island area, which the Census table does not cover,
- *     is held to its own published all-funds spending per resident (the median
- *     of those that publish, where its own is not published): the state-level
- *     budget in force within 15 percent of it, and what the treasury really
- *     paid out within twice it. A territory's taxes (none recorded
- *     separately from its spending) are listed as not applicable, with the
- *     reason; any other mandatory work left undone is listed as unchecked and
- *     fails the run. Every level the world has (federal, state, county, city)
- *     also reports its own taxes and spending per resident, the federal one
- *     beside the Treasury's FY2025 receipts and outlays over the nation's
- *     people, and fails only when its budget at the end of the year differs
- *     from its own opening budget by more than the world's spread
- *     (budgetWorldLineSpreadShare);
- * Exits nonzero naming each failed clause and each unchecked one.
+ * journal admitted it. Passes when: (1) every government the world has
+ * (federal, state, county, city or township) adopted a budget in the year, on
+ * the day its fiscal year starts, with an adoption event on record and who
+ * adopted it: federal, a state on the start NASBO's Budget Processes in the
+ * States records (data/research/money/government-budgets-2026.json), a county
+ * or city on the fiscal year of the Census 2024 unit nearest it in population
+ * (src/core2/data/budgets/local-fiscal-years.json); (2) federal money reached
+ * named residents and the town, and so did the state's: at least one journal
+ * entry from the federal treasury, and one from the state's, to a named
+ * person of the world, and one to the town (a town business, the town's
+ * resident group or the town's own government), by entry id; (3) every dollar
+ * balances: every journal entry a treasury was part of nets to zero, and each
+ * treasury's balance at the end is its balance at the start plus what the
+ * journal moved through it; (4) spending and taxes per resident: the budget
+ * in force at the end of the year for the state, and for the county and city
+ * together, has taxes and spending per resident inside the range the 50
+ * states and D.C. recorded (Census Annual Survey of State and Local
+ * Government Finances, fiscal 2022,
+ * data/research/money/state-local-finances-2022.json, carried to the opening
+ * year by the same factor the budgets use,
+ * data/research/money/public-budget-bases.json calibration), and what the
+ * state's and the local treasuries really paid out in the year per resident
+ * (journal, to anyone but another government) is inside the spending range.
+ * An island area, which the Census table does not cover, is held to its own
+ * published all-funds spending per resident (the median of those that
+ * publish, where its own is not published): the state-level budget in force
+ * within 15 percent of it, and what the treasury really paid out within twice
+ * it. A territory's taxes (none recorded separately from its spending) are
+ * listed as not applicable, with the reason; any other mandatory work left
+ * undone is listed as unchecked and fails the run. Every level the world has
+ * (federal, state, county, city) also reports its own taxes and spending per
+ * resident, the federal one beside the Treasury's FY2025 receipts and outlays
+ * over the nation's people, and fails only when its budget at the end of the
+ * year differs from its own opening budget by more than the world's spread
+ * (budgetWorldLineSpreadShare); Exits nonzero naming each failed clause and
+ * each unchecked one.
+ *
+ *
+ *
+ *
+ *
  */
 import { setJournalTrace } from "../journal-state";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
@@ -428,11 +428,11 @@ else {
 // and the city each report their taxes and spending per resident beside the
 // published figure and the world's spread. A level fails only when its budget
 // in force at the end of the year differs from its own opening budget by more
-// than the world's spread parameter, as taxes doubled would (owner, Nov 8:
-// ranges are not targets; a published figure the world leaves is a report,
-// never a failure). The county's and the city's own figures have no separate
-// published row: the Census table holds their sum, which is reported with
-// them.
+// than the world's spread parameter, as taxes doubled would. The county's and
+// the city's own figures have no separate published row: the Census table
+// holds their sum, which is reported with them.
+
+
 const spread = core.data.parameters.budgetWorldLineSpreadShare?.value ?? 0.06;
 const usPopulation =
   (finances.places as unknown as Record<string, { population2023: number }>).US

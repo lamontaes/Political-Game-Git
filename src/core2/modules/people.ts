@@ -420,13 +420,13 @@ function parentIdsOf(person: Readonly<PersonState>): string[] {
 /**
  * Pre-start people pass (M1-14): a full person's own dated records that fall
  * before day one (their birth, where their records put their parents that
- * day, and each dated past fact) are entered in the history, after the
- * moves into the county the moves engine's rule runs, so the world's
- * past can be read by record id, their working life is run through the
- * window (`past-work.ts`), and then the day each couple set up home together
- * (owner, Oct 28, 2026: who was in the household each year). Counted people
- * carry no individual past until they are filled in, and the records' own
- * sources are kept.
+ * day, and each dated past fact) are entered in the history, after the moves
+ * into the county the moves engine's rule runs, so the world's past can be
+ * read by record id, their working life is run through the window
+ * (`past-work.ts`), and then the day each couple set up home together.
+ * Counted people carry no individual past until they are filled in, and the
+ * records' own sources are kept.
+ *
  */
 function peopleHistory(
   api: CoreAPI,
@@ -482,8 +482,8 @@ function peopleHistory(
           source: fact.source,
         });
   }
-  // The working life from school to day one is run, not copied (owner,
-  // Oct 27, 2026: history before the start is simulated).
+  // The working life from school to day one is run, not copied.
+
   pastWorkHistory(api, window, history);
   for (const row of partneredRecords(api, window)) history.record(row);
 }
@@ -674,15 +674,15 @@ export function partneredForFilledIn(
 }
 
 /**
- * A person's whole past, once (the owner's ruling, Nov 9, 2026: each person's
- * past covers their whole life, coarse, written only when they are opened or
- * met, a relative living elsewhere included): where they lived, their
- * schools and their working life from their birth to the day before the
- * world's opening, by the passes the run uses
- * with the person's own window. Moves first, since school and work are placed
- * by where they lived. Opening them again does nothing; the rows are the same
- * whenever and however a person is opened (the world's seed and the person's
- * records decide, nothing else).
+ * A person's whole past, once: where they lived, their schools and their
+ * working life from their birth to the day before the world's opening, by the
+ * passes the run uses with the person's own window. Moves first, since school
+ * and work are placed by where they lived. Opening them again does nothing;
+ * the rows are the same whenever and however a person is opened (the world's
+ * seed and the person's records decide, nothing else).
+ *
+ *
+ *
  */
 export function openWholePast(core: CoreState, personId: PersonId): void {
   // An official from another place: the earlier terms of their seat, kept on

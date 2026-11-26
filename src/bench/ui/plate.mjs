@@ -1,9 +1,9 @@
-// The one framed plate: what a menu's content sits on, never the bare panel
-// (owner, Oct 29: "I don't like... the black or gray just background, like
-// stuff sitting on it"; he chose framed plates). A soft gradient, a thin brass
-// edge, an inner shadow and small brass corners, all from play.css. Every
-// record section is one (section.mjs); a screen asks for a plate by itself
-// for anything else.
+// The one framed plate: what a menu's content sits on, never the bare panel.
+// A soft gradient, a thin brass edge, an inner shadow and small brass
+// corners, all from play.css. Every record section is one (section.mjs); a
+// screen asks for a plate by itself for anything else.
+
+
 import { el } from "./dom.mjs";
 
 /** A plate under its title, when it has one, around `content`. */

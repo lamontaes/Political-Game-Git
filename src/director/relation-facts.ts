@@ -1,9 +1,9 @@
 /**
- * How two people stand, read once from the records (owner, Nov 15, part 1c:
- * one reader for the talk box, the scenes and the Journal). `askerId` is the
- * one who comes to the other (the player calling, the one who asks in a
- * scene); `askedId` is the one who answers. Kin, acquaintance, closeness and
- * the side of the tie all come from here; nothing else re-reads them.
+ * How two people stand, read once from the records. `askerId` is the one who
+ * comes to the other (the player calling, the one who asks in a scene);
+ * `askedId` is the one who answers. Kin, acquaintance, closeness and the side
+ * of the tie all come from here; nothing else re-reads them.
+ *
  */
 import { historyOf } from "../core2/past";
 import {

@@ -1,17 +1,17 @@
 /* global process, console */
 // Roadmap M2-03, filing in person, as the play screen files, headless, in the
-// place the golden-path runner draws (GOLDEN_PATH_SEED, GOLDEN_PATH_PLACE_KEY).
-// The player is the resident who turns 18 soonest. First they walk into the
-// office that takes filings for a contest whose rules they don't meet (an
-// age, residency or deadline its records name) and name it: the clerk says
-// the rule that stops them and offers no way to file. At 18 they walk in
-// where a contest they can enter files, state a platform and file once: their
-// petition is out with the signatures the place asks (or, where its law asks
-// none, the clerk takes the filing at the counter), they stand in the race,
-// and a second filing is refused. Filing is a petition; no one pays a fee
-// (owner, Oct 28; src/core2/modules/elections.ts). Exits nonzero naming each
-// failed clause.
+// place the golden-path runner draws (GOLDEN_PATH_SEED,
+// GOLDEN_PATH_PLACE_KEY). The player is the resident who turns 18 soonest.
+// First they walk into the office that takes filings for a contest whose
+// rules they don't meet (an age, residency or deadline its records name) and
+// name it: the clerk says the rule that stops them and offers no way to file.
+// At 18 they walk in where a contest they can enter files, state a platform
+// and file once: their petition is out with the signatures the place asks
+// (or, where its law asks none, the clerk takes the filing at the counter),
+// they stand in the race, and a second filing is refused. Filing is a
+// petition; no one pays a fee. Exits nonzero naming each failed clause.
 // Usage: node --max-old-space-size=8192 --import tsx src/bench/m2-03-check.ts
+
 import { buildBenchWorld } from "./world";
 import { BenchPlayer } from "./player";
 import { governmentView, fileForOffice } from "./government";

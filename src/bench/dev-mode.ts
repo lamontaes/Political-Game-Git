@@ -1,12 +1,12 @@
 /**
- * Dev mode (owner, Oct 14, 2026): change any law, make any person or body
- * decide, jump time, trace any record, watch the town by month and run a
- * saved "what if". Every write goes through the core's own calls (`enactLaw`,
- * the chooser's controller hook, `castMemberVote`, `holdVote`,
- * `executiveDecision`, `rerateJob`) and leaves a dev-mode record on the core,
- * so every engine reads it the normal way and a release save can refuse it.
- * Read-only views spend no game time and write nothing. Words come from the
- * English engine; this returns record data and ids only.
+ * Dev mode: change any law, make any person or body decide, jump time, trace
+ * any record, watch the town by month and run a saved "what if". Every write
+ * goes through the core's own calls (`enactLaw`, the chooser's controller
+ * hook, `castMemberVote`, `holdVote`, `executiveDecision`, `rerateJob`) and
+ * leaves a dev-mode record on the core, so every engine reads it the normal
+ * way and a release save can refuse it. Read-only views spend no game time
+ * and write nothing. Words come from the English engine; this returns record
+ * data and ids only.
  */
 import { historyOf } from "../core2/past";
 import type { GovernmentLevel } from "../core2/government-level";
@@ -159,8 +159,8 @@ const SCENE_RECIPES: Readonly<Record<string, string>> = {
   // A job the player leaves by their own press (the last day at work): the
   // moment's label, since the job record also causes a first meeting.
   "money:job-left": "quit",
-  // An offer comes only to a player who applied (owner, Nov 16): apply for the
-  // town's openings each day, the Openings screen's own call, until one calls.
+  // An offer comes only to a player who applied: apply for the town's openings
+  // each day, the Openings screen's own call, until one calls.
   "job-offered": "apply",
 };
 
@@ -858,11 +858,11 @@ export class DevMode {
    * outside the books (what the rest sums to, with its sign turned). The
    * difference is what was done in this world: the laws dev mode passed and
    * whatever the player did. It also names the holders whose cash moved most.
-   * This is how the Fable audit followed every law's dollars (Nov 9, 2026);
-   * it is here so a second session can run the same check from the game.
-   * Run the world with dev mode's Run, not Day and Week, so the only
-   * difference is the change being checked. Read-only for this world; the
-   * twin is built, read and dropped.
+   * This is how the Fable audit followed every law's dollars; it is here so a
+   * second session can run the same check from the game. Run the world with
+   * dev mode's Run, not Day and Week, so the only difference is the change
+   * being checked. Read-only for this world; the twin is built, read and
+   * dropped.
    */
   twinMoney() {
     const recipe = buildRecipeOf(this.core);
@@ -1297,10 +1297,10 @@ export class DevMode {
         members(api, chamber),
         new Set(committeeMemberKeys(api, billId, chamber)),
       );
-      // Members named in `votes` vote as named, a dev's decision; the others fill the margin
-      // (negative to defeat), or vote their own position where no margin was given. A vote the
-      // player already chose with their own press (bill-stage.ts chooseOwnVote, the meeting)
-      // stands as named: dev mode never overwrites the player's press (Account lead, Nov 16).
+      // Members named in `votes` vote as named, a dev's decision; the others fill
+      // the margin (negative to defeat), or vote their own position where no
+      // margin was given. A vote the player already chose with their own
+      // press (bill-stage.ts chooseOwnVote, the meeting) stands as named: dev mode never overwrites the player's press.
       const player = this.player?.personId ?? (api.state as CoreState).playerId;
       const pressed = player
         ? (api
@@ -1331,10 +1331,10 @@ export class DevMode {
         const total = Math.round((roster.length + wanted) / 2);
         yes = Math.max(0, Math.min(free.length, total - namedYes));
       }
-      // Yes and no on a roster cannot differ by the margin asked when the two have opposite parity (434
-      // voting members after a death, a Senate of 100, and an odd margin): one free member then abstains,
-      // the last yes when the count runs one over the margin or the first no when it runs one under, so
-      // the roll shows the margin asked and the result names who abstained and why (Account lead, Nov 16).
+      // Yes and no on a roster cannot differ by the margin asked when the two have
+      // opposite parity (434 voting members after a death, a Senate of 100,
+      // and an odd margin): one free member then abstains, the last yes when
+      // the count runs one over the margin or the first no when it runs one under, so the roll shows the margin asked and the result names who abstained and why.
       let abstainAt = -1;
       if (wanted !== undefined) {
         const over = namedYes + yes - (namedNo + free.length - yes) - wanted;
@@ -2317,13 +2317,13 @@ export class DevMode {
   }
 
   /**
-   * Runs the world day by day until `days` have passed or the chosen event happens, whichever
-   * comes first, never past `cap` days. Says why it stopped and the record ids that stopped it.
-   * An event counts only where the player lives and is governed (their town, county and state,
-   * the nation, their own people) unless `where` is "anywhere": the world holds every state's
-   * laws and officials, and a run stopped on another state's law tells a check nothing (Fable
-   * audit, Nov 9, 2026). A bill passing or failing is read from the bills themselves, since a
-   * body with no executive writes no record when its bill becomes law.
+   * Runs the world day by day until `days` have passed or the chosen event
+   * happens, whichever comes first, never past `cap` days. Says why it
+   * stopped and the record ids that stopped it. An event counts only where
+   * the player lives and is governed (their town, county and state, the
+   * nation, their own people) unless `where` is "anywhere": the world holds
+   * every state's laws and officials, and a run stopped on another state's
+   * law tells a check nothing. A bill passing or failing is read from the bills themselves, since a body with no executive writes no record when its bill becomes law.
    */
   runUntil(input: {
     days?: number;

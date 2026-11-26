@@ -62,9 +62,9 @@ export interface Scene {
   narration: SceneLine[];
   /**
    * The scene's first line, naming the day, the place and the person the
-   * player meets (owner, Nov 8). It is the narration's first sentence; a
-   * scene that plays another narrator's words (an exchange with a purpose)
-   * opens on it unless those words already name the day.
+   * player meets. It is the narration's first sentence; a scene that plays
+   * another narrator's words (an exchange with a purpose) opens on it unless
+   * those words already name the day.
    */
   arrival?: SceneLine;
   /** The person who opens the scene and whom the conversation is with. */
@@ -197,12 +197,12 @@ export function composeScene(
       ...(words ? { words } : {}),
     });
 
-  // Every scene opens on one line that names the day, the place and the
-  // person the player meets (owner, Nov 8: "If it's June 7th, it says first
-  // thing on June 7th. You head to the clerk's office and speak to Maria
-  // Patton. And then it starts like that."), which replaces the line that
-  // only said a call or a letter. It supersedes Oct 26 and 27's "never the
-  // day or the place", which were about restating the screen's own labels.
+  // Every scene opens on one line that names the day, the place and the person
+  // the player meets, which replaces the line that only said a call or a
+  // letter. It supersedes and 27's "never the day or the place", which were
+  // about restating the screen's own labels.
+
+
   const sentences: SceneLine[] = [];
   const { kind } = binding.setting;
 
@@ -219,8 +219,8 @@ export function composeScene(
     : (opener?.personIds.find((id) => id !== personId) ??
       moment.counterpartIds.find((id) => binding.presentIds.includes(id)));
   const meeting = talkToId ? core.people.get(talkToId) : undefined;
-  // The market's stand-in for work out of town is no place to be found at
-  // (Fable A, Nov 13, rule 20): the scene says "at work" without it.
+  // The market's stand-in for work out of town is no place to be found at: the
+  // scene says "at work" without it.
   const settingRow =
     kind === "workplace" || kind === "office" || kind === "school"
       ? core.organizations.get(binding.setting.recordId)
@@ -245,12 +245,12 @@ export function composeScene(
             begins: { text: opensOn(), sourceRecordIds: [moment.id] },
             ...homeAloneDayFacts(core.date, opensMinute(), moment.id),
           };
-          // What happened, by the cause record's own facts: a first line
-          // never says it is about something without saying what (owner,
-          // Nov 15: story points come with context). A cause that names no
+          // What happened, by the cause record's own facts: a first line never says it
+          // is about something without saying what. A cause that names no
           // happening (a tie that grew, a speech heard) opens on the plain
           // first line. The day it happened is not said: the line already
-          // opens with today (Words lead, Nov 15).
+          // opens with today.
+
           const happened = happenedSaid(fromRecord());
           if (happened) facts.happened = happened;
           if (meeting) {
@@ -408,8 +408,8 @@ export function composeScene(
           if (learned?.kind === "law.effect-learned") {
             const moved = Number(learned.facts?.movedMinor ?? P.zero);
             if (Number.isFinite(moved) && moved !== P.zero)
-              // Said as people say a sum ("about $6"); the Journal and the
-              // books keep the exact figure (CTO, Nov 18, on #10190).
+              // Said as people say a sum ("about $6"); the Journal and the books keep the
+              // exact figure.
               facts[moved < P.zero ? "cost" : "refund"] = {
                 text: moneySaid(Math.abs(moved)),
                 sourceRecordIds: [moment.causeId],
@@ -576,10 +576,10 @@ export function heardLine(
 /**
  * The outlet that carried a broadcast to the player's home: the first of the
  * place's own outlets in the order local-address.json `heard` gives. Its
- * station is what the talk box names over the line (owner, Oct 14: "News you
- * overhear: TV or radio speaks like anyone else: a small card in the
- * conversation text style with a tiny radio/TV icon, the station, and the
- * line.").
+ * station is what the talk box names over the line.
+ *
+ *
+ *
  */
 export function heardOn(core: Readonly<CoreState>, recordId: string) {
   const record = core.durableLog.get(recordId);

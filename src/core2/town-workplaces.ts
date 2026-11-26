@@ -503,10 +503,10 @@ export const TOWN_WORKPLACE_BY_KEY = new Map(
 
 /**
  * MEASURED: median years with the current employer by age, wage and salary
- * workers, January 2026 (Bureau of Labor Statistics, Employee Tenure in
- * 2026, Table 1, released September 24, 2026). At the opening a worker's
- * tenure spreads around their age band's median (src/core2/opening-employment.ts),
- * never from before they turned 18.
+ * workers, 26. At the opening a worker's tenure spreads around their age
+ * band's median (src/core2/opening-employment.ts), never from before they
+ * turned 18.
+ *
  */
 export const TOWN_MEDIAN_TENURE_BY_AGE: readonly (readonly [number, number])[] =
   [

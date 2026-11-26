@@ -1,20 +1,20 @@
 /**
- * The federal courts, as a national flow and a stock (Nation, Nov 8, 2026).
- * No case, judge or defendant is kept: the federal courts are results and
- * counts, and who was sentenced is built when someone opens the case
- * (pool item justice-federal-case-stream). Each month, for each offense
- * group, the Sentencing Commission's yearly prison admissions
+ * The federal courts, as a national flow and a stock. No case, judge or
+ * defendant is kept: the federal courts are results and counts, and who was
+ * sentenced is built when someone opens the case (pool item
+ * justice-federal-case-stream). Each month, for each offense group, the
+ * Sentencing Commission's yearly prison admissions
  * (data/research/justice/ussc-federal-sentencing-fy2025.json) arrive at the
  * group's mean sentence; people leave after the share of that sentence they
- * serve (the stay share derived in scripts/justice/derive-federal-stay-share.ts
- * and kept in src/core2/data/parameters.json: federalStayShare*), so the
- * Bureau of Prisons' stock by group (the opening stock) is explained by those
- * causes and is checked against the Bureau's table, never steered to it.
- * The reduce-mandatory-minimums law in force, once Congress enacts it, takes
- * the sentence of the cases still subject to a minimum down to the mean of
- * cases relieved of it, in the group's mandatory-minimum share of cases, for
- * the admissions after the law took effect: the stock falls as the people
- * sentenced under it, not the ones already inside, leave.
+ * serve (the stay share derived in
+ * scripts/justice/derive-federal-stay-share.ts and kept in
+ * src/core2/data/parameters.json: federalStayShare*), so the Bureau of
+ * Prisons' stock by group (the opening stock) is explained by those causes
+ * and is checked against the Bureau's table, never steered to it. The
+ * reduce-mandatory-minimums law in force, once Congress enacts it, takes the
+ * sentence of the cases still subject to a minimum down to the mean of cases
+ * relieved of it, in the group's mandatory-minimum share of cases, for the
+ * admissions after the law took effect: the stock falls as the people sentenced under it, not the ones already inside, leave.
  */
 import bop from "../../../data/research/justice/bop-federal-offenses-2026.json" with { type: "json" };
 import ussc from "../../../data/research/justice/ussc-federal-sentencing-fy2025.json" with { type: "json" };

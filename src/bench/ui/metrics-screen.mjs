@@ -1,7 +1,7 @@
-// The Metrics screen on the one list-beside-page part (`rosterScreen`): the areas down the left,
-// the chosen area's measures beside them (this year, last year, the change), and the chosen
-// measure's timeline: one thin line over the years with each value written on it, no bars and
-// no pies (owner, Nov 12: "numbers stay the main view; a measure opens a timeline"). Every
+// The Metrics screen on the one list-beside-page part (`rosterScreen`): the
+// areas down the left, the chosen area's measures beside them (this year,
+// last year, the change), and the chosen measure's timeline: one thin line
+// over the years with each value written on it, no bars and no pies. Every
 // figure is the registry's; the screen only places them. Nothing scrolls as a page.
 import { makeButton } from "./button.mjs";
 import { el } from "./dom.mjs";
@@ -10,7 +10,7 @@ import { metricsChange, metricsFigure } from "./metrics-change.mjs";
 import { rosterScreen } from "./roster-screen.mjs";
 import { trendLine } from "./trend-line.mjs";
 
-/** How many years the table shows at most, the newest last (mock Layout A, owner, Nov 12: "A plus the years table"). */
+/** How many years the table shows at most, the newest last. */
 const YEARS_SHOWN = 5;
 
 /**

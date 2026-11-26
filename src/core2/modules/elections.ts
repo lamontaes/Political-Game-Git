@@ -1,21 +1,21 @@
 /**
- * Elections, part one: contests and filing (golden path step 3).
- *
- * At the opening every seat covering the town gets its next contest: the
- * election date, the primary and the filing deadline from
- * `elections-calendar.ts`. A person files at the office that takes that
- * contest's filings (`filingOfficeFor`), once, if they meet what that place's
- * rules require: age, residency and registration, read from
+ * Elections, part one: contests and filing (golden path step 3). At the
+ * opening every seat covering the town gets its next contest: the election
+ * date, the primary and the filing deadline from `elections-calendar.ts`. A
+ * person files at the office that takes that contest's filings
+ * (`filingOfficeFor`), once, if they meet what that place's rules require:
+ * age, residency and registration, read from
  * `data/research/elections/filing-requirements.json` (or the estimated terms
- * in `candidate-filing-terms.json` where a place isn't read yet). Filing is
- * a petition, signatures, the clerk's check, then the ballot (owner, Oct 28,
- * reversing the Oct 13 "no fee or petition" ruling): a filing opens a
+ * in `candidate-filing-terms.json` where a place isn't read yet). Filing is a
+ * petition, signatures, the clerk's check, then the ballot: a filing opens a
  * petition with the signatures the place's law asks (`petitionRule`), the
  * candidate's campaign gathers them (`signPetition`, from the campaign
  * engine's doors, events and circle), and the voting engine's clerk checks
  * them the morning after the deadline (`keepPetitionCheck`). No fee is
  * charged. The filing becomes a record; an unmet rule comes back as
  * structured reasons the English engine words.
+ *
+ *
  */
 import { countyPlaceOfWorld } from "../electorate-places";
 import { bookkeeping } from "../bookkeeping";
@@ -302,11 +302,11 @@ export interface FilingRow {
   readonly party?: string | null;
   /**
    * "announced" from the day the candidate declares for a race whose filing
-   * window has not opened (owner, Nov 17: "Run now, file on the date"): the
-   * campaign raises money and gathers signatures, and the candidate is not
-   * yet in the race. Filing in the window makes it "petitioning" while the
-   * candidate gathers signatures, then "on-ballot" or "short" by the clerk's
-   * check; "withdrawn" for one who left the race or lost a primary.
+   * window has not opened: the campaign raises money and gathers signatures,
+   * and the candidate is not yet in the race. Filing in the window makes it
+   * "petitioning" while the candidate gathers signatures, then "on-ballot" or
+   * "short" by the clerk's check; "withdrawn" for one who left the race or
+   * lost a primary.
    */
   readonly status:
     "announced" | "petitioning" | "on-ballot" | "short" | "withdrawn";
@@ -851,12 +851,12 @@ function sideRow(
 
 /**
  * The signatures one side's petition must hold: the place's read count; none
- * where its row says the law asks none (signatures "where the place requires
- * them", owner, Oct 6, prior-rulings/elections.md R5, restored by the Oct 28
- * ruling that filing is a petition); where its row gives a formula, the
+ * where its row says the law asks none; where its row gives a formula, the
  * place's rule in `petition-rules.json`, computed for the race's own
- * electorate (owner, Nov 14: a race needs the number its own law sets).
- * A place and family with neither is a gap in the data, not a count.
+ * electorate. A place and family with neither is a gap in the data, not a
+ * count.
+ *
+ *
  */
 function petitionRule(
   side: ReadSide | undefined,
@@ -1065,11 +1065,11 @@ function playerServiceRecord(api: CoreAPI, playerId: string): string | null {
 }
 
 /**
- * The appointing body offers the player a vacant town seat before it seats anyone (owner, Nov 16: "you
- * can only be appointed to council, like the playable offices"; CTO, Nov 17: the player can be
- * considered on a record of service, campaign work or a party committee). Only a seat the player could
- * run for, in their own district, to a player of voting age living in the town whose record brings
- * them to notice. The seat waits on their answer, or on the offer spacing days.
+ * The appointing body offers the player a vacant town seat before it seats
+ * anyone. Only a seat the player could run for, in their own district, to a
+ * player of voting age living in the town whose record brings them to notice.
+ * The seat waits on their answer, or on the offer spacing days.
+ *
  */
 const offerSeatToPlayer = (
   api: CoreAPI,
@@ -1517,13 +1517,13 @@ const LOCAL_LEVELS: ReadonlySet<string> = new Set([
 
 /**
  * Whether the player may file for an office of this kind, given the kinds of
- * the home's own local offices (owner, Oct 29: the player runs only for city
- * council, state legislator, mayor, governor, Congress and president, and
- * "city council is, you know, whatever the equivalent is"). A row with
- * `onlyWhereNo` is the player's only where none of the home's local offices
- * has one of those kind prefixes: the township board where the home has no
- * council, the county board where it has neither, the county executive where
- * it has no council, mayor or township board. Pure: the one rule over the data.
+ * the home's own local offices. A row with `onlyWhereNo` is the player's only
+ * where none of the home's local offices has one of those kind prefixes: the
+ * township board where the home has no council, the county board where it has
+ * neither, the county executive where it has no council, mayor or township
+ * board. Pure: the one rule over the data.
+ *
+ *
  */
 export function playerMayFileForKind(
   kind: string,
@@ -1589,12 +1589,12 @@ interface PlayerSeatOffice {
 }
 
 /**
- * The district of a districted local body the player's home is in: one of
- * its district seats, by the home's household (owner's town council seats
- * ruling, CTO: by district, the player files only for their own district's
- * seat). No district map is read for a town's council or a county's board, so
- * the home's district is drawn from its household over the body's district
- * seats, the same district every day; null with no player.
+ * The district of a districted local body the player's home is in: one of its
+ * district seats, by the home's household. No district map is read for a
+ * town's council or a county's board, so the home's district is drawn from
+ * its household over the body's district seats, the same district every day;
+ * null with no player.
+ *
  */
 // stopgapId: SG-GOV-home-local-district
 function homeDistrict(
@@ -1627,10 +1627,10 @@ export type PlayerFilingBar =
 /**
  * The one reader of whether the player is offered a contest and, when not,
  * the one reason: the clerk's counter, Campaigns and the filing error read
- * this and keep no copy of the rules (owner, Nov 16: a voter sees and runs
- * for the seat that is theirs). The order of the checks is the order of the
- * reasons: the office, the seat's town, the window, the body's other races,
- * then the district.
+ * this and keep no copy of the rules. The order of the checks is the order of
+ * the reasons: the office, the seat's town, the window, the body's other
+ * races, then the district.
+ *
  */
 export function playerFilingBar(
   api: CoreAPI,
@@ -1701,12 +1701,12 @@ export function playerFilingBar(
 }
 
 /**
- * Why an office is not one the player runs for: the two causes of `not-your-office`, from the one rule
- * (`playerMayFileForKind` over the player-offices data; owner, Oct 29). `not-run-for`: the office is
- * not one a player runs for (a sheriff, a clerk, a statewide office below governor). `home-has-own`:
- * it is the player's only where the home has none of its own (a county board where the town has a
- * council). `insteadIds` are the home's own offices the player runs for instead, so the screen can name
- * them (owner, Nov 16: "I can't run for anything"; crew list #9747, item 3a: closed offices show why).
+ * Why an office is not one the player runs for: the two causes of
+ * `not-your-office`, from the one rule. `not-run-for`: the office is not one
+ * a player runs for (a sheriff, a clerk, a statewide office below governor).
+ * `home-has-own`: it is the player's only where the home has none of its own
+ * (a county board where the town has a council). `insteadIds` are the home's
+ * own offices the player runs for instead, so the screen can name them.
  */
 export interface NotYourOffice {
   readonly why: "not-run-for" | "home-has-own";
@@ -1781,11 +1781,11 @@ export function seatIsAnotherDistrict(
  * Whether the player may run in this contest today: an office the player runs
  * for (`playerMayFileForKind`), a seat that covers their home, its filing
  * window open (`filingWindowOpen`), and of a local body's seats only the one
- * race that is theirs (owner, Nov 1 playtest: "I should only be able to run
- * for one council seat"; CTO's town council seats ruling): their own
- * district's seat where the body is elected by district, and where seats are
- * elected at large, the at-large race once, as one candidacy. A candidacy
- * already filed in one of a body's races on that day rules out its others.
+ * race that is theirs: their own district's seat where the body is elected by
+ * district, and where seats are elected at large, the at-large race once, as
+ * one candidacy. A candidacy already filed in one of a body's races on that
+ * day rules out its others.
+ *
  */
 function playerMayFileWith(
   api: CoreAPI,
@@ -1843,7 +1843,7 @@ export function registerWardResidency(
   wardResidency = lookup;
 }
 
-/** The day someone born on `birthDate` turns `years` (a February 29 birthday counts on March 1 in a common year). */
+/** The day someone born on `birthDate` turns `years`. */
 function birthdayOn(birthDate: string, years: number): string {
   const year = Number(birthDate.slice(0, 4)) + years;
   const monthDay = birthDate.slice(5);
@@ -2094,9 +2094,9 @@ export function fileCandidacy(
   }
   const today = api.state.date;
   const id = `filing:${input.contestId}:${input.personId}`;
-  // A candidate who announced files the same candidacy: its campaign, money
-  // and signatures carry on under the filing (owner, Nov 17: "Run now, file
-  // on the date").
+  // A candidate who announced files the same candidacy: its campaign, money and
+  // signatures carry on under the filing.
+
   const announced = table(api, "filings").get(id) as unknown as
     FilingRow | undefined;
   const filing: FilingRow = {
@@ -2131,16 +2131,16 @@ export function fileCandidacy(
 export const CANDIDATE_ANNOUNCED_EVENT = "candidate-announced";
 
 /**
- * Announce for a race whose filing window has not opened yet (owner, Nov 17:
- * "Run now, file on the date. From day one the player can announce for a
- * coming race, form a campaign committee, raise money and gather petition
- * signatures. The official filing happens in the real window, and the year
- * between is the campaign."). The candidacy is the filing's own row in the
- * "announced" state, so the campaign engine opens its committee, raises money
- * and gathers signatures on it as on any filing; filing in the window
- * (`fileCandidacy`) turns the same row into the filing. The same checks as a
- * filing, except that the window has not opened; a race whose filing closed
- * or is open now takes a filing instead.
+ * Announce for a race whose filing window has not opened yet. The candidacy
+ * is the filing's own row in the "announced" state, so the campaign engine
+ * opens its committee, raises money and gathers signatures on it as on any
+ * filing; filing in the window (`fileCandidacy`) turns the same row into the
+ * filing. The same checks as a filing, except that the window has not opened;
+ * a race whose filing closed or is open now takes a filing instead.
+ *
+ *
+ *
+ *
  */
 export function announceCandidacy(
   api: CoreAPI,
@@ -2378,9 +2378,9 @@ export function standing(filing: Readonly<Pick<FilingRow, "status">>): boolean {
 
 /**
  * Whether a candidate is in the race for the press: a filing that stands, or
- * an announced one whose race is still ahead (owner, Nov 17: "Run now, file on
- * the date"). An announced candidate is already campaigning in the open, so
- * the papers ask them and they can be asked.
+ * an announced one whose race is still ahead. An announced candidate is
+ * already campaigning in the open, so the papers ask them and they can be
+ * asked.
  */
 export function inTheRace(
   api: CoreAPI,
@@ -2782,12 +2782,12 @@ export function keepPetitionCheck(
       filedWith: filing.filedWith,
     },
   });
-  // Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): once the
-  // clerk has checked a petition, its check keeps what counted (the valid
-  // count and the names struck), and no reader asks for its signatures again
-  // (they are read while it circulates and by the check). In play they go;
-  // kept, they grew from 54,506 rows at year 4 to 132,276 at year 8 at
-  // Montpelier, Vermont (Nov 9, 2026). With bookkeeping on, every row stays.
+  // Keep results, not their history: once the clerk has checked a petition, its
+  // check keeps what counted (the valid count and the names struck), and no
+  // reader asks for its signatures again (they are read while it circulates
+  // and by the check). In play they go; kept, they grew from 54,506 rows at
+  // year 4 to 132,276 at year 8 at Montpelier, Vermont. With bookkeeping on,
+  // every row stays.
   if (!bookkeeping()) {
     const signatures = table(api, "petitionSignatures");
     for (const row of [

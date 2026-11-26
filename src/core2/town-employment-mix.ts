@@ -226,7 +226,7 @@ const LOCAL_GROUP_WORKPLACES: Readonly<
 /**
  * Every workplace's share of the town's jobs in this world: the sourced mix
  * with each sector's and public group's jobs moved once by the world's own
- * offset (owner, Oct 27: realistic, not real). Play reads this.
+ * offset. Play reads this.
  */
 export function townWorkplaceWeights(
   town: EntityId,

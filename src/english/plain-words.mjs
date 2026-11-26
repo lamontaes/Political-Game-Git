@@ -2,7 +2,7 @@
 // (engine map line 19; duplicates report W8 and M9). Plain JavaScript so the play
 // screen, served as it is written, imports it as the server's code does.
 
-/** The day of an ISO date ("2025-01-20", or the date part of a longer stamp) at noon UTC. */
+/** The day of an ISO date at noon UTC. */
 const noon = (iso) => new Date(`${String(iso).slice(0, 10)}T12:00:00Z`);
 
 /** The months' names, January first. */
@@ -14,8 +14,8 @@ export const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
 );
 
 /**
- * A day in words: "January 20, 2025". `weekday` says the day of the week first;
- * `month: "short"` says "Jan 20"; `year: false` leaves the year out, and `year` set to
+ * A day in words: "". `weekday` says the day of the week first; `month:
+ * "short"` says ""; `year: false` leaves the year out, and `year` set to
  * today's ISO date says it only when the day falls in another year.
  */
 export function dateWords(

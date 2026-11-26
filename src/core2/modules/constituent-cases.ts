@@ -341,9 +341,9 @@ export function bringCases(api: CoreAPI): void {
   }
   // The wider population brings problems from the same records: a counted
   // resident out of work, with the cushion their group's fund leaves them.
-  // They stay counted (two-level population, owner, Oct 11): the case is kept
-  // by their id and decided by the same rule, and they are filled in only
-  // when the official who hears it is the player, or the player opens them.
+  // They stay counted: the case is kept by their id and decided by the same
+  // rule, and they are filled in only when the official who hears it is the
+  // player, or the player opens them.
   if (local.length)
     for (const seeker of countedOutOfWork(api, town)) {
       if (recent(seeker.personId)) continue;

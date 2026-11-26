@@ -2,20 +2,20 @@
  * Speeches (M4-04): reception and retelling. A speech is recorded as heard by
  * its audience; the views engine moves each listener's stance on its topic by
  * the speaker's standing with them (`standingWith`), and the drives engine
- * may turn it into a cause. Then each listener decides, through the core's one
- * chooser, whether to retell it at home, from how far it moved them, how
+ * may turn it into a cause. Then each listener decides, through the core's
+ * one chooser, whether to retell it at home, from how far it moved them, how
  * closely they follow politics and their temperament; a retelling reaches
- * their household and the ties they have outside it, and moves them the same way. A listener with nobody at home
- * or in their ties outside the audience has no one to tell and weighs nothing. The wording of the speech is GOV's (`giveSpeech`) and the English
- * engine's; this engine records who heard it and what it did.
- *
- * Word of what someone did spreads the same way (CTO, Nov 17: "word of what you did spreads
- * from the people who saw it"). An act on the list people talk about (`src/core2/data/speech/word-kinds.json`)
- * is weighed by each of those who saw it with the same choice, from how hard it struck them;
- * a retelling reaches the same people, and each hearer who believes it learns who told them
- * (`word:<event>:heardFrom`) and is a witness of it at one remove (`word.retold`), which the
- * drives engine reads as it reads the act. What a person knows of someone is what they saw
- * and what they were told: there is no reputation table.
+ * their household and the ties they have outside it, and moves them the same
+ * way. A listener with nobody at home or in their ties outside the audience
+ * has no one to tell and weighs nothing. The wording of the speech is GOV's
+ * (`giveSpeech`) and the English engine's; this engine records who heard it
+ * and what it did. Word of what someone did spreads the same way. An act on
+ * the list people talk about (`src/core2/data/speech/word-kinds.json`) is
+ * weighed by each of those who saw it with the same choice, from how hard it
+ * struck them; a retelling reaches the same people, and each hearer who
+ * believes it learns who told them (`word:<event>:heardFrom`) and is a
+ * witness of it at one remove (`word.retold`), which the drives engine reads
+ * as it reads the act. What a person knows of someone is what they saw and what they were told: there is no reputation table.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -252,9 +252,9 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
       "A speech given in the simulation; its audience is the people recorded present.",
     asOf: api.state.date,
   };
-  // Level of detail (owner, Nov 9): in a world candidate's speech, hearers
-  // nobody watches are applied once per group of like hearers; the rest hear
-  // it as people.
+  // Level of detail: in a world candidate's speech, hearers nobody watches are
+  // applied once per group of like hearers; the rest hear it as people.
+
   const grouped =
     speech.groupUnwatched && speech.speakerId !== api.state.playerId;
   const audienceIds = grouped
@@ -540,11 +540,11 @@ export function retellingsOf(
 
 /**
  * A speech's retellings are kept as rows for speechRetellingKeptDays, then
- * dropped (owner, Oct 29: old records fold into summaries): nothing in play
- * reads a retelling after the speech's own day; what a hearer was told of an
- * act stays in their knowledge (`heardFrom`). The speech's address row stays,
- * since a speaker's addresses are counted (`addressesGivenBy`). Each day looks
- * up only the retellings weighed that many days before, by date.
+ * dropped: nothing in play reads a retelling after the speech's own day; what
+ * a hearer was told of an act stays in their knowledge (`heardFrom`). The
+ * speech's address row stays, since a speaker's addresses are counted
+ * (`addressesGivenBy`). Each day looks up only the retellings weighed that
+ * many days before, by date.
  */
 function forgetOldRetellings(api: CoreAPI): void {
   const date = addDays(

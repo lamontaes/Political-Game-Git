@@ -135,7 +135,7 @@ export function worldWinnerShare(
       );
 }
 
-/** The race's real result in this world (owner: recognizable with drift), or null where the research does not have it. */
+/** The race's real result in this world, or null where the research does not have it. */
 export function recordedRaceShare(
   seed: string,
   race: PastRace,

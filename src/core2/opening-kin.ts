@@ -473,9 +473,9 @@ export function buildOpeningKin(
     const adults = household.members.filter((row) => row.role === "adult");
     const children = household.members.filter((row) => row.role === "child");
 
-    // No two relatives share a full name (owner, Nov 16: partner and sister
-    // were both "Ashley Lucas"): a name already carried by someone in this
-    // household or its kin is drawn again with that given name taken.
+    // No two relatives share a full name: a name already carried by someone in
+    // this household or its kin is drawn again with that given name taken.
+
     const usedNames = new Set(
       household.members.flatMap((row) =>
         row.givenName ? [fullNameKey(row.givenName, row.familyName)] : [],
@@ -697,9 +697,9 @@ export function buildOpeningKin(
           relate(parent, child, R.grandparent, R.grandchild);
       }
       addParents(adult.id, parents);
-      // Parents still married live together as partners, so the engines
-      // that read couples (moves, births) see them as one (every life is
-      // simulated, owner, Nov 1).
+      // Parents still married live together as partners, so the engines that read
+      // couples (moves, births) see them as one.
+
       if (!apart && parents.length === p("two")) {
         const [a, b] = [...parents].sort((x, y) => x.id.localeCompare(y.id));
         out.partnerLinks.push({

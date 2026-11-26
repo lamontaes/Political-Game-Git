@@ -1,30 +1,30 @@
 /**
- * The one outline planner every speech goes through (words composer, unit 3,
- * docs/design/words-composer.md; owner, Nov 12: "don't only just make changes
- * just for the president's speech. This should apply to all speeches ... the
- * problem is the engine"). The President's inaugural and State of the Union,
- * a governor's State of the State and a mayor's State of the City are each a
- * row of `src/director/data/speech-outlines.json`: its sections in order, how many points
- * and asks it carries, whether its asks are numbered and whether the past
- * year may be told as the speaker's own record. The planner reads the row and
- * the world and returns the blocks `composeBlocks` words:
+ * The one outline planner every speech goes through. The President's
+ * inaugural and State of the Union, a governor's State of the State and a
+ * mayor's State of the City are each a row of
+ * `src/director/data/speech-outlines.json`: its sections in order, how many
+ * points and asks it carries, whether its asks are numbered and whether the
+ * past year may be told as the speaker's own record. The planner reads the
+ * row and the world and returns the blocks `composeBlocks` words: - **One
+ * theme**: the bill catalog's subject the speaker's own signature issues, the
+ * strength of their stands and the world's conditions point to (`themeOf`).
+ * Only that subject's points, asks and figures are said. - **Each point is
+ * context, stand, ask**: one sentence from the world's records over a span
+ * (how long, how much), then the speaker's stand on it, then the asks. -
+ * **Each ask once, to the level that can act**, ranked by the speaker's own
+ * signature issues in the theme first, so asks differ between worlds and no
+ * one question leads every speech ("why is it always stock trading?"). - **No
+ * home state**, and an inaugural tells no record the speaker did not make
+ * ("is he gloating from his predecessor?"). The research behind the rows is
+ * docs/research/speech-structure-.md. Nothing here reads a dice roll; ties go
+ * by name.
  *
- * - **One theme** (owner, Nov 12: "There's no theme for the speech. That's a
- *   problem."): the bill catalog's subject the speaker's own signature
- *   issues, the strength of their stands and the world's conditions point to
- *   (`themeOf`). Only that subject's points, asks and figures are said.
- * - **Each point is context, stand, ask** (owner, Nov 12, 1:05 a.m.: "it's
- *   okay if context is given ... that just establishes context in a smooth
- *   way"): one sentence from the world's records over a span (how long, how
- *   much), then the speaker's stand on it, then the asks.
- * - **Each ask once, to the level that can act**, ranked by the speaker's own
- *   signature issues in the theme first, so asks differ between worlds and no
- *   one question leads every speech ("why is it always stock trading?").
- * - **No home state**, and an inaugural tells no record the speaker did not
- *   make ("is he gloating from his predecessor?").
  *
- * The research behind the rows is docs/research/speech-structure-2026-11-12.md.
- * Nothing here reads a dice roll; ties go by name.
+ *
+ *
+ *
+ *
+ *
  */
 import { factsMadeWith } from "./life-news";
 import { coreAPI } from "../core2/state";
@@ -292,10 +292,10 @@ export function macroMonths(core: CoreState): {
 }
 
 /**
- * What the story can say about each of the country's subjects: the claims
- * its record supports, in words and never as a figure (owner, Oct 27: "No,
- * none of that real data in there"; Nov 1: "I don't like where this part of
- * the speech where it just laces statistics").
+ * What the story can say about each of the country's subjects: the claims its
+ * record supports, in words and never as a figure.
+ *
+ *
  */
 /** The areas of the term read the address can tell besides work and prices, which the macro months already tell. */
 const AREA_TOPICS = TERM_AREAS.filter(
@@ -378,14 +378,14 @@ function subjectWords(
 
 /**
  * The world's names and subjects any part of the address may say, each from
- * its record (owner, Nov 11: "a ton of different inserts ... This introduces
- * people to their world"): the Vice President and the Speaker by name (said
- * with their title at first mention and by role after, in `composeBlocks`),
- * the President's last office, and the theme's hardest and best subject in
- * words (the one of the theme's measures that moved furthest the wrong way,
- * and the right way). A part says what it needs of these and is left out
- * where the record holds none. No home state and no ask: the theme's asks are
- * said in their own section, to the level that can act.
+ * its record: the Vice President and the Speaker by name (said with their
+ * title at first mention and by role after, in `composeBlocks`), the
+ * President's last office, and the theme's hardest and best subject in words
+ * (the one of the theme's measures that moved furthest the wrong way, and the
+ * right way). A part says what it needs of these and is left out where the
+ * record holds none. No home state and no ask: the theme's asks are said in
+ * their own section, to the level that can act.
+ *
  */
 function worldFacts(
   core: CoreState,
@@ -410,8 +410,8 @@ function worldFacts(
     factsMadeWith(core, president.id as PersonId).find(
       (row) => row.kind === kindKey,
     );
-  // No home state: a speech names a place only where its section is about
-  // that place (owner, Nov 12: "Why Georgia?").
+  // No home state: a speech names a place only where its section is about that
+  // place.
   const prior = past(PRESIDENT_FACT.priorOffice);
   if (prior?.facts?.title)
     facts["prior-office"] = fact(prior.facts.title, prior.id);
@@ -768,12 +768,12 @@ function standOn(
   power: { readonly allowed: boolean; readonly source: string },
   jurisdiction: string,
 ): Stand[] {
-  // A question the laws engine holds no row for in this jurisdiction is
-  // open: no law answers it yes (Nov 12: eleven of the 23 federal
-  // questions had no row, so every President spoke to the same twelve and
-  // the same three asks led every address). The stand cites the powers
-  // record that lets this level answer it.
-  // stopgapId: SG-WORDS-speech-unseeded-law-open
+  // A question the laws engine holds no row for in this jurisdiction is open:
+  // no law answers it yes. The stand cites the powers record that lets this
+  // level answer it. stopgapId: SG-WORDS-speech-unseeded-law-open
+
+
+
   const law = power.allowed
     ? (lawOn(api, question, jurisdiction) ?? {
         id: power.source,
@@ -871,9 +871,9 @@ export interface Block {
   readonly key: string;
   readonly level: OpeningLevel;
   /**
-   * The part of the address the block is said in: the talk box plays one
-   * part per Continue (owner, Oct 28 sitting, 11 and 41: "Each Continue can
-   * carry a paragraph"). Blocks with the same part are one paragraph.
+   * The part of the address the block is said in: the talk box plays one part
+   * per Continue. Blocks with the same part are one paragraph.
+   *
    */
   readonly part: number;
   readonly facts: Facts;
@@ -987,11 +987,11 @@ const KEEPS_CAPITAL =
 
 /**
  * The wordings of how a question stands that make a different point from the
- * belief said beside them (the words lead, Nov 12: "judged by people who
- * have done the job" followed at once by "to people who know the work"): the
- * ones that share the fewest subject words with the belief and what the
- * speech said before it, by the composed check's own reader, in their order.
- * Every wording when nothing was said before.
+ * belief said beside them: the ones that share the fewest subject words with
+ * the belief and what the speech said before it, by the composed check's own
+ * reader, in their order. Every wording when nothing was said before.
+ *
+ *
  */
 function apartFrom(
   wordings: readonly string[],
@@ -1036,10 +1036,10 @@ function beliefWords(
   /** The points (question-names.json `points`) the belief must not make: the ones every wording of how the question stands makes. */
   avoid: ReadonlySet<string> = new Set(),
 ): { text: string; piece: string } | null {
-  // Only a principle the question's own row says argues this side (the
-  // words lead, Nov 12): the family and pole's clauses, by their place in
-  // key order; otherwise the side's own reason, which is said even where
-  // the bank holds no belief clause for this kind and voice.
+  // Only a principle the question's own row says argues this side: the family
+  // and pole's clauses, by their place in key order; otherwise the side's own
+  // reason, which is said even where the bank holds no belief clause for this
+  // kind and voice.
   const { principles, reason } = questionReasons(question, side);
   const own =
     reason && !avoid.has(questionPoint(question, reason))
@@ -1268,13 +1268,13 @@ function billQuestions(bill: BillRow): string[] {
 }
 
 /**
- * A hurt address's answer to its worst condition (the words lead, Nov 12: "a
- * hurt address answers its own bad news"), from the speaker's records in that
- * condition's area, in this order: a question a bill they sponsored answers,
- * where they hold a view on it; a question or budget line they back; any
- * other view they hold there. Each by how strongly they hold it, then by
+ * A hurt address's answer to its worst condition, from the speaker's records
+ * in that condition's area, in this order: a question a bill they sponsored
+ * answers, where they hold a view on it; a question or budget line they back;
+ * any other view they hold there. Each by how strongly they hold it, then by
  * question. Null when the records hold none, and the address owns that
  * nothing is yet proposed.
+ *
  */
 function responseOf(
   core: CoreState,
@@ -1324,9 +1324,9 @@ const QUESTION_LEVELS: ReadonlyMap<string, readonly string[]> = new Map(
 /**
  * Whether a speaker at this level speaks to a question: a question the
  * catalog gives to the states as well as the nation is the governors' to
- * speak to, so the President speaks only to the nation's own (owner, Nov 12:
- * "If it's a federal law, it's a federal law"; its "today" sentence is about
- * the states, not the country).
+ * speak to, so the President speaks only to the nation's own.
+ *
+ *
  */
 function speaksTo(level: PolicyLevel, question: string): boolean {
   const levels = QUESTION_LEVELS.get(question) ?? [];
@@ -1341,11 +1341,11 @@ export function subjectOf(question: string): string | null {
 }
 
 /**
- * The theme a question sits under: its family, the principle both sides of
- * it argue from (question-names.json `family`). A speech is about one
- * principle, so every point it makes is argued from the same belief (the
- * words lead, Nov 12: abortion, then housing discrimination, then teacher
- * pay, "with nothing joining them").
+ * The theme a question sits under: its family, the principle both sides of it
+ * argue from (question-names.json `family`). A speech is about one principle,
+ * so every point it makes is argued from the same belief.
+ *
+ *
  */
 export function themeOfQuestion(question: string): string | null {
   return questionFamily(question)?.family ?? null;
@@ -1434,12 +1434,12 @@ function themeStands(
     const facets = OUTLINES.subjectPull[subjectOf(stand.question) ?? ""];
     return person && Array.isArray(facets) ? traitSum(person, facets) : P.zero;
   };
-  // One pole per speaker (the words lead, Nov 12: a governor argued
-  // "families deserve protection" for one veto and "free people in a free
-  // market" for the next): every stand a speech makes under a theme is
-  // argued from the same pole of its principle, the one the speaker holds
-  // most strongly there; a stand on the other pole is left out of the
-  // speech, so the theme counts only the points it can argue consistently.
+  // One pole per speaker: every stand a speech makes under a theme is argued
+  // from the same pole of its principle, the one the speaker holds most
+  // strongly there; a stand on the other pole is left out of the speech, so
+  // the theme counts only the points it can argue consistently.
+
+
   const under = stands.filter(
     (stand) => themeOfQuestion(stand.question) === theme,
   );
@@ -1537,26 +1537,26 @@ export function themeOf(
  * from the engines that keep them, each with its direction and no figure
  * (SG-WORDS-local-address-conditions). A condition is said only where it
  * bears on the speech's one theme or is the government's biggest fact this
- * year (the lead, Nov 12: the same budget sentence said by a mayor, a county
- * chair and the governor, and a law "folks are already feeling" that had
- * nothing to do with the speech):
+ * year: - the budget's balance this fiscal year (budgets.ts: the latest
+ * budget of the speaker's government, what it takes in against what it
+ * spends), as ahead, about even or short, and against the year before as
+ * better, worse or about the same (the band from speech-outlines.json
+ * `conditions`). It is said when it is short (a deficit is the year's biggest
+ * fact), when the theme is one of `budgetThemes`, or when a point asks for a
+ * line of the budget; - a law of the speaker's jurisdiction that took effect
+ * in the past year, by its spoken name, only when its question is under the
+ * theme and the law-reach records show it has reached people here
+ * (`reachedBy`), which the sentence cites; - a disaster declared for the
+ * place in the past year (disasters.ts), for a local head only, or a
+ * statewide one for a governor. Jobs and a big employer's change are not
+ * read: no engine keeps a town's or a state's own year-over-year jobs record
+ * the speech could cite.
  *
- * - the budget's balance this fiscal year (budgets.ts: the latest budget of
- *   the speaker's government, what it takes in against what it spends), as
- *   ahead, about even or short, and against the year before as better,
- *   worse or about the same (the band from speech-outlines.json
- *   `conditions`). It is said when it is short (a deficit is the year's
- *   biggest fact), when the theme is one of `budgetThemes`, or when a point
- *   asks for a line of the budget;
- * - a law of the speaker's jurisdiction that took effect in the past year,
- *   by its spoken name, only when its question is under the theme and the
- *   law-reach records show it has reached people here (`reachedBy`), which
- *   the sentence cites;
- * - a disaster declared for the place in the past year (disasters.ts), for
- *   a local head only, or a statewide one for a governor.
  *
- * Jobs and a big employer's change are not read: no engine keeps a town's
- * or a state's own year-over-year jobs record the speech could cite.
+ *
+ *
+ *
+ *
  */
 /** How a line of the budget is keyed as a question (contest-positions.ts, law-reach). */
 const BUDGET_LINE = "budget-line:";
@@ -1902,12 +1902,12 @@ function yearsBetween(api: CoreAPI, from: string, to: string): number {
 }
 
 /**
- * The context of a measure, from the world's records over a span (owner,
- * Nov 12: "for 30 years we've suffered from terrible inflation, averaging out
- * to over 12% per year"): how many whole years the macro engine's months
- * cover, and the measure's average over them. For an area of the term read,
- * the years since the speaker took office. Empty when the span is too short
- * to say.
+ * The context of a measure, from the world's records over a span: how many
+ * whole years the macro engine's months cover, and the measure's average over
+ * them. For an area of the term read, the years since the speaker took
+ * office. Empty when the span is too short to say.
+ *
+ *
  */
 function contextFacts(
   core: CoreState,
@@ -1937,7 +1937,7 @@ function contextFacts(
   const span = months.slice(-years * api.parameter("macroMonthsPerYear"));
   const ids = [span[P.zero]!.id, span.at(-P.one)!.id];
   // Which way the measure went over the span, first month to last: said in
-  // words, never as a figure (the Story lead's read of #9831, Nov 17).
+  // words, never as a figure.
   const measure: Record<string, (row: MacroMonth) => number> = {
     inflation: (row) => row.priceIndex,
     unemployment: (row) => row.unemploymentPct,
@@ -2056,7 +2056,7 @@ export function planSpeech(
   const themePoints = theme
     ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
     : [];
-  // The kind of address (owner, Nov 8), from the world and the speaker.
+  // The kind of address, from the world and the speaker.
   const situation = addressSituation(core, {
     macroSlide: country.macroSlide,
     areas: country.areas,
@@ -2066,16 +2066,16 @@ export function planSpeech(
   const firstYear =
     daysBetweenText(speaker.serviceStart, core.date) <
     api.parameter("daysPerMeanYear");
-  // The term's worst condition (the words lead, Nov 12: "the kind decides
-  // what the address is about, the speaker's issues decide only what they do
-  // about it"), read from the same records that score the crisis and
-  // combative kinds (HURT_KINDS). A hurt address states it, answers it from
-  // the speaker's own record, then turns to its theme (the words lead's rule
-  // 2), so the condition it opens on is the worst one it can say (over the
-  // speaker's years in office, or by its own figure) and the speaker holds a
-  // stand on (\`responseOf\`): in Supreme, Louisiana (seed f60661c6f1578a5f)
-  // a governor named the assaults and went on to something else. With none,
-  // the address takes neither kind.
+  // The term's worst condition, read from the same records that score the
+  // crisis and combative kinds (HURT_KINDS). A hurt address states it,
+  // answers it from the speaker's own record, then turns to its theme (the
+  // words lead's rule 2), so the condition it opens on is the worst one it
+  // can say (over the speaker's years in office, or by its own figure) and
+  // the speaker holds a stand on (\`responseOf\`): in Supreme, Louisiana
+  // (seed f60661c6f1578a5f) a governor named the assaults and went on to
+  // something else. With none, the address takes neither kind.
+
+
   const sayable = (topic: string) =>
     !!contextFacts(core, topic, country, speaker.serviceStart)[
       `context-${topic}`
@@ -2101,10 +2101,10 @@ export function planSpeech(
       ? crisisTopic
       : null;
   const response = crisis ? answered!.response : null;
-  // The world's story the address opens on, before the speaker's own issues
-  // (address-story.ts; owner, Nov 16: "maybe it's warning because ... the
-  // economy's been terrible ... or maybe corruption"): its row orders the
-  // sections, so a warning and a brag do not share a skeleton.
+  // The world's story the address opens on, before the speaker's own issues:
+  // its row orders the sections, so a warning and a brag do not share a
+  // skeleton.
+
   const story = storyOf(
     core,
     {
@@ -2161,10 +2161,10 @@ export function planSpeech(
         (country.movement[b] ?? P.zero) - (country.movement[a] ?? P.zero) ||
         a.localeCompare(b),
     );
-  // A figure joins a point only when the question's own row names the
-  // measure as bearing on it and helping the speaker's side (question-names
-  // `figures`; the words lead, Nov 12: grocery prices led into the debt
-  // limit). Each measure is told once, at the first point it may join.
+  // A figure joins a point only when the question's own row names the measure
+  // as bearing on it and helping the speaker's side. Each measure is told
+  // once, at the first point it may join.
+
   const topicOf = new Map<string, string>();
   for (const stand of pointStands) {
     const used = new Set(topicOf.values());
@@ -2266,10 +2266,10 @@ export function planSpeech(
             avoid,
           )
         : null;
-    // What a wording claims (question-names.json `points`): a paragraph
-    // never makes one point twice (the lead, Nov 12: "a complaint goes up
-    // the chain of command, to people who know the work. Because I believe
-    // an officer should be judged by people who have done the job").
+    // What a wording claims (question-names.json `points`): a paragraph never
+    // makes one point twice.
+
+
     const pointOf = (text: string) => questionPoint(stand.question, text);
     const wordings = questionTodayWordings(
       stand.question,
@@ -2302,12 +2302,12 @@ export function planSpeech(
     );
     // The first shape in the speaker's order that the point can open on and no
     // earlier point of the speech opened on: a shape says something about the
-    // point, so one the point cannot bear stays unpicked (the second reader,
-    // Nov 14). The question first needs a wording its question can be
-    // asked of; and one who defends what
-    // is in force (a supporter of a law in force, an opponent of one not) asks
-    // "Why would we change course, when ..." only of a wording that is not a
-    // complaint.
+    // point, so one the point cannot bear stays unpicked. The question first
+    // needs a wording its question can be asked of; and one who defends what
+    // is in force (a supporter of a law in force, an opponent of one not)
+    // asks "Why would we change course, when..." only of a wording that is
+    // not a complaint.
+
     const defends = stand.stance > P.zero === stand.law.inForce;
     const fits = (name: string) =>
       name === "question-first"
@@ -2391,14 +2391,14 @@ export function planSpeech(
       SUBJECT_WORDS.of(text).filter((word) => said.includes(word)).length <
       OUTLINES.theme.closeSharedWordsLeast.value;
     return {
-      // The address's own hour, an ask said in it, and whether the speaker's
-      // party holds the body (the Words lead's closes, Nov 16).
+      // The address's own hour, an ask said in it, and whether the speaker's party
+      // holds the body.
       ...closeHour,
       ...(asks.length
         ? {
             asked: fact("yes", cited),
-            // Which side the ask took, so a close that holds the speaker to
-            // it says the side the speech asked for (CTO, Nov 19).
+            // Which side the ask took, so a close that holds the speaker to it says the
+            // side the speech asked for.
             [`asked-${side}`]: fact("yes", cited),
             // The ask's own question by its name, said in the close.
             ...(questionAbout(first.question)
@@ -2602,22 +2602,22 @@ export function planSpeech(
         moves: [move("history")],
       },
     ],
-    // Each point, one paragraph (owner, Nov 12: "disjointed statements put
-    // together"), in one of several shapes (`pointShapes`): how its question
-    // stands today, as the speaker's side describes it; its figure, only
-    // where the question's row lets that side use one, tied to the question;
-    // what the speaker believes, by the question's family and the speaker's
-    // pole of it; and the ask, plainly for or against.
+    // Each point, one paragraph, in one of several shapes (`pointShapes`): how
+    // its question stands today, as the speaker's side describes it; its
+    // figure, only where the question's row lets that side use one, tied to
+    // the question; what the speaker believes, by the question's family and
+    // the speaker's pole of it; and the ask, plainly for or against.
+
     theme: () => {
       // A crisis or combative address's first point is the term's worst
       // condition, said with its fact; its answer from the speaker's record
       // follows in the same paragraph, then a turn to the theme (hurtOrder).
       const crisisDrafts = crisis ? [crisisDraft(crisis)] : [];
-      // A number of years is said once in an address (words lead, Nov 14,
-      // rule 39): the first figure that says it keeps it, and a later point
-      // goes without a figure.
-      // A good term says one good thing from the record first (rule 48),
-      // in an area no point's figure tells again.
+      // A number of years is said once in an address: the first figure that says it
+      // keeps it, and a later point goes without a figure. A good term says
+      // one good thing from the record first (rule 48), in an area no point's
+      // figure tells again.
+
       const figured = new Set(
         pointStands.map((stand) => topicOf.get(stand.question)),
       );
@@ -2711,9 +2711,9 @@ export function planSpeech(
                     : []),
                 ]
               : [];
-          // One turn line between two points, never before the first (the
-          // Words lead, Nov 16, rule 3): the next point said by its plain
-          // name. A hurt address's turn to its theme is hurtOrder's.
+          // One turn line between two points, never before the first: the next point
+          // said by its plain name. A hurt address's turn to its theme is
+          // hurtOrder's.
           const last = pointStands[at - P.one];
           const turns =
             !!last &&
@@ -2847,10 +2847,10 @@ export function planSpeech(
         {
           key: "close",
           level: "close",
-          // Its own paragraph: the close returns to the theme in one sentence.
-          // A close never says the ask again in the words the speech used
-          // (words lead, Nov 14, rule 41): only a floor speech or a stump
-          // speech, which has the one ask, still ends on it.
+          // Its own paragraph: the close returns to the theme in one sentence. A close
+          // never says the ask again in the words the speech used: only a
+          // floor speech or a stump speech, which has the one ask, still ends
+          // on it.
           facts: (closing && SAYS_ASK_AGAIN.has(kind)
             ? {
                 "first-side": fact(
@@ -2874,8 +2874,8 @@ export function planSpeech(
       ].map((draft): Draft => ({
         ...draft,
         level: "close",
-        // A close says the ask, not the ledger: a budget line's spending is
-        // said in its own point (the words lead, Nov 12, on Groton's close).
+        // A close says the ask, not the ledger: a budget line's spending is said in
+        // its own point.
         facts: { ...draft.facts, ...closeFacts() } as Facts,
       })),
   };
@@ -2896,10 +2896,10 @@ export function planSpeech(
     // is left out before the paragraphs are counted, so the greeting joins
     // what is actually said next.
     .filter((draft) => draft.moves.some(Boolean));
-  // The world's names and the theme's subjects, which every part may say.
-  // A governor or a mayor says the place by name and the theme in words
-  // (the words lead, Nov 12: "this state" eight times, the state's name never).
+  // The world's names and the theme's subjects, which every part may say. A
+  // governor or a mayor says the place by name and the theme in words.
   // stopgapId: SG-WORDS-local-address-conditions
+
   if (!federal) markWordsStopgap("SG-WORDS-local-address-conditions");
   const realm = federal
     ? null
@@ -2952,8 +2952,8 @@ export function planSpeech(
   // one before it.
   let part = -P.one;
   // The body is named in the greeting and in the first ask; after that it is
-  // "this council" or "this board" (words lead, Nov 14, rule 40: never named
-  // five times).
+  // "this council" or "this board".
+
   const bodyAgain = local?.body
     ? fact(
         `this ${local.body.replace(/^the /, "")}`,

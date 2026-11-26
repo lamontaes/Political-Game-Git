@@ -1,12 +1,12 @@
 /**
- * Which scene endings keep a promise (Words lead brief T, Nov 14 2026).
- *
- * A scene ending that keeps a promise names its kind and its tie on its
- * `scene.reply` record (`promiseReplyFacts`, from
- * `src/director/data/promise-endings.json`). The promises engine
- * (src/core2/modules/promises.ts) keeps the promise from that record,
- * settles it and moves the tie; the director only words it
+ * Which scene endings keep a promise. A scene ending that keeps a promise
+ * names its kind and its tie on its `scene.reply` record
+ * (`promiseReplyFacts`, from `src/director/data/promise-endings.json`). The
+ * promises engine (src/core2/modules/promises.ts) keeps the promise from that
+ * record, settles it and moves the tie; the director only words it
  * (promise-talk.ts).
+ *
+ *
  */
 import { P } from "../core2/parameters";
 import { PROMISE_FACT, kindOf } from "../core2/modules/promises";

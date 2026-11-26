@@ -1,8 +1,8 @@
 /**
  * The one school calendar every child shares: kindergarten the fall after a
- * child is five by September 1, a school year from the first Monday on or
- * after August 24 to the Friday of its fortieth week. Moved from the old
- * engine's `school-calendar.ts`.
+ * child is five by, a school year from the first Monday on or after to the
+ * Friday of its fortieth week. Moved from the old engine's
+ * `school-calendar.ts`.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import type { IsoDate } from "./kernel/brands";
@@ -32,8 +32,8 @@ export function kindergartenYear(birthDate: IsoDate): number {
 
 /**
  * The first day of the school year that starts in `year`: the first Monday on
- * or after August 24. Every child in a district shares it, so classmates start
- * and finish together; nothing is drawn per child or per school (A140).
+ * or after. Every child in a district shares it, so classmates start and
+ * finish together; nothing is drawn per child or per school (A140).
  */
 function termStartsIn(year: number): IsoDate {
   const { month, day } = SCHOOL_STAGE_CALENDAR.termStarts;

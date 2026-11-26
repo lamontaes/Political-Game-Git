@@ -2,24 +2,24 @@
  * M1-03 golden-path check, state and metro economies, in a played world. Uses
  * GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY from the runner. The drawn place
  * is built as the player gets it (`buildBenchWorld`, every module installed)
- * and plays one game year from its opening month. Passes when:
- * (1) two states drawn from the seed change in jobs and in pay between the
- *     opening December and the next December, differently from each other
- *     (at the published precision). UNCHECKED (owner, Nov 8: real ranges are
- *     not targets): the 5th to 95th percentile of the real December-over-
- *     December state changes (BLS CES state series, in
- *     data/research/regional/series/stats.json) is printed beside the
- *     changes and the count of states outside it, and never tested, because
- *     the regional cycle has no recorded cause to test a value against yet
- *     (Money);
- * (2) the town sits in a region of its own state, and the prices and pay it
- *     was given (the finance conditions every engine reads) are the
- *     nation's moved by that region's own price level and pay since the
- *     opening;
- * (3) every state's and metro's opening figures in the played world are the
- *     real ones (BLS LAUS unemployment, BLS CES jobs, BEA regional price
- *     parities; src/core2/data/regional/regions.json carries the series).
- * Exits nonzero naming each failed clause.
+ * and plays one game year from its opening month. Passes when: (1) two states
+ * drawn from the seed change in jobs and in pay between the opening December
+ * and the next December, differently from each other (at the published
+ * precision). UNCHECKED: the 5th to 95th percentile of the real
+ * December-over- December state changes (BLS CES state series, in
+ * data/research/regional/series/stats.json) is printed beside the changes and
+ * the count of states outside it, and never tested, because the regional
+ * cycle has no recorded cause to test a value against yet (Money); (2) the
+ * town sits in a region of its own state, and the prices and pay it was given
+ * (the finance conditions every engine reads) are the nation's moved by that
+ * region's own price level and pay since the opening; (3) every state's and
+ * metro's opening figures in the played world are the real ones (BLS LAUS
+ * unemployment, BLS CES jobs, BEA regional price parities;
+ * src/core2/data/regional/regions.json carries the series). Exits nonzero
+ * naming each failed clause.
+ *
+ *
+ *
  */
 import { createHash } from "node:crypto";
 import regionsData from "../data/regional/regions.json" with { type: "json" };
@@ -89,11 +89,11 @@ const drawn = [first, second].map((fips) => ({
 const jobBand = stats.stateOneYearJobGrowthPct,
   payBand = stats.stateOneYearPayGrowthPct;
 // The real spread is printed beside the drawn states' changes below and how
-// many states sat outside it, never tested against (owner, Nov 8: real ranges
-// are not targets). Each state's change is its own region's national-growth
-// times its sector mix, so the cause a value could be tested against is the
-// regional model's, which has none recorded yet (Money).
-// BLS publishes one-year percent changes to one decimal: states that read the same there have not diverged.
+// many states sat outside it, never tested against. Each state's change is
+// its own region's national-growth times its sector mix, so the cause a value
+// could be tested against is the regional model's, which has none recorded
+// yet (Money). BLS publishes one-year percent changes to one decimal: states
+// that read the same there have not diverged.
 const published = (value: number) => Math.round(value * 10) / 10;
 if (published(drawn[0]!.jobsPct) === published(drawn[1]!.jobsPct))
   failures.push(

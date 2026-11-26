@@ -1,12 +1,12 @@
 /**
- * P15 part 5: meeting new people through real encounters (owner's ruling,
- * October 10, 2026). A visit to someone meets the people who live with them;
- * joining a group meets its other members. Each meeting is a dated fact naming
- * the place and the other person, and the first tie holds the hours spent
- * together, so closeness grows only through later contact. A new hire
- * meets the coworkers already working there. A resident who speaks at public comment meets the members of the
- * body who hear them. Two people who talk meet each
- * other.
+ * P15 part 5: meeting new people through real encounters. A visit to someone
+ * meets the people who live with them; joining a group meets its other
+ * members. Each meeting is a dated fact naming the place and the other
+ * person, and the first tie holds the hours spent together, so closeness
+ * grows only through later contact. A new hire meets the coworkers already
+ * working there. A resident who speaks at public comment meets the members of
+ * the body who hear them. Two people who talk meet each other.
+ *
  */
 import data from "./data/encounters.json" with { type: "json" };
 import type { CoreAPI } from "./types";

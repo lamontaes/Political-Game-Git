@@ -1,14 +1,14 @@
 /**
- * Money quarrels at home (Lives, Nov 8, 2026): when a borrower misses a
- * payment (the credit engine's `credit.payment-missed`) and a grown person
- * shares their home, the missed payment is the household's trouble too. The
- * housemate closest to the borrower (the tie's closeness today, the lowest id
- * breaking a tie) is wronged by it; `family.quarrel` names the two, says the
- * borrower owes the apology, and strains their tie (negative time together,
- * `quarrelStrainHours`). The director's `apology` scene reads it.
+ * Money quarrels at home: when a borrower misses a payment (the credit
+ * engine's `credit.payment-missed`) and a grown person shares their home, the
+ * missed payment is the household's trouble too. The housemate closest to the
+ * borrower (the tie's closeness today, the lowest id breaking a tie) is
+ * wronged by it; `family.quarrel` names the two, says the borrower owes the
+ * apology, and strains their tie (negative time together,
+ * `quarrelStrainHours`). The director's `apology` scene reads it. Who is
+ * wronged is the closest housemate; the pair's traits do not decide whether
+ * it becomes a quarrel (SG-LIVES-quarrel-model).
  *
- * Who is wronged is the closest housemate; the pair's traits do not decide
- * whether it becomes a quarrel (SG-LIVES-quarrel-model).
  */
 import { closenessBetween } from "../closeness";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";

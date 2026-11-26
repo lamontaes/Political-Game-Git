@@ -101,7 +101,7 @@ export function openingZoning(): Zoning {
   };
 }
 
-/** The state's building permits per thousand people in this world: the published rates (Census Building Permits Survey) moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+/** The state's building permits per thousand people in this world: the published rates (Census Building Permits Survey) moved once by the world's own offset. */
 export function permitRates(
   usps: string,
   seed: string,

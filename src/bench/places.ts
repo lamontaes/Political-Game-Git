@@ -48,15 +48,15 @@ const SCHOOL_AGE_UNDER = 19;
 const WORK_TIES = ["work", "family", "known"] as const;
 
 /**
- * The town's pictured places the player has a reason to go: where they,
- * their household or their family work, the schools while someone at home is
- * of school age, where people they know work, where they can do something
- * right now, and the state's offices while they hold an office. Each says
- * why it is listed. A town office is not listed on being a civic office
- * alone (owner, Oct 26: "Why have to travel ... Public Works Department?");
- * the offices that take the player's filings are their own cards. Not every
- * organization with a picture (owner, Oct 13: "Why would you need to visit
- * the market?").
+ * The town's pictured places the player has a reason to go: where they, their
+ * household or their family work, the schools while someone at home is of
+ * school age, where people they know work, where they can do something right
+ * now, and the state's offices while they hold an office. Each says why it is
+ * listed. A town office is not listed on being a civic office alone; the
+ * offices that take the player's filings are their own cards. Not every
+ * organization with a picture.
+ *
+ *
  */
 /** The levels of a body that meets at its town's or county's own office. */
 const LOCAL_BODIES = new Set([
@@ -178,8 +178,8 @@ export function townPlaces(
     ageOnDate(player.birthDate, core.date) < SCHOOL_AGE_UNDER;
   // Where the player has political business by the records
   // (play-travel-in-a-village-lists-no-town-office): the town's or county's
-  // office, while they hold a seat on its body or its body meets today.
-  // An office listed only for being an office stays out (owner, Oct 26).
+  // office, while they hold a seat on its body or its body meets today. An
+  // office listed only for being an office stays out.
   const civic = civicBusiness(core, playerId);
   const official = coreAPI(core)
     .moduleState(OFFICES_MODULE_ID)
@@ -192,9 +192,9 @@ export function townPlaces(
         org.placeId === player.placeId || civic.has(org.name.toLowerCase()),
     )
     .flatMap((org) => {
-      // A payer record (the town's retirement-income paying account) holds
-      // money, not a building: never a place to go (owner, Nov 16:
-      // "Grano, North Dakota retirement-income paying account" was listed).
+      // A payer record (the town's retirement-income paying account) holds money,
+      // not a building: never a place to go.
+
       if (PAYER_RECORD_CLASSIFICATIONS.has(org.classification ?? "")) return [];
       const place = orgPlace(core, org.id);
       if (!place || !hasBackdrop(place)) return [];
@@ -294,8 +294,8 @@ export function townPlaces(
     );
   // Then the town's biggest workplaces across every kind of work: each kind's
   // largest employer first, then each kind's next, by headcount from the
-  // organization and job records (owner, Nov 16: "places tied to you first,
-  // then the town's biggest workplaces across every kind of work").
+  // organization and job records.
+
   const kinds = new Map<string, typeof rows>();
   for (const row of rows.filter((r) => r.reasons.length === 0).sort(byStaff))
     kinds.set(row.kindOfWork, [...(kinds.get(row.kindOfWork) ?? []), row]);

@@ -1,9 +1,9 @@
 /**
- * The record a screen would read for a business's books (business audit,
- * owner ruling 5, Oct 14): whether a player sees another business's books is
- * the owner's open decision (registered as an owner decision), so this builds
- * the record only, from the books and the records other engines keep, and
- * holds no text. Read-only: it spends no game time and creates no facts.
+ * The record a screen would read for a business's books: whether a player
+ * sees another business's books is the owner's open decision (registered as
+ * an owner decision), so this builds the record only, from the books and the
+ * records other engines keep, and holds no text. Read-only: it spends no game
+ * time and creates no facts.
  */
 import type { CoreAPI, CoreState } from "./types";
 import { residentsRuntime } from "./modules/residents";

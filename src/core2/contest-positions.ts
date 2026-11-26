@@ -1,29 +1,29 @@
 /**
  * The positions a contest's candidates can take: the policy questions the
- * government the seat belongs to may decide in this place.
+ * government the seat belongs to may decide in this place. A seat's positions
+ * are not every question the game asks. A borough council cannot decide a
+ * state's abortion law, a state legislature cannot decide a town's zoning,
+ * and a governor takes up what the state decides. The office record says
+ * which government the seat belongs to (city, county, township, state or
+ * federal); the question data says which levels decide each question; and for
+ * a town, township or county the state's own law says which questions its
+ * places may act on. The same check the bodies file by when they sit
+ * (`levelMayDecide`), so a position offered here is a bill that body can
+ * draft. A town, township or county also decides its own budget, whatever its
+ * state lets it decide in law, and local races run on it: its seats offer
+ * each line of its government's latest budget as a position
+ * ("budget-line:<line>", more or less spent on it), the same key the
+ * council's budget vote and a voter's view read. A line nobody leans on (no
+ * recorded axis) is left out, as no stance on it can form. A local seat runs
+ * only on what its place's records hold: a question that is about a line of
+ * the local budget (src/core2/data/campaigns/local-question-records.json) is
+ * offered only where the government's latest budget spends on, or takes in,
+ * that line.
  *
- * A seat's positions are not every question the game asks. A borough council
- * cannot decide a state's abortion law, a state legislature cannot decide a
- * town's zoning, and a governor takes up what the state decides. The office
- * record says which government the seat belongs to (city, county, township,
- * state or federal); the question data says which levels decide each
- * question; and for a town, township or county the state's own law says
- * which questions its places may act on. The same check the bodies file by
- * when they sit (`levelMayDecide`), so a position offered here is a bill that
- * body can draft.
  *
- * A town, township or county also decides its own budget, whatever its state
- * lets it decide in law, and local races run on it: its seats offer each line
- * of its government's latest budget as a position ("budget-line:<line>", more
- * or less spent on it), the same key the council's budget vote and a voter's
- * view read. A line nobody leans on (no recorded axis) is left out, as no
- * stance on it can form.
  *
- * A local seat runs only on what its place's records hold (the lead, Nov 12:
- * a council candidate in a town of a few hundred campaigning on civilian
- * oversight of the police): a question that is about a line of the local
- * budget (src/core2/data/campaigns/local-question-records.json) is offered only where
- * the government's latest budget spends on, or takes in, that line.
+ *
+ *
  */
 import { questionAxis } from "./campaign-views";
 import { PLATFORM_QUESTIONS } from "./campaign-data";

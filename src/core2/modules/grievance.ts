@@ -1,31 +1,31 @@
 /**
- * Grievances between two people (world-police-patrol-and-grievance-causes,
- * part 2; design: docs/design/proposals/movements-and-unrest-2026-10-14.md,
- * unrest arises from conditions between people). A grievance is written only
- * because a recorded event hurt a named person, through the events the
- * engines that create the conflict already emit:
+ * Grievances between two people. A grievance is written only because a
+ * recorded event hurt a named person, through the events the engines that
+ * create the conflict already emit: - a layoff: the jobs engine's
+ * `work.job-lost` (src/core2/modules/jobs.ts `layOff`). The laid-off worker
+ * holds it against the person who decided. The cause record is the jobs
+ * engine's `job-change` row. - an eviction: the housing engine's
+ * `housing.eviction` (src/core2/modules/housing.ts `remove`). The evicted
+ * household's head (its oldest member) holds it against the landlord's owner.
+ * The cause record is the housing engine's eviction case. A grievance ends
+ * when its cause is undone: the same employer hires the worker again (the
+ * jobs engine's `hire` change), or the household rents again from the same
+ * landlord (the housing engine's `housing.status-changed` to housed, with the
+ * lease it signed). Detail only where the player can see it: a grievance row
+ * is written only where at least one party is a full person (the people a
+ * scene, a card or the trace can show). A dispute among the counted
+ * population writes no row: it adds to one count per place, month and cause,
+ * on the event as it fires. By the same rule for both tiers, a row and a
+ * count stand for the people the cause record stood for (`heads`, the job
+ * change's own count).
  *
- * - a layoff: the jobs engine's `work.job-lost` (src/core2/modules/jobs.ts
- *   `layOff`). The laid-off worker holds it against the person who decided
- *   (the employer's owner, or the best-paid worker who runs an ownerless
- *   firm). The cause record is the jobs engine's `job-change` row.
- * - an eviction: the housing engine's `housing.eviction`
- *   (src/core2/modules/housing.ts `remove`). The evicted household's head
- *   (its oldest member) holds it against the landlord's owner. The cause
- *   record is the housing engine's eviction case.
  *
- * A grievance ends when its cause is undone: the same employer hires the
- * worker again (the jobs engine's `hire` change), or the household rents
- * again from the same landlord (the housing engine's `housing.status-changed`
- * to housed, with the lease it signed).
  *
- * Detail only where the player can see it (owner, Nov 10, through the CTO:
- * "it has to perform like a game"): a grievance row is written only where at
- * least one party is a full person (the people a scene, a card or the trace
- * can show). A dispute among the counted population writes no row: it adds
- * to one count per place, month and cause, on the event as it fires. By the
- * same rule for both tiers, a row and a count stand for the people the cause
- * record stood for (`heads`, the job change's own count).
+ *
+ *
+ *
+ *
+ *
  */
 import { registerModule } from "../state";
 import { HOUSING_STATUS_EVENT } from "../housing-status-event";
@@ -46,7 +46,7 @@ export interface GrievanceRow {
   readonly kind: "layoff" | "eviction";
   /** The person the cause hurt (full, husk or counted, by record id). */
   readonly aggrievedId: string;
-  /** The person they hold it against, or the business where it has no owner (SG-WORLD-grievance-ownerless-landlord). */
+  /** The person they hold it against, or the business where it has no SG-WORLD-grievance-ownerless-landlord). */
   readonly againstId: string;
   /** The employer or landlord whose act caused it: the act undone by the same one ends it. */
   readonly organizationId: string;

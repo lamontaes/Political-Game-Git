@@ -94,10 +94,10 @@ function loadRows() {
 }
 
 /**
- * The row as this world has it (owner, Oct 27: realistic, not real): the
- * published rents and income limits each moved once by the world's own offset
- * for the HUD area, so rents in the world are near HUD's but never HUD's.
- * Play reads this; the `published` readers are calibration.
+ * The row as this world has it: the published rents and income limits each
+ * moved once by the world's own offset for the HUD area, so rents in the
+ * world are near HUD's but never HUD's. Play reads this; the `published`
+ * readers are calibration.
  */
 function inWorld(row: HudRentRow, seed: string): HudRentRow {
   const share =

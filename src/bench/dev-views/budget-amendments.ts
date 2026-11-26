@@ -12,13 +12,13 @@ import { townGovernment } from "../../core2/output-number-readers";
 import type { DevView } from "../dev-views";
 
 /**
- * Dev mode's Budget amendments: for the player's town government (or the one named in `government`),
- * the arithmetic that lets its body amend the adopted budget this year (what the treasury has
- * taken in a month since the year began against the months before it, the revenue planned for the
- * months closed, what is already amended in, and the room left), and each amendment bill the body
- * has filed with the cause its provision carries. It reads the one `amendmentRoom` the filing
- * reads, and the bills' own provisions, so it shows what the body acted on (owner, Nov 16:
- * everything traced by code must be traceable in dev mode).
+ * Dev mode's Budget amendments: for the player's town government (or the one
+ * named in `government`), the arithmetic that lets its body amend the adopted
+ * budget this year (what the treasury has taken in a month since the year
+ * began against the months before it, the revenue planned for the months
+ * closed, what is already amended in, and the room left), and each amendment
+ * bill the body has filed with the cause its provision carries. It reads the
+ * one `amendmentRoom` the filing reads, and the bills' own provisions, so it shows what the body acted on.
  */
 const view: DevView = {
   name: "budget-amendments",

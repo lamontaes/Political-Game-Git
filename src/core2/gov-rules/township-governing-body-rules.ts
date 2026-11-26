@@ -15,22 +15,22 @@ import {
 } from "./county-governing-body-rules";
 
 /**
- * TOWN AND TOWNSHIP GOVERNING BODIES (Build 25, CTO ruling of September 29,
- * 7:55 a.m.: local councils pass local law in small towns too).
+ * TOWN AND TOWNSHIP GOVERNING BODIES. A census-designated place inside a New
+ * England town, a New York town, or a New Jersey, Pennsylvania or Midwest
+ * township has no government of its own. Its local government is the town or
+ * township it lies in, which the Census Bureau's 2025 Government Units
+ * listing carries as a township whose place code is the town's county
+ * subdivision code. Which town holds most of a place's residents is read from
+ * the ACS 2020-2024 county subdivision parts
+ * (scripts/research/export-acs-place-towns.py). The board's size is read the
+ * way a county board's is: the state statute where it has been read
+ * (data/research/local-government/ township-governing-bodies.json, each with
+ * its citation), and otherwise the most common size among the states read,
+ * ESTIMATED FROM AVERAGE. A town that enlarged its board by its own vote or
+ * charter is not read yet.
  *
- * A census-designated place inside a New England town, a New York town, or a
- * New Jersey, Pennsylvania or Midwest township has no government of its own.
- * Its local government is the town or township it lies in, which the Census
- * Bureau's 2025 Government Units listing carries as a township whose place
- * code is the town's county subdivision code. Which town holds most of a
- * place's residents is read from the ACS 2020-2024 county subdivision parts
- * (scripts/research/export-acs-place-towns.py).
  *
- * The board's size is read the way a county board's is: the state statute
- * where it has been read (data/research/local-government/
- * township-governing-bodies.json, each with its citation), and otherwise the
- * most common size among the states read, ESTIMATED FROM AVERAGE. A town that
- * enlarged its board by its own vote or charter is not read yet.
+ *
  */
 
 interface StateReading {

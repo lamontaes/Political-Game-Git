@@ -127,23 +127,23 @@ interface PurposeArc {
     /**
      * The player's second ask after a "not yet" or a no, and what it weighs;
      * `secondAsk` marks one offered only when the player asks again after a
-     * not yet (Words lead, Nov 15: deferring to them keeps the ask open).
+     * not yet.
      */
     again: { move: string; carries: AskCarries; secondAsk?: boolean }[];
     /**
      * The answer of one whose price is taken up (`carries: "price"`), and of
      * one asked only to stay out of the room who agrees (`carries:
      * "absence"`). Each is offered only where the record holds the act that
-     * pays it (brief O; owner, Nov 14: only what the game can do).
+     * pays it.
      */
     paid?: string;
     absent?: string;
     /**
-     * A middle exchange about the one asked's own matter (Words lead, Nov 14,
-     * rulings 62 and 63: a scene has a middle, and one button is not a
-     * choice): offered beside the thanks or the second ask, the player asks
-     * after them (`ask`), they say what the player did not know (`tell`),
-     * and the player chooses among the `then` replies, which end differently.
+     * A middle exchange about the one asked's own matter: offered beside the
+     * thanks or the second ask, the player asks after them (`ask`), they say
+     * what the player did not know (`tell`), and the player chooses among the
+     * `then` replies, which end differently.
+     *
      */
     middle?: {
       ask: string;
@@ -152,20 +152,20 @@ interface PurposeArc {
     };
     /**
      * One the player has never met, who would say yes, asks the player one
-     * thing first (Words lead, Nov 14, brief J batch 2: a stranger's yes in
-     * one line is thin): their question (`tell`), the player's answers
-     * (`then`), and each answer's yes or no. `hedged` weighs the answer
-     * with the player's stance left unsaid (`AskStanding.hedged`).
+     * thing first: their question (`tell`), the player's answers (`then`),
+     * and each answer's yes or no. `hedged` weighs the answer with the
+     * player's stance left unsaid (`AskStanding.hedged`).
+     *
      */
     first?: {
       tell: string;
       then: { move: string; carries: "lean" | "hedged" }[];
     };
     /**
-     * A second turn after a second ask and its answer (Words lead, Nov 14:
-     * a scene is a tree, two turns past the ask on at least two branches),
-     * keyed by the second ask's move: the player's replies to that answer,
-     * offered only when two or more can be worded.
+     * A second turn after a second ask and its answer, keyed by the second
+     * ask's move: the player's replies to that answer, offered only when two
+     * or more can be worded.
+     *
      */
     after?: Record<
       string,
@@ -546,12 +546,12 @@ function byLean<T>(
 
 /**
  * How a person takes in what the player answered in an everyday talk, by this
- * engine's own rule (owner, Oct 29: one engine for every line, and calibration
- * reaches all of it): the `talk` purpose's answer moves for the move the
+ * engine's own rule: the `talk` purpose's answer moves for the move the
  * answer made, each worded from the scene bank fitted to it (`after` names
  * the move, `afterPiece` the talk's subject and choice), the one the
  * speaker's traits lean to most, a tie by the stable hash. Null where no
  * answer move has words. `closes` when the answer ends the talk.
+ *
  */
 export function answerInTalk(
   core: Readonly<CoreState>,
@@ -1200,13 +1200,13 @@ export function composeSceneTalk(
     };
   };
 
-  // The player does the asking (owner, Oct 14: convince one member to
-  // switch): the player says the purpose's asker lines and the one asked
-  // answers in its asked lines, the player's lines the choices. The one asked
-  // answers from where they stand, never by a roll: asked plainly, yes only
-  // if they already lean for it, not yet if a favor would carry them, no
-  // otherwise; asked again, the favor carries them where it would at the
-  // roll and pressing holds them where they stood (the arc's `asks`).
+  // The player does the asking: the player says the purpose's asker lines and
+  // the one asked answers in its asked lines, the player's lines the choices.
+  // The one asked answers from where they stand, never by a roll: asked
+  // plainly, yes only if they already lean for it, not yet if a favor would
+  // carry them, no otherwise; asked again, the favor carries them where it
+  // would at the roll and pressing holds them where they stood (the arc's
+  // `asks`).
   if (asking) {
     const ask = arc.asks;
     const standing = voice.standing;
@@ -1295,9 +1295,9 @@ export function composeSceneTalk(
       const node: TreeNode = { lines: asked ? [asked] : [], replies: [] };
       const heard = asked ? addParts(said, asked) : said;
       for (const then of asked ? ask.first.then : []) {
-        // A dodge is offered only when it costs something on the record:
-        // where the stance left unsaid weighs the same as the one on the
-        // player's record, there is nothing to dodge (Words lead, Nov 14).
+        // A dodge is offered only when it costs something on the record: where the
+        // stance left unsaid weighs the same as the one on the player's
+        // record, there is nothing to dodge.
         if (
           then.carries === "hedged" &&
           (standing.hedged === undefined || standing.hedged >= standing.lean)
@@ -1407,15 +1407,15 @@ export function composeSceneTalk(
     let count = one;
     // A yes is thanked; a not yet or a no is asked again, or let go.
     const yes = first.move === ask.yes;
-    // A second no (asked before and turned down, and nothing carries them
-    // now) is let go, never pressed a third time (Words lead, Nov 15).
+    // A second no (asked before and turned down, and nothing carries them now) is
+    // let go, never pressed a third time.
     const secondNo =
       !yes && !carried && standing.lean <= zero && !!facts["asked-before"];
     const afterLed = new Map<TreeNode, TreeReply>();
-    // On a second ask a plea is offered only where the record holds a time
-    // the player backed them (`read-favor-given`: the player's yes on a bill
-    // of theirs), and pressing only where they lean for it already (Words
-    // lead, Nov 15): asking again with nothing behind it is not offered.
+    // On a second ask a plea is offered only where the record holds a time the
+    // player backed them (`read-favor-given`: the player's yes on a bill of
+    // theirs), and pressing only where they lean for it already: asking again
+    // with nothing behind it is not offered.
     const askedAgain = !!facts["asked-before"];
     const backed = (weighs: AskCarries) =>
       !askedAgain ||
@@ -1885,10 +1885,10 @@ export function composeSceneTalk(
     askerTraits,
   );
   root.lines = rootStart.lines;
-  // The narrator speaks between lines, not only at the top: a beat of the room after the statement and
-  // partway in, where the bank has one for this purpose.
-  // A beat plays once on a path at most (Words lead, Nov 14): one the path
-  // has already said is left out, never said again.
+  // The narrator speaks between lines, not only at the top: a beat of the room
+  // after the statement and partway in, where the bank has one for this
+  // purpose. A beat plays once on a path at most: one the path has already
+  // said is left out, never said again.
   const beatAt = (path: Path, label: string): SceneTalkLine | null => {
     const beat = render(
       { step: "beat", move: "beat", role: "narrator", ...base },
@@ -2279,9 +2279,9 @@ export function composeSceneTalk(
         continue;
       }
       // A reply that does the thing asked in its own words ends the talk: one
-      // closing line from the asker, worded without the facts the act ended
-      // (Words lead, Nov 14: "a reply that names the act ends the talk and
-      // decides").
+      // closing line from the asker, worded without the facts the act ended.
+
+
       if (actPieces.has(reply.parts[zero] ?? "")) {
         const close = closeFor(
           replyOutcome,
@@ -2353,9 +2353,9 @@ export function composeSceneTalk(
       const settled = answers.filter(
         (row) => RULES.terminalFollow.includes(row.candidate) || !row.line.asks,
       );
-      // The first exchange never wraps the scene up where the asker has a
-      // question or a push left (owner, Oct 16: "quick resolution. That's
-      // not how normal people talk"); the last round never leaves one hanging.
+      // The first exchange never wraps the scene up where the asker has a question
+      // or a push left; the last round never leaves one hanging.
+
       const open = answers.filter((row) => !settled.includes(row));
       const pool =
         last && settled.length

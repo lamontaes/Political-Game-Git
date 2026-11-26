@@ -1,9 +1,9 @@
 /**
- * The school years (owner, Oct 28, 2026: "simulate to the birth year...
- * general to make the game flow"): the one school calendar every child
- * shares, the school engine's rule for which school a child of a place
- * attends, its run of the years before the start, and the reader every
- * screen and scene uses for where a person went to school.
+ * The school years: the one school calendar every child shares, the school
+ * engine's rule for which school a child of a place attends, its run of the
+ * years before the start, and the reader every screen and scene uses for
+ * where a person went to school.
+ *
  */
 import { historyOf } from "./past-history";
 import data from "./data/school-days.json" with { type: "json" };
@@ -113,13 +113,13 @@ export function stageOf(core: Readonly<CoreState>, grade: number): Stage {
 }
 
 /**
- * The school years before the start (owner, Oct 28, 2026: "simulate to the
- * birth year... general"), a year at a step: each school year a full person
- * was of school age inside the run, they attended the school this engine
- * gives a child of the place they lived that year (`schoolOfPlace`, the same
- * rule as a school day in play), at the stage the one school calendar puts
- * them in. A record is written when the stage or the school changes: the
- * first year at each school. Nothing is drawn.
+ * The school years before the start, a year at a step: each school year a
+ * full person was of school age inside the run, they attended the school this
+ * engine gives a child of the place they lived that year (`schoolOfPlace`,
+ * the same rule as a school day in play), at the stage the one school
+ * calendar puts them in. A record is written when the stage or the school
+ * changes: the first year at each school. Nothing is drawn.
+ *
  */
 function schoolRecords(
   core: Readonly<CoreState>,
@@ -176,12 +176,12 @@ function schoolRecords(
 }
 
 /**
- * The end of school before the start (gap sheet, Nov 12, row 15): the day
- * high school ended, from the school they were at, and for a person whose
- * level is `some-college` or `college`, the fall they started college and the
- * day it ended, by the level's usual length (the same years the work pass
- * waits before a first job, so the two never disagree). Nothing is drawn: the
- * level is the opening profile's, the days are the one calendar's.
+ * The end of school before the start: the day high school ended, from the
+ * school they were at, and for a person whose level is `some-college` or
+ * `college`, the fall they started college and the day it ended, by the
+ * level's usual length (the same years the work pass waits before a first
+ * job, so the two never disagree). Nothing is drawn: the level is the opening
+ * profile's, the days are the one calendar's.
  */
 function schoolEndRecords(
   core: Readonly<CoreState>,
@@ -293,9 +293,9 @@ export function schoolHistory(
 }
 
 /**
- * A person's school years over their own life, once (the owner's ruling,
- * Nov 9, 2026): the same rule as the run, over the window from their birth.
- * A full person's clipped records are restated, not kept beside it.
+ * A person's school years over their own life, once: the same rule as the
+ * run, over the window from their birth. A full person's clipped records are
+ * restated, not kept beside it.
  */
 export function schoolHistoryFor(
   core: CoreState,

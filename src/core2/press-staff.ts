@@ -37,7 +37,7 @@ interface RoleRow {
   readonly id: StaffRole;
   readonly soc: string;
   readonly title: string;
-  /** Null for an owner, who holds the outlet and is on no payroll. */
+  /** Null for an who holds the outlet and is on no payroll. */
   readonly payParameter: string | null;
   readonly ageMinParameter: string;
   readonly ageMaxParameter: string;
@@ -113,7 +113,7 @@ export interface StaffRow {
   readonly role: StaffRole;
   readonly jobId: string | null;
   readonly hiredOn: string;
-  /** Someone given a household cost at hire (an owner, or staff from outside the town), which they spend out of each week through this date. */
+  /** Someone given a household cost at hire, which they spend out of each week through this date. */
   readonly livedThrough?: string;
   /** When they left the outlet (another job, a move, death). */
   readonly leftOn?: string;
@@ -270,12 +270,12 @@ function seatStaff(
           citation: input.source.citation,
         })
       : null;
-  // Someone seated from a recorded identity (an owner, or staff who live
-  // outside the town) has no household to give them a cost, so they get the
-  // one-person household officials get: the Consumer Expenditure basket and a
-  // studio's rent, and the savings a family keeps at their pay (an owner's,
-  // at the income the press parameters set), paid in from outside. Staff
-  // drawn from the town's people keep their household's own costs.
+  // Someone seated from a recorded identity has no household to give them a
+  // cost, so they get the one-person household officials get: the Consumer
+  // Expenditure basket and a studio's rent, and the savings a family keeps at
+  // their pay, paid in from outside. Staff drawn from the town's people keep
+  // their household's own costs.
+
   const lives = giveLivingCost(api, {
     personId: id,
     stateKey: input.stateKey,

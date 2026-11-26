@@ -1,9 +1,9 @@
 /**
- * Military service before the start (gap sheet, Nov 12, 2026, row 4: no past
- * held service): when a person is opened, the work pass's `serviceOf` says
- * whether they served (the ACS 2024 veteran share for their sex, age and
- * state, against their own seeded line) and when, and this writes the day
- * they enlisted and the day they were discharged into their own past.
+ * Military service before the start: when a person is opened, the work pass's
+ * `serviceOf` says whether they served (the ACS 2024 veteran share for their
+ * sex, age and state, against their own seeded line) and when, and this
+ * writes the day they enlisted and the day they were discharged into their
+ * own past.
  */
 import { ownPastKind } from "./own-past-kinds";
 import { serviceOf } from "./past-work";

@@ -51,10 +51,10 @@ import {
  */
 
 /**
- * The speech acts every line the simulation produces is labeled with. The list
- * is Lamontae's (English engine brief, September 26, 2026); it grows only
- * through him. He approved the last seven, for the story director's moves, on
- * October 8, 2026 (docs/design/story-director.md, answer 2).
+ * The speech acts every line the simulation produces is labeled with. The
+ * list is Lamontae's; it grows only through him. He approved the last seven,
+ * for the story director's moves, on (docs/design/story-director.md, answer
+ * 2).
  */
 export const SPEECH_ACTS = [
   "greet",
@@ -478,8 +478,8 @@ export function composeGroundedLine(
  * "Congress" keep their capital.
  */
 export const SENTENCE_WORDS: ReadonlySet<string> = new Set([
-  // An ask said after a belief joined by a comma ("Because I believe ...,
-  // don't look for my name ..."; the Story lead's read of #9831, Alaska).
+  // An ask said after a belief joined by a comma.
+
   "Don't",
   "You",
   "Here's",
@@ -518,8 +518,8 @@ export const SENTENCE_WORDS: ReadonlySet<string> = new Set([
   "Get",
   "Send",
   "So",
-  // An ask that names its question first ("Since I believe ..., on more
-  // passenger rail, my answer is no"; the opening evening, Nov 19).
+  // An ask that names its question first.
+
   "On",
 ]);
 

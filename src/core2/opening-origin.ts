@@ -1,14 +1,14 @@
 /**
- * Where a person's family comes from (owner's playtest, Nov 8: "I'm Mexican
- * and my son is white"). One origin per household at the opening, drawn from
- * the town's own residents by race and Hispanic origin (2020 Census place
- * counts, `place-race-origin.generated.ts`) where the town has a row, else
- * the state's adults (Census CPS, Nov 2024 voting supplement, table 4b),
- * kept on the person's `looks.origin`;
- * everyone in a household shares it, and kin inherit a resident relative's.
- * A child born in play takes a parent's (`childOrigin`). The faces read it
- * (`bench/whole-figures.ts`), so a family looks related. Nothing else reads
- * it: names decide nothing (Sept 26), and no outcome depends on it.
+ * Where a person's family comes from. One origin per household at the
+ * opening, drawn from the town's own residents by race and Hispanic origin
+ * (2020 Census place counts, `place-race-origin.generated.ts`) where the town
+ * has a row, else the state's adults (Census CPS, 24 voting supplement, table
+ * 4b), kept on the person's `looks.origin`; everyone in a household shares
+ * it, and kin inherit a resident relative's. A child born in play takes a
+ * parent's (`childOrigin`). The faces read it (`bench/whole-figures.ts`), so
+ * a family looks related. Nothing else reads it: names decide nothing, and no
+ * outcome depends on it.
+ *
  */
 import { SeededRng } from "./kernel/rng";
 import { corePlaceByKey, coreStateName } from "./place-lookup";

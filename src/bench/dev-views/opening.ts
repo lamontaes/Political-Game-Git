@@ -1,18 +1,18 @@
 /**
- * Dev mode's "How this world opened" (owner, Nov 16, 2026: "be sure this is on dev mode as well as
- * tracing, but track everything at open so that way you can ... finally eliminate all of these
- * random draws or fixed things"). For a town, a person, a household, a business and an office, each
- * value the opening set: what it is today in the record, how the opening made it (real data, the
- * world's offset from a published figure, a decision, generation, an ad hoc draw or a number fixed
- * for every world), the line of code and the data row that made it, the record's own saved source,
- * and what replaces it when it is a draw or a fixed number. How each value was made is the opening
- * audit's list (src/bench/dev-views/opening-sources.json, from the Account lead's report
- * opening-draws-and-fixed-values in the project's shared folder); the values are read from the
- * records each time. "Every draw the opening took" is not a hand list: Record rebuilds this world
- * from its recipe with the draw recorder on (src/core2/kernel/draw-recorder.ts) and lists each line of
- * code that drew, by file and function, with what the list says of it; a site the list does not
- * know shows as such, and dev-opening-draws.test.ts fails on one. Read-only: it writes nothing to
- * this world and spends none of its time.
+ * Dev mode's "How this world opened". For a town, a person, a household, a
+ * business and an office, each value the opening set: what it is today in the
+ * record, how the opening made it (real data, the world's offset from a
+ * published figure, a decision, generation, an ad hoc draw or a number fixed
+ * for every world), the line of code and the data row that made it, the
+ * record's own saved source, and what replaces it when it is a draw or a
+ * fixed number. How each value was made is the opening audit's list
+ * (src/bench/dev-views/opening-sources.json, from the Account lead's report
+ * opening-draws-and-fixed-values in the project's shared folder); the values
+ * are read from the records each time. "Every draw the opening took" is not a
+ * hand list: Record rebuilds this world from its recipe with the draw
+ * recorder on (src/core2/kernel/draw-recorder.ts) and lists each line of code
+ * that drew, by file and function, with what the list says of it; a site the
+ * list does not know shows as such, and dev-opening-draws.test.ts fails on one. Read-only: it writes nothing to this world and spends none of its time.
  */
 import { coreAPI, personOrFillIn } from "../../core2/state";
 import { realLocalities } from "../../core2/places";

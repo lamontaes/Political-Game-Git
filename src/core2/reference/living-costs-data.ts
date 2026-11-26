@@ -82,9 +82,9 @@ export function publishedMonthlyHouseholdLivingCosts(
   };
 }
 /**
- * What this world pays for everyday living: the published basket scaled by one
- * price level drawn per world from its seed (realistic, not real; owner,
- * Oct 27). Every opening reads this, never the published basket.
+ * What this world pays for everyday living: the published basket scaled by
+ * one price level drawn per world from its seed. Every opening reads this,
+ * never the published basket.
  */
 export function worldMonthlyHouseholdLivingCosts(
   seed: string,

@@ -1,14 +1,14 @@
 /**
- * The county's counted households at the opening (CTO, Nov 8, on #7365: "a
- * county gets its own counted sample in the one store, weighted to its real
- * count, built at the opening like the town's"). The households are drawn
+ * The county's counted households at the opening. The households are drawn
  * the way the town's are (the Census household mix, the invented-person age
  * table, the name corpus, the opening temperaments), placed at the county's
  * own place, and every record stands for as many real households as the
  * county's eligible voters ask for (`ResidentsInput.weights`). Working adults
- * hold the county's employment: how many of each age work is the county's
- * ACS rate, and the sector they work in follows the county's Census County
+ * hold the county's employment: how many of each age work is the county's ACS
+ * rate, and the sector they work in follows the county's Census County
  * Business Patterns employment, in groups the size of a workgroup.
+ *
+ *
  */
 import { makeIsoDate } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";

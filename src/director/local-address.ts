@@ -1,6 +1,5 @@
 /**
- * A governor's State of the State and a mayor's State of the City (owner,
- * Nov 8: addresses by "the President, and governors' and mayors'"). It is the
+ * A governor's State of the State and a mayor's State of the City. It is the
  * same address the President gives, at a smaller scale, planned by the same
  * one outline planner (speech-outline.ts) from its own outline row: one theme
  * from the speaker's record and the term read of the state's or town's areas,
@@ -9,6 +8,7 @@
  * term read is. The English engine writes every sentence; the address is
  * recorded as a public event the news carries and the household watching it
  * can bring up, like the President's.
+ *
  */
 import { placeStateKey } from "../core2/place-map";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";

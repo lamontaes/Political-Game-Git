@@ -1,10 +1,10 @@
-// Writing a bill (owner, Oct 14: "bills follow the real form, and the player
-// edits only the terms"). A list of everything the body may write a bill
-// about, grouped by law area, each row with what is in force today; beside
-// it, the chosen subject's page: what is in force, the one term the player
-// sets, and Draft. Built from the pick list and the strip sections every
+// Writing a bill. A list of everything the body may write a bill about,
+// grouped by law area, each row with what is in force today; beside it, the
+// chosen subject's page: what is in force, the one term the player sets, and
+// Draft. Built from the pick list and the strip sections every
 // list-beside-its-page screen uses; the screen hands it the body's issue
 // groups already in words, and nothing here computes.
+
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { numberBox } from "./fields.mjs";
@@ -108,9 +108,9 @@ export function draftCard({ groups, words, today = "", onDraft }) {
         ),
       );
     });
-    // A phase-in by a percent a year (the owner's ruling, Sept 12: dated steps or a percent a
-    // year): the percent, the years it runs and the day of the first increase. The amount in force
-    // is what it rises from, so the typed amount and the added steps give way to it.
+    // A phase-in by a percent a year: the percent, the years it runs and the day
+    // of the first increase. The amount in force is what it rises from, so
+    // the typed amount and the added steps give way to it.
     const percent = numberBox({
       value: 0,
       step: "any",

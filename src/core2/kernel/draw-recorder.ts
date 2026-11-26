@@ -1,10 +1,10 @@
 /**
- * Which lines of the game drew a seeded number, and how often (owner, Nov 16, 2026: "track
- * everything at open so that way you can ... finally eliminate all of these random draws or fixed
- * things"). Off in play: each draw primitive (the seeded generator, the world's seeded unit, the
- * stable hash, the officials' uniform and the bench's look hash) calls `recordDraw`, which returns
- * at once while no recording runs. Dev mode's "How this world opened" turns it on while it rebuilds
- * the world's twin from its recipe, and the opening-draws test turns it on while it opens a pinned
+ * Which lines of the game drew a seeded number, and how often. Off in play:
+ * each draw primitive (the seeded generator, the world's seeded unit, the
+ * stable hash, the officials' uniform and the bench's look hash) calls
+ * `recordDraw`, which returns at once while no recording runs. Dev mode's
+ * "How this world opened" turns it on while it rebuilds the world's twin from
+ * its recipe, and the opening-draws test turns it on while it opens a pinned
  * world; each reads the sites back by file and function. No imports, so the kernel can use it.
  */
 

@@ -1,9 +1,9 @@
-// How a public employer is said in talk (Words lead ruling, Nov 15, 2026,
-// /mnt/project-files/words-lead/public-employer-said-in-talk.md): the
-// government of the talk's own place by its class ("the state", "the
-// county"), any other by its full name. Read from the organization's record
-// and the two people's places; no place is named here. The Journal keeps its
-// own forms (employerSaid).
+// How a public employer is said in talk: the government of the talk's own
+// place by its class ("the state", "the county"), any other by its full name.
+// Read from the organization's record and the two people's places; no place
+// is named here. The Journal keeps its own forms (employerSaid).
+
+
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { placeStateKey } from "../core2/place-map";
 import { lawChain } from "../core2/modules/laws";

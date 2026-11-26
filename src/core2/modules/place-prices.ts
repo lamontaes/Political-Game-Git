@@ -66,8 +66,8 @@ const worldGoodsBySeed = new Map<
 /**
  * The household goods table this world prices from. The published table (BLS
  * CES 2024, NTD 2023, ACS 2024, FHWA) is the center; each statistic is drawn
- * once per world from its seed (realistic, not real; owner, Oct 27). What law
- * sets, the fuel tax per gallon, stays as published.
+ * once per world from its seed. What law sets, the fuel tax per gallon, stays
+ * as published.
  */
 export function worldGoods(seed: string): {
   goods: Goods;
@@ -1595,9 +1595,9 @@ function month(api: CoreAPI): void {
         worldGoods(api.state.seed).goods,
         householdWeb(api, rule, use, who),
       );
-      // The controlled person's money moves only by their own choice (owner,
-      // Oct 14), and a dependent one (no job) pays nothing of the household's
-      // bills: the household's price changes fall on the others.
+      // The controlled person's money moves only by their own choice, and a
+      // dependent one (no job) pays nothing of the household's bills: the
+      // household's price changes fall on the others.
       const payers = members.filter(
         (id) => id !== c.playerId || c.people.get(id)!.jobId,
       );

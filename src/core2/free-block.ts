@@ -112,10 +112,10 @@ function freeHours(
  * A person's own upkeep a day (personal care beyond the sleep the schedule
  * reserves, and meals), from their own record: a base, more for each year
  * past adulthood, and more as their own health asks for care (`careNeedOf`,
- * the health engine's read). ATUS fits only how strongly age and health count,
- * so the average adult lands near the survey's day; two people of different
- * age or health differ (CTO, #9747 05:40Z). The parts are returned for dev
- * mode's trace.
+ * the health engine's read). ATUS fits only how strongly age and health
+ * count, so the average adult lands near the survey's day; two people of
+ * different age or health differ. The parts are returned for dev mode's
+ * trace.
  */
 export function ownUpkeep(
   api: CoreAPI,

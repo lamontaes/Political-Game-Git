@@ -602,12 +602,12 @@ export function householdCashReader(
       };
       groups.set(h.group, group);
     }
-    // One household of the record: its members at its savings weight, and
-    // never more than the record's own claim: a record that stands for less
-    // than one household holds only the part of the group's money its own
-    // people hold, so a household filled in from it cannot ask for more than
-    // the group's fund (Central Falls and the lender replay, Nov 14: a sole
-    // record of weight 0.34 asked three times the whole fund).
+    // One household of the record: its members at its savings weight, and never
+    // more than the record's own claim: a record that stands for less than
+    // one household holds only the part of the group's money its own people
+    // hold, so a household filled in from it cannot ask for more than the
+    // group's fund.
+
     return group.claims > 0
       ? Math.floor(
           (group.balance *
@@ -4325,7 +4325,7 @@ function indexWorkingAgeEnds(
     const born = rt.store.born[m]!;
     if (ageOn(born, date) >= below) continue;
     let key: string = dateAtAge(makeIsoDate(born), below);
-    // `ageOn` counts a February 29 birthday as passed on March 1.
+    // `ageOn` counts a birthday as passed on.
     if (ageOn(born, key) < below) key = addDays(makeIsoDate(key), 1);
     const at = rt.workingAgeEnds.get(key);
     if (at) at.push(m);

@@ -128,9 +128,9 @@ export function factsSetBy(
 /**
  * A piece that calls the other person by their first name ("Thank you,
  * {first}."). A voice that has done it on a branch does not do it on every
- * line after (owner, batch 3: the name tag on every line): while another
- * piece fits, the next line leaves the name off, and a piece that tags the
- * name after a comma ("Thank you, {first}.") is said without it.
+ * line after: while another piece fits, the next line leaves the name off,
+ * and a piece that tags the name after a comma ("Thank you, {first}.") is
+ * said without it.
  */
 const VOCATIVE = /\{first\}/;
 const TAIL_NAME = /, \{\{first\}\}(?=[.?!,;])/g;
@@ -208,8 +208,8 @@ export interface WordedMove {
 
 /**
  * The use that placed a wording and the wordings it tied with, read from the
- * same fit the picker made (dev mode's "why this reply", owner, Nov 16: dev
- * mode does the tracing in the game).
+ * same fit the picker made.
+ *
  */
 export interface Placed {
   /** The facts the use requires, said in the words (`requiresFacts`). */

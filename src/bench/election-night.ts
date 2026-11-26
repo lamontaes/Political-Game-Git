@@ -1,13 +1,13 @@
 /**
- * Election day and night as the player lives them (owner, Oct 26, 2026:
- * "about five minutes of scenes"). On election morning a candidate's
- * volunteer comes by to canvass, and the day asks whether the player goes to
- * vote: going opens the ballot at the polling place, staying home casts
- * nothing (the engine never votes for the player). That night the returns
- * come in place by place from the count's own records, smallest place first,
- * as a small place's tally is done first, until the race is called. The
- * narrator's words are the director's (`src/director/election-day.ts`);
+ * Election day and night as the player lives them. On election morning a
+ * candidate's volunteer comes by to canvass, and the day asks whether the
+ * player goes to vote: going opens the ballot at the polling place, staying
+ * home casts nothing (the engine never votes for the player). That night the
+ * returns come in place by place from the count's own records, smallest place
+ * first, as a small place's tally is done first, until the race is called.
+ * The narrator's words are the director's (`src/director/election-day.ts`);
  * the screen shows the count's numbers and names as record data.
+ *
  */
 import type { PollingVisit } from "../director/polling-place";
 import { electionDayLine, type DayFact } from "../director/election-day";
@@ -196,9 +196,9 @@ export function electionDay(
     // No polling visit: someone who lives outside the town the count reads (an
     // eviction, a move) has no ballot here, so the day offers no vote.
     away: !visit,
-    // The choice itself is asked after the canvass, or at once, and only of a player
-    // who can vote here: with no polling visit nothing is asked and the day goes on
-    // to the count (owner, Nov 9: "It just shouldn't let you do it if you can't vote.").
+    // The choice itself is asked after the canvass, or at once, and only of a
+    // player who can vote here: with no polling visit nothing is asked and
+    // the day goes on to the count.
     ask: visit
       ? [
           electionDayLine(

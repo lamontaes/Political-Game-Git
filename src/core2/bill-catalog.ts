@@ -213,8 +213,8 @@ export function provisionFor(input: {
     .flatMap((s) => s.topics.flatMap((t) => t.policies))
     .find((p) => p.id === input.policyId);
   if (!policy) throw new Error(`No such catalog policy: ${input.policyId}`);
-  // Any amount law can be repealed: the body's own law ends and the level
-  // holds what it held before, including nothing (owner, Nov 7).
+  // Any amount law can be repealed: the body's own law ends and the level holds
+  // what it held before, including nothing.
   if (policy.kind === "law-amount" && input.operation === "repeal")
     return {
       kind: "law-amount",

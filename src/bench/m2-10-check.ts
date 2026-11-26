@@ -206,9 +206,9 @@ for (const r of races.filter(counted)) {
       `${where}: ${r.seatId} went to ${r.winnerParty} at a Republican share of ${share}`,
     );
 }
-// Seated on the real dates: Congress on January 3, each legislature on its
-// own. A seat the offices engine holds gets the winner's term there; any
-// other seat is kept in the world races' own seats, from the day it is filled.
+// Seated on the real dates: Congress on, each legislature on its own. A seat
+// the offices engine holds gets the winner's term there; any other seat is
+// kept in the world races' own seats, from the day it is filled.
 for (const r of [...house, ...senate, ...legislative]) {
   const kept = midterm.api
     .moduleState(VOTING_MODULE_ID)
@@ -254,7 +254,7 @@ report.sample = races
       `${r.id}: ${r.winnerParty} ${raceShare(midterm.api, r).toFixed(3)}, seated ${r.seatedOn}`,
   );
 
-// 2. November 2028: the presidency, in the electoral college, from January 20.
+// 2. 28: the presidency, in the electoral college, from.
 const general = world("2028-10-13");
 advanceCore(general.w.core, "2029-01-21");
 const pres = presidentialOf(general.api, 2028);

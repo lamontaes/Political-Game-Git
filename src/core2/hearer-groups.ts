@@ -1,20 +1,20 @@
 /**
- * Hearers nobody watches, heard as groups (owner, Nov 9: "not to track
- * everything at every day"; design `docs/speed/off-screen-campaigns-as-results.md`,
- * stage 1 step 1). A case made to an audience (a speech) reaches each watched
- * hearer as a person, through the views engine's `onEvent`. Everyone else in
- * the audience is a full person nobody is looking at: they are applied once
- * per group of like hearers (the same place, lean, age band and how readily
- * they yield to an argument), with the same rule a counted group is moved by
- * (`stanceAfterCase` with an exposure), and each member's view reads the
- * group's stance (`groupShift` in `stanceOn`). Watched means the player, their
- * household and circle, anyone in focus (`keepsWhy`), or a state or federal
- * official; they stay individual. A hearer's tie to the speaker is carried
- * into the group as its members' mean closeness to that speaker.
+ * Hearers nobody watches, heard as groups. A case made to an audience (a
+ * speech) reaches each watched hearer as a person, through the views engine's
+ * `onEvent`. Everyone else in the audience is a full person nobody is looking
+ * at: they are applied once per group of like hearers (the same place, lean,
+ * age band and how readily they yield to an argument), with the same rule a
+ * counted group is moved by (`stanceAfterCase` with an exposure), and each
+ * member's view reads the group's stance (`groupShift` in `stanceOn`).
+ * Watched means the player, their household and circle, anyone in focus
+ * (`keepsWhy`), or a state or federal official; they stay individual. A
+ * hearer's tie to the speaker is carried into the group as its members' mean
+ * closeness to that speaker. A person joins the group they are first heard in
+ * and keeps it, so their read is one row. A group's stance is the mean of its
+ * members' shifts: each case moves it by the share of members who heard it.
  *
- * A person joins the group they are first heard in and keeps it, so their
- * read is one row. A group's stance is the mean of its members' shifts: each
- * case moves it by the share of members who heard it.
+ *
+ *
  */
 import { ageOnDate } from "./kernel/dates";
 import { pairKey } from "./kernel/ids";

@@ -1,14 +1,14 @@
 /**
- * Owed talks (people, Nov 11, 2026): a reply that puts a talk off to a day
- * (the director writes `owedWith`, `owedTopic` and `owedDueOn` on the
- * `scene.reply`) leaves a record here: who owes whom, about what, for which
- * day. The row leaves the table when the two next talk or have time
- * together, and when a new day is named for the same matter the new row
- * replaces it; on the due day it reads "due" when they have not met since.
- * Only talks still owed are kept: any reply between the same two settles what
- * they owed, so the table holds at most one row per pair, bounded by the ties
- * between people, and nothing reads a settled talk. Whether the day passes unkept follows recorded
- * time together (the tie's last contact date), never a chance.
+ * Owed talks: a reply that puts a talk off to a day (the director writes
+ * `owedWith`, `owedTopic` and `owedDueOn` on the `scene.reply`) leaves a
+ * record here: who owes whom, about what, for which day. The row leaves the
+ * table when the two next talk or have time together, and when a new day is
+ * named for the same matter the new row replaces it; on the due day it reads
+ * "due" when they have not met since. Only talks still owed are kept: any
+ * reply between the same two settles what they owed, so the table holds at
+ * most one row per pair, bounded by the ties between people, and nothing
+ * reads a settled talk. Whether the day passes unkept follows recorded time
+ * together (the tie's last contact date), never a chance.
  */
 import { pairKey } from "../kernel/ids";
 import type { CoreAPI, CoreEventInput, CoreState, IsoDate } from "../types";

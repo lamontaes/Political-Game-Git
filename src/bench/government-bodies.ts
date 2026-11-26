@@ -1,13 +1,13 @@
 /**
- * Politics → Government, one level at a time (owner, Oct 29: drawn as a
- * real game menu). For a level
- * (local, state, federal) and a state, each lawmaking body the screen draws
- * and each executive office, read from the records: the body's room, its
- * members with their party and seat, how the parties split it, its recent
- * roll calls (the record engine's votes, so last term's show from day one),
- * and what is coming up (its next meeting, its bills waiting for the floor,
- * the filing deadline and election day for its seats). Record data only: the
- * screen words every label, and nothing here writes a record.
+ * Politics → Government, one level at a time. For a level (local, state,
+ * federal) and a state, each lawmaking body the screen draws and each
+ * executive office, read from the records: the body's room, its members with
+ * their party and seat, how the parties split it, its recent roll calls (the
+ * record engine's votes, so last term's show from day one), and what is
+ * coming up (its next meeting, its bills waiting for the floor, the filing
+ * deadline and election day for its seats). Record data only: the screen
+ * words every label, and nothing here writes a record.
+ *
  */
 import { governmentProperName } from "../core2/government-proper-name";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -177,7 +177,7 @@ export function governmentRoom(
   return body ? { place: roomPlace(body, null), officeId: body.id } : null;
 }
 
-/** A seat's holder as a member card reads them: face, name, party and seat (never how they feel about the viewer: owner, Oct 29). */
+/** A seat's holder as a member card reads them: face, name, party and seat. */
 function memberOf(
   core: CoreState,
   row: SeatRow,

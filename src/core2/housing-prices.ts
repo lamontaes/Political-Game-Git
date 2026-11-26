@@ -1,26 +1,26 @@
 /**
- * Home prices are this world's own (owner, Nov 13, 2026: "it's simulated...
- * things need to be simulated in order to make your modern day make sense").
- * Each place keeps one price level, a typical home's value, that the housing
- * engine steps once a month from causes:
+ * Home prices are this world's own. Each place keeps one price level, a
+ * typical home's value, that the housing engine steps once a month from
+ * causes: ln L' = ln L + momentum * (last year's change) / 12 + reversion *
+ * (ln F - ln L) + pressureResponse * tanh(pressure / pressureScale) ln F = ln
+ * pay + rateResponse * ln A(rate) - pay: what buyers earn, indexed to day one
+ * (the town's own pay in play, smoothed over a year; the economy's pay before
+ * day one). - A(rate): the loan a fixed monthly payment carries at the
+ * 30-year rate. - momentum: buyers expect last year's change to go on
+ * (Capozza et al.). - reversion: the market closes the gap to what pay and
+ * rates support. - pressure: the month's buyers against the homes offered,
+ * over the homes owned (zero before day one). Published data calibrates the
+ * three responses (the fit in scripts/research/home-price-fit.ts against
+ * FHFA's state indexes) and the level's scale once (the ACS median at its
+ * value date); it never sets the level. Every home's value is the one rule
+ * `homeValueAt`.
  *
- *   ln L' = ln L + momentum * (last year's change) / 12
- *                + reversion * (ln F - ln L)
- *                + pressureResponse * tanh(pressure / pressureScale)
- *   ln F  = ln pay + rateResponse * ln A(rate)
  *
- * - pay: what buyers earn, indexed to day one (the town's own pay in play,
- *   smoothed over a year; the economy's pay before day one).
- * - A(rate): the loan a fixed monthly payment carries at the 30-year rate.
- * - momentum: buyers expect last year's change to go on (Capozza et al.).
- * - reversion: the market closes the gap to what pay and rates support.
- * - pressure: the month's buyers against the homes offered, over the homes
- *   owned (zero before day one).
  *
- * Published data calibrates the three responses (the fit in
- * scripts/research/home-price-fit.ts against FHFA's state indexes) and the
- * level's scale once (the ACS median at its value date); it never sets the
- * level. Every home's value is the one rule `homeValueAt`.
+ *
+ *
+ *
+ *
  */
 import housingParameters from "./data/housing/parameters.json" with { type: "json" };
 import { worldOffsetUnit } from "./world-draw";
@@ -34,8 +34,8 @@ const pv = (key: string) => HOUSING_ROWS[key]!.value;
 /**
  * A signed offset between the floor share of the named housing spread row and
  * the whole spread, fixed by the world's seed and the key: generation of the
- * starting world, never an actor's outcome (owner, Oct 27: realistic, not
- * real). The one world draw (world-draw.ts), times this table's spread row.
+ * starting world, never an actor's outcome. The one world draw
+ * (world-draw.ts), times this table's spread row.
  */
 export function housingWorldOffset(
   seed: string,

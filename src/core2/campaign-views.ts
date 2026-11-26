@@ -300,10 +300,10 @@ export function publishedSupportShare(question: string): number | undefined {
 }
 
 /**
- * This world's national polled share for a question's "yes" (owner, Oct 27:
- * realistic, not real): the published share moved once by the world's offset,
- * relative to its nearer bound so it stays a share. Even where no poll is
- * recorded.
+ * This world's national polled share for a question's "yes": the published
+ * share moved once by the world's offset, relative to its nearer bound so it
+ * stays a share. Even where no poll is recorded.
+ *
  */
 export function supportShare(seed: string, question: string): number {
   const published = publishedSupportShare(question);
@@ -451,7 +451,7 @@ export function groupAgreement(
   let sum = 0;
   // Their own view times the platform's position: someone with no view of a
   // question is barely moved either way by it; someone who holds it strongly
-  // is drawn or put off (owner, Oct 9: most people hold weak views or none).
+  // is drawn or put off.
   for (const stance of platform)
     sum += groupStance(lean, stance.question, profile) * stance.position;
   return Math.max(-1, Math.min(1, sum / platform.length));

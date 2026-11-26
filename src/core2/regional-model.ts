@@ -203,10 +203,10 @@ export function publishedRegionMonths(
 
 /**
  * Each region's month before the start in this world: the published months
- * moved by the world's national offset from the published national month
- * and by each state's own offsets, drawn once from the world's seed (owner,
- * Oct 27: realistic, not real; the published figures calibrate). A state's
+ * moved by the world's national offset from the published national month and
+ * by each state's own offsets, drawn once from the world's seed. A state's
  * offsets move its metros and the rest of it alike.
+ *
  */
 export function openingRegionMonths(
   national: Readonly<MacroMonth>,

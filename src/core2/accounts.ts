@@ -104,9 +104,9 @@ interface Runtime {
    * Transfer ids used, to refuse a repeat. In play this holds the current
    * month's ids and `transferIdsBefore` the month before's, so a repeat
    * within a month or two still stops the run; with bookkeeping on (tests,
-   * proofs) every id is kept. Kept forever in play, it was the largest
-   * engine part a long run held (Montpelier, Vermont, Nov 9: 208 MB of a
-   * 3,178 MB live heap at year 4).
+   * proofs) every id is kept. Kept forever in play, it was the largest engine
+   * part a long run held.
+   *
    */
   transferIds: Set<string>;
   transferIdsBefore?: Set<string>;

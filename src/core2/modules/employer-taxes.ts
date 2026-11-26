@@ -274,12 +274,12 @@ const QUARTER_DAYS = ["01-01", "04-01", "07-01", "10-01"];
 const QUARTER_DAYS_COUNT = 91;
 
 /**
- * A quarter's tax on profit (owner ruling, Oct 14): a business owned by
- * another organization (a corporation's location) pays the corporate rate in
- * force on its operating profit over the quarter, from its books, to the
- * federal and state treasuries. An owner-run business's profit is its owner's income
- * under the law and is taxed as that (`passThrough`). Every business also pays
- * property tax on its premises each quarter (`payPremisesTax`).
+ * A quarter's tax on profit: a business owned by another organization (a
+ * corporation's location) pays the corporate rate in force on its operating
+ * profit over the quarter, from its books, to the federal and state
+ * treasuries. An owner-run business's profit is its owner's income under the
+ * law and is taxed as that (`passThrough`). Every business also pays property
+ * tax on its premises each quarter (`payPremisesTax`).
  */
 function payProfitTaxes(api: CoreAPI): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;

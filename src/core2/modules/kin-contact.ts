@@ -1,16 +1,16 @@
 /**
- * Word from relatives who live elsewhere (owner, Nov 8, 2026: "EVERY. LIFE.
- * IS. SIMULATED."): each month a town resident's pull to hear from a relative
- * living elsewhere builds with how close the two still are, at the pace one
- * whole contact a month at full closeness (`kinContactsPerYearAtFull`); a pull
- * that reaches one whole is a contact, written as `family.contact` (the
- * relative writes, the resident reads) and recorded as time together on the
- * tie (`relationship`), so the tie fades slower the more they write. Nothing
- * is rolled: closeness decides, and a tie that has faded to nothing writes
- * nothing. The director's `letter` scene reads the record.
+ * Word from relatives who live elsewhere: each month a town resident's pull
+ * to hear from a relative living elsewhere builds with how close the two
+ * still are, at the pace one whole contact a month at full closeness
+ * (`kinContactsPerYearAtFull`); a pull that reaches one whole is a contact,
+ * written as `family.contact` (the relative writes, the resident reads) and
+ * recorded as time together on the tie (`relationship`), so the tie fades
+ * slower the more they write. Nothing is rolled: closeness decides, and a tie
+ * that has faded to nothing writes nothing. The director's `letter` scene
+ * reads the record. It runs inside the partnerships review (one monthly entry
+ * for the lives of people outside the played town), so it installs nothing of
+ * its own.
  *
- * It runs inside the partnerships review (one monthly entry for the lives of
- * people outside the played town), so it installs nothing of its own.
  */
 import { closenessBetween } from "../closeness";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";

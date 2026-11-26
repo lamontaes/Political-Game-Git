@@ -1,9 +1,9 @@
-// The strip of busts (owner, Nov 11, 2026: "I do like this strip when there's a
-// scene and there's people to talk"): the people in a room as busts standing
-// straight on the room with their names under them, each in a soft pool of light
-// (no plate and no band: CTO, Nov 24). It lies along the foot of the room to say who is here,
-// and joins the top of the talk box in a talk, where whoever speaks is lit and a
-// little larger. A room is its painting alone; nobody is drawn into it.
+// The strip of busts: the people in a room as busts standing straight on the
+// room with their names under them, each in a soft pool of light. It lies
+// along the foot of the room to say who is here, and joins the top of the
+// talk box in a talk, where whoever speaks is lit and a little larger. A room
+// is its painting alone; nobody is drawn into it.
+
 import { el } from "./dom.mjs";
 import { face } from "./face.mjs";
 
@@ -23,10 +23,10 @@ function stripPerson(person, { speakingId, onClick, onCard }) {
   cell.dataset.person = person.personId ?? "";
   if (speakingId !== undefined)
     cell.classList.add(person.personId === speakingId ? "speaking" : "quiet");
-  // Someone with nothing to say is not a way into a talk (owner, Nov 1: "If
-  // there's no dialogue, you shouldn't be able to click on the person"); but
-  // anyone on the strip opens their card (owner, Nov 23, P9: "I can't click on
-  // any of these people").
+  // Someone with nothing to say is not a way into a talk; but anyone on the
+  // strip opens their card.
+
+
   const action =
     onClick && person.talkable !== false
       ? { handler: onClick, className: "talkable" }

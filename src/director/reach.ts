@@ -1,10 +1,10 @@
 /**
  * Which situation types fired in a played year, and for each that did not,
- * why (owner, Oct 15: nothing fires without a recorded cause, and a quiet
- * day fires nothing). A type that fired names the moments and their cause
- * records. A type that did not says whether its producer is not built yet,
- * whether no record in the year matched it, or whether a matching moment
- * stayed a journal line under the person's pace.
+ * why. A type that fired names the moments and their cause records. A type
+ * that did not says whether its producer is not built yet, whether no record
+ * in the year matched it, or whether a matching moment stayed a journal line
+ * under the person's pace.
+ *
  */
 import {
   causeMatches,

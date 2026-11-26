@@ -1,24 +1,24 @@
 /**
  * Whether a reply follows the line before it (the rule
- * `reply-follows-the-line-before`, `data/english/line-rules.json`).
- *
- * Every pair (line before, reply) the director can produce is judged once
- * against the rubric below; the verdicts are this rule's store in the one
- * store every judged rule uses (`src/english/judged.ts`,
+ * `reply-follows-the-line-before`, `data/english/line-rules.json`). Every
+ * pair (line before, reply) the director can produce is judged once against
+ * the rubric below; the verdicts are this rule's store in the one store every
+ * judged rule uses (`src/english/judged.ts`,
  * `data/english/judged/reply-follows.json`): sheets with `npm run words:pairs
  * -- --rule reply-follows-the-line-before`, folded with `npm run
- * words:verdicts`. A reply that does not follow some line is not pulled
- * (owner, Nov 9: when the context is wrong, fix the setup and keep the line);
- * it is simply never offered after that line. The picker
- * (`scene-talk-words.ts`) and the run (`scripts/words/run-rules.ts`) both read
- * the verdicts through `follows`.
+ * words:verdicts`. A reply that does not follow some line is not pulled; it
+ * is simply never offered after that line. The picker (`scene-talk-words.ts`)
+ * and the run (`scripts/words/run-rules.ts`) both read the verdicts through
+ * `follows`. A pair nobody has judged follows: the store lists only the "no"
+ * verdicts. The picker's table also holds every pair an enforced exchange
+ * rule barred (words machine part 3: a line judged with the line it answers),
+ * which the run writes to `data/english/pulled.json` as `barred`, each with
+ * the rule and verdict that barred it. One table, so one way a reply is kept
+ * from a line.
  *
- * A pair nobody has judged follows: the store lists only the "no" verdicts.
  *
- * The picker's table also holds every pair an enforced exchange rule barred
- * (words machine part 3: a line judged with the line it answers), which the
- * run writes to `data/english/pulled.json` as `barred`, each with the rule and
- * verdict that barred it. One table, so one way a reply is kept from a line.
+ *
+ *
  */
 import verdictFile from "../../data/english/judged/reply-follows.json" with { type: "json" };
 import pulledFile from "../../data/english/pulled.json" with { type: "json" };

@@ -1,7 +1,7 @@
-// The ballot at the polls (owner, Oct 26: "Why can't you click these people"; mock pl-ballot):
-// each race as a block on a paper, its candidates with an oval to mark, Leave blank; at the
-// right "What I know about them", the candidate under the pointer (or the first of the race)
-// with face and what the player knows. The voting engine counts what is marked.
+// The ballot at the polls: each race as a block on a paper, its candidates
+// with an oval to mark, Leave blank; at the right "What I know about them",
+// the candidate under the pointer (or the first of the race) with face and
+// what the player knows. The voting engine counts what is marked.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { face as drawFace } from "./face.mjs";

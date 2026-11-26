@@ -1,13 +1,13 @@
 /**
- * Dev mode's "Who is named" trace (owner, Nov 16, 2026: "all this stuff that you're tracing, if
- * it's not already being traced by the dev mode, it should be being traced by that"): for the
- * player's scenes, newest first, each person in the cast and why the narrator names them the way it
- * does, from the one read the narration makes (`whyNamed`, who-they-are.ts): the phrase said after
- * their full name with the kind, stage and records it came from, or why they are named alone
- * (family, met before and by which record, the scene's own line says who they are, or nothing on
- * record). Whether they had met is read as of the day the scene is said (`sceneDay`), from the
- * met records' own dates;
- * a meeting dated later is shown as met later. Rule 136, item dev-scene-why-a-person-is-named-so.
+ * Dev mode's "Who is named" trace: for the player's scenes, newest first,
+ * each person in the cast and why the narrator names them the way it does,
+ * from the one read the narration makes (`whyNamed`, who-they-are.ts): the
+ * phrase said after their full name with the kind, stage and records it came
+ * from, or why they are named alone (family, met before and by which record,
+ * the scene's own line says who they are, or nothing on record). Whether they
+ * had met is read as of the day the scene is said (`sceneDay`), from the met
+ * records' own dates; a meeting dated later is shown as met later. Rule 136,
+ * item dev-scene-why-a-person-is-named-so.
  */
 import type { DevView } from "../dev-views";
 import type { PersonId } from "../../core2/types";

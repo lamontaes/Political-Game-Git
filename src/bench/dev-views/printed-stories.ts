@@ -1,9 +1,9 @@
 /**
- * Dev mode's Printed stories, on the Calendar (owner, Nov 16: what a thread traces by script, dev
- * mode traces in the game): the stories the town's outlets printed, newest first, each id opening
- * dev mode's Trace, so a printed police log opens to how its month stood against the town's usual,
- * the space the paper gave it and who it happened to (dev-trace.ts). Registered from its own file
- * (dev-views.ts). It reads the news engine's stories; it writes nothing and spends no time.
+ * Dev mode's Printed stories, on the Calendar: the stories the town's outlets
+ * printed, newest first, each id opening dev mode's Trace, so a printed
+ * police log opens to how its month stood against the town's usual, the space
+ * the paper gave it and who it happened to (dev-trace.ts). Registered from
+ * its own file (dev-views.ts). It reads the news engine's stories; it writes nothing and spends no time.
  */
 import { coreAPI } from "../../core2/state";
 import type { DevView } from "../dev-views";

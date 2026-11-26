@@ -1,24 +1,24 @@
 /**
- * Memory stays flat (owner, Oct 12; CTO speed and memory order, Oct 14):
- * every event a person lives through leaves `event:<id>:experienced` in their
- * knowledge, and only two writers read it: the appraisal the same day, and a
- * drive's update, which checks its source event. Once a week a key older
- * than `experiencedKeyRetentionDays` goes unless it is the source of a drive
- * the person holds. Forgetting is retention, not a check, so it runs with
- * bookkeeping on as well. The event's own facts stay;
- * the player keeps everything.
+ * Memory stays flat: every event a person lives through leaves
+ * `event:<id>:experienced` in their knowledge, and only two writers read it:
+ * the appraisal the same day, and a drive's update, which checks its source
+ * event. Once a week a key older than `experiencedKeyRetentionDays` goes
+ * unless it is the source of a drive the person holds. Forgetting is
+ * retention, not a check, so it runs with bookkeeping on as well. The event's
+ * own facts stay; the player keeps everything. Each key is queued by the day
+ * it was learned as it is written (`api.observe`), and the saved queue holds
+ * about one retention window of days. The monthly pass walks the queue's
+ * days, skips those not yet due and handles the entries of the rest, never
+ * every fact of every person. Days are in the order first written, not by
+ * date: a back-dated write (a drive's source observed again on the day the
+ * drive formed) can add an old day at the end. A key a held drive keeps waits
+ * in its day for the next month; a key gone or learned again leaves it (the
+ * new write queued its own day); the player's due keys leave it and are
+ * queued again from their facts if the player changes. A save made before the
+ * queue existed has it rebuilt from the facts as it loads.
  *
- * Each key is queued by the day it was learned as it is written
- * (`api.observe`), and the saved queue holds about one retention window of
- * days. The monthly pass walks the queue's days, skips those not yet due and
- * handles the entries of the rest, never every fact of every person. Days are
- * in the order first written, not by date: a back-dated write (a drive's
- * source observed again on the day the drive formed) can add an old day at
- * the end. A key a held drive keeps waits in its day for the next month; a
- * key gone or learned again leaves it (the new write queued its own day); the
- * player's due keys leave it and are queued again from their facts if the
- * player changes. A save made before the queue existed has it rebuilt from
- * the facts as it loads.
+ *
+ *
  */
 import { parameter } from "./parameters";
 import { addDays, makeIsoDate } from "./kernel/dates";

@@ -193,8 +193,8 @@ export function stateParties(
   seed: string,
 ): readonly { name: string; share: number; source: string }[] {
   const usps = stateKey.slice(3);
-  // In a world whose day one is the century's, the parties are the century's, each at its share
-  // of the state's last presidential count there (History family 9, PR 9c; CTO line 6935508228).
+  // In a world whose day one is the century's, the parties are the century's,
+  // each at its share of the state's last presidential count there.
   const parties = centuryParties(seed);
   const counted = centuryStateVote(seed, stateKey);
   if (parties && counted)
@@ -333,8 +333,8 @@ export function openParties(core: CoreState): void {
         .table("town")
         .get("town") as unknown as { lean: number } | undefined
     )?.lean ?? 0;
-  // The player's party is the player's to choose (owner, Nov 8: "it says
-  // that I'm registered Democrat already"): they open with none.
+  // The player's party is the player's to choose: they open with none.
+
   const player = core.playerId ? core.people.get(core.playerId) : undefined;
   if (player)
     put(

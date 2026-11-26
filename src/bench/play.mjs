@@ -251,12 +251,12 @@ let here = { people: [], more: 0 };
 /** What a click on a person in the room does when nobody talks: a way into a talk. */
 let hereClick;
 /**
- * Who is here, small and packed in the top-right corner of the screen (ui/bust-strip.mjs;
- * owner, Nov 16: "the people in the top tight like c", mock C, and Nov 24: "they're
- * supposed to be at the top right"): a room is its painting, and the people in it
- * are a few busts in the corner. `scene` is anything with `people` and `more` (a
- * scene, a visit, a story beat); none clears it. `onClick` makes each person with
- * something to say a way into a talk, until a talk is open: then a click opens a card.
+ * Who is here, small and packed in the top-right corner of the screen: a room
+ * is its painting, and the people in it are a few busts in the corner.
+ * `scene` is anything with `people` and `more` (a scene, a visit, a story
+ * beat); none clears it. `onClick` makes each person with something to say a
+ * way into a talk, until a talk is open: then a click opens a card.
+ *
  */
 function drawHere(scene, onClick) {
   here = { people: scene?.people ?? [], more: scene?.more ?? 0 };
@@ -288,8 +288,8 @@ function drawHere(scene, onClick) {
 let talkFace;
 /** Who you are talking to, when someone speaks; nobody while the narrator does. */
 let talkPersonId;
-// A call or a letter: the one who rings or writes is not in the room, so the strip
-// shows no one of theirs (owner, Nov 16, N16-44).
+// A call or a letter: the one who rings or writes is not in the room, so the
+// strip shows no one of theirs.
 let talkApart = false;
 function drawTalkStrip() {
   const name = $("talk-name").textContent;
@@ -359,7 +359,7 @@ async function drawTv(speech, name, on) {
   );
   set.hidden = false;
   // A room that paints its own set shows the broadcast on it, not a blank or
-  // static screen (C18, Nov 23): the glass is the picture's own row.
+  // static screen: the glass is the picture's own row.
   if (backdropScreen)
     $("stage").append(
       tvGlass({
@@ -454,15 +454,15 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-// Escape closes the top thing that is open and restores focus; only when nothing is open does it
-// open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
-// restores focus; when none is open, it opens the session menu"). In order: a person's card, the
-// news reader, a term's card, the open menu. A talk or a scene is not one of them.
+// Escape closes the top thing that is open and restores focus; only when
+// nothing is open does it open Options. In order: a person's card, the news
+// reader, a term's card, the open menu. A talk or a scene is not one of them.
+
 /**
- * Closes every card Escape would close, at once. A scene or a stop that comes due while one is
- * open (a menu opened while the day ran) is drawn under it, and the held clock looked like a
- * stuck game (owner, Nov 16: "I think I'm stuck... I pressed escape"), so whatever holds the
- * clock closes the cards first. Options, the pause Escape opens, is not one of them.
+ * Closes every card Escape would close, at once. A scene or a stop that comes
+ * due while one is open (a menu opened while the day ran) is drawn under it,
+ * and the held clock looked like a stuck game, so whatever holds the clock
+ * closes the cards first. Options, the pause Escape opens, is not one of them.
  */
 function closeCards() {
   if (!$("person").hidden) closePerson();
@@ -499,10 +499,10 @@ document.addEventListener("keydown", (event) => {
 async function renderScene({ keepBackdrop = false } = {}) {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   // The opening's staged story sets the backdrop itself; setting the room's
-  // here first would load two pictures in a row (owner, Oct 28, point 2).
+  // here first would load two pictures in a row.
   if (!keepBackdrop) setBackdrop(scene.backdrop);
   // A person in the room is talked to by clicking them; their name in the talk
-  // box opens their card (owner, Oct 27: the card has no Talk button).
+  // box opens their card.
   drawHere(scene, (p) => talkTo(p.personId));
   me.scene = scene;
 }
@@ -753,9 +753,9 @@ async function renderJournalNote() {
   if (!chapters) return;
   const newest = chapters.at(-1)?.lines.at(-1);
   const line = newest?.text ?? "";
-  // A line that follows another ("Two years after that, ...") is shown with the line it
-  // follows, from its own link record, so a pop-up never opens on "that" with nothing before
-  // it (owner, Nov 23, P20).
+  // A line that follows another ("Two years after that,...") is shown with the
+  // line it follows, from its own link record, so a pop-up never opens on
+  // "that" with nothing before it.
   const lead = newest?.link?.earlierId
     ? chapters
         .flatMap((chapter) => chapter.lines)
@@ -798,9 +798,9 @@ async function refresh(scene = {}) {
     if (night.resultMomentId) await showStory(night.resultMomentId);
     return;
   }
-  // No card notice that "a law took effect" (owner, Oct 27: "Why am I getting a
-  // notification that a law took effect?"): a law that reaches the player is
+  // No card notice that "a law took effect": a law that reaches the player is
   // told by its own scene and story, which say how.
+
   if (openTab) await openSheet(openTab);
 }
 
@@ -1353,10 +1353,10 @@ function atOrders() {
   });
 }
 
-// ---- Election morning (owner, Oct 26, 2026: going to vote is a choice) ----
-// The narrator's morning from the election-day bank, a canvass for a
-// candidate before the polls close, then Go vote (the ballot at the polls)
-// or Stay home (no ballot cast). Buttons are control names.
+// ---- Election morning ---- The narrator's morning from the election-day
+// bank, a canvass for a candidate before the polls close, then Go vote (the
+// ballot at the polls) or Stay home (no ballot cast). Buttons are control
+// names.
 function electionMorning(scene) {
   return new Promise((resolve) => {
     const labels = controls.electionDay ?? {};
@@ -1445,11 +1445,11 @@ function electionMorning(scene) {
   });
 }
 
-// ---- Election night (owner, Oct 26, 2026: its own pop-up) ----
-// The returns for the player's race as each place reports, smallest first,
-// with the running count; Next returns steps through them; the call ends it,
-// with the governor races elsewhere that night. Numbers and names are the
-// count's record data; the narrator's lines come from the election-day bank.
+// ---- Election night ---- The returns for the player's race as each place
+// reports, smallest first, with the running count; Next returns steps through
+// them; the call ends it, with the governor races elsewhere that night.
+// Numbers and names are the count's record data; the narrator's lines come
+// from the election-day bank.
 function electionNight(night) {
   return new Promise((resolve) => {
     const labels = controls.returns ?? {};
@@ -1457,10 +1457,10 @@ function electionNight(night) {
       setBackdrop(night.scene.backdrop);
       drawHere(night.scene);
     }
-    // The governor races elsewhere that night have their own page after the
-    // call, rows in columns across the board, so all of them fit the panel at 1024x768
-    // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
-    // could not be reached).
+    // The governor races elsewhere that night have their own page after the call,
+    // rows in columns across the board, so all of them fit the panel at
+    // 1024x768 with nothing to scroll.
+
     const steps = night.nation.races.length
       ? [...night.steps, { nation: night.nation }]
       : night.steps;
@@ -1494,11 +1494,11 @@ function electionNight(night) {
   });
 }
 
-// ---- Election day (owner, Oct 14, 2026: election day is a scene) ----
-// The polling place's picture with the voter and the household members who
-// may vote, and the ballot: each race as the elections engine lists it, each
-// candidate by name and party. A click marks the race; Leave blank and Leave
-// are control names. The voting engine counts what is marked.
+// ---- Election day ---- The polling place's picture with the voter and the
+// household members who may vote, and the ballot: each race as the elections
+// engine lists it, each candidate by name and party. A click marks the race;
+// Leave blank and Leave are control names. The voting engine counts what is
+// marked.
 function atThePolls(scene) {
   return new Promise((resolve) => {
     const labels = {
@@ -1554,8 +1554,8 @@ function atThePolls(scene) {
     show("ballot", true);
   });
 }
-// Day and Week run the world forward (owner, Oct 15, 2026); a calendar day
-// runs it to that day. A scene the director fires stops any of them there.
+// Day and Week run the world forward; a calendar day runs it to that day. A
+// scene the director fires stops any of them there.
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
     // Living on puts the evening's paper away.
@@ -1627,10 +1627,10 @@ function spokenLines(lines) {
     },
   );
 }
-// The narrator speaks first and alone; Continue, then the person talks (owner,
-// Oct 28 sitting, 36: "The narrator shows first, Continue, then the person
-// talks"). What comes next (the person, the next part of a speech) waits
-// here for that Continue.
+// The narrator speaks first and alone; Continue, then the person talks. What
+// comes next (the person, the next part of a speech) waits here for that
+// Continue.
+
 let onContinue;
 /** The narration alone with one Continue, then `then`; no narration, `then` at once. */
 function narrateFirst(setting, then) {
@@ -1642,8 +1642,8 @@ function narrateFirst(setting, then) {
 }
 /**
  * Numbered replies; a key press of the number says it. Each is shown as the
- * player's own words, the line the transcript then records (owner, Nov 1:
- * a choice "should be an actual reply").
+ * player's own words, the line the transcript then records.
+ *
  */
 function replies(choices, onPick) {
   return choices.map((choice) => talkReply(choice, choice.text, onPick));
@@ -1709,10 +1709,10 @@ async function talkTo(otherId, momentId) {
   // back, as after a talk's end.
   if (!opened) await renderScene();
 }
-// Saying nothing is a smaller control beside the four replies (owner, Oct 14).
-// A line that does not read right is marked where it is said; no time passes.
-// Mark gap is a developer control: it joins the talk box only while dev
-// mode is on, and is never in the player's markup.
+// Saying nothing is a smaller control beside the four replies. A line that
+// does not read right is marked where it is said; no time passes. Mark gap is
+// a developer control: it joins the talk box only while dev mode is on, and
+// is never in the player's markup.
 const gapButton = makeButton({
   id: "talk-gap",
   className: "action small",
@@ -1831,10 +1831,10 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  // The narrator sets the counter up first, alone, whatever the visit
-  // arrives with (a race picked at once adds lines before this runs); Continue,
-  // then the clerk speaks. Once per visit (owner, Nov 8: "it says first thing
-  // on June 7th. You head to the clerk's office and speak to...").
+  // The narrator sets the counter up first, alone, whatever the visit arrives
+  // with (a race picked at once adds lines before this runs); Continue, then
+  // the clerk speaks. Once per visit.
+
   if (value.intro?.length && !filingNarrated) {
     filingNarrated = true;
     narrateFirst(
@@ -1846,9 +1846,9 @@ function renderFiling(value) {
     return;
   }
   fillTalk({ lines: spokenLines(lines) });
-  // No form at the counter (owner, Oct 28, point 31: the rules panel was a
-  // dev menu): filing carries the party the player is tied to, from the
-  // record, and the platform from the filer's own views.
+  // No form at the counter: filing carries the party the player is tied to,
+  // from the record, and the platform from the filer's own views.
+
   const choose = async (choice) => {
     // "All right." is the way out: it walks out as Leave does, never a reply
     // that only clears itself (C13).
@@ -1877,11 +1877,11 @@ function renderFiling(value) {
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
-  // The counter offers four replies at most; an office with more races
-  // asks "What else is open?" among them and the next races follow, soonest
-  // first. Each race is told apart in its own line (its seat, its election
-  // day and who holds it now), never in a hover card over the next line
-  // (owner, Nov 1: "a terribly designed menu").
+  // The counter offers four replies at most; an office with more races asks
+  // "What else is open?" among them and the next races follow, soonest first.
+  // Each race is told apart in its own line (its seat, its election day and
+  // who holds it now), never in a hover card over the next line.
+
   const electionOf = (choice) =>
     value.seats?.[choice.action.contestId]?.electionDate ?? "";
   const { shown: choices, more } = counterReplies(
@@ -1916,8 +1916,8 @@ function renderFiling(value) {
     );
   }
   fillTalk({ replies: buttons });
-  // What the filing asks next is said by the clerk, once, in the talk: no
-  // count or status label sits under the dialogue (owner, Nov 14).
+  // What the filing asks next is said by the clerk, once, in the talk: no count
+  // or status label sits under the dialogue.
   setScales({ available: false });
 }
 async function openFiling(filedWith, contestId) {
@@ -2018,11 +2018,11 @@ let speechState = null;
  * unfilled where that is what the records hold.
  */
 /**
- * Asking people for something, played as a scene (owner: every campaign act is
- * a scene): the place with the player at it, each person asked the next
- * Continue (their name and bust, what they said from the ask's own record),
- * the last the total in the narrator's voice. An evening of donor calls and a
- * volunteer shift are this.
+ * Asking people for something, played as a scene: the place with the player
+ * at it, each person asked the next Continue (their name and bust, what they
+ * said from the ask's own record), the last the total in the narrator's
+ * voice. An evening of donor calls and a volunteer shift are this.
+ *
  */
 function playAsks({ asked, summary, scene }) {
   closeSheet();
@@ -2054,9 +2054,9 @@ function playAsks({ asked, summary, scene }) {
   step(0);
 }
 /**
- * A governor's race that carries the office the law elects on its ticket: the running mate
- * once named, else the people of the player's party the world's own pick ranks, best first, to
- * choose from, and Choose for me for the world's pick (owner, Nov 14).
+ * A governor's race that carries the office the law elects on its ticket: the
+ * running mate once named, else the people of the player's party the world's
+ * own pick ranks, best first, to choose from, and Choose for me for the world's pick.
  */
 function ticketSection(filing, ticket) {
   const words = controls.runningMate ?? {};
@@ -2170,9 +2170,9 @@ async function campaignParts() {
       // The outing's hours moved the clock: the card shows the new time.
       if (result.packet) renderPacket(result.packet);
       campaignLines = (result.calls ?? []).map((call) => call.line);
-      // An evening of calls is a scene (owner: every campaign act is a scene):
-      // the player at the phones, one call per Continue, each person heard by
-      // name with what they gave or why not, then the night's total.
+      // An evening of calls is a scene: the player at the phones, one call per
+      // Continue, each person heard by name with what they gave or why not,
+      // then the night's total.
       if (outing === "calls" && result.callsLine) {
         campaignResult = result.callsLine;
         playAsks({
@@ -2187,9 +2187,9 @@ async function campaignParts() {
         result.doorsKnocked
           ? controls.campaignResults.doors.replace("{n}", result.doorsKnocked)
           : "",
-        // Doors that opened on a petition's outing, whether asked to sign or
-        // for the vote (the Words lead, Nov 14); "reached" says the people met
-        // and shows where any door asked for the vote.
+        // Doors that opened on a petition's outing, whether asked to sign or for the
+        // vote; "reached" says the people met and shows where any door asked
+        // for the vote.
         result.answered !== null && result.answered !== undefined
           ? controls.campaignResults.answered.replace("{n}", result.answered)
           : "",
@@ -2472,7 +2472,7 @@ async function campaignParts() {
           nodes: [
             debateCard({
               words: controls.debate,
-              // The day in words ("October 20, 2026"), never the record's digits.
+              // The day in words, never the record's digits.
               debate: { ...debate, date: dateWords(debate.date) },
               // Yes: the sitting goes on the record, and the director stages it.
               onAccept: async () => {
@@ -2538,9 +2538,9 @@ async function campaignParts() {
               { label: labelsC.spent, value: moneyWords(campaign.spentMinor) },
               { label: labelsC.volunteers, value: String(campaign.volunteers) },
               { label: labelsC.doors, value: String(campaign.doors) },
-              // The petition record: the signatures held against those the
-              // law asks, and the day they are due (owner, Nov 14: the tab keeps
-              // the running total). A race that asks no signatures shows none.
+              // The petition record: the signatures held against those the law asks, and
+              // the day they are due. A race that asks no signatures shows
+              // none.
               ...(petition?.needed
                 ? [
                     {
@@ -2603,9 +2603,9 @@ async function campaignParts() {
   return parts;
 }
 /**
- * The campaign trail: where the acts are (owner, Oct 20: "campaign acts are
- * scenes you go to"). One card in Travel per filed campaign; its doors, event,
- * interview, forum, calls, donor meeting, speech and debate start their scenes.
+ * The campaign trail: where the acts are. One card in Travel per filed
+ * campaign; its doors, event, interview, forum, calls, donor meeting, speech
+ * and debate start their scenes.
  */
 function trailView(part) {
   $("sheet-body").replaceChildren(...part.trail);
@@ -2680,8 +2680,8 @@ async function showStory(momentId) {
   // A speech heard (the address on the evening news): its speaker's own
   // words from the record, then Continue.
   if (story.speech) {
-    // The speech plays one part per Continue (owner, Oct 28 sitting, 11:
-    // "Each Continue can carry a paragraph"); the last Continue ends it.
+    // The speech plays one part per Continue; the last Continue ends it.
+
     const parts = story.speech.parts?.length
       ? story.speech.parts
       : [story.speech.text];
@@ -2697,12 +2697,12 @@ async function showStory(momentId) {
         setBackdrop(beat.backdrop);
         drawHere(beat);
       }
-      // A speaker heard on a broadcast is named, never drawn in the room
-      // (the narrator said how it was heard); one on the montage or in the
-      // room stands on the strip. A cutaway (America, the state, home) shows
-      // its own people and the speaker only on the set, never on the strip
-      // as well (CTO, Nov 19 and Nov 24: "in a cutaway she belongs only in
-      // the corner").
+      // A speaker heard on a broadcast is named, never drawn in the room (the
+      // narrator said how it was heard); one on the montage or in the room
+      // stands on the strip. A cutaway (America, the state, home) shows its
+      // own people and the speaker only on the set, never on the strip as
+      // well.
+
       setWho(
         (beat ? beat.inRoom : story.speech.inRoom)
           ? story.speech.speakerId
@@ -2710,9 +2710,9 @@ async function showStory(momentId) {
         story.names[story.speech.speakerId],
       );
       talkControls({ silent: false, leave: false });
-      // Heard on a broadcast: the station over the line with its small icon
-      // (owner, Oct 14: "a small card in the conversation text style with a
-      // tiny radio/TV icon, the station, and the line").
+      // Heard on a broadcast: the station over the line with its small icon.
+
+
       const on = story.speech.heardOn;
       // The address cuts away from the chamber to the country and to homes:
       // there it is heard on a set, the speaker on it with Live over them.
@@ -2846,8 +2846,8 @@ function storyStop(value) {
 }
 
 /**
- * Why a race is not the player's, in words: the office rule's cause with the office and the home's own
- * offices the player runs for instead (crew list #9747, item 3a: closed offices show why), else the
+ * Why a race is not the player's, in words: the office rule's cause with the
+ * office and the home's own offices the player runs for instead, else the
  * clerk's one reason. The words are Story's (`localRaces.refusalWhy`).
  */
 function closedOfficeWords(race, labels) {
@@ -2873,9 +2873,9 @@ function closePerson() {
   personOpener?.focus();
 }
 /**
- * The approved person card's strip screen for one person, built from their known record
- * (owner, Nov 7, item 54, "perfect"). Shown in its own panel by showPerson and inside the
- * People screen beside the roster. Returns null when the person is gone.
+ * The approved person card's strip screen for one person, built from their
+ * known record. Shown in its own panel by showPerson and inside the People
+ * screen beside the roster. Returns null when the person is gone.
  */
 async function personCardNode(
   person,
@@ -2913,9 +2913,9 @@ async function personCardNode(
       ),
     );
   // When you were last in touch and why, read from the tie's own record (the
-  // card's tie row: its latestChange); an event only, never how close you are
-  // (owner, Oct 29: no band word for how someone feels, on any screen); a
-  // person with no tie to you has no line.
+  // card's tie row: its latestChange); an event only, never how close you
+  // are; a person with no tie to you has no line.
+
   const change = person.latestChange;
   const changeLine = change
     ? introText(
@@ -3003,8 +3003,8 @@ async function personCardNode(
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
     // Their life from the records, oldest first, as the card has told it since
-    // #6772 and #7090: the card is sent the story and draws it (owner's
-    // playtest, Nov 8).
+    // and: the card is sent the story and draws it.
+
     ...(c.history?.length
       ? [
           markLife(
@@ -3017,9 +3017,9 @@ async function personCardNode(
         ]
       : []),
   ];
-  // Their life sits under the bust, in the bust's own column (owner on
-  // People, Nov 16: "still lots of empty space"); with no bust it takes the
-  // second column, beside who they are.
+  // Their life sits under the bust, in the bust's own column; with no bust it
+  // takes the second column, beside who they are.
+
   const lifeAt = firstColumn.findIndex((node) => node.dataset?.life === "1");
   const life = lifeAt >= 0 ? firstColumn.splice(lifeAt, 1) : [];
   const underBust = c.face ? life : [];
@@ -3083,10 +3083,10 @@ function markLife(node) {
   return node;
 }
 /**
- * A card never runs past its panel (owner's menu rule; CTO, Nov 18). The life
- * story sits under the bust; when it does not fit there it moves to the card's
- * second column, which has the room, and stays under the bust when the panel
- * holds it either way.
+ * A card never runs past its panel. The life story sits under the bust; when
+ * it does not fit there it moves to the card's second column, which has the
+ * room, and stays under the bust when the panel holds it either way.
+ *
  */
 function fitLifeStory(facts) {
   const life = facts.querySelector('[data-life="1"]');
@@ -3547,10 +3547,10 @@ function billEstimate(paper, section) {
  * beside it. `show` draws the nodes, `back` returns to the rows.
  */
 /**
- * Another state's change opened (play-states-screen-opens-any-state): who voted
- * yes and no in each chamber and its sponsor, from the roll call kept the day
- * it passed. It closes like every menu, by its tabs and close control (owner,
- * Oct 29: no Back in any menu).
+ * Another state's change opened (play-states-screen-opens-any-state): who
+ * voted yes and no in each chamber and its sponsor, from the roll call kept
+ * the day it passed. It closes like every menu, by its tabs and close
+ * control.
  */
 async function showRollCall(lawId) {
   const call = await api(
@@ -3631,9 +3631,9 @@ async function openBillPaper(billId, show, back, backLabel) {
     })
     .catch(() => null);
   const floor = controls.floor ?? {};
-  // A bill opened inside the meeting or the desk returns to it; a menu has no Back
-  // (owner, Oct 29: "continue and back needs to be removed from every single menu"):
-  // a menu's bill closes with the menu's tabs and close control.
+  // A bill opened inside the meeting or the desk returns to it; a menu has no
+  // Back: a menu's bill closes with the menu's tabs and close control.
+
   const backButton = backLabel
     ? makeButton({ className: "action", textContent: backLabel })
     : null;
@@ -4068,10 +4068,10 @@ async function seatRows() {
         else act(params);
       },
     });
-    // The body's line on the board: who sits on it, and the way in to writing
-    // a bill, which takes the whole screen (a list of subjects beside the
-    // chosen one's page). A menu has no Back (owner, Oct 28 and 29): the Your
-    // office tab above it returns to the seat.
+    // The body's line on the board: who sits on it, and the way in to writing a
+    // bill, which takes the whole screen (a list of subjects beside the
+    // chosen one's page). A menu has no Back: the Your office tab above it
+    // returns to the seat.
     const write = makeButton({
       className: "action",
       textContent: seat.title ?? "",
@@ -4219,9 +4219,9 @@ async function ownHistory() {
 /** A life's lines as sentences grouped by what mattered (controls.lifeGroups), one paragraph each. */
 /**
  * A tab of the You group as the approved strip screen: the player's name and
- * the one bust every tab of the group shows (the card's own face record), with
- * the tab's sections beside it. No whole figure stands beside a menu (owner,
- * Nov 7).
+ * the one bust every tab of the group shows (the card's own face record),
+ * with the tab's sections beside it. No whole figure stands beside a menu.
+ *
  */
 function ownStrip(columns) {
   const c = me.card;
@@ -4284,11 +4284,11 @@ const sheets = {
     });
   },
   /**
-   * You, as the owner approved it on Nov 7 (item 53; the mock's you-ol-g): your
-   * name and role over a bust, "Who I am" and "What I'm like" in the first
-   * person from your own records, and the people you're closest to as names
-   * that open their cards. "What people say about me" waits for a record of
-   * what people say about a person (stopgap in the PR body).
+   * You, as and "What I'm like" in the first person from your own records,
+   * and the people you're closest to as names that open their cards. "What
+   * people say about me" waits for a record of what people say about a person
+   * (stopgap in the PR body).
+   *
    */
   async who() {
     const c = me.card;
@@ -4370,11 +4370,11 @@ const sheets = {
       asked > paid
         ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
         : moneyWords(paid);
-    // Money as the Nov 8 play mock draws it (pl-money): strips of typed rows with dot leaders,
-    // never charts. My money (the cash in large type, then each month's balance), what went
-    // out last month, what I own and what I owe, and what comes out of my pay. Every figure
-    // is a record's own; a ledger line per day and the campaign's money (in the mock) wait on
-    // records the bank does not serve yet.
+    // Money as the play mock draws it (pl-money): strips of typed rows with dot
+    // leaders, never charts. My money (the cash in large type, then each
+    // month's balance), what went out last month, what I own and what I owe,
+    // and what comes out of my pay. Every figure is a record's own; a ledger
+    // line per day and the campaign's money (in the mock) wait on records the bank does not serve yet.
     const shortMonth = (date) =>
       (MONTH_NAMES[Number(String(date).slice(5, 7)) - 1] ?? "").slice(0, 3);
     const months = [...(bank?.cash?.months ?? [])].reverse();
@@ -4615,9 +4615,9 @@ const sheets = {
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
-    // One story from birth, a page to each chapter of the life, with no heading over any
-    // part of it (owner, Oct 27: "written like a story, not individual sections... from
-    // birth"; "remove all those subheadings").
+    // One story from birth, a page to each chapter of the life, with no heading
+    // over any part of it.
+
     return journalScreen({
       chapters,
       labels: controls.journal,
@@ -4661,8 +4661,8 @@ const sheets = {
       ],
     });
   },
-  // How the place is doing (owner, Nov 5, ruling 23: "Keep it, call it Metrics"): plain numbers,
-  // this year beside last, no charts. Every figure is the record's; the words are control names.
+  // How the place is doing: plain numbers, this year beside last, no charts.
+  // Every figure is the record's; the words are control names.
   async metrics() {
     const view = await api("/api/metrics");
     const screen = metricsScreen({
@@ -4724,14 +4724,14 @@ const sheets = {
             },
           }))
         : [];
-    // The approved Budgets screen (owner, Nov 7, item 56; the mock's bud-strips): the
-    // governments as tabs, the fiscal year typed at the right, the departments, the open
-    // department as a typed page, the town's money, and who wrote it. The game keeps
-    // budget lines by category rather than departments, so each spending line is a
-    // department; Last year comes from the government's previous budget; "Asked" is the line
-    // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
-    // record's chief executive; a department's head is the executive's appointee for its line
-    // (budget.ts headsOf).
+    // The approved Budgets screen: the governments as tabs, the fiscal year typed
+    // at the right, the departments, the open department as a typed page, the
+    // town's money, and who wrote it. The game keeps budget lines by category
+    // rather than departments, so each spending line is a department; Last
+    // year comes from the government's previous budget; "Asked" is the line
+    // before this year's budget bill (lineBeforeBill); the executive's bust
+    // is the offices record's chief executive; a department's head is the
+    // executive's appointee for its line (budget.ts headsOf).
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -4744,9 +4744,9 @@ const sheets = {
       latest.spending.find((r) => r.line === budgetLine) ??
       spending[0] ??
       latest.spending[0];
-    // "Since last year ... up by ..." from the record's own change, set beside last year's
-    // figure (Nation's budgetView: changeMinor, changePct); never computed here. No little
-    // chart (owner, Nov 5: data, never charts).
+    // "Since last year... up by..." from the record's own change, set beside last
+    // year's figure (Nation's budgetView: changeMinor, changePct); never
+    // computed here. No little chart.
     const pctFormat = new Intl.NumberFormat("en-US", {
       style: "percent",
       maximumFractionDigits: 1,
@@ -5081,10 +5081,10 @@ const sheets = {
       }),
     ];
   },
-  // The Guide as an encyclopedia page (owner, Oct 29: every menu like
-  // Government, never blocks of text): the terms as cards on a plate, paged
-  // two across, and the chosen term's article beside them; the search narrows
-  // the cards as it is typed.
+  // The Guide as an encyclopedia page: the terms as cards on a plate, paged two
+  // across, and the chosen term's article beside them; the search narrows the
+  // cards as it is typed.
+
   async guide() {
     const terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
     return guideScreen({
@@ -5101,10 +5101,10 @@ const sheets = {
     });
   },
   /**
-   * The title's Patch notes, as the Nov 8 front mock draws it (fr-notes): the builds in a
-   * strip at the left, newest first, and the chosen build's changes in a strip per heading
-   * (Changed, Improved, Fixed), each note's text under it. The release machinery's file is
-   * the only source; no card per note, no chips.
+   * The title's Patch notes, as the front mock draws it (fr-notes): the
+   * builds in a strip at the left, newest first, and the chosen build's
+   * changes in a strip per heading (Changed, Improved, Fixed), each note's
+   * text under it. The release machinery's file is the only source; no card per note, no chips.
    */
   async patchNotes() {
     const { releases } = await api("/api/patch-notes");
@@ -5114,7 +5114,7 @@ const sheets = {
         title: labels.builds,
         builds: releases.map((r) => ({
           name: r.version,
-          // The release file says "Released November 8, 2026."; the list shows "Nov 8".
+          // The release file says "Released."; the list shows "".
           when: (() => {
             const day = new Date(
               String(r.released ?? "")
@@ -5137,9 +5137,9 @@ const sheets = {
     ];
   },
   /**
-   * The title's Saved games, as the Nov 8 front mock draws it (fr-saves): one strip per saved
-   * life, its name over a bust, the game's date and Load, the most recently played first.
-   * There is no Delete: a control with no effect is a defect, and nothing removes a save yet.
+   * The title's Saved games, as the front mock draws it (fr-saves): one strip
+   * per saved life, its name over a bust, the game's date and Load, the most
+   * recently played first. There is no Delete: a control with no effect is a defect, and nothing removes a save yet.
    */
   async saves() {
     await controlsReady;
@@ -5167,12 +5167,12 @@ const sheets = {
     );
   },
   /**
-   * Options as the Nov 8 front mock draws it (fr-options): a strip for Seeing (Full screen
-   * as On and Off toggles), a strip for Leave (Quit to title) and a strip for Dev mode, lit
-   * toggles and never checkboxes, and a strip for which scenes may stop the day (the
-   * director's own record, by group). Color-blind colors are one global setting
-   * (palette-setting.mjs). Save now is in the mock but is not a setting the game keeps yet,
-   * so it is not drawn.
+   * Options as the front mock draws it (fr-options): a strip for Seeing (Full
+   * screen as On and Off toggles), a strip for Leave (Quit to title) and a
+   * strip for Dev mode, lit toggles and never checkboxes, and a strip for
+   * which scenes may stop the day (the director's own record, by group).
+   * Color-blind colors are one global setting (palette-setting.mjs). Save now
+   * is in the mock but is not a setting the game keeps yet, so it is not drawn.
    */
   async options() {
     await controlsReady;
@@ -5443,11 +5443,11 @@ const sheets = {
     return seatRows();
   },
   /**
-   * Campaigns: the coming ballot's real races (owner, Oct 28, point 19), each
-   * opening to who runs, with their filed views, every candidate's name their
-   * card, and File for it taking you to the office that takes the filing.
-   * The player's own filed campaign stays above it (screens-campaign-board
-   * is the one board that replaces those rows).
+   * Campaigns: the coming ballot's real races, each opening to who runs, with
+   * their filed views, every candidate's name their card, and File for it
+   * taking you to the office that takes the filing. The player's own filed
+   * campaign stays above it (screens-campaign-board is the one board that
+   * replaces those rows).
    */
   /** The campaign board of each filed race (the Campaign tab; one filed race shows its board). */
   async campaign() {
@@ -5569,9 +5569,9 @@ const sheets = {
                 closeSheet();
                 showPerson({ personId: f.cardId });
               },
-              // Where they stand, as typed rows in the strip screens' own
-              // sentence case, not the capitals of a form's label (owner,
-              // Nov 23, C11 and P28).
+              // Where they stand, as typed rows in the strip screens' own sentence case,
+              // not the capitals of a form's label.
+
               more: f.stances.length
                 ? [
                     dotRows(
@@ -5624,8 +5624,8 @@ const sheets = {
       fileButton.addEventListener("click", () =>
         openFiling(race.filedWith, race.contestId),
       );
-      // Run now, file on the date (owner, Nov 17): announce for a race whose
-      // filing opens later; the campaign starts today.
+      // Run now, file on the date: announce for a race whose filing opens later;
+      // the campaign starts today.
       const announceButton = makeButton({
         className: "action primary",
         textContent: labels.announce,
@@ -5639,10 +5639,10 @@ const sheets = {
         await openSheet("campaign");
       });
       // A race whose filing hasn't opened runs the world to that morning, as a
-      // calendar day does (owner, Nov 17: "so I don't have to figure out the
-      // filing thing"); what needs the player on the way stops it there.
+      // calendar day does; what needs the player on the way stops it there.
       // Not for a player who is old enough only after this race's filing
       // closes: the morning it opens, they still could not file.
+
       const opensLater =
         !race.filingClosed &&
         !race.filingOpen &&
@@ -5660,10 +5660,10 @@ const sheets = {
         closeSheet();
         act(`/api/advance?mode=calendar&date=${race.filingOpens}`);
       });
-      // A race the player cannot run for says so on a disabled button, never on a caption under
-      // the buttons (the CTO's send-back, Nov 24; the Nov 8 no-subtext rule), and then offers no
-      // Sim to a filing date that is not theirs. A race not yet open says it through its dates
-      // and its Sim button alone.
+      // A race the player cannot run for says so on a disabled button, never on a
+      // caption under the buttons, and then offers no Sim to a filing date
+      // that is not theirs. A race not yet open says it through its dates and
+      // its Sim button alone.
       const refusedButton =
         !mayFile &&
         !race.mayAnnounce &&
@@ -5919,9 +5919,9 @@ const sheets = {
             },
           ]
         : []),
-      // One list, no headings over it (owner, Nov 24): the offices the player
-      // runs for come first, each with when they can file, then the rest of the
-      // ballot by election day; a race's page says its day.
+      // One list, no headings over it: the offices the player runs for come first,
+      // each with when they can file, then the rest of the ballot by election
+      // day; a race's page says its day.
       ...(mine.length || byDate.size
         ? [
             {
@@ -5963,15 +5963,15 @@ const sheets = {
     });
   },
   /**
-   * Politics → Government, drawn as a game menu (owner, Oct 29: "make it look like a real
-   * game menu"). The level (Local, State, Federal) and the branch
-   * (Legislative, Executive) are two rows of tabs. A lawmaking body is its
-   * room's painting with its name and when it meets, its party split, its
-   * members as cards (a big chamber as a seat chart with your members and its
-   * leaders first), its recent roll calls as bars and what is coming up, with
-   * the level's executive beside it. One fixed panel: what does not fit pages
-   * inside its box, never a scroll (owner, Oct 29). Every card opens the
-   * person's card, where you act (owner, Oct 29: see and jump).
+   * Politics → Government, drawn as a game menu. The level (Local, State,
+   * Federal) and the branch (Legislative, Executive) are two rows of tabs. A
+   * lawmaking body is its room's painting with its name and when it meets,
+   * its party split, its members as cards (a big chamber as a seat chart with
+   * your members and its leaders first), its recent roll calls as bars and
+   * what is coming up, with the level's executive beside it. One fixed panel:
+   * what does not fit pages inside its box, never a scroll. Every card opens
+   * the person's card, where you act.
+   *
    */
   // Bills before your state's chambers and Congress, followed from home: where each is, how
   // your own members voted, whether it reaches your place; a card opens the bill's paper.
@@ -6137,9 +6137,9 @@ const sheets = {
       );
     };
     const lawmakingView = (body, executive) => {
-      // The body's name over its room, no line under it (owner, Nov 7: no
-      // subtitles on menus): its seats are in Seats, its meeting and election
-      // in Coming up.
+      // The body's name over its room, no line under it: its seats are in Seats,
+      // its meeting and election in Coming up.
+
       const header = chamberHeader({
         picture: body.picture,
         name: body.name,
@@ -6243,8 +6243,8 @@ const sheets = {
           })),
         ),
       );
-      // What is coming up sits under the chief, and only when something is scheduled (no filler
-      // line for an empty calendar; the CTO, Nov 24).
+      // What is coming up sits under the chief, and only when something is
+      // scheduled.
       const comingItems = executive
         .flatMap((o) => o.comingUp)
         .sort((x, y) => x.date.localeCompare(y.date))
@@ -6338,10 +6338,10 @@ const sheets = {
         governmentLevel = "state";
         return screen();
       }
-      // A branch the level has nothing in is not offered (nothing on screen
-      // does nothing): a township with no executive shows its board alone.
-      // SG-PLAY-government-judicial-no-judges: no Judicial branch yet, since no
-      // judge exists in the world to show (owner, Oct 29: judges read-only).
+      // A branch the level has nothing in is not offered (nothing on screen does
+      // nothing): a township with no executive shows its board alone.
+      // SG-PLAY-government-judicial-no-judges: no Judicial branch yet, since
+      // no judge exists in the world to show.
       const offered = ["legislative", "executive"].filter((key) =>
         key === "legislative" ? v.legislative.length : v.executive.length,
       );
@@ -6387,8 +6387,8 @@ const sheets = {
           },
         })),
       });
-      // The state filter: the kit's dropdown, the player's state by name
-      // first (owner, Oct 28, point 15).
+      // The state filter: the kit's dropdown, the player's state by name first.
+
       const stateFilter =
         level !== "local"
           ? select({
@@ -6481,8 +6481,8 @@ const sheets = {
   /**
    * Parties, illustrated: the state's map with the player's districts and
    * town filled in the color of the party that holds each, a legend of the
-   * parties by seats, then each party's seats as person rows (owner, Oct
-   * 28, point 20: the map that once existed, brought back).
+   * parties by seats, then each party's seats as person rows.
+   *
    */
   async parties() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
@@ -6624,12 +6624,12 @@ const sheets = {
     });
   },
   /**
-   * Issues: the law in force here as cards by subject (owner, Oct 28, point
-   * 21: "click an issue (minimum wage) and see the law itself and find the
-   * law"), each card opening the law's own screen: what is in force at each
-   * level and since when, the statute it rests on, the measure that enacted
-   * it, what is coming, and who voted. No row repeats the state the filter
-   * and the card already name.
+   * Issues: the law in force here as cards by subject, each card opening the
+   * law's own screen: what is in force at each level and since when, the
+   * statute it rests on, the measure that enacted it, what is coming, and who
+   * voted. No row repeats the state the filter and the card already name.
+   *
+   *
    */
   async issues() {
     const [v, changes] = await Promise.all([
@@ -6858,8 +6858,8 @@ const sheets = {
         ...(votes.length ? [stripSection(4, labels.votes, ...votes)] : []),
       ];
     };
-    // Three filters over the one list of laws: level, in force and subject. The list is the
-    // long-list box beside the chosen law's page (the Nov 8 mock); the filters read the law rows.
+    // Three filters over the one list of laws: level, in force and subject. The
+    // list is the long-list box beside the chosen law's page; the filters read the law rows.
     const fw = labels.issueFilter;
     const order = Object.keys(labels.issueGroups ?? {});
     const byName = (a, b) =>
@@ -7006,8 +7006,8 @@ async function openSheet(tab) {
     "options-sheet",
     tab === "options" || !$("front").hidden,
   );
-  // Patch notes opened from the title sit beside the title menu, never over it (CTO, Nov 24: the panel
-  // overlapped the menu and cut off "Continue as ..."): centered in the room to its right.
+  // Patch notes opened from the title sit beside the title menu, never over it:
+  // centered in the room to its right.
   const sheetEl = $("sheet");
   if (tab === "patchNotes" && !$("front").hidden) {
     const scale = uiScale();
@@ -7022,8 +7022,8 @@ async function openSheet(tab) {
   }
   const character = groupOf(tab) === "who";
   // You carries its own bust (the approved strip screen). Jobs and study and
-  // Your life are strip screens too: no full-body figure stands beside a menu
-  // (owner, Nov 7: "let's just do the busts"; Nov 10: "start removing the people").
+  // Your life are strip screens too: no full-body figure stands beside a
+  // menu.
   $("sheet").classList.toggle(
     "strip-sheet",
     character ||
@@ -7042,10 +7042,10 @@ async function openSheet(tab) {
     "cols",
     tab !== "who" && tab !== "calendar" && body.length > 12,
   );
-  // A screen is as tall as what it holds (owner, Oct 27: "so much dead space");
-  // the calendar, the people web and two-column readers fill the window.
-  // A screen that ends under its content fits; one that flows in columns or
-  // lays its sections out in a grid (Politics, Budgets) takes the window.
+  // A screen is as tall as what it holds; the calendar, the people web and
+  // two-column readers fill the window. A screen that ends under its content
+  // fits; one that flows in columns or lays its sections out in a grid
+  // (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
     !["calendar", "people", "watch", "bills"].includes(tab) &&
@@ -7054,20 +7054,20 @@ async function openSheet(tab) {
         ".screen-grid, .split-screen:not(.single.government-screen)",
       ),
   );
-  // Bills end under their content, up to the window's height (CTO, Nov 24: the panel fits its content).
+  // Bills end under their content, up to the window's height.
   $("sheet").classList.toggle("hugs", tab === "bills");
   show("sheet", true);
   $("game").classList.add("sheet-open");
   fitPagers($("sheet-body"));
 }
 /**
- * No menu scrolls (owner, Oct 29; Lane 4, path 11): once a sheet is on
- * screen, each pager in a part of it that runs past its foot (the sheet's
- * body, or a split screen's side or main) gives back a row at a time until
- * the part fits, the pager holds one row, or a row given back no longer
- * shortens the part (something else in it is the taller). A screen counts its rows from the
- * window; what sits above a pager (a row of buttons, a long title) is only
- * known once drawn.
+ * No menu scrolls: once a sheet is on screen, each pager in a part of it that
+ * runs past its foot (the sheet's body, or a split screen's side or main)
+ * gives back a row at a time until the part fits, the pager holds one row, or
+ * a row given back no longer shortens the part (something else in it is the
+ * taller). A screen counts its rows from the window; what sits above a pager
+ * (a row of buttons, a long title) is only known once drawn.
+ *
  */
 function fitPagers(root) {
   // Again once late type and pictures have their size.
@@ -7078,9 +7078,9 @@ function fitPagers(root) {
   fitPagersNow(root);
 }
 /**
- * A list that still scrolls takes the room a whole row, or a cap, could not use (owner, Nov 23: no
- * scroller "when there's ample dead space"): a sheet that ends under its content stops at its
- * tallest height, so the list's box grows by what is left of it instead of leaving a gap under it.
+ * A list that still scrolls takes the room a whole row, or a cap, could not
+ * use: a sheet that ends under its content stops at its tallest height, so
+ * the list's box grows by what is left of it instead of leaving a gap under it.
  */
 function growIntoRoom(box) {
   const sheet = $("sheet");
@@ -7135,11 +7135,11 @@ function fitPagersNow(root, waits = 30) {
     }
   });
 }
-// The rail over the player card: a column of round icons, News among them; it is
-// the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,
-// point 23: not a tab in Politics). The card under it shows only the date
-// and time (owner, Oct 27: "the time and date on the bottom"; no second picture).
-// The rail is named from the controls file, so it is mounted once that loads.
+// The rail over the player card: a column of round icons, News among them; it
+// is the one menu, Who you are among them, the Guide its own entry. The card
+// under it shows only the date and time. The rail is named from the controls
+// file, so it is mounted once that loads.
+
 void controlsReady.then(() => {
   mountRail(
     $("rings"),
@@ -7181,10 +7181,10 @@ document.addEventListener("fullscreenchange", () => {
 fitUiScale();
 window.addEventListener("resize", fitUiScale);
 
-// A dock that comes into view under a resting pointer (the click that began the
-// life, a scene that ends, a sheet that closes) shows no hover light until the
-// pointer moves: nothing glows on its own (owner, Nov 23, N8-P12). It watches
-// every panel that hides the dock, not only the rail's own `hidden`.
+// A dock that comes into view under a resting pointer (the click that began
+// the life, a scene that ends, a sheet that closes) shows no hover light
+// until the pointer moves: nothing glows on its own. It watches every panel
+// that hides the dock, not only the rail's own `hidden`.
 {
   const dock = $("dock");
   const dockShown = () =>
@@ -7221,9 +7221,9 @@ window.addEventListener("resize", fitUiScale);
       });
 }
 
-// ---- New life ----
-// The title screen: a national scene or event, full window, that moves on with
-// each visit (owner, Oct 8 and Oct 14). Continue resumes the life in progress.
+// ---- New life ---- The title screen: a national scene or event, full
+// window, that moves on with each visit. Continue resumes the life in
+// progress.
 let titleLife = null;
 // Every saved life the title offers (Saved games), the most recently played first.
 let titleSaves = [];
@@ -7233,7 +7233,7 @@ function rotateTitle(scenes, seconds) {
   let at = 0;
   const next = $("backdrop-next");
   // The rotation runs only on the title menu itself: a creator panel keeps the
-  // painting it opened on (owner, Oct 28: "the double background jump").
+  // painting it opened on.
   const onTitleMenu = () => !$("front").hidden && !$("front-main").hidden;
   setInterval(() => {
     if (!onTitleMenu()) return;
@@ -7244,9 +7244,9 @@ function rotateTitle(scenes, seconds) {
       next.classList.add("fading");
       setTimeout(() => {
         if (!onTitleMenu()) return next.classList.remove("fading");
-        // One picture, one fade: both layers drift on the same clock, so the
-        // base takes the new picture underneath and the top layer clears at once
-        // (no second fade, no restarted zoom; owner, Nov 8 P1).
+        // One picture, one fade: both layers drift on the same clock, so the base
+        // takes the new picture underneath and the top layer clears at once.
+
         const back = $("backdrop");
         const clear = () => {
           back.onload = null;
@@ -7344,7 +7344,7 @@ if (window.location.protocol === "app:") {
   show("front-quit", true);
   $("front-quit").addEventListener("click", () => window.close());
 }
-// The seed draws a world; Random draws a new one (Oct 13 front).
+// The seed draws a world; Random draws a new one.
 const drawSeed = () =>
   api("/api/seed").then((value) => {
     $("seed").value = value.seed;
@@ -7353,9 +7353,9 @@ const drawSeed = () =>
 void drawSeed();
 $("seed-random").addEventListener("click", () => void drawSeed());
 /** What the player changed from real data; nothing means a real world. */
-// The world's settings, as the approved world screen draws them: a row of arrows over
-// the figure each step means (owner, Nov 8: "the figure itself in each control"). The
-// chosen step of each row is kept here; the server reads the settings it makes.
+// The world's settings, as the approved world screen draws them: a row of
+// arrows over the figure each step means. The chosen step of each row is kept
+// here; the server reads the settings it makes.
 const worldStep = {};
 function worldWords(row, value) {
   const w = controls.worldSettings;
@@ -7460,16 +7460,16 @@ const FRONT_PANELS = [
   "cr-screen",
 ];
 /**
- * Where the close X on the front takes you from each panel: one level out. There is no Back
- * button on any menu (owner, Oct 28: "Remove every Continue and Back from every menu").
+ * Where the close X on the front takes you from each panel: one level out.
+ * There is no Back button on any menu.
  */
 const FRONT_OUT = {
   "front-new": () => frontPanel("front-main"),
   "front-advanced": () => frontPanel("front-new"),
   "front-pick": () => frontPanel("front-advanced"),
   "cr-screen": () => {
-    // After a state is picked, out returns to the states (owner, Oct 28, point 5), then out of
-    // the creator.
+    // After a state is picked, out returns to the states, then out of the
+    // creator.
     if (setup.state) {
       setup.state = null;
       setup.town = null;
@@ -7489,19 +7489,19 @@ show("front-close", false);
 const GAME_TITLE = document.querySelector("#front > .title")?.textContent ?? "";
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
-  // A sheet opened over the title (Patch notes, Options, Saves) closes when a front panel
-  // opens, so New game never sits under it (owner, Nov 23, P2).
+  // A sheet opened over the title (Patch notes, Options, Saves) closes when a
+  // front panel opens, so New game never sits under it.
   if (openTab !== undefined) closeSheet();
   // The close X is on every front panel but the title menu itself.
   show("front-close", name !== "front-main" && name !== null);
-  // Each panel is named for what it is (the Nov 8 front mock), not by the game's name.
+  // Each panel is named for what it is, not by the game's name.
   const title = document.querySelector("#front > .title");
   if (title && controls.frontTitles?.[name])
     title.textContent = controls.frontTitles[name];
-  // The loading card (no panel) sits in the top-left corner (owner, Oct 14).
+  // The loading card (no panel) sits in the top-left corner.
   $("front").classList.toggle("loading", name === null);
 }
-// What the creator has chosen so far (the Oct 12 SetupScreen's setup).
+// What the creator has chosen so far.
 const setup = {
   custom: false,
   seed: "",
@@ -7572,7 +7572,7 @@ for (const id of ["cr-given", "cr-family"])
 function markGender(g) {
   setup.gender = g;
   filledIn();
-  // The look, and the person in it, appear only once a gender is picked (owner, Nov 17).
+  // The look, and the person in it, appear only once a gender is picked.
   $("cr-screen").classList.remove("no-gender");
   show("cr-look-col", true);
   for (const b of document.querySelectorAll("[data-gender]")) {
@@ -7592,7 +7592,7 @@ async function setBirthday(b) {
   $("cr-day").value = String(b.day);
   await fillYears(b.year);
 }
-/** The birthday a new creator opens on: the youngest a life may begin at, 18, unless one is picked (owner, Nov 16 and 17). */
+/** The birthday a new creator opens on: the youngest a life may begin at, 18, unless one is picked. */
 async function defaultBirthday() {
   fillDays();
   await fillYears(9999);
@@ -7618,8 +7618,8 @@ $("advanced-build").addEventListener(
   "click",
   () => void startLife({ custom: true, pick: true }),
 );
-// Begin names what is still missing and marks it, until it is filled (owner, Oct 28: "It
-// should flash red, or say what is missing at the bottom").
+// Begin names what is still missing and marks it, until it is filled.
+
 function missingForBegin() {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
@@ -7705,13 +7705,13 @@ async function listTowns() {
 }
 $("cr-town-search").addEventListener("input", () => void listTowns());
 
-// The portrait's size in the creator (layout, not game rules): it starts at `start`
-// and is the one part that gives way, so a tall look (a man's or a nonbinary person's
-// extra rows) with a name filled in still fits the window, and a short one fills the
-// room it has (owner, Nov 17: no empty space in the creator; the CTO's catch, Nov 24:
-// the panel's top edge ran off screen).
+// The portrait's size in the creator (layout, not game rules): it starts at
+// `start` and is the one part that gives way, so a tall look (a man's or a
+// nonbinary person's extra rows) with a name filled in still fits the window,
+// and a short one fills the room it has.
+
 const PORTRAIT_COLUMN = { start: 230, least: 140, most: 270, margin: 24 };
-/** Draws the portrait, keeping the one being left up until the new one has every piece, so it is never blank while the look changes (owner, Nov 16, N16-9). */
+/** Draws the portrait, keeping the one being left up until the new one has every piece, so it is never blank while the look changes. */
 function drawPortrait(view, tab, column) {
   const portrait = drawFace(view.faces[tab], { shape: "bust", column });
   const portraitTurn = (setup.portraitTurn = (setup.portraitTurn ?? 0) + 1);
@@ -7747,8 +7747,8 @@ function fitPortrait(view, tab) {
 }
 // Character appearance: the look's bust (the one every screen will draw) and
 // a row with arrows for each thing a bust shows. Below the rows both tabs
-// share, two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal,
-// bust flips between them"): the bust wears the open tab's clothes.
+// share, two tabs of clothes: the bust wears the open tab's clothes.
+
 function showLook(view) {
   setup.recipe = view.recipe;
   setup.lookView = view;
@@ -7835,9 +7835,9 @@ async function setLook(recipe, keepHistory) {
   );
 }
 /**
- * Starts loading the chosen state's capitol the moment the state is chosen, so
- * it is already painted when Begin shows it behind the loading card, with the
- * place's name and not a moment after it (the Player on #9995).
+ * Starts loading the chosen state's capitol the moment the state is chosen,
+ * so it is already painted when Begin shows it behind the loading card, with
+ * the place's name and not a moment after it.
  */
 let heldCapitol = null;
 function holdCapitol(state) {
@@ -7868,8 +7868,8 @@ const CAPITOL_WAIT_MS = 800;
 /** The picture to show for a state's capitol: the one already in hand, else its address. */
 const capitolSrc = (url) =>
   heldCapitol?.url === url && heldCapitol.blob ? heldCapitol.blob : url;
-// One Random draws the whole character (owner, Nov 17: "you should be able to randomize an
-// entire character"): gender, name, birthday, place and look, on the creator's seed.
+// One Random draws the whole character: gender, name, birthday, place and
+// look, on the creator's seed.
 $("cr-random").addEventListener("click", async () => {
   setup.nameDraws++;
   setup.birthdayDraws++;
@@ -8135,10 +8135,10 @@ function followBuild(bar, onStory) {
 
 async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
-  // The loading card: the panel holds only the progress over the scene.
-  // Loading shows the player's state (owner, Nov 16): its capitol behind the
-  // card, from the state chosen in the creator, or the drawn one once known.
-  // The picture is in place before the card names the town, never after it.
+  // The loading card: the panel holds only the progress over the scene. Loading
+  // shows the player's state: its capitol behind the card, from the state
+  // chosen in the creator, or the drawn one once known. The picture is in
+  // place before the card names the town, never after it.
   if (placeKey && setup.state?.capitol)
     await showBackdrop(capitolSrc(setup.state.capitol));
   frontPanel(null);
@@ -8204,10 +8204,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     renderPacket(life.packet);
     await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
     const news = await nightsNews(life.personId);
-    // The scene the director staged for the evening (the address) plays first
-    // and sets the one backdrop the opening loads. The night's news pops up
-    // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
-    // "News pop-ups wait until the scene ends").
+    // The scene the director staged for the evening (the address) plays first and
+    // sets the one backdrop the opening loads. The night's news pops up after
+    // it opens, so it waits until the speech ends.
+
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     else landHome();
     showNewsSurface(news);

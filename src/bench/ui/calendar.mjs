@@ -1,9 +1,9 @@
 /* global localStorage */
-// The calendar: a compact month of day tiles with a small
-// icon for each thing on the day, the chosen day on a plate of its own between, and Coming up
-// beside it paged inside its box (owner, Oct 29: a menu never scrolls as a page). The screen
-// hands it the day that is today, the dated items in words, the labels from the controls
-// file, and what skipping forward to a day does.
+// The calendar: a compact month of day tiles with a small icon for each thing
+// on the day, the chosen day on a plate of its own between, and Coming up
+// beside it paged inside its box. The screen hands it the day that is today,
+// the dated items in words, the labels from the controls file, and what
+// skipping forward to a day does.
 import { el, viewHeight } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { listRow } from "./list-row.mjs";
@@ -26,9 +26,9 @@ const dayIcon = (kind) =>
     holiday: "meeting",
   })[kind] ?? "meeting";
 
-// The kinds a player keeps on a calendar, each with its own color (owner, Nov
-// 1: "color code those things. Like town meetings and stuff. And be able to
-// hide them if you want"); the key above the month names them and hides them.
+// The kinds a player keeps on a calendar, each with its own color; the key
+// above the month names them and hides them.
+
 const GROUPS = [
   { key: "birthday", kinds: ["birthday", "your-birthday"] },
   { key: "deadline", kinds: ["filing-opens", "filing-deadline"] },
@@ -91,7 +91,7 @@ export function calendarScreen({
   rebuild();
   // A day on the calendar says its year only when it is not this year's.
   const dayWords = (iso, options) => dateWords(iso, { ...options, year: date });
-  // A kind is named by its icon and its words, never by a color (owner ruling, Nov 8).
+  // A kind is named by its icon and its words, never by a color.
   const kinded = (node, group) => {
     node.dataset.kind = group;
     return node;
@@ -279,10 +279,10 @@ export function calendarScreen({
       cell.setAttribute("aria-pressed", String(iso === selected));
       if (iso === date) cell.setAttribute("aria-current", "date");
       cell.append(el("span", { className: "num", textContent: String(day) }));
-      // Each thing on the day is named on it, its kind's icon before its own
-      // line (owner: "events on their days, one worded line each naming who
-      // and what"; the pl-calendar mock), the player's own first; the rest
-      // are on the day's plate.
+      // Each thing on the day is named on it, its kind's icon before its own line,
+      // the player's own first; the rest are on the day's plate.
+
+
       for (const entry of entries.slice(0, DAY_LINES))
         cell.append(
           kinded(

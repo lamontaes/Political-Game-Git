@@ -1,23 +1,23 @@
 /**
  * Where a candidate stands on a policy question, from their own views and
- * their party's (audit 2026-10-14, defects 6 and 7).
+ * their party's. A party's position comes from the parties data: the mean
+ * lean of the party's tied members in town (each tie row carries the member's
+ * lean), weighed against the party's position in the state (its national
+ * side, shifted toward how the state votes) as so many members' worth of
+ * evidence, so a town with few members leans on the state and a party with no
+ * members here stands where its side and its state put it. Along a question,
+ * a party's position is that lean times the question's measured left-right
+ * direction (`questionAxis`, from the 2024 vote). A candidate's stance is a
+ * sliding blend of their own view (an official's recorded ideal point, else
+ * PEOPLE's views engine with the stances it has recorded, else their ranked
+ * lean in town) and their party's position, weighted by how firmly they hold
+ * their party: their tie's firmness, their traits and, for a seated official,
+ * their recorded party loyalty. Answers are positions in [-1, 1]; a candidate
+ * has no answer only when they have neither a view nor a party.
  *
- * A party's position comes from the parties data: the mean lean of the
- * party's tied members in town (each tie row carries the member's lean),
- * weighed against the party's position in the state (its national side,
- * shifted toward how the state votes) as so many members' worth of evidence,
- * so a town with few members leans on the state and a party with no members
- * here stands where its side and its state put it. Along a question, a
- * party's position is that lean times the question's measured left-right
- * direction (`questionAxis`, from the 2024 vote).
  *
- * A candidate's stance is a sliding blend of their own view (an official's
- * recorded ideal point, else PEOPLE's views engine with the stances it has
- * recorded, else their ranked lean in town) and their party's position,
- * weighted by how firmly they hold their party: their tie's firmness, their
- * traits and, for a seated official, their recorded party loyalty. Answers
- * are positions in [-1, 1]; a candidate has no answer only when they have
- * neither a view nor a party.
+ *
+ *
  */
 import { townLean } from "./modules/campaigns";
 import { votesOf, type VoteRecordRow } from "./modules/record";
@@ -263,12 +263,12 @@ export class StanceReader {
 
   /**
    * The record that gives them a reason to run on a question, or null for
-   * none (owner, Nov 23: "random issues and stances with no reason why those
-   * are chosen"; the CTO, Nov 24: a candidate runs only on stands their own
-   * record gives a reason for). In order: a vote they cast on it; for a named
-   * official, the position their row records; for a person, what their own
-   * life adds to it today (`lifeShift`), what their faith or degree adds
-   * (`openingRecord`), or what has reached them about it (`stanceOn`).
+   * none. In order: a vote they cast on it; for a named official, the
+   * position their row records; for a person, what their own life adds to it
+   * today (`lifeShift`), what their faith or degree adds (`openingRecord`),
+   * or what has reached them about it (`stanceOn`).
+   *
+   *
    */
   ground(question: string): RecordGround | null {
     if (this.votesOn(question).length) return "voted";
@@ -413,16 +413,16 @@ export interface PlatformScore {
 
 /**
  * Each question the contest's seat takes up (`contestPositions`) that the
- * candidate holds a view on, scored by how candidates choose what to run on
- * (docs/research/platform-emphasis-2026-10-30.md): how strongly they hold it
- * times exp(slope × the percent of the electorate on their side, by the
- * stance the ballot reads a voter's agreement from: `electorateSides`), so
- * of two views held about as strongly, the one more of the town shares is
- * talked about. The research's record term gates the choice: a question the
- * candidate's own record gives no reason for (`StanceReader.ground`) is not
- * run on (its weighting of the score, how far votes and job bear, is still
- * left out). Positions never
- * move for it; only which questions are run on.
+ * candidate holds a view on, scored by how candidates choose what to run on:
+ * how strongly they hold it times exp(slope × the percent of the electorate
+ * on their side, by the stance the ballot reads a voter's agreement from:
+ * `electorateSides`), so of two views held about as strongly, the one more of
+ * the town shares is talked about. The research's record term gates the
+ * choice: a question the candidate's own record gives no reason for
+ * (`StanceReader.ground`) is not run on (its weighting of the score, how far
+ * votes and job bear, is still left out). Positions never move for it; only
+ * which questions are run on.
+ *
  */
 export function platformScores(
   api: CoreAPI,

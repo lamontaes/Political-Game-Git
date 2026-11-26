@@ -453,10 +453,10 @@ function governmentClassWord(name: string): string | null {
 }
 
 /**
- * A government of the talk's own place as people say it in talk (said-as.json
- * governmentInTalk; Words lead ruling, Nov 15): a state by its level word, a
- * town or county by its record's class word. Null where the record's class
- * word is none of these, so the full name is said.
+ * A government of the talk's own place as people say it in talk: a state by
+ * its level word, a town or county by its record's class word. Null where the
+ * record's class word is none of these, so the full name is said.
+ *
  */
 export function ownGovernmentSaid(
   government:

@@ -704,7 +704,7 @@ export function registerCashAccount(
     nativeMapSet.call(runtime.externalFlowsByOwner, row.ownerId, outsideTotals);
 }
 
-/** What play reads of a touched owner: whose cash the commit writes. */
+/** What play reads of a touched whose cash the commit writes. */
 interface Portfolio {
   ownerId: string;
   cash: CashJournalCashOwner;
@@ -730,7 +730,7 @@ interface CheckedPortfolio extends Portfolio {
 
 interface Portfolios {
   portfolios: readonly Portfolio[];
-  /** Bookkeeping's proofs per owner, in the same order; empty in play. */
+  /** Bookkeeping's proofs per in the same order; empty in play. */
   checked: readonly CheckedPortfolio[];
   owners: Map<string, CashOwnerSnapshot>;
   accounts: ReadonlyMap<string, CashAccountSnapshot>;
@@ -2122,9 +2122,7 @@ export function releaseCashJournalSource(
 }
 
 /**
- * Folds the itemized receipts past their readers' windows (CTO, Nov 1,
- * 21:25: "itemized payment copies fold past their readers' windows"; the
- * play-first lane and the laws lead agreed the windows). Walks the receipts
+ * Folds the itemized receipts past their readers' windows. Walks the receipts
  * from the oldest and stops at the first dated on or after `before`. It keeps
  * a receipt its source still requires (an open obligation; release reads it),
  * every observer-mode receipt, one a kept record names by id (`named`), and
@@ -2135,6 +2133,8 @@ export function releaseCashJournalSource(
  * goes. Balances, the lifetime totals, the latest rows and the required index
  * stay whole. Folding again on the same day changes nothing. Returns how many
  * receipts folded.
+ *
+ *
  */
 export function foldCashJournalDetail(
   runtime: CashJournalRuntime,

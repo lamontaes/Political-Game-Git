@@ -1,17 +1,17 @@
 /**
- * Dev mode's records proof (owner, Oct 29, 2026, to the speed lead: "That
- * needs to be built into the advanced mode... a dev mode where you can be
- * anybody, make anything happen in the simulation... and trace why things
- * happen"). Two builds that run the same seed and place to the same date
- * should keep the same records; a speed change must not change what the
- * simulation decides. This reads what a world keeps from the same list a
- * snapshot saves (`worldRecords` in `src/core2/snapshot.ts`): the core's
- * records, every engine's tables and every engine's runtime part, the counted
- * population among them. It keeps one digest per table and compares two
- * proofs table by table. A differing table names the first record that
- * differs, so the trace (`dev-trace.ts`) can open it and show why it happened.
- * Engines whose state a snapshot would miss are listed as not covered, never
- * passed as the same. Read-only: it writes nothing and spends no game time.
+ * Dev mode's records proof. Two builds that run the same seed and place to
+ * the same date should keep the same records; a speed change must not change
+ * what the simulation decides. This reads what a world keeps from the same
+ * list a snapshot saves (`worldRecords` in `src/core2/snapshot.ts`): the
+ * core's records, every engine's tables and every engine's runtime part, the
+ * counted population among them. It keeps one digest per table and compares
+ * two proofs table by table. A differing table names the first record that
+ * differs, so the trace (`dev-trace.ts`) can open it and show why it
+ * happened. Engines whose state a snapshot would miss are listed as not
+ * covered, never passed as the same. Read-only: it writes nothing and spends
+ * no game time.
+ *
+ *
  */
 import { createHash, type Hash } from "node:crypto";
 import { bookkeeping } from "../core2/bookkeeping";

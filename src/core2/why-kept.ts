@@ -15,11 +15,11 @@ export function setKeepEveryonesWhy(on: boolean): boolean {
 }
 
 /**
- * Whose "why" record is saved (Keep it simple, owner Oct 11, 2026): the
- * player's and the people they deal with, plus anyone in focus. For anyone
- * else the dollars, the counts and the pulls an engine reads are still
- * recorded; only the row that says why for a person nobody asks about is
- * left out.
+ * Whose "why" record is saved: the player's and the people they deal with,
+ * plus anyone in focus. For anyone else the dollars, the counts and the pulls
+ * an engine reads are still recorded; only the row that says why for a person
+ * nobody asks about is left out.
+ *
  */
 export function keepsWhy(core: CoreState, ...personIds: string[]): boolean {
   if (everyone) return true;

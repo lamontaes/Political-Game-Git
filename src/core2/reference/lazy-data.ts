@@ -1,15 +1,15 @@
 /**
  * Large place-keyed data tables, read on first use and kept only for the
- * states a world actually asks about (owner ruling on PR #4123, Oct 13 2026).
+ * states a world actually asks about. Importing the engine used to parse
+ * every row for all 56 states and territories before a town existed. A table
+ * built here reads its file the first time a key from a new state is asked
+ * for, keeps that state's rows and lets the rest go. Callers keep their own
+ * signatures; only the table object they read from changes. The reader is a
+ * seam: Node reads the file (the bench, tests and tools all run on Node);
+ * another host can supply its own with `setJsonDataReader`.
  *
- * Importing the engine used to parse every row for all 56 states and
- * territories before a town existed. A table built here reads its file the
- * first time a key from a new state is asked for, keeps that state's rows
- * and lets the rest go. Callers keep their own signatures; only the table
- * object they read from changes.
  *
- * The reader is a seam: Node reads the file (the bench, tests and tools all
- * run on Node); another host can supply its own with `setJsonDataReader`.
+ *
  */
 
 export type JsonDataReader = (url: URL) => unknown;

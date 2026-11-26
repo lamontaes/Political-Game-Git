@@ -365,13 +365,13 @@ type Said = { text: string; sourceRecordIds: readonly string[] };
 
 /**
  * A race's result as the speaker tells it: the line that says who won, and,
- * for a speaker clearly with or against the winner's side, the line that
- * says how it sits with them. A line that claims a ballot, a side shared
- * with the listener is said only where the record holds it (the `ballot`
- * and `ourSide` facts its bank part requires).
- * Every telling names the seat once (Words lead, Nov 14). Told to a listener
- * who already knows the result, it is one line: who won what, and how it
- * sits with them (`known`; only a speaker with a lean raises it then).
+ * for a speaker clearly with or against the winner's side, the line that says
+ * how it sits with them. A line that claims a ballot, a side shared with the
+ * listener is said only where the record holds it (the `ballot` and `ourSide`
+ * facts its bank part requires). Every telling names the seat once. Told to a
+ * listener who already knows the result, it is one line: who won what, and
+ * how it sits with them (`known`; only a speaker with a lean raises it then).
+ *
  */
 function electionLines(
   core: Readonly<CoreState>,
@@ -501,11 +501,11 @@ export function bringItUp(
     const topic = story ? storyTopicName(story.topic) : null;
     return topic ? topic.toLowerCase() : null;
   };
-  // A race's result is told by who won, so it needs no topic; it is not
-  // told to someone who stood in that race (they know how it came out).
-  // A result the listener already knows (they read it, or were told it) is
-  // raised again only by someone with a lean, and only as how it sits with
-  // them (Words lead, Nov 14: the whole town does not tell the same news).
+  // A race's result is told by who won, so it needs no topic; it is not told to
+  // someone who stood in that race (they know how it came out). A result the
+  // listener already knows (they read it, or were told it) is raised again
+  // only by someone with a lean, and only as how it sits with them.
+
   const knownResults = resultsKnownTo(core, api, listenerId, data);
   const electionFor = (change: KnownChange): LogRecord | null => {
     const result = electionResultOf(core, api, change.eventId);
@@ -520,8 +520,8 @@ export function bringItUp(
       storyTopic(change) !== null ||
       !!electionFor(change));
   // A story about the listener (a vote they cast, a bill they sponsored) is
-  // what one brings up to them first; otherwise the newest change (the
-  // owner's council member heard nothing of his own ordinance, Oct 29).
+  // what one brings up to them first; otherwise the newest change.
+
   const aboutListener = (known: KnownChange): boolean => {
     const storyId = storyOfReadEvent(known.eventId);
     const story = storyId ? printedStoryOf(api, storyId) : undefined;
@@ -668,9 +668,9 @@ export function bringItUp(
   const leanLine = election?.[P.one];
   if (leanLine) lines.push({ ...leanLine, feeling: true });
   // A printed story blames no one: the outlet only printed it. Someone who
-  // holds no cause, or none they can name, says nothing more ("I have no
-  // idea" answers nothing; owner, Nov 12, on non-replies): the change is
+  // holds no cause, or none they can name, says nothing more: the change is
   // told alone.
+
   const who =
     attribution.blamedId && !story ? nameOf(core, attribution.blamedId) : null;
   const second =

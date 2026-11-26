@@ -1,9 +1,9 @@
 /* global Node */
-// The approved strip screen (owner, Nov 7, 2026: You, the person card,
-// Government, Budgets; docs/mocks/2026-11-07-approved/): a left column with
-// the screen's name, the role line under it and a bust, and sections down the
-// right, each a header strip of its own depth under a broken gold outline.
-// Every screen of that look builds from these parts, never its own markup.
+// The approved strip screen: a left column with the screen's name, the role
+// line under it and a bust, and sections down the right, each a header strip
+// of its own depth under a broken gold outline. Every screen of that look
+// builds from these parts, never its own markup.
+
 import { el } from "./dom.mjs";
 import { picture } from "./picture.mjs";
 import { rosterScreen } from "./roster-screen.mjs";
@@ -64,8 +64,8 @@ export function stripScreen({
         ...(bustColumn ? { column: bustColumn } : {}),
       }),
       // `underBust`: sections set in the bust's own column, under it, so the
-      // portrait column leaves no hole (owner on People, Nov 16: "still lots
-      // of empty space").
+      // portrait column leaves no hole.
+
       ...underBust,
     ),
     el(
@@ -110,11 +110,11 @@ export function introText(...parts) {
 }
 
 /**
- * A life's lines as paragraphs, in the order they were lived (Fable A, Nov 13,
- * rule 17: "A life is told in order everywhere it is told"): the card's lines
- * come oldest first, and a new paragraph starts where the kind of thing
+ * A life's lines as paragraphs, in the order they were lived: the card's
+ * lines come oldest first, and a new paragraph starts where the kind of thing
  * changes (`groups`: the kinds that belong together), so related lines sit
  * together without ever moving a line out of its year.
+ *
  */
 export function inOrderParagraphs(lines, groups) {
   const at = new Map(
@@ -401,10 +401,10 @@ export function patchNotesScreen({ builds, title }) {
 }
 
 /**
- * The journal as the Nov 8 play mock draws it (pl-journal), on the one list-beside-detail
- * part (`rosterScreen`): "My story" lists the chapters, each with its years, the newest
- * chosen; the chosen chapter is its title over two columns of prose with a drop cap.
- * `chapters`: [{ title, from, through, lines: [{ text }] }].
+ * The journal as the play mock draws it (pl-journal), on the one
+ * list-beside-detail part (`rosterScreen`): "My story" lists the chapters,
+ * each with its years, the newest chosen; the chosen chapter is its title
+ * over two columns of prose with a drop cap. `chapters`: [{ title, from, through, lines: [{ text }] }].
  */
 export function journalScreen({ chapters, labels, yearOf }) {
   const yearsOf = (chapter) => {

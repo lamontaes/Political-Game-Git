@@ -1,20 +1,20 @@
 /**
- * Losing a home (owner, Oct 14, 2026: "they should become homeless"). A
- * household removed by an eviction is no longer housed: where it goes is
- * decided by its own records, in order: a relative with room (doubled up), a
- * shelter bed in the place (sheltered), else the street (unsheltered). The
- * status is one row per household that isn't housed, read by every engine
- * through `housingStatusOf` and `housingStatusCounts`, and announced the day
- * it changes (`housing.status-changed`). A household rents again when its
- * income and cash reach what a landlord asks for.
+ * Losing a home. A household removed by an eviction is no longer housed:
+ * where it goes is decided by its own records, in order: a relative with room
+ * (doubled up), a shelter bed in the place (sheltered), else the street
+ * (unsheltered). The status is one row per household that isn't housed, read
+ * by every engine through `housingStatusOf` and `housingStatusCounts`, and
+ * announced the day it changes (`housing.status-changed`). A household rents
+ * again when its income and cash reach what a landlord asks for. Counted
+ * households are evicted the same way: their group's rent arrears (the core's
+ * group money) say how many of the group's renting households are behind, the
+ * ones with the least income of their own first. A removed counted household
+ * stays counted: its record comes to stand for the one household removed,
+ * holds no home (tenure "none"), and the same rule places it, counts it and
+ * rents to it again from its counted record.
  *
- * Counted households are evicted the same way: their group's rent arrears
- * (the core's group money) say how many of the group's renting households
- * are behind, the ones with the least income of their own first. A removed
- * counted household stays counted (CTO, Nov 1, under "Two-level population"
- * and "One model, two tiers"): its record comes to stand for the one
- * household removed, holds no home (tenure "none"), and the same rule places
- * it, counts it and rents to it again from its counted record.
+ *
+ *
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import shelterData from "./data/housing/shelter-beds.json" with { type: "json" };
@@ -210,7 +210,7 @@ export function publishedShelterRateFor(usps: string): number {
   );
 }
 
-/** The state's shelter beds per 10,000 people in this world: the published rate moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+/** The state's shelter beds per 10,000 people in this world: the published rate moved once by the world's own offset. */
 export function shelterRateFor(usps: string, seed: string): number {
   return (
     publishedShelterRateFor(usps) *
@@ -563,8 +563,8 @@ export function placeRemovedHousehold(
     memberIds,
     household.id,
     placeId,
-    // The player's household never moves without their choice: a relative's
-    // town is offered only to everyone else (owner's playtest, Nov 8).
+    // The player's household never moves without their choice: a relative's town
+    // is offered only to everyone else.
     !holdsJob &&
       (!household.counted || countedMovesRunning(api)) &&
       !memberIds.some((id) => id === c.playerId),
@@ -832,11 +832,11 @@ export function removeCountedHousehold(
 }
 
 /**
- * A counted household loses its home and stays counted (CTO, Nov 1): its
- * record comes to stand for the one household removed (the rest it stood for
- * keep their homes in its group, as at fill-in), it holds no home, and it
- * joins the group of households without one, its share of its group's money
- * going with it. Returns whether it has members left to place.
+ * A counted household loses its home and stays counted: its record comes to
+ * stand for the one household removed (the rest it stood for keep their homes
+ * in its group, as at fill-in), it holds no home, and it joins the group of
+ * households without one, its share of its group's money going with it.
+ * Returns whether it has members left to place.
  */
 export function leaveCountedHome(api: CoreAPI, h: CountedHousehold): boolean {
   const c = core(api);

@@ -1026,14 +1026,14 @@ export function coreAPI(core: CoreState): CoreAPI {
     observe(personId, fact) {
       const known = core.knowledgeByPerson.get(personId);
       if (!known) throw new Error(`Knowledge recipient is absent: ${personId}`);
-      // Someone back in the counts learns nothing but the events they take
-      // part in, as no counted person keeps knowledge (two-level rule, Oct
-      // 11): the day's appraisal reads that note and the forgetting pass
-      // drops it within weeks; their record keeps their results, and meeting
-      // them again fills them in to learn anew. Writers that reach them by
-      // place or county (a county story's readers) otherwise grew their
-      // facts for the rest of the run (Montpelier, Vermont, Nov 9: 921,660
-      // facts held by people back in the counts at year 4).
+      // Someone back in the counts learns nothing but the events they take part in,
+      // as no counted person keeps knowledge: the day's appraisal reads that
+      // note and the forgetting pass drops it within weeks; their record
+      // keeps their results, and meeting them again fills them in to learn
+      // anew. Writers that reach them by place or county (a county story's
+      // readers) otherwise grew their facts for the rest of the run.
+
+
       const person = core.people.get(personId);
       if (person && isDemoted(person) && !isExperiencedKey(fact.key)) return;
       makeIsoDate(fact.learnedAt);
@@ -1703,10 +1703,10 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.givenName = given;
       actor.familyName = family;
       actor.birthDate = identity.birthDate;
-      // A chosen look from another origin than the family was drawn with
-      // (owner, Nov 8: "I'm Mexican and my son is white"): the family's
-      // origins are worked out again from who is whose parent
+      // A chosen look from another origin than the family was drawn with: the
+      // family's origins are worked out again from who is whose parent
       // (family-origin.ts), not all painted in the player's tone.
+
       const drawnOrigin = actor.looks?.origin;
       const chosenOrigin = identity.looks.origin;
       actor.looks = { ...(actor.looks ?? {}), ...identity.looks };

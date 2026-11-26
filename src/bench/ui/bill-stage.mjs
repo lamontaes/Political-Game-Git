@@ -1,7 +1,7 @@
-// Where a bill stands, as strip sections (docs/mocks/2026-11-08-legislation/): the
-// committee's record, what members have told you, and the floor and override results,
-// every member a name that opens their card. The bill stage view (bill-stage.ts) hands
-// this the records and the screen's labels; nothing here counts or writes a sentence.
+// Where a bill stands, as strip sections: the committee's record, what
+// members have told you, and the floor and override results, every member a
+// name that opens their card. The bill stage view (bill-stage.ts) hands this
+// the records and the screen's labels; nothing here counts or writes a sentence.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { stripSection, nameLink } from "./strips.mjs";

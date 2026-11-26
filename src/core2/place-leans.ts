@@ -1,14 +1,14 @@
 /**
- * Where each counted place's people stand, carried forward (calibration audit, family 6;
- * CTO, Nov 17, 02:49Z). A place's lean is its right share with nothing at stake. It is
- * kept here, one row a place, and moves only by the place's own last result: the part of
- * that result that was the place's own (its state's conditions against the nation's), not
- * the year's national tide and not the candidates. The published 2024 map is read only
- * for a place that has never been counted and was given no opening lean.
- *
- * One writer (`carryLeans`), one reader (`leanOf`), and `setOpeningLean` for a world whose
- * history hands each place its opening lean. The voting module owns the table and passes
- * it in; the readers below name it by its id, so this file loads no module.
+ * Where each counted place's people stand, carried forward. A place's lean is
+ * its right share with nothing at stake. It is kept here, one row a place,
+ * and moves only by the place's own last result: the part of that result that
+ * was the place's own (its state's conditions against the nation's), not the
+ * year's national tide and not the candidates. The published 2024 map is read
+ * only for a place that has never been counted and was given no opening lean.
+ * One writer (`carryLeans`), one reader (`leanOf`), and `setOpeningLean` for
+ * a world whose history hands each place its opening lean. The voting module
+ * owns the table and passes it in; the readers below name it by its id, so
+ * this file loads no module.
  */
 
 import { stateRightShare, statePlaces } from "./electorate-places";

@@ -1,12 +1,12 @@
 /**
- * Dev mode's "Why each line of an address" (owner, Nov 16, 2026: dev mode must "trace and force
- * every scene to play... see why every scene played and why dialogue options were chosen"; every
- * line of dialogue or narration registered and traceable). For each address on the record, newest
- * first (the President's, a governor's, a town's): each sentence as it was said, the bank pieces it
- * was joined from with each piece's tie (the speaker's view, the place, the law in force, a record,
- * or how it is said), the facts its slots said, and the records those facts came from. Read from the
- * address's own record through the one function every view says it with (address-render.ts), so
- * what dev mode shows is what was said. Reads only; spends no time.
+ * Dev mode's "Why each line of an address". For each address on the record,
+ * newest first (the President's, a governor's, a town's): each sentence as it
+ * was said, the bank pieces it was joined from with each piece's tie (the
+ * speaker's view, the place, the law in force, a record, or how it is said),
+ * the facts its slots said, and the records those facts came from. Read from
+ * the address's own record through the one function every view says it with
+ * (address-render.ts), so what dev mode shows is what was said. Reads only;
+ * spends no time.
  */
 import { historyOf } from "../../core2/past";
 import type { DevView } from "../dev-views";

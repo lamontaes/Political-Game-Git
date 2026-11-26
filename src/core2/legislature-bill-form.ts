@@ -1,9 +1,9 @@
 /**
- * A bill's form in its own body (the owner's ruling, Oct 14, 2026): what it
- * is, how the body numbers it, and its enacting clause. A state chamber
- * numbers by its recorded prefix and period ("LB 12" in Nebraska's
- * two-year legislature), Congress by H.R. and S. per two-year Congress, and
- * a town's body numbers its ordinances by the year.
+ * A bill's form in its own body: what it is, how the body numbers it, and its
+ * enacting clause. A state chamber numbers by its recorded prefix and period
+ * ("LB 12" in Nebraska's two-year legislature), Congress by H.R. and S. per
+ * two-year Congress, and a town's body numbers its ordinances by the year.
+ *
  */
 import forms from "./data/legislature/bill-forms.json" with { type: "json" };
 import clauses from "./data/legislature/enacting-clauses.json" with { type: "json" };

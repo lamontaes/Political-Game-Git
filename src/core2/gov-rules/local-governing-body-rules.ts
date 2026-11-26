@@ -23,30 +23,30 @@ export {
 
 /**
  * How big a town's governing body is and how long its terms run, for every
- * town with a government of its own, and which towns those facts were read for.
+ * town with a government of its own, and which towns those facts were read
+ * for. Two kinds of answer, never mixed up: - **Read.** The game has compiled
+ * this town's own government, and its reading states the number of seats or
+ * the term. That is the town's rule. - **Typical.** Nothing about this town
+ * has been read. Rather than leave a gap, the town is given the modal value
+ * of the national shares of municipal councils in ICMA's 2018 Municipal Form
+ * of Government Survey, as ChatGPT reported them on: 5 seats and 4-year
+ * terms, ESTIMATED FROM AVERAGE (`TYPICAL_COUNCIL_SOURCE`). No hash or draw
+ * picks it, so a town keeps its council across saves and reloads. What that
+ * answer does not settle stays marked here rather than made up: - Shares by
+ * town size are not published, so every unread town takes the same national
+ * mode, large or small. ESTIMATE pending research question
+ * `town-council-size-by-town-size`. A typical value is labeled as typical
+ * wherever it is shown, and it never enters the town's candidacy pack as
+ * though the town recorded it. Reading a town's charter later replaces the
+ * typical value with the read one.
  *
- * Two kinds of answer, never mixed up:
  *
- * - **Read.** The game has compiled this town's own government, and its
- *   reading states the number of seats or the term. That is the town's rule.
- * - **Typical.** Nothing about this town has been read. Rather than leave a
- *   gap, the town is given the modal value of the national shares of
- *   municipal councils in ICMA's 2018 Municipal Form of Government Survey,
- *   as ChatGPT reported them on 2026-09-22 (answer to
- *   `local-executive-and-council-rules`; the file is kept verbatim under
- *   docs/research/chatgpt-answers/2026-09-22-nationwide-2235/): 5 seats and
- *   4-year terms, ESTIMATED FROM AVERAGE (`TYPICAL_COUNCIL_SOURCE`). No hash
- *   or draw picks it, so a town keeps its council across saves and reloads.
  *
- * What that answer does not settle stays marked here rather than made up:
  *
- * - Shares by town size are not published, so every unread town takes the
- *   same national mode, large or small. ESTIMATE pending research question
- *   `town-council-size-by-town-size`.
  *
- * A typical value is labeled as typical wherever it is shown, and it never
- * enters the town's candidacy pack as though the town recorded it. Reading a
- * town's charter later replaces the typical value with the read one.
+ *
+ *
+ *
  */
 
 export interface LocalGoverningBodyRules {

@@ -3,7 +3,7 @@ import type { CoreState, PersonId, PersonInput } from "./types";
 /**
  * Who is still in the wider population, for the shared chooser. The residents
  * module registers how it reads a counted person; the core asks here, so the
- * core never imports a module (owner, Oct 15: the layering stays one way).
+ * core never imports a module.
  */
 type CountedPersonSource = (
   core: CoreState,

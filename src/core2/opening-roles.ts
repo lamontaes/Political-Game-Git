@@ -1,13 +1,13 @@
 /**
- * The roles a person holds in their place's life, as generation of who exists
- * (Coordinator, Nov 8: county people need the roles and ties that make real
- * people run, read the same way for named people and counted ones): how active
- * they are in a party and the employer they own. They sit on `looks`
- * (`partyActivity`, `ownedEmployerId`), so a counted member keeps them in the
- * store and a filled-in person has them. The civic roles a person holds (a
- * party's chair, a seat at its committee meetings) are read from the parties
- * engine's own records (`civicRolesOf` in modules/candidacy.ts), never stored
- * here.
+ * The roles a person holds in their place's life, as generation of who
+ * exists: how active they are in a party and the employer they own. They sit
+ * on `looks` (`partyActivity`, `ownedEmployerId`), so a counted member keeps
+ * them in the store and a filled-in person has them. The civic roles a person
+ * holds (a party's chair, a seat at its committee meetings) are read from the
+ * parties engine's own records (`civicRolesOf` in modules/candidacy.ts),
+ * never stored here.
+ *
+ *
  */
 import { stableHash } from "./kernel/ids";
 import { parameter as p } from "./parameters";

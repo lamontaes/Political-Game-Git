@@ -1,12 +1,12 @@
 /**
- * The debate's part of the sitting (owner, Oct 26-29: interviews and debates
- * are scenes; the loop is `./sitting`). When the player says yes to a debate's
+ * The debate's part of the sitting. When the player says yes to a debate's
  * invitation, the meetings engine puts `debate-accepted` on the record and
  * the director stages the `debate-sitting` scene from it. This source finds
  * the debate that record is about, names the moderator who asks, the outlet
  * that hosts it and the tie, and holds the debate with the answers the
  * sitting collected (`answerDebate`): the other candidates answer from their
  * own positions at that moment. Everything else is the loop's.
+ *
  */
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";

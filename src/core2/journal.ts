@@ -63,7 +63,7 @@ export interface CashOwnerSnapshot {
   id: string;
   /** Actual person/organization liquidMinor; no journal opening balance is added. */
   liquidMinor: number;
-  /** Complete registered account index for this owner, including every fund. */
+  /** Complete registered account index for this including every fund. */
   accountIds: readonly string[];
   /** Signed net flow since the world opened: a bigint only past the safe range. */
   outsideNetMinor?: CashJournalSignedLifetimeMinor;

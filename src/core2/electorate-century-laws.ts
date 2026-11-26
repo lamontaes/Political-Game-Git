@@ -1,16 +1,16 @@
 /**
- * The century's law in force (owner, Nov 17, 2026, CTO line 6935086070 on #9747: "History is pure
- * simulation from 1925 ... That includes Presidents, Congress, governors, legislatures, party
- * control and laws"; History's family 4 plan). After each November the bodies the century elected
- * sit a session, and on each policy question each chamber votes by the one stance rule every
- * played legislator votes by (officials-roster.ts `memberSupportAt`). A law changes only when every
- * chamber passes the change and the executive signs it, or the chambers override the veto. What a
- * member supports comes from where they stand: their party's typical position in the body, moved
- * by how far their own seat stands from their party's other seats (`expectedIdeal`), never a roll.
+ * The century's law in force. After each November the bodies the century
+ * elected sit a session, and on each policy question each chamber votes by
+ * the one stance rule every played legislator votes by (officials-roster.ts
+ * `memberSupportAt`). A law changes only when every chamber passes the change
+ * and the executive signs it, or the chambers override the veto. What a
+ * member supports comes from where they stand: their party's typical position
+ * in the body, moved by how far their own seat stands from their party's
+ * other seats (`expectedIdeal`), never a roll. Sessions are the only process
+ * (stopgap SG-HIST-century-law-sessions): every question comes up each
+ * session, with no drafting, committee or leadership, until the century runs
+ * the bill engine for the played town's state.
  *
- * Sessions are the only process (stopgap SG-HIST-century-law-sessions): every question comes up
- * each session, with no drafting, committee or leadership, until the century runs the bill engine
- * for the played town's state.
  */
 import { campaignParameter } from "./campaign-data";
 import {

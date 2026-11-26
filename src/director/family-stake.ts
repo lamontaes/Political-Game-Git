@@ -63,12 +63,12 @@ function filingStakeOf(
     .filter((row): row is NonNullable<typeof row> => !!row?.alive);
   const stakes: Stake[] = [];
 
-  // Money: how many days the household's savings carry what its pay does
-  // not (living costs less the wages its members' jobs pay, as the business
+  // Money: how many days the household's savings carry what its pay does not
+  // (living costs less the wages its members' jobs pay, as the business
   // engine reads a founder's runway) against the days the race has left to
-  // run. A household whose pay covers its costs has no money to say about it
-  // (owner, Oct 28 sitting, 38: "who says the player is not campaigning
-  // after work?").
+  // run. A household whose pay covers its costs has no money to say about it.
+
+
   const electionDate = core.durableLog.get(causeId)?.facts?.electionDate;
   const liquid = members.reduce((sum, row) => sum + row.liquidMinor, zero);
   const pay = members.reduce((sum, row) => {

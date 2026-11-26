@@ -1,16 +1,16 @@
 /**
- * Memory stays small (owner, Oct 12): act records keep their full reasons
- * (every option's score) for `circleDecisionDetailDays`; after that a circle
- * member's act keeps only what the "why" view needs to name the choice. The
- * player's own routine acts and weighed choices keep everything for
- * `playerDecisionDetailDays` (after a year only the summary and the reasons,
- * not every option's score: the Oct 20 decision-detail ruling); their public
- * records and news keep everything. A circle member's weighed choice keeps
- * its full record for the same detail window and then goes; their other
- * entries go after `circleActRetentionMonths`.
- * Writers
- * queue each record as they keep it, so condensing visits each record once
- * and never scans the log.
+ * Memory stays small: act records keep their full reasons (every option's
+ * score) for `circleDecisionDetailDays`; after that a circle member's act
+ * keeps only what the "why" view needs to name the choice. The player's own
+ * routine acts and weighed choices keep everything for
+ * `playerDecisionDetailDays`; their public records and news keep everything.
+ * A circle member's weighed choice keeps its full record for the same detail
+ * window and then goes; their other entries go after
+ * `circleActRetentionMonths`. Writers queue each record as they keep it, so
+ * condensing visits each record once and never scans the log.
+ *
+ *
+ *
  */
 import { parameter } from "./parameters";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
@@ -500,12 +500,12 @@ export function journalIdsNamed(core: CoreState): Set<string> {
 
 /**
  * The cash journal's itemized receipts fold past their readers' windows on
- * the 1st of each month (CTO, Nov 1, 21:25): a followed person's after
- * `cashJournalDetailDays` (dev mode's 365-day ledger), the player's and their
- * household's from Jan 1 of the prior year (play-first lane, Nov 1). What
- * folds goes into each person's yearly total by kind; open obligations,
- * observer rows, receipts a kept record names, balances and every total stay
- * (`foldCashJournalDetail`). Returns how many receipts folded.
+ * the 1st of each month: a followed person's after `cashJournalDetailDays`
+ * (dev mode's 365-day ledger), the player's and their household's from of the
+ * prior year. What folds goes into each person's yearly total by kind; open
+ * obligations, observer rows, receipts a kept record names, balances and
+ * every total stay (`foldCashJournalDetail`). Returns how many receipts
+ * folded.
  */
 export function foldOldCashJournalDetail(core: CoreState): number {
   const journal = core.cashJournal;

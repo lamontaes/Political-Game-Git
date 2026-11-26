@@ -1,8 +1,8 @@
 /**
- * The world has a past (owner, Oct 14, 2026). Opened once the government
- * modules have seated the day-one officeholders and loaded the law in force,
- * and before the story director starts: the prior elections and the winners'
- * promises, the prior term's votes, every law's history, the year's business closures, the news
+ * The world has a past. Opened once the government modules have seated the
+ * day-one officeholders and loaded the law in force, and before the story
+ * director starts: the prior elections and the winners' promises, the prior
+ * term's votes, every law's history, the year's business closures, the news
  * archive and what the public knows about its figures, in that order, since
  * each reads the one before.
  */

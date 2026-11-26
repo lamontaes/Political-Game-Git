@@ -260,10 +260,10 @@ export function openSittingSessions(core: CoreState): void {
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) return;
   const api = coreAPI(core);
   for (const jurisdiction of ["US", ...sessionPlaceKeys()]) {
-    // Another state's session keeps only its results and is generated on
-    // demand (owner, Nov 5): nothing about it is read at the opening, so its
-    // legislators stay named officials on their term rows, seated by no one
-    // (the CTO's ruling of Nov 17). Its calendar entry opens it later.
+    // Another state's session keeps only its results and is generated on demand:
+    // nothing about it is read at the opening, so its legislators stay named
+    // officials on their term rows, seated by no one. Its calendar entry
+    // opens it later.
     if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) continue;
     const w = nextWindow(jurisdiction, core.date, true);
     if (!w || w.conveneAt > core.date) continue;
@@ -439,8 +439,8 @@ export function filerOf(api: CoreAPI, term: TermRow): Filer {
  * How the law on a question stands, for anyone weighing a change to it: how
  * settled it is (-1 passed today, 1 long standing) and, for a change that
  * would reverse the latest law, the body's reluctance to undo it, larger the
- * fresher it is and the wider it passed (owner, Oct 14: no body's rules are
- * in data, so a sliding reluctance from recency and margin; no fixed cooldown).
+ * fresher it is and the wider it passed.
+ *
  */
 export function lawStanding(
   api: CoreAPI,
@@ -1539,7 +1539,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // calendar entry the next day.
   if (sessionTable(api).get(`session:${jurisdiction}:${conveneAt}`)) return;
   // Another government's session is simulated from its people and keeps only
-  // its results (owner, Nov 5: "generate on demand").
+  // its results.
   if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) {
     openOutsideSession(api, work);
     return;
@@ -1737,9 +1737,9 @@ function openOutsideSession(
     "legislature-upper",
     "legislature-unicameral",
   ]
-    // Its members are read as they are kept: nobody is made a person or
-    // given an official row for a session the player never opens (CTO,
-    // Nov 18 13:44Z); `officialStance` reads an unopened one's draw.
+    // Its members are read as they are kept: nobody is made a person or given an
+    // official row for a session the player never opens; `officialStance`
+    // reads an unopened one's draw.
     .map((kind) => chamber(api, jurisdiction, kind, false))
     .filter((c): c is NonNullable<typeof c> => c !== null)
     .filter((c) => c.members.length > 0);

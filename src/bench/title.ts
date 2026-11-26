@@ -1,13 +1,13 @@
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 
 /**
- * The title shows the national monuments, each in every light its painting
- * on main has (owner, Oct 29 monument ruling, OWNER-DECISIONS: "menu screens
- * show DC monuments, not conventions"): the U.S. Capitol, the White House and
- * the Lincoln Memorial. Conventions, rallies and rooms are out. A Washington
- * Monument or Jefferson Memorial joins the rotation by adding its place here
- * once its painting is in the manifest. The latest character in front and
- * passersby wait on the people system (Lane 4, path 1).
+ * The title shows the national monuments, each in every light its painting on
+ * main has: the U.S. Capitol, the White House and the Lincoln Memorial.
+ * Conventions, rallies and rooms are out. A Washington Monument or Jefferson
+ * Memorial joins the rotation by adding its place here once its painting is
+ * in the manifest. The latest character in front and passersby wait on the
+ * people system (Lane 4, path 1).
+ *
  */
 const NATIONAL_MONUMENTS = [
   "us-capitol-exterior",
@@ -17,9 +17,9 @@ const NATIONAL_MONUMENTS = [
 ] as const;
 
 /**
- * Every capitol the manifest paints, one per state and territory: the title draws from all of
- * them, not three (owner, Nov 17: "draws from many more monument paintings, and each game
- * starts on new ones").
+ * Every capitol the manifest paints, one per state and territory: the title
+ * draws from all of them, not three.
+ *
  */
 const STATE_CAPITOLS = [
   ...new Set(

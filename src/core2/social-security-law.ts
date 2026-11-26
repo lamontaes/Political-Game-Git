@@ -21,9 +21,9 @@ interface ScheduleRow {
 }
 
 /**
- * The ages for a birth date from the three law values and the full
- * retirement age's schedule. A person born on January 1 is treated as born
- * the year before (20 C.F.R. § 404.102).
+ * The ages for a birth date from the three law values and the full retirement
+ * age's schedule. A person born on is treated as born the year before (20
+ * C.F.R. § 404.102).
  */
 export function socialSecurityAgesFrom(
   birthDate: string,

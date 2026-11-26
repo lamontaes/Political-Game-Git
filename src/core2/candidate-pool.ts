@@ -1,22 +1,22 @@
 /**
- * Who has standing in a race (owner, Oct 14, 2026: no "one level up" ladder).
- *
- * The pool for any race is everyone with standing in its jurisdiction:
- * officeholders at every level (the officials engine's people and the offices
- * engine's terms), party officers, former candidates, and prominent people (a
- * business's owner, a press outlet's owner or head, a group's lobbyist).
- * Counted residents join when their own record draws them (the candidacy
- * module's counted screen). Each member weighs running with the same chooser
- * every town resident uses (`decideToRun`); this file only says who is in
- * the pool, how well known each is in the race's jurisdiction, and the
- * facts the chooser reads beyond a resident's: ambition, the chance their
- * lean gives, their party's backing and their means.
- *
- * Imports of the offices, officials, parties and elections modules are type
- * only, and their tables are read by module id to avoid import cycles; the
- * exceptions are the one test for another place's office
+ * Who has standing in a race. The pool for any race is everyone with standing
+ * in its jurisdiction: officeholders at every level (the officials engine's
+ * people and the offices engine's terms), party officers, former candidates,
+ * and prominent people. Counted residents join when their own record draws
+ * them (the candidacy module's counted screen). Each member weighs running
+ * with the same chooser every town resident uses (`decideToRun`); this file
+ * only says who is in the pool, how well known each is in the race's
+ * jurisdiction, and the facts the chooser reads beyond a resident's:
+ * ambition, the chance their lean gives, their party's backing and their
+ * means. Imports of the offices, officials, parties and elections modules are
+ * type only, and their tables are read by module id to avoid import cycles;
+ * the exceptions are the one test for another place's office
  * (`isOutsideOffice`) and the one fill-in (`holderOf`), called only while a
  * pool is built.
+ *
+ *
+ *
+ *
  */
 import { seededBetween } from "./past-module";
 import { partySide } from "./appointments";
@@ -466,8 +466,8 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
     }
   }
 
-  // Prominent people the records name: a business's owner, a press outlet's
-  // owner or head, an interest group's lobbyist.
+  // Prominent people the records name: a business's a press outlet's owner or
+  // head, an interest group's lobbyist.
   const prominent = c(api, "candidacyProminentStanding");
   if (api.state.modules.has(BUSINESS))
     for (const owner of api

@@ -1,22 +1,22 @@
 /**
- * Whether a voter turns out (owner, Oct 14, 2026): a sliding propensity from
- * causes, never a coin. One function for every voter the game counts, named
- * or counted, in the town or in a place counted from afar:
+ * Whether a voter turns out: a sliding propensity from causes, never a coin.
+ * One function for every voter the game counts, named or counted, in the town
+ * or in a place counted from afar: - readiness apart from the race: their
+ * sense of duty and how closely they follow politics, against what voting
+ * costs them that day (their work hours and the election laws in force, the
+ * cycle's lower salience); - the race's stakes for them: how much separates
+ * the candidates in their own eyes, on every race on the ballot that day; -
+ * the campaign's reach: how many times a campaign reached them this cycle; -
+ * habit: their own record of voting or staying home. The propensity is the
+ * logistic of their sum, so it slides: nothing flips a voter from never to
+ * always. A counted resident stands for the town's people like them, so their
+ * vote counts at their propensity. A named person's act is one vote: they
+ * turn out in the share of elections their propensity says, in the order
+ * their own record carries (`namedTurnout`), so the same person in the same
+ * circumstances does the same thing and nothing is rolled.
  *
- * - readiness apart from the race: their sense of duty and how closely they
- *   follow politics, against what voting costs them that day (their work
- *   hours and the election laws in force, the cycle's lower salience);
- * - the race's stakes for them: how much separates the candidates in their
- *   own eyes, on every race on the ballot that day;
- * - the campaign's reach: how many times a campaign reached them this cycle;
- * - habit: their own record of voting or staying home.
  *
- * The propensity is the logistic of their sum, so it slides: nothing flips a
- * voter from never to always. A counted resident stands for the town's people
- * like them, so their vote counts at their propensity. A named person's act is
- * one vote: they turn out in the share of elections their propensity says, in
- * the order their own record carries (`namedTurnout`), so the same person in
- * the same circumstances does the same thing and nothing is rolled.
+ *
  */
 import { campaignParameter } from "./campaign-data";
 

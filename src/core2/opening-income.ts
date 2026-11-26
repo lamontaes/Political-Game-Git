@@ -1049,8 +1049,8 @@ export function buildOpeningRetirementIncome(
 /**
  * The average monthly Social Security benefit this world's participants draw:
  * the published participant average, scaled by one benefit level drawn per
- * world from its seed (realistic, not real; owner, Oct 27). The formula and
- * the cost-of-living adjustment are law and are not touched.
+ * world from its seed. The formula and the cost-of-living adjustment are law
+ * and are not touched.
  */
 export function worldBenefitMonthlyMinor(
   publishedMinor: number,

@@ -2,12 +2,12 @@
  * What a person does, from the two records that say it: the job they hold
  * (the jobs table) and each office they serve in (the offices engine's
  * serving terms). One reader for every screen that tells it: the person card,
- * the journal and Travel (pool item
- * play-a-relatives-card-and-journal-disagree-on-her-job; owner, Oct 28: "It's
- * just different ways of displaying the same information"). A public office
- * whose seat is also the person's job (a full-time county commissioner) is one
- * thing, told as the office; a part-time office beside an ordinary job is
- * two, and both are told.
+ * the journal and Travel. A public office whose seat is also the person's job
+ * (a full-time county commissioner) is one thing, told as the office; a
+ * part-time office beside an ordinary job is two, and both are told.
+ *
+ *
+ *
  */
 import { governmentProperName } from "./government-proper-name";
 import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
@@ -42,16 +42,16 @@ export interface PersonWork {
 }
 
 /**
- * A job title said by the place's own kind (Words lead, Nov 14: "city clerk at
- * the Town of Ranchester"). Jobs on a government's payroll carry the title as
- * its source writes it, which begins "City" ("City clerk", "City Attorney"),
- * whatever kind of place employs them. The employer is the government, named
- * by its kind ("Town of Ranchester", "Charter Township of Green"), so the
- * title takes that kind: "town clerk" in a town, "township clerk" in a
- * township, "village clerk" in a village. In a city the title is left as it
- * is ("city clerk at the City of Raymond": people say both words, second
- * words reader, Nov 14). A title that does not begin with "City", or one at an
+ * A job title said by the place's own kind. Jobs on a government's payroll
+ * carry the title as its source writes it, which begins "City" ("City clerk",
+ * "City Attorney"), whatever kind of place employs them. The employer is the
+ * government, named by its kind ("Town of Ranchester", "Charter Township of
+ * Green"), so the title takes that kind: "town clerk" in a town, "township
+ * clerk" in a township, "village clerk" in a village. In a city the title is
+ * left as it is. A title that does not begin with "City", or one at an
  * employer whose name carries no kind, is as stored.
+ *
+ *
  */
 export function jobTitleByKind(
   title: string,

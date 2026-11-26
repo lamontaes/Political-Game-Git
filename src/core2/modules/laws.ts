@@ -337,7 +337,7 @@ export function openLaws(core: CoreState): LawChain {
   ] as unknown as LawRowInput[]))
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
-  // Social Security's retirement ages are federal law (owner, Oct 12).
+  // Social Security's retirement ages are federal law.
   for (const row of socialSecurityRows(today))
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
@@ -366,10 +366,10 @@ export function openLaws(core: CoreState): LawChain {
     // ("US": a federal statute the research says applies in every place), at
     // the federal level.
     const isFederal = question.startsWith(FEDERAL_QUESTION_PREFIX);
-    // In a world whose day one is the century's, the law in force is what the century's
-    // bodies left: a federal question Congress's, every other the state legislature's (CTO
-    // line 6935086070 on #9747; History's family 4). No federal law reaches a state question
-    // there, as the century's Congress votes only the federal ones (stopgap
+    // In a world whose day one is the century's, the law in force is what the
+    // century's bodies left: a federal question Congress's, every other the
+    // state legislature's. No federal law reaches a state question there, as
+    // the century's Congress votes only the federal ones (stopgap
     // SG-HIST-century-federal-mandates).
     if (federal) {
       const place = isFederal ? federal.jurisdiction : chain.stateKey;
@@ -417,9 +417,9 @@ export function openLaws(core: CoreState): LawChain {
       series: question,
       tier: "general",
       value: answer.answer === "yes" ? 1 : 0,
-      // In force by the research's calibration date, so outcome research
-      // reading the real law at that date sees it (OPUS-WEB, Oct 12); when
-      // it was enacted, by whom, is the law's history (`enactmentOf`).
+      // In force by the research's calibration date, so outcome research reading
+      // the real law at that date sees it; when it was enacted, by whom, is
+      // the law's history (`enactmentOf`).
       effectiveDate: today < ANSWERS_AS_OF ? today : ANSWERS_AS_OF,
       endDate: null,
       source:
@@ -1232,10 +1232,10 @@ const LAW_ENDS = "law-ends";
  * A repeal: the body's own law on a series ends on the repeal's effective
  * date, so the level holds exactly what it held before that law (an earlier
  * law of its own, its opening row, or none at all), and the next level's law
- * governs as before. The row the body's last bill wrote is ended, not
- * covered by a second row (owner, Nov 7: "these should all be able to be
- * reversed"). Returns the ended row, or null when the body has no law of its
- * own on the series to end.
+ * governs as before. The row the body's last bill wrote is ended, not covered
+ * by a second row. Returns the ended row, or null when the body has no law of
+ * its own on the series to end.
+ *
  */
 export function repealLaw(
   api: CoreAPI,

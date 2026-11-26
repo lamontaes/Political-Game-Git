@@ -1,20 +1,20 @@
 /**
- * News has an archive (owner, Oct 14, 2026): the year before day one, as the
- * news engine's own stories, so the news screen and bring-it-up are not
- * empty on day one and a person can have heard of something.
- *
- * Stories come from the past's records: each prior election decided in the
- * year, each law passed or taking effect in it, each recorded vote of a body
- * covering the town, each budget that began in it, each business of the town
- * that closed in it, and each parent of a resident who died in it. The press
- * engine writes every one of them (its outlet, its framing and the record's
- * facts), as the town's own paper.
- *
+ * News has an archive: the year before day one, as the news engine's own
+ * stories, so the news screen and bring-it-up are not empty on day one and a
+ * person can have heard of something. Stories come from the past's records:
+ * each prior election decided in the year, each law passed or taking effect
+ * in it, each recorded vote of a body covering the town, each budget that
+ * began in it, each business of the town that closed in it, and each parent
+ * of a resident who died in it. The press engine writes every one of them
+ * (its outlet, its framing and the record's facts), as the town's own paper.
  * Who heard: the news engine's own delivery rule. A full resident hears a
  * story after a delay set by how closely they follow politics and how much
- * they trust the media, and never once the delay passes the story's life.
- * A story they would hear after day one is put on the engine's delivery
+ * they trust the media, and never once the delay passes the story's life. A
+ * story they would hear after day one is put on the engine's delivery
  * calendar for that day. Nobody too young to follow the news hears it.
+ *
+ *
+ *
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { lawRows } from "./modules/laws";

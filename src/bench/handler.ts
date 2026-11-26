@@ -269,10 +269,10 @@ const EMPTY_STATE: ServerState = { ...state };
 /** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
 /**
  * The minute of day the player's clock, the light behind them and a scene's
- * opener all read. The opening day is that evening at home, when the household
- * gets home, so the clock is never at the midnight it starts the day from
- * (owner, Nov 16: "the timing is completely messed up"): the player's own
- * minute, raised to the arrival minute on the opening day.
+ * opener all read. The opening day is that evening at home, when the
+ * household gets home, so the clock is never at the midnight it starts the
+ * day from: the player's own minute, raised to the arrival minute on the
+ * opening day.
  */
 function shownMinute(): number | undefined {
   const minute = state.player?.packet?.at.minuteOfDay;
@@ -311,7 +311,7 @@ function sceneNow(current: CoreState, id: string) {
         );
   // Who has something to say: the director's own answer (a talk that opens with
   // no lines is no talk), read without writing anything. The room leaves the
-  // rest unclickable (owner, Nov 1).
+  // rest unclickable.
   return playing && state.director
     ? {
         ...scene,
@@ -498,7 +498,7 @@ const ROUTES: readonly Route[] = [
         const chosen = url.searchParams.get("person")
           ? readChosenPerson(url.searchParams.get("person")!)
           : undefined;
-        // Every game opens on the one start date (owner, Oct 14, 2026).
+        // Every game opens on the one start date.
         const world = await buildBenchWorldInStages(
           url.searchParams.get("seed") ?? "",
           gameStartDate(),
@@ -766,9 +766,9 @@ const ROUTES: readonly Route[] = [
             }
           : {},
       );
-      // A talk with no line is no talk (owner, Nov 1), on every road: a scene,
-      // the room, a workplace visit. Nothing opens, and the screen hands the
-      // room back.
+      // A talk with no line is no talk, on every road: a scene, the room, a
+      // workplace visit. Nothing opens, and the screen hands the room back.
+
       if (!state.conversation.lines.length) {
         state.conversation = undefined;
         send(200, null);
@@ -1060,8 +1060,8 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/map",
     run: async ({ send }) => {
-      // The state's map with the player's districts and who holds each,
-      // for Parties (owner, Oct 28, point 20: "bring it back").
+      // The state's map with the player's districts and who holds each, for
+      // Parties.
       send(200, governmentMap(requireCore()));
       return;
     },
@@ -1070,8 +1070,8 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/patch-notes",
     run: async ({ send }) => {
-      // The title's Patch notes: the release machinery's own file, one
-      // released section at a time (owner, Oct 28: "get them in").
+      // The title's Patch notes: the release machinery's own file, one released
+      // section at a time.
       send(200, {
         releases: patchNoteReleases(
           await readFile(
@@ -1316,8 +1316,8 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
-  // The player's interrupt setting (owner, Oct 14, 2026): which kinds of
-  // scene may stop the day. A director record its scheduling reads.
+  // The player's interrupt setting: which kinds of scene may stop the day. A
+  // director record its scheduling reads.
   {
     match: ({ url }) => url.pathname === "/api/scene-filter",
     run: async ({ request, url, send }) => {
@@ -2290,9 +2290,9 @@ const ROUTES: readonly Route[] = [
       if (!state.player?.personId) throw new Error("Choose a resident first.");
       const filedWith = url.searchParams.get("filedWith") ?? "";
       const current = requireCore();
-      // The office keeps its clerk's hours: going to a closed one plays the
-      // visit at its next opening, the clock moving there (owner, Nov 1:
-      // "it should have started the next day").
+      // The office keeps its clerk's hours: going to a closed one plays the visit
+      // at its next opening, the clock moving there.
+
       const now = state.player.packet?.at ?? {
         date: current.date,
         minuteOfDay:
@@ -2341,8 +2341,8 @@ const ROUTES: readonly Route[] = [
           shownMinute() ?? 12 * 60,
         );
       } catch (error) {
-        // Nothing to file and no petition out: no scene at the counter
-        // (Fable A, Nov 13, rule 19).
+        // Nothing to file and no petition out: no scene at the counter.
+
         if (!(error instanceof NothingAtCounter)) throw error;
         state.filingVisit = undefined;
         send(200, { nothing: true });
@@ -2691,8 +2691,8 @@ const ROUTES: readonly Route[] = [
       return;
     },
   },
-  // Announce for a race whose filing opens later (owner, Nov 17: "Run now,
-  // file on the date").
+  // Announce for a race whose filing opens later.
+
   {
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/announce",
@@ -3112,7 +3112,7 @@ export function savedLives(): { id: string; save: SaveV1 }[] {
         written: statSync(file).mtimeMs,
       });
     } catch {
-      // Not a save this version reads (owner, Nov 15: saves "don't need to be transferable between versions").
+      // Not a save this version reads.
     }
   }
   return lives

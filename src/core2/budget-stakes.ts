@@ -3,7 +3,7 @@
  * national average (1 = average): a member of Congress weighs it when a bill
  * raises or cuts the line. Calibrated on USAspending and agency records
  * (data/research/federal/federal-spending-by-state-fy2024.json); each world's
- * stake is drawn around the published one (owner, Oct 27: realistic, not real).
+ * stake is drawn around the published one.
  */
 import {
   budgetsOf,

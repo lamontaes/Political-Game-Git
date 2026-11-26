@@ -249,9 +249,9 @@ const worldBases = new Map<
 /**
  * A kept outcome's starting level in a state in this world: the published
  * level (`publishedBaseOf`) moved once by the world's own offset, drawn from
- * its seed (owner, Oct 27: realistic, not real). A rate in law and an index
- * that starts at 100 keep their level. A percent moves relative to its nearer
- * bound, so it stays between 0 and 100.
+ * its seed. A rate in law and an index that starts at 100 keep their level. A
+ * percent moves relative to its nearer bound, so it stays between 0 and 100.
+ *
  */
 export function baseOf(
   measure: string,

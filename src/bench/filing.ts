@@ -166,8 +166,8 @@ export function openBenchFilingVisit(
     bodyName?: string;
   };
   // The place's own council or board, by its office record: the body a seat
-  // sits on, or for a single office the body of the same government (owner,
-  // Nov 1: "Do you mean city council?").
+  // sits on, or for a single office the body of the same government.
+
   const bodyOf = (office: OfficeRecord | undefined) => {
     const named = (row: OfficeRecord | undefined) =>
       row?.bodyName && (row.seats ?? 1) > 1
@@ -256,12 +256,12 @@ export function openBenchFilingVisit(
       ];
     }),
   );
-  // With no race left to file for here there is no scene (Fable A, Nov 13,
-  // rule 19; owner, Nov 14: the clerk never says how many signatures are in,
-  // so a petition still gathering gives the counter nothing to say).
+  // With no race left to file for here there is no scene.
+
+
   const mineHere = filedHere(core, playerId, filedWith);
   // Back for another race with one already filed here: the clerk opens from
-  // that filing (Fable A, Nov 13, Miracle Valley, Arizona).
+  // that filing.
   const filedRow =
     contests.length && mineHere
       ? (api
@@ -330,11 +330,11 @@ export function openBenchFilingVisit(
     visit,
     filedWith,
     place,
-    // A first visit asks for the papers; back for another race with one
-    // already filed here, the clerk opens from that filing.
-    // The clerk's office is named one way, from the place's filing record
-    // (Fable A, Nov 13, rule 8: "Town clerk" in a town, never "City Clerk"
-    // beside it); the clerk's own title only where that record names a choice.
+    // A first visit asks for the papers; back for another race with one already
+    // filed here, the clerk opens from that filing. The clerk's office is
+    // named one way, from the place's filing record; the clerk's own title
+    // only where that record names a choice.
+
     intro: clerkRow
       ? counterNarration(
           core,
@@ -484,12 +484,12 @@ function assumedSpans(
 }
 
 /**
- * When the office that takes these filings is next open (owner, Nov 1:
- * "obviously the office isn't open at 8:30 p.m."): its clerk's own work spans,
- * the record Travel's "who is there now" reads, and where the records hold no
- * hours for the clerk (or name no clerk), the estimated weekday hours of every
- * office. Null when the office is open at this minute. A day off (a weekend, a
- * holiday the spans leave out) is skipped.
+ * When the office that takes these filings is next open: its clerk's own work
+ * spans, the record Travel's "who is there now" reads, and where the records
+ * hold no hours for the clerk (or name no clerk), the estimated weekday hours
+ * of every office. Null when the office is open at this minute. A day off (a
+ * weekend, a holiday the spans leave out) is skipped.
+ *
  */
 export function counterOpening(
   core: CoreState,

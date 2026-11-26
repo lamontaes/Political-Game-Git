@@ -142,16 +142,16 @@ export interface OutsideVoters {
 }
 
 /**
- * A race's whole electorate where it reaches past the town, for its petition
- * (owner, Nov 14: a race needs the number its own law sets for its own
- * electorate, never a town's share): its eligible voters, their last
- * two-party votes and lean, and the counted voters outside the town by
- * place, whom a campaign's paid circulators can reach. The places are the
- * race's (`basePlaces`), the town's own voters set apart from its home
- * place. An island area's state or federal race, whose villages' voters are
- * not on record, reads the island's people (shared among the office's
- * districts) at the town's own voters per resident. Null for a town race, or
- * a race the world holds no one outside the town for.
+ * A race's whole electorate where it reaches past the town, for its petition:
+ * its eligible voters, their last two-party votes and lean, and the counted
+ * voters outside the town by place, whom a campaign's paid circulators can
+ * reach. The places are the race's (`basePlaces`), the town's own voters set
+ * apart from its home place. An island area's state or federal race, whose
+ * villages' voters are not on record, reads the island's people (shared among
+ * the office's districts) at the town's own voters per resident. Null for a
+ * town race, or a race the world holds no one outside the town for.
+ *
+ *
  */
 export function wideElectorate(
   api: CoreAPI,

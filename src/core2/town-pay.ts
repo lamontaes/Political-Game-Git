@@ -99,10 +99,10 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
  * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
  * distribution. A new hire starts at the starting percentile and moves toward
  * the ending one over the tenure years at the employer. With a world's seed
- * (play), the two percentiles and the years are this world's own, drawn around
- * the assumed ones (owner, Oct 27: realistic, not real); without it, the
- * assumed rule (calibration). Recorded credentials select actual paid peers
- * for an observed hourly mean, never a fixed degree premium.
+ * (play), the two percentiles and the years are this world's own, drawn
+ * around the assumed ones; without it, the assumed rule (calibration).
+ * Recorded credentials select actual paid peers for an observed hourly mean,
+ * never a fixed degree premium.
  */
 export function townPayPercentile(tenureYears: number, seed?: string): number {
   const at = (key: string, row: string) =>

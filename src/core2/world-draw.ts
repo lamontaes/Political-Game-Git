@@ -1,11 +1,11 @@
 /**
- * Starting levels for one world (owner, Oct 27: "realistic, not real"): a
- * published statistic is the center of a spread the world's seed draws from
- * once at Start, so no two worlds open on the same figure and none opens on
- * the published one. Generation of the starting world only, never an actor's
- * outcome; the sizes live in the parameter table. This is the one draw: the
- * national and state economy, the budget lines, the housing medians and every
- * other starting figure take their offset from `worldOffsetUnit`.
+ * Starting levels for one world: a published statistic is the center of a
+ * spread the world's seed draws from once at Start, so no two worlds open on
+ * the same figure and none opens on the published one. Generation of the
+ * starting world only, never an actor's outcome; the sizes live in the
+ * parameter table. This is the one draw: the national and state economy, the
+ * budget lines, the housing medians and every other starting figure take
+ * their offset from `worldOffsetUnit`.
  */
 import { parameter as p } from "./parameters";
 import { seededUnit } from "./seeded";

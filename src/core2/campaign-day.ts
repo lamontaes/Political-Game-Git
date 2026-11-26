@@ -1,16 +1,16 @@
 /**
- * A campaign day for the player (owner, Oct 14, 2026): a handful of choices,
- * each an act read from the records, no more than that. Knock on doors in a
- * neighborhood, hold an event, host a forum, give an interview, raise money,
- * meet donors at a supporter's house party, rest.
+ * A campaign day for the player: a handful of choices, each an act read from
+ * the records, no more than that. Knock on doors in a neighborhood, hold an
+ * event, host a forum, give an interview, raise money, meet donors at a
+ * supporter's house party, rest. Nothing here is a new mechanic. Each choice
+ * runs an engine's own act (`knockDoors`, `holdEvent`, the meetings engine's
+ * `holdTownHall`, `requestInterview`, `askForDonation`, `holdDonorMeeting`)
+ * with the player's own hours; availability is read from the records the
+ * engines keep (doors knocked, the campaign's cash, the town halls held, the
+ * press desk's week, the gifts already given). No choice is decided by a
+ * roll. Choices carry ids and numbers only; the English engine words them.
  *
- * Nothing here is a new mechanic. Each choice runs an engine's own act
- * (`knockDoors`, `holdEvent`, the meetings engine's `holdTownHall`,
- * `requestInterview`, `askForDonation`, `holdDonorMeeting`) with the player's
- * own hours; availability is read from the records the engines keep (doors
- * knocked, the campaign's cash, the town halls held, the press desk's week, the gifts
- * already given). No choice is decided by a roll. Choices carry ids and
- * numbers only; the English engine words them.
+ *
  */
 import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { campaignParameter } from "./campaign-data";

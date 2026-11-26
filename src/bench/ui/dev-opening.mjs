@@ -88,7 +88,7 @@ function drawsTable(recording, labels) {
 }
 
 export const slots = {
-  // On a person's card (the "person" slot, PR #9628): how that person opened, without the picker.
+  // On a person's card: how that person opened, without the picker.
   async person({ personId, labels, send }) {
     const trace = traceBox(labels.trace);
     try {

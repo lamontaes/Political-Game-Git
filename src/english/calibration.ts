@@ -1,26 +1,26 @@
 /**
- * The calibration table the English engine reads (owner, Oct 15, 2026: "every
- * word is a data point calibrating the entire engine"). Weights only: no
- * scenario text, no scene script, no if-this-town-then-that. Nothing here
- * names a place, a person or a situation's wording. The table
- * (`data/english/calibration.json`) holds, all TUNABLE with the spread each is
- * checked against:
- *
- *   per trait      a pull toward each bearing and toward longer or shorter lines;
- *   per register   the target length in words and sentences;
- *   per move pair  whether that arrangement read naturally.
- *
- * No weight here depends on how the owner graded a line. A line plays or it
- * does not: his grades hold lines back (`english-grades.ts`) and his rules
- * pull them (`line-rules.ts`, `bank-parts.ts`). Among the lines that play,
- * the pick is the stable seeded choice, moved only by the speaker's traits,
- * the register's length and the move before.
- *
+ * The calibration table the English engine reads. Weights only: no scenario
+ * text, no scene script, no if-this-town-then-that. Nothing here names a
+ * place, a person or a situation's wording. The table
+ * (`data/english/calibration.json`) holds, all TUNABLE with the spread each
+ * is checked against: per trait a pull toward each bearing and toward longer
+ * or shorter lines; per register the target length in words and sentences;
+ * per move pair whether that arrangement read naturally. No weight here
+ * depends on how the owner graded a line. A line plays or it does not: his
+ * grades hold lines back (`english-grades.ts`) and his rules pull them
+ * (`line-rules.ts`, `bank-parts.ts`). Among the lines that play, the pick is
+ * the stable seeded choice, moved only by the speaker's traits, the
+ * register's length and the move before.
  * `scripts/dialogue-batch/apply-grades.ts` folds the bench's grades of trait
  * fit, length and naturalness in; the engine reads the table when it chooses
  * a piece (`english-composition.ts`) and ranks a reply
  * (`src/director/conversation.ts`). Every function is pure and deterministic
  * (no randomness), and an empty table returns 1 or 0 everywhere.
+ *
+ *
+ *
+ *
+ *
  */
 import tableFile from "../../data/english/calibration.json" with { type: "json" };
 

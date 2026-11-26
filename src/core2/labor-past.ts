@@ -1,21 +1,21 @@
 /**
- * The town's labor market a year before the start (owner, Nov 13, 2026: "it's
- * simulated... things need to be simulated in order to make your modern day
- * make sense"), so Metrics reads last year beside people at work, people
- * looking for work, jobs open and the town's unemployment on day one, the way
- * it does from month 13 on.
+ * The town's labor market a year before the start, so Metrics reads last year
+ * beside people at work, people looking for work, jobs open and the town's
+ * unemployment on day one, the way it does from month 13 on. One rule for
+ * both tiers (a counted group is read with the rule a full person is, times
+ * its count): the town's unemployment moves with the economy pass's month, so
+ * the people looking a year before day one are the people looking on day one
+ * moved by how the pass's unemployment stood then against now, out of the
+ * same labor force. Jobs open follow the hires the working-life run's own
+ * finding rule (`findPerQuarter`, the pass's months) lets seekers make:
+ * openings are what is filled, so they move as the seekers times how fast
+ * work is found. The figures are written into the closed year row before the
+ * start, as the economy stood a year before its latest published month (the
+ * way the state's figures read), and cite the economy pass's history record
+ * in force then.
  *
- * One rule for both tiers (a counted group is read with the rule a full
- * person is, times its count): the town's unemployment moves with the
- * economy pass's month, so the people looking a year before day one are the
- * people looking on day one moved by how the pass's unemployment stood then
- * against now, out of the same labor force. Jobs open follow the hires the
- * working-life run's own finding rule (`findPerQuarter`, the pass's months)
- * lets seekers make: openings are what is filled, so they move as the seekers
- * times how fast work is found. The figures are written into the closed year
- * row before the start, as the economy stood a year before its latest
- * published month (the way the state's figures read), and cite the economy
- * pass's history record in force then.
+ *
+ *
  */
 import { historyMonths } from "./macro-model";
 import { putPastYear } from "./output-numbers";

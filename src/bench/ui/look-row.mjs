@@ -1,6 +1,6 @@
-// A row of the character creator's look, or a stepper: a feature's name, then its choices, each a color
-// swatch (skin, hair color, cloth colors) or a picture (hairstyle, facial hair, top)
-// (owner, Nov 17). The screen passes what a pick does.
+// A row of the character creator's look, or a stepper: a feature's name, then
+// its choices, each a color swatch (skin, hair color, cloth colors) or a
+// picture (hairstyle, facial hair, top). The screen passes what a pick does.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 

@@ -107,28 +107,28 @@ export interface DonorReadsInput {
 }
 
 /**
- * What a donor's words lean on beyond the gift (Story lead, Nov 17, the donor
- * rewrite). Each fact is read from the one record that holds it and set only
- * where that record holds it (an effect is a read, not a record):
+ * What a donor's words lean on beyond the gift. Each fact is read from the
+ * one record that holds it and set only where that record holds it (an effect
+ * is a read, not a record): - `gift-first`, `gift-biggest`, `gift-smallest`
+ * and `gift-weight`: the donor's running total against every other named
+ * donor's to the same campaign (the gifts table), said as words ("the biggest
+ * check you've had"), never as a figure. The middle of the pile is not worth
+ * saying and sets nothing; ranks need three donors, so two never say
+ * "biggest". - `stand-with` and `stand-apart`, with `your-side` ("for" or
+ * "against"): which side of the bill's question the player's own recorded
+ * view puts them on, against the donor's side, from the views engine; set
+ * only where the donor has a side and the player holds a view on the
+ * question. - `bill-filed`, `bill-held`, `bill-heard`, `bill-one-house`,
+ * `bill-on-desk`, with `bill-stage` ("held up in committee"): where the bill
+ * is, from the committee's and the chambers' own records, the way the bill's
+ * own page reads it. - `votes-on-it`: the player sits in a chamber the bill
+ * goes through. - `knows-truth` with `source`: the bill has not moved (filed
+ * or held in committee) and someone who would know says so: its sponsor, else
+ * the committee's chair, never the player. A lie that it is moving can then
+ * be shown false; with nobody to ask, it stands (purpose-arcs.json, `lie`).
  *
- * - `gift-first`, `gift-biggest`, `gift-smallest` and `gift-weight`: the
- *   donor's running total against every other named donor's to the same
- *   campaign (the gifts table), said as words ("the biggest check you've
- *   had"), never as a figure. The middle of the pile is not worth saying and
- *   sets nothing; ranks need three donors, so two never say "biggest".
- * - `stand-with` and `stand-apart`, with `your-side` ("for" or "against"):
- *   which side of the bill's question the player's own recorded view puts
- *   them on, against the donor's side, from the views engine; set only where
- *   the donor has a side and the player holds a view on the question.
- * - `bill-filed`, `bill-held`, `bill-heard`, `bill-one-house`, `bill-on-desk`,
- *   with `bill-stage` ("held up in committee"): where the bill is, from the
- *   committee's and the chambers' own records, the way the bill's own page
- *   reads it.
- * - `votes-on-it`: the player sits in a chamber the bill goes through.
- * - `knows-truth` with `source`: the bill has not moved (filed or held in
- *   committee) and someone who would know says so: its sponsor, else the
- *   committee's chair, never the player. A lie that it is moving can then be
- *   shown false; with nobody to ask, it stands (purpose-arcs.json, `lie`).
+ *
+ *
  */
 export function donorReads(
   core: Readonly<CoreState>,

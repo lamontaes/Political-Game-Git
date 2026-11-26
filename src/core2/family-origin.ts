@@ -1,22 +1,22 @@
 /**
- * A chosen look's origin and the player's family (owner, Nov 8: "I'm Mexican
- * and my son is white"). A person's origin is one of their two parents' (the
- * rule births already use, `childOrigin`), so when the player chooses a look
- * from another origin than the family was drawn with, the family is worked
- * out again from the record of who is whose parent, not painted all in the
- * player's tone:
+ * A chosen look's origin and the player's family. A person's origin is one of
+ * their two parents' (the rule births already use, `childOrigin`), so when
+ * the player chooses a look from another origin than the family was drawn
+ * with, the family is worked out again from the record of who is whose
+ * parent, not painted all in the player's tone: - one of the player's parents
+ * takes the chosen origin (picked by the player's id), so the player is still
+ * one of their parents' children; the other parent keeps theirs, and the
+ * parents may differ; - the player's brothers and sisters, children,
+ * grandchildren, nieces and nephews each take one of their own parents'
+ * origins, by their own id; - a partner, in-laws and housemates keep the
+ * origin they were drawn with, and so do grandparents, aunts and uncles (the
+ * record does not say which side of the family they are on). Only people
+ * still carrying the drawn origin are worked out again; someone already of
+ * another origin keeps it. No dice: the pick is by id and seed.
  *
- * - one of the player's parents takes the chosen origin (picked by the
- *   player's id), so the player is still one of their parents' children;
- *   the other parent keeps theirs, and the parents may differ;
- * - the player's brothers and sisters, children, grandchildren, nieces and
- *   nephews each take one of their own parents' origins, by their own id;
- * - a partner, in-laws and housemates keep the origin they were drawn with,
- *   and so do grandparents, aunts and uncles (the record does not say which
- *   side of the family they are on).
  *
- * Only people still carrying the drawn origin are worked out again; someone
- * already of another origin keeps it. No dice: the pick is by id and seed.
+ *
+ *
  */
 import { bloodKin, familyRelation } from "./closeness";
 import { childOrigin, oneOfParents } from "./opening-origin";

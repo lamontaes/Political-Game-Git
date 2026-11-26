@@ -27,15 +27,15 @@ import { capitolPlaceFor } from "./backdrop-places";
 import { backdropFile } from "./scene";
 
 /**
- * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
+ * The New game creator as the creator had it (src/player/SetupScreen,
  * CreatorBirthdayFields at 29be9982f5^), on the new core: gender, name and
  * birthday; then where you are from; then the appearance (appearance.ts).
  */
 export const GENDERS = ["female", "male", "nonbinary"] as const;
 export type CreatorGender = (typeof GENDERS)[number];
 /**
- * The youngest a life can begin at (owner, Nov 16: "Just do 18 and up right now. Life before 18
- * will come after early access."; world.ts `PLAYER_MIN_AGE`).
+ * The youngest a life can begin at.
+ *
  */
 export const CREATOR_MIN_AGE = PLAYER_MIN_AGE;
 /** The old creator's upper bound (MAXIMUM_START_AGE). */
@@ -43,8 +43,8 @@ export const CREATOR_MAX_AGE = 70;
 
 /**
  * A name from the national corpus, drawn by seed and draw number. With no
- * gender chosen yet, any given name may come up (owner, Oct 14: Randomize
- * name works before a gender is picked).
+ * gender chosen yet, any given name may come up.
+ *
  */
 export function drawName(seed: string, draw: number, gender?: string) {
   const corpus = getNameCorpus();
@@ -75,10 +75,10 @@ export function drawGender(seed: string, draw: number): CreatorGender {
 }
 
 /**
- * The whole character Random draws (owner, Nov 17: "you should be able to
- * randomize an entire character"): a gender, a name for it, a birthday, a
+ * The whole character Random draws: a gender, a name for it, a birthday, a
  * place from all 56. The look is drawn by the page's next request for the
  * gender's appearance, on the same seed and draw.
+ *
  */
 export function drawCharacter(seed: string, draw: number) {
   const gender = drawGender(seed, draw);
@@ -138,9 +138,9 @@ const NOON = 12 * 60;
 /**
  * The capitol painting of a state, D.C. or a territory, by its jurisdiction
  * key ("US-TX"), in midday light: what the loading screen shows behind the
- * world being built (owner, Nov 16: loading shows the player's state). A state
- * with no capitol painting of its own gets the dome or tower the picture list
- * (`capitolPlaceFor`) gives it.
+ * world being built. A state with no capitol painting of its own gets the
+ * dome or tower the picture list (`capitolPlaceFor`) gives it.
+ *
  */
 export function stateCapitolPicture(jurisdictionKey: string | null): string {
   const usps = jurisdictionKey?.startsWith("US-")

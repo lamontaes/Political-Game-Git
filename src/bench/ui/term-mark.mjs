@@ -1,8 +1,8 @@
 /* global document, MutationObserver, window, NodeFilter, setTimeout, clearTimeout */
-// Inline glossary help (owner, Nov 8: "I've never seen any of the inline helping stuff for the
-// glossary"). A civic term is underlined wherever it appears in player text, not only when it
-// is a whole label: hover shows its short definition with Mark as learned, a click opens the
-// Guide there. One walker over the game's text, run again whenever a screen draws.
+// Inline glossary help. A civic term is underlined wherever it appears in
+// player text, not only when it is a whole label: hover shows its short
+// definition with Mark as learned, a click opens the Guide there. One walker
+// over the game's text, run again whenever a screen draws.
 import { termWord } from "./term.mjs";
 
 const SKIP = new Set([
@@ -45,7 +45,7 @@ function patternOf(keys) {
   };
 }
 
-/** How long a pointer rests on a term before its card opens (Sept 29 hand-back: about 250 ms). */
+/** How long a pointer rests on a term before its card opens. */
 const REST_MS = 250;
 
 /**

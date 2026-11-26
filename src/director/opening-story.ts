@@ -1,28 +1,28 @@
 /**
- * The opening, told as a story (owner, Oct 14, 2026): the President's address
- * about the world the simulation made, that night's evening news, then the
- * player's household at home that evening, where the news can be picked up. Everything said comes from
- * the English engine's mined banks with the world's records in its slots,
- * composed once while the world loads; a sentence the records can't support
- * is left out, never written.
+ * The opening, told as a story: the President's address about the world the
+ * simulation made, that night's evening news, then the player's household at
+ * home that evening, where the news can be picked up. Everything said comes
+ * from the English engine's mined banks with the world's records in its
+ * slots, composed once while the world loads; a sentence the records can't
+ * support is left out, never written. - It opens on the address itself, the
+ * President speaking with the Vice President and key people pointed out; home
+ * comes after the governor and the family. - The address reads the macro
+ * engine's opening month against the year before, saying a figure with what
+ * it is, never a bare claim ("Prices are too high"); the President's own
+ * three issues (an ask of Congress only for an issue the President supports);
+ * a place only from a campaign visit to the player's own state; a governor's
+ * name only when the scene introduces the governor; and the Speaker's
+ * recorded gender for the salutation. - Each person the camera points out is
+ * there for a recorded reason: the sentence that names them, or the player's
+ * own household. - The news reads the address as that night's lead story and
+ * the town's own lead story that day (a closure, a hazard, a death, else its
+ * jobs figure). - The address is recorded once as a public event, so the news
+ * engine carries it to the town and anyone who hears it can bring it up; the
+ * whole opening is kept on the director's ledger for the screens.
  *
- * - It opens on the address itself, the President speaking with the Vice
- *   President and key people pointed out; home comes after the governor and
- *   the family (owner, Oct 26, 2026).
- * - The address reads the macro engine's opening month against the year
- *   before, saying a figure with what it is, never a bare claim ("Prices are
- *   too high"); the President's own three issues (an ask of Congress only
- *   for an issue the President supports); a place only from a campaign visit
- *   to the player's own state; a governor's name only when the scene
- *   introduces the governor; and the Speaker's recorded gender for the
- *   salutation.
- * - Each person the camera points out is there for a recorded reason: the
- *   sentence that names them, or the player's own household.
- * - The news reads the address as that night's lead story and the town's own
- *   lead story that day (a closure, a hazard, a death, else its jobs figure).
- * - The address is recorded once as a public event, so the news engine
- *   carries it to the town and anyone who hears it can bring it up; the whole
- *   opening is kept on the director's ledger for the screens.
+ *
+ *
+ *
  */
 import { factsMadeWith } from "./life-news";
 import { addressAiring } from "./address-airing";
@@ -178,13 +178,13 @@ const WORLD_NAMES: readonly string[] = [
 const PERSON_NAMES: readonly string[] = ["prior-office"];
 
 /**
- * The people an address names, by the fact key of their slot (owner, Nov
- * 12: "who's Kathryn Hansen?", "There needs to be pronouns and titles."). The
- * shared said-as reader (src/english/said-as.ts) says each from the address's
+ * The people an address names, by the fact key of their slot. The shared
+ * said-as reader (src/english/said-as.ts) says each from the address's
  * telling: "Vice President Kathryn Hansen" at first mention, then "the Vice
  * President" or "she". A slot names the case its place in the sentence needs:
  * `-object` ("with her beside me"), `-possessive` ("her counsel"); a slot
  * ending `-addressed` speaks to the person, with title and name.
+ *
  */
 const PEOPLE: readonly string[] = ["vice-president", "speaker"];
 const CASES = {
@@ -295,8 +295,8 @@ function composeAddressOf(
  */
 /** The roles of sentences that only set the scene, left out rather than say a subject word past its budget. */
 const LEFT_OUT_PAST_BUDGET: readonly string[] = [
-  // How a point's question stands today is never left out: every point
-  // says it (the words lead, Nov 12: context, stand, ask).
+  // How a point's question stands today is never left out: every point says it.
+
   "meaning",
   "tie",
   "context",
@@ -413,12 +413,12 @@ export function composeBlocks(
   const ledIn = new Set<string>();
   // Whether the turn to the Vice President, which always names them, is still to come.
   let vpAhead = blocks.some((block) => block.key === "to-vp");
-  // The questions this speech has named (speech-has-one-theme; the words
-  // lead, Nov 12: "The subject is said once, then varied"): once a sentence
-  // has said a question by its name or one of its sides, every later sentence
-  // says it by its second-mention name (question-names `again`: "a clean
-  // electricity standard" is "the standard"), in its noun slots and inside
-  // the side said of it ("say no to the standard").
+  // The questions this speech has named: once a sentence has said a question by
+  // its name or one of its sides, every later sentence says it by its
+  // second-mention name (question-names `again`: "a clean electricity
+  // standard" is "the standard"), in its noun slots and inside the side said
+  // of it ("say no to the standard").
+
   const questionsNamed = new Set<string>();
   const questionOf = (row: Facts[string] | undefined) =>
     row?.sourceRecordIds
@@ -536,9 +536,9 @@ export function composeBlocks(
             block.key !== "to-vp"
               ? P.one
               : P.zero)
-          : // A subject is named once, then said another way (owner, Nov
-            // 12: "good news on a stronger economy ... report on a stronger
-            // economy"); the greeting and the close may name it once more.
+          : // A subject is named once, then said another way; the greeting and the close
+            // may name it once more.
+
             SHAPE.parameters.subjectsSaid.value +
             (move.required || block.required ? P.one : P.zero);
       const within = (keys: (key: string) => boolean) =>

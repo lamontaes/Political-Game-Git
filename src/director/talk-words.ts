@@ -31,10 +31,10 @@ const QUESTION_AGAIN = (
 ).questionAgain;
 
 /**
- * A question named once in a line is said short after (lead, Nov 12: "say no
- * to raising the debt limit only with spending cuts to match" right after the
- * opener named it): where the question's own words (`about`) come first, a
- * later act in full (`against`, `to`) becomes its short form.
+ * A question named once in a line is said short after: where the question's
+ * own words (`about`) come first, a later act in full (`against`, `to`)
+ * becomes its short form.
+ *
  */
 function shortAfterFirst(text: string, facts: Facts): string {
   const about = facts.about?.text;
@@ -65,9 +65,9 @@ export function composedLine(
   momentKey: string,
   recentPartKeys: readonly string[] = [],
 ): Said | null {
-  // What is said once in a talk (how long they have held a stand; being
-  // glad to hear the player's voice) is not said again in it (lead, Nov 13;
-  // Words lead, Nov 14).
+  // What is said once in a talk (how long they have held a stand; being glad to
+  // hear the player's voice) is not said again in it.
+
   const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
     recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
   );

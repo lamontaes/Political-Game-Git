@@ -1,10 +1,10 @@
 // The one person card (play-one-person-shows-two-faces): every place a screen
-// shows a person by face and name builds it here, from the one face record the
-// server gives for that person (scene.ts faceOf), drawn by the one face part
-// (face.mjs). Each layout is a mock's arrangement of the same parts; none
-// draws a face its own way. Never a mark for how someone feels about you
-// (owner, Oct 29: no scale of what someone thinks of you); no letter in a
-// circle (owner, Nov 8).
+// shows a person by face and name builds it here, from the one face record
+// the server gives for that person (scene.ts faceOf), drawn by the one face
+// part (face.mjs). Each layout is a mock's arrangement of the same parts;
+// none draws a face its own way. Never a mark for how someone feels about
+// you; no letter in a circle.
+
 import { el } from "./dom.mjs";
 import { makeButton, buttonRow } from "./button.mjs";
 import { face as drawFace } from "./face.mjs";

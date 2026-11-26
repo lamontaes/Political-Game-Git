@@ -46,7 +46,7 @@ export interface MinedUse {
 export interface MinedPart extends BankPart<MinedUse> {
   move: string;
   transcriptsUsing?: number;
-  /** A piece written to the calibrated patterns names its author and date, not a source (text rule, Oct 15). */
+  /** A piece written to the calibrated patterns names its author and date, not a source. */
   origin?: "authored";
   author?: string;
   date?: string;
@@ -121,8 +121,8 @@ export function conversationDataFromBank(
   // A part the owner graded down and never up is not said.
   for (const part of admittedParts(bank.parts)) {
     for (const use of part.uses) {
-      // A reason the engine joins after a line of the role it names (owner,
-      // Nov 11: every line composed from pieces, with inserts).
+      // A reason the engine joins after a line of the role it names.
+
       if (use.role === "reason" && use.for) {
         const of = ROLE_FIELD[use.for];
         if (!of) continue;

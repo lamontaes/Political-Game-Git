@@ -317,15 +317,15 @@ export function placeLabel(placeId: string | undefined): string | null {
 
 /**
  * The household's own story, read from the records the engines ran for the
- * years before the start (owner, Oct 28, 2026: "simulate to the birth
- * year"): the day the person and their partner set up home and the day their
- * parents did (`family.partnered`, the people engine), where the family came
- * from (the place of their recorded birth), a parent's new job they were old
- * enough to remember (the working-life run), the first school they attended
- * (the school engine's run), what the household's earners do now (their
- * jobs' records), and each parent and sibling the family records name. Each
- * moment cites its record's id; the place is named from the place records,
- * and a person only the writer knows by name is skipped.
+ * years before the start: the day the person and their partner set up home
+ * and the day their parents did (`family.partnered`, the people engine),
+ * where the family came from (the place of their recorded birth), a parent's
+ * new job they were old enough to remember (the working-life run), the first
+ * school they attended (the school engine's run), what the household's
+ * earners do now (their jobs' records), and each parent and sibling the
+ * family records name. Each moment cites its record's id; the place is named
+ * from the place records, and a person only the writer knows by name is
+ * skipped.
  */
 function householdMoments(
   core: Readonly<CoreState>,
@@ -400,7 +400,7 @@ function householdMoments(
     });
   }
   // Their own birth, where the run's record puts their family that day: the
-  // story starts there (owner, Oct 27: "written like a story from birth").
+  // story starts there.
   for (const row of history("person.birth", person.id)) {
     const actFacts = placeOf(row.placeId, row.id);
     if (actFacts.place)
@@ -455,8 +455,8 @@ function householdMoments(
     });
   // The working-life run's spells the person was old enough to remember and
   // still a child at home for: a relative's start or move is told inside the
-  // one sentence about that relative's work (lead, Nov 11: "one sentence per
-  // person").
+  // one sentence about that relative's work.
+
   const remembers = addDays(
     bornOn,
     Math.round(
@@ -506,11 +506,11 @@ function householdMoments(
     // One sentence per person, in the household's order (parents first,
     // then by age): the id leads with that place so the entry keeps it.
     const order = `livelihood:${String(at).padStart(P.two, "0")}:${person.id}`;
-    // An office is said the way people say it (lead, Nov 11): a seat on a
-    // body is "sits on the Nelson City Council"; any other office is "serves
-    // as county clerk for the County of Nuckolls". A job held beside it joins
-    // the same sentence ("... and works as a janitor at ..."): one sentence
-    // per person.
+    // An office is said the way people say it: a seat on a body is "sits on the
+    // Nelson City Council"; any other office is "serves as county clerk for
+    // the County of Nuckolls". A job held beside it joins the same sentence
+    // ("... and works as a janitor at..."): one sentence per person.
+
     const office = work.offices[zero];
     const job = work.job ? core.jobs.get(work.job.id) : undefined;
     if (office) {
@@ -905,9 +905,9 @@ function sceneEndingMoments(
           // (ruling 72, a door); one given only as "I'll look at it" is told
           // as that.
           causeKind:
-            // A word given on a side (the price of a yes to serve,
-            // hold-question) is told as that side, never as a soft promise
-            // to keep a subject in mind (Words lead, Nov 15 10:58Z).
+            // A word given on a side (the price of a yes to serve, hold-question) is told
+            // as that side, never as a soft promise to keep a subject in
+            // mind.
             keeps === "promise" &&
             typeof reply.facts?.about === "string" &&
             reply.facts?.promise === "hold-question"
@@ -990,8 +990,8 @@ function officeActMoments(
           ? []
           : [moment("act:interview")];
       if (act.kind !== "vote" || !["yes", "no"].includes(act.detail)) return [];
-      // The legislature's own record of the vote is told already: one line
-      // a vote (the journal printed every vote twice, Oct 29).
+      // The legislature's own record of the vote is told already: one line a vote.
+
       if (told.has(act.recordId)) return [];
       const bill = bills.get(act.recordId) as unknown as BillRow | undefined;
       if (!bill) return [];
@@ -1054,10 +1054,10 @@ export function composeJournal(
         words,
       );
       if (text) {
-        // Two relatives with one relation (two daughters, a father and a
-        // stepfather both "my father") are each named: "my father Ray", "my
-        // father Matthew" (batch 11: "My daughter was born." twice in one
-        // chapter; Nov 11: "My father went to work somewhere new." twice).
+        // Two relatives with one relation (two daughters, a father and a stepfather
+        // both "my father") are each named: "my father Ray", "my father
+        // Matthew".
+
         const shared = [...kin].some(([otherId, fact]) => {
           if (otherId === id) return false;
           const twin = core.people.get(otherId as PersonId);
@@ -1382,8 +1382,8 @@ export function composeJournal(
           ? facts
           : null;
       const row = core.people.get(otherId);
-      // A child is born with a name: "My daughter Jane was born." (owner,
-      // Oct 15). A second child already said by name keeps it alone.
+      // A child is born with a name: "My daughter Jane was born.". A second child
+      // already said by name keeps it alone.
       facts.other =
         moment.causeKind === "family:child" &&
         row &&
@@ -1403,9 +1403,9 @@ export function composeJournal(
           text: row.givenName,
           sourceRecordIds: said.sourceRecordIds,
         };
-        // A relative with their name, so a line carries its subject ("My
-        // daughter Jane was born."; owner, Oct 15, evening).
-        // With the name said, two daughters are each "my daughter ...".
+        // A relative with their name, so a line carries its subject. With the name
+        // said, two daughters are each "my daughter...".
+
         const relation = kin.get(otherId);
         const phrase = relation
           ? relationPhrase(
@@ -1456,9 +1456,9 @@ export function composeJournal(
     return facts;
   };
 
-  // An entry is told looking back (owner, Nov 24, page 1): beside the facts of
-  // its own day it carries what the person's later records say, with their
-  // ids, as of the page's last day (journal-later.ts).
+  // An entry is told looking back: beside the facts of its own day it carries
+  // what the person's later records say, with their ids, as of the page's
+  // last day (journal-later.ts).
   const laterOf = laterRecordsOf(core, personId, options.through ?? core.date);
   const factsFor = (moment: JournalMoment): Facts | null => {
     const own = baseFactsFor(moment);
@@ -2365,9 +2365,9 @@ function officeHolding(
 }
 
 /**
- * The look-back when a life ends (owner, Sept 28): each chapter's opening
- * line, in order, from the same records. The death itself is not worded: no
- * mined sentence says it from these records, so it is left out.
+ * The look-back when a life ends: each chapter's opening line, in order, from
+ * the same records. The death itself is not worded: no mined sentence says it
+ * from these records, so it is left out.
  */
 export function composeLookBack(
   core: Readonly<CoreState>,

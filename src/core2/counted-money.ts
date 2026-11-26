@@ -996,11 +996,11 @@ export function countedHouseholdCash(
 }
 
 /**
- * A payment between a counted person, household or place and another owner,
- * for engines outside the residents engine (benefits, an owner's draw, a
- * tax bill): positive `amountMinor` is paid by the counted side, negative is
- * paid to it. The counted side is the person's or household's group, else
- * the place's groups by their people. Pays what the groups hold. Returns the
+ * A payment between a counted person, household or place and another for
+ * engines outside the residents engine (benefits, an owner's draw, a tax
+ * bill): positive `amountMinor` is paid by the counted side, negative is paid
+ * to it. The counted side is the person's or household's group, else the
+ * place's groups by their people. Pays what the groups hold. Returns the
  * amount moved.
  */
 export function countedPayment(

@@ -1,23 +1,23 @@
 /**
  * What a colleague's ask for a vote, or the player's own, may lean on beyond
- * the bill (Story lead, Nov 17: the ask-vote rewrite), each read from the one
- * record that holds it and set only where it holds it, so a line that needs a
- * fact the records do not give never plays:
+ * the bill, each read from the one record that holds it and set only where it
+ * holds it, so a line that needs a fact the records do not give never plays:
+ * - `about`: what the bill is about, and `stand` or `stand-against`: where
+ * the member asked for their vote stands on it, from their own views
+ * (bill-question-facts.ts, the read the donor's ask shares). `stand` is said
+ * as a verb phrase after "to", as the slot reads, where the bill does what
+ * the question asks; - `count-one` or `count-several`: whether the sponsor's
+ * count the evening before needs only this member or goes down a list (the
+ * `vote-ahead` record's `asked` list). Said in words, never as a number; -
+ * `voted-with-before` or `voted-against-before`: how the member voted on the
+ * sponsor's last bill that came to a roll call (the member's own vote record,
+ * newest first, and that bill's roll call). Read when the ask is composed,
+ * from the member's own vote record (an index by person), never a scan of
+ * every roll call.
  *
- * - `about`: what the bill is about, and `stand` or `stand-against`: where the
- *   member asked for their vote stands on it, from their own views
- *   (bill-question-facts.ts, the read the donor's ask shares). `stand` is said
- *   as a verb phrase after "to", as the slot reads, where the bill does what
- *   the question asks;
- * - `count-one` or `count-several`: whether the sponsor's count the evening
- *   before needs only this member or goes down a list (the `vote-ahead`
- *   record's `asked` list). Said in words, never as a number;
- * - `voted-with-before` or `voted-against-before`: how the member voted on the
- *   sponsor's last bill that came to a roll call (the member's own vote
- *   record, newest first, and that bill's roll call).
  *
- * Read when the ask is composed, from the member's own vote record (an index
- * by person), never a scan of every roll call.
+ *
+ *
  */
 import {
   LEGISLATURE_MODULE_ID,

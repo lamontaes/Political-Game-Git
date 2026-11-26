@@ -28,12 +28,12 @@ export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
 }
 
 /**
- * A talk's lines in the three kinds the box tells apart (owner, Oct 28 sitting, 39:
- * "not enough delineation between what the player said, what was said before, and what is
- * being said now"): the player's past lines (`history mine`, named), the other person's
- * past lines (`history theirs`, named), and what is said now (`speech`, everything after
- * the player's last line). `lines` are `{ text, mine, lying, held, grade }`, oldest first;
- * `keep` is how many past lines stay above the line said now.
+ * A talk's lines in the three kinds the box tells apart: the player's past
+ * lines (`history mine`, named), the other person's past lines (`history
+ * theirs`, named), and what is said now (`speech`, everything after the
+ * player's last line). `lines` are `{ text, mine, lying, held, grade }`,
+ * oldest first; `keep` is how many past lines stay above the line said now.
+ *
  */
 export function transcript(lines, { mineWho, theirWho, keep = 1 }) {
   const lastMine = lines.findLastIndex((line) => line.mine);
@@ -133,8 +133,8 @@ export function talkReply(choice, label, onPick) {
 export function fillTalk({ lines, replies }) {
   if (lines) $("talk-lines").replaceChildren(...lines);
   if (replies) $("talk-choices").replaceChildren(...replies);
-  // With nothing to answer (the narrator alone, or an exchange at its end) the box
-  // shows one Continue, bottom left, and nothing else (owner, Oct 27, 6:20 PM).
+  // With nothing to answer (the narrator alone, or an exchange at its end) the
+  // box shows one Continue, bottom left, and nothing else.
   $("talk").classList.toggle("narration", !$("talk-choices").children.length);
 }
 

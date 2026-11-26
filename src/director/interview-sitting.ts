@@ -1,11 +1,11 @@
 /**
- * The interview's part of the sitting (owner, Oct 26-29: interviews are
- * scenes; the loop is `./sitting`). When the player says yes to an outlet's
- * invitation, the press engine puts `interview-accepted` on the record and
- * the director stages the `interview-sitting` scene from it. This source
- * finds the interview that record is about, names the reporter who asks, the
- * outlet and the tie, and publishes the interview with the answers the
- * sitting collected (`answerInterview`). Everything else is the loop's.
+ * The interview's part of the sitting. When the player says yes to an
+ * outlet's invitation, the press engine puts `interview-accepted` on the
+ * record and the director stages the `interview-sitting` scene from it. This
+ * source finds the interview that record is about, names the reporter who
+ * asks, the outlet and the tie, and publishes the interview with the answers
+ * the sitting collected (`answerInterview`). Everything else is the loop's.
+ *
  */
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";

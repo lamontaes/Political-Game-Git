@@ -1,14 +1,14 @@
-/* The play page on Kit 13, the owner's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md).
-   Every screen uses these classes and nothing else:
-   .panel (dark glass, brass frame, brass corner ornaments), .bust (a person's round headshot),
-   .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
-   (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
-   plain is Back; one size for all; the brass corner mark shows only while .active or
-   pressed), .tab-rail / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
-   .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
-   The chevron rule: a mark appears only on a static button while it is activated; never in
-   radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page.
-   Any text shadow is head-on, never offset. No button chevrons, no thin gold rules, no navy. */
+/*
+   * The play page on Kit 13, the owner's approved control set. Every screen
+   * uses these classes and nothing else:.panel (dark glass, brass frame,
+   * brass corner ornaments),.bust (a person's round headshot),.name /.heading
+   * (Cinzel),.speech /.prose (Andada Pro),.label /.role /.when (Fira
+   * Sans),.replies /.reply (numbered lines),.action (a button:.primary is
+   * Continue, plain is Back; one size for all; the brass corner mark shows
+   * only while.active or pressed),.tab-rail /.tab (the open tab a raised
+   * glass box),.nav-item,.item,.ring (an icon),.glyph (thin close X, return
+   * arrow),.row (a gold label and its value),.lie-scales. The chevron rule: a mark appears only on a static button while it is activated; never in radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page. Any text shadow is head-on, never offset. No button chevrons, no thin gold rules, no navy.
+   */
 @font-face {
   font-family: "Playfair Display";
   font-weight: 600;
@@ -75,9 +75,9 @@
   /* A thing named on its day in the calendar's month. */
   --t-cell: 12px;
   color-scheme: dark;
-  /* The one menu panel (owner, Nov 5; MENU-LOOK.md): the approved texture, 78%
-     solid, about #1C1A17 under it, with its slim brass edge and small corners
-     in the picture itself. The edge is cut from the picture's outer 64 pixels. */
+  /*
+     * The one menu panel: the approved texture, 78% solid, about #1C1A17 under it, with its slim brass edge and small corners in the picture itself. The edge is cut from the picture's outer 64 pixels.
+     */
   --panel-art: url("/ui/kit13/panel.png");
   --panel-edge: 40px;
   --panel-edge-small: 26px;
@@ -220,9 +220,9 @@ ol {
 }
 
 /* ---- The scene: the art takes center stage ---- */
-/* One scale above 1440x900: the whole game is drawn in a logical window of 1440x900 or
-   more and enlarged to fill the real one (owner, Nov 8, P11). --vw and --vh are that
-   logical window's width and height; play.mjs sets --ui-scale on resize. */
+/*
+   * One scale above 1440x900: the whole game is drawn in a logical window of 1440x900 or more and enlarged to fill the real one. --vw and --vh are that logical window's width and height; play.mjs sets --ui-scale on resize.
+   */
 :root {
   --ui-scale: 1;
   --vw: calc(100vw / var(--ui-scale));
@@ -281,22 +281,22 @@ ol {
     animation: none;
   }
 }
-/* ---- The strip of busts (ui/bust-strip.mjs; owner, Nov 11, 2026) ----
-   A room is its painting alone. The people in it stand as busts with their names under
-   them, straight on the room. --bust is one bust's side; the talk box sets it larger. */
+/*
+   * ---- The strip of busts ---- A room is its painting alone. The people in it stand as busts with their names under them, straight on the room. --bust is one bust's side; the talk box sets it larger.
+   */
 .bust-strip {
   --bust: 140px;
   position: relative;
   pointer-events: none;
-  /* The strip is as wide as the people on it (owner, Nov 16: "one person,
-     shorten the strip"), centered where it lies. */
+  /* The strip is as wide as the people on it, centered where it lies.
+     */
   width: fit-content;
   max-width: 100%;
   margin: 0 auto;
 }
-/* No plate and no band behind the busts (CTO, Nov 24: boxes, against the owner's
-   Nov 5 and Nov 23 rules): each bust stands straight on the room in a soft pool
-   of light that fades out. */
+/*
+   * No plate and no band behind the busts: each bust stands straight on the room in a soft pool of light that fades out.
+   */
 .bust-strip .busts-person {
   position: relative;
   isolation: isolate;
@@ -310,8 +310,8 @@ ol {
   width: calc(var(--mine) * 1.9);
   height: calc(var(--mine) * 1.6);
   transform: translate(-50%, -50%);
-  /* Eased all the way out, so on a bright sky it is a faint shade and never a patch
-     (CTO, Nov 24: nothing hard-edged). */
+  /* Eased all the way out, so on a bright sky it is a faint shade and never a patch.
+     */
   background: radial-gradient(
     closest-side,
     rgba(24, 20, 16, 0.26),
@@ -405,7 +405,7 @@ ol {
 .bust-strip .busts-person.speaking {
   --mine: calc(var(--bust) * 1.16);
 }
-/* Silent people are never shown big (owner, Nov 16): only the speaker is. */
+/* Silent people are never shown big: only the speaker is. */
 .bust-strip .busts-person.quiet {
   --mine: calc(var(--bust) * 0.5);
 }
@@ -472,8 +472,8 @@ ol {
 #game:has(#person:not([hidden])) #tv {
   display: none;
 }
-/* Who is here: small and packed in the top-right corner of the screen, like mock C
-   (owner, Nov 24: "they're supposed to be at the top right"; docs/mocks/2026-11-16-speaker). */
+/* Who is here: small and packed in the top-right corner of the screen, like mock C.
+   */
 #here {
   position: absolute;
   top: calc(var(--gutter) + 1px);
@@ -502,10 +502,10 @@ ol {
 #game:has(#talk:not([hidden])) #here .busts-person.in-talk {
   display: none;
 }
-/* A panel at the side of the room (the meeting, the desk, the ballot, election
-   day, the returns) never covers the people: they stand in the room it leaves,
-   smaller, and nobody is cut in half (owner, Nov 11: "it's being covered up by
-   the menu"). A bill read there takes the whole frame, and the foot with it. */
+/*
+   * A panel at the side of the room (the meeting, the desk, the ballot,
+   * election day, the returns) never covers the people: they stand in the room it leaves, smaller, and nobody is cut in half. A bill read there takes the whole frame, and the foot with it.
+   */
 #game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
   #here {
   right: calc(
@@ -534,15 +534,15 @@ ol {
 #game:has(:is(#meeting, #desk) .bill-board) #here {
   display: none;
 }
-/* A person's card takes the room: the talk it was opened from waits under it
-   out of sight, and comes back when the card closes. Its lower edge used to
-   show under the card (owner, Nov 11: nothing is left half covered). */
+/*
+   * A person's card takes the room: the talk it was opened from waits under it out of sight, and comes back when the card closes. Its lower edge used to show under the card.
+   */
 #game:has(#person:not([hidden])) #talk,
 #game:has(#person:not([hidden])) #here {
   visibility: hidden;
 }
-/* In a talk the speaker's bust sits on the talk box's top edge and comes down to
-   it from the corner (owner, Nov 16; Nov 24). */
+/* In a talk the speaker's bust sits on the talk box's top edge and comes down to it from the corner.
+   */
 #talk-strip {
   position: absolute;
   left: 0;
@@ -610,7 +610,7 @@ ol {
   align-items: center;
   gap: 12px;
 }
-/* Buttons in a row share one size (owner, Oct 24): every title item is as tall as Continue. */
+/* Buttons in a row share one size: every title item is as tall as Continue. */
 #front-main .item {
   min-height: 56px;
 }
@@ -696,7 +696,7 @@ select:focus-visible {
 #person-facts button {
   position: relative;
   display: inline-block;
-  /* One button size across the game (owner, Oct 24: buttons are the same size). */
+  /* One button size across the game. */
   min-height: var(--control-h);
   padding: var(--control-pad);
   margin: 0 12px 0 0;
@@ -744,10 +744,10 @@ select:focus-visible {
   color: var(--gold);
   font-weight: 500;
 }
-/* Tabs sit on a rail (owner, Oct 29: buttons need "a railing to sit on, or something,
-   and something to delineate that that's the one that's selected"); no boxes (owner, Nov 5 and
-   Nov 16): a tab at rest is plain type, hover a soft fill, and the chosen one a lit brass
-   fill, with no bar, edge or rule around or under any of them. */
+/*
+   * Tabs sit on a rail; no boxes: a tab at rest is plain type, hover a soft
+   * fill, and the chosen one a lit brass fill, with no bar, edge or rule around or under any of them.
+   */
 .tab-rail {
   display: flex;
   flex-wrap: wrap;
@@ -885,10 +885,10 @@ select:focus-visible {
   text-align: right;
 }
 
-/* LIE CONTROL (owner, Oct 2): the scales of justice, 34px, in the conversation box's upper right.
-   No word for it anywhere: no label, no hover text, no tag on answers. Level at rest; toggled on,
-   the scales tip and glow red and the lying replies glow soft red. Nothing false to say: level,
-   dimmed, not clickable. */
+/*
+   * LIE CONTROL: the scales of justice, 34px, in the conversation box's upper
+   * right. No word for it anywhere: no label, no hover text, no tag on answers. Level at rest; toggled on, the scales tip and glow red and the lying replies glow soft red. Nothing false to say: level, dimmed, not clickable.
+   */
 .lie-scales {
   position: absolute;
   right: 8px;
@@ -960,7 +960,7 @@ select:focus-visible {
   color: #e39a89;
 }
 
-/* HOVER (owner, Oct 2): anything you can press glows white, smoothly; a lying reply glows red. */
+/* HOVER: anything you can press glows white, smoothly; a lying reply glows red. */
 .reply,
 .action,
 .tab,
@@ -1248,9 +1248,9 @@ input[type="range"]::-moz-range-thumb {
   white-space: nowrap;
   padding: 6px 6px;
 }
-/* How I look's two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal"),
-   on the owner's menu look: the open tab a lit brass fill, the other raised glass in
-   soft light; no rail, no ring, no bar under the open one. */
+/*
+   * How I look's two tabs of clothes, on the owner's menu look: the open tab a lit brass fill, the other raised glass in soft light; no rail, no ring, no bar under the open one.
+   */
 #cr-rows .look-tabs {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
@@ -1303,7 +1303,7 @@ input[type="range"]::-moz-range-thumb {
 #cr-rows .look-tabs .tab.on::after {
   content: none;
 }
-/* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
+/* A picked button is a lit brass fill: no corner mark on any control. */
 .action[aria-pressed="true"],
 .action[aria-pressed="true"]:hover {
   color: var(--iron);
@@ -1370,9 +1370,9 @@ input[type="range"]::-moz-range-thumb {
 #new-life b {
   color: #fff;
 }
-/* The loading bar: a plain track and a gold fill that stays inside it, one sixth for each
-   step the world builds in (owner, Nov 8; the Oct 28 stray piece was the old fill's
-   overhang past the frame). */
+/*
+   * The loading bar: a plain track and a gold fill that stays inside it, one sixth for each step the world builds in.
+   */
 .progress {
   height: 6px;
   margin: 14px 0 8px;
@@ -1414,9 +1414,9 @@ input[type="range"]::-moz-range-thumb {
 .seed-row input {
   width: 150px;
 }
-/* The title's own menu stands at the left; every panel it opens (New game,
-   the creator, Advanced, Play as) sits centered over the painting, as the
-   Nov 8 front mocks draw them. */
+/*
+   * The title's own menu stands at the left; every panel it opens (New game, the creator, Advanced, Play as) sits centered over the painting, as the front mocks draw them.
+   */
 #front:has(> div:not(#front-main):not([hidden])):not(.loading) {
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1424,8 +1424,8 @@ input[type="range"]::-moz-range-thumb {
 #front.loading {
   top: 56px;
   transform: none;
-  /* The place's name ("Jericho Center, Vermont") sits on one line: the card grows to it
-     (owner, Nov 23, P31). */
+  /* The place's name ("Jericho Center, Vermont") sits on one line: the card grows to it.
+     */
   width: max-content;
   min-width: 400px;
   max-width: calc(var(--vw) * 0.9);
@@ -1433,7 +1433,7 @@ input[type="range"]::-moz-range-thumb {
 #front.loading > .title {
   white-space: nowrap;
 }
-/* The title's build version, bottom right (#4014). */
+/* The title's build version, bottom right. */
 .title-version {
   display: block;
   text-align: right;
@@ -1460,12 +1460,12 @@ input[type="range"]::-moz-range-thumb {
 .item.town small {
   color: var(--text-2);
 }
-/* The creator (the Oct 12 SetupScreen's steps). */
+/* The creator. */
 #front:has(#cr-screen:not([hidden])) {
   width: min(1180px, calc(var(--vw) * 0.94));
 }
-/* Before a gender is picked there is no person and no look: the creator is its one column,
-   and a second column opens beside it with the person once a gender is picked (owner, Nov 17). */
+/* Before a gender is picked there is no person and no look: the creator is its one column, and a second column opens beside it with the person once a gender is picked.
+   */
 #front:has(#cr-screen.no-gender:not([hidden])) {
   width: min(560px, calc(var(--vw) * 0.94));
 }
@@ -1491,9 +1491,9 @@ input[type="range"]::-moz-range-thumb {
 }
 #cr-figure .strip-name {
   text-align: center;
-  /* The name stands on the portrait's faded lower chest, not under it, so a tall look
-     (a man's extra rows) with a name filled in still fits the window (owner, Nov 17:
-     no empty space in the creator; the CTO's catch, Nov 24: the panel's top ran off screen). */
+  /*
+     * The name stands on the portrait's faded lower chest, not under it, so a tall look (a man's extra rows) with a name filled in still fits the window.
+     */
   position: relative;
   margin-top: -44px;
 }
@@ -1510,9 +1510,9 @@ input[type="range"]::-moz-range-thumb {
 #cr-screen .secbody {
   padding-bottom: 8px;
 }
-/* The place list takes the rest of its column, so the creator has no dead space under
-   it; it scrolls only when it holds more than the column's height (owner, Nov 17:
-   no empty space in the creator). */
+/*
+   * The place list takes the rest of its column, so the creator has no dead space under it; it scrolls only when it holds more than the column's height.
+   */
 #cr-screen.strip-screen {
   align-items: stretch;
 }
@@ -1595,9 +1595,9 @@ input[type="range"]::-moz-range-thumb {
 #cr-character .group.missing input {
   border-color: var(--red);
 }
-/* The states and towns: a box of rows that scrolls inside itself, under the
-   game's own thin scroller (owner, Oct 28: no native scroller; Oct 29: no Back or
-   Continue on any menu). */
+/*
+   * The states and towns: a box of rows that scrolls inside itself, under the game's own thin scroller.
+   */
 .choice-list {
   max-height: 400px;
   overflow-y: auto;
@@ -1786,9 +1786,9 @@ body:not(.dev) .dev-only {
   padding: 7px 18px 7px 7px;
   max-width: calc(var(--vw) - 2 * var(--gutter));
 }
-/* The card is the date and time, and Day and Week (owner, Oct 27: "There
-   doesn't need to be any indicator other than the time and date on the
-   bottom"); the player's name and place are read aloud, not shown. */
+/*
+   * The card is the date and time, and Day and Week; the player's name and place are read aloud, not shown.
+   */
 .me .card-id {
   position: absolute;
   width: 1px;
@@ -1877,9 +1877,9 @@ body:not(.dev) .dev-only {
   text-transform: uppercase;
   color: var(--text-3);
 }
-/* A broadcast heard at home: the station over the line, with a tiny icon of
-   its kind (owner, Oct 14: a small card with a radio/TV icon, the station,
-   and the line). */
+/*
+   * A broadcast heard at home: the station over the line, with a tiny icon of its kind.
+   */
 .talk-lines .heard .history-who::before {
   content: "";
   display: inline-block;
@@ -1904,8 +1904,8 @@ body:not(.dev) .dev-only {
   margin-bottom: 6px;
   border-bottom: 0;
 }
-/* The other person's past lines lean left of the player's own, so the three kinds read
-   apart: your past lines, theirs, and what is said now (owner, Oct 28 sitting, 39). */
+/* The other person's past lines lean left of the player's own, so the three kinds read apart: your past lines, theirs, and what is said now.
+   */
 .talk-lines .history.theirs {
   font-style: italic;
 }
@@ -1933,9 +1933,9 @@ body:not(.dev) .dev-only {
 .chat .acts {
   margin-top: 8px;
 }
-/* The talk box's controls (owner, Oct 27, 6:20 PM): with nothing to answer, one
-   Continue at the bottom left and nothing else; in a conversation, the replies
-   with Say nothing and Leave only where each is a real choice. */
+/*
+   * The talk box's controls: with nothing to answer, one Continue at the bottom left and nothing else; in a conversation, the replies with Say nothing and Leave only where each is a real choice.
+   */
 #talk.narration #talk-silent,
 #talk.narration #talk-leave,
 #talk.narration #talk-lie,
@@ -2005,8 +2005,8 @@ body:not(.dev) .dev-only {
 #sheet.fits #sheet-body {
   flex: 0 1 auto;
 }
-/* Bills: the panel ends under its list and its bill, and grows to the window's height when they
-   are longer (CTO, Nov 24: with three bills the lower half was empty). */
+/* Bills: the panel ends under its list and its bill, and grows to the window's height when they are longer.
+   */
 #game.in-play #sheet.hugs {
   bottom: auto;
   max-height: calc(var(--vh) - var(--gutter) - 26px);
@@ -2034,9 +2034,9 @@ body:not(.dev) .dev-only {
   flex: 0 1 auto;
   max-width: none;
 }
-/* Patch notes: a long list of builds beside a long page of notes. It takes the window's whole
-   height (owner, Nov 23, P1: "why are there 4 scroll wheel bars?" with free space under it), and
-   only the list's own box and the page scroll in it. */
+/*
+   * Patch notes: a long list of builds beside a long page of notes. It takes the window's whole height, and only the list's own box and the page scroll in it.
+   */
 #game #sheet.options-sheet:has(.roster-screen.patch-notes) {
   height: calc(var(--vh) - 2 * var(--gutter));
 }
@@ -2238,7 +2238,7 @@ body:not(.dev) .dev-only {
   overflow: hidden;
   text-align: left;
   font-weight: 400;
-  /* The month is days set by spacing and type: no grid lines, no boxes (owner, Nov 16). */
+  /* The month is days set by spacing and type: no grid lines, no boxes. */
   background: none;
   border: 0;
   border-radius: 0;
@@ -2370,11 +2370,11 @@ body:not(.dev) .dev-only {
   color: var(--gold);
 }
 
-/* The person card (on framed plates, owner Oct 29): their standing
-   figure on a plate of its own at the left; at the right the name and what they are to
-   you, small fact plates, how close you are, then a tab rail over one plate that holds
-   their life told in sentences, their record or who they know. The card is as tall as
-   what it holds and never scrolls; a long history pages by chapter. */
+/*
+   * The person card: their standing figure on a plate of its own at the left;
+   * at the right the name and what they are to you, small fact plates, how
+   * close you are, then a tab rail over one plate that holds their life told in sentences, their record or who they know. The card is as tall as what it holds and never scrolls; a long history pages by chapter.
+   */
 .dossier {
   left: 50%;
   top: 50%;
@@ -2443,7 +2443,7 @@ body:not(.dev) .dev-only {
 #person-role:empty {
   display: none;
 }
-/* Who they are now and where they come from, under the name (owner, Nov 1). */
+/* Who they are now and where they come from, under the name. */
 #person-summary {
   margin: 0;
   color: var(--text);
@@ -2524,10 +2524,10 @@ body:not(.dev) .dev-only {
   font: 400 var(--t-ui)/1.45 var(--speech);
 }
 
-/* ---- Opening (director/opening-story, owner Oct 14, 2026) ----
-   The night's news on the table at home and its reader; then the first
-   choices glowing one at a time. A cinema scene hides the HUD. Positions
-   only: the look is kit12's own components. */
+/*
+   * ---- Opening ---- The night's news on the table at home and its reader;
+   * then the first choices glowing one at a time. A cinema scene hides the HUD. Positions only: the look is kit12's own components.
+   */
 #game.cinema #rings,
 #game.cinema #card,
 #game.cinema #journal-note {
@@ -2631,9 +2631,9 @@ body:not(.dev) .dev-only {
   }
 }
 
-/* ---- Polling place (director/scenes-and-filters, owner Oct 14, 2026) ----
-   Election day's ballot over the polling place's picture: kit12's panel,
-   heading and actions; positions only. */
+/*
+   * ---- Polling place ---- Election day's ballot over the polling place's picture: kit12's panel, heading and actions; positions only.
+   */
 #ballot,
 #election-day,
 #returns,
@@ -2879,8 +2879,8 @@ body:not(.dev) .dev-only {
   margin: 0 0 26px;
 }
 /* The record sections of a record screen in a grid, two across. */
-/* Sections side by side, as many across as the panel holds, so a screen
-   with several bodies shows them all at once (owner, Oct 28, point 22). */
+/* Sections side by side, as many across as the panel holds, so a screen with several bodies shows them all at once.
+   */
 .screen-grid {
   flex: 1;
   min-height: 0;
@@ -2953,8 +2953,8 @@ body:not(.dev) .dev-only {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
-/* A headshot: the person's bust, placed inside the frame by ui/face.mjs. Never in a circle or a
-   box (owner, Nov 5): it sits in soft, even light and fades at its edges, as the approved bust does. */
+/* A headshot: the person's bust, placed inside the frame by ui/face.mjs. Never in a circle or a box: it sits in soft, even light and fades at its edges, as the approved bust does.
+   */
 .headshot {
   box-sizing: border-box;
   display: block;
@@ -2997,10 +2997,10 @@ body:not(.dev) .dev-only {
   max-width: none;
   user-select: none;
 }
-/* People on the one roster (owner, Nov 7: the person card, "perfect"; the mock's
-   pl-people): the roster at the left and the chosen person's card beside it, the
-   width of the panel; each keeps to the panel's height and scrolls inside itself
-   (a menu never scrolls as a page). */
+/*
+   * People on the one roster: the roster at the left and the chosen person's
+   * card beside it, the width of the panel; each keeps to the panel's height and scrolls inside itself (a menu never scrolls as a page).
+   */
 #sheet-body:has(.roster-screen.people) {
   display: flex;
   overflow: hidden;
@@ -3040,9 +3040,9 @@ body:not(.dev) .dev-only {
 .strip-screen.name-beside .mx3cols.one {
   grid-template-columns: minmax(0, 1fr);
 }
-/* The person card stands the panel's full height (owner on People, Nov 16:
-   "still lots of empty space"): each column's last section reaches the
-   panel's foot, and a long story scrolls inside its own section. */
+/*
+   * The person card stands the panel's full height: each column's last section reaches the panel's foot, and a long story scrolls inside its own section.
+   */
 .roster-screen.people > .roster-page:has(.strip-screen.name-beside) {
   display: flex;
   flex-direction: column;
@@ -3094,9 +3094,9 @@ body:not(.dev) .dev-only {
   gap: 14px;
   margin: 12px 0 22px;
 }
-/* The state filter under the level tabs: the kit's dropdown, boxed at rest as
-   the main menu's typing boxes are (owner, Oct 28: "a separate box, like the
-   main menu's"), reading the state's name. */
+/*
+   * The state filter under the level tabs: the kit's dropdown, boxed at rest as the main menu's typing boxes are, reading the state's name.
+   */
 select.government-state {
   display: block;
   margin: -10px 0 22px;
@@ -3426,7 +3426,7 @@ details.entry[open] {
 .bill-clause s {
   color: var(--muted);
 }
-/* What the bill adds reads brighter, never underlined: an underline looks like a link (CTO, Nov 24, on #10386). */
+/* What the bill adds reads brighter, never underlined: an underline looks like a link. */
 .bill-clause u {
   text-decoration: none;
   color: var(--brass-hi);
@@ -3486,9 +3486,9 @@ details.entry[open] {
   justify-content: flex-start;
 }
 
-/* ---- News is the paper (owner, Oct 28, point 25; the paper's looks,
-   news3.png; art/newspaper-mockups). The sheet is the page: cream or white
-   stock, ink, the paper's type and columns, no panel chrome. ---- */
+/*
+   * ---- News is the paper. The sheet is the page: cream or white stock, ink, the paper's type and columns, no panel chrome. ----
+   */
 :root {
   --paper-cream: #f3ecdb;
   --paper-white: #fbfaf6;
@@ -3557,9 +3557,9 @@ details.entry[open] {
   padding-top: 10px;
   border-top: 1px solid var(--paper-rule);
 }
-/* A brief is a headline and a line, never opened (owner, Oct 29 and Nov 1:
-   "I click on it, nothing happens"): set small and plain, in the paper's sans,
-   so nothing on it looks like the headlines that open. */
+/*
+   * A brief is a headline and a line, never opened: set small and plain, in the paper's sans, so nothing on it looks like the headlines that open.
+   */
 #sheet-body .side-headline {
   margin: 0 0 4px;
   color: var(--paper-ink);
@@ -3780,8 +3780,8 @@ details.entry[open] {
 .party-green {
   --party: var(--party-green);
 }
-/* A place in its own view (owner, Oct 28, point 28): the picture large across
-   the top, what you do there and who works there under it, then Go. */
+/* A place in its own view: the picture large across the top, what you do there and who works there under it, then Go.
+   */
 .place-view .record-picture {
   float: none;
   width: 100%;
@@ -3794,10 +3794,10 @@ details.entry[open] {
   margin: 0 0 6px;
 }
 
-/* ---- Politics → Government, the framed-plate look (owner, Oct 29: "a real game
-   menu"). One fixed panel:
-   the screen fits the sheet, and what does not fit pages inside its box
-   (ui/pager.mjs), never a scroll. Kit 13 tokens only. ---- */
+/*
+   * ---- Politics → Government, the framed-plate look. One fixed panel: the
+   * screen fits the sheet, and what does not fit pages inside its box (ui/pager.mjs), never a scroll. Kit 13 tokens only. ----
+   */
 /* The panel is as tall as the screen holds (the mock), never taller than the window. */
 #game.in-play #sheet:has(.split-screen) {
   bottom: auto;
@@ -3911,7 +3911,7 @@ details.entry[open] {
   height: 152px;
   margin: 0;
   background: var(--iron) center 58% / cover no-repeat;
-  /* A picture fades into the panel at its edges, never a frame (owner, Nov 5). */
+  /* A picture fades into the panel at its edges, never a frame. */
   mask-image: linear-gradient(
     90deg,
     transparent,
@@ -3993,8 +3993,8 @@ details.entry[open] {
 .member-card .member-face {
   width: 56px;
   height: 56px;
-  /* A bust runs head to upper chest and ends in a soft fade, never a hard cut (MENU-LOOK;
-     owner, Nov 23, P21: "look at the tiny headshots. Their bodies are cut off."). */
+  /* A bust runs head to upper chest and ends in a soft fade, never a hard cut.
+     */
   border: 0;
   border-radius: 0;
   background: none;
@@ -4191,9 +4191,9 @@ details.entry[open] {
   border-color: var(--gold);
 }
 
-/* ---- Plates: a group, never a box (owner, Nov 5 and Nov 16: "no boxes"; this replaces the
-   Oct 29 framed plate). A plate is spacing and type around its content: no surface, edge,
-   shadow or corner. */
+/*
+   * ---- Plates: a group, never a box. A plate is spacing and type around its content: no surface, edge, shadow or corner.
+   */
 .plate {
   position: relative;
   margin: 0 0 14px;
@@ -4277,9 +4277,9 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
-/* The patch notes and bills lists are the pager's own box and scroll there; the list around it is no second
-   scroll and no cap at 46% of the window (owner, Nov 23: "none of these scrollers ... when there's ample dead
-   space"; the Bills list stopped at its fourth bill with the sheet's room below it empty). */
+/*
+   * The patch notes and bills lists are the pager's own box and scroll there; the list around it is no second scroll and no cap at 46% of the window.
+   */
 .roster-screen:is(.patch-notes, .bills) > .pick-list.roster {
   max-height: none;
   overflow: visible;
@@ -4342,16 +4342,16 @@ details.entry[open] {
   color: #fff7e2;
   text-shadow: 0 1px 4px #000;
 }
-/* The name sits above the shade, and the shade is dark enough under it to read on a bright picture
-   (owner, Nov 23, C14: "tile names are faint on bright pictures"). */
+/* The name sits above the shade, and the shade is dark enough under it to read on a bright picture.
+   */
 .travel-tile::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.78));
 }
-/* The campaign trail has fifteen or so tiles: they take the panel's width in more columns and a
-   shorter tile, so the trail fits its panel and nothing scrolls (owner, Nov 23, C14: "the panel scrolls"). */
+/* The campaign trail has fifteen or so tiles: they take the panel's width in more columns and a shorter tile, so the trail fits its panel and nothing scrolls.
+   */
 #sheet-body.place-view .travel-screen {
   width: 100%;
   grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
@@ -4645,8 +4645,8 @@ select.release-pick {
   overflow: hidden;
 }
 
-/* The calendar's kinds, each its own color, named and hidden by the key above the month
-   (owner, Nov 1: "color code those things ... and be able to hide them"). */
+/* The calendar's kinds, each its own color, named and hidden by the key above the month.
+   */
 .calendar-key {
   grid-column: 1 / -1;
   display: flex;
@@ -4737,10 +4737,10 @@ select.release-pick {
   }
 }
 
-/* ---- The approved strip screens (owner, Nov 7, 2026; docs/mocks/2026-11-07-approved/):
-   You, the person card, Government and Budgets. Section header strips of their own depth
-   with spacing and type and no box (owner, Nov 5 and Nov 16), a bust that ends in a soft fade,
-   a name in Playfair Display, small gold tags. All from ui/strips.mjs. ---- */
+/*
+   * ---- The approved strip screens: You, the person card, Government and
+   * Budgets. Section header strips of their own depth with spacing and type and no box, a bust that ends in a soft fade, a name in Playfair Display, small gold tags. All from ui/strips.mjs. ----
+   */
 .strip-screen {
   width: 100%;
   --f-title: var(--name);
@@ -4935,9 +4935,9 @@ select.release-pick {
   overflow: hidden;
   clip-path: inset(50%);
 }
-/* A vote row with a paper behind it: its name is brighter at rest and a hover lights the row,
-   the one light language (MENU-LOOK, States; owner, Nov 23, P22). It is not a .pick, whose
-   span rule shrank the row's type to 14 px beside its 17 px neighbors (owner, Nov 23, C7). */
+/*
+   * A vote row with a paper behind it: its name is brighter at rest and a hover lights the row, the one light language. It is not a.pick, whose span rule shrank the row's type to 14 px beside its 17 px neighbors.
+   */
 .vote-rows .open-row {
   cursor: pointer;
   border-radius: var(--control-radius);
@@ -4969,7 +4969,7 @@ select.release-pick {
   border-bottom: 2px dotted rgba(226, 191, 110, 0.4);
   transform: translateY(-4px);
 }
-/* A date and a name on one row never break ("November 2, / 2021", "Reese / Warner"). */
+/* A date and a name on one row never break. */
 .strip-screen .dotrows.one-line .dotlabel,
 .strip-screen .dotrows.one-line .dotvalue {
   white-space: nowrap;
@@ -5166,8 +5166,8 @@ select.release-pick {
   color: var(--muted);
 }
 
-/* The title menu as the Nov 8 front mock draws it (fr-title): no wordmark over it, the
-   items in plain type, and Continue first when a life exists. */
+/* The title menu as the front mock draws it (fr-title): no wordmark over it, the items in plain type, and Continue first when a life exists.
+   */
 #front:has(#front-main:not([hidden])) > .title {
   display: none;
 }
@@ -5177,7 +5177,7 @@ select.release-pick {
   text-transform: none;
 }
 
-/* Saved games (Nov 8 front mock, fr-saves): a strip per life, centered. */
+/* Saved games: a strip per life, centered. */
 .saves-row .sec {
   max-width: 340px;
 }
@@ -5193,7 +5193,7 @@ select.release-pick {
   color: var(--cream);
 }
 
-/* Options (Nov 8 front mock, fr-options): a label over its On and Off toggles. */
+/* Options: a label over its On and Off toggles. */
 .strip-screen .setting {
   display: flex;
   flex-direction: column;
@@ -5210,7 +5210,7 @@ select.release-pick {
   grid-template-columns: minmax(280px, 1fr) minmax(220px, 0.6fr);
 }
 
-/* Patch notes (Nov 8 front mock, fr-notes): builds at the left, the notes in strips. */
+/* Patch notes: builds at the left, the notes in strips. */
 .strip-board .board-cols.two {
   grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
 }
@@ -5238,7 +5238,7 @@ select.release-pick {
   right: 14px;
 }
 
-/* New game (Nov 8 front mock, fr-new): two cards side by side on a wide panel. */
+/* New game: two cards side by side on a wide panel. */
 #front:has(#front-new:not([hidden])) {
   width: min(900px, calc(var(--vw) - 2 * var(--gutter)));
 }
@@ -5264,8 +5264,8 @@ select.release-pick {
   pointer-events: none;
 }
 
-/* The rail's names (owner, Nov 8): a ring's name lights beside it after a quarter second of
-   hover or focus, in the menu look, and a dot marks what is unread. */
+/* The rail's names: a ring's name lights beside it after a quarter second of hover or focus, in the menu look, and a dot marks what is unread.
+   */
 .ring[data-name]::before {
   content: attr(data-name);
   position: absolute;
@@ -5296,8 +5296,8 @@ select.release-pick {
   opacity: 0;
   transition-delay: 0s;
 }
-/* In a scene or a talk the player card and the menu buttons are gone, never dimmed (owner,
-   Nov 7); the talk box takes the stage. */
+/* In a scene or a talk the player card and the menu buttons are gone, never dimmed; the talk box takes the stage.
+   */
 #game:has(
     :is(#talk, #meeting, #desk, #election-day, #returns, #ballot):not([hidden])
   )
@@ -5309,7 +5309,7 @@ select.release-pick {
   display: none;
 }
 
-/* Calendar (Nov 8 play mock, pl-calendar): the month, then Today and Coming up, on strips. */
+/* Calendar: the month, then Today and Coming up, on strips. */
 .strip-board .board-cols {
   width: 100%;
 }
@@ -5448,12 +5448,12 @@ select.release-pick {
   text-decoration: underline;
 }
 
-/* The journal's page takes the whole panel, so the page is never half empty (owner,
-   Nov 8 and Nov 23; N8-C32). */
+/* The journal's page takes the whole panel, so the page is never half empty.
+   */
 .roster-screen.journal {
   width: 100%;
 }
-/* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
+/* Journal: two columns of prose with a drop cap. */
 .journal-text {
   column-count: 2;
   column-gap: 32px;
@@ -5475,12 +5475,12 @@ select.release-pick {
   color: var(--cream);
 }
 
-/* The campaign board: where the race stands, the money, and the trail button.
-   The money column keeps room for its figures, so a row such as "Signatures
-   0 of 21, due May 1, 2026" sits on one line, and the button keeps its words
-   on one line; when the sheet is narrow (the roster of several races beside
-   it, or a 1024-wide window) the button moves under the two columns instead
-   of squeezing them. */
+/*
+   * The campaign board: where the race stands, the money, and the trail
+   * button. The money column keeps room for its figures, so a row such as
+   * "Signatures 0 of 21, due " sits on one line, and the button keeps its
+   * words on one line; when the sheet is narrow (the roster of several races beside it, or a 1024-wide window) the button moves under the two columns instead of squeezing them.
+   */
 .strip-board.campaign-board .board-cols {
   display: flex;
   flex-wrap: wrap;
@@ -5502,7 +5502,7 @@ select.release-pick {
   white-space: nowrap;
 }
 
-/* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */
+/* Money: the cash in large type over typed rows. */
 .strip-board .money-figure {
   margin: 0 0 6px;
   font: 600 var(--t-name)/1.05 var(--f-ui);
@@ -5515,7 +5515,7 @@ select.release-pick {
   text-transform: none;
 }
 
-/* News (Nov 8 play mock, pl-news): type on the dark panel, columns, a Briefs strip. */
+/* News: type on the dark panel, columns, a Briefs strip. */
 @font-face {
   font-family: "Old Standard TT";
   font-weight: 400;
@@ -5666,8 +5666,8 @@ select.release-pick {
 .pick-list .pick,
 #sheet-body .pick-list .pick {
   display: flex;
-  /* A long name keeps its words whole and sends its aside under it, never squeezing both
-     into one narrow line (owner, Nov 16, N16-58: "it's squished right here"). */
+  /* A long name keeps its words whole and sends its aside under it, never squeezing both into one narrow line.
+     */
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
@@ -5693,9 +5693,9 @@ select.release-pick {
   color: var(--muted);
   white-space: nowrap;
 }
-/* A list whose rows all break alike (Elections): the aside always sits on its own
-   line under the name, so one row never carries it beside the name and the next
-   under it (owner, Nov 23: "Why is the 2021 on a different line?"). */
+/*
+   * A list whose rows all break alike (Elections): the aside always sits on its own line under the name, so one row never carries it beside the name and the next under it.
+   */
 .pick-list[data-stacked] .pick,
 #sheet-body .pick-list[data-stacked] .pick {
   flex-direction: column;
@@ -5727,8 +5727,8 @@ select.release-pick {
   font: 500 var(--t-ui) var(--ui);
   color: var(--gold2, #e6cd93);
 }
-/* The side column takes the width its longest line needs, up to 440px, so a date and a name sit
-   on one row ("November 2, 2021 ... Holly Robles") and never wrap or clip. */
+/* The side column takes the width its longest line needs, up to 440px, so a date and a name sit on one row and never wrap or clip.
+   */
 .roster-cols {
   display: grid;
   grid-template-columns: minmax(0, 1fr) fit-content(440px);
@@ -5784,8 +5784,8 @@ select.release-pick {
   flex-wrap: wrap;
   gap: var(--issues-gap);
 }
-/* The subjects and the laws stand as tall as the panel holds; the box pages inside itself
-   (ui/pager.mjs), never a scroll with free room below it (owner, Nov 23). */
+/* The subjects and the laws stand as tall as the panel holds; the box pages inside itself (ui/pager.mjs), never a scroll with free room below it.
+   */
 .issues-subjects > .roster,
 .issues-laws > .roster {
   max-height: none;
@@ -5923,9 +5923,9 @@ select.release-pick {
   gap: 22px;
   align-items: start;
 }
-/* The governor races elsewhere, after the call (owner, Oct 27 audit: rows past the panel's foot
-   could not be reached): the list spans the board in columns, so every state and Close fit the
-   window with nothing to scroll. */
+/*
+   * The governor races elsewhere, after the call: the list spans the board in columns, so every state and Close fit the window with nothing to scroll.
+   */
 #returns.nation .night-cols {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -5990,7 +5990,7 @@ select.release-pick {
   width: 100%;
 }
 
-/* Advanced: the world's start and settings in strips (the Nov 8 front mock, fr-world). */
+/* Advanced: the world's start and settings in strips. */
 #front:has(#front-advanced:not([hidden])) {
   width: min(900px, calc(var(--vw) * 0.94));
 }
@@ -6182,9 +6182,9 @@ body.color-blind .meeting-member.vote-abstain {
   display: none;
 }
 
-/* Metrics (owner, Nov 12 and Nov 17): the areas at the left, the area's measures beside them and
-   the chosen measure's timeline; it fills the panel and never scrolls as a page, and a long list
-   of measures scrolls inside its own column. */
+/*
+   * Metrics: the areas at the left, the area's measures beside them and the chosen measure's timeline; it fills the panel and never scrolls as a page, and a long list of measures scrolls inside its own column.
+   */
 #sheet-body:has(.roster-screen.metrics) {
   display: flex;
   overflow: hidden;
@@ -6288,7 +6288,7 @@ body.color-blind .meeting-member.vote-abstain {
   color: var(--text-strong);
 }
 
-/* Patch notes: headed sections of short bullets (owner, Nov 16: "like real patch notes"). */
+/* Patch notes: headed sections of short bullets. */
 .patch-list {
   margin: 4px 0 6px;
   padding: 0 0 0 20px;

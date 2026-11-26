@@ -102,8 +102,8 @@ export function governmentMap(core: CoreState) {
             ? row.office.kind === kind
             : kind.test(row.office.kind)) && row.holder,
       )
-      // Each holder with their party: the map colors a district by the party
-      // that holds it (owner, Oct 28: Parties illustrated with the map).
+      // Each holder with their party: the map colors a district by the party that
+      // holds it.
       .map((row) => ({
         name: `${row.holder!.identity.givenName} ${row.holder!.identity.familyName}`,
         party: row.holder!.party ?? null,

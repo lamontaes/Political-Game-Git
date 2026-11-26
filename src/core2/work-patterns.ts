@@ -2,7 +2,7 @@
  * The shape of each kind of working week: the shifts, the days and the
  * rotation. Moved from the old engine's work-schedules so the opening reads
  * them without the old world type. Every pattern is a GAME ASSUMPTION, not a
- * source (see docs/research/chatgpt-answers/2026-09-23-jobs-and-units-0311/).
+ * source.
  */
 
 /** Sunday is 0, as in JavaScript dates. */

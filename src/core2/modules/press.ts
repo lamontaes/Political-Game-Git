@@ -236,7 +236,7 @@ export interface OutletRow {
   readonly tier?: "local" | "national";
   /** For a national outlet: its kind's real audience lean (Pew 2020). */
   readonly audienceLean?: number;
-  /** Its owner: a person who holds it, and whose views and ties read into it. */
+  /** Its a person who holds it, and whose views and ties read into it. */
   readonly ownerId: string | null;
   /** Its head (publisher or news director), who sets its editorial line. */
   readonly headId: string | null;
@@ -393,7 +393,7 @@ export function publishedOutletLevels(
 /**
  * How many outlets of each kind this world's town has: the published level
  * moved by the world's own draw, rounded, and never below one where the
- * published count is at least one (owner, Oct 27: realistic, not real).
+ * published count is at least one.
  */
 export function worldOutletCounts(
   seed: string,
@@ -502,9 +502,9 @@ export const PRESS_MODULE: CoreModule = {
       tipOff(api, event);
       return;
     }
-    // Every public record in the town's coverage goes on the wire, and the
-    // police log's entries in the town (owner, Oct 29: side stories), which
-    // the paper prints as briefs though the crime record itself is kept.
+    // Every public record in the town's coverage goes on the wire, and the police
+    // log's entries in the town, which the paper prints as briefs though the
+    // crime record itself is kept.
     const policeLog =
       event.kind === CRIME_EVENT && event.placeId === lawChain(api).townPlaceId;
     if (!event.publicRecord && !policeLog) return;
@@ -1017,7 +1017,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     const reporterIds = Array.from({ length: spec.reporters }, (_, i) =>
       hire(reporterRole, i, staffHome),
     );
-    // Owner, head and reporters know one another from the first day.
+    // head and reporters know one another from the first day.
     const people = [ownerId, headId, ...reporterIds];
     for (const one of people)
       for (const other of people)
@@ -1048,8 +1048,8 @@ export function openPress(core: CoreState): readonly OutletRow[] {
       audienceRevenueMinor: 0,
     });
   }
-  // An outlet's lean: its owner's, its head's, and its kind's audience's as
-  // a whole.
+  // An outlet's lean: its its head's, and its kind's audience's as a whole.
+
   const headWeight = pressParameter("outletLeanHeadWeight");
   const ownerWeight = pressParameter("outletLeanOwnerWeight");
   for (const outlet of opened) {
@@ -3460,9 +3460,9 @@ export function leakToReporter(
 /**
  * A magazine's profile: who it writes about is the person the fresh records
  * name most (ties to the outlet's own reporter's closeness, then id), not
- * profiled by it this year; how it reads is the story's framing (the owner's,
- * head's and reporter's regard and the outlet's line). Its readers' view of
- * the person moves toward the framing.
+ * profiled by it this year; how it reads is the story's framing. Its readers'
+ * view of the person moves toward the framing.
+ *
  */
 function writeProfile(
   api: CoreAPI,
@@ -3627,9 +3627,9 @@ export function schoolResultKind(
 /** Fresh items on the wire, oldest first. */
 /**
  * The school year's results reach the desk the week the school engine keeps
- * them (owner, Oct 29: side stories): how many of the town's seniors
- * graduated, and the spring tests' proficiency, one item each, worded from
- * the measure rows themselves (`graduation:<year>`, `tests:<year>`).
+ * them: how many of the town's seniors graduated, and the spring tests'
+ * proficiency, one item each, worded from the measure rows themselves
+ * (`graduation:<year>`, `tests:<year>`).
  */
 function schoolResults(api: CoreAPI): void {
   if (!api.state.modules.has(SCHOOL_MODULE_ID)) return;
@@ -3684,14 +3684,14 @@ function anniversaryIn(year: number, date: string): string {
 }
 
 /**
- * The week's milestones, for the briefs column (words-paper-and-journal-
- * everyday-life; owner, Nov 1: "real ones with some good fluff"): a
- * resident of the town who retired this week (the jobs engine's record of
- * their leaving), one who reached a round birthday this week, and a
- * business in town that reached a round year since it was founded, each
- * from its own record's date (the person's birth date; the business
- * engine's founding row or its age at the opening). The round ages and
- * years are data (data/press/briefs.json, milestones).
+ * The week's milestones, for the briefs column: a resident of the town who
+ * retired this week (the jobs engine's record of their leaving), one who
+ * reached a round birthday this week, and a business in town that reached a
+ * round year since it was founded, each from its own record's date (the
+ * person's birth date; the business engine's founding row or its age at the
+ * opening). The round ages and years are data (data/press/briefs.json,
+ * milestones).
+ *
  */
 function milestones(api: CoreAPI): void {
   const c = api.state as CoreState;
@@ -3809,17 +3809,17 @@ function milestones(api: CoreAPI): void {
 }
 
 /**
- * The week's letters to the editor (words-paper-and-journal-everyday-life;
- * the CTO's ruling, OWNER-DECISIONS Nov 1 20:00). For each town newspaper,
- * the readers whose stance was last moved by one of its recent stories about
- * a bill or a law weigh writing to it: how strongly they feel past the
- * strength it takes to write (`letterStrength`), with their temperament at
- * its calibrated weight (the press.letter decision, Mondak and Halperin
- * 2008), never the stance alone. The paper prints the strongest case among
- * those who would write, one letter a week, and a writer whose letter ran
- * waits the span the paper's letters policy sets before another, and longer
- * before another on the same question. The letter
- * names the bill or law the story reported and whether the writer is for it.
+ * The week's letters to the editor. For each town newspaper, the readers
+ * whose stance was last moved by one of its recent stories about a bill or a
+ * law weigh writing to it: how strongly they feel past the strength it takes
+ * to write (`letterStrength`), with their temperament at its calibrated
+ * weight (the press.letter decision, Mondak and Halperin 2008), never the
+ * stance alone. The paper prints the strongest case among those who would
+ * write, one letter a week, and a writer whose letter ran waits the span the
+ * paper's letters policy sets before another, and longer before another on
+ * the same question. The letter names the bill or law the story reported and
+ * whether the writer is for it.
+ *
  */
 function letters(api: CoreAPI): void {
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return;
@@ -3955,10 +3955,10 @@ function letters(api: CoreAPI): void {
 
 /**
  * The police log of the month that just closed reaches the desk in the next
- * month's first week (owner, Oct 29: side stories, "fourth car stolen"): the
- * crimes the town's residents reported to police, worded from the crime
- * engine's own month record (`police-log:<month>`). A month with none
- * reported puts nothing on the wire.
+ * month's first week: the crimes the town's residents reported to police,
+ * worded from the crime engine's own month record (`police-log:<month>`). A
+ * month with none reported puts nothing on the wire.
+ *
  */
 function policeLog(api: CoreAPI): void {
   if (!api.state.modules.has(CRIME_MODULE_ID)) return;
@@ -3993,9 +3993,9 @@ function policeLog(api: CoreAPI): void {
     subjectIds: [],
     facts: {
       monthId: `${town}:${month}`,
-      // How far the month stands from the town's own usual: the desk's
-      // space for the log slides with it, down to nothing (Words lead,
-      // Nov 14). A town with no earlier months has no usual to compare.
+      // How far the month stands from the town's own usual: the desk's space for
+      // the log slides with it, down to nothing. A town with no earlier
+      // months has no usual to compare.
       ...policeLogComparison(api, town, month, reported),
     },
   };
@@ -4068,11 +4068,11 @@ function usualMonthRows(
 
 /**
  * Why a town's police log for a crime month stood where it did on the page,
- * for dev mode's trace (owner, Nov 16: what a thread traces by script, dev
- * mode traces in the game): the month's reported count, the comparison the
- * wire carried (`policeLogComparison`), the closed months the usual rests
- * on, and the share of a brief's space the desk gave it (`usualSpace`).
- * Read from the crime engine's month rows; nothing is kept.
+ * for dev mode's trace: the month's reported count, the comparison the wire
+ * carried (`policeLogComparison`), the closed months the usual rests on, and
+ * the share of a brief's space the desk gave it (`usualSpace`). Read from the
+ * crime engine's month rows; nothing is kept.
+ *
  */
 export function policeLogWhy(
   api: CoreAPI,
@@ -5222,18 +5222,18 @@ registerCountedNewsSource((api, storyId, namedReaders) => {
 });
 
 /*
- * What a paper found when it exposed an official (`press.exposed`),
- * read from the act's own record so the reporter who calls says what the
- * story says, not only that there is one (owner, Nov 15, on the scandal call:
- * "I've got a story about the water rates, and your name is in it... that's
- * very ambiguous"; Words lead's lines in reply-sets/oath-bribe-scandal.md C).
+ * What a paper found when it exposed an official (`press.exposed`), read from
+ * the act's own record so the reporter who calls says what the story says,
+ * not only that there is one. - a bribe taken (corruption.ts crime record):
+ * who paid, and what the money was for, the bill or the contract award, read
+ * the same way the offer scene reads it (`wantedFacts`); - a conflict on an
+ * award (contracts.ts award row, its conflict): the award by the work it pays
+ * for, the firm, and whose firm it is, the official's own or a relative's.
  *
- * - a bribe taken (corruption.ts crime record): who paid, and what the money
- *   was for, the bill or the contract award, read the same way the offer
- *   scene reads it (`wantedFacts`);
- * - a conflict on an award (contracts.ts award row, its conflict): the award
- *   by the work it pays for, the firm, and whose firm it is, the official's
- *   own or a relative's.
+ *
+ *
+ *
+ *
  */
 /** The finding behind an exposure, with the records that hold it. */
 export interface ExposedFinding {

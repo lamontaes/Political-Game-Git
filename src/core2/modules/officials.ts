@@ -123,8 +123,8 @@ export interface OfficialRow {
   /**
    * For another state's official (not the player's state, not federal): the
    * identity they are built from when something opens them. Until then they
-   * are a recorded husk, not a full person (owner, Nov 5: simulate from the
-   * people there, keep only the result, generate on demand).
+   * are a recorded husk, not a full person.
+   *
    */
   readonly husk?: {
     readonly identity: Omit<RecordedIdentity, "source">;
@@ -786,9 +786,9 @@ function drawAll(
   );
   const minimum = TENURE["minimumAgeAtFirstTerm"]!.value;
   const all = drafted.map((s): Spec => {
-    // The day they turn the age (a February 29 birthday counts on March 1),
-    // held to a seat's holder from the offices engine too: its career start
-    // is a date it drew without their birthday.
+    // The day they turn the age, held to a seat's holder from the offices engine
+    // too: its career start is a date it drew without their birthday.
+
     const born = identities.get(s.key)!.birthDate;
     const year =
       Number(born.slice(0, 4)) +
@@ -1463,10 +1463,10 @@ function unopenedDraw(api: CoreAPI, term: TermRow): UnopenedDraw {
 }
 
 /**
- * What another place's unopened holder stands on (their term names no
- * person and no official row is kept), from their draw. Their session reads
- * them through this, so other places keep only their results (owner, Oct
- * 11, two-level population; CTO, Nov 18 13:44Z).
+ * What another place's unopened holder stands on (their term names no person
+ * and no official row is kept), from their draw. Their session reads them
+ * through this, so other places keep only their results.
+ *
  */
 function unopenedStance(
   api: CoreAPI,
@@ -1478,11 +1478,11 @@ function unopenedStance(
 
 /**
  * Another place's unopened holders live by the same mortality rule as
- * everyone: the health engine books their illness and death from who they
- * are (their term's birth date and home state, their draw's traits), and
- * their death writes only its result: the term ends and the seat falls
- * vacant, filled by the place's own law. Nobody is built (CTO, Nov 18
- * 15:04Z). Moves are not read for them: a husk never moved either.
+ * everyone: the health engine books their illness and death from who they are
+ * (their term's birth date and home state, their draw's traits), and their
+ * death writes only its result: the term ends and the seat falls vacant,
+ * filled by the place's own law. Nobody is built. Moves are not read for
+ * them: a husk never moved either.
  */
 registerUnbuiltHolders({
   // The terms table only grows: a new count is a new holder to book.
@@ -1992,8 +1992,8 @@ export function candidateChoices(
   const ranked = rankCandidates(api, contest, party, CHOICE_NEWCOMERS, wide);
   if (!narrow || !ranked) return [];
   // The world's own pick first; then everyone with a record the player can
-  // weigh, strongest reasons first; newcomers only to make three (owner,
-  // Nov 14: three or four to choose from).
+  // weigh, strongest reasons first; newcomers only to make three.
+
   const first = narrow.order[0]!;
   const weighable = ranked.order.filter(
     (c) => c.id !== first.id && !ranked.newcomers.some((n) => n.id === c.id),

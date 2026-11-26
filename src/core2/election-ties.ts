@@ -1,18 +1,18 @@
 /**
  * An exact tie, settled the way the state's law says
- * (`data/research/elections/tie-rules-2026.json`), by the kind of race:
+ * (`data/research/elections/tie-rules-2026.json`), by the kind of race: - a
+ * lot, where the law says lot (a recorded draw: its citation, the tied
+ * candidates, each name's slip and the result); - a second election between
+ * the tied candidates; - the legislature in joint session (statewide offices)
+ * or the local governing body, each member voting for their own reasons:
+ * their views against each tied candidate's platform, their party's side
+ * against the candidate's, and how they stand with each candidate, never
+ * party alone. Race size counts where the law has it (a state that reruns a
+ * large race and draws a lot for a small one). Owner ruling: ties follow the
+ * law of the state, a recorded lot where the law says lot.
  *
- * - a lot, where the law says lot (a recorded draw: its citation, the tied
- *   candidates, each name's slip and the result);
- * - a second election between the tied candidates;
- * - the legislature in joint session (statewide offices) or the local
- *   governing body, each member voting for their own reasons: their views
- *   against each tied candidate's platform, their party's side against the
- *   candidate's, and how they stand with each candidate, never party alone.
  *
- * Race size counts where the law has it (a state that reruns a large race
- * and draws a lot for a small one). Owner ruling (Oct 14, 2026): ties follow
- * the law of the state, a recorded lot where the law says lot.
+ *
  */
 import ties from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { pairKey, stableHash } from "./kernel/ids";

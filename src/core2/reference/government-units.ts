@@ -292,10 +292,10 @@ function loadPlaceCountyParts(): ReadonlyMap<
 
 /**
  * County-area population shares from the existing Census county-part table.
- * Counts describe April 1, 2020 boundaries; applying their proportions to a
- * newer city total does not establish subsequent migration or boundary changes.
- * A single county contains the whole city. Multi-county zero totals yield null
- * shares; an absent place yields no allocation. This establishes no authority.
+ * Counts describe boundaries; applying their proportions to a newer city
+ * total does not establish subsequent migration or boundary changes. A single
+ * county contains the whole city. Multi-county zero totals yield null shares;
+ * an absent place yields no allocation. This establishes no authority.
  */
 export function countyPopulationSharesForPlace(
   placeGeoid: string,

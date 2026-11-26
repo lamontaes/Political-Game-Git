@@ -1,20 +1,20 @@
 /**
- * Dev mode's scene trace (owner, Nov 16: "a part of the dev mode should be able to trace and force
- * every scene to play. So see why every scene played and why dialogue options were chosen"; "every
- * single line of dialogue or narration ... has to be traced so easily, there can be no leftovers").
- * One view over what the director and the line register already hold, with no tracer of its own:
- *  - `types`: every situation type the director stages, with the way dev mode can cause it (the
- *    existing `scenes()` recipes), whether it can be forced at all (a type no engine writes the cause
- *    of is listed as unreachable, which is itself the finding), how many times it was staged for the
- *    player, and what the register says of its lines.
- *  - `moments`: the player's last staged scenes, each with its cause record, who is placed and why
- *    (`presentReasons`), the setting's record, the outcome and the types held back and why.
- *  - `lines`: every scene-talk line of a type's purpose, from the line register, with its tie class,
- *    the facts it needs, whether an engine reaches it and whether the grades or a rule hold it.
- *  - `force`: causes a type through the game's own code (`DevMode.forceScene`, or the legislature's
- *    own writers for its scenes, dev-force-legislature.ts) and writes a dev-mode mark `scene-forced`
- *    on the record; a forced scene is never a played one for a Words stamp.
- * Who each person in a scene is named as is the "who is named" view's (who-named), not read here.
+ * Dev mode's scene trace. One view over what the director and the line
+ * register already hold, with no tracer of its own: - `types`: every
+ * situation type the director stages, with the way dev mode can cause it (the
+ * existing `scenes` recipes), whether it can be forced at all (a type no
+ * engine writes the cause of is listed as unreachable, which is itself the
+ * finding), how many times it was staged for the player, and what the
+ * register says of its lines. - `moments`: the player's last staged scenes,
+ * each with its cause record, who is placed and why (`presentReasons`), the
+ * setting's record, the outcome and the types held back and why. - `lines`:
+ * every scene-talk line of a type's purpose, from the line register, with its
+ * tie class, the facts it needs, whether an engine reaches it and whether the
+ * grades or a rule hold it. - `force`: causes a type through the game's own
+ * code (`DevMode.forceScene`, or the legislature's own writers for its
+ * scenes, dev-force-legislature.ts) and writes a dev-mode mark `scene-forced`
+ * on the record; a forced scene is never a played one for a Words stamp. Who
+ * each person in a scene is named as is the "who is named" view's (who-named), not read here.
  */
 import { lineByKey, linesForPurpose } from "../../english/line-register";
 import { applyCoreEvent } from "../../core2/state";

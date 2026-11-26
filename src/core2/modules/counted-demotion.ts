@@ -388,11 +388,11 @@ export function demoteHousehold(
   // Their records stay, on the inactive tier, at the place's counted tier.
   for (const person of people)
     api.updatePerson(person.id, { tier: INACTIVE_TIER });
-  // They keep their results, not their day-to-day memory (two-level rule,
-  // owner, Oct 11: nobody gets a full past or memory until filled in): what
-  // they heard and lived through goes, as a counted person holds none; their
-  // counts, accounts, jobs, drives, ties and the records of what they did
-  // stay, and meeting them again brings back the same person to learn anew.
+  // They keep their results, not their day-to-day memory: what they heard and
+  // lived through goes, as a counted person holds none; their counts,
+  // accounts, jobs, drives, ties and the records of what they did stay, and
+  // meeting them again brings back the same person to learn anew.
+
   for (const person of people) forgetOnReturn(api, person.id);
   api.relocatePeopleV1({
     personIds: [...members],
@@ -424,10 +424,10 @@ export function demoteHousehold(
  * A person back in the counts holds no knowledge: no engine reads a counted
  * person's facts (the counted tier's rules read the group's record), and
  * keeping them made every person ever filled in cost memory for the rest of
- * the run (Montpelier, Vermont, Nov 9: 378 people returned to the counts in
- * year 1 still held 82,472 facts). The event a drive they still hold stands
- * on stays, as the forgetting pass keeps it; the drives engine keeps the
- * drives themselves.
+ * the run. The event a drive they still hold stands on stays, as the
+ * forgetting pass keeps it; the drives engine keeps the drives themselves.
+ *
+ *
  */
 function forgetOnReturn(api: CoreAPI, personId: PersonId): void {
   const core = api.state as CoreState;
@@ -451,9 +451,9 @@ function forgetOnReturn(api: CoreAPI, personId: PersonId): void {
 
 /**
  * How many days without contact before a met person drifts back: drawn once
- * per world from the world's seed within the parameter's spread (owner, Oct
- * 15, 2026: 180 to 240 days, never one fixed number). Seeded generation of
- * who the world is; nothing rolled in play.
+ * per world from the world's seed within the parameter's spread. Seeded
+ * generation of who the world is; nothing rolled in play.
+ *
  */
 export function demotionDays(seed: string): number {
   const { low, high } = countedSpread("countedDemotionDays");

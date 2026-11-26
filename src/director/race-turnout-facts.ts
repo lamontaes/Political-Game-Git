@@ -77,26 +77,26 @@ export function raceTurnoutFacts(
 }
 
 /**
- * The one read of how a race went (Account lead, Nov 16: "close" means inside
- * the state's recount rule and nothing else; no share is chosen). Every reader
- * of a race's margin (the concession call, the Journal, a person bringing a
- * race up) reads it here, by record:
+ * The one read of how a race went. Every reader of a race's margin (the
+ * concession call, the Journal, a person bringing a race up) reads it here,
+ * by record: - `recount-automatic`, `recount-offered` or `recount-none`:
+ * whether the count's margin fell inside the state's recount rule (the voting
+ * engine's recount row): counted again by law, inside the margin the one
+ * behind may ask in, or neither. For a candidate the recount does not name
+ * (it is between the leader and the one just behind),
+ * `recount-between-others`: their own race was not close, and no line says it
+ * was. - For a candidate whose own campaign bought a poll before the vote:
+ * `poll-closer`, `poll-as-polled` or `poll-wider`, the gap between the
+ * candidate and their nearest rival in the count (the winner, or for the
+ * winner the runner-up) against the same gap in that campaign's last poll.
+ * Inside the poll's own margin of error (kept on the poll record) it went as
+ * polled; otherwise the race was closer or wider than polled. With it,
+ * `poll-ahead` when that poll had the candidate ahead of the rival. A
+ * campaign that bought no poll expected nothing on the record, and none is
+ * given.
  *
- * - `recount-automatic`, `recount-offered` or `recount-none`: whether the
- *   count's margin fell inside the state's recount rule (the voting engine's
- *   recount row): counted again by law, inside the margin the one behind may
- *   ask in, or neither. For a candidate the recount does not name (it is
- *   between the leader and the one just behind), `recount-between-others`:
- *   their own race was not close, and no line says it was.
- * - For a candidate whose own campaign bought a poll before the vote:
- *   `poll-closer`, `poll-as-polled` or `poll-wider`, the gap between the
- *   candidate and their nearest rival in the count (the winner, or for the
- *   winner the runner-up) against the same gap in that campaign's last poll.
- *   Inside the poll's own margin of error (kept on the poll record) it went
- *   as polled; otherwise the race was closer or wider than polled. With it,
- *   `poll-ahead` when that poll had the candidate ahead of the rival. A
- *   campaign that bought no poll expected nothing on the record, and none is
- *   given.
+ *
+ *
  */
 export function raceReadFacts(
   core: Readonly<CoreState>,

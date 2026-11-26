@@ -101,11 +101,11 @@ export function actionNames(): Record<string, string> {
 }
 
 /**
- * A law's measure as a sentence says it, from its catalog label: a label
- * kept as "what: for whom" ("State campaign contribution limit: governor")
- * is said as a phrase ("campaign contribution limit for governor"), and
- * whose law it is ("State") the sentence says, not the label (Fable A,
- * Nov 13, rule 15).
+ * A law's measure as a sentence says it, from its catalog label: a label kept
+ * as "what: for whom" ("State campaign contribution limit: governor") is said
+ * as a phrase ("campaign contribution limit for governor"), and whose law it
+ * is ("State") the sentence says, not the label.
+ *
  */
 export function measureSaid(label: string): string {
   return label.replace(/^state /i, "").replace(/:\s*/, " for ");

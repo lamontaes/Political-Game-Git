@@ -1,30 +1,30 @@
 /**
- * The century before day one (owner, Nov 17, 2026, CTO line 6935086070 on #9747): "History is pure
- * simulation from 1925, a year at a step, during the loading screen ... Day one is whatever that
- * history produced: who holds every office, party control, and the laws in force. Real data only
- * sets how strongly things move one another." And the owner's rule behind it (CTO line 6933444847):
- * "I want the world to decide the state ... load into one world where there has been 100 years of
- * Democratic presidents or something."
+ * The century before day one: "History is pure simulation from 1925, a year
+ * at a step, during the loading screen... Day one is whatever that history
+ * produced: who holds every office, party control, and the laws in force.
+ * Real data only sets how strongly things move one another." And The century
+ * runs forward from 1925, a year at a step, and the last step's records are
+ * day one's. Its elections are counted on the one count (`countPlaces`,
+ * electorate.ts) with the one race rule (`candidateReasons`,
+ * electorate-inputs.ts), the rule every race in play uses. What happened is
+ * decided by the count: where each state stands, who runs (a sitting
+ * president runs again until elected twice), the party's time in the White
+ * House and the president's standing. Who exists is generated: each state's
+ * and the country's place on the lean order in 1925 is one starting shift
+ * from the world's seed (`centuryShift`, any size equally likely), sized by
+ * the real map's spread. After that no roll decides anything. It is a pure
+ * function of the world's seed, worked out once per seed and kept, so every
+ * reader (the offices engine seating the President, the President's record,
+ * the past election behind the term, the next race's time-for-change reason)
+ * reads the same century without a module of its own at load. "Just like
+ * today" (`historyMode`) is the same build with today's real record in place
+ * of the century's last step. It runs the presidency, Congress (pull request
+ * 2: every House seat and the Senate by class) and every governor and
+ * partisan statewide officer (pull request 3a). The legislatures, the economy
+ * and the laws follow, each on the same steps.
  *
- * The century runs forward from 1925, a year at a step, and the last step's records are day one's.
- * Its elections are counted on the one count (`countPlaces`, electorate.ts) with the one race rule
- * (`candidateReasons`, electorate-inputs.ts), the rule every race in play uses. What happened is
- * decided by the count: where each state stands, who runs (a sitting president runs again until
- * elected twice), the party's time in the White House and the president's standing. Who exists is
- * generated: each state's and the country's place on the lean order in 1925 is one starting shift
- * from the world's seed (`centuryShift`, any size equally likely), sized by the real map's spread. After
- * that no roll decides anything.
  *
- * It is a pure function of the world's seed, worked out once per seed and kept, so every reader
- * (the offices engine seating the President, the President's record, the past election behind the
- * term, the next race's time-for-change reason) reads the same century without a module of its own
- * at load. "Just like today" (`historyMode`) is the same build with today's real record in place of
- * the century's last step (CTO line 6935086070, point 5).
  *
- * It runs the presidency (pull request 1 of the History lane's plan, #9747), Congress (pull
- * request 2: every House seat and the Senate by class) and every governor and partisan statewide
- * officer (pull request 3a). The legislatures, the economy and the laws follow, each on the same
- * steps.
  */
 import {
   candidateReasons,
@@ -136,7 +136,7 @@ export interface CenturyStateVote {
 export interface CenturyPresidency {
   readonly id: string;
   readonly year: number;
-  /** The day the term began (March 4 before 1937, January 20 since; amend. XX). */
+  /** The day the term began. */
   readonly termStart: string;
   readonly termEnd: string;
   readonly winnerSide: number;
@@ -289,12 +289,12 @@ export interface CenturyParty {
 }
 
 /**
- * A party founded in the century's own history (History family 9b, plan 6952133362 on #9747): the
- * voters neither national party reached had built up pressure for a new one that outweighed the
- * cost of standing it. It stands at the centroid of those voters on the members' scale, so its
- * `side` is the side of that position (0 when the unreached voters sit evenly either side).
- * Its record keeps the cause: the pressure then and the share of voters it was founded from. It
- * has no name yet: how a founded party is named is Story's (asked on #9750).
+ * A party founded in the century's own history: the voters neither national
+ * party reached had built up pressure for a new one that outweighed the cost
+ * of standing it. It stands at the centroid of those voters on the members'
+ * scale, so its `side` is the side of that position (0 when the unreached
+ * voters sit evenly either side). Its record keeps the cause: the pressure
+ * then and the share of voters it was founded from. It has no name yet: how a founded party is named is Story's.
  */
 export interface CenturyFounding {
   /** `party:founded:<year>`. */
@@ -569,7 +569,7 @@ export function centuryOpening(seed: string): CenturyOpening {
   };
 }
 
-/** The day a term won in `year` began (amend. XX moved it from March 4 to January 20). */
+/** The day a term won in `year` began. */
 export function termStartAfter(year: number): string {
   const next = year + 1;
   return next >= centuryParameter("inaugurationMovedYear")
@@ -625,12 +625,12 @@ interface SeatCount {
 }
 
 /**
- * One race in one place on the one path (electorate.ts `countParties`): the count, and the
- * place's result cleared of what was personal to the two candidates (their incumbency and
- * experience) and of the year's national tide (the President's approval, the midterm swing, the
- * party's time in the White House, the economy), which is what carries into where the place
- * stands: how it moved against the nation, never the tide itself (CTO line 6936486748, Nov 17,
- * 2026: "The national tide belongs to that year's race and no other").
+ * One race in one place on the one path (electorate.ts `countParties`): the
+ * count, and the place's result cleared of what was personal to the two
+ * candidates (their incumbency and experience) and of the year's national
+ * tide (the President's approval, the midterm swing, the party's time in the
+ * White House, the economy), which is what carries into where the place
+ * stands: how it moved against the nation, never the tide itself.
  */
 function countSeat(
   voters: readonly SampleVoter[],
@@ -667,9 +667,9 @@ function exactShare(
 }
 
 /**
- * What acted on a race alone, the right's less the left's: the candidates' own standing
- * (incumbency, experience, spending) and the year's national tide (approval, the midterm, time for
- * a change, the economy). A place's lean carries its result less this (CTO line 6936486748).
+ * What acted on a race alone, the right's less the left's: the candidates'
+ * own standing (incumbency, experience, spending) and the year's national
+ * tide (approval, the midterm, time for a change, the economy). A place's lean carries its result less this.
  */
 function notCarriedGap(reasons: readonly CandidateReasons[]): number {
   const part = (side: number) => {
@@ -695,9 +695,9 @@ class YearResults {
     else this.byPlace.set(placeId, [cleared]);
   }
   /**
-   * Each place's lean moves to its own cleared results' mean by the carry share (interim rule,
-   * to be replaced by World B's one writer, `carryLean`, when it lands: #9747, World B 02:24Z;
-   * the clearing as the CTO ruled at 02:49Z).
+   * Each place's lean moves to its own cleared results' mean by the carry
+   * share.
+   *
    */
   carry(...leanTables: Record<string, number>[]): void {
     const carry = centuryParameter("centuryLeanCarryShare");
@@ -1105,11 +1105,11 @@ function careerOf(
 }
 
 /**
- * A century candidate's campaign means against the typical race's, drawn once per person (who
- * exists: their donors, their own money, their party's backing), as a multiple of the typical
- * spending; the one race rule reads it through its spending reason (electorate-inputs.ts
- * candidateReasons), so two races of the same year and place no longer meet the same two
- * candidates (CTO line 6936407513: "let ... the candidates' own pull enter the count").
+ * A century candidate's campaign means against the typical race's, drawn once
+ * per person (who exists: their donors, their own money, their party's
+ * backing), as a multiple of the typical spending; the one race rule reads it
+ * through its spending reason (electorate-inputs.ts candidateReasons), so two
+ * races of the same year and place no longer meet the same two candidates.
  */
 function campaignMeansOf(seed: string, personKey: string): number {
   const spread = centuryParameter("centuryCampaignMeansLogSpread");
@@ -1143,10 +1143,10 @@ function placeOpeningLean(
 }
 
 /**
- * Every state legislative seat in 1925, as the offices engine lists them (which seats exist,
- * their terms and their cycles, never who holds them): who holds it is the side its own district
- * leans to. The played town's state is counted seat by seat, every other state's chambers as
- * results (CTO line 6937011121).
+ * Every state legislative seat in 1925, as the offices engine lists them
+ * (which seats exist, their terms and their cycles, never who holds them):
+ * who holds it is the side its own district leans to. The played town's state
+ * is counted seat by seat, every other state's chambers as results.
  */
 function openingLegislatures(
   seed: string,

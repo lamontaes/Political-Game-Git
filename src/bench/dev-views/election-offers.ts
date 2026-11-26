@@ -2,11 +2,11 @@ import { localRaces } from "../government";
 import type { DevView } from "../dev-views";
 
 /**
- * Dev mode's Election offers: for each office on the player's Elections page, whether the clerk
- * offers it to the player and, when not, the one reason (`playerFilingBar`) or the eligibility
- * rule that stops them, with the day they can file. It reads the page's own list
- * (`localRaces`), so what it shows is what the page offers (owner, Nov 16: dev mode shows why
- * each office is or is not offered).
+ * Dev mode's Election offers: for each office on the player's Elections page,
+ * whether the clerk offers it to the player and, when not, the one reason
+ * (`playerFilingBar`) or the eligibility rule that stops them, with the day
+ * they can file. It reads the page's own list (`localRaces`), so what it
+ * shows is what the page offers.
  */
 const view: DevView = {
   name: "election-offers",

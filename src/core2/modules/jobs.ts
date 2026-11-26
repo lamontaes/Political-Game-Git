@@ -439,9 +439,9 @@ function record(
 }
 
 /**
- * Someone left an employer's staff: its need grows by the jobs they stood for (one for a full person) at once, and the
- * leaver's job waits to be replaced in the same role (owner, Oct 14: every
- * role is refilled when its holder dies, leaves or is removed).
+ * Someone left an employer's staff: its need grows by the jobs they stood for
+ * (one for a full person) at once, and the leaver's job waits to be replaced
+ * in the same role.
  */
 function noteLeaver(
   api: CoreAPI,
@@ -534,13 +534,13 @@ function workerMoved(
 }
 
 /**
- * Counted workers who left an employer outside the jobs engine since the
- * last review (the wider population's deaths and moves, which end or drop
- * their jobs) are replaced as full workers are: their jobs join their
- * employers' leavers. Each employer keeps the counted jobs it had at the last
- * review; one that is gone, not ended by the jobs engine and not now a full
- * person's job, left. Counted leavers keep no reasons (owner, Oct 14, ruling
- * 3). One pass a month.
+ * Counted workers who left an employer outside the jobs engine since the last
+ * review (the wider population's deaths and moves, which end or drop their
+ * jobs) are replaced as full workers are: their jobs join their employers'
+ * leavers. Each employer keeps the counted jobs it had at the last review;
+ * one that is gone, not ended by the jobs engine and not now a full person's
+ * job, left. Counted leavers keep no reasons. One pass a month.
+ *
  */
 function noteCountedLeavers(api: CoreAPI): void {
   const c = core(api),
@@ -945,8 +945,7 @@ function openingsShare(api: CoreAPI, kindId: string | undefined): number {
 
 /**
  * Every employer opens the world with the openings a real one carries on any
- * day (owner, Nov 12: a jobless player "can never be offered a job" when the
- * books start empty): its staff times its industry's JOLTS openings rate
+ * day: its staff times its industry's JOLTS openings rate
  * (src/core2/data/jobs/openings-rate.json), each opening standing for the
  * employer's typical counted worker's weight. A place's openings are made
  * whole by largest remainder across its employers, so nothing is drawn; each
@@ -954,6 +953,7 @@ function openingsShare(api: CoreAPI, kindId: string | undefined): number {
  * that role, and opened on a day spread back across its industry's wait
  * (`vacancyDays`), so they come due to be filled one after another from the
  * first weeks on. Returns the jobs posted, by employer.
+ *
  */
 function postStandingOpenings(api: CoreAPI): Map<string, number> {
   const c = core(api);
@@ -1086,8 +1086,8 @@ function openPositions(api: CoreAPI, organizationId: string): PositionRow[] {
  * An industry's employment this month against the opening month's, from BLS
  * CES seasonal factors; 1 for kinds with no series. With a world's seed
  * (play), the industry's swing is this world's own: each month's deviation
- * from 1 moved by one offset for the series (owner, Oct 27: realistic, not
- * real). Without it, the published factors (calibration).
+ * from 1 moved by one offset for the series. Without it, the published
+ * factors (calibration).
  */
 export function seasonalStaffing(
   kindId: string,
@@ -1129,32 +1129,32 @@ export function affordableStaff(
 }
 
 /**
- * An opening nobody has taken may be offered more by its owner (owner, Oct 16:
- * "if they can't afford it they can't afford it; if they're stubborn they
- * might not do it"). The raise is read from the employer's books and its
- * owner's traits; no step and no waiting period is fixed.
+ * An opening nobody has taken may be offered more by its owner. The raise is
+ * read from the employer's books and its owner's traits; no step and no
+ * waiting period is fixed. - What the seat can carry: each head's share of
+ * what the last month left after purchases and compliance (the wages it has
+ * to cover), read against the opening's pay now. A seat already paid at or
+ * above that share is not raised: the employer cannot afford it. - What the
+ * empty seat has cost: the days it has stood empty times that share a day.
+ * Nothing has been lost on the first day, so nothing is raised on it; the
+ * longer it stands, the more the owner will add. - Who decides: the owner's
+ * open-handedness, from the shared chooser (`decisionLean`), scales what they
+ * will add; a stubborn owner adds nothing. - Who a raise could draw: pay
+ * fills a seat only through a job-seeker who is ready to apply
+ * (`findingReady`) near the employer. The raise is scaled by the share of the
+ * place's fillable openings those ready seekers could take (their count over
+ * the openings, at most one): where no one is ready to look, a higher offer
+ * draws no one and none is made. The added monthly cost is the least of those
+ * three and the room the last month's trading left, which raises already
+ * given this review use up. An opening a counted worker will fill stands for
+ * their household's weight, so its raise costs that many seats' worth of the
+ * room.
  *
- * - What the seat can carry: each head's share of what the last month left
- *   after purchases and compliance (the wages it has to cover), read against
- *   the opening's pay now. A seat already paid at or above that share is not
- *   raised: the employer cannot afford it.
- * - What the empty seat has cost: the days it has stood empty times that
- *   share a day. Nothing has been lost on the first day, so nothing is raised
- *   on it; the longer it stands, the more the owner will add.
- * - Who decides: the owner's open-handedness, from the shared chooser
- *   (`decisionLean`), scales what they will add; a stubborn owner adds
- *   nothing.
- * - Who a raise could draw: pay fills a seat only through a job-seeker who is
- *   ready to apply (`findingReady`) near the employer. The raise is scaled by
- *   the share of the place's fillable openings those ready seekers could take
- *   (their count over the openings, at most one): where no one is ready to
- *   look, a higher offer draws no one and none is made (Nov 18: a cashier's
- *   posted pay went from $15.98 to $111.01 an hour in one review with no
- *   seeker in town ready to apply).
- * The added monthly cost is the least of those three and the room the last
- * month's trading left, which raises already given this review use up. An
- * opening a counted worker will fill stands for their household's weight, so
- * its raise costs that many seats' worth of the room.
+ *
+ *
+ *
+ *
+ *
  */
 export function raiseUnfilledPay(
   api: CoreAPI,
@@ -1641,11 +1641,11 @@ export interface FirmStaffing {
 }
 
 /**
- * The one read the business engine takes of a firm's staffing (owner, Nov 9:
- * firms diverge by service level): the employer's last review, or none for a
- * firm the jobs engine does not run or has not yet reviewed (a new business
- * still hiring reads as serving no one). The service level
- * is staff over target, one where the firm is fully staffed.
+ * The one read the business engine takes of a firm's staffing: the employer's
+ * last review, or none for a firm the jobs engine does not run or has not yet
+ * reviewed (a new business still hiring reads as serving no one). The service
+ * level is staff over target, one where the firm is fully staffed.
+ *
  */
 export function firmStaffing(
   api: CoreAPI,
@@ -1677,10 +1677,10 @@ export function firmStaffing(
 
 /**
  * A new opening's pay: the role's own rate, moved with the region's pay level
- * since it was set, never under the wage floor in force; the median of whoever
- * holds the role plays no part (owner, Oct 14). What the job's holder has
- * earned in it by tenure and how they work (`raisePay`) stays theirs: the
- * opening is priced from the role's rate without it.
+ * since it was set, never under the wage floor in force; the median of
+ * whoever holds the role plays no part. What the job's holder has earned in
+ * it by tenure and how they work (`raisePay`) stays theirs: the opening is
+ * priced from the role's rate without it.
  */
 function payFor(
   api: CoreAPI,
@@ -1731,12 +1731,12 @@ export function tenureYears(api: CoreAPI, job: JobInput): number {
 }
 
 /**
- * The owner who decides for a business today: its recorded owner, unless that
- * person has died. Until the estate settles the business
+ * The owner who decides for a business today: its recorded unless that person
+ * has died. Until the estate settles the business
  * (`world-estate-settles-loans-and-businesses`), the owners table can still
- * name the dead, and a dead owner decides nothing: the decision falls to whoever
- * the caller names next (Washington, District of Columbia, seed 23bc2900…c7289:
- * a layoff on July 1 named an owner who died on June 2).
+ * name the dead, and a dead owner decides nothing: the decision falls to
+ * whoever the caller names next.
+ *
  */
 function decidingOwnerOf(
   api: CoreAPI,
@@ -1748,7 +1748,7 @@ function decidingOwnerOf(
     : owner;
 }
 
-/** The full worker who runs a firm with no recorded owner: the best paid of those staying, ties by id. */
+/** The full worker who runs a firm with no recorded the best paid of those staying, ties by id. */
 function managerOf(
   c: CoreState,
   staff: readonly JobInput[],
@@ -3391,9 +3391,9 @@ function runWeek(api: CoreAPI): void {
   // considered for every opening near them; an employer that picks them makes
   // an offer, and the player answers it.
   const player = openToOffers(api);
-  // Only where someone at the employer knows them (owner, Oct 27: an offer
-  // comes through a person; Nov 16: "I didn't even apply for one"): a person
-  // the player knows or is kin to, on that employer's staff, speaks for them.
+  // Only where someone at the employer knows them: a person the player knows or
+  // is kin to, on that employer's staff, speaks for them.
+
   if (player)
     for (const position of byPlace.get(player.placeId) ?? [])
       if (
@@ -4764,11 +4764,11 @@ function earningsMovedSince(api: CoreAPI, date: string): number {
 
 /**
  * The employer picked the person the player controls: a person at the
- * employer makes the offer and holds the position until the deadline. The offer
- * is the `job-offered` record the director stages as a call from that person
- * (owner, Oct 27: a job offer comes through a person and a scene or not at
- * all); the employer withdraws it unanswered after the deadline. With nobody at
- * the employer to make it, there is no offer.
+ * employer makes the offer and holds the position until the deadline. The
+ * offer is the `job-offered` record the director stages as a call from that
+ * person; the employer withdraws it unanswered after the deadline. With
+ * nobody at the employer to make it, there is no offer.
+ *
  */
 function offerToPlayer(
   api: CoreAPI,

@@ -1,13 +1,13 @@
 /**
- * The electorate the world doesn't name, in one engine (owner, Oct 14, 2026):
- * the town's counted residents (two-level population) each vote from their
- * own record (age, traits, work hours, place in the town's lean order)
- * without being filled in as a full person, and every place outside them (the
- * rest of a county, district or state, other states) is counted on the same
- * engine at a coarser level: the town's counted voters re-placed on that
- * place's own lean and weighted to its eligible voters
- * (`electorate-places.ts`). Filled-in residents are full people and vote
- * through the named route. See docs/design/electorate-one-model.md.
+ * The electorate the world doesn't name, in one engine: the town's counted
+ * residents (two-level population) each vote from their own record (age,
+ * traits, work hours, place in the town's lean order) without being filled in
+ * as a full person, and every place outside them (the rest of a county,
+ * district or state, other states) is counted on the same engine at a coarser
+ * level: the town's counted voters re-placed on that place's own lean and
+ * weighted to its eligible voters (`electorate-places.ts`). Filled-in
+ * residents are full people and vote through the named route. See
+ * docs/design/electorate-one-model.md.
  */
 import {
   groupAgreement,
@@ -547,14 +547,14 @@ export interface CountedAppeal {
 
 /**
  * A door "yes" that still holds decides the voter's choice in proportion to
- * how far it holds (owner, Oct 29: a yes at the door is near-binding), on a
- * sliding scale with no threshold: the pledged candidate's total is lifted by
- * `holds` times the gap to the best rival's total without any pledge, so a
- * yes held in full keeps its candidate ahead by the pledge weight whatever
- * the other reasons sum to, a yes half held closes half the gap, and one
- * fully doubted adds nothing. The one rule for a named voter's appeal
- * (voting.ts) and a counted voter's (`countedAppeal`), read by each after its
- * totals are summed. `pledge` is the weight times how far the yes holds.
+ * how far it holds, on a sliding scale with no threshold: the pledged
+ * candidate's total is lifted by `holds` times the gap to the best rival's
+ * total without any pledge, so a yes held in full keeps its candidate ahead
+ * by the pledge weight whatever the other reasons sum to, a yes half held
+ * closes half the gap, and one fully doubted adds nothing. The one rule for a
+ * named voter's appeal (voting.ts) and a counted voter's (`countedAppeal`),
+ * read by each after its totals are summed. `pledge` is the weight times how
+ * far the yes holds.
  */
 export function liftHeldPledges(
   appeal: Record<
@@ -664,7 +664,7 @@ export function countedAppeal(
     const scandal = where.inTown
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
-    // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
+    // Their own word at the door.
     const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
     const warmth = where.warmths?.[entry.id] ?? 0;
     // The groups whose cause they share that backed the candidate (a group
@@ -866,19 +866,19 @@ function countedShareCoefficient(): number {
 
 /**
  * How a counted record's unpledged voters divide among the candidates on a
- * ballot without party labels (CTO, Nov 1, on one model, two tiers, owner
- * ruling 4861 and no dice): a record stands for many different residents, so
- * its weight splits by each candidate's share of the appeal,
- * exp(k a_i) / sum_j exp(k a_j) at the coefficient k of
- * `countedShareCoefficient`, as counted job choices split by the selection
- * weights times the count. A small appeal gap moves a few points of the
- * record, not the whole of it; a share of the count is not a roll.
- * Candidates alike in appeal share it evenly. A lone candidate keeps the
- * choice rule's own answer (`countedChoice`): the whole record where it is
- * not against them, none where it is. Shares sum to 1 (or to nothing). A
- * named voter (one person) and a household that gave its word at a door keep
- * first place (`countedChoice`). A count reads it through
+ * ballot without party labels: a record stands for many different residents,
+ * so its weight splits by each candidate's share of the appeal, exp(k a_i) /
+ * sum_j exp(k a_j) at the coefficient k of `countedShareCoefficient`, as
+ * counted job choices split by the selection weights times the count. A small
+ * appeal gap moves a few points of the record, not the whole of it; a share
+ * of the count is not a roll. Candidates alike in appeal share it evenly. A
+ * lone candidate keeps the choice rule's own answer (`countedChoice`): the
+ * whole record where it is not against them, none where it is. Shares sum to
+ * 1 (or to nothing). A named voter (one person) and a household that gave its
+ * word at a door keep first place (`countedChoice`). A count reads it through
  * `countedShareRule`, which keeps first place on a ballot with party labels.
+ *
+ *
  */
 export function countedShares(
   appeal: Readonly<Record<string, { readonly total: number }>>,
@@ -889,8 +889,8 @@ export function countedShares(
 /**
  * Whether a race's ballot sorts its candidates by party: their party sides
  * differ (a general election between parties). A ballot whose candidates all
- * carry the same side, a party's primary or a race without labels, does not
- * (CTO, Nov 1, 22:10 as amended for primaries).
+ * carry the same side, a party's primary or a race without labels, does not.
+ *
  */
 export function partyLabelled(
   field: readonly { readonly side: number }[],
@@ -900,14 +900,14 @@ export function partyLabelled(
 
 /**
  * How a counted record's people divide in one race, read once for a count
- * that applies it to every voter it holds (CTO, Nov 1, 18:20 as amended at
- * 22:10, and for primaries). Where the candidates' party sides are equal (no
- * labels, or one party's primary), by each candidate's share of their appeal
- * (`countedShares`). Where their party sides differ, the whole
- * record to its first place (`countedChoice`), as before: each place's
- * people already stand along the lean order where they split as the place
- * voted in 2024 (`orderPlacement`), so a share on top would count that
- * spread twice (D.C. would count 0.193 Republican against its 0.072).
+ * that applies it to every voter it holds. Where the candidates' party sides
+ * are equal (no labels, or one party's primary), by each candidate's share of
+ * their appeal (`countedShares`). Where their party sides differ, the whole
+ * record to its first place (`countedChoice`), as before: each place's people
+ * already stand along the lean order where they split as the place voted in
+ * 2024 (`orderPlacement`), so a share on top would count that spread twice
+ * (D.C. would count 0.193 Republican against its 0.072).
+ *
  */
 export function countedShareRule(
   field: readonly { readonly side: number }[],
@@ -1000,18 +1000,18 @@ export interface PlaceResult {
 }
 
 /**
- * The share of a counted record's people who back the right-hand candidate in a race between two
- * party candidates counted from afar. A record stands for the people over its own stretch of the
- * lean order (half of it, `halfStretch`, either side of its rank), not one person at its rank: on
- * that stretch their lean, and so the gap between the two candidates in their eyes, runs on a
- * line (a voter's appeal moves with lean times the candidate's side, `countedAppeal`, and lean
- * with twice the distance along the order), so the people past the point where the gap turns
- * back the right, the rest the left. `gap` is the right's appeal less the left's at the record's
- * own rank; at either end of the lean scale (`atEnd`) the stretch stands whole on one side. A
- * small move in a place's lean or a candidate's pull then moves the count (CTO line 6936407513,
- * Nov 17, 2026: "count ... over a continuous lean distribution, so that small moves matter"; the
- * replacement SG-GOV-counted-lean-spread named: "A spread of leans within each counted record on
- * the lean order").
+ * The share of a counted record's people who back the right-hand candidate in
+ * a race between two party candidates counted from afar. A record stands for
+ * the people over its own stretch of the lean order (half of it,
+ * `halfStretch`, either side of its rank), not one person at its rank: on
+ * that stretch their lean, and so the gap between the two candidates in their
+ * eyes, runs on a line (a voter's appeal moves with lean times the
+ * candidate's side, `countedAppeal`, and lean with twice the distance along
+ * the order), so the people past the point where the gap turns back the
+ * right, the rest the left. `gap` is the right's appeal less the left's at
+ * the record's own rank; at either end of the lean scale (`atEnd`) the
+ * stretch stands whole on one side. A small move in a place's lean or a
+ * candidate's pull then moves the count. SG-GOV-counted-lean-spread
  */
 export function rightPartOfRecord(
   gap: number,

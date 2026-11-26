@@ -1,11 +1,11 @@
 /**
- * Businesses growing: every business has an owner, and each month the owner
- * chooses how much of that month's profit to draw, never more than the
- * profit the business has kept. Where a place's market for a kind of
- * business has room, the owners of that kind's strong businesses choose
- * first whether to open another location there; if none does, the place's
- * adults choose whether to found one. Chains are repeated growth, never
- * scripted. Every payment moves through the ledger.
+ * Businesses growing: every business has an and each month the owner chooses
+ * how much of that month's profit to draw, never more than the profit the
+ * business has kept. Where a place's market for a kind of business has room,
+ * the owners of that kind's strong businesses choose first whether to open
+ * another location there; if none does, the place's adults choose whether to
+ * found one. Chains are repeated growth, never scripted. Every payment moves
+ * through the ledger.
  */
 import { BUSINESS_MODULE_ID } from "../business-module-id";
 import { noteEntryCause } from "../state";
@@ -228,7 +228,7 @@ export function publishedOutsideOwnedShare(api: CoreAPI): number {
   );
 }
 
-/** This world's share of jobs in outside-owned firms: the published share moved by the world's own draw (owner, Oct 27: realistic, not real). */
+/** This world's share of jobs in outside-owned firms: the published share moved by the world's own draw. */
 export function outsideOwnedShare(api: CoreAPI): number {
   return worldRate(
     publishedOutsideOwnedShare(api),
@@ -462,8 +462,8 @@ function stillOwns(c: CoreState, row: OwnerRow): boolean {
 }
 
 /**
- * The next owner: the business's best-paid, longest-serving full worker,
- * else an adult in the owner's family who owns nothing yet.
+ * The next the business's best-paid, longest-serving full worker, else an
+ * adult in the owner's family who owns nothing yet.
  */
 function successorOf(
   api: CoreAPI,
@@ -566,7 +566,7 @@ function succeed(api: CoreAPI): void {
         cause: previous?.alive ? "stopped-working" : "died",
       });
     if (!next) {
-      // Nobody to hand it to: the owner (or, if they died, their household) closes it and takes what's left.
+      // Nobody to hand it to: the or, if they died, their household) closes it and takes what's left.
       const heir = previous?.alive
         ? row.ownerId
         : estateHeir(api, row.id, row.ownerId);
@@ -2609,9 +2609,9 @@ export function openBusinessOwnerIds(api: CoreAPI): ReadonlySet<string> {
 
 /**
  * A person who already owns a business the book was added for (an outlet's
- * publisher, say) is recorded as its owner, so the owner's draws, hiring and
- * closing decisions run on it like any owner-operator's. No profit is owed
- * before the day of enrollment.
+ * publisher, say) is recorded as its so the owner's draws, hiring and closing
+ * decisions run on it like any owner-operator's. No profit is owed before the
+ * day of enrollment.
  */
 export function enrollBusinessOwner(
   api: CoreAPI,
@@ -2657,9 +2657,9 @@ export function publishedStateExitShare(api: CoreAPI): number {
 
 /**
  * The share of this world's businesses that close in a year: the state's
- * published rate moved by the world's own draw (owner, Oct 27: realistic,
- * not real). A base rate that checks totals and sizes the past years'
- * closures; no one business's closing is rolled from it.
+ * published rate moved by the world's own draw. A base rate that checks
+ * totals and sizes the past years' closures; no one business's closing is
+ * rolled from it.
  */
 export function stateExitShare(api: CoreAPI): number {
   return worldRate(

@@ -2,35 +2,35 @@
  * M1-05 golden-path check, housing, in a played world. Uses GOLDEN_PATH_SEED
  * and GOLDEN_PATH_PLACE_KEY from the runner. The drawn place is built as the
  * player gets it (`buildBenchWorld`, every module installed) and plays one
- * game year. Passes when:
- * (1) and (2) UNCHECKED (owner, Nov 8: real ranges are not targets): the
- *     town's median rent and median home value at the start and end of the
- *     year, beside the range of the county medians in its state (ACS
- *     2020-2024 B25064 and B25077, src/core2/data/housing/housing.json
- *     countyRentValue), and the year's move in the value beside the range of
- *     four-quarter ratios its state's FHFA all-transactions index recorded
- *     from 1985 on (housePriceIndex; the annual CPI-U ratios in
- *     src/core2/data/macro/history.json where FHFA has no state rows), are
- *     printed and never tested. Housing prices have no recorded cause of
- *     their own to test a value against yet: the engine moves the value by
- *     the replayed index (housing-prices.ts, a place in the code audit's
- *     list), so the clauses wait for Money's cycle and keep no range
- *     meanwhile;
- * (3) every eviction case on record opened from rent owed (owed at notice
- *     above zero, on a lease that exists) and carries the steps of the
- *     place's law as recorded (the same row of housing.json eviction,
- *     statute text in data/research/housing/eviction-steps-2026.json);
- * (4) every case followed those steps in order, each on the day the law's
- *     days give: notice, cure deadline (notice plus the notice days), filing
- *     on the cure deadline, hearing (filing plus the hearing days), judgment
- *     (the hearing, or later when a payment plan was missed), removal
- *     (judgment plus the stay days);
- * (5) every removal followed a judgment, ended the lease and left a
- *     dwelling marked removed for eviction (or rehoused since, for a
- *     household that rents again), and every household marked removed for
- *     eviction has a removed case behind it.
- * Exits nonzero naming each failed clause. A year with no case on record
- * passes clauses 3 to 5 and says so.
+ * game year. Passes when: (1) and (2) UNCHECKED: the town's median rent and
+ * median home value at the start and end of the year, beside the range of the
+ * county medians in its state (ACS 2020-2024 B25064 and B25077,
+ * src/core2/data/housing/housing.json countyRentValue), and the year's move
+ * in the value beside the range of four-quarter ratios its state's FHFA
+ * all-transactions index recorded from 1985 on (housePriceIndex; the annual
+ * CPI-U ratios in src/core2/data/macro/history.json where FHFA has no state
+ * rows), are printed and never tested. Housing prices have no recorded cause
+ * of their own to test a value against yet: the engine moves the value by the
+ * replayed index (housing-prices.ts, a place in the code audit's list), so
+ * the clauses wait for Money's cycle and keep no range meanwhile; (3) every
+ * eviction case on record opened from rent owed (owed at notice above zero,
+ * on a lease that exists) and carries the steps of the place's law as
+ * recorded (the same row of housing.json eviction, statute text in
+ * data/research/housing/eviction-steps-2026.json); (4) every case followed
+ * those steps in order, each on the day the law's days give: notice, cure
+ * deadline (notice plus the notice days), filing on the cure deadline,
+ * hearing (filing plus the hearing days), judgment (the hearing, or later
+ * when a payment plan was missed), removal (judgment plus the stay days); (5)
+ * every removal followed a judgment, ended the lease and left a dwelling
+ * marked removed for eviction (or rehoused since, for a household that rents
+ * again), and every household marked removed for eviction has a removed case
+ * behind it. Exits nonzero naming each failed clause. A year with no case on
+ * record passes clauses 3 to 5 and says so.
+ *
+ *
+ *
+ *
+ *
  */
 import { placeStateKey } from "../place-map";
 import housingData from "../data/housing/housing.json" with { type: "json" };
@@ -84,8 +84,8 @@ if (!rentRange || !valueRange)
     `rents and home values: unchecked, ${usps} has no county medians to make a regional range`,
   );
 // Printed beside the town's figures in the report below, never tested
-// against (owner, Nov 8: real ranges are not targets).
-// (2) The year's move in home values against the recorded annual moves.
+// against. (2) The year's move in home values against the recorded annual
+// moves.
 const hpi = (
   housingData.housePriceIndex.states as unknown as Record<
     string,

@@ -1,21 +1,21 @@
 /**
- * The world has a past (owner, Oct 14, 2026): the records of what happened
- * before day one, kept in one module so other engines read them by id.
+ * The world has a past: the records of what happened before day one, kept in
+ * one module so other engines read them by id. - `laws`: each law row's
+ * history (enactment, body, session, roll call, sponsor, signer, amendments),
+ * keyed `law-history:<law row id>`. - `elections`: the election that seated
+ * each officeholder, with both candidates, the votes, turnout and the town's
+ * voter groups' split. - `figures`: what the public knows about each public
+ * figure: office, positions, record, prior election and the reputation a
+ * public sees. - `closures`: each business that closed in the year before day
+ * one, by the id its archive story cites. The votes themselves go to the
+ * record engine's table and the promises to the campaigns engine's, where
+ * voting reads them; the archive goes to the news engine's stories. Nothing
+ * here is decided in play: who existed and what happened is generated once
+ * from the world's seed, and every choice in it (a vote, a split) follows a
+ * person's or group's recorded lean.
  *
- * - `laws`: each law row's history (enactment, body, session, roll call,
- *   sponsor, signer, amendments), keyed `law-history:<law row id>`.
- * - `elections`: the election that seated each officeholder, with both
- *   candidates, the votes, turnout and the town's voter groups' split.
- * - `figures`: what the public knows about each public figure: office,
- *   positions, record, prior election and the reputation a public sees.
- * - `closures`: each business that closed in the year before day one, by the
- *   id its archive story cites.
  *
- * The votes themselves go to the record engine's table and the promises to
- * the campaigns engine's, where voting reads them; the archive goes to the
- * news engine's stories. Nothing here is decided in play: who existed and
- * what happened is generated once from the world's seed, and every choice in
- * it (a vote, a split) follows a person's or group's recorded lean.
+ *
  */
 import { seededUnit } from "./seeded";
 import rows from "./data/past/parameters.json" with { type: "json" };

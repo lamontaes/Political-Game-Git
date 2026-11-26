@@ -3,34 +3,34 @@
  * a draw. Each adult carries a pull to leave that builds month by month: from
  * their stage of life (the counted tier's own leaving rule: how often people
  * their age in their state leave it this month by the country tier, and the
- * rest of their state as the destination weighing draws it) held back by
- * what ties them to the town (a home they own, children at home, relatives
- * here, a job), and from what happens to them (an eviction, a lost job, a
- * parent, child or sibling moving away), and their region's work against
- * their state's. Nothing scales the town back to a published rate. Each
- * month every adult weighs leaving against staying through the core's one
- * chooser; the pull is the reason to go. A householder takes their partner
- * and children; a grown child living with a parent leaves on their own.
- * Where they go is a record, never a draw: to a relative living elsewhere,
- * else the state the destination weighing ranks highest for their pay and
- * tenure (the rest of their own state among them).
+ * rest of their state as the destination weighing draws it) held back by what
+ * ties them to the town (a home they own, children at home, relatives here, a
+ * job), and from what happens to them (an eviction, a lost job, a parent,
+ * child or sibling moving away), and their region's work against their
+ * state's. Nothing scales the town back to a published rate. Each month every
+ * adult weighs leaving against staying through the core's one chooser; the
+ * pull is the reason to go. A householder takes their partner and children; a
+ * grown child living with a parent leaves on their own. Where they go is a
+ * record, never a draw: to a relative living elsewhere, else the state the
+ * destination weighing ranks highest for their pay and tenure (the rest of
+ * their own state among them). A leaver's records stay. Their job ends, the
+ * household's rent and spending here end, they take the destination as their
+ * place (with their household, or in a new one there when others stay), so
+ * the town's residents and voter rolls no longer list them, and they are no
+ * longer simulated in town (the same inactive tier as relatives who live
+ * elsewhere). The ACS rates check a year's totals against the simulation,
+ * never set them. Every life is simulated: a relative or acquaintance who
+ * lives in another real place (the inactive tier, kept minimal until met)
+ * builds the same monthly pull at their own stage of life, weighs it through
+ * the same chooser and moves to a relative's place, else the state the
+ * destination weighing ranks highest, else elsewhere in their state. Their
+ * ties are read where they live (their household, partner and relatives
+ * there). A move there is the same dated record, witnessed by their relatives
+ * in town; it moves no money and fills nobody in (two-level population).
  *
- * A leaver's records stay. Their job ends, the household's rent and spending
- * here end, they take the destination as their place (with their household,
- * or in a new one there when others stay), so the town's residents and voter
- * rolls no longer list them, and they are no longer simulated in town (the
- * same inactive tier as relatives who live elsewhere). The ACS rates check a
- * year's totals against the simulation, never set them.
  *
- * Every life is simulated (owner, Nov 1, 2026: "EVERY. LIFE. IS. SIMULATED.
- * ... THIS IS LOW INTENSITY STUFF."): a relative or acquaintance who lives
- * in another real place (the inactive tier, kept minimal until met) builds
- * the same monthly pull at their own stage of life, weighs it through the
- * same chooser and moves to a relative's place, else the state the
- * destination weighing ranks highest, else elsewhere in their state. Their ties are read
- * where they live (their household, partner and relatives there). A move
- * there is the same dated record, witnessed by their relatives in town; it
- * moves no money and fills nobody in (two-level population).
+ *
+ *
  */
 import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import { worldRateFactor } from "../world-base-rates";

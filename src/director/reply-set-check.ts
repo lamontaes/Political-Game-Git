@@ -6,11 +6,11 @@ import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 const MOST = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
 
 /**
- * A talk offers up to four replies, and the scene sets the count (owner,
- * Nov 10, 2026: "it's also allowed to have less than 4 options sometimes...
- * So just up to 4."). One to four, every one a different answer: no two share
- * a move or say the same text. Fails on none, on more than four, and on two
- * replies that are one answer reworded.
+ * A talk offers up to four replies, and the scene sets the count. One to
+ * four, every one a different answer: no two share a move or say the same
+ * text. Fails on none, on more than four, and on two replies that are one
+ * answer reworded.
+ *
  */
 export function expectUpToFourDifferent(
   rows: ReadonlyArray<{ move: string; text: string }>,

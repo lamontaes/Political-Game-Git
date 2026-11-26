@@ -92,9 +92,9 @@ export class BenchPlayer {
     }
     this.personId = id;
     this.director.watch(this.core, id);
-    // Their household too: a talk at home opens on the biggest recorded
-    // event of either person, which the director reads from its ledger
-    // (owner, Oct 14, 2026, night).
+    // Their household too: a talk at home opens on the biggest recorded event of
+    // either person, which the director reads from its ledger.
+
     const person = this.core.people.get(id)!;
     for (const memberId of this.core.households.get(person.householdId)
       ?.memberIds ?? [])
@@ -242,9 +242,9 @@ export class BenchPlayer {
     if (!(hours > 0) || !Number.isFinite(hours)) return undefined;
     if (this.pollingPlace) return undefined;
     if (this.packet && this.packet.kind !== "complete") return undefined;
-    // A fresh clock stands at the start of the next day, and the day is lived to its start
-    // (owner, Oct 27: nothing at midnight): a first act's hours run from the morning, never
-    // from 12:00 AM.
+    // A fresh clock stands at the start of the next day, and the day is lived to
+    // its start: a first act's hours run from the morning, never from 12:00
+    // AM.
     const at = this.packet?.at ?? {
       date: addDays(makeIsoDate(this.core.date), 1),
       minuteOfDay: this.dayStartMinute(),
@@ -299,8 +299,8 @@ export class BenchPlayer {
     while (true) {
       if (!packet || packet.kind === "complete") {
         if (packet) from = packet.at;
-        // The birthday is met in its morning, like any day's first scene
-        // (owner, Oct 27: nothing at midnight): the day is lived to its start.
+        // The birthday is met in its morning, like any day's first scene: the day is
+        // lived to its start.
         if (
           comesOfAge === from.date &&
           from.minuteOfDay < this.dayStartMinute() &&
@@ -354,11 +354,11 @@ export class BenchPlayer {
           this.electionNights.add(night);
           break;
         }
-        // Election day is a scene (owner, Oct 14 and 26, 2026): the director
-        // stages the polls at the eve's close for a voter the count counts,
-        // so election morning, with the choice to go vote, comes before the
-        // core enters it. The clock's midnight is the start of the core's
-        // next day.
+        // Election day is a scene: the director stages the polls at the eve's close
+        // for a voter the count counts, so election morning, with the choice
+        // to go vote, comes before the core enters it. The clock's midnight
+        // is the start of the core's next day.
+
         const polls = stagedPollingVisit(
           this.core,
           this.director.ledger,
@@ -398,9 +398,9 @@ export class BenchPlayer {
         this.comesOfAgeStop(comesOfAge, began, packet.at.date)
       )
         break;
-      // Day never opens a choice list (owner, Oct 14, 2026): the character
-      // answers its own choices with the core's selection, and only a stop
-      // (a director scene, a fixed commitment or a deadline) ends the advance.
+      // Day never opens a choice list: the character answers its own choices with
+      // the core's selection, and only a stop (a director scene, a fixed
+      // commitment or a deadline) ends the advance.
       if (packet.kind === "choice") {
         packet = this.answerForSelf(packet, "advancing");
         continue;

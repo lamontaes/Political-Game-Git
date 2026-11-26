@@ -1,9 +1,9 @@
 /**
- * Trait coverage (OPUS-TRAITS, Oct 12, 2026): for every trait in
- * `data/content/trait-act-pulls.json`, the person-decisions in
- * `data/content/trait-decisions.json` that each side of it changes. A side
- * changes a decision when its pulls favor one of the decision's options over
- * another. Tooling only; it reads the data files from disk.
+ * Trait coverage: for every trait in `data/content/trait-act-pulls.json`, the
+ * person-decisions in `data/content/trait-decisions.json` that each side of
+ * it changes. A side changes a decision when its pulls favor one of the
+ * decision's options over another. Tooling only; it reads the data files from
+ * disk.
  */
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";

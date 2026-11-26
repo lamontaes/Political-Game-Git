@@ -34,10 +34,10 @@ let lastType = "";
  */
 export async function devScenePanel({ labels, wordOf, onDone }) {
   const scenes = await send("scenes");
-  // Every kind, under the one of three headings that says what dev mode can do for it (the
-  // engines' own records decide it, `scenes()`): bring it about now, run the world until its
-  // cause record comes, or nothing yet. No line under any button (owner, Nov 8, 2:15 a.m.: no
-  // subtexts); a kind nothing can start is listed and cannot be picked.
+  // Every kind, under the one of three headings that says what dev mode can do
+  // for it (the engines' own records decide it, `scenes`): bring it about
+  // now, run the world until its cause record comes, or nothing yet. No line
+  // under any button; a kind nothing can start is listed and cannot be picked.
   const STATES = ["plays", "waits", "none"];
   const startable = scenes.filter((row) => row.state !== "none");
   let chosen =

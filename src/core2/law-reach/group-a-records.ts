@@ -538,7 +538,7 @@ export function applyRecords(
 /** The calendar kind that re-reads a person's age-gated rows on the day their age or their home's youngest child's age crosses a gate. */
 const REACH_AGE_KIND = "reach-age-check";
 
-/** The day a person turns `years`, a February 29 birthday falling on March 1 in a common year. */
+/** The day a person turns `years`, a birthday falling on in a common year. */
 function birthdayAt(birthDate: string, years: number): string {
   const year = Number(birthDate.slice(0, 4)) + years;
   const rest = birthDate.slice(4);

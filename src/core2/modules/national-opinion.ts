@@ -1,15 +1,15 @@
 /**
- * The country's opinion of its president (Nation, Nov 8, 2026). On the third
- * of each month one row says what share of adults approve of the sitting
- * president and why: a slow base that moves by the economy the Money engine
- * runs (each month's change in unemployment and inflation, read from the
- * macro months, so a year's rise moves it by the paper's size for a year's
- * rise) and a fast part that is the sum of the decaying pushes other
- * engines write (a disaster handled, a scandal, a crisis). The base is pulled
- * toward no level and kept in no range: it moves only by what happened.
- * Nothing is rolled and nothing flips at a threshold. The race engine reads the latest
- * row for the president's party (electorate-inputs.ts); a row cites the macro
- * months and the pushes it was built from.
+ * The country's opinion of its president. On the third of each month one row
+ * says what share of adults approve of the sitting president and why: a slow
+ * base that moves by the economy the Money engine runs (each month's change
+ * in unemployment and inflation, read from the macro months, so a year's rise
+ * moves it by the paper's size for a year's rise) and a fast part that is the
+ * sum of the decaying pushes other engines write (a disaster handled, a
+ * scandal, a crisis). The base is pulled toward no level and kept in no
+ * range: it moves only by what happened. Nothing is rolled and nothing flips
+ * at a threshold. The race engine reads the latest row for the president's
+ * party (electorate-inputs.ts); a row cites the macro months and the pushes
+ * it was built from.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
 import data from "../data/electorate/national-opinion.json";
@@ -44,7 +44,7 @@ export interface PresidentElection {
   readonly date: string;
   /** The winner's share of the two-party vote, 0 to 1, as the past election recorded it. */
   readonly share: number;
-  /** Inauguration Day after that election (U.S. Const. amend. XX, § 1): January 20 of the next year. */
+  /** Inauguration Day after that election (U.S. Const. amend. XX, § 1): of the next year. */
   readonly inauguration: string;
 }
 

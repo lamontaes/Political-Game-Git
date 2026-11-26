@@ -1,28 +1,28 @@
 /**
- * Housing before the start (owner, Nov 13, 2026: "it's simulated... things
- * need to be simulated in order to make your modern day make sense"; Oct 27:
- * "The engines run the years before Start"). The housing engine's own rules
- * run over the world's coarse window, after the people and moves passes, so
- * day one's leases, rents and home values have a past:
+ * Housing before the start. The housing engine's own rules run over the
+ * world's coarse window, after the people and moves passes, so day one's
+ * leases, rents and home values have a past: - Each household's tenancy began
+ * on one date: a full household's latest move record (the moves pass), a
+ * counted renter's years in place (the opening's `since`), a counted owner's
+ * purchase year (the opening's ACS B25038 draw the mortgages read). The
+ * household's `since` and its dwelling's are set to it, so a household has
+ * one past. - Rents run forward: the town's market rent moves with pay (the
+ * economy pass's months, the renewal rule's pay ratio), its level set once
+ * per place so the median rent paid on day one is the opening's sourced
+ * median. A lease signs at the market rent then and renews on each
+ * anniversary of its signing month; day one's rent is the rent its last
+ * renewal set. - Home values follow this world's price level from each
+ * purchase (`pastPriceRatio`: the housing engine's monthly price step run
+ * from the economy's months, the path play continues and the mortgages read).
+ * A full owner's mortgage is restated from the year its move record says it
+ * bought. - Each place's typical rent and home value, at every step and each
+ * December, are kept as history and as the registry's year rows, so Metrics
+ * reads last year on day one as it does from month 13 on.
  *
- * - Each household's tenancy began on one date: a full household's latest
- *   move record (the moves pass), a counted renter's years in place (the
- *   opening's `since`), a counted owner's purchase year (the opening's ACS
- *   B25038 draw the mortgages read). The household's `since` and its
- *   dwelling's are set to it, so a household has one past.
- * - Rents run forward: the town's market rent moves with pay (the economy
- *   pass's months, the renewal rule's pay ratio), its level set once per
- *   place so the median rent paid on day one is the opening's sourced median.
- *   A lease signs at the market rent then and renews on each anniversary of
- *   its signing month; day one's rent is the rent its last renewal set.
- * - Home values follow this world's price level from each purchase
- *   (`pastPriceRatio`: the housing engine's monthly price step run from the
- *   economy's months, the path play continues and the mortgages read). A
- *   full owner's mortgage is restated from the year its move record says it
- *   bought.
- * - Each place's typical rent and home value, at every step and each
- *   December, are kept as history and as the registry's year rows, so
- *   Metrics reads last year on day one as it does from month 13 on.
+ *
+ *
+ *
+ *
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { tenants } from "./housing-occupancy";

@@ -43,7 +43,7 @@ export const FILING_LEAD_SOURCE =
 
 /** The Tuesday after the first Monday in November of a year. */
 export function novemberGeneralElectionDay(year: number): IsoDate {
-  // November 2 through 8: the first Tuesday that follows a Monday in November.
+  // through 8: the first Tuesday that follows a Monday in November.
   for (let day = 2; day <= 8; day += 1) {
     const date = new Date(Date.UTC(year, 10, day));
     if (date.getUTCDay() === 2)

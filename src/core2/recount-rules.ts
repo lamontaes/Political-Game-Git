@@ -1,8 +1,8 @@
 /**
- * Each place's recount rule (owner, Nov 10, 2026: "Recount by own states
- * rules"), read from data/research/elections/recount-rules-2026.json by the
- * one count (src/core2/modules/voting.ts, keepCount). Pure: a count's margin
- * against the place's tiers, no world state.
+ * Each place's recount rule, read from
+ * data/research/elections/recount-rules-2026.json by the one count
+ * (src/core2/modules/voting.ts, keepCount). Pure: a count's margin against
+ * the place's tiers, no world state.
  */
 import rules from "../../data/research/elections/recount-rules-2026.json" with { type: "json" };
 

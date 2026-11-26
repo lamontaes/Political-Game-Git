@@ -85,12 +85,12 @@ function wellOverUsual(item: {
 
 /**
  * The share of a brief's space a measure that stands off the place's own
- * usual gets (Words lead, Nov 14: a police log's space slides with how far
- * the month is from the town's usual, down to nothing). The record carries
- * `vsUsual`, this month's measure over the place's usual; a share at or under
- * the floor has no space, one at the ceiling or over it has all of it, and
- * every share between has its own. A brief with no usual to compare keeps all
- * its space.
+ * usual gets. The record carries `vsUsual`, this month's measure over the
+ * place's usual; a share at or under the floor has no space, one at the
+ * ceiling or over it has all of it, and every share between has its own. A
+ * brief with no usual to compare keeps all its space.
+ *
+ *
  */
 export function usualSpace(
   item: { readonly facts?: Readonly<Record<string, unknown>> },
@@ -760,14 +760,14 @@ export function runDesk(
       !(item.kind === NOTICE_KIND && ctx.paperOfRecord?.(outlet) === false),
   );
   if (!open.length || !outlet.reporterIds.length) return [];
-  // A body's sitting is news for what it did, not that it sat (CTO, Nov 1,
-  // under the owner's "real ones with some good fluff or else it will get
-  // old"): one that took up business is told by its votes, one story a
-  // bill, so its own record prints only where none of its votes reached the
-  // wire; one that took up nothing goes in the week's meetings brief. A
-  // county board's sittings filled 94 of a year's headlines in Blunt, South
-  // Dakota, seed paper-nov1:2, all "Hughes County Board of Commissioners
-  // meets".
+  // A body's sitting is news for what it did, not that it sat: one that took up
+  // business is told by its votes, one story a bill, so its own record prints
+  // only where none of its votes reached the wire; one that took up nothing
+  // goes in the week's meetings brief. A county board's sittings filled 94 of
+  // a year's headlines in Blunt, South Dakota, seed paper-nov1:2, all "Hughes
+  // County Board of Commissioners meets".
+
+
   const routine = open.filter(
     (item) => item.kind === MEETING_KIND && !(Number(item.facts?.items) > 0),
   );
@@ -860,12 +860,12 @@ export function runDesk(
     // town's, as a law in force is: every follower, named or counted.
     if (TOWN_WIDE_BRIEFS.has(item.kind))
       return followers.length + ctx.countedFollowers(outlet);
-    // A local body's vote on a bill (the town's, or the county's that covers
-    // it), carried or failed, decides a rule for the whole town as a law in
-    // force binds it: every follower, named or counted, is involved (a
-    // council member's own ordinance went unprinted behind town halls,
-    // Mentor, Kentucky, Oct 29; a county board member's in Mimbres, New
-    // Mexico, seed 2f279bff0762b7f00275).
+    // A local body's vote on a bill (the town's, or the county's that covers it),
+    // carried or failed, decides a rule for the whole town as a law in force
+    // binds it: every follower, named or counted, is involved.
+
+
+
     if (sittingVote(item))
       return followers.length + ctx.countedFollowers(outlet);
     // A budget the executive signs or vetoes binds the whole town as much as
@@ -924,14 +924,14 @@ export function runDesk(
     (item) => item.kind === LETTER_KIND && item.facts?.outletId === outlet.id,
   );
   // The outlet's own endorsement is news of its own pages, filed under its
-  // head's name: printed after the column, as a letter is, never a
-  // reporter's pick. It is told as news of the endorsement, not an editorial
-  // in the paper's voice (Words lead, Nov 15; item
-  // words-paper-endorsement-in-its-own-voice). It is the race's endorsement
-  // story at this outlet that week, so no group's endorsement of the same
-  // race takes its place (Marshfield, Massachusetts, seed 75d9b7ad: five
-  // papers' endorsements went unprinted behind cause groups' of the same
-  // races, Sep 29 to Oct 8, 2025).
+  // head's name: printed after the column, as a letter is, never a reporter's
+  // pick. It is told as news of the endorsement, not an editorial in the
+  // paper's voice. It is the race's endorsement story at this outlet that
+  // week, so no group's endorsement of the same race takes its place.
+
+
+
+
   const ownEndorsements = open.filter(
     (item) =>
       item.kind === ENDORSED_KIND &&
@@ -1052,9 +1052,9 @@ export function runDesk(
         taken.add(one.item.id);
         const race = raceTold(one.item);
         if (race) racesTold.add(race);
-        // One story a bill: a failed bill's vote and its failure are one.
-        // One story a race: the seats of a race that fills several at once
-        // are one count, told once (Words lead, Nov 13, rule 30).
+        // One story a bill: a failed bill's vote and its failure are one. One story a
+        // race: the seats of a race that fills several at once are one count,
+        // told once.
         const billId = String(
           one.item.facts?.billId ?? one.item.facts?.race ?? one.item.id,
         );
@@ -1077,10 +1077,10 @@ export function runDesk(
       }
     }
   }
-  // The briefs column (owner, Oct 29: side stories, "a line or two"): a
-  // local outlet prints the short items from the town's own records that its
-  // reporters left (data/press/briefs.json), the most read first, up to its
-  // space; a week whose records hold none prints none.
+  // The briefs column: a local outlet prints the short items from the town's
+  // own records that its reporters left (data/press/briefs.json), the most
+  // read first, up to its space; a week whose records hold none prints none.
+
   const filer = outlet.reporterIds.find(
     (id) => api.state.people.get(id)?.alive,
   );

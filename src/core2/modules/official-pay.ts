@@ -283,12 +283,12 @@ function payerFor(api: CoreAPI, row: OfficialRow): string {
 
 /**
  * An official of another state is counted, not paid person by person, until
- * the player knows them or they are in focus (owner, Nov 5: simulate from the
- * people there, keep only the result, generate on demand; the same people the
- * "why" records are kept for, `keepsWhy`). Their salary is still the seat's;
- * the pay row, post, living cost and monthly paycheck start the payday after
- * they are met, with no back pay. Federal officials and the player's own
- * state are paid from the start. stopgapId: SG-GOV-outside-officials-counted
+ * the player knows them or they are in focus. Their salary is still the
+ * seat's; the pay row, post, living cost and monthly paycheck start the
+ * payday after they are met, with no back pay. Federal officials and the
+ * player's own state are paid from the start. stopgapId:
+ * SG-GOV-outside-officials-counted
+ *
  */
 function countedUntilMet(api: CoreAPI, row: OfficialRow): boolean {
   if (isFederal(row)) return false;

@@ -368,11 +368,11 @@ function exactAge(api: CoreAPI, birthDate: IsoDate, date: IsoDate): number {
 }
 
 /**
- * Owner ruling, October 9, 2026: each person carries their own resilience
- * line, a generation fact keyed to them. Under the life table's proportional
- * hazards, the integrated hazard a person reaches at death is spread as a unit
- * exponential, so the line is that spread read at the person's stable key.
- * No decision reads it as a chance; strain still builds smoothly from causes.
+ * Owner ruling,: each person carries their own resilience line, a generation
+ * fact keyed to them. Under the life table's proportional hazards, the
+ * integrated hazard a person reaches at death is spread as a unit
+ * exponential, so the line is that spread read at the person's stable key. No
+ * decision reads it as a chance; strain still builds smoothly from causes.
  */
 function resilienceLine(api: CoreAPI, data: HealthData, personId: string) {
   api.stopgap(data.resilience.stopgapId);
@@ -980,9 +980,9 @@ function admitHusks(api: CoreAPI, data: HealthData, row: HealthRuntime) {
 }
 
 /**
- * Another place's holders nobody has opened are not even husks (CTO, Nov 18
- * 13:44Z), but they live by the same rule: each gets the health record a
- * husk gets, from who their engine says they are, on the day they join.
+ * Another place's holders nobody has opened are not even husks, but they live
+ * by the same rule: each gets the health record a husk gets, from who their
+ * engine says they are, on the day they join.
  */
 function admitUnbuilt(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   const core = api.state as CoreState;

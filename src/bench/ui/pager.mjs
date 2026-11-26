@@ -1,10 +1,10 @@
 /* global requestAnimationFrame, ResizeObserver, getComputedStyle */
 // The one long-list box: a bounded box that shows `rows` rows and scrolls
-// inside itself for the rest. No arrows and no "1 of N" (owner, Nov 8: "like
-// those shitty survey sites"); the menu panel itself still never scrolls (Oct
-// 29), only this box. The box keeps its height, so a short list never moves
-// the screen. A list this long sits beside its detail (patch notes, the
-// journal's chapters): choosing a row shows its detail, it never turns a page.
+// inside itself for the rest. No arrows and no "1 of N"; the menu panel
+// itself still never scrolls, only this box. The box keeps its height, so a
+// short list never moves the screen. A list this long sits beside its detail
+// (patch notes, the journal's chapters): choosing a row shows its detail, it
+// never turns a page.
 import { el } from "./dom.mjs";
 
 /**

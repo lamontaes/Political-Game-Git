@@ -1,12 +1,12 @@
 /**
- * The full people are a representative sample of the town, plus the
- * player's circle (owner, Oct 12, ruling 4). Before the town collapses to
- * two levels, its households outside the circle are grouped by the oldest
- * member's age band and the household's pay (above or below the median), and one household
- * per group stays full. Which household is seeded (generation of who exists);
- * each of its people stands for their group's share of the town (a weight),
- * for estimates such as polls and views. The counted voter groups still cast
- * the counted people's votes, so weights are for estimating, not voting.
+ * The full people are a representative sample of the town, plus the player's
+ * circle. Before the town collapses to two levels, its households outside the
+ * circle are grouped by the oldest member's age band and the household's pay
+ * (above or below the median), and one household per group stays full. Which
+ * household is seeded (generation of who exists); each of its people stands
+ * for their group's share of the town (a weight), for estimates such as polls
+ * and views. The counted voter groups still cast the counted people's votes,
+ * so weights are for estimating, not voting.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";

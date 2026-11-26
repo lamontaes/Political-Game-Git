@@ -420,11 +420,11 @@ export interface CountedBallotsRow {
    * Each record's voters for each candidate before turnout, in field order:
    * its unpledged weight divided by the race's rule (`countedShareRule`: each
    * candidate's share of their appeal without party labels, whole to the
-   * first with them), plus a pledged household's whole vote
-   * (`countedDivision`; CTO, Nov 1). The count is each row times the
-   * record's turnout (`voted`), all of it times the share of the town's
-   * people who may vote (`countedScale`: citizens, less those barred for a
-   * felony conviction).
+   * first with them), plus a pledged household's whole vote. The count is
+   * each row times the record's turnout (`voted`), all of it times the share
+   * of the town's people who may vote (`countedScale`: citizens, less those
+   * barred for a felony conviction).
+   *
    */
   readonly split: readonly (readonly number[])[];
 }
@@ -899,9 +899,9 @@ function districtPartOfCounty(api: CoreAPI, contest: ContestRow): number {
 
 /**
  * The signatures a petition needs in this world: the number the race's own
- * law sets for the race's own electorate (owner, Nov 14). A town race reads
- * the town's voters, and its petition asks no more names than the town has.
- * A county, district, state or federal race reads its whole electorate
+ * law sets for the race's own electorate. A town race reads the town's
+ * voters, and its petition asks no more names than the town has. A county,
+ * district, state or federal race reads its whole electorate
  * (`wideElectorate`): the law's count, or its formula computed from those
  * voters (the votes the world recorded for the office, else the two-party
  * votes the race's places last cast), gathered in the town and, outside it,
@@ -1223,12 +1223,12 @@ function namedPledges(
 
 /**
  * How far something heavy the voter learned since their "yes" at the door
- * undoes it, 0 to 1, read from their own records (owner, Oct 29: near-binding
- * unless something heavy changes their mind): a scandal story about the
+ * undoes it, 0 to 1, read from their own records: a scandal story about the
  * candidate that reached them after they said it, by how far they trust the
  * press; a rival in the race they are closer to than the candidate; and the
  * candidate's promises they heard made that the candidate's votes have broken
  * since. Each slides; none flips.
+ *
  */
 export function pledgeDoubt(
   api: CoreAPI,
@@ -1328,14 +1328,14 @@ export interface CountedDivision {
 /**
  * How a counted record's voters divide (one model, two tiers): the record
  * stands for `weight` different residents, so its unpledged voters split by
- * the race's rule (`shares`, from `countedShareRule` once per count; CTO,
- * Nov 1): each candidate's share of their appeal on a ballot without party
- * labels, whole to the first on one with them. A door reaches one household,
- * never the whole record, and its "yes" is near-binding (owner, Oct 29):
- * that household votes whole on its word (first place, `countedChoice`), and
- * where the record stands for several, the others split as they would have
- * without it. A word that something heavy has wholly undone (nothing of it
- * still holds) binds no one: that household divides with the rest.
+ * the race's rule: each candidate's share of their appeal on a ballot without
+ * party labels, whole to the first on one with them. A door reaches one
+ * household, never the whole record, and its "yes" is near-binding: that
+ * household votes whole on its word (first place, `countedChoice`), and where
+ * the record stands for several, the others split as they would have without
+ * it. A word that something heavy has wholly undone (nothing of it still
+ * holds) binds no one: that household divides with the rest.
+ *
  */
 export function countedDivision(
   appeal: Readonly<Record<string, CountedAppeal>>,
@@ -2714,8 +2714,8 @@ function countPrimary(
   };
   // The wider electorate sees the field as the town's counted voters do: the
   // candidates' public standing, the incumbent's name and record, and their
-  // places on the ballot (CTO, Oct 14: a race is never left blank by most
-  // voters for want of a platform to tell candidates apart).
+  // places on the ballot.
+
   const primaryField = (field: readonly FilingRow[]) =>
     countedField(api, contest, field);
   const countCounted = (
@@ -5156,11 +5156,11 @@ const ASK_KINDS = ["confront", "distrust", "take-risk"] as const;
 const CONCEDE_KINDS = ["concede", "cooperate", "trust"] as const;
 
 /**
- * A count's margin against the place's recount rule (owner, Nov 10, 2026:
- * "Recount by own states rules"): inside the automatic margin a recount
- * opens by itself; inside the margin a candidate may ask in, the candidate
- * behind decides from their own traits and how close it was, and the player
- * is offered the choice on election night. No roll.
+ * A count's margin against the place's recount rule: inside the automatic
+ * margin a recount opens by itself; inside the margin a candidate may ask in,
+ * the candidate behind decides from their own traits and how close it was,
+ * and the player is offered the choice on election night. No roll.
+ *
  */
 function openRecount(
   api: CoreAPI,
@@ -5405,12 +5405,12 @@ function heldByRecount(
 }
 
 /**
- * Keep results, not their history (governing lead; speed, Oct 29): once a
- * town contest's election night has a result, the returns and places of the
- * town's older contests go. Every result stays, and the prior-election
- * records the opening paper reads are a separate table, so they stay whole.
- * A race the town does not vote in keeps its own. With bookkeeping on (tests
- * and proofs) every row stays.
+ * Keep results, not their history: once a town contest's election night has a
+ * result, the returns and places of the town's older contests go. Every
+ * result stays, and the prior-election records the opening paper reads are a
+ * separate table, so they stay whole. A race the town does not vote in keeps
+ * its own. With bookkeeping on (tests and proofs) every row stays.
+ *
  */
 export function dropOlderTownReturns(
   api: CoreAPI,
@@ -5664,14 +5664,14 @@ export function ballotOf(
 }
 
 /**
- * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): a race's
- * counted ballots (every counted voter's turnout, split and reasons) are
- * read only by the "why did this resident vote so" lookups (`countedBallotOf`,
- * `countedBallotsOf`); the race's result, returns and the named voters'
- * ballots stay. In play, when a new race's counted ballots are kept, those
- * of races more than countedBallotRetentionDays past go. Kept, they were
- * 80 MB in 45 rows at Montpelier, Vermont, year 4 (Nov 9, 2026). With
- * bookkeeping on (tests, proofs) every row stays.
+ * Keep results, not their history: a race's counted ballots (every counted
+ * voter's turnout, split and reasons) are read only by the "why did this
+ * resident vote so" lookups (`countedBallotOf`, `countedBallotsOf`); the
+ * race's result, returns and the named voters' ballots stay. In play, when a
+ * new race's counted ballots are kept, those of races more than
+ * countedBallotRetentionDays past go. Kept, they were 80 MB in 45 rows at
+ * Montpelier, Vermont, year 4. With bookkeeping on (tests, proofs) every row
+ * stays.
  */
 export function dropOldCountedBallots(api: CoreAPI): void {
   const rows = table(api, "countedBallots");
@@ -5985,8 +5985,8 @@ function seatOfRaceId(id: string): string | null {
 
 /**
  * A race the town doesn't vote in, by its id: its row, or, once folded, its
- * entry in its seat's newest race row (OWNER-DECISIONS, Nov 1 23:40: a folded
- * race is found by its id inside its seat's summary).
+ * entry in its seat's newest race row.
+ *
  */
 export function raceById(
   api: CoreAPI,
@@ -6007,15 +6007,15 @@ export function raceById(
 }
 
 /**
- * Old outside races fold (core-long-run-election-and-term-rows, the laws
- * lead's answer of Nov 2): on a general election day, every race the town
+ * Old outside races fold: on a general election day, every race the town
  * doesn't vote in (picked by its `race:` id, never by following a resultId:
  * the presidency's row carries the town's own count) that was counted
- * strictly before the previous general election drops its count, its
- * places and its returns, its votes already kept on its row; and each
- * seat's older race rows fold into the seat's newest seated race row as a
- * summary. A race whose winner is not yet seated, and every presidential
- * row and count, is kept whole.
+ * strictly before the previous general election drops its count, its places
+ * and its returns, its votes already kept on its row; and each seat's older
+ * race rows fold into the seat's newest seated race row as a summary. A race
+ * whose winner is not yet seated, and every presidential row and count, is
+ * kept whole.
+ *
  */
 export function foldOutsideRaces(api: CoreAPI, before: string): void {
   const today = api.state.date;
@@ -6717,11 +6717,11 @@ export function electoralCollege(
 }
 
 /**
- * January 6: no ticket won a majority of the electors, so the House chooses
- * the president by state delegation and the Senate the vice president. Every
+ * no ticket won a majority of the electors, so the House chooses the
+ * president by state delegation and the Senate the vice president. Every
  * member's vote and the parts of it are kept (the `contingent` table); the
- * presidency row takes the choice, or the one who acts when the House
- * chose no one by the start of the term.
+ * presidency row takes the choice, or the one who acts when the House chose
+ * no one by the start of the term.
  */
 function decideContingent(api: CoreAPI, year: number): void {
   const row = table(api, "races").get(`presidential:${year}`) as unknown as
@@ -6828,7 +6828,7 @@ function townPresidentialVote(
   return null;
 }
 
-/** Noon, January 20: the president-elect and their running mate take office. */
+/** Noon,: the president-elect and their running mate take office. */
 function inaugurate(api: CoreAPI, rowId: string): void {
   const row = table(api, "races").get(rowId) as unknown as
     PresidentialRow | undefined;
@@ -7571,9 +7571,9 @@ function keepRace(
 
 /** The ticket a running mate is weighed for: one governor candidate's, in the ticket office's contest. */
 function ticketOf(governorFiling: FilingRow, ticketContest: ContestRow) {
-  // No "|" in the id: a newcomer offered takes their person id from it, and
-  // the money engines key payments as "<government>|<person>" (a "|" in a
-  // person id cut the payee short at the month's food aid, Nov 14).
+  // No "|" in the id: a newcomer offered takes their person id from it, and the
+  // money engines key payments as "<government>|<person>".
+
   return {
     id: `${ticketContest.id}:ticket:${governorFiling.personId}`,
     seatId: ticketContest.seatId,
@@ -7581,17 +7581,17 @@ function ticketOf(governorFiling: FilingRow, ticketContest: ContestRow) {
   };
 }
 
-/** How many people of their party a player running for governor chooses a running mate from (owner, Nov 14). */
+/** How many people of their party a player running for governor chooses a running mate from. */
 const RUNNING_MATE_CHOICES = 4;
 
 /**
  * A governor candidate's ticket, as their campaign shows it: the ticket
- * office's contest, the running mate once named, and, while the candidate
- * may still name one (the player, from filing where the state's law joins
- * the ticket then, else from the primary), the people of their party the
- * world's own pick ranks, strongest first (owner, Nov 14: the player picks,
- * or "Choose for me" takes the world's pick). Null where the governor's
- * state elects no office on the ticket.
+ * office's contest, the running mate once named, and, while the candidate may
+ * still name one (the player, from filing where the state's law joins the
+ * ticket then, else from the primary), the people of their party the world's
+ * own pick ranks, strongest first. Null where the governor's state elects no
+ * office on the ticket.
+ *
  */
 export function runningMateChoice(
   api: CoreAPI,
@@ -7654,9 +7654,9 @@ function offeredMates(
   willing?: (personId: string) => boolean,
 ) {
   const party = filing.party ?? INDEPENDENT;
-  // Nobody who holds or runs for the office the candidate seeks is offered
-  // to run beside them (Words lead, Nov 14: Glencoe KY offered the sitting
-  // governor as a challenger's running mate).
+  // Nobody who holds or runs for the office the candidate seeks is offered to
+  // run beside them.
+
   const holder = seatHolder(api, governor);
   const rivals = new Set<string>(
     (

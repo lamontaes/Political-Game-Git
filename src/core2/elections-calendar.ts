@@ -1,18 +1,18 @@
 /**
- * When each office is next on the ballot, and when its filing closes.
+ * When each office is next on the ballot, and when its filing closes. -
+ * Federal and state offices: the general election is the Tuesday after the
+ * first Monday in November of the seat's election year; the primary and the
+ * filing deadline come from
+ * `data/research/elections/party-nomination-rules-2026.json` (2026 dates as
+ * each state set them; other years from the state's standing rule). - County
+ * offices: the county calendar (`county-election-calendar.ts`, from each
+ * state's county election law). - City and town offices: the state's
+ * municipal election timing (`municipal-ballot-rules.ts`), turned into a date
+ * by `MUNICIPAL_DATES`. A seat's election year is the year before its term
+ * ends.
  *
- * - Federal and state offices: the general election is the Tuesday after the
- *   first Monday in November of the seat's election year; the primary and the
- *   filing deadline come from `data/research/elections/party-nomination-rules-2026.json`
- *   (2026 dates as each state set them; other years from the state's standing
- *   rule).
- * - County offices: the county calendar (`county-election-calendar.ts`, from
- *   each state's county election law).
- * - City and town offices: the state's municipal election timing
- *   (`municipal-ballot-rules.ts`), turned into a date by `MUNICIPAL_DATES`.
  *
- * A seat's election year is the year before its term ends (terms start in the
- * new year, or January 20 for the presidency).
+ *
  */
 import nomination from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import { governmentUnit } from "./reference/government-units";
@@ -652,8 +652,8 @@ function termStartDefault(office: OfficeInput): string {
 
 /**
  * The day a term won at `electionDate` starts: the county's own calendar
- * where it is read, else the office's recorded start day (January 1 where
- * none is read) after the election.
+ * where it is read, else the office's recorded start day after the election.
+ *
  */
 export function termStartAfter(
   office: OfficeInput,

@@ -34,19 +34,19 @@ export function defaultPronounsForGender(
 
 /**
  * The published national figures an invented person's gender is checked
- * against.
+ * against. - Nonbinary: Pew Research Center, American Trends Panel Wave 109,
+ * question GENDERNEW "Do you describe yourself as a man, a woman, nonbinary
+ * or in some other way?": 1% of U.S. adults answered "nonbinary" (the topline
+ * rounds to whole percents). - Female and male: everyone else, split as the
+ * U.S. Census Bureau's American Community Survey 2024 1-year estimates count
+ * them, table B01001 (Sex by Age), United States: 171,816,640 female and
+ * 168,294,340 male of 340,110,980, a sex ratio of 97.95 males per 100
+ * females. ACS records sex, not gender identity, and Pew's figure is of
+ * adults; the two are combined here as the closest published national
+ * figures.
  *
- * - Nonbinary: Pew Research Center, American Trends Panel Wave 109
- *   (May 16-22, 2022, n = 10,188), question GENDERNEW "Do you describe
- *   yourself as a man, a woman, nonbinary or in some other way?": 1% of U.S.
- *   adults answered "nonbinary" (the topline rounds to whole percents).
- * - Female and male: everyone else, split as the U.S. Census Bureau's
- *   American Community Survey 2024 1-year estimates count them, table B01001
- *   (Sex by Age), United States: 171,816,640 female and 168,294,340 male of
- *   340,110,980, a sex ratio of 97.95 males per 100 females.
  *
- * ACS records sex, not gender identity, and Pew's figure is of adults; the
- * two are combined here as the closest published national figures.
+ *
  */
 export const GENERATED_GENDER_SOURCES = {
   pewNonbinaryPercent: 1,

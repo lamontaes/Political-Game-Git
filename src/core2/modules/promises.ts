@@ -1,26 +1,26 @@
 /**
- * Promises kept, broken and remembered: the engine (owner, Nov 15, 2026:
- * "Okay, so promises. Yes, with your recommend": the promise record, its
- * settlement and the tie it moves are the simulation's; the director only
- * words it).
+ * Promises kept, broken and remembered: the engine. A scene reply (or an
+ * answer that makes a broken promise right) that keeps a promise names its
+ * kind and tie on its record (the director's promiseReplyFacts). This module
+ * keeps one row for it, held by the one who gave their word and owed to the
+ * other, filed under the records that would settle it and the day its window
+ * closes, and ends it on the day that record lands (a member's vote at the
+ * roll, a signature or veto, a missed payment, a meeting held, a talk between
+ * the two) or its window closes. It never scans: a settling record costs one
+ * set test and one index lookup, and the end of each day one index lookup for
+ * the windows whose last day it was (onAfterDay, after every record of the
+ * day, so a promise kept on its last day is kept). Kept warms the tie once
+ * and broken cools it, through the core's writer, citing the row; settled
+ * while the two were apart, the move waits for the next time the one owed
+ * says it (`promiseSaid`). An answer to a broken promise raised moves the tie
+ * by the answer's row (owning it, explaining, denying). The kinds, windows
+ * and sizes are src/core2/data/promises/.
  *
- * A scene reply (or an answer that makes a broken promise right) that keeps
- * a promise names its kind and tie on its record (the director's
- * promiseReplyFacts). This module keeps one row for it, held by the one who
- * gave their word and owed to the other, filed under the records that would
- * settle it and the day its window closes, and ends it on the day that
- * record lands (a member's vote at the roll, a signature or veto, a missed
- * payment, a meeting held, a talk between the two) or its window closes. It
- * never scans: a settling record costs one set test and one index lookup,
- * and the end of each day one index lookup for the windows whose last day
- * it was (onAfterDay, after every record of the day, so a promise kept on
- * its last day is kept).
  *
- * Kept warms the tie once and broken cools it, through the core's writer,
- * citing the row; settled while the two were apart, the move waits for the
- * next time the one owed says it (`promiseSaid`). An answer to a broken
- * promise raised moves the tie by the answer's row (owning it, explaining,
- * denying). The kinds, windows and sizes are src/core2/data/promises/.
+ *
+ *
+ *
+ *
  */
 import { trustLostHours } from "../closeness";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -73,8 +73,8 @@ export interface PromiseKindRow {
    */
   heldBy?: "first" | "second";
   /**
-   * Kept answers this kind never offers: a courtesy that fits a favor, not
-   * a word kept by a vote ("I'm glad it helped.", Words lead, Nov 15 20:17Z).
+   * Kept answers this kind never offers: a courtesy that fits a favor, not a
+   * word kept by a vote.
    */
   keptWithout?: readonly string[];
 }

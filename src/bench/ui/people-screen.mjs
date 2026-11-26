@@ -1,7 +1,7 @@
-// The People screen (owner, Nov 7: the person card, "perfect"; mock pl-people): everyone you
-// know in a roster at the left, grouped by how they're tied to you, and the selected
-// person's card beside it, on the one list-beside-detail part (`rosterScreen`). The roster
-// reads the records the screen hands it; the card is the one person card the game builds
+// The People screen: everyone you know in a roster at the left, grouped by
+// how they're tied to you, and the selected person's card beside it, on the
+// one list-beside-detail part (`rosterScreen`). The roster reads the records
+// the screen hands it; the card is the one person card the game builds
 // everywhere (the screen passes its builder in).
 import { rosterScreen } from "./roster-screen.mjs";
 

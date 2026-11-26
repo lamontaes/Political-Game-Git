@@ -35,8 +35,8 @@ const SMALL = new Set([
 ]);
 
 /**
- * The topic as it stands in a group's name, cased whole like any name (Fable
- * A, Nov 13: "Friends of Transportation", never "Friends of transportation").
+ * The topic as it stands in a group's name, cased whole like any name.
+ *
  */
 function titled(topic: string): string {
   return topic
@@ -86,14 +86,14 @@ const fill = (form: string, cause: string, town: string | null): string =>
   form.replace("{cause}", cause).replace("{Town}", town ?? "");
 
 /**
- * The name of a group formed over a stance (Words lead, Nov 14): the cause
- * its side would put on a sign (`data/english/group-causes.json`) in one of
- * the forms (`stanceForms`), both fixed for the group by a reading of its own
- * id; a name another group of its town already holds goes to the next form,
- * then the next cause. The side comes from the id's end (":for" or
- * ":against"). Null where the bank holds no cause for the question or every
- * name is taken, and the story then says what the group wants in a plain
- * clause. `taken` is the names the town's earlier groups hold.
+ * The name of a group formed over a stance: the cause its side would put on a
+ * sign (`data/english/group-causes.json`) in one of the forms
+ * (`stanceForms`), both fixed for the group by a reading of its own id; a
+ * name another group of its town already holds goes to the next form, then
+ * the next cause. The side comes from the id's end (":for" or ":against").
+ * Null where the bank holds no cause for the question or every name is taken,
+ * and the story then says what the group wants in a plain clause. `taken` is
+ * the names the town's earlier groups hold.
  */
 export function stanceGroupName(
   id: string,
@@ -121,13 +121,13 @@ export function stanceGroupName(
 }
 
 /**
- * A stance group's name among its town's groups (Words lead, Nov 14): the
- * town's earlier stance groups (by the day each was formed, its record's own
- * date, then id) hold their names first, so no two groups of one town share
- * a name and a name never changes when a later group forms. `town` is the
- * town's name when the group is the played town's, else null. Null where the
- * record is not a stance group or no name is left. The one reading the
- * printed words and the director share.
+ * A stance group's name among its town's groups: the town's earlier stance
+ * groups (by the day each was formed, its record's own date, then id) hold
+ * their names first, so no two groups of one town share a name and a name
+ * never changes when a later group forms. `town` is the town's name when the
+ * group is the played town's, else null. Null where the record is not a
+ * stance group or no name is left. The one reading the printed words and the
+ * director share.
  */
 export function stanceGroupAmong(
   organizations: ReadonlyMap<

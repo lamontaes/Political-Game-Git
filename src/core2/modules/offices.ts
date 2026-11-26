@@ -1203,8 +1203,8 @@ function seatOutsideOffices(
           : undefined;
       const seat = read ? { ...listed, ...read } : listed;
       if (seat.party === null && !read) unread = true;
-      // Another place's holder's earlier terms of the seat wait until they
-      // are met or opened (owner, Nov 5: "generate on demand"; `openPastTerms`).
+      // Another place's holder's earlier terms of the seat wait until they are met
+      // or opened.
       pastTerms(
         api,
         worldSeed,
@@ -1406,7 +1406,7 @@ function pastTerms(
           }
         : {};
     };
-    // One race per ticket (CTO line 6935893727): the President's term carries it.
+    // One race per ticket: the President's term carries it.
     const elected =
       term.elected || office.kind !== "president" ? {} : electedIn(start);
     if (start <= opening)
@@ -1491,13 +1491,13 @@ function pastTerms(
             Math.log(q),
         )
       : 0;
-  // No one first served younger than the minimum age. A career that age
-  // would have started at the minimum itself (the age floor cutting a long
-  // draw short) begins instead at the age the seat's holder first ran at: the
+  // No one first served younger than the minimum age. A career that age would
+  // have started at the minimum itself (the age floor cutting a long draw
+  // short) begins instead at the age the seat's holder first ran at: the
   // minimum plus a spread past it, drawn once per seat (who exists, not what
-  // anyone decides), so first terms do not pile up at the minimum (owner's
-  // playthrough, Nov 23, row C10: a mayor "elected at 21"). A career the
-  // minimum did not cut is left as drawn.
+  // anyone decides), so first terms do not pile up at the minimum. A career
+  // the minimum did not cut is left as drawn.
+
   prior = careerKept({
     prior,
     startYear: Number(start.slice(0, 4)),
@@ -1545,8 +1545,8 @@ function pastTerms(
         }
       : {};
   // A holder too young for the office when the current term began came to it
-  // partway through, on the day they reached the minimum age (a February 29
-  // birthday counts on March 1), filling the seat rather than winning it.
+  // partway through, on the day they reached the minimum age, filling the
+  // seat rather than winning it.
   const birth = term.identity.birthDate;
   const ageYear = born + tenureYears("minimumAgeAtFirstTerm");
   const leap =
@@ -1615,9 +1615,9 @@ export function openPastTerms(api: CoreAPI, termId: string): void {
 /**
  * The election that seated a term starting on a date: the general election
  * the November before a January start, else a local election some weeks
- * before. The winner's share is drawn once per seat and race from the
- * world's seed inside the spread for that kind of office (owner, Oct 27:
- * realistic, not real), so no two holders print the same share by rule.
+ * before. The winner's share is drawn once per seat and race from the world's
+ * seed inside the spread for that kind of office, so no two holders print the
+ * same share by rule.
  */
 function electionBehind(
   office: OfficeInput,
@@ -2369,10 +2369,10 @@ type SpecialElectionOpener = (
   },
 ) => boolean;
 /**
- * An engine that may offer a vacant seat, filled by appointment, to someone the appointing body does not
- * seat unasked: the player, who takes a seat only by their own choice (owner, Oct 14: the engine
- * offers, the player decides; Nov 16: "you can only be appointed to council, like the playable
- * offices"). True when it made an offer; the vacancy then waits on `answerVacancyOffer`.
+ * An engine that may offer a vacant seat, filled by appointment, to someone
+ * the appointing body does not seat unasked: the player, who takes a seat
+ * only by their own choice. True when it made an offer; the vacancy then
+ * waits on `answerVacancyOffer`.
  */
 export type VacancyOffer = (
   api: CoreAPI,

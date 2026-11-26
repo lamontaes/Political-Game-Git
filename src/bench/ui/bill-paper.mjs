@@ -12,8 +12,8 @@ import { tabBar, chooseTab } from "./tab.mjs";
 
 /**
  * Today's amount beside the new one: two cells, the law in force as it stands
- * and what the bill makes it (the owner, Oct 29: "the bill ... with today's amount beside
- * the new one").
+ * and what the bill makes it.
+ *
  */
 const compareOf = (compare) =>
   compare
@@ -49,16 +49,16 @@ const sponsorLine = (text) => {
 };
 
 /**
- * The paper as the legislation mock draws it (docs/mocks/2026-11-08-legislation/, "Following a
- * bill"): three columns, where it is on the left, the bill typed on the paper in the middle, the
- * estimate and the vote on the right. `paper`: { spoken, title, sponsor, sectionsLabel, whereLabel,
- * billLabel, estimateLabel, voteLabel, sections: [{ text, estimate: { prose, lines } }], lines:
- * [text] (where it is), votes: [{ big, text }] (each chamber's result, then its details),
- * blank: { prose, lines } (the estimate shown when the bill has no sections), extra: [node]
- * (figures under the estimate), where: { heading, rows: [{ label, value }] }, views: { clean, compare }
- * (the toggle's names), amendsLabel, and each section's `inserted`, `struck` and `amends` (the
- * citation text) }. An estimate may carry `compare`: { todayLabel, today, newLabel,
- * proposed }.
+ * The paper as the legislation mock draws it: three columns, where it is on
+ * the left, the bill typed on the paper in the middle, the estimate and the
+ * vote on the right. `paper`: { spoken, title, sponsor, sectionsLabel,
+ * whereLabel, billLabel, estimateLabel, voteLabel, sections: [{ text,
+ * estimate: { prose, lines } }], lines: [text] (where it is), votes: [{ big,
+ * text }] (each chamber's result, then its details), blank: { prose, lines }
+ * (the estimate shown when the bill has no sections), extra: [node] (figures
+ * under the estimate), where: { heading, rows: [{ label, value }] }, views: {
+ * clean, compare } (the toggle's names), amendsLabel, and each section's
+ * `inserted`, `struck` and `amends` (the citation text) }. An estimate may carry `compare`: { todayLabel, today, newLabel, proposed }.
  */
 export function billPaper(paper) {
   // A phase-in is one bill with a step to a section: its estimate lists every step
@@ -171,8 +171,8 @@ export function billPaper(paper) {
     ...(viewBar ? [viewBar] : []),
     heading(paper.spoken, "h2"),
     prose(paper.title),
-    // A field and a name, not prose: the glossary does not underline the label (CTO, Nov 24:
-    // "Sponsor is underlined like a link").
+    // A field and a name, not prose: the glossary does not underline the label.
+
     sponsorLine(paper.sponsor),
     ...(views ? [changes] : []),
     // A section the paper has typed above is not listed again; one with no

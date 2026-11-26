@@ -1,21 +1,21 @@
 /**
- * Election day at the polls (owner, Oct 14, 2026): election day is a scene,
- * and the ballot is the scene's choice. Going is the player's choice (owner,
- * Oct 26): on the eve of an election the day offers the polls, and a voter
- * who goes marks a ballot there, one who stays home casts none.
+ * Election day at the polls: election day is a scene, and the ballot is the
+ * scene's choice. Going is the player's choice: on the eve of an election the
+ * day offers the polls, and a voter who goes marks a ballot there, one who
+ * stays home casts none. The one polling-place path (engine map line 25): at
+ * the close of the eve, the director stages the polls for each watched person
+ * the voting engine counts as a voter the next day (`mayVoteOn`, the count's
+ * own rule), as the director's own visit record; the bench reads that record
+ * (`stagedPollingVisit`) and builds the ballot from it. The contests on the
+ * ballot are the elections engine's, each candidate as the ballot lists them,
+ * and what the voter marks is cast through the voting engine's own
+ * `castBallot`, so the count when the polls close reads it. The scene filter
+ * decides whether the visit is staged: a voter who leaves the polling place
+ * out of the scenes that stop their day votes or stays home on their own
+ * reasons, like everyone else. Words come from no hand-written bank: the
+ * screen shows the ballot's record data and control names.
  *
- * The one polling-place path (engine map line 25): at the close of the eve,
- * the director stages the polls for each watched person the voting engine
- * counts as a voter the next day (`mayVoteOn`, the count's own rule), as the
- * director's own visit record; the bench reads that record (`stagedPollingVisit`)
- * and builds the ballot from it. The contests on the ballot are the elections
- * engine's, each candidate as the ballot lists them, and what the voter marks
- * is cast through the voting engine's own `castBallot`, so the count when the
- * polls close reads it. The scene filter decides whether the visit is staged:
- * a voter who leaves the polling place out of the scenes that stop their day
- * votes or stays home on their own reasons, like everyone else. Words come
- * from no hand-written bank: the screen shows the ballot's record data and
- * control names.
+ *
  */
 import { coreAPI } from "../core2/state";
 import {

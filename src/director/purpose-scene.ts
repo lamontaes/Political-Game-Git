@@ -376,10 +376,10 @@ interface LawReachRow {
 }
 
 /**
- * The facts that say how a law reaches a reader it does not reach (Fable A,
- * Nov 13): `effective`, the day a law enacted but not yet in force takes
- * effect; else `lawstate` and `homestate`, when it is law in another state
- * than the reader's. Empty for a law in force where the reader lives.
+ * The facts that say how a law reaches a reader it does not reach:
+ * `effective`, the day a law enacted but not yet in force takes effect; else
+ * `lawstate` and `homestate`, when it is law in another state than the
+ * reader's. Empty for a law in force where the reader lives.
  */
 export function lawReachFacts(
   row: LawReachRow | null,
@@ -409,10 +409,10 @@ export function lawReachFacts(
   // writes one yet.)
   // It is said with what it was, so the line names the law.
   const about = row.series ? lawAbout(row.series) : null;
-  // Raised only when it ended during play and nothing replaced it: a rate
-  // that a newer rate took over, or one that ended before the game began, is
-  // not something a resident talks about (Words lead, Nov 14). Proved only on
-  // a staged end date until a repeal is played (stopgapId:
+  // Raised only when it ended during play and nothing replaced it: a rate that
+  // a newer rate took over, or one that ended before the game began, is not
+  // something a resident talks about. Proved only on a staged end date until
+  // a repeal is played (stopgapId:
   // SG-DIRECTOR-law-ended-in-play-proved-on-staged-date).
   if (row.endDate && row.endDate <= today) {
     if (row.endDate < play.from || play.replaced) return {};
@@ -616,10 +616,10 @@ export function lawFactsOfCause(
         text: "yes",
         sourceRecordIds: [said.lawId, moment.causeId],
       };
-    // A law that does not reach the reader is said as what it is (Fable A,
-    // Nov 13): one enacted but not yet in force by the day it takes effect;
-    // one in force in another state by that state and the reader's own. Only
-    // a law in force where the reader lives is spoken of as lived with.
+    // A law that does not reach the reader is said as what it is: one enacted but
+    // not yet in force by the day it takes effect; one in force in another
+    // state by that state and the reader's own. Only a law in force where the
+    // reader lives is spoken of as lived with.
     if (!kept)
       Object.assign(
         facts,
@@ -730,11 +730,11 @@ function composeBinding(
     )
   )
     facts["bill-cuts"] = { text: "yes", sourceRecordIds: [named.id] };
-  // When the bill comes to a vote, from its own record, so a promise of
-  // time fits the calendar: on the day of the vote it is "tonight"; before
-  // it, a count is promised for the day before the vote, never a day after
-  // it (Fable A, Nov 13, rule 22; P3: "I'll have a real count by Friday" on
-  // the morning of the vote).
+  // When the bill comes to a vote, from its own record, so a promise of time
+  // fits the calendar: on the day of the vote it is "tonight"; before it, a
+  // count is promised for the day before the vote, never a day after it.
+
+
   const floor =
     billId && named ? floorDateOf(coreAPI(core as CoreState), billId) : null;
   if (floor && daysBetweenText(core.date, floor) === P.zero)
@@ -942,8 +942,8 @@ function composeBinding(
   // A notice to pay or leave (housing.ts): what the household owes as people
   // say it ("about $400"), how long it has gone unpaid, whether the shortfall
   // is small or deep against the rent, and the day it must pay by. The lines
-  // are worded to fit all of it (owner, Nov 8 playtest: "that far behind" of
-  // a $14 shortfall).
+  // are worded to fit all of it.
+
   if (record?.kind === NOTICE_SERVED_EVENT) {
     const ids = [moment.causeId, said.caseId ?? moment.causeId];
     const owed = Number(said.owedMinor);
@@ -1284,9 +1284,9 @@ function composeBinding(
   }
   // What an offer asks in return (a vote, a contract): the lines about that
   // favor need it, and the thing itself is named so the one offering says
-  // what they want (Words lead, Nov 14): the bill for a vote (`bill`, above),
-  // the award for a contract by the work it pays for (`contract`). `wanted`
-  // is whichever of the two the record names, for lines either side shares.
+  // what they want: the bill for a vote (`bill`, above), the award for a
+  // contract by the work it pays for (`contract`). `wanted` is whichever of
+  // the two the record names, for lines either side shares.
   if (said.favor) {
     facts[`favor-${said.favor}`] = {
       text: said.favor,
@@ -1324,9 +1324,9 @@ function composeBinding(
   // The finding a reporter calls about (press.ts press.exposed): a bribe, by
   // who paid it and the vote or contract it bought; a conflict, by the award,
   // the firm and whose it is. The reporter says what the story says, not only
-  // that there is one (owner, Nov 15). Every exposure ran after the reporter
-  // dug through the paper trail (press.ts weighTip), so the papers are in hand:
-  // a denial is a lie the reporter can show is one (`knows-truth`).
+  // that there is one. Every exposure ran after the reporter dug through the
+  // paper trail (press.ts weighTip), so the papers are in hand: a denial is a
+  // lie the reporter can show is one (`knows-truth`).
   if (exposed) {
     const cited = [moment.causeId, exposed.recordId];
     facts[`found-${exposed.found}`] = { text: "yes", sourceRecordIds: cited };
@@ -1981,8 +1981,8 @@ function composeBinding(
         {
           row,
           name,
-          // The incumbent is said as one; a party is never said before
-          // every name (Fable A, Nov 13, rule 2).
+          // The incumbent is said as one; a party is never said before every name.
+
           text:
             incumbent?.personId === row.personId ? `incumbent ${name}` : name,
         },
@@ -1990,8 +1990,8 @@ function composeBinding(
     });
     if (said_.length) {
       const cited = [moment.causeId, ...said_.map((row) => row.row.id)];
-      // A list names three, then counts (Fable A, Nov 13, rule 2): up to
-      // three by name; more, the first two and how many others.
+      // A list names three, then counts: up to three by name; more, the first two
+      // and how many others.
       const named =
         said_.length > P.two + P.one
           ? [
@@ -2030,9 +2030,9 @@ function composeBinding(
     : null;
   for (const [key, fact] of Object.entries(stake?.facts ?? {}))
     facts[key] = { text: fact.text, sourceRecordIds: fact.recordIds };
-  // What the petition the filing opened asks (owner, Oct 28: filing is a
-  // petition, signatures, the clerk's check, then the ballot): the
-  // signatures and the day they are due, or that the office takes none.
+  // What the petition the filing opened asks: the signatures and the day they
+  // are due, or that the office takes none.
+
   if (type.stakes?.includes("petition"))
     Object.assign(facts, petitionFacts(core, said.filingId));
   // In a race the asked lost, the winner is the opponent the scene may name.
@@ -2225,9 +2225,9 @@ function composeBinding(
     facts["same-day"] = { text: "yes", sourceRecordIds: [moment.causeId] };
   else if (addDays(makeIsoDate(recordDay), P.one) === core.date)
     facts["day-after"] = { text: "yes", sourceRecordIds: [moment.causeId] };
-  // The vote a count is for is "tomorrow" only the day before its floor
-  // date and "today" on that day (the governing walk, Oct 29: "tomorrow" was
-  // said on the vote day).
+  // The vote a count is for is "tomorrow" only the day before its floor date
+  // and "today" on that day.
+
   const floorDate = record?.facts?.floorDate;
   if (floorDate === core.date)
     facts["vote-today"] = { text: "yes", sourceRecordIds: [moment.causeId] };
@@ -2309,8 +2309,8 @@ function composeBinding(
       sourceRecordIds: [askerId],
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
-    // After the introduction the player says their first name, never the
-    // full name again (Words lead, Nov 14).
+    // After the introduction the player says their first name, never the full
+    // name again.
     facts["their-first"] = {
       text: asker.givenName,
       sourceRecordIds: [askerId],
@@ -2337,15 +2337,15 @@ function composeBinding(
     // weighed: the player can say so when asked why them.
     if ((serve.terms.question ?? P.zero) > P.zero)
       facts["near-on-issue"] = { text: "yes", sourceRecordIds: why };
-    // Short of yes by less than the player's word is worth to them: they name
-    // it as their price, for the proposal they hold (a read against one names
-    // no price: promiseWorth, Words lead and Account lead, Nov 15 12:26Z).
+    // Short of yes by less than the player's word is worth to them: they name it
+    // as their price, for the proposal they hold.
+
     if (serve.priced) {
       facts["price-named"] = { text: "yes", sourceRecordIds: why };
       facts["price-side-for"] = { text: "yes", sourceRecordIds: why };
     }
-    // Asked again after a no: a yes says what changed, as felt (Words lead,
-    // Nov 14: the term that moved most since the no).
+    // Asked again after a no: a yes says what changed, as felt.
+
     if (serve.moved && serve.standing.lean > P.zero)
       facts[`changed-${serve.moved}`] = { text: "yes", sourceRecordIds: why };
     // Asked again after a no: the talk says so, and a no that rests on the
@@ -2379,8 +2379,8 @@ function composeBinding(
     // that speak of a ticket, a race or a ballot are held to the ticket.
     if (serve.seat === "post") {
       facts["serve-post"] = { text: "yes", sourceRecordIds: why };
-      // A council or chamber still confirms whoever is named: a yes is not
-      // yet the job (Words lead, Nov 14 19:15Z).
+      // A council or chamber still confirms whoever is named: a yes is not yet the
+      // job.
       if (serve.grounds.confirmed)
         facts.confirm = { text: "yes", sourceRecordIds: why };
       // Pay, from two different records: out of work, or a raise.
@@ -2453,9 +2453,9 @@ function composeBinding(
         text: issue,
         sourceRecordIds: [moment.causeId, serve.askId],
       };
-    // A price names the proposal itself, so the player knows which way they
-    // give their word (Words lead, Nov 15 10:35Z, rule 116), on the question
-    // the ticket's office can decide (Account lead, Nov 15 10:45Z).
+    // A price names the proposal itself, so the player knows which way they give
+    // their word, on the question the ticket's office can decide.
+
     const about =
       serve.priced && serve.grounds.priceQuestion
         ? questionAbout(serve.grounds.priceQuestion)
@@ -2481,16 +2481,16 @@ function composeBinding(
       sourceRecordIds: [askerId],
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
-    // The seat as people say it (Words lead, Nov 14, ruling 69): "the
-    // Bethel Town Council", "mayor", never the form's title in a sentence.
+    // The seat as people say it: "the Bethel Town Council", "mayor", never the
+    // form's title in a sentence.
     const seat = officeSaid(core, { contestId: door.contestId });
     facts.office = {
       text: seat?.text ?? titleInSentence(door.office),
       sourceRecordIds: [moment.causeId, door.contestId],
     };
-    // The race's next vote as a day, and while the petition circulates the
-    // day its signatures are due (Words lead, Nov 14, ruling 73: a line meets
-    // the insert guard with a record that belongs in it).
+    // The race's next vote as a day, and while the petition circulates the day
+    // its signatures are due.
+
     Object.assign(facts, contestVoteDay(core, door.contestId));
     if (door.filingId && core.modules.has(ELECTIONS_MODULE_ID)) {
       const petition = petitionOf(coreAPI(core as CoreState), door.filingId);
@@ -2648,9 +2648,9 @@ function composeBinding(
         sourceRecordIds: [earlier.voteId, bill.id],
       };
   }
-  // The player's own ask on a bill reads the same record: a yes the player
-  // cast on a bill of the asked person's own, not yet given back, is a time
-  // the player backed them, which a plea may say (Words lead, Nov 15).
+  // The player's own ask on a bill reads the same record: a yes the player cast
+  // on a bill of the asked person's own, not yet given back, is a time the
+  // player backed them, which a plea may say.
   const asking = core.playerId;
   const other = askerId === asking ? askedId : askerId;
   if (type.playerAsks && asking && said.billId && !facts["read-favor-given"]) {
@@ -2673,7 +2673,7 @@ function composeBinding(
       : type;
   // At a door, the pieces of the player's earlier door scenes (earlier days)
   // are shown: an unused fitting piece is said first, so the opening and the
-  // rest differ from outing to outing (Words lead, Nov 14, ruling 67).
+  // rest differ from outing to outing.
   const doorDay = record?.date ?? moment.date;
   const seenAtDoors = door
     ? doorPiecesBefore(core, askedId, doorDay, moment.causeId)
@@ -2885,13 +2885,13 @@ function officeSaidAloud(title: string): string {
 }
 
 /**
- * What a resident says matters to them when the player asks at the door
- * (Words lead, Nov 14, ruling 72), from the views engine: the question they
- * hold the strongest view on of those they have taken up (a stance record of
- * their own), their side, and the reason from their life when one is on
- * record (`viewReason`: their work, or money tight at home). One who has
- * taken up no question says so (`no-view`). `view-question` names the
- * question for the reply's record, which the player then holds.
+ * What a resident says matters to them when the player asks at the door, from
+ * the views engine: the question they hold the strongest view on of those
+ * they have taken up (a stance record of their own), their side, and the
+ * reason from their life when one is on record (`viewReason`: their work, or
+ * money tight at home). One who has taken up no question says so (`no-view`).
+ * `view-question` names the question for the reply's record, which the player
+ * then holds.
  */
 function doorViewFacts(
   core: Readonly<CoreState>,
@@ -3295,9 +3295,9 @@ function deskFacts(
     };
     facts.purpose = { text: title.purpose, sourceRecordIds: [bill.id] };
   }
-  // How it passed, said as people say it, never as a count (owner, Nov 14
-  // 00:50Z; Words lead rule 50): nobody against it, enough to override a
-  // veto in every chamber, or short of that, by the chambers' own tallies.
+  // How it passed, said as people say it, never as a count: nobody against it,
+  // enough to override a veto in every chamber, or short of that, by the
+  // chambers' own tallies.
   const passage = deskPassage(api, bill.id);
   if (passage)
     facts[passage] = { text: "yes", sourceRecordIds: [causeId, bill.id] };
@@ -3322,8 +3322,8 @@ function deskFacts(
     )?.why;
     if (reason)
       facts[`opposed-${reason}`] = { text: "yes", sourceRecordIds: cited };
-    // Who they are: by name when they are few enough to say (Words lead,
-    // Nov 14: three or fewer), else by the reason they share.
+    // Who they are: by name when they are few enough to say, else by the reason
+    // they share.
     const names = against.map((row) => core.people.get(row.memberId));
     if (against.length <= P.two + P.one && names.every(Boolean))
       facts.names = {
@@ -3333,8 +3333,8 @@ function deskFacts(
         sourceRecordIds: [...cited, ...against.map((row) => row.memberId)],
       };
   }
-  // What it costs, from the budget lines it adds to: one rounded sum a year,
-  // or nothing the budget shows (Words lead, Nov 14).
+  // What it costs, from the budget lines it adds to: one rounded sum a year, or
+  // nothing the budget shows.
   const added = bill.provisions.reduce(
     (sum, p) =>
       p.kind === "budget-line" && p.value > P.zero ? sum + p.value : sum,
@@ -3449,12 +3449,12 @@ function contestVoteDay(
 }
 
 /**
- * The first filing of a life (owner, Nov 1: "it should be the first time in
- * a game that the player files for an office... do you know how to run a
- * campaign?"): the clerk asks, and a candidate who says no is walked through
- * it from the place's records, the petition and the town's own paper, whose
- * ad time a campaign buys and whose reporters cover the race. A second filing
- * is not asked again.
+ * The first filing of a life: the clerk asks, and a candidate who says no is
+ * walked through it from the place's records, the petition and the town's own
+ * paper, whose ad time a campaign buys and whose reporters cover the race. A
+ * second filing is not asked again.
+ *
+ *
  */
 function walkThroughFacts(
   core: Readonly<CoreState>,
@@ -3776,8 +3776,8 @@ export function replyInScene(
   // act in its own words ("Bring the pen.", "It goes back with a veto.") and
   // ends the talk signs or vetoes the bill through the desk's own decision,
   // the same one the panel's buttons call. Any other reply, a plain no
-  // included, a fix asked for or a put-off, leaves it on the desk (Account
-  // lead, Nov 14).
+  // included, a fix asked for or a put-off, leaves it on the desk.
+
   const deskBillId = scene.cause.facts.billId;
   const deskAct = DESK_ACTS.sign.includes(line.parts[P.zero] ?? "")
     ? "sign"

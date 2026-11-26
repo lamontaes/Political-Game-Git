@@ -282,8 +282,8 @@ function neighborRentValue(county: string): [number, number] | undefined {
 }
 /**
  * A county's median gross rent and owner home value in this world: the
- * published ACS medians moved once by the world's own offsets, drawn from
- * its seed (owner, Oct 27: realistic, not real; the medians calibrate).
+ * published ACS medians moved once by the world's own offsets, drawn from its
+ * seed.
  */
 export function rentValueOf(
   county: string,
@@ -631,7 +631,7 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     : undefined;
   // Full households and the wider population's, ranked together for owning.
   // Group-quarters rooms are outside the housing market: the institution
-  // houses them, so they never own, rent or borrow (CTO, Nov 1).
+  // houses them, so they never own, rent or borrow.
   const households = [
     ...input.households
       .filter(
@@ -787,7 +787,7 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
     renterScales[Math.floor(renterScales.length / 2)] || 1;
   for (const row of households) {
     if (rank.get(row.id)! < owners) continue;
-    // Every renter owes rent, with or without income of its own (owner, Oct 14): a household its group's money or its own cash can't carry falls behind like any other.
+    // Every renter owes rent, with or without income of its own: a household its group's money or its own cash can't carry falls behind like any other.
     const scale = incomeScale(row.income) / renterMedianScale;
     const amountMinor = Math.round(medianRent * 100 * scale);
     dwellings.push([row.id, "rent", amountMinor]);
@@ -1842,7 +1842,7 @@ function review(api: CoreAPI): void {
     if (!householdId) continue;
     const law = householdSteps(api, householdId);
     if (!law) continue;
-    // The player's household is evicted like any other (owner, Oct 14).
+    // The player's household is evicted like any other.
     const caseId = `eviction:${id}:${c.date}`;
     const cureBy = addDays(makeIsoDate(c.date), Math.max(1, law.noticeDays));
     store(api)
@@ -2041,7 +2041,7 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
     });
     schedule(api, `hearing:${caseId}`, hearingAt, "housing-hearing", caseId);
   } else if (kind === "housing-hearing") {
-    // Evictions without courts (owner, Oct 14, OWNER-DECISIONS.md): the hearing is a dated step of the statute that follows its conditions (rent owed, notice given); there is no judge or court scene until courts come.
+    // Evictions without courts: the hearing is a dated step of the statute that follows its conditions (rent owed, notice given); there is no judge or court scene until courts come.
     if (owed <= 0)
       return put({
         open: false,

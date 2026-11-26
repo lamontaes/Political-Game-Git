@@ -207,9 +207,9 @@ export function personCard(core: CoreState, personId: string) {
     },
     job: job && {
       jobId: job.id,
-      // The market's stand-in for work out of town is no employer and no
-      // place (Fable A, Nov 13, rule 20): the job is said as work outside the
-      // town the person lives in, the way their card's summary says it.
+      // The market's stand-in for work out of town is no employer and no place: the
+      // job is said as work outside the town the person lives in, the way
+      // their card's summary says it.
       ...(outsideWork
         ? {
             title:
@@ -386,9 +386,9 @@ export function roleWord(
 
 /**
  * A person's life as their card tells it, oldest first: one worded line per
- * event the one history reader returns (`historyOf`: what they were made with, the
- * simulated past and what the engines recorded in play), each on the record
- * that caused it. Never how close the tie to the viewer is (owner, Oct 29). A
+ * event the one history reader returns (`historyOf`: what they were made
+ * with, the simulated past and what the engines recorded in play), each on
+ * the record that caused it. Never how close the tie to the viewer is. A
  * record whose words the bank cannot fill is left out.
  */
 function historyLines(
@@ -617,8 +617,8 @@ function lineOf(
       // person in the world until met.
       const name = partnerName || String(facts.partnerName ?? "");
       if (!name) return null;
-      // Widowed only where the record says they were married; a partner who
-      // died otherwise is lost (Fable A, Nov 13).
+      // Widowed only where the record says they were married; a partner who died
+      // otherwise is lost.
       const what =
         facts.ended === "widowed"
           ? facts.union === "married"
@@ -636,8 +636,8 @@ function lineOf(
       const childId = facts.childId ?? partner;
       const name = personName(childId);
       if (!name) return null;
-      // A child is born by their first name, inside the family's own story
-      // (lead, Nov 11: "Jeremiah was born in 1996.").
+      // A child is born by their first name, inside the family's own story.
+
       const child = core.people.get(String(childId ?? ""))?.givenName ?? name;
       return make(childId === viewerId ? "child.you" : "child.born", {
         name,
@@ -807,7 +807,7 @@ function lineOf(
     case "health/hospital-stay":
       return make("health.hospital", {});
     // An arrest before play is said as the arrest it is: the record holds no
-    // charge (Fable A, Nov 13: "say what the record holds").
+    // charge.
     case "law/arrested":
       return make("law.arrested", {});
     // The justice engine's accusation names its offense on the record.
@@ -984,10 +984,10 @@ const TERMS_NAMED = 2;
 const OFFICE_KEYS = ["office.elected", "office.appointed", "office.entered"];
 
 /**
- * The card's lines folded as the story tells them: a run of terms or of spells
- * at one employer is one line, and more than two jobs are one line standing
- * where the last job began, so a long career is never told as if it were one
- * moment (CTO, Nov 24, C10: "five jobs at 18").
+ * The card's lines folded as the story tells them: a run of terms or of
+ * spells at one employer is one line, and more than two jobs are one line
+ * standing where the last job began, so a long career is never told as if it
+ * were one moment.
  */
 export function foldLines(lines: readonly HistoryLine[]) {
   // Terms in the same office, one after another, fold into the first.
@@ -1071,13 +1071,13 @@ export function foldLines(lines: readonly HistoryLine[]) {
 }
 
 /**
- * The card's story, oldest first (owner, Nov 1: "Elected legislator, it needs
- * to be told like a story. How many times do I have to say that?"): each
- * record a sentence of a short biography from the bank, the first naming
- * them and the rest using their recorded pronouns, or said to the player of
- * their own life. A run of terms in one office is one sentence ("won
- * election as state representative, and won it again in 1988 and 1990"),
- * and one school is said once. A year is said only where a bank piece has a slot for it.
+ * The card's story, oldest first: each record a sentence of a short biography
+ * from the bank, the first naming them and the rest using their recorded
+ * pronouns, or said to the player of their own life. A run of terms in one
+ * office is one sentence ("won election as state representative, and won it
+ * again in 1988 and 1990"), and one school is said once. A year is said only
+ * where a bank piece has a slot for it.
+ *
  */
 function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
   const folded = foldLines(lines);
@@ -1346,11 +1346,11 @@ interface OfficeRun {
 }
 
 /**
- * The lines under a person's name (owner, Nov 1: "Under her name, she told
- * legislator. That's not good. There needs to be more text."): who they are
- * now (the office they have held since their first term in it, else their
- * work, their school or their town), then where and when they were born.
- * From the same records the story tells, so the two agree.
+ * The lines under a person's name: who they are now (the office they have
+ * held since their first term in it, else their work, their school or their
+ * town), then where and when they were born. From the same records the story
+ * tells, so the two agree.
+ *
  */
 function summaryOf(
   teller: Teller,
@@ -1495,10 +1495,10 @@ const SKETCH_STRONG = 0.5;
 /**
  * The leanings a person is said to have, strongest first, each by the pole's
  * own label and how strong it runs. No sentence goes beside the label: one
- * that only said the label again in other words was deleted (Fable A on
- * #7365, Nov 12, under the owner's Nov 11 ruling that every line comes from
- * the world's records). A line comes back only where a record shows the
- * leaning.
+ * that only said the label again in other words was deleted. A line comes
+ * back only where a record shows the leaning.
+ *
+ *
  */
 function leanings(
   traits: Readonly<Record<string, number>>,
@@ -1595,11 +1595,11 @@ function officialLines(
 }
 
 /**
- * The card of a named official the player has not met and who lives
- * elsewhere (a state legislator, a member of Congress, the President): what
- * the public record says, from their term and office. `official:<term>` is
- * memberKey's form for them; a term holder's person id is accepted too.
- * Every person on a screen opens a card (owner, Oct 28, point 13).
+ * The card of a named official the player has not met and who lives elsewhere
+ * (a state legislator, a member of Congress, the President): what the public
+ * record says, from their term and office. `official:<term>` is memberKey's
+ * form for them; a term holder's person id is accepted too. Every person on a
+ * screen opens a card.
  */
 function officialCard(core: CoreState, viewerId: string, id: string) {
   const api = coreAPI(core);
@@ -1721,8 +1721,8 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
 
 /**
  * A public record whose service began no later than the office run the card
- * tells (owner, Nov 1: the header's "Since 2025" against elections in 2011,
- * 2013 and 2015), so the header, the lines under the name and the story agree.
+ * tells, so the header, the lines under the name and the story agree.
+ *
  */
 function withSince<T extends { serviceStart: string }>(
   known: T,
@@ -1808,15 +1808,15 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const homePlace = knowsHome
     ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)
     : null;
-  // Born where their one birthplace record says (src/core2/person-birthplace.ts),
-  // the same place the move that brought them names (Fable A, Nov 13: "born
-  // in Angoon" and then "moved to Angoon"); none for a birth abroad, which
-  // has no place record to name. Someone with neither record (a person made
-  // to hold a role) is told no birthplace.
-  // Where they were born, from their history: the birthplace their record
-  // was made with, else where the move that brought them came from when
-  // they were born before it, else here (a state's record resolved to one of
-  // its towns, the same every time).
+  // Born where their one birthplace record says
+  // (src/core2/person-birthplace.ts), the same place the move that brought
+  // them names; none for a birth abroad, which has no place record to name.
+  // Someone with neither record (a person made to hold a role) is told no
+  // birthplace. Where they were born, from their history: the birthplace
+  // their record was made with, else where the move that brought them came
+  // from when they were born before it, else here (a state's record resolved
+  // to one of its towns, the same every time).
+
   const madeBirth = historyOf(
     core,
     { person: other.id },
@@ -1976,8 +1976,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     shared: shared
       .filter((row) => row.kind !== "family")
       .map((row) => ({
-        // Work or school that ended is said apart from what is shared now
-        // (Fable A, Nov 13: "School that has ended is past").
+        // Work or school that ended is said apart from what is shared now.
+
         kind:
           row.kind === "coworker" && row.endedOn
             ? "worked"

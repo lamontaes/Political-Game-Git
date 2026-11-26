@@ -1,7 +1,7 @@
 /**
  * Where a person works, and which school they went to, as people say it in
- * passing (`data/english/workplace-words.json`): "the clinic", "work",
- * "Long Hill", "school", never the full name every line (Story lead, Nov 18).
+ * passing (`data/english/workplace-words.json`): "the clinic", "work", "Long
+ * Hill", "school", never the full name every line.
  */
 import data from "../../data/english/workplace-words.json" with { type: "json" };
 

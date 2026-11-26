@@ -633,7 +633,7 @@ function townPostInput(
     ),
   );
   // The player's decisions are theirs: nobody appoints the player to a post
-  // they didn't choose (owner, Oct 14: the engine offers, the player decides).
+  // they didn't choose.
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
@@ -2141,9 +2141,9 @@ function offerLapseDate(api: CoreAPI, hazardRecordId: string) {
 }
 
 /**
- * The briefing meets the governor again at most twice, each from a cause on the offer: once when half the answer window
- * is gone (if their first meeting came before that), and once on the last day a meeting can still be held before the
- * deadline. A weekly count would bring the same scene back four times (Words lead, Nov 15).
+ * The briefing meets the governor again at most twice, each from a cause on
+ * the offer: once when half the answer window is gone (if their first meeting
+ * came before that), and once on the last day a meeting can still be held before the deadline. A weekly count would bring the same scene back four times.
  */
 function scheduleBriefingReturns(
   api: CoreAPI,

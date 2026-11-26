@@ -1,9 +1,9 @@
 // The people pack: the game's painted people, read from one manifest
-// (art/people-engine/<pack>/manifest.json, its README). This is the only
-// file that names a pack or a file in one: everything else reads the rows
-// here. More clothes, colors or people are more manifest rows; a new pack is
-// a new folder and this one constant (owner, Oct 29: "make it to where these
-// can be updated very easily").
+// (art/people-engine/<pack>/manifest.json, its README). This is the only file
+// that names a pack or a file in one: everything else reads the rows here.
+// More clothes, colors or people are more manifest rows; a new pack is a new
+// folder and this one constant.
+
 import { existsSync, readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 
@@ -60,9 +60,9 @@ export interface PackFigure {
   /** Painted seated with its hands resting on a desk (the address pose). */
   readonly handsRestOnDesk?: boolean;
   /**
-   * Drawn writing or resting its hands on a desk that is not in the drawing
-   * (owner, Oct 29: "she has a pen in her hand and she's writing on her green
-   * pants"): drawn only at a desk spot, cut at the hands.
+   * Drawn writing or resting its hands on a desk that is not in the drawing:
+   * drawn only at a desk spot, cut at the hands.
+   *
    */
   readonly needsDesk?: boolean;
   /** Drawn behind a table with its forearms on it; its `hands` row is the art's own. */
@@ -214,8 +214,8 @@ export function drawAheadOn(): void {
 /**
  * Draws the figure a link names (`/art/people/<id>.png?<colors>`) in the
  * background, one between requests, so a face the server has handed out is
- * ready before the screen that shows it asks (owner, Oct 29: faces "should
- * be there instantly"). Drawn once per look; asking again is a cache hit.
+ * ready before the screen that shows it asks. Drawn once per look; asking
+ * again is a cache hit.
  */
 export function drawAhead(link: string): void {
   if (!drawingAhead) return;

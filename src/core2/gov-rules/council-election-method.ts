@@ -2,12 +2,12 @@
  * How a city or town council's members are elected: how many seats are ward
  * seats (each chosen by, and from, one part of the town) and how many are at
  * large. Ported from the old engine's `living-world/town-wards.ts`
- * (`councilWardPlan`); that file now reads this one.
+ * (`councilWardPlan`); that file now reads this one. Where a compiled charter
+ * states its council composition, that is used. Otherwise the council is
+ * estimated at large, with the national shares of the ICMA 2018 survey as the
+ * source (data/research/local-government/council-election-methods.json).
  *
- * Where a compiled charter states its council composition, that is used.
- * Otherwise the council is estimated at large (owner rulings, Oct 15), with
- * the national shares of the ICMA 2018 survey as the source
- * (data/research/local-government/council-election-methods.json).
+ *
  */
 import methods from "../../../data/research/local-government/council-election-methods.json" with { type: "json" };
 import type { GovernmentUnitIdentity } from "../reference/government-units";
@@ -24,7 +24,7 @@ export interface CouncilElectionMethod {
   readonly basis: "charter" | "estimated";
   /**
    * What the place calls a seat's part of town: "ward" only where its own
-   * charter says ward seats, else "district" (owner ruling, Oct 15).
+   * charter says ward seats, else "district".
    */
   readonly seatTerm: "ward" | "district";
   readonly citation: string;
@@ -67,9 +67,9 @@ export function councilElectionMethod(
   if (seats === null || seats < 1) return null;
   const charter = charterMethod(unit, seats);
   if (charter) return charter;
-  // No record of how this council is elected: it is estimated at large, the
-  // way most councils are (owner rulings, Oct 15, OWNER-DECISIONS.md "Town
-  // council seats"), and marked as an estimate with its source.
+  // No record of how this council is elected: it is estimated at large, the way
+  // most councils are, and marked as an estimate with its source.
+
   return {
     seats,
     wardSeats: 0,

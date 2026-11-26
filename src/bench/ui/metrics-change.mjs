@@ -1,6 +1,6 @@
-// One place makes a Metrics row's figure and its change from last year, so the change always
-// comes from the two figures the row shows (Words lead, Nov 13: "$209,000 / last year $207,000,
-// up $2,200"). Each figure is shown rounded; the change is the difference of the shown figures.
+// One place makes a Metrics row's figure and its change from last year, so
+// the change always comes from the two figures the row shows. Each figure is
+// shown rounded; the change is the difference of the shown figures.
 import { moneyWords } from "../../english/plain-words.mjs";
 
 // The number a money figure shows once rounded the way moneyWords says it: whole dollars to

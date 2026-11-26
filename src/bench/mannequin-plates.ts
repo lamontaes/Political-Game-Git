@@ -1,12 +1,12 @@
 // Mannequin plates (art/people-rooms/mannequin-plates, its README): a room
-// painted with green mannequins in the exact poses a person may take there.
-// A person is drawn only on a plate's spot, fitted to its mannequin, and a
-// picture with no plate shows nobody (owner, Oct 28: "do not put people in
-// until there are mannequins in there for every position"; Oct 29). Each
-// `<scene>.mannequins.json` names the backdrop it was painted on, and in
-// `backdrops` the other lights of that same painting (night, midday, morning,
-// rain are one room re-lit, so its mannequins stand in the same places); a
-// new plate or a new light is data there, read with no change here.
+// painted with green mannequins in the exact poses a person may take there. A
+// person is drawn only on a plate's spot, fitted to its mannequin, and a
+// picture with no plate shows nobody. Each `<scene>.mannequins.json` names
+// the backdrop it was painted on, and in `backdrops` the other lights of that
+// same painting (night, midday, morning, rain are one room re-lit, so its
+// mannequins stand in the same places); a new plate or a new light is data
+// there, read with no change here.
+
 import { readFileSync, readdirSync } from "node:fs";
 import { PNG } from "pngjs";
 import type { HeadBox } from "./people-pack";

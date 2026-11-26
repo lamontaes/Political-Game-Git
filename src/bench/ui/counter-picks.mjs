@@ -1,8 +1,8 @@
 // Which races the filing counter's replies offer at one turn of the clerk's
-// talk. The talk box holds a few replies, never a long list (owner, Oct 26), so
-// an office that takes more races than fit asks "What else is open?" as one of
-// them, and the next turn offers the next races, soonest election first, until the last
-// page, where it stops. Every race is reachable at the counter itself.
+// talk. The talk box holds a few replies, never a long list, so an office
+// that takes more races than fit asks "What else is open?" as one of them,
+// and the next turn offers the next races, soonest election first, until the
+// last page, where it stops. Every race is reachable at the counter itself.
 
 /** The most replies the talk box holds at the counter. */
 export const COUNTER_REPLIES = 4;

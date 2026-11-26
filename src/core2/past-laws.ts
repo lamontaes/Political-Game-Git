@@ -1,23 +1,23 @@
 /**
- * Laws have histories, and officeholders have records (owner, Oct 14, 2026).
+ * Laws have histories, and officeholders have records. Prior term: each
+ * chamber covering the town recorded votes on contested questions in the
+ * years before day one: the questions its members ran on first, then the bill
+ * catalog's for its level. Each bill's sponsor is the member standing most
+ * strongly on it then; each member's vote follows their own stance; a seat
+ * its holder didn't yet hold votes by the seat's lean. Votes go to the record
+ * engine's table, which the voting engine weighs and which marks the members'
+ * campaign promises kept or broken. Laws in force: every law row gets a
+ * history. Rows that take effect together (one series' tiers, one date) are
+ * one enactment. It was passed before its effective date by the enactment
+ * lag; a law the research records only as in force at the opening was passed
+ * some years before. Its roll call is the members who served then voting
+ * their stance, the rest of the seats generated predecessors; a law the
+ * current members serving then would have voted down was passed before they
+ * took their seats. The sponsor is the strongest yes voter, the signer the
+ * executive who held office then, and each phase points at the one it amends.
  *
- * Prior term: each chamber covering the town recorded votes on contested
- * questions in the years before day one: the questions its members ran on
- * first, then the bill catalog's for its level. Each bill's sponsor is the
- * member standing most strongly on it then; each member's vote follows their
- * own stance; a seat its holder didn't yet hold votes by the seat's lean.
- * Votes go to the record engine's table, which the voting engine weighs and
- * which marks the members' campaign promises kept or broken.
  *
- * Laws in force: every law row gets a history. Rows that take effect
- * together (one series' tiers, one date) are one enactment. It was passed
- * before its effective date by the enactment lag; a law the research records
- * only as in force at the opening was passed some years before. Its roll
- * call is the members who served then voting their stance, the rest of the
- * seats generated predecessors; a law the current members serving then would
- * have voted down was passed before they took their seats. The sponsor is the
- * strongest yes voter, the signer the executive who held office then, and
- * each phase points at the one it amends.
+ *
  */
 import type { GovernmentLevel } from "./government-level";
 import provisionQuestions from "../../data/research/legislature/provision-questions.json" with { type: "json" };
@@ -493,8 +493,8 @@ export function buildLawHistories(
       const row = rows.slice().sort((a, b) => a.id.localeCompare(b.id))[0]!;
       const id = ids[index]!;
       const phase = phaseOf(row);
-      // A policy question's law in a century world is the century's record (its session, its
-      // chambers' counts); one no session enacted has no history (CTO line 6935086070 on #9747).
+      // A policy question's law in a century world is the century's record (its
+      // session, its chambers' counts); one no session enacted has no history.
       const policy =
         row.id.endsWith(":starting") && !!POLICY_QUESTIONS[row.series];
       const century = policy

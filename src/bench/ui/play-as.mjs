@@ -1,5 +1,5 @@
-// Advanced, Play as (the Nov 8 front mock, fr-playas): the people who hold an office,
-// grouped by the body they sit in, a bust and a button for the one chosen.
+// Advanced, Play as: the people who hold an office, grouped by the body they
+// sit in, a bust and a button for the one chosen.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { stripSection } from "./strips.mjs";

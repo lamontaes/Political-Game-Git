@@ -1,29 +1,29 @@
 /**
- * The world's story an address opens on (Story thread #9750, part 4; owner,
- * Nov 16: "it's a real speech. It's a mix of hopefulness, maybe a little
- * braggadocious, and sets expectations ... or maybe it's warning because in
- * this generated world, you know, maybe the economy's been terrible ... or
- * maybe corruption"). Before the planner reads the speaker's own issues it
- * reads what the world has been through, from its records:
+ * The world's story an address opens on. Before the planner reads the
+ * speaker's own issues it reads what the world has been through, from its
+ * records: - **the economy's run**: the macro months over the last `runYears`
+ * years, how far prices outran pay or pay outran prices and whether more or
+ * fewer people were out of work at the end than at the start, and whether the
+ * speaker governed those years or inherited them; - **a disaster**: the
+ * country's declared disasters of the past year for the President (the
+ * national events engine's rows), the place's own for a governor or a local
+ * head (the disasters engine's); - **a scandal**: a bribe taken to the press
+ * about a member of the body the speaker addresses (the corruption engine's
+ * reported record). Each is a story row of `opening-address.json`
+ * (`stories`): the facts that must hold (`gate`), what its amount is
+ * multiplied by (`weight`), and the order of the sections its address says,
+ * so a warning and a brag do not share a skeleton. The story with the highest
+ * weight times amount is the address's; a tie goes by the story's name, and
+ * with none the address takes the kind row's own order (`steady`). No roll.
+ * It holds no sentence: the opening-speech bank's `story-open` and
+ * `story-turn` pieces of the story's topic say it.
  *
- * - **the economy's run**: the macro months over the last `runYears` years,
- *   how far prices outran pay or pay outran prices and whether more or fewer
- *   people were out of work at the end than at the start, and whether the
- *   speaker governed those years or inherited them;
- * - **a disaster**: the country's declared disasters of the past year for
- *   the President (the national events engine's rows), the place's own for a
- *   governor or a local head (the disasters engine's);
- * - **a scandal**: a bribe taken to the press about a member of the body the
- *   speaker addresses (the corruption engine's reported record).
  *
- * Each is a story row of `opening-address.json` (`stories`): the facts that
- * must hold (`gate`), what its amount is multiplied by (`weight`), and the
- * order of the sections its address says, so a warning and a brag do not
- * share a skeleton. The story with the highest weight times amount is the
- * address's; a tie goes by the story's name, and with none the address takes
- * the kind row's own order (`steady`). No roll. It holds no sentence: the
- * opening-speech bank's `story-open` and `story-turn` pieces of the story's
- * topic say it.
+ *
+ *
+ *
+ *
+ *
  */
 import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";

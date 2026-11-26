@@ -1,16 +1,16 @@
 /**
- * An arrest before the start (gap sheet, Nov 12, 2026, row 4: a past never
- * held an arrest or a charge), written when a person is opened. The share of
+ * An arrest before the start, written when a person is opened. The share of
  * young people arrested by 18 and by 23 (Brame et al. 2012, NLSY97) is read
- * as a yearly pull from 13, against the person's own seeded line; a pull
- * that reaches it before 23 (and before the start) is an arrest. Of those
+ * as a yearly pull from 13, against the person's own seeded line; a pull that
+ * reaches it before 23 (and before the start) is an arrest. Of those
  * arrested, the share with a felony conviction (Shannon et al. 2017: 8% of
  * adults) is read against a second line, and of those convicted, the share
  * who went to prison (3% of adults) against a third. The work pass says
  * whether the term fits the person's working life (`prisonTermOf`, handed
  * in): it ends a job the day the term begins and looks for work again on
- * release. Seeded generation of what happened before the world
- * opened; no roll decides what anyone does in play.
+ * release. Seeded generation of what happened before the world opened; no
+ * roll decides what anyone does in play.
+ *
  */
 import pastRows from "./data/past/parameters.json" with { type: "json" };
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -139,8 +139,8 @@ export function pastJusticeFor(
   for (const person of people) {
     if (!person.alive || !ownWindowOf(core, person)) continue;
     if (!wholePastOnce(core, person.id, "justice")) continue;
-    // The player is run by the same rule as everyone (owner, Nov 12, 2026,
-    // 6:33 p.m.); choosing a past through scenes comes after early access.
+    // The player is run by the same rule as everyone; choosing a past through
+    // scenes comes after early access.
     const found = pastArrestOf(core, person, core.startedAt);
     if (!found) continue;
     const term = termOf(person);

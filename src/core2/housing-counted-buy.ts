@@ -1,25 +1,25 @@
 /**
- * A counted renter household buys a home (pool item world-counted-renters-buy):
- * the same decision a full renter makes (housing-buy.ts), weighed once a year
- * on its lease's anniversary month, with the money moved through its group's
- * accounts. Its means are its own savings: its share of its group's account,
- * the money that goes with it when it changes groups (`departingCash`), which
- * its savings weight spreads among households alike in income, age and tenure
- * (`savingWeight` in counted-money.ts). Short of the down payment for every
- * household the record stands for, it does not buy (Account lead's rulings,
- * Nov 14, 2026, from "one model, two tiers" and "no dice").
- *
- * A purchase: the household joins its owners' group first, taking its share
- * with it, and the down payment is paid from there (the renters it leaves
- * behind pay none of it) to
- * the seller (a builder's finished new house in town, else a seller leaving
- * the town, which the outside market stands for), times the households the
- * record stands for; the town bank lends the rest where its capital has room,
- * else a holder outside the town does, as at the opening; the rent flow ends;
- * a `mortgage:<household>` part joins the place's counted mortgage flow for
+ * A counted renter household buys a home (pool item
+ * world-counted-renters-buy): the same decision a full renter makes
+ * (housing-buy.ts), weighed once a year on its lease's anniversary month,
+ * with the money moved through its group's accounts. Its means are its own
+ * savings: its share of its group's account, the money that goes with it when
+ * it changes groups (`departingCash`), which its savings weight spreads among
+ * households alike in income, age and tenure (`savingWeight` in
+ * counted-money.ts). Short of the down payment for every household the record
+ * stands for, it does not buy. A purchase: the household joins its owners'
+ * group first, taking its share with it, and the down payment is paid from
+ * there (the renters it leaves behind pay none of it) to the seller (a
+ * builder's finished new house in town, else a seller leaving the town, which
+ * the outside market stands for), times the households the record stands for;
+ * the town bank lends the rest where its capital has room, else a holder
+ * outside the town does, as at the opening; the rent flow ends; a
+ * `mortgage:<household>` part joins the place's counted mortgage flow for
  * that holder; the household's home, mortgage and purchase are housing's
- * records like any owner's; and the place's price
- * level counts it as a buyer by its weight.
+ * records like any owner's; and the place's price level counts it as a buyer
+ * by its weight.
+ *
+ *
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { buyMarket, monthlyPayment, weighHome } from "./housing-buy";

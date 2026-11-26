@@ -1,7 +1,7 @@
-// The Travel screen (owner, Nov 1 and Nov 7: places as pictures; mock pl-travel): the
-// places you can go in groups of picture tiles at the left, and the chosen place's
-// picture, hours, who is there, what you can do there and Go at the right.
-// The screen hands it entries; a place's details load when it is chosen.
+// The Travel screen: the places you can go in groups of picture tiles at the
+// left, and the chosen place's picture, hours, who is there, what you can do
+// there and Go at the right. The screen hands it entries; a place's details
+// load when it is chosen.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { picture } from "./picture.mjs";

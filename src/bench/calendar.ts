@@ -170,10 +170,10 @@ export function calendarItems(
       own: true,
       recordIds: [person.id],
     });
-  // Birthdays only for the household and close kin (owner, Nov 1: "it's just
-  // people's birthdays"): the people who live with the person, and parents,
-  // children, siblings and a partner by the closeness table's own marking of
-  // which relations are extended.
+  // Birthdays only for the household and close kin: the people who live with
+  // the person, and parents, children, siblings and a partner by the
+  // closeness table's own marking of which relations are extended.
+
   const close = new Set<string>([
     ...(core.households.get(person?.householdId ?? "")?.memberIds ?? []),
     ...[...familyFactsOf(person)]

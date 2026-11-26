@@ -1,20 +1,20 @@
 /**
  * The places outside the town that vote in its races, and in the races it
- * only sees from afar, at a coarser level (owner, Oct 14, 2026): a county, a
- * U.S. House district, a state legislative district's share of its state.
- * Each is sized and placed on the lean scale from its real 2024 vote; it
- * votes on the counted residents' engine (`electorate.ts`), never a model of
- * its own. The figures here are inputs: how many eligible voters a place
- * holds (its 2024 two-party votes over its state's CPS citizen turnout) and
- * where it leans (its 2024 Republican two-party share, net of the holder's
- * incumbency where a holder carried the seat then).
+ * only sees from afar, at a coarser level: a county, a U.S. House district, a
+ * state legislative district's share of its state. Each is sized and placed
+ * on the lean scale from its real 2024 vote; it votes on the counted
+ * residents' engine (`electorate.ts`), never a model of its own. The figures
+ * here are inputs: how many eligible voters a place holds (its 2024 two-party
+ * votes over its state's CPS citizen turnout) and where it leans (its 2024
+ * Republican two-party share, net of the holder's incumbency where a holder
+ * carried the seat then). Realistic, not real: every world opens on its own
+ * 2024. One national swing and each state's own move every place's two-party
+ * share, each state's votes cast move by the world's turnout, and the town's
+ * citizen share is drawn around its survey figure, all once per world from
+ * its seed. The eligible voters stay the people who live there, so a world's
+ * turnout differs from the published one.
  *
- * Realistic, not real (owner, Oct 27): every world opens on its own 2024. One
- * national swing and each state's own move every place's two-party share,
- * each state's votes cast move by the world's turnout, and the town's citizen
- * share is drawn around its survey figure, all once per world from its seed.
- * The eligible voters stay the people who live there, so a world's turnout
- * differs from the published one.
+ *
  */
 import { shareValue } from "./shares";
 import { seededUnit } from "./seeded";
@@ -223,14 +223,14 @@ export function publishedCitizenShareOf(
 
 /**
  * This world's swing in a state's Republican two-party share from 2024: the
- * world's national swing and the state's own, each drawn once from the seed
- * (realistic, not real; owner, Oct 27). Positive toward the Republicans.
+ * world's national swing and the state's own, each drawn once from the seed.
+ * Positive toward the Republicans. Each draw keeps its floor away from zero,
+ * and so does their sum: where the state's own draw would cancel the national
+ * one to within its own floor, it moves with the national swing instead, so
+ * no state opens on its published share. History's century shares replace
+ * this path.
  *
- * Each draw keeps its floor away from zero, and so does their sum: where the
- * state's own draw would cancel the national one to within its own floor, it
- * moves with the national swing instead, so no state opens on its published
- * share (CTO, Nov 17; Agugulu, American Samoa, seed 108d24aa2670d324 drew a
- * New Hampshire swing of 9e-10). History's century shares replace this path.
+ *
  */
 export function worldSwing(seed: string, usps: string): number {
   const national =
@@ -607,9 +607,9 @@ export function legislativePlace(
 }
 
 /**
- * A district where the century counted it stands where the century left it (CTO line 6935086070
- * on #9747: day one is whatever that history produced), not at its 2024 result; its people and
- * their turnout stay the place's.
+ * A district where the century counted it stands where the century left it,
+ * not at its 2024 result; its people and their turnout stay the place's.
+ *
  */
 function fromCentury(
   place: ElectoratePlace | null,
@@ -758,13 +758,13 @@ function publishedDistrictRight(
 }
 
 /**
- * Who holds a seat when this world starts (realistic, not real; owner, Oct
- * 27): the real holder, unless the world's swing carried the seat's 2024
- * share across even against the holder's party, when the other party holds
- * it. A seat with no contested 2024 result on record keeps its holder (an
- * uncontested seat was safe; a chamber that did not vote in 2024 is the
- * stopgap SG-WORLD-roster-no-2024-vote). Generation of who holds what at the
- * start, read from the seat's own vote, never a roll.
+ * Who holds a seat when this world starts: the real holder, unless the
+ * world's swing carried the seat's 2024 share across even against the
+ * holder's party, when the other party holds it. A seat with no contested
+ * 2024 result on record keeps its holder (an uncontested seat was safe; a
+ * chamber that did not vote in 2024 is the stopgap
+ * SG-WORLD-roster-no-2024-vote). Generation of who holds what at the start,
+ * read from the seat's own vote, never a roll.
  */
 // stopgapId: SG-WORLD-roster-no-2024-vote
 function heldInWorld(

@@ -49,10 +49,10 @@ export function ageBalanceFactor(headAge: number): number {
 }
 
 /**
- * What a family at this income, and with a head of this age when it is
- * known, keeps in its accounts in this world: the published median, scaled
- * by one balance level drawn per world from its seed (realistic, not real;
- * owner, Oct 27). Every opening cash reads this.
+ * What a family at this income, and with a head of this age when it is known,
+ * keeps in its accounts in this world: the published median, scaled by one
+ * balance level drawn per world from its seed. Every opening cash reads this.
+ *
  */
 export function medianTransactionBalance(
   annualPay: number,

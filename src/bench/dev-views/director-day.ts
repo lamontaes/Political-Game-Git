@@ -1,15 +1,15 @@
 /**
- * Dev mode's director's day (pool items dev-mode-shows-the-directors-day and
- * dev-mode-shows-a-scenes-first-line-piece; owner, Nov 16: "a part of the dev mode should be able to
- * trace and force every scene to play. So see why every scene played"). `GET dev/director/day?person=&date=`
- * returns one person's schedule entries for one day, read from the one ledger the director writes
- * (`ledger.people.get(id).schedule`), with no copy: for each moment its cause record, outcome, the
- * types bound, the types held back with the reason the director gave, the reason a waiting scene
- * closed as a journal line, and, for a scene that stages, the bank piece its first line opened on and
- * the facts that filled it (read from the scene as the director composes it). Counts by outcome and
- * by reason come from the same rows. The row is one object per moment so the board's columns
- * (candidates, first failed gate, reads, scores, picks) are added as fields on it, not as a second
- * route. The player and the date of the world are the defaults. Reads only; spends no game time.
+ * Dev mode's director's day. `GET dev/director/day?person=&date=` returns one
+ * person's schedule entries for one day, read from the one ledger the
+ * director writes (`ledger.people.get(id).schedule`), with no copy: for each
+ * moment its cause record, outcome, the types bound, the types held back with
+ * the reason the director gave, the reason a waiting scene closed as a
+ * journal line, and, for a scene that stages, the bank piece its first line
+ * opened on and the facts that filled it (read from the scene as the director
+ * composes it). Counts by outcome and by reason come from the same rows. The
+ * row is one object per moment so the board's columns (candidates, first
+ * failed gate, reads, scores, picks) are added as fields on it, not as a
+ * second route. The player and the date of the world are the defaults. Reads only; spends no game time.
  */
 import { composeScene } from "../../director/scene";
 import type { PersonId } from "../../core2/types";

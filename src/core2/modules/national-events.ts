@@ -1,28 +1,28 @@
 /**
- * What happens in the rest of the country, as results (Nation, Nov 8, 2026).
- * Natural hazards come from real recorded history keyed by place and season,
- * as world generation and not dice (owner, Oct 9, 1:55 p.m.,
- * docs/design/list-pick-inventory.md; CTO, Nov 8, 12:21 on #7365). FEMA's
- * declarations are the record, through October 9, 2026 (owner, Oct 16: both
- * FEMA's records and the world's own conditions; after the records end the
- * game keeps making its own weather). While the world's dates fall inside the
- * record, a game month has the real disasters of that month on their real
- * days, in the state each reached, with the counties it declared. After it, a
- * month's disasters come from the climate's hazard levels (the effect map's
- * `stateHazardRate`: each state's recorded declarations by hazard and season,
- * moved only by the warming, which moves only with the carbon laws): each
- * state and hazard keeps its exposure, the expected disasters so far, and a
- * disaster happens the month it has built up a whole one. Nothing is drawn
- * and nothing is typed; the same laws give the same disasters, and a world
- * with other laws differs by its exposures. The disaster's detail is a
- * recorded disaster of that state and hazard taken in turn
- * (SG-NATION-hazard-replay). Each disaster is one
- * result row on its day and a public `national.disaster` record for
- * national:<state>. The town's own disaster stays the disasters engine's
- * (`hazard.disaster`). Damage, aid, a declaration, the counties and the
- * households are built on open from the engines that hold the housing stock,
- * building codes and budgets in force (stopgap
- * SG-NATION-disaster-damage-from-causes).
+ * What happens in the rest of the country, as results. Natural hazards come
+ * from real recorded history keyed by place and season, as world generation
+ * and not dice. FEMA's declarations are the record, through. While the
+ * world's dates fall inside the record, a game month has the real disasters
+ * of that month on their real days, in the state each reached, with the
+ * counties it declared. After it, a month's disasters come from the climate's
+ * hazard levels (the effect map's `stateHazardRate`: each state's recorded
+ * declarations by hazard and season, moved only by the warming, which moves
+ * only with the carbon laws): each state and hazard keeps its exposure, the
+ * expected disasters so far, and a disaster happens the month it has built up
+ * a whole one. Nothing is drawn and nothing is typed; the same laws give the
+ * same disasters, and a world with other laws differs by its exposures. The
+ * disaster's detail is a recorded disaster of that state and hazard taken in
+ * turn (SG-NATION-hazard-replay). Each disaster is one result row on its day
+ * and a public `national.disaster` record for national:<state>. The town's
+ * own disaster stays the disasters engine's (`hazard.disaster`). Damage, aid,
+ * a declaration, the counties and the households are built on open from the
+ * engines that hold the housing stock, building codes and budgets in force
+ * (stopgap SG-NATION-disaster-damage-from-causes).
+ *
+ *
+ *
+ *
+ *
  */
 import { NATIONAL_DISASTER } from "../national-disaster-event";
 import declarations from "../data/disasters/declarations.json" with { type: "json" };
@@ -379,7 +379,7 @@ function putEvent(api: CoreAPI, row: NationalEventRow, citation: string): void {
   });
 }
 
-/** The month's calendar: the disasters the world's own hazard levels give (owner, Nov 16: "disasters come from each world's own risks"). */
+/** The month's calendar: the disasters the world's own hazard levels give. */
 function generateMonth(api: CoreAPI, month: string): void {
   generateFromLevels(api, month, lastDayOf(month));
 }

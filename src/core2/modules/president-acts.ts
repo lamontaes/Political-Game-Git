@@ -1,18 +1,18 @@
 /**
- * The President acts when nobody plays them (Nation, Nov 8, 2026). The
- * cabinet machinery is the one the played president uses
- * (office-day-federal-president.ts): `nominate` takes the candidate the
- * appointments engine ranks first by the president's own reasons (their
- * side, a candidate's years in office, whether they know them), the Senate
- * votes on its sitting day (`confirmGivenVotes`, by the members' sides), and
- * each step is a public record the press reports. This module only drives
- * it for a sitting president who is not the player: every open post gets its
- * nomination the day it is open, and every nomination due a vote is voted.
- * Federal orders go through the executive engine (`issueFederalOrder`): each
- * month the President weighs each from their own view and the law now, keeps
- * the weighing (`orderDecisions`) and issues or revokes where they want the law
- * changed. Pardons stay with their stopgap (SG-OFFICE-FED-pardons): the
- * justice engine records no federal conviction.
+ * The President acts when nobody plays them. The cabinet machinery is the one
+ * the played president uses (office-day-federal-president.ts): `nominate`
+ * takes the candidate the appointments engine ranks first by the president's
+ * own reasons (their side, a candidate's years in office, whether they know
+ * them), the Senate votes on its sitting day (`confirmGivenVotes`, by the
+ * members' sides), and each step is a public record the press reports. This
+ * module only drives it for a sitting president who is not the player: every
+ * open post gets its nomination the day it is open, and every nomination due
+ * a vote is voted. Federal orders go through the executive engine
+ * (`issueFederalOrder`): each month the President weighs each from their own
+ * view and the law now, keeps the weighing (`orderDecisions`) and issues or
+ * revokes where they want the law changed. Pardons stay with their stopgap
+ * (SG-OFFICE-FED-pardons): the justice engine records no federal conviction.
+ *
  */
 // The federal day first: the president file registers a part of it on load.
 import { OFFICE_DAY_FEDERAL_MODULE_ID } from "../office-day-federal";

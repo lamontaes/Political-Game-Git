@@ -1,7 +1,7 @@
-// Election night (owner, Oct 26: "its own pop-up menu kind of thing"; mock pl-night): the
-// title, then strips: the count as the places report (names and votes), what the narrator
-// says of it, and the way on. A step is { lines: [{ text }], totals: [{ name, votes }] } or,
-// last, { nation: { lines, races } }.
+// Election night: the title, then strips: the count as the places report
+// (names and votes), what the narrator says of it, and the way on. A step is
+// { lines: [{ text }], totals: [{ name, votes }] } or, last, { nation: {
+// lines, races } }.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { stripSection, introText, dotRows } from "./strips.mjs";

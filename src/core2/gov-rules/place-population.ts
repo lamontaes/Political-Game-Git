@@ -1,13 +1,13 @@
 /**
  * A town's population, where the game holds it. Ported from the old engine's
  * `nationwide-world/place-population.ts`, reading the same rows from their
- * JSON table (`data/tables/place-population.json`).
+ * JSON table (`data/tables/place-population.json`). The Census Bureau's
+ * Vintage 2025 estimate for, for every incorporated place in the fifty states
+ * and D.C., keyed by 7-digit place GEOID. A place with no estimate reads
+ * null, never 0; the few places the Census Bureau itself counts as 0 read 0.
+ * This is the reference figure the world starts from, not a live count.
  *
- * The Census Bureau's Vintage 2025 estimate for July 1, 2025, for every
- * incorporated place in the fifty states and D.C., keyed by 7-digit place
- * GEOID. A place with no estimate reads null, never 0; the few places the
- * Census Bureau itself counts as 0 read 0. This is the reference figure the
- * world starts from, not a live count.
+ *
  */
 import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
 import groupQuartersProfile from "../data/people/group-quarters.json" with { type: "json" };
@@ -103,9 +103,9 @@ function worldPopulationOf(
 }
 
 /**
- * The town's population in this world (realistic, not real; owner, Oct 27):
- * the published reference population is the center of a per-world spread, and
- * every engine that reads a town's size reads this, never the published count.
+ * The town's population in this world: the published reference population is
+ * the center of a per-world spread, and every engine that reads a town's size
+ * reads this, never the published count.
  */
 export function placeReferencePopulation(
   placeGeoid: string,
@@ -167,15 +167,15 @@ function loadGroupQuarters(): ReadonlyMap<string, PlaceGroupQuarters> {
 }
 
 /**
- * The place's residents in group quarters (college housing, prisons,
- * juvenile facilities, nursing homes, other institutions, military quarters
- * and other noninstitutional quarters) on Census Day 2020, by its locality
- * key (`placeLocalities`), or null where the file has no row. The CTO's
- * ruling of Nov 1: the count by place and type comes from the Census.
+ * The place's residents in group quarters (college housing, prisons, juvenile
+ * facilities, nursing homes, other institutions, military quarters and other
+ * noninstitutional quarters) on Census Day 2020, by its locality key
+ * (`placeLocalities`), or null where the file has no row. The CTO's ruling
+ * of: the count by place and type comes from the Census.
  */
 export function placeGroupQuarters(key: string): PlaceGroupQuarters | null {
   const row = loadGroupQuarters().get(key) ?? null;
-  // The counts are April 1, 2020's, not a later vintage's.
+  // The counts are 's, not a later vintage's.
   if (row && row.total > p("zero")) stopgap("SG-GQ-census-day-2020");
   return row;
 }

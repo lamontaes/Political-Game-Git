@@ -1,11 +1,11 @@
 /**
- * The address an executive office gives once its holder is sworn in (owner,
- * Oct 29: "depending on what your office is, you'll give a speech"). It is
+ * The address an executive office gives once its holder is sworn in. It is
  * recorded through the speech engine like every speech (`deliverSpeech`, the
  * one place a speech is recorded as heard), never by a second speech writer:
  * the people named in the room hear it, the views engine moves those it
- * persuades and each listener may retell it at home. The words are the English
- * engine's; this holds no sentence.
+ * persuades and each listener may retell it at home. The words are the
+ * English engine's; this holds no sentence.
+ *
  */
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";

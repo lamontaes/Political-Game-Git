@@ -1,27 +1,27 @@
 /**
- * The working life before the start (history-past-work; owner, Oct 27, 2026:
- * "fix history not simulating before 2025"). Every full adult's work from
- * leaving school to day one runs through the pre-start window quarter by
- * quarter, by the same decisions the jobs engine makes in play: an employer
- * keeps or lets go by how they work (`jobs.value-worker`), a worker looks
- * around by their lean toward looking (`jobs.review-worker`), and someone out
- * of work finds a job by their lean toward applying (`jobs.apply`). Each
- * quarter's pull comes from the economy pass's own month
- * (`economy.conditions`): layoffs rise as unemployment rises, quits fall and
- * finding work slows as it stays high. No roll decides anything: a pull adds
- * up quarter by quarter and the separation or hire happens on the day it
- * reaches one whole event, so the same person in the same economy has the
- * same life, and a different town or seed has different people and firms.
+ * The working life before the start. Every full adult's work from leaving
+ * school to day one runs through the pre-start window quarter by quarter, by
+ * the same decisions the jobs engine makes in play: an employer keeps or lets
+ * go by how they work (`jobs.value-worker`), a worker looks around by their
+ * lean toward looking (`jobs.review-worker`), and someone out of work finds a
+ * job by their lean toward applying (`jobs.apply`). Each quarter's pull comes
+ * from the economy pass's own month (`economy.conditions`): layoffs rise as
+ * unemployment rises, quits fall and finding work slows as it stays high. No
+ * roll decides anything: a pull adds up quarter by quarter and the separation
+ * or hire happens on the day it reaches one whole event, so the same person
+ * in the same economy has the same life, and a different town or seed has
+ * different people and firms. The run ends in the opening as it stands: the
+ * job held on day one began on its own recorded date, and someone jobless on
+ * day one stopped working on a date their own records give (a child's birth,
+ * a retirement claim) or, if none does, as long ago as their own pull toward
+ * finding work says they would still be looking. Past jobs are at the
+ * businesses of the person's town that were open by then (the business pass's
+ * founding dates), each hire taking the employer with the most openings left
+ * that quarter. Records name only full people; a person filled in later gets
+ * theirs then (`pastWorkFor`), read against the openings the full people
+ * left.
  *
- * The run ends in the opening as it stands: the job held on day one began on
- * its own recorded date, and someone jobless on day one stopped working on a
- * date their own records give (a child's birth, a retirement claim) or, if
- * none does, as long ago as their own pull toward finding work says they
- * would still be looking. Past jobs are at the businesses of the person's
- * town that were open by then (the business pass's founding dates), each
- * hire taking the employer with the most openings left that quarter.
- * Records name only full people; a person filled in later gets theirs then
- * (`pastWorkFor`), read against the openings the full people left.
+ *
  */
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import { decisionLean, traitLeanBetween } from "./trait-decisions";
@@ -342,13 +342,13 @@ export function veteranShare(
 }
 
 /**
- * A person's service before the start (gap sheet, Nov 12, 2026, row 4), if
- * they served: the share of civilians their sex and age in their state who
- * are veterans (ACS 2024, B21001), against their own seeded line, says
- * whether; they enlisted the day their schooling ended and served a first
- * term (`pastServiceYears`), discharged before the start, since the share
- * counts civilians. Seeded generation of who existed; no roll decides what
- * anyone does. The work pass starts their first civilian job after it.
+ * A person's service before the start, if they served: the share of civilians
+ * their sex and age in their state who are veterans (ACS 2024, B21001),
+ * against their own seeded line, says whether; they enlisted the day their
+ * schooling ended and served a first term (`pastServiceYears`), discharged
+ * before the start, since the share counts civilians. Seeded generation of
+ * who existed; no roll decides what anyone does. The work pass starts their
+ * first civilian job after it.
  */
 export function serviceOf(
   core: Readonly<CoreState>,
@@ -421,10 +421,10 @@ function currentOf(core: CoreState, person: PersonState): Plan["current"] {
 
 /**
  * A person's prison term before the start, where their working life leaves
- * room for it (gap sheet, Nov 12, row 4): the justice pass's term
- * (`pastArrestOf`), unless the job they hold on day one began before their
- * release or the term falls in their years of service (`serviceOf`). The justice pass writes only this term, and the run steps
- * around it, so a past never has someone at work or looking while inside.
+ * room for it: the justice pass's term (`pastArrestOf`), unless the job they
+ * hold on day one began before their release or the term falls in their years
+ * of service (`serviceOf`). The justice pass writes only this term, and the
+ * run steps around it, so a past never has someone at work or looking while inside.
  */
 export function prisonTermOf(
   core: Readonly<CoreState>,
@@ -1147,9 +1147,9 @@ function recordsOf(
         ? window.from
         : date;
   const said = source(api, "Pre-start working life (src/core2/past-work.ts).");
-  // An employer named for a place the world keeps none for is a record of
-  // that place from the day a spell names it (owner, Nov 16: every named thing
-  // is a record): its kind and its place, no cash of its own.
+  // An employer named for a place the world keeps none for is a record of that
+  // place from the day a spell names it: its kind and its place, no cash of
+  // its own.
   const named = new Set<string>();
   for (const row of run.spells) {
     const id = row.spell.organizationId;

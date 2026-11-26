@@ -388,7 +388,7 @@ export function governmentView(core: CoreState, personId: string) {
     keyPeople: core.people.has(personId)
       ? politicsKeyPeople(core, personId, place)
       : [],
-    // The player files only for the offices player-offices.json lists (owner, Oct 29); the rest run in the world.
+    // The player files only for the offices player-offices.json lists; the rest run in the world.
     contests: playerContests(api).map((contest) => ({
       contest,
       // The office as people say it, one name for the counter and Travel.
@@ -522,7 +522,7 @@ export function localRaces(core: CoreState) {
         contest.electionDate === date || ownNextContests.has(contest.id),
     )
     // A body elected by district shows the viewer their own district's seat,
-    // never the others (owner, Nov 16).
+    // never the others.
     .filter((contest) => !seatIsAnotherDistrict(api, contest.id))
     .map((contest) => ({ contest, group: atLargeGroup(api, contest) }))
     .filter(({ contest, group }) => group[0]!.id === contest.id)
@@ -534,8 +534,8 @@ export function localRaces(core: CoreState) {
               .table("filings")
               .query("byContest", [seat.id]) as unknown as FilingRow[],
         )
-        // Everyone running: filed, and announced while the window is ahead
-        // (owner, Nov 17: "other people should be able to announce").
+        // Everyone running: filed, and announced while the window is ahead.
+
         .filter(campaigning)
         .map((row) => {
           const who = candidateIdentity(api, row.personId);
@@ -572,8 +572,8 @@ export function localRaces(core: CoreState) {
         .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
       const office = filingOfficeFor(api, contest.id);
       const bar = playerFilingBar(api, contest.id);
-      // The player's announcement for this race, while it waits for its
-      // window (owner, Nov 17: "Run now, file on the date").
+      // The player's announcement for this race, while it waits for its window.
+
       const announced = core.playerId
         ? group.some(
             (seat) =>
@@ -617,8 +617,8 @@ export function localRaces(core: CoreState) {
         // Why it is not offered, from the clerk's own check (null when it is);
         // a race of an office the player does not run for says so.
         bar,
-        // Which of the office rule's two causes closes it, and the home's own offices the player runs
-        // for instead, by title, so the page says why and where to run (crew list #9747, item 3a).
+        // Which of the office rule's two causes closes it, and the home's own offices
+        // the player runs for instead, by title, so the page says why and where to run.
         barWhy: whyNotYours(api, contest.id),
         // What kind of office it is, so the page names a county's offices as
         // the county's, and groups the player's own offices first.
@@ -706,8 +706,8 @@ function politicsKeyPeople(core: CoreState, personId: string, place: string) {
           row.leads && !own && row.stateKey
             ? (stateName.get(row.stateKey) ?? null)
             : null,
-        // The President and Vice President are known to everyone, but a
-        // territory's voters do not choose them (owner ruling, Oct 19).
+        // The President and Vice President are known to everyone, but a territory's
+        // voters do not choose them.
         chosenByHere: row.reasons.some(
           (reason) => reason === "president" || reason === "vice-president",
         )
@@ -804,9 +804,9 @@ function officeLevelOf(api: CoreAPI, officeId: string): string {
 }
 
 /**
- * Announce for a race whose filing has not opened (owner, Nov 17: "Run now,
- * file on the date"): the same bar and the same platform and party as a
- * filing at the counter, through the elections engine's announcement.
+ * Announce for a race whose filing has not opened: the same bar and the same
+ * platform and party as a filing at the counter, through the elections
+ * engine's announcement.
  */
 export function announceForOffice(
   core: CoreState,

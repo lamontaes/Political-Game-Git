@@ -1,17 +1,17 @@
 /**
- * The kind of address a speaker gives (owner, Nov 8: "It's still very
- * robotic... it's always good news. It's never bad news... Sometimes you
- * could have a Jimmy Carter, a crisis of confidence kind of thing. Sometimes
- * it could just be a hopeful speech, or it could be like Trump just railing
- * on people... it needs to work off of effects or in-laws and people around
- * them and their temperament and their personality"). The kind is picked
- * from the world's records and the speaker's recorded traits: the term read
- * by area (src/core2/term-read.ts), the economy's year, a recent disaster
- * and the speaker's open priorities. Each kind's score is what the world
- * gives it to say times one plus the speaker's pull toward it; the highest
- * score wins and a tie goes to the name first in the alphabet. No roll
- * picks it. It holds no sentence: the English engine's bank writes the
- * address in the chosen kind's manner.
+ * The kind of address a speaker gives. The kind is picked from the world's
+ * records and the speaker's recorded traits: the term read by area
+ * (src/core2/term-read.ts), the economy's year, a recent disaster and the
+ * speaker's open priorities. Each kind's score is what the world gives it to
+ * say times one plus the speaker's pull toward it; the highest score wins and
+ * a tie goes to the name first in the alphabet. No roll picks it. It holds no
+ * sentence: the English engine's bank writes the address in the chosen kind's
+ * manner.
+ *
+ *
+ *
+ *
+ *
  */
 import { historyOf } from "../core2/past";
 import type { CoreState, PersonState } from "../core2/types";
@@ -61,8 +61,8 @@ export interface AddressSituation {
 /**
  * The kinds the term's bad news scores (`hurt` in scoreKinds): an address of
  * one of them is about the term's worst condition, whatever the speaker's own
- * issues are (the words lead, Nov 12), and with no condition gone wrong it is
- * not a kind the address can take.
+ * issues are, and with no condition gone wrong it is not a kind the address
+ * can take.
  */
 export const HURT_KINDS: readonly AddressKind[] = ["crisis", "combative"];
 

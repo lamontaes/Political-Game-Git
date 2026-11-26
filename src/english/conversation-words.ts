@@ -203,9 +203,9 @@ export function wordConversationMove(request: {
     : fitting;
   const usable = fresh?.length ? fresh : fitting;
   const bank = `conversation:${request.subject}:${request.part}`;
-  // A line with reasons on record is composed: one of its wordings as the
-  // core, then a reason the engine joins after it when the facts it names are
-  // on record (owner, Nov 11: "a ton of different speech versions").
+  // A line with reasons on record is composed: one of its wordings as the core,
+  // then a reason the engine joins after it when the facts it names are on
+  // record.
   const reasons = words.subjects[from.subject]?.reasons?.filter(
     (row) =>
       row.for === from.part &&
@@ -410,10 +410,10 @@ export const SAID_ONCE_FACTS: readonly string[] = [HELD_SAID, VOICE_SAID];
 const ONCE_PIECES = new Map<string, ReadonlySet<string>>();
 
 /**
- * The pieces held back once the talk has said one of them
- * (`excludesFacts: <fact>`): saying one sets that fact for the rest of the
- * talk (lead, Nov 13: how long a person has held a stand is said once per
- * talk; Words lead, Nov 14: a call's goodbye never repeats its hello).
+ * The pieces held back once the talk has said one of them (`excludesFacts:
+ * <fact>`): saying one sets that fact for the rest of the talk.
+ *
+ *
  */
 export function piecesSaidOnce(fact: string): ReadonlySet<string> {
   let pieces = ONCE_PIECES.get(fact);

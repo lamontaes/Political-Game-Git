@@ -371,10 +371,10 @@ export const WORLD_METRICS_MODULE: CoreModule = {
     const state = api.moduleState(WORLD_METRICS_MODULE_ID).table("state");
     if (state.get("world-metrics:state")) return;
     state.put({ id: "world-metrics:state", openedAt: api.state.date });
-    // The year opens with what the engines hold on the first day, so a
-    // figure is on screen before the first monthly row (owner, Nov 5: the
-    // Metrics tab is never blank). No year before it is written: nothing
-    // kept one.
+    // The year opens with what the engines hold on the first day, so a figure is
+    // on screen before the first monthly row. No year before it is written:
+    // nothing kept one.
+
     const opening = townMetrics(api);
     for (const row of opening) {
       // The first reading is a month row too, so a figure's trace inputs

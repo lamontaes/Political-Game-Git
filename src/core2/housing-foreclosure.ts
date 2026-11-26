@@ -1,18 +1,18 @@
 /**
- * Losing an owned home (owner, Oct 14, 2026: "whatever happens if you don't
- * pay your house"). A mortgage behind past the federal 120 days (Regulation
- * X) goes to foreclosure under the state's law from data (judicial or
- * nonjudicial, its notice and sale timeline, any redemption period). The
- * household can still catch up before the sale. At the sale an outside buyer
- * pays the home's value less the foreclosure discount. The lender takes what
- * it is owed from that, its books carrying any shortfall as a loss, and the
- * household keeps any surplus. After the redemption period the household is
- * removed, and goes where its records take it, as after an eviction.
+ * Losing an owned home. A mortgage behind past the federal 120 days
+ * (Regulation X) goes to foreclosure under the state's law from data
+ * (judicial or nonjudicial, its notice and sale timeline, any redemption
+ * period). The household can still catch up before the sale. At the sale an
+ * outside buyer pays the home's value less the foreclosure discount. The
+ * lender takes what it is owed from that, its books carrying any shortfall as
+ * a loss, and the household keeps any surplus. After the redemption period
+ * the household is removed, and goes where its records take it, as after an
+ * eviction. Counted owners default by the same rule times their count: their
+ * group's housing arrears say how many of the group's owners are behind, the
+ * ones with the least income first. A removed counted owner stays counted
+ * without a home, as an evicted counted renter does.
  *
- * Counted owners default by the same rule times their count: their group's
- * housing arrears say how many of the group's owners are behind, the ones
- * with the least income first. A removed counted owner stays counted without
- * a home, as an evicted counted renter does.
+ *
  */
 import { townOutsideOf } from "./opening-outside-market";
 import { addDays, makeIsoDate } from "./kernel/dates";

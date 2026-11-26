@@ -23,9 +23,9 @@ export interface WorldSettings {
     policyRatePct?: number;
   };
   /**
-   * Where day one comes from (owner, Nov 17, 2026, CTO line 6935086070 on #9747, point 5: "'Just
-   * like today' is the same engine with a new-game or dev-mode option that forces today's real
-   * record"): the century run from 1925 (the default), or today's real record.
+   * Where day one comes from: the century run from 1925 (the default), or
+   * today's real record.
+   *
    */
   history?: "century" | "today";
   /** Recorded for PEOPLE's views and GOV's elections to read. */

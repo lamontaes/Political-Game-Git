@@ -1,19 +1,19 @@
 /**
- * Business closures in the year before day one: the
- * town's businesses start on day one, so the past carries the ones that
- * closed first, as records with a kind, a name, a former owner, the workers
- * and a date, for the news archive and for the people they touched.
+ * Business closures in the year before day one: the town's businesses start
+ * on day one, so the past carries the ones that closed first, as records with
+ * a kind, a name, a former the workers and a date, for the news archive and
+ * for the people they touched. How many: the state's yearly exit share (BDS,
+ * the business engine's own figure) of the town's businesses is the expected
+ * total, which only sizes the year and is capped by the owners who could have
+ * retired. Which kinds: the town's kinds in proportion to how many it has now
+ * (largest remainder, kinds in id order). Who: the owner's age pull toward
+ * closing is the business engine's (`businessCloseAgeWeight` past
+ * `jobsEarliestRetirementAge`), so the former owner is the living resident
+ * furthest past that age who owns no business now, and the recorded reason is
+ * the engine's own "retiring". No roll decides any of it. Dates follow the
+ * same order: the closures are spaced through the year, the owner furthest
+ * past retirement first.
  *
- * How many: the state's yearly exit share (BDS, the business engine's own
- * figure) of the town's businesses is the expected total, which only sizes the
- * year and is capped by the owners who could have retired. Which kinds: the
- * town's kinds in proportion to how many it has now (largest remainder, kinds
- * in id order). Who: the owner's age pull toward closing is the business
- * engine's (`businessCloseAgeWeight` past `jobsEarliestRetirementAge`), so
- * the former owner is the living resident furthest past that age who owns no
- * business now, and the recorded reason is the engine's own "retiring". No
- * roll decides any of it. Dates follow the same order: the closures are spaced
- * through the year, the owner furthest past retirement first.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {

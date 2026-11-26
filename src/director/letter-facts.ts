@@ -71,9 +71,9 @@ export function letterFacts(
   ).find(
     (row) => row.date < letter.date && row.personIds.at(P.zero) === askedId,
   );
-  // A yes the reader already wrote back to this writer closes the ask: the
-  // next letter holds them to it instead of asking again (the Player, Nov 19
-  // on #9750: "an accepted ask has to close the ask").
+  // A yes the reader already wrote back to this writer closes the ask: the next
+  // letter holds them to it instead of asking again.
+
   const saidYes = recordsSince(
     core,
     askedId,

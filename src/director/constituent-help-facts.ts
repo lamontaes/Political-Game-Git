@@ -1,13 +1,13 @@
 /**
- * What a constituent's own records hand the office-hours scene (owner, Nov 9:
- * "a bunch of different scenes and scenarios and variants", drawn "from
- * people's lives and the world's records"): the employer they lost and how
- * long ago, the back rent a notice names and the day it runs out, the hourly
- * pay under the legal floor, and the relative at home who needs care. Each is
- * a fact of the scene cited to the records it came from, and each is set only
- * where its record is on the books, so a line that names it plays only then.
- * The variant that plays is chosen by arc-variant.ts from the same records;
- * this file only words what they say.
+ * What a constituent's own records hand the office-hours scene: the employer
+ * they lost and how long ago, the back rent a notice names and the day it
+ * runs out, the hourly pay under the legal floor, and the relative at home
+ * who needs care. Each is a fact of the scene cited to the records it came
+ * from, and each is set only where its record is on the books, so a line that
+ * names it plays only then. The variant that plays is chosen by
+ * arc-variant.ts from the same records; this file only words what they say.
+ *
+ *
  */
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";

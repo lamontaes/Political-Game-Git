@@ -1,6 +1,6 @@
-// The one dated list: short rows of a date in gold and what happens then
-// (the mock's "Coming up": "Feb 4 Budget amendment for the police
-// department"). Every string worded by the screen.
+// The one dated list: short rows of a date in gold and what happens then.
+// Every string worded by the screen.
+
 import { el } from "./dom.mjs";
 
 /** `rows`: [{ when, text }]; `empty` is said when there are none. */

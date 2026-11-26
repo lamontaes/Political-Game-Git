@@ -4,29 +4,29 @@
  * place is built as the player gets it (`buildBenchWorld`, every module
  * installed) and plays three game years, the cash journal watched
  * (setJournalTrace) for the owners' draws. Passes when, for each of the three
- * years:
- * (1) the town's business openings and closings are explained by records
- *     (real rates are not targets, owner, Nov 8): every founding on record in
- *     the town names a founder who is a record in the world, a kind, and the
- *     market room it chose on, and every business whose books closed in the
- *     year names the reason it closed (its owner's choice to carry on or not,
- *     from its losses or the owner's age, or a closure by its books). The
- *     openings and closings per hundred businesses are printed with the
- *     Census Business Dynamics Statistics range for the state beside them,
- *     never tested against it;
- * and over the run:
- * (2) owners' income comes from profit: every owner draw on record that moved
- *     money was one journal entry out of the business's own account into the
- *     owner's, was no more than the profit the business had kept
- *     (retained before the draw), came after the business's sales (it had
- *     received sales, and all its draws in the run are no more than the sales
- *     it received in the run), and was never made from a business with no
- *     profit kept;
- * (3) a business that adds a location does so with nothing scripting it: where one does, at least one
- *     founding on record names a parent business, the market room it chose
- *     on, and the parent's strength, with the parent's own cash funding it
- *     (a founding row the monthly founding decision wrote, not the opening's).
- * Exits nonzero naming each failed clause.
+ * years: (1) the town's business openings and closings are explained by
+ * records: every founding on record in the town names a founder who is a
+ * record in the world, a kind, and the market room it chose on, and every
+ * business whose books closed in the year names the reason it closed (its
+ * owner's choice to carry on or not, from its losses or the owner's age, or a
+ * closure by its books). The openings and closings per hundred businesses are
+ * printed with the Census Business Dynamics Statistics range for the state
+ * beside them, never tested against it; and over the run: (2) owners' income
+ * comes from profit: every owner draw on record that moved money was one
+ * journal entry out of the business's own account into the was no more than
+ * the profit the business had kept (retained before the draw), came after the
+ * business's sales (it had received sales, and all its draws in the run are
+ * no more than the sales it received in the run), and was never made from a
+ * business with no profit kept; (3) a business that adds a location does so
+ * with nothing scripting it: where one does, at least one founding on record
+ * names a parent business, the market room it chose on, and the parent's
+ * strength, with the parent's own cash funding it (a founding row the monthly
+ * founding decision wrote, not the opening's). Exits nonzero naming each
+ * failed clause.
+ *
+ *
+ *
+ *
  */
 import bdsData from "../../../data/research/business/bds-2023.json" with { type: "json" };
 import regionsData from "../data/regional/regions.json" with { type: "json" };

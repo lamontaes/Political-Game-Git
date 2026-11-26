@@ -39,9 +39,9 @@ export function sceneMinute(
 /**
  * The facts every home-alone arrival line reads, from every caller (the
  * opening's landing and a later scene at home): the day as it is said after
- * "It's" (`landing`, "the evening of January 20") and the "evening" mark only
- * from the evening on, so a line that ends the day ("The day is done.") is
- * never said at 8 a.m.
+ * "It's" and the "evening" mark only from the evening on, so a line that ends
+ * the day ("The day is done.") is never said at 8 a.m.
+ *
  */
 export function homeAloneDayFacts(
   date: string,

@@ -327,13 +327,13 @@ function wholeShares(exact: readonly number[]): number[] {
 
 /**
  * Each group-quarters type's residents in the opening's sample of `sample`
- * people (CTO, Nov 1: the count by place and type comes from the Census).
- * This world's count of a type is the Census count times the world's
- * population over the published one, never past the world's whole count;
- * the sample holds it in the sample's proportion, so the world's own count
+ * people. This world's count of a type is the Census count times the world's
+ * population over the published one, never past the world's whole count; the
+ * sample holds it in the sample's proportion, so the world's own count
  * cancels: the Census count times the sample over the published population
  * (or over the group-quarters total where that is larger). Empty where the
  * place has none.
+ *
  */
 function groupQuartersSample(
   place: CorePlace,
@@ -814,10 +814,10 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     index: number,
     drawn: ReturnType<typeof drawHousehold>,
   ) => addPlan(`${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`, drawn);
-  // Group quarters (CTO, Nov 1): the place's Census count of residents in
-  // college housing, prisons, nursing homes, barracks and other quarters is
-  // part of its population, so their share of the sample is carved out of
-  // the same draw, and households are drawn for the rest only.
+  // Group quarters: the place's Census count of residents in college housing,
+  // prisons, nursing homes, barracks and other quarters is part of its
+  // population, so their share of the sample is carved out of the same draw,
+  // and households are drawn for the rest only.
   const quartersSample = groupQuartersSample(place, minimumPeople);
   const quartersPeople = quartersSample.reduce(
     (sum, [, count]) => sum + count,

@@ -10,24 +10,24 @@ import { municipioUnit } from "../reference/government-units";
 export { municipioUnit } from "../reference/government-units";
 
 /**
- * COUNTY GOVERNING BODIES (Build 25, CTO ruling of September 29, 1:54 a.m.):
- * how many members sit on a county's board, and on a Puerto Rico
- * municipio's municipal legislature, from the law that sets it.
+ * COUNTY GOVERNING BODIES: how many members sit on a county's board, and on a
+ * Puerto Rico municipio's municipal legislature, from the law that sets it.
+ * Three kinds of answer, each labeled wherever it is shown: - **state-law**:
+ * the state's own statute sets the size of every county board without a
+ * charter of its own (data/research/local-government/
+ * county-governing-bodies.json, each with its citation). -
+ * **municipal-code**: Puerto Rico's Municipal Code, Law 107 of 2020, sets
+ * each municipal legislature by the municipio's population. - **estimated**:
+ * the state's law has not been read. The board takes the national average,
+ * ESTIMATED FROM AVERAGE from the National Association of Counties' count of
+ * county board members. A county whose own charter sets a different size (a
+ * charter county in California, Ohio, Missouri or Washington) is not read
+ * yet, so it takes its state's size: a known gap, not a rule.
  *
- * Three kinds of answer, each labeled wherever it is shown:
  *
- * - **state-law**: the state's own statute sets the size of every county
- *   board without a charter of its own (data/research/local-government/
- *   county-governing-bodies.json, each with its citation).
- * - **municipal-code**: Puerto Rico's Municipal Code, Law 107 of 2020, sets
- *   each municipal legislature by the municipio's population.
- * - **estimated**: the state's law has not been read. The board takes the
- *   national average, ESTIMATED FROM AVERAGE from the National Association
- *   of Counties' count of county board members.
  *
- * A county whose own charter sets a different size (a charter county in
- * California, Ohio, Missouri or Washington) is not read yet, so it takes its
- * state's size: a known gap, not a rule.
+ *
+ *
  */
 
 export type CountyBodyBasis = "state-law" | "municipal-code" | "estimated";

@@ -3,7 +3,7 @@
  * months", "a year and a half", "about thirty years", never a day count.
  * Callers pass the number of days. A year or less is told in months; longer
  * spans in years, so a journal of a long life does not open every line with
- * the same "more than a year" (owner, Nov 8 playtest).
+ * the same "more than a year".
  */
 import data from "../../data/english/span-words.json" with { type: "json" };
 

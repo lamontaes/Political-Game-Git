@@ -1,29 +1,29 @@
 /**
- * Public action (owner, Nov 8: "if you're having a good term except for
- * education, then you might get a strike... if the world is great, maybe
- * there's not a lot to react to, or you show up to a rally, or if it's bad,
- * you show up to a protest"). Each month, after the outcome web writes the
- * town's row, the town's term is read by area (src/core2/term-read.ts). A bad
- * slide feeds the town's organizing in that area and a good one its pride;
- * both fade a share each month, so a movement grows over a bad term and dies
- * after one that mends. The people each area touches (the school's staff, the
- * town's renters, the jobless, every resident) then each decide whether to
- * join, by the same resident's decision a residents' group uses
- * (`joinsGroup`: their view, whether it touches their own life, who they know
- * who is already in, and their traits). Two or more who join are an action: a
- * strike where the area's workers act, a protest where residents press a
- * demand, a rally where they gather to say the term is going well.
+ * Public action. Each month, after the outcome web writes the town's row, the
+ * town's term is read by area (src/core2/term-read.ts). A bad slide feeds the
+ * town's organizing in that area and a good one its pride; both fade a share
+ * each month, so a movement grows over a bad term and dies after one that
+ * mends. The people each area touches (the school's staff, the town's
+ * renters, the jobless, every resident) then each decide whether to join, by
+ * the same resident's decision a residents' group uses (`joinsGroup`: their
+ * view, whether it touches their own life, who they know who is already in,
+ * and their traits). Two or more who join are an action: a strike where the
+ * area's workers act, a protest where residents press a demand, a rally where
+ * they gather to say the term is going well. What an action does: the people
+ * in it make their case on the area's policy question to the officials who
+ * hold the town's seats, through the speech engine, so the views engine moves
+ * each official by their standing with the speaker, and the position they
+ * take at the next vote is the one their views give. The player is never
+ * decided for: an action the player's own life is touched by is left open for
+ * them (`playerTouched`), and the scene is theirs. The wider town's counted
+ * people are asked by the same decision, by their count: the school's staff,
+ * the renters, the jobless and every counted resident, each as many as their
+ * record stands for (one model, two tiers).
  *
- * What an action does: the people in it make their case on the area's policy
- * question to the officials who hold the town's seats, through the speech
- * engine, so the views engine moves each official by their standing with the
- * speaker, and the position they take at the next vote is the one their views
- * give. The player is never decided for: an action the player's own life is
- * touched by is left open for them (`playerTouched`), and the scene is theirs.
  *
- * The wider town's counted people are asked by the same decision, by their
- * count: the school's staff, the renters, the jobless and every counted
- * resident, each as many as their record stands for (one model, two tiers).
+ *
+ *
+ *
  */
 import { countedPersonOf } from "../counted-actor";
 import { townLean } from "./campaigns";

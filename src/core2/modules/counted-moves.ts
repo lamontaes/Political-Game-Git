@@ -1,22 +1,22 @@
 /**
- * The counted population moves from causes (one model, two tiers; owner,
- * Oct 14, 2026: "if California repealed its state income tax, people would
- * flood in"). Every state and territory holds its people at a coarse grain
- * (age bands, from its BEA population); the town and its neighbors hold
- * theirs as counted groups. Once a month every group weighs every other
- * place: the country tier's share of its age that leaves its state this
- * month, times what holds it (a home owned, children at home) and pushes it
- * (an eviction), its region's unemployment against its state's, and the
- * outcome web; the rest of its own state is one more destination, weighed
- * with the other states by size, draw and pull (the after-tax income each
- * offers in real terms, its unemployment against home's), so how many stay
- * in their state comes from the weighing, never a published share. Nothing
- * is rolled and nothing is scaled back to a published rate: the expected
- * movers accrue month by month and a whole household moves when one is
- * due, toward the place that pulled hardest. People arrive in the town the
- * same way from every other place, and from abroad as the tier's month
- * brings them, settling where work is open. The regional engine reads each
- * state's counts.
+ * The counted population moves from causes. Every state and territory holds
+ * its people at a coarse grain (age bands, from its BEA population); the town
+ * and its neighbors hold theirs as counted groups. Once a month every group
+ * weighs every other place: the country tier's share of its age that leaves
+ * its state this month, times what holds it (a home owned, children at home)
+ * and pushes it (an eviction), its region's unemployment against its state's,
+ * and the outcome web; the rest of its own state is one more destination,
+ * weighed with the other states by size, draw and pull (the after-tax income
+ * each offers in real terms, its unemployment against home's), so how many
+ * stay in their state comes from the weighing, never a published share.
+ * Nothing is rolled and nothing is scaled back to a published rate: the
+ * expected movers accrue month by month and a whole household moves when one
+ * is due, toward the place that pulled hardest. People arrive in the town the
+ * same way from every other place, and from abroad as the tier's month brings
+ * them, settling where work is open. The regional engine reads each state's
+ * counts.
+ *
+ *
  */
 import { taxIndexOf } from "../tax-index";
 import { placeStateKey } from "../place-map";
@@ -1688,17 +1688,17 @@ function arrivalWhy(
 }
 
 /**
- * Institutions admit as rooms empty (owner, Nov 8: group quarters turn over).
- * A place's rooms of one type are its beds: the people they held the first
- * month. When a resident dies or is filled in and the room stands empty, the
- * next person on the institution's waiting list moves in, a person drawn
- * like one the type's rooms hold (same ages, new identity, seeded), so a
- * nursing home, a dormitory or a barracks stays occupied the way its beds are.
- * Residents are discharged on the type's own calendar (`groupQuartersStayOf`):
- * a type's beds turn over once in its stay, in the months its calendar names
- * (a college graduates its class in May and admits the next in August), the
- * rooms in turn by id and never by a chance. A nursing home has no stay: its
- * residents leave when they die.
+ * Institutions admit as rooms empty. A place's rooms of one type are its
+ * beds: the people they held the first month. When a resident dies or is
+ * filled in and the room stands empty, the next person on the institution's
+ * waiting list moves in, a person drawn like one the type's rooms hold (same
+ * ages, new identity, seeded), so a nursing home, a dormitory or a barracks
+ * stays occupied the way its beds are. Residents are discharged on the type's
+ * own calendar (`groupQuartersStayOf`): a type's beds turn over once in its
+ * stay, in the months its calendar names (a college graduates its class in
+ * May and admits the next in August), the rooms in turn by id and never by a
+ * chance. A nursing home has no stay: its residents leave when they die.
+ *
  */
 function admitToRooms(
   api: CoreAPI,

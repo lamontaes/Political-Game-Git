@@ -1,64 +1,64 @@
 /**
  * Out-of-pocket medical bills and the medical debt they leave, the coverage
  * engine's monthly pass (modules/coverage.ts runs it on the 1st, after the
- * premiums). Background simulation from research (owner, Oct 29 13:30 UTC):
- * the player takes no step.
- *
- * A person's month of care is priced in the place they live: a month of
+ * premiums). Background simulation from research: the player takes no step. A
+ * person's month of care is priced in the place they live: a month of
  * ordinary care takes a fitted amount of a health worker's time
  * (medicalCareUnitHealthPayDays), at what the place's own hospitals and
- * clinics pay their staff today (carePrices), so the price of care moves
- * with the town's own health pay. Each member's part follows two records
- * read the day it is billed:
- *
- * - the care their health asks: the health engine's care need (one for a
- *   serious illness under way, a share for held conditions, none otherwise;
- *   a counted member's serious illness is the counted-illness row), on a
- *   sliding scale up to the top 5 percent of spenders' care (MEPS #533). A
- *   town with more illness has more care and larger bills;
- * - the part of that care their coverage leaves them: their coverage record
- *   (an employer plan, Medicare at 65), their Medicaid coverage where the
- *   law reach keeps it by person id (coverageSpellsNow, named and counted
- *   alike), or none, at the share MEPS #441 finds each pays out of pocket.
- *
- * The household pays the bill from what its members hold, less what they
- * keep back for their home (as for everyday living, cost-of-living.ts), to
- * the town's hospital or clinic (the one its living plan already buys from
- * first), else the outside account. A counted household pays the same bill
- * times its weight through its group's account (counted-money.ts
- * chargeGroups), its housing arrears kept back. What a household cannot pay
- * it still owes, oldest bill first, and asks again each month; a bill unpaid
- * 120 days after it was billed (26 CFR 1.501(r)-6) is placed for collection
- * as a medical-debt record on its books (the credit engine's loans, kind
- * "medical"). The provider weighs each household: the further its income
- * sits under the poverty guideline for its size, the more of the bill is
- * written off as financial assistance and the less is sent to collections
- * (collectionsShare), times the outcome web's factor for
- * finance.medical-debt-in-collections, the measure the expansion's
- * medicaid-expansion-to-medical-debt link moves.
- * No roll: the bill goes unpaid because the household's cash and coverage
- * say so.
- *
- * One cause, one path: the law reach keeps the Medicaid coverage of the
- * town's residents, full and counted, by person id, and pays the adult
- * nothing for it, so a town household meets the expansion only through its
- * own coverage (a covered member's smaller bill) and the place-level row is
- * left out of its factor. Medicaid's own part of a covered member's care (the
- * cost of the care less the member's share) is paid to the seller by the
- * state and federal treasuries, the federal share at the match in force
- * (law-reach payMedicaidCare), inside their budget lines. A member the
- * expansion would cover but whose coverage the work requirement ends (its
- * stretch on their person id) is billed at their own plan's share; what that
- * adds over Medicaid's share is paid first, under ids that cite the
- * requirement. The expansion's and the requirement's coverage links are
- * carried by those records (links.json carriedBy), so the web does not run
- * them. A household in another place the world keeps
- * (the places around the town), whose coverage the reach does not keep,
- * meets the expansion through the place-level row on the share sent to
- * collections, its one path there.
- *
- * Only households in the places whose money the world keeps are billed
+ * clinics pay their staff today (carePrices), so the price of care moves with
+ * the town's own health pay. Each member's part follows two records read the
+ * day it is billed: - the care their health asks: the health engine's care
+ * need (one for a serious illness under way, a share for held conditions,
+ * none otherwise; a counted member's serious illness is the counted-illness
+ * row), on a sliding scale up to the top 5 percent of spenders' care (MEPS
+ * #533). A town with more illness has more care and larger bills; - the part
+ * of that care their coverage leaves them: their coverage record (an employer
+ * plan, Medicare at 65), their Medicaid coverage where the law reach keeps it
+ * by person id (coverageSpellsNow, named and counted alike), or none, at the
+ * share MEPS #441 finds each pays out of pocket. The household pays the bill
+ * from what its members hold, less what they keep back for their home (as for
+ * everyday living, cost-of-living.ts), to the town's hospital or clinic (the
+ * one its living plan already buys from first), else the outside account. A
+ * counted household pays the same bill times its weight through its group's
+ * account (counted-money.ts chargeGroups), its housing arrears kept back.
+ * What a household cannot pay it still owes, oldest bill first, and asks
+ * again each month; a bill unpaid 120 days after it was billed (26 CFR
+ * 1.501(r)-6) is placed for collection as a medical-debt record on its books
+ * (the credit engine's loans, kind "medical"). The provider weighs each
+ * household: the further its income sits under the poverty guideline for its
+ * size, the more of the bill is written off as financial assistance and the
+ * less is sent to collections (collectionsShare), times the outcome web's
+ * factor for finance.medical-debt-in-collections, the measure the expansion's
+ * medicaid-expansion-to-medical-debt link moves. No roll: the bill goes
+ * unpaid because the household's cash and coverage say so. One cause, one
+ * path: the law reach keeps the Medicaid coverage of the town's residents,
+ * full and counted, by person id, and pays the adult nothing for it, so a
+ * town household meets the expansion only through its own coverage (a covered
+ * member's smaller bill) and the place-level row is left out of its factor.
+ * Medicaid's own part of a covered member's care (the cost of the care less
+ * the member's share) is paid to the seller by the state and federal
+ * treasuries, the federal share at the match in force (law-reach
+ * payMedicaidCare), inside their budget lines. A member the expansion would
+ * cover but whose coverage the work requirement ends (its stretch on their
+ * person id) is billed at their own plan's share; what that adds over
+ * Medicaid's share is paid first, under ids that cite the requirement. The
+ * expansion's and the requirement's coverage links are carried by those
+ * records (links.json carriedBy), so the web does not run them. A household
+ * in another place the world keeps (the places around the town), whose
+ * coverage the reach does not keep, meets the expansion through the
+ * place-level row on the share sent to collections, its one path there. Only
+ * households in the places whose money the world keeps are billed
  * (billedPlaces).
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 import { bookkeeping } from "./bookkeeping";
 import data from "./data/health/medical-bills.json" with { type: "json" };
@@ -1203,14 +1203,14 @@ export function expectedPlanCare(api: CoreAPI): PlanCareMonth {
 }
 
 /**
- * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): a household
- * not billed this month (it died out, moved beyond the billed places or
- * merged) that owes nothing and holds no medical-debt record leaves its row.
- * The billing pass reads a row only for what is owed, the debt and its
- * seller, so a household billed again later is billed as it would be from
- * that row. Kept, they were 104 MB of a long run's heap (Montpelier,
- * Vermont, year 6: 46,917 rows). With bookkeeping on (tests, proofs) every
- * row stays.
+ * Keep results, not their history: a household not billed this month (it died
+ * out, moved beyond the billed places or merged) that owes nothing and holds
+ * no medical-debt record leaves its row. The billing pass reads a row only
+ * for what is owed, the debt and its seller, so a household billed again
+ * later is billed as it would be from that row. Kept, they were 104 MB of a
+ * long run's heap (Montpelier, Vermont, year 6: 46,917 rows). With
+ * bookkeeping on (tests, proofs) every row stays.
+ *
  */
 function dropSettledRows(
   api: CoreAPI,

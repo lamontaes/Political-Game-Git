@@ -1,15 +1,15 @@
 /**
  * What the floor's speaker may say beside the bill's number: what the bill is
  * about, whether the speaker wrote it, the reason the speaker can give in the
- * open, and how big the body is (owner, Nov 14: a three-seat board does not
- * talk like a legislature). Read from the legislature's own rows: the bill,
- * the speaker's position part by part, and the body's seats.
+ * open, and how big the body is. Read from the legislature's own rows: the
+ * bill, the speaker's position part by part, and the body's seats. The reason
+ * is the largest part of the speaker's position that leans their way and is
+ * said aloud: their own view, the people they speak for, or that the bill is
+ * their own. A deal or a lobby's pressing is never said on the floor as the
+ * reason; that cause stays on the record for the player to find another way.
  *
- * The reason is the largest part of the speaker's position that leans their
- * way and is said aloud: their own view, the people they speak for, or that
- * the bill is their own. A deal or a lobby's pressing is never said on the
- * floor as the reason (Words lead, rule 103 and ruling Nov 14); that cause
- * stays on the record for the player to find another way.
+ *
+ *
  */
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import {

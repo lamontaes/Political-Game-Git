@@ -45,9 +45,9 @@ export interface GameRecipe {
   settings?: WorldSettings;
   /**
    * History before the start: each engine's pre-start pass from this date
-   * (M1-14). Left out, it runs from the player's birth year (owner, Oct 28,
-   * 2026) at the parameter table's step (`preStartStepMonths`); `false`
-   * skips it.
+   * (M1-14). Left out, it runs from the player's birth year at the parameter
+   * table's step (`preStartStepMonths`); `false` skips it.
+   *
    */
   preStart?: { from: string; step?: "month" | "quarter" } | false;
 }
@@ -145,11 +145,11 @@ registerCommand<Parameters<typeof fillInIdentity>[1]>(
 );
 
 /**
- * The year the one history starts (owner, Oct 28, 2026: "simulate to the
- * birth year... general to make the game flow"): the player's birth year, in
- * every drawn place. A world with no player (a test world) starts at the
- * birth year of its youngest adult, the resident a player would be; a world
- * with nobody has no history.
+ * The year the one history starts: the player's birth year, in every drawn
+ * place. A world with no player (a test world) starts at the birth year of
+ * its youngest adult, the resident a player would be; a world with nobody has
+ * no history.
+ *
  */
 export function preStartFromYear(core: CoreState): number | undefined {
   const player = core.playerId ? core.people.get(core.playerId) : undefined;

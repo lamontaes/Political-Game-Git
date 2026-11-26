@@ -328,12 +328,12 @@ const whipHold = (billId: string) => `federal-whip:${billId}`;
 
 /**
  * The evening before a floor vote, for the member the player controls: at
- * home in the district, they miss it (the roll records them absent);
- * the whip of their party asks if they stand against the party leader; and
- * the vote stops them when its kind does (their own bill by default, any
- * every vote by default). With that stop off they are not on the floor and
- * the roll records them absent; stopped and silent, they abstain. Nothing is
- * cast in their name (owner's card, Nov 14, 2026, 02:03Z).
+ * home in the district, they miss it (the roll records them absent); the whip
+ * of their party asks if they stand against the party leader; and the vote
+ * stops them when its kind does (their own bill by default, any every vote by
+ * default). With that stop off they are not on the floor and the roll records
+ * them absent; stopped and silent, they abstain. Nothing is cast in their
+ * name.
  */
 function eveOfVotes(api: CoreAPI, personId: string): void {
   const seat = federalSeatOf(api, personId);

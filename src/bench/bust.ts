@@ -1,12 +1,12 @@
-// The bust bank (owner, Nov 7, 2026: "maybe just busts for most things and
-// full body for certain scenes"; Nov 10: "we need to start transitioning to
-// the bust system"). A person on a menu is a head, their clothes (a shirt, a
-// tie and a jacket as layers, or one whole top), facial hair and hair, each a
+// The bust bank. A person on a menu is a head, their clothes (a shirt, a tie
+// and a jacket as layers, or one whole top), facial hair and hair, each a
 // picture on one shared canvas, stacked in the manifest's order with nothing
-// moved, scaled or tinted (owner, Nov 10: "I would like to be able to change
-// ties and stuff ... I want to see colors and stuff changing as well"). This file is the only reader of
+// moved, scaled or tinted. This file is the only reader of
 // art/busts/v1/manifest.json: it says which pieces a person is and where each
 // piece's file is. The screen stacks them (ui/bust.mjs).
+
+
+
 import { readFileSync } from "node:fs";
 
 export const BUST_PACK = "v1";

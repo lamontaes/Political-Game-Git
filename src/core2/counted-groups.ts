@@ -1,16 +1,16 @@
 /**
- * The counted tier of one model, two tiers (owner, Oct 14, 2026; see
- * docs/design/one-model-two-tiers.md). Everyone a place holds who is not a
- * full person is in a counted group: one record per place, district,
- * household kind, income band, tenure and head's age band and work, with
- * its households and its members' identities kept as packed columns. A
- * member is an id, a name, a birth date, a sex, traits (small whole numbers)
- * and a household; nothing else about them exists until they are filled in
- * (no past, no ties outside the household, no sources of their own).
+ * The counted tier of one model, two tiers. Everyone a place holds who is not
+ * a full person is in a counted group: one record per place, district,
+ * household kind, income band, tenure and head's age band and work, with its
+ * households and its members' identities kept as packed columns. A member is
+ * an id, a name, a birth date, a sex, traits (small whole numbers) and a
+ * household; nothing else about them exists until they are filled in (no
+ * past, no ties outside the household, no sources of their own). Engines that
+ * still read counted people one by one get a record built from these columns
+ * on demand (`personInput`, `householdView`): the stopgap
+ * SG-CORE-counted-person-views, retired engine by engine as each reads
+ * groups.
  *
- * Engines that still read counted people one by one get a record built from
- * these columns on demand (`personInput`, `householdView`): the stopgap
- * SG-CORE-counted-person-views, retired engine by engine as each reads groups.
  */
 import { ageInYears } from "./kernel/dates";
 import { stopgap } from "./stopgaps";

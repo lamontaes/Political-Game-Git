@@ -1,18 +1,18 @@
-// The one face part (play-one-person-shows-two-faces; Fable audit, Nov 9:
-// "There are six ways to draw a person card and three ways to draw a face").
-// Every card, list, menu and strip draws a person here, from the one face
-// record the server gives for that person (scene.ts faceOf, or the creator's
-// look through appearance.ts portraitFace): their bust (ui/bust.mjs stacks its
-// pieces). Three crops of the same bust, never a second picture:
-// - `round`: the headshot, the head filling the middle of a soft-edged square so
-//   every face takes the same share of the frame at every size (no circle, no box; owner,
-//   Oct 28);
-// - `bust`: across a screen's left column, ending in a soft fade on the chest
-//   (the approved strip screens);
-// - `strip`: the stack alone, its head's middle marked, for the strip of busts
-//   (ui/bust-strip.mjs) to place.
-// How a bust is cropped is the owner's call (Nov 10, "Staging waits for
-// busts"); a new crop is added here, never drawn in a screen.
+// The one face part. Every card, list, menu and strip draws a person here,
+// from the one face record the server gives for that person (scene.ts faceOf,
+// or the creator's look through appearance.ts portraitFace): their bust
+// (ui/bust.mjs stacks its pieces). Three crops of the same bust, never a
+// second picture: - `round`: the headshot, the head filling the middle of a
+// soft-edged square so every face takes the same share of the frame at every
+// size; - `bust`: across a screen's left column, ending in a soft fade on the
+// chest (the approved strip screens); - `strip`: the stack alone, its head's
+// middle marked, for the strip of busts (ui/bust-strip.mjs) to place. How a
+// bust is cropped is the owner's call; a new crop is added here, never drawn
+// in a screen.
+
+
+
+
 import { el } from "./dom.mjs";
 import { bustPlace, bustStack } from "./bust.mjs";
 
@@ -77,9 +77,9 @@ function columnBust(record, alt, column) {
 }
 
 /**
- * A frameless picture of a look, for the creator's rows of hairstyles, facial hair and tops: `head`
- * fills the square with the head and its hair, `chest` takes in the shoulders and the top. No circle and
- * no box (owner, Nov 5: portraits are never inside a circle or box); the row draws the lit fill.
+ * A frameless picture of a look, for the creator's rows of hairstyles, facial
+ * hair and tops: `head` fills the square with the head and its hair, `chest`
+ * takes in the shoulders and the top. No circle and no box; the row draws the lit fill.
  */
 const CROPS = {
   head: { share: 0.5, top: 0.2 },

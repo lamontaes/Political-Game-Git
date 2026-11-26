@@ -1,13 +1,13 @@
 /**
- * Mentors (Lives, Nov 8, 2026): when a worker takes a job at an employer where
- * a coworker is at least `mentorAgeGapYears` older, that coworker, the eldest
- * there, takes them under their wing. The hire is read from the jobs
- * themselves (a person's job that no earlier review saw), the pair is written
- * as `work.mentorship-formed` and recorded as time together on their tie, and
+ * Mentors: when a worker takes a job at an employer where a coworker is at
+ * least `mentorAgeGapYears` older, that coworker, the eldest there, takes
+ * them under their wing. The hire is read from the jobs themselves (a
+ * person's job that no earlier review saw), the pair is written as
+ * `work.mentorship-formed` and recorded as time together on their tie, and
  * the director's `advice` scene reads it. Nothing is rolled: who mentors is
- * the eldest coworker; no coworker old enough, no mentor.
+ * the eldest coworker; no coworker old enough, no mentor. Runs inside the
+ * partnerships monthly review (installs nothing of its own).
  *
- * Runs inside the partnerships monthly review (installs nothing of its own).
  */
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, PersonId, PersonState } from "../types";

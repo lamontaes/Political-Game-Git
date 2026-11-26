@@ -2,23 +2,23 @@
  * M1-04 golden-path check, jobs, in a played world. Uses GOLDEN_PATH_SEED and
  * GOLDEN_PATH_PLACE_KEY from the runner. The drawn place is built as the
  * player gets it (`buildBenchWorld`, every module installed) and plays one
- * game year, read at the end of each month. Real rates are not targets (owner,
- * Nov 8): the check does not compare the town's unemployment or its hires,
- * quits and layoffs with its state's recorded ranges; it asks why they are
- * what they are, by record. Passes when:
- * (1) every person out of work and looking in the town has a reason from the
- *     jobs reasons table, and a named person let go has the layoff on record;
- * (2) every hire, quit and layoff at the town's employers names its reason and
- *     who decided it (a decider that is a record in the world), counted as
- *     the people it stands for;
- * (3) every layoff names the cause that decided it: the turnover pull, the
- *     employer's demand and books (target staff, observed staff, losses), or
- *     a closure.
- * The town's unemployment and the rates of hires, quits and layoffs per
- * hundred jobs are printed with their counts, never tested against a band. A counted
- * worker who leaves keeps no change record (owner, Oct 14, ruling 3,
- * src/core2/modules/jobs.ts noteCountedLeavers), so what is measured is the
- * record. Exits nonzero naming each failed clause.
+ * game year, read at the end of each month. Real rates are not targets: the
+ * check does not compare the town's unemployment or its hires, quits and
+ * layoffs with its state's recorded ranges; it asks why they are what they
+ * are, by record. Passes when: (1) every person out of work and looking in
+ * the town has a reason from the jobs reasons table, and a named person let
+ * go has the layoff on record; (2) every hire, quit and layoff at the town's
+ * employers names its reason and who decided it (a decider that is a record
+ * in the world), counted as the people it stands for; (3) every layoff names
+ * the cause that decided it: the turnover pull, the employer's demand and
+ * books (target staff, observed staff, losses), or a closure. The town's
+ * unemployment and the rates of hires, quits and layoffs per hundred jobs are
+ * printed with their counts, never tested against a band. A counted worker
+ * who leaves keeps no change record, so what is measured is the record. Exits
+ * nonzero naming each failed clause.
+ *
+ *
+ *
  */
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import { residentsRuntime } from "../modules/residents";

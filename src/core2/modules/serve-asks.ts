@@ -1,28 +1,28 @@
 /**
- * Asking someone to serve (brief J, Nov 14, 2026): the player asks a person
- * to take a seat the player fills (a running mate on their ticket, a town
- * department head as mayor or a cabinet member as governor; aides by the same
- * read later), and the person answers from their own record. Nothing is rolled: the answer is a sum of named terms
- * (`src/core2/data/serve/willingness.json`), yes where it is above zero, and the same
- * person asked on the same record gives the same answer.
- *
- * The ask is a scene: `askToServe` keeps the ask and emits `serve-asked`, the
- * director plays it as the player's ask (`ask-to-serve`), and only the
- * scene's ending seats anyone: a yes names the person through the seat's own
- * engine (`chooseRunningMate` for a ticket; the "name a department head" act
- * or `appointGovernor` for a post, with the council's or the chamber's
- * confirmation as before), a no is kept with its reason and date and the
- * seat stays open. A no stands for now (owner, Nov 14 05:17Z: "Yes, but ask
- * again later"): the player may ask again after `askAgain.days`, or sooner
- * once what the no rested on has changed on the record.
- *
- * One row per seat and person, written over when asked again: the table
- * holds at most the people offered for the player's own open seats.
- *
+ * Asking someone to serve: the player asks a person to take a seat the player
+ * fills (a running mate on their ticket, a town department head as mayor or a
+ * cabinet member as governor; aides by the same read later), and the person
+ * answers from their own record. Nothing is rolled: the answer is a sum of
+ * named terms (`src/core2/data/serve/willingness.json`), yes where it is
+ * above zero, and the same person asked on the same record gives the same
+ * answer. The ask is a scene: `askToServe` keeps the ask and emits
+ * `serve-asked`, the director plays it as the player's ask (`ask-to-serve`),
+ * and only the scene's ending seats anyone: a yes names the person through
+ * the seat's own engine (`chooseRunningMate` for a ticket; the "name a
+ * department head" act or `appointGovernor` for a post, with the council's or
+ * the chamber's confirmation as before), a no is kept with its reason and
+ * date and the seat stays open. A no stands for now: the player may ask again
+ * after `askAgain.days`, or sooner once what the no rested on has changed on
+ * the record. One row per seat and person, written over when asked again: the
+ * table holds at most the people offered for the player's own open seats.
  * "Choose for me" (or a post left to the official's own choice) plays no
- * scene and seats the world's pick as before, and
- * the world's own picks do not read this willingness (pool item
- * world-picks-read-serve-willingness).
+ * scene and seats the world's pick as before, and the world's own picks do
+ * not read this willingness (pool item world-picks-read-serve-willingness).
+ *
+ *
+ *
+ *
+ *
  */
 import willingness from "../data/serve/willingness.json" with { type: "json" };
 import { ambitionOf } from "../candidate-pool";
@@ -140,8 +140,8 @@ export interface ServeGrounds {
    * For a ticket: the question they hold most strongly among those the
    * ticket's office can decide, and their stance on it. Their price is named
    * on it, since only a question the player's own vote or signature in that
-   * office can settle is one a promise can be kept or broken on (Account
-   * lead, Nov 15 10:45Z). Null where the office can decide none they hold.
+   * office can settle is one a promise can be kept or broken on. Null where
+   * the office can decide none they hold.
    */
   readonly priceQuestion?: string | null;
   readonly priceStance?: number;
@@ -704,8 +704,8 @@ function ticketFor(api: CoreAPI, filingId: string) {
   if (!ranked) return null;
   // Someone the player already asked stays on the list while their answer is
   // kept, even where the world's ranking has since moved past them, so a no
-  // can be seen and asked again (owner, Nov 14 05:17Z). Bounded by the asks
-  // kept for the seat.
+  // can be seen and asked again. Bounded by the asks kept for the seat.
+
   const shown = new Set(ranked.choices.map((c) => c.id));
   const kept = asksFor(api, seatKey).flatMap((row) => {
     const person = api.state.people.get(row.askedId as PersonId);
@@ -762,10 +762,10 @@ export function promiseWorth(row: ServeAskRow): number {
   const { grounds } = row.standing;
   if (!grounds.priceQuestion) return 0;
   // A price is named only for the side a played world has shown: no place
-  // probed (about 77 worlds, Nov 15) gave a price against a question, so the
-  // lines for one were taken out, and a read against falls to no price, never
-  // to an empty line (Words lead and Account lead, Nov 15 12:26Z; pool item
-  // views-strongest-state-view-always-for).
+  // probed gave a price against a question, so the lines for one were taken
+  // out, and a read against falls to no price, never to an empty line.
+
+
   if ((grounds.priceStance ?? 0) < 0) return 0;
   return w(row.seat, "promise") * Math.abs(grounds.priceStance ?? 0);
 }

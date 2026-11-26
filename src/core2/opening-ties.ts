@@ -1,12 +1,12 @@
 /**
- * Whom a counted person knows when they are filled in (CTO, Nov 8, on #7365):
- * the neighbors their years in one place have given them, and their
- * workgroup at a sampled county employer. Both come from the other counted
- * households of their place; the ones named become husks (met and filled in
- * later) exactly as any tie to a counted person does. Who is chosen is
- * seeded by the pair (generation of who exists), how many by the person's
- * years in place and the estimated neighbors-known curve; the same person
- * returns the same ties every time.
+ * Whom a counted person knows when they are filled in: the neighbors their
+ * years in one place have given them, and their workgroup at a sampled county
+ * employer. Both come from the other counted households of their place; the
+ * ones named become husks (met and filled in later) exactly as any tie to a
+ * counted person does. Who is chosen is seeded by the pair (generation of who
+ * exists), how many by the person's years in place and the estimated
+ * neighbors-known curve; the same person returns the same ties every time.
+ *
  */
 import { ageOn } from "./counted-groups";
 import { stableHash } from "./kernel/ids";

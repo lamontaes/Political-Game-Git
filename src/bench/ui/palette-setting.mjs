@@ -1,8 +1,8 @@
 /* global document, localStorage */
-// The color-blind palette as one global setting (owner, Nov 5: every menu reads one shared
-// place, colors are never set per screen): a class on the body, remembered in the browser, off
-// by default. The shared colors are tokens in play.css; this class swaps them for the
-// Okabe-Ito set and gives each color-only signal a second cue (a ring's stroke).
+// The color-blind palette as one global setting: a class on the body,
+// remembered in the browser, off by default. The shared colors are tokens in
+// play.css; this class swaps them for the Okabe-Ito set and gives each
+// color-only signal a second cue (a ring's stroke).
 const KEY = "ocd-color-blind";
 
 function remembered() {

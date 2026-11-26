@@ -77,8 +77,8 @@ export interface ContractAwardRow {
   /**
    * Members whose first choice was the winning firm while they own it or a
    * relative or housemate does: the vote of an interested member. `relation`
-   * is "self" for the owner, else the member's family relation to the owner
-   * (closeness.ts `familyRelation`).
+   * is "self" for the else the member's family relation to the closeness.ts
+   * `familyRelation`).
    */
   readonly conflicts: readonly {
     readonly memberId: string;

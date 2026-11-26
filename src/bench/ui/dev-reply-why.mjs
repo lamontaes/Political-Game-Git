@@ -1,9 +1,9 @@
-// Dev mode's "why these replies" (owner, Nov 16: dev mode does the tracing in the game): beside a
-// scene the player has open, the facts the scene knows with the records each cites, and for each
-// reply offered the use that placed it (the facts it needs, the facts that would rule it out, what
-// it follows) and the wordings that fit the spot as closely. Every record id opens the one Trace
-// box, so a vote's reasons term by term are one click from the reply that cites them. It reads
-// only what /api/story serves with ?dev=1; it writes nothing and spends no time.
+// Dev mode's "why these replies": beside a scene the player has open, the
+// facts the scene knows with the records each cites, and for each reply
+// offered the use that placed it (the facts it needs, the facts that would
+// rule it out, what it follows) and the wordings that fit the spot as
+// closely. Every record id opens the one Trace box, so a vote's reasons term
+// by term are one click from the reply that cites them. It reads only what /api/story serves with ?dev=1; it writes nothing and spends no time.
 import { el } from "./dom.mjs";
 import { idList } from "./dev-view.mjs";
 

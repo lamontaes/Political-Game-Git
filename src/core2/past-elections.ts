@@ -1,22 +1,22 @@
 /**
- * Elections happened (owner, Oct 14, 2026): the election that seated each
- * day-one officeholder of every office covering the town.
- *
- * Each is a result record with the winner (the holder) and the strongest
- * challenger, their votes and shares, turnout, and the town's voter groups'
- * split. Real anchors hold where the research has them: the November 2024
- * presidential and House results and each senator's last election (Clerk of
- * the House), drifted a little per world. Elsewhere the winner's share sits
- * inside the tenure table's spread for that kind of office, and the ballots
- * come from the state's 2024 presidential total, the county's, or the town's
- * voter groups, scaled for a midterm or a local election.
- *
- * Each group's share for the winner follows its lean against the two
- * candidates' (no group is assigned a vote), centered so a town-wide race
+ * Elections happened: the election that seated each day-one officeholder of
+ * every office covering the town. Each is a result record with the winner
+ * (the holder) and the strongest challenger, their votes and shares, turnout,
+ * and the town's voter groups' split. Real anchors hold where the research
+ * has them: the 24 presidential and House results and each senator's last
+ * election (Clerk of the House), drifted a little per world. Elsewhere the
+ * winner's share sits inside the tenure table's spread for that kind of
+ * office, and the ballots come from the state's 2024 presidential total, the
+ * county's, or the town's voter groups, scaled for a midterm or a local
+ * election. Each group's share for the winner follows its lean against the
+ * two candidates' (no group is assigned a vote), centered so a town-wide race
  * adds up to its share. Each winner's campaign promises, on the questions
  * they stand on most strongly, go to the campaigns engine's promise table,
  * where the record engine marks them kept or broken by the prior term's votes
  * and the voting engine weighs them.
+ *
+ *
+ *
  */
 import countyVotes from "./data/county-presidential-2024.json" with { type: "json" };
 import { centuryRace, centurySeatRace } from "./modules/elections";
@@ -491,8 +491,8 @@ export function buildPriorElections(
             real?.total,
           );
         const ratio = turnoutRatio(date);
-        // This world's votes cast (realistic, not real; owner, Oct 27): the
-        // recorded or estimated total moved once by the world's offset.
+        // This world's votes cast: the recorded or estimated total moved once by the
+        // world's offset.
         const center =
           real?.total ??
           electorateBallots(api, town, office, seat, date) * ratio;

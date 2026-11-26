@@ -47,9 +47,9 @@ const version = "core2-part1b-v1" as const;
 export type PlayerMomentV1 = WorkMomentV1;
 /**
  * What stops the controlled person's clock: a module's stop (a director
- * scene, a held deadline, a meeting). A work shift never does (owner, Oct 26:
- * "Shifts are for the simulation... The player should not be clicking
- * through that."); the character attends on its own choice.
+ * scene, a held deadline, a meeting). A work shift never does; the character
+ * attends on its own choice.
+ *
  */
 export interface PlayerStopV1 {
   readonly version: typeof version;
@@ -603,8 +603,8 @@ function drive(core: CoreState, s: Session): PlayerPacketV1 {
     const choice = readyChoice(core, s, day);
     if (choice) return choice;
     let next = s.target;
-    // A shift's start is a moment the clock reaches, so the character
-    // answers its own work choice there, but never a stop (owner, Oct 26).
+    // A shift's start is a moment the clock reaches, so the character answers its
+    // own work choice there, but never a stop.
     const shiftStarts = day.owners
       .filter(
         (owner) =>

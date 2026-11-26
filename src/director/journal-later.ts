@@ -1,14 +1,14 @@
 /**
- * What a Journal entry knows of the life after it (owner, Nov 24, page 1: the
- * Journal is a memoir told looking back; "if in 30 years you become a huge
- * healthcare guy, then the journal entry could update... Little did I know").
- * An entry's own facts are the records of its day. This is the one reader of
- * the person's later records, each with the ids it stands on: the first
- * office they went on to hold, the policy area of the bills they went on to
- * sponsor, whether one of those bills answers the same policy question the
- * entry is about, and the years between. It writes no words; the English
- * engine's lines read the facts, and an entry whose lines name none of them
- * reads the same as before.
+ * What a Journal entry knows of the life after it. An entry's own facts are
+ * the records of its day. This is the one reader of the person's later
+ * records, each with the ids it stands on: the first office they went on to
+ * hold, the policy area of the bills they went on to sponsor, whether one of
+ * those bills answers the same policy question the entry is about, and the
+ * years between. It writes no words; the English engine's lines read the
+ * facts, and an entry whose lines name none of them reads the same as before.
+ *
+ *
+ *
  */
 import { countSaid } from "../english/count-words";
 import type { Fact } from "../english/journal-words";

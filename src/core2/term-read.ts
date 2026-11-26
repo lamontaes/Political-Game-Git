@@ -1,15 +1,15 @@
 /**
- * How an official's term is going, read by policy area (owner, Nov 8: "if
- * you're having a good term except for education, then you might get a
- * strike"). Each area is a few of the outcome web's own measures
- * (`data/term-read/areas.json`); an area's read is how far those measures
- * moved between the web's row at the start of the term and its newest row,
- * a slide between -1 and 1, never a pass or fail. The read cites the two
- * rows, so anything built on it (an address's bad news, a group's walkout)
- * can say why. Nothing here writes a record or decides what anyone does.
+ * How an official's term is going, read by policy area. Each area is a few of
+ * the outcome web's own measures (`data/term-read/areas.json`); an area's
+ * read is how far those measures moved between the web's row at the start of
+ * the term and its newest row, a slide between -1 and 1, never a pass or
+ * fail. The read cites the two rows, so anything built on it (an address's
+ * bad news, a group's walkout) can say why. Nothing here writes a record or
+ * decides what anyone does. stopgapId: SG-WORDS-term-read-warmup (the first
+ * twelve months of a world are not read, while the town's records settle in).
  *
- * stopgapId: SG-WORDS-term-read-warmup (the first twelve months of a world
- * are not read, while the town's records settle in).
+ *
+ *
  */
 import type { CoreAPI, CoreState } from "./types";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
@@ -378,10 +378,10 @@ function withFigured(
 /**
  * The country's term read: each area's slide from the country's own monthly
  * figures where it keeps them (jobs and prices, from the macro months, real
- * history included), and for the other areas the mean over the places the
- * web keeps (the player's town and every place the economy records). Other
- * places keep only results (owner, Nov 5), so this is those results, not a
- * count of every place.
+ * history included), and for the other areas the mean over the places the web
+ * keeps (the player's town and every place the economy records). Other places
+ * keep only results, so this is those results, not a count of every place.
+ *
  */
 export function countryTermRead(api: CoreAPI, sinceDate: string): AreaRead[] {
   const figured = figuredRead(api, "US", sinceDate.slice(0, "YYYY-MM".length));

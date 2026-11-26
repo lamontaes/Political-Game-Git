@@ -1,39 +1,39 @@
 /**
- * A full person's estate when they die (money stress audit defect 6; owner,
- * Oct 14: wills, probate, debts and taxes before heirs). Standing payments
- * to them (a benefit award) end. Their debts come first: what they owed and
- * hadn't paid on each standing payment is paid from the estate, and the
- * payment ends. Then probate: where the estates module runs, the estate
- * waits `probateDays` (a timeline, not a scene). Then the heirs: by the
- * person's will, where their traits and age led them to make one, in shares
- * by closeness among their family; else by the intestate order in
- * `data/estates.json` (Uniform Probate Code §2-102 to §2-103), equally within
- * the first class with anyone living; with no kin it escheats to their state
- * (UPC §2-105). The settlement is a public record.
- *
- * Before the heirs take, the estate pays the federal and state estate taxes
- * in force, and each heir's share pays the state's inheritance tax by their
- * relation (`laws-death-taxes.ts`, the law in force read on the day probate
- * closes); each heir gets the estate's accounting, naming the laws.
- *
- * Trusts (owner, Oct 15, background only): a person of means, by their traits
- * and the size of their estate, has put part of it in a living trust, whose
- * beneficiaries take at death outside probate, in shares by closeness. The
- * trust is revocable, so it stays in the taxable estate: the estate tax is
- * figured on the whole estate, trust and probate together, and each part pays
- * its share. The part left to probate waits as before.
- *
- * A relative still in the wider population inherits like any other: they are
- * filled in as the same person when the estate reaches them.
- *
- * A home whose owners have all died is sold when probate closes: the
- * outside market pays the dwelling's value, the lender is paid first, and
- * the surplus goes into the estate, so the estate tax and the heirs' shares
- * count it (housing-sale.ts). A household whose last living member the
- * decedent was, and which owns its home, sells it; a counted household's
- * home is sold by the same rule when its last member dies
+ * A full person's estate when they die. Standing payments to them (a benefit
+ * award) end. Their debts come first: what they owed and hadn't paid on each
+ * standing payment is paid from the estate, and the payment ends. Then
+ * probate: where the estates module runs, the estate waits `probateDays` (a
+ * timeline, not a scene). Then the heirs: by the person's will, where their
+ * traits and age led them to make one, in shares by closeness among their
+ * family; else by the intestate order in `data/estates.json` (Uniform Probate
+ * Code §2-102 to §2-103), equally within the first class with anyone living;
+ * with no kin it escheats to their state (UPC §2-105). The settlement is a
+ * public record. Before the heirs take, the estate pays the federal and state
+ * estate taxes in force, and each heir's share pays the state's inheritance
+ * tax by their relation (`laws-death-taxes.ts`, the law in force read on the
+ * day probate closes); each heir gets the estate's accounting, naming the
+ * laws. Trusts: a person of means, by their traits and the size of their
+ * estate, has put part of it in a living trust, whose beneficiaries take at
+ * death outside probate, in shares by closeness. The trust is revocable, so
+ * it stays in the taxable estate: the estate tax is figured on the whole
+ * estate, trust and probate together, and each part pays its share. The part
+ * left to probate waits as before. A relative still in the wider population
+ * inherits like any other: they are filled in as the same person when the
+ * estate reaches them. A home whose owners have all died is sold when probate
+ * closes: the outside market pays the dwelling's value, the lender is paid
+ * first, and the surplus goes into the estate, so the estate tax and the
+ * heirs' shares count it (housing-sale.ts). A household whose last living
+ * member the decedent was, and which owns its home, sells it; a counted
+ * household's home is sold by the same rule when its last member dies
  * (removeCountedPerson). SG-CORE-estate-cash-only: loans and businesses are
  * not settled.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
@@ -728,10 +728,10 @@ function keepProbateOpen(
   deathEventId: string,
   plan: Plan,
 ): void {
-  // The heirs, the will and its reasons stay as they stood on the day of
-  // death: a probate held open for a house never reads them again later,
-  // when the estate has grown (World, #9747 07:13Z). A pass that paid the cash
-  // while the house was for sale marks the row `partial`.
+  // The heirs, the will and its reasons stay as they stood on the day of death:
+  // a probate held open for a house never reads them again later, when the
+  // estate has grown. A pass that paid the cash while the house was for sale
+  // marks the row `partial`.
   const table = api.moduleState(ESTATES_MODULE_ID).table("probate");
   table.put({
     ...(table.get(personId) ?? {}),

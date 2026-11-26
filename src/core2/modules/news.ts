@@ -1,20 +1,20 @@
 /**
- * News (M2-09; the press, Oct 14). Where the press runs, a story is what a
- * town outlet's reporter chose to print (`printStory`): it reaches the
- * outlet's followers after a delay set by how closely they follow politics
- * (their view's engagement) and how far they trust the media. Someone who
- * follows it most of the time hears the next day, someone who hardly follows
- * hears much later, and past the story's life never. Each day's readers of a
- * story are one event with its topic, so their views and drives read what
- * was printed. People also pass the newest story the other hasn't heard at
- * each real contact. Hearing a story teaches its facts; people who never hear
- * it don't know it.
+ * News. Where the press runs, a story is what a town outlet's reporter chose
+ * to print (`printStory`): it reaches the outlet's followers after a delay
+ * set by how closely they follow politics (their view's engagement) and how
+ * far they trust the media. Someone who follows it most of the time hears the
+ * next day, someone who hardly follows hears much later, and past the story's
+ * life never. Each day's readers of a story are one event with its topic, so
+ * their views and drives read what was printed. People also pass the newest
+ * story the other hasn't heard at each real contact. Hearing a story teaches
+ * its facts; people who never hear it don't know it. In a world without the
+ * press (unit tests of other engines), a public record itself is a story for
+ * every resident of its place. Each story's deliveries are scheduled once,
+ * when it is recorded, and read by date, so no day scans the whole town.
  *
- * In a world without the press (unit tests of other engines), a public
- * record itself is a story for every resident of its place.
  *
- * Each story's deliveries are scheduled once, when it is recorded, and read by
- * date, so no day scans the whole town.
+ *
+ *
  */
 import { countedNewsSourceOf, heardListeners } from "./news-listeners";
 import type { HistoryModule, HistoryRow, HistorySource } from "../past";

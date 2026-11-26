@@ -343,11 +343,11 @@ export interface LawReach {
  * recorded moving. Ended rows count too: a repealed law reached people while
  * it was law. This is the reader for a check or a page that asks "what did
  * this law do"; `reachedBy` (host.ts) stays the indexed read of who a key
- * still reaches. It walks the stores, so it is for a screen or a tool, never for a
- * step of play. (Fable audit, Nov 9, 2026: dev mode's count read three
- * modules for a `personId` and missed the applied table, so a property tax
- * and a wage raise read zero, and the crew's harness counted the members who
- * voted.)
+ * still reaches. It walks the stores, so it is for a screen or a tool, never
+ * for a step of play.
+ *
+ *
+ *
  */
 export function lawReach(
   api: CoreAPI,

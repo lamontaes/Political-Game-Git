@@ -4,29 +4,29 @@
  * the last day of the school year every senior a graduation record. Both
  * tiers follow one rule: the place's expected share is its base (the web's
  * 2024 state base) times the web's factor for the student's income fifth,
- * spread over the fifths by the researched gradient; within a fifth the
- * count is filled from the top by each student's own standing (attendance
- * and study traits), a counted student standing for as many real students as
- * their household's weight, and the fraction left over carries to next year.
- * A math student whose household moved into the town after the school year
- * began switched schools, and the school-move link (carried here, not run by
- * the web) lowers that student's own share by its researched size.
- * There is no roll. A full student keeps a result record; counted students
- * are kept as group counts, and their results are read the same way by every
- * engine that reads the place's measures (schoolMeasure).
+ * spread over the fifths by the researched gradient; within a fifth the count
+ * is filled from the top by each student's own standing (attendance and study
+ * traits), a counted student standing for as many real students as their
+ * household's weight, and the fraction left over carries to next year. A math
+ * student whose household moved into the town after the school year began
+ * switched schools, and the school-move link (carried here, not run by the
+ * web) lowers that student's own share by its researched size. There is no
+ * roll. A full student keeps a result record; counted students are kept as
+ * group counts, and their results are read the same way by every engine that
+ * reads the place's measures (schoolMeasure). The college step is decided on
+ * the same day for the seniors who graduate, by the same standing: each is
+ * ranked within their income fifth for whether they enroll (the immediate
+ * enrollment share) and, of those who enroll, whether they complete a
+ * bachelor's (the six-year completion share times the web's factor for the
+ * college completion outcome, which is how the state's higher education line
+ * reaches a named graduate). Each share is the NCES figure moved by the
+ * world's own factor for that table (worldRateFactor), so no two worlds open
+ * on the same college-going rate. A completer holds a bachelor's, and an
+ * enrolled graduate who does not holds some college, from the day normal time
+ * ends (collegeOf), which the jobs engine reads when it prices a hire.
  *
- * The college step (owner, Oct 29, 2026: a background simulation, never a
- * step the player takes) is decided on the same day for the seniors who
- * graduate, by the same standing: each is ranked within their income fifth
- * for whether they enroll (the immediate enrollment share) and, of those who
- * enroll, whether they complete a bachelor's (the six-year completion share
- * times the web's factor for the college completion outcome, which is how
- * the state's higher education line reaches a named graduate). Each share is
- * the NCES figure moved by the world's own factor for that table
- * (worldRateFactor), so no two worlds open on the same college-going rate. A
- * completer holds a bachelor's, and an enrolled graduate who does not holds
- * some college, from the day normal time ends (collegeOf), which the jobs
- * engine reads when it prices a hire.
+ *
+ *
  */
 import data from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
@@ -161,17 +161,17 @@ export interface CollegeRow {
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(SCHOOL_MODULE_ID).table(name);
 
-/** The year the school year began in (its first day is September 1). */
+/** The year the school year began in. */
 export function schoolStartYear(date: string, firstDay: string): number {
   const year = Number(date.slice(0, 4));
   return date.slice(5) >= firstDay ? year : year - 1;
 }
 
 /**
- * The households that moved into the town after the school year began (its
- * first day, September 1, is not after it), by household id, with the
- * counted-moves record of the move: every student of one switched schools
- * this year. A household that moved twice stands on its latest move.
+ * The households that moved into the town after the school year began, by
+ * household id, with the counted-moves record of the move: every student of
+ * one switched schools this year. A household that moved twice stands on its
+ * latest move.
  */
 export function movedInSince(
   api: CoreAPI,

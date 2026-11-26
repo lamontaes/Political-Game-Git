@@ -1,26 +1,26 @@
 /**
- * The sitting (owner, Oct 26-29: interviews are scenes). A candidate who said
- * yes to an asker (a reporter's interview, a debate's moderator) sits for it
- * in the conversation engine: the asker puts each of the sitting's own
- * questions as a line, the player picks how to answer each (plainly, with a
- * further fact from their record, by turning it back on a rival, or briefly;
- * the lie where their record allows one; or says nothing), and when the last
- * question is answered the engine that made the sitting publishes it with
- * exactly those moves.
- *
- * This file is the loop and knows no kind of sitting. A kind brings a source
- * (`SittingSource`, one per kind: `./interview-sitting`, `./debate-sitting`): how to find the
- * sitting a talk is the occasion of, who asks, which questions, and how to
- * publish. Its settings (the record it stages from, the bank subjects) are a
- * row of `data/sittings.json`.
- *
- * Nothing is typed here. Every line is a piece of the conversation bank
- * (`data/english/parts/conversation.json`), and a piece is said only when the
- * record holds the fact it needs: a vote to stand on, a rival with a stand of
- * their own. What the platform the player filed says (else what their own
- * views, votes and party hold) is their stand; the sitting never answers
- * for them. A question the asker cannot put in words is
+ * The sitting. A candidate who said yes to an asker (a reporter's interview,
+ * a debate's moderator) sits for it in the conversation engine: the asker
+ * puts each of the sitting's own questions as a line, the player picks how to
+ * answer each (plainly, with a further fact from their record, by turning it
+ * back on a rival, or briefly; the lie where their record allows one; or says
+ * nothing), and when the last question is answered the engine that made the
+ * sitting publishes it with exactly those moves. This file is the loop and
+ * knows no kind of sitting. A kind brings a source (`SittingSource`, one per
+ * kind: `./interview-sitting`, `./debate-sitting`): how to find the sitting a
+ * talk is the occasion of, who asks, which questions, and how to publish. Its
+ * settings (the record it stages from, the bank subjects) are a row of
+ * `data/sittings.json`. Nothing is typed here. Every line is a piece of the
+ * conversation bank (`data/english/parts/conversation.json`), and a piece is
+ * said only when the record holds the fact it needs: a vote to stand on, a
+ * rival with a stand of their own. What the platform the player filed says
+ * (else what their own views, votes and party hold) is their stand; the
+ * sitting never answers for them. A question the asker cannot put in words is
  * left unanswered, and only then does the filed platform stand in.
+ *
+ *
+ *
+ *
  */
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -581,8 +581,8 @@ function put(
  * move, about what was just said: the question's own facts (what it was
  * about, the vote, the rival) and the side the answer put on the record
  * (`said-for`, `said-against`, `said-none`), so the take restates the
- * candidate's answer and never only acknowledges it (owner, Nov 12: "the
- * just non-replies").
+ * candidate's answer and never only acknowledges it.
+ *
  */
 function take(
   core: CoreState,

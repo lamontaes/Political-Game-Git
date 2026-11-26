@@ -1,27 +1,27 @@
 /**
- * The climate, through the effect map (Nation, Nov 9, 2026; owner: "do a very
- * basic weather thing that is with the effect map. so we can get some basic
- * climate change effect"). One national warming level and each hazard's level
- * (heat, flood, storm, wildfire, drought), as results, month by month.
- *
- * Emissions come from the simulated laws: the carbon price and the federal
- * power-plant carbon limit in force in every state (read as every state's law
- * is, `stateLawInForce`, against the day the world opened, lagged by the
- * links' own months), weighted by the state's people over the country's. The
- * country's energy CO2 moves by that index and the rest of the world's does
- * not: the rest of the world's CO2 carries on at the world's own trend, drawn
- * from its seed (`restOfWorldTrend`), never a real year's path, so the warming
- * rises with no law changing and the laws move only their own share. The CO2 adds to the warming at the transient climate response
+ * The climate, through the effect map. One national warming level and each
+ * hazard's level (heat, flood, storm, wildfire, drought), as results, month
+ * by month. Emissions come from the simulated laws: the carbon price and the
+ * federal power-plant carbon limit in force in every state (read as every
+ * state's law is, `stateLawInForce`, against the day the world opened, lagged
+ * by the links' own months), weighted by the state's people over the
+ * country's. The country's energy CO2 moves by that index and the rest of the
+ * world's does not: the rest of the world's CO2 carries on at the world's own
+ * trend, drawn from its seed (`restOfWorldTrend`), never a real year's path,
+ * so the warming rises with no law changing and the laws move only their own
+ * share. The CO2 adds to the warming at the transient climate response
  * (`emissions-to-warming`), and each hazard's level is one plus its link's
- * size times the warming since the world opened (`warming-to-<hazard>-hazard`).
- * The links name this module as the engine that carries them (they are not a
- * place's rate, so the web does not run them). Nothing here draws or limits a
- * level, and nothing moves it but the laws in force.
+ * size times the warming since the world opened
+ * (`warming-to-<hazard>-hazard`). The links name this module as the engine
+ * that carries them (they are not a place's rate, so the web does not run
+ * them). Nothing here draws or limits a level, and nothing moves it but the
+ * laws in force. The recorded history sets only where each county's hazard
+ * starts (the disasters module's FEMA record); this module keeps what the
+ * warming does to it. The national events engine and the town's disasters
+ * module read the levels (`stateHazardRate`, `hazardRate`) and make the
+ * weather from them.
  *
- * The recorded history sets only where each county's hazard starts (the
- * disasters module's FEMA record); this module keeps what the warming does to
- * it. The national events engine and the town's disasters module read the
- * levels (`stateHazardRate`, `hazardRate`) and make the weather from them.
+ *
  */
 import emissions from "../data/climate/emissions.json" with { type: "json" };
 import history from "../data/climate/hazard-history.json" with { type: "json" };

@@ -172,13 +172,13 @@ const FITS = (
 
 /**
  * Why a person holds a view on one side of a question, from their own life,
- * only when the record supports that side (lead, Nov 12: "At about $15 an
- * hour, it's my own paycheck on the line" from someone against the raise that
- * would pay her more). The rules name, by question and side, the reason that
- * fits: their pay at or near the proposed wage (`pay-near`), a job that sets
- * pay (`payroll`), a job that does not (`worker`), or the household's
- * hardship (`hardship`). A side with no fit, or a record that does not bear
- * it, gives none: they say the principle. Each reason cites its record.
+ * only when the record supports that side. The rules name, by question and
+ * side, the reason that fits: their pay at or near the proposed wage
+ * (`pay-near`), a job that sets pay (`payroll`), a job that does not
+ * (`worker`), or the household's hardship (`hardship`). A side with no fit,
+ * or a record that does not bear it, gives none: they say the principle. Each
+ * reason cites its record.
+ *
  */
 export function viewReason(
   core: Readonly<CoreState>,
@@ -276,9 +276,9 @@ export function viewSubjectOf(
   if (!view) return null;
   // The stand they say is the one their own life gives a reason for (their
   // work, their money), the strongest of those; only with none is it their
-  // strongest view, said without a reason (words composer, Nov 12: "each
-  // speaker's own why"; the strongest view alone was a question their life
-  // never touched, so the has-reason path never fired in four drawn places).
+  // strongest view, said without a reason.
+
+
   const lean = view.lean;
   const sideOf = (question: string): "for" | "against" | null => {
     const held = viewOn(api, speakerId, question, lean);

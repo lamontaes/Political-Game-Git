@@ -115,8 +115,8 @@ const outside = changes.filter(
   (row) => row.pct < row.band.p05 || row.pct > row.band.p95,
 );
 const checkedTerritories = changes.filter((row) => territories.has(row.id));
-// A real range is a comparison, not a target (owner, Nov 8): every region has a change to read, and
-// the ones outside the real band are reported beside the result without failing the run.
+// A real range is a comparison, not a target: every region has a change to
+// read, and the ones outside the real band are reported beside the result without failing the run.
 check(
   changes.length > 0,
   `${where}: no region has a one-year population change to read`,

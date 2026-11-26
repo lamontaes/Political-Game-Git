@@ -4,9 +4,9 @@
  * employer or outlet that called, the job's title, the party that asked, the
  * charge and the prison term, the landlord, the law. One reader for every
  * scene's lead and cause line (`composeScene`), so a line about a record says
- * what that record holds (owner, Nov 11: every line through the English
- * engine, with inserts from the world's records). A fact the record does not
- * hold is left out, and the engine picks a wording that does not need it.
+ * what that record holds. A fact the record does not hold is left out, and
+ * the engine picks a wording that does not need it.
+ *
  */
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";

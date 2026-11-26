@@ -1,20 +1,20 @@
 /**
- * Every other state's budget, in the one budget store (Nation, Nov 8, 2026),
- * as a view of that state's ledger in the country tier (country-model.ts).
- * Each state outside the town's chain keeps a budget row for its fiscal
- * year (the same `BudgetRow` the town's state keeps, level as data). The
- * published row (`publishedBudgetFor`, the state's Census finances) is the
- * year the world opens on. Every later year reads the tier: the income,
- * profit and general sales tax lines are the state's share of what its
- * ledger took in under each over the last twelve months (under the law in
- * force there, so a state that raises a tax shows it), and spending is its
- * share of the budget the ledger adopted. The tier keeps a state's
- * governments together, state and local; the shares that split off the state
- * government are the published lines over the tier's first month, fixed
- * then. The lines the tier does not model stay estimates at their published
- * opening values. Money does not move here: these are results, read by
- * screens, the news and the state's own comparisons (stopgap
- * SG-NATION-outside-budget-lines).
+ * Every other state's budget, in the one budget store, as a view of that
+ * state's ledger in the country tier (country-model.ts). Each state outside
+ * the town's chain keeps a budget row for its fiscal year (the same
+ * `BudgetRow` the town's state keeps, level as data). The published row
+ * (`publishedBudgetFor`, the state's Census finances) is the year the world
+ * opens on. Every later year reads the tier: the income, profit and general
+ * sales tax lines are the state's share of what its ledger took in under each
+ * over the last twelve months (under the law in force there, so a state that
+ * raises a tax shows it), and spending is its share of the budget the ledger
+ * adopted. The tier keeps a state's governments together, state and local;
+ * the shares that split off the state government are the published lines over
+ * the tier's first month, fixed then. The lines the tier does not model stay
+ * estimates at their published opening values. Money does not move here:
+ * these are results, read by screens, the news and the state's own
+ * comparisons (stopgap SG-NATION-outside-budget-lines).
+ *
  */
 import { stateJurisdictionId } from "../government-jurisdictions";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };

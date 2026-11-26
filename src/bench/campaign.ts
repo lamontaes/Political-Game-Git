@@ -98,8 +98,8 @@ const ELECTIONS = "core2-elections-v1";
 /**
  * A filing's petition as the screens show it, read from the petition record:
  * the signatures the law asks, the last day and the signatures held. The
- * clerk's check is told in the news and the Journal, not on a screen (owner,
- * Nov 14). Null for a filing with none.
+ * clerk's check is told in the news and the Journal, not on a screen. Null
+ * for a filing with none.
  */
 export function petitionView(api: CoreAPI, filingId: string) {
   const petition = petitionOf(api, filingId);
@@ -335,8 +335,8 @@ function ticketView(api: CoreAPI, core: CoreState, filingId: string) {
     .table("contests")
     .get(ticket.ticketContestId) as unknown as ContestRow;
   const mateName = ticket.mateId ? nameOf(ticket.mateId) : null;
-  // Who turned the player down, and who may be asked now (owner, Nov 14: a
-  // no stands for now; ask again later).
+  // Who turned the player down, and who may be asked now.
+
   const asks = new Map(ticketAsks(api, filingId).map((a) => [a.personId, a]));
   return {
     office: ticket.office,
@@ -833,12 +833,12 @@ export function campaignAct(
  * Where each act on the campaign trail happens before anyone is met: the
  * street of doors, the hall, the outlet's newsroom, the campaign office. One
  * list, read by the act's scene and by the trail's tile, so the tile shows
- * the place the act opens in (owner, Oct 20: "campaign acts are scenes you go
- * to"), and each act shows a place of its own. The acts' places are
- * `trailPlaces` in scene-places.json: the first painted name of each act's
- * list, a wanted picture first and its stand-in after. An act with no place
- * of its own is not listed: a house party is the host's living room, and the
- * player's own money is given from home.
+ * the place the act opens in, and each act shows a place of its own. The
+ * acts' places are `trailPlaces` in scene-places.json: the first painted name
+ * of each act's list, a wanted picture first and its stand-in after. An act
+ * with no place of its own is not listed: a house party is the host's living
+ * room, and the player's own money is given from home.
+ *
  */
 const TRAIL_LISTS = Object.fromEntries(
   Object.entries(scenePlaces.trailPlaces).filter(([act]) => act !== "about"),
@@ -1034,10 +1034,10 @@ export function debateAnswer(
 }
 
 /**
- * The player accepts a debate's invitation from the Campaign tab (the
- * invitation scene was cut, Nov 17): the sitting goes on the record with the
- * moderator who asked (`acceptDebate`), and the director stages it from that
- * record. Saying no is the answer with nothing said (`debateAnswer`).
+ * The player accepts a debate's invitation from the Campaign tab: the sitting
+ * goes on the record with the moderator who asked (`acceptDebate`), and the
+ * director stages it from that record. Saying no is the answer with nothing
+ * said (`debateAnswer`).
  */
 export function debateAccept(
   core: CoreState,
@@ -1075,9 +1075,9 @@ export function campaignDay(
   ];
   const kind = kinds.find((k) => k === input.kind);
   if (!kind) throw new Error("Unknown campaign day choice.");
-  // While the petition circulates, a doors outing is how signatures come in
-  // (owner, Nov 14): the names the doors added today, from the petition's own
-  // signer rows, some days none and some days many.
+  // While the petition circulates, a doors outing is how signatures come in:
+  // the names the doors added today, from the petition's own signer rows,
+  // some days none and some days many.
   const doorSigners = () =>
     petitionSigners(api, input.filingId).filter((s) => s.via === "door").length;
   const canvassing =

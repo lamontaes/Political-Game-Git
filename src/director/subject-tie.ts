@@ -1,15 +1,15 @@
 /**
- * The tie rule for what a talk is about (Words lead, Nov 16, rules 146 and
- * 156; owner, Nov 16: "why is every update of the engine not making
- * everything better at the same time?"). A Subject is raised only when it has
+ * The tie rule for what a talk is about. A Subject is raised only when it has
  * a recorded tie to the speaker or the hearer: a record of the speaker's or
  * the hearer's own life, a stand they hold, the place they live in, a law
  * that reaches them, or a frame they both stand in. The check lives once,
  * here, where any Subject is accepted into a talk (`acceptSubjects`, called
- * by `subjectsBetween`): a Subject with no tie is refused whoever built it.
- * A builder that raises a story, a change or any outside event supplies the
- * tie it found; a Subject made of the speaker's or hearer's own record is
- * tied by its kind (`OWN_RECORD_KINDS`).
+ * by `subjectsBetween`): a Subject with no tie is refused whoever built it. A
+ * builder that raises a story, a change or any outside event supplies the tie
+ * it found; a Subject made of the speaker's or hearer's own record is tied by
+ * its kind (`OWN_RECORD_KINDS`).
+ *
+ *
  */
 import { historyEvent, historyOf } from "../core2/past";
 import type { PartTie } from "../english/bank-parts";

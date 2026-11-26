@@ -90,7 +90,7 @@ export interface OutputYearRow {
   readonly id: string;
   readonly placeId: string;
   readonly year: number;
-  /** The first day the row was written; a year opened after January 2 is a part year. */
+  /** The first day the row was written; a year opened after is a part year. */
   readonly openedAt: string;
   readonly updatedAt: string;
   /** Set by the first monthly step of the next year: nothing adds to the row after it. */
@@ -176,8 +176,7 @@ export function putOutputNumber(
 
 /**
  * A year of the place's past, written by an engine's pre-start pass from its
- * own history (owner, Nov 13, 2026: the past is simulated so the present
- * makes sense): the figures it read on `date`, by registered number id, into
+ * own history: the figures it read on `date`, by registered number id, into
  * the place's year row, with the history record kept beside each figure for
  * dev mode's Trace. A year before the world's start is closed; the start
  * year's row is the one play folds its months into. Other engines' figures
@@ -185,6 +184,7 @@ export function putOutputNumber(
  * (`pastFields`, on a closed past year only): there any other figure is
  * unknown, never zero, because no pass ran it (eviction notices are not
  * simulated before the start).
+ *
  */
 export function putPastYear(
   api: CoreAPI,

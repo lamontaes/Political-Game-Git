@@ -18,14 +18,14 @@ import { heldByGrades } from "./english-grades";
 import { useSpotId } from "./spot-id";
 
 /**
- * What a use's claim rests on, one vocabulary for every bank (the desk and the conversation
- * engine threads, Nov 16, on the lead's ruling that every piece declares its tie): `stand`, the
- * speaker's recorded stand, said as their view; `place`, a record of the hearer's or speaker's
- * town or household the question reaches; `law`, a law in force or a bill on record; `record`, a
- * figure or condition from a named record that is none of those (a macro month, a budget's
- * books); `frame`, claims nothing (a salutation, a thanks, a close). A use that states a claim
- * carries a tie other than `frame`, and the record behind it goes on the composed line's
- * `sourceRecordIds`.
+ * What a use's claim rests on, one vocabulary for every bank: `stand`, the
+ * speaker's recorded stand, said as their view; `place`, a record of the
+ * hearer's or speaker's town or household the question reaches; `law`, a law
+ * in force or a bill on record; `record`, a figure or condition from a named
+ * record that is none of those (a macro month, a budget's books); `frame`,
+ * claims nothing (a salutation, a thanks, a close). A use that states a claim
+ * carries a tie other than `frame`, and the record behind it goes on the
+ * composed line's `sourceRecordIds`.
  */
 export type PartTie = "stand" | "place" | "law" | "record" | "frame";
 

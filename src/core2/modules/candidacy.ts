@@ -587,16 +587,16 @@ function reasonsFrom(
     person.known / c(api, "candidacyStandingCircle"),
   );
   // Their own read of their chance: the odds they would have (their standing
-  // against a sitting incumbent's, shared with everyone already running)
-  // and the hope an enterprising, risk-taking person adds to them. A long
-  // shot who files anyway is realistic (owner, Nov 8).
+  // against a sitting incumbent's, shared with everyone already running) and
+  // the hope an enterprising, risk-taking person adds to them. A long shot
+  // who files anyway is realistic.
   const odds =
     (standing * challengerOdds(api, contest)) /
     (one + (contest.runners ?? zero));
   const hope =
     Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
   return {
-    // perception: a person's own read of their chance, their real odds plus the hope an enterprising, risk-taking person adds, read once for this one decision (owner, Nov 8, 10:20 a.m.: candidates run because they think they have a chance).
+    // perception: a person's own read of their chance, their real odds plus the hope an enterprising, risk-taking person adds, read once for this one decision.
     chance: c(api, "candidacyChanceWeight") * (odds + hope * (one - odds)),
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
@@ -607,10 +607,10 @@ function reasonsFrom(
     openSeat: contest.incumbentId ? zero : c(api, "candidacyOpenSeatWeight"),
     recordGap: c(api, "candidacyRecordGapWeight") * person.recordGap,
     standing: c(api, "candidacyStandingWeight") * standing,
-    // The roles that make people run for the seats near them (the owner's
-    // ruling, Nov 8: party activity, owning a business, civic roles are
-    // reasons to want the seat): each a sliding pull, zero for one who has
-    // none, scaled by how much of it the record shows.
+    // The roles that make people run for the seats near them: each a sliding
+    // pull, zero for one who has none, scaled by how much of it the record
+    // shows.
+
     partyRole: c(api, "candidacyPartyRoleWeight") * person.partyActivity,
     ownerRole: person.owner ? c(api, "candidacyOwnerRoleWeight") : zero,
     civicRole:
@@ -1495,18 +1495,18 @@ export function fileRunners(
 }
 
 /**
- * Announcing before filing opens (owner, Nov 17: "Of course, other people
- * should be able to do it early"; CTO on #9995: each candidate decides when to
- * announce from their own record, the way the town's candidates decide to
- * file). A runner who has decided to run weighs, the day they decided and
- * every candidacyAnnounceEveryDays after until the window opens, announcing
- * now against waiting to file, through the core's one chooser: their ambition,
- * how many people know them, whether the seat is open, the party and civic
- * roles they already hold, and how near the window is pull toward announcing;
- * what waiting is worth pulls the other way. One who announces does it through
- * the elections engine's one announcement (`announceCandidacy`), the same row
- * and record the player's announcement makes, and files it when the window
- * opens (`fileRunners`).
+ * Announcing before filing opens. A runner who has decided to run weighs, the
+ * day they decided and every candidacyAnnounceEveryDays after until the
+ * window opens, announcing now against waiting to file, through the core's
+ * one chooser: their ambition, how many people know them, whether the seat is
+ * open, the party and civic roles they already hold, and how near the window
+ * is pull toward announcing; what waiting is worth pulls the other way. One
+ * who announces does it through the elections engine's one announcement
+ * (`announceCandidacy`), the same row and record the player's announcement
+ * makes, and files it when the window opens (`fileRunners`).
+ *
+ *
+ *
  */
 function announceAction(id: string, announcing: boolean): ActionDefinition {
   return {
@@ -1646,15 +1646,15 @@ const AGREEING_MOVES: ReadonlySet<string> = new Set(["agree", "relent"]);
 const REFUSING_MOVES: ReadonlySet<string> = new Set(["decline", "stall"]);
 
 /**
- * A party with no one filed for a partisan seat looks for someone to run
- * (owner, Oct 14 and Oct 25: the Pendergast approach). The day filing opens,
- * once the town's runners have filed, its chair asks the party's own members
- * in town who could hold the seat (those who file under its label, by the
- * filing's own membership rule): those the chair is closest to first, then
- * those the most people know (the party's read of who can carry it). Each ask
- * is a record for the member and the chair. The member weighs running again with the ask as a reason; the
- * first who decides to run files, and the party asks no one else. A member
- * whose choices are the player's answers in the scene the ask stages.
+ * A party with no one filed for a partisan seat looks for someone to run. The
+ * day filing opens, once the town's runners have filed, its chair asks the
+ * party's own members in town who could hold the seat (those who file under
+ * its label, by the filing's own membership rule): those the chair is closest
+ * to first, then those the most people know (the party's read of who can
+ * carry it). Each ask is a record for the member and the chair. The member
+ * weighs running again with the ask as a reason; the first who decides to run
+ * files, and the party asks no one else. A member whose choices are the
+ * player's answers in the scene the ask stages.
  */
 /** Members asked today, so a chair asks one member to run for one seat a day. */
 const askedOn = new WeakMap<object, { date: string; ids: Set<string> }>();
@@ -1723,9 +1723,9 @@ export function partyProspects(
             (check) => !check.met,
           ),
       )
-      // Only with some inroads on record (owner, Oct 15: "The party asks
-      // someone to run only with some inroads on record"): the member knows
-      // the chair or the two have a tie. A stranger is never asked.
+      // Only with some inroads on record: the member knows the chair or the two
+      // have a tie. A stranger is never asked.
+
       .filter(
         (person) =>
           person.knownIds.has(chairId) ||
@@ -1735,8 +1735,8 @@ export function partyProspects(
               : `${chairId}:${person.id}`,
           ),
       )
-      // Inroads first, then standing (Oct 14: a high-standing member may be
-      // propositioned).
+      // Inroads first, then standing.
+
       .map((person) => ({
         person,
         closeness: closenessBetween(api.state, person.id, chairId),
@@ -1913,11 +1913,11 @@ function writeAsk(
 
 /**
  * Filing opens, before the day's weighing: each party asks the member it
- * would ask first for the seat, as a party recruits while the window is open
- * (owner, Oct 14). Being asked is one of the reasons that member weighs the
- * seat that day (`askOf`), so an ask can bring in someone who had not yet
- * decided to run. A party whose member says no, and a party with no one
- * filed after the weighing, goes on to its next member (`askForCandidates`).
+ * would ask first for the seat, as a party recruits while the window is open.
+ * Being asked is one of the reasons that member weighs the seat that day
+ * (`askOf`), so an ask can bring in someone who had not yet decided to run. A
+ * party whose member says no, and a party with no one filed after the
+ * weighing, goes on to its next member (`askForCandidates`).
  */
 function askBeforeWeighing(
   api: CoreAPI,
@@ -2352,16 +2352,16 @@ function announceDay(api: CoreAPI, held: Queues): void {
 }
 
 /**
- * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): a person's
- * decision not to run in a race decided more than
- * candidacyDecisionRetentionDays ago leaves the table on the first of a
- * month, in play. Every reader asks about a race still being run (who
- * filed, who was asked, the incumbent's own choice) or about those who ran:
- * demotion keeps a runner full until their race, the candidate pool reads
- * past runners from the weighed rows, and the dev path check reads the
+ * Keep results, not their history: a person's decision not to run in a race
+ * decided more than candidacyDecisionRetentionDays ago leaves the table on
+ * the first of a month, in play. Every reader asks about a race still being
+ * run (who filed, who was asked, the incumbent's own choice) or about those
+ * who ran: demotion keeps a runner full until their race, the candidate pool
+ * reads past runners from the weighed rows, and the dev path check reads the
  * holder's own decision to run. Those all stay. Kept, the declined decisions
  * were 28,733 of 30,181 rows at Montpelier, Vermont, year 4 (27 MB as JSON).
  * With bookkeeping on (tests, proofs) every decision stays.
+ *
  */
 function dropPastNonRunners(api: CoreAPI): void {
   if (bookkeeping() || !api.state.date.endsWith("-01")) return;

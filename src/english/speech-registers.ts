@@ -2,21 +2,21 @@ import type { GenderIdentityKey } from "../core2/gov-rules/types";
 import { parameter } from "../core2/parameters";
 
 /**
- * Where a line is spoken, and what that setting allows.
+ * Where a line is spoken, and what that setting allows. A House member does
+ * not talk on the floor the way they talk at the kitchen table. A register
+ * names the setting; its card says who is addressed and how, which rhetorical
+ * devices the setting admits, and what real talk in that setting measured
+ * like. The engine uses the first two to choose parts. The measured figures
+ * are never dice: they are checks a watched world's totals should land near,
+ * because each speaker's own choices add up to them. The cards are Research
+ * 2's, approved as design D-3. Only formulas from public-domain government
+ * sources (the Congressional Record, federal hearings, White House briefings)
+ * are written here word for word; the other corpora supply counts only.
  *
- * A House member does not talk on the floor the way they talk at the kitchen
- * table. A register names the setting; its card says who is addressed and how,
- * which rhetorical devices the setting admits, and what real talk in that
- * setting measured like. The engine uses the first two to choose parts. The
- * measured figures are never dice: they are checks a watched world's totals
- * should land near, because each speaker's own choices add up to them
- * (Lamontae, September 28, 2026: "no fixed percentages for behavior").
  *
- * The cards are Research 2's (Drive, "07 RESEARCH FOR CTO REVIEW, Sept 28 —
- * Research 2 · Speech and Dialogue Corpus", 9:50 p.m. consolidated), approved
- * as design D-3. Only formulas from public-domain government sources (the
- * Congressional Record, federal hearings, White House briefings) are written
- * here word for word; the other corpora supply counts only.
+ *
+ *
+ *
  */
 export const SPEECH_REGISTERS = [
   "house-one-minute",
@@ -91,8 +91,8 @@ export interface RegisterCard {
   readonly setting: RegisterSetting;
   readonly devices: readonly SpeechDevice[];
   /**
-   * Whether a speaker may swear here at all. Where it is allowed, whether they
-   * do is theirs (Lamontae, September 28, 2026: by personality).
+   * Whether a speaker may swear here at all. Where it is allowed, whether
+   * they do is theirs.
    */
   readonly swearing: "never" | "by-personality";
   readonly checks: readonly RegisterCheck[];

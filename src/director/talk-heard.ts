@@ -13,8 +13,8 @@ import type { CoreState, KnownFact, PersonId } from "../core2/types";
  * What the player already heard today from anyone in the household (the
  * telling's "said today"): the wording pieces, kept as the player's own
  * knowledge, one key per piece, learned on the day. A wording heard today is
- * not picked again that day, so two housemates never give the same sentence
- * (owner, Nov 12: "basically saying the same thing").
+ * not picked again that day, so two housemates never give the same sentence.
+ *
  */
 export const HEARD_PREFIX = "talk:heard:";
 

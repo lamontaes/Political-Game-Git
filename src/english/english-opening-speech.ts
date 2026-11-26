@@ -5,17 +5,17 @@
  * manner. The shape is a real address's: an opening and the oath, what the
  * President believes, the country's year, its people, the turn to Congress
  * and the priorities each tied to a law, the Vice President, the states, a
- * call to the people, a close. The address says no figure at all (owner, Oct
- * 27: "none of that real data in there"; Nov 1: "I don't like where this part
- * of the speech where it just laces statistics"), and a piece names no law:
- * every policy, name and office is a slot, and every claim a piece makes
- * ("more people are working than a year ago", "the law says no") is a
- * required fact the director supplies from a record, so a piece is said only
- * where its fact is held (`requiresFacts`).
+ * call to the people, a close. The address says no figure at all, and a piece
+ * names no law: every policy, name and office is a slot, and every claim a
+ * piece makes ("more people are working than a year ago", "the law says no")
+ * is a required fact the director supplies from a record, so a piece is said
+ * only where its fact is held (`requiresFacts`). The director
+ * (`src/director/opening-story.ts`) decides which blocks the address has and
+ * with which facts; this file turns one role of one block into a move for
+ * `composeAddress`. It holds no sentence and no order.
  *
- * The director (`src/director/opening-story.ts`) decides which blocks the
- * address has and with which facts; this file turns one role of one block
- * into a move for `composeAddress`. It holds no sentence and no order.
+ *
+ *
  */
 import bankJson from "../../data/english/parts/opening-speech.json" with { type: "json" };
 import { admittedParts, directorSlots, type BankPart } from "./bank-parts";
@@ -41,15 +41,15 @@ interface OpeningPart extends BankPart {
   /**
    * The kind of address the sentence is for (`crisis`, `combative`,
    * `hopeful`, `victory`, `mourning`); a piece without one belongs to every
-   * kind that has no piece of its own for the role (owner, Nov 8).
+   * kind that has no piece of its own for the role.
    */
   addressKind?: string;
   /**
-   * The part of a joined sentence the piece is (owner, Nov 11, call 12: "A
-   * piece the engine joins counts as composed when the sentence it makes
-   * carries an insert"): an opener said before the move's core, or the core
-   * itself, which names a slot from the world's records in every wording. A
-   * piece without one is a whole core.
+   * The part of a joined sentence the piece is: an opener said before the
+   * move's core, or the core itself, which names a slot from the world's
+   * records in every wording. A piece without one is a whole core.
+   *
+   *
    */
   piece?: {
     of: string;
@@ -164,9 +164,9 @@ const BARE_ROLES: readonly string[] = ["salutation", "close"];
  * Whether a core piece carries something: a slot filled from the world's
  * records, or a fact it is said only when the record holds. A core that
  * carries neither ("This is a working speech.", "I'll keep this practical
- * tonight.") is not a type the outline can pick (owner, Nov 12, via the
- * words lead: four sentences that say nothing). Openers and closers lead or
+ * tonight.") is not a type the outline can pick. Openers and closers lead or
  * end a core that does.
+ *
  */
 function carries(
   part: OpeningPart,

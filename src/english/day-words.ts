@@ -37,9 +37,9 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
 }
 
 /**
- * The day as the opening's landing names it, after "It's": "the evening of
- * January 20", "late on January 20" (the date with no ordinal; Words lead,
- * Nov 14), the part by the minute the player lands.
+ * The day as the opening's landing names it, after "It's": "the evening of ",
+ * "late on ", the part by the minute the player lands.
+ *
  */
 export function dayLanding(iso: string, minuteOfDay: number): string {
   const rows = data.landing.parts;
@@ -68,9 +68,9 @@ export function daySince(recordIso: string, playIso: string): string | null {
     data.since.find(
       (entry) => entry.upToDays === null || days <= entry.upToDays,
     ) ?? data.since[data.since.length - 1]!;
-  // A bare month and day means this year (Fable A, Nov 13, rule 3): a day
-  // in another year is told with its year, "last February" for the year
-  // before.
+  // A bare month and day means this year: a day in another year is told with
+  // its year, "last February" for the year before.
+
   if (row.said.includes("{date}")) {
     const years = Number(playIso.slice(0, 4)) - Number(recordIso.slice(0, 4));
     if (years > 0)

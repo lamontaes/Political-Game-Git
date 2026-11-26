@@ -2378,12 +2378,12 @@ export interface BillSection {
     readonly lawId: string | null;
     /**
      * What the section cites as the law it amends, for the English engine:
-     * the designation of the bill, passed in play, that enacted it, with
-     * that bill's form; or, for a law in force when the game began, the
-     * statute its research recorded (`terms.cite`), since laws in force stay
-     * the real starting law (owner, Oct 27). Null where neither is on record:
-     * a starting row's research source (a web page, a survey, a note on how
-     * it was estimated) only calibrated the row and is never said in play.
+     * the designation of the bill, passed in play, that enacted it, with that
+     * bill's form; or, for a law in force when the game began, the statute
+     * its research recorded (`terms.cite`), since laws in force stay the real
+     * starting law. Null where neither is on record: a starting row's
+     * research source (a web page, a survey, a note on how it was estimated)
+     * only calibrated the row and is never said in play.
      */
     readonly statute: string | null;
     /** The enacting bill's form; null for a recorded statute. */
@@ -2662,7 +2662,7 @@ export function billForm(
 
 /**
  * A bill is not introduced without a section: its title is what its sections
- * do, so a bill with none cannot be named (owner, batch 11).
+ * do, so a bill with none cannot be named.
  */
 function requireSection(provisions: readonly Provision[]): void {
   if (!provisions.length)
@@ -3165,10 +3165,10 @@ function withDirection(
 }
 
 /**
- * The sponsor edits the bill on paper before its vote (the owner's
- * bill-on-paper workflow, September 25, 2026): add a section, replace one or
- * strike one. The paper is the one record of the bill: each edit rewrites
- * its sections and checks them again. A bill already voted on is not edited.
+ * The sponsor edits the bill on paper before its vote: add a section, replace
+ * one or strike one. The paper is the one record of the bill: each edit
+ * rewrites its sections and checks them again. A bill already voted on is not
+ * edited.
  */
 export function reviseBill(
   api: CoreAPI,
@@ -4552,15 +4552,15 @@ export function favorReturnedSince(
 
 /**
  * What a member asked for their vote would take in return, from their own
- * record (brief O; owner's rule, Nov 14: a price is never named in the same
- * breath as the vote, and only an act the engine does can pay it). Two prices
- * the engine can pay, the one that moves them most first:
+ * record. Two prices the engine can pay, the one that moves them most first:
  * - `their-bill`: the asker's vote for the member's own bill waiting in the
- *   same body, paid as `offerDeal` kind `back-their-item` naming that bill;
- * - `amend`: half of the section of the asker's bill that weighs most against
- *   them (a budget line or a law amount: a yes or no question has no half),
- *   paid as `offerDeal` kind `amend`, which changes the bill for everyone.
- * Null where neither would carry them, or where they already lean for it.
+ * same body, paid as `offerDeal` kind `back-their-item` naming that bill; -
+ * `amend`: half of the section of the asker's bill that weighs most against
+ * them (a budget line or a law amount: a yes or no question has no half),
+ * paid as `offerDeal` kind `amend`, which changes the bill for everyone. Null
+ * where neither would carry them, or where they already lean for it.
+ *
+ *
  */
 export type AskPrice =
   | {
@@ -4920,14 +4920,14 @@ export function missesSitting(
 }
 
 /**
- * The floor before the roll (owner, Nov 8: members speak in session, for and
- * against, recognized by the chair): the sponsor speaks for the bill if they
- * sit in this chamber, else the member whose position leans furthest for it;
- * the member whose position leans furthest against speaks against. Only a
- * full person who is alive can rise, and only if their position leans their
- * way at all, so a bill nobody opposes has no one against. Ties go to the
- * member key. A public record the director stages for the members in the
- * room and the press can tell.
+ * The floor before the roll: the sponsor speaks for the bill if they sit in
+ * this chamber, else the member whose position leans furthest for it; the
+ * member whose position leans furthest against speaks against. Only a full
+ * person who is alive can rise, and only if their position leans their way at
+ * all, so a bill nobody opposes has no one against. Ties go to the member
+ * key. A public record the director stages for the members in the room and
+ * the press can tell.
+ *
  */
 export function recordFloorDebate(
   api: CoreAPI,
@@ -5752,7 +5752,7 @@ function ownSections(
 
 /**
  * The floor before a chamber votes, and a committee's markup before it
- * reports (the owner's ruling, Oct 14, 2026, afternoon). A sponsor short of a majority works the holdouts nearest even:
+ * reports. A sponsor short of a majority works the holdouts nearest even:
  * each asks for a section of their own in return for their vote, and the
  * sponsor gives it where they still back the bill with it. Then the member
  * most against a bill that would pass may move a poison pill: a section of
@@ -5799,9 +5799,9 @@ function floorAmendmentsRun(
   // kept, or a decision made for them (`castMemberVote`, the row the roll
   // call reads). It counts as cast, nobody trades a section for it, and its
   // member moves no pill. So a sponsor whose votes are already in hand is not
-  // short of votes, and adds nothing to the bill (Fable audit, Nov 9, 2026:
-  // a bill passed with every vote cast still left the body carrying a second,
-  // unrelated section, in 35 of 40 bills in Congress).
+  // short of votes, and adds nothing to the bill.
+
+
   const cast = new Map<string, "yes" | "no" | "abstain">();
   for (const k of roll) {
     const chosen = table(api, "choices").get(`${bill.id}|${k}`) as unknown as
@@ -6689,11 +6689,11 @@ function executiveAction(
 
 /**
  * The executive's turn on a budget the legislature passed: a chief executive
- * with a veto signs or vetoes from their own position (the owner, Oct 14:
- * the executive signs or vetoes everywhere), recorded as an executive-action
- * the press reads. Null where there is no such executive, or where the
- * person the player controls holds the office: their budget proposal is
- * their own act, and a desk for it is a separate piece of work.
+ * with a veto signs or vetoes from their own position, recorded as an
+ * executive-action the press reads. Null where there is no such executive, or
+ * where the person the player controls holds the office: their budget
+ * proposal is their own act, and a desk for it is a separate piece of work.
+ *
  */
 function budgetDesk(
   api: CoreAPI,
@@ -7800,8 +7800,8 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
     executiveId: executiveId ?? "",
     action: "unsigned",
   });
-  // The lapse is the executive's act as much as a signature is (owner's
-  // card, Nov 14 2026, 06:08Z: "the Journal says so"), on the same record.
+  // The lapse is the executive's act as much as a signature is, on the same
+  // record.
   if (executiveId)
     executiveActionRecord(api, unsigned, executiveId, executiveId, "unsigned");
 }
@@ -8219,9 +8219,9 @@ export function floorCountOf(
  * How a bill ended, or that it has not yet, read from its own rows (its
  * status, its committees' records, each chamber's floor count, the override's
  * public record). One answer for every screen and tool that says why a bill
- * is not law (Fable audit, Nov 9, 2026: forced bills failed and nothing said
- * a chair had held them or that the Senate was short of cloture). It counts
- * nothing new and words nothing; the codes are worded by whoever shows them.
+ * is not law. It counts nothing new and words nothing; the codes are worded
+ * by whoever shows them.
+ *
  */
 export type BillEnding =
   | {

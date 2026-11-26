@@ -1,7 +1,7 @@
-// The roster screen: a titled list at the left, grouped under small headings, and the chosen
-// entry's page at the right (the People, Guide and Elections look of the Nov 8 play mocks).
-// A screen hands it the groups and a `render(entry, show, shows)` that returns the page's nodes; the
-// list pages inside its box, never a scroll.
+// The roster screen: a titled list at the left, grouped under small headings,
+// and the chosen entry's page at the right. A screen hands it the groups and
+// a `render(entry, show, shows)` that returns the page's nodes; the list
+// pages inside its box, never a scroll.
 import { el, viewHeight } from "./dom.mjs";
 import { pickGroup, pickHead, pickRow } from "./list-row.mjs";
 import { pager } from "./pager.mjs";

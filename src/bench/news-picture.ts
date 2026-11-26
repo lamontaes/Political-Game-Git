@@ -1,14 +1,14 @@
 /**
  * The picture a news story carries: the painted place the story's own record
- * is about, never a stock photo keyed by level and never a face (owner, Oct
- * 14, docs/play-first/LAW.md: "The game paints the photo of the actual
- * story"). A body's vote or meeting shows the room that body sits in, a law
- * the capitol or hall of the government that made it, a business story the
- * business, a home sale the home, a month's change in the town the town's
- * main street. The pictures are the scenes' own backdrops, read through the
- * scenes' own pickers, so a story and a scene at the same place look alike.
- * Rooms are painted empty: no one in a story's picture can disagree with
- * their card.
+ * is about, never a stock photo keyed by level and never a face. A body's
+ * vote or meeting shows the room that body sits in, a law the capitol or hall
+ * of the government that made it, a business story the business, a home sale
+ * the home, a month's change in the town the town's main street. The pictures
+ * are the scenes' own backdrops, read through the scenes' own pickers, so a
+ * story and a scene at the same place look alike. Rooms are painted empty: no
+ * one in a story's picture can disagree with their card.
+ *
+ *
  */
 import { capitolPlaceFor, hasBackdrop } from "./backdrop-places";
 import { governmentRoom, officeRoom } from "./government-bodies";

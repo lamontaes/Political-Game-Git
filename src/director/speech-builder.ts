@@ -226,10 +226,10 @@ function corePool(
   }
   for (const subject of ["work", "home", "children", "school"])
     say(subject, subject, {});
-  // The world around them (owner, Nov 8: "start with laws and effects and the
-  // world around you"): the areas of the speaker's town that moved most since
-  // the term began, bad news with the remedy it presses on the town's officials
-  // as a stand, good news as a thing worth saying.
+  // The world around them: the areas of the speaker's town that moved most
+  // since the term began, bad news with the remedy it presses on the town's
+  // officials as a stand, good news as a thing worth saying.
+
   const speaker = core.people.get(build.speakerId);
   if (speaker)
     for (const read of placeTermRead(

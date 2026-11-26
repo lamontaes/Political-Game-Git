@@ -1,15 +1,15 @@
 /**
  * P15 part 4: grief after a death, and each person's own resilience line.
+ * Owner's ruling: each person carries their own emotional resilience,
+ * generated once and keyed to them, and grief's pull toward rest and family
+ * fades by it. Here the line is a grief half-life read at the person's stable
+ * key from a log-normal spread. The spread is solved from Bonanno et al.
+ * (2002): the share whose grief has fallen to "little" by 6 months (45.9%,
+ * the resilient pattern) and the share still above it at 18 months (15.6%,
+ * chronic grief). Nothing is rolled when someone dies: a relative's grief is
+ * their closeness to the person who died, halving every half-life of their
+ * own.
  *
- * Owner's ruling (October 10, 2026): each person carries their own emotional
- * resilience, generated once and keyed to them, and grief's pull toward rest
- * and family fades by it. Here the line is a grief half-life read at the
- * person's stable key from a log-normal spread. The spread is solved from
- * Bonanno et al. (2002): the share whose grief has fallen to "little" by 6
- * months (45.9%, the resilient pattern) and the share still above it at 18
- * months (15.6%, chronic grief). Nothing is rolled when someone dies: a
- * relative's grief is their closeness to the person who died, halving every
- * half-life of their own.
  */
 import { daysBetweenText } from "./kernel/dates";
 import { stableHash, pairKey } from "./kernel/ids";

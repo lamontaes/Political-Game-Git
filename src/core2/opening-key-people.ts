@@ -1,10 +1,10 @@
 /**
- * The opening's key people (owner ruling, Oct 15, 2026, afternoon): the
- * president and vice president; the state's legislators; the most powerful
- * person in each chamber; and the player's own representatives. One list,
- * read by the opening story and the Politics screen, from the offices and
- * leadership records. No pick is made here: who is key follows from the
- * offices and from who holds the post that rules each chamber.
+ * The opening's key people: the president and vice president; the state's
+ * legislators; the most powerful person in each chamber; and the player's own
+ * representatives. One list, read by the opening story and the Politics
+ * screen, from the offices and leadership records. No pick is made here: who
+ * is key follows from the offices and from who holds the post that rules each
+ * chamber.
  */
 import keyData from "./data/opening/key-people.json" with { type: "json" };
 import { leaderOf } from "./modules/leadership";
@@ -135,7 +135,7 @@ export function keyPeopleOf(
   for (const [reason, kinds] of Object.entries(DATA.ownOffices))
     for (const kind of kinds) own.set(kind, reason as KeyReason);
   // The President and Vice President are known to everyone, including a
-  // territory's town whose voters do not choose them (owner ruling, Oct 19).
+  // territory's town whose voters do not choose them.
   const over = townSeats(api);
   const heads = seatsOfOffices(
     api,

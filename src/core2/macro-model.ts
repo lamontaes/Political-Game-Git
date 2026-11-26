@@ -263,16 +263,16 @@ type MovedFigures = Partial<
 >;
 
 /**
- * One published month moved by this world's offsets (owner, Oct 27:
- * "realistic, not real"; Nov 13: "it's simulated... things need to be
- * simulated in order to make your modern day make sense"). The published
- * figures set the base and the shape only. A rate offset moves every month
- * alike; a growth offset compounds from the opening month back, so every
- * month's 12-month change carries it, however far back the month is. The one
- * rule for the months play opens from (`historyMonths`) and the months the
- * history before them records (`worldPublishedMonth`), so the two agree on
- * every month both hold and nothing jumps on day one. Only the figures the
- * row has are moved.
+ * One published month moved by this world's offsets. The published figures
+ * set the base and the shape only. A rate offset moves every month alike; a
+ * growth offset compounds from the opening month back, so every month's
+ * 12-month change carries it, however far back the month is. The one rule for
+ * the months play opens from (`historyMonths`) and the months the history
+ * before them records (`worldPublishedMonth`), so the two agree on every
+ * month both hold and nothing jumps on day one. Only the figures the row has
+ * are moved.
+ *
+ *
  */
 function moveByWorld<Row extends MovedFigures & { month: string }>(
   row: Row,

@@ -873,12 +873,12 @@ export const movementGroupId = (town: string, question: string) =>
 
 /**
  * A crowd that keeps coming back over the same grievance becomes a standing
- * residents' group (owner, Nov 8: "can you start a movement?"): the same group
- * a bill's fiscal losers form (same id, same organization, same lobbying of
- * the next bill on its question), founded by the people who keep turning out
- * and not by a bill. Returns the group, or null where the engine is not
- * installed or no one who is alive can speak for it. A group already standing
- * on the question takes the new members.
+ * residents' group: the same group a bill's fiscal losers form (same id, same
+ * organization, same lobbying of the next bill on its question), founded by
+ * the people who keep turning out and not by a bill. Returns the group, or
+ * null where the engine is not installed or no one who is alive can speak for
+ * it. A group already standing on the question takes the new members.
+ *
  */
 export function foundMovement(
   api: CoreAPI,

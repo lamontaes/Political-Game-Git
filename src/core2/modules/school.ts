@@ -345,8 +345,8 @@ const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
 
 export const SCHOOL_MODULE: PreStartModule = {
   id: SCHOOL_MODULE_ID,
-  // The school years before the start, a year at a step (owner, Oct 28),
-  // and for a named person filled in after the run.
+  // The school years before the start, a year at a step, and for a named person
+  // filled in after the run.
   preStart: {
     phase: "people",
     run: (api, window, history) => schoolHistory(api, window, history),

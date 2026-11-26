@@ -1,10 +1,10 @@
 /**
- * Each world's base-rate tables (owner, Oct 27: realistic, not real): one
- * factor per published table (births, moves, chronic conditions,
- * college enrollment, college completion), drawn once from the world's
- * seed by the shared world draw, that scales the whole table. A base rate checks totals and never picks one actor's
- * outcome; the factor only makes the world's own rates differ from the
- * published ones. The spreads are parameter rows.
+ * Each world's base-rate tables: one factor per published table (births,
+ * moves, chronic conditions, college enrollment, college completion), drawn
+ * once from the world's seed by the shared world draw, that scales the whole
+ * table. A base rate checks totals and never picks one actor's outcome; the
+ * factor only makes the world's own rates differ from the published ones. The
+ * spreads are parameter rows.
  */
 import { parameter as p } from "./parameters";
 import { worldLevel } from "./world-draw";

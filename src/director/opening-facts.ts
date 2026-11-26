@@ -125,14 +125,14 @@ export function addressPoints(opening: {
         ? "against"
         : sentence.stand?.stance;
   }
-  // The outline's own record of each point fills what the sentences left
-  // out: a speech that only asks to be held to a question names no stance
-  // or verb phrase in its sentence, but the plan that chose the point holds
-  // the President's side, and the question's names hold the rest (owner,
-  // Oct 28: every view reads the same record; the sentences are a view of
-  // the plan, not a second source for it).
-  // Only a point the speech said aloud is one a listener can raise: a planned
-  // point no sentence names is not in the address.
+  // The outline's own record of each point fills what the sentences left out: a
+  // speech that only asks to be held to a question names no stance or verb
+  // phrase in its sentence, but the plan that chose the point holds the
+  // President's side, and the question's names hold the rest. Only a point
+  // the speech said aloud is one a listener can raise: a planned point no
+  // sentence names is not in the address.
+
+
   for (const planned of opening.points ?? []) {
     const row = rows.get(planned.question);
     if (!row) continue;

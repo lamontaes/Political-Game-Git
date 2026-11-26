@@ -1,14 +1,14 @@
 /**
  * A council or board member's floor speech on the measure before their body,
- * and a local candidate's campaign speech (words builder, Nov 12: "a council
- * member's speech ... all through planSpeech"). Both are planned by the one
+ * and a local candidate's campaign speech. Both are planned by the one
  * outline planner (speech-outline.ts) from their rows in speech-outlines.json
  * (`floor`, `campaign`), as the President's, a governor's and a mayor's
  * addresses are: the speaker is a full person whose views come from the one
  * stance engine (campaign-stances.ts), the questions are the ones their body
  * decides, and the English engine writes every sentence
  * (data/english/parts/opening-speech.json, subjects `floor-speech` and
- * `campaign-speech`). This file says only who speaks, about what, and to whom.
+ * `campaign-speech`). This file says only who speaks, about what, and to
+ * whom.
  */
 import { coreAPI } from "../core2/state";
 import { P } from "../core2/parameters";

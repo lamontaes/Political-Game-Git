@@ -195,8 +195,8 @@ const inAgeRow = (age: number, row: EmploymentAgeRow) =>
 /**
  * The share of an age band employed in a county in this world: the published
  * share (ACS county table, else the national CPS share) moved once by the
- * world's own offset, relative to its nearer bound (owner, Oct 27: realistic,
- * not real). Play reads this; `publishedResidentEmploymentRate` is calibration.
+ * world's own offset, relative to its nearer bound. Play reads this;
+ * `publishedResidentEmploymentRate` is calibration.
  */
 export function residentEmploymentRate(
   age: number,

@@ -56,10 +56,10 @@ export interface SceneLine {
 }
 
 /**
- * A line the narrator gives: the arrival (the day as people say it, where and
- * who the player meets, owner, Nov 8), the setting by its kind (a call or a letter), who is there, what is happening by the staged situation's type (`lead`), how the
- * first move opens the scene, and what led here by the moment's label
- * (`cause`).
+ * A line the narrator gives: the arrival, the setting by its kind (a call or
+ * a letter), who is there, what is happening by the staged situation's type
+ * (`lead`), how the first move opens the scene, and what led here by the
+ * moment's label (`cause`).
  */
 export type NarrationMove =
   | { part: "setting"; kind: string }

@@ -1,38 +1,38 @@
 /**
  * What the record says a person did on a bill they voted on, and why, so a
- * scene's replies are placed by it (rules 110 to 113, owner's feedback on the
- * reporter's call, Nov 14 2026): a reply never says the opposite of the vote,
- * a "why" is answered by a reason the record holds, and the scene can open on
- * what just happened. Any scene whose cause names a bill the asked person
- * voted on reads it, not only the reporter's call.
+ * scene's replies are placed by it: a reply never says the opposite of the
+ * vote, a "why" is answered by a reason the record holds, and the scene can
+ * open on what just happened. Any scene whose cause names a bill the asked
+ * person voted on reads it, not only the reporter's call. Read from the
+ * legislature's own rows: the member's row of the roll (their vote, their
+ * position part by part as the floor weighed it, the trades they took), the
+ * chamber's count and the body's own office row. - `acted` and `voted-yes` /
+ * `voted-no`: they have voted, and which way (a cause that sets its own
+ * `voted-*` keeps it); - `bill-passed` / `bill-failed`: what the chamber did,
+ * from its count; - `body`: the body said short ("the council"), from its
+ * office row; - `reason-*`: every part of their position said aloud that
+ * leans the way they voted, the floor's reasons (`own-view`, `people`,
+ * `own-bill`, the floor's `publicReasons`) and two the floor never says but a
+ * member does after the vote: a trade they took (`deal`) and their own last
+ * vote on the question (`last-vote`). The person playing chose their vote, so
+ * their own view is always one of their reasons; - `against-people`: the
+ * town's lean pulled the other way; - `wrote-bill`: the member is the bill's
+ * sponsor, read off the bill; - `top-reason-*`: the two largest parts of
+ * their position that lean the way they voted, among the ones a member says
+ * to a reporter: their own view (`own-view`), the people (`people`), the
+ * bill's author (`own-bill` when they wrote it, `sponsor` when they trust or
+ * distrust who did), a trade they made (`deal`) and their party (`party`,
+ * state and federal members). A reporter asking "why" hears one of these;
+ * none is set when no part leans their way or they voted against their own
+ * bill, and only the ones the bank words are set (`WORDED_REASONS`). A lobby,
+ * a wing, ambition and the press are never said as a reason. Each fact cites
+ * its records; a part with no record behind it is left out.
  *
- * Read from the legislature's own rows: the member's row of the roll (their
- * vote, their position part by part as the floor weighed it, the trades they
- * took), the chamber's count and the body's own office row.
  *
- * - `acted` and `voted-yes` / `voted-no`: they have voted, and which way (a
- *   cause that sets its own `voted-*` keeps it);
- * - `bill-passed` / `bill-failed`: what the chamber did, from its count;
- * - `body`: the body said short ("the council"), from its office row;
- * - `reason-*`: every part of their position said aloud that leans the way
- *   they voted, the floor's reasons (`own-view`, `people`, `own-bill`, the
- *   floor's `publicReasons`) and two the floor never says but a member does
- *   after the vote: a trade they took (`deal`) and their own last vote on the
- *   question (`last-vote`). The person playing chose their vote, so their own
- *   view is always one of their reasons;
- * - `against-people`: the town's lean pulled the other way;
- * - `wrote-bill`: the member is the bill's sponsor, read off the bill;
- * - `top-reason-*`: the two largest parts of their position that lean the way
- *   they voted, among the ones a member says to a reporter: their own view
- *   (`own-view`), the people (`people`), the bill's author (`own-bill` when
- *   they wrote it, `sponsor` when they trust or distrust who did), a trade
- *   they made (`deal`) and their party (`party`, state and federal members).
- *   A reporter asking "why" hears one of these (Words lead, Nov 15); none is
- *   set when no part leans their way or they voted against their own bill,
- *   and only the ones the bank words are set (`WORDED_REASONS`). A lobby, a
- *   wing, ambition and the press are never said as a reason.
  *
- * Each fact cites its records; a part with no record behind it is left out.
+ *
+ *
+ *
  */
 import {
   billOf,
@@ -105,9 +105,9 @@ export function voteStandFacts(
   if (own.position.constituents * sign < P.zero) facts["against-people"] = yes;
   if (wroteIt)
     facts["wrote-bill"] = { text: "yes", sourceRecordIds: [bill.id, voteId] };
-  // A member voting against the bill they wrote has a story of their own (the
-  // second reader's hold, upheld Nov 16): no reason the bank words for a no
-  // says why an author turns on their own bill, so none is set.
+  // A member voting against the bill they wrote has a story of their own: no
+  // reason the bank words for a no says why an author turns on their own
+  // bill, so none is set.
   if (wroteIt && !votedFor) return;
   for (const reason of saidReasons(own.position, sign, wroteIt))
     if (WORDED_REASONS.has(reason))
@@ -117,8 +117,8 @@ export function voteStandFacts(
 /**
  * The reasons the bank has a played line for. The Words lead's lines for a
  * deal and the party wait with the Words lead until a played call reaches
- * them (Nov 15); those parts still rank, and a member whose largest reasons
- * are all unworded gives the plain answer.
+ * them; those parts still rank, and a member whose largest reasons are all
+ * unworded gives the plain answer.
  */
 const WORDED_REASONS: ReadonlySet<string> = new Set([
   "own-view",

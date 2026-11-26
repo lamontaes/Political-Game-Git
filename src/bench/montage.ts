@@ -68,7 +68,7 @@ export interface MontageBeat {
  */
 export function beatKinds(
   levels: readonly string[],
-  /** The kind of speech: an inaugural is given at the Capitol's stand, with the Oval Office as a cutaway (owner, Nov 23). */
+  /** The kind of speech: an inaugural is given at the Capitol's stand, with the Oval Office as a cutaway. */
   speechKind?: string,
 ): BeatKind[] {
   if (levels.length <= 1) return [DATA.last];
@@ -87,11 +87,11 @@ export function beatKinds(
 /**
  * Each part's role. The record's part numbers can skip (a block that said
  * nothing leaves a gap), while the parts the player sees are the distinct
- * numbers in order, so the role is read per distinct part, not by number
- * (P8, Nov 23). A part's role is the level of its first sentence that is
- * neither the salutation nor the occasion lead-in a point block may open
- * with, so a stance part keys to its point's level; a part of nothing else
- * is the occasion.
+ * numbers in order, so the role is read per distinct part, not by number. A
+ * part's role is the level of its first sentence that is neither the
+ * salutation nor the occasion lead-in a point block may open with, so a
+ * stance part keys to its point's level; a part of nothing else is the
+ * occasion.
  */
 export function partLevels(
   sentences: readonly { level: string; part: number }[],
@@ -116,9 +116,9 @@ export function partLevels(
  * few parts the address has: when its country parts are fewer than the
  * cutaways, a part of two sentences or more is split after its first sentence
  * into two parts, so the picture changes on a sentence and a part of the
- * address stays one paragraph (CTO, Nov 24: "change the cutaway on a sentence
- * inside a part, not on a part"). No word is added or changed. `parts` is the
+ * address stays one paragraph. No word is added or changed. `parts` is the
  * speech's text per Continue after the split, or null when nothing split.
+ *
  */
 export function stagedAddress<
   Row extends Pick<
@@ -172,9 +172,9 @@ export function stagedAddress<
 /**
  * The people each part of a speech names, by part: every full person a
  * sentence of the part cites (the Vice President, the Speaker), never the
- * speaker. The montage shows them as that part is spoken (owner, Nov 12: "it
- * was just showing random busts of people ... unless it's people that he's
- * introducing in this speech").
+ * speaker. The montage shows them as that part is spoken.
+ *
+ *
  */
 export function namedInParts(
   core: CoreState,
@@ -228,8 +228,8 @@ export function addressMontage(
         : places.find(hasBackdrop);
   };
   // The Vice President first, then the chambers' leaders, the player's
-  // governor, and the legislators after (owner, Oct 29: "the Vice President,
-  // Congress and the player's governor with a few state legislators").
+  // governor, and the legislators after.
+
   const rank = (person: { officeKind: string; leads?: unknown }) =>
     person.officeKind.includes("vice-president")
       ? 0
@@ -295,7 +295,7 @@ export function addressMontage(
       reason: "you" | "household" | "moment";
       /** The office they are named by as the camera passes. */
       role?: string;
-      /** The address is a formal occasion for the people it names: they wear formal clothes (owner, Nov 23, P10). */
+      /** The address is a formal occasion for the people it names: they wear formal clothes. */
       formal?: boolean;
     }[] = [];
     const records: string[] = [];

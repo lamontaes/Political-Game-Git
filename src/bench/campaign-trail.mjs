@@ -1,7 +1,7 @@
-// The campaign trail in a real browser (owner, Oct 20: campaign acts are
-// scenes you go to; the Campaigns tab shows standing only). Shared by the
-// browser checks that run a campaign act: open Travel and the trail's card,
-// where the doors, the event, the interview, the calls and the debate wait.
+// The campaign trail in a real browser. Shared by the browser checks that run
+// a campaign act: open Travel and the trail's card, where the doors, the
+// event, the interview, the calls and the debate wait.
+
 
 /** Live through whatever an act left on screen (a scene's talk, a stop) so the menus can open. */
 async function settle(page) {

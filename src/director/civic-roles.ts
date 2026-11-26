@@ -1,23 +1,23 @@
 /**
  * The civic roles a scene's situation type names, filled from the records
- * that carry them (owner, Oct 15, 2026): the poll workers who work an election
- * day's polling place, the reporter who asks at an interview, the chair who
- * presides over a body and the members who sit on it, and the executive who
- * signs or vetoes, the reporters who cover an officeholder's act on a bill
- * (the press corps), the officeholder's own aides and the residents who asked
- * at their town hall. The moment's cause
- * record says which: a bill's id names its
- * body; an interview's id names its reporter; a speech's id names its listeners; the voter's own precinct names
- * its workers.
+ * that carry them: the poll workers who work an election day's polling place,
+ * the reporter who asks at an interview, the chair who presides over a body
+ * and the members who sit on it, and the executive who signs or vetoes, the
+ * reporters who cover an officeholder's act on a bill (the press corps), the
+ * officeholder's own aides and the residents who asked at their town hall.
+ * The moment's cause record says which: a bill's id names its body; an
+ * interview's id names its reporter; a speech's id names its listeners; the
+ * voter's own precinct names its workers. The clerk who takes a filing is the
+ * person the contest's filing office records name (`filingClerkFor`: an
+ * elected clerk, the town's appointed clerk or the county government's listed
+ * clerk). A contest filed with a state or federal office has no counter in
+ * the town: the role stays unfilled, and the scene says so by the reach
+ * report, never by an invented clerk. A bill presented to the executive's
+ * desk is brought by its body's clerk, the town's or the county's
+ * (`localClerkFor`), and an official's aide is one of the staff they hired
+ * (`servingStaffOf`).
  *
- * The clerk who takes a filing is the person the contest's filing office
- * records name (`filingClerkFor`: an elected clerk, the town's appointed
- * clerk or the county government's listed clerk). A contest filed with a state
- * or federal office has no counter in the town: the role stays unfilled, and
- * the scene says so by the reach report, never by an invented clerk. A bill
- * presented to the executive's desk is brought by its body's clerk, the
- * town's or the county's (`localClerkFor`), and an official's aide is one of
- * the staff they hired (`servingStaffOf`).
+ *
  */
 import { remarkOf } from "./remark";
 import { closenessBetween } from "../core2/modules/people";
@@ -393,10 +393,10 @@ export function civicFill(
       );
     }
     case "staff-or-ally": {
-      // Who brings a lost vote to its sponsor: their aide where they keep
-      // one; a council member keeps none, so a fellow member who voted for
-      // the bill finds them, the closest first (the owner's council member
-      // heard nothing after his ordinance failed, Oct 29).
+      // Who brings a lost vote to its sponsor: their aide where they keep one; a
+      // council member keeps none, so a fellow member who voted for the bill
+      // finds them, the closest first.
+
       const aides = civicFill("staff", core, moment, taken);
       if (aides.length) return aides;
       const billId = String(

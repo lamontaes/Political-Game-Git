@@ -396,7 +396,7 @@ export async function handleDev(
     // Jump to an hour: the player's own clock moves to that hour (today's, or
     // tomorrow's when it has passed), through the same wait an office's
     // opening uses, so the world runs to it and people are where their
-    // schedules put them at that hour. Dev mode's proving ground (owner, Nov 7).
+    // schedules put them at that hour. Dev mode's proving ground.
     case "POST hour": {
       const input = await body(request);
       const player = mode.player;

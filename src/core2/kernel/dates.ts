@@ -106,9 +106,9 @@ const SPOKEN_MONTHS = [
 ] as const;
 
 /**
- * "January 16, 2028": a stored date as a sentence the player reads says it.
- * The simulation writes some public summaries itself, and those must not
- * print the record's own "2028-01-16".
+ * "": a stored date as a sentence the player reads says it. The simulation
+ * writes some public summaries itself, and those must not print the record's
+ * own "".
  */
 export function spokenDate(date: IsoDate | string): string {
   const month = SPOKEN_MONTHS[Number(date.slice(5, 7)) - 1];
@@ -178,9 +178,9 @@ export function addDays(date: IsoDate, days: number): IsoDate {
 }
 
 /**
- * A date a whole number of calendar months from `date` (negative counts back).
- * A day past the target month's end lands on its last day, so six months from
- * August 31 is the last day of February.
+ * A date a whole number of calendar months from `date` (negative counts
+ * back). A day past the target month's end lands on its last day, so six
+ * months from is the last day of February.
  */
 export function addMonths(date: string, months: number): string {
   if (!Number.isSafeInteger(months)) {
@@ -582,15 +582,15 @@ export function ageOnDate(birthDate: string, comparisonDate: string): number {
 }
 
 /**
- * Whole months completed between two dates, never rounded up.
+ * Whole months completed between two dates, never rounded up. `ageOnDate`
+ * answers the same question in years and is the model here: the count
+ * advances on the day-of-month anniversary, and a shorter target month clamps
+ * to its last day, so to is one completed month rather than nought. Written
+ * because a residence requirement stated in months had no way to be expressed
+ * at all, and years cannot hold one -- six months rounds to nought years,
+ * which would pass everybody, or to one, which would refuse people the law
+ * admits. Both are wrong in a way a player would feel.
  *
- * `ageOnDate` answers the same question in years and is the model here: the
- * count advances on the day-of-month anniversary, and a shorter target month
- * clamps to its last day, so January 31 to February 28 is one completed month
- * rather than nought. Written because a residence requirement stated in months
- * had no way to be expressed at all, and years cannot hold one -- six months
- * rounds to nought years, which would pass everybody, or to one, which would
- * refuse people the law admits. Both are wrong in a way a player would feel.
  */
 export function completedMonthsBetween(start: IsoDate, end: IsoDate): number {
   const from = makeIsoDate(start);

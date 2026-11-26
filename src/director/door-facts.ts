@@ -1,23 +1,23 @@
 /**
- * What a door's words can lean on beyond the knock itself (Story lead,
- * Nov 17, the door rewrite): each fact is read from the one record that holds
- * it and set only where that record holds it (an effect is a read, not a
- * record). The door scene's own packet (`purpose-scene.ts`, the door block)
- * calls this once, beside the facts it already sets from the knock, the
- * petition and the resident's views.
+ * What a door's words can lean on beyond the knock itself: each fact is read
+ * from the one record that holds it and set only where that record holds it
+ * (an effect is a read, not a record). The door scene's own packet
+ * (`purpose-scene.ts`, the door block) calls this once, beside the facts it
+ * already sets from the knock, the petition and the resident's views. -
+ * `signed` / `would-not-sign`: the petition record's answer for this resident
+ * (`knockFacts`, from `petitionAtDoor`). The resident's agree or decline is
+ * placed by it, never chosen again in words. - `rival`: the other candidate
+ * in the contest, by the scene's way of saying a person, set only where a
+ * filing besides the player's stands in it; `rival-signed` too where this
+ * resident's name is on that filing's petition. - `stand`, `stand-with`,
+ * `stand-apart`: the player's own stand on the question the resident raised
+ * (`view-question`), from the views engine, said as a verb phrase after
+ * "I'd"; set only where the player holds a view on it. - `voted-last` /
+ * `sat-out-last`: the resident's own ballot in the last election this office
+ * was on, from the voting engine's ballot rows; set only where such a ballot
+ * is on record.
  *
- * - `signed` / `would-not-sign`: the petition record's answer for this
- *   resident (`knockFacts`, from `petitionAtDoor`). The resident's agree or
- *   decline is placed by it, never chosen again in words.
- * - `rival`: the other candidate in the contest, by the scene's way of saying
- *   a person, set only where a filing besides the player's stands in it;
- *   `rival-signed` too where this resident's name is on that filing's petition.
- * - `stand`, `stand-with`, `stand-apart`: the player's own stand on the
- *   question the resident raised (`view-question`), from the views engine, said
- *   as a verb phrase after "I'd"; set only where the player holds a view on it.
- * - `voted-last` / `sat-out-last`: the resident's own ballot in the last
- *   election this office was on, from the voting engine's ballot rows; set only
- *   where such a ballot is on record.
+ *
  */
 import {
   ELECTIONS_MODULE_ID,

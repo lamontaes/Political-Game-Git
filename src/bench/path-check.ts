@@ -214,11 +214,11 @@ function stand(): { held: boolean; takesOffice: string | null } {
   let yesVoters = new Set<string>();
   // Step 3: walk into the office that takes filings for a contest you can
   // enter, a council seat first where the place has one, an open seat first
-  // of those (the golden path is a council race; owner, Oct 29: the player
-  // runs for six offices).
-  // A race takes filings only while its window is open (the clerk's answer,
-  // `playerMayFileFor`): with none open today, the character lives on a week
-  // at a time, up to two years, until one opens, as a player waits for it.
+  // of those. A race takes filings only while its window is open (the clerk's
+  // answer, `playerMayFileFor`): with none open today, the character lives on
+  // a week at a time, up to two years, until one opens, as a player waits for
+  // it.
+
   const enterableNow = () =>
     chooseRace(
       governmentView(w.core, me).contests.filter((c) =>

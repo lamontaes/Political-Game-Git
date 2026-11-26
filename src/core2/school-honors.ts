@@ -93,7 +93,7 @@ export function followingMonth(key: string): string | undefined {
   return next?.day.month;
 }
 
-/** The grade a student is in for the school year starting in `startYear`, by their age that September 1. */
+/** The grade a student is in for the school year starting in `startYear`, by their age that. */
 export function gradeIn(birthDate: string, startYear: number): number {
   return (
     ageOn(birthDate, `${startYear}-${schoolDays.schoolYear.firstDay}`) -

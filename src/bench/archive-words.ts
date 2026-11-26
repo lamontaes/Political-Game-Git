@@ -105,9 +105,9 @@ export function wordArchiveStory(
     NAMES ??= policyNames();
     const measure = NAMES[String(story.facts.series ?? "")];
     if (!measure) return null;
-    // Whose law it is, from the record's level: the federal one, or the
-    // state's by name (Fable A, Nov 13, rule 15: two "Income tax rate took
-    // effect" briefs, state and federal, unnamed).
+    // Whose law it is, from the record's level: the federal one, or the state's
+    // by name.
+
     const usps = /^US-([A-Z]{2})$/.exec(
       String(story.facts.jurisdiction ?? ""),
     )?.[1];

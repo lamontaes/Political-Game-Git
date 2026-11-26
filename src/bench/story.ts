@@ -181,8 +181,8 @@ export function storyScene(
     chamber,
   );
   // Who stands in the room is the director's cast, each for the reason the
-  // director recorded (the role that cast them); this view decides no one
-  // (the plan of Oct 28, section 3: "One cast, decided once, in the director").
+  // director recorded (the role that cast them); this view decides no one.
+
   const reasonOf = (id: string): StageReason => {
     if (id === personId) return "you";
     const fill = scene.presentReasons[id as PersonId] ?? "";
@@ -268,27 +268,27 @@ export function storyScene(
     momentId,
     place: pictured,
     backdrop,
-    // A call or a letter is between two people who are not in one room: the
-    // one who rings or writes is heard or read, never staged standing beside
-    // the player (owner, Nov 16, N16-44). They stay in `names` for their lines.
-    // `apart` tells the talk box too, which would otherwise stand the caller on
-    // its strip by their card's face.
+    // A call or a letter is between two people who are not in one room: the one
+    // who rings or writes is heard or read, never staged standing beside the
+    // player. They stay in `names` for their lines. `apart` tells the talk
+    // box too, which would otherwise stand the caller on its strip by their
+    // card's face.
     apart,
     people: peopleHere(
       core,
       backdrop.file,
       apart ? cast.filter((row) => row.id === personId) : cast,
     ).people,
-    // One narrator: a scene with a purpose opens on its own narration, the
-    // same voice that speaks between its lines; the situation's paragraph is
-    // for a moment with no exchange (the plan of Oct 28, section 1: "Two
-    // narrators per scene ... One narrator, the director's").
-    // The situation's arrival line is for a scene with no exchange. One with
-    // a purpose opens on its own narration alone: the clock and the place are
-    // on the screen (owner, Nov 24: "you already know what day and time it
-    // is"), and saying them beside the scene's own lead is a second narrator
-    // (the plan of Oct 28, section 1, which story-one-narrator.test.ts holds).
-    // This replaces the Nov 8 arrival before a purpose's setup (3acdf74dfc).
+    // One narrator: a scene with a purpose opens on its own narration, the same
+    // voice that speaks between its lines; the situation's paragraph is for a
+    // moment with no exchange. The situation's arrival line is for a scene
+    // with no exchange. One with a purpose opens on its own narration alone:
+    // the clock and the place are on the screen, and saying them beside the
+    // scene's own lead is a second narrator. This replaces the arrival before
+    // a purpose's setup (3acdf74dfc).
+
+
+
     narration:
       purpose?.kind === "composed" && purpose.scene.talk.narration.length
         ? purpose.scene.talk.narration.map((line) => ({
@@ -309,8 +309,8 @@ export function storyScene(
               : scene.speech,
         }
       : {}),
-    // The address plays as a montage: one picture and cast per part (owner,
-    // Oct 29 02:35).
+    // The address plays as a montage: one picture and cast per part.
+
     ...(scene.speech?.montage && staged
       ? {
           beats: addressMontage(

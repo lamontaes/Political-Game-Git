@@ -1,17 +1,17 @@
 /**
  * The Nation heading on News: laws other states passed lately, as a view over
- * the laws engine's own rows (owner, Oct 28: every screen is a view of the
- * same records; Nov 5: other places keep only the result; the CTO, Nov 6:
- * tell the ones that matter to this reader by reach and ties, no hand cap).
- * Nothing is stored for it: the laws come from the one history reader (the
- * record of each law taking effect), and the English engine words each law
- * from its row when the paper opens.
- *
- * A law is told when its reach (its state's share of the nation's people,
+ * the laws engine's own rows. Nothing is stored for it: the laws come from
+ * the one history reader (the record of each law taking effect), and the
+ * English engine words each law from its row when the paper opens. A law is
+ * told when its reach (its state's share of the nation's people,
  * `state-reach.json`) times one plus the reader's ties to that state (family
  * there, work there, a state next door) clears `nationNewsReachBar`. Moving
  * away from a state is not yet a tie: the person keeps no record of where
  * they came from (SG-WORDS-nation-no-moved-from-tie).
+ *
+ *
+ *
+ *
  */
 import reach from "../core2/data/places/state-reach.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../core2/kernel/dates";

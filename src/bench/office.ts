@@ -114,8 +114,8 @@ export function billItem(core: CoreState, bill: BillRow) {
     billId: bill.id,
     // The bill's real name from its title record, never its description.
     title: billTitleOf(bill)?.title ?? null,
-    // The number as a clerk reads it ("Ordinance 2025-6"): a bare "2025-6"
-    // under a title reads as a date (owner, Nov 11).
+    // The number as a clerk reads it ("Ordinance 2025-6"): a bare "2025-6" under
+    // a title reads as a date.
     number: spokenDesignation(bill.number, bill.form.kind),
     status: bill.status,
     sponsor: personName(core, bill.sponsorId),
@@ -225,7 +225,7 @@ function residentNote(
         item: title,
       });
   }
-  // Of two, "either"; of more, "any of the three" (Words lead, Nov 13).
+  // Of two, "either"; of more, "any of the three".
   if (open === 1) return pick("meeting.resident-can-speak-one.1", { body });
   if (open === 2) return pick("meeting.resident-can-speak-two.1", { body });
   return pick("meeting.resident-can-speak.1", { body, count: count(open) });
@@ -379,10 +379,10 @@ export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
 }
 
 /**
- * The switches Your office offers (owner's card, Nov 14, 2026: "Stop me at every vote"): each is
- * one name the player knows over the registered stop kinds it sets together, and shows only when
- * the seat has that kind of moment. On by default; off leaves the player away from that kind of
- * vote (the engine records them absent, a desk bill waits, nothing is cast or signed for them).
+ * The switches Your office offers: each is one name the player knows over the
+ * registered stop kinds it sets together, and shows only when the seat has
+ * that kind of moment. On by default; off leaves the player away from that
+ * kind of vote (the engine records them absent, a desk bill waits, nothing is cast or signed for them).
  */
 const STOP_SWITCHES = [
   // The own-bill and deciding-vote stops are moments of the same meetings and floor votes: left on
@@ -507,8 +507,8 @@ export function officeView(core: CoreState, personId: string) {
         names: stateCandidateNames(api, post.key),
       })),
     ].map(({ post, candidates, names }) => {
-      // Who turned the player down, and who may be asked now (owner, Nov 14:
-      // a no stands for now; ask again later).
+      // Who turned the player down, and who may be asked now.
+
       const asks = new Map(
         postAsks(api, personId, post.key).map((a) => [a.personId, a]),
       );

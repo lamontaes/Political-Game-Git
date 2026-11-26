@@ -1,21 +1,21 @@
 /**
- * Moves before the start (owner, Oct 28, 2026: "simulate to the birth
- * year... general to make the game flow"; pool item history-past-moves).
- * Whether a full adult came to the county is read from their records: a
- * parent living outside it, else a recorded birthplace outside it. When they
- * came is run by the moves engine's own rule, a year at a step: from the
- * year they were grown, their pull to leave where they were builds by the
- * share of people their age in their state who leave a county in a year
- * (ACS 2024, the moves engine's own rate, handed in by the people engine),
- * held back while
- * they have children at home, and they move on the day it reaches one whole
- * move (`movesStayPull`). Someone whose pull would not reach it before the
- * start came in the run's last year. No roll decides anything. Their
- * children at home born by then come with them.
+ * Moves before the start. Whether a full adult came to the county is read
+ * from their records: a parent living outside it, else a recorded birthplace
+ * outside it. When they came is run by the moves engine's own rule, a year at
+ * a step: from the year they were grown, their pull to leave where they were
+ * builds by the share of people their age in their state who leave a county
+ * in a year (ACS 2024, the moves engine's own rate, handed in by the people
+ * engine), held back while they have children at home, and they move on the
+ * day it reaches one whole move (`movesStayPull`). Someone whose pull would
+ * not reach it before the start came in the run's last year. No roll decides
+ * anything. Their children at home born by then come with them. `residenceOn`
+ * is the one reader of where a full person lived on a day before the start:
+ * the school engine's run, the working-life run and the people engine's
+ * births and partnerships read it.
  *
- * `residenceOn` is the one reader of where a full person lived on a day
- * before the start: the school engine's run, the working-life run and the
- * people engine's births and partnerships read it.
+ *
+ *
+ *
  */
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { addDays, ageInYears, makeIsoDate } from "./kernel/dates";
@@ -258,7 +258,7 @@ function moveRecords(
             Math.round(grown * daysPerYear),
           ) > from,
       );
-      // A renter's pull builds faster than an owner's (the owner hold).
+      // A renter's pull builds faster than an the owner hold).
       const year =
         rate(person.placeId, age) *
         (atHome ? childrenHold : 1) *
@@ -379,15 +379,15 @@ function cameOnce(
 }
 
 /**
- * The moves to another home inside the county before the start (gap sheet,
- * Nov 12, 2026, row 16: a past held at most one move). Each year from the
- * year they were grown, the share of people their age in their state who
- * moved within their county that year (ACS 2024, B07401, the moves engine's
- * `withinCountyRateFor`) builds a pull against their own seeded line; a pull
- * that reaches it is a move on the day it does, and a new line begins. The county is
- * the one they lived in that year: their origin's before they came, the
- * town's after (`arrived`). Seeded generation of what happened before the
- * world opened; no roll decides what anyone does.
+ * The moves to another home inside the county before the start. Each year
+ * from the year they were grown, the share of people their age in their state
+ * who moved within their county that year (ACS 2024, B07401, the moves
+ * engine's `withinCountyRateFor`) builds a pull against their own seeded
+ * line; a pull that reaches it is a move on the day it does, and a new line
+ * begins. The county is the one they lived in that year: their origin's
+ * before they came, the town's after (`arrived`). Seeded generation of what
+ * happened before the world opened; no roll decides what anyone does.
+ *
  */
 function withinRecords(
   api: CoreAPI,
@@ -427,7 +427,7 @@ function withinRecords(
         arrived && from < arrived.date
           ? String(arrived.facts.fromPlaceId)
           : person.placeId;
-      // A renter moves more often than an owner (the owner hold).
+      // A renter moves more often than an the owner hold).
       const year = -Math.log(1 - rate(placeId, age)) * (scale?.(age) ?? 1);
       for (; pull + year >= line; line = lineOf(count)) {
         const share = (line - pull) / year;
@@ -522,9 +522,9 @@ export function pastMovesHistory(
 }
 
 /**
- * A person's moves into the county over their own life, once (the owner's
- * ruling, Nov 9, 2026): a move before the world's window is kept, and one
- * the pre-start run already wrote stays as it is.
+ * A person's moves into the county over their own life, once: a move before
+ * the world's window is kept, and one the pre-start run already wrote stays
+ * as it is.
  */
 export function pastMovesFor(
   core: CoreState,

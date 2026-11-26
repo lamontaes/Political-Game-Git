@@ -1,11 +1,11 @@
 /**
- * The register of every bank line (owner, Nov 16: every line of dialogue or narration is registered
- * and traceable, so there are no leftovers). Computed from the banks in `data/english/parts/` and
- * the engines' own data, with no second list: each piece with its bank, move, tie class, whether
- * the grades or a rule hold it, the scene purposes that use it and whether an engine can place it.
- * The code and data-file scans and the baseline are in scripts/words/line-register.ts; the dev scene
- * view (src/bench/dev-views/scene-trace.ts) reads this. A bank file added under data/english/parts
- * is added to BANKS here, and tests/guards/english/line-register.test.ts fails until it is.
+ * The register of every bank line. Computed from the banks in
+ * `data/english/parts/` and the engines' own data, with no second list: each
+ * piece with its bank, move, tie class, whether the grades or a rule hold it,
+ * the scene purposes that use it and whether an engine can place it. The code
+ * and data-file scans and the baseline are in scripts/words/line-register.ts;
+ * the dev scene view (src/bench/dev-views/scene-trace.ts) reads this. A bank
+ * file added under data/english/parts is added to BANKS here, and tests/guards/english/line-register.test.ts fails until it is.
  */
 import { composedConversationBank } from "./conversation-words";
 import {
@@ -158,7 +158,7 @@ export interface RegisteredLine {
   requires: string[];
   /** Whether an engine can offer it: conversation lines are checked against the engine's own data; other banks are read as a whole by their consumer. */
   reach: Reach;
-  /** The ids of the story elements (docs/story/elements) the piece draws on; empty until it is matched to one (owner, Nov 24: every line needs matching to an element). */
+  /** The ids of the story elements (docs/story/elements) the piece draws on; empty until it is matched to one. */
   elements: string[];
 }
 
@@ -277,7 +277,7 @@ function saysNothing(piece: RawPiece, bank: string): boolean {
 let cached: RegisteredLine[] | undefined;
 
 /** Every bank piece, registered (read once: the banks do not change while the game runs). */
-/** Every bank the register reads, by file name, lines or none: the cut (owner, Nov 17) left banks empty, and an empty bank is still a bank. */
+/** Every bank the register reads, by file name, lines or none: the cut left banks empty, and an empty bank is still a bank. */
 export const bankNames = (): string[] => Object.keys(BANKS).sort();
 
 export function bankLines(): RegisteredLine[] {

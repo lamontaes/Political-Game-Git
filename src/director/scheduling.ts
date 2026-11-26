@@ -176,22 +176,22 @@ export interface SituationType {
   /**
    * "day": the scene's setting stands in for a room it has no picture of yet
    * (a debate's stage), so its opening says only the day and the lead says
-   * who is there and why, never a placement like "out and about" (Fable A,
-   * Nov 13, rule 13: "a debate opens in the room it is held in, never from a
-   * street stop").
+   * who is there and why, never a placement like "out and about".
+   *
+   *
    */
   arrivesBy?: "day";
   /**
-   * A scene that is an event in itself (a swearing-in, owner Oct 29; a
-   * person's own first date, the proposal they are asked, the birth of their
-   * child, family life report 1, Nov 14): it stops the day however strongly
-   * the moment was felt, for the one whose record it is.
+   * A scene that is an event in itself: it stops the day however strongly the
+   * moment was felt, for the one whose record it is.
+   *
+   *
    */
   stopsDay?: boolean;
   /**
    * The player's office stop this scene's stop follows (a desk visit follows
    * the desk switch): switched off, the scene does not stop the day, and
-   * nothing is decided for the player (owner's card, Nov 14, 02:03Z).
+   * nothing is decided for the player.
    */
   stopSwitch?: string;
   /**
@@ -228,8 +228,8 @@ export interface SituationType {
   yieldsTo?: readonly string[];
   /**
    * What kind of occasion the scene is, which decides whether an office
-   * holder in it sits, stands or takes a podium (the people pack's postures,
-   * agreed with People, Oct 29): "ceremony" for a swearing-in.
+   * holder in it sits, stands or takes a podium: "ceremony" for a
+   * swearing-in.
    */
   occasion?: string;
 }
@@ -269,10 +269,10 @@ export interface SceneBinding {
   /** Everyone the records place in the scene, for staging. */
   presentIds: PersonId[];
   /**
-   * Why each person present is there, decided once here: the fill of the
-   * role that cast them (subject, household, coworkers, counterpart, kin,
-   * the civic roles). Every view stages these people for these reasons and
-   * no others (the plan of Oct 28, section 3: "One cast, decided once").
+   * Why each person present is there, decided once here: the fill of the role
+   * that cast them (subject, household, coworkers, counterpart, kin, the
+   * civic roles). Every view stages these people for these reasons and no
+   * others.
    */
   presentReasons: Record<PersonId, string>;
   setting: { kind: string; recordId: string; seat?: true };
@@ -1004,8 +1004,8 @@ export function scheduleMoment(
   const eachCause = (row: SceneBinding) =>
     library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
   // One type cannot take a season: past its cap of scenes in the season's
-  // window, its causes go to the journal (the plan of Oct 28, section 3: the
-  // floor vote fired 121 times in one played year).
+  // window, its causes go to the journal.
+
   const seasonStart = addDays(
     makeIsoDate(moment.date),
     -library.scheduling.seasonCap.days,
@@ -1124,10 +1124,10 @@ export function scheduleMoment(
       )
     );
   };
-  // A friend asks only for what the game can settle now (the Words lead,
-  // Nov 15; owner's ruling: a colleague asks only for what the game can do):
-  // the next posted town meeting the player may come to. With none, the
-  // scene is not staged rather than dropped at its request.
+  // A friend asks only for what the game can settle now: the next posted town
+  // meeting the player may come to. With none, the scene is not staged rather
+  // than dropped at its request.
+
   const nothingToAsk = (row: SceneBinding) =>
     row.typeKey === FRIENDS_TYPE && !nextMeetingFacts(core).meeting;
   const seasonFull = (row: SceneBinding) =>
@@ -1175,14 +1175,14 @@ export function scheduleMoment(
       sitting.joined.push({ momentId: moment.id, causeId: moment.causeId });
   }
   // News from the household's own records (a parent's lost job, a death, a
-  // serious illness) is a family scene at home whatever its size (owner,
-  // Oct 14, 2026, night: the director picks the family scene the
-  // household's records make apply).
-  // A record of the whole household (an eviction) is a family scene for
-  // each of them, with no one else named.
-  // A record of one's own life that names them (a filing, the count of their
-  // own race, a story against them) is met where its scene is set that day:
-  // at home, or for an officeholder at the office or by phone.
+  // serious illness) is a family scene at home whatever its size. A record of
+  // the whole household (an eviction) is a family scene for each of them,
+  // with no one else named. A record of one's own life that names them (a
+  // filing, the count of their own race, a story against them) is met where
+  // its scene is set that day: at home, or for an officeholder at the office
+  // or by phone.
+
+
   const household = person.householdId;
   const met = new Set(library.scheduling.ownRecordSettings ?? ["home"]);
   const householdNews =

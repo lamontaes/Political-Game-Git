@@ -1,16 +1,16 @@
 /* global document, getComputedStyle, window, NodeFilter, innerHeight */
-// The scans of the menu look guard (owner, Nov 23: "a box around boxes ... explicitly
-// forbid it. Make it turn main red" and "none of these scrollers, especially when there's
-// ample dead space in these menus"). Each is a function that runs inside the page, so a
-// browser check passes it to `page.evaluate`; docs/mocks/2026-11-07-approved/MENU-LOOK.md
-// is the rule they enforce, tests/guards/ui-look-baseline.json what is still allowed.
+// The scans of the menu look guard. Each is a function that runs inside the
+// page, so a browser check passes it to `page.evaluate`;
+// docs/mocks/-approved/MENU-LOOK.md is the rule they enforce,
+// tests/guards/ui-look-baseline.json what is still allowed.
+
 
 /**
- * Guard A, box in box. Every element inside the open framed panel that is a container and
- * not a control, and draws a box: a visible border, a fill (a background color with alpha
- * or a background image) or an inset shadow. Returns one row per element: its selector key.
- * Controls (a button, a tab, an input, a select, a picture, a face or a portrait) are the
- * things that may be boxes; the Nov 5 tab rails are allowed by name.
+ * Guard A, box in box. Every element inside the open framed panel that is a
+ * container and not a control, and draws a box: a visible border, a fill (a
+ * background color with alpha or a background image) or an inset shadow.
+ * Returns one row per element: its selector key. Controls (a button, a tab,
+ * an input, a select, a picture, a face or a portrait) are the things that may be boxes; the tab rails are allowed by name.
  */
 export function scanBoxes(panelSelector) {
   const root = document.querySelector(panelSelector);
@@ -20,7 +20,7 @@ export function scanBoxes(panelSelector) {
   // A face or a portrait: a class that names one, on the element or any ancestor inside the panel.
   const PICTURE =
     /(^|[-_\s])(face|portrait|bust|avatar|picture|photo|figure|crop|plate-art)([-_\s]|$)/i;
-  // Allowed by name: the tab rails he approved on Nov 5 and the portrait's pool of light.
+  // Allowed by name: the tab rails he approved on and the portrait's pool of light.
   const ALLOWED = ["#sheet-tabs", "#person-tabs", ".tab-rail", ".mxglow"];
   const alpha = (color) => {
     const m = color.match(/rgba?\(([^)]*)\)/);
@@ -194,11 +194,11 @@ export function scanClipped(panelSelector) {
 }
 
 /**
- * Rule 2, one fact shown twice on one screen (Impeccable: "repeated-container-text"). A fact is
- * narrowly an exact date ("June 21, 2026", "Jun 21, 2026": the same day) or a record number (a bill
- * or ordinance: HB 2, H.R. 2, Ordinance 2025-1) in the visible text. It is a hit when the same fact
- * stands in two or more different elements of the one panel. Returns one row per kind of fact
- * repeated, with an example.
+ * Rule 2, one fact shown twice on one screen (Impeccable:
+ * "repeated-container-text"). A fact is narrowly an exact date or a record
+ * number (a bill or ordinance: HB 2, H.R. 2, Ordinance 2025-1) in the visible
+ * text. It is a hit when the same fact stands in two or more different
+ * elements of the one panel. Returns one row per kind of fact repeated, with an example.
  */
 export function scanRepeated(panelSelector) {
   const root = document.querySelector(panelSelector);

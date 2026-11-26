@@ -409,10 +409,10 @@ const OPENING_ON_TIME: RegExp[] = (
 ).map((source) => new RegExp(source, "i"));
 
 /**
- * A line of narration that opens on a clock time or a date (owner, Nov 24:
- * "shouldn't really say this because the date is in the bottom left"; "you
- * already know what day and time it is"). Naming the occasion ("It's the
- * evening of January 20.") is not listed.
+ * A line of narration that opens on a clock time or a date. Naming the
+ * occasion is not listed.
+ *
+ *
  */
 export const narrationNotOpeningOnTheClockOrDate: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
@@ -467,11 +467,11 @@ const POLICY_PHRASES: readonly string[] = [
 
 /**
  * The policy phrase a spoken line holds, when its filled text names a policy
- * by the bill catalog's policy name or by the question's `about` noun phrase
- * (owner, Nov 24, on a mother's "So the President wants a higher top income
- * tax rate": "No person would say that. They'd be like, finally, someone
- * wants to tax the rich"; Nov 23: "random ass laws like ban the box public
- * hiring. What does that mean?"). Null when the line names none.
+ * by the bill catalog's policy name or by the question's `about` noun phrase.
+ * Null when the line names none.
+ *
+ *
+ *
  */
 export function holdsCatalogName(text: string): string | null {
   const plain = ` ${plainSentence(plainQuotes(text))} `;
@@ -546,8 +546,8 @@ export const noNonReply: ComposedCheck = (text, sample) => {
       last = { line, screen: at };
     }
   });
-  // The talk ends on the player's line: nobody answered it (pre-grade of
-  // #8879, Nov 12: "She didn't say anything back").
+  // The talk ends on the player's line: nobody answered it.
+
   if (playerSaid)
     found.push(
       breakOf(
@@ -833,7 +833,7 @@ const POINT_GROUPS: readonly { tag: string; texts: readonly string[] }[] =
     })),
   );
 
-/** One paragraph of a speech that makes one point twice: two wordings of one `points` group (the lead, Nov 12: "to people who know the work. Because I believe an officer should be judged by people who have done the job"). */
+/** One paragraph of a speech that makes one point twice: two wordings of one `points` group. */
 export const pointMadeOnce: ComposedCheck = (text) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
   const found: ComposedBreak[] = [];
@@ -895,8 +895,8 @@ const STAND_IN = new RegExp(data.actStandIn, "i");
 
 /**
  * A stance whose act is a pronoun ("The last thing we need is to do that.")
- * with no act named before it in the same text (pre-grade of #8879, Nov 12:
- * "Do what? 'Do that'?").
+ * with no act named before it in the same text.
+ *
  */
 export const actNamed: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
@@ -924,8 +924,8 @@ const CONCESSION_BEFORE = new RegExp(data.concessionBefore, "i");
 
 /**
  * A sentence that concedes ("I'd vote to do it even so.") with nothing
- * contrary said before it in the same line: the frame names what it
- * concedes or it is not said (words composer, Nov 12).
+ * contrary said before it in the same line: the frame names what it concedes
+ * or it is not said.
  */
 export const concessionNamesWhat: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
@@ -965,7 +965,7 @@ const FIGURE_PATTERNS: RegExp[] = (
   )?.patterns ?? []
 ).map((source) => new RegExp(source, "i"));
 
-/** A spoken line that quotes a rate, a percentage, an index or a statistic (owner, Nov 14: people say how it sits, not the figure). */
+/** A spoken line that quotes a rate, a percentage, an index or a statistic. */
 export const noFigureInTalk: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
   text.screens.forEach((screen, at) => {
@@ -991,12 +991,12 @@ const THEY_FORMS =
   /\b(they|them|their|theirs|they're|they've|they'd|they'll|themselves)\b/i;
 
 /**
- * Rule 109 (Words lead, Nov 14): a line that speaks of one named person says
- * the pronoun that person's record holds. A spoken or narrated sentence that
- * names a person whose record says he or she, and says they, them or their in
- * that sentence or the next, is listed. It reads sentences, so a plural in the
- * same sentence ("the Hansens", "your parents") can be listed wrongly; the rule
- * is a sample and lists, it pulls nothing.
+ * Rule 109: a line that speaks of one named person says the pronoun that
+ * person's record holds. A spoken or narrated sentence that names a person
+ * whose record says he or she, and says they, them or their in that sentence
+ * or the next, is listed. It reads sentences, so a plural in the same
+ * sentence ("the Hansens", "your parents") can be listed wrongly; the rule is
+ * a sample and lists, it pulls nothing.
  */
 export const pronounFitsThePerson: ComposedCheck = (text, sample) => {
   const found: ComposedBreak[] = [];
@@ -1042,7 +1042,7 @@ const AGREEMENT_ONLY = data.agreementOnly.map(
 /**
  * An answer that only says the two agree or differ ("Glad you see it like I
  * do.") and nothing else: what the speaker expects, who they will tell or
- * what they will do is never left out (words composer, Nov 12).
+ * what they will do is never left out.
  */
 export const answerAddsSomething: ComposedCheck = (text, sample) => {
   const found: ComposedBreak[] = [];
@@ -1093,10 +1093,10 @@ const MONTHS = [
 const DAYS_IN_YEAR = 366;
 
 /**
- * A line that names the month a vote comes ("come November") when the
- * world's election calendar holds no election in that month within the year
- * after the line is said (owner via the coordinator, Nov 12). A sample with
- * no calendar is read as holding none.
+ * A line that names the month a vote comes ("come November") when the world's
+ * election calendar holds no election in that month within the year after the
+ * line is said. A sample with no calendar is read as holding none.
+ *
  */
 export const voteMonthOnCalendar: ComposedCheck = (text, sample) => {
   const found: ComposedBreak[] = [];
@@ -1135,8 +1135,8 @@ const ORGANIZATION = new RegExp(
 
 /**
  * An organization named more than once in one spoken exchange (one screen's
- * lines and the replies it offers): after the first naming it is said by the tie,
- * "work" or "school" (said-as ownPlace; owner via the coordinator, Nov 12).
+ * lines and the replies it offers): after the first naming it is said by the
+ * tie, "work" or "school".
  */
 export const organizationNamedOnce: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
@@ -1172,11 +1172,11 @@ const PAY_QUESTIONS = Object.entries(
 
 /**
  * A stand on a minimum-wage question whose reason is the speaker's own pay
- * when that pay does not argue for the side taken (lead, Nov 12: "At about
- * $15 an hour, it's my own paycheck on the line" from someone against the
- * raise that would pay her more; "Because I make about $40 an hour" from
- * someone it would not touch). Own pay is a reason only for a raise, and only
- * at or under the proposal times payNear.
+ * when that pay does not argue for the side taken. Own pay is a reason only
+ * for a raise, and only at or under the proposal times payNear.
+ *
+ *
+ *
  */
 export const reasonFitsTheSide: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
@@ -1200,7 +1200,7 @@ export const reasonFitsTheSide: ComposedCheck = (text) => {
   return found;
 };
 
-// ---- address-argues-its-points (Story thread #9750, part 4) ----
+// ---- address-argues-its-points ----
 
 /** A sentence that opens on someone being in the room ("With Vice President Sandra Solomon here,"). */
 const PRESENCE_LEAD =
@@ -1208,9 +1208,9 @@ const PRESENCE_LEAD =
 
 /**
  * A name said only to say the person is there: a speech sentence that opens
- * "With <name> here," does no work for the point after it (owner, Nov 16:
- * "With Vice President Sandra Solomon here, I'll tell you plainly... what
- * does that have to do with anything?").
+ * "With <name> here," does no work for the point after it.
+ *
+ *
  */
 export const nameCheckDoesWork: ComposedCheck = (text) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
@@ -1233,12 +1233,12 @@ export const nameCheckDoesWork: ComposedCheck = (text) => {
 };
 
 /**
- * A speech's close that names nothing from what the speech said (owner, Nov
- * 16, of "That's the work in front of California, and I thank you for
- * hearing me out.": "She didn't really say anything that's in front of
- * it."): the last line shares fewer than `closeSharedWordsLeast` subject
- * words with the screens before it, places, people and the close's own
- * frame words (`closeFrameWords`) set aside.
+ * A speech's close that names nothing from what the speech said: the last
+ * line shares fewer than `closeSharedWordsLeast` subject words with the
+ * screens before it, places, people and the close's own frame words
+ * (`closeFrameWords`) set aside.
+ *
+ *
  */
 export const closeNamesTheBody: ComposedCheck = (text, sample) => {
   if (!SPEECH_KINDS.includes(text.kind) || text.screens.length < 2) return [];
@@ -1278,9 +1278,9 @@ export const closeNamesTheBody: ComposedCheck = (text, sample) => {
 
 /**
  * Two sentences glued at a comma: a word that only takes a capital at a
- * sentence's start said with one after a comma ("Because I believe ... their
- * family, Don't look for my name ..."; the Story lead's read of #9831, the
- * Alaska governor). The words are the composer's own list of them.
+ * sentence's start said with one after a comma. The words are the composer's
+ * own list of them.
+ *
  */
 export const noCapitalAfterComma: ComposedCheck = (text) => {
   const found: ComposedBreak[] = [];
@@ -1404,9 +1404,9 @@ export function baselineFailures(
       failures.push(
         `COVERAGE: ${rule} read no texts; the baseline read ${was.read}. A rule that reads nothing has checked nothing.`,
       );
-    // A rate rises only with its count where fewer texts were read (lead,
-    // Nov 12): fewer texts can neither fake a rise (the same breaks over a
-    // smaller count) nor hide one (more breaks in fewer texts is a rise).
+    // A rate rises only with its count where fewer texts were read: fewer texts
+    // can neither fake a rise (the same breaks over a smaller count) nor hide
+    // one (more breaks in fewer texts is a rise).
     else if (
       now !== undefined &&
       now.per100 > was.per100 &&

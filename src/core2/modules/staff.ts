@@ -97,15 +97,15 @@ export interface StafferRow {
   /**
    * Why this person was the hire, by part: how well they'd do the work, how
    * far they live within reach of the office, their age's place in the
-   * working-age pool, knowing the official, and a family tie (a reason the
-   * press and views can read; family ties are allowed, owner Oct 14).
+   * working-age pool, knowing the official, and a family tie.
+   *
    */
   readonly reasons?: Readonly<Record<string, number>>;
   /** The records the reasons read: where they live, the family link, a counted record filled in at hire. */
   readonly reasonRecordIds?: readonly string[];
   /** The post's job on the government's payroll. */
   readonly jobId?: string;
-  /** The aide this hire replaces, who died or left the post (owner, Oct 14: every role is refilled). */
+  /** The aide this hire replaces, who died or left the post. */
   readonly replacesStafferId?: string;
   /** Given a household cost at hire, which they spend out of each month through this date. */
   readonly livedThrough?: string;
@@ -232,8 +232,8 @@ interface OfficeSite {
 
 /**
  * Where the official's office sits, from the records: a state (or federal)
- * office at its government's seat (the capital's place, owner, Oct 14); a
- * town or county office in the town.
+ * office at its government's seat; a town or county office in the town.
+ *
  */
 function officeSiteOf(api: CoreAPI, officialId: string): OfficeSite {
   const chain = lawChain(api);
@@ -419,13 +419,13 @@ export function staffCandidates(
   const postHourly = postHourlyMinor(api);
   const out: StaffCandidate[] = [];
   // Someone who runs an open business cannot take a post and keep it open:
-  // taking it closes the firm (Dickens, Iowa: four owners hired as aides on
-  // 2025-02-19, their firms closed with no successor on 2025-03-01).
+  // taking it closes the firm.
+
   const owners = openBusinessOwnerIds(api);
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
-    // The person the player controls is never hired by the engine's choice
-    // (owner, Oct 14: the engine offers, the player decides).
+    // The person the player controls is never hired by the engine's choice.
+
     if (
       person.id === state.playerId ||
       isExplicitlyControlledPersonV1(state, person.id)
@@ -486,11 +486,11 @@ export function staffCandidates(
 }
 
 /**
- * An office that sits outside the town draws applicants from where it sits
- * (owner, Oct 14). That place's people aren't modeled, so one applicant is
- * drawn from the world's seed and the office, the way officials outside the
- * town are: the same person every time, a record only once hired, at the
- * calendar cadence of people outside the town (registered stopgap).
+ * An office that sits outside the town draws applicants from where it sits.
+ * That place's people aren't modeled, so one applicant is drawn from the
+ * world's seed and the office, the way officials outside the town are: the
+ * same person every time, a record only once hired, at the calendar cadence
+ * of people outside the town (registered stopgap).
  */
 function seatApplicant(
   api: CoreAPI,

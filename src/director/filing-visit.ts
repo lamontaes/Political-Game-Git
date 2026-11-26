@@ -137,7 +137,7 @@ export function openFilingVisit(
   /**
    * The player's own filing at this counter, when they are back for another
    * race: the clerk who took it does not introduce themself again and opens
-   * from it (Fable A, Nov 13: "Back again? Your papers for {office} are in.").
+   * from it.
    */
   back?: { filingId: string; seat: SeatRecord },
   /**
@@ -221,7 +221,7 @@ export function openFilingVisit(
  * party chair (party candidates); Secretary of State (independents)"; a
  * person names the office. Whose county or town it is ("of the candidate's
  * home county", "in the candidate's city or town") is the research note's
- * gloss, never said aloud (P1, Richburg, South Carolina, Nov 13, rule 8).
+ * gloss, never said aloud.
  */
 export function spokenOffice(note: string): string {
   // An aside inside the name ("County (local) board of elections") is
@@ -239,8 +239,8 @@ export function spokenOffice(note: string): string {
 /**
  * The filing office as the place says it. A research note that names a choice
  * ("City or town clerk") is settled by the kind of place the races here are
- * for, read from their own names ("Town of Wareham Select Board": the town
- * clerk; Fable A, Nov 13, rule 8). Null when the records do not settle it.
+ * for, read from their own names. Null when the records do not settle it.
+ *
  */
 export function saidOffice(
   note: string,
@@ -302,7 +302,7 @@ export function pickContest(
   const ids = [contest.id, ...contest.sourceIds];
   const facts: Record<string, Fact> = {
     // "In {place}" is the town only for a town's seat filed at another
-    // government's counter (Words lead, Nov 14: "for the senate in Edgar").
+    // government's counter.
     ...seatPlaceFact(core, visit.playerId, contest),
     ...clerkFact(core, visit.clerkId),
     ...raceFacts(core, contest, ids),
@@ -321,13 +321,13 @@ export function pickContest(
   };
   visit.choices = [];
   visit.picked = { contestId, facts, path: [] };
-  // The clerk tells the candidate about the race before the paperwork
-  // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary
-  // is this date and the general is this date ... here is what a trustee
-  // does, here is the term"), from the contest's records, as one answer in
-  // connected sentences, never a list of facts (owner, Nov 1: "it shouldn't
-  // read as a list. That's not how normal people talk."): the statement of
-  // the clerk's scene, and its replies are the player's choices.
+  // The clerk tells the candidate about the race before the paperwork, from the
+  // contest's records, as one answer in connected sentences, never a list of
+  // facts: the statement of the clerk's scene, and its replies are the
+  // player's choices.
+
+
+
   const talk = clerkScene(core, visit);
   if (talk) visit.lines.push(clerkSaid(talk.state));
   // Each rule that stops the filing, in the clerk's words, from its record.
@@ -575,9 +575,9 @@ function placeFact(
  * filings for {place}"): the town at a town's own counter, the state at a
  * counter that takes only state and federal races (a Secretary of State), and
  * the county at a county's (from the place map; none said where the map holds
- * no county for the town). A
- * town clerk's line is never put in a state office's mouth (Words lead,
- * second reader, Nov 14: Vicco and West Point KY).
+ * no county for the town). A town clerk's line is never put in a state
+ * office's mouth.
+ *
  */
 function counterAreaFact(
   core: Readonly<CoreState>,
@@ -619,9 +619,9 @@ function counterAreaFact(
  * The "in {seat-place}" of a filing line's closer says the town only where a
  * town's seat is filed at another government's counter (a county or the
  * state); at the town's own counter, and for any seat above the town, no
- * place is said (Words lead, Nov 14, rule 100: "Your name's in for mayor.",
- * "for governor"). The town itself stays `place` for the lines that talk
- * about the town.
+ * place is said. The town itself stays `place` for the lines that talk about
+ * the town.
+ *
  */
 function seatPlaceFact(
   core: Readonly<CoreState>,
@@ -778,9 +778,9 @@ export function counterNarration(
   visit: FilingVisit,
   clerk: { title: string; recordId: string; heads?: string },
   /**
-   * The player's filing at this counter, when there is one: they are back
-   * for another race. Without one, this is their first visit, to ask for the
-   * papers (owner, Nov 1: "You filled out the forms there").
+   * The player's filing at this counter, when there is one: they are back for
+   * another race. Without one, this is their first visit, to ask for the
+   * papers.
    */
   filing?: { id: string; status: string } | null,
   /** The minute of the day the player walks in, so the narrator can name the day. */

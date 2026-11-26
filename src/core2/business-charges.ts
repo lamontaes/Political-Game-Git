@@ -3,13 +3,13 @@
  * its wages and the suppliers on its books: the employer's share of payroll
  * taxes, the property tax on its premises, what an energy price law adds to
  * its bills, health premiums it pays for its workers, its compliance duties
- * and its profit tax. Each payer engine records the payment here the moment it
- * moves the money, as a running total per business and kind, so the month's
- * books (business.ts, `bookedMonth`) read what the month added without
- * scanning any history. The kinds that are operating costs are weighed by the
- * staffing and closing decisions; profit tax is taken out of profit, so it is
- * read through the business's cash (its cushion, its room to hire), never as a
- * month's loss (lead's call, approved by the owner Nov 16).
+ * and its profit tax. Each payer engine records the payment here the moment
+ * it moves the money, as a running total per business and kind, so the
+ * month's books (business.ts, `bookedMonth`) read what the month added
+ * without scanning any history. The kinds that are operating costs are
+ * weighed by the staffing and closing decisions; profit tax is taken out of
+ * profit, so it is read through the business's cash (its cushion, its room to
+ * hire), never as a month's loss.
  */
 import { BUSINESS_MODULE_ID } from "./business-module-id";
 import type { ModuleRow } from "./module-data";

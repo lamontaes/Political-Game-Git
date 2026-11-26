@@ -1,7 +1,7 @@
 /**
- * Every people engine a played world installs, in one call (audit 1, Oct 12:
- * speeches and "bring it up" must run in /play, not only in tests). The
- * story director is created separately because the screens read its ledger.
+ * Every people engine a played world installs, in one call. The story
+ * director is created separately because the screens read its ledger.
+ *
  */
 import { DEFAULT_DATA } from "../core2/data";
 import { corruptionModule } from "../core2/modules/corruption";

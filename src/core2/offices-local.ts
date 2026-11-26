@@ -39,11 +39,11 @@ import { governmentProperName } from "./government-proper-name";
  * word goes where the body's own name follows ("Town of Montville" seats the
  * "Montville Board of Selectmen"), a township's follows its name ("Township
  * of Ocean" seats the "Ocean Township Committee", and so does a charter
- * township's: "Charter Township of Green" seats the "Green Township Board"), and a Puerto Rico
- * municipio is said by its name alone ("Ciales Municipal Legislature").
- * Counties, parishes and boroughs keep theirs ("Example County Commission").
- * One rule in the name reader (Words lead, Nov 14), so the paper, the
- * meeting panel and every other view read one name from the office record.
+ * township's: "Charter Township of Green" seats the "Green Township Board"),
+ * and a Puerto Rico municipio is said by its name alone ("Ciales Municipal
+ * Legislature"). Counties, parishes and boroughs keep theirs ("Example County
+ * Commission"). One rule in the name reader, so the paper, the meeting panel
+ * and every other view read one name from the office record.
  */
 function placeOfBody(area: string): string {
   // A charter, civil or metro township is a township: the listing's extra word
@@ -81,7 +81,7 @@ export function boardBodyName(
     return `${area.slice(0, -kind.length)}${bodyName}`;
   // The board's own name says the place's kind once the place has said it:
   // "Board of Township Trustees" for Auglaize Township is the "Auglaize
-  // Township Board of Trustees" (Words lead, Nov 14).
+  // Township Board of Trustees".
   const words = bodyName.split(" ");
   if (words.includes(kind))
     return `${area} ${words.filter((word) => word !== kind).join(" ")}`;

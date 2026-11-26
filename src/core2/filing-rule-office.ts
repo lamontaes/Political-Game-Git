@@ -7,7 +7,7 @@
  * district lines and the county populations. Where it cannot (the game holds
  * no state-district-to-county relationship, and a county split between
  * districts has no recorded population inside one), the body is the office
- * named without a county, never a guessed one (Account lead, Nov 15).
+ * named without a county, never a guessed one.
  */
 import budgetBases from "../../data/research/money/public-budget-bases.json" with { type: "json" };
 import districtLines from "../../data/research/district-lines-2026/lines-2026.json" with { type: "json" };

@@ -1,9 +1,9 @@
 /**
  * A state's union membership rate (BLS, 2025) in one world: the published
- * rate is the center and the world's own draw moves it (owner, Oct 27:
- * realistic, not real). Read by a union local's dues and by the
- * right-to-work law's reach; only the rate is a statistic, what a law does to
- * it is law.
+ * rate is the center and the world's own draw moves it. Read by a union
+ * local's dues and by the right-to-work law's reach; only the rate is a
+ * statistic, what a law does to it is law.
+ *
  */
 import unionData from "./data/business/union-membership.json" with { type: "json" };
 import { worldRate } from "./world-draw";

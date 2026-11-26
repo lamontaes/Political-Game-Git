@@ -1,21 +1,21 @@
 /**
- * What a bribe's lines may lean on beyond the favor it asks (Story lead,
- * Nov 17, the bribe rewrite). Each fact is read from the one record that
- * holds it and set only where that record holds it (an effect is a read, not
- * a record), so a line that needs it plays only where it is true:
+ * What a bribe's lines may lean on beyond the favor it asks. Each fact is
+ * read from the one record that holds it and set only where that record holds
+ * it (an effect is a read, not a record), so a line that needs it plays only
+ * where it is true: - `bribe-weight`: the envelope against what the player's
+ * household spends to live, in words and never a figure
+ * (data/bribe-weights.json), from the corruption engine's crime record. -
+ * `bidders`: the contract the bribe asks for had other bids, from the
+ * contract's award record. - `reported`: the player has already said they
+ * would report an offer or reported one to the press, from the scene replies
+ * and the scandal record the engine wrote. - `your-side`, `stand-with` and
+ * `stand-apart`: which side of the bill's question the player's own recorded
+ * view puts them on, and whether that is the offerer's side, from the views
+ * engine; set only for a vote the player holds a view on.
  *
- * - `bribe-weight`: the envelope against what the player's household spends
- *   to live, in words and never a figure (data/bribe-weights.json), from the
- *   corruption engine's crime record.
- * - `bidders`: the contract the bribe asks for had other bids, from the
- *   contract's award record.
- * - `reported`: the player has already said they would report an offer or
- *   reported one to the press, from the scene replies and the scandal record
- *   the engine wrote.
- * - `your-side`, `stand-with` and `stand-apart`: which side of the bill's
- *   question the player's own recorded view puts them on, and whether that is
- *   the offerer's side, from the views engine; set only for a vote the player
- *   holds a view on.
+ *
+ *
+ *
  */
 import { historyOf } from "../core2/past";
 import { awardsOn } from "../core2/modules/budgets";

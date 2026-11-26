@@ -1,9 +1,9 @@
 /**
- * Dev mode's trace tree (owner, Oct 14, 2026, relayed): from any record, the
- * records and reasons that produced it, one level per click, each child
- * labeled with the engine and the field or function that links it. "How they
- * learned of it" is its own kind. Read-only: it finds what the core and its
- * engines saved; it writes nothing and spends no time.
+ * Dev mode's trace tree: from any record, the records and reasons that
+ * produced it, one level per click, each child labeled with the engine and
+ * the field or function that links it. "How they learned of it" is its own
+ * kind. Read-only: it finds what the core and its engines saved; it writes
+ * nothing and spends no time.
  */
 import { coreAPI } from "../core2/state";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
@@ -419,7 +419,7 @@ function place(core: CoreState, id: string): FoundRecord | undefined {
   };
 }
 
-/** A cash account by id: its owner, what it holds and its latest payment. */
+/** A cash account by id: its what it holds and its latest payment. */
 function cashAccount(core: CoreState, id: string): FoundRecord | undefined {
   const journal = core.cashJournal;
   const account = journal.accounts.get(id);
@@ -942,8 +942,8 @@ function reverseLinks(
         });
   // A printed police log: how the month stood against the town's usual, the
   // closed months that usual rests on, and the share of a brief's space the
-  // desk gave it, read by the press's own function (owner, Nov 16: dev mode
-  // traces what a thread would trace by script).
+  // desk gave it, read by the press's own function.
+
   const facts = record?.facts as Record<string, unknown> | undefined;
   if (
     found.engine === "news.stories" &&

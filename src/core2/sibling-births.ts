@@ -17,7 +17,7 @@ import {
 } from "./kernel/dates";
 import { parameter as p } from "./parameters";
 
-/** The date `years` years before `on` (a February 29 falls to the 28th). */
+/** The date `years` years before `on`. */
 function yearsBack(on: IsoDate, years: number): IsoDate {
   const [year, month, day] = on.split("-").map(Number) as [
     number,

@@ -1,8 +1,8 @@
 /**
- * What a colleague the player asks for their vote has on record to say
- * (brief O, Nov 14 2026; the Words lead's rules 93 and 106; owner's card,
- * 06:43Z: a colleague asks in return only what the game can do now). Read when
- * the evening-before ask is composed, never on a day tick.
+ * What a colleague the player asks for their vote has on record to say. Read
+ * when the evening-before ask is composed, never on a day tick.
+ *
+ *
  */
 import {
   LEGISLATURE_MODULE_ID,

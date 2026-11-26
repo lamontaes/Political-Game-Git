@@ -1,18 +1,18 @@
 /**
  * M1-02 golden-path check, on the whole economy. A pinned town on the
  * two-level world with every economy engine runs the days given (default two
- * years) from its start date. Passes when:
- * (1) UNCHECKED (owner, Nov 8: real ranges are not targets): the simulated
+ * years) from its start date. Passes when: (1) UNCHECKED: the simulated
  * 12-month changes and quarterly output growth are printed beside the
  * 1990-2026 bands and never tested against them. The national cycle has no
- * recorded cause to test a value against yet (the national row is the sum of the
- * country tier's states, country-model.ts), so this clause waits for the cycle's causes (Money) and
- * keeps no band meanwhile; (2) the country tier holds all 56 states and the
- * latest simulated month's unemployment is the sum of their cells; (3) every board vote records
- * its reasons; (4) at every rate change, each of the town bank's prime-linked
- * business lines reprices on the decision's effective date. The loan-cost
- * witness (4) needs a town with a bank line open at a rate change, so the
- * town is pinned below. Exits nonzero on failure.
+ * recorded cause to test a value against yet (the national row is the sum of
+ * the country tier's states, country-model.ts), so this clause waits for the
+ * cycle's causes (Money) and keeps no band meanwhile; (2) the country tier
+ * holds all 56 states and the latest simulated month's unemployment is the
+ * sum of their cells; (3) every board vote records its reasons; (4) at every
+ * rate change, each of the town bank's prime-linked business lines reprices
+ * on the decision's effective date. The loan-cost witness (4) needs a town
+ * with a bank line open at a rate change, so the town is pinned below. Exits
+ * nonzero on failure.
  */
 import { advanceCore, createLifeCore } from "../life";
 import { checkBands, type MacroMonth } from "../macro-model";
@@ -31,15 +31,15 @@ import { generatedOpening } from "./generated-world";
  * ignored: the loan-cost witness (4) needs a town with a bank line open at a
  * rate change, which a drawn town often lacks, and a check that draws further
  * places until one has it is a draw loop. Ridgewood, New Jersey at this world
- * seed has a bank line open at the first rate change (2025-01-23, repriced the
- * day it took effect; measured Nov 14).
+ * seed has a bank line open at the first rate change. How many days it plays
+ * is the argument, in days from the start date: 730 (two years, the long job)
+ * holds every clause over five rate changes; 120 (the quick job) holds the
+ * first two rate changes with their votes, reasons and repricing, in about a
+ * third of the time. The days are the world's own played days (about 0.09 s
+ * each after a 17.6 s build), so they cannot be skipped, only chosen.
  *
- * How many days it plays is the argument, in days from the start date: 730
- * (two years, the long job) holds every clause over five rate changes; 120
- * (the quick job) holds the first two rate changes (2025-01-23 and
- * 2025-03-20) with their votes, reasons and repricing, in about a third of
- * the time. The days are the world's own played days (about 0.09 s each after
- * a 17.6 s build), so they cannot be skipped, only chosen.
+ *
+ *
  */
 const PIN = {
   seed: "4f76e802069c3914723aad11a315bab328faf3c66c4ec6e783a1ed7664433966",

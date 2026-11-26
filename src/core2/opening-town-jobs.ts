@@ -408,9 +408,9 @@ function unwritableInTown(town: EntityId, key: string): boolean {
  * the town has no institution for (a hospital, a bank) gives its share to the
  * other workplaces of its own sector in their shares (a hospital's to the
  * clinic and the care home, a bank's to the insurance agency); with none, the
- * share leaves the mix and every other kind takes it in proportion. Never into
- * whichever kind is next in line, which filled towns with stores, kitchens
- * and warehouses (owner, Nov 12: "only the market and like craft shops").
+ * share leaves the mix and every other kind takes it in proportion. Never
+ * into whichever kind is next in line, which filled towns with stores,
+ * kitchens and warehouses.
  */
 export function writableTownWeights(
   town: EntityId,

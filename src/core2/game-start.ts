@@ -1,8 +1,8 @@
 /**
- * The one date every game starts on (owner ruling, Oct 14, 2026): Inauguration
- * Day, January 20, 2025, in every place. The data's vintage calibrates the
- * world; it does not move this date. Every opening, the bench, scripts and
- * tests read it from here instead of writing a date.
+ * The one date every game starts on: Inauguration Day,, in every place. The
+ * data's vintage calibrates the world; it does not move this date. Every
+ * opening, the bench, scripts and tests read it from here instead of writing
+ * a date.
  */
 import { makeIsoDate } from "./kernel/dates";
 import { parameter } from "./parameters";

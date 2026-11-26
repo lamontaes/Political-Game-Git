@@ -1,27 +1,27 @@
 /**
- * Working lives elsewhere (owner, Nov 1, 2026: "EVERY. LIFE. IS. SIMULATED.
- * ... THIS IS LOW INTENSITY STUFF."). A relative or town leaver living in
- * another place (`livesElsewhere`, the inactive tier) works, loses work, finds
- * work, moves to another job and retires by the same quarterly pulls the
- * pre-start working life runs on (src/core2/past-work.ts): JOLTS layoffs and
- * quits and CPS spells out of work, moved by their state's unemployment this
- * month, their age and their traits' leans in the jobs engine's own
- * decisions. The jobs engine reviews them once a month on its own review day;
- * a pull adds up and the change happens when it reaches one whole, never by a
- * roll. A layoff is the jobs engine's own `work.job-lost` event; a job begun,
- * a move to another job and a retirement are `person.work-spell` events, the
- * same facts as the pre-start spell's. Their relatives in town witness each.
+ * Working lives elsewhere. A relative or town leaver living in another place
+ * (`livesElsewhere`, the inactive tier) works, loses work, finds work, moves
+ * to another job and retires by the same quarterly pulls the pre-start
+ * working life runs on (src/core2/past-work.ts): JOLTS layoffs and quits and
+ * CPS spells out of work, moved by their state's unemployment this month,
+ * their age and their traits' leans in the jobs engine's own decisions. The
+ * jobs engine reviews them once a month on its own review day; a pull adds up
+ * and the change happens when it reaches one whole, never by a roll. A layoff
+ * is the jobs engine's own `work.job-lost` event; a job begun, a move to
+ * another job and a retirement are `person.work-spell` events, the same facts
+ * as the pre-start spell's. Their relatives in town witness each. Who is
+ * working on day one is generation of who exists: each person's own seeded
+ * line read against the CPS 2024 employment and participation rates for their
+ * age, so the rates hold over everyone and nobody's line is a draw of what
+ * they do. The opening's place along each pull is seeded the same way, as the
+ * moves engine spreads the town's. No firm is kept outside the town, so no
+ * employer is named (SG-LIVES-work-no-employer); people out of the labor
+ * force stay out until they reach the age of retiring
+ * (SG-LIVES-work-out-of-labor-force). Nothing here moves money: a husk keeps
+ * no accounts (two-level population).
  *
- * Who is working on day one is generation of who exists: each person's own
- * seeded line read against the CPS 2024 employment and participation rates
- * for their age, so the rates hold over everyone and nobody's line is a draw
- * of what they do. The opening's place along each pull is seeded the same
- * way, as the moves engine spreads the town's.
  *
- * No firm is kept outside the town, so no employer is named
- * (SG-LIVES-work-no-employer); people out of the labor force stay out until
- * they reach the age of retiring (SG-LIVES-work-out-of-labor-force). Nothing
- * here moves money: a husk keeps no accounts (two-level population).
+ *
  */
 import { placeStateKey } from "./place-map";
 import jobRows from "./data/jobs/parameters.json" with { type: "json" };

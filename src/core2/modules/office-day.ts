@@ -1,25 +1,25 @@
 import type { ItemVetoSelection } from "../state-item-veto";
 /**
  * The officeholder's day (office play, OFFICE-LOCAL; one engine for every
- * level, `docs/packages/office-play.md`).
+ * level, `docs/packages/office-play.md`). - **The body's calendar.** Every
+ * local body covering the town (a council, a township board, a county board)
+ * meets on its own rule (`office-day-calendar.ts`): a date, an hour and a
+ * length. - **The meeting.** Its agenda is the bills put before the body
+ * (`placeOnAgenda`). Public comment and each member's vote run through the
+ * legislature and meetings engines when an item is taken up. - **Stops are
+ * chosen.** The player picks what stops them (`setStops`): by default a vote
+ * on their own bill, a bill on their desk, an emergency and election day. A
+ * meeting the player stops for holds the clock at its hour until they adjourn
+ * it (`takeUpItem`, `adjourn`); one they don't is held in the background. -
+ * **Simulate or do.** Whatever the player does not decide, the character
+ * decides by the same rule every other member or executive uses: a member
+ * votes their own position, an executive signs or vetoes from theirs. The
+ * player never abstains because they looked away. Adjourn is the one press
+ * that casts their stated side or abstains. Each such act is kept (`acts`) as
+ * the character's own, with its reasons.
  *
- * - **The body's calendar.** Every local body covering the town (a council,
- *   a township board, a county board) meets on its own rule
- *   (`office-day-calendar.ts`): a date, an hour and a length.
- * - **The meeting.** Its agenda is the bills put before the body
- *   (`placeOnAgenda`). Public comment and each member's vote run through the
- *   legislature and meetings engines when an item is taken up.
- * - **Stops are chosen.** The player picks what stops them (`setStops`):
- *   by default a vote on their own bill, a bill on their desk, an emergency
- *   and election day. A meeting the player stops for holds the clock at its
- *   hour until they adjourn it (`takeUpItem`, `adjourn`); one they don't is
- *   held in the background.
- * - **Simulate or do.** Whatever the player does not decide, the character
- *   decides by the same rule every other member or executive uses: a member
- *   votes their own position, an executive signs or vetoes from theirs. The
- *   player never abstains because they looked away. Adjourn is the one press
- *   that casts their stated side or abstains (owner, Nov 13). Each such act is kept
- *   (`acts`) as the character's own, with its reasons.
+ *
+ *
  */
 import { coreAPI, registerModule } from "../state";
 import { registerWorldMapPart } from "../snapshot";
@@ -106,22 +106,22 @@ export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
 /**
  * What can stop the player: the local kinds here, and whatever kinds the
- * other levels register (`office-day-registry.ts`). Election day always
- * stops them at the polls (the polling-place scene): whether the character
- * may not cast the player's ballot (owner, Oct 13).
- * An emergency stop waits on the disasters engine's declarations.
+ * other levels register (`office-day-registry.ts`). Election day always stops
+ * them at the polls (the polling-place scene): whether the character may not
+ * cast the player's ballot. An emergency stop waits on the disasters engine's
+ * declarations.
  */
 registerStopKinds([
-  // The important few stop by default (owner, Oct 14, 2026: play how you want).
+  // The important few stop by default.
   { kind: "own-bill-vote", byDefault: true },
-  // Any vote where the player's seat could decide it (owner, Oct 29: "your
-  // own bills, any vote where yours could decide it"): a meeting of a body
-  // small enough that one seat turns a vote, with a bill on its agenda.
+  // Any vote where the player's seat could decide it: a meeting of a body small
+  // enough that one seat turns a vote, with a bill on its agenda.
+
   { kind: "deciding-vote", byDefault: true },
-  // Every meeting and every vote of the player's seat stops them, and the
-  // desk does (owner's card, Nov 14, 2026, 02:03Z: "Stop me at every vote").
-  // A stop the player switches off leaves them away: absent from that vote,
-  // a bill on the desk waiting for them; nothing is cast or signed for them.
+  // Every meeting and every vote of the player's seat stops them, and the desk
+  // does. A stop the player switches off leaves them away: absent from that
+  // vote, a bill on the desk waiting for them; nothing is cast or signed for
+  // them.
   { kind: "every-meeting", byDefault: true },
   { kind: "desk", byDefault: true },
 ]);
@@ -349,19 +349,19 @@ export function openOfficeDay(core: CoreState, worldSeed: string): void {
 }
 
 /**
- * What each holder of an office had already given when the world opens (owner,
- * Nov 14, 2026: "the town must be in motion on day one"; skill
- * day-one-in-motion). A real office-holder is mid-cycle on any day: the last
- * office hours and the last town hall were some days ago, spread over the
- * custom's interval, and the yearly address was given in last year's season.
- * The holders are taken in id order and each is put a share of the way
- * through the interval (the first near the start of it, the last near the
- * end), so the town's holders are not all due on one day; nothing is drawn.
- * The rows are the office-day engine's own act rows, read as the date of the
- * latest act by what comes due (`dueOf`, the duty need, the address's
- * season), so a mayor played from day one finds office hours coming round
- * rather than all of them owed at once. Taken before the warm-up, so the
- * dates are the build date minus the offset.
+ * What each holder of an office had already given when the world opens. A
+ * real office-holder is mid-cycle on any day: the last office hours and the
+ * last town hall were some days ago, spread over the custom's interval, and
+ * the yearly address was given in last year's season. The holders are taken
+ * in id order and each is put a share of the way through the interval (the
+ * first near the start of it, the last near the end), so the town's holders
+ * are not all due on one day; nothing is drawn. The rows are the office-day
+ * engine's own act rows, read as the date of the latest act by what comes due
+ * (`dueOf`, the duty need, the address's season), so a mayor played from day
+ * one finds office hours coming round rather than all of them owed at once.
+ * Taken before the warm-up, so the dates are the build date minus the offset.
+ *
+ *
  */
 export function openingActs(api: CoreAPI): void {
   const today = makeIsoDate(api.state.date);
@@ -1151,9 +1151,9 @@ export function speakOnItem(
 
 /**
  * The chair adjourns: each item left is voted on the position the player has
- * stated on it, and abstained where they have stated none (owner, Nov 13:
- * "Cast my position, else abstain"); the clock moves on. Every other member
- * votes their own position.
+ * stated on it, and abstained where they have stated none; the clock moves
+ * on. Every other member votes their own position.
+ *
  */
 export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   const row = meetingOf(api, meetingIdValue);
@@ -1291,14 +1291,14 @@ function keepAct(
 }
 
 /**
- * Before any vote of a body the player sits on (owner's card, Nov 14, 2026,
- * 02:03Z: "Stop me at every vote"): nothing is cast in the player's name
- * unless they pressed for it. "Decide for me" at a held meeting casts the
- * member's own position; a player stopped for the vote who says nothing
- * abstains (the roll call's rule for a player with no cast vote); a player
- * whose stop for it was off was not there, and the roll records them absent.
- * The hook runs at the vote itself (committee-day.json keeps it off a
+ * Before any vote of a body the player sits on: nothing is cast in the
+ * player's name unless they pressed for it. "Decide for me" at a held meeting
+ * casts the member's own position; a player stopped for the vote who says
+ * nothing abstains (the roll call's rule for a player with no cast vote); a
+ * player whose stop for it was off was not there, and the roll records them
+ * absent. The hook runs at the vote itself (committee-day.json keeps it off a
  * committee's day), so the floor is never voted a week early.
+ *
  */
 function ownVote(api: CoreAPI, billId: string): void {
   const player = playerOf(api);

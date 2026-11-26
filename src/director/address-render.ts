@@ -1,14 +1,14 @@
 /**
- * An address as its record keeps it (owner, Nov 16: every line registered
- * and traceable, "there can be no leftovers"; the lead, Nov 16: a speech
- * that was given is a record of what was said). The one writer
- * (`composeBlocks`, src/director/opening-story.ts) composes the address once,
- * on its day, and the record keeps each sentence as the bank pieces it was
- * joined from, the facts each slot said and the records those facts came
- * from. Every view of it (the address scene, the line a hearer quotes, the
- * paper, dev mode's "why each part") says it through `sentenceText` here,
- * so the words never change after it was given and never differ by who reads
- * them.
+ * An address as its record keeps it. The one writer (`composeBlocks`,
+ * src/director/opening-story.ts) composes the address once, on its day, and
+ * the record keeps each sentence as the bank pieces it was joined from, the
+ * facts each slot said and the records those facts came from. Every view of
+ * it (the address scene, the line a hearer quotes, the paper, dev mode's "why
+ * each part") says it through `sentenceText` here, so the words never change
+ * after it was given and never differ by who reads them.
+ *
+ *
+ *
  */
 import { historyOf } from "../core2/past";
 import { SENTENCE_WORDS } from "../english/english-composition";
@@ -69,9 +69,9 @@ export function sentenceText(
           ? sentence.bare[name]!
           : (sentence.values[name] ?? ""),
     );
-    // A word that takes a capital only at a sentence's start is said lower
-    // case after a piece that ends on a comma ("Because I hold that ...,
-    // don't look for my name ..."; the Story lead's read of #9831, Alaska).
+    // A word that takes a capital only at a sentence's start is said lower case
+    // after a piece that ends on a comma.
+
     const first = /^[^\s,]+/.exec(filled)?.[P.zero] ?? "";
     const piece =
       !text || /[.!?]["”]?$/.test(text)
@@ -149,8 +149,8 @@ export function saidOf(
  * one, oldest first, from each address's own record of what was said: the one
  * writer of every address reads them so a voice prefers a wording it has not
  * used lately, and says the one used longest ago when every fitting wording
- * has been said (no dice; owner, Nov 12: the same sentence in address after
- * address). Read once an address is composed, a few times a year.
+ * has been said. Read once an address is composed, a few times a year.
+ *
  */
 export function earlierAddressPieces(
   core: CoreState,
@@ -184,8 +184,8 @@ export function earlierAddressPieces(
 /**
  * The address's parts in words, one per Continue. A governor's or a town's
  * greeting is never a part of its own, it joins the next; the President's
- * opening paragraph is its own part, whatever it holds (owner, Oct 28
- * sitting, 11 and 41: the opening paragraph, the country's story, the close).
+ * opening paragraph is its own part, whatever it holds.
+ *
  */
 export function partsOf(
   sentences: readonly Pick<

@@ -1,39 +1,39 @@
 /**
- * Partnerships in play (owner, Nov 1, 2026: "EVERY. LIFE. IS. SIMULATED."):
- * people living elsewhere partner, marry and part. Once a month, on the 1st,
- * a single adult's pull to partner builds by the opening's own partnership
- * chain (src/core2/opening-partnership.ts: the place's ACS first-marriage pace
- * for the never married and NCFMR's remarriage pace for the previously
- * married, for single people of their age and sex), and a couple's pull to
- * part builds by NSFG's intact-marriage curve for how long they have been
- * together; each is moved by the person's traits' lean in its decision, and
- * a couple's by the hardship stress either partner carries (a layoff, an
- * eviction, a missed payment). Nothing scales the pace back to the chain's:
- * a place whose people lean against partnering partners less. A pull that
- * reaches one whole makes the change: never a roll.
- *
- * Every change goes through the core's one partnership writer
- * (`setPartnersV1`), which records the link, each person's dated fact and
- * the `family.partnered` or `family.separated` event, here with the union's
- * kind and their relatives in the played town as witnesses. Someone living
+ * Partnerships in play: people living elsewhere partner, marry and part. Once
+ * a month, on the 1st, a single adult's pull to partner builds by the
+ * opening's own partnership chain (src/core2/opening-partnership.ts: the
+ * place's ACS first-marriage pace for the never married and NCFMR's
+ * remarriage pace for the previously married, for single people of their age
+ * and sex), and a couple's pull to part builds by NSFG's intact-marriage
+ * curve for how long they have been together; each is moved by the person's
+ * traits' lean in its decision, and a couple's by the hardship stress either
+ * partner carries (a layoff, an eviction, a missed payment). Nothing scales
+ * the pace back to the chain's: a place whose people lean against partnering
+ * partners less. A pull that reaches one whole makes the change: never a
+ * roll. Every change goes through the core's one partnership writer
+ * (`setPartnersV1`), which records the link, each person's dated fact and the
+ * `family.partnered` or `family.separated` event, here with the union's kind
+ * and their relatives in the played town as witnesses. Someone living
  * elsewhere knows nobody else full, so the partner they meet is generated:
- * who exists, seeded by the pair, aged by the CPS spouse age gap, of the other
- * sex (SG-LIVES-partner-same-sex), and moves into their home there. A couple
- * that parts splits: the one who did not keep the home starts one of their
- * own at the same place. Nothing moves money and nobody is filled in.
+ * who exists, seeded by the pair, aged by the CPS spouse age gap, of the
+ * other sex (SG-LIVES-partner-same-sex), and moves into their home there. A
+ * couple that parts splits: the one who did not keep the home starts one of
+ * their own at the same place. Nothing moves money and nobody is filled in.
+ * The town's full people go through the same monthly review: a single adult's
+ * pull builds by the same chain; when it reaches one they partner with a
+ * single adult they know (closeness, the CPS age gap), else a partner from
+ * the wider population, and the couple climbs stages with their own dates:
+ * dating in separate homes, moving in together (the one with less cash moves
+ * into the other's household, so the lease, the share of the everyday
+ * spending and the payers follow through `changeHouseholdV1`), a proposal
+ * (`family.engaged`), the wedding (`family.married`), and, by the same NSFG
+ * curve as anyone, parting (`family.separated`, the one with less cash
+ * starting a household of their own). Traits move how soon each step comes
+ * and how many partner. The counted population's partnerships are their own
+ * unit (SG-LIVES-partner-counted).
  *
- * The town's full people go through the same monthly review (owner, Nov 8,
- * 2026): a single adult's pull builds by the same chain; when it reaches one
- * they partner with a single adult they know (closeness, the CPS age gap),
- * else a partner from the wider population, and the couple climbs stages with
- * their own dates: dating in separate homes, moving in together (the one with
- * less cash moves into the other's household, so the lease, the share of the
- * everyday spending and the payers follow through `changeHouseholdV1`), a
- * proposal (`family.engaged`), the wedding (`family.married`), and, by the
- * same NSFG curve as anyone, parting (`family.separated`, the one with less
- * cash starting a household of their own). Traits move how soon each step
- * comes and how many partner. The counted population's partnerships
- * are their own unit (SG-LIVES-partner-counted).
+ *
+ *
  */
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { createStableId } from "../kernel/ids";
@@ -534,8 +534,8 @@ export function canLeave(
   chosen = false,
 ): boolean {
   const core = api.state as CoreState;
-  // The player's household changes only by their choice, never by the
-  // engine's move-in or split (owner's playtest, Nov 8).
+  // The player's household changes only by their choice, never by the engine's
+  // move-in or split.
   if (mover.id === core.playerId && !chosen) return false;
   // The household writer's own rule (`changeHouseholdV1`): whoever is left on
   // its books, the dead included, must hold a living adult, or nobody is left
@@ -929,9 +929,9 @@ function reviewTown(api: CoreAPI): void {
       // Asked only when one of them could move: the ask says who.
       movingOrder(api, a, b, core.playerId) !== undefined
     ) {
-      // Living together changes the player's home, so the partner asks and
-      // the player's answer in the scene decides (coordinator's ruling under
-      // the owner's overnight say, Nov 14 2026, family life question 2).
+      // Living together changes the player's home, so the partner asks and the
+      // player's answer in the scene decides.
+
       const asker = a.id === core.playerId ? b : a;
       couple.stage = "move-in-asked";
       couple.since = core.date;

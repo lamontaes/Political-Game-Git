@@ -139,9 +139,9 @@ export interface BenchWorld {
  * The director registers its own interrupts as core player stops.
  */
 /**
- * The youngest a new game's player is (owner, Nov 16: "Just do 18 and up right now. Life before
- * 18 will come after early access."). Life under 18 stays in the simulation; it is only not where
- * a new game starts (pool item people-life-before-18-after-early-access).
+ * The youngest a new game's player is. Life under 18 stays in the simulation;
+ * it is only not where a new game starts (pool item
+ * people-life-before-18-after-early-access).
  */
 export const PLAYER_MIN_AGE = 18;
 
@@ -197,9 +197,9 @@ function townResidents(input: CoreInput, placeId: string) {
 }
 
 /**
- * The birthday of a player who is the default age (owner, Nov 16: "18, unless
- * you pick another age"): the start date's own month and day, `PLAYER_MIN_AGE`
- * years back (a leap day falls on the 28th).
+ * The birthday of a player who is the default age: the start date's own month
+ * and day, `PLAYER_MIN_AGE` years back (a leap day falls on the 28th).
+ *
  */
 export function defaultPlayerBirthDate(startDate: string): string {
   const day = makeIsoDate(startDate);
@@ -273,16 +273,16 @@ export function entrantChoice(
 }
 
 /**
- * The resident a chosen birthday makes the player (owner's Oct 26 playtest: a creator birthday of
- * 35 left the parent 47 and the schooling of a 17-year-old; Nov 16: a 17-year-old with a wife).
- * The world is drawn with a resident of the chosen age (`playerAge` in population.ts), and the
- * player is a resident whose own age on the opening day is the chosen age, born nearest the
- * chosen day, so their household, partner, children, schooling, work and money are the life
- * someone that age lived. The identity call then moves the birthday within that same age
- * (`applyChosenPerson`). A resident is passed over if the chosen day would leave a parent, or the
- * player as a parent, younger than the child-bearing minimum the kin builder keeps
- * (`OPENING_KIN`). Where the town holds nobody that age, the resident of the nearest age stands
- * in, marked as an estimate, and keeps their own birth date. Nothing here is drawn.
+ * The resident a chosen birthday makes the player. The world is drawn with a
+ * resident of the chosen age (`playerAge` in population.ts), and the player
+ * is a resident whose own age on the opening day is the chosen age, born
+ * nearest the chosen day, so their household, partner, children, schooling,
+ * work and money are the life someone that age lived. The identity call then
+ * moves the birthday within that same age (`applyChosenPerson`). A resident
+ * is passed over if the chosen day would leave a parent, or the player as a
+ * parent, younger than the child-bearing minimum the kin builder keeps
+ * (`OPENING_KIN`). Where the town holds nobody that age, the resident of the
+ * nearest age stands in, marked as an estimate, and keeps their own birth date. Nothing here is drawn.
  */
 function entrantBornNear(
   input: CoreInput,
@@ -327,9 +327,9 @@ function entrantBornNear(
       (a, b) => a.apart - b.apart || a.person.id.localeCompare(b.person.id),
     );
   // A woman or a man is drawn from the residents of that sex, so the partner
-  // the place gave the resident is one the chosen gender fits (owner, Nov 1,
-  // v0.73.0: "it has chosen to make my character gay again"); nonbinary and
+  // the place gave the resident is one the chosen gender fits; nonbinary and
   // a place with none of that sex at the age take the nearest birthday.
+
   const sexed =
     gender === "female" || gender === "male"
       ? ofAge.filter((row) => row.person.looks?.gender === gender)
@@ -422,7 +422,7 @@ type BuildOptions = {
 };
 type Built = BenchWorld & { playerId?: string };
 
-/** The warm-up the New game route and the day-zero check use (owner, Nov 14: the town in motion on day one). */
+/** The warm-up the New game route and the day-zero check use. */
 export const OPENING_WARMUP_DAYS = 31;
 
 /** Builds the world in one go (tests and checks). */
@@ -546,7 +546,7 @@ function* benchWorldStages(
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
-  // Day one from the century or from today's real record (CTO line 6935086070 on #9747, point 5).
+  // Day one from the century or from today's real record.
   setHistoryMode(
     seed,
     settings.history ?? "century",
@@ -764,9 +764,9 @@ function* benchWorldStages(
     ],
   });
   yield "government";
-  // The century before day one (owner, Nov 17, 2026: history simulated from 1925, a year at a
-  // step, during the loading screen): run here a year at a time, each year its own step so the
-  // loading screen keeps answering, before the offices seat whoever it elected.
+  // The century before day one: run here a year at a time, each year its own
+  // step so the loading screen keeps answering, before the offices seat
+  // whoever it elected.
   const century = runCentury(seed, startDate);
   while (!century.next().done) yield "government";
   // The state legislatures' century, its own pass after the offices it does not feed.
@@ -881,9 +881,9 @@ function* benchWorldStages(
   director.start(core);
   options.onWorld?.(core, playerId);
   yield "opening";
-  // The opening, told as a story from the records (owner, Oct 14, 2026): the
-  // President's address and that night's news, composed once while the
-  // world loads and kept on the director's ledger for the screens.
+  // The opening, told as a story from the records: the President's address and
+  // that night's news, composed once while the world loads and kept on the
+  // director's ledger for the screens.
   if (playerId)
     director.ledger.opening = recordOpeningStory(core, playerId) ?? undefined;
   const placeId = place.context.jurisdiction.id;

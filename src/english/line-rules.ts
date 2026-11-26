@@ -32,9 +32,9 @@ import { spotTags } from "./spot-tags";
 import { useSpotId } from "./spot-id";
 
 /**
- * `rewrite`: the lines the rule flags keep playing and go on the rewrite queue
- * (the `waiting` list); a rewrite that passes the rules replaces them (CTO,
- * Nov 10, 2026, on the four journal lines whose first rewrites broke the limit).
+ * `rewrite`: the lines the rule flags keep playing and go on the rewrite
+ * queue (the `waiting` list); a rewrite that passes the rules replaces them.
+ *
  */
 export type RuleStatus = "enforced" | "sample" | "rewrite" | "awaiting-test";
 
@@ -52,8 +52,8 @@ export type RuleTest =
       /** The judged verdicts the picker reads for this rule; the run reports on them. */
       readonly reads?: string;
       /**
-       * Or the test file that proves the composer places the rule (account
-       * lead, Nov 14): it names the rule's id and runs in the gate.
+       * Or the test file that proves the composer places the rule: it names
+       * the rule's id and runs in the gate.
        */
       readonly by?: string;
     }
@@ -142,9 +142,9 @@ export interface LineRule {
    */
   readonly detectorReads?: "line";
   /**
-   * What the owner said, short and exact. Research-only rules have none. A
-   * `via` says the words are not his recorded voice but how a log, a ruling or
-   * a grade row put them.
+   * What the, short and exact. Research-only rules have none. A `via` says
+   * the words are not his recorded voice but how a log, a ruling or a grade
+   * row put them.
    */
   readonly from: readonly {
     readonly date: string;
@@ -350,12 +350,12 @@ export const judgesExchanges = (rule: LineRule): boolean =>
   rule.test.kind === "judged" && rule.judges === "exchange";
 
 /**
- * Whether a `judged` rule judges a path through a composed scene (words
- * machine part 3, Words lead's ruling of Nov 14): the scene from its first
- * line up to and including each line the rule applies to (the ask, the
- * promise), judged as one subject by `scenePaths` (scripts/words/scene-paths.ts).
- * A "no" is a gap in the scene for the Words lead to write, never a bar or a
- * pull: the run judges no line by it.
+ * Whether a `judged` rule judges a path through a composed scene: the scene
+ * from its first line up to and including each line the rule applies to (the
+ * ask, the promise), judged as one subject by `scenePaths`
+ * (scripts/words/scene-paths.ts). A "no" is a gap in the scene for the Words
+ * lead to write, never a bar or a pull: the run judges no line by it.
+ *
  */
 export const judgesPaths = (rule: LineRule): boolean =>
   rule.test.kind === "judged" && rule.judges === "path";
@@ -551,11 +551,11 @@ export function pieceSpotSubjects(
 }
 
 /**
- * The verdict on one line in one spot: the spot's own, else the line's. A rule
- * judged line by line before it judged spots (narration-assumes-no-reason's
- * sample of Nov 14) keeps those verdicts: a reviewer who judged the line
- * judged it in every spot it was said then, so the line verdict stands for
- * each spot until one is judged on its own.
+ * The verdict on one line in one spot: the spot's own, else the line's. A
+ * rule judged line by line before it judged spots keeps those verdicts: a
+ * reviewer who judged the line judged it in every spot it was said then, so
+ * the line verdict stands for each spot until one is judged on its own.
+ *
  */
 export function spotVerdict(
   store: JudgedStore | undefined,

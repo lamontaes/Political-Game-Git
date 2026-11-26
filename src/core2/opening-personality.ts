@@ -36,9 +36,9 @@ const PAIRS = SPEC.correlatedPairs.map((pair) => ({
 
 /**
  * Every other trait in the shared trait table, tied to one temperament
- * dimension by a standard-score loading (OPUS-TRAITS, Oct 12): the trait is
- * the loading times that dimension plus the person's own part, so a full
- * person carries a level on every trait, low as well as high.
+ * dimension by a standard-score loading: the trait is the loading times that
+ * dimension plus the person's own part, so a full person carries a level on
+ * every trait, low as well as high.
  */
 const ANCHORED = Object.entries(
   traitTable.pulls as Record<

@@ -334,9 +334,9 @@ export function backdropFor(
 /**
  * The one condition every room of a home is shown in: the most wanted of the
  * household's conditions that each of its rooms is painted in, so the living
- * room and the kitchen of one dwelling match (owner, Oct 28 sitting: a
- * run-down living room beside a clean kitchen). With none painted for every
+ * room and the kitchen of one dwelling match. With none painted for every
  * room, every room is shown as painted.
+ *
  */
 function homeCondition(core: CoreState, personId: string): string[] {
   const rooms = [...homeRooms(core, personId)];
@@ -487,7 +487,7 @@ export function scenePlace(
   atHome = false,
 ): { place: string; why: string; targetId?: string } {
   const person = core.people.get(personId)!;
-  // The opening's day ends at home after the address (owner, Oct 14, 2026).
+  // The opening's day ends at home after the address.
   const act = atHome ? undefined : doing(core, personId, packet);
   const tries = act ? (ACTIONS[act.actionId] ?? ["@home"]) : ["@home"];
   for (const step of tries) {
@@ -612,9 +612,9 @@ export function presentIds(
   why: string,
   targetId?: string,
   /**
-   * The minute the scene is drawn at: a household member on a shift then is at
-   * work, not at home. Left out on the opening evening, which keeps the whole
-   * household (the address is watched at home, owner, Oct 14).
+   * The minute the scene is drawn at: a household member on a shift then is
+   * at work, not at home. Left out on the opening evening, which keeps the
+   * whole household.
    */
   atMinute?: number,
 ): string[] {
@@ -721,13 +721,13 @@ const HERE_SHOWN = figureRules.here.shown;
 const FRONT: ReadonlySet<StageReason> = new Set(["act", "moment", "clerk"]);
 
 /**
- * Who is in the room, as the strip of busts shows them (owner, Nov 11, 2026:
- * "I do like this strip"): everyone the records give a reason to be there,
- * each a name and a bust dressed for the place. The player is not listed. A
- * room of more than `here.shown` people names the speaker and the people the
- * scene is about, then the people the player knows, then whoever else until
- * the strip is full, and counts the rest (`more`). Nobody is listed without a
- * recorded reason, and a person the bank cannot draw yet (a child) is left out.
+ * Who is in the room, as the strip of busts shows them: everyone the records
+ * give a reason to be there, each a name and a bust dressed for the place.
+ * The player is not listed. A room of more than `here.shown` people names the
+ * speaker and the people the scene is about, then the people the player
+ * knows, then whoever else until the strip is full, and counts the rest
+ * (`more`). Nobody is listed without a recorded reason, and a person the bank
+ * cannot draw yet (a child) is left out.
  */
 export function peopleHere(
   core: CoreState,
@@ -827,7 +827,7 @@ export function roomIds(
   core: CoreState,
   personId: string,
   packet?: PlayerPacketV1,
-  /** The opening day: home after the address, by rule (owner, Oct 14, 2026). */
+  /** The opening day: home after the address, by rule. */
   openingEvening?: number,
 ): string[] {
   const minute = packet?.at.minuteOfDay ?? openingEvening ?? 12 * 60;
@@ -852,7 +852,7 @@ export function benchScene(
   core: CoreState,
   personId: string,
   packet?: PlayerPacketV1,
-  /** The opening day: home after the address, by rule (owner, Oct 14, 2026). */
+  /** The opening day: home after the address, by rule. */
   openingEvening?: number,
 ): BenchScene {
   const minute = packet?.at.minuteOfDay ?? openingEvening ?? 12 * 60;

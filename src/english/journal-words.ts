@@ -172,9 +172,9 @@ export interface JournalWords {
   firstTitle: readonly { key: string; text: string }[];
   /**
    * Which look-backs fit which moment, by part key: `memorable` ones ("I'll
-   * never forget that") are the only ones a birth takes (owner, batch 9: "My
-   * daughter was born. I didn't know that at the time." makes no sense), and
-   * `youngOnly` ones ("I never knew") fit only a moment from childhood.
+   * never forget that") are the only ones a birth takes, and `youngOnly` ones
+   * ("I never knew") fit only a moment from childhood.
+   *
    */
   lookBacks?: Readonly<{
     memorable?: readonly string[];
@@ -662,9 +662,9 @@ export function seatSaid(
   options: {
     first?: boolean;
     /**
-     * Said as the candidate's own seat ("run for alderman", "file for trustee"):
-     * a body named for its members is one member, with no article. Left off, a
-     * body is said as a body ("the Board of Trustees", #8750).
+     * Said as the candidate's own seat ("run for alderman", "file for
+     * trustee"): a body named for its members is one member, with no article.
+     * Left off, a body is said as a body.
      */
     asMember?: boolean;
   } = {},

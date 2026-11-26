@@ -1,8 +1,8 @@
 /* global document */
-// A figure's history as a plain line on the dark panel, never a bar graph (owner, Nov 8:
-// The Political Process's "View Timeline": a line, the first and last years at its ends).
-// The screen hands it the record's yearly amounts, oldest first; nothing here computes a
-// figure, it only places points.
+// A figure's history as a plain line on the dark panel, never a bar graph.
+// The screen hands it the record's yearly amounts, oldest first; nothing here
+// computes a figure, it only places points.
+
 
 const NS = "http://www.w3.org/2000/svg";
 
@@ -45,8 +45,8 @@ export function trendLine(
   dot.setAttribute("r", "3.5");
   dot.setAttribute("class", "trend-dot");
   svg.append(dot);
-  // Every value written on the line (owner, Nov 12: "each value written on it"), its year
-  // under the point; the words come from the caller, never made here.
+  // Every value written on the line, its year under the point; the words come
+  // from the caller, never made here.
   if (labels)
     points.forEach(([x, y], index) => {
       const point = history[index];

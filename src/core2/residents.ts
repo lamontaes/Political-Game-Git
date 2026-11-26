@@ -213,9 +213,9 @@ export function householdOutsideFlow(
 
 /**
  * A public school district's teachers are counted workers like any town's:
- * the district's pay owner (the town government's) pays their wages through the
+ * the district's pay the town government's) pays their wages through the
  * counts' payroll, so there is no reason to keep them, and their households,
- * as full people (the year of a dense town grew 36 s when #5044 kept them).
+ * as full people.
  */
 export function isSchoolDistrict(org: {
   classification?: string;
@@ -276,7 +276,7 @@ export function publishedPlaceEarnings(placeKey: string): number | undefined {
   return (PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>)[placeKey];
 }
 
-/** This world's median earnings for a place: the published median moved once by the world's own offset (owner, Oct 27: realistic, not real). */
+/** This world's median earnings for a place: the published median moved once by the world's own offset. */
 export function placeEarningsOf(
   placeKey: string,
   seed: string,

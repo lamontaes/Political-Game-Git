@@ -1,14 +1,14 @@
 /**
- * Rescues (Lives, Nov 8, 2026): a serious illness that begins (the health
- * engine's onset record) while someone grown shares the sufferer's home is
- * met by that person: the housemate closest to them, by the tie's closeness
- * today (the lowest id breaking a tie), calls for help and stays. Written as
- * `health.rescued`, naming the sufferer and the rescuer, with the rest of the
- * household as witnesses, and recorded as time together on their tie. Alone,
- * nobody is there and nothing is written. The director's `rescue` scene reads it.
+ * Rescues: a serious illness that begins (the health engine's onset record)
+ * while someone grown shares the sufferer's home is met by that person: the
+ * housemate closest to them, by the tie's closeness today (the lowest id
+ * breaking a tie), calls for help and stays. Written as `health.rescued`,
+ * naming the sufferer and the rescuer, with the rest of the household as
+ * witnesses, and recorded as time together on their tie. Alone, nobody is
+ * there and nothing is written. The director's `rescue` scene reads it. Every
+ * onset is treated as acute (SG-LIVES-rescue-acute): the health engine does
+ * not yet tell a sudden episode from a slow one.
  *
- * Every onset is treated as acute (SG-LIVES-rescue-acute): the health engine
- * does not yet tell a sudden episode from a slow one.
  */
 import { closenessBetween } from "../closeness";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";

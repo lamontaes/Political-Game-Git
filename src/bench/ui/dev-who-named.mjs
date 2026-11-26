@@ -7,7 +7,7 @@ import { makeButton } from "./button.mjs";
 import { statusLine } from "./fields.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
 
-/** A record date in words ("Mar 4, 2027"), never the ISO form. */
+/** A record date in words, never the ISO form. */
 function day(iso) {
   return new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
     month: "short",

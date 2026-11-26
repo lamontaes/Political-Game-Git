@@ -1,11 +1,11 @@
 /**
  * The doors a candidate knocked themself today, from the campaign engine's
  * own records of who it reached (its causes table): each door that opened,
- * and whether the candidate had knocked there before. Of the day's doors,
- * a door whose resident has a cause on record first (a variant other than
- * the plain one), then the one whose resident most agrees or disagrees with the candidate's
- * platform (the cause's own agreement) is the household with a stake: the
- * owner's porch scene in a day of door knocking (Oct 8). While the
+ * and whether the candidate had knocked there before. Of the day's doors, a
+ * door whose resident has a cause on record first (a variant other than the
+ * plain one), then the one whose resident most agrees or disagrees with the
+ * candidate's platform (the cause's own agreement) is the household with a
+ * stake: the owner's porch scene in a day of door knocking. While the
  * candidate's petition circulates, each door says whether its resident signed.
  */
 import {
@@ -65,8 +65,8 @@ export function doorsKnocked(
   const strength = (row: CauseRow) => Math.abs(row.agreement ?? P.zero);
   // A door whose resident's own records give the scene a cause (a layoff, a
   // rent notice, an illness at home, a tie to the candidate: any variant but
-  // the plain one) is staged before a plain door (Words lead, Nov 14, ruling
-  // 62); among them, the strongest agreement or disagreement, as before.
+  // the plain one) is staged before a plain door; among them, the strongest
+  // agreement or disagreement, as before.
   const caused = new Map(
     today.map((row) => {
       const knock = knockFacts(core, row);

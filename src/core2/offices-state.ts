@@ -512,9 +512,9 @@ export function federalOffices(
       title: special?.houseMember ?? "U.S. Representative",
       seats: Math.max(house.length, 1),
       termYears: houseTerm,
-      // Every seat is up together: terms end at noon on January 3 of an odd
-      // year (U.S. Const. amend. XX, § 1); a four-year member is elected with
-      // the presidency.
+      // Every seat is up together: terms end at noon on of an odd year (U.S. Const.
+      // amend. XX, § 1); a four-year member is elected with the presidency.
+
       nextElectionYear: congressionalElectionYear(date, houseTerm),
       termStarts: "01-03",
       elected: true,
@@ -792,7 +792,7 @@ function senateSeats(
  */
 function congressionalElectionYear(date: string, cycle: number): number {
   let year = Number(date.slice(0, 4));
-  // Election day falls November 2 to 8.
+  // Election day falls to 8.
   if (date.slice(5) > "11-08") year += 1;
   while (year % 2 !== 0 || (cycle === 4 && (year - 2024) % 4 !== 0)) year += 1;
   return year;

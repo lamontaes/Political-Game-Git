@@ -1,14 +1,14 @@
 /**
- * A government's name as its place record spells it (Fable A, Nov 13: "a
- * government's name is said from the place record's own proper name ('City
- * of' plus 'McCall'), never by re-capitalizing the source's capitals").
+ * A government's name as its place record spells it. The government-units
+ * listing writes names in capitals only ("CITY OF MCCALL", "COUNTY OF
+ * DEKALB"). The listing gives the kind of government ("City of"); the place
+ * record gives the proper name ("McCall", "DeKalb County"). Where the place
+ * record does not hold the same name, the listing's own words are said by the
+ * one display rule, and `governmentWithoutProperName` says which governments
+ * those are, so the data can be fixed.
  *
- * The government-units listing writes names in capitals only ("CITY OF
- * MCCALL", "COUNTY OF DEKALB"). The listing gives the kind of government
- * ("City of"); the place record gives the proper name ("McCall", "DeKalb
- * County"). Where the place record does not hold the same name, the listing's
- * own words are said by the one display rule, and `governmentWithoutProperName`
- * says which governments those are, so the data can be fixed.
+ *
+ *
  */
 import { governmentUnitDisplayName } from "./gov-rules/government-unit-names";
 import { corePlaceByKey } from "./place-lookup";

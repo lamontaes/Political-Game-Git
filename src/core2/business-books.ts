@@ -86,10 +86,10 @@ export function publishedBookRatio(
 }
 
 /**
- * This world's ratio for a kind of business: the published aggregate moved
- * by the world's own draw (owner, Oct 27: realistic, not real). Margin and
- * pay share move as levels; the sales-sensitive cost share stays between 0
- * and 1. Every business of a kind in one world reads the same ratio.
+ * This world's ratio for a kind of business: the published aggregate moved by
+ * the world's own draw. Margin and pay share move as levels; the
+ * sales-sensitive cost share stays between 0 and 1. Every business of a kind
+ * in one world reads the same ratio.
  */
 export function worldBookRatio(
   seed: string,

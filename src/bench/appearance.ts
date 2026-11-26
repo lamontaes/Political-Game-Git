@@ -15,16 +15,16 @@ import {
 import rules from "./data/whole-figures.json" with { type: "json" };
 
 /**
- * The creator's appearance step (owner, Nov 7, 2026: "busts, never full
- * figures"): a look is one of the bust bank's people (their skin), a
- * hairstyle in a color, facial hair where the bank paints any, and the
- * clothes they dress up in: a shirt, a tie and a jacket, each in a color
- * (owner, Nov 10: "I would like to be able to change ties and stuff ... I
- * want to see colors and stuff changing as well"), and the everyday top they
- * wear away from work, in a color (owner, Nov 12: "two tabs, everyday and
- * formal, bust flips between them"). Every choice is read from the bank's
- * manifest (bust.ts), so a new person, piece or color there is offered here
- * with no change.
+ * The creator's appearance step: a look is one of the bust bank's people
+ * (their skin), a hairstyle in a color, facial hair where the bank paints
+ * any, and the clothes they dress up in: a shirt, a tie and a jacket, each in
+ * a color, and the everyday top they wear away from work, in a color. Every
+ * choice is read from the bank's manifest (bust.ts), so a new person, piece
+ * or color there is offered here with no change.
+ *
+ *
+ *
+ *
  */
 // stopgapId: SG-PLAY-creator-bust-choices
 export type LookRecipe = BustLook;
@@ -88,7 +88,7 @@ interface LookOption {
   readonly recipe: LookRecipe;
   /** The swatch's color; absent where the option is drawn as a picture or is "none". */
   readonly color?: string;
-  /** Drawn as a picture of the person wearing it (the Nov 17 ruling: hair and facial hair as pictures). */
+  /** Drawn as a picture of the person wearing it. */
   readonly picture?: "head" | "chest";
   readonly chosen: boolean;
 }
@@ -506,10 +506,10 @@ export function lookFaces(
 /**
  * The busts on New game (the approved front mock, fr-new): someone starting
  * out, in everyday clothes, and three who hold office, each drawn from the
- * bank's people by the visit's seed (owner, Nov 17: "the New game screen shows
- * new people each time"). No world exists yet, so these are only who is
- * pictured, never a choice anyone makes. They are the Random button's own draw
- * (`drawnAppearance`), so no new pick exists.
+ * bank's people by the visit's seed. No world exists yet, so these are only
+ * who is pictured, never a choice anyone makes. They are the Random button's
+ * own draw (`drawnAppearance`), so no new pick exists.
+ *
  */
 export function newGameFaces(seed: string): {
   start: PersonFace | null;

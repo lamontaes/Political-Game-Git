@@ -307,11 +307,11 @@ export function grainDate(
 }
 
 /**
- * A person's own window (the owner's ruling, Nov 9, 2026: each person's past
- * covers their whole life, coarse, written only when they are opened or
- * met): from the day they were born through the day before the world's
- * opening. The part before the world's window is told a year at a step; the
- * part inside it keeps the world's step.
+ * A person's own window: from the day they were born through the day before
+ * the world's opening. The part before the world's window is told a year at a
+ * step; the part inside it keeps the world's step.
+ *
+ *
  */
 export function ownWindowOf(
   core: CoreState,

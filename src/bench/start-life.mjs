@@ -1,11 +1,11 @@
 /* global console, document, fetch, requestAnimationFrame, URL, URLSearchParams */
-// The one way a browser check starts a life (play-browser-checks-open-on-the-address).
-// A new life opens on the President's address (#6568), one talk with Continue,
-// then the talk after it. A check that clicks into the room before the talk is
-// over finds the address still speaking and times out or reads the wrong talk.
-// This plays the opening the way a player does: Continue on every line, the
-// first reply where the talk asks for one, never Skip scene, until the room is
-// free. The opening itself is never changed or hidden to make a check pass.
+// The one way a browser check starts a life
+// (play-browser-checks-open-on-the-address). A new life opens on the
+// President's address, one talk with Continue, then the talk after it. A
+// check that clicks into the room before the talk is over finds the address
+// still speaking and times out or reads the wrong talk. This plays the
+// opening the way a player does: Continue on every line, the first reply
+// where the talk asks for one, never Skip scene, until the room is free. The opening itself is never changed or hidden to make a check pass.
 
 /** The most talk steps an opening may take before the check calls it stuck. Engineering value. */
 const MAX_STEPS = 200;
@@ -187,13 +187,13 @@ export async function toReplies(page) {
 
 /**
  * Files the player for the first race the records let them file for, as the
- * filing screens do. Filing opens on a set day (elections-filing-window-opens),
- * so when nothing is open yet the weeks go by, as the Week control plays them
- * (each stop resumed as Continue does), until a race opens: the browser
- * checks' form of campaigns.test.ts's wait (#7171). Reloads the page and
- * continues the life when weeks passed, so the screens show the new date.
- * Returns { contestId, filingId, date, weeks, tried }; contestId is null when
- * nothing opened in `maxWeeks`.
+ * filing screens do. Filing opens on a set day
+ * (elections-filing-window-opens), so when nothing is open yet the weeks go
+ * by, as the Week control plays them (each stop resumed as Continue does),
+ * until a race opens: the browser checks' form of campaigns.test.ts's wait.
+ * Reloads the page and continues the life when weeks passed, so the screens
+ * show the new date. Returns { contestId, filingId, date, weeks, tried };
+ * contestId is null when nothing opened in `maxWeeks`.
  */
 export async function fileWhenFilingOpens(page, { maxWeeks = 104 } = {}) {
   const tried = [];

@@ -1,7 +1,6 @@
 /**
  * The opening's upbringing projection: a resident's first trait values from
  * what the opening's draft records about their household, nothing drawn.
- *
  * Ported from the old engine's `people-upbringing.ts` and `people-traits.ts`
  * as the opening reached them. The opening's draft holds people, households,
  * memberships, kinships and partnerships, and the jobs just written; it holds
@@ -14,10 +13,11 @@
  * adults, the sibling count (recorded for a child with parents, else the
  * national distribution's stable sample), the family pattern a grown resident
  * is matched to among the town's recorded families, and the money levels.
- *
  * Every trait value this writes is read in play by the people engine; the
- * history that is to run from the player's birth year (owner, Oct 28)
- * replaces this estimate with recorded childhoods when it lands.
+ * history that is to run from the player's birth year replaces this estimate
+ * with recorded childhoods when it lands.
+ *
+ *
  */
 import { dateAtAge, ageOnDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";

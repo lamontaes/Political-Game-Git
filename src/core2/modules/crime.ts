@@ -272,9 +272,9 @@ function countedUnits(api: CoreAPI, placeId: string): Unit[] {
 
 /**
  * A kind's yearly rate per 1,000 in this world: the published NCVS rate moved
- * as the world's own level of its outcome moved from the published one
- * (owner, Oct 27: realistic, not real), so the crime engine and the outcome
- * web open on the same drawn level.
+ * as the world's own level of its outcome moved from the published one, so
+ * the crime engine and the outcome web open on the same drawn level.
+ *
  */
 function worldRatePer1000(api: CoreAPI, type: CrimeType): number {
   const measure = TYPES[type].webMeasures[0]!;

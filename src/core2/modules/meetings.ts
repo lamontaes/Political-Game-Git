@@ -1432,10 +1432,10 @@ function answerDebateInvitation(
 }
 
 /**
- * The player accepts a debate's invitation from the menu (the invitation
- * scene went with the unwritten kinds, owner, Nov 17): the sitting goes on
+ * The player accepts a debate's invitation from the menu: the sitting goes on
  * the record with the moderator who asked, as the scene's yes did. `fromId`
  * names the choice that said yes, for the record's citation.
+ *
  */
 export function acceptDebate(
   api: CoreAPI,

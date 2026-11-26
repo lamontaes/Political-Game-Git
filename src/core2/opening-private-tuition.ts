@@ -58,8 +58,8 @@ export function homeschoolShareOf(
 
 /**
  * The private share of students in this world's state: the published NCES
- * share drawn once per world from its seed, kept between 0 and 1 (realistic,
- * not real; owner, Oct 27).
+ * share drawn once per world from its seed, kept between 0 and 1.
+ *
  */
 export function privateShareOf(
   placeId: string | undefined,

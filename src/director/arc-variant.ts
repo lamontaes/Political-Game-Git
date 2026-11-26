@@ -1,29 +1,29 @@
 /**
- * Which arc a scene plays (owner, Nov 8, 9:50 voice note: "they've gotta have
- * like a variance. So even though there's only 5 in corruption scenes right
- * now, you could get, I'm just making a number up, 30 different scenes within
- * there"). One kind of scene may have several arcs, its variants: the same
- * purpose played as a small gift, a large sum, a friend's favor, a second ask,
- * a desperate plea. Which one a scene plays is read from the records, the way
- * an address's kind is (address-kind.ts): each variant's score is what the
- * records give it, a sum of named reads each between 0 and 1 with its weight,
- * times one plus the asker's pull toward it (the mean of the personality facets
- * the variant lists). The highest score wins and a tie goes to the name first
- * in the alphabet. No roll picks it, and nothing flips at a threshold: a
- * bribe a little smaller than another is a little more of a gift.
+ * Which arc a scene plays. One kind of scene may have several arcs, its
+ * variants: the same purpose played as a small gift, a large sum, a friend's
+ * favor, a second ask, a desperate plea. Which one a scene plays is read from
+ * the records, the way an address's kind is (address-kind.ts): each variant's
+ * score is what the records give it, a sum of named reads each between 0 and
+ * 1 with its weight, times one plus the asker's pull toward it (the mean of
+ * the personality facets the variant lists). The highest score wins and a tie
+ * goes to the name first in the alphabet. No roll picks it, and nothing flips
+ * at a threshold: a bribe a little smaller than another is a little more of a
+ * gift. This is the one engine for every kind. A kind with no row in
+ * `src/director/data/arc-variants.json` plays its purpose's single arc as
+ * before. The variant's arc (state, replies, follow, again, endings) is a row
+ * of the same data; the words are the scene bank's, by the variant's own
+ * purpose id, and the family's pieces serve where a variant has none of its
+ * own (`SceneMove.family`). It holds no sentence and no kind's name: what a
+ * read looks at is data, and the reads are fifteen ways of looking. The reads
+ * use only what stays true while the scene is open (the record the cause
+ * names, the tie as that record kept it, what happened before the cause's
+ * day), so the tree the player sees is the tree their reply is matched
+ * against.
  *
- * This is the one engine for every kind. A kind with no row in
- * `src/director/data/arc-variants.json` plays its purpose's single arc as before. The
- * variant's arc (state, replies, follow, again, endings) is a row of the same
- * data; the words are the scene bank's, by the variant's own purpose id, and
- * the family's pieces serve where a variant has none of its own
- * (`SceneMove.family`). It holds no sentence and no kind's name: what a read
- * looks at is data, and the reads are fifteen ways of looking.
  *
- * The reads use only what stays true while the scene is open (the record the
- * cause names, the tie as that record kept it, what happened before the
- * cause's day), so the tree the player sees is the tree their reply is
- * matched against.
+ *
+ *
+ *
  */
 import { historyOf } from "../core2/past";
 import { P, parameter } from "../core2/parameters";

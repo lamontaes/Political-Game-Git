@@ -1,13 +1,13 @@
 /**
- * Taking office is an event (owner, Sept 22 and Oct 29: "swearing in needs to
- * be an event ... that's just a scene ... depending on what your office is,
- * you'll give a speech"). The offices engine writes `took-office` when it
+ * Taking office is an event. The offices engine writes `took-office` when it
  * seats someone; this reads that record for the swearing-in scene
  * (`src/director/data/situation-types.json`, type `swearing-in`): the office
  * and seat it names and who stands in the room (the oath's giver is cast with
- * the other civic roles, `civic-roles.ts`). It writes
- * nothing and holds no sentence: the English engine words every line, and the
- * address an executive office gives afterward is `inaugural-address.ts`.
+ * the other civic roles, `civic-roles.ts`). It writes nothing and holds no
+ * sentence: the English engine words every line, and the address an executive
+ * office gives afterward is `inaugural-address.ts`.
+ *
+ *
  */
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";

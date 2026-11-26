@@ -1,20 +1,20 @@
 /**
- * The life record, part 6 (owner, Nov 8, 2026: "None of my history is
- * simulated... a girlfriend or a car accident"): an earlier partnership that
- * ended before the start, written when a person is opened. No new rates: the
- * opening's own chain of partnering (`partneringPerYear`: first marriage by
- * the place's ACS never-married shares, remarriage by NCFMR) and of parting
- * (`separatingPerYear`, NSFG) with widowhood by the SSA 2023 life table at the
- * partner's age (the CPS spouse age gap, `partnerAgeFor`), read year by year
- * against the person's own seeded lines, as the moves engine and the opening
- * kin read leaving against theirs. Seeded generation of who existed in their
- * past; no roll decides what anyone does.
+ * The life record, part 6: an earlier partnership that ended before the
+ * start, written when a person is opened. No new rates: the opening's own
+ * chain of partnering (`partneringPerYear`: first marriage by the place's ACS
+ * never-married shares, remarriage by NCFMR) and of parting
+ * (`separatingPerYear`, NSFG) with widowhood by the SSA 2023 life table at
+ * the partner's age (the CPS spouse age gap, `partnerAgeFor`), read year by
+ * year against the person's own seeded lines, as the moves engine and the
+ * opening kin read leaving against theirs. Seeded generation of who existed
+ * in their past; no roll decides what anyone does. Only what agrees with the
+ * person's records is written: a partnership the chain ends before their
+ * present one began (or before today, where they live alone). Someone the
+ * chain still has together while their records say they are single is left as
+ * the records say. The earlier partner is a name and a birth year on the
+ * record, never a full person until met.
  *
- * Only what agrees with the person's records is written: a partnership the
- * chain ends before their present one began (or before today, where they live
- * alone). Someone the chain still has together while their records say they
- * are single is left as the records say. The earlier partner is a name and a
- * birth year on the record, never a full person until met.
+ *
  */
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
@@ -249,10 +249,10 @@ export function earlierPartnership(
 }
 
 /**
- * The other parent of a person's children who is not their partner now
- * (gap sheet, Nov 12, 2026, row 11: a child was told with no partner before
- * it): the opening kin's `other-parent` of each child, from the child's own
- * family records, and the births of the children they had together.
+ * The other parent of a person's children who is not their partner now: the
+ * opening kin's `other-parent` of each child, from the child's own family
+ * records, and the births of the children they had together.
+ *
  */
 function otherParentOf(
   core: CoreState,
@@ -306,9 +306,9 @@ function otherParentOf(
 }
 
 /**
- * The births of a person's children who have no other parent on record (gap
- * sheet, Nov 12, row 11: a child was told with no partner before it): the
+ * The births of a person's children who have no other parent on record: the
  * child's family facts name only this person as a parent.
+ *
  */
 function childrenAloneOf(
   core: CoreState,

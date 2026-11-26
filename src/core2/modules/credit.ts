@@ -158,7 +158,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   if (!placeId) return undefined;
   // The county's published deposits are the center; this world's banks hold a
-  // level drawn from its seed (realistic, not real; owner, Oct 27).
+  // level drawn from its seed.
   const depositsMinor = Math.round(
     worldLevel(
       deposits,
@@ -266,8 +266,8 @@ function townHouseholds(input: CoreInput, placeId: string): number {
  * Its yearly volume is the households that borrow (the FDIC's share of
  * households using a payday loan in a year, scaled to where lenders operate
  * by Pew) times the loans and dollars a borrower takes (Pew), moved by a
- * level drawn from the world's seed so no two worlds open on the same figure
- * (owner, Oct 27). Its cash is that volume over the turns a year gives it.
+ * level drawn from the world's seed so no two worlds open on the same figure.
+ * Its cash is that volume over the turns a year gives it.
  */
 export function smallDollarLenderFor(
   input: CoreInput,
@@ -690,9 +690,9 @@ function review(api: CoreAPI, opening = false): void {
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
-    // The owner decides; a firm with no recorded owner (a public employer, an
-    // ownerless landlord) is run by its best-paid full worker, who weighs the
-    // same reasons. With no full person to decide, its counted people's summed
+    // The owner decides; a firm with no recorded a public employer, an ownerless
+    // landlord) is run by its best-paid full worker, who weighs the same
+    // reasons. With no full person to decide, its counted people's summed
     // pulls do, as a counted owner's do.
     const ownerId =
       (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
@@ -1691,13 +1691,13 @@ function householdApplications(
   );
   // The storefront lender checks for earlier payday defaults instead: "some
   // lenders use specialty credit reporting firms to check for previous
-  // defaults on payday loans" (CFPB, Payday Loans and Deposit Advance
-  // Products: A White Paper of Initial Data Findings, April 24, 2013, section
-  // 2.1, page 9, files.consumerfinance.gov/f/201304_cfpb_payday-dap-whitepaper.pdf,
-  // fetched Oct 30, 2026). The town's one lender (SG-WORLD-small-dollar-one-lender)
-  // checks every applicant: its own charged-off loans stand for that firm's
-  // file, and a household in it is not lent to again within the look-back
+  // defaults on payday loans". The town's one lender
+  // (SG-WORLD-small-dollar-one-lender) checks every applicant: its own
+  // charged-off loans stand for that firm's file, and a household in it is
+  // not lent to again within the look-back
   // (smallDollarDefaultLookbackMonths).
+
+
   const defaulted = new Map(
     chargedOff
       .filter(

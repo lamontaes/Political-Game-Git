@@ -1040,12 +1040,12 @@ export function actOn(
         stances: ownPriorities(api, person),
       };
       if (chosen.kind !== "address") throw new Error("Choose what to say.");
-      // Another state's governor keeps only the result (owner, Nov 5, 12:49
-      // p.m. Eastern, OWNER-DECISIONS.md: for a government outside the
-      // player's own chain, simulate from the people there and keep the
-      // result): the address and the stances said stay on this entry's
-      // result row, and no speech is delivered to a full audience. The
-      // player's own state's governor is in the chain and speaks to it.
+      // Another state's governor keeps only the result: the address and the stances
+      // said stay on this entry's result row, and no speech is delivered to a
+      // full audience. The player's own state's governor is in the chain and
+      // speaks to it.
+
+
       if (office.stateKey === lawChain(api).stateKey)
         recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
       break;
@@ -1738,8 +1738,8 @@ function holdForFloorVotes(api: CoreAPI): void {
   if (!stopsOf(api, playerId)["state-floor-vote"]) return;
   const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   // The floor is heard a day ahead of the roll, so the scene plays on the day
-  // before and never after the vote (Words lead, Nov 14): the debate is
-  // recorded the evening before the day before.
+  // before and never after the vote: the debate is recorded the evening
+  // before the day before.
   for (const bill of floorAgendaOn(api, addDays(tomorrow, 1)))
     for (const chamber of chambersOf(api, bill))
       if (members(api, chamber).some((term) => memberKey(term) === playerId))

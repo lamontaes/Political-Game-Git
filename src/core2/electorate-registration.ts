@@ -1,28 +1,28 @@
 /**
- * Voter registration as a record (owner, Nov 14, 2026). A full person is on
- * the rolls or not, at an address, since a day, and a move leaves the
- * registration at the old address until the person registers again. The
- * rule that fills the record in is one for both tiers of the population:
- *
- * - Whether a person registers at all, apart from what the state does for
- *   them, comes from the share of their kind who are on the rolls in the
- *   real survey (CPS, November 2024, citizens by state and age band), spread
- *   over the town's people from their own id, as a person's starting carry
- *   is (`openingVoterCarry`). A state with automatic registration registers
- *   a person when their address changes or they turn 18.
+ * Voter registration as a record. A full person is on the rolls or not, at an
+ * address, since a day, and a move leaves the registration at the old address
+ * until the person registers again. The rule that fills the record in is one
+ * for both tiers of the population: - Whether a person registers at all,
+ * apart from what the state does for them, comes from the share of their kind
+ * who are on the rolls in the real survey (CPS, 24, citizens by state and age
+ * band), spread over the town's people from their own id, as a person's
+ * starting carry is (`openingVoterCarry`). A state with automatic
+ * registration registers a person when their address changes or they turn 18.
  * - How long they wait after a move, or after turning 18, comes from their
- *   own sense of duty: the median wait times e to the minus the slope times
- *   duty. A named person registers on the day the wait ends. A counted
- *   record stands for people with every wait up to and past that median,
- *   so it is on the rolls in the share `1 - 2^(-days / wait)`; a record
- *   whose date of moving is unknown stands for the share of its age that
- *   moved in the last year (the moves engine's own rates).
- * - A registration counts in an election if it took effect by the state's
- *   deadline, or on the day where the state registers people at the polls.
+ * own sense of duty: the median wait times e to the minus the slope times
+ * duty. A named person registers on the day the wait ends. A counted record
+ * stands for people with every wait up to and past that median, so it is on
+ * the rolls in the share `1 - 2^(-days / wait)`; a record whose date of
+ * moving is unknown stands for the share of its age that moved in the last
+ * year (the moves engine's own rates). - A registration counts in an election
+ * if it took effect by the state's deadline, or on the day where the state
+ * registers people at the polls. Nothing here is rolled. The records it keeps
+ * are read by the turnout rule (`decideTurnout`), the polling place
+ * (`pollingPlaceOf`) and the day's record of who was turned away or
+ * registered at the polls.
  *
- * Nothing here is rolled. The records it keeps are read by the turnout rule
- * (`decideTurnout`), the polling place (`pollingPlaceOf`) and the day's
- * record of who was turned away or registered at the polls.
+ *
+ *
  */
 import { addDays, ageInYears, daysBetween, makeIsoDate } from "./kernel/dates";
 import { campaignParameter } from "./campaign-data";
@@ -160,7 +160,7 @@ export interface RegistrationDeps {
 
 const idOf = (personId: string) => `registration:${personId}`;
 
-/** The day a person turns 18 (the voting age), February 29 taken as the 28th. */
+/** The day a person turns 18 (the voting age), taken as the 28th. */
 function adultOn(birthDate: string, votingAge: number): string {
   const year = Number(birthDate.slice(0, 4)) + votingAge;
   const rest = birthDate.slice(4).replace("-02-29", "-02-28");
@@ -265,9 +265,9 @@ export function onTheList(
   person: PersonState,
   deadline: string | null,
 ): "on" | "old-address" | "not-registered" | "after-deadline" {
-  // The person the player controls is always registered (owner, Nov 16: "Keep
-  // it for townspeople; you are always registered"): the rolls are the
+  // The person the player controls is always registered: the rolls are the
   // townspeople's, and the player is never turned away from them.
+
   if (person.id === deps.api.state.playerId) return "on";
   const row = registrationRow(deps, person.id);
   if (!row?.registered) return "not-registered";

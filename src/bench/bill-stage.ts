@@ -414,9 +414,9 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     sponsor: personName(core, bill.sponsorId),
     committees,
     told,
-    // The aide's estimate of how the player's chamber will vote (owner, Oct 29: what colleagues told you
-    // plus your aide's estimate, marked as an estimate that can be wrong, no exact count). It reads only
-    // what members told the player; those who have not said are assumed to split as those who did.
+    // The aide's estimate of how the player's chamber will vote. It reads only
+    // what members told the player; those who have not said are assumed to
+    // split as those who did.
     aide: (() => {
       const chamber = chambers.find((c) =>
         members(api, c).some((term) => memberKey(term) === player),

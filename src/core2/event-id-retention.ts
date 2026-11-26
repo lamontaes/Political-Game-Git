@@ -1,20 +1,20 @@
 /**
- * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): the set of
- * every event id the world has seen (`core.eventIds`) lets an event enter
- * once and lets its writers ask "has this happened?". Every reader asks
- * about today (a speech, an address or a closure on `core.date`), about a
- * race still ahead (a contest id carries its election day) or about an id
- * with no date (a cause group's founding, a scene's reply). So an id whose
- * newest written date is more than `eventIdRetentionDays` past can never be
- * asked about again, and it leaves the set; an id with no date stays.
+ * Keep results, not their history: the set of every event id the world has
+ * seen (`core.eventIds`) lets an event enter once and lets its writers ask
+ * "has this happened?". Every reader asks about today (a speech, an address
+ * or a closure on `core.date`), about a race still ahead (a contest id
+ * carries its election day) or about an id with no date (a cause group's
+ * founding, a scene's reply). So an id whose newest written date is more than
+ * `eventIdRetentionDays` past can never be asked about again, and it leaves
+ * the set; an id with no date stays. Ids are queued by the month of their
+ * newest date as they enter, so the monthly pass drops whole months and never
+ * walks the set. With bookkeeping on (tests, proofs) every id stays. An id a
+ * live drive still cites stays too, since a drive forms from an event and the
+ * drives engine checks that event again each day it rewrites the drive; it
+ * leaves at the first monthly pass after no drive cites it. Kept forever, the
+ * set was 117 MB of a long run's heap (Montpelier, Vermont, year 6: 661,212
+ * ids).
  *
- * Ids are queued by the month of their newest date as they enter, so the
- * monthly pass drops whole months and never walks the set. With bookkeeping
- * on (tests, proofs) every id stays. An id a live drive still cites stays
- * too, since a drive forms from an event and the drives engine checks that
- * event again each day it rewrites the drive; it leaves at the first monthly
- * pass after no drive cites it. Kept forever, the set was 117 MB of a
- * long run's heap (Montpelier, Vermont, year 6: 661,212 ids).
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { bookkeeping } from "./bookkeeping";

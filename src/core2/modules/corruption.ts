@@ -72,7 +72,7 @@ export interface CrimeRecord {
   /**
    * An offer to the person the player controls, which waits for the player's
    * own answer in the scene (the cause record `corruption.bribe-offered`): a
-   * trait decides only for people the player is not (owner, Nov 8).
+   * trait decides only for people the player is not.
    */
   pending?: true;
   /** Taken bribes by this official that the offerer had learned of when offering (knowledge records). */

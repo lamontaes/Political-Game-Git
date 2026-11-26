@@ -136,7 +136,7 @@ export function buildNewborn(
     looks: {
       gender: identity.gender,
       pronouns: identity.pronouns,
-      // A parent's origin, so the family looks related (owner's playtest, Nov 8).
+      // A parent's origin, so the family looks related.
       ...childLooks(
         childOrigin(
           parents.map((id) => api.state.people.get(id)?.looks?.origin),

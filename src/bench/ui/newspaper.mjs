@@ -3,9 +3,9 @@
 import { el } from "./dom.mjs";
 
 /**
- * The newspaper art (art/newspaper-mockups, owner Oct 28). Each paper keeps
- * one engraved masthead with its name set in the blank plate; `plate` is that
- * plate's left, top, width and height in percent of the strip.
+ * The newspaper art. Each paper keeps one engraved masthead with its name set
+ * in the blank plate; `plate` is that plate's left, top, width and height in
+ * percent of the strip.
  */
 const MASTHEADS = {
   daily: [

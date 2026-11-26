@@ -689,7 +689,7 @@ function chooserDefinition(
  * already inside each response's urgency, and for a lasting drive it is
  * scaled by the person's agency (age and standing), so the chooser does not
  * add it again: otherwise a young child with an activist's traits takes up a
- * cause as readily as an adult (CTO ruling, Oct 14).
+ * cause as readily as an adult.
  */
 const decisionDefinitions = new WeakMap<ResponseRow, ActionDefinition>();
 function decisionDefinition(
@@ -1245,11 +1245,11 @@ export function confrontationStrain(
   const tie = api.state.relationships.get(pairKey(actorId, targetId));
   const levelBefore = tie ? currentCloseness(api.state, tie) : p("zero");
   const levelAfter = Math.max(p("zero"), levelBefore - levelLost);
-  // A tie with less than the level to lose (two strangers, or a thin tie)
-  // takes the hours of the level itself, as strain later time together must
-  // first make up: a stranger who is confronted is someone the holder has now
-  // fallen out with, not someone the confrontation never touched (CTO, #9747
-  // 6999923338).
+  // A tie with less than the level to lose (two strangers, or a thin tie) takes
+  // the hours of the level itself, as strain later time together must first
+  // make up: a stranger who is confronted is someone the holder has now
+  // fallen out with, not someone the confrontation never touched.
+
   return {
     levelBefore,
     levelAfter,
@@ -1263,9 +1263,9 @@ export function confrontationStrain(
 /**
  * How long a drive takes to fade by half without new events or acts: its
  * kind's base, moved for a kind that names a trait lean by the holder's own
- * lean (a resentful person holds a grudge for years, a forgiving one lets it
- * go in weeks; Pins, CTO #9747 05:10Z). Kept on the drive, so dev mode's
- * Trace box shows it.
+ * lean. Kept on the drive, so dev mode's Trace box shows it.
+ *
+ *
  */
 export function driveHalfLifeDays(
   api: CoreAPI,

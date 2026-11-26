@@ -1,16 +1,16 @@
 /**
  * Who works for or owns an outlet today. Press staff may run for office and
- * hold it (owner, Oct 16, 2026: "a reporter who wants to run may run"); this
- * index is not a bar. The only reader is the stand-in that seats a vacant
- * local office without an election (offices.ts), which does not pick someone
- * because of a press job: the defect the owner named was a reporter put into
- * an empty seat automatically at the opening.
- *
+ * hold it; this index is not a bar. The only reader is the stand-in that
+ * seats a vacant local office without an election (offices.ts), which does
+ * not pick someone because of a press job: the defect the owner named was a
+ * reporter put into an empty seat automatically at the opening.
  * `pressConflict` reads the press engine's outlets table by module id (an
  * import of the press module's values would close a cycle with the offices
  * and candidacy modules) and indexes every outlet's staff once a day and
- * again whenever the press changes an outlet's people (`pressStaffChanged`), so
- * a call is a map lookup and never scans the world.
+ * again whenever the press changes an outlet's people (`pressStaffChanged`),
+ * so a call is a map lookup and never scans the world.
+ *
+ *
  */
 import type { CoreAPI, PersonId } from "./types";
 

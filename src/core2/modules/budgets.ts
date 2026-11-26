@@ -367,7 +367,7 @@ function withholdingSlot(
 /** Prior fiscal years the history shows before the opening budget. */
 const PRIOR_BUDGET_YEARS = 2;
 
-/** The same month and day `years` earlier (February 29 falls back to the 28th). */
+/** The same month and day `years` earlier. */
 function yearsEarlier(date: string, years: number): string {
   const day = date.slice(5) === "02-29" ? "02-28" : date.slice(5);
   return `${Number(date.slice(0, 4)) - years}-${day}`;
@@ -755,13 +755,13 @@ const minor = (dollarsPerResident: number, residents: number, factor: number) =>
   Math.round(dollarsPerResident * residents * factor * 100);
 
 /**
- * This world's factor on a published figure (owner, Oct 27: realistic, not
- * real): one plus the world's own offset for that figure, drawn once from the
- * world's seed, its size between the floor share of the spread and the whole
- * spread named by `spreadKey`. The same factor every year, so a base year and
- * its successors agree. Budget lines, the federal debt and its holders, the
- * payees of a line, the service charges' mix and the states' federal stakes
- * all move by it.
+ * This world's factor on a published figure: one plus the world's own offset
+ * for that figure, drawn once from the world's seed, its size between the
+ * floor share of the spread and the whole spread named by `spreadKey`. The
+ * same factor every year, so a base year and its successors agree. Budget
+ * lines, the federal debt and its holders, the payees of a line, the service
+ * charges' mix and the states' federal stakes all move by it.
+ *
  */
 export function budgetWorldFactor(
   api: CoreAPI,
@@ -1268,9 +1268,9 @@ export function syncSalesTax(api: CoreAPI): void {
  */
 export function propertyTaxTerms(api: CoreAPI, placeId?: string) {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
-  // A home outside the played town is billed by its own place's terms, not
-  // the played town's rate and collector (owner, Nov 5: "It should be
-  // everywhere").
+  // A home outside the played town is billed by its own place's terms, not the
+  // played town's rate and collector.
+
   const town = api.state.placeMetadata?.housingTown;
   if (placeId && town && placeId !== town)
     return otherPlacePropertyTax(api, placeId);
@@ -1512,11 +1512,11 @@ export function baseBudget(
 /**
  * What a government collected over the fiscal year before `fy` (its own
  * receipts, borrowing left out), over the Census base's revenue for that
- * year: 1 until a whole year of its treasury's months is recorded. The nation,
- * every state and every county re-budget their revenue from it each year, so
- * the plan follows what the law in force actually brought in (owner, Nov 12:
- * budgeted revenue must move; `outside-budgets.ts` does the same for the other
- * states from the country tier's ledgers). Other governments hold 1.
+ * year: 1 until a whole year of its treasury's months is recorded. The
+ * nation, every state and every county re-budget their revenue from it each
+ * year, so the plan follows what the law in force actually brought in. Other
+ * governments hold 1.
+ *
  */
 function collectedLastYear(
   api: CoreAPI,
@@ -1650,7 +1650,7 @@ function carriedLines(
     api.stopgap("SG-GOV-spending-vote-state-county");
   const spending: Record<string, number> = {};
   // Each line is last year's times its ratios, rounded once to the cent from
-  // the exact product (CTO, #9747 6991875920).
+  // the exact product.
   for (const [line, v] of Object.entries(prior.baseSpendingMinor!)) {
     const growth = lineGrowth(gov, line, prior, drivers, receipts);
     spending[line] = roundExactProduct(v, growth.over, growth.under);
@@ -2825,16 +2825,16 @@ export function lineChangedInYear(
 /**
  * What a government's year has brought in against what it was bringing in
  * when its budget was written, net of what its body has already amended in:
- * the room a body has to amend the adopted budget (owner, Nov 15: a council
- * amends for a cause on record, not because members wish a line were
- * different). The cause is the treasury's own months: what it took in a month
- * (collected, borrowing left out, plus aid received) since the fiscal year
- * began, over the months before it, as a share of the year's planned revenue
- * for the months closed. Receipts are compared with the treasury's own earlier
- * pace so the answer holds for a town, a county and a state alike. Positive
- * room is money over plan a body may raise lines by; negative is the shortfall
- * it must cut by; null before a month of the year has closed or with no month
- * before it to compare.
+ * the room a body has to amend the adopted budget. The cause is the
+ * treasury's own months: what it took in a month (collected, borrowing left
+ * out, plus aid received) since the fiscal year began, over the months before
+ * it, as a share of the year's planned revenue for the months closed.
+ * Receipts are compared with the treasury's own earlier pace so the answer
+ * holds for a town, a county and a state alike. Positive room is money over
+ * plan a body may raise lines by; negative is the shortfall it must cut by;
+ * null before a month of the year has closed or with no month before it to
+ * compare.
+ *
  */
 export function amendmentRoom(
   api: CoreAPI,

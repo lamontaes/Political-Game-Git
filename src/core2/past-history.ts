@@ -1,19 +1,19 @@
 /**
- * The one history reader (owner, Nov 25, 2026: "THE JOURNAL, DIRECTOR, PERSON
- * CARDS, ETC ALL PULL FROM THE SAME HISTORY. STOP MAKING NEW SYSTEMS FOR NEW
- * THINGS WHEN THEY ALL USE THE SAME THING"; "make the history reader work
- * game wide. so ALL systems are reading the same thing").
- *
- * It keeps nothing. What already happened is in the records the engines
- * wrote: the pre-start history (src/core2/pre-start.ts), the durable log, a
- * person's own life (`lifeOf`, src/core2/person-life.ts) and the tables an
- * engine keeps of what it did (a job change, a term, the century's races).
- * Each engine that keeps such a table hands it here as its module's
- * `history` source, so this family imports none of them. Any reader,
+ * The one history reader. It keeps nothing. What already happened is in the
+ * records the engines wrote: the pre-start history (src/core2/pre-start.ts),
+ * the durable log, a person's own life (`lifeOf`, src/core2/person-life.ts)
+ * and the tables an engine keeps of what it did (a job change, a term, the
+ * century's races). Each engine that keeps such a table hands it here as its
+ * module's `history` source, so this family imports none of them. Any reader,
  * for a person, a household, an employer, a place, a state or the nation,
  * gets the same events from the same records, each with its record id, its
  * date, the records that caused it and the records it led to. A screen or a
  * scene words them differently; none of them builds its own past.
+ *
+ *
+ *
+ *
+ *
  */
 import table from "./data/history/reader.json" with { type: "json" };
 import { placeStateKey } from "./place-map";

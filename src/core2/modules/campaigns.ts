@@ -259,8 +259,8 @@ export interface CampaignRow {
 /**
  * A world candidate's ask for money that reached the controlled person
  * (play-campaign-ask-reaches-player): theirs to answer, never taken. The
- * engine never moves the player's money on its own (owner, Oct 14: the engine
- * offers, the player decides).
+ * engine never moves the player's money on its own.
+ *
  */
 export interface AskRow {
   readonly id: string;
@@ -348,12 +348,12 @@ export interface CauseRow {
 }
 
 /**
- * What a resident said at the door when a campaign asked for their vote
- * (owner, Oct 29: a "yes" at the door is near-binding). Written at the knock
- * from the same rule the door's own answer comes from, for every candidate's
- * door and both tiers: a full person's warmth after the visit, or for a
- * counted resident what that visit makes of their record. The ballot reads
- * it (`voting.ts`), and the door scene tells it.
+ * What a resident said at the door when a campaign asked for their vote.
+ * Written at the knock from the same rule the door's own answer comes from,
+ * for every candidate's door and both tiers: a full person's warmth after the
+ * visit, or for a counted resident what that visit makes of their record. The
+ * ballot reads it (`voting.ts`), and the door scene tells it.
+ *
  */
 export interface PledgeRow {
   readonly id: string;
@@ -571,8 +571,8 @@ export const CAMPAIGNS_MODULE: CoreModule = {
        * Each resident's "yes" at a campaign's door, one row a voter and
        * candidate in a contest, kept while the contest is open: a closed
        * contest's rows go at its close (`closeRace`), except in a contest the
-       * player filed in, which keeps every row (CTO, Nov 1 21:25), and a
-       * voter's yes in a race still open stays.
+       * player filed in, which keeps every row, and a voter's yes in a race
+       * still open stays.
        */
       pledges: {
         indexes: {
@@ -1001,9 +1001,9 @@ export function registerDoorChoice(choice: DoorChoice): void {
  * candidate is the one the resident would vote for now, kept as their word
  * (and in place of any earlier word to a rival in the race). A no at a later
  * knock leaves an earlier yes as it was: a word given is near-binding, and
- * only something heavy changes it (owner, Oct 29: a scandal they learned of,
- * a rival they are close to, a broken promise), which the ballot reads from
- * records (`pledgeDoubt`), or a yes they give a rival who now outweighs it.
+ * only something heavy changes it, which the ballot reads from records
+ * (`pledgeDoubt`), or a yes they give a rival who now outweighs it.
+ *
  */
 function answerAtDoor(
   api: CoreAPI,
@@ -1065,9 +1065,9 @@ function keepCause(api: CoreAPI, cause: CauseRow): void {
 /**
  * What a fact learned through a cause names as its source. The player's
  * circle and people in focus keep the cause itself; for everyone else the
- * cause folds into the voter's summary row for the candidate (CTO, Nov 8:
- * other places keep only the result, detail is built on demand), so the fact
+ * cause folds into the voter's summary row for the candidate, so the fact
  * names that row.
+ *
  */
 function causeSourceId(api: CoreAPI, cause: CauseRow): string {
   return keepsWhy(api.state as CoreState, cause.voterId)
@@ -1134,10 +1134,10 @@ function reach(
       key: `candidate:${campaign.candidateId}`,
       value: campaign.contestId,
       learnedAt: date,
-      // The player's circle and people in focus keep the cause itself as the
-      // fact's source; for everyone else the cause folds into the voter's
-      // summary row for this candidate (CTO, Nov 8: keep only the result,
-      // build detail on demand), so the fact points at that row.
+      // The player's circle and people in focus keep the cause itself as the fact's
+      // source; for everyone else the cause folds into the voter's summary
+      // row for this candidate, so the fact points at that row.
+
       sourceId: causeSourceId(api, cause),
       access:
         act === "retold" ? "told" : act.endsWith("ad") ? "public" : "perceived",
@@ -1813,9 +1813,9 @@ export function knockDoors(
      * Which counted residents who open are filled in as full people: all
      * (true, the default), none (false: a world candidate's or a volunteer's
      * door reaches them as a count), or at most this many, the ones the
-     * evening's porch scene could cast (the player's own canvass: a door
-     * touches the counted group, and only someone the player talks with in
-     * a scene is filled in; owner, Oct 27, "a short scene at 1 or 2 doors").
+     * evening's porch scene could cast.
+     *
+     *
      */
     readonly fillCounted?: boolean | number;
   },
@@ -2012,9 +2012,9 @@ export function publishedUnitPrice(kind: string): number {
 
 /**
  * A unit price in this world, in minor units: the published market price
- * moved by the world's own draw (owner, Oct 27: realistic, not real), never
- * below one cent. A price the Postal Service or a law sets (postage, a
- * filing fee) stays as published.
+ * moved by the world's own draw, never below one cent. A price the Postal
+ * Service or a law sets (postage, a filing fee) stays as published.
+ *
  */
 export function unitPrice(api: CoreAPI, kind: string): number {
   const row = priceRow(kind);
@@ -2380,12 +2380,12 @@ export function castVolunteer(
 }
 
 /**
- * Whether someone gives a campaign more than evenings and runs it (its
- * manager, the point person local campaign guides put first,
- * docs/research/words-scenes-2026-10-26.md section 1): the reasons they would
- * volunteer, with closeness and family counted again, past the manager's own
- * bar. A partner or a best friend clears it where an acquaintance does not.
- * stopgapId: SG-CAMPAIGN-manager-changes-nothing-yet
+ * Whether someone gives a campaign more than evenings and runs it: the
+ * reasons they would volunteer, with closeness and family counted again, past
+ * the manager's own bar. A partner or a best friend clears it where an
+ * acquaintance does not. stopgapId: SG-CAMPAIGN-manager-changes-nothing-yet
+ *
+ *
  */
 export function managerReason(
   api: CoreAPI,
@@ -2859,16 +2859,16 @@ function rivalWordPassedOn(api: CoreAPI): void {
 }
 
 /**
- * Word of a rival is kept while a reader can still reach it (governing lead,
- * Oct 30). `rivalWordPassedOn` reads a message, and a candidate's word, only
- * while it is newer than the day `rivalWordDays` back, a day that only moves
- * forward; a filing stays on the ballot after the count, so it reads a
- * closed race's last week too. `raceReading` reads a candidate's newest word
- * in a race still under way (`newestWord`), however old. So at each campaign
- * turn a message older than the window goes, and a word row older than it
- * goes unless it is that newest word in a race in `races`. A closed race's
- * rows go as its last week leaves the window, and both tables hold about a
- * week of rows, so this pass does not grow with the years.
+ * Word of a rival is kept while a reader can still reach it.
+ * `rivalWordPassedOn` reads a message, and a candidate's word, only while it
+ * is newer than the day `rivalWordDays` back, a day that only moves forward;
+ * a filing stays on the ballot after the count, so it reads a closed race's
+ * last week too. `raceReading` reads a candidate's newest word in a race
+ * still under way (`newestWord`), however old. So at each campaign turn a
+ * message older than the window goes, and a word row older than it goes
+ * unless it is that newest word in a race in `races`. A closed race's rows go
+ * as its last week leaves the window, and both tables hold about a week of
+ * rows, so this pass does not grow with the years.
  */
 export function foldRivalWord(api: CoreAPI): void {
   const since = addDays(
@@ -3012,15 +3012,15 @@ function answerAskForVote(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 }
 
 /**
- * How much one offer of help matters to the candidate's story, from 0 to 1
- * (owner, Oct 27, 4 PM Eastern: "it shouldn't be stopped for literally every
- * single volunteer. Maybe some that matter. And that's only when you're doing
- * small local campaigns, or maybe your first campaign."). The race's reach on
- * the story falls smoothly with its eligible voters and with each campaign the
- * candidate ran before; within that, a close tie counts twice a stranger. The
- * director sizes the offer's moment by it, so a friend's offer in a first
- * council race is a scene and a stranger's in a statewide race a journal line,
- * with no size or count at which it flips.
+ * How much one offer of help matters to the candidate's story, from 0 to 1.
+ * The race's reach on the story falls smoothly with its eligible voters and
+ * with each campaign the candidate ran before; within that, a close tie
+ * counts twice a stranger. The director sizes the offer's moment by it, so a
+ * friend's offer in a first council race is a scene and a stranger's in a
+ * statewide race a journal line, with no size or count at which it flips.
+ *
+ *
+ *
  */
 export function offerWeight(
   api: CoreAPI,
@@ -3111,9 +3111,9 @@ export function townShareOfRace(api: CoreAPI, contestId: string): number {
  * candidate for an office the town is only part of spreads their evenings
  * over the whole district, so the town has its share of them: each event they
  * would hold adds the town's share of the race's voters to what the town is
- * owed, and the event is held here when that reaches one. No dice, and a
- * town race (share one) holds every event. (Speed, Nov 8: a House candidate
- * held about a town hall a day in a town of 600.)
+ * owed, and the event is held here when that reaches one. No dice, and a town
+ * race (share one) holds every event.
+ *
  */
 function heldInTown(
   api: CoreAPI,
@@ -3609,8 +3609,8 @@ export function signaturesToGather(api: CoreAPI, filingId: string): number {
 /**
  * Whether a door asks for a signature: the petition circulates and holds less
  * than what a campaign gathers (`signaturesToGather`: the clerk's count plus
- * the names off the roll). Past that, a door asks for the vote (owner, Nov
- * 14). One rule for the player's doors, a world candidate's and a volunteer's.
+ * the names off the roll). Past that, a door asks for the vote. One rule for
+ * the player's doors, a world candidate's and a volunteer's.
  */
 export function petitionAsksAtDoors(api: CoreAPI, filingId: string): boolean {
   if (!petitionCirculating(api, filingId)) return false;
@@ -3708,9 +3708,9 @@ export function circulatorsCanWork(api: CoreAPI, filingId: string): boolean {
  * What a campaign holds and has not set aside: raised less spent, less its
  * funds for an event, a poll and circulators. The one figure every purchase
  * (an ad, a poll, mail, a venue) and every hire budgets from, so none spends
- * money another has been promised (a purchase from the raised-less-spent
- * total once spent the circulators' fund, and their pay then fell due with
- * the cash gone: Tutu, U.S. Virgin Islands, 2026-05-09, "owner after").
+ * money another has been promised.
+ *
+ *
  */
 export function freeMinor(campaign: CampaignRow): number {
   return Math.max(
@@ -5430,12 +5430,12 @@ export function makeStatements(
     ...campaignFor(api, input.filingId),
     platform: withStatements.platform,
   });
-  // In person (a speech, a town hall) and in a debate (owner, Oct 14: the
-  // audience's views move by the same read as a speech), a candidate who is
-  // a person is heard as a speaker on each statement's question: the speech
-  // engine moves those who heard it by the candidate's standing with them
-  // and lets them retell it at home. Interviews reach their readers and
-  // viewers through the causes above.
+  // In person (a speech, a town hall) and in a debate, a candidate who is a
+  // person is heard as a speaker on each statement's question: the speech
+  // engine moves those who heard it by the candidate's standing with them and
+  // lets them retell it at home. Interviews reach their readers and viewers
+  // through the causes above.
+
   if (
     (input.faceToFace || input.act === "debate") &&
     speaker &&
@@ -5778,9 +5778,9 @@ function emitMessage(
     kept.noted = messages.get(input.id);
   }
   if (input.kind === CANVASS_MESSAGE_KIND) return;
-  // Level of detail (owner, Nov 9): a world candidate's paid message reaches
-  // the viewers nobody watches once per group of like hearers, the rest as
-  // people (`hearAsGroups`). The message row above keeps every viewer.
+  // Level of detail: a world candidate's paid message reaches the viewers
+  // nobody watches once per group of like hearers, the rest as people
+  // (`hearAsGroups`). The message row above keeps every viewer.
   let asPeople = witnessIds;
   if (
     campaign.candidateId !== api.state.playerId &&
@@ -6665,18 +6665,18 @@ export function groupPositions(
 }
 
 /**
- * The organizations in town weigh a race on its campaign turn (owner, Oct
- * 29: "she was working with the Democratic Socialists of America... then
- * her campaign gained steam"). Each group's speaker weighs every candidate
- * standing, the player among them, by the one endorsement rule, reading
- * the group's stance where a person reads their own views; they endorse the
- * one they back above all rivals among those whose platform takes up the
- * group's cause and agrees with it, and no one when none stands out (asked
- * again on later turns, as ties and the field change). A group backs one
- * candidate in a race, once: its members hear it as an endorsement, and each
- * is asked to give their evenings, deciding from their own reasons, their
- * tie to the speaker, their share in the group's cause and their free
- * hours. A group the player speaks for decides only by the player's choice.
+ * The organizations in town weigh a race on its campaign turn. Each group's
+ * speaker weighs every candidate standing, the player among them, by the one
+ * endorsement rule, reading the group's stance where a person reads their own
+ * views; they endorse the one they back above all rivals among those whose
+ * platform takes up the group's cause and agrees with it, and no one when
+ * none stands out (asked again on later turns, as ties and the field change).
+ * A group backs one candidate in a race, once: its members hear it as an
+ * endorsement, and each is asked to give their evenings, deciding from their
+ * own reasons, their tie to the speaker, their share in the group's cause and
+ * their free hours. A group the player speaks for decides only by the
+ * player's choice.
+ *
  */
 function groupsWeighRace(api: CoreAPI, contestId: string): void {
   const field = raceCampaigns(api, contestId);
@@ -6774,18 +6774,18 @@ function groupsWeighRace(api: CoreAPI, contestId: string): void {
 }
 
 /**
- * An outlet weighs a race it covers (owner, Oct 16: papers endorse, "if it
- * happens in real life, sure"; its endorsement follows its own leanings and
- * the record, no dice). Its head, who sets its line, weighs every candidate
- * standing by the one endorsement rule (`weighEndorsement`), reading their
- * own views as a group's speaker reads the group's stance: the outlet backs
- * the one candidate its head agrees with above every rival, among those whose
- * platform shares a question with those views, and no one when none stands
- * out (weighed again on a later week as the field and its platforms change).
- * It endorses once in a race, under the outlet's own name (its
- * organization): its followers hear it as an endorsement, and the paper
+ * An outlet weighs a race it covers. Its head, who sets its line, weighs
+ * every candidate standing by the one endorsement rule (`weighEndorsement`),
+ * reading their own views as a group's speaker reads the group's stance: the
+ * outlet backs the one candidate its head agrees with above every rival,
+ * among those whose platform shares a question with those views, and no one
+ * when none stands out (weighed again on a later week as the field and its
+ * platforms change). It endorses once in a race, under the outlet's own name
+ * (its organization): its followers hear it as an endorsement, and the paper
  * prints it as every endorsement is printed (`campaign-endorsed`). True once
  * the outlet has backed someone in the race.
+ *
+ *
  */
 export function outletWeighsRace(
   api: CoreAPI,
@@ -6846,9 +6846,9 @@ export function outletWeighsRace(
         reached,
         volunteerIds: [],
       }),
-      // A paper is not a group with a cause: its head weighed the platform
-      // by their own views, so no group stance is kept for the paper to be
-      // told by ("The group wants ...", Words lead, Nov 15, on #9466).
+      // A paper is not a group with a cause: its head weighed the platform by their
+      // own views, so no group stance is kept for the paper to be told by.
+
       stance: null,
     });
     return true;
@@ -7155,8 +7155,8 @@ export function causeSummaryOf(
 
 /**
  * When a race's count is in, its candidates' causes fold into one summary row
- * a voter (owner, Oct 29: "simulations... hundreds of years... still
- * speedy"; core-long-run-tables-grow-with-history).
+ * a voter.
+ *
  */
 export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
   if (!contestId || !api.state.modules.has(ELECTIONS_MODULE_ID)) return;
@@ -7176,12 +7176,12 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
 /**
  * A folded cause kept for the trace goes once it is older than
  * `circleActRetentionMonths`, the window the circle's routine acts already
- * keep (`decision-detail.ts`; CTO, Nov 8: a folded cause keeps its own row
- * only for the player's circle and people in focus, and only while someone
- * can ask why). Readers: dev mode's `findRecord` and a fact's `sourceId`
- * lookup in the why view; a fact older than the window names a source the
- * trace no longer finds, as for any circle act past its window. The player's
- * own rows stay. The campaign summary row already counts every folded cause.
+ * keep. Readers: dev mode's `findRecord` and a fact's `sourceId` lookup in
+ * the why view; a fact older than the window names a source the trace no
+ * longer finds, as for any circle act past its window. The player's own rows
+ * stay. The campaign summary row already counts every folded cause.
+ *
+ *
  */
 export function dropOldFoldedCauses(api: CoreAPI): void {
   const folded = table(api, "foldedCauses");
@@ -7218,15 +7218,15 @@ export function foldOldCauses(api: CoreAPI): void {
 }
 
 /**
- * Fold candidates' causes into one summary row a voter. A voter and
- * candidate fold whole, so a summary's sum is the same sum, in the same
- * order, that `contestStanding` reads. The player's own causes stay as rows.
- * A folded cause that a voter's known fact names as its source moves to
+ * Fold candidates' causes into one summary row a voter. A voter and candidate
+ * fold whole, so a summary's sum is the same sum, in the same order, that
+ * `contestStanding` reads. The player's own causes stay as rows. A folded
+ * cause that a voter's known fact names as its source moves to
  * `foldedCauses`, where the trace still finds it; no other folded cause is
- * read, so none other is kept (CTO, Oct 30 08:15, amending 03:05). A pledge
- * keeps no cause: a closed race's pledges go at its close (`closeRace`), and
- * the warmth those visits moved stays in the summary (governing lead, Nov 1
- * 21:22; CTO's amendment 21:25).
+ * read, so none other is kept. A pledge keeps no cause: a closed race's
+ * pledges go at its close (`closeRace`), and the warmth those visits moved
+ * stays in the summary.
+ *
  */
 function foldCauses(
   api: CoreAPI,
@@ -7505,9 +7505,9 @@ export function askForSupport(api: CoreAPI, filingId: string): void {
   const pool = reachable.filter(
     (id) => id !== playerId && !campaign.volunteerIds.includes(id),
   );
-  // The player is asked too, when the campaign's lists reach them; nothing answers for them, so the ask
-  // is kept and a scene puts it to them (owner, Nov 16: "Work for someone else's campaign... until a
-  // race opens").
+  // The player is asked too, when the campaign's lists reach them; nothing
+  // answers for them, so the ask is kept and a scene puts it to them.
+
   if (playerId && reachable.includes(playerId))
     askPlayerToVolunteer(api, filingId);
   const asks = Math.min(pool.length, campaignParameter("volunteerAsksPerTurn"));
@@ -8532,16 +8532,16 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 
 /**
  * A decided race's rows that only the race read go once its election day has
- * passed (governing lead, Oct 30 and Nov 1): its door rows (the campaign row
- * keeps its door counts) and its pledges, the "yes" voters gave at its doors,
- * which the door's answer read during the race and the ballot on primary and
- * election day. Every filing of the contest is read by its id, so no
- * campaign row is made. Only this contest's pledges go, by their contest: a
- * voter's yes in another race still open stays. A contest the player filed in
- * keeps every pledge, its rivals' too (CTO, Nov 1 21:25). No cause is kept
- * for a pledge (`foldCauses`), so the drop leaves nothing behind. Its
- * messages and word are not touched here: a filing stays on the ballot after
- * the count, so word of it may still pass on (`foldRivalWord`).
+ * passed: its door rows (the campaign row keeps its door counts) and its
+ * pledges, the "yes" voters gave at its doors, which the door's answer read
+ * during the race and the ballot on primary and election day. Every filing of
+ * the contest is read by its id, so no campaign row is made. Only this
+ * contest's pledges go, by their contest: a voter's yes in another race still
+ * open stays. A contest the player filed in keeps every pledge, its rivals'
+ * too. No cause is kept for a pledge (`foldCauses`), so the drop leaves
+ * nothing behind. Its messages and word are not touched here: a filing stays
+ * on the ballot after the count, so word of it may still pass on
+ * (`foldRivalWord`).
  */
 export function closeRace(api: CoreAPI, contestId: string): void {
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
@@ -8563,9 +8563,9 @@ export function closeRace(api: CoreAPI, contestId: string): void {
       candidateId,
     ]) as unknown as PledgeRow[])
       if (row.contestId === contestId) pledges.remove(row.id); // The race's gifts, endorsements, polls and stepped-up readings have no
-  // reader once it is decided: the campaign row keeps what was raised, and the
-  // endorsed and stepped-up events carry what news reads (governing lead,
-  // Nov 1). A contest the player filed in keeps every row (returned above).
+  // reader once it is decided: the campaign row keeps what was raised, and
+  // the endorsed and stepped-up events carry what news reads. A contest the
+  // player filed in keeps every row (returned above).
   const gifts = table(api, "gifts");
   for (const filing of filings)
     for (const row of gifts.query("byCampaign", [filing.id]))
@@ -8716,12 +8716,12 @@ export function petitionTeller(
 }
 
 /**
- * The day to tell a filed player their petition is behind (the Account lead
- * and the owner's Oct 14 rule: the engine offers, the player decides): written
- * once per filing, as a record the director stages as a scene with the clerk
- * or helper, answered by the player. Nothing is done for them (OWNER-DECISIONS
- * Oct 14, "No engine accepts a ... filing or any choice for the controlled
- * person").
+ * The day to tell a filed player their petition is behind: written once per
+ * filing, as a record the director stages as a scene with the clerk or
+ * helper, answered by the player. Nothing is done for them.
+ *
+ *
+ *
  */
 export function tellPetitionShort(
   api: CoreAPI,

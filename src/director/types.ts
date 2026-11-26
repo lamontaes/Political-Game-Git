@@ -243,9 +243,9 @@ export interface PersonLedger {
   keptFactsByOther: Map<PersonId, Set<string>>;
   backdrop: BackdropEntry[];
   /**
-   * What the person keeps only in summary (owner, Oct 11: memories keep what
-   * matters and summarize the rest). Forgotten moments by month and label,
-   * forgotten broad events' impact by event, and old backdrop by kind.
+   * What the person keeps only in summary. Forgotten moments by month and
+   * label, forgotten broad events' impact by event, and old backdrop by kind.
+   *
    */
   summaries: Map<string, MomentSummary>;
   forgottenBroad: Map<string, number>;
@@ -281,9 +281,9 @@ export interface Ledger {
 }
 
 /**
- * A voter's election-day visit (owner, Oct 14, 2026: election day is a
- * scene): the contests on their ballot, what they marked, and whether they
- * voted or left. The voting engine counts what was marked (`castBallot`).
+ * A voter's election-day visit: the contests on their ballot, what they
+ * marked, and whether they voted or left. The voting engine counts what was
+ * marked (`castBallot`).
  */
 export interface PollingVisitRecord {
   readonly id: string;
@@ -296,9 +296,9 @@ export interface PollingVisitRecord {
 }
 
 /**
- * The player's interrupt setting (owner, Oct 14, 2026): which kinds of scene
- * may stop the day, by situation type. The director's scheduling reads it
- * whenever it decides a moment's outcome.
+ * The player's interrupt setting: which kinds of scene may stop the day, by
+ * situation type. The director's scheduling reads it whenever it decides a
+ * moment's outcome.
  */
 export interface SceneFilter {
   readonly id: string;
