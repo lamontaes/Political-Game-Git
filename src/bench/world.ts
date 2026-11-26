@@ -30,6 +30,7 @@ import {
 import { openLaws } from "../core2/modules/laws";
 import {
   applyPastSessionLaws,
+  lastSittingBefore,
   pastSessionLaws,
 } from "../core2/tooling/past-sessions";
 import type { EntityId } from "../core2/kernel/brands";

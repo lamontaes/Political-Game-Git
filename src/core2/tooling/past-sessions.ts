@@ -127,7 +127,9 @@ export function applyPastSessionLaws(
       ...(row.unit ? { unit: row.unit } : {}),
       effectiveDate: row.effectiveDate,
       measureId: String(row.terms?.enactedBy ?? row.id),
-      citation: row.source,
+      citation: Array.isArray(row.source)
+        ? row.source.join("; ")
+        : String(row.source),
       ...(row.estimate ? { estimate: true } : {}),
       terms: row.terms,
     });
