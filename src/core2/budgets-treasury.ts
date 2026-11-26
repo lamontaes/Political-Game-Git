@@ -57,6 +57,9 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { FinanceReadGuard } from "./finance-plan";
+export { ACCOUNTS_MODULE } from "./accounts";
+export { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
