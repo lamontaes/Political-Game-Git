@@ -60,10 +60,9 @@ describe(`prior elections name the century's count (${world.place.key}, seed ${s
         expect(row.centuryRecordId, row.id).toBeUndefined();
       }
     }
-    // Every world holds the President and a Senate seat from the century, and a town or county
-    // office the century does not count.
+    // Every world holds the President from the century. A place may have no elected local office
+    // at all (a county-governed place), so the others are reported, not required.
     expect(counted.length).toBeGreaterThan(0);
-    expect(notCounted.length).toBeGreaterThan(0);
     process.stdout.write(
       `prior elections: ${counted.length} from the century, ${notCounted.length} from the tenure band\n`,
     );
