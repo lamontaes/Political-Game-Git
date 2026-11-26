@@ -51,6 +51,11 @@ jobs:
           # clone. Fetch the full history so history-dependent validation (the
           # release declaration diff) has something to measure.
           fetch-depth: 0
+          # Pilot (CTO, Nov 26): a partial clone keeps every commit and tree for
+          # the diff but downloads file contents only as they are read. With
+          # 10,000 branches and 10 GB of history, the full fetch took 2 min 41 s
+          # of this 3 min 34 s job; the check itself took one second.
+          filter: blob:none
           # Acceptance is for the published PR head, not a synthetic merge SHA.
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
@@ -120,6 +125,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          filter: blob:none
           # The guards judge what main becomes: the pull request merged into
           # its base (GitHub's merge commit), so a branch cut before a guard
           # existed is judged by today's guards, not by its own old copy.
@@ -211,6 +217,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          filter: blob:none
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Use Node 22
@@ -270,6 +277,7 @@ jobs:
         with:
           # The baseline is compared with main's, so main's history is needed.
           fetch-depth: 0
+          filter: blob:none
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Use Node 22
