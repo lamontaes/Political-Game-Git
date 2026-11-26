@@ -21,7 +21,7 @@
 import { seededBetween } from "./past-module";
 import { partySide } from "./modules/offices";
 import { officeFamily } from "./elections-calendar";
-import { OFFICIALS_DATA } from "./modules/executive";
+import { OFFICIALS_DATA } from "./officials-roster";
 import rows from "./data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, PersonState } from "./types";

@@ -81,12 +81,9 @@ import {
 import { promisesOf, votesOf } from "./record";
 import { partySide } from "./offices";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
-import {
-  CORRUPTION_MODULE_ID,
-  crimeRecord,
-  wantedFacts,
-  type CrimeRecord,
-} from "./corruption";
+import { CORRUPTION_MODULE_ID } from "./laws";
+import { crimeRecord } from "./justice";
+import { wantedFacts, type CrimeRecord } from "../laws-in-force";
 import { awardsOn } from "./budgets";
 import {
   CONTRACTS_MODULE_ID,
@@ -140,7 +137,7 @@ import {
   type WireItem,
   type WireLevel,
 } from "../press-topics";
-import { CRIME_EVENT, CRIME_MODULE_ID } from "./crime";
+import { CRIME_EVENT, CRIME_MODULE_ID } from "../laws-in-force";
 import {
   familyRelation,
   SCHOOL_MEASURE,

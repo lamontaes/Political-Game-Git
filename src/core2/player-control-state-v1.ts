@@ -1,5 +1,5 @@
 /** Root-internal explicit control and original trace ownership; not a client choice API. */
-import { FinanceReadGuard } from "./budgets-treasury";
+import { FinanceReadGuard } from "./finance-plan";
 import { P } from "./parameters";
 import type { ActOffer, CoreState, DecisionResult, PersonState } from "./types";
 

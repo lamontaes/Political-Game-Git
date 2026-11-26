@@ -167,8 +167,6 @@ export { enrichCivicInputs } from "../civic-inputs";
 export { openInterestGroups } from "./interest-groups";
 export { openBallotMeasures } from "./ballot-measures";
 export { openRecalls } from "./recalls";
-export { personLean } from "../campaign-views";
-export { legislativeDistrictResult } from "../legislative-district-results";
 export {
   NATIONAL_ENGAGEMENT,
   countedResidents,
@@ -178,6 +176,7 @@ export {
 export { StanceReader, candidateStance } from "../campaign-stances";
 export { publicOffset, questionAxis } from "../campaign-views";
 export { withMembershipDues } from "../membership-dues";
+export { refreshOfficeStaff } from "../civic-inputs";
 export { electionsParameter } from "../elections-calendar";
 
 export { candidatePlatform } from "../campaign-stances";

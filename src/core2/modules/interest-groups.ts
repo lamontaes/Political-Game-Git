@@ -45,17 +45,14 @@ import { concerns, meetingParameter } from "./meetings";
 import type { PersonState } from "../types";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
-import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
-import { groupBPolicy } from "../law-reach/group-b";
+import { lobbyingBarredUntil } from "../laws-in-force";
+import { groupBPolicy } from "../laws-in-force";
 import { businessEnergyCostYear } from "./place-prices";
 import { businessDataPrivacyCostYear } from "./business";
-import { jobsAt } from "../law-reach/group-b-money";
-import { reachParameter } from "../law-reach/group-b-people";
-import {
-  CORRUPTION_MODULE_ID,
-  considerBribe,
-  settleBribes,
-} from "./corruption";
+import { jobsAt } from "../laws-in-force";
+import { reachParameter } from "../laws-in-force";
+import { CORRUPTION_MODULE_ID, considerBribe } from "./laws";
+import { settleBribes } from "../laws-in-force";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";

@@ -76,7 +76,7 @@ import {
   electionLawTurnoutCost,
   automaticRegistrationInForce,
   sameDayRegistrationInForce,
-} from "../law-reach/group-a-voting";
+} from "../laws-in-force";
 import {
   countedParts,
   ensureKeptOff,
@@ -137,7 +137,7 @@ import type { LifeStake } from "../life-stake-rule";
 import { campaignParameter, platformLead, type Stance } from "../campaign-data";
 import { basePlaces, wideElectorate } from "../race-places";
 import { shareValue } from "../shares";
-import { holdoverRule } from "./executive";
+import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
   announce,
@@ -181,7 +181,7 @@ import {
   type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
-import { caseWarmthsOf } from "./executive";
+import { caseWarmthsOf } from "./constituent-cases";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
@@ -211,7 +211,7 @@ import {
   termEndAfter,
   termStartAfter,
 } from "../elections-calendar";
-import { drawOfficialIdentity } from "./executive";
+import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
 export { citizenShareOf } from "../electorate-places";
 import {
@@ -222,8 +222,7 @@ import {
   stateParties,
 } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
-import { caucusSide, nationalParty } from "./executive";
-import { partySide } from "./offices";
+import { caucusSide, nationalParty, partySide } from "../appointments";
 import { promisesOf, recordAppeal, votesOf, type RecordReason } from "./record";
 import {
   candidacyModule,
@@ -267,7 +266,7 @@ import {
   type CandidateReasons,
 } from "../electorate-inputs";
 import { residentsRuntime } from "./residents";
-import { scandalsOf } from "./corruption";
+import { scandalsOf } from "../laws-in-force";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
 import { keepsWhy } from "../why-kept";
