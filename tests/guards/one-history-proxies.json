@@ -15,8 +15,6 @@
   "readsInTheEngines": {
     "about": "The engines in src/core2/modules that still read a past of their own outside the one history reader (src/core2/past-history.ts): a raw past reader by name, a scan of the log, or a person's own facts or remembered list. CTO, Nov 26, from the owner: \"the reader needs to be like the main, it needs to be in the core ... it needs to be a game-wide thing.\" An engine's own tables are its present and the history it hands the reader, and are not counted. A count only goes down.",
     "files": {
-      "src/core2/modules/campaigns.ts": 2,
-      "src/core2/modules/candidacy.ts": 2,
       "src/core2/modules/counted-demotion.ts": 1,
       "src/core2/modules/elections.ts": 3,
       "src/core2/modules/jobs.ts": 1,
@@ -29,8 +27,7 @@
       "src/core2/modules/renewal.ts": 1,
       "src/core2/modules/school.ts": 5,
       "src/core2/modules/succession.ts": 1,
-      "src/core2/modules/views.ts": 2,
-      "src/core2/modules/voting.ts": 2
+      "src/core2/modules/views.ts": 2
     }
   }
 }
