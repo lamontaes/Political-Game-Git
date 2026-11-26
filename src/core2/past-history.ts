@@ -502,11 +502,16 @@ function recordById(core: CoreState, id: string): HistoryRow | undefined {
   return undefined;
 }
 
-/** The ids a record's facts name as its cause, each one a record that exists. */
+/**
+ * The ids a record's facts name as its cause, each one a record that exists:
+ * a stored record, or a fact one of the people it names was made with (a
+ * kinship that set a person's first work), as what it led to tells it.
+ */
 function causesOf(
   core: CoreState,
   id: string,
   facts: Readonly<Record<string, string>> | undefined,
+  personIds: readonly PersonId[] = [],
 ): string[] {
   // The whole record's facts: a person's own copy keeps only some of them.
   const whole =
@@ -519,7 +524,13 @@ function causesOf(
     const value = whole[key];
     if (value === undefined || value === null || value === "") continue;
     const named = String(value);
-    if (named !== id && !out.includes(named) && recordById(core, named))
+    if (named === id || out.includes(named)) continue;
+    if (
+      recordById(core, named) ||
+      personIds.some((personId) =>
+        core.people.get(personId)?.pastFacts?.some((fact) => fact.id === named),
+      )
+    )
       out.push(named);
   }
   return out;
@@ -584,7 +595,7 @@ function told(core: CoreState, row: HistoryRow): HistoryEvent {
   return Object.defineProperties(event, {
     causeIds: {
       enumerable: true,
-      get: () => (causes ??= causesOf(core, row.id, row.facts)),
+      get: () => (causes ??= causesOf(core, row.id, row.facts, row.personIds)),
     },
     ledTo: {
       enumerable: true,
@@ -682,7 +693,26 @@ export function historyEvent(
   id: string,
 ): HistoryEvent | undefined {
   const row = recordById(core, id);
-  return row ? told(core, row) : undefined;
+  if (row) return told(core, row);
+  // A fact a person was made with, told from their life as their own history
+  // tells it: on the person the id names, or (a hash that names no one) on
+  // whoever holds it.
+  const life = sourcesOf(core).life;
+  if (!life) return undefined;
+  const owners = id.startsWith("fact_")
+    ? [...core.people.keys()]
+    : ((id.match(/person_[0-9a-f]+/g) ?? []) as PersonId[]);
+  for (const personId of owners) {
+    if (!core.people.get(personId)?.pastFacts?.some((fact) => fact.id === id))
+      continue;
+    for (const built of life.rows(
+      core,
+      { person: personId },
+      { from: "built" },
+    ))
+      if (built.id === id) return told(core, built);
+  }
+  return undefined;
 }
 
 /**
