@@ -280,6 +280,13 @@ const READ_THROUGH_THE_READER: readonly {
     reason: "a member's bills come from sponsoredBills",
   },
   {
+    name: "outgoingHolder",
+    file: "src/director/swearing-in.ts",
+    scope: "function",
+    reason:
+      "the predecessor is the seat's term that ended that day, from historyOf (the offices engine's office.term), opened by its id",
+  },
+  {
     name: "lawDid",
     file: "src/bench/law-did.ts",
     scope: "function",
