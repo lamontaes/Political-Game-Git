@@ -94,38 +94,39 @@ scene-talk's lie is a different thing: the `reply.move === "lie"` branch builds 
 
 ## Decisions the plan rests on
 
-1. **Shape.** The engine becomes drivable one node at a time. Today the queue loop in `composeSceneTalk` makes, for a path, the reply menu and the asker's answer to a chosen reply. Slice 1 factors those two into functions the loop calls; `composeSceneTalk` keeps building the whole tree by calling them, and a home talk calls them for the turn it is on. A home talk is not built as a tree: its subjects come from live records and the player's own state, so a tree would be wrong the minute it was built.
-2. **Words.** Home talk's words are in the mined bank and scene talk's are in the scene bank. Two banks stay. The engine takes a `bank` on the move and calls `wordConversationMove` or `wordSceneMove` through one English-engine entry point, with the inputs home talk gives today. The text does not change, so before and after read the same. No line, bank or arc text is edited. (Not decided by me: whether the two banks should one day be one; that is a words question.)
-3. **Ranking.** The home talk ranks by reach and graded pairs; a scene by trait lean over act kinds. They are different rules for different needs. First migration keeps each as its own hook so nothing the player sees moves. **Question for the CTO:** whether a later change makes them one lean. It would change what the player sees, so it is not part of this plan.
-4. **Leaving.** In 74 of 83 purposes and 8 of 9 generic arcs `leave` is an arc reply, which I may not edit. The engine offers a reply only if the arc lists it. A home talk's arc lists none, so leaving stays the screen's control there. Scenes keep `leave` as they have it. **Question for the CTO:** the brief says "leaving as the screen's control, never a choice"; I read that as the home talk's rule from the header of `conversation.ts` and the scenes' arcs as theirs. Tell me if scenes should lose `leave` too.
-5. **Home arcs without editing arc text.** The engine needs an arc for a home subject (a state move, reply moves, follow moves). I will build them in code from the mined bank's own structure (`SubjectBank`: raise or ask is the state, answers are the replies), the way `variantArc` builds a variant's arc from `arc-variants.json`. Nothing is added to `purpose-arcs.json`. `src/director/arc-variant.ts` is in the history reader's file list, so I only import it. **Question for the CTO:** if you would rather have rows added to the arcs file (an addition, not an edit), say so.
-6. **Surface.** `openConversation`, `say`, `sayNothing`, `meetOverTalk`, `noteHeard`, `noteSceneHeard`, `doubtsClaim`, `beliefsModule` and the `Conversation`, `ConversationChoice` and `Subject` types keep their names and shapes. `src/bench/handler.ts`, `world.ts` and `sitting.ts` do not change, nor the roughly 40 test files that import conversation. Only `scene-talk.test.ts`-style tests that name tree internals can need an edit, and then only to point at the same behavior through the new function, never to loosen it.
+The CTO answered the open questions on Nov 26 (4:43 a.m. ET, #10377); the answers are folded in below.
 
-## Slices, each its own pull request
+1. **Shape.** A home talk stays stepwise: it is not built as a tree, because its subjects come from live records and the player's own state, and `sayNow` writes what the player told before it reads the other person's next line. The engine's two steps (the reply menu for a path, the asker's answer to a chosen reply) are what a home talk calls for the turn it is on; `composeSceneTalk` keeps building the whole tree for a scene by calling the same steps.
+2. **Words.** Home talk's words are in the mined bank and scene talk's are in the scene bank. Two banks stay, and no line is edited. The two pickers choose differently (the home picker by fit, what was heard today and calibration; the scene picker by closeness of fit and a stable pick by voice), so one picker would change which wording home talks say. Each stays a named hook of the one engine, and a family moves onto the engine only when the engine calls its own hook with the inputs the home talk gives today, so the picks do not move.
+3. **Ranking.** CTO ruling: two ranking hooks for now, each named, as a step. The end state is one rule, by which a person answers in talk the way they decide elsewhere. Reach and graded pairs stay the home hook; trait lean over act kinds stays the scene hook.
+4. **Leaving.** Scenes keep their `leave` replies (74 of 83 purposes list it); a home talk's arc lists none, so leaving stays the screen's control there. No CTO line has said scenes should lose `leave`.
+5. **Home arcs.** CTO ruling: rows in the arcs file, not code ("one engine reading its table"). Adding a row is not editing arc text; no existing row is changed. `src/director/data/conversation-rules.json` is mine to edit (talk rules, not bank lines).
+6. **Surface.** `openConversation`, `say`, `sayNothing`, `meetOverTalk`, `noteHeard`, `noteSceneHeard`, `doubtsClaim`, `beliefsModule` and the `Conversation`, `ConversationChoice` and `Subject` types keep their names and shapes. `src/bench/handler.ts`, `world.ts` and `sitting.ts` do not change, nor the roughly 40 test files that import conversation.
 
-Every slice is checked two ways: the Heavy checks fail no test file outside main's list of 216, and a before and after dump of the talks at fixed seeds. Until the first-evening packet script is on main, the stand-in is the seeds the existing conversation and scene-talk tests draw, named in each pull request. A difference is listed with its reason or the slice is wrong.
+## What the proof showed (Nov 26)
 
-0. **The dump and the mechanical check.** A script that composes every purpose's tree and runs a fixed set of home talks, writing the text, the parts and the record ids line by line; and a count of which functions of `conversation.ts` word or offer. No engine change. (Needs no wait.)
-1. **Factor the node steps out of `composeSceneTalk`.** Behavior identical; the 83 trees must dump byte for byte.
-2. **One word entry for both banks.** The engine takes `bank`; every home line is worded through it. Home talks dump identical.
-3. **Reply menu.** `offerChoices` and `rankChoices` onto the engine's reply step, rule by rule from R1 to R11, one rule per commit so a difference names its rule.
-4. **Answers.** `sayNow`'s answer paths onto the follow step: take, give-back, news, point, own-view, day, one pull request per family. The writes stay where they are.
+- **`answerInTalk` never speaks in play.** It is the one seam from a home talk into the scene engine, and the scene bank has no pieces for the `talk` purpose, so all 150 calls the dump makes return nothing. Rule R12 is the engine in code and dead in data. That is the owner's and Story's to say; it is not a bank edit for me.
+- **The caught side of a lie in a scene cannot be worded today:** 12 gaps say "lie (caught)", so no tree holds that branch. The believed side plays.
+- **A `vitest related` run on `scene-talk.ts` reaches nearly the whole suite,** so a slice's related-tests proof runs the test files that import it, head then base one after the other. Tests that draw places differ between a head run and a base run when both share the machine.
+
+## Slices, in order
+
+Each slice is a commit on one branch (one growing pull request, `ready` posted per slice), and each is proved by the talk dump (`scripts/words/talk-dump.ts`) on its parent and on its head: scenes, held parts with the lie caught, `answerInTalk`, and the home talks at fixed seeds (first reply, last reply, the scales with the beliefs a lie leaves).
+
+0. **Done.** The dump script.
+1. **Done.** One lean ordering for every pick in scene-talk (`byLean`), nine sites, byte for byte the same dump.
+2. **One family's answer path, end to end.** The family is the day-subject back answer (`sayNow`'s `dayBack` branch: their answer to a reply on a day's own subject, composed as `<kind>-back`). Its candidates and its answer rule become an arc row and engine code; the engine calls the home hook with the same inputs; the branch in `sayNow` is deleted. The pull request names the one rule or table the family now gets from the arc row and the `conversation-rules.json` entry the row replaced. A family that still passes in its own wording, ranking and filters is not merged.
+3. **The other answer families,** one at a time, each deleting its `sayNow` branch: take, give-back, news, own-view. The address's point waits for Story's open item.
+4. **The reply menu.** `offerChoices` and `rankChoices` onto the engine's reply step, rule by rule from R1 to R11, once every kind has moved: it is one generic function, and it can only go when its last caller has.
 5. **The lie.** `lieChoices` onto the engine; the scales set and the belief rows dump identical.
 6. **Open and close.** Greeting, goodbye, phone, hard news, `carryOn`.
-7. **Delete.** The 21 functions, their tables in `conversation-rules.json` that nothing reads, and the tests that only tested them (each named in the pull request).
-
-Slices 1 to 7 start from main after the history reader's pull request merges. Slice 0 does not touch an engine file.
+7. **Delete.** The 21 functions, the tables in `conversation-rules.json` that nothing reads, and the tests that only tested them.
 
 ## Work in the same code
 
-The open pool item `director-address-point-four-replies-by-trait` (Story) adds the address point's four replies inside `conversation.ts`'s point path (`pointAnswerable`, `answerPoint`). Slice 4's point family must not start before that item merges or its owner says to go ahead; I will ask on #10377 before slice 4.
+The open pool item `director-address-point-four-replies-by-trait` (Story) adds the address point's four replies inside `conversation.ts`'s point path (`pointAnswerable`, `answerPoint`). The point family does not start before that item merges or its owner says to go ahead.
 
-## Questions for the CTO
+## Still open
 
-Reading line (`look-first`): I searched `OWNER-DECISIONS.md` and `DECISION-REGISTER.md` for the leaving rule, the reply ranking, graded move pairs and the arcs file, and `docs/pool/items` for the two talk engines; none answers these questions. I did not search `prior-rulings` or the owner's Drive.
-
-- Decision 3: keep two ranking hooks for now?
-- Decision 4: does "leaving is the screen's control, never a choice" also bind the scenes' `leave` replies?
-- Decision 5: build home arcs in code (my plan) or add rows to the arcs file?
-- `src/director/data/conversation-rules.json` is not in my file list and slice 3 to 7 edit it. May I?
-- The history reader's file list names `conversation.ts`. When its pull request merges, I need a "History:" line on #10377 and which of its changes to `conversation.ts` it considers final.
+- Whether scenes should lose `leave` as well as home talks (decision 4).
+- The first-evening packet seeds are not named in any text I can read; History is asked on #10377 to post the six values, and the dump adds them.
