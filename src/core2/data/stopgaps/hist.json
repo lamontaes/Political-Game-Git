@@ -250,7 +250,7 @@
     "why": "The century runs a hundred years of every body before day one; the bill engine runs one played body's bills, and the century's members are results until someone opens them.",
     "addedBy": "History lane (claude/history-laws)",
     "addedAt": "2026-11-17",
-    "replacement": "The century runs the bill engine for the played town's state (drafting, committee, floor, the governor's desk), with members filled in on open.",
+    "replacement": "The century runs the bill engine for the played town's state (drafting, committee, floor, the governor's desk), with members filled in on open. Measured Nov 26, 2026 (Past and day one, map row 14, #10377): the engine route needs a CoreState with offices, seats, terms, people, the laws module and the calendar, and the century (runCentury, runLegislatures) is a pure function of the seed that runs before any of them exist. One engine session costs about 0.3 s (CPU profile of buildBenchWorld, one seed, a 16.8 s build with the century at 5.7 s of it), so 100 years of the played state is about 29 s and Congress about 29 s more, before committee, floor weeks and the governor's desk: far over the 20% speed rule. A faithful replacement has to run only the played state's last few sessions inside a pre-day-one pass in the government phase, with a decision on what the century hands over; it is not a swap of lawSession.",
     "status": "open"
   },
   {
