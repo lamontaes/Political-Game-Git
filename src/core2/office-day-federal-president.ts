@@ -476,7 +476,12 @@ export function confirmGivenVotes(api: CoreAPI, presidentId: string): void {
       presidentId,
       post,
       row.nomineeId!,
-      { yes: String(decided.yes), no: String(decided.no) },
+      {
+        yes: String(decided.yes),
+        no: String(decided.no),
+        // The nomination the vote decided, by its own record.
+        causeId: `cabinet-nominated:${row.postId}:${row.date}`,
+      },
     );
   }
 }

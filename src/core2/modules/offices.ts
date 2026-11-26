@@ -409,7 +409,8 @@ export const OFFICES_MODULE: PreStartModule & HistoryModule = {
     }
     for (const personId of event.personIds)
       for (const term of servingTermsOf(api, personId)) {
-        if (event.kind === "life.death") vacateSeat(api, term.seatId, "death");
+        if (event.kind === "life.death")
+          vacateSeat(api, term.seatId, "death", undefined, event.id);
         else if (
           !livesWithin(
             api,
@@ -417,7 +418,7 @@ export const OFFICES_MODULE: PreStartModule & HistoryModule = {
             event.facts?.[`person:${personId}:residence`] ?? event.topic,
           )
         )
-          vacateSeat(api, term.seatId, "moved away");
+          vacateSeat(api, term.seatId, "moved away", undefined, event.id);
       }
   },
   onCalendarWork: officesCalendarWork,
@@ -1840,6 +1841,8 @@ export function vacateSeat(
   cause: string,
   /** The rule the law sets for this one vacancy (a Vice Mayor's seat left by one who rose to Mayor stays vacant), else the office's own. */
   only?: VacancyRule,
+  /** The record the seat fell vacant from (a death, a move away), where the caller holds it. */
+  causeRecordId?: string,
 ): VacancyRow | null {
   const term = table(api, "terms").query("bySeatStatus", [
     seatId,
@@ -1885,6 +1888,7 @@ export function vacateSeat(
       seatId,
       cause,
       rule: office.vacancyRule.method,
+      ...(causeRecordId ? { causeRecordId } : {}),
     },
   });
   const filled = fillVacancy(api, office, seat, vacancy, term);

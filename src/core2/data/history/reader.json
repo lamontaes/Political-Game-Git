@@ -14,7 +14,8 @@
     "billId",
     "lawId",
     "addressId",
-    "pushedBy"
+    "pushedBy",
+    "cause"
   ],
   "householdFacts": ["householdId"],
   "employerFacts": ["organizationId", "employerId", "businessId", "firmId"],

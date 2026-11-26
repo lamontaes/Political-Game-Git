@@ -26,7 +26,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const CAME_OF = ["billId", "lawId"] as const;
 
 it(
-  "a record's bill or law is its cause, and the bill or law says what it led to",
+  "a record's bill, law or nomination is its cause, and it says what it led to",
   { timeout: 900_000 },
   async () => {
     setBookkeeping(false);
@@ -35,6 +35,7 @@ it(
     // passed over by name and the place drawn again.
     const passed: string[] = [];
     let checked = 0;
+    let votes = 0;
     let where = "";
     for (let again = 0; !checked && again < 6; again++) {
       const drawSeed = again ? `${seed}:again:${again}` : seed;
@@ -59,6 +60,7 @@ it(
       }
       const { core } = world;
       advanceCore(core, addDays(makeIsoDate(core.date), 120));
+      votes = 0;
       for (const event of historyOf(core, { nation: true })) {
         const whole =
           core.durableLog.get(event.id as never)?.facts ?? event.facts ?? {};
@@ -77,12 +79,30 @@ it(
           ).toContain(event.id);
           checked += 1;
         }
+        // The Senate's vote on a cabinet nominee came of the nomination.
+        if (
+          event.record === "cabinet-confirmed" ||
+          event.record === "cabinet-rejected"
+        ) {
+          const nomination = event.causeIds.find((id) =>
+            id.startsWith("cabinet-nominated:"),
+          );
+          expect(
+            nomination,
+            `${where}: ${event.id} names no nomination`,
+          ).toBeDefined();
+          expect(
+            historyEvent(core, nomination!)?.ledTo,
+            `${where}: ${nomination} led to ${event.id}`,
+          ).toContain(event.id);
+          votes += 1;
+        }
       }
       if (!checked)
         passed.push(`${where}: no record named an earlier bill or law`);
     }
     console.log(
-      `history causes: ${where}: ${checked} records name the bill or law they came of, each its cause${passed.length ? `; passed over: ${passed.join("; ")}` : ""}`,
+      `history causes: ${where}: ${checked} records name the bill or law they came of, and ${votes} cabinet votes their nomination, each its cause${passed.length ? `; passed over: ${passed.join("; ")}` : ""}`,
     );
     expect(
       checked,
