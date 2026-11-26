@@ -51,7 +51,6 @@ import {
 import { seededUnit } from "./seeded";
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import { readinessOf } from "./turnout";
-import { sessionWindows } from "./state-session-calendar";
 import { gameStartDate } from "./game-start";
 import { stateOffices } from "./modules/offices";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
@@ -97,6 +96,11 @@ const openings = new Map<string, string>();
  * anything reads the offices.
  */
 const townStates = new Map<string, string>();
+/** The played state's last regular sitting before day one, named by the build (`tooling/past-sessions.ts`). */
+const townSittings = new Map<
+  string,
+  { year: number; conveneAt: string; adjournAt: string }
+>();
 
 export function setHistoryMode(
   seed: string,
@@ -104,11 +108,15 @@ export function setHistoryMode(
   startDate?: string,
   /** The played town's state (`US-XX`): its legislature is counted seat by seat. */
   townState?: string,
+  /** The played state's last regular sitting before day one, which the real bill engine runs. */
+  sitting?: { year: number; conveneAt: string; adjournAt: string },
 ): void {
   if (mode === "century") modes.delete(seed);
   else modes.set(seed, mode);
   if (startDate) openings.set(seed, startDate);
   if (townState) townStates.set(seed, townState);
+  if (sitting) townSittings.set(seed, sitting);
+  else townSittings.delete(seed);
 }
 
 /** The day a world's century runs up to: the one its build recorded, else the game's start. */
@@ -1828,24 +1836,6 @@ export interface PastSessionPlan {
 
 const pastPlans = new Map<string, PastSessionPlan>();
 
-/** A state's last regular sitting that adjourned before `startDate`, within a few years back. */
-function lastSittingBefore(
-  stateKey: string,
-  startDate: string,
-): { year: number; conveneAt: string; adjournAt: string } | undefined {
-  const first = Number(startDate.slice(0, 4));
-  for (let year = first; year >= first - 3; year -= 1) {
-    const window = sessionWindows(stateKey, year)[0];
-    if (!window) continue;
-    const adjournAt = /^\d{4}-\d{2}-\d{2}$/.test(window.adjournAt)
-      ? window.adjournAt
-      : `${year}-12-31`;
-    if (adjournAt < startDate)
-      return { year, conveneAt: window.conveneAt, adjournAt };
-  }
-  return undefined;
-}
-
 /**
  * The century's state legislatures, a pass of their own after the century's other offices: no
  * President, member of Congress or statewide officer reads a legislature's count, so it is run on
@@ -1879,9 +1869,7 @@ export function* runLegislatures(
   const voters = centuryVoters();
   const stateLaws = new Map<string, CenturyLaw>();
   const townState = townStates.get(seed);
-  const pastSitting = townState
-    ? lastSittingBefore(townState, startDate)
-    : undefined;
+  const pastSitting = townState ? townSittings.get(seed) : undefined;
   let pastRoster:
     | {
         year: number;

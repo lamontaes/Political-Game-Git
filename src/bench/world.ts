@@ -28,7 +28,10 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
-import { applyPastSessionLaws, pastSessionLaws } from "../core2/past-sessions";
+import {
+  applyPastSessionLaws,
+  pastSessionLaws,
+} from "../core2/tooling/past-sessions";
 import type { EntityId } from "../core2/kernel/brands";
 import { coreAPI } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
@@ -553,6 +556,8 @@ function* benchWorldStages(
     settings.history ?? "century",
     startDate,
     placeStateKey(place.key) ?? undefined,
+    // The played state's last sitting before day one runs through the real bill engine (row 14).
+    lastSittingBefore(placeStateKey(place.key) ?? "", startDate),
   );
   const minimumPeople = settings.population ?? options.minimumPeople;
   // With no birthday chosen the player is the default age, 18.

@@ -1232,7 +1232,11 @@ function sittingExecutiveNow(
 }
 
 const SITTING_CALENDAR = {
-  owns: (api: CoreAPI, officeId: string) => bodyOf(api, officeId) !== undefined,
+  // The readers are one list for every world in the process: a world that has not opened this
+  // engine yet (a small world's neighbor) owns no body.
+  owns: (api: CoreAPI, officeId: string) =>
+    api.state.modules.has(WORLD_LEGISLATING_MODULE_ID) &&
+    bodyOf(api, officeId) !== undefined,
   // The members, and the executive who sits with them (a mayor at the
   // council's meetings), each from the day their service began.
   seats: (api: CoreAPI, officeId: string) => {
@@ -1324,6 +1328,7 @@ function nextSitting(
   bodyOfficeId: string,
   after?: string,
 ): Sitting | null {
+  if (!api.state.modules.has(WORLD_LEGISLATING_MODULE_ID)) return null;
   const today = api.state.date;
   // The sitting after a given day, for a town or county body that meets on its
   // own rule: a bill posted too late for the notice law waits for it.
@@ -2467,6 +2472,7 @@ function sittingFor(
  * reaches it.
  */
 export function floorDateOf(api: CoreAPI, billId: string): string | null {
+  if (!api.state.modules.has(WORLD_LEGISLATING_MODULE_ID)) return null;
   const bill = api
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("bills")
@@ -2491,6 +2497,7 @@ export function floorDateOf(api: CoreAPI, billId: string): string | null {
  * introduced into a sitting legislature is put on the calendar for.
  */
 function projectedFloorDate(api: CoreAPI, billId: string): string | null {
+  if (!api.state.modules.has(WORLD_LEGISLATING_MODULE_ID)) return null;
   const bill = api
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("bills")

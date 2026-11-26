@@ -11,24 +11,43 @@
  * enacts is handed to the day-one world (`applyPastSessionLaws`), dated as the engine dated it. The
  * small world reads the real day-one date for the century, so no second century is run.
  */
-import { buildPopulation } from "./population";
-import { advanceCore, createLifeCore } from "./life";
-import { addDays, makeIsoDate } from "./kernel/dates";
-import { chamberLabel, pastSessionPlan } from "./electorate-century";
-import { enactLaw, LAWS_MODULE_ID, openLaws } from "./modules/laws";
+import { buildPopulation } from "../population";
+import { advanceCore, createLifeCore } from "../life";
+import { addDays, makeIsoDate } from "../kernel/dates";
+import { chamberLabel, pastSessionPlan } from "../electorate-century";
+import { enactLaw, LAWS_MODULE_ID, openLaws } from "../modules/laws";
 import {
   openOffices,
   OFFICES_MODULE_ID,
   type TermRow,
-} from "./modules/offices";
-import { openRecord } from "./modules/record";
-import { openLegislature } from "./modules/legislature";
-import { openWorldLegislating } from "./modules/world-legislating";
-import { coreAPI } from "./state";
-import { parameter } from "./parameters";
-import { pastParameter } from "./past-module";
-import type { LawRowInput } from "./laws-starting";
-import type { CoreState } from "./types";
+} from "../modules/offices";
+import { openRecord } from "../modules/record";
+import { openLegislature } from "../modules/legislature";
+import { openWorldLegislating } from "../modules/world-legislating";
+import { coreAPI } from "../state";
+import { parameter } from "../parameters";
+import { pastParameter } from "../past-module";
+import { sessionWindows } from "../state-session-calendar";
+
+/** A state's last regular sitting that adjourned before `startDate`, within a few years back. */
+export function lastSittingBefore(
+  stateKey: string,
+  startDate: string,
+): { year: number; conveneAt: string; adjournAt: string } | undefined {
+  const first = Number(startDate.slice(0, 4));
+  for (let year = first; year >= first - 3; year -= 1) {
+    const window = sessionWindows(stateKey, year)[0];
+    if (!window) continue;
+    const adjournAt = /^\d{4}-\d{2}-\d{2}$/.test(window.adjournAt)
+      ? window.adjournAt
+      : `${year}-12-31`;
+    if (adjournAt < startDate)
+      return { year, conveneAt: window.conveneAt, adjournAt };
+  }
+  return undefined;
+}
+import type { LawRowInput } from "../laws-starting";
+import type { CoreState } from "../types";
 
 /** The laws the engine's sitting enacted, as rows the day-one world can take. */
 export function pastSessionLaws(
