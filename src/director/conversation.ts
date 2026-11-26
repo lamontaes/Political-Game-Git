@@ -171,7 +171,15 @@ import {
   bribeRoleOf,
 } from "../core2/modules/justice";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
-import { answerBack, answerInTalk, answerLeavesOutTold } from "./scene-talk";
+import {
+  answerBack,
+  answerInTalk,
+  answerLeavesOutTold,
+  answerOwnView,
+  ownViewReplies,
+  ownViewTakes,
+  ownViewWhy,
+} from "./scene-talk";
 import {
   declineInSitting,
   openSitting,
@@ -7191,7 +7199,7 @@ function offerChoices(
       // Every reply to the address's point is answered, in composed words,
       // and so is asking someone why they stand where they do.
       (last.kind === POINT && pointAnswerable(last.facts, choiceKey)) ||
-      (last.kind === "own-view" && choiceKey === OWN_VIEW_WHY) ||
+      (last.kind === "own-view" && ownViewWhy(choiceKey)) ||
       // A day's own subject answers every reply, in composed words.
       dayBack(last.kind) ||
       // A question turned back the asker's give-back answers ("Why do you
@@ -7326,8 +7334,8 @@ function offerChoices(
   // A stand is answered by agreeing, disagreeing or asking why (owner, Nov
   // 12: "Good to know." is not a reply to a stand).
   if (last.kind === "own-view")
-    conversation.choices = conversation.choices.filter(
-      (row) => OWN_VIEW_TAKES.includes(row.move) || row.move === OWN_VIEW_WHY,
+    conversation.choices = conversation.choices.filter((row) =>
+      ownViewReplies().includes(row.move),
     );
   // A reply that only takes the line in ("Oh, I see.", "Alright.") says
   // nothing and gets nothing back: it is not offered (owner, Nov 12: "the
@@ -8191,24 +8199,27 @@ function sayNow(
     });
   // Asked why they stand where they do, they answer from the reason on
   // record (their work, or money in their town), in composed words.
-  if (last.kind === "own-view" && !choice.lie && choice.move === OWN_VIEW_WHY) {
-    const back = composedLine(
-      core,
-      otherId,
-      OWN_VIEW_BACK,
-      { ...last.facts, ...youIn(core, conversation, otherId, playerId) },
-      "default",
-      `${eventId}:back`,
-      saidParts(conversation, otherId),
-    );
+  if (last.kind === "own-view" && !choice.lie && ownViewWhy(choice.move)) {
+    const back = answerOwnView(core, {
+      replyMove: choice.move,
+      speakerId: otherId,
+      momentKey: `${eventId}:back`,
+      facts: last.facts,
+      held: undefined,
+      shape: (facts) => ({
+        ...facts,
+        ...youIn(core, conversation, otherId, playerId),
+      }),
+      saidParts: saidParts(conversation, otherId),
+    });
     if (back)
       conversation.lines.push({
         speakerId: otherId,
         subjectId: choice.answers,
-        kind: OWN_VIEW_BACK,
+        kind: back.subject,
         act: "tell",
-        ...back,
-        sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+        ...back.line,
+        sourceRecordIds: [...new Set([...back.line.sourceRecordIds, eventId])],
       });
     carryOn(core, conversation, data);
     return conversation;
@@ -8220,7 +8231,7 @@ function sayNow(
     last.kind === "own-view" &&
     !choice.lie &&
     last.subject.news?.question &&
-    OWN_VIEW_TAKES.includes(choice.move)
+    ownViewTakes(choice.move)
   ) {
     const question = last.subject.news.question;
     for (const hearerId of hearers) {
@@ -8238,36 +8249,27 @@ function sayNow(
   // (their work, their money): what they will do or expect, never only
   // that the two agree (words composer, Nov 12). Composed under
   // `own-view-take` by the reply's move; the talk carries on after.
-  if (
-    last.kind === "own-view" &&
-    !choice.lie &&
-    OWN_VIEW_TAKES.includes(choice.move)
-  ) {
-    const back = composedLine(
-      core,
-      otherId,
-      OWN_VIEW_TAKE,
-      {
-        ...last.facts,
+  if (last.kind === "own-view" && !choice.lie && ownViewTakes(choice.move)) {
+    const back = answerOwnView(core, {
+      replyMove: choice.move,
+      speakerId: otherId,
+      momentKey: `${eventId}:take`,
+      facts: last.facts,
+      held: conversation.topicFacts,
+      shape: (facts) => ({
+        ...facts,
         ...youIn(core, conversation, otherId, playerId),
-        // The story the talk opened on already says how it came out: no
-        // reply that waits to see.
-        ...(conversation.topicFacts?.["story-decided"]
-          ? { "story-decided": conversation.topicFacts["story-decided"] }
-          : {}),
-      },
-      choice.move,
-      `${eventId}:take`,
-      saidParts(conversation, otherId),
-    );
+      }),
+      saidParts: saidParts(conversation, otherId),
+    });
     if (back)
       conversation.lines.push({
         speakerId: otherId,
         subjectId: choice.answers,
-        kind: OWN_VIEW_TAKE,
+        kind: back.subject,
         act: "tell",
-        ...back,
-        sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+        ...back.line,
+        sourceRecordIds: [...new Set([...back.line.sourceRecordIds, eventId])],
       });
     // A story that already says how it came out leaves nothing to wait to
     // see: with no take that fits, the talk carries on with no filler line.
@@ -8628,14 +8630,6 @@ function dayBack(kind: string): boolean {
     !!composedConversationBank(`${kind}-back`)
   );
 }
-
-/** The player's replies to where someone stands that say where the player stands. */
-const OWN_VIEW_TAKES: readonly string[] = ["agree", "disagree"];
-/** The player's reply that asks them why, and the subject their answer is composed under. */
-const OWN_VIEW_WHY = "why";
-const OWN_VIEW_BACK = "own-view-back";
-/** The subject their answer to an agreeing or disagreeing reply on where they stand is composed under. */
-const OWN_VIEW_TAKE = "own-view-take";
 
 /** The subject the other person's answer to a reply on news is composed under. */
 const NEWS_BACK = "news-back";

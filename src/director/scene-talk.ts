@@ -212,6 +212,13 @@ const HOME = (
       dayBack: {
         omitsTold: { kinds: readonly string[]; figures: readonly string[] };
       };
+      ownView: {
+        why: string;
+        takes: readonly string[];
+        backSubject: string;
+        takeSubject: string;
+        takeCarries: readonly string[];
+      };
     };
   }
 ).home;
@@ -654,6 +661,67 @@ export function answerBack(
     input.momentKey,
     input.saidParts,
   );
+}
+
+/** The replies to where someone stands that the talk answers: asking why, and agreeing or disagreeing. */
+export function ownViewReplies(): readonly string[] {
+  return [HOME.ownView.why, ...HOME.ownView.takes];
+}
+
+/** Whether a reply to where someone stands says where the player stands (agree or disagree). */
+export function ownViewTakes(replyMove: string): boolean {
+  return HOME.ownView.takes.includes(replyMove);
+}
+
+/** Whether a reply to where someone stands asks them why. */
+export function ownViewWhy(replyMove: string): boolean {
+  return replyMove === HOME.ownView.why;
+}
+
+/**
+ * The other person's answer to the player's reply on where they stand: asked
+ * why, they answer from the reason on record (their work, or money in their
+ * town), composed under `backSubject`; agreed or disagreed with, they answer
+ * from the same reason under `takeSubject` by the reply's move, carrying the
+ * facts the talk already holds (`takeCarries`: a story that already says how
+ * it came out leaves no reply that waits to see). Null for any other reply
+ * and where no wording fits.
+ */
+export function answerOwnView(
+  core: Readonly<CoreState>,
+  input: {
+    replyMove: string;
+    speakerId: PersonId;
+    momentKey: string;
+    facts: Readonly<Record<string, Fact>>;
+    /** The facts the talk holds that a take carries on (the story's own). */
+    held: Readonly<Record<string, Fact>> | undefined;
+    /** The talk's own additions to the facts (whether the speaker already named the player). */
+    shape: (facts: Record<string, Fact>) => Record<string, Fact>;
+    saidParts: readonly string[];
+  },
+): { subject: string; line: Said } | null {
+  const { why, takes, backSubject, takeSubject, takeCarries } = HOME.ownView;
+  const asked = input.replyMove === why;
+  if (!asked && !takes.includes(input.replyMove)) return null;
+  const subject = asked ? backSubject : takeSubject;
+  const carried = asked
+    ? {}
+    : Object.fromEntries(
+        takeCarries.flatMap((name) =>
+          input.held?.[name] ? [[name, input.held[name]]] : [],
+        ),
+      );
+  const line = composedLine(
+    core,
+    input.speakerId,
+    subject,
+    { ...input.shape({ ...input.facts }), ...carried },
+    asked ? "default" : input.replyMove,
+    input.momentKey,
+    input.saidParts,
+  );
+  return line ? { subject, line } : null;
 }
 
 /** Where the exchange stands as a branch grows. */

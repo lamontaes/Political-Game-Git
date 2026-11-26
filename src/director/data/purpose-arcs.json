@@ -4707,7 +4707,14 @@
     }
   },
   "home": {
-    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
+    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). Where someone says where they stand (`ownView`), the player may ask why (`why`) or agree or disagree (`takes`): the answer to why is composed under `backSubject`, the answer to a take under `takeSubject` by the reply's move, carrying the facts in `takeCarries` that the talk already holds. A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
+    "ownView": {
+      "why": "why",
+      "takes": ["agree", "disagree"],
+      "backSubject": "own-view-back",
+      "takeSubject": "own-view-take",
+      "takeCarries": ["story-decided"]
+    },
     "dayBack": {
       "omitsTold": {
         "kinds": [
