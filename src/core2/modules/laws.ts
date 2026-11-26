@@ -147,6 +147,8 @@ function lawHistoryPass(
 
 /** The record kind of a law a body passed, as the one history reader tells it. */
 export const LAW_ENACTED = "law.enacted";
+/** A law row on the day it governs from (`tookEffectHistory`). */
+export const LAW_TOOK_EFFECT = "law.took-effect";
 
 /**
  * A law a body passed, told on the day it passed (the row's own `retrieved`
@@ -185,29 +187,73 @@ function enactedHistory(core: CoreState, row: LawRowInput): HistoryRow {
   };
 }
 
-/** The laws bodies passed are history: the nation's, a state's or a place's, read by kind. */
+/**
+ * Every law row on the day it governs from: a law a body passed, one in force
+ * before the game, or a step its own statute scheduled. A row not yet in force
+ * is told on the day it will take effect, so a read `through` today leaves it
+ * out. Its id is the row's own, after the kind, so it never shares one with
+ * the row's `law.enacted`.
+ */
+function tookEffectHistory(core: CoreState, row: LawRowInput): HistoryRow {
+  const terms = row.terms ?? {};
+  const enacted = terms.enactedBy !== undefined;
+  return {
+    id: `${LAW_TOOK_EFFECT}:${row.id}`,
+    date: row.effectiveDate as HistoryRow["date"],
+    life: "law",
+    what: "took-effect",
+    record: LAW_TOOK_EFFECT,
+    from: enacted && row.retrieved >= core.startedAt ? "played" : "past",
+    personIds: [],
+    withIds: [],
+    facts: {
+      lawId: row.id,
+      jurisdiction: row.jurisdiction,
+      level: row.level,
+      series: row.series,
+      effectiveDate: row.effectiveDate,
+      ...(enacted ? { enactedBy: String(terms.enactedBy) } : {}),
+      ...(typeof terms.enactedByBill === "string"
+        ? { enactedByBill: terms.enactedByBill }
+        : {}),
+    },
+    publicRecord: true,
+  };
+}
+
+/** The laws are history: the nation's, a state's or a place's, read by kind. */
 const LAWS_HISTORY: HistorySource = {
   id: LAWS_MODULE_ID,
   rows(core, scope, ask) {
-    if (!ask.kinds?.includes(LAW_ENACTED) || !core.modules.has(LAWS_MODULE_ID))
+    const enacted = ask.kinds?.includes(LAW_ENACTED) === true;
+    const tookEffect = ask.kinds?.includes(LAW_TOOK_EFFECT) === true;
+    if ((!enacted && !tookEffect) || !core.modules.has(LAWS_MODULE_ID))
       return [];
     if ("person" in scope || "household" in scope || "employer" in scope)
       return [];
-    return (
-      coreAPI(core)
-        .moduleState(LAWS_MODULE_ID)
-        .table("laws")
-        .rows() as unknown as LawRowInput[]
-    )
-      .filter((row) => row.terms?.enactedBy !== undefined)
-      .map((row) => enactedHistory(core, row));
+    const rows = coreAPI(core)
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .rows() as unknown as LawRowInput[];
+    return [
+      ...(enacted
+        ? rows
+            .filter((row) => row.terms?.enactedBy !== undefined)
+            .map((row) => enactedHistory(core, row))
+        : []),
+      ...(tookEffect ? rows.map((row) => tookEffectHistory(core, row)) : []),
+    ];
   },
   row(core, id) {
     if (!core.modules.has(LAWS_MODULE_ID)) return undefined;
-    const row = coreAPI(core)
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .get(id) as unknown as LawRowInput | undefined;
+    const table = coreAPI(core).moduleState(LAWS_MODULE_ID).table("laws");
+    const prefix = `${LAW_TOOK_EFFECT}:`;
+    if (id.startsWith(prefix)) {
+      const row = table.get(id.slice(prefix.length)) as unknown as
+        LawRowInput | undefined;
+      return row ? tookEffectHistory(core, row) : undefined;
+    }
+    const row = table.get(id) as unknown as LawRowInput | undefined;
     return row?.terms?.enactedBy !== undefined
       ? enactedHistory(core, row)
       : undefined;
