@@ -65,9 +65,14 @@ export function summary(rows, top = 40) {
 
 /** Prefer the most specific family path, as the family guard does. */
 export function testFamily(file, map) {
+  // The game-only migration mirrors engine tests below tests/src.
+  const enginePath = file.startsWith("tests/src/")
+    ? file.slice("tests/".length)
+    : file;
   const candidates = [
     file,
-    file.replace(/\.(?:test|spec|browser|node-test)\./, "."),
+    enginePath,
+    enginePath.replace(/\.(?:test|spec|browser|node-test)\./, "."),
   ];
   const matches = (glob) =>
     candidates.some((candidate) => path.posix.matchesGlob(candidate, glob));

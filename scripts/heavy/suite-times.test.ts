@@ -50,6 +50,9 @@ describe("nightly full-suite failure reporting", () => {
     expect(testFamily("src/bench/x.test.ts", map)).toBe(
       "Screens and the UI kit",
     );
+    expect(testFamily("tests/src/bench/x.test.ts", map)).toBe(
+      "Screens and the UI kit",
+    );
     expect(testFamily("tests/releases/unknown.test.ts", map)).toBe("unmapped");
   });
 });
