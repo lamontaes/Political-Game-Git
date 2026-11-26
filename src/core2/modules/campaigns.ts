@@ -152,7 +152,6 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
-export { campaignDayChoices } from "../campaign-day";
 export { filingClerkFor } from "./filing-clerk";
 export { choosesPresident } from "../electorate-places";
 export {
@@ -163,6 +162,7 @@ export {
   partyMemberIds,
   partyStands,
 } from "./parties";
+export { campaignDayChoices } from "../campaign-day";
 export { enrichCivicInputs } from "../civic-inputs";
 export { openInterestGroups } from "./interest-groups";
 export { openBallotMeasures } from "./ballot-measures";

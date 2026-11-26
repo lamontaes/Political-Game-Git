@@ -69,15 +69,9 @@
     "src/core2/membership-dues.ts": 1,
     "src/core2/modules/budgets.ts": 4,
     "src/core2/modules/business.ts": 6,
-<<<<<<< HEAD
     "src/core2/modules/campaigns.ts": 4,
     "src/core2/modules/candidacy.ts": 3,
-    "src/core2/modules/constituent-cases.ts": 1,
-=======
-    "src/core2/modules/campaigns.ts": 8,
-    "src/core2/modules/candidacy.ts": 5,
     "src/core2/modules/constituent-cases.ts": 2,
->>>>>>> claude/lucid-lovelace-wjgvtx-reach-5-executive
     "src/core2/modules/contracts.ts": 1,
     "src/core2/modules/counted-demotion.ts": 2,
     "src/core2/modules/counted-moves.ts": 2,
@@ -89,7 +83,7 @@
     "src/core2/modules/finance.ts": 2,
     "src/core2/modules/health.ts": 1,
     "src/core2/modules/housing.ts": 6,
-    "src/core2/modules/interest-groups.ts": 6,
+    "src/core2/modules/interest-groups.ts": 8,
     "src/core2/modules/jobs.ts": 10,
     "src/core2/modules/justice.ts": 1,
     "src/core2/modules/laws.ts": 1,
