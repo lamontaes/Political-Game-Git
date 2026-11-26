@@ -2,7 +2,7 @@
  * How an official's term is going, read by policy area (owner, Nov 8: "if
  * you're having a good term except for education, then you might get a
  * strike"). Each area is a few of the outcome web's own measures
- * (`data/term-read/areas.json`); an area's read is how far those measures
+ * (`src/core2/data/term-read/areas.json`); an area's read is how far those measures
  * moved between the web's row at the start of the term and its newest row,
  * a slide between -1 and 1, never a pass or fail. The read cites the two
  * rows, so anything built on it (an address's bad news, a group's walkout)
@@ -410,13 +410,6 @@ export function countryTermRead(api: CoreAPI, sinceDate: string): AreaRead[] {
     ];
   });
   return withFigured(figured, rest);
-}
-
-/** The term as a whole: the mean of its areas' slides (0 when nothing is read yet). */
-export function overallSlide(reads: readonly AreaRead[]): number {
-  return reads.length
-    ? reads.reduce((sum, row) => sum + row.slide, 0) / reads.length
-    : 0;
 }
 
 /**

@@ -73,6 +73,8 @@ done
 
 Brief each helper to call `<scratchpad>/slot.sh <command>`.
 
+The term reader returns its evidence by policy area. Use those area reads rather than looking for a separate overall slide helper.
+
 ## Campaign and voting records: per race or per person
 
 Use this when the speed lead asks who reads a table before folding it. Answer from a grep of every non-test reader on main, saying for each one whether it filters by the contest or a window, with file and line.
