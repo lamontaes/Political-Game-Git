@@ -37,7 +37,7 @@ import {
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import { townSeats, type TermRow } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
-import { billCatalog } from "../core2/modules/meetings";
+import { billCatalog } from "../core2/bill-catalog";
 import {
   chargedServicesOf,
   governmentOfJurisdiction,
