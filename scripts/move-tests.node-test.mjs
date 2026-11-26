@@ -43,6 +43,7 @@ test("moves relative test imports and source imports, preserves paths, and rerun
       ].join("\n"),
     );
     write("docs/demo.md", "`src/demo/value.test.ts`\n");
+    write("src/bench/m1-10-check.ts", "// See src/demo/value.test.ts.\n");
     write("tsconfig.node.json", '{\n  "include": ["src/demo/**/*.ts"]\n}\n');
     git("add", ".");
     assert.match(run("--dry-run"), /2 moves/);
@@ -54,6 +55,10 @@ test("moves relative test imports and source imports, preserves paths, and rerun
     assert.match(moved, /from "\.\/other\.test"/);
     assert.match(moved, /src\/demo\/value\.test\.ts", import\.meta\.url/);
     assert.equal(read("docs/demo.md"), "`tests/src/demo/value.test.ts`\n");
+    assert.equal(
+      read("src/bench/m1-10-check.ts"),
+      "// See tests/src/demo/value.test.ts.\n",
+    );
     assert.match(
       read("tsconfig.node.json"),
       /tests\/src\/demo\/value\.test\.ts/,

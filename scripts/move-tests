@@ -172,10 +172,6 @@ const testSelector = String.raw`\.test\.tsx?$`;
 const testAndSpecSelector = String.raw`\.(test|spec)\.tsx?$`;
 const noteRewrites = new Map([
   [
-    "src/bench/m1-10-check.ts",
-    [["src/core2/views.test.ts", "tests/src/core2/views.test.ts"]],
-  ],
-  [
     "tests/src/bench/history-reader-proof.test.ts",
     [
       [
@@ -301,7 +297,11 @@ for (const file of tracked) {
   if (scriptFile.test(file)) after = updateCode(file, destination, after);
   // Prose, tools and test commands use repository-relative paths.
   // Game source and word banks stay byte-identical except actual cross-test imports.
-  if (!/^(?:src|public|art|data)\//.test(file) || destination !== file)
+  if (
+    !/^(?:src|public|art|data)\//.test(file) ||
+    destination !== file ||
+    file === "src/bench/m1-10-check.ts"
+  )
     after = after.replace(explicit, (match) => redirects.get(match) ?? match);
   for (const [from, to] of noteRewrites.get(destination) ?? [])
     after = after.replaceAll(from, to);
@@ -316,6 +316,9 @@ for (const file of tracked) {
   if (after !== before || destination !== file)
     changes.push({ file, destination, after });
 }
+if (process.argv.includes("--list"))
+  for (const { file, destination } of changes)
+    console.log(file === destination ? file : `${file} -> ${destination}`);
 for (const { file, destination, after } of changes) {
   if (dryRun) continue;
   if (destination !== file) {
