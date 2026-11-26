@@ -2,7 +2,7 @@
 
 For the CTO to train in one pass. Base: main at `ea60e9eb47` (where the stack was cut). Main has since moved to `231ab84861`; merge main into the top head before training it.
 
-**One head holds everything:** `claude/lucid-lovelace-wjgvtx-reach-16-leaf-constants` at the commit that adds this note (code is `f17c248b7a`). From `reach-7-screens` upward each head is an ancestor of the next. The six heads below it (`reach-1` to `reach-6`) were rebuilt after load-order fixes, so they are not ancestors of `reach-7`; their changes are in the top head's tree and the heads stay for review in the order listed. Train the top head, or fold the list from the bottom if you prefer small steps.
+**One head holds everything:** `claude/lucid-lovelace-wjgvtx-reach-17-trait-lean` at `f175cf0927`. From `reach-7-screens` upward each head is an ancestor of the next. The six heads below it (`reach-1` to `reach-6`) were rebuilt after load-order fixes, so they are not ancestors of `reach-7`; their changes are in the top head's tree and the heads stay for review in the order listed. Train the top head, or fold the list from the bottom if you prefer small steps.
 
 Branch names drop the prefix `claude/lucid-lovelace-wjgvtx-`. "Reach-ins" is the families baseline total after that head (main: 575).
 
@@ -34,6 +34,6 @@ Separate, not in the chain: `skill-note` (`5763bd0568`, #10659), a skills-only c
 
 ## Numbers
 
-- Reach-ins: 575 → 298. Import cycles: main 1219 edges in 235 files; stack top 1317 / 249 (baseline file `tests/guards/import-cycles-baseline.json`, which may only shrink from here). The stack added about 100 edges because the front doors are heavy files that sit inside the big cycle; reading a front door instead of a leaf file puts one more edge in it. The leaf-constant cut took 8 back. Only 39 cyclic edges were pure literal constants; the rest need real code to move.
+- Reach-ins: 575 → 298. Import cycles: main 1219 edges in 235 files; `reach-16` 1317 / 249, top head 1210 / 239 (baseline file `tests/guards/import-cycles-baseline.json`, which may only shrink from here). The stack added about 100 edges because the front doors are heavy files that sit inside the big cycle; reading a front door instead of a leaf file puts one more edge in it. The leaf-constant cut took 8 back (only 39 cyclic edges were pure literal constants). `reach-17` moved real code: the trait lean out of `choice.ts`, `retainLog` out of `state.ts` and the sitting-closeness re-export out of `closeness.ts`, which cut the largest cycle from 229 files to 218 and the stack below main's edge count (1219).
 - Records digest at Umatac, Guam, seed `reach-ins-1`, 1 year: `b3d14e63f4474250`, equal to main's, at `reach-14` and at the top head (`reach-16`).
 - `tests:load`: clean through `reach-13`; for `reach-14` and above it was still running when this note was written.
