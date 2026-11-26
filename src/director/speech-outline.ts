@@ -1243,17 +1243,9 @@ function conditionFigure(country: Country, topic: string): Facts {
     : {};
 }
 
-/** The bills a person sponsored, newest first, from the legislature engine's rows. */
+/** The bills a person sponsored, newest first, as their history tells them (`sponsoredBills`). */
 function billsSponsoredBy(core: CoreState, personId: string): BillRow[] {
-  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
-  return (
-    coreAPI(core)
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as BillRow[]
-  )
-    .filter((bill) => bill.sponsorId === personId)
-    .sort(
+  return sponsoredBills(core, personId).sort(
       (a, b) =>
         b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
     );
