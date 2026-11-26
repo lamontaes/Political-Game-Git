@@ -172,6 +172,9 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  replyAvailable,
+  replyCandidates,
+  replyTarget,
   replyHasMatter,
   replyAnswersAsk,
   replyOffered,
@@ -7001,11 +7004,8 @@ function offerChoices(
   // the same question back ("I'm from here. And you?"), or asking about their
   // work after naming yours. Never an unrelated subject tacked on.
   const follows = data.follows[last.kind.replace(/-new$/, "")] ?? [];
-  const target = (raises: string): Subject | undefined => {
-    if (!follows.includes(raises)) return undefined;
-    if (raises === last.subject.kind) return last.subject;
-    return unused.find((row) => row.kind === raises && !taken.has(row.id));
-  };
+  const target = (raises: string): Subject | undefined =>
+    replyTarget({ raises, follows, last: last.subject, unused, taken });
   // One choice per move, worded from every mined wording of it.
   type Group = { key: string; raises?: string; from?: WordingPick["from"] };
   // To a promise brought up, only the answers its kind and the player's
@@ -7184,25 +7184,20 @@ function offerChoices(
   const told = OWN_OF[last.kind];
   const wanted = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
   const offer = (again: string) => {
-    for (const [choiceKey, group] of groups) {
-      if (
-        choiceKey === "own" &&
-        told &&
-        conversation.used.includes(`${told}:${playerId}`)
-      )
-        continue;
-      // Asking for more ("What happened?") only when the other person has it
-      // on record and in words; a question nobody can answer is not offered.
-      if (
-        data.tells?.[last.kind]?.[choiceKey] &&
-        !tellable(core, conversation, data, data.tells[last.kind]![choiceKey]!)
-      )
-        continue;
-      const raises = group.raises;
-      const subject = raises ? target(raises) : undefined;
-      if (subject && !again) add(choiceKey, group, subject);
-      add(choiceKey, group, undefined, answerBank, again);
-    }
+    for (const next of replyCandidates(
+      groups,
+      again,
+      (choiceKey) =>
+        replyAvailable({
+          choiceKey,
+          alreadyTold:
+            !!told && conversation.used.includes(`${told}:${playerId}`),
+          tellKind: data.tells?.[last.kind]?.[choiceKey],
+          tellable: (kind) => !!tellable(core, conversation, data, kind),
+        }),
+      target,
+    ))
+      add(next.choiceKey, next.group, next.subject, answerBank, again);
   };
   offer("");
   // Four replies that each answer the line: where a move's wordings collided

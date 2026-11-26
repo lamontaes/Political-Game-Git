@@ -977,6 +977,65 @@ export function replyHasMatter(input: {
   return true;
 }
 
+/**
+ * The subject a reply carries the talk on to, if its move may: a reply's
+ * second move follows from its first (owner, batch 6): turning the same
+ * question back ("I'm from here. And you?"), or asking about their work after
+ * naming yours, never an unrelated subject tacked on. The question just asked
+ * may be turned back; any other subject must be one the talk has not used.
+ */
+export function replyTarget<S extends { id: string; kind: string }>(input: {
+  raises: string;
+  follows: readonly string[];
+  last: S;
+  unused: readonly S[];
+  taken: ReadonlySet<string>;
+}): S | undefined {
+  if (!input.follows.includes(input.raises)) return undefined;
+  if (input.raises === input.last.kind) return input.last;
+  return input.unused.find(
+    (row) => row.kind === input.raises && !input.taken.has(row.id),
+  );
+}
+
+/**
+ * Whether the bank's reply for a move may be offered at all: what the player
+ * already told is not offered again, and asking for more ("What happened?") is
+ * offered only when the other person has it on record and in words (a question
+ * nobody can answer is not offered).
+ */
+export function replyAvailable(input: {
+  choiceKey: string;
+  /** The reply tells the player's own subject, which the talk already has. */
+  alreadyTold: boolean;
+  /** What the other person tells when this reply asks for more. */
+  tellKind: string | undefined;
+  tellable: (kind: string) => boolean;
+}): boolean {
+  if (input.choiceKey === "own" && input.alreadyTold) return false;
+  return !(input.tellKind && !input.tellable(input.tellKind));
+}
+
+/**
+ * The replies to try for a line, in order: each move said with the subject it
+ * carries the talk on to (the first pass only), then said plainly. The caller
+ * words each; a subject it takes is not offered again, so the target is read
+ * as each reply is reached.
+ */
+export function* replyCandidates<G extends { raises?: string }, S>(
+  groups: Iterable<readonly [string, G]>,
+  again: string,
+  available: (choiceKey: string) => boolean,
+  target: (raises: string) => S | undefined,
+): Generator<{ choiceKey: string; group: G; subject: S | undefined }> {
+  for (const [choiceKey, group] of groups) {
+    if (!available(choiceKey)) continue;
+    const subject = group.raises ? target(group.raises) : undefined;
+    if (subject && !again) yield { choiceKey, group, subject };
+    yield { choiceKey, group, subject: undefined };
+  }
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;
