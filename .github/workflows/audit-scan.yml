@@ -36,6 +36,7 @@ jobs:
           # The scan diffs the pull request head against its base, so both
           # commits and their merge base must be in the clone.
           fetch-depth: 0
+          filter: blob:none
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Use Node 22
