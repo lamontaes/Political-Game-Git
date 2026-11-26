@@ -11,7 +11,7 @@
  * rolled: each household is owed its own share of the expected count, from
  * its exposure (income, tenure and household kind for property crime; age and
  * income of each member for violent crime, from the NCVS tables in
- * data/crime/victimization.json), and the households most owed are
+ * src/core2/data/crime/victimization.json), and the households most owed are
  * victimized first, so equal exposure takes turns.
  *
  * A full household's victimization is a log record (`crime.victimized`) that
@@ -105,8 +105,6 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(CRIME_MODULE_ID).table(name);
 const core = (api: CoreAPI) => api.state as CoreState;
 
-const ageOn = (birthDate: string, date: string) => ageInYears(birthDate, date);
-
 const HOUSEHOLD = data.householdExposure;
 const PERSON = data.personExposure;
 const ageRelative = (age: number): number =>
@@ -168,7 +166,7 @@ function fullUnits(
     }
     if (!people.length) continue;
     const fifth = incomeBandOn(api, incomes.get(home.id) ?? 0);
-    const ages = people.map((p) => ageOn(p.birthDate, c.date));
+    const ages = people.map((p) => ageInYears(p.birthDate, c.date));
     const children = ages.filter((a) => a < adultAge).length;
     const kind =
       children > 0
@@ -235,7 +233,7 @@ function countedUnits(api: CoreAPI, placeId: string): Unit[] {
       const weight = store.weightOf(household);
       households += weight;
       for (const member of store.countedMembers(household)) {
-        const age = ageOn(store.born[member]!, date);
+        const age = ageInYears(store.born[member]!, date);
         persons += weight;
         if (age < 12) continue;
         persons12 += weight;

@@ -35,10 +35,6 @@ export function registerBoardAppointer(next: BoardAppointer | undefined): void {
   appointer = next;
 }
 
-function ageOn(birthDate: string, date: string): number {
-  return ageInYears(birthDate, date);
-}
-
 /** Every seat whose term ended by today gets its next term: a reappointment or a new member. */
 export function reviewBoardTerms(
   api: CoreAPI,
@@ -58,7 +54,7 @@ export function reviewBoardTerms(
     const stays =
       ended.seatKind === "president" &&
       incumbent?.alive === true &&
-      ageOn(incumbent.birthDate, vacancy.termStartsAt) <
+      ageInYears(incumbent.birthDate, vacancy.termStartsAt) <
         p("macroPresidentRetirementAge");
     let next: BoardMember;
     let reasons: Readonly<Record<string, number>> = {};
