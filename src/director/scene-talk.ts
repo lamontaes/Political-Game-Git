@@ -1298,6 +1298,41 @@ export function nameOnceFacts(
   return rest;
 }
 
+/**
+ * Whether the talk already said what a question asks for: every fact the
+ * question's subject holds is in an earlier line, by either speaker, with its
+ * words said and its record cited. One reading of what was said, never a list
+ * of question kinds.
+ */
+export function factsAlreadySaid(
+  lines: readonly { text: string; sourceRecordIds: readonly string[] }[],
+  asked: Readonly<Record<string, Fact>>,
+): boolean {
+  const facts = Object.values(asked);
+  return (
+    facts.length > zero &&
+    facts.every((fact) =>
+      lines.some(
+        (line) =>
+          line.text.includes(fact.text) &&
+          fact.sourceRecordIds.some((id) => line.sourceRecordIds.includes(id)),
+      ),
+    )
+  );
+}
+
+/** The facts the talk has not said yet: each one whose words and record an earlier line (either speaker) does not carry. */
+export function factsNotYetSaid(
+  lines: readonly { text: string; sourceRecordIds: readonly string[] }[],
+  facts: Readonly<Record<string, Fact>>,
+): Record<string, Fact> {
+  return Object.fromEntries(
+    Object.entries(facts).filter(
+      ([, fact]) => !factsAlreadySaid(lines, { fact }),
+    ),
+  );
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;

@@ -170,6 +170,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  factsAlreadySaid,
+  factsNotYetSaid,
   nameOnceFacts,
   youUnlessSaid,
   composedHomeLine,
@@ -4374,11 +4376,7 @@ function unsaidFacts(
   conversation: Pick<Conversation, "lines">,
   facts: Readonly<Record<string, Fact>>,
 ): Facts {
-  return Object.fromEntries(
-    Object.entries(facts).filter(
-      ([, fact]) => !alreadyAnswered(conversation, { fact }),
-    ),
-  );
+  return factsNotYetSaid(conversation.lines, facts);
 }
 
 /** A subject with the facts the talk already said taken out, or null when none is left. */
@@ -4402,17 +4400,7 @@ function alreadyAnswered(
   conversation: Pick<Conversation, "lines">,
   asked: Readonly<Record<string, Fact>>,
 ): boolean {
-  const facts = Object.values(asked);
-  return (
-    facts.length > zero &&
-    facts.every((fact) =>
-      conversation.lines.some(
-        (line) =>
-          line.text.includes(fact.text) &&
-          fact.sourceRecordIds.some((id) => line.sourceRecordIds.includes(id)),
-      ),
-    )
-  );
+  return factsAlreadySaid(conversation.lines, asked);
 }
 
 /** What the other person said since the player last spoke. */
