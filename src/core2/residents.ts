@@ -16,7 +16,7 @@ import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
 } from "./opening-outside-market";
-import type { FinanceContractInput } from "./finance-types";
+import type { FinanceContractInput } from "./modules/finance";
 import { FinanceReadGuard } from "./finance-plan";
 import {
   nextWorkPayrollPeriod,

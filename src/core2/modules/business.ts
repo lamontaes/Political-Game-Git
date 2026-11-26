@@ -14,8 +14,8 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { carriedLink } from "./outcome-web";
 import { chooseAct } from "../choice";
-import { countedHouseholdSavings, countedPayment } from "./health";
-import { depositsHeld, withdrawSavings } from "./budgets";
+import { countedHouseholdSavings, countedPayment } from "../counted-money";
+import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
@@ -42,17 +42,17 @@ import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA, worldBookRatio } from "../business-books";
 import { worldRate } from "../world-draw";
 import { businessName, businessNameContext } from "../business-names";
-import type { BusinessBooksState } from "../budgets-treasury";
+import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
   businessScaleOf,
+  countedHeadcountOf,
+  countedJobsOf,
   outputLostPerYear,
   weightedPayrollMinor,
   purchaseShareOf,
   shiftPurchaseShare,
-} from "./health";
-import { countedHeadcountOf } from "./people";
-import { countedJobsOf } from "./residents";
+} from "../residents-economy";
 import {
   residentFacts,
   countedFundOf,
@@ -61,7 +61,7 @@ import {
 } from "./residents";
 import { foundingLoanLimit, lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
-import { transferCash } from "../budgets-treasury";
+import { transferCash } from "../world-transfer";
 import {
   addRegulatoryCost,
   countyNonattainment,
@@ -84,6 +84,18 @@ import {
   premisesTaxYearMinor,
 } from "./budgets";
 import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
+export { scaleFirmsToCensus } from "../census-firms";
+export { endLivingPlan, setEverydayPurchase } from "../cost-of-living";
+export {
+  CREDIT_PARAMETERS,
+  bankYes,
+  lendMortgage,
+  monthlyIncome,
+  mortgageRoom,
+} from "./credit";
+export type { WorkPayrollCalendarInput } from "../work-pay-period";
+export { admitPublicPayAuthority } from "../public-work-pay";
+export type { ClaimRow } from "../jobs-benefits";
 
 export { BUSINESS_MODULE_ID };
 export { DEFAULT_BUSINESS_BOOKS_DATA };

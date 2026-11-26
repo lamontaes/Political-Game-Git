@@ -89,7 +89,7 @@ import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
 import { ownStance } from "./officials";
 import { closenessBetween } from "../closeness";
-import { bribePull, registerBribeScope } from "../laws-in-force";
+import { bribePull, registerBribeScope } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   BUDGETS_MODULE_ID,

@@ -44,7 +44,7 @@ import {
   leanedByKinds,
 } from "../trait-decisions";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
-import { transferCash } from "../world-transfer";
+import { transferCash } from "../budgets-treasury";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
 import { bankDepositLiability } from "../accounts";

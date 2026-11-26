@@ -62,42 +62,12 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
-export { employerArrears, profitTaxArrears } from "./modules/employer-taxes";
-export type {
-  EmployerTaxRecord,
-  ProfitTaxRecord,
-} from "./modules/employer-taxes";
-export { moveBankDeposit } from "./accounts";
-export { financeIndex } from "./finance-state";
-export {
-  FinancePlanningSession,
-  guardWorkFinanceResult,
-  prepareWorkFinancePlan,
-} from "./finance-plan";
-export type { PreparedFinancePlan, PreparedWorkFinance } from "./finance-plan";
-export { cashJournalParameters } from "./cash-host";
-export {
-  admitSelectedCashAct,
-  cancelUncompletedCashAct,
-  resolveSelectedCashAct,
-} from "./act-cash";
-export type { CashActSelection } from "./act-cash";
-export {
-  admitCompositeFinanceCreditSources,
-  cancelCompositeFinanceCreditSources,
-  ensureFinanceCashModule,
-  finishCompositeFinanceCreditSources,
-  releaseCompositeFinanceCreditSources,
-  resolveCompositeFinanceCreditSources,
-} from "./finance-cash";
-export type { CreditReceipt } from "./finance-types";
 export { recordIncomeTaxApplied } from "./tax-applied";
 export {
   businessAvailableCredit,
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
 } from "./finance-state";
-export { drawSavingsToCover } from "./accounts";
 export type {
   BusinessBooksState,
   ResidentWageShortfall,
