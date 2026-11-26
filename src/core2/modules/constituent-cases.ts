@@ -21,7 +21,7 @@ import { ageInYears } from "../kernel/dates";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { fundBalance } from "../counted-money";
 import { closenessBetween } from "../closeness";
-import { engagementOf } from "../electorate";
+import { engagementOf } from "./campaigns";
 import type {
   CoreAPI,
   CoreModule,
@@ -43,7 +43,7 @@ import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
 import { referCustody, servingCustodyOf } from "./justice";
 import { residentsRuntime } from "./residents";
-import { makeCase, SPEECH_MODULE_ID } from "./speech";
+import { makeCase, SPEECH_MODULE_ID } from "./people";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
 import SCENE_ENDINGS from "../data/constituent-cases/scene-endings.json" with { type: "json" };
 

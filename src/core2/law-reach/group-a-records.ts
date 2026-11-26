@@ -22,15 +22,15 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { reachOf } from "../counted-reach";
-import { isNoncitizen } from "../citizenship";
-import { citizenShareOf } from "../electorate-places";
+import { isNoncitizen } from "../modules/people";
+import { citizenShareOf } from "../modules/voting";
 import {
   firearmOwnershipRate,
   householdOwnsFirearm,
 } from "../firearm-ownership";
 import { lawChain, yesLevels } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
-import { countedJobHeads } from "../residents-economy";
+import { countedJobHeads } from "../modules/residents";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,

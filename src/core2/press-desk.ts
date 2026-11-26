@@ -16,7 +16,7 @@
 import { OUTCOME_MONTH_KIND } from "./outcome-news";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { questionAxis } from "./campaign-views";
+import { questionAxis } from "./modules/campaigns";
 import { closenessBetween, grudgeBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
@@ -24,7 +24,7 @@ import { printStory, type Story } from "./modules/news";
 import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
 import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
 import { isPublicFigure } from "./past-public";
-import { reachedBy } from "./law-reach/host";
+import { reachedBy } from "./modules/laws";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import {
   stancesOf,

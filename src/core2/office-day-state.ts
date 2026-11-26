@@ -109,7 +109,7 @@ import {
   handleCase,
   ownCaseDecision,
 } from "./modules/constituent-cases";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/people";
 import {
   registerBillIntroduced,
   registerLeaderRefusalReader,

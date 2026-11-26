@@ -22,7 +22,7 @@ import {
   customPolitics,
   registerElectorate,
 } from "../electorate";
-import { partySide } from "../appointments";
+import { partySide } from "./offices";
 import { residentsRuntime } from "./residents";
 import { registerDerivedCache } from "../snapshot";
 import { discretionaryHours } from "./work";
@@ -62,15 +62,15 @@ import {
   makeIsoDate,
   daysBetweenText as daysBetween,
 } from "../kernel/dates";
-import { townDistrict } from "../offices-state";
+import { townDistrict } from "./offices";
 import { worldLevel } from "../world-draw";
 import { basePlaces, wideElectorate } from "../race-places";
 import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
-import { transferCash } from "../world-transfer";
+import { transferCash } from "../budgets-treasury";
 import { notifySalesReceipt } from "./finance";
 import { filingClerkFor } from "./filing-clerk";
-import { medianTransactionBalance } from "../starting-cash";
+import { medianTransactionBalance } from "./budgets";
 import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
@@ -152,6 +152,32 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
+export { filingClerkFor } from "./filing-clerk";
+export { choosesPresident } from "../electorate-places";
+export {
+  joinParty,
+  nextPartyMeeting,
+  openParties,
+  partyAgreement,
+  partyMemberIds,
+  partyStands,
+} from "./parties";
+export { campaignDayChoices } from "../campaign-day";
+export { enrichCivicInputs } from "../civic-inputs";
+export { openInterestGroups } from "./interest-groups";
+export { openBallotMeasures } from "./ballot-measures";
+export { openRecalls } from "./recalls";
+export {
+  NATIONAL_ENGAGEMENT,
+  countedResidents,
+  countedResidentsOf,
+  engagementOf,
+} from "../electorate";
+export { StanceReader, candidateStance } from "../campaign-stances";
+export { publicOffset, questionAxis } from "../campaign-views";
+export { withMembershipDues } from "../membership-dues";
+export { refreshOfficeStaff } from "../civic-inputs";
+export { electionsParameter } from "../elections-calendar";
 
 export { candidatePlatform } from "../campaign-stances";
 export { contestPositions } from "../contest-positions";

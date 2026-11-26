@@ -15,7 +15,7 @@ import { governmentUnitsForPlace } from "../core2/reference/government-units";
 import { placeCountyGeoids, placeStateKey } from "../core2/place-map";
 import { originForChosen } from "./whole-figures";
 import { PLAYER_MIN_AGE } from "./world";
-import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
+import { municipiosForPlace } from "../core2/modules/executive";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
 import { realLocalities } from "../core2/places";

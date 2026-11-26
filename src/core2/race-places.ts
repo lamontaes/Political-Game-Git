@@ -12,8 +12,8 @@ import {
   statePlaces,
   type ElectoratePlace,
 } from "./electorate-places";
-import { partySide } from "./appointments";
-import { townDistrict, type SeatInput } from "./offices-state";
+import { partySide } from "./modules/offices";
+import { townDistrict, type SeatInput } from "./modules/offices";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import territoryPlaces from "./data/places/territory-places.json" with { type: "json" };
