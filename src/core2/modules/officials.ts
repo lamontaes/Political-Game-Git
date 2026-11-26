@@ -1515,10 +1515,11 @@ registerUnbuiltHolders({
   holds: (core, personId) =>
     core.modules.has(OFFICIALS_MODULE_ID) &&
     unopenedTerm(coreAPI(core), personId) !== undefined,
-  died: (core, personId) => {
+  died: (core, personId, deathRecordId) => {
     const api = coreAPI(core);
     const term = unopenedTerm(api, personId);
-    if (term?.status === "serving") vacateSeat(api, term.seatId, "death");
+    if (term?.status === "serving")
+      vacateSeat(api, term.seatId, "death", undefined, deathRecordId);
   },
 });
 
