@@ -33,10 +33,8 @@ import {
   presidentElection,
 } from "../../core2/modules/national-opinion";
 import {
-  centuryLegislatures,
-  centuryOf,
+  centurySeatKeys,
   partyKeyIssues,
-  centurySeatRace,
   historyMode,
   PARTIES_MODULE_ID,
   statePlaces,
@@ -44,7 +42,7 @@ import {
   type TieRow,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
-import { historyOf, type HistoryEvent } from "../../core2/past";
+import { historyOf, recordOf, type HistoryEvent } from "../../core2/past";
 import { openingRentals } from "../../core2/modules/housing";
 import { allOfficials, partySide } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
@@ -70,6 +68,60 @@ function centuryPresidencies(core: CoreState): readonly HistoryEvent[] {
 /** A presidency's figure, as its record keeps it. */
 function fact(event: HistoryEvent, key: string): number {
   return Number(event.facts?.[key] ?? 0);
+}
+
+/** The century's records of one kind, in the century's own order. */
+function told(core: CoreState, kind: string): readonly HistoryEvent[] {
+  return historyOf(core, { nation: true }, { kinds: [kind], from: "past" });
+}
+
+/** The century's parties, each with its stance year by year, from their records. */
+function partiesTold(core: CoreState) {
+  const parties = new Map<
+    string,
+    {
+      id: string;
+      name: string;
+      side: number;
+      founded: string | null;
+      positions: { year: number; position: number }[];
+    }
+  >();
+  for (const event of told(core, "century.party-stance")) {
+    const id = event.facts!.partyId!;
+    const party = parties.get(id) ?? {
+      id,
+      name: event.facts!.name!,
+      side: fact(event, "side"),
+      founded: event.facts?.founded ?? null,
+      positions: [],
+    };
+    party.positions.push({
+      year: fact(event, "year"),
+      position: fact(event, "position"),
+    });
+    parties.set(id, party);
+  }
+  return [...parties.values()];
+}
+
+/** A seat's race the century kept in a year, by the seat's key in the century (its first held). */
+function centurySeatRaceTold(
+  core: CoreState,
+  office: { readonly kind: string; readonly jurisdiction: string },
+  seat: { readonly id: string; readonly district?: string | null },
+  year: number,
+): HistoryEvent | undefined {
+  const held = new Set(
+    told(core, "century.seat-won").map((event) => event.facts?.seatKey),
+  );
+  const key = centurySeatKeys(office, seat).find((at) => held.has(at));
+  if (!key) return undefined;
+  return historyOf(
+    core,
+    { nation: true },
+    { kinds: ["century.seat-race"], about: key, from: "past" },
+  ).find((race) => race.facts?.year === String(year));
 }
 
 /** How the opening made a value (src/bench/dev-views/opening-sources.json). */
@@ -245,7 +297,11 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
   );
   // Who the century before day one elected (src/core2/electorate-century.ts), or today's real
   // record when the world chose it; the President's term carries the race (Trace opens it).
-  const century = centuryOf(core.seed, core.startedAt);
+  // The century's parties, foundings and seats as the nation's history tells
+  // them, in the century's own order (a read of one source keeps its order).
+  const parties = partiesTold(core);
+  const foundings = told(core, "century.party-founded");
+  const seatsWon = told(core, "century.seat-won");
   // The century's presidencies as the nation's history tells them (the one
   // history reader); none where the world opened on today's real record.
   const presidencies = centuryPresidencies(core);
@@ -295,11 +351,12 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       "Governors on day one",
       historyMode(core.seed) === "century"
         ? (() => {
-            const governors = [...century.seats.values()].filter(
+            const governors = seatsWon.filter(
               (seat) =>
-                seat.chamber === "executive" && seat.rosterKey === "governor",
+                seat.facts?.chamber === "executive" &&
+                seat.facts.rosterKey === "governor",
             );
-            const r = governors.filter((seat) => seat.side > 0).length;
+            const r = governors.filter((seat) => fact(seat, "side") > 0).length;
             return `${r} R, ${governors.length - r} D, elected through the century`;
           })()
         : "today's real record (the world chose it)",
@@ -314,17 +371,15 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
             const chambers = new Map<string, { r: number; d: number }>();
             const control = { r: 0, d: 0 };
             const all = new Map<string, { r: number; d: number }>();
-            for (const seat of centuryLegislatures(
-              core.seed,
-              core.startedAt,
-            ).values()) {
-              const key = `${seat.stateKey}:${seat.rosterChamber}`;
+            for (const seat of seatsWon) {
+              if (seat.facts?.chamber !== "legislature") continue;
+              const key = `${seat.facts.stateKey}:${seat.facts.rosterChamber}`;
               const count = all.get(key) ?? { r: 0, d: 0 };
-              if (seat.side > 0) count.r += 1;
+              if (fact(seat, "side") > 0) count.r += 1;
               else count.d += 1;
               all.set(key, count);
-              if (seat.hidden) continue;
-              chambers.set(seat.rosterChamber ?? "legislature", count);
+              if (seat.facts.hidden) continue;
+              chambers.set(seat.facts.rosterChamber ?? "legislature", count);
             }
             for (const count of all.values())
               if (count.r > count.d) control.r += 1;
@@ -441,14 +496,13 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       "town.parties",
       "The parties",
       historyMode(core.seed) === "century"
-        ? century.parties
+        ? parties
             .map((party) => {
               const first = party.positions[0]?.position ?? 0;
               const now = party.positions.at(-1)?.position ?? first;
               const other =
-                century.parties
-                  .find((p) => p.side !== party.side)
-                  ?.positions.at(-1)?.position ?? 0;
+                parties.find((p) => p.side !== party.side)?.positions.at(-1)
+                  ?.position ?? 0;
               const issues = partyKeyIssues(now, other, 3)
                 .map(
                   (i) =>
@@ -477,8 +531,19 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       "town.foundedParties",
       "Parties founded in the century",
       historyMode(core.seed) === "century"
-        ? century.foundings.length
-          ? century.foundings
+        ? foundings.length
+          ? foundings
+              .map((event) => ({
+                id: event.id,
+                year: event.facts!.year,
+                position: fact(event, "position"),
+                side: fact(event, "side"),
+                unreachedShare: fact(event, "unreachedShare"),
+                pressure: fact(event, "pressure"),
+                cost: fact(event, "cost"),
+                endedYear: event.facts?.endedYear,
+                mergedInto: event.facts?.mergedInto,
+              }))
               .map(
                 (f) =>
                   `${f.id}: founded ${f.year} at ${f.position.toFixed(2)} on the members' scale (${f.side === 0 ? "between the two" : f.side < 0 ? "left" : "right"}), from the ${pct(f.unreachedShare)} of voters neither party reached that year, founding pressure ${f.pressure.toFixed(2)} against a cost of ${f.cost}${(() => {
@@ -562,7 +627,14 @@ function personView(core: CoreState, personId: string): OpeningRow[] {
         { source: cited(job.source), recordId: job.id },
       ),
     );
-  const birthplace = person.pastFacts?.find((f) => f.kind === "birthplace");
+  // The birthplace the person was made with, as their history tells it.
+  const born = historyOf(
+    core,
+    { person: person.id },
+    { from: "built", kinds: ["birthplace"] },
+  )[0];
+  const found = born ? recordOf(core, born.id, person.id) : undefined;
+  const birthplace = found?.from === "built" ? found.record : undefined;
   if (birthplace)
     rows.push(
       row("person.birthplace", "Birthplace", birthplace.summary, {
@@ -664,8 +736,8 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
       ? centuryPresidencies(core).find(
           (race) => race.facts?.year === String(year),
         )
-      : centurySeatRace(
-          core.seed,
+      : centurySeatRaceTold(
+          core,
           held.office,
           { id: seatId, district: held.seat.district ?? null },
           year,

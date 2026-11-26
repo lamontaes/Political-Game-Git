@@ -26,6 +26,10 @@ import type { CoreState, PersonId } from "../core2/types";
 import { openConversation } from "../director/conversation";
 import { composeJournal } from "../director/journal";
 import { coreAPI } from "../core2/state";
+import { LAW_ENACTED } from "../core2/modules/laws";
+import { BILL_INTRODUCED } from "../core2/modules/legislature";
+import { TERM_HELD } from "../core2/modules/offices";
+import { VOTE_CAST } from "../core2/modules/people";
 import {
   COUNTED_ENGINE,
   findRecord,
@@ -364,7 +368,41 @@ function proveWorld(
     [{ person: id }, { from: "played" }],
     [
       { person: id },
-      { kinds: ["job-change:hire", "office.elected", "office.seat-reached"] },
+      {
+        kinds: [
+          "job-change:hire",
+          "office.elected",
+          "office.seat-reached",
+          TERM_HELD,
+          BILL_INTRODUCED,
+        ],
+      },
+    ],
+  ];
+
+  // What the nation's history holds, as a story of it reads it: its records
+  // of play and of the past, and each engine's history by kind.
+  const nationReads: [HistoryScope, HistoryAsk?][] = [
+    [{ nation: true }, { from: "played" }],
+    [{ nation: true }, { from: "past" }],
+    [
+      { nation: true },
+      {
+        kinds: [
+          "office.elected",
+          "century.presidency",
+          "century.congress",
+          "press.printed",
+          "press.archived",
+          PAST_BILL_VOTED,
+          PAST_LAW_ENACTED,
+          PAST_BUSINESS_CLOSED,
+          TERM_HELD,
+          BILL_INTRODUCED,
+          LAW_ENACTED,
+          VOTE_CAST,
+        ],
+      },
     ],
   ];
 
@@ -377,10 +415,7 @@ function proveWorld(
       core,
       "loading story",
       loading,
-      scopeOf(core, [
-        ...personReads(me),
-        [{ nation: true }, { kinds: ["century.presidency"] }],
-      ]),
+      scopeOf(core, [...personReads(me), ...nationReads]),
     ),
   );
 
@@ -402,7 +437,14 @@ function proveWorld(
       ]),
       ...(card.seats ?? []).map((seat) => seat.recordId),
     ].map((recordId) => ({ id: recordId, owner: id }));
-    out.push(tally(core, "person card", cited, scopeOf(core, personReads(id))));
+    out.push(
+      tally(
+        core,
+        "person card",
+        cited,
+        scopeOf(core, [...personReads(id), ...nationReads]),
+      ),
+    );
   }
 
   // The Journal: each line's records, as the player's session composes it.
@@ -423,8 +465,7 @@ function proveWorld(
         scopeOf(core, [
           ...household.memberIds.flatMap((id) => personReads(id as PersonId)),
           [{ household: household.id }],
-          [{ nation: true }, { from: "played" }],
-          [{ nation: true }, { from: "past" }],
+          ...nationReads,
         ]),
       ),
     );
@@ -445,22 +486,7 @@ function proveWorld(
       "news",
       news,
       scopeOf(core, [
-        [{ nation: true }, { from: "played" }],
-        [{ nation: true }, { from: "past" }],
-        [
-          { nation: true },
-          {
-            kinds: [
-              "office.elected",
-              "century.presidency",
-              "press.printed",
-              "press.archived",
-              PAST_BILL_VOTED,
-              PAST_LAW_ENACTED,
-              PAST_BUSINESS_CLOSED,
-            ],
-          },
-        ],
+        ...nationReads,
         // A fact a person was made with that a story cites (a birthplace, a
         // partnership): what that person was made with, as the reader reads it.
         ...[
@@ -476,27 +502,6 @@ function proveWorld(
       ]),
     ),
   );
-  // What the nation's history holds, as a story of it reads it.
-  const nationReads: [HistoryScope, HistoryAsk?][] = [
-    [{ nation: true }, { from: "played" }],
-    [{ nation: true }, { from: "past" }],
-    [
-      { nation: true },
-      {
-        kinds: [
-          "office.elected",
-          "century.presidency",
-          "century.congress",
-          "press.printed",
-          "press.archived",
-          PAST_BILL_VOTED,
-          PAST_LAW_ENACTED,
-          PAST_BUSINESS_CLOSED,
-        ],
-      },
-    ],
-  ];
-
   // The President's address: each sentence's records, and what the
   // President was made with (the home state, the office held before).
   const opening = director?.ledger.opening;

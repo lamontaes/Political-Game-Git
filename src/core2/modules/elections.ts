@@ -48,10 +48,15 @@ import petitionRules from "../data/elections/petition-rules.json" with { type: "
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import {
+  centuryLegislatures,
   centuryOf,
   historyMode,
   type CenturyCongress,
+  type CenturyFounding,
+  type CenturyParty,
   type CenturyPresidency,
+  type CenturySeat,
+  type CenturySeatRace,
 } from "../electorate-century";
 import type { HistoryModule, HistoryRow, HistorySource } from "../past";
 import { novemberGeneralElectionDay } from "../elections-calendar";
@@ -110,6 +115,7 @@ export {
 /** The century before day one (electorate-century.ts), for the engines that seat and record its result. */
 export {
   centuryCongressSeat,
+  centurySeatKeys,
   centuryLaw,
   centuryLegislatures,
   centuryParties,
@@ -385,28 +391,181 @@ function congressHistory(row: CenturyCongress): HistoryRow {
  * reader (src/core2/past-history.ts). A world that opened on today's real
  * record ran no century and has none.
  */
+/** The record kinds of the century's parties, their foundings and its seats, as the reader tells them. */
+const CENTURY_PARTY_STANCE = "century.party-stance";
+const CENTURY_PARTY_FOUNDED = "century.party-founded";
+const CENTURY_SEAT_WON = "century.seat-won";
+const CENTURY_SEAT_RACE = "century.seat-race";
+
+/** A party's stance in a year the century counted it. */
+function partyStanceHistory(
+  party: CenturyParty,
+  at: CenturyParty["positions"][number],
+): HistoryRow {
+  return {
+    id: `century:party:${party.id}:${at.year}`,
+    date: novemberGeneralElectionDay(at.year),
+    life: "politics",
+    what: "party-stance",
+    record: CENTURY_PARTY_STANCE,
+    from: "past",
+    personIds: [],
+    withIds: [],
+    publicRecord: true,
+    facts: {
+      partyId: party.id,
+      name: party.name,
+      side: String(party.side),
+      ...(party.founded !== null ? { founded: String(party.founded) } : {}),
+      year: String(at.year),
+      position: String(at.position),
+    },
+  };
+}
+
+/** A party the century's voters founded, in the year of its first race. */
+function foundingHistory(founding: CenturyFounding): HistoryRow {
+  return {
+    id: founding.id,
+    date: novemberGeneralElectionDay(founding.year),
+    life: "politics",
+    what: "party-founded",
+    record: CENTURY_PARTY_FOUNDED,
+    from: "past",
+    personIds: [],
+    withIds: [],
+    publicRecord: true,
+    facts: {
+      year: String(founding.year),
+      position: String(founding.position),
+      side: String(founding.side),
+      pressure: String(founding.pressure),
+      cost: String(founding.cost),
+      unreachedShare: String(founding.unreachedShare),
+      ...(founding.endedYear ? { endedYear: String(founding.endedYear) } : {}),
+      ...(founding.mergedInto ? { mergedInto: founding.mergedInto } : {}),
+    },
+  };
+}
+
+/** A seat as the century left it: its holder's side, from the year they first won it. */
+function seatWonHistory(seat: CenturySeat): HistoryRow {
+  return {
+    id: `century:${seat.key}`,
+    date: novemberGeneralElectionDay(seat.firstWon),
+    life: "politics",
+    what: "seat-won",
+    record: CENTURY_SEAT_WON,
+    from: "past",
+    personIds: [],
+    withIds: [],
+    publicRecord: true,
+    facts: {
+      seatKey: seat.key,
+      stateKey: seat.stateKey,
+      chamber: seat.chamber,
+      rosterKey: seat.rosterKey,
+      ...(seat.rosterChamber ? { rosterChamber: seat.rosterChamber } : {}),
+      ...(seat.hidden ? { hidden: "true" } : {}),
+      side: String(seat.side),
+      holderId: seat.holderId,
+      firstWon: String(seat.firstWon),
+      termsWon: String(seat.termsWon),
+    },
+  };
+}
+
+/** One of a seat's races the century kept. */
+function seatRaceHistory(seat: CenturySeat, race: CenturySeatRace): HistoryRow {
+  return {
+    id: race.id,
+    date: novemberGeneralElectionDay(race.year),
+    life: "politics",
+    what: "seat-race",
+    record: CENTURY_SEAT_RACE,
+    from: "past",
+    personIds: [],
+    withIds: [],
+    publicRecord: true,
+    facts: {
+      seatKey: seat.key,
+      year: String(race.year),
+      winnerSide: String(race.winnerSide),
+      winnerShare: String(race.winnerShare),
+      votes: String(race.votes),
+      incumbentRan: String(race.incumbentRan),
+    },
+  };
+}
+
+/** Every seat the century elects: Congress and the statewide executives, then each state's legislature. */
+function centurySeats(core: CoreState): CenturySeat[] {
+  return [
+    ...centuryOf(core.seed, core.startedAt).seats.values(),
+    ...centuryLegislatures(core.seed, core.startedAt).values(),
+  ];
+}
+
+/** The century's rows of the kinds asked, in the century's own order. */
+function centuryRows(core: CoreState, kinds?: readonly string[]): HistoryRow[] {
+  const century = centuryOf(core.seed, core.startedAt);
+  const wants = (kind: string) => !!kinds?.includes(kind);
+  return [
+    ...(!kinds || kinds.includes("century.presidency")
+      ? century.presidencies.map(presidencyHistory)
+      : []),
+    ...(wants(CENTURY_CONGRESS) ? century.congresses.map(congressHistory) : []),
+    ...(wants(CENTURY_PARTY_STANCE)
+      ? century.parties.flatMap((party) =>
+          party.positions.map((at) => partyStanceHistory(party, at)),
+        )
+      : []),
+    ...(wants(CENTURY_PARTY_FOUNDED)
+      ? century.foundings.map(foundingHistory)
+      : []),
+    ...(wants(CENTURY_SEAT_WON) || wants(CENTURY_SEAT_RACE)
+      ? centurySeats(core).flatMap((seat) => [
+          ...(wants(CENTURY_SEAT_WON) ? [seatWonHistory(seat)] : []),
+          ...(wants(CENTURY_SEAT_RACE)
+            ? seat.races.map((race) => seatRaceHistory(seat, race))
+            : []),
+        ])
+      : []),
+  ];
+}
+
+const centuryIds = new WeakMap<CoreState, Map<string, HistoryRow>>();
+
+/**
+ * The century the world ran from 1925 is the nation's history: every
+ * presidency, and by its kind each Congress, each party's stance by year, the
+ * parties founded, each seat as the century left it and the races each seat
+ * kept, read by the one history reader (src/core2/past-history.ts). A world
+ * that opened on today's real record ran no century and has none.
+ */
 const CENTURY_HISTORY: HistorySource = {
   id: "century",
   rows(core, scope, ask) {
     if (!("nation" in scope) || historyMode(core.seed) !== "century") return [];
-    const century = centuryOf(core.seed, core.startedAt);
-    return [
-      ...(!ask.kinds || ask.kinds.includes("century.presidency")
-        ? century.presidencies.map(presidencyHistory)
-        : []),
-      ...(ask.kinds?.includes(CENTURY_CONGRESS)
-        ? century.congresses.map(congressHistory)
-        : []),
-    ];
+    return centuryRows(core, ask.kinds);
   },
   row(core, id) {
-    if (!id.startsWith("century:") || historyMode(core.seed) !== "century")
-      return undefined;
-    const century = centuryOf(core.seed, core.startedAt);
-    const row = century.presidencies.find((held) => held.id === id);
-    if (row) return presidencyHistory(row);
-    const congress = century.congresses.find((held) => held.id === id);
-    return congress ? congressHistory(congress) : undefined;
+    if (historyMode(core.seed) !== "century") return undefined;
+    let ids = centuryIds.get(core);
+    if (!ids) {
+      ids = new Map(
+        centuryRows(core, [
+          "century.presidency",
+          CENTURY_CONGRESS,
+          CENTURY_PARTY_STANCE,
+          CENTURY_PARTY_FOUNDED,
+          CENTURY_SEAT_WON,
+          CENTURY_SEAT_RACE,
+        ]).map((row) => [row.id, row]),
+      );
+      centuryIds.set(core, ids);
+    }
+    return ids.get(id);
   },
 };
 
