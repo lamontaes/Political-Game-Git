@@ -1,5 +1,5 @@
 /** Same-payee bookkeeping only. No debt-age, legal priority or cash authority is inferred. */
-import type { FinanceReadGuard } from "./budgets-treasury";
+import type { FinanceReadGuard } from "./finance-plan";
 import type { PublicWorkPayDue, Source } from "./types";
 import type { WorkPayrollRequest } from "./work-pay-period";
 
