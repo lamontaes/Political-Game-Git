@@ -32,7 +32,7 @@ import {
   type PreStartModule,
 } from "../past-module";
 
-import { SCHOOL_MODULE_ID } from "../school-measures";
+import { GRADUATION_RESULT, SCHOOL_MODULE_ID } from "../school-measures";
 import {
   decideSchoolOutcome,
   recordSchoolSpending,
@@ -347,12 +347,7 @@ function schoolOutcomes(api: CoreAPI): void {
 const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
   actor.id === api.state.playerId;
 
-/**
- * A senior's school year's end in play as history (`school.graduation`): the
- * graduation result the engine wrote on the year's last school day, graduated
- * or not, by the result's own id.
- */
-export const GRADUATION_RESULT = "school.graduation";
+export { GRADUATION_RESULT };
 
 function graduationHistory(core: CoreState, row: SchoolResultRow): HistoryRow {
   const personIds = [row.personId as PersonId];
