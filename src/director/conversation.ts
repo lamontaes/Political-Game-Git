@@ -172,6 +172,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  replyAnswersAsk,
+  replyOffered,
   replyReach,
   shapeMenu,
   replyMoveAnswerable,
@@ -6345,8 +6347,6 @@ function fresher<T>(rows: readonly T[], keep: (row: T) => boolean): T[] {
   return kept.length ? kept : [...rows];
 }
 
-/** Lines that tell a stand without asking, whose replies are still the rules' own (`answersTo`). */
-const STANDS_TOLD: ReadonlySet<string> = new Set(["news-ask-core"]);
 /** A state whose bare name means the federal capital in speech (shared with the composed checks). */
 const PLACE_SAID_ONLY_AS: Readonly<Record<string, string>> =
   composedChecksData.placeSaidOnlyAs.names;
@@ -7073,11 +7073,7 @@ function offerChoices(
     // after a question, and after news told with the teller's stand, which
     // is answered by agreeing, disagreeing or asking why, never a bare
     // "Wow." or "Really?" (owner, Nov 12: "the just non-replies").
-    if (
-      (putQuestion || STANDS_TOLD.has(askedMove ?? "")) &&
-      fitting &&
-      !fitting.includes(choiceKey)
-    )
+    if (!replyAnswersAsk({ putQuestion, askedMove, fitting, choiceKey }))
       return;
     // Never asked what the talk already said, by either of them: a question
     // whose answer is in an earlier line (its record cited and its words
@@ -7124,7 +7120,7 @@ function offerChoices(
     // plea to be left alone, a reaction). Else a wording that asks nothing
     // stands in, or the reply is not offered.
     const asksLast = tail ? asksQuestion(tail) : answer.asks;
-    const heard =
+    const answerable =
       NEWS_SUBJECTS.has(last.subject.kind) ||
       // What say() reads: the raised subject between them, and the other
       // person's own words for it.
@@ -7147,7 +7143,7 @@ function offerChoices(
     const opensAsking = asksQuestion({
       text: text.match(/^[^.?!]*[.?!]/)?.[zero] ?? text,
     });
-    if ((asksLast && !heard) || (putQuestion && opensAsking)) {
+    if (!replyOffered({ asksLast, answerable, putQuestion, opensAsking })) {
       if (!statementsOnly && !raised)
         add(choiceKey, group, raised, bank, again, true);
       return;

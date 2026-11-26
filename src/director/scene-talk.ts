@@ -221,6 +221,7 @@ const HOME = (
         answerable: readonly string[];
         notes: readonly string[];
       } & Readonly<Record<string, unknown>>;
+      menu: { standsTold: readonly string[] };
       giveBack: {
         kinds: readonly string[];
         answers: Readonly<Record<string, unknown>>;
@@ -907,6 +908,46 @@ export function replyReach(
         "keep-short",
       )
     : zero;
+}
+
+/**
+ * Whether a reply answers the line before it: after a question put to the
+ * player, and after news told with the teller's stand, the replies are the
+ * ones the rules name for the line's move (`answersTo`), never a bare "Wow."
+ * or "Really?" (owner, Nov 12: "the just non-replies"). Where the rules name
+ * none for the move, any reply may answer.
+ */
+export function replyAnswersAsk(input: {
+  putQuestion: boolean;
+  askedMove: string | undefined;
+  fitting: readonly string[] | undefined;
+  choiceKey: string;
+}): boolean {
+  const stand = HOME.menu.standsTold.includes(input.askedMove ?? "");
+  return !(
+    (input.putQuestion || stand) &&
+    input.fitting &&
+    !input.fitting.includes(input.choiceKey)
+  );
+}
+
+/**
+ * Whether a worded reply is offered. A reply that ends on a question is
+ * offered only where the other person can answer it (`answerable`: it raises
+ * a subject they have, asks them to tell more, or makes a move the talk
+ * answers), and no reply to a question put to the player opens with a
+ * question of its own (owner, Oct 29).
+ */
+export function replyOffered(input: {
+  asksLast: boolean;
+  answerable: boolean;
+  putQuestion: boolean;
+  opensAsking: boolean;
+}): boolean {
+  return !(
+    (input.asksLast && !input.answerable) ||
+    (input.putQuestion && input.opensAsking)
+  );
 }
 
 /** One reply a home talk may offer, as the menu reads it. */
