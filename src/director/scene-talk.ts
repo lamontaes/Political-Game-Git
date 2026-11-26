@@ -1341,7 +1341,9 @@ export function factsNotYetSaid(
  * player's own life (the hook's tagged wording) is added where a piece fits,
  * never in place of the usual replies.
  */
-export function replyStep<L extends { parts: string[]; round: number }>(input: {
+export function replyStep<
+  L extends { parts: string[]; round: number; text: string },
+>(input: {
   moves: readonly string[];
   limit: number;
   word: (move: string, tagged: boolean) => L | null;
@@ -1349,20 +1351,26 @@ export function replyStep<L extends { parts: string[]; round: number }>(input: {
   round: number;
   onGap: (move: string) => void;
 }): L[] {
+  const offeredTexts = new Set<string>();
+  const repeats = (reply: L) =>
+    repeatsOffer(input.seen, { text: reply.text, piece: reply.parts[zero] }) ||
+    offeredTexts.has(reply.text);
   const offered = input.moves.slice(zero, input.limit).flatMap((move) => {
     const reply = input.word(move, false);
     if (!reply) {
       input.onGap(move);
       return [];
     }
-    if (input.seen.has(reply.parts[zero] ?? "")) return [];
+    if (repeats(reply)) return [];
+    offeredTexts.add(reply.text);
     reply.round = input.round;
     return [reply];
   });
   for (const move of input.moves) {
     if (offered.length >= input.limit + one) break;
     const extra = input.word(move, true);
-    if (!extra || input.seen.has(extra.parts[zero] ?? "")) continue;
+    if (!extra || repeats(extra)) continue;
+    offeredTexts.add(extra.text);
     extra.round = input.round;
     offered.push(extra);
     break;
@@ -1399,6 +1407,18 @@ export function shapeReply<L extends { asks: boolean }>(input: {
     if (!input.answer.asks) tail = input.raised.line;
   }
   return { head, tail };
+}
+
+/**
+ * Whether a reply repeats one already offered: by its piece (the first piece
+ * of the line that says it) or by its text, both (the owner's rule that every
+ * reply differs). `seen` holds the pieces and texts offered so far.
+ */
+export function repeatsOffer(
+  seen: ReadonlySet<string>,
+  reply: { text: string; piece: string | undefined },
+): boolean {
+  return seen.has(reply.text) || (!!reply.piece && seen.has(reply.piece));
 }
 
 /** One reply a home talk may offer, as the menu reads it. */

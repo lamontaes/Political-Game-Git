@@ -170,6 +170,7 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  repeatsOffer,
   shapeReply,
   factsAlreadySaid,
   factsNotYetSaid,
@@ -7135,8 +7136,10 @@ function offerChoices(
         add(choiceKey, group, raised, bank, again, true);
       return;
     }
-    if (seen.has(text)) return;
+    const piece = head.wording.parts[zero];
+    if (repeatsOffer(seen, { text, piece })) return;
     seen.add(text);
+    if (piece) seen.add(piece);
     if (raised) taken.add(raised.id);
     conversation.choices.push({
       key: `${turn}:${choiceKey}${raised ? `:${raised.id}` : ""}${again}`,
