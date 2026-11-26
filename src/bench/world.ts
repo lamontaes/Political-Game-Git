@@ -11,7 +11,7 @@ import {
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
 import { placeStateKey } from "../core2/place-map";
-import { buildPopulation, inHousehold } from "../core2/modules/coverage";
+import { buildPopulation, inHousehold } from "../core2/population";
 import { enrichCivicInputs } from "../core2/modules/campaigns";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -48,9 +48,9 @@ import { openOfficialPay } from "../core2/modules/executive";
 import { openCrime } from "../core2/modules/justice";
 import { openPatrol } from "../core2/modules/police-patrol";
 import { openCoverage } from "../core2/modules/coverage";
-import { openHomelessCount } from "../core2/modules/coverage";
+import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openGrievance } from "../core2/modules/people";
-import { openEstates } from "../core2/modules/health";
+import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/budgets-treasury";
 import { openContracts } from "../core2/budgets-treasury";
 import { openProjects } from "../core2/budgets-treasury";
@@ -61,18 +61,18 @@ import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openServeAsks } from "../core2/modules/serve-asks";
 import { PROMISES_MODULE } from "../core2/modules/promises";
-import { openLeadership } from "../core2/modules/meetings";
+import { openLeadership } from "../core2/modules/leadership";
 import { openSuccession } from "../core2/modules/office-day";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/campaigns";
-import { openPublicAction } from "../core2/modules/health";
+import { openPublicAction } from "../core2/modules/public-action";
 import { openNationalOpinion } from "../core2/modules/national-opinion";
 import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
   openSittingSessions,
   openWorldLegislating,
-} from "../core2/modules/meetings";
+} from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/campaigns";
 import { openRecalls } from "../core2/modules/campaigns";
 import { openHouseholdOutlets, openPress } from "../core2/modules/press";
@@ -81,14 +81,14 @@ import { officeDayData, openOfficeDay } from "../core2/modules/president-acts";
 import { openPresidentActs } from "../core2/modules/president-acts";
 import { openCases } from "../core2/modules/executive";
 import { openJustice } from "../core2/modules/justice";
-import { openPublicSafety } from "../core2/laws-in-force";
+import { openPublicSafety } from "../core2/modules/public-safety";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
-import { renewalData } from "../core2/modules/coverage";
+import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
 import { OPENING_KIN } from "../core2/opening-kin";
-import { scaleFirmsToCensus } from "../core2/macro-model";
-import { collapseToTwoLevels, fullPeople } from "../core2/modules/health";
+import { scaleFirmsToCensus } from "../core2/census-firms";
+import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import {
   addOutsideMarket,
@@ -97,7 +97,7 @@ import {
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { withOrigins } from "../core2/opening-origin";
-import { representativeSample } from "../core2/modules/health";
+import { representativeSample } from "../core2/representative-sample";
 import { seededUnit } from "../core2/seeded";
 import { withCountySample } from "../core2/opening-county-sample";
 import { withRoles } from "../core2/opening-roles";
