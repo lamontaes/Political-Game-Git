@@ -1,3 +1,4 @@
+import { historyOf } from "../core2/past";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { availableActs } from "../core2/life";
 import type { CoreState } from "../core2/types";
@@ -136,11 +137,18 @@ export function benchProgress(
           ),
           date: core.date,
           source: entrant.source,
-          birthFact: entrant.pastFacts?.find(
-            (fact) =>
-              fact.date === entrant.birthDate &&
-              fact.facts?.birthDate === entrant.birthDate,
-          ),
+          birthFact: historyOf(core, { person: entrant.id }, { from: "built" })
+            .map((fact) => ({
+              id: fact.id,
+              date: fact.date,
+              kind: fact.record,
+              facts: fact.facts,
+            }))
+            .find(
+              (fact) =>
+                fact.date === entrant.birthDate &&
+                fact.facts?.birthDate === entrant.birthDate,
+            ),
         }
       : undefined;
   const contactEvidence =

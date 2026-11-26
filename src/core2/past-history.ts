@@ -34,6 +34,7 @@ import type {
   IsoDate,
   LogRecord,
   PersonId,
+  PersonState,
   PlaceId,
 } from "./types";
 
@@ -62,6 +63,8 @@ export interface HistoryAsk {
   readonly through?: string;
   /** Only records that also name this person, or that they saw happen. */
   readonly with?: PersonId;
+  /** Only records whose facts name this id (a seat, a law, a bill). */
+  readonly about?: string;
   /**
    * Only what came from one source: what a person was made with (`built`:
    * every fact their record was made with, or those of `kinds`, in the order
@@ -71,6 +74,17 @@ export interface HistoryAsk {
    * source keeps its order: the past by day, play as it was recorded.
    */
   readonly from?: "built" | "past" | "played";
+}
+
+/** What a person remembers, as their record keeps it (`remembered`, src/core2/person-life.ts). */
+export interface RememberedRow {
+  readonly id: string;
+  readonly date: IsoDate;
+  readonly life: string;
+  readonly what: string;
+  readonly record: string;
+  readonly withIds: readonly PersonId[];
+  readonly placeId?: PlaceId;
 }
 
 /** One thing that happened, as every reader gets it. */
@@ -326,8 +340,9 @@ export function whereOf(
 
 /**
  * Whether a row belongs to a place, a state or the nation: where it happened
- * (`whereOf`), and, for a history read without kinds, only what anyone may
- * read. A read that names its kinds gets every record of those kinds there
+ * (`whereOf`), and, for a history read without kinds or a source, only what
+ * anyone may read. A read that names its kinds or its source gets every
+ * record of them there
  * (a town's moves away, which name a household's people, are no public
  * record, but they are the town's).
  */
@@ -336,7 +351,7 @@ function inPlaceScope(
   scope: HistoryScope,
   ask: HistoryAsk,
 ): boolean {
-  if (!ask.kinds && !row.publicRecord) return false;
+  if (!ask.kinds && !ask.from && !row.publicRecord) return false;
   const where = whereOf(row);
   if ("place" in scope) return where.place === scope.place;
   if ("state" in scope) return where.state === scope.state;
@@ -370,6 +385,8 @@ function peopleOf(core: CoreState, scope: HistoryScope): readonly PersonId[] {
 /** Whether a row is in the window and kinds asked for. */
 function asked(row: HistoryRow, ask: HistoryAsk): boolean {
   if (ask.from && row.from !== ask.from) return false;
+  if (ask.about && !Object.values(row.facts ?? {}).includes(ask.about))
+    return false;
   if (ask.kinds && !ask.kinds.includes(row.record)) return false;
   if (ask.since && row.date < ask.since) return false;
   if (ask.through && row.date > ask.through) return false;
@@ -485,11 +502,16 @@ function recordById(core: CoreState, id: string): HistoryRow | undefined {
   return undefined;
 }
 
-/** The ids a record's facts name as its cause, each one a record that exists. */
+/**
+ * The ids a record's facts name as its cause, each one a record that exists:
+ * a stored record, or a fact one of the people it names was made with (a
+ * kinship that set a person's first work), as what it led to tells it.
+ */
 function causesOf(
   core: CoreState,
   id: string,
   facts: Readonly<Record<string, string>> | undefined,
+  personIds: readonly PersonId[] = [],
 ): string[] {
   // The whole record's facts: a person's own copy keeps only some of them.
   const whole =
@@ -502,7 +524,13 @@ function causesOf(
     const value = whole[key];
     if (value === undefined || value === null || value === "") continue;
     const named = String(value);
-    if (named !== id && !out.includes(named) && recordById(core, named))
+    if (named === id || out.includes(named)) continue;
+    if (
+      recordById(core, named) ||
+      personIds.some((personId) =>
+        core.people.get(personId)?.pastFacts?.some((fact) => fact.id === named),
+      )
+    )
       out.push(named);
   }
   return out;
@@ -567,7 +595,7 @@ function told(core: CoreState, row: HistoryRow): HistoryEvent {
   return Object.defineProperties(event, {
     causeIds: {
       enumerable: true,
-      get: () => (causes ??= causesOf(core, row.id, row.facts)),
+      get: () => (causes ??= causesOf(core, row.id, row.facts, row.personIds)),
     },
     ledTo: {
       enumerable: true,
@@ -665,5 +693,91 @@ export function historyEvent(
   id: string,
 ): HistoryEvent | undefined {
   const row = recordById(core, id);
-  return row ? told(core, row) : undefined;
+  if (row) return told(core, row);
+  // A fact a person was made with, told from their life as their own history
+  // tells it: on the person the id names, or (a hash that names no one) on
+  // whoever holds it.
+  const life = sourcesOf(core).life;
+  if (!life) return undefined;
+  const owners = id.startsWith("fact_")
+    ? [...core.people.keys()]
+    : ((id.match(/person_[0-9a-f]+/g) ?? []) as PersonId[]);
+  for (const personId of owners) {
+    if (!core.people.get(personId)?.pastFacts?.some((fact) => fact.id === id))
+      continue;
+    for (const built of life.rows(
+      core,
+      { person: personId },
+      { from: "built" },
+    ))
+      if (built.id === id) return told(core, built);
+  }
+  return undefined;
+}
+
+/**
+ * The stored record behind an event, by its id, as the store that holds it
+ * keeps it: a record of the simulated past, a record of play, or an engine
+ * table's row (what dev mode's Trace opens, with its source and module).
+ */
+export function recordOf(
+  core: CoreState,
+  id: string,
+  /** The person a fact they were made with would be kept on, where the caller knows them. */
+  personId?: PersonId,
+):
+  | { readonly from: "past"; readonly record: HistoryRecord }
+  | { readonly from: "played"; readonly record: LogRecord }
+  | { readonly from: "source"; readonly record: HistoryRow }
+  | {
+      readonly from: "built";
+      readonly record: NonNullable<PersonState["pastFacts"]>[number];
+      readonly personId: PersonId;
+    }
+  | {
+      readonly from: "remembered";
+      readonly record: RememberedRow;
+      readonly personId: PersonId;
+    }
+  | undefined {
+  // A fact a person was made with: on the person named, or (an id that names
+  // no one, a hash) on whoever holds it.
+  const owners = personId
+    ? [core.people.get(personId)]
+    : id.startsWith("fact_")
+      ? [...core.people.values()]
+      : [];
+  for (const person of owners) {
+    const fact = person?.pastFacts?.find((row) => row.id === id);
+    if (fact && person)
+      return { from: "built", record: fact, personId: person.id };
+  }
+  const logged = core.durableLog.get(id as never);
+  if (logged) return { from: "played", record: logged };
+  const past = pastIdsOf(core).get(id);
+  if (past) return { from: "past", record: past };
+  for (const source of sourcesOf(core).others) {
+    const row = source.row?.(core, id);
+    if (row) return { from: "source", record: row };
+  }
+  // What the person named remembers that no other store keeps (an event the
+  // log keeps only for the player's circle; src/core2/person-life.ts).
+  const remembered = personId
+    ? (
+        core.people.get(personId) as
+          { remembered?: readonly RememberedRow[] } | undefined
+      )?.remembered?.find((row) => row.id === id)
+    : undefined;
+  if (remembered)
+    return { from: "remembered", record: remembered, personId: personId! };
+  return undefined;
+}
+
+/**
+ * Writes a person's whole past (or an official's earlier terms) before it is
+ * read, once, as reading their own life does: what a card opened for someone
+ * the history holds no life for yet calls.
+ */
+export function openHistory(core: CoreState, personId: PersonId): void {
+  sourcesOf(core).life?.open?.(core, personId);
 }

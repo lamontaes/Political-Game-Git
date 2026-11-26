@@ -8,6 +8,7 @@
  * people and sales by industry month by month. Reads only, except the two
  * controls; every row is record data and every id opens in Trace.
  */
+import { historyOf } from "../../core2/past";
 import { coreAPI } from "../../core2/state";
 import { isOutsideMarket } from "../../director/words";
 import { LAWS_MODULE_ID, lawChain } from "../../core2/modules/laws";
@@ -286,8 +287,13 @@ export function whatCameOf(
       if (move.direction === "out" && move.date >= from)
         movesOut.set(move.householdId, move);
   const movedFull = new Map<string, string>();
-  for (const id of core.logByKind.get(MOVED_AWAY_EVENT) ?? []) {
-    const event = core.durableLog.get(id);
+  for (const away of historyOf(
+    core,
+    { nation: true },
+    { kinds: [MOVED_AWAY_EVENT], from: "played" },
+  )) {
+    const id = away.id;
+    const event = core.durableLog.get(id as never);
     if (!event || event.date < from) continue;
     for (const personId of event.personIds) movedFull.set(personId, id);
   }

@@ -11,7 +11,7 @@ import { stableHash } from "./kernel/ids";
 import { schoolSpans, stageOf } from "./past-school";
 import { kindergartenYear } from "./past-school-calendar";
 import { PAST_WORK_SPELL } from "./past-work";
-import { preStartHistory } from "./pre-start";
+import { historyOf } from "./past-history";
 import { parameter } from "./parameters";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
@@ -208,11 +208,12 @@ interface WorkSpan {
 }
 
 function workSpans(core: Readonly<CoreState>, personId: PersonId): WorkSpan[] {
-  return preStartHistory(core as CoreState, {
-    kind: PAST_WORK_SPELL,
-    personId,
-  }).flatMap((row) =>
-    row.facts.organizationId
+  return historyOf(
+    core as CoreState,
+    { person: personId },
+    { kinds: [PAST_WORK_SPELL], from: "past" },
+  ).flatMap((row) =>
+    row.facts?.organizationId
       ? [
           {
             organizationId: String(row.facts.organizationId),
