@@ -152,6 +152,14 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
+export {
+  NATIONAL_ENGAGEMENT,
+  countedResidents,
+  countedResidentsOf,
+  engagementOf,
+} from "../electorate";
+export { StanceReader, candidateStance } from "../campaign-stances";
+export { publicOffset, questionAxis } from "../campaign-views";
 export { withMembershipDues } from "../membership-dues";
 export { electionsParameter } from "../elections-calendar";
 

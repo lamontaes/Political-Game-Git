@@ -29,7 +29,7 @@ import {
   daysBetweenText,
   makeIsoDate,
 } from "../kernel/dates";
-import { spendLivingCost } from "../official-living";
+import { spendLivingCost } from "./executive";
 import { keepsWhy } from "../why-kept";
 import {
   decisionLean,
@@ -53,7 +53,7 @@ import {
   countedResidentsOf,
   engagementOf,
   NATIONAL_ENGAGEMENT,
-} from "../electorate";
+} from "./campaigns";
 import {
   announcedIn,
   ballot,
@@ -79,25 +79,21 @@ import {
   type ImpressionRow,
 } from "./campaigns";
 import { promisesOf, votesOf } from "./record";
-import { partySide } from "../appointments";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { partySide } from "./offices";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   CORRUPTION_MODULE_ID,
   crimeRecord,
   wantedFacts,
   type CrimeRecord,
 } from "./corruption";
+import { awardsOn } from "./budgets";
 import {
-  awardsOn,
   CONTRACTS_MODULE_ID,
   OWNER_RELATION,
   type ContractAwardRow,
-} from "./contracts";
-import {
-  candidateStance,
-  stanceReader,
-  type StanceReader,
-} from "../campaign-stances";
+} from "../budgets-treasury";
+import { candidateStance, stanceReader, type StanceReader } from "./campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
 import {
@@ -106,7 +102,7 @@ import {
   giveOutsideSuppliers,
   ownerOf,
 } from "./business";
-import { publicOffset, questionAxis } from "../campaign-views";
+import { publicOffset, questionAxis } from "./campaigns";
 import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import {
   hireStaffMember,
@@ -126,7 +122,7 @@ import {
 import { electorateSides } from "./voting";
 import { residentCounts, residentsRuntime } from "./residents";
 import { openingEmployerCashBufferPrior } from "../opening-capital";
-import { employerTaxShareOfWage } from "./employer-taxes";
+import { employerTaxShareOfWage } from "./budgets";
 import {
   adBudgetMonthMinor,
   installOutletMoney,
@@ -136,7 +132,7 @@ import {
   payMarket,
   payWiderAudience,
 } from "../press-money";
-import { countedJobHeads, countedJobsOf } from "../residents-economy";
+import { countedJobHeads, countedJobsOf } from "./residents";
 import { pressStaffChanged } from "../press-conflict";
 import {
   isPolicyTopic,
