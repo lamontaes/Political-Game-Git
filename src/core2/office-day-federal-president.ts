@@ -20,7 +20,7 @@ import type { CoreAPI } from "./types";
 import type { ModuleRow } from "./module-data";
 import { makeIsoDate } from "./kernel/dates";
 import { closenessBetween } from "./closeness";
-import { candidateStance } from "./campaign-stances";
+import { candidateStance } from "./modules/campaigns";
 import {
   appointerWeighing,
   nominateAndConfirm,
@@ -36,7 +36,7 @@ import { admitCountedHousehold } from "./modules/residents";
 import type { CoreState } from "./types";
 import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
-import { coarsePlace, metResident, metWork } from "./coarse-place";
+import { coarsePlace, metResident, metWork } from "./life";
 import {
   OFFICIALS_MODULE_ID,
   officialLean,
@@ -48,7 +48,7 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import { CAMPAIGNS_MODULE_ID, touchImpression } from "./modules/campaigns";
-import { personLean } from "./campaign-views";
+import { personLean } from "./modules/campaigns";
 import { agreementWith } from "./modules/views";
 import {
   candidateAnswers,

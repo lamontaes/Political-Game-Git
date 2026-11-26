@@ -3,7 +3,7 @@ import board from "./data/macro/board.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
 import { getNameCorpus } from "./gov-rules/names-data";
 import { SeededRng } from "./kernel/rng";
-import { medianTransactionBalance } from "./starting-cash";
+import { medianTransactionBalance } from "./modules/budgets";
 import type { MacroMonth, MacroParameter } from "./macro-model";
 import type {
   ActOffer,

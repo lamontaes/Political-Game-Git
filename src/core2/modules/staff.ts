@@ -17,7 +17,7 @@
  */
 import { townLean } from "./campaigns";
 import { openBusinessOwnerIds } from "./business";
-import { workedToday } from "../job-lifecycle";
+import { workedToday } from "./jobs";
 import {
   coreAPI,
   fillInIdentity,
@@ -27,7 +27,7 @@ import {
 } from "../state";
 import { drawOfficialIdentity } from "../officials-identity";
 import { openingTemperaments } from "../opening-personality";
-import { countedResidents } from "../electorate";
+import { countedResidents } from "./campaigns";
 import {
   corePlaceByJurisdictionId,
   coreSeatOfGovernmentPlace,
@@ -38,7 +38,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { residentsRuntime } from "./residents";
 import type { ModuleRow } from "../module-data";
-import { personLean } from "../campaign-views";
+import { personLean } from "./campaigns";
 import { campaignParameter } from "../campaign-data";
 import { townPayAt } from "../town-labor-pay";
 import { viewOn } from "./views";

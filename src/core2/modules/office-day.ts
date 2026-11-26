@@ -94,10 +94,7 @@ export {
   federalHolidayName,
   federalHolidays,
 } from "../office-day-federal-calendar";
-import {
-  playerClockFrontierV1,
-  type ModuleStopTokenV1,
-} from "../player-stops-v1";
+import { playerClockFrontierV1, type ModuleStopTokenV1 } from "../life";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { headsLocalExecutive } from "../offices-executives";

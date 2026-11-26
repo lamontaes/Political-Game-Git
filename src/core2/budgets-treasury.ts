@@ -57,6 +57,7 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { cutRibbon, ribbonsToCut } from "./modules/projects";
 export { CONTRACTS_MODULE_ID, OWNER_RELATION } from "./modules/contracts";
 export type { ContractAwardRow } from "./modules/contracts";
 export { FinanceReadGuard } from "./finance-plan";

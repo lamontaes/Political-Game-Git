@@ -152,6 +152,8 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
+export { personLean } from "../campaign-views";
+export { legislativeDistrictResult } from "../legislative-district-results";
 export {
   NATIONAL_ENGAGEMENT,
   countedResidents,

@@ -65,6 +65,9 @@ import type {
   PersonState,
 } from "./types";
 import { OFFER_ROUND_PREDICTION } from "./types";
+export { federalAidFor } from "./modules/disasters";
+export type { ModuleStopTokenV1 } from "./player-stops-v1";
+export { coarsePlace, metResident, metWork } from "./coarse-place";
 
 export type Controller = (
   decision: DecisionResult,
