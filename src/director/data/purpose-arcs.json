@@ -4707,7 +4707,7 @@
     }
   },
   "home": {
-    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). Where someone says where they stand (`ownView`), the player may ask why (`why`) or agree or disagree (`takes`): the answer to why is composed under `backSubject`, the answer to a take under `takeSubject` by the reply's move, carrying the facts in `takeCarries` that the talk already holds. Where someone asks the player a small question (`giveBack`), the asker gives their own answer back after the player's: `kinds` are the questions, `answers` the player's moves a give-back answers and its stage for each, `plain` the moves that are the plain answer, and `covers` the raised kinds a give-back already told. Where someone tells news (`news`), a reply that takes a side (`sides`) is learned by everyone who heard it, and the answer is composed under `backSubject`; when the player answers a printed story the neighbor asked about with one of `tellsStand`, the neighbor says where they stand under `standSubject`. A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
+    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). Where someone says where they stand (`ownView`), the player may ask why (`why`) or agree or disagree (`takes`): the answer to why is composed under `backSubject`, the answer to a take under `takeSubject` by the reply's move, carrying the facts in `takeCarries` that the talk already holds. What move each answer the player gives makes (`replyMoves`, by the line's kind, then the choice) is what the `talk` purpose answers it by: a choice not listed is a plain answer, a choice that only takes their line in (`notes`) gets no answer back, and the replies a talk answers (`answerable`) are offered even when they end on a question. Where someone asks the player a small question (`giveBack`), the asker gives their own answer back after the player's: `kinds` are the questions, `answers` the player's moves a give-back answers and its stage for each, `plain` the moves that are the plain answer, and `covers` the raised kinds a give-back already told. Where someone tells news (`news`), a reply that takes a side (`sides`) is learned by everyone who heard it, and the answer is composed under `backSubject`; when the player answers a printed story the neighbor asked about with one of `tellsStand`, the neighbor says where they stand under `standSubject`. A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
     "ownView": {
       "why": "why",
       "takes": ["agree", "disagree"],
@@ -4720,6 +4720,142 @@
       "standSubject": "news-ask",
       "sides": ["for", "against"],
       "tellsStand": ["yes", "no", "react"]
+    },
+    "replyMoves": {
+      "about": "What move each answer the player gives makes, by the line's kind, then the choice: the scene engine's `talk` purpose (purpose-arcs.json) answers it by that move (owner, Oct 29: one engine for every line). A choice not listed is a plain answer. A choice that only takes their line in (`notes`: \"Oh, okay.\") gets no answer back; the talk carries on. A choice that asks a question is offered only where the other person can answer it: it raises a subject they have, asks them to tell more (`tells`), or makes a move the talk answers (a request, a plea to be left alone, a reaction).",
+      "default": "answer",
+      "answerable": ["request", "decline", "react"],
+      "notes": ["ack", "ack-none"],
+      "quiet": {
+        "tired": "tell",
+        "fine": "answer",
+        "talk": "request",
+        "alone": "decline",
+        "miss": "tell"
+      },
+      "address": {
+        "agree": "agree",
+        "doubt": "disagree"
+      },
+      "address-point": {
+        "agree": "agree",
+        "disagree": "disagree",
+        "here": "ask",
+        "instead": "ask"
+      },
+      "own-view": {
+        "agree": "agree",
+        "disagree": "disagree",
+        "hear": "answer",
+        "private": "answer"
+      },
+      "news": {
+        "react": "react",
+        "yes": "answer",
+        "no": "answer",
+        "opinion": "answer",
+        "for": "agree",
+        "against": "disagree",
+        "worked-there": "tell",
+        "why": "request"
+      },
+      "family": {
+        "ill": "tell",
+        "gone": "tell",
+        "well": "answer",
+        "thanks": "thank"
+      },
+      "charge": {
+        "confess": "confess",
+        "deflect": "deflect",
+        "refuse": "refuse",
+        "tell": "tell"
+      },
+      "conviction": {
+        "refuse": "refuse",
+        "tell": "tell",
+        "apologize": "apologize",
+        "confess": "confess"
+      },
+      "acquittal": {
+        "tell": "answer",
+        "refuse": "refuse",
+        "deflect": "deflect"
+      },
+      "veto-reply": {
+        "holds": "refuse",
+        "gives": "apologize",
+        "leave": "decline"
+      },
+      "work-day": {
+        "plan": "answer",
+        "wish": "answer",
+        "ask": "request",
+        "glad": "answer"
+      },
+      "rent-due": {
+        "ask": "request",
+        "help": "answer"
+      },
+      "here": {
+        "name": "answer"
+      },
+      "player-day": {
+        "good": "answer",
+        "bad": "answer",
+        "plain": "answer"
+      },
+      "work-done": {
+        "ask": "request",
+        "rest": "answer"
+      },
+      "school-missed": {
+        "ask": "request",
+        "today": "request",
+        "push": "answer"
+      },
+      "news-touch": {
+        "ask": "request",
+        "glad": "answer"
+      },
+      "player-news": {
+        "thanks": "answer",
+        "tell": "answer",
+        "ask": "request"
+      },
+      "government-news": {
+        "for": "agree",
+        "against": "disagree"
+      },
+      "death-news": {
+        "ask": "request",
+        "okay": "request",
+        "help": "answer",
+        "condole": "answer"
+      },
+      "illness-news": {
+        "ask": "request",
+        "help": "answer",
+        "comfort": "answer"
+      },
+      "prison-news": {
+        "ask": "request",
+        "what": "request",
+        "comfort": "answer"
+      },
+      "eviction": {
+        "ask": "request",
+        "where": "request",
+        "comfort": "answer",
+        "what": "request",
+        "owed": "request"
+      },
+      "job-lost": {
+        "ask": "request",
+        "hope": "request",
+        "help": "answer",
+        "comfort": "answer"
+      }
     },
     "giveBack": {
       "about": "Lead, Nov 13, 2026 (conversation.test, Jackson Center: every talk away from home ended on the player's answer): a person who asks the player a small question gives their own answer back after the player's, from their own record, and that closes the talk with something said; a question with nothing to give back is not asked. The asked kinds; their give-back lines are composed under `<kind>-give`.",

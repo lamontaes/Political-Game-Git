@@ -212,6 +212,11 @@ const HOME = (
       dayBack: {
         omitsTold: { kinds: readonly string[]; figures: readonly string[] };
       };
+      replyMoves: {
+        default: string;
+        answerable: readonly string[];
+        notes: readonly string[];
+      } & Readonly<Record<string, unknown>>;
       giveBack: {
         kinds: readonly string[];
         answers: Readonly<Record<string, unknown>>;
@@ -853,6 +858,28 @@ export function giveBackLine(
     input.momentKey,
     input.saidParts,
   );
+}
+
+/**
+ * The move the player's answer to a line of this kind makes: "note" for one
+ * that only takes the line in ("Oh, okay."), which the talk does not answer;
+ * otherwise the move the arcs file's `home.replyMoves` names for the kind and
+ * the choice, or a plain answer.
+ */
+export function replyMoveOf(kind: string, choice: string): string {
+  const moves = HOME.replyMoves;
+  if (
+    moves.notes.some((note) => choice === note || choice.startsWith(`${note}:`))
+  )
+    return "note";
+  const own = moves[kind.replace(/-new$/, "")] as
+    Readonly<Record<string, string>> | undefined;
+  return own?.[choice] ?? moves.default;
+}
+
+/** Whether a talk answers a reply that makes this move, so a reply that ends on a question may be offered. */
+export function replyMoveAnswerable(move: string): boolean {
+  return HOME.replyMoves.answerable.includes(move);
 }
 
 /** Where the exchange stands as a branch grows. */

@@ -176,6 +176,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  replyMoveAnswerable,
+  replyMoveOf,
   asksGiveBack,
   giveBackCovers,
   giveBackLine,
@@ -334,32 +336,7 @@ export const CONVERSATION_RULES = rulesFile as unknown as Omit<
 
 type Facts = Record<string, Fact>;
 
-/** What move each answer the player gives makes, for the scene engine's `talk` answer (conversation-rules.json). */
-const REPLY_MOVES = (
-  rulesFile as unknown as {
-    replyMoves: {
-      default: string;
-      answerable: readonly string[];
-      notes: readonly string[];
-    } & Readonly<Record<string, unknown>>;
-  }
-).replyMoves;
-
-/**
- * The move the player's answer to a line of this kind makes: "note" for one
- * that only takes the line in ("Oh, okay."), which the talk does not answer.
- */
-export function replyMoveOf(kind: string, choice: string): string {
-  if (
-    REPLY_MOVES.notes.some(
-      (note) => choice === note || choice.startsWith(`${note}:`),
-    )
-  )
-    return "note";
-  const own = REPLY_MOVES[kind.replace(/-new$/, "")] as
-    Readonly<Record<string, string>> | undefined;
-  return own?.[choice] ?? REPLY_MOVES.default;
-}
+export { replyMoveOf };
 
 /** Something real to talk about, from the speaker's records. */
 export interface Subject {
@@ -7167,7 +7144,7 @@ function offerChoices(
       // A question turned back the asker's give-back answers ("Why do you
       // ask?" "Just wondering. I saw her last week.").
       !!giveBackStage(last.kind, choiceKey) ||
-      REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
+      replyMoveAnswerable(replyMoveOf(last.kind, choiceKey));
     // A slot that opens a sentence is said with a capital, as every line is.
     const text = sentenceStarts(joinedReply(head, tail));
     const opensAsking = asksQuestion({

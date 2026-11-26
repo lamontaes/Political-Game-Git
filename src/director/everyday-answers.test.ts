@@ -24,7 +24,7 @@ const PLACES = 2;
 const DAYS = 30;
 const STEP = 7;
 const TURNS = 4;
-/** The choices that only take a line in (conversation-rules.json replyMoves.notes). */
+/** The choices that only take a line in (purpose-arcs.json home.replyMoves.notes). */
 const NOTES = new Set(["ack", "ack-none"]);
 const ANSWERS_TO = rules.answersTo as unknown as Record<string, string[]>;
 
