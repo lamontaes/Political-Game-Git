@@ -1463,6 +1463,19 @@ export function fillMenu(input: {
     input.offerPass(`:more${again}`);
 }
 
+/**
+ * The first wording that can be said, trying each in order: a line the bank
+ * has for the move, else the plain way of saying it. Each try is made only
+ * when the one before could not be worded. Null where none can.
+ */
+export function firstWorded<L>(tries: readonly (() => L | null)[]): L | null {
+  for (const attempt of tries) {
+    const line = attempt();
+    if (line) return line;
+  }
+  return null;
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;

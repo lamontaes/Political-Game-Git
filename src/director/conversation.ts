@@ -170,6 +170,7 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  firstWorded,
   fillMenu,
   replyVerdict,
   repeatsOffer,
@@ -7284,49 +7285,56 @@ function lieChoices(
   const own = last.subject.own!;
   const bases = lieClaims(core, conversation, last.subject).flatMap((claim) => {
     const momentKey = `${playerId}:${otherId}:${turn}:lie:${claim.stage}`;
-    let said = words(
-      core,
-      data,
-      playerId,
-      last.kind,
-      "lie",
-      ALL,
-      { ...last.facts, ...claim.facts },
-      momentKey,
-      claim.stage,
-    );
     // No mined lie for this question: a false alternative is the plain
     // answer with the false fact in it ("I'm at {claimed}."), and a denial is
     // what someone without that record says ("Not right now.").
     const claimed = claim.facts.claimed;
-    if (!said && claimed)
-      said = words(
-        core,
-        data,
-        playerId,
-        last.kind,
-        "answers",
-        { keys: ["plain"] },
-        Object.fromEntries(
-          Object.entries(facts).map(([key, fact]) => [
-            key,
-            OWN_SLOTS.includes(key) ? claimed : fact,
-          ]),
+    const said = firstWorded([
+      () =>
+        words(
+          core,
+          data,
+          playerId,
+          last.kind,
+          "lie",
+          ALL,
+          { ...last.facts, ...claim.facts },
+          momentKey,
+          claim.stage,
         ),
-        momentKey,
-      );
-    if (!said && claim.stage === "none" && last.kind.startsWith("own-work"))
-      said = words(
-        core,
-        data,
-        playerId,
-        "other-work",
-        "reply",
-        ALL,
-        {},
-        momentKey,
-        "none",
-      );
+      () =>
+        claimed
+          ? words(
+              core,
+              data,
+              playerId,
+              last.kind,
+              "answers",
+              { keys: ["plain"] },
+              Object.fromEntries(
+                Object.entries(facts).map(([key, fact]) => [
+                  key,
+                  OWN_SLOTS.includes(key) ? claimed : fact,
+                ]),
+              ),
+              momentKey,
+            )
+          : null,
+      () =>
+        claim.stage === "none" && last.kind.startsWith("own-work")
+          ? words(
+              core,
+              data,
+              playerId,
+              "other-work",
+              "reply",
+              ALL,
+              {},
+              momentKey,
+              "none",
+            )
+          : null,
+    ]);
     return said ? [{ claim, said }] : [];
   });
   if (!bases.length) return [];
