@@ -57,6 +57,8 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { schoolsLineAboveBase } from "./school-budget-line";
+export { transfer, transferSplit } from "./accounts";
 
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {

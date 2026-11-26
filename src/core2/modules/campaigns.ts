@@ -152,6 +152,7 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
+export { electionsParameter } from "../elections-calendar";
 
 export { candidatePlatform } from "../campaign-stances";
 export { contestPositions } from "../contest-positions";
