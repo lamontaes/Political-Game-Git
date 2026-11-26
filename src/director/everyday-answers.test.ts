@@ -17,7 +17,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import type { PersonId } from "../core2/types";
 import { openConversation, say, type Conversation } from "./conversation";
-import rules from "./data/conversation-rules.json" with { type: "json" };
+import arcs from "./data/purpose-arcs.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const PLACES = 2;
@@ -26,7 +26,10 @@ const STEP = 7;
 const TURNS = 4;
 /** The choices that only take a line in (purpose-arcs.json home.replyMoves.notes). */
 const NOTES = new Set(["ack", "ack-none"]);
-const ANSWERS_TO = rules.answersTo as unknown as Record<string, string[]>;
+const ANSWERS_TO = arcs.home.menu.answersTo as unknown as Record<
+  string,
+  string[]
+>;
 
 const asked = (talk: Conversation) => {
   const last = talk.lines.at(-1);
