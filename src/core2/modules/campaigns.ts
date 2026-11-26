@@ -152,6 +152,20 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
+export { filingClerkFor } from "./filing-clerk";
+export { choosesPresident } from "../electorate-places";
+export {
+  joinParty,
+  nextPartyMeeting,
+  openParties,
+  partyAgreement,
+  partyMemberIds,
+  partyStands,
+} from "./parties";
+export { enrichCivicInputs } from "../civic-inputs";
+export { openInterestGroups } from "./interest-groups";
+export { openBallotMeasures } from "./ballot-measures";
+export { openRecalls } from "./recalls";
 export { personLean } from "../campaign-views";
 export { legislativeDistrictResult } from "../legislative-district-results";
 export {

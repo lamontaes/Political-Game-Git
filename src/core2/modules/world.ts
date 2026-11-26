@@ -28,6 +28,13 @@ export { townMetrics } from "./world-metrics";
 export { DISASTERS_MODULE_ID, townDisasters } from "./disasters";
 import { PLACE_PRICES_MODULE, PRICES_PARAMETERS } from "./place-prices";
 import { withMembershipDues } from "./campaigns";
+export {
+  advancePlayerV1,
+  earliestPlayerStopV1,
+  resumePlayerV1,
+  retirePlayerV1,
+} from "../player-v1";
+export type { PlayerMomentV1, PlayerPacketV1 } from "../player-v1";
 
 export const WORLD_MODULES = [
   MACRO_MODULE,

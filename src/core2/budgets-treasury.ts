@@ -57,6 +57,11 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { bankDeposit, personOutflowsForMonth } from "./accounts";
+export { openOutsideBudgets } from "./modules/outside-budgets";
+export { openEmployerTaxes } from "./modules/employer-taxes";
+export { openContracts } from "./modules/contracts";
+export { openProjects } from "./modules/projects";
 export { transferCash } from "./world-transfer";
 export { cutRibbon, ribbonsToCut } from "./modules/projects";
 export { CONTRACTS_MODULE_ID, OWNER_RELATION } from "./modules/contracts";

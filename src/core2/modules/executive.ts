@@ -102,6 +102,9 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
+export { municipiosForPlace } from "../gov-rules/county-governing-body-rules";
+export { openOfficialPay } from "./official-pay";
+export { openCases } from "./constituent-cases";
 export { caucusSide, nationalParty, partyName } from "../appointments";
 export { drawOfficialIdentity } from "../officials-identity";
 export { OFFICIALS_DATA } from "../officials-roster";
