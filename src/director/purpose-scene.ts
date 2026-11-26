@@ -22,7 +22,10 @@ import {
   policyAuthority,
   type PolicyLevel,
 } from "../core2/modules/laws";
-import { meetingsOn } from "../core2/modules/interest-groups";
+import {
+  meetingsOn,
+  witnessChildAtHome,
+} from "../core2/modules/interest-groups";
 import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import {
   LEGISLATURE_MODULE_ID,
@@ -1580,15 +1583,22 @@ function composeBinding(
   if (record?.kind === "committee-hearing" && said.witnessIds) {
     const at = said.witnessIds.split(",").indexOf(askerId);
     const side = (said.witnessSides ?? "").split(",")[at];
-    const life = (said.witnessLives ?? "").split(",")[at];
+    const recordedLife = (said.witnessLives ?? "").split(",")[at];
     const cited = [moment.causeId, askerId];
     if (side === "for" || side === "against")
       facts[`witness-${side}`] = { text: "yes", sourceRecordIds: cited };
     const lifeRecord = (said.witnessLifeRecords ?? "").split(",")[at] ?? "";
+    // Earlier hearings could name a younger relative as the witness's child.
+    const life =
+      recordedLife === "children-at-home" &&
+      !witnessChildAtHome(coreAPI(core as CoreState), askerId, lifeRecord)
+        ? "believes"
+        : recordedLife;
     if (life)
       facts[`life-${life}`] = {
         text: "yes",
-        sourceRecordIds: lifeRecord ? [...cited, lifeRecord] : cited,
+        sourceRecordIds:
+          lifeRecord && life === recordedLife ? [...cited, lifeRecord] : cited,
       };
     // The record that life rests on, worded where a person would name it:
     // the place they work, their child.
