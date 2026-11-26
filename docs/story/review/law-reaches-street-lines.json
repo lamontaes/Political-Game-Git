@@ -1,0 +1,737 @@
+[
+  {
+    "key": "scene-talk.narrate-narrate.name-stops-to-ask-you-about-law",
+    "kind": "spoken",
+    "move": "narrate-narrate",
+    "text": "{name} stops to ask you about {law}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["name", "law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.you-hear-your-name-it-s-name-with-a-question-about-law",
+    "kind": "spoken",
+    "move": "narrate-narrate",
+    "text": "You hear your name. It's {name}, with a question about {law}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["name", "law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-ve-been-trying-to-work-out-who-decides-what-happens-with-law-do-i-start-with-you",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I've been trying to work out who decides what happens with {law}. Do I start with you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.can-i-have-a-minute-it-s-about-law-i-d-like-you-to-hear-what-it-s-like-here",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Can I have a minute? It's about {law}. I'd like you to hear what it's like here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.who-do-i-talk-to-about-law-if-i-want-somebody-to-go-over-my-case",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Who do I talk to about {law} if I want somebody to go over my case?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-had-a-question-about-law-before-i-saw-you-how-do-i-get-it-on-the-record",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I had a question about {law} before I saw you. How do I get it on the record?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-tell.let-s-start-with-what-happened-to-you-under-law-i-m-listening",
+    "kind": "spoken",
+    "move": "reply-tell",
+    "text": "Let's start with what happened to you under {law}. I'm listening.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "tell",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-tell.is-your-question-about-how-law-works-or-about-getting-it-changed",
+    "kind": "spoken",
+    "move": "reply-tell",
+    "text": "Is your question about how {law} works or about getting it changed?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "tell",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-tell.i-d-need-to-hear-your-case-before-i-could-tell-you-where-to-take-it-how-did-law-come-up-for-you",
+    "kind": "spoken",
+    "move": "reply-tell",
+    "text": "I'd need to hear your case before I could tell you where to take it. How did {law} come up for you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "tell",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-ll-check-who-handles-questions-about-law-here-where-can-i-get-an-answer-back-to-you",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I'll check who handles questions about {law} here. Where can I get an answer back to you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-can-look-into-your-case-tell-me-what-you-want-me-to-find-out-about-law",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I can look into your case. Tell me what you want me to find out about {law}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.my-check-had-withheld-taken-out-for-income-tax-is-that-the-part-that-goes-with-law",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "My check had {withheld} taken out for income tax. Is that the part that goes with {law}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld", "law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-went-looking-for-law-after-i-saw-what-came-out-of-my-pay-can-you-explain-the-withholding-to-me",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I went looking for {law} after I saw what came out of my pay. Can you explain the withholding to me?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.could-we-talk-about-the-income-tax-on-my-paycheck-it-came-to-withheld-how-much-of-my-pay-does-law-cover",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Could we talk about the income tax on my paycheck? It came to {withheld}. How much of my pay does {law} cover?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld", "law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.law-meant-withheld-came-out-of-my-pay-who-can-walk-me-through-how-they-got-that-amount",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "{law} meant {withheld} came out of my pay. Who can walk me through how they got that amount?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law", "withheld"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-tell.you-said-withheld-came-out-are-you-asking-about-that-paycheck-or-the-rate-itself",
+    "kind": "spoken",
+    "move": "reply-tell",
+    "text": "You said {withheld} came out. Are you asking about that paycheck or the rate itself?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "tell",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld"],
+        "onlyWhen": ["in-force", "law"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-tell.is-it-the-deduction-you-want-explained-or-do-you-want-somebody-to-reconsider-law",
+    "kind": "spoken",
+    "move": "reply-tell",
+    "text": "Is it the deduction you want explained, or do you want somebody to reconsider {law}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "tell",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-ll-look-into-how-law-applied-to-that-check-what-would-you-like-me-to-ask-first",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I'll look into how {law} applied to that check. What would you like me to ask first?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-ll-find-out-why-they-withheld-withheld-before-i-try-to-explain-the-calculation",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I'll find out why they withheld {withheld} before I try to explain the calculation.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld"],
+        "onlyWhen": ["in-force", "law"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-ll-find-out-who-can-check-that-withholding-against-law-you-deserve-an-answer-from-someone-who-can-explain-the-calculation",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I'll find out who can check that withholding against {law}. You deserve an answer from someone who can explain the calculation.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-ll-check-which-part-of-your-pay-counts-under-law-the-date-on-your-stub-would-give-me-somewhere-to-start",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I'll check which part of your pay counts under {law}. The date on your stub would give me somewhere to start.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-accept.just-that-paycheck-i-d-like-to-see-the-calculation-that-came-to-withheld",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "Just that paycheck. I'd like to see the calculation that came to {withheld}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld"],
+        "onlyWhen": ["in-force", "law"],
+        "after": "scene-talk.reply-tell.you-said-withheld-came-out-are-you-asking-about-that-paycheck-or-the-rate-itself"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-accept.the-deduction-please-i-d-like-to-check-whether-withheld-was-the-right-amount",
+    "kind": "spoken",
+    "move": "follow-accept",
+    "text": "The deduction, please. I'd like to check whether {withheld} was the right amount.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld"],
+        "onlyWhen": ["in-force", "law"],
+        "after": "scene-talk.reply-tell.is-it-the-deduction-you-want-explained-or-do-you-want-somebody-to-reconsider-law"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-thank.ask-what-part-of-my-pay-they-counted-under-law-that-d-help",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Ask what part of my pay they counted under {law}. That'd help.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"],
+        "after": "scene-talk.reply-promise.i-ll-look-into-how-law-applied-to-that-check-what-would-you-like-me-to-ask-first"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-press.find-out-who-can-tell-me-why-they-took-withheld-i-d-like-to-see-how-it-was-figured",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Find out who can tell me why they took {withheld}. I'd like to see how it was figured.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld"],
+        "onlyWhen": ["in-force", "law"],
+        "after": "scene-talk.reply-promise.i-ll-look-into-how-law-applied-to-that-check-what-would-you-like-me-to-ask-first"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thanks-i-d-rather-wait-for-an-answer-about-law-than-take-a-guess-home",
+    "kind": "spoken",
+    "move": "follow-thank",
+    "text": "Thanks. I'd rather wait for an answer about {law} than take a guess home.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force", "withheld"],
+        "after": "scene-talk.reply-promise.i-ll-find-out-why-they-withheld-withheld-before-i-try-to-explain-the-calculation"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.follow-press.then-who-should-i-take-the-question-to-i-ve-already-paid-withheld",
+    "kind": "spoken",
+    "move": "follow-press",
+    "text": "Then who should I take the question to? I've already paid {withheld}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["withheld"],
+        "onlyWhen": ["in-force", "law"],
+        "after": "scene-talk.reply-promise.i-ll-find-out-who-can-check-that-withholding-against-law-you-deserve-an-answer-from-someone-who-can-explain-the-calculation"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  }
+]
