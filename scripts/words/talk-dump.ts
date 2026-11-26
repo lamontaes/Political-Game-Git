@@ -38,9 +38,18 @@ import {
 } from "../../src/director/conversation";
 import type { SceneTalkLine, TreeNode } from "../../src/director/scene-talk";
 import {
+  adults,
+  askedId,
   buildTalks,
+  core as sceneCore,
+  director as sceneDirector,
+  fact as sceneFact,
+  facts as sceneFacts,
   seed as sceneSeed,
+  talkTypes,
 } from "../../tests/support/scene-talk-fixture";
+import { answerInTalk, composeSceneTalk } from "../../src/director/scene-talk";
+import arcsFile from "../../src/director/data/purpose-arcs.json" with { type: "json" };
 
 const only = process.argv.includes("--only")
   ? process.argv[process.argv.indexOf("--only") + 1]
@@ -93,9 +102,68 @@ if (only !== "home") {
     emit(`gaps: ${talk.gaps.join(" | ")}`);
   }
   closeSection(`scenes seed=${sceneSeed} talks=${talks.length}`);
+  // A second pass with every held part in (the grading view) and the asker
+  // holding the record that catches a lie, so the caught side of a lie, the
+  // skips and the held parts are read too; each skipped scene is named.
+  let composed = 0;
+  for (const type of talkTypes()) {
+    const result = composeSceneTalk(
+      sceneCore,
+      sceneDirector,
+      { askerId: adults[1]!.id, askedId },
+      type,
+      { ...sceneFacts, "knows-truth": sceneFact("yes") },
+      {},
+      { includeHeld: true },
+    );
+    if (result.kind === "skipped") {
+      emit(`# skipped ${type.key} / ${type.purpose}: ${result.reason}`);
+      continue;
+    }
+    composed += 1;
+    emit(`# ${type.key} / ${result.talk.purpose} (held, lie caught)`);
+    for (const line of [
+      ...result.talk.narration,
+      ...(result.talk.open ? [result.talk.open] : []),
+      ...result.talk.intro,
+    ])
+      emit(lineText(line));
+    emit(lineText(result.talk.state));
+    walk(result.talk.tree, 0, "");
+    emit(`gaps: ${result.talk.gaps.join(" | ")}`);
+  }
+  closeSection(`scenes held and lie caught talks=${composed}`);
+  // The home talk takes in an answer through `answerInTalk`, a path a day-one
+  // talk rarely reaches, so it is read directly: every reply move the talk arc
+  // or the shared table answers, by three speakers and two kinds of subject.
+  const arcs = arcsFile as unknown as {
+    purposes: { talk: { follow: Record<string, unknown> } };
+    follow: Record<string, unknown>;
+  };
+  const replyMoves = [
+    ...new Set([
+      ...Object.keys(arcs.purposes.talk.follow),
+      ...Object.keys(arcs.follow),
+    ]),
+  ].sort();
+  for (const speaker of adults.slice(1, 4))
+    for (const key of ["own-work", "news"])
+      for (const replyMove of replyMoves) {
+        const taken = answerInTalk(sceneCore, {
+          replyMove,
+          answered: `${key}:plain`,
+          key,
+          speakerId: speaker.id,
+          momentKey: `dump:${speaker.id}:${key}:${replyMove}`,
+        });
+        emit(
+          `${speaker.id} ${key} ${replyMove} -> ${taken ? `${taken.move}${taken.closes ? "/closes" : ""} ${taken.pieceKey}: ${taken.text}` : "(none)"}`,
+        );
+      }
+  closeSection(`answerInTalk moves=${replyMoves.length}`);
 }
 
-type Press = "first" | "last" | "lie";
+type Press = "first" | "second" | "third" | "last" | "lie";
 const dumpTalk = (talk: Conversation, press: Press) => {
   let turn = 0;
   let shown = 0;
@@ -119,7 +187,14 @@ const dumpTalk = (talk: Conversation, press: Press) => {
     next(core: Parameters<typeof say>[0]) {
       const pool =
         press === "lie" && talk.lies.length ? talk.lies : talk.choices;
-      const pick = press === "last" ? pool.at(-1) : pool[0];
+      const pick =
+        press === "last"
+          ? pool.at(-1)
+          : press === "second"
+            ? (pool[1] ?? pool[0])
+            : press === "third"
+              ? (pool[2] ?? pool.at(-1))
+              : pool[0];
       if (!pick || turn >= 12) return false;
       turn += 1;
       emit(`  press ${pick.key}`);
