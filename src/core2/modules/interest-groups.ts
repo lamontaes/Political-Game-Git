@@ -49,8 +49,8 @@ import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 import { groupBPolicy } from "../law-reach/group-b";
 import { businessEnergyCostYear } from "./place-prices";
 import { businessDataPrivacyCostYear } from "./business";
-import { jobsAt } from "../laws-in-force";
-import { reachParameter } from "../laws-in-force";
+import { jobsAt } from "../law-reach/group-b-money";
+import { reachParameter } from "../law-reach/group-b-people";
 import {
   CORRUPTION_MODULE_ID,
   considerBribe,
