@@ -133,6 +133,26 @@ describe.each([0, 1, 2])("the opening's key people, draw %i", (draw) => {
           .map((row) => row.id)
           .sort(),
       );
+      // The screen lists them in the ruled order: the player's own members first, then the
+      // President, the Vice President and the chamber leaders (each person by their first
+      // reason; src/bench/government.ts `POLITICS_KEY_ORDER`).
+      const politicsOrder = [
+        "own-us-senator",
+        "own-us-representative",
+        "own-state-legislator",
+        "own-council-member",
+        "president",
+        "vice-president",
+        "chamber-leader",
+      ];
+      const firstRank = (reasons: readonly string[]) =>
+        Math.min(...reasons.map((reason) => politicsOrder.indexOf(reason)));
+      const ranks = governmentView(core, world.playerId!).keyPeople.map((row) =>
+        firstRank(row.reasons),
+      );
+      expect(ranks, `${context}: the Politics list's order`).toEqual(
+        [...ranks].sort((a, b) => a - b),
+      );
       // Nothing else is key: every key person has at least one ruled reason, and
       // a person appears once.
       expect(new Set(keys.map((row) => row.id)).size).toBe(keys.length);
