@@ -1,8 +1,6 @@
 // The one two-column menu layout: a row of controls across the top, a main
-// column and a side column of labeled sections, the whole fitting its panel
-// (owner, Oct 29: a menu is a fixed panel; what does not fit pages inside
-// its box, it never scrolls as a page). Politics → Government is the first
-// screen on it.
+// column and a side column of labeled sections. The panel stays fixed.
+// What does not fit pages inside its own box.
 import { el } from "./dom.mjs";
 import { section } from "./section.mjs";
 
