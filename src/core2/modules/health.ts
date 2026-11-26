@@ -77,6 +77,7 @@ import type {
   PersonState,
   Source,
 } from "../types";
+export type { TraitMovability, TraitPack, TraitScale } from "../trait-packs";
 export {
   countedHouseholdSavings,
   countedPayment,

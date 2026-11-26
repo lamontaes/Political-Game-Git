@@ -23,6 +23,8 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
+export { recordHomeRule } from "./policy-authority";
+export { bribePull, registerBribeScope } from "./modules/corruption";
 export { countedWeight } from "./law-reach/pay-reach";
 export { webLevel } from "./outcome-web-reach";
 export { registerPricesWebGaps } from "./modules/prices-web-gaps";

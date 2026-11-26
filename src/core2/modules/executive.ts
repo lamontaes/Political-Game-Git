@@ -102,6 +102,14 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
+export { nominateAndConfirm, partyName } from "../appointments";
+export { inflationLeans } from "../central-bank-board";
+export type {
+  BoardCandidate,
+  BoardMember,
+  BoardVacancy,
+} from "../central-bank-board";
+export type { BoardAppointer } from "../central-bank-appointments";
 export { reviewBoardTerms } from "../central-bank-appointments";
 export type { GenderIdentityKey, PersonIdentity } from "../gov-rules/types";
 export { placeGovernmentOrganizations } from "../gov-rules/local-governments";

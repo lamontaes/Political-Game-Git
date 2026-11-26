@@ -1,4 +1,4 @@
-import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
+import type { TraitMovability, TraitPack, TraitScale } from "./modules/health";
 
 /**
  * The legislature's own trait pack.
