@@ -89,10 +89,15 @@ it(
           told.some((event) => event.id === act.id) && id !== act.id,
           `${where}: ${act.id} told twice`,
         ).toBe(false);
-        if (id === act.id)
-          expect(historyEvent(core, act.id)?.facts?.kind, act.id).toBe(
-            act.kind,
-          );
+        if (id === act.id) {
+          const event = historyEvent(core, act.id);
+          expect(event?.facts?.kind, act.id).toBe(act.kind);
+          // An act on a bill came of the bill.
+          if (act.recordId.startsWith("bill:"))
+            expect(event?.causeIds, `${where}: ${act.id}`).toContain(
+              act.recordId,
+            );
+        }
         acts += 1;
       }
       for (const row of api

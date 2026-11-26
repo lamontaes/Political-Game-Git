@@ -218,6 +218,8 @@ function actHistory(core: CoreState, act: OfficeActRow): HistoryRow {
       how: act.how,
       detail: act.detail,
       recordId: act.recordId,
+      // A vote, a signing or a veto came of the bill it was on.
+      ...(act.recordId.startsWith("bill:") ? { billId: act.recordId } : {}),
     },
     publicRecord: act.kind !== "district-office",
   };
