@@ -17,6 +17,7 @@
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { historyOf } from "../past-history";
 import { placeStateKey } from "../place-map";
 import {
   baseOf,
@@ -90,10 +91,14 @@ function severeDisasterReading(
   );
   let value = 0,
     recordId: string | null = null;
-  for (const id of core.logByKind.get(DISASTER_KIND) ?? []) {
-    const event = core.durableLog.get(id);
-    const severity = Number(event?.facts?.severity);
-    if (!event || event.placeId !== placeId || !(event.date > since)) continue;
+  // The disasters on record, from the one history reader.
+  for (const event of historyOf(
+    core as CoreState,
+    { nation: true },
+    { kinds: [DISASTER_KIND] },
+  )) {
+    const severity = Number(event.facts?.severity);
+    if (event.placeId !== placeId || !(event.date > since)) continue;
     if (severity > value) [value, recordId] = [severity, event.id];
   }
   return { value, recordId };

@@ -21,12 +21,9 @@
       "src/core2/modules/laws.ts": 4,
       "src/core2/modules/offices.ts": 9,
       "src/core2/modules/officials.ts": 4,
-      "src/core2/modules/outcome-web.ts": 1,
       "src/core2/modules/parties.ts": 3,
       "src/core2/modules/people.ts": 39,
-      "src/core2/modules/renewal.ts": 1,
       "src/core2/modules/school.ts": 5,
-      "src/core2/modules/succession.ts": 1,
       "src/core2/modules/views.ts": 2
     }
   }

@@ -15,6 +15,7 @@
  * vacant the line is read the same day; the successor holds the seat as a
  * full person, and the record and a news event follow.
  */
+import { historyOf } from "../past-history";
 import succession from "../../../data/research/offices/presidential-succession.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
@@ -129,7 +130,11 @@ function cannotServe(api: CoreAPI, personId: string | null): string | null {
     return `under ${LAW.minimumAge.value}`;
   // Natural-born and fourteen years a resident (U.S. Const. art. II, sec. 1,
   // cl. 5), read from the person's own birth record.
-  const birth = (person.pastFacts ?? []).find((f) => f.kind === NATIVITY_FACT);
+  const birth = historyOf(
+    api.state as CoreState,
+    { person: person.id },
+    { kinds: [NATIVITY_FACT], from: "built" },
+  )[0];
   if (birth?.facts?.nativity !== "native")
     return birth
       ? `not a natural-born citizen (${birth.id})`
