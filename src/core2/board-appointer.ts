@@ -9,15 +9,16 @@
  * side. Nobody is picked by closeness to the board's middle.
  */
 import boardData from "./data/macro/board.json" with { type: "json" };
-import { nominateAndConfirm, partySide } from "./appointments";
+import { nominateAndConfirm } from "./modules/executive";
+import { partySide } from "./modules/offices";
 import { campaignParameter } from "./campaign-data";
 import {
   inflationLeans,
   type BoardCandidate,
   type BoardMember,
   type BoardVacancy,
-} from "./central-bank-board";
-import { type BoardAppointer } from "./central-bank-appointments";
+} from "./modules/executive";
+import { type BoardAppointer } from "./modules/executive";
 import { FEDERAL_SENATE, members } from "./modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import type { MacroParameter } from "./macro-model";
