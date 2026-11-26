@@ -16,6 +16,7 @@
  * scene words them differently; none of them builds its own past.
  */
 import table from "./data/history/reader.json" with { type: "json" };
+import mattered from "./data/history/mattered.json" with { type: "json" };
 import { placeStateKey } from "./place-map";
 import {
   governmentUnit,
@@ -112,6 +113,12 @@ export interface HistoryEvent {
   readonly causeIds: readonly string[];
   /** The records it led to: those that name it as their cause. */
   readonly ledTo: readonly string[];
+  /**
+   * How much it mattered to the people it names, on the stress scale
+   * (data/history/mattered.json): given on a person's or a household's
+   * history, and undefined where no row of the table fits the record.
+   */
+  readonly mattered?: number;
 }
 
 /** A source's row, before the reader adds its cause and what it led to. */
@@ -623,11 +630,34 @@ function ledToIndex(core: CoreState): Map<string, string[]> {
  * read the first time a reader asks for them (a lookup by kind that reads
  * only dates and facts never builds the index of what led to what).
  */
-function told(core: CoreState, row: HistoryRow): HistoryEvent {
+const MATTERED = mattered as unknown as {
+  rows: readonly { kindPrefix: string; parameter: string }[];
+  parameters: Readonly<Record<string, { value: number; tag?: string }>>;
+};
+
+/** A record's stress-scale score: the first row whose kind prefix it carries, or undefined. */
+function matteredOf(kind: string): number | undefined {
+  const row = MATTERED.rows.find((entry) => kind.startsWith(entry.kindPrefix));
+  if (!row) return undefined;
+  const parameter = MATTERED.parameters[row.parameter];
+  if (!parameter?.tag)
+    throw new Error(`Untagged numeric parameter: ${row.parameter}`);
+  return parameter.value;
+}
+
+function told(core: CoreState, row: HistoryRow, scored = false): HistoryEvent {
   const { publicRecord: _public, ...event } = row;
   void _public;
   let causes: string[] | undefined;
   let later: string[] | undefined;
+  if (scored) {
+    const score = matteredOf(row.record);
+    if (score !== undefined)
+      Object.defineProperty(event, "mattered", {
+        enumerable: true,
+        value: score,
+      });
+  }
   return Object.defineProperties(event, {
     causeIds: {
       enumerable: true,
@@ -662,9 +692,12 @@ export function historyOf(
   // their source's order (the life's own, or the order a record holds the
   // facts it was made with); every other row is ordered by its id.
   const place = new Map<HistoryEvent, number>();
+  // How much each record mattered is told on a person's or a household's
+  // history: the people it names are the ones it mattered to.
+  const scored = "person" in scope || "household" in scope;
   const take = (row: HistoryRow, at?: number) => {
     if (!asked(row, ask)) return;
-    const event = told(core, row);
+    const event = told(core, row, scored);
     out.push(event);
     if (at !== undefined) place.set(event, at);
     ids.add(row.id);

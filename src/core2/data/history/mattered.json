@@ -1,0 +1,71 @@
+{
+  "about": "How much a record mattered to the people it names, on the stress scale (Holmes and Rahe 1967, life-change units divided by 100), read by the one history reader (src/core2/past-history.ts) as each event's `mattered`, so the Journal, a card, the news and a speech read one number (CTO, Nov 26, 2:53 a.m. ET: \"Put the score on the reader's events\"). A record whose kind starts with a row's `kindPrefix` takes its parameter, the first row that fits; a record no row fits has no score, never zero. The owner's answer 5 (Oct 9, 2026): a recorded past fact scores its stress-scale row.",
+  "rows": [
+    {
+      "kindPrefix": "family:child",
+      "parameter": "historyMatteredNewFamilyMember"
+    },
+    {
+      "kindPrefix": "family:partner",
+      "parameter": "historyMatteredMarriage"
+    },
+    {
+      "kindPrefix": "school.started",
+      "parameter": "historyMatteredBeginOrEndSchool"
+    },
+    {
+      "kindPrefix": "work:",
+      "parameter": "historyMatteredWorkHoursOrConditions"
+    }
+  ],
+  "parameters": {
+    "historyMatteredNewFamilyMember": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Gain of a new family member' row, 39 life-change units divided by 100 (Holmes and Rahe 1967). Kept as the game's answer by the owner, Nov 10, 2026 (stand-in triage: SG-P13-past-fact-estimates dropped as too in depth).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.39,
+        "high": 0.52,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
+    },
+    "historyMatteredMarriage": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Marriage' row, 50 life-change units divided by 100 (Holmes and Rahe 1967). Kept as the game's answer by the owner, Nov 10, 2026 (stand-in triage: SG-P13-past-fact-estimates dropped as too in depth).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.5,
+        "high": 0.5,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
+    },
+    "historyMatteredBeginOrEndSchool": {
+      "value": 0.26,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Begin or end school' row, 26 life-change units divided by 100 (Holmes and Rahe 1967). Kept as the game's answer by the owner, Nov 10, 2026 (stand-in triage: SG-P13-past-fact-estimates dropped as too in depth).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.26,
+        "high": 0.34,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
+    },
+    "historyMatteredWorkHoursOrConditions": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in work hours or conditions' row, 20 life-change units divided by 100 (Holmes and Rahe 1967). Kept as the game's answer by the owner, Nov 10, 2026 (stand-in triage: SG-P13-past-fact-estimates dropped as too in depth).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "spread": {
+        "low": 0.2,
+        "high": 0.37,
+        "unit": "life-change units divided by 100",
+        "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
+      }
+    }
+  }
+}
