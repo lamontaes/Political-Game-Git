@@ -111,13 +111,13 @@ The CTO answered the open questions on Nov 26 (4:43 a.m. ET, #10377); the answer
 
 ## Slices, in order
 
-Each slice is a commit on one branch (one growing pull request, `ready` posted per slice), and each is proved by the talk dump (`scripts/words/talk-dump.ts`) on its parent and on its head: scenes, held parts with the lie caught, `answerInTalk`, and the home talks at fixed seeds (first reply, last reply, the scales with the beliefs a lie leaves).
+Each slice is a commit on one branch, proved while building by the talk dump (`scripts/words/talk-dump.ts`) on its parent and on its head: scenes, held parts with the lie caught, `answerInTalk`, and the home talks at fixed seeds (first reply, last reply, the scales with the beliefs a lie leaves). A family is "the engine's" when its rule table is a row of the arcs file (`home.*`, additions only) and the engine's own functions read it; the home talk hands the engine the facts only it knows.
 
 0. **Done.** The dump script.
-1. **Done.** One lean ordering for every pick in scene-talk (`byLean`), nine sites, byte for byte the same dump.
-2. **One family's answer path, end to end.** The family is the day-subject back answer (`sayNow`'s `dayBack` branch: their answer to a reply on a day's own subject, composed as `<kind>-back`). Its candidates and its answer rule become an arc row and engine code; the engine calls the home hook with the same inputs; the branch in `sayNow` is deleted. The pull request names the one rule or table the family now gets from the arc row and the `conversation-rules.json` entry the row replaced. A family that still passes in its own wording, ranking and filters is not merged.
-3. **The other answer families,** one at a time, each deleting its `sayNow` branch: take, give-back, news, own-view. The address's point waits for Story's open item.
-4. **The reply menu.** `offerChoices` and `rankChoices` onto the engine's reply step, rule by rule from R1 to R11, once every kind has moved: it is one generic function, and it can only go when its last caller has.
+1. **Done.** One lean ordering for every pick in scene-talk (`byLean`).
+2. **Done.** The heard-today record (`talk-heard.ts`) and the composed line (`talk-words.ts`) leave `conversation.ts`, moved as they were; the day-subject answer is the engine's (`home.dayBack`, `answerBack`).
+3. **Answer families, one at a time. Done so far:** where someone stands (`home.ownView`, `answerOwnView`), news (`home.news`, `newsLine` and its marks), the asker's give-back (`home.giveBack`, `giveBackLine`), and the table of what move a reply makes (`home.replyMoves`, `replyMoveOf`). **Still in `conversation.ts`:** the promise and veto answers, the generic raised-answer path, and the address's point (which waits for Story's open item).
+4. **The reply menu.** `offerChoices` and `rankChoices` onto the engine's reply step, rule by rule from R1 to R11, once every kind has moved: it is one generic function, and it can only go when its last caller has. The rule tables it reads (`answersTo`, `follows`, `tells`, `namesOnce`, `related`) are part of `ConversationData`, which tests inject, so each moves with its injection point kept.
 5. **The lie.** `lieChoices` onto the engine; the scales set and the belief rows dump identical.
 6. **Open and close.** Greeting, goodbye, phone, hard news, `carryOn`.
 7. **Delete.** The 21 functions, the tables in `conversation-rules.json` that nothing reads, and the tests that only tested them.
