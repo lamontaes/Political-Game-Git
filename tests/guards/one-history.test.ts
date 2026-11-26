@@ -180,14 +180,14 @@ const RAW_PAST_READERS = [
   "pastIdsOf",
   "pastRowsNaming",
   "pastRowsOf",
-  // The engines' own reads of what happened in play: a person's votes, a
-  // race's count, a body's bills before day one, a measure's roll call. A
-  // view reads them through the reader (`votesCast`, the record's
-  // `record.vote`, the past's `past.bill-voted`); the engines keep these.
+  // The engines' own lists of what happened: a person's votes and a body's
+  // bills before day one. A view reads them through the reader (`votesCast`,
+  // the record's `record.vote`, the past's `past.bill-voted`); the engines
+  // keep these. A lookup of one record by its id (a race's count by its
+  // contest, `resultOf`; a law's roll call, `rollCallOf`) builds no past, as
+  // opening a log record by its id builds none.
   "votesOf",
-  "resultOf",
   "pastBillsOf",
-  "rollCallOf",
 ];
 /**
  * Helpers that once built a past and now read the one reader, so they are off
