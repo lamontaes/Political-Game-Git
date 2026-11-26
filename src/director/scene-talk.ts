@@ -1080,6 +1080,54 @@ export function scalesSet<C, B>(
   return out;
 }
 
+/**
+ * The subject a raised line is composed under, when the engine composes it:
+ * the address's point under its own kind; a printed story, told by its reader
+ * (what it is about and their stand), under `news-ask` unless it is first
+ * asked about ("Did you read about it?") by the outlet's medium; and any
+ * subject with a `<kind>-say` sentence in the bank (where they stand).
+ * Otherwise the line is worded plain from the bank (`null`).
+ */
+export function raiseComposedSubject(input: {
+  kind: string;
+  pointKind: string;
+  hasStory: boolean;
+  asksFirst: boolean;
+  hasSayBank: (subject: string) => boolean;
+}): string | null {
+  if (input.kind === input.pointKind) return input.pointKind;
+  if (input.kind === "news" && input.hasStory && !input.asksFirst)
+    return "news-ask";
+  return input.hasSayBank(`${input.kind}-say`) ? `${input.kind}-say` : null;
+}
+
+/**
+ * What a raised line is composed from, marked for what the talk has already
+ * done: a question the talk already named is said again as "it" (a frame that
+ * puts the name after "is" or "than" plays only as its first naming), and
+ * where they raised the talk's subject themselves a line that invites the
+ * player to ask them is not said (Words lead).
+ */
+export function raiseFacts(
+  facts: Readonly<Record<string, Fact>>,
+  input: { named: boolean; theyOpened: boolean; speakerId: PersonId },
+): Record<string, Fact> {
+  return {
+    ...facts,
+    ...(input.named && facts.about
+      ? {
+          "about-named": {
+            text: "yes",
+            sourceRecordIds: facts.about.sourceRecordIds,
+          },
+        }
+      : {}),
+    ...(input.theyOpened
+      ? { "they-opened": { text: "yes", sourceRecordIds: [input.speakerId] } }
+      : {}),
+  };
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;

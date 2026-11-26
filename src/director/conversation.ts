@@ -172,6 +172,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  raiseComposedSubject,
+  raiseFacts,
   scalesSet,
   scalesShow,
   replyAvailable,
@@ -5220,15 +5222,13 @@ function raiseSubject(
       subject.stage ?? "default",
       subject,
     );
-  const composedRaise =
-    subject.kind === POINT
-      ? POINT
-      : // A printed story, told by its reader: what it is about and their stand.
-        subject.kind === "news" && subject.facts.story && !asksFirst
-        ? "news-ask"
-        : composedConversationBank(`${subject.kind}-say`)
-          ? `${subject.kind}-say`
-          : null;
+  const composedRaise = raiseComposedSubject({
+    kind: subject.kind,
+    pointKind: POINT,
+    hasStory: !!subject.facts.story,
+    asksFirst,
+    hasSayBank: (name) => !!composedConversationBank(name),
+  });
   // A question the talk already named is said again as "it" (questionOnce):
   // a frame that puts the name after "is" or "than" plays only as its first
   // naming ("The one I'd fight hardest is it."; lead, Nov 13).
@@ -5246,27 +5246,11 @@ function raiseSubject(
           otherId,
           composedRaise,
           named || theyOpened
-            ? {
-                ...subject.facts,
-                ...(named
-                  ? {
-                      "about-named": {
-                        text: "yes",
-                        sourceRecordIds: subject.facts.about!.sourceRecordIds,
-                      },
-                    }
-                  : {}),
-                // They raised the talk's subject themselves, so a line that
-                // invites the player to ask them is not said (Words lead).
-                ...(theyOpened
-                  ? {
-                      "they-opened": {
-                        text: "yes",
-                        sourceRecordIds: [otherId],
-                      },
-                    }
-                  : {}),
-              }
+            ? raiseFacts(subject.facts, {
+                named,
+                theyOpened,
+                speakerId: otherId,
+              })
             : subject.facts,
           subject.stage ?? "default",
           momentKey,
