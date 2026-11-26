@@ -14,8 +14,14 @@
 - Only comments starting "CTO:" are instructions. Other sessions' lines are information.
 - Run `date` before writing a time.
 
-**What counts as proof (read this):**
-- `validate.yml` runs only the test files a change touches. A test you didn't touch never runs there, so "validate is green" proves nothing about the rest of the game.
-- The full suite is "Heavy checks" (`heavy.yml`), 12 shards. It starts by itself on every PR into main. Run it by hand on any other branch: Actions → Heavy checks → Run workflow, with long_game off.
-- Main's full suite already fails 216 test files (run 45639593615, Nov 25, main ea60e9eb), listed in `main-full-suite-fails-2026-11-25.txt` beside this file. Shards 10 and 12 were cancelled in that run, so a failure in a file that isn't listed needs one check against main before you call it yours or not.
-- A PR is proven when its Heavy checks fail no test file outside that list.
+**What counts as proof (rewritten 2:40 a.m. Nov 26; it replaces the earlier text, which was wrong):**
+
+The owner's rules are "fast checks + lane proof" (Nov 18), and "only check the files each PR changes" (Oct 6 and Oct 12). The whole suite runs once per train, never per PR.
+
+1. **Fast checks.** `validate.yml` must be green on your PR, or each red must be named as red on main too. It runs only the test files your PR touches, so it says nothing about tests you didn't touch.
+2. **Your lane proof**, posted with `ready #N <head>` on #10377:
+   - **Related tests:** run `npx vitest related --run <your changed source files>` on main's head and on yours, both with the same GOLDEN_PATH_SEED, since drawn-place tests seed at random. Post both summaries. No file that passes on main may fail on yours.
+   - **Structure-only work:** the `npm run speed:year` records proof at one fixed seed is identical before and after. #10637's body shows how the history reader ran it.
+3. **Don't merge into main yourself.** The CTO folds ready PRs into the night's train branch (`train/nov26-*`). The train's PR into main runs the full suite (Heavy checks, which runs only on `train/` PRs). It merges only when it fails no test file that isn't failing on main.
+4. **Main's full suite is unsteady:** 140 failing files on Nov 24 (run 45423585384) and 216 on Nov 25 (run 45639593615), and only 71 failed both nights. All three lists are beside this file. A train failure that isn't on main's lists is rerun on main and on the train at the same seed before anyone is blamed. When the CTO names your file, run it both ways and post the output.
+5. **Follow-up PRs:** until your last PR is folded, base the next one on its branch (a stack). The CTO folds the top of each stack.
