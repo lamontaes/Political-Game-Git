@@ -9,9 +9,9 @@
  * (data/life/remembered.json) says which records a person remembers and as what, and the reader
  * returns them in order with the ids of the records behind them.
  */
+import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import parameterRows from "./data/life/parameters.json" with { type: "json" };
 import table from "./data/life/remembered.json" with { type: "json" };
-import { jobEnding } from "./job-change-words";
 import { moduleState } from "./module-state";
 import { preStartHistory, recordDate } from "./past";
 import { ageOfMajority } from "./age-of-majority";
@@ -215,6 +215,9 @@ export function whoRemembers(
   return [...out];
 }
 
+/** The jobs engine's change records' kinds (`job-change:<kind>`). */
+const JOB_CHANGE = "job-change:";
+
 /**
  * How a person's own list words one record of the simulated past or of play
  * (its `life` and `what`), the table's row as `lifeOf` tells it: so a read of
@@ -236,6 +239,19 @@ export function lifeWordsOf(
   if (from === "past") {
     const row = HISTORY_ROWS.get(record.kind);
     return row ? { life: row.life, what: row.what } : null;
+  }
+  // A change the jobs engine made, as the person's list tells it (`playedJobs`).
+  if (record.kind.startsWith(JOB_CHANGE)) {
+    const kind = record.kind.slice(JOB_CHANGE.length);
+    if (kind === "hire")
+      return {
+        life: "work",
+        what: "job-started",
+        facts: { startedAt: record.date },
+      };
+    if (kind === "layoff") return { life: "work", what: "job-lost" };
+    const ended = jobEnding(kind, String(record.facts?.reasonKey ?? ""));
+    return ended ? { life: "work", what: "job-ended", facts: { ended } } : null;
   }
   for (const row of EVENT_ROWS.get(record.kind) ?? [])
     if (
@@ -339,6 +355,20 @@ const PLAYED_JOBS_STOPGAP = "SG-PEOPLE-played-jobs-read-at-open";
 
 /** A job's id as it was before a demotion to the counts renamed it (`<id>:counted:<date>`). */
 const jobKey = (jobId: string) => jobId.split(":counted:")[0]!;
+
+/** How the jobs engine's change kinds end a job, as the life record says it (`ended`), by kind and reason. */
+function jobEnding(kind: string, reasonKey: string): string | undefined {
+  const reasons = jobsData.reasons;
+  if (kind === "quit") return "quit";
+  if (kind === "closure") return "closed";
+  if (kind === "left-work") {
+    if (reasonKey === reasons.retired) return "retired";
+    if (reasonKey === reasons.movedAway) return "moved";
+    if (reasonKey === reasons.died) return undefined;
+    return "quit";
+  }
+  return undefined;
+}
 
 interface JobChangeRow {
   readonly id: string;
