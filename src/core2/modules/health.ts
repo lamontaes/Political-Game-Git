@@ -1,9 +1,9 @@
 import healthJson from "../data/health.json" with { type: "json" };
 import { worldRateFactor } from "../world-base-rates";
 import { settleEstate } from "../estates";
+import { HOUSING_STATUS_EVENT } from "../housing-status-event";
 import {
   HEALTH_STATUS_FACTORS,
-  HOUSING_STATUS_EVENT,
   housingHealthFactor,
   type HousingStatus,
 } from "../housing-homeless";
