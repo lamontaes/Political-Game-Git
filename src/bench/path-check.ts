@@ -18,7 +18,7 @@ import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
-import { campaignDayChoices } from "../core2/campaign-day";
+import { campaignDayChoices } from "../core2/modules/campaigns";
 import {
   CAMPAIGNS_MODULE_ID,
   candidatePlatform,
@@ -29,8 +29,8 @@ import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import { officeHost, upcomingMeeting } from "../core2/modules/office-day";
 import { colleagueDeal, leaveHoldsToCharacter, officeView } from "./office";
-import { officeActHandlers } from "../core2/office-day-acts";
-import { askLeaderForHearing } from "../core2/office-day-state";
+import { officeActHandlers } from "../core2/modules/office-day";
+import { askLeaderForHearing } from "../core2/modules/office-day";
 import { reachedSteps } from "./reached";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";

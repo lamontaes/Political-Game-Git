@@ -98,6 +98,8 @@ import { playerClockFrontierV1, type ModuleStopTokenV1 } from "../life";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { headsLocalExecutive } from "../offices-executives";
+export { officeActHandlers } from "../office-day-acts";
+export { askLeaderForHearing } from "../office-day-state";
 export { openSuccession } from "./succession";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";

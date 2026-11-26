@@ -11,8 +11,6 @@
     "src/bench/m1-11-check.ts": 1,
     "src/bench/m1-13-check.ts": 1,
     "src/bench/m1-14-check.ts": 1,
-    "src/bench/m2-10-check.ts": 1,
-    "src/bench/path-check.ts": 3,
     "src/bench/printed-words.ts": 2,
     "src/bench/race-words.ts": 1,
     "src/bench/reached.ts": 1,
