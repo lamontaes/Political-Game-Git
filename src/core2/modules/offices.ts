@@ -5,6 +5,13 @@ import type {
   PreStartWindow,
 } from "../pre-start";
 import { incompatibleOffices } from "../office-incompatibility";
+import {
+  historyOf,
+  PRIOR_ELECTION,
+  type HistoryModule,
+  type HistoryRow,
+  type HistorySource,
+} from "../past";
 /**
  * Offices and seats: every office that covers the town, every seat in it, and
  * the person holding each one, from day one.
@@ -215,8 +222,120 @@ function seatHistory(
   }
 }
 
-export const OFFICES_MODULE: PreStartModule = {
+/** The record kind of a term the offices engine seated by an election, as the one history reader tells it. */
+const ELECTED = "office.elected";
+
+/** The race before day one that seated a term, told on its day, with the share and the holder. */
+function electedHistory(t: TermRow): HistoryRow {
+  return {
+    // The past's own record of the race (past-elections.ts names it so, and its
+    // archive story and the winner's public record cite it).
+    id: `${PRIOR_ELECTION}${t.seatId}:${t.elected!.date}`,
+    date: t.elected!.date as HistoryRow["date"],
+    life: "politics",
+    what: "elected",
+    record: ELECTED,
+    from: "past",
+    personIds: t.personId ? [t.personId as PersonId] : [],
+    withIds: t.personId ? [t.personId as PersonId] : [],
+    facts: {
+      seatId: t.seatId,
+      termId: t.id,
+      share: String(t.elected!.share),
+      ...(t.party ? { party: t.party } : {}),
+      holder: `${t.identity.givenName} ${t.identity.familyName}`,
+      status: t.status,
+    },
+    publicRecord: true,
+  };
+}
+
+/**
+ * The offices engine's terms won by election are history: a seat's (by the
+ * reader's `about`), a person's, or every seat's, read by kind.
+ */
+/** The record kind of a term the offices engine keeps (who held a seat, from when), as the reader tells it. */
+export const TERM_HELD = "office.term";
+
+/** A term, told on the day it began: the seat, the office, how its holder reached it and how it stands. */
+function termHistory(core: CoreState, t: TermRow): HistoryRow {
+  return {
+    id: t.id,
+    date: t.startDate as HistoryRow["date"],
+    life: "politics",
+    what: "took-office",
+    record: TERM_HELD,
+    from: t.startDate < core.startedAt ? "past" : "played",
+    personIds: t.personId ? [t.personId as PersonId] : [],
+    withIds: t.personId ? [t.personId as PersonId] : [],
+    facts: {
+      termId: t.id,
+      seatId: t.seatId,
+      officeId: t.officeId,
+      status: t.status,
+      holder: `${t.identity.givenName} ${t.identity.familyName}`,
+      ...(t.party ? { party: t.party } : {}),
+      ...(t.endDate ? { endDate: t.endDate } : {}),
+      ...(t.elected
+        ? { electedOn: t.elected.date, share: String(t.elected.share) }
+        : {}),
+    },
+    publicRecord: true,
+  };
+}
+
+/**
+ * The offices engine's terms are history: every term, by its own id
+ * (`office.term`), and each race before day one that seated one, by the race's
+ * own id (`office.elected`; a race in play is its count's record in the log).
+ * A seat's (by the reader's `about`), a person's, or every seat's, read by kind.
+ */
+const OFFICES_HISTORY: HistorySource = {
   id: OFFICES_MODULE_ID,
+  rows(core, scope, ask) {
+    if (!core.modules.has(OFFICES_MODULE_ID) || !ask.kinds) return [];
+    const races = ask.kinds.includes(ELECTED);
+    const held = ask.kinds.includes(TERM_HELD);
+    if (!races && !held) return [];
+    const api = coreAPI(core);
+    const terms = (ask.about
+      ? ["serving", "ended"].flatMap((status) =>
+          table(api, "terms").query("bySeatStatus", [ask.about!, status]),
+        )
+      : "person" in scope
+        ? table(api, "terms").query("byPerson", [scope.person])
+        : table(api, "terms").rows()) as unknown as TermRow[];
+    const out: HistoryRow[] = [];
+    for (const t of terms) {
+      if (races && t.elected && t.elected.date < core.startedAt)
+        out.push(electedHistory(t));
+      if (held) out.push(termHistory(core, t));
+    }
+    return out;
+  },
+  row(core, id) {
+    if (!core.modules.has(OFFICES_MODULE_ID)) return undefined;
+    const api = coreAPI(core);
+    if (id.startsWith(PRIOR_ELECTION)) {
+      const date = id.slice(-10);
+      const seatId = id.slice(PRIOR_ELECTION.length, -11);
+      const t = (
+        ["serving", "ended"].flatMap((status) =>
+          table(api, "terms").query("bySeatStatus", [seatId, status]),
+        ) as unknown as TermRow[]
+      ).find((term) => term.elected?.date === date);
+      return t ? electedHistory(t) : undefined;
+    }
+    const t = table(api, "terms").get(id) as unknown as TermRow | undefined;
+    return t ? termHistory(core, t) : undefined;
+  },
+};
+
+export const OFFICES_MODULE: PreStartModule & HistoryModule = {
+  id: OFFICES_MODULE_ID,
+  // A plain field, not a getter: the finance engine's read check walks the
+  // modules and refuses an accessor (src/core2/finance-plan.ts, directRead).
+  history: OFFICES_HISTORY,
   preStart: { phase: "government", run: seatHistory },
   state: {
     schemaVersion: 1,
@@ -1566,22 +1685,40 @@ export function pastElections(
   readonly party: string | null;
   readonly holder: string;
 }[] {
-  return ["serving", "ended"]
-    .flatMap(
-      (status) =>
-        table(api, "terms").query("bySeatStatus", [
-          seatId,
-          status,
-        ]) as unknown as TermRow[],
-    )
-    .filter((t) => t.elected)
-    .map((t) => ({
-      termId: t.id,
-      date: t.elected!.date,
-      share: t.elected!.share,
-      party: t.party,
-      holder: `${t.identity.givenName} ${t.identity.familyName}`,
-    }))
+  // The seat's elections from the one history reader (this engine's terms,
+  // handed over as the module's history).
+  // A race before day one is its own record (`office.elected`); a race in play
+  // is the elected term's (`office.term`, its day and share).
+  const core = api.state as CoreState;
+  return historyOf(
+    core,
+    { nation: true },
+    { kinds: [ELECTED, TERM_HELD], about: seatId },
+  )
+    .flatMap((event) => {
+      if (event.record === ELECTED)
+        return [
+          {
+            termId: event.facts?.termId ?? event.id,
+            date: event.date as string,
+            share: Number(event.facts?.share),
+            party: event.facts?.party ?? null,
+            holder: event.facts?.holder ?? "",
+          },
+        ];
+      const on = event.facts?.electedOn;
+      return on && on >= core.startedAt
+        ? [
+            {
+              termId: event.id,
+              date: on,
+              share: Number(event.facts?.share),
+              party: event.facts?.party ?? null,
+              holder: event.facts?.holder ?? "",
+            },
+          ]
+        : [];
+    })
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 

@@ -17,7 +17,7 @@ import { addDays, daysBetweenText, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { livesElsewhere } from "./modules/moves";
-import { lifeOf } from "./modules/people";
+import { lifeOf } from "./person-life";
 import { lifeSummary, whoRemembers } from "./person-life";
 import { coreAPI } from "./state";
 import type { CoreEventInput, PersonId } from "./types";

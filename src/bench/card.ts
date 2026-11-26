@@ -1,5 +1,5 @@
 import { governmentProperName } from "../core2/government-proper-name";
-import { openPastTerms, servingTermsOf } from "../core2/modules/offices";
+import { servingTermsOf } from "../core2/modules/offices";
 import {
   jobTitleSaid,
   officeInSentence,
@@ -15,22 +15,19 @@ import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness, lastMetOnRow } from "../core2/closeness";
 import {
-  COUNTED_MOVES_MODULE_ID,
-  countedMoves,
   familyFactsOf,
-  lifeOf,
   livesElsewhere,
-  openWholePast,
   MOVED_AWAY_EVENT,
-  type LifeEvent,
 } from "../core2/modules/people";
 import { townFacts } from "../core2/modules/laws";
-import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { jobLeaveBlock } from "../core2/modules/jobs";
-import { PAST_MODULE_ID, bornIn as birthplaceOf } from "../core2/past-module";
+import { PAST_MODULE_ID } from "../core2/past-module";
+
+/** The fact a person is made with that names where they were born (the people engine's own kind). */
+const BIRTHPLACE = "birthplace";
 import { publicKnowledgeOf } from "../core2/past-public";
-import type { CoreState, PersonId } from "../core2/types";
+import type { CoreState, PersonId, PersonState, PlaceId } from "../core2/types";
 import {
   partText,
   screenLine,
@@ -75,9 +72,13 @@ import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 import { viewKey, viewQuestionKey } from "../director/view-learned";
 import { questionAbout } from "../english/question-names";
 import {
+  PERSON_MOVED_IN,
+  historyOf,
+  openHistory,
+  townWithin,
   organizationName as organizationNameAt,
-  preStartHistory,
   sharedHistory,
+  type HistoryEvent,
 } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
@@ -385,7 +386,7 @@ export function roleWord(
 
 /**
  * A person's life as their card tells it, oldest first: one worded line per
- * event the one life reader returns (`lifeOf`: what they were made with, the
+ * event the one history reader returns (`historyOf`: what they were made with, the
  * simulated past and what the engines recorded in play), each on the record
  * that caused it. Never how close the tie to the viewer is (owner, Oct 29). A
  * record whose words the bank cannot fill is left out.
@@ -396,15 +397,15 @@ function historyLines(
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
 ) {
   const lines: HistoryLine[] = [];
-  // A person met or opened for the first time has their whole past written now,
-  // before their schools are read: read first, the school they attend stands
-  // on a record the written past replaces (Holt, Minnesota, seed
-  // f602ba0f9501e66f: "school.started:<person>:2007", a year no record holds).
-  openWholePast(core, other.id);
+  // Their history first: the one reader writes a person's whole past before
+  // it reads it, and their schools are read after, since the school they
+  // attend stands on a record the written past replaces (Holt, Minnesota,
+  // seed f602ba0f9501e66f: "school.started:<person>:2007", a year no record
+  // holds).
+  const life = historyOf(core, { person: other.id });
   const schools = new Map(
     schoolsOf(core, other.id).map((school) => [school.recordId, school]),
   );
-  const life = lifeOf(core, other.id);
   const firstSchool = life.find(
     (event) => event.life === "school" && event.what === "started",
   );
@@ -505,18 +506,14 @@ function parentSaid(
   const gender = partner?.looks?.gender;
   const role =
     gender === "male" ? "father" : gender === "female" ? "mother" : "parent";
+  // Their children together, by each child's family record (the one reader
+  // of family facts).
+  const parentOf = (child: PersonState, id: string) =>
+    ["parent", "other-parent"].includes(
+      familyFactsOf(child).get(id as PersonId)?.relation ?? "",
+    );
   const children = [...core.people.values()].filter(
-    (child) =>
-      (child.pastFacts ?? []).some(
-        (fact) =>
-          ["family:parent", "family:other-parent"].includes(fact.kind) &&
-          fact.facts?.otherPersonId === partnerId,
-      ) &&
-      (child.pastFacts ?? []).some(
-        (fact) =>
-          ["family:parent", "family:other-parent"].includes(fact.kind) &&
-          fact.facts?.otherPersonId === person.id,
-      ),
+    (child) => parentOf(child, partnerId) && parentOf(child, person.id),
   );
   if (children.some((child) => child.id === viewerId)) return `your ${role}`;
   const only = children.length === 1 ? children[0]! : undefined;
@@ -549,7 +546,7 @@ function lineOf(
   core: CoreState,
   viewerId: string,
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
-  event: LifeEvent,
+  event: HistoryEvent,
   schools: ReadonlyMap<string, { name: string; stage: string; grade: number }>,
   firstSchoolId: string | undefined,
   firstChildDate: string | undefined,
@@ -1236,21 +1233,21 @@ export function townMoves(core: CoreState, town: string) {
   let arrivals = 0;
   let departures = 0;
   const recordIds: string[] = [];
-  if (core.modules.has(COUNTED_MOVES_MODULE_ID))
-    for (const move of countedMoves(api)) {
-      if (move.date < from) continue;
-      if (move.direction === "in" && move.toPlace === town)
-        arrivals += move.people;
-      else if (move.direction === "out" && move.fromPlace === town)
-        departures += move.people;
-      else continue;
-      recordIds.push(move.id);
-    }
-  for (const id of core.logByKind.get(MOVED_AWAY_EVENT) ?? []) {
-    const row = core.durableLog.get(id as EntityId);
-    if (!row || row.placeId !== town || row.date < from) continue;
-    departures += row.personIds?.length ?? 0;
-    recordIds.push(row.id);
+  // This year's moves in and out of the town, from its history: the counted
+  // households' moves and the people who moved away.
+  for (const move of historyOf(
+    core,
+    { place: town as PlaceId },
+    {
+      kinds: ["counted-move:in", "counted-move:out", MOVED_AWAY_EVENT],
+      since: from,
+    },
+  )) {
+    if (move.record === MOVED_AWAY_EVENT) departures += move.personIds.length;
+    else if (move.record === "counted-move:in")
+      arrivals += Number(move.facts?.people ?? 0);
+    else departures += Number(move.facts?.people ?? 0);
+    recordIds.push(move.id);
   }
   return {
     population: Math.round(townFacts(api, town).modeled),
@@ -1614,7 +1611,8 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     )) as TermLike | undefined;
   if (!term?.identity) return null;
   // Opened for the first time: their earlier terms of the seat are written now.
-  openPastTerms(api, term.id);
+  // The seat's earlier terms, written once, as the history opens an official.
+  openHistory(core, `official:${term.id}` as PersonId);
   const office = api
     .moduleState(OFFICES)
     .table("offices")
@@ -1815,7 +1813,34 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   // in Angoon" and then "moved to Angoon"); none for a birth abroad, which
   // has no place record to name. Someone with neither record (a person made
   // to hold a role) is told no birthplace.
-  const born = birthplaceOf(core, other);
+  // Where they were born, from their history: the birthplace their record
+  // was made with, else where the move that brought them came from when
+  // they were born before it, else here (a state's record resolved to one of
+  // its towns, the same every time).
+  const madeBirth = historyOf(
+    core,
+    { person: other.id },
+    { kinds: [BIRTHPLACE], from: "built" },
+  ).find((fact) => typeof fact.facts?.placeId === "string");
+  const firstMove = historyOf(
+    core,
+    { person: other.id },
+    { kinds: [PERSON_MOVED_IN], from: "past" },
+  )[0];
+  const movedFrom = String(firstMove?.facts?.fromPlaceId ?? "");
+  const born = madeBirth
+    ? {
+        placeId:
+          townWithin(core, other.id, madeBirth.facts!.placeId!) ??
+          madeBirth.facts!.placeId!,
+        recordId: madeBirth.id,
+      }
+    : firstMove && other.birthDate < firstMove.date
+      ? {
+          placeId: townWithin(core, other.id, movedFrom) ?? movedFrom,
+          recordId: firstMove.id,
+        }
+      : { placeId: other.placeId, recordId: firstMove?.id ?? other.id };
   const bornId =
     born.recordId !== other.id || born.placeId !== other.placeId
       ? born.placeId
@@ -1830,14 +1855,18 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       (bornStateName ? stateInSentence(bornStateName) : null))
     : null;
   const run = officeRunOf(lines, servingOffices(core, otherId)[0]);
-  // The office a President held before, from their record.
-  const prior = (other.pastFacts ?? []).find(
-    (row) => row.kind === "career:prior-office",
+  // The office a President held before, and the year they won the office
+  // they hold now, from their history (the facts their record was made with).
+  const career = historyOf(
+    core,
+    { person: otherId as PersonId },
+    { kinds: ["career:prior-office", "campaign:elected"] },
+  );
+  const prior = career.find(
+    (row) => row.record === "career:prior-office",
   )?.facts;
-  // The year they won the office they hold now, from the same record.
-  const elected = (other.pastFacts ?? []).find(
-    (row) => row.kind === "campaign:elected",
-  )?.facts?.year;
+  const elected = career.find((row) => row.record === "campaign:elected")?.facts
+    ?.year;
   const priorOffice =
     run && typeof prior?.office === "string"
       ? {
@@ -1969,18 +1998,19 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // before day one, each with the term record it stands on.
     // The office they serve in now is dated from the run's first term, as
     // the lines under the name say it.
-    seats: preStartHistory(core, {
-      kind: "office.seat-reached",
-      personId: otherId,
-    }).map((row) => {
-      const office = officeTitle(core, String(row.facts.officeId));
+    seats: historyOf(
+      core,
+      { person: otherId as PersonId },
+      { kinds: ["office.seat-reached"] },
+    ).map((row) => {
+      const office = officeTitle(core, String(row.facts?.officeId));
       const since =
         run && office && inSentence(office) === run.office
           ? run.since
           : row.date;
       return {
         recordId: row.id,
-        termId: String(row.facts.termId),
+        termId: String(row.facts?.termId),
         office,
         year: Number(since.slice(0, 4)),
       };

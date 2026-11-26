@@ -25,12 +25,13 @@
  * cause's day), so the tree the player sees is the tree their reply is
  * matched against.
  */
+import { historyOf } from "../core2/past";
 import { P, parameter } from "../core2/parameters";
 import { closenessBetween } from "../core2/closeness";
 import { daysBetweenText } from "../core2/kernel/dates";
 import { outletsHere } from "../core2/modules/press";
 import { careNeedOf } from "../core2/modules/health";
-import { votesOf } from "../core2/modules/people";
+import { votesCast } from "../core2/modules/people";
 import {
   LEADERSHIP_MODULE_ID,
   LEGISLATURE_MODULE_ID,
@@ -321,7 +322,7 @@ export function favorsGiven(
     return cast ? cast.vote === "yes" : position > P.zero;
   };
   const seen = new Set<string>();
-  return votesOf(api, askerId)
+  return votesCast(api.state as CoreState, askerId)
     .filter((row) => {
       if (
         row.date >= before ||
@@ -623,7 +624,7 @@ function readOf(
   if (spec.kind === "town-against") {
     const billId = input.cause.facts.billId;
     const vote = billId
-      ? votesOf(coreAPI(core as CoreState), input.askedId).find(
+      ? votesCast(core as CoreState, input.askedId).find(
           (row) => row.billId === billId,
         )
       : undefined;
@@ -657,8 +658,12 @@ function readOf(
     const own = input.cause.facts[spec.exceptSameFact];
     let count = P.zero;
     for (const kind of spec.events)
-      for (const id of core.logByKind.get(kind) ?? []) {
-        const event = core.durableLog.get(id);
+      for (const earlier of historyOf(
+        core as CoreState,
+        { nation: true },
+        { kinds: [kind], from: "played" },
+      )) {
+        const event = core.durableLog.get(earlier.id);
         if (!event || event.id === input.cause.id) continue;
         if (event.date >= input.cause.date) continue;
         if (

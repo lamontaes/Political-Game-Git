@@ -8,6 +8,7 @@
  * address's own record through the one function every view says it with (address-render.ts), so
  * what dev mode shows is what was said. Reads only; spends no time.
  */
+import { historyOf } from "../../core2/past";
 import type { DevView } from "../dev-views";
 import { ADDRESS_FACT } from "../../director/opening-facts";
 import { saidOf, sentenceText } from "../../director/address-render";
@@ -38,7 +39,8 @@ const view: DevView = {
         const person = core.people.get(id);
         return person ? `${person.givenName} ${person.familyName}` : id;
       };
-      const addresses = [...core.durableLog.values()]
+      const addresses = historyOf(core, { nation: true }, { from: "played" })
+        .flatMap((event) => core.durableLog.get(event.id as never) ?? [])
         .filter((row) => saidOf(row.facts).length > 0)
         .sort(
           (a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id),

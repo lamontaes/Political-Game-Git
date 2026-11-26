@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import { historyOf } from "../core2/past";
 import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
@@ -323,11 +324,24 @@ function healthCase(core: CoreState, personId: string) {
   );
 }
 
+/** The ids of every record of one kind in play, as the log recorded them, from the nation's history. */
+function playedOfKind(core: CoreState, kind: string): string[] {
+  return historyOf(
+    core,
+    { nation: true },
+    { kinds: [kind], from: "played" },
+  ).map((event) => event.id);
+}
+
 /** Every dev-mode record the world carries: law rows and change records. */
 export function devModeMarks(core: CoreState): readonly string[] {
   const out: string[] = [];
-  for (const row of core.durableLog.values())
-    if (row.kind === DEV_MODE_RECORD) out.push(row.id);
+  for (const row of historyOf(
+    core,
+    { nation: true },
+    { kinds: [DEV_MODE_RECORD], from: "played" },
+  ))
+    out.push(row.id);
   if (has(core, LAWS_MODULE_ID))
     for (const row of coreAPI(core)
       .moduleState(LAWS_MODULE_ID)
@@ -528,8 +542,12 @@ export class DevMode {
 
   /** Every dev-mode change so far, oldest first. */
   marks(): readonly DevMark[] {
-    return [...this.core.durableLog.values()]
-      .filter((row) => row.kind === DEV_MODE_RECORD)
+    return historyOf(
+      this.core,
+      { nation: true },
+      { kinds: [DEV_MODE_RECORD], from: "played" },
+    )
+      .flatMap((event) => this.core.durableLog.get(event.id as never) ?? [])
       .map((row) => {
         const facts = (row.facts ?? {}) as Record<string, string>;
         return {
@@ -2358,16 +2376,14 @@ export class DevMode {
     };
     const count = () =>
       (kinds ?? []).reduce(
-        (n, kind) => n + (this.core.logByKind.get(kind)?.size ?? 0),
+        (n, kind) => n + playedOfKind(this.core, kind).length,
         0,
       );
     const sceneCount = () =>
       this.director?.ledger.people.get(this.player?.personId ?? "")?.moments
         .length ?? 0;
     const seen = new Set(
-      (kinds ?? []).flatMap((kind) => [
-        ...(this.core.logByKind.get(kind) ?? []),
-      ]),
+      (kinds ?? []).flatMap((kind) => playedOfKind(this.core, kind)),
     );
     const mine = input.where !== "anywhere";
     const chain = has(this.core, LAWS_MODULE_ID) ? lawChain(this.api) : null;
@@ -2501,9 +2517,7 @@ export class DevMode {
           break;
         }
       } else if (kinds && count() > before) {
-        const all = kinds.flatMap((kind) => [
-          ...(this.core.logByKind.get(kind) ?? []),
-        ]);
+        const all = kinds.flatMap((kind) => playedOfKind(this.core, kind));
         const fresh = all.filter((id) => !seen.has(id) && wanted(id));
         // An event somewhere else, or another person's, is passed over; this run waits for the one asked for.
         for (const id of all) seen.add(id);
@@ -2644,9 +2658,13 @@ export class DevMode {
         .map((id) => core.cashJournal.detailedReceipts.get(id))
         .filter((row) => row !== undefined),
       director: this.director?.ledger.people.get(personId) ?? null,
-      records: [...(core.logByPerson.get(personId) ?? [])]
+      records: historyOf(
+        core,
+        { person: personId as PersonId },
+        { from: "played" },
+      )
         .slice(-100)
-        .map((id) => core.durableLog.get(id))
+        .map((event) => core.durableLog.get(event.id as never))
         .filter((row) => row !== undefined),
       pending: this.pending.get(personId) ?? null,
       laws: this.lawsOn(personId, person.householdId),

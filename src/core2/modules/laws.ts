@@ -16,7 +16,12 @@ import type {
   PreStartModule,
   PreStartWindow,
 } from "../pre-start";
-import { lawHistory } from "../past-module";
+import {
+  lawHistory,
+  type HistoryModule,
+  type HistoryRow,
+  type HistorySource,
+} from "../past-module";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -140,7 +145,124 @@ function lawHistoryPass(
   }
 }
 
-export const LAWS_MODULE: PreStartModule = {
+/** The record kind of a law a body passed, as the one history reader tells it. */
+export const LAW_ENACTED = "law.enacted";
+/** A law row, the statute's own record, on the day it governs from (`statuteHistory`). */
+export const LAW_STATUTE = "law.statute";
+
+/**
+ * A law a body passed, told on the day it passed (the row's own `retrieved`
+ * day, src/core2/modules/laws.ts enactLaw): what it changed, where, when it
+ * takes effect and, for a state's session, each chamber's count.
+ */
+function enactedHistory(core: CoreState, row: LawRowInput): HistoryRow {
+  const terms = row.terms ?? {};
+  const session = typeof terms.session === "string" ? terms.session : null;
+  return {
+    id: row.id,
+    date: row.retrieved as HistoryRow["date"],
+    life: "law",
+    what: "enacted",
+    record: LAW_ENACTED,
+    from: row.retrieved < core.startedAt ? "past" : "played",
+    personIds: [],
+    withIds: [],
+    facts: {
+      lawId: row.id,
+      jurisdiction: row.jurisdiction,
+      level: row.level,
+      series: row.series,
+      effectiveDate: row.effectiveDate,
+      enactedBy: String(terms.enactedBy),
+      ...(session
+        ? {
+            session,
+            bodies: String(terms.bodies ?? ""),
+            chambers: String(terms.chambers ?? ""),
+            direction: String(terms.direction ?? ""),
+          }
+        : {}),
+    },
+    publicRecord: true,
+  };
+}
+
+/**
+ * Every law row, the statute's own record, told on the day it governs from: a
+ * law a body passed, one in force before the game, or a step its own statute
+ * scheduled. A row not yet in force is told on the day it will take effect, so
+ * a read `through` today leaves it out. This is the laws table itself; the
+ * log's `law-took-effect` is the town's event, written only when a row starts
+ * to govern in play, with what it replaced. Its id is the row's own after the
+ * kind, so it never shares one with the row's `law.enacted`.
+ */
+function statuteHistory(core: CoreState, row: LawRowInput): HistoryRow {
+  const terms = row.terms ?? {};
+  const enacted = terms.enactedBy !== undefined;
+  return {
+    id: `${LAW_STATUTE}:${row.id}`,
+    date: row.effectiveDate as HistoryRow["date"],
+    life: "law",
+    what: "statute",
+    record: LAW_STATUTE,
+    from: enacted && row.retrieved >= core.startedAt ? "played" : "past",
+    personIds: [],
+    withIds: [],
+    facts: {
+      lawId: row.id,
+      jurisdiction: row.jurisdiction,
+      level: row.level,
+      series: row.series,
+      effectiveDate: row.effectiveDate,
+      ...(enacted ? { enactedBy: String(terms.enactedBy) } : {}),
+      ...(typeof terms.enactedByBill === "string"
+        ? { enactedByBill: terms.enactedByBill }
+        : {}),
+    },
+    publicRecord: true,
+  };
+}
+
+/** The laws are history: the nation's, a state's or a place's, read by kind. */
+const LAWS_HISTORY: HistorySource = {
+  id: LAWS_MODULE_ID,
+  rows(core, scope, ask) {
+    const enacted = ask.kinds?.includes(LAW_ENACTED) === true;
+    const statutes = ask.kinds?.includes(LAW_STATUTE) === true;
+    if ((!enacted && !statutes) || !core.modules.has(LAWS_MODULE_ID)) return [];
+    if ("person" in scope || "household" in scope || "employer" in scope)
+      return [];
+    const rows = coreAPI(core)
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .rows() as unknown as LawRowInput[];
+    return [
+      ...(enacted
+        ? rows
+            .filter((row) => row.terms?.enactedBy !== undefined)
+            .map((row) => enactedHistory(core, row))
+        : []),
+      ...(statutes ? rows.map((row) => statuteHistory(core, row)) : []),
+    ];
+  },
+  row(core, id) {
+    if (!core.modules.has(LAWS_MODULE_ID)) return undefined;
+    const table = coreAPI(core).moduleState(LAWS_MODULE_ID).table("laws");
+    const prefix = `${LAW_STATUTE}:`;
+    if (id.startsWith(prefix)) {
+      const row = table.get(id.slice(prefix.length)) as unknown as
+        LawRowInput | undefined;
+      return row ? statuteHistory(core, row) : undefined;
+    }
+    const row = table.get(id) as unknown as LawRowInput | undefined;
+    return row?.terms?.enactedBy !== undefined
+      ? enactedHistory(core, row)
+      : undefined;
+  },
+};
+
+export const LAWS_MODULE: PreStartModule & HistoryModule = {
+  history: LAWS_HISTORY,
   id: LAWS_MODULE_ID,
   preStart: { phase: "government", run: lawHistoryPass },
   state: {

@@ -1,3 +1,4 @@
+import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import { resultOf } from "../core2/modules/voting";
 import type { FilingRow } from "../core2/modules/elections";
@@ -6,7 +7,7 @@ import type { BillRow } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
-import { votesOf } from "../core2/modules/people";
+import { votesCast } from "../core2/modules/people";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { changesKnownTo } from "../director/bring-it-up";
 import { reachedBy } from "../core2/law-reach/host";
@@ -119,11 +120,15 @@ export function reachedSteps(
     if (decided.length)
       out.push({ step: 8, recordIds: decided.map((b) => b.id) });
     // A law the bill made has taken effect (steps 10 and 11 start here).
-    const tookEffectFacts = [...(core.logByKind.get("law-took-effect") ?? [])]
+    const tookEffectFacts = historyOf(
+      core,
+      { nation: true },
+      { kinds: ["law-took-effect"], from: "played" },
+    )
       .map(
-        (id) =>
+        ({ id }) =>
           (
-            core.durableLog.get(id) as {
+            core.durableLog.get(id as never) as {
               facts?: { lawId?: string; series?: string };
             }
           )?.facts,
@@ -185,10 +190,14 @@ export function reachedSteps(
     if (enacted.length && has(core, "core2-voting-v1")) {
       const ballots = api.moduleState("core2-voting-v1").table("ballots");
       const tookEffectOn = (b: BillRow) =>
-        [...(core.logByKind.get("law-took-effect") ?? [])]
+        historyOf(
+          core,
+          { nation: true },
+          { kinds: ["law-took-effect"], from: "played" },
+        )
           .map(
-            (id) =>
-              core.durableLog.get(id) as
+            ({ id }) =>
+              core.durableLog.get(id as never) as
                 { date: string; facts?: { lawId?: string } } | undefined,
           )
           .filter((e) => madeBy(e?.facts?.lawId ?? "", b.id))
@@ -198,7 +207,7 @@ export function reachedSteps(
         // The member's record rows for this bill, one per question it
         // spoke to; a ballot citing any of them gives the bill's vote.
         const items = new Set(
-          votesOf(api, personId)
+          votesCast(api.state as CoreState, personId)
             .filter((v) => v.billId === b.id)
             .map((v) => v.id),
         );

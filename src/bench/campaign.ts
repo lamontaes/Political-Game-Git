@@ -38,7 +38,7 @@ import {
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
-import { promisesOf, votesOf } from "../core2/modules/people";
+import { promisesOf, votesCast } from "../core2/modules/people";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { retellingsOf } from "../core2/modules/speech";
 import {
@@ -1263,7 +1263,7 @@ export function playerRecord(core: CoreState, personId: string) {
       .rows() as unknown as { id: string; number: string }[])
       billNumbers.set(bill.id, bill.number);
   // A vote with no outcome on record is left out, never shown half-filled.
-  const votes = votesOf(api, personId)
+  const votes = votesCast(core, personId)
     .filter((vote) => vote.passed !== null)
     .map((vote) => ({
       id: vote.id,

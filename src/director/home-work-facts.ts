@@ -12,8 +12,7 @@
  * invented, so the lines that need it never play.
  */
 import { ageOnDate, daysBetweenText } from "../core2/kernel/dates";
-import { heldSinceRecord, schoolsAttended } from "../core2/past";
-import { JOBS_MODULE_ID } from "../core2/modules/jobs";
+import { historyOf, schoolsAttended } from "../core2/past";
 import { FAMILY_QUARREL } from "../core2/modules/people";
 import { unionStart } from "../core2/modules/partnerships";
 import { P } from "../core2/parameters";
@@ -25,7 +24,7 @@ import { withArticle } from "../english/journal-words";
 import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import { sayableJobTitle } from "../english/said-as";
 import { SPOKEN_DAYS_PER_YEAR, spanSaid } from "../english/span-words";
-import type { NewsFact } from "./life-news";
+import { jobHeldSince, type NewsFact } from "./life-news";
 import { schoolResult } from "./school";
 import { employerWords, organizationName } from "./words";
 import { schoolShortSaid, workplaceSaid } from "../english/workplace-words";
@@ -145,21 +144,17 @@ function startOfJob(
   personId: string,
   jobId: string,
 ): { date: string; recordId: string } | null {
-  const held = heldSinceRecord(core as CoreState, personId as PersonId, jobId);
-  if (held?.facts.startedAt)
+  const held = jobHeldSince(core, personId as PersonId, jobId);
+  if (held?.facts?.startedAt)
     return { date: String(held.facts.startedAt), recordId: held.id };
-  if (!core.modules.has(JOBS_MODULE_ID)) return null;
-  const changes = coreAPI(core as CoreState)
-    .moduleState(JOBS_MODULE_ID)
-    .table("changes")
-    .query("byPerson", [personId]) as unknown as {
-    id: string;
-    date: string;
-    kind: string;
-    jobId: string;
-  }[];
-  const [hire] = changes
-    .filter((row) => row.kind === "hire" && row.jobId === jobId)
+  // Else the hire into it, from the person's history (the jobs engine's
+  // change records).
+  const [hire] = historyOf(
+    core as CoreState,
+    { person: personId as PersonId },
+    { kinds: ["job-change:hire"] },
+  )
+    .filter((row) => row.facts?.jobId === jobId)
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
   return hire ? { date: hire.date, recordId: hire.id } : null;
 }

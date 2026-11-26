@@ -9,7 +9,8 @@
  * with no record for its slots is never offered.
  */
 // stopgapId: SG-WORDS-player-speech-not-planned
-import { heldSinceRecord, schoolsAttended } from "../core2/past";
+import { schoolsAttended } from "../core2/past";
+import { jobHeldSince } from "./life-news";
 import {
   speechPartsByReach,
   speechStagePieces,
@@ -87,10 +88,10 @@ function factsOf(
   if (org)
     facts.employer = { text: organizationName(org), sourceRecordIds: [org.id] };
   // How long they have held it, from the record of their working life.
-  const tenure = heldSinceRecord(core as CoreState, person.id, person.jobId);
+  const tenure = jobHeldSince(core, person.id, person.jobId);
   if (tenure) {
     const years = ageOnDate(
-      makeIsoDate(String(tenure.facts.startedAt)),
+      makeIsoDate(String(tenure.facts?.startedAt)),
       makeIsoDate(core.date),
     );
     if (years > P.zero)
