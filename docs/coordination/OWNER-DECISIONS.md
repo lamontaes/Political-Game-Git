@@ -2,6 +2,18 @@
 
 The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
+## 2026-11-26, about 1:40 p.m. ET: just the game in the game folder; builders only
+
+- **"No tests, no notes, other than stopgaps... no attributions, nothing. Just straight game code. Like if I were to download a game online and I were to open the folder and look at all the files, it should just be the game stuff."** His pick: **game folder clean, workshop separate**, run after the builders finish.
+  - Tests move out of `src/` into `tests/`.
+  - Owner quotes, dates and attributions come out of code comments; stopgap markers stay, and rulings go to this file first.
+  - Docs, skills and CI stay outside the game folder.
+  - The shipped app holds only game files.
+  - A guard keeps it that way.
+  - Spec: `docs/coordination/refactor/game-only-pass.md`. The cleanup session does it as its last step.
+- **12:45 p.m.:** "all of these need to be builders only. You can do the merging and all that shit... I'm not worried about landing stuff. I'm worried about stuff getting built and removed and changed and fixed."
+- **12:20 p.m.:** "I give you standing approval for whatever you need. A part of being CTO is making decisions in my absence... just tell me what you approve." Auto-mode refusals still stand.
+
 ## 2026-11-26, about 12:15 p.m. ET: row 14, branches, stale PRs (his picks on the CTO's inline questions)
 
 - **Row 14 (the century's laws): "Last few sessions."** The 1925 century keeps its own vote for its early years. The real bill engine runs only the played state's last few sessions, in a pre-day-one pass, so loading stays near today's time. Measured by Past and Day One on Nov 26: the whole century through the engine would add at least 250% to loading (about 58 s on a 12 s build). Built by Past and Day One; it changes the world, so it stays open for his review.
