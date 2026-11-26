@@ -80,7 +80,7 @@
     "src/core2/life.ts": 11,
     "src/core2/membership-dues.ts": 1,
     "src/core2/modules/ballot-measures.ts": 1,
-    "src/core2/modules/budgets.ts": 4,
+    "src/core2/modules/budgets.ts": 6,
     "src/core2/modules/business.ts": 6,
     "src/core2/modules/campaigns.ts": 8,
     "src/core2/modules/candidacy.ts": 5,

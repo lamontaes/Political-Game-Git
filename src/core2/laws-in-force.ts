@@ -25,6 +25,7 @@ import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
 export { lawChainForPlace } from "./laws-starting";
 export type { LawChain } from "./laws-starting";
+export { settleBribe } from "./modules/corruption";
 
 export type LawDoctrine = "floor" | "additive" | "single";
 

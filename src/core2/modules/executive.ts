@@ -102,7 +102,6 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
-export { outsideGovernment } from "../outside-governments";
 export { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";

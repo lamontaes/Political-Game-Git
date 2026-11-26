@@ -72,7 +72,6 @@ import {
   endPretrial,
   type PretrialRow,
 } from "../justice-pretrial";
-export { settleBribe } from "./corruption";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";
 const FINE_KIND = "justice-fine";

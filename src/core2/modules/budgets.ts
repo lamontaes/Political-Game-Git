@@ -23,7 +23,7 @@ import { taxIndexOf } from "../tax-index";
 import { budgetPassThroughs } from "../budgets-line-payers";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
-import { placeLocalGovernmentUnits } from "./executive";
+import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federalLines from "../data/country/federal-lines.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
@@ -77,7 +77,7 @@ import {
 } from "../laws-in-force";
 import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
 import { corePlaceByJurisdictionId } from "../place-lookup";
-import { outsideGovernment } from "./executive";
+import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import { recordIncomeTaxApplied } from "../tax-applied";
 import {
