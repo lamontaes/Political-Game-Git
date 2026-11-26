@@ -2,7 +2,7 @@
 
 For the CTO to train in one pass. Base: main at `ea60e9eb47` (where the stack was cut). Main has since moved to `231ab84861`; merge main into the top head before training it.
 
-**One head holds everything:** `claude/lucid-lovelace-wjgvtx-reach-16-leaf-constants` at `f17c248b7a`. From `reach-7-screens` upward each head is an ancestor of the next. The six heads below it (`reach-1` to `reach-6`) were rebuilt after load-order fixes, so they are not ancestors of `reach-7`; their changes are in the top head's tree and the heads stay for review in the order listed. Train the top head, or fold the list from the bottom if you prefer small steps.
+**One head holds everything:** `claude/lucid-lovelace-wjgvtx-reach-16-leaf-constants` at the commit that adds this note (code is `f17c248b7a`). From `reach-7-screens` upward each head is an ancestor of the next. The six heads below it (`reach-1` to `reach-6`) were rebuilt after load-order fixes, so they are not ancestors of `reach-7`; their changes are in the top head's tree and the heads stay for review in the order listed. Train the top head, or fold the list from the bottom if you prefer small steps.
 
 Branch names drop the prefix `claude/lucid-lovelace-wjgvtx-`. "Reach-ins" is the families baseline total after that head (main: 575).
 
