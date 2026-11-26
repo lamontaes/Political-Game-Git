@@ -1370,6 +1370,37 @@ export function replyStep<L extends { parts: string[]; round: number }>(input: {
   return offered;
 }
 
+/**
+ * What a reply is made of: a head with an optional tail. A home talk fills the
+ * tail (the question the reply turns back, or the subject it raises); a scene
+ * passes none, since its arcs have none. The head is the answer itself, or,
+ * where the answer is a bare question turned back ("And you?") that is said
+ * after the plain answer, the plain answer, with the question as the tail. A
+ * reply that raises another subject says its line after the answer, unless
+ * the answer already asks. Null where a subject to raise cannot be worded.
+ */
+export function shapeReply<L extends { asks: boolean }>(input: {
+  answer: L;
+  /** The answer is a bare question turned back, said after the plain answer. */
+  afterPlain?: boolean;
+  /** The plain answer that goes before it, if the bank has one that asks nothing. */
+  plain?: L | null;
+  /** The reply raises another subject: its line, or null when it cannot be worded. */
+  raised?: { line: L | null };
+}): { head: L; tail: L | null } | null {
+  let head = input.answer;
+  let tail: L | null = null;
+  if (input.afterPlain && input.plain && !input.plain.asks) {
+    head = input.plain;
+    tail = input.answer;
+  }
+  if (input.raised) {
+    if (!input.raised.line) return null;
+    if (!input.answer.asks) tail = input.raised.line;
+  }
+  return { head, tail };
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;

@@ -170,6 +170,7 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  shapeReply,
   factsAlreadySaid,
   factsNotYetSaid,
   nameOnceFacts,
@@ -7043,20 +7044,6 @@ function offerChoices(
       statementsOnly,
     );
     if (!answer) return;
-    let head: Said = answer;
-    let tail: Said | null = null;
-    if (answer.afterPlain) {
-      // The plain answer: the move named plain, or the one the rules name
-      // for the question (asked about someone both know: when the player saw
-      // them, or that they have not).
-      const plain = [...plainAnswersOf(last.kind), "plain"]
-        .map((key) => groups.get(key) && answerWith(groups.get(key)!, key))
-        .find(Boolean);
-      if (plain && !plain.asks) {
-        head = plain;
-        tail = answer;
-      }
-    }
     // The replies the rules name for a line's move are its only replies:
     // after a question, and after news told with the teller's stand, which
     // is answered by agreeing, disagreeing or asking why, never a bare
@@ -7081,23 +7068,38 @@ function offerChoices(
       })
     )
       return;
-    if (raised && raised !== last.subject) {
-      const line = words(
-        core,
-        data,
-        playerId,
-        raised.kind,
-        "raise",
-        ALL,
-        raised.facts,
-        `${playerId}:${otherId}:${turn}:${raised.id}:raise`,
-        "default",
-        raised,
-      );
-      if (!line) return;
-      // A turned-back question ("And you?") already asks; it carries no second line.
-      if (!answer.asks) tail = line;
-    }
+    // What the reply is made of: the answer, the plain answer it is said
+    // after (the move named plain, or the one the rules name for the
+    // question: asked about someone both know, when the player saw them, or
+    // that they have not), and the line that raises another subject.
+    const plain = answer.afterPlain
+      ? ([...plainAnswersOf(last.kind), "plain"]
+          .map((key) => groups.get(key) && answerWith(groups.get(key)!, key))
+          .find(Boolean) ?? null)
+      : null;
+    const raisedLine =
+      raised && raised !== last.subject
+        ? words(
+            core,
+            data,
+            playerId,
+            raised.kind,
+            "raise",
+            ALL,
+            raised.facts,
+            `${playerId}:${otherId}:${turn}:${raised.id}:raise`,
+            "default",
+            raised,
+          )
+        : undefined;
+    const shaped = shapeReply({
+      answer,
+      afterPlain: answer.afterPlain,
+      plain,
+      ...(raisedLine !== undefined ? { raised: { line: raisedLine } } : {}),
+    });
+    if (!shaped) return;
+    const { head, tail } = shaped;
     // A reply that ends on a question is offered only where the other person
     // can answer it (owner, Oct 29: "Did you see the President's address?"
     // answered "Oh, okay. What about you?"): it raises a subject they have,
