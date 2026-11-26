@@ -28,6 +28,8 @@ different times."
 
 ## When you replace, move or remove something
 
+Search the old file path and any retired export names in skills, rules, docs, pool item Files lines, and code comments. Update live instructions and keep the two crew skill copies byte-identical. Do not leave a pool Files line pointing at a deleted file or raise the dead-pointer baseline to cover a removal.
+
 Do all of this in the same pull request as the change:
 
 1. **Add a `replaced` row:** `old` (the path that is gone), `now` (the path that stands in its place, or the commit to restore it from when nothing does), `when` and `why` in one plain sentence.

@@ -74,17 +74,6 @@ export function registrationWait(duty: number): number {
   );
 }
 
-/** The share of people like a counted record on the rolls `days` after a move. */
-export function registeredAfter(
-  days: number,
-  duty: number,
-  deadline: number,
-): number {
-  return (
-    1 - Math.pow(2, -Math.max(0, days - deadline) / registrationWait(duty))
-  );
-}
-
 /** What a counted record stands for in the registration rule: the part that keeps off the rolls and the part the state registers. */
 export interface CountedRegistrationInputs {
   readonly duty: number;

@@ -1,10 +1,10 @@
 {
   "about": "For each area of the repository, how many pointers in its documents, rules, skills and code comments name a path that is not in the repository. tests/guards/current-pointers.test.ts holds each count: it may only go down, and an area not named here may hold none. Written by `node --import tsx scripts/current/pointers.ts --write`; write it only to lower a count.",
-  "total": 5159,
+  "total": 5158,
   "areas": {
     "(top)": 2,
     "art": 1,
-    "data": 10,
+    "data": 9,
     "desktop": 7,
     "docs": 16,
     "docs/agent": 2,
