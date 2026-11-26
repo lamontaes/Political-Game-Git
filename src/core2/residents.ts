@@ -16,13 +16,13 @@ import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
 } from "./opening-outside-market";
-import type { FinanceContractInput } from "./modules/finance";
-import { FinanceReadGuard } from "./budgets-treasury";
+import type { FinanceContractInput } from "./finance-types";
+import { FinanceReadGuard } from "./finance-plan";
 import {
   nextWorkPayrollPeriod,
   workPayPeriodAtIndex,
   type WorkPayrollCalendarInput,
-} from "./macro-model";
+} from "./work-pay-period";
 import type {
   CoreInput,
   HouseholdInput,

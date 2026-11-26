@@ -19,10 +19,10 @@ import {
   drawSavingsToCover,
   transfer,
   transferSplit,
-} from "../budgets-treasury";
-import { withdrawSavings } from "./budgets";
-import { livingCostParts, outsideCostParts } from "../macro-model";
-import { splitMarketDemand } from "../macro-model";
+  withdrawSavings,
+} from "../accounts";
+import { livingCostParts, outsideCostParts } from "../living-cost-split";
+import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "./work";
 import { coreAPI } from "../state";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -30,13 +30,13 @@ import { notifyCountedWages, notifySalesReceipt } from "./finance";
 import type {
   BusinessBooksState,
   ResidentWageShortfall,
-} from "../budgets-treasury";
+} from "../finance-types";
 import {
   businessAvailableCredit,
   endRecipientIncomeAtDeath,
-} from "../budgets-treasury";
-import type { WorkPayrollCalendarInput } from "../macro-model";
-import { admitPublicPayAuthority } from "../macro-model";
+} from "../finance-state";
+import type { WorkPayrollCalendarInput } from "../work-pay-period";
+import { admitPublicPayAuthority } from "../public-work-pay";
 import type {
   CoreAPI,
   CoreModule,
@@ -67,7 +67,7 @@ import {
   type HouseholdKind,
   type Tenure,
 } from "../counted-groups";
-import type { FinanceContractInput } from "./finance";
+import type { FinanceContractInput } from "../finance-types";
 import COUNTED_ROWS from "../data/counted/parameters.json" with { type: "json" };
 import {
   incomeBandOf,

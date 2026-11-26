@@ -12,13 +12,13 @@
 import thresholds from "./data/world-metrics/poverty-thresholds-2024.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { ageOn, type HouseholdKind } from "./counted-groups";
-import { assistanceIncomeByHousehold } from "./modules/laws";
+import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
 import {
   ssiIncomeByHousehold,
   veteransIncomeByHousehold,
 } from "./modules/laws";
-import type { ClaimRow } from "./macro-model";
-import { reachParameter } from "./laws-in-force";
+import type { ClaimRow } from "./jobs-benefits";
+import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { retirementClaims } from "./modules/retirement-claims";
 import { coreAPI } from "./state";
