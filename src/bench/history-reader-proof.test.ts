@@ -70,16 +70,23 @@ interface Tally {
  * place (src/core2/modules/regional.ts, stepRegional), and the log keeps a
  * public record only of a place the player can see, the town and its county
  * (src/core2/state.ts, the keep rule's `visiblePlaceIds`): the news prints the
- * report from the emission, and nothing keeps it for the reader to tell.
+ * report from the emission, and nothing keeps it for the reader to tell. A
+ * magazine's profile of a person cites the item the press engine made for it
+ * (src/core2/modules/press.ts, the profile pass: `profile:<outlet>:<subject>:<day>`),
+ * which no store keeps; the printed story is the record.
  */
-const UNKEPT = [/^event:economy\.state-jobs-report:[A-Z]{2}:\d{4}-\d{2}$/];
+const UNKEPT = [
+  /^event:economy\.state-jobs-report:[A-Z]{2}:\d{4}-\d{2}$/,
+  /^profile:outlet:[^:]+:\d+:.+:\d{4}-\d{2}-\d{2}$/,
+];
 
 /**
  * The live stores a cited record of the present is kept in, by dev Trace's
  * names for them: who and what exists now (people, households, jobs,
  * organizations, places, the counted population), an office, a law in force
- * or set to take effect, and a bill before a body at its stage now. Nothing
- * here is a record of what happened.
+ * or set to take effect, a bill before a body at its stage now, and a term
+ * still served (an ended one is the past, and the reader must tell it).
+ * Nothing here is a record of what happened.
  */
 const PRESENT_STORES = new Set([
   "core.people",
@@ -107,8 +114,13 @@ function presentStore(core: CoreState, id: string): string | undefined {
     return "the question catalog";
   if (id.startsWith("data/research/") && existsSync(id.split("#")[0]!))
     return "a research file";
-  const engine = findRecord(core, id)?.engine;
-  return engine && PRESENT_STORES.has(engine) ? engine : undefined;
+  const found = findRecord(core, id);
+  if (
+    found?.engine === "core2-offices-v1.terms" &&
+    (found.record as { status?: string }).status === "serving"
+  )
+    return found.engine;
+  return found && PRESENT_STORES.has(found.engine) ? found.engine : undefined;
 }
 
 /** Whether an id is a stored record of the past or of play (the reader's stores). */
