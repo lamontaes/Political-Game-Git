@@ -26,13 +26,14 @@ import type {
 } from "../types";
 
 import {
+  GRADUATION_RESULT,
   schoolHistory,
   schoolHistoryFor,
   schoolOfPlace,
   type PreStartModule,
 } from "../past-module";
 
-import { GRADUATION_RESULT, SCHOOL_MODULE_ID } from "../school-measures";
+import { SCHOOL_MODULE_ID } from "../school-measures";
 import {
   decideSchoolOutcome,
   recordSchoolSpending,
@@ -346,8 +347,6 @@ function schoolOutcomes(api: CoreAPI): void {
 
 const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
   actor.id === api.state.playerId;
-
-export { GRADUATION_RESULT };
 
 function graduationHistory(core: CoreState, row: SchoolResultRow): HistoryRow {
   const personIds = [row.personId as PersonId];

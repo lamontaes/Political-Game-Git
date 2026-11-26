@@ -6,13 +6,6 @@ import type { CoreAPI, CoreState } from "./types";
 
 export const SCHOOL_MODULE_ID = "core2-school-days-v1";
 
-/**
- * A senior's school year's end in play as history (`school.graduation`): the
- * graduation result the school engine wrote on the year's last school day,
- * graduated or not, by the result's own id.
- */
-export const GRADUATION_RESULT = "school.graduation";
-
 /** One place's measure for one school year (percent for a share, dollars for spending). */
 export interface SchoolMeasureRow {
   readonly id: string;

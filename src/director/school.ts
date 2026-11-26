@@ -8,12 +8,12 @@
 import { SCHOOL_MODULE_ID } from "../core2/school-measures";
 import {
   attendedSchool,
+  GRADUATION_RESULT,
   historyEvent,
   historyOf,
   type AttendedRow,
   type HistoryEvent,
 } from "../core2/past";
-import { GRADUATION_RESULT } from "../core2/modules/school";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { QueuedRecord } from "./circumstance";
@@ -110,7 +110,7 @@ export function schoolResult(
   | { passed: boolean; schoolId: string | undefined; personId: PersonId }
   | undefined {
   const event = historyEvent(core as CoreState, id);
-  const personId = event?.personIds[0];
+  const [personId] = event?.personIds ?? [];
   if (!event || event.record !== GRADUATION_RESULT || !personId)
     return undefined;
   return {

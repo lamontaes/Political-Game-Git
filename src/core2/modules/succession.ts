@@ -15,7 +15,7 @@
  * vacant the line is read the same day; the successor holds the seat as a
  * full person, and the record and a news event follow.
  */
-import { historyOf } from "../past-history";
+import { historyOf } from "../past";
 import succession from "../../../data/research/offices/presidential-succession.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";

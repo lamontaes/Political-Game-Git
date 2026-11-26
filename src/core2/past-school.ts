@@ -32,7 +32,6 @@ import {
 } from "./past-work";
 import { hasModuleState } from "./module-state";
 import { coreAPI } from "./state";
-import { GRADUATION_RESULT } from "./school-measures";
 import { stopgap } from "./stopgaps";
 import type { CoreAPI, CoreState, PersonId, PersonState } from "./types";
 
@@ -82,6 +81,12 @@ export function schoolName(
 export const SCHOOL_STARTED = ownPastKind("school.started");
 /** The end of high school before the start: the diploma's day, the school it was from. */
 export const SCHOOL_FINISHED = ownPastKind("school.finished");
+/**
+ * A senior's school year's end in play as history (`school.graduation`): the
+ * graduation result the school engine wrote on the year's last school day,
+ * graduated or not, by the result's own id.
+ */
+export const GRADUATION_RESULT = "school.graduation";
 /** The fall after high school, for someone whose schooling went on to college. */
 export const COLLEGE_STARTED = ownPastKind("school.college-started");
 /** The end of college: a bachelor's for `college`, the years of `some-college` without one. */

@@ -1,4 +1,4 @@
-import { historyOf } from "../past-history";
+import { historyOf } from "../past";
 import { renewalParameter } from "../births-parameters";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import {

@@ -329,6 +329,7 @@ export {
 export {
   COLLEGE_ENDED,
   COLLEGE_STARTED,
+  GRADUATION_RESULT,
   SCHOOL_FINISHED,
   SCHOOL_STARTED,
   schoolHistory,

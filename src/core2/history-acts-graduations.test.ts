@@ -22,8 +22,7 @@ import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
 } from "./modules/office-day";
-import { GRADUATION_RESULT } from "./modules/school";
-import { historyEvent, historyOf } from "./past";
+import { GRADUATION_RESULT, historyEvent, historyOf } from "./past";
 import { SCHOOL_MEASURE, type SchoolResultRow } from "./school-outcomes";
 import { SCHOOL_MODULE_ID } from "./school-measures";
 import { coreAPI } from "./state";
