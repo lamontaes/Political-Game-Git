@@ -32,7 +32,7 @@ COLORS = ("black", "darkbrown", "blond", "gray")
 CHECKS = (
     "missing", "canvas", "offset", "collar_holes", "collar_skin_leak",
     "chin_overlap", "red_tee", "hair_gap", "hair_see_through",
-    "hair_poke_out", "hair_over_face", "stray_pixels",
+    "hair_poke_out", "hair_over_face", "stray_pixels", "pale_fringe",
 )
 
 
@@ -64,6 +64,28 @@ def stray(mask, allowed_components=1):
         return 0
     sizes = np.bincount(labels.ravel())[1:]
     return np.sort(sizes)[:-allowed_components].sum()
+
+
+def pale_fringe(pixels):
+    # Test edge lightening on black and magenta against the nearest
+    # higher-opacity paint. Comparing on both mattes catches pasted rims
+    # without treating a deliberately blond or gray stroke as a fringe.
+    ys, xs = np.nonzero(pixels[..., 3])
+    pixels = pixels[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+    alpha = pixels[..., 3]
+    rgb = pixels[..., :3].astype(np.float32)
+    iy, ix = ndi.distance_transform_edt(alpha < 128, return_distances=False,
+                                       return_indices=True)
+    shell = (alpha > 0) & (alpha < 128)
+    frac = alpha[shell, None].astype(np.float32) / 255
+    edge = rgb[shell]
+    reference = rgb[iy[shell], ix[shell]]
+    flagged = np.zeros(len(edge), dtype=bool)
+    for matte in (np.array([0, 0, 0]), np.array([255, 0, 255])):
+        actual = edge * frac + matte * (1 - frac)
+        expected = reference * frac + matte * (1 - frac)
+        flagged |= np.min(actual - expected, axis=1) > 22
+    return flagged.sum()
 
 
 def audit():
@@ -112,6 +134,7 @@ def audit():
                 continue
             record("stray_pixels", stray(alpha > 0, 3 if path.name.startswith("hair-classic-mullet-")
                                               else 1), name)
+            record("pale_fringe", pale_fringe(px), name)
             mask = solid(px)
             if path.name in HEADS and sex == "women":
                 old = load(base / path.name)[..., 3]
