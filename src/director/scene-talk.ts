@@ -561,6 +561,69 @@ function byLean<T>(
 }
 
 /**
+ * The follow step: the other person's answer to a line. Each candidate move
+ * is worded by the caller's hook (the scene bank's `wordSceneMove` for a
+ * scene, the mined bank's composed line for a home talk), and the one the
+ * speaker's traits lean toward most is the answer, a tie to the stable hash
+ * of its key. Nothing is rolled. Null where no candidate can be worded.
+ */
+export function followStep<L>(
+  core: Pick<CoreState, "data">,
+  traits: Readonly<Record<string, number>>,
+  candidates: readonly string[],
+  word: (candidate: string) => L | null,
+  keyOf: (candidate: string) => string,
+): { candidate: string; line: L } | null {
+  const worded = candidates.flatMap((candidate) => {
+    const line = word(candidate);
+    return line ? [{ candidate, line }] : [];
+  });
+  const [best] = byLean(
+    core,
+    worded,
+    (row) => row.candidate,
+    traits,
+    (row) => keyOf(row.candidate),
+  );
+  return best ?? null;
+}
+
+/**
+ * A home talk's answer, through the same follow step a scene's answer goes
+ * through: the one candidate the family names (its subject), worded by the
+ * composed-line hook from the mined bank at the stage the family chose.
+ */
+function homeLine(
+  core: Readonly<CoreState>,
+  input: {
+    subject: string;
+    stage: string;
+    speakerId: PersonId;
+    facts: Readonly<Record<string, Fact>>;
+    momentKey: string;
+    saidParts: readonly string[];
+  },
+): Said | null {
+  const step = followStep(
+    core,
+    core.people.get(input.speakerId)?.traits ?? {},
+    [input.subject],
+    () =>
+      composedLine(
+        core,
+        input.speakerId,
+        input.subject,
+        input.facts,
+        input.stage,
+        input.momentKey,
+        input.saidParts,
+      ),
+    (candidate) => `${input.momentKey}:${candidate}`,
+  );
+  return step?.line ?? null;
+}
+
+/**
  * How a person takes in what the player answered in an everyday talk, by this
  * engine's own rule (owner, Oct 29: one engine for every line, and calibration
  * reaches all of it): the `talk` purpose's answer moves for the move the
@@ -587,32 +650,31 @@ export function answerInTalk(
   const arc = ARCS.purposes.talk;
   if (!arc) return null;
   const traits = core.people.get(input.speakerId)?.traits ?? {};
-  const worded = candidatesFor(arc, input.replyMove).flatMap((candidate) => {
-    const line = wordSceneMove({
-      move: {
-        step: "follow",
-        move: candidate,
-        role: "asker",
-        purpose: "talk",
-        key: input.key,
-        after: input.replyMove,
-        afterPiece: input.answered,
-      },
-      facts: {},
-      seed: core.seed,
-      speakerId: input.speakerId,
-      traits,
-      momentKey: `${input.momentKey}:${candidate}`,
-      said: new Set(input.heard ?? []),
-    });
-    return line && !("unused" in line) ? [{ candidate, line }] : [];
-  });
-  const [best] = byLean(
+  const best = followStep(
     core,
-    worded,
-    (row) => row.candidate,
     traits,
-    (row) => `${input.momentKey}:${row.candidate}`,
+    candidatesFor(arc, input.replyMove),
+    (candidate) => {
+      const line = wordSceneMove({
+        move: {
+          step: "follow",
+          move: candidate,
+          role: "asker",
+          purpose: "talk",
+          key: input.key,
+          after: input.replyMove,
+          afterPiece: input.answered,
+        },
+        facts: {},
+        seed: core.seed,
+        speakerId: input.speakerId,
+        traits,
+        momentKey: `${input.momentKey}:${candidate}`,
+        said: new Set(input.heard ?? []),
+      });
+      return line && !("unused" in line) ? line : null;
+    },
+    (candidate) => `${input.momentKey}:${candidate}`,
   );
   if (!best) return null;
   return {
@@ -674,15 +736,14 @@ export function answerBack(
     saidParts: readonly string[];
   },
 ): Said | null {
-  return composedLine(
-    core,
-    input.speakerId,
-    `${input.kind}-back`,
-    input.shape(factsWithoutTold(input.kind, input.told, input.facts)),
-    input.replyMove,
-    input.momentKey,
-    input.saidParts,
-  );
+  return homeLine(core, {
+    subject: `${input.kind}-back`,
+    stage: input.replyMove,
+    speakerId: input.speakerId,
+    facts: input.shape(factsWithoutTold(input.kind, input.told, input.facts)),
+    momentKey: input.momentKey,
+    saidParts: input.saidParts,
+  });
 }
 
 /** The replies to where someone stands that the talk answers: asking why, and agreeing or disagreeing. */
@@ -734,15 +795,14 @@ export function answerOwnView(
           input.held?.[name] ? [[name, input.held[name]]] : [],
         ),
       );
-  const line = composedLine(
-    core,
-    input.speakerId,
+  const line = homeLine(core, {
     subject,
-    { ...input.shape({ ...input.facts }), ...carried },
-    asked ? "default" : input.replyMove,
-    input.momentKey,
-    input.saidParts,
-  );
+    stage: asked ? "default" : input.replyMove,
+    speakerId: input.speakerId,
+    facts: { ...input.shape({ ...input.facts }), ...carried },
+    momentKey: input.momentKey,
+    saidParts: input.saidParts,
+  });
   return line ? { subject, line } : null;
 }
 
@@ -797,15 +857,15 @@ export function newsLine(
     saidParts: readonly string[];
   },
 ): Said | null {
-  return composedLine(
-    core,
-    input.speakerId,
-    input.which === "back" ? HOME.news.backSubject : HOME.news.standSubject,
-    input.facts,
-    "default",
-    input.momentKey,
-    input.saidParts,
-  );
+  return homeLine(core, {
+    subject:
+      input.which === "back" ? HOME.news.backSubject : HOME.news.standSubject,
+    stage: "default",
+    speakerId: input.speakerId,
+    facts: input.facts,
+    momentKey: input.momentKey,
+    saidParts: input.saidParts,
+  });
 }
 
 /** The row of a give-back table for an asked kind (the table's own `about` note is not a kind). */
@@ -854,15 +914,14 @@ export function giveBackLine(
     saidParts: readonly string[];
   },
 ): Said | null {
-  return composedLine(
-    core,
-    input.speakerId,
-    `${input.kind}-give`,
-    input.facts,
-    input.stage,
-    input.momentKey,
-    input.saidParts,
-  );
+  return homeLine(core, {
+    subject: `${input.kind}-give`,
+    stage: input.stage,
+    speakerId: input.speakerId,
+    facts: input.facts,
+    momentKey: input.momentKey,
+    saidParts: input.saidParts,
+  });
 }
 
 /**
@@ -2204,9 +2263,12 @@ export function composeSceneTalk(
       said = addParts(said, reacted);
       // The asker answers the player's character, then states the purpose.
       const moves = candidatesFor(arc, openAuto.move);
-      const answers = (moves.length ? moves : ["answer"]).flatMap(
-        (candidate) => {
-          const line = render(
+      const best = followStep(
+        core,
+        askerTraits,
+        moves.length ? moves : ["answer"],
+        (candidate) =>
+          render(
             {
               step: "follow",
               move: candidate,
@@ -2221,16 +2283,8 @@ export function composeSceneTalk(
             askerTraits,
             `auto-answer:open:${candidate}`,
             said,
-          );
-          return line ? [{ candidate, line }] : [];
-        },
-      );
-      const [best] = byLean(
-        core,
-        answers,
-        (row) => row.candidate,
-        askerTraits,
-        (row) => `${scene}:open:${row.candidate}`,
+          ),
+        (candidate) => `${scene}:open:${candidate}`,
       );
       if (best) {
         intro.push(best.line);
@@ -2305,9 +2359,12 @@ export function composeSceneTalk(
     lines.push(auto);
     current = { ...current, said: addParts(current.said, auto) };
     const answerMoves = candidatesFor(arc, hit.move);
-    const answers = (answerMoves.length ? answerMoves : ["answer"]).flatMap(
-      (candidate) => {
-        const answer = render(
+    const best = followStep(
+      core,
+      traitsOfAsker,
+      answerMoves.length ? answerMoves : ["answer"],
+      (candidate) =>
+        render(
           {
             step: "follow",
             move: candidate,
@@ -2320,24 +2377,16 @@ export function composeSceneTalk(
           traitsOfAsker,
           `auto-answer:${label}:${candidate}`,
           current.said,
-        );
-        return answer ? [{ candidate, answer }] : [];
-      },
-    );
-    const [best] = byLean(
-      core,
-      answers,
-      (row) => row.candidate,
-      traitsOfAsker,
-      (row) => `${scene}:${label}:auto:${row.candidate}`,
+        ),
+      (candidate) => `${scene}:${label}:auto:${candidate}`,
     );
     if (best) {
-      lines.push(best.answer);
+      lines.push(best.line);
       current = {
         ...current,
-        said: addParts(current.said, best.answer),
-        askerMove: best.answer.move,
-        askerPiece: best.answer.parts[zero] ?? "",
+        said: addParts(current.said, best.line),
+        askerMove: best.line.move,
+        askerPiece: best.line.parts[zero] ?? "",
       };
     }
     return { lines, path: current };
