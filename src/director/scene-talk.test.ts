@@ -28,7 +28,6 @@ import {
  */
 const CUT_PURPOSES = new Set<string>([
   "argument",
-  "celebration",
   "date",
   "betrayal",
   "prison-visit",
@@ -62,7 +61,6 @@ const CUT_PURPOSES = new Set<string>([
   "section-bargain",
   "bill-held-chair",
   "hold-chair-sought",
-  "new-baby",
   "cause-invite",
   "action-confront",
   "town-hall-question",
@@ -72,7 +70,6 @@ const CUT_PURPOSES = new Set<string>([
   "office-doubt",
   "floor-debate",
   "hearing-witness",
-  "moving-goodbye",
   "study-formed",
   "study-reported",
   "rival-word",
