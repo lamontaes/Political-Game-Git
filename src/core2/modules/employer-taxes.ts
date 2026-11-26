@@ -617,14 +617,6 @@ export function employerArrears(api: CoreAPI, employerId: string): number {
   return arrearsOf(api, employerId) + arrearsOf(api, `${employerId}:state`);
 }
 
-export function employerShareOf(
-  api: CoreAPI,
-  receiptId: string,
-): EmployerTaxRecord | undefined {
-  return table(api, "shares").get(`employer-tax:${receiptId}`) as unknown as
-    EmployerTaxRecord | undefined;
-}
-
 /**
  * The share of a worker's yearly wage an employer pays in payroll taxes under
  * the law in force today: Social Security and Medicare (each to its wage
