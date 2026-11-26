@@ -9,9 +9,9 @@
  * (data/life/remembered.json) says which records a person remembers and as what, and the reader
  * returns them in order with the ids of the records behind them.
  */
-import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import parameterRows from "./data/life/parameters.json" with { type: "json" };
 import table from "./data/life/remembered.json" with { type: "json" };
+import { jobEnding } from "./job-change-words";
 import { moduleState } from "./module-state";
 import { preStartHistory, recordDate } from "./past";
 import { ageOfMajority } from "./age-of-majority";
@@ -216,6 +216,41 @@ export function whoRemembers(
 }
 
 /**
+ * How a person's own list words one record of the simulated past or of play
+ * (its `life` and `what`), the table's row as `lifeOf` tells it: so a read of
+ * that record by kind tells it in the same words as the person's whole life.
+ * A record of play is worded by the row that has this person remember it (a
+ * vote: won for one, lost for the rest), with the facts its row keeps. Null
+ * where the list words no such record for them.
+ */
+export function lifeWordsOf(
+  core: CoreState,
+  personId: PersonId,
+  record: Readonly<CoreEventInput>,
+  from: "past" | "played",
+): {
+  life: string;
+  what: string;
+  facts?: Readonly<Record<string, string>>;
+} | null {
+  if (from === "past") {
+    const row = HISTORY_ROWS.get(record.kind);
+    return row ? { life: row.life, what: row.what } : null;
+  }
+  for (const row of EVENT_ROWS.get(record.kind) ?? [])
+    if (
+      rowApplies(record, row) &&
+      rememberers(core, record, row).includes(personId)
+    )
+      return {
+        life: row.life,
+        what: row.what,
+        facts: keptFacts(record, row),
+      };
+  return null;
+}
+
+/**
  * An engine recorded something a person remembers: it goes on the list of each
  * person the table says remembers it. Called for every such record as it is
  * made (the people module's event hook), whoever the person is to the player.
@@ -229,12 +264,11 @@ export function rememberEvent(
   for (const row of rows) rememberRow(core, event, row);
 }
 
-function rememberRow(
-  core: CoreState,
+/** The facts a row of the table keeps of a record, in the table's own words (`facts`, `set`, `topicAs`). */
+function keptFacts(
   event: Readonly<CoreEventInput>,
   row: EventRow,
-): void {
-  if (!rowApplies(event, row)) return;
+): Record<string, string> {
   const kept: Record<string, string> = { ...row.set };
   for (const key of row.facts) {
     // Some writers key a fact by its event (`event:<id>:causeOfDeath`).
@@ -244,6 +278,16 @@ function rememberRow(
   }
   if (row.topicAs && event.topic && kept[row.topicAs] === undefined)
     kept[row.topicAs] = event.topic;
+  return kept;
+}
+
+function rememberRow(
+  core: CoreState,
+  event: Readonly<CoreEventInput>,
+  row: EventRow,
+): void {
+  if (!rowApplies(event, row)) return;
+  const kept = keptFacts(event, row);
   let counts: Record<string, number> = {};
   if (row.counts) {
     try {
@@ -295,20 +339,6 @@ const PLAYED_JOBS_STOPGAP = "SG-PEOPLE-played-jobs-read-at-open";
 
 /** A job's id as it was before a demotion to the counts renamed it (`<id>:counted:<date>`). */
 const jobKey = (jobId: string) => jobId.split(":counted:")[0]!;
-
-/** How the jobs engine's change kinds end a job, as the life record says it (`ended`), by kind and reason. */
-function jobEnding(kind: string, reasonKey: string): string | undefined {
-  const reasons = jobsData.reasons;
-  if (kind === "quit") return "quit";
-  if (kind === "closure") return "closed";
-  if (kind === "left-work") {
-    if (reasonKey === reasons.retired) return "retired";
-    if (reasonKey === reasons.movedAway) return "moved";
-    if (reasonKey === reasons.died) return undefined;
-    return "quit";
-  }
-  return undefined;
-}
 
 interface JobChangeRow {
   readonly id: string;

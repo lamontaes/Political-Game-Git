@@ -135,6 +135,22 @@ export interface HistorySource {
   life?: boolean;
   /** Writes a person's whole past before their own history is read (the life source only). */
   open?(core: CoreState, personId: PersonId): void;
+  /**
+   * How the person's own list words a record of the past or of play (the life
+   * source only), and the facts it keeps of it, so a read of it by kind tells
+   * it in the same words as their whole life. Null where their list words no
+   * such record.
+   */
+  words?(
+    core: CoreState,
+    personId: PersonId,
+    record: Readonly<HistoryRecord> | Readonly<LogRecord>,
+    from: "past" | "played",
+  ): {
+    life: string;
+    what: string;
+    facts?: Readonly<Record<string, string>>;
+  } | null;
 }
 
 /**
@@ -409,6 +425,26 @@ function recordRows(
   const people = peopleOf(core, scope);
   const kinds = ask.kinds;
   if (people.length) {
+    // Each record in the words the person's own list tells it in (row 5 of
+    // the Nov 26 map: one wording, however the history is read).
+    const { life } = sourcesOf(core);
+    const theirs = (
+      personId: PersonId,
+      record: Readonly<HistoryRecord> | Readonly<LogRecord>,
+      row: HistoryRow,
+    ): HistoryRow => {
+      const said = life?.words?.(core, personId, record, row.from as never);
+      // The record's own fields, and every fact the person's list keeps of it
+      // that the record does not already hold.
+      return said
+        ? {
+            ...row,
+            life: said.life,
+            what: said.what,
+            ...(said.facts ? { facts: { ...said.facts, ...row.facts } } : {}),
+          }
+        : row;
+    };
     // A person's or household's records: the indexes by person.
     const seen = new Set<string>();
     for (const personId of people) {
@@ -419,7 +455,7 @@ function recordRows(
             (!kinds || kinds.includes(row.kind))
           ) {
             seen.add(`p:${row.id}`);
-            out.push(pastRow(row));
+            out.push(theirs(personId, row, pastRow(row)));
           }
       if (ask.from === "past") continue;
       for (const id of core.logByPerson.get(personId) ?? []) {
@@ -427,7 +463,7 @@ function recordRows(
         if (!row || seen.has(`l:${row.id}`)) continue;
         if (kinds && !kinds.includes(row.kind)) continue;
         seen.add(`l:${row.id}`);
-        out.push(logRow(row));
+        out.push(theirs(personId, row, logRow(row)));
       }
     }
     if ("household" in scope && ask.from !== "played")

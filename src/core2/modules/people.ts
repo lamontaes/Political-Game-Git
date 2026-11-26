@@ -20,6 +20,7 @@ import {
   REMEMBERED_RECORD_KINDS,
   builtFactsOf,
   lifeOf,
+  lifeWordsOf,
   rememberEvent,
 } from "../person-life";
 import {
@@ -75,6 +76,7 @@ import {
 import type {
   ActOffer,
   CoreAPI,
+  CoreEventInput,
   CoreState,
   OfferRound,
   PersonId,
@@ -830,6 +832,9 @@ const LIFE_HISTORY: HistorySource = {
   id: "life",
   life: true,
   open: (core, personId) => openWholePast(core, personId),
+  // A record read by kind is told in the words the person's own list tells it in.
+  words: (core, personId, record, from) =>
+    lifeWordsOf(core, personId, record as unknown as CoreEventInput, from),
   rows(core, scope, ask) {
     if (!("person" in scope)) return [];
     // A read by kind takes only the facts the person was made with of those
