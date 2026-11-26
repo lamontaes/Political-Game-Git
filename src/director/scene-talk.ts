@@ -496,6 +496,26 @@ function candidatesFor(arc: PurposeArc, move: string): string[] {
 }
 
 /**
+ * The rows in the order a speaker's traits lean toward saying their moves,
+ * the most first; a tie goes to the stable hash of the row's key. Nothing is
+ * rolled. Every pick in the exchange (the asker's answer, an auto-reply, the
+ * reply the page follows first) is this one ordering.
+ */
+function byLean<T>(
+  core: Pick<CoreState, "data">,
+  rows: readonly T[],
+  moveOf: (row: T) => string,
+  traits: Readonly<Record<string, number>>,
+  keyOf: (row: T) => string,
+): T[] {
+  return [...rows].sort(
+    (a, b) =>
+      leanOf(core, moveOf(b), traits) - leanOf(core, moveOf(a), traits) ||
+      stableHash(keyOf(a)).localeCompare(stableHash(keyOf(b))),
+  );
+}
+
+/**
  * How a person takes in what the player answered in an everyday talk, by this
  * engine's own rule (owner, Oct 29: one engine for every line, and calibration
  * reaches all of it): the `talk` purpose's answer moves for the move the
@@ -542,12 +562,12 @@ export function answerInTalk(
     });
     return line && !("unused" in line) ? [{ candidate, line }] : [];
   });
-  const [best] = worded.sort(
-    (a, b) =>
-      leanOf(core, b.candidate, traits) - leanOf(core, a.candidate, traits) ||
-      stableHash(`${input.momentKey}:${a.candidate}`).localeCompare(
-        stableHash(`${input.momentKey}:${b.candidate}`),
-      ),
+  const [best] = byLean(
+    core,
+    worded,
+    (row) => row.candidate,
+    traits,
+    (row) => `${input.momentKey}:${row.candidate}`,
   );
   if (!best) return null;
   return {
@@ -1105,13 +1125,12 @@ export function composeSceneTalk(
       // Fewer than two answers is no choice: they answer at once instead.
       if (asked && node.replies.length >= two) {
         asked.round = one;
-        const [led] = [...node.replies].sort(
-          (a, b) =>
-            leanOf(core, b.line.move, askedTraits) -
-              leanOf(core, a.line.move, askedTraits) ||
-            stableHash(`${scene}:first:${a.line.move}`).localeCompare(
-              stableHash(`${scene}:first:${b.line.move}`),
-            ),
+        const [led] = byLean(
+          core,
+          node.replies,
+          (row) => row.line.move,
+          askedTraits,
+          (row) => `${scene}:first:${row.line.move}`,
         );
         if (led) led.line.chosen = true;
         return finish({
@@ -1286,13 +1305,12 @@ export function composeSceneTalk(
           delete next.end;
           next.replies = replies;
           count += replies.length;
-          const [ledAfter] = [...replies].sort(
-            (a, b) =>
-              leanOf(core, b.line.move, askedTraits) -
-                leanOf(core, a.line.move, askedTraits) ||
-              stableHash(`${scene}:after:${a.line.move}`).localeCompare(
-                stableHash(`${scene}:after:${b.line.move}`),
-              ),
+          const [ledAfter] = byLean(
+            core,
+            replies,
+            (row) => row.line.move,
+            askedTraits,
+            (row) => `${scene}:after:${row.line.move}`,
           );
           if (ledAfter) {
             ledAfter.line.chosen = true;
@@ -1373,13 +1391,12 @@ export function composeSceneTalk(
         }
         root.replies.push({ line: opener, next: node });
         count += one + node.replies.length;
-        const [ledThen] = [...node.replies].sort(
-          (a, b) =>
-            leanOf(core, b.line.move, askedTraits) -
-              leanOf(core, a.line.move, askedTraits) ||
-            stableHash(`${scene}:middle:${a.line.move}`).localeCompare(
-              stableHash(`${scene}:middle:${b.line.move}`),
-            ),
+        const [ledThen] = byLean(
+          core,
+          node.replies,
+          (row) => row.line.move,
+          askedTraits,
+          (row) => `${scene}:middle:${row.line.move}`,
         );
         if (ledThen) {
           ledThen.line.chosen = true;
@@ -1397,13 +1414,12 @@ export function composeSceneTalk(
       };
     if (!root.replies.length) root.end = { outcome: outcomeOf(first.move) };
     // The page follows the ask the player's traits lean toward most.
-    const [led] = [...root.replies].sort(
-      (a, b) =>
-        leanOf(core, b.line.move, askedTraits) -
-          leanOf(core, a.line.move, askedTraits) ||
-        stableHash(`${scene}:root:${a.line.move}`).localeCompare(
-          stableHash(`${scene}:root:${b.line.move}`),
-        ),
+    const [led] = byLean(
+      core,
+      root.replies,
+      (row) => row.line.move,
+      askedTraits,
+      (row) => `${scene}:root:${row.line.move}`,
     );
     if (led) led.line.chosen = true;
     return finish({
@@ -1518,13 +1534,12 @@ export function composeSceneTalk(
           return line ? [{ candidate, line }] : [];
         },
       );
-      const [best] = [...answers].sort(
-        (a, b) =>
-          leanOf(core, b.candidate, askerTraits) -
-            leanOf(core, a.candidate, askerTraits) ||
-          stableHash(`${scene}:open:${a.candidate}`).localeCompare(
-            stableHash(`${scene}:open:${b.candidate}`),
-          ),
+      const [best] = byLean(
+        core,
+        answers,
+        (row) => row.candidate,
+        askerTraits,
+        (row) => `${scene}:open:${row.candidate}`,
       );
       if (best) {
         intro.push(best.line);
@@ -1618,13 +1633,12 @@ export function composeSceneTalk(
         return answer ? [{ candidate, answer }] : [];
       },
     );
-    const [best] = [...answers].sort(
-      (a, b) =>
-        leanOf(core, b.candidate, traitsOfAsker) -
-          leanOf(core, a.candidate, traitsOfAsker) ||
-        stableHash(`${scene}:${label}:auto:${a.candidate}`).localeCompare(
-          stableHash(`${scene}:${label}:auto:${b.candidate}`),
-        ),
+    const [best] = byLean(
+      core,
+      answers,
+      (row) => row.candidate,
+      traitsOfAsker,
+      (row) => `${scene}:${label}:auto:${row.candidate}`,
     );
     if (best) {
       lines.push(best.answer);
@@ -1677,8 +1691,6 @@ export function composeSceneTalk(
     root.lines = [...root.lines, rootBeat];
     rootPath = { ...rootPath, said: addParts(rootPath.said, rootBeat) };
   }
-
-  const lean = (line: SceneTalkLine) => leanOf(core, line.move, askedTraits);
 
   /** The close for an ending: a thanks or acceptance answer is itself the close. */
   const closeFor = (
@@ -2011,12 +2023,12 @@ export function composeSceneTalk(
       endNode(node, outcome, path, lastAsker);
       continue;
     }
-    const ranked = [...offered].sort(
-      (a, b) =>
-        lean(b) - lean(a) ||
-        stableHash(`${scene}:${path.id}:${a.move}`).localeCompare(
-          stableHash(`${scene}:${path.id}:${b.move}`),
-        ),
+    const ranked = byLean(
+      core,
+      offered,
+      (row) => row.move,
+      askedTraits,
+      (row) => `${scene}:${path.id}:${row.move}`,
     );
     const ledLine = path.led ? ranked[zero] : undefined;
     if (ledLine) ledLine.chosen = true;
@@ -2137,15 +2149,12 @@ export function composeSceneTalk(
           : round === one && open.length
             ? open
             : answers;
-      const [best] = [...pool].sort(
-        (a, b) =>
-          leanOf(core, b.candidate, askerTraits) -
-            leanOf(core, a.candidate, askerTraits) ||
-          stableHash(
-            `${scene}:${childPath.id}:follow:${a.candidate}`,
-          ).localeCompare(
-            stableHash(`${scene}:${childPath.id}:follow:${b.candidate}`),
-          ),
+      const [best] = byLean(
+        core,
+        pool,
+        (row) => row.candidate,
+        askerTraits,
+        (row) => `${scene}:${childPath.id}:follow:${row.candidate}`,
       );
       // On the last round a question would hang: the asker closes instead.
       const answer = last && best?.line.asks ? undefined : best?.line;
