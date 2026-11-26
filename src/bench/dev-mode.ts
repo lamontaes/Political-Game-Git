@@ -30,6 +30,7 @@ import {
 } from "../core2/life";
 import { STOPGAPS } from "../core2/stopgaps";
 import {
+  LAW_STATUTE,
   considerBribe,
   bribeRefusal,
   CORRUPTION_MODULE_ID,
@@ -2809,21 +2810,29 @@ export class DevMode {
   /**
    * Laws other states' legislatures changed, by the year they passed: how many
    * and in how many states, with the law rows (each keeps what carried it onto
-   * its session's agenda). Read from the laws engine's rows.
+   * its session's agenda). Read from the laws engine's history.
    */
   otherStatesByYear() {
     if (!has(this.core, "core2-laws-v1")) return [];
     const byYear = new Map<string, { ids: string[]; states: Set<string> }>();
-    for (const row of this.api
-      .moduleState("core2-laws-v1")
-      .table("laws")
-      .rows() as unknown as {
+    // The law rows as the laws engine's history tells them (`law.statute`),
+    // each opened by its id.
+    const laws = this.api.moduleState("core2-laws-v1").table("laws");
+    const rows = historyOf(
+      this.core,
+      { nation: true },
+      { kinds: [LAW_STATUTE] },
+    ).flatMap((event) => {
+      const row = laws.get(event.facts?.lawId ?? "");
+      return row ? [row] : [];
+    }) as unknown as {
       id: string;
       jurisdiction: string;
       /** The day the row was written: the day it passed. */
       retrieved?: string;
       terms?: { session?: unknown };
-    }[]) {
+    }[];
+    for (const row of rows) {
       if (typeof row.terms?.session !== "string" || row.jurisdiction === "US")
         continue;
       const year = String(row.retrieved ?? "").slice(0, 4);
