@@ -1,3 +1,4 @@
+import { historyOf } from "../core2/past";
 import { servingTermsOf } from "../core2/modules/offices";
 import { roleWord } from "./card";
 import { hash as fnv, readRecipe } from "./appearance";
@@ -10,7 +11,7 @@ import {
 } from "./backdrop-places";
 import { backdropStaging } from "./staging";
 import { isOnShift } from "./shift";
-import type { CoreState, PersonState } from "../core2/types";
+import type { CoreState, PersonId, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
 import { HOUSING_MODULE_ID, dwellingKind } from "../core2/modules/housing";
@@ -455,9 +456,13 @@ function doing(
 ): { actionId: string; targetId?: string } | undefined {
   if (packet?.kind === "choice" && packet.choiceKind === "committed")
     return { actionId: "work-shift" };
-  const ids = [...(core.logByPerson.get(personId) ?? [])];
+  const ids = historyOf(
+    core,
+    { person: personId as PersonId },
+    { kinds: ["person.acted"], from: "played" },
+  ).map((event) => event.id);
   for (let i = ids.length - 1; i >= 0; i--) {
-    const row = core.durableLog.get(ids[i]!) as
+    const row = core.durableLog.get(ids[i]! as never) as
       | {
           kind: string;
           date: string;

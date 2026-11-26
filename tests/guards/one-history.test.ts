@@ -137,6 +137,17 @@ describe("one history: readers move off the generated past", () => {
  * (`durableLog.get`) is not a past: a scene's cause is read that way.
  */
 const VIEW_DIRS = ["src/bench", "src/director", "src/english"];
+/**
+ * Files in those folders that are not a view of the past: the world's build
+ * reads the input it builds a world from before any history exists, and the
+ * milestone checks verify the history's own records against what wrote them,
+ * as a test does.
+ */
+const NOT_VIEWS: Readonly<Record<string, string>> = {
+  "src/bench/world.ts": "builds the world from its input",
+  "src/bench/m1-12-check.ts": "checks the pre-start history's own records",
+  "src/bench/m1-14-check.ts": "checks the pre-start history's own records",
+};
 const RAW_PAST_READERS = [
   "preStartHistory",
   "lifeOf",
@@ -152,7 +163,6 @@ const RAW_PAST_READERS = [
   "pastJusticeFor",
   "schoolHistory",
   "schoolHistoryFor",
-  "schoolSpans",
   "centuryOf",
   "centuryPresidency",
   "centuryLegislatures",
@@ -163,8 +173,6 @@ const RAW_PAST_READERS = [
   "centuryParties",
   "lawHistory",
   "pastTable",
-  "pastElections",
-  "sharedHistory",
   "heldSinceRecord",
   "bornIn",
   "residenceOn",
@@ -173,6 +181,71 @@ const RAW_PAST_READERS = [
   "pastRowsNaming",
   "pastRowsOf",
 ];
+/**
+ * Helpers that once built a past and now read the one reader, so they are off
+ * the raw list (the CTO, Nov 25, #9750: a helper that is only a view over
+ * `historyOf` is a reader of the one history; the guard checks the helper
+ * itself). Each names where it lives and why it is off; the check below reads
+ * its own code (its function, or its whole file when the helper is made of
+ * several) and fails if it stops reading `historyOf` or reads a raw past.
+ * The writers the world is built with stay on the raw list: `residenceOn`,
+ * `bornIn` and the work and moves passes.
+ */
+const READ_THROUGH_THE_READER: readonly {
+  name: string;
+  file: string;
+  scope: "function" | "file";
+  reason: string;
+}[] = [
+  {
+    name: "schoolsAttended",
+    file: "src/core2/past-school.ts",
+    scope: "function",
+    reason:
+      "its school starts come from historyOf; the school attended now is the school engine's present row",
+  },
+  {
+    name: "schoolsOf",
+    file: "src/bench/words.ts",
+    scope: "function",
+    reason: "names the schools schoolsAttended reads from historyOf",
+  },
+  {
+    name: "schoolSpans",
+    file: "src/core2/past-school.ts",
+    scope: "function",
+    reason: "its runs of school years come from schoolsAttended",
+  },
+  {
+    name: "pastElections",
+    file: "src/core2/modules/offices.ts",
+    scope: "function",
+    reason:
+      "a seat's elections come from historyOf (the offices engine's terms, its module's history)",
+  },
+  {
+    name: "sharedHistory",
+    file: "src/core2/shared-history.ts",
+    scope: "file",
+    reason:
+      "its past (work spans, school spans) comes from historyOf; the household, kin, jobs held and campaigns it reads are present state",
+  },
+];
+
+/** A helper's own code: its exported function up to the next top-level declaration, or its whole file. */
+export function helperCode(
+  source: string,
+  name: string,
+  scope: "function" | "file",
+): string {
+  if (scope === "file") return source;
+  const start = source.search(new RegExp(`export function ${name}\\b`));
+  if (start < 0) return "";
+  const rest = source.slice(start + 1);
+  const end = rest.search(/\n(?:export |function |const |\/\*\*)/);
+  return source.slice(start, end < 0 ? undefined : start + 1 + end);
+}
+
 const LOG_SCANS: readonly RegExp[] = [
   /\blogByKind\b/g,
   /\blogByPerson\b/g,
@@ -205,8 +278,13 @@ export function pastRebuilds(source: string): number {
     }
     return " ";
   });
+  // A record kind or a label in quotes is not a read.
+  const unquoted = local.replace(
+    /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/g,
+    '""',
+  );
   return LOG_SCANS.reduce(
-    (sum, pattern) => sum + (local.match(pattern)?.length ?? 0),
+    (sum, pattern) => sum + (unquoted.match(pattern)?.length ?? 0),
     count,
   );
 }
@@ -225,7 +303,8 @@ describe("one history: every system reads the one history reader", () => {
     .filter(
       (file) =>
         /\.(ts|tsx|mjs)$/.test(file) &&
-        !/\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
+        !/\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file) &&
+        !(file in NOT_VIEWS),
     );
   const found = new Map(
     files
@@ -259,6 +338,41 @@ describe("one history: every system reads the one history reader", () => {
     expect(stale).toEqual([]);
   });
 
+  it("keeps each helper off the raw list a reader of historyOf", () => {
+    const wrong: string[] = [];
+    for (const helper of READ_THROUGH_THE_READER) {
+      const code = helperCode(
+        readFileSync(path.join(ROOT, helper.file), "utf8")
+          .replace(/\/\*[\s\S]*?\*\//g, " ")
+          .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1"),
+        helper.name,
+        helper.scope,
+      );
+      const others = READ_THROUGH_THE_READER.map((row) => row.name);
+      if (
+        !/\bhistoryOf\s*\(/.test(code) &&
+        !others.some(
+          (other) =>
+            other !== helper.name &&
+            new RegExp(`\\b${other}\\s*\\(`).test(code),
+        )
+      )
+        wrong.push(`${helper.name} (${helper.file}) no longer reads historyOf`);
+      const raw = RAW_PAST_READERS.filter((name) =>
+        new RegExp(`(^|[^.\\w])${name}\\s*\\(`).test(code),
+      );
+      const scans = LOG_SCANS.filter((pattern) => pattern.test(code));
+      for (const pattern of LOG_SCANS) pattern.lastIndex = 0;
+      if (raw.length || scans.length)
+        wrong.push(
+          `${helper.name} (${helper.file}) reads a raw past: ${[...raw, ...scans.map(String)].join(", ")}`,
+        );
+      if (RAW_PAST_READERS.includes(helper.name))
+        wrong.push(`${helper.name} is on both lists`);
+    }
+    expect(wrong).toEqual([]);
+  });
+
   it("counts a raw past read and a log scan, and nothing else", () => {
     expect(
       pastRebuilds(
@@ -276,6 +390,7 @@ describe("one history: every system reads the one history reader", () => {
     ).toBe(1);
     expect(pastRebuilds("[...core.durableLog.values()]")).toBe(1);
     expect(pastRebuilds("person.pastFacts ?? []")).toBe(1);
+    expect(pastRebuilds('const ENGINE = "core.people.pastFacts";')).toBe(0);
     expect(pastRebuilds("core.durableLog.get(cause)")).toBe(0);
     expect(pastRebuilds("historyOf(core, { person })")).toBe(0);
     expect(pastRebuilds("// preStartHistory in a comment")).toBe(0);

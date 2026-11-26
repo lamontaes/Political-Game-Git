@@ -36,8 +36,6 @@ import {
   centuryLegislatures,
   centuryOf,
   partyKeyIssues,
-  centuryPresidency,
-  centuryRace,
   centurySeatRace,
   historyMode,
   PARTIES_MODULE_ID,
@@ -46,6 +44,7 @@ import {
   type TieRow,
 } from "../../core2/modules/elections";
 import { healthReport } from "../../core2/modules/health";
+import { historyOf, type HistoryEvent } from "../../core2/past";
 import { openingRentals } from "../../core2/modules/housing";
 import { allOfficials, partySide } from "../../core2/modules/officials";
 import type { CoreState, PersonId, Source } from "../../core2/types";
@@ -62,6 +61,16 @@ import {
   type BuildRecipe,
 } from "../world";
 import SOURCES from "./opening-sources.json" with { type: "json" };
+
+/** The century's presidencies, oldest first, as the nation's history tells them. */
+function centuryPresidencies(core: CoreState): readonly HistoryEvent[] {
+  return historyOf(core, { nation: true }, { kinds: ["century.presidency"] });
+}
+
+/** A presidency's figure, as its record keeps it. */
+function fact(event: HistoryEvent, key: string): number {
+  return Number(event.facts?.[key] ?? 0);
+}
 
 /** How the opening made a value (src/bench/dev-views/opening-sources.json). */
 interface Made {
@@ -237,14 +246,17 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
   // Who the century before day one elected (src/core2/electorate-century.ts), or today's real
   // record when the world chose it; the President's term carries the race (Trace opens it).
   const century = centuryOf(core.seed, core.startedAt);
-  const sitting = centuryPresidency(core.seed, core.startedAt);
+  // The century's presidencies as the nation's history tells them (the one
+  // history reader); none where the world opened on today's real record.
+  const presidencies = centuryPresidencies(core);
+  const sitting = presidencies.at(-1);
   const pct = (share: number) => `${(share * 100).toFixed(1)}%`;
   rows.push(
     row(
       "town.president",
       "President on day one",
       sitting
-        ? `${sitting.winnerParty}: won ${sitting.year} with ${pct(sitting.winnerShare)} of the two-party vote and ${sitting.winnerSide > 0 ? sitting.electoral.republican : sitting.electoral.democratic} electors; the person's term ${sitting.personTerms}, the party's ${sitting.partyTerms} in a row (${sitting.id})`
+        ? `${sitting.facts!.winnerParty}: won ${sitting.facts!.year} with ${pct(fact(sitting, "winnerShare"))} of the two-party vote and ${fact(sitting, "winnerSide") > 0 ? sitting.facts!.electorsRepublican : sitting.facts!.electorsDemocratic} electors; the person's term ${sitting.facts!.personTerms}, the party's ${sitting.facts!.partyTerms} in a row (${sitting.id})`
         : "today's real record (the world chose it)",
       election ? { recordId: election.termId } : {},
     ),
@@ -252,25 +264,30 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       "town.century",
       "The century's presidential elections",
       historyMode(core.seed) === "century"
-        ? century.presidencies
+        ? presidencies
             .map(
               (p) =>
-                `${p.year} ${p.winnerSide > 0 ? "R" : "D"}${p.incumbentRan ? " (sitting President ran)" : ""} ${pct(p.republicanShare)} R, electors ${p.electoral.republican}-${p.electoral.democratic}${p.timeForChange.side ? `, time for a change cost the ${p.timeForChange.side > 0 ? "R" : "D"} ticket ${pct(p.timeForChange.share)}` : ""}`,
+                `${p.facts!.year} ${fact(p, "winnerSide") > 0 ? "R" : "D"}${p.facts!.incumbentRan === "true" ? " (sitting President ran)" : ""} ${pct(fact(p, "republicanShare"))} R, electors ${p.facts!.electorsRepublican}-${p.facts!.electorsDemocratic}${fact(p, "timeForChangeSide") ? `, time for a change cost the ${fact(p, "timeForChangeSide") > 0 ? "R" : "D"} ticket ${pct(fact(p, "timeForChangeShare"))}` : ""}`,
             )
             .join("; ")
         : "none (today's real record)",
     ),
   );
-  // Congress on day one and every Congress of the century (electorate-century.ts).
-  const congress = century.congresses.at(-1);
-  const seated = (c: (typeof century.congresses)[number]) =>
-    `House ${c.house.republican} R, ${c.house.democratic} D; Senate ${c.senate.republican} R, ${c.senate.democratic} D`;
+  // Congress on day one and every Congress of the century, as the nation's history tells them.
+  const congresses = historyOf(
+    core,
+    { nation: true },
+    { kinds: ["century.congress"] },
+  );
+  const congress = congresses.at(-1);
+  const seated = (c: HistoryEvent) =>
+    `House ${c.facts!.houseRepublican} R, ${c.facts!.houseDemocratic} D; Senate ${c.facts!.senateRepublican} R, ${c.facts!.senateDemocratic} D`;
   rows.push(
     row(
       "town.congress",
       "Congress on day one",
       historyMode(core.seed) === "century" && congress
-        ? `${seated(congress)}, after the ${congress.year} elections (${congress.id})`
+        ? `${seated(congress)}, after the ${congress.facts!.year} elections (${congress.id})`
         : "today's real roster (the world chose it)",
     ),
     row(
@@ -438,9 +455,9 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
                     `${i.supports ? "for" : "against"} ${i.question.split(".").at(-1)}`,
                 )
                 .join(", ");
-              const won = century.presidencies
-                .filter((p) => p.winnerSide === party.side)
-                .map((p) => p.year);
+              const won = presidencies
+                .filter((p) => fact(p, "winnerSide") === party.side)
+                .map((p) => Number(p.facts!.year));
               // Its members of Congress as seated (officials-roster.ts drawOfficial).
               const members = allOfficials(coreAPI(core)).filter(
                 (o) =>
@@ -465,11 +482,12 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
               .map(
                 (f) =>
                   `${f.id}: founded ${f.year} at ${f.position.toFixed(2)} on the members' scale (${f.side === 0 ? "between the two" : f.side < 0 ? "left" : "right"}), from the ${pct(f.unreachedShare)} of voters neither party reached that year, founding pressure ${f.pressure.toFixed(2)} against a cost of ${f.cost}${(() => {
-                    const last = century.presidencies
-                      .filter((p) => p.foundedParty?.id === f.id)
-                      .at(-1);
+                    const stood = presidencies.filter(
+                      (p) => p.facts?.foundedPartyId === f.id,
+                    );
+                    const last = stood.at(-1);
                     return last
-                      ? `; it stood in ${century.presidencies.filter((p) => p.foundedParty?.id === f.id).length} presidential races and took ${pct(last.foundedParty!.share)} of every vote in ${last.year}${f.endedYear ? `; its share fell in each of the last races, so it merged into ${f.mergedInto} in ${f.endedYear}` : ""}`
+                      ? `; it stood in ${stood.length} presidential races and took ${pct(fact(last, "foundedPartyShare"))} of every vote in ${last.facts!.year}${f.endedYear ? `; its share fell in each of the last races, so it merged into ${f.mergedInto} in ${f.endedYear}` : ""}`
                       : "; it has not yet stood in a presidential race";
                   })()}`,
               )
@@ -481,7 +499,7 @@ function townView(core: CoreState, placeId: string): OpeningRow[] {
       "town.congresses",
       "The century's Congresses",
       historyMode(core.seed) === "century"
-        ? century.congresses.map((c) => `${c.year}: ${seated(c)}`).join("; ")
+        ? congresses.map((c) => `${c.facts!.year}: ${seated(c)}`).join("; ")
         : "none (today's real record)",
     ),
   );
@@ -643,7 +661,9 @@ function officeView(core: CoreState, seatId: string): OpeningRow[] {
   const century = !last
     ? undefined
     : held.office.kind === "president" || held.office.kind === "vice-president"
-      ? centuryRace(core.seed, core.startedAt, year)
+      ? centuryPresidencies(core).find(
+          (race) => race.facts?.year === String(year),
+        )
       : centurySeatRace(
           core.seed,
           held.office,

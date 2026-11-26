@@ -10,6 +10,7 @@
  * than an ask of a body (research: 4 of 88 inaugural points end in an ask of
  * a body; docs/research/first-evening-2026-11-24.md).
  */
+import { factsMadeWith } from "./life-news";
 import speechOutlines from "./data/speech-outlines.json" with { type: "json" };
 import type { EntityId } from "../core2/kernel/brands";
 import {
@@ -20,7 +21,7 @@ import {
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { termLeft } from "./address-story";
-import type { CoreState, PersonState } from "../core2/types";
+import type { CoreState, PersonId, PersonState } from "../core2/types";
 import type {
   OpeningLevel,
   OpeningSpeechKind,
@@ -134,7 +135,7 @@ export function addressFacts(
   }
   if (kind === "inaugural" && official) {
     facts["took-oath"] = fact("yes", [occasionId, official.id]);
-    const elected = (person.pastFacts ?? []).find(
+    const elected = factsMadeWith(core, person.id as PersonId).find(
       (row) => row.kind === PRESIDENT_FACT.elected,
     );
     if (

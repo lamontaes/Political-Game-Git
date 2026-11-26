@@ -26,6 +26,7 @@
  * The research behind the rows is docs/research/speech-structure-2026-11-12.md.
  * Nothing here reads a dice roll; ties go by name.
  */
+import { factsMadeWith } from "./life-news";
 import { coreAPI } from "../core2/state";
 import { historyMonths, monthKey, shiftMonth } from "../core2/macro-model";
 import type { MacroMonth } from "../core2/macro-model";
@@ -46,7 +47,7 @@ import {
   type LawRowInput,
   type PolicyLevel,
 } from "../core2/modules/laws";
-import type { CoreAPI, CoreState, PersonState } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId, PersonState } from "../core2/types";
 import type { EntityId } from "../core2/kernel/brands";
 import type {
   GroundedEnglishFact,
@@ -407,7 +408,9 @@ function worldFacts(
   const speaker = named("US:us-house", (row) => row.leadership === "presiding");
   if (speaker) facts.speaker = speaker;
   const past = (kindKey: string) =>
-    (president.pastFacts ?? []).find((row) => row.kind === kindKey);
+    factsMadeWith(core, president.id as PersonId).find(
+      (row) => row.kind === kindKey,
+    );
   // No home state: a speech names a place only where its section is about
   // that place (owner, Nov 12: "Why Georgia?").
   const prior = past(PRESIDENT_FACT.priorOffice);
@@ -2541,7 +2544,7 @@ export function planSpeech(
       },
     ],
     occasion: () => {
-      const prior = (person.pastFacts ?? []).find(
+      const prior = factsMadeWith(core, person.id as PersonId).find(
         (past) => past.kind === PRESIDENT_FACT.priorOffice,
       );
       return [

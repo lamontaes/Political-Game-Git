@@ -1,5 +1,6 @@
 // "What changed": each law that took effect while you played, and who in town
 // it reached, from the law-reach records. Read-only.
+import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import { reachedBy } from "../core2/law-reach/host";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
@@ -40,8 +41,12 @@ export function lawChanges(core: CoreState, personId: string) {
 
 function lawsTook(core: CoreState, personId: string) {
   const api = coreAPI(core);
-  return [...(core.logByKind.get("law-took-effect") ?? [])]
-    .map((id) => core.durableLog.get(id)!)
+  return historyOf(
+    core,
+    { nation: true },
+    { kinds: ["law-took-effect"], from: "played" },
+  )
+    .map((event) => core.durableLog.get(event.id as never)!)
     .filter(Boolean)
     .reverse()
     .map((row) => {

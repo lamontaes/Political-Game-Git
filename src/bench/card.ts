@@ -1,5 +1,5 @@
 import { governmentProperName } from "../core2/government-proper-name";
-import { openPastTerms, servingTermsOf } from "../core2/modules/offices";
+import { servingTermsOf } from "../core2/modules/offices";
 import {
   jobTitleSaid,
   officeInSentence,
@@ -22,7 +22,10 @@ import {
 import { townFacts } from "../core2/modules/laws";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { jobLeaveBlock } from "../core2/modules/jobs";
-import { PAST_MODULE_ID, bornIn as birthplaceOf } from "../core2/past-module";
+import { PAST_MODULE_ID } from "../core2/past-module";
+
+/** The fact a person is made with that names where they were born (the people engine's own kind). */
+const BIRTHPLACE = "birthplace";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId, PersonState, PlaceId } from "../core2/types";
 import {
@@ -69,7 +72,10 @@ import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 import { viewKey, viewQuestionKey } from "../director/view-learned";
 import { questionAbout } from "../english/question-names";
 import {
+  PERSON_MOVED_IN,
   historyOf,
+  openHistory,
+  townWithin,
   organizationName as organizationNameAt,
   sharedHistory,
   type HistoryEvent,
@@ -1750,7 +1756,8 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     )) as TermLike | undefined;
   if (!term?.identity) return null;
   // Opened for the first time: their earlier terms of the seat are written now.
-  openPastTerms(api, term.id);
+  // The seat's earlier terms, written once, as the history opens an official.
+  openHistory(core, `official:${term.id}` as PersonId);
   const office = api
     .moduleState(OFFICES)
     .table("offices")
@@ -1951,7 +1958,34 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   // in Angoon" and then "moved to Angoon"); none for a birth abroad, which
   // has no place record to name. Someone with neither record (a person made
   // to hold a role) is told no birthplace.
-  const born = birthplaceOf(core, other);
+  // Where they were born, from their history: the birthplace their record
+  // was made with, else where the move that brought them came from when
+  // they were born before it, else here (a state's record resolved to one of
+  // its towns, the same every time).
+  const madeBirth = historyOf(
+    core,
+    { person: other.id },
+    { kinds: [BIRTHPLACE], from: "built" },
+  ).find((fact) => typeof fact.facts?.placeId === "string");
+  const firstMove = historyOf(
+    core,
+    { person: other.id },
+    { kinds: [PERSON_MOVED_IN], from: "past" },
+  )[0];
+  const movedFrom = String(firstMove?.facts?.fromPlaceId ?? "");
+  const born = madeBirth
+    ? {
+        placeId:
+          townWithin(core, other.id, madeBirth.facts!.placeId!) ??
+          madeBirth.facts!.placeId!,
+        recordId: madeBirth.id,
+      }
+    : firstMove && other.birthDate < firstMove.date
+      ? {
+          placeId: townWithin(core, other.id, movedFrom) ?? movedFrom,
+          recordId: firstMove.id,
+        }
+      : { placeId: other.placeId, recordId: firstMove?.id ?? other.id };
   const bornId =
     born.recordId !== other.id || born.placeId !== other.placeId
       ? born.placeId

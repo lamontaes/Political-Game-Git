@@ -18,6 +18,7 @@
  *   - a state of the country tier: its people and jobs, the part its played
  *     town and county hold in full and the rest, which add to the state's.
  */
+import { historyOf } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import { raceReadFacts } from "../director/race-turnout-facts";
 import { parameter } from "../core2/parameters";
@@ -306,8 +307,12 @@ function linePanel(
   line: string,
 ): WhyPanel {
   let running = 0;
-  const changes = [...(core.logByKind.get("budget-line-changed") ?? [])]
-    .map((id) => core.durableLog.get(id)!)
+  const changes = historyOf(
+    core,
+    { nation: true },
+    { kinds: ["budget-line-changed"], from: "played" },
+  )
+    .map((event) => core.durableLog.get(event.id as never)!)
     .filter(
       (row) =>
         row.facts?.governmentId === governmentId && row.facts?.line === line,
@@ -555,8 +560,12 @@ export function decisionPanels(core: CoreState, personId: string): WhyPanel[] {
   );
   const kept: { row: LogRecord; order: number }[] = [];
   let order = 0;
-  for (const id of core.logByPerson.get(personId) ?? []) {
-    const row = core.durableLog.get(id);
+  for (const acted of historyOf(
+    core,
+    { person: personId as PersonId },
+    { kinds: ["person.acted"], from: "played" },
+  )) {
+    const row = core.durableLog.get(acted.id as never);
     if (row?.kind === "person.acted" && row.actorId === personId)
       kept.push({ row, order: order++ });
   }

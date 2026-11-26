@@ -50,9 +50,11 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import {
   centuryOf,
   historyMode,
+  type CenturyCongress,
   type CenturyPresidency,
 } from "../electorate-century";
 import type { HistoryModule, HistoryRow, HistorySource } from "../past";
+import { novemberGeneralElectionDay } from "../elections-calendar";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -335,31 +337,76 @@ function presidencyHistory(row: CenturyPresidency): HistoryRow {
       personTerms: String(row.personTerms),
       partyTerms: String(row.partyTerms),
       incumbentRan: String(row.incumbentRan),
+      winnerSide: String(row.winnerSide),
+      winnerShare: String(row.winnerShare),
+      republicanShare: String(row.republicanShare),
+      electorsRepublican: String(row.electoral.republican),
+      electorsDemocratic: String(row.electoral.democratic),
+      timeForChangeSide: String(row.timeForChange.side),
+      timeForChangeShare: String(row.timeForChange.share),
+      ...(row.foundedParty
+        ? {
+            foundedPartyId: row.foundedParty.id,
+            foundedPartyShare: String(row.foundedParty.share),
+          }
+        : {}),
+    },
+  };
+}
+
+/** The record kind of each Congress the century's November elections seated, as the reader tells it. */
+const CENTURY_CONGRESS = "century.congress";
+
+/** A Congress the century seated: each chamber's party count after the year's November election. */
+function congressHistory(row: CenturyCongress): HistoryRow {
+  return {
+    id: row.id,
+    date: novemberGeneralElectionDay(row.year),
+    life: "politics",
+    what: "congress",
+    record: CENTURY_CONGRESS,
+    from: "past",
+    personIds: [],
+    withIds: [],
+    publicRecord: true,
+    facts: {
+      year: String(row.year),
+      houseRepublican: String(row.house.republican),
+      houseDemocratic: String(row.house.democratic),
+      senateRepublican: String(row.senate.republican),
+      senateDemocratic: String(row.senate.democratic),
     },
   };
 }
 
 /**
  * The century the world ran from 1925 is the nation's history: every
- * presidency, read by the one history reader (src/core2/past-history.ts).
- * A world that opened on today's real record ran no century and has none.
+ * presidency, and each Congress read by its kind, read by the one history
+ * reader (src/core2/past-history.ts). A world that opened on today's real
+ * record ran no century and has none.
  */
 const CENTURY_HISTORY: HistorySource = {
   id: "century",
   rows(core, scope, ask) {
     if (!("nation" in scope) || historyMode(core.seed) !== "century") return [];
-    if (ask.kinds && !ask.kinds.includes("century.presidency")) return [];
-    return centuryOf(core.seed, core.startedAt).presidencies.map(
-      presidencyHistory,
-    );
+    const century = centuryOf(core.seed, core.startedAt);
+    return [
+      ...(!ask.kinds || ask.kinds.includes("century.presidency")
+        ? century.presidencies.map(presidencyHistory)
+        : []),
+      ...(ask.kinds?.includes(CENTURY_CONGRESS)
+        ? century.congresses.map(congressHistory)
+        : []),
+    ];
   },
   row(core, id) {
     if (!id.startsWith("century:") || historyMode(core.seed) !== "century")
       return undefined;
-    const row = centuryOf(core.seed, core.startedAt).presidencies.find(
-      (held) => held.id === id,
-    );
-    return row ? presidencyHistory(row) : undefined;
+    const century = centuryOf(core.seed, core.startedAt);
+    const row = century.presidencies.find((held) => held.id === id);
+    if (row) return presidencyHistory(row);
+    const congress = century.congresses.find((held) => held.id === id);
+    return congress ? congressHistory(congress) : undefined;
   },
 };
 
