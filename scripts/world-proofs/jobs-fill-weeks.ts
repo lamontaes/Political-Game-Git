@@ -33,15 +33,31 @@ const world = buildBenchWorld(seed, gameStartDate(), {
 });
 const core = world.core;
 const api = coreAPI(core);
+// The town's own people only: most full-person jobs belong to relatives and officials who live
+// in other places, whom the town's market never hires (their place is a state, not a town).
+const townPlace = core.people.get(world.playerId!)!.placeId;
 const held = [...core.jobs.values()].filter(
-  (job) => job.personId !== world.playerId,
+  (job) =>
+    job.personId !== world.playerId &&
+    core.people.get(job.personId as never)?.placeId === townPlace,
 );
 const picked = held.filter((_, index) => index % 100 < share * 100);
 let laidOff = 0;
+const cohort: string[] = [];
 for (const job of picked) {
   const result = layOffWorker(api, job.id);
-  if (result && typeof result === "object") laidOff += 1;
+  if (result && typeof result === "object") {
+    laidOff += 1;
+    cohort.push(job.personId);
+  }
 }
+/** How many of the ended jobs' holders hold a job again. */
+const employedAgain = () =>
+  cohort.filter((id) => {
+    const jobId = core.people.get(id as never)?.jobId;
+    const job = jobId ? core.jobs.get(jobId) : undefined;
+    return job !== undefined && (!job.endsAt || job.endsAt > core.date);
+  }).length;
 let posted = 0;
 for (const job of picked)
   posted += postFundedOpenings(api, {
@@ -52,7 +68,7 @@ for (const job of picked)
     lawId: "jobs-fill-weeks",
   });
 process.stdout.write(
-  `place ${placeKey}, seed ${seed}: ${held.length} jobs held, ${laidOff} ended, ${posted} positions posted\n`,
+  `place ${placeKey}, seed ${seed}: ${held.length} jobs held by the town\'s own people, ${laidOff} ended, ${posted} positions posted\n`,
 );
 const started = performance.now();
 for (let week = 1; week <= weeks; week += 1) {
@@ -68,7 +84,7 @@ for (let week = 1; week <= weeks; week += 1) {
     .table("seekers")
     .rows().length;
   process.stdout.write(
-    `week ${week} ${core.date} positions ${JSON.stringify(byStatus)} seekers ${seekers} ${Math.round(performance.now() - started)} ms\n`,
+    `week ${week} ${core.date} cohort employed ${employedAgain()} of ${cohort.length} positions ${JSON.stringify(byStatus)} seekers ${seekers} ${Math.round(performance.now() - started)} ms\n`,
   );
   if (!(byStatus["open"] ?? 0)) break;
 }
