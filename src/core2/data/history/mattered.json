@@ -29,7 +29,8 @@
         "high": 0.52,
         "unit": "life-change units divided by 100",
         "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
+      },
+      "role": "coefficient"
     },
     "historyMatteredMarriage": {
       "value": 0.5,
@@ -41,7 +42,8 @@
         "high": 0.5,
         "unit": "life-change units divided by 100",
         "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
+      },
+      "role": "coefficient"
     },
     "historyMatteredBeginOrEndSchool": {
       "value": 0.26,
@@ -53,7 +55,8 @@
         "high": 0.34,
         "unit": "life-change units divided by 100",
         "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
+      },
+      "role": "coefficient"
     },
     "historyMatteredWorkHoursOrConditions": {
       "value": 0.2,
@@ -65,7 +68,8 @@
         "high": 0.37,
         "unit": "life-change units divided by 100",
         "citation": "1967 Holmes and Rahe value to the 2021 replication (Wallace and others 2023; 540 mostly British adults online): the 1967 values are the lower bound."
-      }
+      },
+      "role": "coefficient"
     }
   }
 }
