@@ -24,7 +24,7 @@ import {
   billOf,
   votesOn,
 } from "../core2/modules/legislature";
-import { votesOf } from "../core2/modules/people";
+import { votesCast } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -74,7 +74,7 @@ export function voteAskFacts(
     };
   // The member's vote on the sponsor's last bill to reach a roll call.
   const api = coreAPI(core as CoreState);
-  const record = votesOf(api, askedId);
+  const record = votesCast(core as CoreState, askedId);
   for (let at = record.length - P.one; at >= P.zero; at -= P.one) {
     const row = record[at]!;
     if (row.billId === billId || row.date > core.date) continue;

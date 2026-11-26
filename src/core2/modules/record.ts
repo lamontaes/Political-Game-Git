@@ -18,7 +18,20 @@
  */
 import { votesAreTownNews } from "./officials";
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  IsoDate,
+  PersonId,
+  PersonState,
+} from "../types";
+import {
+  historyOf,
+  type HistoryModule,
+  type HistoryRow,
+  type HistorySource,
+} from "../past";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, type Stance } from "../campaign-data";
 import { viewOn } from "./views";
@@ -59,8 +72,89 @@ export interface RecordReason {
   readonly effect: number;
 }
 
-export const RECORD_MODULE: CoreModule = {
+/** The record kind of a member's vote on a measure, as the one history reader tells it. */
+export const VOTE_CAST = "record.vote";
+
+/** A member's vote, told on the day they cast it: the body, the measure and the question. */
+function voteHistory(core: CoreState, row: VoteRecordRow): HistoryRow {
+  return {
+    id: row.id,
+    date: row.date as IsoDate,
+    life: "politics",
+    what: "voted",
+    record: VOTE_CAST,
+    from: row.date < core.startedAt ? "past" : "played",
+    personIds: [row.personId as PersonId],
+    withIds: [row.personId as PersonId],
+    facts: {
+      body: row.body,
+      billId: row.billId,
+      measureId: row.measureId,
+      question: row.question,
+      ...(row.passed === null ? {} : { passed: String(row.passed) }),
+    },
+    publicRecord: true,
+  };
+}
+
+/**
+ * The record engine's votes are history: a member's (by person), a body's or
+ * a measure's (by the reader's `about`), or every vote, read by kind.
+ */
+const RECORD_HISTORY: HistorySource = {
   id: RECORD_MODULE_ID,
+  rows(core, scope, ask) {
+    if (!ask.kinds?.includes(VOTE_CAST) || !core.modules.has(RECORD_MODULE_ID))
+      return [];
+    if ("household" in scope || "employer" in scope) return [];
+    const votes = coreAPI(core).moduleState(RECORD_MODULE_ID).table("votes");
+    return (
+      ("person" in scope
+        ? votes.query("byPerson", [scope.person])
+        : votes.rows()) as unknown as VoteRecordRow[]
+    )
+      .filter(
+        (row) =>
+          !ask.about || row.body === ask.about || row.billId === ask.about,
+      )
+      .map((row) => voteHistory(core, row));
+  },
+  row(core, id) {
+    if (!core.modules.has(RECORD_MODULE_ID)) return undefined;
+    const row = voteById(coreAPI(core), id);
+    return row ? voteHistory(core, row) : undefined;
+  },
+};
+
+/**
+ * A person's votes as the one history reader tells them, oldest first (by
+ * day, then id, as `votesOf` orders them): what a screen, scene or story reads.
+ * The engines read their own table (`votesOf`).
+ */
+export function votesCast(
+  core: CoreState,
+  personId: string,
+): readonly VoteRecordRow[] {
+  const api = coreAPI(core);
+  return historyOf(
+    core,
+    { person: personId as PersonId },
+    { kinds: [VOTE_CAST] },
+  )
+    .map((event) => voteById(api, event.id))
+    .filter((row): row is VoteRecordRow => !!row);
+}
+
+/** One vote by its id, as the record keeps it: what a view opens for an event the reader told. */
+export function voteById(api: CoreAPI, id: string): VoteRecordRow | undefined {
+  if (!api.state.modules.has(RECORD_MODULE_ID)) return undefined;
+  return api.moduleState(RECORD_MODULE_ID).table("votes").get(id) as unknown as
+    VoteRecordRow | undefined;
+}
+
+export const RECORD_MODULE: CoreModule & HistoryModule = {
+  id: RECORD_MODULE_ID,
+  history: RECORD_HISTORY,
   state: {
     schemaVersion: 1,
     tables: {

@@ -95,12 +95,15 @@ function closureHistory(row: PastClosureRow): HistoryRow {
   };
 }
 
-/** A bill's roll calls, one per body that voted, told once by the bill's id. */
-function billHistory(rows: readonly PastBillRecord[]): HistoryRow {
-  const first = rows[0]!;
+/**
+ * One body's roll call on a bill before day one, by the record's own key (the
+ * bill and the body: a law's one bill spans its chambers), with the whole
+ * count the world kept.
+ */
+function billHistory(row: PastBillRecord): HistoryRow {
   return {
-    id: first.billId,
-    date: first.date as IsoDate,
+    id: row.id,
+    date: row.date as IsoDate,
     life: "politics",
     what: "voted",
     record: PAST_BILL_VOTED,
@@ -108,13 +111,13 @@ function billHistory(rows: readonly PastBillRecord[]): HistoryRow {
     personIds: [],
     withIds: [],
     facts: {
-      officeId: first.officeId,
-      officeIds: rows.map((row) => row.officeId).join(" "),
-      question: first.question,
-      position: String(first.position),
-      passed: String(rows.every((row) => row.passed)),
-      yes: rows.map((row) => row.yes).join(" "),
-      no: rows.map((row) => row.no).join(" "),
+      billId: row.billId,
+      officeId: row.officeId,
+      question: row.question,
+      position: String(row.position),
+      passed: String(row.passed),
+      yes: String(row.yes),
+      no: String(row.no),
     },
     publicRecord: true,
   };
@@ -150,26 +153,6 @@ function lawHistoryRow(row: LawHistoryRow): HistoryRow {
 }
 
 /**
- * The past's bills that are no law's, grouped by bill. A law's own roll calls
- * (`billId` its history's id) are told with its history.
- */
-function pastBills(api: CoreAPI): Map<string, PastBillRecord[]> {
-  const out = new Map<string, PastBillRecord[]>();
-  for (const row of pastTable(
-    api,
-    "bills",
-  ).rows() as unknown as PastBillRecord[]) {
-    if (row.billId.startsWith(LAW_HISTORY)) continue;
-    const held = out.get(row.billId);
-    if (held) held.push(row);
-    else out.set(row.billId, [row]);
-  }
-  for (const rows of out.values())
-    rows.sort((a, b) => a.officeId.localeCompare(b.officeId));
-  return out;
-}
-
-/**
  * The past's bills and laws are history: the reader tells them by kind, a
  * person's (a law they brought or signed) or a place's, state's or the
  * nation's, where they were voted.
@@ -192,7 +175,10 @@ const PAST_HISTORY: HistorySource = {
         )
           yield lawHistoryRow(row);
     if (ask.kinds.includes(PAST_BILL_VOTED) && !("person" in scope))
-      for (const rows of pastBills(api).values()) yield billHistory(rows);
+      for (const row of (ask.about
+        ? pastTable(api, "bills").query("byOffice", [ask.about])
+        : pastTable(api, "bills").rows()) as unknown as PastBillRecord[])
+        yield billHistory(row);
     if (ask.kinds.includes(PAST_BUSINESS_CLOSED))
       for (const row of pastTable(
         api,
@@ -209,13 +195,19 @@ const PAST_HISTORY: HistorySource = {
         PastClosureRow | undefined;
       return row ? closureHistory(row) : undefined;
     }
-    if (id.startsWith(LAW_HISTORY)) {
+    if (id.startsWith(LAW_HISTORY) && !id.includes("|")) {
       const row = pastTable(api, "laws").get(id) as unknown as
         LawHistoryRow | undefined;
       return row ? lawHistoryRow(row) : undefined;
     }
-    const rows = pastBills(api).get(id);
-    return rows ? billHistory(rows) : undefined;
+    const bills = pastTable(api, "bills");
+    const own = bills.get(id) as unknown as PastBillRecord | undefined;
+    if (own) return billHistory(own);
+    // A bill by its own id (the archive's stories cite it): its first body's roll call.
+    const first = (bills.rows() as unknown as PastBillRecord[])
+      .filter((row) => row.billId === id)
+      .sort((a, b) => a.officeId.localeCompare(b.officeId))[0];
+    return first ? billHistory(first) : undefined;
   },
 };
 
