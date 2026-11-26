@@ -824,9 +824,12 @@ export function historyEvent(
   // whoever holds it.
   const life = sourcesOf(core).life;
   if (!life) return undefined;
-  const owners = id.startsWith("fact_")
-    ? [...core.people.keys()]
-    : ((id.match(/person_[0-9a-f]+/g) ?? []) as PersonId[]);
+  // A fact's id names its person where it can; one that names no one (a hash,
+  // a claim made at the opening) is looked for on everyone, as `causesOf`
+  // accepts it from the record's own people.
+  const named = (id.match(/person_[0-9a-f]+/g) ?? []) as PersonId[];
+  const owners =
+    id.startsWith("fact_") || !named.length ? [...core.people.keys()] : named;
   for (const personId of owners) {
     if (!core.people.get(personId)?.pastFacts?.some((fact) => fact.id === id))
       continue;

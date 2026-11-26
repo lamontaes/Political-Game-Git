@@ -256,8 +256,34 @@ function electedHistory(t: TermRow): HistoryRow {
  */
 /** The record kind of a term the offices engine keeps (who held a seat, from when), as the reader tells it. */
 export const TERM_HELD = "office.term";
+/** The record kind of a seat that fell vacant (the offices engine's vacancies), as the one history reader tells it. */
+export const VACANCY_OPENED = "office.vacancy";
 
 /** A term, told on the day it began: the seat, the office, how its holder reached it and how it stands. */
+/** A seat that fell vacant, told on the day it did: why, and how it stands. */
+function vacancyHistory(core: CoreState, v: VacancyRow): HistoryRow {
+  return {
+    id: v.id,
+    date: v.since as HistoryRow["date"],
+    life: "politics",
+    what: "vacancy",
+    record: VACANCY_OPENED,
+    from: v.since < core.startedAt ? "past" : "played",
+    personIds: [],
+    withIds: [],
+    facts: {
+      vacancyId: v.id,
+      seatId: v.seatId,
+      officeId: v.officeId,
+      cause: v.cause,
+      status: v.status,
+      ...(v.vacatedTermId ? { vacatedTermId: v.vacatedTermId } : {}),
+      ...(v.filledBy ? { filledBy: v.filledBy } : {}),
+    },
+    publicRecord: true,
+  };
+}
+
 function termHistory(core: CoreState, t: TermRow): HistoryRow {
   return {
     id: t.id,
@@ -296,8 +322,15 @@ const OFFICES_HISTORY: HistorySource = {
     if (!core.modules.has(OFFICES_MODULE_ID) || !ask.kinds) return [];
     const races = ask.kinds.includes(ELECTED);
     const held = ask.kinds.includes(TERM_HELD);
-    if (!races && !held) return [];
+    const vacated = ask.kinds.includes(VACANCY_OPENED);
+    if (!races && !held && !vacated) return [];
     const api = coreAPI(core);
+    const vacancies = vacated
+      ? (table(api, "vacancies").rows() as unknown as VacancyRow[]).map((v) =>
+          vacancyHistory(core, v),
+        )
+      : [];
+    if (!races && !held) return vacancies;
     const terms = (ask.about
       ? ["serving", "ended"].flatMap((status) =>
           table(api, "terms").query("bySeatStatus", [ask.about!, status]),
@@ -311,7 +344,7 @@ const OFFICES_HISTORY: HistorySource = {
         out.push(electedHistory(t));
       if (held) out.push(termHistory(core, t));
     }
-    return out;
+    return [...out, ...vacancies];
   },
   row(core, id) {
     if (!core.modules.has(OFFICES_MODULE_ID)) return undefined;
@@ -327,7 +360,10 @@ const OFFICES_HISTORY: HistorySource = {
       return t ? electedHistory(t) : undefined;
     }
     const t = table(api, "terms").get(id) as unknown as TermRow | undefined;
-    return t ? termHistory(core, t) : undefined;
+    if (t) return termHistory(core, t);
+    const v = table(api, "vacancies").get(id) as unknown as
+      VacancyRow | undefined;
+    return v ? vacancyHistory(core, v) : undefined;
   },
 };
 
