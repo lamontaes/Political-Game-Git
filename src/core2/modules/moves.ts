@@ -49,7 +49,7 @@ import {
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { sellHome } from "../housing-sale";
-import { endLivingPlan } from "../macro-model";
+import { endLivingPlan } from "./business";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
 import {

@@ -102,13 +102,8 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
-export type { GenderIdentityKey, PersonIdentity } from "../gov-rules/types";
 export { placeGovernmentOrganizations } from "../gov-rules/local-governments";
-export {
-  inventedPersonAge,
-  inventedPersonBirthDate,
-} from "../gov-rules/invented-person-age";
-export type { InventedPersonRole } from "../gov-rules/invented-person-age";
+export { inventedPersonBirthDate } from "../gov-rules/invented-person-age";
 export { municipiosForPlace } from "../gov-rules/county-governing-body-rules";
 export { openOfficialPay } from "./official-pay";
 export { openCases } from "./constituent-cases";

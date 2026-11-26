@@ -63,7 +63,6 @@ export {
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
 } from "./finance-state";
-export { drawSavingsToCover } from "./accounts";
 export type {
   BusinessBooksState,
   ResidentWageShortfall,

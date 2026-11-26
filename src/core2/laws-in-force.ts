@@ -41,8 +41,6 @@ export {
   assessInheritanceTax,
 } from "./laws-death-taxes";
 export type { DeathTax } from "./laws-death-taxes";
-export { mechanicRow } from "./law-reach/group-a-records";
-export { townShare } from "./law-reach/group-b-money";
 export { startingSocialSecurityAges } from "./social-security-law";
 export type { SocialSecurityAges } from "./social-security-law";
 export { baseOf } from "./outcome-web-model";

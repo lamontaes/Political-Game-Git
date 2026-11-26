@@ -84,6 +84,17 @@ import {
   premisesTaxYearMinor,
 } from "./budgets";
 import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
+export { endLivingPlan, setEverydayPurchase } from "../cost-of-living";
+export {
+  CREDIT_PARAMETERS,
+  bankYes,
+  lendMortgage,
+  monthlyIncome,
+  mortgageRoom,
+} from "./credit";
+export type { WorkPayrollCalendarInput } from "../work-pay-period";
+export { admitPublicPayAuthority } from "../public-work-pay";
+export type { ClaimRow } from "../jobs-benefits";
 
 export { BUSINESS_MODULE_ID };
 export { DEFAULT_BUSINESS_BOOKS_DATA };
