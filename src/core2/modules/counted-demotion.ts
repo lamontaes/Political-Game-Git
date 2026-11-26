@@ -26,7 +26,7 @@ import { stableHash } from "../kernel/ids";
 import { lastTogether } from "../closeness";
 import { endLivingPlan } from "./business";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { VIEWS_MODULE_ID } from "./views";
+import { VIEWS_MODULE_ID } from "./views-constants";
 import { ELECTIONS_MODULE_ID } from "./elections";
 import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {

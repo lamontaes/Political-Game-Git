@@ -76,6 +76,8 @@ import {
   liveCountedCrime,
   type CountedCrimeTally,
 } from "../counted-news-views";
+import { VIEWS_MODULE_ID } from "./views-constants";
+export { VIEWS_MODULE_ID };
 
 export const VIEWS_DATA = viewsJson as {
   version: string;
@@ -89,8 +91,6 @@ const v = (key: string): number => {
     throw new Error(`Untagged views parameter: ${key}`);
   return row.value;
 };
-
-export const VIEWS_MODULE_ID = "views";
 const DRIVE_MOMENTS = new Set<string>(
   Object.entries(
     (drivesJson as { eventKinds: Record<string, string> }).eventKinds,

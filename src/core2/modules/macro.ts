@@ -100,9 +100,8 @@ import {
   stepRegional,
 } from "./regional";
 import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
-
-/** Where a custom world's chosen national economy rides in the opening input (see worldGameOptions). */
-export const CUSTOM_ECONOMY_KEY = "customEconomy";
+import { CUSTOM_ECONOMY_KEY } from "./macro-constants";
+export { CUSTOM_ECONOMY_KEY };
 export const MACRO_MODULE_ID = "macro";
 /** The national economy's numbers: the central bank's and the published past's, and the country tier's (data/country). */
 export const MACRO_PARAMETERS = {

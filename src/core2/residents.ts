@@ -45,9 +45,10 @@ import {
   placeNoninstitutionalQuartersShare,
 } from "./gov-rules/place-population";
 import { corePlaceByKey } from "./place-lookup";
+import { RESIDENTS_KIND } from "./residents-constants";
+export { RESIDENTS_KIND };
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
-export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
   "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";

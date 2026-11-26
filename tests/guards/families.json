@@ -77,7 +77,8 @@
         "src/core2/modules/national-opinion.ts",
         "src/core2/modules/serve-asks.ts",
         "src/core2/filing-rule-office.ts",
-        "src/core2/voting-module-id.ts"
+        "src/core2/voting-module-id.ts",
+        "src/core2/modules/candidacy-constants.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -110,7 +111,8 @@
         "src/core2/membership-dues.ts",
         "src/core2/gov-test-clock.ts",
         "src/core2/campaign-data.ts",
-        "src/core2/modules/national-opinion.ts"
+        "src/core2/modules/national-opinion.ts",
+        "src/core2/modules/candidacy-constants.ts"
       ]
     },
     {
@@ -241,7 +243,9 @@
         "src/core2/health-web.ts",
         "src/core2/jobs-web.ts",
         "src/core2/term-read.ts",
-        "src/core2/modules/federal-courts.ts"
+        "src/core2/modules/federal-courts.ts",
+        "src/core2/law-reach/group-a-records-constants.ts",
+        "src/core2/law-reach/group-b-store-constants.ts"
       ]
     },
     {
@@ -258,7 +262,8 @@
         "src/core2/modules/regional.ts",
         "src/core2/macro-model.ts",
         "src/core2/work-spans-v1.ts",
-        "src/core2/town-labor-pay.ts"
+        "src/core2/town-labor-pay.ts",
+        "src/core2/modules/macro-constants.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",
@@ -306,7 +311,8 @@
         "src/core2/commuting-shares.ts",
         "src/core2/cost-of-living.ts",
         "src/core2/living-cost-split.ts",
-        "src/core2/pay-by-quarter.ts"
+        "src/core2/pay-by-quarter.ts",
+        "src/core2/modules/macro-constants.ts"
       ]
     },
     {
@@ -336,7 +342,8 @@
         "src/core2/home-distance.ts",
         "src/core2/life-stake-rule.ts",
         "src/core2/coverage-module-id.ts",
-        "src/core2/modules/promises.ts"
+        "src/core2/modules/promises.ts",
+        "src/core2/modules/views-constants.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -435,7 +442,10 @@
         "src/core2/life-stake-rule.ts",
         "src/core2/life-stakes.ts",
         "src/core2/coverage-module-id.ts",
-        "src/core2/modules/promises.ts"
+        "src/core2/modules/promises.ts",
+        "src/core2/housing-construction-constants.ts",
+        "src/core2/modules/views-constants.ts",
+        "src/core2/residents-constants.ts"
       ]
     },
     {
@@ -512,7 +522,8 @@
         "src/core2/modules/press.ts",
         "src/core2/press-*.ts",
         "src/core2/outcome-news.ts",
-        "src/core2/modules/news-listeners.ts"
+        "src/core2/modules/news-listeners.ts",
+        "src/core2/outcome-news-constants.ts"
       ]
     },
     {

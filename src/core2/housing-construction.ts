@@ -26,16 +26,8 @@ import { lawApplied } from "./law-reach/applied";
 import { townOutsideOf } from "./opening-outside-market";
 import type { CoreAPI, CoreState, Source } from "./types";
 import { housingWorldOffset } from "./housing-prices";
-
-/** The policy keys the builders' decision reads, and the law row each was governed by this month. */
-export const CONSTRUCTION_LAW_KEYS = {
-  multifamily:
-    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-  inclusionary: "us-policy-positions:housing-land-use.inclusionary-requirement",
-  allElectric: "us-policy-positions:environment-energy.ban-new-gas-hookups",
-  farmland:
-    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
-} as const;
+import { CONSTRUCTION_LAW_KEYS } from "./housing-construction-constants";
+export { CONSTRUCTION_LAW_KEYS };
 
 export type ConstructionLawIds = {
   readonly [K in keyof typeof CONSTRUCTION_LAW_KEYS]?: string;

@@ -13,7 +13,7 @@
  * change it favors, and its readers are moved by their standing with the
  * reporter who wrote it.
  */
-import { OUTCOME_MONTH_KIND } from "./outcome-news";
+import { OUTCOME_MONTH_KIND } from "./outcome-news-constants";
 import briefs from "./data/press/briefs.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { questionAxis } from "./modules/campaigns";

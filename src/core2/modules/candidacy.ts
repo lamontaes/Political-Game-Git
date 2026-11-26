@@ -93,8 +93,8 @@ import { countedVoters, seatLastMargin } from "./voting";
 import { normalCdf } from "../kernel/normal";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
-
-export const CANDIDACY_MODULE_ID = "candidacy";
+import { CANDIDACY_MODULE_ID } from "./candidacy-constants";
+export { CANDIDACY_MODULE_ID };
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 const STOPGAP = "SG-P15-candidacy-weights";
 

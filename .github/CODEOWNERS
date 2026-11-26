@@ -82,6 +82,7 @@
 /src/core2/gov-test-clock.ts @lamontaes
 /src/core2/campaign-data.ts @lamontaes
 /src/core2/modules/national-opinion.ts @lamontaes
+/src/core2/modules/candidacy-constants.ts @lamontaes
 
 # Legislative bodies (bodies)
 /src/core2/modules/legislature.ts @lamontaes
@@ -165,6 +166,8 @@
 /src/core2/jobs-web.ts @lamontaes
 /src/core2/term-read.ts @lamontaes
 /src/core2/modules/federal-courts.ts @lamontaes
+/src/core2/law-reach/group-a-records-constants.ts @lamontaes
+/src/core2/law-reach/group-b-store-constants.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
 /src/core2/shared-time.ts @lamontaes
@@ -213,6 +216,7 @@
 /src/core2/cost-of-living.ts @lamontaes
 /src/core2/living-cost-split.ts @lamontaes
 /src/core2/pay-by-quarter.ts @lamontaes
+/src/core2/modules/macro-constants.ts @lamontaes
 
 # Households and people (people)
 /src/core2/modules/people.ts @lamontaes
@@ -312,6 +316,9 @@
 /src/core2/life-stakes.ts @lamontaes
 /src/core2/coverage-module-id.ts @lamontaes
 /src/core2/modules/promises.ts @lamontaes
+/src/core2/housing-construction-constants.ts @lamontaes
+/src/core2/modules/views-constants.ts @lamontaes
+/src/core2/residents-constants.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
@@ -352,6 +359,7 @@
 /src/core2/press-*.ts @lamontaes
 /src/core2/outcome-news.ts @lamontaes
 /src/core2/modules/news-listeners.ts @lamontaes
+/src/core2/outcome-news-constants.ts @lamontaes
 
 # The story director (director)
 /src/director/** @lamontaes
