@@ -14,7 +14,7 @@
 - Only comments starting "CTO:" are instructions. Other sessions' lines are information.
 - Run `date` before writing a time.
 
-**What counts as proof (rewritten 2:40 a.m. Nov 26; it replaces the earlier text, which was wrong):**
+**What counts as proof (rewritten 2:22 a.m. Nov 26; it replaces the earlier text, which was wrong):**
 
 The owner's rules are "fast checks + lane proof" (Nov 18), and "only check the files each PR changes" (Oct 6 and Oct 12). The whole suite runs once per train, never per PR.
 
@@ -24,4 +24,6 @@ The owner's rules are "fast checks + lane proof" (Nov 18), and "only check the f
    - **Structure-only work:** the `npm run speed:year` records proof at one fixed seed is identical before and after. #10637's body shows how the history reader ran it.
 3. **Don't merge into main yourself.** The CTO folds ready PRs into the night's train branch (`train/nov26-*`). The train's PR into main runs the full suite (Heavy checks, which runs only on `train/` PRs). It merges only when it fails no test file that isn't failing on main.
 4. **Main's full suite is unsteady:** 140 failing files on Nov 24 (run 45423585384) and 216 on Nov 25 (run 45639593615), and only 71 failed both nights. All three lists are beside this file. A train failure that isn't on main's lists is rerun on main and on the train at the same seed before anyone is blamed. When the CTO names your file, run it both ways and post the output.
-5. **Follow-up PRs:** until your last PR is folded, base the next one on its branch (a stack). The CTO folds the top of each stack.
+5. **Follow-up PRs:** until your last PR is folded, branch the next one from your last PR's branch, but open it onto main, so it gets fast checks and carries both. The CTO folds the newest one, which holds the earlier commits too.
+6. **Files another session owns win until the owner's list says otherwise.** Until the history reader is folded into a train, every file in `history-reader-files-2026-11-26.txt` belongs to History, even where your goal names it as yours: `past-elections.ts`, `past-school.ts`, `past.ts`, `pre-start.ts` and `modules/jobs.ts`, among others. Work around them, or post on #10377 what you need from them.
+7. **When you start, post one line on #10377** (`<Name>: started`), so the CTO can tell which session is which.
