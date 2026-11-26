@@ -65,15 +65,17 @@ it(`seated officials keep a household and spend it in ${place.name}, seed ${seed
   const home = [`lease:${sample.householdId}`, `mortgage:${sample.householdId}`]
     .map((id) => core.finance.contracts.get(id))
     .find((row) => row && !row.endedAt && row.amountMinor > 0);
+  // The everyday basket without a home, for one person where they live.
+  const basket = householdDailyCostMinor({
+    seed: core.seed,
+    stateKey: placeStateKey(sample.placeId),
+    size: 1,
+    rent: null,
+    parameter: (key) => api.parameter(key),
+  });
   const daily = home
     ? Math.max(
-        householdDailyCostMinor({
-          seed: core.seed,
-          stateKey: placeStateKey(sample.placeId),
-          size: 1,
-          rent: null,
-          parameter: (key) => api.parameter(key),
-        }),
+        basket,
         before -
           (home.amountMinor / home.periodMonths) *
             (api.parameter("monthsPerYear") / api.parameter("daysPerMeanYear")),
@@ -85,10 +87,14 @@ it(`seated officials keep a household and spend it in ${place.name}, seed ${seed
     Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000);
   // Each payday spends the days it pays for: an official seated as the
   // world opens is paid from the 1st of the month (official-pay's paidFrom).
+  const paidDays =
+    days(paidFrom, "2025-02-01") + days("2025-02-01", "2025-03-01");
   expect(spent).toBe(
     Math.round(daily * days(paidFrom, "2025-02-01")) +
       Math.round(daily * days("2025-02-01", "2025-03-01")),
   );
+  // Never below the everyday basket, whatever the home costs.
+  expect(spent).toBeGreaterThanOrEqual(basket * paidDays);
   // A bribe offered to a seated official reads their cushion.
   const rich = townResidentsByCash(core, coreAPI(core))
     .filter((p) => p.alive && !p.id.startsWith("official:"))

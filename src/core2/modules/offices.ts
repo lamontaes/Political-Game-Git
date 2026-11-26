@@ -1,4 +1,8 @@
 import { placeStateKey } from "../place-map";
+import {
+  INSTITUTIONAL_QUARTERS,
+  type GroupQuartersType,
+} from "../group-quarters-types";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -637,6 +641,11 @@ export interface Suited {
   readonly fit: number;
 }
 
+/** Whether a room is one an institution houses its people in (a prison, a nursing home). */
+const institutional = (quarters: string | undefined) =>
+  quarters !== undefined &&
+  INSTITUTIONAL_QUARTERS.has(quarters as GroupQuartersType);
+
 /** How suited a resident is to a seat: the same three traits for everyone. */
 const seatFit = (traits: Readonly<Record<string, number>>) =>
   (traits["people-mind-v1:sociability"] ?? 0) +
@@ -688,6 +697,11 @@ export function suitedResidents(
       // pick by press job (a reporter put into an empty seat at the opening
       // was the defect); they may still run and win it at the ballot.
       if (pressConflict(api, person.id)) return false;
+      // Nor someone an institution houses: an inmate seated on a district
+      // board at the opening was the defect (official-living, Richfield,
+      // Utah, seed evict26a).
+      if (institutional(state.households.get(person.householdId)?.quarters))
+        return false;
       return ofAge(person.birthDate);
     })
     .map((person): Suited => ({
@@ -702,6 +716,7 @@ export function suitedResidents(
         voter.placeId === townPlaceId &&
         !taken.has(voter.id) &&
         voter.id !== state.playerId &&
+        !institutional(voter.quarters) &&
         ofAge(voter.birthDate),
     )
     .map((voter): Suited => ({

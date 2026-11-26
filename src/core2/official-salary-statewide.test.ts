@@ -16,6 +16,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { coreAPI } from "./state";
+import { OFFICES_MODULE_ID } from "./modules/offices";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
 import { OFFICIAL_PAY_MODULE_ID, officialSalary } from "./modules/official-pay";
 import { placeStateKey } from "./place-map";
@@ -108,12 +109,45 @@ it(`every seated official is priced and has a pay row in ${place.name} (${place.
     unpaid,
     `${where}: seated officials who should be paid with no salary or no pay row`,
   ).toEqual([]);
-  const counted = seated.filter((row) => !paidFromStart.includes(row));
+  // Another state's officials nobody has opened keep no official row: their
+  // serving terms name no person (other places keep only their results;
+  // CTO, Nov 18), so they are counted, and no pay row is kept for them.
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const stateOf = (officeId: string) => {
+    const jurisdiction = (
+      offices.get(officeId) as unknown as { jurisdiction?: string } | undefined
+    )?.jurisdiction;
+    // A state's own offices sit on its key (US-AL); a town's or county's on its place.
+    if (!jurisdiction) return null;
+    if (/^US(-[A-Z]{2})?$/.test(jurisdiction)) return jurisdiction;
+    return placeStateKey(jurisdiction);
+  };
+  const counted = (
+    api.moduleState(OFFICES_MODULE_ID).table("terms").rows() as unknown as {
+      id: string;
+      officeId: string;
+      status: string;
+      personId?: string;
+    }[]
+  ).filter((term) => {
+    if (term.status !== "serving" || term.personId) return false;
+    const state = stateOf(term.officeId);
+    return state !== null && state !== own && state !== "US";
+  });
   expect(counted.length, `${where}: other states' officials`).toBeGreaterThan(
     0,
   );
   expect(
-    counted.filter((row) => pay.get(row.id)).map((row) => row.id),
+    counted
+      .filter((term) => pay.get(`official:${term.id}`))
+      .map((term) => term.id),
+    `${where}: counted officials with a pay row`,
+  ).toEqual([]);
+  // One built before anyone knows them is counted all the same: no pay row.
+  expect(
+    seated
+      .filter((row) => !paidFromStart.includes(row) && pay.get(row.id))
+      .map((row) => row.id),
     `${where}: counted officials with a pay row`,
   ).toEqual([]);
 }, 300_000);
