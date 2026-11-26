@@ -9,14 +9,18 @@
  *
  * Scenes: the scene-talk fixture's world (`GOLDEN_PATH_SEED`, default the
  * tests' own), every purpose and variant composed in play, each tree read
- * depth first. Home: the New Game's day-one houses at `SEEDS` (default
- * 21,22,23), every housemate talked to three times, pressing the first reply,
- * the last reply, and the scales (the lie) where they are offered. Each
- * section ends with a hash, so a difference names the section it is in.
+ * depth first. Home: the New Game's day-one world at each of `SEEDS` (default
+ * 23,24,26), one world per way of pressing (`PRESS`: first reply, last reply,
+ * the scales), the house's talks and then the first residents of the town,
+ * each walked to its end. For the scales it draws residents until two ask
+ * about the player's own record, and lists the belief rows the lie left. Run
+ * one seed per process to use the machine. Each section ends with a hash, so
+ * a difference names the section it is in.
  */
 import { createHash } from "node:crypto";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
+import { coreAPI } from "../../src/core2/state";
 import type { PersonId } from "../../src/core2/types";
 import {
   buildBenchWorldInStages,
@@ -25,6 +29,7 @@ import {
 import { openingArrivalMinute } from "../../src/bench/opening";
 import { roomIds } from "../../src/bench/scene";
 import {
+  beliefsOf,
   meetOverTalk,
   noteHeard,
   openConversation,
@@ -131,7 +136,7 @@ if (only !== "scenes") {
   // One world per seed and way of pressing: a talk changes the world it is had
   // in (the listener remembers it), so a second pass in the same world would
   // find nothing to say and prove nothing.
-  for (const seed of (process.env.SEEDS ?? "21,22,23").split(","))
+  for (const seed of (process.env.SEEDS ?? "23,24,26").split(","))
     for (const press of presses) {
       const world = await buildBenchWorldInStages(
         seed,
@@ -156,9 +161,23 @@ if (only !== "scenes") {
       const household = core.households.get(me.householdId ?? "");
       let talked = 0;
       let lied = 0;
-      for (const id of (household?.memberIds ?? []).filter(
+      // The house first, then the first residents of the town (the people a
+      // stranger's question about the player's own record, and so the scales,
+      // comes from), in id order.
+      const housemates = (household?.memberIds ?? []).filter(
         (member) => member !== playerId,
-      )) {
+      );
+      const strangers = [...(core.peopleByPlace.get(me.placeId) ?? [])]
+        .filter(
+          (id) =>
+            id !== playerId &&
+            !housemates.includes(id) &&
+            core.people.get(id)?.alive &&
+            (core.people.get(id)?.tier ?? "") !== "husk",
+        )
+        .sort()
+        .slice(0, press === "lie" ? 40 : Number(process.env.STRANGERS ?? "6"));
+      for (const id of [...housemates, ...strangers]) {
         if (!core.people.get(id as PersonId)?.alive) continue;
         emit(`## ${id}`);
         const talk = openConversation(core, playerId, id as PersonId, {
@@ -171,12 +190,26 @@ if (only !== "scenes") {
           emit("  (nothing to say)");
           continue;
         }
+        // The scales show only where a stranger asks about the player's own
+        // record: for that press, find the first two such talks by drawing and
+        // wait (the rest are named and passed over, opened and left unheard).
+        if (press === "lie" && !housemates.includes(id)) {
+          if (!talk.lies.length || lied >= 2) {
+            emit("  (passed over: no scales)");
+            continue;
+          }
+        }
         talked += 1;
         meetOverTalk(core, talk);
         noteHeard(core, talk);
         const walker = dumpTalk(talk, press);
         while (walker.next(core));
-        lied += talk.lines.filter((line) => line.act === "lie").length;
+        lied += talk.lines.some((line) => line.act === "lie") ? 1 : 0;
+        // What the scales left behind: the false claim as the listener holds it.
+        for (const belief of beliefsOf(coreAPI(core), id as PersonId))
+          emit(
+            `  belief ${belief.id} claimed=${belief.claimed} truth=${belief.truth} event=${belief.lieEventId}`,
+          );
       }
       emit(`talked=${talked} lies told=${lied}`);
       closeSection(
