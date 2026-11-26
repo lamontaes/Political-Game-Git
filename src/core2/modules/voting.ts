@@ -76,7 +76,7 @@ import {
   electionLawTurnoutCost,
   automaticRegistrationInForce,
   sameDayRegistrationInForce,
-} from "../law-reach/group-a-voting";
+} from "../laws-in-force";
 import {
   countedParts,
   ensureKeptOff,
@@ -112,7 +112,7 @@ import {
   raceScope,
   standingPool,
 } from "../candidate-pool";
-import { workFromHome } from "../coarse-place";
+import { workFromHome } from "../places";
 import { drawStateHome } from "../places";
 import { feelingBetween } from "../closeness";
 import {
@@ -266,7 +266,7 @@ import {
   type CandidateReasons,
 } from "../electorate-inputs";
 import { residentsRuntime } from "./residents";
-import { scandalsOf } from "./corruption";
+import { scandalsOf } from "../laws-in-force";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
 import { keepsWhy } from "../why-kept";

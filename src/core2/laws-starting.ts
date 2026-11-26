@@ -11,7 +11,7 @@ import type { GovernmentLevelWithTownship } from "./government-level";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
 import { placeCounty, placeRow, placeStateKey } from "./place-map";
 import { corePlaceByKey } from "./place-lookup";
-import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
+import { placeLocalGovernmentUnits } from "./modules/executive";
 
 export type LawLevelName = GovernmentLevelWithTownship;
 

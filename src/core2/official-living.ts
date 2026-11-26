@@ -16,7 +16,7 @@
  */
 import { householdDailyCostMinor } from "./household-cost";
 import { hudStateRentRow } from "./hud-rents";
-import { medianTransactionBalance } from "./starting-cash";
+import { medianTransactionBalance } from "./modules/budgets";
 import { seededNormal } from "./officials-roster";
 import { outsideGovernment } from "./outside-governments";
 import { outsideAccountOf } from "./budgets-treasury";
