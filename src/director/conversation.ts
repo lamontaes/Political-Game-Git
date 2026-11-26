@@ -170,6 +170,7 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  replyVerdict,
   repeatsOffer,
   shapeReply,
   factsAlreadySaid,
@@ -189,7 +190,6 @@ import {
   replyTarget,
   replyHasMatter,
   replyAnswersAsk,
-  replyOffered,
   replyReach,
   shapeMenu,
   replyMoveAnswerable,
@@ -7131,11 +7131,17 @@ function offerChoices(
     const opensAsking = asksQuestion({
       text: text.match(/^[^.?!]*[.?!]/)?.[zero] ?? text,
     });
-    if (!replyOffered({ asksLast, answerable, putQuestion, opensAsking })) {
-      if (!statementsOnly && !raised)
-        add(choiceKey, group, raised, bank, again, true);
-      return;
-    }
+    const verdict = replyVerdict({
+      asksLast,
+      answerable,
+      putQuestion,
+      opensAsking,
+      statementsOnly,
+      raisesSubject: !!raised,
+    });
+    if (verdict === "retry-as-statement")
+      add(choiceKey, group, raised, bank, again, true);
+    if (verdict !== "offer") return;
     const piece = head.wording.parts[zero];
     if (repeatsOffer(seen, { text, piece })) return;
     seen.add(text);

@@ -1035,6 +1035,26 @@ export function replyOffered(input: {
 }
 
 /**
+ * What to do with a worded reply: offer it, or, where it ends on a question
+ * the other person cannot answer, say the same move again with a wording that
+ * asks nothing (a statement), or drop it. The retry is for a reply that
+ * raises no subject, and made once.
+ */
+export function replyVerdict(input: {
+  asksLast: boolean;
+  answerable: boolean;
+  putQuestion: boolean;
+  opensAsking: boolean;
+  statementsOnly: boolean;
+  raisesSubject: boolean;
+}): "offer" | "retry-as-statement" | "drop" {
+  if (replyOffered(input)) return "offer";
+  return !input.statementsOnly && !input.raisesSubject
+    ? "retry-as-statement"
+    : "drop";
+}
+
+/**
  * Whether a reply has something to say. A question whose answer the talk
  * already said, by either of them, is not offered ("McKenzie's Kitchen for me,
  * 18 years now." then "How long have you worked there?"); nor is a question
