@@ -1,0 +1,941 @@
+[
+  {
+    "key": "scene-talk.state-tell.would-you-sit-with-me-on-the-study-of-bill-the-body-put-me-in-charge-i-d-like-to-hear-what-made-you-vote-against-it",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "Would you sit with me on the study of {bill}? The {body} put me in charge. I'd like to hear what made you vote against it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "body"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.you-voted-against-bill-that-s-why-i-m-asking-you-to-serve-if-i-bring-a-report-back-to-the-body-i-want-your-objection-in-it",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "You voted against {bill}. That's why I'm asking you to serve. If I bring a report back to the {body}, I want your objection in it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "body"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.i-could-use-your-eye-on-bill-the-body-sent-it-to-study-and-somebody-who-opposed-it-ought-to-help-decide-what-we-ask",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "I could use your eye on {bill}. The {body} sent it to study, and somebody who opposed it ought to help decide what we ask.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "body"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.i-ve-got-to-take-bill-back-to-the-body-with-a-finding-will-you-work-on-it-with-me-even-if-we-come-back-disagreeing",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "I've got to take {bill} back to the {body} with a finding. Will you work on it with me even if we come back disagreeing?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "body"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.what-would-you-want-to-know-before-the-body-takes-up-bill-again-i-m-chairing-the-study-and-i-d-like-you-on-it",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "What would you want to know before the {body} takes up {bill} again? I'm chairing the study and I'd like you on it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "body"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.it-s-my-bill-so-you-know-where-i-stand-the-body-wants-a-study-of-bill-will-you-bring-the-other-side-of-it-to-the-table",
+    "move": "state-tell",
+    "kind": "spoken",
+    "text": "It's my bill, so you know where I stand. The {body} wants a study of {bill}. Will you bring the other side of it to the table?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "body"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.i-ll-serve-i-d-like-a-say-in-what-we-ask-about-bill",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "I'll serve. I'd like a say in what we ask about {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.you-can-put-my-name-down-my-vote-on-bill-still-stands",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "You can put my name down. My vote on {bill} still stands.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.give-me-a-seat-and-i-ll-bring-the-part-of-bill-i-had-trouble-with",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "Give me a seat and I'll bring the part of {bill} I had trouble with.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-if-the-report-on-bill-comes-back-with-my-name-on-it-i-want-to-have-done-the-work",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "Yes. If the report on {bill} comes back with my name on it, I want to have done the work.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-agree.count-me-in-there-are-things-about-bill-i-d-like-to-hear-you-explain",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "Count me in. There are things about {bill} I'd like to hear you explain.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.what-do-we-gain-by-sending-bill-off-to-study-i-d-sooner-settle-it-here",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "What do we gain by sending {bill} off to study? I'd sooner settle it here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-heard-the-case-for-bill-when-we-voted-i-don-t-see-what-another-meeting-gets-us",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "I heard the case for {bill} when we voted. I don't see what another meeting gets us.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.you-ll-get-a-report-out-of-this-what-makes-you-think-you-ll-get-a-different-vote-on-bill",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "You'll get a report out of this. What makes you think you'll get a different vote on {bill}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.what-bothers-me-about-bill-is-right-there-in-the-text-a-study-leaves-it-there",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "What bothers me about {bill} is right there in the text. A study leaves it there.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-d-rather-explain-my-vote-on-bill-to-the-whole-body-this-just-puts-that-day-off",
+    "move": "reply-disagree",
+    "kind": "spoken",
+    "text": "I'd rather explain my vote on {bill} to the whole body. This just puts that day off.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-have-members-down-as-well-you-won-t-be-the-only-one-who-voted-against-bill",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I have {members} down as well. You won't be the only one who voted against {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "members"],
+        "after": "scene-talk.reply-ask.who-else-will-be-going-through-bill-with-us"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "members"],
+        "after": "scene-talk.reply-ask.before-i-give-you-an-answer-on-bill-who-are-the-other-members"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-other-names-on-my-list-are-members-i-wanted-people-who-could-tell-me-where-bill-lost-them",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "The other names on my list are {members}. I wanted people who could tell me where {bill} lost them.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "members"],
+        "after": "scene-talk.reply-ask.who-else-will-be-going-through-bill-with-us"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "members"],
+        "after": "scene-talk.reply-ask.before-i-give-you-an-answer-on-bill-who-are-the-other-members"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.apart-from-the-two-of-us-members-we-won-t-all-be-coming-at-bill-from-my-side",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Apart from the two of us? {members}. We won't all be coming at {bill} from my side.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "members"],
+        "after": "scene-talk.reply-ask.who-else-will-be-going-through-bill-with-us"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "members"],
+        "after": "scene-talk.reply-ask.before-i-give-you-an-answer-on-bill-who-are-the-other-members"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-ll-be-working-with-members-as-well-as-me-when-we-get-to-the-objections-to-bill-you-ll-have-company",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You'll be working with {members} as well as me. When we get to the objections to {bill}, you'll have company.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "members"],
+        "after": "scene-talk.reply-ask.who-else-will-be-going-through-bill-with-us"
+      },
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill", "members"],
+        "after": "scene-talk.reply-ask.before-i-give-you-an-answer-on-bill-who-are-the-other-members"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.who-else-will-be-going-through-bill-with-us",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "Who else will be going through {bill} with us?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"],
+        "onlyWhen": ["members"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.before-i-give-you-an-answer-on-bill-who-are-the-other-members",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "Before I give you an answer on {bill}, who are the other members?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "bill"],
+        "onlyWhen": ["members"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": [
+      "refer-the-bill-to-summer-study",
+      "charge-a-group-with-investigating-a-question"
+    ]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.the-body-has-sent-bill-to-study-the-sponsor-is-chairing-the-committee",
+    "move": "narrate-narrate",
+    "kind": "spoken",
+    "text": "The {body} has sent {bill} to study. The sponsor is chairing the committee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["body", "bill"],
+        "onlyWhen": ["asker-chairs"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.you-voted-against-bill-now-its-sponsor-wants-you-on-the-committee-studying-it",
+    "move": "narrate-narrate",
+    "kind": "spoken",
+    "text": "You voted against {bill}. Now its sponsor wants you on the committee studying it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["asker-chairs"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.reply-ask.when-does-the-body-get-our-report-on-bill-i-want-to-know-what-i-m-signing-up-for",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "When does the {body} get our report on {bill}? I want to know what I'm signing up for.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "body", "bill"],
+        "onlyWhen": ["study-due"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.i-d-need-you-through-study-due-that-s-when-we-tell-the-body-what-we-think-of-bill",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "I'd need you through {study-due}. That's when we tell the {body} what we think of {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "body", "bill"],
+        "after": "scene-talk.reply-ask.when-does-the-body-get-our-report-on-bill-i-want-to-know-what-i-m-signing-up-for"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.put-study-due-on-your-calendar-that-s-when-i-owe-the-body-an-answer-on-bill",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "Put {study-due} on your calendar. That's when I owe the {body} an answer on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "body", "bill"],
+        "after": "scene-talk.reply-ask.when-does-the-body-get-our-report-on-bill-i-want-to-know-what-i-m-signing-up-for"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.reply-ask.does-the-body-vote-on-bill-the-day-our-study-ends-or-is-that-just-when-we-report",
+    "move": "reply-ask",
+    "kind": "spoken",
+    "text": "Does the {body} vote on {bill} the day our study ends, or is that just when we report?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "body", "bill"],
+        "onlyWhen": ["study-due"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.study-due-is-the-report-date-i-can-t-give-you-a-date-for-another-vote-on-bill",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "{study-due} is the report date. I can't give you a date for another vote on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "bill"],
+        "after": "scene-talk.reply-ask.does-the-body-vote-on-bill-the-day-our-study-ends-or-is-that-just-when-we-report"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.what-i-owe-the-body-on-study-due-is-our-finding-a-floor-vote-is-a-separate-decision",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "What I owe the {body} on {study-due} is our finding. A floor vote is a separate decision.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "body"],
+        "after": "scene-talk.reply-ask.does-the-body-vote-on-bill-the-day-our-study-ends-or-is-that-just-when-we-report"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.the-body-expects-us-back-with-bill-on-study-due-i-need-your-help-up-to-the-day-we-hand-it-in",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "The {body} expects us back with {bill} on {study-due}. I need your help up to the day we hand it in.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "body", "bill"],
+        "after": "scene-talk.reply-ask.when-does-the-body-get-our-report-on-bill-i-want-to-know-what-i-m-signing-up-for"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-mark-study-due-for-the-report-on-bill-i-wouldn-t-mark-it-as-a-vote",
+    "move": "follow-answer",
+    "kind": "spoken",
+    "text": "You can mark {study-due} for the report on {bill}. I wouldn't mark it as a vote.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "study-formed",
+        "key": "colleague-word",
+        "requiresFacts": ["asker-chairs", "study-due", "bill"],
+        "after": "scene-talk.reply-ask.does-the-body-vote-on-bill-the-day-our-study-ends-or-is-that-just-when-we-report"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "colleague-word"
+    },
+    "elements": ["refer-the-bill-to-summer-study"]
+  }
+]

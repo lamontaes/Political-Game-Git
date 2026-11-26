@@ -4084,7 +4084,7 @@
         },
         {
           "id": "not-moved-by-it",
-          "label": "You said the finding did not move you",
+          "label": "You disagreed with the committee’s recommendation",
           "keeps": "relationship-strained",
           "when": {
             "reply": ["disagree"]

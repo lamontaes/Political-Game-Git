@@ -1507,6 +1507,16 @@ function composeBinding(
       .get(said.studyId) as unknown as StudyRow | undefined;
     if (study) {
       const cited = [moment.causeId, study.id];
+      if (
+        record.kind === "study-formed" &&
+        study.sunsetOn &&
+        !study.report &&
+        study.sunsetOn >= core.date
+      )
+        facts["study-due"] = {
+          text: spokenDate(study.sunsetOn, core.date),
+          sourceRecordIds: cited,
+        };
       // Who chairs it: the asker. A committee another member chairs is not
       // worded yet (no played scene for it), so the scene is skipped there.
       if (study.chairId === askerId)
