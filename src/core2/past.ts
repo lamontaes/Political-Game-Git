@@ -59,6 +59,9 @@ export function openThePast(core: CoreState, seed: string): PastSummary {
   const terms = buildPriorTerms(api, town, elections);
   const laws = buildLawHistories(api, town);
   const closures = buildPastClosures(api, town);
+  // Kept, as the bills and law histories are, so the one history reader
+  // tells each closure by the id its archive story cites.
+  for (const row of closures) putPast(api, "closures", row);
   const stories = buildNewsArchive(api, town, {
     elections,
     closures,

@@ -16,6 +16,7 @@ import {
   historyEvent,
   historyOf,
   PAST_BILL_VOTED,
+  PAST_BUSINESS_CLOSED,
   PAST_LAW_ENACTED,
   recordOf,
   type HistoryAsk,
@@ -23,7 +24,13 @@ import {
 } from "../core2/past";
 import type { CoreState, PersonId } from "../core2/types";
 import { composeJournal } from "../director/journal";
-import { COUNTED_ENGINE, findRecord, PLACE_ENGINE } from "./dev-trace";
+import { coreAPI } from "../core2/state";
+import {
+  COUNTED_ENGINE,
+  findRecord,
+  PAST_FACT_ENGINE,
+  PLACE_ENGINE,
+} from "./dev-trace";
 import { heardItems } from "./calendar";
 import { knownCard } from "./card";
 import { loadingStory } from "./loading";
@@ -32,13 +39,19 @@ import { BenchPlayer } from "./player";
 
 // The owner, Nov 25: "THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM
 // THE SAME HISTORY". Every past event a system shows (the loading story, a
-// person's card, the Journal, the news) cites records; each cited record that
-// is a stored record of the past or of play (the pre-start history, the log,
-// a fact a person was made with, an engine's history row) must come back from
-// the one history reader in that system's own scope. A cited record of the
-// present (a person, a household, a job, a law in force) is no past event and
-// is counted apart, but only where it is kept in one of the live stores named
-// below (as dev Trace finds it): a cited id that is neither fails the proof.
+// person's card, the Journal, the news) cites records. Each cited record is
+// put in exactly one bucket, in this order, and a record in none fails:
+// - the past: a stored record of the past or of play (the pre-start history,
+//   the log, a fact a person was made with, what a person remembers, an
+//   engine's history row). It must come back from the one history reader in
+//   that system's own scope;
+// - the present: kept in one of the live stores named below (as dev Trace
+//   finds it), or a catalog the line reads;
+// - a kept series of measurements (a month of metrics), not an event;
+// - the item a printed story the reader returned was made from (its
+//   `sourceRecordId`), a printed story only;
+// - kept only by its engine, not yet handed to the reader (named below);
+// - kept by no store, each by its cause (named below).
 //
 // One drawn place on every run; HISTORY_PROOF=full runs the six packet seeds
 // (scripts/words/first-evening-packet.ts) and twenty drawn places.
@@ -55,12 +68,22 @@ const full = process.env.HISTORY_PROOF === "full";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DRAWN = full ? 20 : 1;
 
+const BUCKETS = [
+  "past",
+  "present",
+  "series",
+  "story item",
+  "engine only",
+  "unkept",
+] as const;
+type Bucket = (typeof BUCKETS)[number];
+
 interface Tally {
   system: string;
   shown: number;
-  past: number;
-  present: number;
-  unkept: number;
+  counts: Record<Bucket, number>;
+  /** Engines of the records kept only by their engine, with how many. */
+  engines: Map<string, number>;
   untraced: string[];
 }
 
@@ -70,29 +93,26 @@ interface Tally {
  * place (src/core2/modules/regional.ts, stepRegional), and the log keeps a
  * public record only of a place the player can see, the town and its county
  * (src/core2/state.ts, the keep rule's `visiblePlaceIds`): the news prints the
- * report from the emission, and nothing keeps it for the reader to tell. A
- * magazine's profile of a person cites the item the press engine made for it
- * (src/core2/modules/press.ts, the profile pass: `profile:<outlet>:<subject>:<day>`),
- * which no store keeps; the printed story is the record.
+ * report from the emission, and nothing keeps it for the reader to tell.
  */
-const UNKEPT = [
-  /^event:economy\.state-jobs-report:[A-Z]{2}:\d{4}-\d{2}$/,
-  /^profile:outlet:[^:]+:\d+:.+:\d{4}-\d{2}-\d{2}$/,
-];
+const UNKEPT = [/^event:economy\.state-jobs-report:[A-Z]{2}:\d{4}-\d{2}$/];
 
 /**
  * The live stores a cited record of the present is kept in, by dev Trace's
- * names for them: who and what exists now (people, households, jobs,
- * organizations, places, the counted population), an office, a law in force
- * or set to take effect, a bill before a body at its stage now, and a term
- * still served (an ended one is the past, and the reader must tell it).
- * Nothing here is a record of what happened.
+ * names for them: who and what exists now (people, households, jobs and their
+ * terms of work, organizations, places, the counted population), an office, a
+ * government, a body's leadership, a law in force or set to take effect, and
+ * a bill before a body at its stage now. A term still served, a race still to
+ * come and a government's budget in force are the present too (below); an
+ * ended term, a race held and an earlier budget are not. Nothing here is a
+ * record of what happened.
  */
 const PRESENT_STORES = new Set([
   "core.people",
   "core.husks",
   "core.households",
   "core.jobs",
+  "core.work.commitments",
   "core.organizations",
   "core.publicOrganizations",
   "core.relationships",
@@ -102,71 +122,184 @@ const PRESENT_STORES = new Set([
   COUNTED_ENGINE,
   "core2-laws-v1.laws",
   "core2-offices-v1.offices",
+  "core2-budgets-v1.governments",
+  "core2-leadership-v1.organized",
   "core2-legislature-v1.bills",
 ]);
 
+/** Kept series of measurements, a month at a time: not events. */
+const SERIES_STORES = new Set([
+  "world-metrics.months",
+  "core2-outcome-web-v1.months",
+]);
+
 /**
- * Where a cited record of the present is kept: a live store, or a catalog the
- * line reads (a policy question, a research file). Undefined for anything else.
+ * Engine tables of what happened in play that no engine hands to the reader
+ * yet: a race held, an interview given, a wire item, an earlier budget. The
+ * pages that read these tables are the map's rows still to wire.
  */
-function presentStore(core: CoreState, id: string): string | undefined {
-  if (/^question:[a-z-]+-positions:[a-z-]+\.[a-z0-9-]+$/.test(id))
-    return "the question catalog";
-  if (id.startsWith("data/research/") && existsSync(id.split("#")[0]!))
-    return "a research file";
-  const found = findRecord(core, id);
-  if (
-    found?.engine === "core2-offices-v1.terms" &&
-    (found.record as { status?: string }).status === "serving"
-  )
-    return found.engine;
-  return found && PRESENT_STORES.has(found.engine) ? found.engine : undefined;
+const ENGINE_ONLY = new Set([
+  "core2-elections-v1.contests",
+  "core2-press-v1.interviews",
+  "core2-press-v1.wire",
+  "core2-budgets-v1.budgets",
+]);
+
+/** Whether a record an engine keeps is of the present: a term served, a race to come, the budget in force. */
+function presentRow(core: CoreState, engine: string, record: unknown): boolean {
+  const row = record as {
+    status?: string;
+    electionDate?: string;
+    governmentId?: string;
+    startsOn?: string;
+  };
+  if (engine === "core2-offices-v1.terms") return row.status === "serving";
+  if (engine === "core2-elections-v1.contests")
+    return !!row.electionDate && row.electionDate > core.date;
+  if (engine === "core2-budgets-v1.budgets") {
+    if (!row.startsOn || row.startsOn > core.date) return false;
+    // The budget in force: no later one of the same government has begun.
+    return !(
+      coreAPI(core)
+        .moduleState("core2-budgets-v1")
+        .table("budgets")
+        .rows() as unknown as { governmentId: string; startsOn: string }[]
+    ).some(
+      (other) =>
+        other.governmentId === row.governmentId &&
+        other.startsOn > row.startsOn! &&
+        other.startsOn <= core.date,
+    );
+  }
+  return PRESENT_STORES.has(engine);
 }
 
-/** Whether an id is a stored record of the past or of play (the reader's stores). */
-function isPastRecord(core: CoreState, id: string, owner?: PersonId): boolean {
-  return core.durableLog.has(id as never) || !!recordOf(core, id, owner);
+/** What a set of reads of the one reader returns: its records' ids, and the items its printed stories were made from. */
+interface Scope {
+  ids: Set<string>;
+  items: Set<string>;
 }
 
-/** The ids a set of reads of the one reader returns. */
-function idsOf(
+function scopeOf(
   core: CoreState,
   reads: readonly [HistoryScope, HistoryAsk?][],
-): Set<string> {
-  const out = new Set<string>();
+): Scope {
+  const out: Scope = { ids: new Set(), items: new Set() };
   for (const [scope, ask] of reads)
-    for (const event of historyOf(core, scope, ask)) out.add(event.id);
+    for (const event of historyOf(core, scope, ask)) {
+      out.ids.add(event.id);
+      if (event.record === "press.printed" && event.facts?.sourceRecordId)
+        out.items.add(event.facts.sourceRecordId);
+    }
   return out;
+}
+
+/** The person a fact they were made with is kept on, where a cited id is one. */
+function builtOwner(core: CoreState, id: string): PersonId | undefined {
+  const found = recordOf(core, id);
+  if (found?.from === "built") return found.personId;
+  const traced = findRecord(core, id);
+  return traced?.engine === PAST_FACT_ENGINE
+    ? (traced.record as { personId?: PersonId }).personId
+    : undefined;
 }
 
 function tally(
   core: CoreState,
   system: string,
   cited: readonly { id: string; owner?: PersonId }[],
-  scope: Set<string>,
+  scope: Scope,
 ): Tally {
   const row: Tally = {
     system,
     shown: cited.length,
-    past: 0,
-    present: 0,
-    unkept: 0,
+    counts: Object.fromEntries(BUCKETS.map((b) => [b, 0])) as Record<
+      Bucket,
+      number
+    >,
+    engines: new Map(),
     untraced: [],
   };
   for (const { id, owner } of cited) {
-    if (!isPastRecord(core, id, owner)) {
-      if (presentStore(core, id)) row.present += 1;
-      else if (UNKEPT.some((form) => form.test(id))) row.unkept += 1;
-      else
+    const stored = recordOf(core, id, owner ?? builtOwner(core, id));
+    if (core.durableLog.has(id as never) || stored) {
+      // An engine's row the reader tells under its own id (a race before day
+      // one is its `prior-election:` record, not the term that holds it).
+      const told = stored?.from === "source" ? stored.record.id : id;
+      row.counts.past += 1;
+      if (!scope.ids.has(id) && !scope.ids.has(told))
         row.untraced.push(
-          `${id} (kept ${findRecord(core, id)?.engine ?? "nowhere"}, not by the reader nor a live store)`,
+          `${id} (a record of the past the reader did not return here)`,
         );
       continue;
     }
-    row.past += 1;
-    if (!scope.has(id)) row.untraced.push(id);
+    if (/^question:[a-z-]+-positions:[a-z-]+\.[a-z0-9-]+$/.test(id)) {
+      row.counts.present += 1;
+      continue;
+    }
+    if (id.startsWith("data/research/") && existsSync(id.split("#")[0]!)) {
+      row.counts.present += 1;
+      continue;
+    }
+    const found = findRecord(core, id);
+    if (found && presentRow(core, found.engine, found.record)) {
+      row.counts.present += 1;
+      continue;
+    }
+    if (found && SERIES_STORES.has(found.engine)) {
+      row.counts.series += 1;
+      continue;
+    }
+    if (scope.items.has(id)) {
+      row.counts["story item"] += 1;
+      continue;
+    }
+    if (found && ENGINE_ONLY.has(found.engine)) {
+      row.counts["engine only"] += 1;
+      row.engines.set(found.engine, (row.engines.get(found.engine) ?? 0) + 1);
+      continue;
+    }
+    if (UNKEPT.some((form) => form.test(id))) {
+      row.counts.unkept += 1;
+      continue;
+    }
+    row.untraced.push(`${id} (kept ${found?.engine ?? "nowhere"})`);
   }
   return row;
+}
+
+/** One world's counts by system, in plain words. */
+function told(rows: readonly Tally[]): string {
+  const systems = new Map<string, Tally>();
+  for (const row of rows) {
+    const at = systems.get(row.system);
+    if (!at) {
+      systems.set(row.system, {
+        ...row,
+        counts: { ...row.counts },
+        engines: new Map(row.engines),
+        untraced: [...row.untraced],
+      });
+      continue;
+    }
+    at.shown += row.shown;
+    for (const bucket of BUCKETS) at.counts[bucket] += row.counts[bucket];
+    for (const [engine, n] of row.engines)
+      at.engines.set(engine, (at.engines.get(engine) ?? 0) + n);
+    at.untraced.push(...row.untraced);
+  }
+  return [...systems.values()]
+    .map(
+      (row) =>
+        `${row.system} ${row.shown} cited: ${BUCKETS.filter(
+          (b) => row.counts[b],
+        )
+          .map((b) => `${row.counts[b]} ${b}`)
+          .join(
+            ", ",
+          )}${row.engines.size ? ` [engine only: ${[...row.engines].map(([e, n]) => `${e} ${n}`).join(", ")}]` : ""}${row.untraced.length ? `, ${row.untraced.length} UNTRACED` : ""}`,
+    )
+    .join("; ");
 }
 
 function proveWorld(
@@ -199,7 +332,7 @@ function proveWorld(
       core,
       "loading story",
       loading,
-      idsOf(core, [
+      scopeOf(core, [
         ...personReads(me),
         [{ nation: true }, { kinds: ["century.presidency"] }],
       ]),
@@ -224,7 +357,7 @@ function proveWorld(
       ]),
       ...(card.seats ?? []).map((seat) => seat.recordId),
     ].map((recordId) => ({ id: recordId, owner: id }));
-    out.push(tally(core, "person card", cited, idsOf(core, personReads(id))));
+    out.push(tally(core, "person card", cited, scopeOf(core, personReads(id))));
   }
 
   // The Journal: each line's records, as the player's session composes it.
@@ -242,7 +375,7 @@ function proveWorld(
         core,
         "Journal",
         journal,
-        idsOf(core, [
+        scopeOf(core, [
           ...household.memberIds.flatMap((id) => personReads(id as PersonId)),
           [{ household: household.id }],
           [{ nation: true }, { from: "played" }],
@@ -266,59 +399,39 @@ function proveWorld(
       core,
       "news",
       news,
-      new Set([
-        ...idsOf(core, [
-          [{ nation: true }, { from: "played" }],
-          [{ nation: true }, { from: "past" }],
-          [
-            { nation: true },
-            {
-              kinds: [
-                "office.elected",
-                "century.presidency",
-                "press.printed",
-                "press.archived",
-                PAST_BILL_VOTED,
-                PAST_LAW_ENACTED,
-              ],
-            },
-          ],
-          // A fact a person was made with that a story cites (a birthplace):
-          // what that person was made with, as the reader reads it.
-          ...[
-            ...new Set(
-              news
-                .map((row) => recordOf(core, row.id))
-                .filter((found) => found?.from === "built" && found.personId)
-                .map((found) => found!.personId!),
-            ),
-          ].map((person): [HistoryScope, HistoryAsk] => [
-            { person },
-            { from: "built" },
-          ]),
+      scopeOf(core, [
+        [{ nation: true }, { from: "played" }],
+        [{ nation: true }, { from: "past" }],
+        [
+          { nation: true },
+          {
+            kinds: [
+              "office.elected",
+              "century.presidency",
+              "press.printed",
+              "press.archived",
+              PAST_BILL_VOTED,
+              PAST_LAW_ENACTED,
+              PAST_BUSINESS_CLOSED,
+            ],
+          },
+        ],
+        // A fact a person was made with that a story cites (a birthplace, a
+        // partnership): what that person was made with, as the reader reads it.
+        ...[
+          ...new Set(
+            news
+              .map((row) => builtOwner(core, row.id))
+              .filter((person): person is PersonId => !!person),
+          ),
+        ].map((person): [HistoryScope, HistoryAsk] => [
+          { person },
+          { from: "built" },
         ]),
       ]),
     ),
   );
-  process.stdout.write(
-    `history proof: ${where}: ${out
-      .reduce((sum, row) => {
-        const at = sum.find((s) => s.system === row.system);
-        if (at) {
-          at.shown += row.shown;
-          at.past += row.past;
-          at.present += row.present;
-          at.unkept += row.unkept;
-          at.untraced.push(...row.untraced);
-        } else sum.push({ ...row, untraced: [...row.untraced] });
-        return sum;
-      }, [] as Tally[])
-      .map(
-        (row) =>
-          `${row.system} ${row.past} past events traced of ${row.shown} cited (${row.present} of the present${row.unkept ? `, ${row.unkept} kept by no store` : ""})${row.untraced.length ? `, ${row.untraced.length} UNTRACED` : ""}`,
-      )
-      .join("; ")}\n`,
-  );
+  process.stdout.write(`history proof: ${where}: ${told(out)}\n`);
   return out;
 }
 
@@ -346,7 +459,7 @@ describe("every past event a system shows comes from the one history reader", ()
           where,
         ).toEqual([]);
         expect(
-          rows.reduce((sum, row) => sum + row.past, 0),
+          rows.reduce((sum, row) => sum + row.counts.past, 0),
           where,
         ).toBeGreaterThan(0);
       });
@@ -398,7 +511,7 @@ describe("every past event a system shows comes from the one history reader", ()
         where,
       ).toEqual([]);
       expect(
-        rows.reduce((sum, row) => sum + row.past, 0),
+        rows.reduce((sum, row) => sum + row.counts.past, 0),
         where,
       ).toBeGreaterThan(0);
       // Every event the reader tells opens by its id the same way.
