@@ -1,8 +1,6 @@
 ---
 id: history-journal-mattered
-impact: patch
-section: Improved
-title: The Journal weighs your past by what it meant to you, and joins one event to the event that led to it.
+impact: none
 ---
 
-The Journal now weighs what it tells from your past by how much each event mattered. A move, a home bought, a separation, time in prison, a hospital stay and the end of school count for what they would to a person living them. An event that came of an earlier one in the Journal is joined to it by that cause.
+The Journal's moments carry the history reader's score for each record, and a line whose record an earlier line's record caused joins it by that cause. At 21 Journals compared, no line's words changed: 7 lines now join by cause (each a move into town, then starting school there), and their age opening keeps the words the same.
