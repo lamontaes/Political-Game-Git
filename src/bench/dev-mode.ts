@@ -61,6 +61,7 @@ import {
 import { PAID_LEAVE_PREMIUM } from "../core2/modules/laws";
 import { DEBT_LIMIT } from "../core2/budgets-treasury";
 import {
+  BILL_INTRODUCED,
   billEnding,
   billJurisdiction,
   bodyOf,
@@ -1051,12 +1052,19 @@ export class DevMode {
     const api = this.api;
     const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
     const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
+    // Every bill as the legislature's history tells it (`bill.introduced`),
+    // each opened by its id.
+    const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
     return (
       (
-        api
-          .moduleState(LEGISLATURE_MODULE_ID)
-          .table("bills")
-          .rows() as unknown as {
+        historyOf(
+          this.core,
+          { nation: true },
+          { kinds: [BILL_INTRODUCED] },
+        ).flatMap((event) => {
+          const bill = bills.get(event.id);
+          return bill ? [bill] : [];
+        }) as unknown as {
           id: string;
           number: string;
           bodyOfficeId: string;
