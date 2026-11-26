@@ -1333,6 +1333,43 @@ export function factsNotYetSaid(
   );
 }
 
+/**
+ * The reply step: the replies a talk offers for the line before them. Each
+ * candidate move, up to the limit, is worded by the caller's hook; a line
+ * already offered or said on the path is not offered again, and a move the
+ * bank cannot word is reported as a gap. Then one extra option drawn from the
+ * player's own life (the hook's tagged wording) is added where a piece fits,
+ * never in place of the usual replies.
+ */
+export function replyStep<L extends { parts: string[]; round: number }>(input: {
+  moves: readonly string[];
+  limit: number;
+  word: (move: string, tagged: boolean) => L | null;
+  seen: ReadonlySet<string>;
+  round: number;
+  onGap: (move: string) => void;
+}): L[] {
+  const offered = input.moves.slice(zero, input.limit).flatMap((move) => {
+    const reply = input.word(move, false);
+    if (!reply) {
+      input.onGap(move);
+      return [];
+    }
+    if (input.seen.has(reply.parts[zero] ?? "")) return [];
+    reply.round = input.round;
+    return [reply];
+  });
+  for (const move of input.moves) {
+    if (offered.length >= input.limit + one) break;
+    const extra = input.word(move, true);
+    if (!extra || input.seen.has(extra.parts[zero] ?? "")) continue;
+    extra.round = input.round;
+    offered.push(extra);
+    break;
+  }
+  return offered;
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;
@@ -2788,26 +2825,14 @@ export function composeSceneTalk(
         tagged,
         heard(path.said),
       );
-    const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
-      const reply = wordReply(move, false);
-      if (!reply) {
-        gap("reply", move, path.askerMove);
-        return [];
-      }
-      // A line already offered or said on this path is not offered again.
-      if (seen.has(reply.parts[zero] ?? "")) return [];
-      reply.round = round;
-      return [reply];
+    const offered = replyStep({
+      moves: fresh,
+      limit: maxReplies,
+      word: wordReply,
+      seen,
+      round,
+      onGap: (move) => gap("reply", move, path.askerMove),
     });
-    // One extra option from the player's own life, where a piece fits.
-    for (const move of fresh) {
-      if (offered.length >= maxReplies + one) break;
-      const extra = wordReply(move, true);
-      if (!extra || seen.has(extra.parts[zero] ?? "")) continue;
-      extra.round = round;
-      offered.push(extra);
-      break;
-    }
     // At the opening a thin menu is a gap; deeper in, the asker closes the
     // talk instead of offering two tired options (real exchanges end abruptly).
     if (path.id === "root" && offered.length < three && offered.length >= two)
