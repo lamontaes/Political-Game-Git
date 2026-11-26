@@ -50,7 +50,7 @@ Owner, Nov 11, 2026: "updates all documents so that nothing is pointing at anyth
 | The words banks | `data/english/parts` |
 | The owner's notes as rules for lines | `data/english/line-rules.json` |
 | The play screen | `src/bench/play.mjs` |
-| The screen parts, and how to add a screen | `src/bench/ui/README.md` |
+| The screen parts, and how to add a screen | `docs/workshop/src/bench/ui/README.md` |
 | The game's server for the play screen | `src/bench/server.ts` |
 | The bust bank (how every person is drawn) | `art/busts/v1/manifest.json` |
 | The bust bank's spec | `docs/art/busts-spec.md` |
@@ -122,6 +122,17 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 
 | Old path | Now | When | Why |
 | --- | --- | --- | --- |
+| `art/busts/v1/README.md` | `docs/workshop/art/busts/v1/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `art/newspaper-mockups/README.md` | `docs/workshop/art/newspaper-mockups/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `art/people-engine/v4/README.md` | `docs/workshop/art/people-engine/v4/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `art/people-rooms/README.md` | `docs/workshop/art/people-rooms/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `art/people-rooms/mannequin-plates/README.md` | `docs/workshop/art/people-rooms/mannequin-plates/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `art/ui-kit13/README.md` | `docs/workshop/art/ui-kit13/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `src/bench/README.md` | `docs/workshop/src/bench/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `src/bench/ui/README.md` | `docs/workshop/src/bench/ui/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `src/core2/README.md` | `docs/workshop/src/core2/README.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `src/core2/core-pieces-v1.md` | `docs/workshop/src/core2/core-pieces-v1.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
+| `src/core2/player-v1.md` | `docs/workshop/src/core2/player-v1.md` | 2026-11-26 | Moved workshop documentation out of the game roots. |
 | `src/core2/data/moves/destinations.json` | src/core2/modules/counted-moves.ts destinationWeights: a leaver with no relative elsewhere goes to the state the one destination weighing ranks highest for their pay and tenure (moves.ts destinationFor) | 2026-11-17 | Pins family 29: a leaver's destination comes from the simulation's own weighing, not the IRS county most movers went to. |
 | `data/research/renewal/derive-destinations.py` | nothing stands in its place: it wrote src/core2/data/moves/destinations.json, deleted with it | 2026-11-17 | Pins family 29: the file it derived is gone. |
 | `src/core2/fast-forward.ts` | src/core2/life.ts results mode (runResultsDay); nothing else stands in its place; restore it from commit 33e38d44bc6769d37caed26d66722a9137e7b3c6 | 2026-11-12 | The fast clock, part 4: skipped time is counted from the voters in results mode and the campaign-stride switch is deleted. |

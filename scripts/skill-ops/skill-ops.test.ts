@@ -40,8 +40,8 @@ const contracts: readonly SkillContract[] = [
       /environment intake, scene geometry, asset-bank disposition, or release review/i,
     nontrigger: /do not use to approve pixels without review/i,
     links: [
-      "art/people-engine/v4/README.md",
-      "art/people-rooms/mannequin-plates/README.md",
+      "docs/workshop/art/people-engine/v4/README.md",
+      "docs/workshop/art/people-rooms/mannequin-plates/README.md",
     ],
   },
 ];

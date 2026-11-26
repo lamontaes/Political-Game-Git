@@ -1,6 +1,6 @@
 # People art: handoff
 
-What a cloud session needs to finish the people art if the CTO's Mac session stops. Written Oct 28, 2026 overnight; the newest delivery is at the bottom of `art/people-rooms/README.md`.
+What a cloud session needs to finish the people art if the CTO's Mac session stops. Written Oct 28, 2026 overnight; the newest delivery is at the bottom of `docs/workshop/art/people-rooms/README.md`.
 
 ## The owner's model (Oct 28, his words)
 

@@ -12,7 +12,7 @@ import baseline from "./ui-tokens-baseline.json";
  * is a second source for the same fact.
  *
  * What was already typed by hand is counted in ui-tokens-baseline.json; a
- * count may only go down. Read src/bench/ui/README.md before adding a screen.
+ * count may only go down. Read docs/workshop/src/bench/ui/README.md before adding a screen.
  */
 
 const ROOT = path.resolve(__dirname, "../..");

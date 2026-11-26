@@ -163,7 +163,7 @@
     },
     {
       "kind": "The screen parts, and how to add a screen",
-      "path": "src/bench/ui/README.md"
+      "path": "docs/workshop/src/bench/ui/README.md"
     },
     {
       "kind": "The game's server for the play screen",
@@ -362,6 +362,72 @@
     "docs/words-lead-handoff-2026-11-16/"
   ],
   "replaced": [
+    {
+      "old": "art/busts/v1/README.md",
+      "now": "docs/workshop/art/busts/v1/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "art/newspaper-mockups/README.md",
+      "now": "docs/workshop/art/newspaper-mockups/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "art/people-engine/v4/README.md",
+      "now": "docs/workshop/art/people-engine/v4/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "art/people-rooms/README.md",
+      "now": "docs/workshop/art/people-rooms/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "art/people-rooms/mannequin-plates/README.md",
+      "now": "docs/workshop/art/people-rooms/mannequin-plates/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "art/ui-kit13/README.md",
+      "now": "docs/workshop/art/ui-kit13/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "src/bench/README.md",
+      "now": "docs/workshop/src/bench/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "src/bench/ui/README.md",
+      "now": "docs/workshop/src/bench/ui/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "src/core2/README.md",
+      "now": "docs/workshop/src/core2/README.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "src/core2/core-pieces-v1.md",
+      "now": "docs/workshop/src/core2/core-pieces-v1.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
+    {
+      "old": "src/core2/player-v1.md",
+      "now": "docs/workshop/src/core2/player-v1.md",
+      "when": "2026-11-26",
+      "why": "Moved workshop documentation out of the game roots."
+    },
     {
       "old": "src/core2/data/moves/destinations.json",
       "now": "src/core2/modules/counted-moves.ts destinationWeights: a leaver with no relative elsewhere goes to the state the one destination weighing ranks highest for their pay and tenure (moves.ts destinationFor)",

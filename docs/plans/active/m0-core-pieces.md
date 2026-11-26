@@ -31,7 +31,7 @@ Measured: All 20 new piece contracts and 43 existing player/module regressions p
 
 Measured: Three paired generated years passed the 20% budget against the unchanged Sol head. Median total time rose from 78.50 seconds to 80.32 seconds, or 2.32%. Each pair stayed below 120%; the highest ratio was 113.54%. [Paired receipt](../../../src/core2/receipts/m0-core-pieces-20261010.json).
 
-Inferred: Shared facade and clock changes are isolated in commit e54e824652 for Sol's review. The API handoff explains schema restoration, calendar failure and retention, player stops, and sourced spread checks. M0-09 remains pending for accounts and actual M1-port proof. [Interface handoff](../../../src/core2/core-pieces-v1.md).
+Inferred: Shared facade and clock changes are isolated in commit e54e824652 for Sol's review. The API handoff explains schema restoration, calendar failure and retention, player stops, and sourced spread checks. M0-09 remains pending for accounts and actual M1-port proof. [Interface handoff](../../workshop/src/core2/core-pieces-v1.md).
 
 Measured: Two finance-test version pins still expect v9 and must be updated by Sol when integrating v10. Those files remain outside this lane. Four payroll-fixture failures also reproduce on the exact clean Sol core. [Compatibility receipt](../../../src/core2/receipts/m0-core-pieces-checks-20261010.json).
 

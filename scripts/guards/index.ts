@@ -163,7 +163,7 @@ export const GUARDS: readonly Guard[] = [
   {
     id: "ui-tokens",
     rule: "One UI system: a size, a corner or a color is named once in the root of play.css and every rule reads the name; the hand-typed count only shrinks.",
-    readMore: "tests/guards/ui-tokens-baseline.json; src/bench/ui/README.md",
+    readMore: "tests/guards/ui-tokens-baseline.json; docs/workshop/src/bench/ui/README.md",
     command: vitest("tests/guards/ui-tokens.test.ts"),
   },
   {

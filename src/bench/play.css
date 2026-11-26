@@ -151,7 +151,7 @@
   --t-name: 40px;
   --t-display: 58px;
   /* The UI system's sizes. Every control reads these, so one change here
-     changes every screen (src/bench/ui/README.md). */
+     changes every screen (docs/workshop/src/bench/ui/README.md). */
   --control-h: 34px;
   --control-pad: 6px 16px;
   --control-radius: 2px;

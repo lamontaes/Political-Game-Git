@@ -14,7 +14,7 @@ description: >
 
 Read the relevant contracts before acting:
 
-- `art/people-engine/v4/README.md` for the current people pack (whole painted people, read only through `src/bench/people-pack.ts`), and `art/people-rooms/mannequin-plates/README.md` for where people may stand;
+- `docs/workshop/art/people-engine/v4/README.md` for the current people pack (whole painted people, read only through `src/bench/people-pack.ts`), and `docs/workshop/art/people-rooms/mannequin-plates/README.md` for where people may stand;
 - `play-first` ("Work", the screenshot acceptance) for the check in play.
 
 The old art pipeline was deleted at the owner's word, Nov 5; there is no art validator or tier-derivation script to run. Backdrops are imported with `scripts/backdrops/` (`import-place-backdrops.mjs`, `import-capitol-backdrops.mjs`). Don't add a parallel validator or a scene-specific screen path.
