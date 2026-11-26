@@ -9,7 +9,6 @@
  * its best-placed applicant, and the applicant accepts or declines. Every
  * job change is a record with its reason and, for a layoff, who decided it.
  */
-import { jobChangeWords } from "../job-change-words";
 import type { ModuleTable } from "../module-state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { SeededRng } from "../kernel/rng";
@@ -5310,13 +5309,11 @@ interface ChangeRecord {
 }
 
 function changeHistory(row: ChangeRecord): HistoryRow {
-  // Told as a person's own list tells it (src/core2/job-change-words.ts).
-  const said = jobChangeWords(row.kind, row.reasonKey);
   return {
     id: row.id,
     date: row.date,
     life: "work",
-    what: said.what,
+    what: row.kind,
     record: `job-change:${row.kind}`,
     from: "played",
     personIds: [row.personId],
@@ -5326,8 +5323,6 @@ function changeHistory(row: ChangeRecord): HistoryRow {
       jobId: row.jobId,
       reasonKey: row.reasonKey,
       ...(row.decidedBy ? { decidedBy: row.decidedBy } : {}),
-      ...(row.kind === "hire" ? { startedAt: row.date } : {}),
-      ...(said.ended ? { ended: said.ended } : {}),
     },
   };
 }
