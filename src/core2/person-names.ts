@@ -9,7 +9,7 @@ import {
   getNameCorpus,
   givenNamePoolForCorpus,
 } from "./gov-rules/names-data";
-import type { GenderIdentityKey, PersonIdentity } from "./modules/executive";
+import type { GenderIdentityKey, PersonIdentity } from "./gov-rules/types";
 
 /**
  * A name off the whole corpus, with nothing said about who is carrying it.
