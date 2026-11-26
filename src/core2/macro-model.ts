@@ -1,6 +1,7 @@
 /** The national month as the game reads it: the past from the published series, each month since from the sum of the states (country-model.ts). */
 import history from "./data/macro/history.json" with { type: "json" };
 import { worldOffsetUnit } from "./world-draw";
+export { scaleFirmsToCensus } from "./census-firms";
 export { endLivingPlan, setEverydayPurchase } from "./cost-of-living";
 export {
   CREDIT_PARAMETERS,

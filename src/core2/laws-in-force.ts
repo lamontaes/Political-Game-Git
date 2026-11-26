@@ -23,6 +23,7 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
+export { openPublicSafety } from "./modules/public-safety";
 export { corruptionModule } from "./modules/corruption";
 export { recordHomeRule } from "./policy-authority";
 export { bribePull, registerBribeScope } from "./modules/corruption";

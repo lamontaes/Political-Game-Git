@@ -86,6 +86,9 @@ import { agreementWith, countedLean, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "./laws";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import { ENCOUNTERS, meetAtMeeting } from "./people";
+export { billCatalog } from "../bill-catalog";
+export { openLeadership } from "./leadership";
+export { openSittingSessions, openWorldLegislating } from "./world-legislating";
 
 export const MEETINGS_MODULE_ID = "core2-meetings-v1";
 
