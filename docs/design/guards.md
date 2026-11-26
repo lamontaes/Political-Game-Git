@@ -116,3 +116,7 @@ The CTO's rule: a pull request may not add an expected-failure, skip, only or to
 4. Add a row to the table above.
 5. Show it bite: undo the rule once in a scratch change, see the guard fail, and say so in the pull request.
 6. No dates in a guard's name, message or this page. A rule's date lives in `docs/coordination/OWNER-DECISIONS.md`.
+
+## Nightly failures
+
+The scheduled Heavy checks summary names every failing file outside the committed `tests/guards/nightly-known-red-baseline.json` and reports its family from `tests/guards/families.json`. A test with no matching family is shown as unmapped. A missing shard report is named and makes the summary incomplete. The known-red list starts empty because no complete nightly report was available when the check was introduced. It may only shrink.
