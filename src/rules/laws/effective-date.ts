@@ -3,7 +3,7 @@ import { LAWS_PARAMETERS } from "./parameters";
 
 export type DateValue = string;
 
-export type YearlyDay =
+type YearlyDay =
   | { readonly month: number; readonly day: number }
   | {
       readonly month: number;
@@ -56,10 +56,10 @@ export interface StatuteDateContext {
   readonly finalPassageAt?: () => DateValue | null;
 }
 
-export type EffectiveDateBasis =
+type EffectiveDateBasis =
   "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
 
-export interface EnactmentDateFacts {
+interface EnactmentDateFacts {
   readonly resolvedAt: DateValue;
   readonly finalPassageAt?: DateValue | null;
   readonly effectiveAt?: DateValue | null;
@@ -71,7 +71,7 @@ export interface EnactmentDateFacts {
   readonly context?: StatuteDateContext;
 }
 
-export interface OperativeDate {
+interface OperativeDate {
   readonly date: DateValue;
   readonly basis: EffectiveDateBasis;
 }
@@ -153,52 +153,6 @@ export function stateStatuteOperativeAt(
   }
 }
 
-export function operativeDateForEnactment(
-  facts: EnactmentDateFacts,
-): OperativeDate | null {
-  if (facts.effectiveAt) {
-    return {
-      date: facts.effectiveAt,
-      basis:
-        facts.effectiveDateBasis === "game-default"
-          ? "game-default"
-          : "enacted-date",
-    };
-  }
-  if (facts.effectiveDateBasis === "source-default") return null;
-  const profile = facts.gameProfile;
-  if (
-    profile &&
-    (!profile.version ||
-      !Number.isSafeInteger(profile.days) ||
-      profile.days < 0)
-  )
-    throw new Error(
-      "An enactment carries an invalid effective-date game profile.",
-    );
-  const stateRuleAt =
-    !profile && facts.stateKey?.startsWith("US-") && facts.stateRule
-      ? stateStatuteOperativeAt(
-          facts.stateRule,
-          facts.resolvedAt,
-          facts.context ?? {
-            finalPassageAt: () => facts.finalPassageAt ?? null,
-          },
-        )
-      : null;
-  if (stateRuleAt)
-    return {
-      date: stateRuleAt,
-      basis: facts.estimatedStateRule ? "estimated-state-rule" : "state-rule",
-    };
-  return {
-    date: addDays(
-      facts.resolvedAt,
-      profile?.days ?? LAWS_PARAMETERS.defaultEnactmentDays.value,
-    ),
-    basis: "game-default",
-  };
-}
 
 export interface SessionEndRow {
   readonly adjourned?: Readonly<
@@ -209,7 +163,7 @@ export interface SessionEndRow {
   readonly evenYear?: readonly SessionEndRule[];
 }
 
-export type SessionEndRule =
+type SessionEndRule =
   | { readonly kind: "on"; readonly day: YearlyDay }
   | {
       readonly kind: "after-start";

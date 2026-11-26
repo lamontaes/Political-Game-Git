@@ -19,9 +19,9 @@ export type LawLevel =
   | "local-regulation"
   | "local-executive-order";
 
-export type LawAnswer = "yes" | "no";
-export type LawOrigin = "enacted" | "in-force-at-start";
-export type OperativeBasis =
+type LawAnswer = "yes" | "no";
+type LawOrigin = "enacted" | "in-force-at-start";
+type OperativeBasis =
   "enacted-date" | "state-rule" | "estimated-state-rule" | "game-default";
 
 export interface LawCandidate {
@@ -50,7 +50,7 @@ export interface LawInForceResult {
 export type LawScope = "all" | "enacted-only";
 
 /** Higher entries control over lower entries. */
-export const LAW_LEVELS: readonly LawLevel[] = [
+const LAW_LEVELS: readonly LawLevel[] = [
   "federal-constitution",
   "federal-statute",
   "federal-regulation",
@@ -66,7 +66,7 @@ export const LAW_LEVELS: readonly LawLevel[] = [
 ];
 
 /** Larger ranks govern over smaller ranks. */
-export function lawLevelRank(level: LawLevel): number {
+function lawLevelRank(level: LawLevel): number {
   return LAW_LEVELS.length - LAW_LEVELS.indexOf(level);
 }
 
@@ -135,16 +135,6 @@ export function lawInForceFromCandidates(input: {
   };
 }
 
-/** A statute cannot change a question already settled by a constitution. */
-export function statuteAnswer(
-  law: LawInForceResult | null,
-): LawAnswer | null | "closed" {
-  if (!law) return null;
-  return law.level === "federal-constitution" ||
-    law.level === "state-constitution"
-    ? "closed"
-    : law.answer;
-}
 
 function governingRank(law: LawCandidate): number {
   return law.yieldsToLocal
