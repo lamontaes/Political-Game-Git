@@ -4706,6 +4706,38 @@
       "lie": ["close"]
     }
   },
+  "home": {
+    "note": "The families of a home conversation the exchange engine answers by the arcs file's own rows (talk merge plan, slice 2). A day's own subject (their shift, news of their life) is answered back by the reply's move in composed words under `<kind>-back`; `omitsTold` names the kinds whose telling says figures the answer must not say again (W1's strict review, Nov 12: \"basically saying the same thing\"), and the figures: what the telling said is left out of the answer and marked `told-<fact>`, so the answer says what comes next.",
+    "dayBack": {
+      "omitsTold": {
+        "kinds": [
+          "eviction",
+          "job-lost",
+          "death-news",
+          "illness-news",
+          "prison-news",
+          "charge-reply",
+          "conviction-reply",
+          "acquittal-reply"
+        ],
+        "figures": [
+          "owed",
+          "behind",
+          "wage",
+          "years",
+          "when",
+          "age",
+          "cause",
+          "illness",
+          "term",
+          "offense",
+          "plea",
+          "trial",
+          "probation"
+        ]
+      }
+    }
+  },
   "keys": {
     "note": "The fallback for any situation with no purpose yet. One arc per situation key; pieces whose use names purpose \"*\" and the key serve it, and an authored purpose always wins.",
     "loss": {

@@ -47,6 +47,7 @@ import {
 
 export type { SceneTalkStep };
 import type { Director } from "./ledger";
+import { composedLine, type Said } from "./talk-words";
 
 const zero = P.zero;
 const one = P.one;
@@ -199,6 +200,21 @@ const RULES = rulesFile as unknown as {
   bluntGreeting: { value: number };
 };
 export type Outcome = "resolved" | "refused" | "open";
+
+/**
+ * The families of a home conversation the engine answers by the arcs file's own
+ * rows (`home` in purpose-arcs.json): what an answer to a reply on a day's own
+ * subject leaves out of what its telling just said.
+ */
+const HOME = (
+  arcsFile as unknown as {
+    home: {
+      dayBack: {
+        omitsTold: { kinds: readonly string[]; figures: readonly string[] };
+      };
+    };
+  }
+).home;
 
 /** One line of a composed scene, with the features the grading bench records. */
 export interface SceneTalkLine {
@@ -576,6 +592,68 @@ export function answerInTalk(
     pieceKey: best.line.pieceKey,
     closes: !!arc.closes?.includes(input.replyMove),
   };
+}
+
+/** Whether the answer back to a reply on this kind of day subject leaves out the figures its telling just said. */
+export function answerLeavesOutTold(kind: string): boolean {
+  return HOME.dayBack.omitsTold.kinds.includes(kind);
+}
+
+/**
+ * The facts an answer back is composed from: each figure the telling just said
+ * (`told`, the facts its wording used) is left out of them and marked
+ * `told-<fact>`, so the answer says what comes next, never the same figure
+ * again ("I owed about $1,000." "...about $1,000 still doesn't seem real."),
+ * and can still lean on it ("I go in soon.") without saying it.
+ */
+export function factsWithoutTold(
+  kind: string,
+  told: ReadonlySet<string>,
+  facts: Readonly<Record<string, Fact>>,
+): Record<string, Fact> {
+  const omits = answerLeavesOutTold(kind);
+  return Object.fromEntries(
+    Object.entries(facts).map(([key, fact]) =>
+      omits && told.has(key) && HOME.dayBack.omitsTold.figures.includes(key)
+        ? [`told-${key}`, fact]
+        : [key, fact],
+    ),
+  );
+}
+
+/**
+ * The other person's answer to the player's reply on a day's own subject: the
+ * words composed under `<kind>-back` by the reply's move, from the facts the
+ * telling left them (`factsWithoutTold`; `shape` adds what the talk alone
+ * knows, such as whether the speaker already named the player). Null where no
+ * wording fits.
+ */
+export function answerBack(
+  core: Readonly<CoreState>,
+  input: {
+    kind: string;
+    replyMove: string;
+    speakerId: PersonId;
+    momentKey: string;
+    /** The facts the day subject was told from. */
+    facts: Readonly<Record<string, Fact>>;
+    /** The facts the telling just said, which the answer leaves out. */
+    told: ReadonlySet<string>;
+    /** The talk's own additions to the facts, applied after the figures are left out. */
+    shape: (facts: Record<string, Fact>) => Record<string, Fact>;
+    /** The parts this speaker already said in the talk. */
+    saidParts: readonly string[];
+  },
+): Said | null {
+  return composedLine(
+    core,
+    input.speakerId,
+    `${input.kind}-back`,
+    input.shape(factsWithoutTold(input.kind, input.told, input.facts)),
+    input.replyMove,
+    input.momentKey,
+    input.saidParts,
+  );
 }
 
 /** Where the exchange stands as a branch grows. */

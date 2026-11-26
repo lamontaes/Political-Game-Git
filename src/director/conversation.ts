@@ -171,7 +171,7 @@ import {
   bribeRoleOf,
 } from "../core2/modules/justice";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
-import { answerInTalk } from "./scene-talk";
+import { answerBack, answerInTalk, answerLeavesOutTold } from "./scene-talk";
 import {
   declineInSitting,
   openSitting,
@@ -5716,10 +5716,8 @@ const DAY_TALK = (
       usualWeekDays: { value: number };
       rentCoveredMonths: { value: number };
       evictionJobLostDays: { value: number };
-      backOmitsTold: readonly string[];
       /** Kinds that may still be asked about, whose telling is answered back. */
       answersBack: readonly string[];
-      toldFigures: readonly string[];
     };
   }
 ).dayTalk;
@@ -7000,7 +6998,7 @@ function offerChoices(
     // News of their own life: each fact the telling just said is marked
     // `told-<fact>`, so a reply that would ask it again ("How?" after "It
     // was a car crash.") is held back (`excludesFacts`; W1's strict review).
-    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+    ...(answerLeavesOutTold(last.kind)
       ? Object.fromEntries(
           (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
             `told-${key}`,
@@ -7019,7 +7017,7 @@ function offerChoices(
     // News of their own life: each fact the telling just said is marked
     // `told-<fact>`, so a reply that would ask it again ("How?" after "It
     // was a car crash.") is held back (`excludesFacts`; W1's strict review).
-    ...(DAY_TALK.backOmitsTold.includes(last.kind)
+    ...(answerLeavesOutTold(last.kind)
       ? Object.fromEntries(
           (conversation.lines.at(-one)?.wording?.facts ?? []).map((key) => [
             `told-${key}`,
@@ -8303,10 +8301,9 @@ function sayNow(
   // same record, by the reply's move, and the talk carries on.
   if (dayBack(last.kind) && !choice.lie) {
     // For news of their own life, the answer back never says again a figure
-    // the telling just said ("I owed about $1,000." "...about $1,000 still
-    // doesn't seem real."): those facts are left out of it, so it says
-    // what comes next instead (W1's strict review, Nov 12).
-    const told = DAY_TALK.backOmitsTold.includes(last.kind)
+    // the telling just said (the engine's rule, the arcs file's
+    // `home.dayBack`): it is handed what the telling used.
+    const told = answerLeavesOutTold(last.kind)
       ? new Set(
           [...conversation.lines]
             .reverse()
@@ -8318,27 +8315,19 @@ function sayNow(
             )?.wording?.facts ?? [],
         )
       : new Set<string>();
-    const omitted = (key: string) =>
-      told.has(key) && DAY_TALK.toldFigures.includes(key);
-    // What was left out is marked told, so an answer can lean on it ("I go
-    // in soon.") without saying it again.
-    const backFacts = Object.fromEntries(
-      Object.entries(last.facts).flatMap(([key, value]) =>
-        omitted(key) ? [[`told-${key}`, value]] : [[key, value]],
-      ),
-    );
-    const back = composedLine(
-      core,
-      otherId,
-      `${last.kind}-back`,
-      {
-        ...nameOnce(core, conversation, otherId, playerId, backFacts),
+    const back = answerBack(core, {
+      kind: last.kind,
+      replyMove: choice.move,
+      speakerId: otherId,
+      momentKey: `${eventId}:back`,
+      facts: last.facts,
+      told,
+      shape: (facts) => ({
+        ...nameOnce(core, conversation, otherId, playerId, facts),
         ...youIn(core, conversation, otherId, playerId),
-      },
-      choice.move,
-      `${eventId}:back`,
-      saidParts(conversation, otherId),
-    );
+      }),
+      saidParts: saidParts(conversation, otherId),
+    });
     if (last.kind === "here") conversation.nameGiven = true;
     if (back)
       conversation.lines.push({
