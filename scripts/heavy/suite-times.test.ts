@@ -35,6 +35,23 @@ describe("nightly full-suite failure reporting", () => {
     );
   });
 
+  it("recognizes exactly the known test after its source-to-test move", () => {
+    const before = "src/core2/modules/crime.test.ts";
+    const moved = { file: `tests/${before}`, failed: 1, status: "failed" };
+    const newFailure = { ...moved, file: "tests/src/core2/crime.test.ts" };
+    const result = nightlyFailures(
+      [moved, newFailure],
+      [before],
+      map,
+      ["suite-1"],
+      1,
+    );
+    expect(result.failed).toBe(true);
+    expect(result.lines.filter((line) => line.startsWith("- "))).toEqual([
+      "- `tests/src/core2/crime.test.ts` — unmapped",
+    ]);
+  });
+
   it("does not give a clean report when a shard is missing", () => {
     const result = nightlyFailures([], [], map, ["suite-2"], 2);
     expect(result.failed).toBe(true);

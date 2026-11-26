@@ -92,12 +92,16 @@ export function testFamily(file, map) {
 
 export function nightlyFailures(rows, knownRed, map, reports, expected) {
   const known = new Set(knownRed);
+  // The script moves these same test entrypoints to their exact mirror path.
+  const listed = (file) =>
+    known.has(file) ||
+    (file.startsWith("tests/src/") && known.has(file.slice("tests/".length)));
   const files = [
     ...new Set(
       rows
         .filter(
           (row) =>
-            (row.failed > 0 || row.status === "failed") && !known.has(row.file),
+            (row.failed > 0 || row.status === "failed") && !listed(row.file),
         )
         .map((row) => row.file),
     ),
