@@ -23,6 +23,7 @@ import {
   type HistoryScope,
 } from "../core2/past";
 import type { CoreState, PersonId } from "../core2/types";
+import { openConversation } from "../director/conversation";
 import { composeJournal } from "../director/journal";
 import { coreAPI } from "../core2/state";
 import {
@@ -35,11 +36,14 @@ import { heardItems } from "./calendar";
 import { knownCard } from "./card";
 import { loadingStory } from "./loading";
 import { nationStories } from "./nation-news";
+import { openingArrivalMinute } from "./opening";
+import { roomIds } from "./scene";
 import { BenchPlayer } from "./player";
 
 // The owner, Nov 25: "THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM
 // THE SAME HISTORY". Every past event a system shows (the loading story, a
-// person's card, the Journal, the news) cites records. Each cited record is
+// person's card, the Journal, the news, the President's address, the first
+// talk at home) cites records. Each cited record is
 // put in exactly one bucket, in this order, and a record in none fails:
 // - the past: a stored record of the past or of play (the pre-start history,
 //   the log, a fact a person was made with, what a person remembers, an
@@ -128,10 +132,11 @@ const PRESENT_STORES = new Set([
   "core2-legislature-v1.bills",
 ]);
 
-/** Kept series of measurements, a month at a time: not events. */
+/** Kept series of measurements, a month at a time (the town's, the outcome web's, the nation's economy): not events. */
 const SERIES_STORES = new Set([
   "world-metrics.months",
   "core2-outcome-web-v1.months",
+  "macro.months",
 ]);
 
 /**
@@ -232,7 +237,10 @@ function tally(
       row.counts.present += 1;
       continue;
     }
-    const stored = recordOf(core, id, owner ?? builtOwner(core, id));
+    // On the person the line names, else on whoever the fact is kept on.
+    const stored =
+      (owner && recordOf(core, id, owner)) ||
+      recordOf(core, id, builtOwner(core, id));
     if (core.durableLog.has(id as never) || stored) {
       // An engine's row the reader tells under its own id (a race before day
       // one is its `prior-election:` record, not the term that holds it).
@@ -442,6 +450,83 @@ function proveWorld(
       ]),
     ),
   );
+  // What the nation's history holds, as a story of it reads it.
+  const nationReads: [HistoryScope, HistoryAsk?][] = [
+    [{ nation: true }, { from: "played" }],
+    [{ nation: true }, { from: "past" }],
+    [
+      { nation: true },
+      {
+        kinds: [
+          "office.elected",
+          "century.presidency",
+          "century.congress",
+          "press.printed",
+          "press.archived",
+          PAST_BILL_VOTED,
+          PAST_LAW_ENACTED,
+          PAST_BUSINESS_CLOSED,
+        ],
+      },
+    ],
+  ];
+
+  // The President's address: each sentence's records, and what the
+  // President was made with (the home state, the office held before).
+  const opening = director?.ledger.opening;
+  if (opening) {
+    const president = opening.president.id;
+    out.push(
+      tally(
+        core,
+        "address",
+        [
+          ...opening.address.sentences.flatMap((line) => line.sourceRecordIds),
+          ...opening.address.sourceRecordIds,
+          ...opening.president.sourceRecordIds,
+        ].map((id) => ({ id, owner: president })),
+        scopeOf(core, [
+          ...(core.people.has(president) ? personReads(president) : []),
+          ...nationReads,
+        ]),
+      ),
+    );
+  }
+
+  // The first talk at home: each housemate's opening lines, opened as the
+  // bench opens a talk from a click (scripts/words/first-evening-packet.ts).
+  if (director) {
+    const minute = openingArrivalMinute(core, me);
+    const room = roomIds(core, me, undefined, minute);
+    const lines = household.memberIds
+      .filter((id) => id !== me && core.people.get(id as PersonId)?.alive)
+      .flatMap(
+        (id) =>
+          openConversation(core, me, id as PersonId, {
+            director,
+            presentIds: room as never,
+            minuteOfDay: minute,
+          }).lines,
+      );
+    out.push(
+      tally(
+        core,
+        "first talk",
+        lines.flatMap((line) =>
+          line.sourceRecordIds.map((id) => ({ id, owner: line.speakerId })),
+        ),
+        scopeOf(core, [
+          ...household.memberIds.flatMap((id) => personReads(id as PersonId)),
+          [{ household: household.id }],
+          // The talk brings up the address: the President's own history.
+          ...(opening && core.people.has(opening.president.id)
+            ? personReads(opening.president.id)
+            : []),
+          ...nationReads,
+        ]),
+      ),
+    );
+  }
   process.stdout.write(`history proof: ${where}: ${told(out)}\n`);
   return out;
 }
