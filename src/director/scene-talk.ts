@@ -221,7 +221,7 @@ const HOME = (
         answerable: readonly string[];
         notes: readonly string[];
       } & Readonly<Record<string, unknown>>;
-      menu: { standsTold: readonly string[] };
+      standsTold: readonly string[];
       giveBack: {
         kinds: readonly string[];
         answers: Readonly<Record<string, unknown>>;
@@ -923,7 +923,7 @@ export function replyAnswersAsk(input: {
   fitting: readonly string[] | undefined;
   choiceKey: string;
 }): boolean {
-  const stand = HOME.menu.standsTold.includes(input.askedMove ?? "");
+  const stand = HOME.standsTold.includes(input.askedMove ?? "");
   return !(
     (input.putQuestion || stand) &&
     input.fitting &&
