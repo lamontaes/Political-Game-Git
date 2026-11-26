@@ -212,6 +212,12 @@ const HOME = (
       dayBack: {
         omitsTold: { kinds: readonly string[]; figures: readonly string[] };
       };
+      news: {
+        backSubject: string;
+        standSubject: string;
+        sides: readonly string[];
+        tellsStand: readonly string[];
+      };
       ownView: {
         why: string;
         takes: readonly string[];
@@ -722,6 +728,68 @@ export function answerOwnView(
     input.saidParts,
   );
   return line ? { subject, line } : null;
+}
+
+/** The subject the other person's answer to a reply on news is composed under. */
+export function newsBackSubject(): string {
+  return HOME.news.backSubject;
+}
+
+/** Whether a reply on news takes a side on the story's question (for or against). */
+export function newsTakesSide(replyMove: string): boolean {
+  return HOME.news.sides.includes(replyMove);
+}
+
+/** Whether a reply to a printed story the neighbor asked about is followed by where the neighbor stands. */
+export function newsAnswerTellsStand(replyMove: string): boolean {
+  return HOME.news.tellsStand.includes(replyMove);
+}
+
+/**
+ * The marks an answer on news is composed from: what the reply said (a "who's
+ * behind it?" asked as a why is answered as a who), whether the teller already
+ * said the story's question (the answer then says "it" and gives what else the
+ * story holds), and a stand either way for the answers that fit both.
+ */
+export function newsSaidFacts(input: {
+  replyMove: string;
+  askedWho: boolean;
+  questionTold: boolean;
+  recordId: string;
+}): Record<string, Fact> {
+  const mark = (): Fact => ({ text: "yes", sourceRecordIds: [input.recordId] });
+  return {
+    [`said-${input.askedWho ? "who" : input.replyMove}`]: mark(),
+    [input.questionTold ? "about-said" : "about-unsaid"]: mark(),
+    ...(newsTakesSide(input.replyMove) ? { "said-side": mark() } : {}),
+  };
+}
+
+/**
+ * A line the other person says on news, composed from the facts the talk
+ * gives under the arcs file's own subject for it: `back` (their answer to the
+ * player's reply, or what the story was about) or `stand` (where they stand,
+ * said when the player had not seen it). Null where no wording fits.
+ */
+export function newsLine(
+  core: Readonly<CoreState>,
+  input: {
+    which: "back" | "stand";
+    speakerId: PersonId;
+    facts: Readonly<Record<string, Fact>>;
+    momentKey: string;
+    saidParts: readonly string[];
+  },
+): Said | null {
+  return composedLine(
+    core,
+    input.speakerId,
+    input.which === "back" ? HOME.news.backSubject : HOME.news.standSubject,
+    input.facts,
+    "default",
+    input.momentKey,
+    input.saidParts,
+  );
 }
 
 /** Where the exchange stands as a branch grows. */

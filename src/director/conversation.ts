@@ -176,6 +176,11 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  newsAnswerTellsStand,
+  newsBackSubject,
+  newsLine,
+  newsSaidFacts,
+  newsTakesSide,
   ownViewReplies,
   ownViewTakes,
   ownViewWhy,
@@ -8294,7 +8299,7 @@ function sayNow(
   if (
     last.kind === "news" &&
     !choice.lie &&
-    composedConversationBank(NEWS_BACK)
+    composedConversationBank(newsBackSubject())
   ) {
     answerNews(core, conversation, data, choice, eventId, hearers, last);
     return conversation;
@@ -8631,16 +8636,10 @@ function dayBack(kind: string): boolean {
   );
 }
 
-/** The subject the other person's answer to a reply on news is composed under. */
-const NEWS_BACK = "news-back";
-
 /** Whether the teller already said the question a printed story is about: its lines tell it by that question. */
 function aboutToldBy(facts: Facts): boolean {
   return !!facts.story && !!facts.about;
 }
-/** The player's replies on news that take a side on the story's question. */
-const NEWS_SIDES: readonly string[] = ["for", "against"];
-
 /**
  * The other person's answer to the player's reply on a story or a change in
  * town: composed from the pieces under `news-back`, by the reply's move, with
@@ -8660,7 +8659,7 @@ function answerNews(
 ): void {
   const { otherId, playerId } = conversation;
   const api = coreAPI(core);
-  if (NEWS_SIDES.includes(choice.move) && last.subject.news?.question) {
+  if (newsTakesSide(choice.move) && last.subject.news?.question) {
     const stance = stanceRow(api, playerId, last.subject.news.question);
     for (const hearerId of hearers)
       learnView(api, hearerId, playerId, [stance?.id ?? playerId], eventId);
@@ -8678,18 +8677,17 @@ function answerNews(
       : {}),
     // "Who's behind it?" is asked as a why but answered as a who (lead,
     // Nov 13): the pieces that ask it are named in the rules (askedWho).
-    [`said-${(choice.wording?.parts ?? []).some((part) => ASKED_WHO.has(part)) ? "who" : choice.move}`]:
-      { text: "yes", sourceRecordIds: [eventId] },
     // One screen names a thing once: where the teller already said the
     // question, the answer says "it" and gives what else the story holds.
-    [aboutToldBy(last.facts) ? "about-said" : "about-unsaid"]: {
-      text: "yes",
-      sourceRecordIds: [eventId],
-    },
-    // A stand either way, for the answers that fit both.
-    ...(NEWS_SIDES.includes(choice.move)
-      ? { "said-side": { text: "yes", sourceRecordIds: [eventId] } }
-      : {}),
+    // And a stand either way, for the answers that fit both.
+    ...newsSaidFacts({
+      replyMove: choice.move,
+      askedWho: (choice.wording?.parts ?? []).some((part) =>
+        ASKED_WHO.has(part),
+      ),
+      questionTold: aboutToldBy(last.facts),
+      recordId: eventId,
+    }),
   };
   // When they learned of it, said in passing, from their own record of it.
   const learned = last.subject.aboutId
@@ -8716,7 +8714,7 @@ function answerNews(
     last.facts.story &&
     theirLast &&
     asksQuestion(theirLast) &&
-    ["yes", "no", "react"].includes(choice.move)
+    newsAnswerTellsStand(choice.move)
   ) {
     let told = false;
     if (choice.move === "no") {
@@ -8725,26 +8723,24 @@ function answerNews(
           ([key]) => key !== "about-said" && key !== "about-unsaid",
         ),
       );
-      const what = composedLine(
-        core,
-        otherId,
-        NEWS_BACK,
-        {
+      const what = newsLine(core, {
+        which: "back",
+        speakerId: otherId,
+        facts: {
           ...plain,
           // What it was about, by the question's full name: the ask already
           // named it, so a bare "it" would say nothing.
           "ask-told": { text: "yes", sourceRecordIds: [eventId] },
         },
-        "default",
-        `${eventId}:what`,
-        saidParts(conversation, otherId),
-      );
+        momentKey: `${eventId}:what`,
+        saidParts: saidParts(conversation, otherId),
+      });
       told = !!what;
       if (what)
         conversation.lines.push({
           speakerId: otherId,
           subjectId: choice.answers,
-          kind: NEWS_BACK,
+          kind: newsBackSubject(),
           act: "tell",
           ...what,
           sourceRecordIds: [...new Set([...what.sourceRecordIds, eventId])],
@@ -8766,19 +8762,17 @@ function answerNews(
     );
     const stand = ownViewFollows
       ? null
-      : composedLine(
-          core,
-          otherId,
-          "news-ask",
-          {
+      : newsLine(core, {
+          which: "stand",
+          speakerId: otherId,
+          facts: {
             ...last.facts,
             ...stakeMarks(theirs, "their-"),
             "player-saw": { text: "yes", sourceRecordIds: [eventId] },
           },
-          "default",
-          `${eventId}:stand`,
-          saidParts(conversation, otherId),
-        );
+          momentKey: `${eventId}:stand`,
+          saidParts: saidParts(conversation, otherId),
+        });
     if (stand || ownViewFollows || told) {
       if (stand)
         conversation.lines.push({
@@ -8793,20 +8787,18 @@ function answerNews(
       return;
     }
   }
-  const back = composedLine(
-    core,
-    otherId,
-    NEWS_BACK,
+  const back = newsLine(core, {
+    which: "back",
+    speakerId: otherId,
     facts,
-    "default",
-    `${eventId}:back`,
-    saidParts(conversation, otherId),
-  );
+    momentKey: `${eventId}:back`,
+    saidParts: saidParts(conversation, otherId),
+  });
   if (back)
     conversation.lines.push({
       speakerId: otherId,
       subjectId: choice.answers,
-      kind: NEWS_BACK,
+      kind: newsBackSubject(),
       act: "tell",
       ...back,
       sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
