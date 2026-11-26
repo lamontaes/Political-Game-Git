@@ -624,6 +624,31 @@ function homeLine(
 }
 
 /**
+ * A line a home talk says, composed from the mined bank and worded through the
+ * follow step: every home talk line is the engine's, by the same step a
+ * scene's answer is. The caller says who speaks, under which subject and at
+ * which stage, from what facts.
+ */
+export function composedHomeLine(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  subject: string,
+  facts: Readonly<Record<string, Fact>>,
+  stage: string,
+  momentKey: string,
+  saidParts: readonly string[] = [],
+): Said | null {
+  return homeLine(core, {
+    subject,
+    stage,
+    speakerId,
+    facts,
+    momentKey,
+    saidParts,
+  });
+}
+
+/**
  * How a person takes in what the player answered in an everyday talk, by this
  * engine's own rule (owner, Oct 29: one engine for every line, and calibration
  * reaches all of it): the `talk` purpose's answer moves for the move the

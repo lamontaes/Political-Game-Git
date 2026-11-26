@@ -102,9 +102,6 @@ import {
   resultsKnownTo,
 } from "./bring-it-up";
 import { raceMargin } from "./race-margin";
-import { composedLine } from "./talk-words";
-
-export { composedLine };
 import {
   HEARD_FIGURE,
   HEARD_PREFIX,
@@ -173,6 +170,7 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  composedHomeLine,
   greetsFirst,
   talkSaidNothing,
   goodbyeSaid,
@@ -360,6 +358,7 @@ export const CONVERSATION_RULES = rulesFile as unknown as Omit<
 type Facts = Record<string, Fact>;
 
 export { replyMoveOf };
+export { composedHomeLine as composedLine };
 
 /** Something real to talk about, from the speaker's records. */
 export interface Subject {
@@ -4937,7 +4936,7 @@ function canGiveBack(
   if (kind !== "school") return !!back;
   return (
     !!back &&
-    !!composedLine(
+    !!composedHomeLine(
       core,
       otherId,
       `${kind}-give`,
@@ -5092,7 +5091,7 @@ function askSubject(
   const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:ask`;
   // A question the engine composes, where the subject has one (news: "What
   // do you make of {topic} closing?"), else a wording of the bank's.
-  const composedAsk = composedLine(
+  const composedAsk = composedHomeLine(
     core,
     otherId,
     `${kind}-ask`,
@@ -5257,7 +5256,7 @@ function raiseSubject(
   const theyOpened = !!conversation.topics[zero]?.startsWith(`${otherId}>`);
   const composed =
     !said && composedRaise
-      ? composedLine(
+      ? composedHomeLine(
           core,
           otherId,
           composedRaise,
@@ -5436,7 +5435,7 @@ function tellable(
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !!data.otherRaises[row.kind] &&
       !!(row.kind === "here" || row.kind === "player-day"
-        ? composedLine(
+        ? composedHomeLine(
             core,
             otherId,
             `${row.kind}-say`,
@@ -5445,7 +5444,7 @@ function tellable(
             `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
           )
         : row.kind === POINT
-          ? composedLine(
+          ? composedHomeLine(
               core,
               otherId,
               POINT,
@@ -6216,7 +6215,7 @@ function openConversationNow(
     // other person goes on: the player's own words, from the same facts.
     const self =
       options.byPhone && said.length > one
-        ? composedLine(
+        ? composedHomeLine(
             core,
             playerId,
             GREET_AND_PART.phoneSelf,
@@ -7501,7 +7500,7 @@ function greetingLine(
       text: "yes",
       sourceRecordIds: facts.name.sourceRecordIds,
     };
-  const composed = composedLine(
+  const composed = composedHomeLine(
     core,
     otherId,
     GREET_AND_PART.greet,
@@ -7667,7 +7666,7 @@ function partingLine(
   // Someone of the player's they know, when the talk named nothing else.
   if (family && !found) facts.name = family;
   if (!Object.keys(facts).length) return null;
-  const line = composedLine(
+  const line = composedHomeLine(
     core,
     speakerId,
     GREET_AND_PART.farewell,
@@ -8352,7 +8351,7 @@ function answerPoint(
 ): void {
   const { otherId } = conversation;
   const last = conversation.last!;
-  const back = composedLine(
+  const back = composedHomeLine(
     core,
     otherId,
     POINT_BACK,
