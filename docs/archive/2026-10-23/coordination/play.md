@@ -2,7 +2,7 @@
 
 > **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
 
-Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
+Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/archive/2026-10-23/coordination/BOARD.md`.
 
 - **Owns:** The bench, the game screens on the new core, the nightly integration build, store screenshots.
 - **Branch:** opus-play (from pool/M0-bench).
