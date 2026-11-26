@@ -18,8 +18,12 @@ import { P } from "../core2/parameters";
 
 const one = P.one;
 import { coreAPI } from "../core2/state";
-import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import {
+  BILL_INTRODUCED,
+  LEGISLATURE_MODULE_ID,
+} from "../core2/modules/legislature";
+import { OFFICES_MODULE_ID, TERM_HELD } from "../core2/modules/offices";
+import { historyOf } from "../core2/past";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 
 /** An office as a sentence names it: "a council member" of several seats, "mayor" of one. */
@@ -33,12 +37,6 @@ export function officePhrase(office: {
   return (office.seats ?? one) > one
     ? `${article} ${office.title}`
     : office.title;
-}
-
-interface TermInput {
-  readonly id: string;
-  readonly officeId: string;
-  readonly startDate: string;
 }
 
 interface BillInput {
@@ -75,32 +73,38 @@ export function laterRecordsOf(
   through: IsoDate,
 ): (since: string, question?: string) => Record<string, Fact> {
   const api = coreAPI(core as CoreState);
+  // The person's terms and the bills they brought, as their own history tells
+  // them (the offices engine's terms, the legislature's bills).
+  const told = historyOf(
+    core as CoreState,
+    { person: personId },
+    { kinds: [TERM_HELD, BILL_INTRODUCED], through },
+  );
   const terms: LaterTerm[] = [];
   if (core.modules.has(OFFICES_MODULE_ID)) {
     const offices = api.moduleState(OFFICES_MODULE_ID);
-    for (const term of offices
-      .table("terms")
-      .query("byPerson", [personId]) as unknown as TermInput[]) {
-      if (term.startDate > through) continue;
-      const office = offices.table("offices").get(term.officeId) as unknown as
+    for (const term of told) {
+      if (term.record !== TERM_HELD) continue;
+      const officeId = term.facts?.officeId ?? "";
+      const office = offices.table("offices").get(officeId) as unknown as
         { title?: string; seats?: number } | undefined;
       const said = office ? officePhrase(office) : undefined;
       if (said)
         terms.push({
-          date: term.startDate,
+          date: term.date,
           said,
-          ids: [term.id, term.officeId],
+          ids: [term.id, officeId],
         });
     }
     terms.sort((a, b) => a.date.localeCompare(b.date));
   }
   const bills: LaterBill[] = [];
   if (core.modules.has(LEGISLATURE_MODULE_ID)) {
-    for (const bill of api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .query("bySponsor", [personId]) as unknown as BillInput[]) {
-      if (bill.introduced > through) continue;
+    const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+    for (const event of told) {
+      if (event.record !== BILL_INTRODUCED) continue;
+      const bill = table.get(event.id) as unknown as BillInput | undefined;
+      if (!bill) continue;
       const areas = (bill.provisions ?? []).flatMap((provision) => {
         const key = provision.question ?? provision.series;
         const said = key ? topicInSentence(key) : null;

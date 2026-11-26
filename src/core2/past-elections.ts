@@ -404,6 +404,9 @@ function pastChallenger(
   return fits[0]?.id ?? null;
 }
 
+/** How the past names a race it held before day one: `prior-election:<seat id>:<day>`. */
+export const PRIOR_ELECTION = "prior-election:";
+
 /** The record kind of a race lost before the game began, told on the loser's own list (src/core2/data/life/remembered.json). */
 export const PAST_RACE_LOST = "election.lost-before-start";
 
@@ -447,7 +450,7 @@ export function buildPriorElections(
               : null
             : null);
         if (!date || date >= town.opening) continue;
-        const id = `prior-election:${seat.id}:${date}`;
+        const id = `${PRIOR_ELECTION}${seat.id}:${date}`;
         const key = `${seat.id}:${date}`;
         // The presidency's and Congress's races are the century's (electorate-century.ts): its
         // share and votes cast are the count's, with no drift; "today" reads the real result.

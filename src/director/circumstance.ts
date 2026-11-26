@@ -32,6 +32,7 @@ import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
+import { historyOf } from "../core2/past";
 import { partyMentorOf } from "../core2/modules/candidacy";
 import type {
   CoreEventInput,
@@ -329,27 +330,28 @@ export function earlierLosses(
   const settled = core.durableLog.get(`election-result:${contestId}` as never);
   if (!settled) return zero;
   const beforeDate = settled.date;
-  return (
-    coreAPI(core as CoreState)
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
-  ).filter((filing) => {
-    if (filing.contestId === contestId) return false;
-    const result = core.durableLog.get(
-      `election-result:${filing.contestId}` as never,
-    );
-    const winner = result?.facts?.winnerId;
+  // The counts that named the player, as their history tells them: a count
+  // names everyone who filed for its seat (src/core2/modules/voting.ts).
+  return historyOf(
+    core as CoreState,
+    { person: playerId },
+    { kinds: [ELECTION_RESULT], from: "played" },
+  ).filter((result) => {
+    if (result.facts?.contestId === contestId) return false;
+    const winner = result.facts?.winnerId;
     // Lost: among those who missed the cut (an at-large race seats several,
     // and a winner of another seat lost nothing); a record kept before
     // `outIds` reads the winner.
-    const out = result?.facts?.outIds;
+    const out = result.facts?.outIds;
     const lost = out
-      ? (JSON.parse(String(out)) as string[]).includes(playerId)
+      ? (JSON.parse(out) as string[]).includes(playerId)
       : !!winner && winner !== playerId;
-    return !!result && lost && result.date < beforeDate;
+    return lost && result.date < beforeDate;
   }).length;
 }
+
+/** The record kind of a count that settled a race (src/core2/modules/voting.ts). */
+const ELECTION_RESULT = "election-result";
 
 function playerHolds(
   rule: string,

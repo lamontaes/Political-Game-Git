@@ -13,7 +13,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { ELSEWHERE_EMPLOYER } from "./places-elsewhere";
-import { lifeOf } from "./modules/people";
+import { lifeOf } from "./person-life";
 
 const seed = process.env.EMPLOYER_SEED || randomBytes(8).toString("hex");
 

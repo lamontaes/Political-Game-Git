@@ -31,7 +31,7 @@ export {
 // Who served in the military, and the share of a place's adults who did, for the veterans line.
 export { serviceOf, veteranShare } from "./past-work";
 // A school or employer's name, the organization's own record or the elsewhere kind, for the person card.
-export { organizationName } from "./places-elsewhere";
+export { organizationName, townWithin } from "./places-elsewhere";
 export {
   attendedSchool,
   sharedHistory,
@@ -59,6 +59,9 @@ export function openThePast(core: CoreState, seed: string): PastSummary {
   const terms = buildPriorTerms(api, town, elections);
   const laws = buildLawHistories(api, town);
   const closures = buildPastClosures(api, town);
+  // Kept, as the bills and law histories are, so the one history reader
+  // tells each closure by the id its archive story cites.
+  for (const row of closures) putPast(api, "closures", row);
   const stories = buildNewsArchive(api, town, {
     elections,
     closures,
@@ -85,3 +88,4 @@ export function openThePast(core: CoreState, seed: string): PastSummary {
 // The past family's face for readers outside it (tests/guards/families.json).
 export { heldSinceRecord } from "./past-work";
 export { schoolsAttended } from "./past-school";
+export { PRIOR_ELECTION } from "./past-elections";

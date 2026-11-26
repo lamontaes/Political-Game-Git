@@ -98,6 +98,9 @@ import {
   layoffPerQuarter,
   workAgeFactor,
   workLeans,
+  type HistoryModule,
+  type HistoryRow,
+  type HistorySource,
 } from "../past";
 import { townOutsideOf } from "../opening-outside-market";
 import { townJobRate, townPayPercentile } from "../town-pay";
@@ -120,8 +123,10 @@ import type {
   CoreEventInput,
   CoreModule,
   CoreState,
+  IsoDate,
   JobInput,
   OrganizationInput,
+  PersonId,
   WorkCommitmentInput,
   Source,
 } from "../types";
@@ -131,7 +136,7 @@ import {
   snapshotExplicitControlV1,
 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
-import { fillInPerson, personOrFillIn } from "../state";
+import { coreAPI, fillInPerson, personOrFillIn } from "../state";
 import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldOffsetUnit } from "../world-draw";
 
@@ -5291,8 +5296,79 @@ export function layOffWorker(
   );
 }
 
-export const JOBS_MODULE: CoreModule = {
+/** A job change as the one history reader tells it (src/core2/past-history.ts). */
+interface ChangeRecord {
+  readonly id: string;
+  readonly date: IsoDate;
+  readonly kind: string;
+  readonly jobId: string;
+  readonly organizationId: string;
+  readonly personId: PersonId;
+  readonly reasonKey: string;
+  readonly decidedBy?: string;
+}
+
+function changeHistory(row: ChangeRecord): HistoryRow {
+  return {
+    id: row.id,
+    date: row.date,
+    life: "work",
+    what: row.kind,
+    record: `job-change:${row.kind}`,
+    from: "played",
+    personIds: [row.personId],
+    withIds: [row.personId],
+    facts: {
+      organizationId: row.organizationId,
+      jobId: row.jobId,
+      reasonKey: row.reasonKey,
+      ...(row.decidedBy ? { decidedBy: row.decidedBy } : {}),
+    },
+  };
+}
+
+/**
+ * The jobs engine's change table (every hire, layoff, quit, retirement and
+ * closing it made) is history: a person's, a household's or an employer's,
+ * read by kind (`job-change:<kind>`).
+ */
+const JOBS_HISTORY: HistorySource = {
   id: JOBS_MODULE_ID,
+  rows(core, scope, ask) {
+    if (!core.modules.has(JOBS_MODULE_ID)) return [];
+    if (ask.kinds && !ask.kinds.some((kind) => kind.startsWith("job-change:")))
+      return [];
+    const changes = store(coreAPI(core)).table("changes");
+    const people =
+      "person" in scope
+        ? [scope.person]
+        : "household" in scope
+          ? (core.households.get(scope.household)?.memberIds ?? [])
+          : [];
+    const rows = ("employer" in scope
+      ? changes
+          .rows()
+          .filter(
+            (row) =>
+              (row as unknown as ChangeRecord).organizationId ===
+              scope.employer,
+          )
+      : people.flatMap((id) =>
+          changes.query("byPerson", [id]),
+        )) as unknown as ChangeRecord[];
+    return rows.map(changeHistory);
+  },
+  row(core, id) {
+    if (!id.startsWith("job-change:") || !core.modules.has(JOBS_MODULE_ID))
+      return undefined;
+    const row = store(coreAPI(core)).table("changes").get(id);
+    return row ? changeHistory(row as unknown as ChangeRecord) : undefined;
+  },
+};
+
+export const JOBS_MODULE: CoreModule & HistoryModule = {
+  id: JOBS_MODULE_ID,
+  history: JOBS_HISTORY,
   state: {
     schemaVersion: 1,
     tables: {

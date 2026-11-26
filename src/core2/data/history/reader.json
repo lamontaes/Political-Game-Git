@@ -1,0 +1,30 @@
+{
+  "about": "The one history reader's table (src/core2/past-history.ts; owner, Nov 25: \"THE JOURNAL, DIRECTOR, PERSON CARDS, ETC ALL PULL FROM THE SAME HISTORY\"). Which of a record's facts name the record that caused it, and which name the household or employer it belongs to. No record kind is named here: every source's rows are read by the same facts. Where a record happened is read from the government its facts name before its place id, since an engine writes a national or state record at the player's town: `levelFact` (federal is the nation's; state is the state's), then the first of `jurisdictionFacts` that names a government (US, a state's key such as US-UT, or a government unit, alone or leading an office, seat, chamber or law id), then the place id itself (national:US, national:US-ND, US-DC or a place). A record dated on the run's first day because the run began after it happened names its true day in `dateFacts` (a home bought, a lease signed): the reader tells it on that day.",
+  "causeFacts": [
+    "causeId",
+    "causeRecordId",
+    "originRecordId",
+    "jobChangeId",
+    "sourceRecordId",
+    "historyRecordId",
+    "residenceRecordId",
+    "triggerId",
+    "vacancyId",
+    "wireId"
+  ],
+  "householdFacts": ["householdId"],
+  "employerFacts": ["organizationId", "employerId", "businessId", "firmId"],
+  "jurisdictionFacts": [
+    "jurisdiction",
+    "governmentId",
+    "stateKey",
+    "officeId",
+    "officeIds",
+    "chamber",
+    "seatId",
+    "lawId"
+  ],
+  "nation": "US",
+  "levelFact": "level",
+  "dateFacts": ["boughtOn", "signedOn"]
+}
