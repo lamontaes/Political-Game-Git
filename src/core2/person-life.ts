@@ -340,6 +340,22 @@ function rememberRow(
   }
 }
 
+/**
+ * The records of play a person keeps on their own list, as history rows: the
+ * one store of what the log lets go, read by the history reader beside the log.
+ */
+export function keptEventsOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): (LifeEvent & { personIds: readonly PersonId[] })[] {
+  const person = core.people.get(personId) as Rememberer | undefined;
+  return (person?.remembered ?? []).map((held) => ({
+    ...held,
+    personIds: [personId, ...held.withIds],
+    from: "played" as const,
+  }));
+}
+
 /** What a person keeps only as a count: by kind and decade, as `work:1990s`. */
 export function lifeSummary(
   core: Readonly<CoreState>,

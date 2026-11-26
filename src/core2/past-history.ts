@@ -141,6 +141,12 @@ export interface HistorySource {
    * it in the same words as their whole life. Null where their list words no
    * such record.
    */
+  /**
+   * The records of play a person keeps on their own list (the life source
+   * only): what the log keeps only for the player's circle, so a person met
+   * later still has their own past to tell.
+   */
+  kept?(core: CoreState, personId: PersonId): readonly HistoryRow[];
   words?(
     core: CoreState,
     personId: PersonId,
@@ -486,6 +492,17 @@ function recordRows(
         if (kinds && !kinds.includes(row.kind)) continue;
         seen.add(`l:${row.id}`);
         out.push(theirs(personId, row, logRow(row)));
+      }
+      // What their own list keeps that the log does not hold under them: a
+      // record the log let go (it keeps a private one only for the player's
+      // circle), or one it names others in (a death their family remembers).
+      // The log's copy where it has one, else the person's own.
+      for (const held of life?.kept?.(core, personId) ?? []) {
+        if (seen.has(`l:${held.id}`)) continue;
+        if (kinds && !kinds.includes(held.record)) continue;
+        seen.add(`l:${held.id}`);
+        const logged = core.durableLog.get(held.id as never);
+        out.push(logged ? theirs(personId, logged, logRow(logged)) : held);
       }
     }
     if ("household" in scope && ask.from !== "played")

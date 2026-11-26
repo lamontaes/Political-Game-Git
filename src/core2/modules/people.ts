@@ -19,6 +19,7 @@
 import {
   REMEMBERED_RECORD_KINDS,
   builtFactsOf,
+  keptEventsOf,
   lifeOf,
   lifeWordsOf,
   rememberEvent,
@@ -832,6 +833,8 @@ const LIFE_HISTORY: HistorySource = {
   id: "life",
   life: true,
   open: (core, personId) => openWholePast(core, personId),
+  // The records of play a person keeps that the log let go.
+  kept: (core, personId) => keptEventsOf(core, personId),
   // A record read by kind is told in the words the person's own list tells it in.
   words: (core, personId, record, from) =>
     lifeWordsOf(core, personId, record as unknown as CoreEventInput, from),
