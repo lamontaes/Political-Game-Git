@@ -31,12 +31,8 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { GovernmentRow } from "./budgets";
 import { ownerOf } from "./business";
-import {
-  CORRUPTION_MODULE_ID,
-  considerBribe,
-  crimeRecord,
-  settleBribe,
-} from "./corruption";
+import { CORRUPTION_MODULE_ID, considerBribe } from "./laws";
+import { crimeRecord, settleBribe } from "./justice";
 import { governingMembers, memberKey } from "./legislature";
 
 export const CONTRACTS_MODULE_ID = "contracts";

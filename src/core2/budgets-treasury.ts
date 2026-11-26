@@ -48,7 +48,7 @@ import {
   rerateCountedRetirement,
   residentsRuntime,
 } from "./modules/residents";
-import { countedJobHeads, countedJobsOf } from "./residents-economy";
+import { countedJobHeads, countedJobsOf } from "./modules/residents";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import {

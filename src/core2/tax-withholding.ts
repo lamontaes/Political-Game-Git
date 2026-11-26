@@ -13,7 +13,7 @@
  */
 import type { GovernmentLevelWithTownship } from "./government-level";
 import type { LawInForceAnswer } from "./laws-in-force";
-import type { LawRowInput } from "./laws-starting";
+import type { LawRowInput } from "./laws-in-force";
 import type { TaxIndex, TaxIndexBy } from "./tax-index";
 
 export interface WithholdingLine {
