@@ -334,6 +334,64 @@ export function pastRebuilds(source: string): number {
   );
 }
 
+/**
+ * The engines (src/core2/modules) that still read a past of their own: a raw
+ * past reader by name, or a scan of the log or of a person's own facts or
+ * remembered list, outside the one reader (CTO, Nov 26, from the owner: "the
+ * reader needs to be like the main, it needs to be in the core ... it needs
+ * to be a game-wide thing"). An engine's own tables are its present and the
+ * history it hands the reader; they are not counted. A count only goes down.
+ */
+const ENGINE_DIRS = ["src/core2/modules"];
+
+describe("one history: every engine reads what already happened through the one reader", () => {
+  const allowed = (
+    list as unknown as {
+      readsInTheEngines: { files: Record<string, number> };
+    }
+  ).readsInTheEngines.files;
+  const found = new Map(
+    execFileSync("git", ["ls-files", ...ENGINE_DIRS], {
+      cwd: ROOT,
+      encoding: "utf8",
+    })
+      .split("\n")
+      .filter(
+        (file) =>
+          /\.(ts|tsx|mjs)$/.test(file) &&
+          !/\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
+      )
+      .map(
+        (file) =>
+          [
+            file,
+            pastRebuilds(readFileSync(path.join(ROOT, file), "utf8")),
+          ] as const,
+      )
+      .filter(([, n]) => n > 0),
+  );
+
+  it("adds no engine read of the past outside the reader", () => {
+    const over = [...found]
+      .filter(([file, n]) => n > (allowed[file] ?? 0))
+      .map(
+        ([file, n]) =>
+          `${file}: reads a past of its own ${n} times (${allowed[file] ?? 0} allowed). Read historyOf (src/core2/past.ts) instead.`,
+      );
+    expect(over).toEqual([]);
+  });
+
+  it("lowers an engine's count as soon as it reads the reader", () => {
+    const stale = Object.entries(allowed)
+      .filter(([file, n]) => (found.get(file) ?? 0) < n)
+      .map(
+        ([file, n]) =>
+          `${file}: lower ${n} to ${found.get(file) ?? 0} in tests/guards/one-history-proxies.json (readsInTheEngines)`,
+      );
+    expect(stale).toEqual([]);
+  });
+});
+
 describe("one history: every system reads the one history reader", () => {
   const allowed = (
     list as unknown as {
