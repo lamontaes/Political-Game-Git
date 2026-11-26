@@ -1,0 +1,1843 @@
+[
+  {
+    "key": "scene-talk.reply-refuse.i-disagree-with-bill-that-s-why-i-haven-t-scheduled-a-hearing",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "I disagree with {bill}. That's why I haven't scheduled a hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-own-view", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.you-could-give-me-all-afternoon-on-bill-and-i-d-still-oppose-it",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "You could give me all afternoon on {bill} and I'd still oppose it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-own-view", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.my-objection-is-to-bill-itself-i-won-t-bring-it-up",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "My objection is to {bill} itself. I won't bring it up.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-own-view", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.no-hearing-for-bill-i-don-t-want-it-passed",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "No hearing for {bill}. I don't want it passed.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-own-view", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.i-d-be-asking-the-committee-to-take-up-bill-when-i-think-we-ought-to-drop-it",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "I'd be asking the committee to take up {bill} when I think we ought to drop it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-own-view", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.if-i-thought-bill-was-worth-passing-you-d-have-a-date",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "If I thought {bill} was worth passing, you'd have a date.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-own-view", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.whose-decision-was-it-mine-i-oppose-bill",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "Whose decision was it? Mine. I oppose {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-own-view", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.my-district-wants-bill-stopped-that-s-who-i-answer-to",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "My district wants {bill} stopped. That's who I answer to.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-district", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.i-d-have-to-go-home-and-explain-why-i-moved-bill-along",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "I'd have to go home and explain why I moved {bill} along.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-district", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.on-bill-i-m-with-the-people-who-sent-me-here-they-oppose-it",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "On {bill}, I'm with the people who sent me here. They oppose it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-district", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.maybe-your-district-wants-bill-mine-doesn-t",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "Maybe your district wants {bill}. Mine doesn't.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-district", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.no-hearing-the-opposition-to-bill-back-home-matters-to-me",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "No hearing. The opposition to {bill} back home matters to me.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-district", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.you-asked-for-my-reason-putting-bill-on-the-agenda-goes-against-what-my-constituents-want",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "You asked for my reason. Putting {bill} on the agenda goes against what my constituents want.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-district", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.if-my-party-wanted-bill-to-move-we-d-be-having-a-different-conversation",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "If my party wanted {bill} to move, we'd be having a different conversation.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-party", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.you-d-have-to-change-more-minds-than-mine-on-bill-our-party-opposes-it",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "You'd have to change more minds than mine on {bill}. Our party opposes it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-party", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.my-party-wants-bill-held-i-ll-take-responsibility-for-doing-that",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "My party wants {bill} held. I'll take responsibility for doing that.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-party", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.no-hearing-for-bill-on-this-one-i-m-going-along-with-my-party",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "No hearing for {bill}. On this one I'm going along with my party.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-party", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.i-m-sticking-with-my-party-on-bill-so-it-stays-here",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "I'm sticking with my party on {bill}, so it stays here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-party", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.look-up-my-vote-on-bill-why-would-i-move-it-now",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "Look up my vote on {bill}. Why would I move it now?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-last-vote", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.i-ve-had-to-decide-where-i-stand-on-bill-before-my-vote-was-no",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "I've had to decide where I stand on {bill} before. My vote was no.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-last-vote", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.the-same-objection-that-kept-me-from-voting-for-bill-is-keeping-it-off-the-calendar",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "The same objection that kept me from voting for {bill} is keeping it off the calendar.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-last-vote", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.when-bill-came-up-for-a-vote-i-opposed-it-i-still-do",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "When {bill} came up for a vote, I opposed it. I still do.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-last-vote", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-refuse.that-no-beside-my-name-on-bill-still-stands",
+    "move": "reply-refuse",
+    "kind": "spoken",
+    "text": "That no beside my name on {bill} still stands.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "refuse",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "requiresFacts": ["reason-last-vote", "bill"],
+        "key": "favor-asked",
+        "setsFacts": ["answer-given"],
+        "excludesFacts": ["answer-given"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "refuse",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-relent.you-ll-get-the-hearing-on-bill-when-i-need-a-hand-i-m-coming-to-you",
+    "move": "reply-relent",
+    "kind": "spoken",
+    "text": "You'll get the hearing on {bill}. When I need a hand, I'm coming to you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "relent",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "plea",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "relent",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-relent.i-ll-find-a-date-for-bill-remember-who-made-room-for-you",
+    "move": "reply-relent",
+    "kind": "spoken",
+    "text": "I'll find a date for {bill}. Remember who made room for you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "relent",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "plea",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "relent",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-relent.you-ve-talked-me-into-hearing-bill-next-time-i-m-asking-hear-me-out",
+    "move": "reply-relent",
+    "kind": "spoken",
+    "text": "You've talked me into hearing {bill}. Next time I'm asking, hear me out.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "relent",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "plea",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "relent",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-relent.i-ll-call-up-bill-for-you-that-s-a-favor-i-mean-to-collect",
+    "move": "reply-relent",
+    "kind": "spoken",
+    "text": "I'll call up {bill} for you. That's a favor I mean to collect.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "relent",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "plea",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "relent",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-relent.you-can-tell-people-bill-will-be-heard-remember-what-you-asked-of-me-today",
+    "move": "reply-relent",
+    "kind": "spoken",
+    "text": "You can tell people {bill} will be heard. Remember what you asked of me today.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "relent",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "plea",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "relent",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-press.what-would-have-to-change-in-bill-for-you-to-hear-it",
+    "move": "follow-press",
+    "kind": "spoken",
+    "text": "What would have to change in {bill} for you to hear it?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "refuse",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-press.which-part-of-bill-would-you-want-me-to-rewrite",
+    "move": "follow-press",
+    "kind": "spoken",
+    "text": "Which part of {bill} would you want me to rewrite?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "refuse",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-press.i-m-asking-you-to-hear-the-case-for-bill-you-can-still-vote-against-it",
+    "move": "follow-press",
+    "kind": "spoken",
+    "text": "I'm asking you to hear the case for {bill}. You can still vote against it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "refuse",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-press.if-i-brought-bill-back-what-would-you-need-to-see",
+    "move": "follow-press",
+    "kind": "spoken",
+    "text": "If I brought {bill} back, what would you need to see?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "refuse",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-press.how-can-anyone-speak-to-the-committee-about-bill-if-you-won-t-call-it-up",
+    "move": "follow-press",
+    "kind": "spoken",
+    "text": "How can anyone speak to the committee about {bill} if you won't call it up?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "refuse",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-press.give-the-committee-a-chance-to-decide-for-itself-on-bill",
+    "move": "follow-press",
+    "kind": "spoken",
+    "text": "Give the committee a chance to decide for itself on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "press",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "after": "refuse",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "press",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.state-request.could-you-give-bill-a-hearing",
+    "move": "state-request",
+    "kind": "spoken",
+    "text": "Could you give {bill} a hearing?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "hopeful",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.state-request.i-m-here-about-bill-when-can-the-committee-hear-it",
+    "move": "state-request",
+    "kind": "spoken",
+    "text": "I'm here about {bill}. When can the committee hear it?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "hopeful",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.state-request.i-want-to-bring-bill-before-the-committee-will-you-put-it-on-the-calendar",
+    "move": "state-request",
+    "kind": "spoken",
+    "text": "I want to bring {bill} before the committee. Will you put it on the calendar?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "hopeful",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.state-request.what-would-it-take-for-you-to-schedule-a-hearing-on-bill",
+    "move": "state-request",
+    "kind": "spoken",
+    "text": "What would it take for you to schedule a hearing on {bill}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "hopeful",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.state-request.i-d-like-a-date-for-bill-can-we-settle-that-today",
+    "move": "state-request",
+    "kind": "spoken",
+    "text": "I'd like a date for {bill}. Can we settle that today?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "hopeful",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.state-request.i-d-like-the-committee-to-hear-bill-before-you-decide-what-to-do-with-it",
+    "move": "state-request",
+    "kind": "spoken",
+    "text": "I'd like the committee to hear {bill} before you decide what to do with it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "request",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "hopeful",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "request",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-accept.then-i-ll-leave-bill-with-you",
+    "move": "follow-accept",
+    "kind": "spoken",
+    "text": "Then I'll leave {bill} with you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-accept.i-won-t-ask-you-to-set-a-date-for-bill-today",
+    "move": "follow-accept",
+    "kind": "spoken",
+    "text": "I won't ask you to set a date for {bill} today.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-accept.i-ll-let-the-hearing-on-bill-go-for-now",
+    "move": "follow-accept",
+    "kind": "spoken",
+    "text": "I'll let the hearing on {bill} go for now.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-plea.i-m-asking-you-as-a-favor-give-bill-a-hearing",
+    "move": "follow-plea",
+    "kind": "spoken",
+    "text": "I'm asking you as a favor. Give {bill} a hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "plea",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "anxious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "plea",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-plea.could-you-make-room-for-bill-for-my-sake",
+    "move": "follow-plea",
+    "kind": "spoken",
+    "text": "Could you make room for {bill}, for my sake?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "plea",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "anxious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "plea",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-plea.would-you-do-this-much-for-me-and-let-me-present-bill",
+    "move": "follow-plea",
+    "kind": "spoken",
+    "text": "Would you do this much for me and let me present {bill}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "plea",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "anxious",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "plea",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-agree.yes-i-ll-schedule-a-hearing-on-bill",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "Yes. I'll schedule a hearing on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-agree.you-ll-get-a-date-i-ll-put-bill-before-the-committee",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "You'll get a date. I'll put {bill} before the committee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-agree.bring-bill-to-the-committee-i-ll-make-room-for-it",
+    "move": "reply-agree",
+    "kind": "spoken",
+    "text": "Bring {bill} to the committee. I'll make room for it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "agree",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "agree",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thank-you-for-making-room-for-bill",
+    "move": "follow-thank",
+    "kind": "spoken",
+    "text": "Thank you for making room for {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "glad",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-thank.i-ll-be-ready-when-you-call-up-bill-thank-you",
+    "move": "follow-thank",
+    "kind": "spoken",
+    "text": "I'll be ready when you call up {bill}. Thank you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "glad",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.follow-thank.thanks-i-m-glad-the-committee-will-get-to-hear-bill",
+    "move": "follow-thank",
+    "kind": "spoken",
+    "text": "Thanks. I'm glad the committee will get to hear {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "thank",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": ["bill"]
+      }
+    ],
+    "bearing": "glad",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "favor-asked"
+    },
+    "elements": ["chair-withholds-the-hearing"]
+  },
+  {
+    "key": "scene-talk.reply-undecided.i-still-have-trouble-with-bill-i-m-willing-to-hear-you-out-before-i-decide-on-a-hearing",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "I still have trouble with {bill}. I'm willing to hear you out before I decide on a hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-own-view"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.i-d-vote-against-bill-as-it-stands-giving-you-time-to-present-it-is-a-different-question",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "I'd vote against {bill} as it stands. Giving you time to present it is a different question.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-own-view"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.if-i-call-up-bill-i-ll-have-to-explain-that-back-home-give-me-a-minute",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "If I call up {bill}, I'll have to explain that back home. Give me a minute.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-district"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.my-district-wants-bill-left-alone-you-re-asking-me-to-take-some-heat-just-to-give-it-a-hearing",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "My district wants {bill} left alone. You're asking me to take some heat just to give it a hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-district"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.my-party-wants-bill-held-here-before-you-go-telling-people-you-ve-got-a-hearing-let-me-think",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "My party wants {bill} held here. Before you go telling people you've got a hearing, let me think.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-party"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.a-date-for-bill-i-d-have-to-break-with-my-party-just-to-put-it-on-the-agenda",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "A date for {bill}? I'd have to break with my party just to put it on the agenda.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-party"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.i-voted-against-bill-give-me-a-minute-to-think-about-hearing-it-again",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "I voted against {bill}. Give me a minute to think about hearing it again.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-last-vote"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.my-vote-on-bill-is-public-i-can-already-hear-people-asking-why-i-d-put-it-back-on-the-calendar",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "My vote on {bill} is public. I can already hear people asking why I'd put it back on the calendar.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill",
+          "reason-last-vote"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.if-i-hear-bill-now-and-the-committee-turns-it-down-where-does-that-leave-you-you-still-have-time-to-work-on-it",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "If I hear {bill} now and the committee turns it down, where does that leave you? You still have time to work on it.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-undecided.i-d-give-bill-another-draft-before-you-put-it-in-front-of-the-committee-do-you-really-want-a-hearing-on-this-version",
+    "move": "reply-undecided",
+    "kind": "spoken",
+    "text": "I'd give {bill} another draft before you put it in front of the committee. Do you really want a hearing on this version?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "undecided",
+        "role": "asked",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-25",
+    "tag": {
+      "move": "undecided",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-plea.i-ll-take-that-chance-give-me-the-hearing-on-bill-and-let-me-make-the-case-myself",
+    "move": "follow-plea",
+    "kind": "spoken",
+    "text": "I'll take that chance. Give me the hearing on {bill} and let me make the case myself.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "plea",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ],
+        "after": "scene-talk.reply-undecided.if-i-hear-bill-now-and-the-committee-turns-it-down-where-does-that-leave-you-you-still-have-time-to-work-on-it"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "plea",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-accept.all-right-i-d-rather-have-another-crack-at-bill-than-lose-it-in-committee",
+    "move": "follow-accept",
+    "kind": "spoken",
+    "text": "All right. I'd rather have another crack at {bill} than lose it in committee.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ],
+        "after": "scene-talk.reply-undecided.if-i-hear-bill-now-and-the-committee-turns-it-down-where-does-that-leave-you-you-still-have-time-to-work-on-it"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-plea.yes-on-this-version-i-d-like-people-to-hear-what-s-in-bill-before-i-start-taking-things-out",
+    "move": "follow-plea",
+    "kind": "spoken",
+    "text": "Yes, on this version. I'd like people to hear what's in {bill} before I start taking things out.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "plea",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ],
+        "after": "scene-talk.reply-undecided.i-d-give-bill-another-draft-before-you-put-it-in-front-of-the-committee-do-you-really-want-a-hearing-on-this-version"
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "plea",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  },
+  {
+    "key": "scene-talk.follow-accept.let-me-go-back-through-bill-first-i-ll-leave-the-calendar-with-you",
+    "move": "follow-accept",
+    "kind": "spoken",
+    "text": "Let me go back through {bill} first. I'll leave the calendar with you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "accept",
+        "role": "asker",
+        "purpose": "hearing-ask",
+        "key": "favor-asked",
+        "requiresFacts": [
+          "bill"
+        ],
+        "after": "scene-talk.reply-undecided.i-d-give-bill-another-draft-before-you-put-it-in-front-of-the-committee-do-you-really-want-a-hearing-on-this-version"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "accept",
+      "key": "favor-asked"
+    },
+    "elements": [
+      "chair-withholds-the-hearing"
+    ]
+  }
+]
