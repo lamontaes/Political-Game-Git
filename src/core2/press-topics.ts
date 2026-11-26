@@ -15,8 +15,8 @@ import {
   OFFICES_MODULE_ID,
   type TermRow,
 } from "./modules/offices";
-import type { OfficeInput } from "./offices-local";
-import { POLICY_QUESTIONS } from "./policy-answers";
+import type { OfficeInput } from "./modules/offices";
+import { POLICY_QUESTIONS } from "./modules/laws";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
 

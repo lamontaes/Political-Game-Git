@@ -1,5 +1,5 @@
 import { heldSinceRecord, pastWorkOf, PAST_WORK_SPELL } from "../past-work";
-import { workedToday } from "../job-lifecycle";
+import { workedToday } from "./jobs";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
@@ -23,7 +23,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  *   executive can revoke; it reaches people through the same law effects as a
  *   statute. Only orders an engine can carry are offered.
  */
-import { policyAuthority } from "../policy-authority";
+import { policyAuthority } from "./laws";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
 import relatedWork from "../../../data/research/executive/post-related-work.json" with { type: "json" };
 import { PROFILE_FACT_KINDS } from "../opening-profile";
@@ -102,6 +102,11 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
+export { giveLivingCost, spendLivingCost } from "../official-living";
+export { isRealOfficeholderName } from "../officials-names";
+export { payPostFromOutside } from "./official-pay";
+export { outsideGovernment } from "../outside-governments";
+export { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
