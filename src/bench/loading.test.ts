@@ -3,10 +3,11 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { lifeOf } from "../core2/modules/people";
 import type { PersonId } from "../core2/types";
 import { loadingStory } from "./loading";
 import { buildBenchWorld } from "./world";
+// After the world: the people engine loads person-life with its module face.
+import { lifeOf } from "../core2/person-life";
 
 // The loading screen's story (path 3) is the built world's own: each line
 // names a record the built world holds about the player, one of their life's

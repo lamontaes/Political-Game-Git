@@ -2113,6 +2113,30 @@ export function centuryLegislatureRoster(
  * The century's seat behind an offices seat: a seat in Congress (`seat:<state>:us-senate:<i>`,
  * `seat:<state>:us-house:<district>`) or a statewide executive (`seat:<state>:<office kind>`).
  */
+/**
+ * The keys the century may hold an office's seat under, in the order to try
+ * them: a Senate seat by its index, a state legislative seat by the offices
+ * engine's own seat id, a statewide executive by its kind, a House seat by its
+ * district (an at-large state's one seat as district 0).
+ */
+export function centurySeatKeys(
+  office: { readonly kind: string; readonly jurisdiction: string },
+  seat: { readonly id: string; readonly district?: string | null },
+): readonly string[] {
+  const stateKey = office.jurisdiction;
+  if (office.kind === "us-senate")
+    return [`${stateKey}:senate:${seat.id.split(":").at(-1)}`];
+  if (office.kind.startsWith("legislature-")) return [seat.id];
+  const executive = `${stateKey}:executive:${office.kind}`;
+  if (office.kind === "us-house" || office.kind === "us-house-delegate")
+    return [
+      executive,
+      `${stateKey}:house:${String(Number(seat.district ?? 0))}`,
+      `${stateKey}:house:0`,
+    ];
+  return [executive];
+}
+
 export function centuryCongressSeat(
   seed: string,
   date: string,
@@ -2124,22 +2148,13 @@ export function centuryCongressSeat(
   },
 ): CenturySeat | undefined {
   if (historyMode(seed) !== "century") return undefined;
-  const seats = centuryOf(seed, date).seats;
-  const stateKey = office.jurisdiction;
-  if (office.kind === "us-senate")
-    return seats.get(`${stateKey}:senate:${seat.id.split(":").at(-1)}`);
-  // A state legislative seat, by the offices engine's own seat id.
-  if (office.kind.startsWith("legislature-"))
-    return centuryLegislatures(seed, date).get(seat.id);
-  // A statewide executive the century elects (a governor, an attorney general ...).
-  const executive = seats.get(`${stateKey}:executive:${office.kind}`);
-  if (executive) return executive;
-  if (office.kind === "us-house" || office.kind === "us-house-delegate") {
-    const district = String(Number(seat.district ?? 0));
-    return (
-      seats.get(`${stateKey}:house:${district}`) ??
-      seats.get(`${stateKey}:house:0`)
-    );
+  // A state legislative seat is the legislatures' run's; every other the century's.
+  const seats = office.kind.startsWith("legislature-")
+    ? centuryLegislatures(seed, date)
+    : centuryOf(seed, date).seats;
+  for (const key of centurySeatKeys(office, seat)) {
+    const held = seats.get(key);
+    if (held) return held;
   }
   return undefined;
 }
