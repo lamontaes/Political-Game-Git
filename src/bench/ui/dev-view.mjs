@@ -25,6 +25,22 @@ export function idLink(id, onTrace, text = id, className = "id") {
   return node("span", { className, onclick: () => onTrace(id) }, text);
 }
 
+/** Calendar dev panels show record dates at local noon, with short month and year. */
+export function devRecordDate(iso) {
+  return new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+/** Their compact record link is a button without an awaited trace result. */
+export function traceRecordButton(id, open) {
+  const link = makeButton({ className: "link small", textContent: id });
+  link.addEventListener("click", () => void open(id));
+  return link;
+}
+
 /** Several ids in a row, each opening in Trace, after an optional plain `prefix`. */
 export function idList(ids, onTrace, prefix = "") {
   return node(

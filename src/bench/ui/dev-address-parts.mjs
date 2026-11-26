@@ -5,16 +5,8 @@
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { statusLine } from "./fields.mjs";
+import { devRecordDate, traceRecordButton } from "./dev-view.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
-
-/** A record date in words ("Mar 4, 2027"), never the ISO form. */
-function day(iso) {
-  return new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 /** One sentence: its words, then each piece with its tie, the facts said and the record links. */
 function sentenceLine(row, labels, open) {
@@ -26,11 +18,7 @@ function sentenceLine(row, labels, open) {
   const facts = row.facts.map((fact) =>
     el("li", { textContent: `${fact.slot}: ${fact.said}` }),
   );
-  const ids = row.sources.map((id) => {
-    const link = makeButton({ className: "link small", textContent: id });
-    link.addEventListener("click", () => void open(id));
-    return link;
-  });
+  const ids = row.sources.map((id) => traceRecordButton(id, open));
   const li = el(
     "li",
     {},
@@ -60,7 +48,7 @@ export const slots = {
           ...(addresses.length
             ? addresses.flatMap((address) => [
                 el("h4", {
-                  textContent: `${day(address.date)} · ${address.speaker}`,
+                  textContent: `${devRecordDate(address.date)} · ${address.speaker}`,
                 }),
                 el(
                   "ol",

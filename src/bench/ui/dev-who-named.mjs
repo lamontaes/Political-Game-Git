@@ -5,16 +5,8 @@
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { statusLine } from "./fields.mjs";
+import { devRecordDate, traceRecordButton } from "./dev-view.mjs";
 import { traceBox } from "./dev-trace-box.mjs";
-
-/** A record date in words ("Mar 4, 2027"), never the ISO form. */
-function day(iso) {
-  return new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 
 /** One person's line: name, what is said or why alone, how met, and the record ids as links. */
 function personLine(row, labels, open) {
@@ -22,18 +14,14 @@ function personLine(row, labels, open) {
     ? `“${row.said}”`
     : (labels.alone[row.alone] ?? row.alone ?? "");
   const met = row.metBy
-    ? ` · ${labels.metBy[row.metBy] ?? row.metBy}${row.metSource ? ` ${day(row.metSource.date)}` : ""}`
+    ? ` · ${labels.metBy[row.metBy] ?? row.metBy}${row.metSource ? ` ${devRecordDate(row.metSource.date)}` : ""}`
     : row.metLater
-      ? ` · ${labels.metLater} ${day(row.metLater.date)}`
+      ? ` · ${labels.metLater} ${devRecordDate(row.metLater.date)}`
       : "";
   const ids = [
     ...row.recordIds,
     ...(row.metLater ? [row.metLater.id] : []),
-  ].map((id) => {
-    const link = makeButton({ className: "link small", textContent: id });
-    link.addEventListener("click", () => void open(id));
-    return link;
-  });
+  ].map((id) => traceRecordButton(id, open));
   const li = el(
     "li",
     {},
@@ -62,7 +50,7 @@ export const slots = {
           ...(scenes.length
             ? scenes.flatMap((scene) => [
                 el("h4", {
-                  textContent: `${day(scene.date)} · ${scene.typeKey}`,
+                  textContent: `${devRecordDate(scene.date)} · ${scene.typeKey}`,
                 }),
                 el(
                   "ul",
