@@ -172,6 +172,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  scalesSet,
+  scalesShow,
   replyAvailable,
   replyCandidates,
   replyTarget,
@@ -7240,10 +7242,11 @@ function offerChoices(
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
   if (
-    last.subject.own &&
-    asked?.speakerId === otherId &&
-    asked.act === "ask" &&
-    !knowsTruth(core, otherId, playerId, last.subject.own)
+    scalesShow({
+      ownRecordAsked: !!last.subject.own,
+      askedByOther: asked?.speakerId === otherId && asked.act === "ask",
+      knowsTruth: () => knowsTruth(core, otherId, playerId, last.subject.own!),
+    })
   )
     conversation.lies = lieChoices(core, conversation, data, turn, facts);
 }
@@ -7335,40 +7338,27 @@ function lieChoices(
     return said ? [{ claim, said }] : [];
   });
   if (!bases.length) return [];
-  const out: ConversationChoice[] = [];
-  const seen = new Set<string>();
-  const sources = conversation.choices.length
-    ? conversation.choices
-    : [undefined];
-  sources.forEach((choice, index) => {
-    for (let step = zero; step < bases.length; step += one) {
-      const { claim, said } = bases[(index + step) % bases.length]!;
-      const text = joinedReply(said, choice?.tail);
-      if (seen.has(text)) continue;
-      seen.add(text);
-      out.push({
-        key: `${turn}:lie:${claim.stage}:${choice?.key ?? "plain"}`,
-        move: `lie-${claim.stage}${choice?.tail ? `+${choice.move}` : ""}`,
-        text,
-        answers: last.subject.id,
-        ...(choice?.tail && choice.raises ? { raises: choice.raises } : {}),
-        lie: true,
-        claim: { key: own.key, value: claim.value },
-        sourceRecordIds: [
-          ...new Set([
-            ...said.sourceRecordIds,
-            ...(choice?.tail?.sourceRecordIds ?? []),
-          ]),
-        ],
-        wording: {
-          ...said.wording,
-          parts: [...said.wording.parts, ...(choice?.tail?.parts ?? [])],
-        },
-      });
-      break;
-    }
-  });
-  return out;
+  return scalesSet(conversation.choices, bases, ({ said }, choice) =>
+    joinedReply(said, choice?.tail),
+  ).map(({ reply: choice, answer: { claim, said } }) => ({
+    key: `${turn}:lie:${claim.stage}:${choice?.key ?? "plain"}`,
+    move: `lie-${claim.stage}${choice?.tail ? `+${choice.move}` : ""}`,
+    text: joinedReply(said, choice?.tail),
+    answers: last.subject.id,
+    ...(choice?.tail && choice.raises ? { raises: choice.raises } : {}),
+    lie: true,
+    claim: { key: own.key, value: claim.value },
+    sourceRecordIds: [
+      ...new Set([
+        ...said.sourceRecordIds,
+        ...(choice?.tail?.sourceRecordIds ?? []),
+      ]),
+    ],
+    wording: {
+      ...said.wording,
+      parts: [...said.wording.parts, ...(choice?.tail?.parts ?? [])],
+    },
+  }));
 }
 
 /** The player's own subject an "own" answer tells, by the subject it answers. */

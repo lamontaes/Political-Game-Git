@@ -1036,6 +1036,50 @@ export function* replyCandidates<G extends { raises?: string }, S>(
   }
 }
 
+/**
+ * Whether the scales show: only when the last line is the other person's
+ * question about the player's own record, and they do not already hold the
+ * true value (`knowsTruth`, read only when the rest holds). Otherwise nothing
+ * about the player's record is in play and the scales are dimmed.
+ */
+export function scalesShow(input: {
+  ownRecordAsked: boolean;
+  askedByOther: boolean;
+  knowsTruth: () => boolean;
+}): boolean {
+  return input.ownRecordAsked && input.askedByOther && !input.knowsTruth();
+}
+
+/**
+ * The scales' set: every true reply made false, each keeping its own move
+ * (what it raises or turns back) and swapping the answer for one of the false
+ * answers, taken in turn so the set holds them all. A false reply that would
+ * read the same as another already in the set is left out; with no true reply
+ * the set is one plain false answer.
+ */
+export function scalesSet<C, B>(
+  replies: readonly C[],
+  falseAnswers: readonly B[],
+  textOf: (answer: B, reply: C | undefined) => string,
+): { reply: C | undefined; answer: B }[] {
+  const out: { reply: C | undefined; answer: B }[] = [];
+  const seen = new Set<string>();
+  const sources: readonly (C | undefined)[] = replies.length
+    ? replies
+    : [undefined];
+  sources.forEach((reply, index) => {
+    for (let step = zero; step < falseAnswers.length; step += one) {
+      const answer = falseAnswers[(index + step) % falseAnswers.length]!;
+      const text = textOf(answer, reply);
+      if (seen.has(text)) continue;
+      seen.add(text);
+      out.push({ reply, answer });
+      break;
+    }
+  });
+  return out;
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;
