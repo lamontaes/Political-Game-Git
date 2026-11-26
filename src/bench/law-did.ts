@@ -3,7 +3,7 @@
  * passed in play on the town's chain (a bill's, or dev mode's), newest first,
  * with whom it reached as the engines recorded it. The rows and the day each
  * was replaced come from the laws engine's history through the one history
- * reader (`historyOf`, `law.took-effect`). It reads the core's one
+ * reader (`historyOf`, `law.statute`). It reads the core's one
  * reader over every store that records a law applied to someone (`lawReach`,
  * law-reach/applied.ts), the same one dev mode's reach and trace read, so the
  * page and dev mode cannot differ. Full people are named with the money the
@@ -20,7 +20,7 @@ import {
 } from "../core2/law-reach/applied";
 import { historyOf, organizationName } from "../core2/past";
 import {
-  LAW_TOOK_EFFECT,
+  LAW_STATUTE,
   lawChain,
   LAWS_MODULE_ID,
   type LawRowInput,
@@ -88,7 +88,7 @@ export function lawDid(core: CoreState, series: string): readonly LawDid[] {
   const all = historyOf(
     core,
     { nation: true },
-    { kinds: [LAW_TOOK_EFFECT], about: series },
+    { kinds: [LAW_STATUTE], about: series },
   )
     .filter((event) => event.facts?.series === series)
     .flatMap((event) => {

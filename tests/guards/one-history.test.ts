@@ -264,7 +264,7 @@ const READ_THROUGH_THE_READER: readonly {
     file: "src/bench/law-did.ts",
     scope: "function",
     reason:
-      "a law page's rows and the day each was replaced come from historyOf (the laws engine's law.took-effect); each row is opened by its id",
+      "a law page's rows and the day each was replaced come from historyOf (the laws engine's law.statute); each row is opened by its id",
   },
 ];
 
