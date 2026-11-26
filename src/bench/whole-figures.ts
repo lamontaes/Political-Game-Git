@@ -269,46 +269,13 @@ const byId = (a: PackFigure, b: PackFigure) => (a.id < b.id ? -1 : 1);
 
 // stopgapId: SG-PLAY-people-pack-six
 // stopgapId: SG-PLAY-people-pack-v4-pose-gaps
-/** The figure a person takes on a mannequin: the same pose, then the nearest facing, then the same seat; none where the pack paints them no such pose. */
-export function figureForSpot(
-  core: CoreState,
-  who: FigurePerson,
-  place: string,
-  spot: PlateSpot,
-): PackFigure | null {
-  if (ageBandOf(core, who.birthDate) === "child") return null;
-  const person = packPersonOf(who);
-  if (!person) return null;
-  // A figure drawn at a desk the drawing leaves out goes only where a desk
-  // stands in front of it (the spot's desk edge).
-  const fits = (row: PackFigure) =>
-    row.person === person.id &&
-    row.pose === spot.pose &&
-    propHere(row, place) &&
-    (!row.needsDesk || spot.deskEdge !== undefined);
-  // At a desk, a figure drawn behind a table lies its forearms on the desk as
-  // drawn (pack v4 README); where the person has one, only those are taken.
-  const behind =
-    spot.hands !== undefined &&
-    packFigures().some((row) => fits(row) && row.drawnBehindTable);
-  return figureIn(
-    person,
-    who,
-    dressesFor(core, who, place),
-    (row) => fits(row) && (!behind || !!row.drawnBehindTable),
-    (a, b) =>
-      turnApart(a.facing, spot.facing) - turnApart(b.facing, spot.facing) ||
-      Number(b.seat === spot.seat) - Number(a.seat === spot.seat) ||
-      byId(a, b),
-  );
-}
 
 /**
  * The color each recolorable part is painted: one of the person's palette
  * set once from their seed; someone 65 or
  * older has gray hair where the palette has it.
  */
-export function colorsFor(
+function colorsFor(
   who: FigurePerson,
   person: PackPerson,
   band: AgeBand,
@@ -328,24 +295,15 @@ export function colorsFor(
   );
 }
 
-/** The figure's picture in the person's colors. */
-export function drawnUrl(
-  figure: PackFigure,
-  who: FigurePerson,
-  band: AgeBand,
-): string {
-  const person = packPerson(figure.person)!;
-  return figureUrl(figure, colorsFor(who, person, band));
-}
 
 /** A soft contact shadow on the floor, in percent of the picture. */
-export interface ContactShadow {
+interface ContactShadow {
   leftPercent: number;
   topPercent: number;
   widthPercent: number;
   heightPercent: number;
 }
-export interface FigureBox {
+interface FigureBox {
   leftPercent: number;
   topPercent: number;
   widthPercent: number;
@@ -360,59 +318,3 @@ export interface FigureBox {
 // many head widths wide and this flat.
 const SHADOW_HEADS = 2;
 const SHADOW_FLATNESS = 0.22;
-
-/**
- * The figure fitted to its mannequin (the plate README): scaled so head top
- * to feet (behind a desk, head top to resting hands) is the mannequin's, the
- * head centered on the mannequin's head. In percent of the plate's picture.
- */
-export function fitOn(
-  figure: PackFigure,
-  plate: Plate,
-  spot: PlateSpot,
-): FigureBox {
-  const [width, height] = plate.size;
-  // Behind a desk: head top to resting hands where the manifest gives the
-  // figure's hands row, else the mannequin's head width; cut off at the hands.
-  const desk = spot.hands !== undefined && spot.feet === undefined;
-  const scale = !desk
-    ? ((spot.feet ?? spot.box[3]) - spot.head.top) /
-      (figure.feet.y - figure.head.top)
-    : figure.hands !== undefined
-      ? (spot.hands! - spot.head.top) / (figure.hands - figure.head.top)
-      : spot.head.width / figure.head.width;
-  const left = spot.head.x - figure.head.x * scale;
-  const top = spot.head.top - figure.head.top * scale;
-  const across = (px: number) => (px / width) * 100;
-  const down = (px: number) => (px / height) * 100;
-  const [x0, y0, x1, y1] = spot.box;
-  const shadowWidth = across(figure.head.width * scale * SHADOW_HEADS);
-  const shadowHeight = shadowWidth * SHADOW_FLATNESS * (width / height);
-  return {
-    leftPercent: across(left),
-    topPercent: down(top),
-    widthPercent: across(figure.size[0] * scale),
-    // The box ends at the hands behind a desk; the picture past it is not drawn.
-    heightPercent: desk
-      ? down(spot.hands! - top)
-      : down(figure.size[1] * scale),
-    occluder: spot.front
-      ? {
-          url: frontUrl(spot.front),
-          leftPercent: across(x0),
-          topPercent: down(y0),
-          widthPercent: across(x1 - x0),
-          heightPercent: down(y1 - y0),
-        }
-      : null,
-    shadow:
-      spot.seat === "none" && spot.feet !== undefined
-        ? {
-            leftPercent: across(left + figure.feet.x * scale) - shadowWidth / 2,
-            topPercent: down(spot.feet) - shadowHeight / 2,
-            widthPercent: shadowWidth,
-            heightPercent: shadowHeight,
-          }
-        : null,
-  };
-}

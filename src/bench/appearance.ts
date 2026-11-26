@@ -246,7 +246,7 @@ function rowOptions(
 }
 
 /** What a picked option looks like in its row: a swatch's color, or a picture of the person wearing it. */
-export interface AppearanceOption {
+interface AppearanceOption {
   readonly id: string;
   readonly label: string;
   readonly chosen: boolean;

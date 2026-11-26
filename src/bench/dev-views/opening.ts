@@ -132,7 +132,7 @@ interface Made {
 }
 
 /** One opening value: what it is now, how it was made and where that is written down. */
-export interface OpeningRow {
+interface OpeningRow {
   readonly label: string;
   readonly value: string;
   readonly made: string;
@@ -144,7 +144,7 @@ export interface OpeningRow {
   readonly recordId?: string;
 }
 
-export type OpeningSubject =
+type OpeningSubject =
   "town" | "person" | "household" | "business" | "office";
 
 export interface OpeningView {
@@ -834,7 +834,7 @@ function choices(core: CoreState, placeId: string, playerId?: string) {
 }
 
 /** The view for one subject; with no id, the player's (their town, household, employer, first seat). */
-export function openingView(
+function openingView(
   core: CoreState,
   placeId: string,
   subject: OpeningSubject,
@@ -897,7 +897,7 @@ export interface OpeningDraw {
 }
 
 /** The sites a recorded opening drew at, folded by file and function, most draws first. */
-export function openingDraws(sites: readonly DrawSite[]): OpeningDraw[] {
+function openingDraws(sites: readonly DrawSite[]): OpeningDraw[] {
   const folded = new Map<
     string,
     { count: number; stages: Set<string>; primitives: Set<string> }

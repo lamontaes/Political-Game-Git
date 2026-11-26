@@ -3396,7 +3396,7 @@ const SURVIVOR_BY_THEIR_RECORD: Readonly<Record<string, "partner" | "child">> =
  * A person filled in from the wider population can carry the family ties
  * with only the relatives holding the facts.
  */
-export function survivorsOf(
+function survivorsOf(
   core: Readonly<CoreState>,
   person: Readonly<PersonState>,
 ): readonly {

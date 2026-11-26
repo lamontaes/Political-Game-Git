@@ -29,7 +29,7 @@ import {
 /** The full people (and the organizations) a page names under one law, the most money first (a list length, not a model value). */
 const NAMED = 8;
 
-export interface LawDidPerson {
+interface LawDidPerson {
   readonly personId: string;
   readonly name: string;
   readonly inTown: boolean;
@@ -37,7 +37,7 @@ export interface LawDidPerson {
   readonly endedOn: string | null;
 }
 
-export interface LawDidOrganization {
+interface LawDidOrganization {
   readonly organizationId: string;
   readonly name: string;
   readonly inTown: boolean;

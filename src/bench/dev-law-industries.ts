@@ -50,11 +50,11 @@ import { buildBenchWorld, buildRecipeOf } from "./world";
 export type TwinWorld = ReturnType<typeof buildBenchWorld>;
 
 /** The provenance a twin's restating rows carry, so a reader can tell them from the world's own. */
-export const NULL_BILL = "dev-mode-null-bill";
+const NULL_BILL = "dev-mode-null-bill";
 // The businesses the check lists (a list length, not a model value).
 const MOVED_SHOWN = 40;
 
-export interface IndustryMove {
+interface IndustryMove {
   kindId: string;
   /** The industry's name in the business books ("Agricultural production"). */
   name: string;
@@ -63,7 +63,7 @@ export interface IndustryMove {
   twin: IndustryFigures;
 }
 
-export interface IndustryFigures {
+interface IndustryFigures {
   open: number;
   closed: number;
   staff: number;
@@ -76,7 +76,7 @@ export interface IndustryFigures {
   priceIndex: number;
 }
 
-export interface BusinessMove {
+interface BusinessMove {
   organizationId: string;
   /** The business's own name. */
   name: string;
@@ -85,7 +85,7 @@ export interface BusinessMove {
   twin: BusinessFigures | null;
 }
 
-export type BusinessFigures = Pick<
+type BusinessFigures = Pick<
   IndustryBusiness,
   | "staff"
   | "salesMinor"
@@ -119,7 +119,7 @@ export interface IndustriesCheck {
   twinMs: number;
 }
 
-export interface RestatedRow {
+interface RestatedRow {
   /** This world's row the twin's row stands beside. */
   lawId: string;
   series: string;
@@ -219,7 +219,7 @@ function businessFigures(row: IndustryBusiness): BusinessFigures {
 }
 
 /** Two tallies matched by kind and by business: the one count, read twice. */
-export function compareTallies(
+function compareTallies(
   here: IndustryTally,
   twin: IndustryTally,
 ): Pick<IndustriesCheck, "industries" | "businesses" | "businessesMoved"> {

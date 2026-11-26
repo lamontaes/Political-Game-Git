@@ -57,7 +57,7 @@ import type {
 } from "../core2/types";
 import type { ScheduleEntry } from "../director/scheduling";
 
-export interface WhyRow {
+interface WhyRow {
   readonly label: string;
   readonly value: string | number;
   /** A record the row names; the page opens it in the trace. */

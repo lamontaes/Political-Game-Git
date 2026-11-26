@@ -181,7 +181,7 @@ export function wordPrintedStory(
 }
 
 /** An outlet as News draws it: its record id, name and the layout of its kind. */
-export function outletOf(
+function outletOf(
   core: CoreState,
   outletId: string,
 ): { id: string; name: string; layout: string } | undefined {

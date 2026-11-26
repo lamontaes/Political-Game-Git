@@ -12,7 +12,7 @@ export interface Holder {
   party: string | null;
   from: string;
 }
-export const CONGRESS_2027 = "2027-01-03";
+const CONGRESS_2027 = "2027-01-03";
 
 export function seatingProblems(
   race: SeatedRace,

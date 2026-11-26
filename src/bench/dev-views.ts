@@ -11,7 +11,7 @@ import { readdir } from "node:fs/promises";
 import type { DevMode } from "./dev-mode";
 
 /** What a view's route is given: the bench's DevMode, the query and, for a POST, the body. */
-export interface DevViewRequest {
+interface DevViewRequest {
   readonly mode: DevMode;
   readonly q: (key: string) => string;
   readonly input: Readonly<Record<string, unknown>>;

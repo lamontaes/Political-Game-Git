@@ -112,7 +112,7 @@ import {
   type WorldSettings,
 } from "../core2/life";
 
-export interface BenchResident {
+interface BenchResident {
   id: string;
   name: string;
   age: number;
@@ -201,7 +201,7 @@ function townResidents(input: CoreInput, placeId: string) {
  * you pick another age"): the start date's own month and day, `PLAYER_MIN_AGE`
  * years back (a leap day falls on the 28th).
  */
-export function defaultPlayerBirthDate(startDate: string): string {
+function defaultPlayerBirthDate(startDate: string): string {
   const day = makeIsoDate(startDate);
   const [year, month, date] = day.split("-");
   return `${Number(year) - PLAYER_MIN_AGE}-${month}-${month === "02" && date === "29" ? "28" : date}`;

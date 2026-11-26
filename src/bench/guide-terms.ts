@@ -26,7 +26,7 @@ import glossary from "../../data/research/glossary/terms.json" with { type: "jso
  */
 
 /** Research notes for the authors of an entry. Never shown in play. */
-export interface GuideTermAuthoring {
+interface GuideTermAuthoring {
   readonly sourceNotes: string;
   readonly sourceUrls: readonly string[];
 }
@@ -47,7 +47,7 @@ export interface GuideTermEntry {
   readonly authoring: GuideTermAuthoring;
 }
 
-export interface GuideTermSource {
+interface GuideTermSource {
   readonly note: string;
   readonly url: string | null;
 }

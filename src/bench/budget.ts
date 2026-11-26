@@ -125,7 +125,7 @@ function withTrend(
  * The totals are exact numbers until a long save's treasury passes 2^53 cents
  * (about $90 trillion), then the nearest number to the journal's exact sum.
  */
-export function booksOf(core: CoreState, organizationId: string) {
+function booksOf(core: CoreState, organizationId: string) {
   const journal = core.cashJournal;
   const totals = journal.totalsByOwner.get(organizationId);
   if (!totals?.count) return null;

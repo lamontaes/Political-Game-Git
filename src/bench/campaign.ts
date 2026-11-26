@@ -455,7 +455,7 @@ export interface RaceSaid {
  * (`seatSaid`), the next vote and the filing deadline as dates people say,
  * all read from the contest and office records.
  */
-export function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
+function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")

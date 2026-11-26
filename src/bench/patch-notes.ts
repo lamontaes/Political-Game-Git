@@ -8,14 +8,14 @@
  */
 
 /** One change: the bullet's bold lead as its headline, the rest as its text. */
-export interface PatchNote {
+interface PatchNote {
   readonly title?: string;
   readonly text: string;
   /** The one short line the screen lists: the bold lead, or the text's first sentence. */
   readonly headline: string;
 }
 
-export interface PatchNoteGroup {
+interface PatchNoteGroup {
   readonly heading: string;
   readonly notes: readonly PatchNote[];
 }

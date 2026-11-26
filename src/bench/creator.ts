@@ -31,15 +31,15 @@ import { backdropFile } from "./scene";
  * CreatorBirthdayFields at 29be9982f5^), on the new core: gender, name and
  * birthday; then where you are from; then the appearance (appearance.ts).
  */
-export const GENDERS = ["female", "male", "nonbinary"] as const;
+const GENDERS = ["female", "male", "nonbinary"] as const;
 export type CreatorGender = (typeof GENDERS)[number];
 /**
  * The youngest a life can begin at (owner, Nov 16: "Just do 18 and up right now. Life before 18
  * will come after early access."; world.ts `PLAYER_MIN_AGE`).
  */
-export const CREATOR_MIN_AGE = PLAYER_MIN_AGE;
+const CREATOR_MIN_AGE = PLAYER_MIN_AGE;
 /** The old creator's upper bound (MAXIMUM_START_AGE). */
-export const CREATOR_MAX_AGE = 70;
+const CREATOR_MAX_AGE = 70;
 
 /**
  * A name from the national corpus, drawn by seed and draw number. With no
@@ -67,7 +67,7 @@ export function drawName(seed: string, draw: number, gender?: string) {
  * published weights), on the visit's seed and draw, so Random makes the same
  * kind of person the world does and adds no pick of its own.
  */
-export function drawGender(seed: string, draw: number): CreatorGender {
+function drawGender(seed: string, draw: number): CreatorGender {
   const { gender } = generatePersonIdentity(
     new SeededRng(`${seed}:gender:${draw}`),
   );

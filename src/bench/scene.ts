@@ -709,7 +709,7 @@ function isOfficial(core: CoreState, id: string): boolean {
 }
 
 /** The place a backdrop file paints (`<place>__<variant>.jpg`). */
-export const placeOfBackdrop = (file: string) => file.split("__")[0]!;
+const placeOfBackdrop = (file: string) => file.split("__")[0]!;
 /** The places a mannequin plate stages people in. */
 const PLATED = new Set(
   plates().map((plate) => placeOfBackdrop(plate.backdrop)),

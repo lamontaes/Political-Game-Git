@@ -75,13 +75,13 @@ export interface BenchFilingVisit {
   intro: { text: string; sourceRecordIds: readonly string[] }[];
 }
 
-export interface SeatFacts {
+interface SeatFacts {
   seat: string | null;
   electionDate: string;
   holder: string | null;
 }
 
-export interface FilingOverlay {
+interface FilingOverlay {
   contestId: string;
   title: string;
   filingDeadline: string;

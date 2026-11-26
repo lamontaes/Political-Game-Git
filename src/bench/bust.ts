@@ -9,7 +9,7 @@
 // piece's file is. The screen stacks them (ui/bust.mjs).
 import { readFileSync } from "node:fs";
 
-export const BUST_PACK = "v1";
+const BUST_PACK = "v1";
 const PACK_DIR = new URL(`../../art/busts/${BUST_PACK}/`, import.meta.url);
 
 /** How someone is dressed where they are seen: what a bust wears. */

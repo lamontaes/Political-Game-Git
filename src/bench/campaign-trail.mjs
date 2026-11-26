@@ -44,7 +44,3 @@ export async function openCampaignTrail(page) {
   await entry.click();
   await own.first().waitFor();
 }
-/** The trail's acts (tiles), by their words. */
-export function trailButtons(page) {
-  return page.locator("#sheet-body.place-view .travel-tile");
-}

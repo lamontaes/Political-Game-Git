@@ -138,7 +138,7 @@ import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
-export const RUN_EVENTS = {
+const RUN_EVENTS = {
   "bill-passes": ["bill-presented"],
   "bill-fails": ["bill-failed"],
   election: ["election-result"],
@@ -164,9 +164,9 @@ const SCENE_RECIPES: Readonly<Record<string, string>> = {
   "job-offered": "apply",
 };
 
-export const DEV_MODE = "dev-mode";
+const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
-export const DEV_MODE_RECORD = "dev-mode-change";
+const DEV_MODE_RECORD = "dev-mode-change";
 
 export type LawLevel = GovernmentLevel;
 
@@ -207,7 +207,7 @@ const has = (core: CoreState, id: string) => core.modules.has(id);
 const devFollowed = new WeakMap<CoreState, Set<string>>();
 
 /** How a person comes to be in focus: dev mode followed them, the player deals with them, or neither. */
-export type FollowStatus = "dev-mode" | "player-circle" | "none";
+type FollowStatus = "dev-mode" | "player-circle" | "none";
 
 export interface FollowView {
   readonly personId: string;

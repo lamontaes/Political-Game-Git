@@ -5,11 +5,11 @@
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 
 /** How a person at a spot is posed. */
-export type SpotPose = "stand" | "sit" | "podium" | "lean";
+type SpotPose = "stand" | "sit" | "podium" | "lean";
 /** Which way a person at a spot faces: the camera, or a side of the picture. */
-export type SpotFacing = "viewer" | "left" | "right" | "away";
+type SpotFacing = "viewer" | "left" | "right" | "away";
 
-export interface StagingSpot {
+interface StagingSpot {
   readonly id?: string;
   readonly role?: string;
   /** The foot point, in percent of the picture (a seated person's too). */
@@ -56,7 +56,7 @@ const PLACES = staging.places as unknown as Readonly<
 >;
 
 /** The place pictures are all 1672 x 941. */
-export const BACKDROP_ASPECT = 1672 / 941;
+const BACKDROP_ASPECT = 1672 / 941;
 
 export function backdropStaging(place: string): PlaceStaging | null {
   return PLACES[place] ?? null;

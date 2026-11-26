@@ -72,7 +72,7 @@ export const LEGISLATURE_REASONS: Readonly<Record<string, string>> = {
 };
 
 /** Why a recipe could not run in this world, a reason key of the scene view's labels. */
-export type LegislatureRefusal =
+type LegislatureRefusal =
   | "no-seat"
   | "no-colleague"
   | "no-question"
@@ -80,7 +80,7 @@ export type LegislatureRefusal =
   | "no-sitting"
   | "no-player";
 
-export interface LegislatureForce {
+interface LegislatureForce {
   readonly recipe: "legislature";
   readonly way: string;
   readonly personId: string | null;

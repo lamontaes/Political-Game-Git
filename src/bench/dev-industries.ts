@@ -170,7 +170,7 @@ export function industryTally(api: CoreAPI, placeId?: string): IndustryTally {
 }
 
 /** One month of one business: its trading record and the jobs that changed in it. */
-export interface IndustryBusinessMonth {
+interface IndustryBusinessMonth {
   /** The trading record's id, for the trace. */
   readonly id: string;
   readonly date: string;

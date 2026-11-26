@@ -60,10 +60,6 @@ const PLATES: ReadonlyMap<string, Plate> = new Map(
     ),
 );
 
-/** The plate painted on this backdrop file or another light of it, or none: then nobody is drawn there. */
-export function plateFor(backdropFile: string): Plate | null {
-  return PLATES.get(backdropFile) ?? null;
-}
 /** Every plate, for the checks and the proof sheet. */
 export function plates(): readonly Plate[] {
   return [...PLATES.values()];

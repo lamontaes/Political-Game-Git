@@ -48,7 +48,7 @@ const LEGISLATURE = "core2-legislature-v1";
 const OFFICES = "core2-offices-v1";
 
 /** Where a bill stands, as a code the screens word. */
-export type BillStageCode =
+type BillStageCode =
   | "drafted"
   | "in-committee"
   | "on-the-floor"
@@ -117,7 +117,7 @@ function reasonsOf(
 }
 
 /** The side a member has told the player they lean to: from the stake the player learned. */
-export type ToldSide = "for" | "against" | "open";
+type ToldSide = "for" | "against" | "open";
 
 /** `asId`: whose word-of-members to read (the player by default; a screen for another seat passes theirs). */
 export function billStage(core: CoreState, billId: string, asId?: string) {

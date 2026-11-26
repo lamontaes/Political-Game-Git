@@ -42,9 +42,9 @@ import type { Director } from "../director/ledger";
 import type { Moment } from "../director/types";
 import { momentStagedPanel, whyPanels, type WhyPanel } from "./dev-why";
 
-export type TraceKind = "record" | "reason" | "learned" | "person" | "missing";
+type TraceKind = "record" | "reason" | "learned" | "person" | "missing";
 
-export interface TraceChild {
+interface TraceChild {
   readonly id: string;
   readonly kind: TraceKind;
   /** The engine and field or function that links the child to its parent. */
@@ -68,7 +68,7 @@ export interface TraceChild {
  *     engine named no record behind it (the gap to file against that engine);
  *   - not-a-record: the id is kept nowhere and names no record.
  */
-export type TraceAnswer =
+type TraceAnswer =
   | "decided"
   | "caused"
   | "circle-only"
@@ -76,7 +76,7 @@ export type TraceAnswer =
   | "no-cause-kept"
   | "not-a-record";
 
-export interface TraceCause {
+interface TraceCause {
   readonly id: string;
   readonly engine: string;
   readonly kind: string;
@@ -121,17 +121,17 @@ export const COUNTED_ENGINE = "core2-residents.counted";
 /** A director's moment, kept in a person's book. */
 export const MOMENT_ENGINE = "director.moments";
 /** The simulated past's own history. */
-export const HISTORY_ENGINE = "core2-pre-start.history";
+const HISTORY_ENGINE = "core2-pre-start.history";
 /** A fact of the generated past kept on its person's record. */
 export const PAST_FACT_ENGINE = "core.people.pastFacts";
 /** A cash account, with its owner and what it holds. */
-export const ACCOUNT_ENGINE = "core.cashJournal.accounts";
+const ACCOUNT_ENGINE = "core.cashJournal.accounts";
 /** A place, as the core keys its people and records by it. */
 export const PLACE_ENGINE = "core.places";
 /** A payment the cash journal posted and no longer itemizes. */
-export const FOLDED_ENGINE = "core.cashJournal.folded";
+const FOLDED_ENGINE = "core.cashJournal.folded";
 /** An outside race folded into its seat's newest race row (`foldOutsideRaces`). */
-export const FOLDED_RACE_ENGINE = `${VOTING_MODULE_ID}.races.past`;
+const FOLDED_RACE_ENGINE = `${VOTING_MODULE_ID}.races.past`;
 /** An id no store keeps, made by a view around the ids of records that are kept. */
 export const ID_PARTS_ENGINE = "id-parts";
 
