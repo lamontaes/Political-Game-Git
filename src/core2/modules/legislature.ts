@@ -438,8 +438,8 @@ const BILLS_HISTORY: HistorySource = {
 /**
  * The bills a person sponsored, as their history tells them (the
  * legislature's bills, `bill.introduced`), each opened by its id: oldest
- * first, then by id. Every view of a member's bills reads this, never the
- * bills table as a list.
+ * first, and a day's bills by their number ("2027-2" before "2027-10").
+ * Every view of a member's bills reads this, never the bills table as a list.
  */
 export function sponsoredBills(core: CoreState, personId: string): BillRow[] {
   if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
@@ -448,10 +448,17 @@ export function sponsoredBills(core: CoreState, personId: string): BillRow[] {
     core,
     { person: personId as PersonId },
     { kinds: [BILL_INTRODUCED] },
-  ).flatMap((event) => {
-    const bill = table.get(event.id) as unknown as BillRow | undefined;
-    return bill ? [bill] : [];
-  });
+  )
+    .flatMap((event) => {
+      const bill = table.get(event.id) as unknown as BillRow | undefined;
+      return bill ? [bill] : [];
+    })
+    .sort(
+      (a, b) =>
+        a.introduced.localeCompare(b.introduced) ||
+        a.number.localeCompare(b.number, "en-US", { numeric: true }) ||
+        a.id.localeCompare(b.id),
+    );
 }
 
 export const LEGISLATURE_MODULE: CoreModule & HistoryModule = {
