@@ -1,7 +1,7 @@
 /** Actual finance source adapters. Arithmetic stays in the read-only planner. */
 import { bookkeeping } from "./bookkeeping";
 import { countedJob, residentsRuntime } from "./modules/residents";
-import { countedJobsOf } from "./residents-economy";
+import { countedJobsOf } from "./modules/residents";
 import { makeIsoDate } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
 import {

@@ -18,7 +18,7 @@ import {
   servingTermsOf,
   type TermRow,
 } from "./modules/offices";
-import type { OfficeInput } from "./offices-local";
+import type { OfficeInput } from "./modules/offices";
 
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 
