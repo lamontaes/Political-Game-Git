@@ -1,7 +1,7 @@
 /** Proposed recorded-payday cash owner. Attendance creates no cash or choice here. */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { bookkeeping } from "./bookkeeping";
-import { cashJournalParameters } from "./budgets-treasury";
+import { cashJournalParameters } from "./cash-host";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";
 import {
@@ -9,14 +9,14 @@ import {
   FinancePlanningSession,
   guardWorkFinanceResult,
   prepareWorkFinancePlan,
-} from "./budgets-treasury";
+} from "./finance-plan";
 import {
   admitCompositeFinanceCreditSources,
   cancelCompositeFinanceCreditSources,
   ensureFinanceCashModule,
   finishCompositeFinanceCreditSources,
   resolveCompositeFinanceCreditSources,
-} from "./budgets-treasury";
+} from "./finance-cash";
 import {
   preparePublicWorkPay,
   resolvePublicWorkPayDue,
@@ -37,21 +37,18 @@ import {
   prepareWorkPayrollRequest,
   prepareWorkPayrollSettlement,
 } from "./work-pay-period";
+import type { PreparedFinancePlan, PreparedWorkFinance } from "./finance-plan";
+import type { CreditReceipt } from "./finance-types";
 import type {
-  PreparedFinancePlan,
-  PreparedWorkFinance,
-} from "./budgets-treasury";
-import type { CreditReceipt } from "./budgets-treasury";
-import type { CashJournalPosting } from "./modules/people";
-import type {
+  CashJournalPosting,
   CashJournalSourceRef,
   ResolvedCashJournalSource,
-} from "./modules/health";
+} from "./journal";
 import type {
   CashJournalPostedMarker,
   CashJournalSourceProvider,
   CashJournalSourceSlot,
-} from "./modules/health";
+} from "./journal-state";
 import type {
   CoreAPI,
   CoreModule,
