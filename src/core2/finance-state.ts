@@ -1,4 +1,4 @@
-import { refreshOfficeStaff } from "./civic-inputs";
+import { refreshOfficeStaff } from "./modules/campaigns";
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
@@ -6,11 +6,11 @@ import {
   supplierBillsOwedTo,
 } from "./modules/residents";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { countedJobsOf } from "./residents-economy";
+import { countedJobsOf } from "./modules/residents";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
-import { webFactorFor } from "./outcome-web-reach";
+import { webFactorFor } from "./modules/laws";
 import { traceWebPriceLaws } from "./modules/outcome-web";
 import { sellerTaxShare } from "./modules/purchase-tax";
 import {
