@@ -69,7 +69,8 @@ import { keepsWhy } from "../why-kept";
 import { placeStateKey } from "../place-map";
 import { registerStanceListener, stanceMoved } from "../stance-listeners";
 import { VIEWS_KEYS, type CellKey } from "../views-keys";
-import { PAST_WORK_SPELL, pastWorkOf } from "../past-module";
+import { PAST_WORK_SPELL } from "../past-module";
+import { historyOf } from "../past";
 import {
   countedGroupStance,
   countedStancesOfHousehold,
@@ -528,8 +529,13 @@ function leanAndEngagement(
 
 /** The layoffs among a person's work spells before the start, oldest first, with the day each ended and the day they next started work. */
 function layoffsOf(api: CoreAPI, personId: PersonId) {
-  const spells = pastWorkOf(api.state, personId)
-    .filter((row) => row.kind === PAST_WORK_SPELL)
+  // The work spells of the simulated past, from the one history reader.
+  const spells = historyOf(
+    api.state as CoreState,
+    { person: personId },
+    { kinds: [PAST_WORK_SPELL], from: "past" },
+  )
+    .map((event) => ({ id: event.id, facts: event.facts ?? {} }))
     .sort((a, b) =>
       String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
     );

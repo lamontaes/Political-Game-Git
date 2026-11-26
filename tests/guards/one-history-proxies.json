@@ -19,7 +19,6 @@
       "src/core2/modules/candidacy.ts": 2,
       "src/core2/modules/counted-demotion.ts": 1,
       "src/core2/modules/elections.ts": 3,
-      "src/core2/modules/executive.ts": 5,
       "src/core2/modules/jobs.ts": 1,
       "src/core2/modules/laws.ts": 4,
       "src/core2/modules/offices.ts": 9,
@@ -27,11 +26,10 @@
       "src/core2/modules/outcome-web.ts": 1,
       "src/core2/modules/parties.ts": 3,
       "src/core2/modules/people.ts": 39,
-      "src/core2/modules/press.ts": 6,
       "src/core2/modules/renewal.ts": 1,
       "src/core2/modules/school.ts": 5,
       "src/core2/modules/succession.ts": 1,
-      "src/core2/modules/views.ts": 4,
+      "src/core2/modules/views.ts": 2,
       "src/core2/modules/voting.ts": 2
     }
   }
