@@ -172,6 +172,7 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  goodbyeSaid,
   raiseComposedSubject,
   raiseFacts,
   scalesSet,
@@ -7674,41 +7675,27 @@ function endConversation(
   conversation.choices = [];
   conversation.lies = [];
   const { playerId, otherId } = conversation;
-  if (conversation.lines.at(-one)?.kind === "farewell") return;
-  // Nobody says goodbye right after their own question was answered
-  // ("Do you remember the school?" "Yes." "Okay, bye." is not a talk): the
-  // answer is where it stops, or the asker has gone on to something else.
   const lastFromOther = [...conversation.lines]
     .reverse()
     .find((line) => line.speakerId === otherId && line.kind !== "ack");
-  // A call is the exception: it is closed by the person called, or it hangs.
-  if (
-    !conversation.byPhone &&
-    lastFromOther &&
-    asksQuestion(lastFromOther) &&
-    conversation.lines.indexOf(lastFromOther) < conversation.lines.length - one
-  )
-    return;
-  // People who live together close a talk as housemates do: never "Come
-  // back soon." at home, and no hello passed on to their own family.
-  // A call is ended as a call, even between people who live together: the
-  // goodbye is the phone's own (Words lead, Nov 14: calls ended with none).
   const housemate =
     !conversation.byPhone &&
     core.people.get(otherId)?.householdId ===
       core.people.get(playerId)?.householdId;
-  // A talk between people who live together ends on its last line that says
-  // something: nobody at home announces where they will be or that they will
-  // check in (owner, Nov 12: "the same bullshit ... with the just
-  // non-replies").
-  if (housemate) return;
-  // Nor does a talk about hard news of their own life (put out of their home,
-  // a job lost, a death): it ends on their last answer, never "Come back
-  // soon." or "Say hello to Mom." to someone who just lost their home (W1's
-  // strict review, Nov 12).
   if (
-    !conversation.byPhone &&
-    NEWS_SUBJECTS.has(subjectKindOf(conversation.topics[zero] ?? ""))
+    !goodbyeSaid({
+      byPhone: !!conversation.byPhone,
+      lastWasGoodbye: conversation.lines.at(-one)?.kind === "farewell",
+      theirQuestionAnswered:
+        !!lastFromOther &&
+        asksQuestion(lastFromOther) &&
+        conversation.lines.indexOf(lastFromOther) <
+          conversation.lines.length - one,
+      housemates: housemate,
+      hardNews: NEWS_SUBJECTS.has(
+        subjectKindOf(conversation.topics[zero] ?? ""),
+      ),
+    })
   )
     return;
   // "Say hello to {name}." only for someone in the player's family they know.

@@ -1128,6 +1128,31 @@ export function raiseFacts(
   };
 }
 
+/**
+ * Whether the other person says goodbye when a talk ends. Not if they just
+ * said one. Nobody says goodbye right after their own question was answered
+ * ("Do you remember the school?" "Yes." "Okay, bye." is not a talk): the
+ * answer is where it stops, or the asker has gone on to something else.
+ * People who live together close a talk as housemates do, on the last line
+ * that says something, and so does a talk about hard news of their own life
+ * (a job lost, a death): never "Come back soon." to someone who just lost
+ * their home. A call is the exception to all three: it is closed by the
+ * person called, with the phone's own goodbye, or it hangs.
+ */
+export function goodbyeSaid(input: {
+  byPhone: boolean;
+  lastWasGoodbye: boolean;
+  /** Their last line asked a question, and the player's answer came after it. */
+  theirQuestionAnswered: boolean;
+  housemates: boolean;
+  hardNews: boolean;
+}): boolean {
+  if (input.lastWasGoodbye) return false;
+  if (!input.byPhone && input.theirQuestionAnswered) return false;
+  if (input.housemates && !input.byPhone) return false;
+  return !(input.hardNews && !input.byPhone);
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;
