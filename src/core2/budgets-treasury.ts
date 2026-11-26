@@ -48,7 +48,7 @@ import {
   rerateCountedRetirement,
   residentsRuntime,
 } from "./modules/residents";
-import { countedJobHeads, countedJobsOf } from "./residents-economy";
+import { countedJobHeads, countedJobsOf } from "./modules/residents";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import {
@@ -58,7 +58,6 @@ import {
   type Story,
 } from "./modules/news";
 export { transferCash } from "./world-transfer";
-export { cutRibbon, ribbonsToCut } from "./modules/projects";
 export { CONTRACTS_MODULE_ID, OWNER_RELATION } from "./modules/contracts";
 export type { ContractAwardRow } from "./modules/contracts";
 export { FinanceReadGuard } from "./finance-plan";

@@ -53,7 +53,7 @@ import {
   worldRoster,
   worldSwing,
 } from "./elections";
-import { legislativeDistrictResult } from "./campaigns";
+import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";

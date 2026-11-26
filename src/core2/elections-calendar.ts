@@ -17,14 +17,14 @@
 import nomination from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import { governmentUnit } from "./reference/government-units";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { resolveMunicipalElectionTiming } from "./modules/executive";
-import type { MunicipalElectionTiming } from "./modules/executive";
-import { nextCountyElection } from "./modules/executive";
+import { resolveMunicipalElectionTiming } from "./gov-rules/municipal-ballot-rules";
+import type { MunicipalElectionTiming } from "./gov-rules/municipal-election-rules";
+import { nextCountyElection } from "./gov-rules/county-election-calendar";
 import {
   FILING_LEAD_DAYS,
   FILING_LEAD_SOURCE,
   novemberGeneralElectionDay,
-} from "./modules/executive";
+} from "./gov-rules/town-election-calendar";
 import type { OfficeInput } from "./modules/offices";
 
 /** The general election day in November, for the races every level holds on it. */

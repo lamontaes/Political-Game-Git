@@ -3,7 +3,7 @@
  * state or federal candidate who isn't a full person yet still has a name).
  */
 import type { CoreAPI } from "./types";
-import { drawOfficialIdentity } from "./modules/executive";
+import { drawOfficialIdentity } from "./officials-identity";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 

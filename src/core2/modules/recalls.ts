@@ -50,9 +50,9 @@ import { citizenShareOf } from "../electorate-places";
 import { electorateChange } from "../electorate-inputs";
 import recallBarData from "../data/campaigns/recall-bars.json" with { type: "json" };
 import recallAnswers from "../data/campaigns/recall-answers.json" with { type: "json" };
-import { resolveMunicipalRecallRule } from "./executive";
-import type { PetitionSignatureBase } from "./executive";
-import { resolveRequiredSignatures } from "./executive";
+import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
+import type { PetitionSignatureBase } from "../gov-rules/municipal-election-rules";
+import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
 import {
   addMonths,
   ageInYears,

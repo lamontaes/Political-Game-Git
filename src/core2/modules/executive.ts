@@ -67,7 +67,7 @@ import {
   type NominationReasons,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { personLean } from "./campaigns";
+import { personLean } from "../campaign-views";
 import { appointeeHourlyMinor } from "../town-labor-pay";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
@@ -102,26 +102,6 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
-export { caucusSide, nationalParty, partyName } from "../appointments";
-export { drawOfficialIdentity } from "../officials-identity";
-export { OFFICIALS_DATA } from "../officials-roster";
-export {
-  resolveMunicipalElectionTiming,
-  resolveMunicipalRecallRule,
-} from "../gov-rules/municipal-ballot-rules";
-export { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
-export type {
-  MunicipalElectionTiming,
-  PetitionSignatureBase,
-} from "../gov-rules/municipal-election-rules";
-export { nextCountyElection } from "../gov-rules/county-election-calendar";
-export {
-  FILING_LEAD_DAYS,
-  FILING_LEAD_SOURCE,
-  novemberGeneralElectionDay,
-} from "../gov-rules/town-election-calendar";
-export { holdoverRule } from "../office-holdover";
-export { caseWarmthsOf } from "./constituent-cases";
 export { giveLivingCost, spendLivingCost } from "../official-living";
 export { isRealOfficeholderName } from "../officials-names";
 export { payPostFromOutside } from "./official-pay";
