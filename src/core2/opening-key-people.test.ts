@@ -66,8 +66,9 @@ describe.each([0, 1, 2])("the opening's key people, draw %i", (draw) => {
       expect(byReason("own-us-senator"), context).toHaveLength(
         own(["us-senate"]),
       );
+      // A territory's delegate is its representative (the ruled data lists both kinds).
       expect(byReason("own-us-representative"), context).toHaveLength(
-        own(["us-house"]),
+        own(keyData.ownOffices["own-us-representative"]),
       );
       expect(byReason("own-state-legislator"), context).toHaveLength(
         own([
