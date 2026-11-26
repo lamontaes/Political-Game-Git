@@ -78,7 +78,7 @@ export interface TieRow {
   readonly reason: string;
 }
 
-export const PARTIES_MODULE: CoreModule = {
+const PARTIES_MODULE: CoreModule = {
   id: PARTIES_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -873,7 +873,7 @@ export interface ChairRow {
  * going to the stronger pull. The record and a news event follow the same
  * day; returns null where the party has no member left in town.
  */
-export function chooseChair(
+function chooseChair(
   api: CoreAPI,
   party: PartyRow,
   cause: string,

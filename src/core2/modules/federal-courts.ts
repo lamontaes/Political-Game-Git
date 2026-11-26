@@ -25,7 +25,7 @@ import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { lawInForce } from "./laws";
 
-export const FEDERAL_COURTS_MODULE_ID = "federal-courts";
+const FEDERAL_COURTS_MODULE_ID = "federal-courts";
 const RUN_KIND = "federal-courts";
 const MONTHS_PER_YEAR = 12;
 export const REDUCE_MANDATORY_MINIMUMS =
@@ -110,7 +110,7 @@ function flowOf(group: Group) {
  * the group's own cases) moves from the mean sentence of cases still subject
  * to that of cases relieved of it.
  */
-export function reductionFactor(group: Group): number {
+function reductionFactor(group: Group): number {
   const mm = USSC.mandatoryMinimums;
   const share =
     (mm.shareOfMandatoryMinimumCasesByOffensePct[MM_KEY[group]] ?? 0) / 100;
@@ -242,7 +242,7 @@ function schedule(api: CoreAPI): void {
   });
 }
 
-export const FEDERAL_COURTS_MODULE: CoreModule = {
+const FEDERAL_COURTS_MODULE: CoreModule = {
   id: FEDERAL_COURTS_MODULE_ID,
   state: { schemaVersion: 1, tables: { state: {}, months: {} } },
   onCalendarWork(api, work) {

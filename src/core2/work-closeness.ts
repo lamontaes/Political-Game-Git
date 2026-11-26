@@ -16,7 +16,7 @@ import { daysBetweenText } from "./kernel/dates";
 import { creditSharedTime } from "./shared-time";
 import type { CoreAPI, IsoDate, PersonId, WorkCommitmentInput } from "./types";
 
-export const WORK_TIME_CAUSE = "worked the same hours at one employer";
+const WORK_TIME_CAUSE = "worked the same hours at one employer";
 
 /** Minutes two commitments' schedules overlap on one date (zero outside either's span). */
 function overlapOn(

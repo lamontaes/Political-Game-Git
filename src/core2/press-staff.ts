@@ -31,7 +31,7 @@ import staffJson from "./data/press/staff.json" with { type: "json" };
 import mastheadsJson from "./data/press/mastheads.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId, Source } from "./types";
 
-export type StaffRole = "owner" | "head" | "reporter";
+type StaffRole = "owner" | "head" | "reporter";
 
 interface RoleRow {
   readonly id: StaffRole;

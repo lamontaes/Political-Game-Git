@@ -19,7 +19,7 @@ import { webDayCache, webReach, type Subject } from "./outcome-web-reach";
 import { registerWorldMapPart } from "./snapshot";
 import type { CoreAPI, CoreState } from "./types";
 
-export const OTHER_CAUSE = "other";
+const OTHER_CAUSE = "other";
 export const OVERDOSE_CAUSE = "drug-overdose";
 /** The event fact a death carries its cause under. */
 export const DEATH_CAUSE_FACT_KEY = "causeOfDeath";

@@ -70,13 +70,13 @@ import {
 } from "./modules/legislature";
 import { headsLocalExecutive, executiveRow } from "./offices-executives";
 
-export const OFFICE_DUTY = "office-duty";
+const OFFICE_DUTY = "office-duty";
 /**
  * The need the seat's work answers. Holding an office puts it on the person
  * as the share of the seat's scheduled acts that have come due, the way the
  * children at home put the dependents need on them.
  */
-export const OFFICE_DUTY_NEED = "duty";
+const OFFICE_DUTY_NEED = "duty";
 const DEPARTMENT_HEAD = "department-head";
 const TOWN_POST = "town-post";
 const COLLEAGUE = "colleague";
@@ -428,7 +428,7 @@ function dueOf(
  * vacant post, a finished project, a budget due) is due while it is offered.
  * The holder's own choice weighs it against resting and the rest of the day.
  */
-export function officeActReasons(host: OfficeActHost) {
+function officeActReasons(host: OfficeActHost) {
   return {
     "office-duty-due": (
       api: CoreAPI,
@@ -449,7 +449,7 @@ export function officeActReasons(host: OfficeActHost) {
   };
 }
 
-export function officeActProviders(host: OfficeActHost) {
+function officeActProviders(host: OfficeActHost) {
   const holds = (api: CoreAPI, actor: Readonly<PersonState>) =>
     actor.id === controlled(api) && host.officesOf(api, actor.id).length > 0;
   return {
@@ -563,7 +563,7 @@ export function officeActProviders(host: OfficeActHost) {
  * the one engine's. The extraversion row of `meetings.hold-town-hall` stands
  * in for the speaker's pull: no study of officials giving an address was found.
  */
-export function worldAddresses(host: OfficeActHost) {
+function worldAddresses(host: OfficeActHost) {
   const give = officeActHandlers(host)["state-of-the-city"];
   return (api: CoreAPI): void => {
     const date = api.state.date;

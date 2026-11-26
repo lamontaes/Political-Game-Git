@@ -246,7 +246,7 @@ export interface ServiceRow {
 }
 
 /** A budget line's level for the town, across every government that carries it (a pure read). */
-export function lineLevel(api: CoreAPI, line: string): Omit<ServiceRow, "id"> {
+function lineLevel(api: CoreAPI, line: string): Omit<ServiceRow, "id"> {
   let base = 0;
   let delta = 0;
   const byGovernment: Record<string, number> = {};
@@ -619,8 +619,8 @@ function appliedToReached(
  * programs, each with its own months on the rolls for a person.
  */
 export type DrawKind = "draw" | "welfare-draw";
-export const FOOD_AID_DRAWS: DrawKind = "draw";
-export const WELFARE_DRAWS: DrawKind = "welfare-draw";
+const FOOD_AID_DRAWS: DrawKind = "draw";
+const WELFARE_DRAWS: DrawKind = "welfare-draw";
 
 /** The months ("YYYY-MM") a person has drawn the benefit under the work requirement. */
 interface DrawRow {
@@ -634,7 +634,7 @@ interface DrawRow {
  * limit: the months they drew, within the window and since the requirement
  * took effect, not counting this month.
  */
-export function timeLimitUsed(
+function timeLimitUsed(
   api: CoreAPI,
   id: string,
   limit: Pick<AssistanceTimeLimit, "since" | "limitMonths" | "windowMonths">,
@@ -715,7 +715,7 @@ export function recordDraws(
  * Every month a person draws the welfare line goes on their own record, rule
  * in force or not, so a lifetime limit counts months from before the rule.
  */
-export function recordWelfareMonths(
+function recordWelfareMonths(
   api: CoreAPI,
   drawing: Iterable<string>,
 ): void {

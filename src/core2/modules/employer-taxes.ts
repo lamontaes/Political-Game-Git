@@ -124,7 +124,7 @@ function slotFor(
   return slot;
 }
 
-export const EMPLOYER_TAXES_MODULE: CoreModule = {
+const EMPLOYER_TAXES_MODULE: CoreModule = {
   id: EMPLOYER_TAXES_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -617,13 +617,6 @@ export function employerArrears(api: CoreAPI, employerId: string): number {
   return arrearsOf(api, employerId) + arrearsOf(api, `${employerId}:state`);
 }
 
-export function employerShareOf(
-  api: CoreAPI,
-  receiptId: string,
-): EmployerTaxRecord | undefined {
-  return table(api, "shares").get(`employer-tax:${receiptId}`) as unknown as
-    EmployerTaxRecord | undefined;
-}
 
 /**
  * The share of a worker's yearly wage an employer pays in payroll taxes under

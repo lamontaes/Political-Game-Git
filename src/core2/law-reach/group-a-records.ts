@@ -40,7 +40,7 @@ import {
 export const REACH_A_MODULE_ID = "core2-law-reach-a-v1";
 export const PREMIUM_KIND = "law-reach-a:leave-premium";
 
-export type ReachTarget =
+type ReachTarget =
   | "people"
   | "organizations"
   | "staff"
@@ -80,7 +80,7 @@ export interface ReachSpec {
   readonly penalty: string;
 }
 
-export interface PolicySpec {
+interface PolicySpec {
   readonly source: string;
   readonly mechanic: string;
   /** Governments whose permission creates these particular record effects. */
@@ -200,7 +200,7 @@ function premiumSlot(
   return slot;
 }
 
-export const REACH_A_MODULE: CoreModule = {
+const REACH_A_MODULE: CoreModule = {
   id: REACH_A_MODULE_ID,
   state: {
     schemaVersion: 1,

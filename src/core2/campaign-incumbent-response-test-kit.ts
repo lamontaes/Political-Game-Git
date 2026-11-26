@@ -58,7 +58,7 @@ export interface DrawnPlace {
 export const seed =
   process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-export function* drawnPlaces(
+function* drawnPlaces(
   purpose: string,
   count: number,
 ): Generator<DrawnPlace> {
@@ -80,9 +80,9 @@ export function* drawnPlaces(
  * that lacks them costs a world and several filing openings to find out. The
  * place was still drawn; the later cases then go on drawing their own.
  */
-export const goodPlaces: DrawnPlace[] = [];
+const goodPlaces: DrawnPlace[] = [];
 
-export function* placesFor(
+function* placesFor(
   purpose: string,
   count: number,
 ): Generator<DrawnPlace> {
@@ -91,15 +91,15 @@ export function* placesFor(
     if (!goodPlaces.some((g) => g.key === place.key)) yield place;
 }
 
-export function rememberGood(place: DrawnPlace) {
+function rememberGood(place: DrawnPlace) {
   if (!goodPlaces.some((g) => g.key === place.key)) goodPlaces.push(place);
 }
 
-export const THREATENED_PLACES = () => placesFor("threatened", 8);
+const THREATENED_PLACES = () => placesFor("threatened", 8);
 
-export const WORD_PLACES = () => placesFor("word", 24);
+const WORD_PLACES = () => placesFor("word", 24);
 
-export const COUNTED_PLACES = () => placesFor("counted", 8);
+const COUNTED_PLACES = () => placesFor("counted", 8);
 
 /** The played world (`buildBenchWorld`, every module, the two-level population) in a drawn place: town seats are held by residents with their own circles, as in play. */
 export function world(place: DrawnPlace) {
@@ -122,7 +122,7 @@ export function world(place: DrawnPlace) {
  * file again, filed with a challenger: the richest adult the contest's rules
  * let on the ballot. A reason (read from the world's records) where none.
  */
-export function incumbentRace(
+function incumbentRace(
   api: CoreAPI,
   core: CoreState,
 ):
@@ -201,7 +201,7 @@ export type IncumbentRace = Exclude<ReturnType<typeof incumbentRace>, string>;
  * open; the reason of the last look, and the day reached, is returned where
  * none opens.
  */
-export function raceInPlace(w: { api: CoreAPI; core: CoreState }) {
+function raceInPlace(w: { api: CoreAPI; core: CoreState }) {
   let reason = "";
   for (let opening = 0; opening < 6; opening += 1) {
     const race = incumbentRace(w.api, w.core);
@@ -293,7 +293,7 @@ export interface MessageLike {
   readonly witnessIds: readonly string[];
 }
 
-export interface WordLike {
+interface WordLike {
   readonly id: string;
   readonly candidateId: string;
   readonly date: string;
@@ -303,7 +303,7 @@ export interface WordLike {
   readonly tellerId?: string;
 }
 
-export interface DoorLike {
+interface DoorLike {
   readonly id: string;
   readonly campaignId: string;
   readonly householdId: string;

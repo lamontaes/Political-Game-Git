@@ -50,7 +50,7 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState("housing").table(name);
 
 /** Moving hassle is weighed against savings, relative to the household's income. */
-export function rentalMovePull(
+function rentalMovePull(
   oldRent: number,
   newRent: number,
   income: number,

@@ -2072,17 +2072,6 @@ export function countedStatePeople(
     ?.people.reduce((a, b) => a + b, 0);
 }
 
-/** The pull toward each place for one counted group, as last weighed. */
-export function countedPull(
-  api: CoreAPI,
-  groupId: string,
-): { moversPerMonth: number; byCause: Record<string, number> } | undefined {
-  return api
-    .moduleState(COUNTED_MOVES_MODULE_ID)
-    .table(PULLS_TABLE)
-    .get(groupId) as unknown as
-    { moversPerMonth: number; byCause: Record<string, number> } | undefined;
-}
 
 /** The moves recorded so far, oldest first. */
 export function countedMoves(api: CoreAPI): readonly MoveRecord[] {

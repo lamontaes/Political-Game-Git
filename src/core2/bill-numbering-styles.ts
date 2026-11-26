@@ -57,29 +57,3 @@ export function recordedStateBillNumberingStyle(
 ): StateBillNumberingStyle | null {
   return BY_KEY.get(jurisdictionKey) ?? null;
 }
-
-/** A state's numbering style, falling back to the labeled game default. */
-export function stateBillNumberingStyle(
-  jurisdictionKey: string,
-): StateBillNumberingStyle {
-  return (
-    recordedStateBillNumberingStyle(jurisdictionKey) ??
-    gameDefaultBillNumberingStyle(jurisdictionKey)
-  );
-}
-
-/**
- * Which side of a state legislature a chamber key is. A unicameral body
- * numbers the way its recorded ("lower") samples do.
- */
-export function stateChamberStyle(
-  style: StateBillNumberingStyle,
-  chamberKey: string,
-): ChamberNumberingStyle {
-  return chamberKey === "senate" ? style.upper : style.lower;
-}
-
-/** The prefix a template opens with: "HB" from "HB {n}", "H." from "H.{n}". */
-export function templatePrefix(template: string): string {
-  return template.split("{")[0]!.trim().replace(/-$/, "");
-}

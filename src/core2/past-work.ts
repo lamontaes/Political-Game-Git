@@ -75,7 +75,7 @@ const ELSEWHERE_TIER = "husk";
 export const PAST_WORK_OUT = ownPastKind("person.out-of-work");
 
 /** How a spell ended: let go, left for another job, stopped for a reason on record, or still held on day one. */
-export type PastWorkEnd =
+type PastWorkEnd =
   | "let-go"
   | "moved-on"
   | "child-born"
@@ -84,7 +84,7 @@ export type PastWorkEnd =
   | "imprisoned";
 /** How a spell began. */
 /** "before-the-run": held when the run began in its first year, begun on or before that day. */
-export type PastWorkHow =
+type PastWorkHow =
   "first-job" | "after-out-of-work" | "moved-on" | "before-the-run";
 
 interface Conditions {

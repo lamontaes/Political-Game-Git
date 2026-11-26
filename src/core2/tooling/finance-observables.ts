@@ -8,7 +8,7 @@ import { WORK_OBSERVABLE_CONFIG } from "./work-observables";
 import { externalFlowObservables } from "./external-flow-observables";
 import { payrollStockObservables } from "./payroll-observables";
 
-export interface FinanceAgeSnapshot {
+interface FinanceAgeSnapshot {
   ageId: string;
   minimumAge: number | null;
   maximumAgeExclusive: number | null;

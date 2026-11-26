@@ -10,7 +10,7 @@ import type {
   Source,
 } from "./types";
 
-export interface AppraisalTraitContribution {
+interface AppraisalTraitContribution {
   traitId: string;
   recordedValue: number;
   normalizedValue: number;

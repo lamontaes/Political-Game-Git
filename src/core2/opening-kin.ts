@@ -34,10 +34,10 @@ import type { IsoDate, PersonId } from "./types";
 export const OPENING_KIN = kinJson;
 // The NSFG marriage-survival points live with the partnership chain.
 const OPENING_PARTNERSHIP = partnershipJson;
-export type KinRelation =
+type KinRelation =
   (typeof OPENING_KIN.relations)[keyof typeof OPENING_KIN.relations];
 
-export interface KinHouseholdMember {
+interface KinHouseholdMember {
   id: PersonId;
   role: "adult" | "child";
   birthDate: IsoDate;
@@ -61,7 +61,7 @@ const fullNameKey = (given: string, family: string) =>
 // Engineering bound on drawing a name again; each draw removes one given name from the pool.
 const MAX_NAME_REDRAWS = 50;
 
-export type KinNamer = (input: {
+type KinNamer = (input: {
   stableKey: string;
   gender: string;
   birthDate: IsoDate;
@@ -94,7 +94,7 @@ export interface OpeningKinOptions {
   bornInStateShare?: number;
 }
 
-export interface KinPerson {
+interface KinPerson {
   id: PersonId;
   stableKey: string;
   givenName: string;
@@ -106,7 +106,7 @@ export interface KinPerson {
   householdId: string;
 }
 
-export interface KinRelationFact {
+interface KinRelationFact {
   personId: PersonId;
   otherId: PersonId;
   /** What `otherId` is to `personId`. */
@@ -139,7 +139,7 @@ export interface OpeningKin {
   birthplaces: Map<PersonId, string>;
 }
 
-export interface KinDeath {
+interface KinDeath {
   /** The dead parent's own person record, a dead person from day one. */
   personId: PersonId;
   /** The resident whose parent died. */

@@ -22,7 +22,7 @@
  *     labels only ever name one year numbers by the year.
  */
 
-export type BillNumberingBasis =
+type BillNumberingBasis =
   /** Read directly from a recorded sample. */
   | "recorded"
   /** Read from a recorded sample for the other chamber, letter swapped. */
@@ -139,7 +139,7 @@ interface ParsedNumber {
 }
 
 /** One bill number's style, or null where it is not a plain designation. */
-export function parseBillNumber(raw: string): ParsedNumber | null {
+function parseBillNumber(raw: string): ParsedNumber | null {
   const text = raw.trim();
   // Colorado: the session year is part of the number ("HB25-1090").
   const withYear = /^([A-Z]{1,2})(\d{2})-(\d+)$/.exec(text);

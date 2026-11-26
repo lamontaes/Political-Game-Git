@@ -48,7 +48,7 @@ import { LEADERSHIP_MODULE_ID, leaderOf } from "./leadership";
 import { drawStateHome } from "../places";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 
-export const SUCCESSION_MODULE_ID = "core2-succession-v1";
+const SUCCESSION_MODULE_ID = "core2-succession-v1";
 
 interface LineEntry {
   readonly key: string;
@@ -94,7 +94,7 @@ export interface SuccessionRow {
   readonly citation: string;
 }
 
-export const SUCCESSION_MODULE: CoreModule = {
+const SUCCESSION_MODULE: CoreModule = {
   id: SUCCESSION_MODULE_ID,
   state: {
     schemaVersion: 1,

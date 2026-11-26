@@ -4,7 +4,7 @@ import type { Parameter } from "../parameters";
 export const OPENING_INPUT_BYTES_PER_RESIDENT =
   "openingInputMaxBytesPerResident";
 export const OPENING_INPUT_SOURCE_SHARE = "openingInputMaxSourceByteShare";
-export const OPENING_INPUT_SOURCE_DEFINITION =
+const OPENING_INPUT_SOURCE_DEFINITION =
   "direct nonoverlapping compact Source objects plus escaped-layer compact inner Source objects in canonical encoded JSON; all noncanonical encoded JSON object/array records use separately reported physical-token upper bounds, including records with unknown or discarded Source content";
 
 type Tally = {

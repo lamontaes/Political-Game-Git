@@ -99,8 +99,8 @@ import type {
 } from "../types";
 
 export const PARTNERSHIPS_MODULE_ID = "partnerships";
-export const PARTNER_DECISION = "people.partner";
-export const PART_DECISION = "people.part";
+const PARTNER_DECISION = "people.partner";
+const PART_DECISION = "people.part";
 /** The union's kind on `family.partnered`, as the paper and the talk read it. */
 export const UNION_FACT = "union";
 const REVIEW_KIND = "partnerships-review";

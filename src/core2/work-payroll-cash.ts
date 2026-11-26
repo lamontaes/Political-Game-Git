@@ -82,7 +82,7 @@ export interface WorkPayrollCashReceipt extends WorkPayrollSettlement {
   publicPayDue?: PublicWorkPayDue;
 }
 
-export interface WorkPayrollGroupComponentReceipt extends Omit<
+interface WorkPayrollGroupComponentReceipt extends Omit<
   WorkPayrollCashReceipt,
   | "payerCashBeforeMinor"
   | "payerCashAfterMinor"
@@ -134,7 +134,7 @@ export type WorkPayrollJournalReceipt =
   WorkPayrollCashReceipt | WorkPayrollGroupReceipt;
 export type WorkPayrollJobReceipt =
   WorkPayrollCashReceipt | WorkPayrollGroupComponentReceipt;
-export interface WorkPayrollGroupComponentState {
+interface WorkPayrollGroupComponentState {
   result: WorkPayrollGroupComponentReceipt;
   ledgerBefore: WorkPayrollLedger;
   ledgerAfter: WorkPayrollLedger;

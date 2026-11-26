@@ -33,7 +33,7 @@ export interface HouseholdCostInput {
 }
 
 /** The household's monthly cost: the basket plus the shelter budget, in minor units. */
-export function householdMonthlyCostMinor(i: HouseholdCostInput): number {
+function householdMonthlyCostMinor(i: HouseholdCostInput): number {
   const everyday =
     i.everydayMonthlyMinor ??
     worldMonthlyHouseholdLivingCosts(

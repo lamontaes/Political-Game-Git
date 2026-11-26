@@ -56,7 +56,7 @@ import type {
   WorkCommitmentInput,
 } from "../types";
 
-export const COUNTED_DEMOTION_MODULE_ID = "core2-counted-demotion-v1";
+const COUNTED_DEMOTION_MODULE_ID = "core2-counted-demotion-v1";
 const REVIEW_KIND = "counted-demotion-review";
 const INACTIVE_TIER = "husk";
 

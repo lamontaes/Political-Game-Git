@@ -57,7 +57,7 @@ export const facetSelfConsciousEffects: readonly TraitEffectDeclaration[] = [
   },
 ];
 
-export const FACET_SELF_CONSCIOUS_EFFECTS: TraitPack = {
+const FACET_SELF_CONSCIOUS_EFFECTS: TraitPack = {
   pack: "personality-effects-facet-self-conscious",
   traits: [],
   effects: facetSelfConsciousEffects,

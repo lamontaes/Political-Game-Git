@@ -91,7 +91,7 @@ export interface CandidateInputs {
 }
 
 /** The exact jobs reading a race consumed, even if the web row is later refreshed. */
-export interface UnemploymentReading {
+interface UnemploymentReading {
   readonly value: number;
   readonly base: number;
   readonly webRecordId: string;

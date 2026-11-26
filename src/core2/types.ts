@@ -52,8 +52,8 @@ export type PersonId = string;
 export type PlaceId = string;
 export type IsoDate = string;
 export type Tier = string;
-export type NeedKind = string;
-export type GoalKind = string;
+type NeedKind = string;
+type GoalKind = string;
 
 export interface Source {
   tag: "SOURCED" | "ESTIMATED";
@@ -261,7 +261,7 @@ export interface HouseholdInput {
 }
 
 /** P15: why a closeness changed, the cause and the record behind it. */
-export interface RelationshipReason {
+interface RelationshipReason {
   cause: string;
   sourceId?: string;
   /**
@@ -320,7 +320,7 @@ export interface Relationship {
 }
 
 /** P15 part 5: a real shared moment where two people first meet. */
-export interface Encounter {
+interface Encounter {
   /** Where they met: the host's home (household ID) or the group's place. */
   placeId: string;
   /** The record of the moment (a visit, a membership). */
@@ -357,7 +357,7 @@ export interface ReasonBinding {
   stopgapId?: string;
 }
 
-export interface ReasonValue {
+interface ReasonValue {
   value: number;
   sourceIds?: readonly string[];
 }
@@ -492,7 +492,7 @@ export interface CompactChoiceTraceV1 {
 }
 
 /** One latest ordinary discretionary selection per outsider, not a full act trace. */
-export interface CompactActSelectionV1 {
+interface CompactActSelectionV1 {
   id: string;
   actorId: PersonId;
   date: IsoDate;
@@ -549,7 +549,7 @@ export interface LogRecord extends CoreEventInput {
   decision?: DecisionResult;
 }
 
-export interface ActCounter {
+interface ActCounter {
   month: string;
   actorId: PersonId;
   actionId: string;
@@ -640,7 +640,7 @@ export interface WorkAttendanceResult extends WorkAttendanceInput {
   earnedPayPeriodId: string;
 }
 
-export interface WorkRollup {
+interface WorkRollup {
   weekStartedAt: IsoDate;
   jobId: string;
   personId: PersonId;
@@ -654,7 +654,7 @@ export interface WorkRollup {
   paidMinor: number;
   latestReasonKey: string;
 }
-export interface WorkTotals {
+interface WorkTotals {
   /** Requested is cumulative earned pay; actual due/paid/arrears live separately. */
   earnedMinor?: number;
   accruedMinor?: number;
@@ -667,7 +667,7 @@ export interface WorkTotals {
   workedDays: number;
   missedDays: number;
 }
-export interface ActivityTimeTotal {
+interface ActivityTimeTotal {
   ageReferenceId: string;
   category: string;
   minutes: number;
@@ -914,7 +914,7 @@ export interface KnownFact {
   access: "self" | "perceived" | "told" | "public";
 }
 
-export interface NeedDefinition {
+interface NeedDefinition {
   id: string;
   evaluator: string;
   goalKind: string;

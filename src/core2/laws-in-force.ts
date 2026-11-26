@@ -59,7 +59,7 @@ export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "medicaid-match": "single",
 };
 
-export interface LevelLaw {
+interface LevelLaw {
   readonly level: LawLevelName;
   readonly jurisdiction: string;
   readonly row: LawRowInput | null;

@@ -892,7 +892,7 @@ export function countedShares(
  * carry the same side, a party's primary or a race without labels, does not
  * (CTO, Nov 1, 22:10 as amended for primaries).
  */
-export function partyLabelled(
+function partyLabelled(
   field: readonly { readonly side: number }[],
 ): boolean {
   return field.some((entry) => entry.side !== field[0]?.side);

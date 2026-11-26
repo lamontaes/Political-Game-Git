@@ -569,7 +569,7 @@ const CENTURY_HISTORY: HistorySource = {
   },
 };
 
-export const ELECTIONS_MODULE: CoreModule & HistoryModule = {
+const ELECTIONS_MODULE: CoreModule & HistoryModule = {
   id: ELECTIONS_MODULE_ID,
   history: CENTURY_HISTORY,
   state: {
@@ -2128,7 +2128,7 @@ export function fileCandidacy(
 }
 
 /** The kind of the public record of a candidate announcing before filing. */
-export const CANDIDATE_ANNOUNCED_EVENT = "candidate-announced";
+const CANDIDATE_ANNOUNCED_EVENT = "candidate-announced";
 
 /**
  * Announce for a race whose filing window has not opened yet (owner, Nov 17:
@@ -2366,7 +2366,7 @@ export function announce(
 }
 
 /** The kind of a candidate's own record that someone filed against them. */
-export const RIVAL_FILED_EVENT = "rival-filed";
+const RIVAL_FILED_EVENT = "rival-filed";
 
 /**
  * Whether a filing stands in its race: on the ballot, or circulating its
@@ -2563,7 +2563,7 @@ export function runningMateOf(
 }
 
 /** The last day a filing's petition may be handed in: its side's own deadline, else the contest's. */
-export function petitionDue(api: CoreAPI, filing: FilingRow): string {
+function petitionDue(api: CoreAPI, filing: FilingRow): string {
   const contest = table(api, "contests").get(
     filing.contestId,
   ) as unknown as ContestRow;

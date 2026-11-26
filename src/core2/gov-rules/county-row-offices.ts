@@ -24,7 +24,7 @@ export const COUNTY_ROW_OFFICE_KEYS = [
   "coroner",
 ] as const;
 
-export type CountyRowOfficeKey = (typeof COUNTY_ROW_OFFICE_KEYS)[number];
+type CountyRowOfficeKey = (typeof COUNTY_ROW_OFFICE_KEYS)[number];
 
 export interface CountyRowOfficeRule {
   readonly office: CountyRowOfficeKey;
@@ -70,7 +70,7 @@ const STATES = table.states as unknown as Readonly<
 >;
 
 /** One office's rule in one state, or the common pattern where none is read. */
-export function countyRowOfficeRule(
+function countyRowOfficeRule(
   stateUsps: string,
   office: CountyRowOfficeKey,
 ): CountyRowOfficeRule {

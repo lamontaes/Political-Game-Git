@@ -16,7 +16,7 @@ const HOUSING = "housing";
 const stock = (api: CoreAPI) => api.moduleState(HOUSING).table("stock");
 
 /** What one month's step read, kept on the stock row for Trace. */
-export interface PriceRead extends PriceStepInputs {
+interface PriceRead extends PriceStepInputs {
   readonly month: string;
   /** Households that bought this month (counted ones by their weight). */
   readonly buyers: number;
@@ -34,7 +34,7 @@ export interface PriceRead extends PriceStepInputs {
 }
 
 /** The price fields on a place's stock row. */
-export interface PriceLevelFields {
+interface PriceLevelFields {
   /** The level, relative, in logs (the rule's state). */
   priceLogLevel: number;
   /** The last 13 months' log levels, oldest first (momentum reads the year's change). */

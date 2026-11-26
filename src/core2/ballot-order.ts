@@ -12,7 +12,7 @@
 import { stableHash } from "./kernel/ids";
 import ballotOrderData from "../../data/research/elections/ballot-order-2026.json" with { type: "json" };
 
-export type BallotOrderKind =
+type BallotOrderKind =
   | "alphabetical"
   | "randomized-alphabet"
   | "rotation"

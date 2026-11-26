@@ -265,7 +265,7 @@ function action(id: string, raising: boolean): ActionDefinition {
   };
 }
 export const PLAN_CHILD = action("renewal-plan-child", true);
-export const WAIT_CHILD = action("renewal-wait", false);
+const WAIT_CHILD = action("renewal-wait", false);
 
 export function chooseBirthPlan(
   api: CoreAPI,

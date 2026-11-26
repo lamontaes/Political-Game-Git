@@ -27,7 +27,7 @@ import type {
 } from "./types";
 
 /** One thing that happened to a person, as their own list keeps it. */
-export interface RememberedEvent {
+interface RememberedEvent {
   /** The record that caused it. */
   readonly id: string;
   readonly date: IsoDate;

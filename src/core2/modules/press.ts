@@ -174,10 +174,10 @@ import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
-export const DISTRUST = "distrust";
+const DISTRUST = "distrust";
 
 export type LocalKind = "newspaper" | "television" | "radio";
-export type NationalKind = "cable" | "magazine" | "online" | "national-paper";
+type NationalKind = "cable" | "magazine" | "online" | "national-paper";
 export type OutletKind = LocalKind | NationalKind;
 const KINDS: readonly LocalKind[] = ["newspaper", "television", "radio"];
 
@@ -1925,7 +1925,7 @@ function statedPosition(
  * blended with their party's; 0 where none says. `reader` is their stance
  * reader for a caller that asks many questions; a fresh one otherwise.
  */
-export function standingOn(
+function standingOn(
   api: CoreAPI,
   who: FilingRow | Speaker,
   question: string,
@@ -4177,7 +4177,7 @@ function usualMonth(
 }
 
 /** True when the usual rests on enough months and chance rarely gives a month this busy. */
-export function monthIsWellOver(
+function monthIsWellOver(
   months: number,
   count: number,
   usual: number,
@@ -4195,7 +4195,7 @@ export function monthIsWellOver(
  * A measure of the record against its own history, never a roll for what
  * anyone does.
  */
-export function chanceOfMonthAtLeast(count: number, usual: number): number {
+function chanceOfMonthAtLeast(count: number, usual: number): number {
   let term = Math.exp(-usual);
   let below = 0;
   for (let k = 0; k < count; k += 1) {
@@ -4710,7 +4710,7 @@ function snubbed(
 }
 
 /** The kind of an outlet's invitation to a candidate to sit for an interview. */
-export const INTERVIEW_INVITED_EVENT = "interview-invited";
+const INTERVIEW_INVITED_EVENT = "interview-invited";
 /**
  * The kind of the record that a candidate said yes to an outlet's invitation:
  * the sitting is waiting. It names the candidate and the reporter who will

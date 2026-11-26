@@ -38,7 +38,7 @@ export interface LocalInstitutionSet {
   readonly largeEmployers: readonly LocalInstitutionRow[];
 }
 
-export const EMPTY_LOCAL_INSTITUTIONS: LocalInstitutionSet = {
+const EMPTY_LOCAL_INSTITUTIONS: LocalInstitutionSet = {
   highSchools: [],
   districts: [],
   hospitals: [],

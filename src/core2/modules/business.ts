@@ -1513,7 +1513,7 @@ function recordGroundwaterLoss(
 export const DATA_PRIVACY_QUESTION =
   "us-policy-positions:technology-privacy.consumer-data-privacy-law";
 /** Congress's national data privacy law: the same duty on the same businesses where the state has none. */
-export const FEDERAL_DATA_PRIVACY_QUESTION =
+const FEDERAL_DATA_PRIVACY_QUESTION =
   "us-federal-positions:science-communications.national-data-privacy";
 const AGE_VERIFICATION_QUESTION =
   "us-policy-positions:technology-privacy.age-verification-for-social-media";

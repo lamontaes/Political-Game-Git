@@ -12,7 +12,7 @@
  * run on Node); another host can supply its own with `setJsonDataReader`.
  */
 
-export type JsonDataReader = (url: URL) => unknown;
+type JsonDataReader = (url: URL) => unknown;
 
 interface FileReader {
   readFileSync(url: URL, encoding: "utf8"): string;
@@ -36,7 +36,7 @@ function nodeReader(url: URL): unknown {
 let reader: JsonDataReader = nodeReader;
 
 /** Replaces the file reader; returns the previous one. */
-export function setJsonDataReader(next: JsonDataReader): JsonDataReader {
+function setJsonDataReader(next: JsonDataReader): JsonDataReader {
   const previous = reader;
   reader = next;
   return previous;

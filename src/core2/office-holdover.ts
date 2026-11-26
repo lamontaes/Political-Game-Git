@@ -6,7 +6,7 @@
 import holdover from "./data/offices/holdover.json" with { type: "json" };
 import type { OfficeFamily } from "./elections-calendar";
 
-export type HoldoverRule = "holds-over" | "vacant";
+type HoldoverRule = "holds-over" | "vacant";
 
 export interface HoldoverRow {
   readonly rule: HoldoverRule;

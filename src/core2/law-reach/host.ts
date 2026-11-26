@@ -35,7 +35,7 @@ import type { ModuleRow } from "../module-data";
 /** Kept from the module it replaces, so a world opened before still finds it. */
 export const LAW_REACH_HOST_ID = "core2-law-effects-v1";
 
-export const LAW_REACH_HOST: CoreModule = {
+const LAW_REACH_HOST: CoreModule = {
   id: LAW_REACH_HOST_ID,
   // Who each law reached as the engine applying it recorded it (applied.ts).
   state: { schemaVersion: 1, tables: LAW_APPLIED_STATE },

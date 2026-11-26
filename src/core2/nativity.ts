@@ -26,7 +26,7 @@ const DATA = nativityData as unknown as {
 };
 
 /** A state's native-born share of adults; the national share where the survey has no row. */
-export function nativeShareOf(usps: string | null): {
+function nativeShareOf(usps: string | null): {
   readonly share: number;
   readonly national: boolean;
 } {
@@ -35,11 +35,6 @@ export function nativeShareOf(usps: string | null): {
   return { share: native / adults, national: !row };
 }
 
-export interface NativityFact {
-  readonly nativity: "native" | "foreign-born";
-  /** The date they began living in the United States: their birth, for the native-born. */
-  readonly residentSince?: string;
-}
 
 /**
  * The past fact for a person's nativity, drawn from the world's seed against

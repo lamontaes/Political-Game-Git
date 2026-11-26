@@ -41,7 +41,7 @@ export const DEFAULT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v1";
  * carrying it, declared for the lives a player starts. A person made under it
  * carries it in their save.
  */
-export const COHERENT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v2";
+const COHERENT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v2";
 
 /**
  * Derives a stable, person-owned appearance identity.

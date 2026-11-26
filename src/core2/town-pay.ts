@@ -18,7 +18,7 @@ import type { EntityId } from "./kernel/brands";
 import { parameter as p } from "./parameters";
 import { worldLevel, worldOffsetShare } from "./world-draw";
 
-export const HOURS_PER_YEAR = 2_080;
+const HOURS_PER_YEAR = 2_080;
 
 const PERCENTILE_POINTS = [10, 25, 50, 75, 90] as const;
 type Cells = readonly (number | null)[];
@@ -155,27 +155,6 @@ function interpolate(cells: Cells, percentile: number): number | null {
   return null;
 }
 
-/**
- * The median annual wage for `occupation` in the state or territory where
- * `jurisdictionId` is, from the same BLS tables; the nation's when the state's
- * is withheld; null where BLS publishes none.
- */
-export function stateMedianAnnualWage(
-  occupation: string,
-  jurisdictionId: EntityId | null,
-  seed?: string,
-): number | null {
-  const soc = TOWN_JOB_SOC[occupation];
-  const byArea = soc ? wageTable().get(soc) : undefined;
-  if (!byArea) return null;
-  for (const area of townPayAreas(jurisdictionId)) {
-    if (area !== "US" && !area.startsWith("S")) continue;
-    const median = byArea.get(area)?.[PERCENTILE_POINTS.indexOf(50)];
-    if (median !== null && median !== undefined)
-      return worldWage(median, seed, soc!, area);
-  }
-  return null;
-}
 
 /**
  * The national median annual wage for `occupation` (BLS OEWS, May 2025), or

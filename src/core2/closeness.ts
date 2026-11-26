@@ -579,7 +579,7 @@ export function homeWorkIds(
  * (`expectedWeeklyMinutes` on each running commitment of that job). Someone
  * with no job is home the whole waking day.
  */
-export function homeMinutesPerDay(
+function homeMinutesPerDay(
   core: Pick<CoreState, "data" | "date" | "people" | "work">,
   personId: PersonId,
 ): number {

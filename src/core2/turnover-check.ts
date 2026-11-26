@@ -12,7 +12,7 @@ import { JOBS_MODULE_ID } from "./modules/jobs";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
-export type TurnoverKind = "hires" | "quits" | "layoffs" | "separations";
+type TurnoverKind = "hires" | "quits" | "layoffs" | "separations";
 
 /** The JOLTS monthly rate, percent of employment, for an industry row (the total when none is named). */
 export function joltsRate(

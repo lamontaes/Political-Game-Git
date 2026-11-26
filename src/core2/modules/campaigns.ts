@@ -424,7 +424,7 @@ export interface OrganizedGroup {
  * their own reluctance to endorse anyone (a group whose cause the platform
  * does not touch among them).
  */
-export type EndorsementReason =
+type EndorsementReason =
   "agrees" | "close-tie" | "disagrees" | "prefers-rival" | "declines";
 
 /**
@@ -540,7 +540,7 @@ function holdMoneySlot(api: CoreAPI, record: MoneyRecord): void {
   } as unknown as CashJournalSourceSlot);
 }
 
-export const CAMPAIGNS_MODULE: CoreModule = {
+const CAMPAIGNS_MODULE: CoreModule = {
   id: CAMPAIGNS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -2668,7 +2668,7 @@ export const RIVAL_WORD_EVENT = "rival-word";
  */
 export const CANVASS_MESSAGE_KIND = "campaign-canvass";
 
-export interface MessageRow {
+interface MessageRow {
   readonly id: string;
   /** The message's kind: an ad, a mailer, a turn's paid message, or an evening of doors. */
   readonly kind?: string;
@@ -3560,7 +3560,7 @@ function backingReasons(
  * signing's low bar: a name on a petition puts a neighbor on the ballot and
  * is not a vote (`petitionSignOpenness`).
  */
-export function signReason(
+function signReason(
   api: CoreAPI,
   campaign: CampaignRow,
   person: Readonly<Pick<PersonState, "id" | "traits">> & {
@@ -7104,7 +7104,7 @@ export interface CauseSummaryRow {
 }
 
 /** What a run of folded causes adds up to for one voter. */
-export interface CauseSums {
+interface CauseSums {
   readonly moved: number;
   readonly acts: Readonly<
     Record<string, { reached: number; warmer: number; cooler: number }>
@@ -7206,7 +7206,7 @@ export function dropOldFoldedCauses(api: CoreAPI): void {
  * `contestStanding` reads. An official's service to a resident
  * (`touchImpression`) belongs to no race and folds the same way.
  */
-export function foldOldCauses(api: CoreAPI): void {
+function foldOldCauses(api: CoreAPI): void {
   const cutoff = addDays(
     makeIsoDate(api.state.date),
     -campaignParameter("causeKeepDays"),
@@ -7580,7 +7580,7 @@ export interface RivalDay {
 }
 
 /** A day that a rival's standing moved: the reading behind it and what it changed. */
-export interface SteppedUp {
+interface SteppedUp {
   readonly reading: RaceReading & { readonly rivalId: string };
   /** The hours of calls, doors and a whole act the day gained over the same day unthreatened. */
   readonly extraHours: number;
@@ -8637,7 +8637,7 @@ export function petitionShiftYield(): number {
 }
 
 /** How a controlled filer's petition stands against the days left, and whether it is the day to say so. */
-export interface PetitionShortReading {
+interface PetitionShortReading {
   /** Signatures still wanted to reach what the teller measures it by (see `petitionShortReading`). */
   readonly gap: number;
   readonly daysLeft: number;
@@ -8659,7 +8659,7 @@ export interface PetitionShortReading {
  * petition on pace never reads as due; one at its measure is not behind. Null
  * when nothing is circulating.
  */
-export function petitionShortReading(
+function petitionShortReading(
   api: CoreAPI,
   filingId: string,
   turnWait: number,
@@ -8723,7 +8723,7 @@ export function petitionTeller(
  * Oct 14, "No engine accepts a ... filing or any choice for the controlled
  * person").
  */
-export function tellPetitionShort(
+function tellPetitionShort(
   api: CoreAPI,
   filingId: string,
   turnWait: number,

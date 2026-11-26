@@ -10,7 +10,7 @@ import type { GovernmentUnitIdentity } from "../reference/government-units";
 import type { IsoDate } from "./types";
 
 /** Calendar facts only. Neither a filing admission nor a district assignment. */
-export interface CountyElectionDates {
+interface CountyElectionDates {
   readonly electionDate: IsoDate;
   /** True when a county lacks its own calendar and uses the state's rule. */
   readonly estimated: boolean;

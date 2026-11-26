@@ -30,7 +30,7 @@ export { municipioUnit } from "../reference/government-units";
  * state's size: a known gap, not a rule.
  */
 
-export type CountyBodyBasis = "state-law" | "municipal-code" | "estimated";
+type CountyBodyBasis = "state-law" | "municipal-code" | "estimated";
 
 /**
  * Whether a county elects an executive, and what the answer rests on:
@@ -41,7 +41,7 @@ export type CountyBodyBasis = "state-law" | "municipal-code" | "estimated";
  * - `unread`: the state has some counties with an elected executive and the
  *   record does not yet say which, so none is asserted here.
  */
-export interface CountyExecutiveReading {
+interface CountyExecutiveReading {
   readonly kind: "elected" | "none" | "unread";
   readonly title: string | null;
   /** The executive chairs the body (a county judge, a county mayor). */
@@ -305,7 +305,7 @@ export function municipiosForPlace(
   );
 }
 
-export interface CountyStructureReading {
+interface CountyStructureReading {
   readonly structure: string;
   readonly electedExecutive: "all" | "most" | "some" | "none";
   readonly executiveTitle: string | null;
@@ -316,7 +316,7 @@ export interface CountyStructureReading {
 }
 
 /** The form of county government a state's counties take unless a charter says otherwise. */
-export function countyStructureForState(
+function countyStructureForState(
   stateUsps: string,
 ): CountyStructureReading | null {
   const row = (

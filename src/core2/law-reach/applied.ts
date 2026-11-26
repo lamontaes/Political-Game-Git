@@ -266,7 +266,7 @@ export const LAW_APPLIED_STATE = {
 } as const;
 
 /** One engine's part of a law's reach: what it did, to how many, and the money it moved. */
-export interface LawReachSide {
+interface LawReachSide {
   /** The engine that applied the law (its module id), or the law-reach store that holds the row. */
   readonly engine: string;
   /** What it changed, as the key the English engine words. */

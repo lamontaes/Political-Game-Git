@@ -57,16 +57,16 @@ import { publishedPlacePopulation } from "./place-population";
  *   council seat is not settled, so the council seat is left as it is.
  */
 
-export type ChiefExecutiveBasis =
+type ChiefExecutiveBasis =
   | "read"
   | "typical"
   /** The owner's interim rule for large cities, until the city is read. */
   | "owner-interim";
 
 /** The owner's interim rule: above this many people, a mayor is elected. */
-export const OWNER_LARGE_CITY_POPULATION = 100_000;
+const OWNER_LARGE_CITY_POPULATION = 100_000;
 
-export interface ChiefExecutiveValue<T> {
+interface ChiefExecutiveValue<T> {
   readonly value: T;
   readonly basis: ChiefExecutiveBasis;
 }
@@ -131,7 +131,7 @@ export function isMayorSeatClass(seatClass: string): boolean {
 }
 
 /** The mayor's own term where the reading states it apart from the council's. */
-export function readMayorTerm(reading: MunicipalReading): number | null {
+function readMayorTerm(reading: MunicipalReading): number | null {
   const years = new Set(
     reading.terms
       .filter((term) => isMayorSeatClass(term.seatClass))

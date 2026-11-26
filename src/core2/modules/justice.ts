@@ -104,7 +104,7 @@ export interface InvestigationRow {
   readonly status: "declined" | "open" | "closed";
 }
 
-export interface InvestigationTarget {
+interface InvestigationTarget {
   readonly personId: PersonId;
   readonly crimeIds: readonly string[];
   /** Each piece of evidence: a witness complaint, a report from someone told, a payment on the books. */
@@ -380,7 +380,7 @@ export function reportReasons(
 }
 
 /** Someone who knows of a crime decides whether to report it to the prosecutor. */
-export function considerReport(
+function considerReport(
   api: CoreAPI,
   crime: CrimeRecord,
   reporterId: PersonId,

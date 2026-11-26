@@ -73,7 +73,7 @@ export interface LeanTable {
   put(row: { id: string }): unknown;
 }
 
-export const leanId = (placeId: string) => `lean:${placeId}`;
+const leanId = (placeId: string) => `lean:${placeId}`;
 
 const clamp = (share: number) => Math.max(0, Math.min(1, share));
 

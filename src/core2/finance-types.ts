@@ -169,7 +169,7 @@ export interface FinanceConditionInput {
   source: Source;
 }
 
-export interface FinancePayment {
+interface FinancePayment {
   payerId: string;
   requestedMinor: number;
   paidMinor: number;
@@ -379,7 +379,7 @@ export interface FinancePolicyData {
 }
 
 /** Owning adapters enforce the exact supported descriptor shape before access. */
-export interface FinanceExternalInflow {
+interface FinanceExternalInflow {
   kind: string;
   ownerId: string;
   source: Source;
@@ -440,7 +440,7 @@ export interface FinanceCashSourceState extends CashJournalPostedMarker {
   creditIds: readonly string[];
 }
 /** Add these maps to FinanceRuntime and initialize them in emptyFinanceRuntime. */
-export interface FinanceCashRuntimeFields {
+interface FinanceCashRuntimeFields {
   cashSources: Map<string, FinanceCashSourceState>;
   cashLatestContractSource: Map<string, string>;
   cashLatestCreditSource: Map<string, string>;

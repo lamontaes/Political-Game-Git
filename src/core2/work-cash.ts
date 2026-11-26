@@ -477,7 +477,7 @@ function sourceReferences(
 }
 
 /** Both lookups resolve genuine current records; the original full read guard is checked last. */
-export function workCashSourceProvider(
+function workCashSourceProvider(
   api: CoreAPI,
   reference: Readonly<CashJournalSourceRef>,
 ): CashJournalSourceSlot | undefined {

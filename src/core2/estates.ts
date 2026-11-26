@@ -1155,7 +1155,7 @@ function noticeTaxes(
     });
 }
 
-export const ESTATES_MODULE: CoreModule = {
+const ESTATES_MODULE: CoreModule = {
   id: ESTATES_MODULE_ID,
   // Probate's calendar is the module's state; the table keeps an estate with a living trust: the base its tax is figured on and what the trust's pass paid.
   state: { schemaVersion: 1, tables: { probate: {} } },

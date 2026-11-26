@@ -10,7 +10,7 @@ import type { ModuleStopInputV1, ModuleStopTokenV1 } from "./player-stops-v1";
 import type { CoreAPI, CoreModule, CoreState, Source } from "./types";
 import { registerSnapshotPart } from "./snapshot";
 
-export interface ModuleCalendarInput {
+interface ModuleCalendarInput {
   key: string;
   date: string;
   kind: string;

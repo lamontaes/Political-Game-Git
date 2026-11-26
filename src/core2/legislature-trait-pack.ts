@@ -29,7 +29,7 @@ import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
  * packs sharing an expression key would be two packs able to disagree about
  * what a stored expression means.
  */
-export const LEGISLATURE_TRAIT_SCALE: TraitScale = {
+const LEGISLATURE_TRAIT_SCALE: TraitScale = {
   balancedKey: "bargains-without-a-settled-manner",
   balancedLabel: "No settled manner",
   balancedDescription: "Nothing consistent in how they answer at a table.",
@@ -54,7 +54,7 @@ export const LEGISLATURE_TRAIT_SCALE: TraitScale = {
  * two dealings to be two dealings. The cap is the same as ordinary life: no
  * amount of coming back to the same member moves them by itself.
  */
-export const LEGISLATURE_TRAIT_MOVABILITY: TraitMovability = {
+const LEGISLATURE_TRAIT_MOVABILITY: TraitMovability = {
   settledByStrength: { subtle: 1, moderate: 2, strong: 3, defining: 4 },
   settlesOver: 4,
   unsettledFloor: 0.5,
@@ -62,7 +62,7 @@ export const LEGISLATURE_TRAIT_MOVABILITY: TraitMovability = {
   pressureCap: 3,
 };
 
-export const LEGISLATURE_PACK = "legislature-v1";
+const LEGISLATURE_PACK = "legislature-v1";
 
 export function legislatureTraitPack(): TraitPack {
   return {

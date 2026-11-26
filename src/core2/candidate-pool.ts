@@ -60,7 +60,7 @@ export function candidacyParameter(api: CoreAPI, key: string): number {
 }
 const c = candidacyParameter;
 
-export type PoolRole =
+type PoolRole =
   "officeholder" | "party-officer" | "former-candidate" | "prominent";
 
 /** One person with standing in a race's jurisdiction, and why. */

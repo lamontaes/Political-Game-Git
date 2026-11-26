@@ -226,7 +226,7 @@ export function daysBetween(start: IsoDate, end: IsoDate): number {
   return difference;
 }
 
-export interface SimulationMomentInput {
+interface SimulationMomentInput {
   readonly date: string;
   readonly minuteOfDay: number;
   readonly timeZone: string;
@@ -343,7 +343,7 @@ function offsetAtEpochMinute(epochMinute: number, timeZone: string): number {
   return offset;
 }
 
-export function makeSimulationMoment(
+function makeSimulationMoment(
   input: SimulationMomentInput,
 ): SimulationMoment {
   const date = makeIsoDate(input.date);
@@ -447,20 +447,8 @@ export function simulationMomentAtLocalTime(
   return candidates.sort(compareSimulationMoments)[0]!;
 }
 
-export function simulationMomentOnLocalDate(
-  moment: SimulationMoment,
-  date: string,
-): SimulationMoment {
-  assertSimulationMoment(moment);
-  return simulationMomentAtLocalTime({
-    date,
-    minuteOfDay: moment.minuteOfDay,
-    timeZone: moment.timeZone,
-    preferredUtcOffsetMinutes: moment.utcOffsetMinutes,
-  });
-}
 
-export function assertSimulationMoment(moment: SimulationMoment): void {
+function assertSimulationMoment(moment: SimulationMoment): void {
   if (
     EPOCH_MINUTE_CACHE.has(
       `${moment.date}|${moment.minuteOfDay}|${moment.timeZone}|${moment.utcOffsetMinutes}`,
@@ -498,51 +486,15 @@ function computeSimulationMomentEpochMinute(moment: SimulationMoment): number {
   return instantMinute;
 }
 
-export function compareSimulationMoments(
+function compareSimulationMoments(
   left: SimulationMoment,
   right: SimulationMoment,
 ): number {
   return simulationMomentEpochMinute(left) - simulationMomentEpochMinute(right);
 }
 
-export function simulationMinutesBetween(
-  start: SimulationMoment,
-  end: SimulationMoment,
-): number {
-  const difference =
-    simulationMomentEpochMinute(end) - simulationMomentEpochMinute(start);
-  if (!Number.isSafeInteger(difference)) {
-    throw new Error("Simulation duration exceeds safe minute precision.");
-  }
-  return difference;
-}
 
-export function addSimulationMinutes(
-  moment: SimulationMoment,
-  minutes: number,
-): SimulationMoment {
-  assertSimulationMoment(moment);
-  if (!Number.isSafeInteger(minutes)) {
-    throw new Error("Simulation minutes must be a safe integer.");
-  }
-  const targetEpochMinute = simulationMomentEpochMinute(moment) + minutes;
-  if (!Number.isSafeInteger(targetEpochMinute)) {
-    throw new Error("Simulation moment exceeds safe minute precision.");
-  }
-  return simulationMomentFromEpochMinute(targetEpochMinute, moment.timeZone);
-}
 
-export function sameSimulationMoment(
-  left: SimulationMoment,
-  right: SimulationMoment,
-): boolean {
-  return (
-    left.date === right.date &&
-    left.minuteOfDay === right.minuteOfDay &&
-    left.timeZone === right.timeZone &&
-    left.utcOffsetMinutes === right.utcOffsetMinutes
-  );
-}
 
 export function yearOf(date: IsoDate): number {
   return Number(date.slice(0, 4));

@@ -14,13 +14,13 @@ import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
-export interface PersonJob {
+interface PersonJob {
   readonly id: string;
   readonly title: string;
   readonly organizationId: string;
 }
 
-export interface PersonOffice {
+interface PersonOffice {
   readonly termId: string;
   readonly officeId: string;
   readonly title: string;

@@ -116,7 +116,7 @@ import type {
   Source,
 } from "./types";
 
-export const MEDICAL_BILL_KIND = "health.medical-bill";
+const MEDICAL_BILL_KIND = "health.medical-bill";
 export const MEDICAL_DEBT_OUTCOME = data.outcome;
 const PLACE_TWIN = data.personLevel.placeTwin;
 
@@ -126,7 +126,7 @@ const PARAMETERS = data.parameters as unknown as Readonly<
 const q = (key: string) => parameter(key, PARAMETERS);
 
 /** What a member's care is covered by, as the coverage engine and the law reach record it. */
-export type BillPlan = "employer" | "medicaid" | "medicare" | "none";
+type BillPlan = "employer" | "medicaid" | "medicare" | "none";
 
 const DRUG_NEGOTIATION =
   "us-federal-positions:health.medicare-drug-price-negotiation";
@@ -173,7 +173,7 @@ export interface BilledMember {
 }
 
 /** A bill still owed to the provider: the day it was billed and what is left of it. */
-export interface OwedBill {
+interface OwedBill {
   readonly billedAt: IsoDate;
   readonly minor: number;
 }
@@ -1224,14 +1224,4 @@ function dropSettledRows(
   for (const row of [...(rows.rows() as unknown as MedicalBillRow[])])
     if (!billedNow.has(row.id) && !row.owed.length && row.debtId === null)
       rows.remove(row.id);
-}
-
-/** A household's latest month of medical bills, if it was billed. */
-export function medicalBillOf(
-  api: CoreAPI,
-  module: string,
-  householdId: string,
-): MedicalBillRow | undefined {
-  return table(api, module).get(`medical-bill:${householdId}`) as
-    MedicalBillRow | undefined;
 }

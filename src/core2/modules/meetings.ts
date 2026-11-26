@@ -145,7 +145,7 @@ export interface DebateRow {
   readonly audience: number;
 }
 
-export const MEETINGS_MODULE: CoreModule = {
+const MEETINGS_MODULE: CoreModule = {
   id: MEETINGS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -285,13 +285,6 @@ const local = (bill: BillRow) =>
   !bill.bodyOfficeId.includes(":legislature-") &&
   !bill.bodyOfficeId.includes(":us-");
 
-/** The question a town or county bill speaks to, or nothing for a bill of a legislature (it has testimony, not public comment). */
-export function localBillStance(
-  api: CoreAPI,
-  bill: BillRow,
-): { question: string; position: number } | null {
-  return local(bill) ? billQuestion(api, bill) : null;
-}
 
 /**
  * Sign up to speak on a bill before its vote: public comment at a town or
@@ -361,7 +354,7 @@ export function countedRecordOnly(core: CoreState, personId: string): boolean {
  * How hard a bill's question drives a resident to stand up at its public
  * comment: how strongly they feel it times their civic temperament.
  */
-export function standUpDrive(
+function standUpDrive(
   api: CoreAPI,
   p: Readonly<Pick<PersonState, "id" | "traits">>,
   stance: { readonly question: string; readonly position: number },

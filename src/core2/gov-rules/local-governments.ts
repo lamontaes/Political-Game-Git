@@ -33,7 +33,7 @@ import {
 } from "./county-governing-body-rules";
 import { townshipGovernmentUnitsForPlace } from "./township-governing-body-rules";
 
-export type CountyGovernmentStatus =
+type CountyGovernmentStatus =
   "established" | "no-county-government" | "not-established" | "not-applicable";
 
 export interface HomeLocalGovernmentUnits {
@@ -240,7 +240,7 @@ export interface LocalGovernmentOrganization {
 }
 
 /** The stable key a recorded local government's organization carries. */
-export function localGovernmentOrganizationKey(
+function localGovernmentOrganizationKey(
   unit: Pick<GovernmentUnitIdentity, "id">,
 ): string {
   return `local-government:${unit.id}`;
@@ -278,7 +278,7 @@ function governedJurisdictionId(
  * the opening when the listing speaks after it (not backdated). Ported from
  * the old engine's `ensureLocalGovernmentOrganization`.
  */
-export function localGovernmentOrganization(
+function localGovernmentOrganization(
   unit: GovernmentUnitIdentity,
   onDate: IsoDate,
 ): LocalGovernmentOrganization | null {

@@ -1,6 +1,6 @@
 /** Developer-only target validation; core code must not import this module. */
 
-export interface CalibrationDiagnostic {
+interface CalibrationDiagnostic {
   readonly code: string;
   readonly file?: string;
   readonly parameter?: string;
@@ -605,19 +605,19 @@ export function auditCheckRangeCoverage(
   };
 }
 
-export interface P9CheckEvaluation {
+interface P9CheckEvaluation {
   readonly metric: string;
   readonly status: "matched" | "different" | "unmeasured";
   readonly recordIds: readonly string[];
 }
 
-export interface P9RangeEvaluation {
+interface P9RangeEvaluation {
   readonly metric: string;
   readonly status: "inside" | "outside" | "unmeasured";
   readonly recordIds: readonly string[];
 }
 
-export interface P9StepEvaluation {
+interface P9StepEvaluation {
   readonly stepId: string;
   readonly representation: "full" | "records-only" | "missing";
   readonly reproduced: boolean;
@@ -635,14 +635,14 @@ export interface P9Evaluation {
   readonly steps: readonly P9StepEvaluation[];
 }
 
-export interface P9Observation {
+interface P9Observation {
   readonly metric: string;
   readonly date: string;
   readonly origin: "initialized" | "forced" | "engine";
   readonly recordIds: readonly string[];
 }
 
-export interface P9RunStep {
+interface P9RunStep {
   readonly stepId: string;
   readonly representation: "full" | "records-only" | "missing";
   readonly forcedDecision: unknown | null;

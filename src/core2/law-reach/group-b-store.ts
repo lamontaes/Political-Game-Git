@@ -122,7 +122,7 @@ const MODULE: CoreModule = {
 };
 
 /** End every open reach row naming an organization, dated the day it closed. */
-export function endOrganizationRows(
+function endOrganizationRows(
   api: CoreAPI,
   organizationId: string,
   date: string,

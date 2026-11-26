@@ -132,7 +132,7 @@ export interface OfficialRow {
   };
 }
 
-export const OFFICIALS_MODULE: CoreModule = {
+const OFFICIALS_MODULE: CoreModule = {
   id: OFFICIALS_MODULE_ID,
   state: {
     schemaVersion: 1,

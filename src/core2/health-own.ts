@@ -55,7 +55,7 @@ function coverageLinkRow(): {
 }
 
 /** One look at a person's coverage, kept with the hazard factor it set. */
-export interface OwnCoveragePart {
+interface OwnCoveragePart {
   readonly link: string;
   /** The link's size per covered person-year. */
   readonly size: number;
@@ -70,7 +70,7 @@ export interface OwnCoveragePart {
 }
 
 /** One displaced worker's excess hazard today, with the jobs engine's record it stands on. */
-export interface OwnDisplacementPart {
+interface OwnDisplacementPart {
   readonly link: string;
   /** The jobs engine's closure record (job-change:<date>:<job>:closure). */
   readonly recordId: string;
@@ -82,7 +82,7 @@ export interface OwnDisplacementPart {
 }
 
 /** One worker's long weekly hours and what they add to the heart disease and stroke share of their hazard. */
-export interface OwnHoursPart {
+interface OwnHoursPart {
   readonly link: string;
   /** The job the hours are recorded on. */
   readonly jobId: string;

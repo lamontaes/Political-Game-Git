@@ -34,7 +34,7 @@ function load(): ReadonlyMap<string, number> {
 }
 
 /** A place's land area in square miles; the median place's where the place has none recorded. */
-export function placeLandSquareMiles(placeKey: string | undefined): number {
+function placeLandSquareMiles(placeKey: string | undefined): number {
   const land = (placeKey ? load().get(placeKey) : undefined) ?? medianLandOf();
   return land / SQUARE_METERS_PER_SQUARE_MILE;
 }

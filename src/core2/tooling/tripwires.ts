@@ -16,7 +16,7 @@ import {
 export { assertReleaseReady } from "../stopgaps";
 export type { StopgapEntry } from "../stopgaps";
 
-export interface TripwireDiagnostic {
+interface TripwireDiagnostic {
   readonly code: string;
   readonly file?: string;
   readonly line?: number;
@@ -265,26 +265,6 @@ export function auditCore2Tripwires(
   };
 }
 
-/** Throws a readable diagnostic if any source or registry tripwire fails. */
-export function assertCore2Tripwires(
-  rootDirectory: string,
-  registryInput?: unknown,
-): TripwireAudit {
-  const audit = auditCore2Tripwires(rootDirectory, registryInput);
-  if (audit.diagnostics.length > 0) {
-    throw new Error(
-      audit.diagnostics
-        .map((diagnostic) => {
-          const location = diagnostic.file
-            ? `${diagnostic.file}${diagnostic.line === undefined ? "" : `:${diagnostic.line}`}: `
-            : "";
-          return `${location}${diagnostic.message}`;
-        })
-        .join("\n"),
-    );
-  }
-  return audit;
-}
 
 export interface TripwireCliOptions {
   readonly release?: boolean;

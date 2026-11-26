@@ -6,7 +6,7 @@
  */
 
 /** One chooser pick: the offers' action ids, the pick with and without the trait term. */
-export interface ChooserProbeRow {
+interface ChooserProbeRow {
   actorId: string;
   actionIds: readonly string[];
   /** Each offer's trait term, in the offers' order. */

@@ -36,7 +36,7 @@ import type {
   IsoDate,
 } from "./types";
 
-export const SAVE_FORMAT = "core2-save-v1";
+const SAVE_FORMAT = "core2-save-v1";
 
 export interface GameRecipe {
   /** The drawn place: its generation seed and recorded locality key. */

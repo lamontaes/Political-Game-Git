@@ -56,7 +56,7 @@ export const ACS_VALUE_DATE = "2022-07-01";
 export type P = (key: string) => number;
 
 /** The loan one dollar a month carries for 30 years at a yearly percentage rate. */
-export function loanPerPayment(ratePct: number, p: P): number {
+function loanPerPayment(ratePct: number, p: P): number {
   const months = p("macroMonthsPerYear");
   const term = p("housingMortgageTermYears") * months;
   const r = ratePct / p("macroHundred") / months;

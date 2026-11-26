@@ -35,7 +35,7 @@ import type { CoreAPI, CoreEventInput, CoreState, PersonId } from "./types";
 /** The officials engine's store (state and federal seats), read by id. */
 const OFFICIALS_STORE = "core2-officials-v1";
 
-export interface HearerGroupRow {
+interface HearerGroupRow {
   readonly id: string;
   readonly placeId: string;
   /** Full people who joined the group, all time. */

@@ -38,9 +38,9 @@ import type {
 import { registerWorldMapPart } from "./snapshot";
 import { pairKey } from "./kernel/ids";
 
-export const FREE_BLOCK_DATA = freeBlockJson;
+const FREE_BLOCK_DATA = freeBlockJson;
 
-export const FREE_BLOCK = {
+const FREE_BLOCK = {
   stopgapId: "SG-P15-free-block-plan",
   /** The effect whose act moves the date of last contact. */
   contactEffect: "contact",

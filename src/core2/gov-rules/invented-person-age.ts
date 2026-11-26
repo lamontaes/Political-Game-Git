@@ -5,29 +5,8 @@ import { ageOnDate, isoDateFromParts, makeIsoDate } from "../kernel/dates";
 import type { SeededRng } from "../kernel/rng";
 import type { IsoDate } from "./types";
 
-/**
- * One way to give an invented person an age (A161). Every producer that
- * makes up a person the records do not name (a successor, a nominee, a
- * committee member, a newcomer) draws the age from this table and the birth
- * date from {@link inventedPersonBirthDate}; none keeps its own range.
- *
- * The draw is a seeded pick among real options: any whole age inside the
- * window, then a day of that year. No percentage decides anything.
- *
- * ESTIMATED FROM AVERAGE: every window below is a game estimate checked
- * against real averages, not a sourced distribution. The averages they were
- * checked against: members of the 119th Congress average about 58 (House)
- * and 65 (Senate) at the start of the term (Congressional Research Service,
- * "Membership of the 119th Congress: A Profile"); state legislators average
- * about 56 to 58 (NCSL, "State Legislators by Age"); sitting governors
- * average about 58 (National Governors Association roster); federal judges
- * are about 50 at appointment (Federal Judicial Center). The research request
- * `invented-person-age-windows-by-role` asks for the distributions by role.
- */
-export const INVENTED_PERSON_AGE_RESEARCH_QUESTION =
-  "invented-person-age-windows-by-role";
 
-export interface InventedPersonAgeWindow {
+interface InventedPersonAgeWindow {
   /**
    * The youngest age, either fixed or counted from the office's legal
    * minimum age, which the caller supplies.
@@ -66,7 +45,7 @@ const aboveMinimum = (
 });
 
 /** The one age-window table. Keys name the role, never a place. */
-export const INVENTED_PERSON_AGE_WINDOWS = {
+const INVENTED_PERSON_AGE_WINDOWS = {
   /** A member of Congress or the legislature chosen for a vacancy. */
   "legislative-successor": aboveMinimum(3, 70, 0),
   /** A prospect for a background seat who may or may not run. */
@@ -211,7 +190,7 @@ function daysInMonth(year: number, month: number): number {
  * no draw is repeated. The core of {@link inventedPersonBirthDate}'s exact
  * placements; exported for the scenario generator's calendar edge cases.
  */
-export function birthDateAtAge(
+function birthDateAtAge(
   referenceDate: IsoDate,
   age: number,
   birthYear: number,

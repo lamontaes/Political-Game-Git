@@ -44,7 +44,7 @@ const PARAMETERS = rows as unknown as Readonly<Record<string, Parameter>>;
 const c = (key: string) => PARAMETERS[key]!.value;
 const DECISION = "contracts.award";
 
-export interface ContractBid {
+interface ContractBid {
   readonly organizationId: string;
   readonly staff: number;
   readonly wageDailyMinor: number;
@@ -346,7 +346,7 @@ function award(
   return { id: row.id, organizationId: winner };
 }
 
-export const CONTRACTS_MODULE: CoreModule = {
+const CONTRACTS_MODULE: CoreModule = {
   id: CONTRACTS_MODULE_ID,
   state: {
     schemaVersion: 1,

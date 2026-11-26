@@ -11,8 +11,8 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { placeJurisdictionId } from "../place-map";
 
-export const HOMELESS_COUNT_MODULE_ID = "core2-homeless-count-v1";
-export const HOMELESS_COUNT_EVENT = "housing.homeless-count";
+const HOMELESS_COUNT_MODULE_ID = "core2-homeless-count-v1";
+const HOMELESS_COUNT_EVENT = "housing.homeless-count";
 
 const table = (api: CoreAPI) =>
   api.moduleState(HOMELESS_COUNT_MODULE_ID).table("counts");
@@ -72,7 +72,7 @@ function countMonth(api: CoreAPI): void {
   });
 }
 
-export const HOMELESS_COUNT_MODULE: CoreModule = {
+const HOMELESS_COUNT_MODULE: CoreModule = {
   id: HOMELESS_COUNT_MODULE_ID,
   state: { schemaVersion: 1, tables: { counts: {} } },
   onDay(api) {

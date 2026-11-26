@@ -36,8 +36,8 @@ import type {
   PersonState,
 } from "../types";
 
-export const TRAIT_CHANGE_MODULE_ID = "core2-trait-change-v1";
-export const TRAIT_CHANGES_TABLE = "changes";
+const TRAIT_CHANGE_MODULE_ID = "core2-trait-change-v1";
+const TRAIT_CHANGES_TABLE = "changes";
 
 interface EventRow {
   kind: string;
@@ -51,7 +51,7 @@ interface ChangeData {
   eventShiftParameter: string;
   events: readonly EventRow[];
 }
-export const DEFAULT_TRAIT_CHANGE_DATA = changeData as unknown as ChangeData;
+const DEFAULT_TRAIT_CHANGE_DATA = changeData as unknown as ChangeData;
 
 interface Runtime {
   /** Birthdays by "MM-DD" of the people the module has seen. */
@@ -213,7 +213,7 @@ function onEvent(api: CoreAPI, data: ChangeData, event: CoreEventInput) {
   }
 }
 
-export function createTraitChangeModule(
+function createTraitChangeModule(
   data: ChangeData = DEFAULT_TRAIT_CHANGE_DATA,
 ): CoreModule {
   return {

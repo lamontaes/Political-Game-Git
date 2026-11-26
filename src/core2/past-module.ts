@@ -211,7 +211,7 @@ const PAST_HISTORY: HistorySource = {
   },
 };
 
-export const PAST_MODULE: PreStartModule & HistoryModule = {
+const PAST_MODULE: PreStartModule & HistoryModule = {
   id: PAST_MODULE_ID,
   history: PAST_HISTORY,
   state: {

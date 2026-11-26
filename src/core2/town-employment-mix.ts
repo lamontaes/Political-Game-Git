@@ -47,7 +47,7 @@ function states() {
 }
 
 /** Where a town's industry mix was read from. */
-export type TownEmploymentBasis = "county" | "state" | "national";
+type TownEmploymentBasis = "county" | "state" | "national";
 
 export interface TownEmploymentMix {
   readonly basis: TownEmploymentBasis;

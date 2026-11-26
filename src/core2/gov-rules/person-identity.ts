@@ -48,7 +48,7 @@ export function defaultPronounsForGender(
  * ACS records sex, not gender identity, and Pew's figure is of adults; the
  * two are combined here as the closest published national figures.
  */
-export const GENERATED_GENDER_SOURCES = {
+const GENERATED_GENDER_SOURCES = {
   pewNonbinaryPercent: 1,
   pewSource:
     "Pew Research Center, American Trends Panel Wave 109, May 16-22, 2022, GENDERNEW: 1% nonbinary",
@@ -59,14 +59,14 @@ export const GENERATED_GENDER_SOURCES = {
 } as const;
 
 /** The whole the gender weights are counted out of. */
-export const GENERATED_GENDER_BASIS = 100_000;
+const GENERATED_GENDER_BASIS = 100_000;
 
 /**
  * Whole-number weights out of `GENERATED_GENDER_BASIS` for each generated
  * gender, read from `GENERATED_GENDER_SOURCES` and rounded by largest
  * remainder so they add up to the basis exactly.
  */
-export function generatedGenderWeights(): {
+function generatedGenderWeights(): {
   readonly female: number;
   readonly male: number;
   readonly nonbinary: number;

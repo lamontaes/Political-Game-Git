@@ -75,7 +75,7 @@ import {
   voterLean,
 } from "./voting";
 
-export const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
+const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
 /** The event an ask is played from: the director's `ask-to-serve` cause. */
 export const SERVE_ASKED_EVENT = "serve-asked";
 
@@ -104,7 +104,7 @@ export type ServeReason =
   | "own-job";
 
 /** The terms a yes rests on, as its reason. */
-export type ServeYesReason =
+type ServeYesReason =
   "trust" | "step-up" | "agree" | "real-race" | "pay";
 
 /** What the read stood on: kept with the ask, so a change on the record lets the player ask again. */
@@ -199,7 +199,7 @@ export interface ServeAskRow {
   readonly noesBefore?: number;
 }
 
-export type ServeMoved = "met" | "standing" | "agree" | "heard" | "seat";
+type ServeMoved = "met" | "standing" | "agree" | "heard" | "seat";
 
 /** The term of a read that moved most for the ask since an earlier read. */
 function movedSince(was: ServeStanding, now: ServeStanding): ServeMoved | null {
@@ -228,7 +228,7 @@ function movedSince(was: ServeStanding, now: ServeStanding): ServeMoved | null {
   return best;
 }
 
-export const SERVE_ASKS_MODULE: CoreModule = {
+const SERVE_ASKS_MODULE: CoreModule = {
   id: SERVE_ASKS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -304,7 +304,7 @@ function servingTerm(api: CoreAPI, personId: string): TermRow | undefined {
  * Where the asked person stands on being asked onto the player's ticket:
  * every term from their record and the player's, and what the read stood on.
  */
-export function ticketStanding(
+function ticketStanding(
   api: CoreAPI,
   filing: FilingRow,
   ticket: ContestRow,
@@ -644,7 +644,7 @@ function knowsEachOther(
  * changed on the record (its own reason's grounds, or the player's filing
  * moving on, such as a primary won).
  */
-export function mayAskAgain(
+function mayAskAgain(
   api: CoreAPI,
   row: ServeAskRow | undefined,
   now: ServeStanding | null,

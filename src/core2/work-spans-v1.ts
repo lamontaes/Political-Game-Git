@@ -18,7 +18,7 @@ export interface WorkMomentV1 {
   readonly date: string;
   readonly minuteOfDay: number;
 }
-export interface WorkSpanV1 {
+interface WorkSpanV1 {
   readonly commitmentId: string;
   readonly jobId: string;
   readonly personId: string;

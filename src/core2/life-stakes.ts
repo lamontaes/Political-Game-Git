@@ -37,7 +37,7 @@ import type { CoreState, PersonState } from "./types";
  * for everyone: their traits' lean toward self-interest over the common good
  * (the shared decision `views.own-stake`), never below zero.
  */
-export function lifeCare(
+function lifeCare(
   core: Pick<CoreState, "data">,
   person: Pick<PersonState, "traits">,
 ): number {

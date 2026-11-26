@@ -24,7 +24,7 @@ import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { placeStateKey } from "./place-map";
 
-export type KeyReason = (typeof keyData.reasons)[number];
+type KeyReason = (typeof keyData.reasons)[number];
 
 /** One key person, with every reason they are key, and the records that say so. */
 export interface KeyPerson {

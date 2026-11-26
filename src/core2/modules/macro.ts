@@ -128,7 +128,7 @@ interface MacroStateRow {
 }
 
 /** One state's figures at the opening, kept so its regions can be read against them. */
-export interface CountryStateBase {
+interface CountryStateBase {
   id: string;
   fips: string;
   unemploymentPct: number;
@@ -139,7 +139,7 @@ export interface CountryStateBase {
   sectorSales: Readonly<Record<CountrySector, number>>;
 }
 
-export interface LinkedLineRow {
+interface LinkedLineRow {
   id: string;
   facilityId: string;
   index: "prime";
@@ -440,7 +440,7 @@ export function countryAbroadArrivals(
  * without moving anyone (counted-moves reads them: the tier is the one holder
  * of every state's people). Empty before the tier opens.
  */
-export function countryFlowsNow(api: CoreAPI): {
+function countryFlowsNow(api: CoreAPI): {
   states: readonly CountryState[];
   flows: readonly CountryFlow[];
 } {
@@ -1307,7 +1307,7 @@ export function macroCoreData(base: CoreData = DEFAULT_DATA): CoreData {
 }
 
 /** One year's end in the outlook: the nation's figures, or one state's. */
-export interface OutlookPoint {
+interface OutlookPoint {
   month: string;
   unemploymentPct: number;
   people: number;

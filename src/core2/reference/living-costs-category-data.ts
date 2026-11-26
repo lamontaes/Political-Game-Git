@@ -1,7 +1,7 @@
 /** Retained BLS Consumer Expenditure category means and published sampling errors.
  * Native XLSX cells from the locked regional corpus, not observed household bills.
  */
-export const LIVING_COSTS_CATEGORY_SOURCES = {
+const LIVING_COSTS_CATEGORY_SOURCES = {
   "region-of-residence": {
     length: 23675,
     localPath:

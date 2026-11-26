@@ -25,7 +25,7 @@ import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
  * balanced as subtle. `defining` is not declared, so a record carrying it is
  * now rejected by name instead of quietly decoding as though it were strong.
  */
-export const PEOPLE_TRAIT_SCALE: TraitScale = {
+const PEOPLE_TRAIT_SCALE: TraitScale = {
   balancedKey: BALANCED_TRAIT.key,
   balancedLabel: BALANCED_TRAIT.label,
   balancedDescription: "No marked lean either way.",

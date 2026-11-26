@@ -127,7 +127,7 @@ interface OrganizedRow {
   readonly side?: number;
 }
 
-export const LEADERSHIP_MODULE: CoreModule = {
+const LEADERSHIP_MODULE: CoreModule = {
   id: LEADERSHIP_MODULE_ID,
   state: {
     schemaVersion: 1,

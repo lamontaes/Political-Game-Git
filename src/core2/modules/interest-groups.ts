@@ -129,7 +129,7 @@ function duesSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
   return slot;
 }
 
-export const INTEREST_GROUPS_MODULE: CoreModule = {
+const INTEREST_GROUPS_MODULE: CoreModule = {
   id: INTEREST_GROUPS_MODULE_ID,
   state: {
     schemaVersion: 1,

@@ -272,7 +272,7 @@ function validateRecipientIncome(
 }
 
 /** Calendar months preserve the original billing day across short months. */
-export function financeNextDate(
+function financeNextDate(
   api: CoreAPI,
   from: string,
   months: number,

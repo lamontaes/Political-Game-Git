@@ -49,7 +49,7 @@ import { corePlaceByKey } from "./place-lookup";
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
-export type ResidentFlowKind =
+type ResidentFlowKind =
   "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
 
 export type ResidentCadence =
@@ -184,7 +184,7 @@ const DAYS_PER_YEAR = 365,
   MONTHS_PER_YEAR = 12;
 
 /** A household's monthly living costs paid outside the town, due on the 1st. */
-export function householdOutsideFlow(
+function householdOutsideFlow(
   key: string,
   payerId: string,
   placeId: PlaceId,

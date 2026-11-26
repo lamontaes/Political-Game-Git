@@ -275,7 +275,7 @@ const BORROWING_COST = "gov.borrowing-cost";
  * spread, so a law that moves the spread moves the cost by its share of the
  * yield. None where the world keeps no macro record yet.
  */
-export function stateBorrowingRate(api: CoreAPI): number | undefined {
+function stateBorrowingRate(api: CoreAPI): number | undefined {
   const drivers = budgetDrivers(api);
   return drivers ? drivers.yield / PERCENT : undefined;
 }
@@ -1079,7 +1079,7 @@ function publicPayShortfallOf(api: CoreAPI, gov: GovernmentRow): number {
  * the federal income tax and the two payroll taxes, summed over every state's rest (the part
  * the town's own records count is paid by the town's own people, so it is not here).
  */
-export interface CountryWithholding {
+interface CountryWithholding {
   readonly month: number;
   readonly federalIncome: number;
   readonly federalPayroll: number;
@@ -1392,7 +1392,7 @@ export function budgetDrivers(api: CoreAPI): BudgetDrivers | undefined {
   };
 }
 
-export function taxBaseIndex(
+function taxBaseIndex(
   api: CoreAPI,
   budgetStartsOn: string,
   lastMonth: string,
@@ -2394,28 +2394,9 @@ function attribute(api: CoreAPI, row: LandedRow): void {
   } as unknown as ModuleRow);
 }
 
-/**
- * The story that taught a person why their award changed, for the learned
- * event with this id: its row on the landed table names the story it cites.
- */
-export function learnedStoryOf(
-  api: CoreAPI,
-  personId: string,
-  learnedEventId: string,
-): Story | undefined {
-  const row = (table(api, "landed").rows() as unknown as LandedRow[]).find(
-    (r) =>
-      r.personId === personId &&
-      r.learnedFrom &&
-      learnedEventId.endsWith(`:${r.obligationId}`),
-  );
-  return row?.learnedFrom
-    ? storiesHeard(api, personId).find((s) => s.id === row.learnedFrom)
-    : undefined;
-}
 
 /** Each close, recipients who since heard why their award changed tie it to the law. */
-export function attributeLanded(api: CoreAPI): void {
+function attributeLanded(api: CoreAPI): void {
   for (const row of table(api, "landed").rows() as unknown as LandedRow[])
     if (!row.learnedFrom) attribute(api, row);
 }
@@ -2454,7 +2435,7 @@ export function federalLineLevel(api: CoreAPI, line: string): number {
 }
 
 /** The federal Social Security line in force against its base (1 = base). */
-export function socialSecurityLevel(api: CoreAPI): number {
+function socialSecurityLevel(api: CoreAPI): number {
   return federalLineLevel(api, "socialSecurity");
 }
 

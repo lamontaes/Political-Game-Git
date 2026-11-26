@@ -144,7 +144,7 @@ function occurrences(
       );
 }
 
-export function dateSegments(
+function dateSegments(
   slot: WorkScheduleSlot,
   dayMinutes: number,
   registry: Readonly<Record<string, Parameter>>,
@@ -286,18 +286,6 @@ export function hasDailyWorkRefresh(
   );
 }
 
-/** Trace retention is circle/player/observer. A place cadence does not grant a trace. */
-export function isWorkFocus(
-  api: CoreAPI,
-  actor: Readonly<PersonState>,
-): boolean {
-  return (
-    api.state.observer ||
-    isExplicitlyControlledPersonV1(api.state, actor.id) ||
-    actor.id === api.state.playerId ||
-    api.state.focusPersonIds.has(actor.id)
-  );
-}
 
 /** Engine-owned continuation state. Root projects client offers; clients never supply these objects. */
 export interface PreparedWorkChoice {

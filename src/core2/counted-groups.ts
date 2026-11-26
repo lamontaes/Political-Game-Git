@@ -28,7 +28,7 @@ import type {
   WorkCommitmentInput,
 } from "./types";
 
-export const COUNTED_VIEWS_STOPGAP = "SG-CORE-counted-person-views";
+const COUNTED_VIEWS_STOPGAP = "SG-CORE-counted-person-views";
 
 /**
  * A full person returned to the counts (demoted) keeps their record, on the
@@ -50,7 +50,7 @@ export const enum MemberState {
 }
 
 /** The `looks` keys that carry a person's roles (opening-roles.ts), kept for counted members as for named people. */
-export const ROLE_KEYS = ["partyActivity", "ownedEmployerId"] as const;
+const ROLE_KEYS = ["partyActivity", "ownedEmployerId"] as const;
 
 export type HouseholdKind = "one-adult" | "adults" | "with-children";
 /**

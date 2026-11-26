@@ -37,7 +37,7 @@ const oldestAge = () => p("coarsePlaceOldestWorkingAge");
 /** The percentile a met worker is paid at: the median of their occupation. */
 const wagePercentile = () => p("coarsePlaceWagePercentile");
 
-export interface CoarseAgeRow {
+interface CoarseAgeRow {
   readonly id: string;
   readonly minAge: number;
   /** Exclusive. */
@@ -46,7 +46,7 @@ export interface CoarseAgeRow {
   readonly workers: number;
 }
 
-export interface CoarseJobRow {
+interface CoarseJobRow {
   readonly workplace: string;
   readonly title: string;
   readonly occupation: string;

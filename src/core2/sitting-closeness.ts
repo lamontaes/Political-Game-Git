@@ -31,7 +31,7 @@ import type { CoreAPI, CoreState, PersonId } from "./types";
 const COLLEAGUE_KIND = "coworker";
 
 /** A member seated on a body, and the day their unbroken service in the seat began. */
-export interface SittingSeat {
+interface SittingSeat {
   readonly personId: string;
   readonly since: string;
 }

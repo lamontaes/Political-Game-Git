@@ -503,7 +503,7 @@ function schedule(api: CoreAPI): void {
   });
 }
 
-export const NATIONAL_EVENTS_MODULE: CoreModule = {
+const NATIONAL_EVENTS_MODULE: CoreModule = {
   id: NATIONAL_EVENTS_MODULE_ID,
   state: {
     schemaVersion: 1,

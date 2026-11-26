@@ -39,7 +39,7 @@ interface PackCondition {
   } | null;
 }
 
-export const CONDITION_PACK_KEY = pack.packKey;
+const CONDITION_PACK_KEY = pack.packKey;
 export const CONDITION_PACK: readonly PackCondition[] =
   pack.conditions as readonly PackCondition[];
 
@@ -51,14 +51,10 @@ function selectionPlace(seed: string, personId: EntityId, key: string): number {
   return parseInt(hex, 16) / 16 ** 12;
 }
 
-export function packCondition(key: string): PackCondition | null {
+function packCondition(key: string): PackCondition | null {
   return CONDITION_PACK.find((condition) => condition.key === key) ?? null;
 }
 
-/** The plain words a person's record uses for a pack condition. */
-export function conditionLabel(key: string): string | null {
-  return packCondition(key)?.label ?? null;
-}
 
 /**
  * The share (0 to 1) of people of this exact age holding the condition. Each
@@ -317,7 +313,7 @@ interface SeverityGrade {
 }
 
 /** The severity grades a held condition can carry, most severe first. */
-export const SEVERITY_GRADES: readonly SeverityGrade[] =
+const SEVERITY_GRADES: readonly SeverityGrade[] =
   pack.severityGrades.grades;
 const AGE_FACTOR = pack.ageFactor;
 
@@ -326,7 +322,7 @@ const AGE_FACTOR = pack.ageFactor;
  * people holding it, against the grades' shares, chosen once when the
  * condition is recorded. A condition of birth or childhood carries no grade.
  */
-export function conditionGrade(
+function conditionGrade(
   seed: string,
   personId: EntityId,
   key: string,
@@ -347,7 +343,7 @@ export function conditionGrade(
  * How much more a condition weighs when it is recorded at `age`: smoothly
  * from the young factor down to one, read once at recording.
  */
-export function conditionAgeFactor(age: number): number {
+function conditionAgeFactor(age: number): number {
   return (
     1 +
     (AGE_FACTOR.youngFactor - 1) /

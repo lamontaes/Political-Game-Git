@@ -673,7 +673,7 @@ function action(id: string, running: boolean): ActionDefinition {
   };
 }
 export const RUN = action("candidacy-run", true);
-export const STAY_OUT = action("candidacy-stay-out", false);
+const STAY_OUT = action("candidacy-stay-out", false);
 
 const pending = new WeakMap<object, OpenContest>();
 
@@ -1528,8 +1528,8 @@ function announceAction(id: string, announcing: boolean): ActionDefinition {
     ],
   };
 }
-export const ANNOUNCE = announceAction("candidacy-announce", true);
-export const WAIT_TO_FILE = announceAction("candidacy-wait-to-file", false);
+const ANNOUNCE = announceAction("candidacy-announce", true);
+const WAIT_TO_FILE = announceAction("candidacy-wait-to-file", false);
 
 const pendingAnnounce = new WeakMap<object, ContestRow>();
 
@@ -1546,7 +1546,7 @@ function seatHolderOf(api: CoreAPI, contest: ContestRow): string | null {
 }
 
 /** What draws a runner to say so now rather than at the filing counter, from their own record. */
-export function announceReasons(
+function announceReasons(
   api: CoreAPI,
   person: Readonly<PersonState>,
   contest: ContestRow,
@@ -1581,7 +1581,7 @@ export function announceReasons(
 }
 
 /** The runners of a weighed contest weigh announcing today; those who choose it announce. */
-export function weighAnnouncing(api: CoreAPI, contest: ContestRow): void {
+function weighAnnouncing(api: CoreAPI, contest: ContestRow): void {
   const weighed = api
     .moduleState(CANDIDACY_MODULE_ID)
     .table("weighed")
@@ -1639,7 +1639,7 @@ export function weighAnnouncing(api: CoreAPI, contest: ContestRow): void {
 /** The kind of a party's ask that someone run for a seat. */
 export const PARTY_ASKED_EVENT = "party-asked";
 /** An outgoing holder asked a resident to succeed them in a seat no one filed for. */
-export const SUCCESSOR_ASKED_EVENT = "successor-asked";
+const SUCCESSOR_ASKED_EVENT = "successor-asked";
 /** The replies in an ask's scene that mean yes. */
 const AGREEING_MOVES: ReadonlySet<string> = new Set(["agree", "relent"]);
 /** The replies in an ask's scene that mean no, or not now. */
@@ -1671,7 +1671,7 @@ function askedToday(api: CoreAPI): Set<string> {
  * for a partisan seat, its chair, and the members it would ask in turn (none
  * already asked today for another seat).
  */
-export function partyProspects(
+function partyProspects(
   api: CoreAPI,
   contest: ContestRow,
 ): {
@@ -2458,7 +2458,7 @@ export const PARTY_MENTORSHIP = "party.mentorship-formed";
 export const CAMPAIGN_MENTORSHIP = "campaign.mentorship-formed";
 
 /** A party member's mentor in politics: who took them under their wing, and the party's ask that brought it about. */
-export interface PartyMentorRow {
+interface PartyMentorRow {
   readonly id: string;
   readonly partyId: string;
   readonly mentorId: string;

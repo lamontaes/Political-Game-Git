@@ -2336,14 +2336,6 @@ export function townFigures(api: CoreAPI, placeId: string): TownHousingFigures {
   return townFiguresByPlace(api, new Set([placeId])).get(placeId)!;
 }
 
-/** What the law allows builders here (OPUS-GOV's handlers): apartments' land share, inclusionary set-aside, all-electric code, farmland protection. */
-export function setHousingZoning(
-  api: CoreAPI,
-  placeId: string,
-  change: Partial<Zoning>,
-): void {
-  setZoning(store(api).table("stock"), placeId, change);
-}
 
 /** Each town's builders for the month, and what's finished. */
 function build(api: CoreAPI): void {

@@ -11,17 +11,17 @@ import type {
   WeightedReason,
 } from "./types";
 
-export type Part1bVersion = "core2-part1b-v1";
-export interface SavedRecordRefV1 {
+type Part1bVersion = "core2-part1b-v1";
+interface SavedRecordRefV1 {
   kind: string;
   id: string;
 }
-export interface SavedSourceResolutionV1 {
+interface SavedSourceResolutionV1 {
   recordedRef: Readonly<SavedRecordRefV1>;
   status: "resolved-saved-record" | "missing-record" | "ambiguous-record";
 }
 /** Factual original settlement evidence. These amounts do not imply an actor utility choice. */
-export interface SavedPaymentCauseV1 {
+interface SavedPaymentCauseV1 {
   version: "core2-payment-cause-v1";
   mechanism:
     | "recorded-payroll-due"
@@ -66,7 +66,7 @@ export interface SavedPaymentCauseV1 {
 }
 
 /** Original earned attendance aggregate: it is neither a cash payment nor a utility decision. */
-export interface SavedEarnedPeriodCauseV1 {
+interface SavedEarnedPeriodCauseV1 {
   version: "core2-earned-period-cause-v1";
   mechanism: "recorded-attendance-accrual";
   /** Original supporting attendance only; never a period or settlement actor choice. */

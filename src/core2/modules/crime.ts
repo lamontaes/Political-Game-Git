@@ -39,7 +39,7 @@ export const CRIME_EVENT = "crime.victimized";
 const SCHEDULE_DAY = "04";
 
 type CrimeType = keyof typeof data.types;
-export const CRIME_TYPES = Object.keys(data.types) as CrimeType[];
+const CRIME_TYPES = Object.keys(data.types) as CrimeType[];
 const TYPES = data.types as Record<
   CrimeType,
   {
@@ -56,7 +56,7 @@ const PER_THOUSAND = 1000;
 export const VIOLENT: readonly CrimeType[] = ["robbery", "assault"];
 const PROPERTY: readonly CrimeType[] = ["burglary", "other-property"];
 
-export interface TypeMonth {
+interface TypeMonth {
   /** The expected count before rounding: rate x web factor x exposure, summed by weight. */
   expected: number;
   /**
@@ -536,7 +536,7 @@ function run(api: CoreAPI): void {
     runPlace(api, placeId, month, full.get(placeId) ?? []);
 }
 
-export const CRIME_MODULE: CoreModule = {
+const CRIME_MODULE: CoreModule = {
   id: CRIME_MODULE_ID,
   state: {
     schemaVersion: 1,

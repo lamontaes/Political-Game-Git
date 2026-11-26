@@ -68,7 +68,7 @@ export interface MeasureResult {
   readonly effectiveDate: string | null;
 }
 
-export const BALLOT_MEASURES_MODULE: CoreModule = {
+const BALLOT_MEASURES_MODULE: CoreModule = {
   id: BALLOT_MEASURES_MODULE_ID,
   state: {
     schemaVersion: 1,

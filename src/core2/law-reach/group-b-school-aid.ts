@@ -83,7 +83,7 @@ function poolPerResident(api: CoreAPI): number {
  * governments are paid their shares out of it and the rest is paid to the
  * outside account, as the rest of that line is (budgets-treasury.ts).
  */
-export function schoolAidPool(api: CoreAPI): number {
+function schoolAidPool(api: CoreAPI): number {
   const state = governments(api).find((g) => g.level === "state");
   return Math.round(poolPerResident(api) * (state?.residents ?? 0));
 }

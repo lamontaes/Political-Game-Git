@@ -13,7 +13,7 @@ import {
 } from "../public-safety";
 import type { CoreModule, CoreState } from "../types";
 
-export const PUBLIC_SAFETY_MODULE: CoreModule = {
+const PUBLIC_SAFETY_MODULE: CoreModule = {
   id: PUBLIC_SAFETY_MODULE_ID,
   state: {
     schemaVersion: 1,

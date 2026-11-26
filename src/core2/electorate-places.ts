@@ -96,7 +96,7 @@ const CPS = lazyValue(() =>
 const CPS_CITATION =
   "U.S. Census Bureau, Current Population Survey, November 2024 Voting and Registration Supplement, table 4c";
 
-export const CPS_AGE_BANDS: readonly [number, number, string][] = [
+const CPS_AGE_BANDS: readonly [number, number, string][] = [
   [18, 25, "18 to 24 years"],
   [25, 35, "25 to 34 years"],
   [35, 45, "35 to 44 years"],

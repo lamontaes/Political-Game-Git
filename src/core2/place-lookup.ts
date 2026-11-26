@@ -20,12 +20,12 @@ import lookupData from "./data/places/place-lookup.json" with { type: "json" };
 import territoryData from "./data/places/territory-places.json" with { type: "json" };
 import seatsOfGovernment from "../../data/research/places/seats-of-government.json" with { type: "json" };
 
-export interface CorePlaceCapabilities {
+interface CorePlaceCapabilities {
   readonly legislativeScenarioKey: string | null;
   readonly candidacyPackId: string | null;
 }
 
-export type CorePlaceScope = "state" | "locality" | "county";
+type CorePlaceScope = "state" | "locality" | "county";
 
 export interface CoreJurisdiction {
   readonly id: EntityId;
@@ -41,7 +41,7 @@ export interface CoreJurisdiction {
   };
 }
 
-export interface CorePlaceContext {
+interface CorePlaceContext {
   readonly jurisdiction: CoreJurisdiction;
   readonly initialMoment: SimulationMoment;
   readonly creationSummary: string;
@@ -68,7 +68,7 @@ export interface CorePlaceStateIdentity {
   readonly levelWord: string;
 }
 
-export type CoreSeatMatchStatus = "known" | "estimated-territory-place";
+type CoreSeatMatchStatus = "known" | "estimated-territory-place";
 
 export interface CoreSeatOfGovernmentPlace {
   readonly jurisdictionKey: string;
@@ -140,7 +140,7 @@ function countyNamesFor(usps: string): ReadonlySet<string> {
 }
 
 /** The name a resident uses, derived from the Census label rather than a list. */
-export function coreResidentPlaceName(
+function coreResidentPlaceName(
   censusName: string,
   usps: string,
 ): string {

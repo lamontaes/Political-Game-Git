@@ -81,7 +81,7 @@ function median(values: number[]): number {
 const firstOfMonth = (date: string) => `${date.slice(0, 7)}-01`;
 
 /** The latest anniversary of a lease signed on `signed` at or before `on` (the first of its month). */
-export function lastRenewalOn(signed: string, on: string): string {
+function lastRenewalOn(signed: string, on: string): string {
   const month = signed.slice(5, 7);
   let year = Number(on.slice(0, 4));
   if (`${year}-${month}-01` > on) year -= 1;

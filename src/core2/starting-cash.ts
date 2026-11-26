@@ -41,7 +41,7 @@ export function publishedTransactionBalance(annualPay: number): number {
  * (younger heads hold less, heads of 65 to 74 the most). It multiplies the
  * income group's median, taking age and income as separate effects.
  */
-export function ageBalanceFactor(headAge: number): number {
+function ageBalanceFactor(headAge: number): number {
   const rows = scf.byAgeOfHead.groups;
   let row = rows[0]!;
   for (const next of rows) if (headAge >= next.fromAge) row = next;

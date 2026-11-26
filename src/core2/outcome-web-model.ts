@@ -75,7 +75,7 @@ export interface WebLink {
 }
 
 /** The circumstance a link's effect varies by: a field an engine knows about its subject. */
-export type VariesBy =
+type VariesBy =
   | "incomeFifth"
   | "age"
   | "sex"

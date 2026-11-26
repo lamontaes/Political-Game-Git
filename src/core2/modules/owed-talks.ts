@@ -15,7 +15,7 @@ import type { CoreAPI, CoreEventInput, CoreState, IsoDate } from "../types";
 
 /** The relationships writer (the partnerships module) keeps the table. */
 const owedModuleId = "partnerships";
-export const OWED_TALK_TABLE = "owed";
+const OWED_TALK_TABLE = "owed";
 export const OWED_TALK_KIND = "owed-talk-due";
 
 export interface OwedTalkRow {

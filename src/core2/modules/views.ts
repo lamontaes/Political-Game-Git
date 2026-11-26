@@ -682,7 +682,7 @@ function direction(desiredChange: string): number {
  * Each part slides; the weights are the views table's.
  */
 /** The lean an event carries for a speaker still in the wider population, if it names one. */
-export function speakerLeanOf(event: {
+function speakerLeanOf(event: {
   readonly facts?: Readonly<Record<string, unknown>>;
 }): number | undefined {
   const lean = event.facts?.[VIEWS_SPEAKER_LEAN_KEY];

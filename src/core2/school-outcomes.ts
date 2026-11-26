@@ -387,7 +387,7 @@ export function pupilTeacherRatio(
 }
 
 /** The teachers of the place's school districts: a named teacher is one, a counted teacher the heads its employer's staffing sets. */
-export function districtTeachers(api: CoreAPI, placeId: string): number {
+function districtTeachers(api: CoreAPI, placeId: string): number {
   const core = api.state as CoreState;
   const districts = [...core.organizations.values()].filter(
     (org) =>
@@ -428,7 +428,7 @@ export function classSizeShiftSd(api: CoreAPI, ratio: number): number {
 }
 
 /** The change in the share clearing a line a standard-deviation shift makes, at the place's base share (normal density at the base share's z-score times the shift). */
-export function passShareChange(baseShare: number, shiftSd: number): number {
+function passShareChange(baseShare: number, shiftSd: number): number {
   const share = Math.min(0.999, Math.max(0.001, baseShare));
   return normalDensity(normalQuantile(1 - share)) * shiftSd;
 }

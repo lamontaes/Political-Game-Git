@@ -32,7 +32,7 @@ import type {
 } from "../types";
 import { registerWorldMapPart } from "../snapshot";
 
-export const RETIREMENT_CLAIMS_MODULE_ID = "core2-retirement-claims-v1";
+const RETIREMENT_CLAIMS_MODULE_ID = "core2-retirement-claims-v1";
 const STOPGAP = "SG-CORE-retirement-claims-in-play";
 
 interface Runtime {

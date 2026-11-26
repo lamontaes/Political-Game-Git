@@ -15,7 +15,7 @@ import {
 } from "./saves";
 import type { IsoDate } from "./types";
 
-export const BUG_REPORT_FORMAT = "core2-bug-report-v1";
+const BUG_REPORT_FORMAT = "core2-bug-report-v1";
 
 export interface BugReportV1 {
   format: typeof BUG_REPORT_FORMAT;

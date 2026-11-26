@@ -152,7 +152,7 @@ export function voteById(api: CoreAPI, id: string): VoteRecordRow | undefined {
     VoteRecordRow | undefined;
 }
 
-export const RECORD_MODULE: CoreModule & HistoryModule = {
+const RECORD_MODULE: CoreModule & HistoryModule = {
   id: RECORD_MODULE_ID,
   history: RECORD_HISTORY,
   state: {

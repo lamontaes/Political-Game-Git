@@ -67,7 +67,7 @@ const runtimes = new WeakMap<CoreState, Map<string, PurchaseTaxState>>();
 registerWorldMapPart("core2-purchase-tax", runtimes);
 
 /** Sales tax a seller couldn't remit: the next remittance adds it and pays it first. */
-export interface SalesTaxArrears {
+interface SalesTaxArrears {
   id: string;
   taxId: string;
   sellerId: string;
@@ -90,11 +90,6 @@ function arrearsRows(core: CoreState): Map<string, SalesTaxArrears> {
   return rows;
 }
 
-export function purchaseTaxArrears(
-  core: CoreState,
-): ReadonlyMap<string, Readonly<SalesTaxArrears>> {
-  return arrearsRows(core);
-}
 
 function taxes(core: CoreState): Map<string, PurchaseTaxState> {
   let rows = runtimes.get(core);

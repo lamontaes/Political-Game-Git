@@ -32,7 +32,7 @@ interface WebRow {
   readonly values: Readonly<Record<string, number>>;
 }
 
-export interface MeasureRead {
+interface MeasureRead {
   readonly measure: string;
   readonly from: number;
   readonly to: number;
@@ -412,12 +412,6 @@ export function countryTermRead(api: CoreAPI, sinceDate: string): AreaRead[] {
   return withFigured(figured, rest);
 }
 
-/** The term as a whole: the mean of its areas' slides (0 when nothing is read yet). */
-export function overallSlide(reads: readonly AreaRead[]): number {
-  return reads.length
-    ? reads.reduce((sum, row) => sum + row.slide, 0) / reads.length
-    : 0;
-}
 
 /**
  * The term read of a jurisdiction an office serves, from a date: the country

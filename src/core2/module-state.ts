@@ -6,12 +6,12 @@ import {
 } from "./module-data";
 import type { CoreModule, CoreState } from "./types";
 
-export type ModuleIndexValue = string | number | boolean | null;
-export interface ModuleIndexDefinition {
+type ModuleIndexValue = string | number | boolean | null;
+interface ModuleIndexDefinition {
   fields: readonly string[];
   unique?: boolean;
 }
-export interface ModuleTableDefinition {
+interface ModuleTableDefinition {
   indexes?: Readonly<Record<string, ModuleIndexDefinition>>;
   /** Throw on an invalid row. Validation is pure and receives detached, frozen data. */
   validate?: (row: ModuleRow) => void;

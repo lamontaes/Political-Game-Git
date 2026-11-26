@@ -14,7 +14,7 @@ import { parameter } from "../parameters";
 export const LIVING_COSTS_SOURCE =
   "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx";
 export type LivingCostsRegion = CensusRegion | "national";
-export type LivingCostsSize = "1" | "2" | "3" | "4" | "5plus";
+type LivingCostsSize = "1" | "2" | "3" | "4" | "5plus";
 export interface LivingCostsSourceMean {
   readonly annualMeanUsd: number;
   readonly standardErrorUsd: number;
@@ -22,7 +22,7 @@ export interface LivingCostsSourceMean {
 }
 
 /** The admitted joint estimate; no demographic weights or actor outcome draw. */
-export function estimateLivingCostsCategoryAnnual(
+function estimateLivingCostsCategoryAnnual(
   size: LivingCostsSourceMean | undefined,
   region: LivingCostsSourceMean | undefined,
   national: LivingCostsSourceMean | undefined,
@@ -195,17 +195,4 @@ export function livingCostsRegionForState(
   return state && (supportedStates ??= new Set(censusRegionStates())).has(state)
     ? censusRegionOf(state)
     : "national";
-}
-
-/** One final rounding after annual spending / derived adults / twelve months. */
-export function representativeMonthlyLivingCostsMinor(
-  region: LivingCostsRegion = "national",
-): number {
-  const row = REPRESENTATIVE_LIVING_COSTS.regions[region];
-  const annual = Object.values(row.annualUsdPerConsumerUnit).reduce(
-    (sum, amount) => sum + amount,
-    0,
-  );
-  const adults = row.peoplePerConsumerUnit - row.childrenUnder18PerConsumerUnit;
-  return Math.round((annual * 100) / (adults * 12));
 }

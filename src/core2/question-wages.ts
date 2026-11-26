@@ -25,9 +25,9 @@ import {
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI } from "./types";
 
-export const FEDERAL_KEY =
+const FEDERAL_KEY =
   "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
-export const RAISE_KEY =
+const RAISE_KEY =
   "us-policy-positions:labor-workforce.raise-minimum-wage";
 
 /** The minimum wage recorded at one level today (null where none is). */

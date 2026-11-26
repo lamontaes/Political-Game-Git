@@ -50,7 +50,7 @@ export interface CatalogueScale {
   readonly high: { readonly label: string; readonly meaning: string };
 }
 
-export type CatalogueProfile =
+type CatalogueProfile =
   | "appraisal"
   | "manner"
   | "cognition"

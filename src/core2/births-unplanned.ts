@@ -46,7 +46,7 @@ export function providerMiles(
 }
 
 /** The restriction law in force where she lives on a day: its record id, or none recorded. */
-export function restrictionRead(
+function restrictionRead(
   api: CoreAPI,
   asOf: string = api.state.date,
 ): {

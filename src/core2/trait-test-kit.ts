@@ -60,7 +60,7 @@ export function studyLogOdds(
 }
 
 /** The parameter key of a decision's trait weight. */
-export function weightKeyOf(decisionId: string): string {
+function weightKeyOf(decisionId: string): string {
   const row = (
     decisionTable.decisions as readonly {
       id: string;
@@ -131,7 +131,7 @@ export function thirdsLogOdds(
  * town gives hundreds of people to compare, and played to `until`. The place
  * comes from the seed through `drawPlace`; the test log names both.
  */
-export function drawnWorld(
+function drawnWorld(
   seed: string,
   /** The place `drawPlace(seed, "trait-wiring")` named. */
   place: { key: string; name: string },

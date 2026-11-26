@@ -252,7 +252,7 @@ for (const row of decisionTable.decisions as readonly {
 }
 
 /** The trait weight parameter of one chooser call: the decision its offers name. */
-export function traitWeightKey(offers: readonly ActOffer[]): string {
+function traitWeightKey(offers: readonly ActOffer[]): string {
   let shared: string | undefined;
   for (const offer of offers) {
     const keys = TRAIT_WEIGHT_KEYS.get(offer.definition.id);

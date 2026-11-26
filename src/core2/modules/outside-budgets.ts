@@ -32,7 +32,7 @@ import {
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 
-export const OUTSIDE_BUDGETS_MODULE_ID = "outside-budgets";
+const OUTSIDE_BUDGETS_MODULE_ID = "outside-budgets";
 const RUN_KIND = "outside-budgets";
 
 export interface StateBase {
@@ -308,7 +308,7 @@ function disasterAid(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   });
 }
 
-export const OUTSIDE_BUDGETS_MODULE: CoreModule = {
+const OUTSIDE_BUDGETS_MODULE: CoreModule = {
   id: OUTSIDE_BUDGETS_MODULE_ID,
   state: { schemaVersion: 1, tables: { state: {}, shares: {} } },
   eventKinds: [NATIONAL_DISASTER],

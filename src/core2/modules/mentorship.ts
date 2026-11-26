@@ -12,7 +12,7 @@
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, PersonId, PersonState } from "../types";
 
-export const WORK_MENTORSHIP = "work.mentorship-formed";
+const WORK_MENTORSHIP = "work.mentorship-formed";
 
 export function reviewMentorship(api: CoreAPI): void {
   const core = api.state as CoreState;

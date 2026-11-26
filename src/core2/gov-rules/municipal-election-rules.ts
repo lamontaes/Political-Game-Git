@@ -66,7 +66,7 @@ export interface PetitionThreshold {
   readonly base: PetitionSignatureBase;
 }
 
-export function assertPetitionThreshold(
+function assertPetitionThreshold(
   threshold: PetitionThreshold,
   label: string,
 ): void {

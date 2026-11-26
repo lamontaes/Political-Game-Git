@@ -117,7 +117,7 @@ registerStopKinds([
  * the holds. What the player prepares for a federal act is the engine's
  * `prepareAct`.
  */
-export const OFFICE_DAY_FEDERAL_MODULE: CoreModule = {
+const OFFICE_DAY_FEDERAL_MODULE: CoreModule = {
   id: OFFICE_DAY_FEDERAL_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -430,7 +430,7 @@ export function leaveVoteToCharacter(api: CoreAPI, billId: string): void {
  * party's whip post holder (the leadership engine). Null where the member
  * already stands with the leader, or the chamber has no whip of their party.
  */
-export function whipAsk(
+function whipAsk(
   api: CoreAPI,
   personId: string,
   billId: string,
@@ -485,7 +485,7 @@ export function whipAsk(
  * The answer moves the closeness between member and whip both ways, which
  * the legislature reads when one asks the other for something.
  */
-export function answerWhip(
+function answerWhip(
   api: CoreAPI,
   personId: string,
   billId: string,
@@ -535,7 +535,7 @@ const COMMITTEE_DATA = (
   }
 ).chambers;
 
-export interface CommitteeSeat {
+interface CommitteeSeat {
   /** The engine's subject committee the member sits on (the legislature refers bills to it). */
   readonly engineCommittee: string;
   readonly chair: boolean;
@@ -651,10 +651,10 @@ function fileForReelection(api: CoreAPI, personId: string): void {
 
 // ---- The kit -------------------------------------------------------------------
 
-export const FEDERAL_DUTY = "federal-duty";
+const FEDERAL_DUTY = "federal-duty";
 
 /** An act of federal office in the day's choices. */
-export const federalAct = (
+const federalAct = (
   id: string,
   effortParameter: string,
   actKinds: readonly string[],
@@ -714,7 +714,7 @@ const parts: {
 } = { acts: [], providers: {}, handlers: {} };
 
 /** A federal part (the member's, the president's) adds its acts to the federal kit. */
-export function addFederalActs(input: {
+function addFederalActs(input: {
   readonly acts: readonly ActionDefinition[];
   readonly offered: (
     api: CoreAPI,

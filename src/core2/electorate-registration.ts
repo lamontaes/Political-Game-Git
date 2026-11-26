@@ -58,7 +58,7 @@ export interface RegistrationRow {
 }
 
 /** The mean of `1 - 2^(-t / lag)` over the days of a year: the share of a year's new movers on the rolls. */
-export function firstYearShare(lag: number, deadline = 0): number {
+function firstYearShare(lag: number, deadline = 0): number {
   // Numeric mean over 365 days; the deadline shifts when a registration counts.
   let sum = 0;
   for (let t = 0; t < 365; t += 5)
@@ -67,23 +67,13 @@ export function firstYearShare(lag: number, deadline = 0): number {
 }
 
 /** The days a person of this duty waits to register (median at duty zero). */
-export function registrationWait(duty: number): number {
+function registrationWait(duty: number): number {
   return (
     campaignParameter("registrationLagMedianDays") *
     Math.exp(-campaignParameter("registrationLagDutySlope") * duty)
   );
 }
 
-/** The share of people like a counted record on the rolls `days` after a move. */
-export function registeredAfter(
-  days: number,
-  duty: number,
-  deadline: number,
-): number {
-  return (
-    1 - Math.pow(2, -Math.max(0, days - deadline) / registrationWait(duty))
-  );
-}
 
 /** What a counted record stands for in the registration rule: the part that keeps off the rolls and the part the state registers. */
 export interface CountedRegistrationInputs {
@@ -125,12 +115,12 @@ export function countedParts(input: CountedRegistrationInputs): {
 }
 
 /** A person's own place, 0 to 1, among those who keep off the rolls (seeded from their id, as a starting carry is). */
-export function keepsOffRolls(personId: string): number {
+function keepsOffRolls(personId: string): number {
   return openingVoterCarry(`registration:${personId}`);
 }
 
 /** The first day a person is registered who waits from `since`. */
-export function registeredOn(since: string, duty: number): string {
+function registeredOn(since: string, duty: number): string {
   return addDays(makeIsoDate(since), Math.round(registrationWait(duty)));
 }
 

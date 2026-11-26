@@ -24,7 +24,7 @@ const DAY_LCM = 133_590n;
 export const MULTIPLIER_ONE = 1_000_000;
 const MULTIPLIER_ONE_BIG = BigInt(MULTIPLIER_ONE);
 
-export interface HazardMultiplierChange {
+interface HazardMultiplierChange {
   /** From this date (inclusive) the multiplier applies until the next change. */
   readonly effectiveAt: IsoDate;
   /** Millionths: 1,000,000 is the ordinary table hazard. */

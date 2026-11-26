@@ -27,7 +27,6 @@ import type { CoreAPI, CoreState } from "./types";
 export const MOTHERS = "labor.mothers-participation";
 export const MARRIED_WOMEN = "labor.married-women-participation";
 export const OLDER_WORK = "labor.older-employment";
-export const LOW_WAGE_JOBS = "labor.low-wage-jobs";
 export const UNDOCUMENTED = "labor.undocumented-employment";
 export const US_BORN = "labor.us-born-employment";
 

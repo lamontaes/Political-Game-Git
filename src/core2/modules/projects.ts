@@ -26,7 +26,7 @@ import { contractsOf, type ContractAwardRow } from "./contracts";
 import { ownerOf } from "./business";
 import { lawChain } from "./laws";
 
-export const PROJECTS_MODULE_ID = "core2-public-projects-v1";
+const PROJECTS_MODULE_ID = "core2-public-projects-v1";
 export const PROJECT_PARAMETERS = rows.parameters;
 const LINES = new Set<string>(rows.lines);
 const LOCAL = new Set(["city", "county"]);
@@ -200,7 +200,7 @@ export function cutRibbon(
   return row;
 }
 
-export const PROJECTS_MODULE: CoreModule = {
+const PROJECTS_MODULE: CoreModule = {
   id: PROJECTS_MODULE_ID,
   state: { schemaVersion: 1, tables: { ribbons: {} } },
 };

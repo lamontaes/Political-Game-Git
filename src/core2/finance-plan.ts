@@ -1015,7 +1015,7 @@ function readSource(
   return Object.freeze(copy);
 }
 
-export class FinancePlanPreflight {
+class FinancePlanPreflight {
   constructor(
     private readonly core: CoreState,
     private readonly journal: CashJournalRuntime,

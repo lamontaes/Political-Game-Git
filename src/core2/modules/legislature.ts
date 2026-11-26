@@ -430,7 +430,7 @@ const BILLS_HISTORY: HistorySource = {
   },
 };
 
-export const LEGISLATURE_MODULE: CoreModule & HistoryModule = {
+const LEGISLATURE_MODULE: CoreModule & HistoryModule = {
   id: LEGISLATURE_MODULE_ID,
   history: BILLS_HISTORY,
   state: {
@@ -1100,7 +1100,7 @@ export function employerCosts(
 }
 
 /** One dated step of a minimum-wage raise and what it adds to the open commitments under it. */
-export interface WageStepCost {
+interface WageStepCost {
   /** The day the step takes effect; null for a section with no date (on enactment). */
   readonly date: string | null;
   /** The floor the step sets, in minor units an hour. */
@@ -1121,7 +1121,7 @@ export interface WageStepCost {
  * open commitments paid under it, at their scheduled hours. The one counting
  * rule for the fiscal note and the employers' stakes (`employerCosts`).
  */
-export function wageStepCosts(
+function wageStepCosts(
   api: CoreAPI,
   provisions: readonly Provision[],
 ): readonly WageStepCost[] {
@@ -2335,7 +2335,7 @@ const BILL_RECORD_TERMS = new Set([
  * record, with the bill's shape on top. A flat tax drops the bracket
  * schedules it replaces.
  */
-export function amendedTerms(
+function amendedTerms(
   current: LawRowInput | null,
   shaped: Record<string, unknown> | undefined,
 ): Record<string, unknown> {
@@ -2352,14 +2352,6 @@ export function amendedTerms(
   return { ...kept, ...shapedKept };
 }
 
-/**
- * The row of the law in force on a series, as a bill's section cites it: the first level
- * of the chain that holds one. The one reader of "today's amount" for a bill's paper and for
- * the draft card that starts it.
- */
-export function lawInForceRow(api: CoreAPI, series: string) {
-  return lawInForce(api, series).levels.find((l) => l.row)?.row ?? null;
-}
 
 /**
  * One section of a bill as the record holds it, for the paper to word: what
@@ -3290,7 +3282,7 @@ function isLegislature(api: CoreAPI, officeId: string): boolean {
  * (`legislatureFloorDayHours`), or a town or county body's regular meeting
  * (`sittingHours`).
  */
-export function sittingDayHours(api: CoreAPI, officeId: string): number {
+function sittingDayHours(api: CoreAPI, officeId: string): number {
   return campaignParameter(
     isLegislature(api, officeId) ? "legislatureFloorDayHours" : "sittingHours",
   );

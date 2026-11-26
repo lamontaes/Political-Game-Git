@@ -115,7 +115,7 @@ const two = P.two;
 const minusOne = P.negativeOne;
 
 /** A size promises run on, from the parameter table in promise-kinds.json. */
-export function promiseParam(key: string): number {
+function promiseParam(key: string): number {
   const value = PROMISE_KINDS.parameters[key]?.value;
   if (value === undefined || !Number.isFinite(value))
     throw new Error(`Untagged promise parameter: ${key}`);

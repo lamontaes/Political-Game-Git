@@ -17,7 +17,7 @@
  */
 import research from "../../data/research/justice/low-level-arrests-2024.json" with { type: "json" };
 
-export type LowLevelTag = "SOURCED" | "ESTIMATED";
+type LowLevelTag = "SOURCED" | "ESTIMATED";
 
 export interface LowLevelCategory {
   /** The case row's `category`. */

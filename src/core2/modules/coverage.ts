@@ -79,7 +79,7 @@ import { COVERAGE_MODULE_ID } from "../coverage-module-id";
 
 export { COVERAGE_MODULE_ID };
 
-export type CoveragePlan = "employer" | "medicare" | "none";
+type CoveragePlan = "employer" | "medicare" | "none";
 
 export interface CoverageRow {
   readonly id: string;
@@ -132,7 +132,7 @@ interface Plan {
 }
 
 /** What a policyholder's plan was decided from, kept on their record for dev mode's trace. */
-export interface PlanReasons {
+interface PlanReasons {
   /** The employer's jobs, and this job's pay a year. */
   readonly staff: number;
   readonly payAnnualMinor: number;
@@ -929,7 +929,7 @@ function payPremiums(api: CoreAPI): void {
   }
 }
 
-export const COVERAGE_MODULE: CoreModule = {
+const COVERAGE_MODULE: CoreModule = {
   id: COVERAGE_MODULE_ID,
   state: {
     schemaVersion: 1,

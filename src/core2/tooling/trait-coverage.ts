@@ -10,7 +10,7 @@ import { resolve } from "node:path";
 
 export const REPOSITORY_ROOT = resolve(import.meta.dirname, "../../..");
 
-export interface TraitSide {
+interface TraitSide {
   toward?: readonly string[];
   away?: readonly string[];
 }
@@ -18,7 +18,7 @@ export interface TraitRow {
   high?: TraitSide;
   low?: TraitSide;
 }
-export interface DecisionOption {
+interface DecisionOption {
   id: string;
   actKinds?: readonly string[];
   from?: string;
@@ -58,7 +58,7 @@ export function decisionTable(): {
 }
 
 /** An option's act kinds, from the table or from the module data row it points at. */
-export function resolveOption(option: DecisionOption): {
+function resolveOption(option: DecisionOption): {
   id: string;
   actKinds: readonly string[];
 } {
@@ -81,7 +81,7 @@ export function resolvedDecisions(): ResolvedDecision[] {
 }
 
 /** One side's net pull on each option: toward minus away over its act kinds. */
-export function sidePulls(
+function sidePulls(
   side: TraitSide | undefined,
   decision: ResolvedDecision,
 ): number[] {
@@ -96,7 +96,7 @@ export function sidePulls(
   );
 }
 
-export function sideChanges(
+function sideChanges(
   side: TraitSide | undefined,
   decision: ResolvedDecision,
 ): boolean {

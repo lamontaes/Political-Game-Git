@@ -7,7 +7,7 @@ import type {
   PersonalityTendencyDefinition,
 } from "./mind-types";
 
-export interface MindCatalogInput {
+interface MindCatalogInput {
   readonly catalogVersion: "mind-catalog-v1";
   readonly tendencies: readonly PersonalityTendencyDefinition[];
   readonly values: readonly PersonalValueDefinition[];
@@ -31,7 +31,7 @@ export function createPersonalityTendencyDefinition(
   };
 }
 
-export function createPersonalValueDefinition(
+function createPersonalValueDefinition(
   stableKey: string,
   name: string,
   description: string,
@@ -44,7 +44,7 @@ export function createPersonalValueDefinition(
   };
 }
 
-export function createMindCatalog(input: MindCatalogInput): MindCatalog {
+function createMindCatalog(input: MindCatalogInput): MindCatalog {
   const catalog: MindCatalog = {
     catalogVersion: input.catalogVersion,
     tendencies: byId(input.tendencies),
@@ -56,7 +56,7 @@ export function createMindCatalog(input: MindCatalogInput): MindCatalog {
   return cloneMindCatalog(catalog);
 }
 
-export function assertMindCatalogIntegrity(catalog: MindCatalog): void {
+function assertMindCatalogIntegrity(catalog: MindCatalog): void {
   if (catalog.catalogVersion !== "mind-catalog-v1") {
     throw new Error("Unsupported mind-catalog version.");
   }
@@ -117,7 +117,7 @@ export function assertMindCatalogIntegrity(catalog: MindCatalog): void {
   }
 }
 
-export function cloneMindCatalog(catalog: MindCatalog): MindCatalog {
+function cloneMindCatalog(catalog: MindCatalog): MindCatalog {
   return {
     catalogVersion: catalog.catalogVersion,
     tendencies: Object.fromEntries(
@@ -300,7 +300,7 @@ const valueDefinitions = [
   ),
 ] as const;
 
-export const SYNTHETIC_MIND_IDS = {
+const SYNTHETIC_MIND_IDS = {
   tendencies: {
     riskApproach: tendencyDefinitions[0].id,
     responseTempo: tendencyDefinitions[1].id,
@@ -326,13 +326,6 @@ export const SYNTHETIC_MIND_IDS = {
   },
 } as const;
 
-export function createSyntheticMindCatalog(): MindCatalog {
-  return createMindCatalog({
-    catalogVersion: "mind-catalog-v1",
-    tendencies: tendencyDefinitions,
-    values: valueDefinitions,
-  });
-}
 
 function byId<T extends { readonly id: EntityId }>(
   definitions: readonly T[],

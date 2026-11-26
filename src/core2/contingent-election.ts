@@ -20,7 +20,7 @@ import {
 import { officialOf } from "./modules/officials";
 import type { CoreAPI } from "./types";
 
-export interface MemberVote {
+interface MemberVote {
   readonly memberId: string;
   readonly stateKey: string;
   /** Right (Republican) ticket positive, left negative, zero when nothing moves them. */
@@ -33,7 +33,7 @@ export interface MemberVote {
   readonly total: number;
 }
 
-export interface DelegationVote {
+interface DelegationVote {
   readonly stateKey: string;
   readonly members: number;
   readonly republican: number;

@@ -13,7 +13,7 @@ import type { CoreAPI, CoreState } from "./types";
 /** The module that keeps the rows (src/core2/modules/world-metrics.ts). */
 export const OUTPUT_NUMBERS_MODULE_ID = "world-metrics";
 
-export type OutputNumberFold = "december" | "sum" | "mean";
+type OutputNumberFold = "december" | "sum" | "mean";
 
 export interface OutputNumber {
   readonly id: string;

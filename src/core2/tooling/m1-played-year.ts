@@ -25,7 +25,7 @@ export interface PlayedYear {
 }
 
 /** The runner's seed and place; the command line is the fallback for a hand run. */
-export function runnerEnv(): { seed: string; placeKey: string } {
+function runnerEnv(): { seed: string; placeKey: string } {
   const seed = process.env.GOLDEN_PATH_SEED ?? process.argv[2],
     placeKey = process.env.GOLDEN_PATH_PLACE_KEY ?? process.argv[3];
   if (!seed || !placeKey)

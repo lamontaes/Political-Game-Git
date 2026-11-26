@@ -87,7 +87,7 @@ export interface CaseRow {
   readonly replyId?: string;
 }
 
-export const CASES_MODULE: CoreModule = {
+const CASES_MODULE: CoreModule = {
   id: CASES_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -129,7 +129,7 @@ export const CASES_MODULE: CoreModule = {
 };
 
 /** Who brings a case: a full person, or a counted resident by what their record keeps. */
-export interface CaseSeeker {
+interface CaseSeeker {
   readonly id: string;
   readonly traits: Readonly<Record<string, number>>;
   /** A counted resident's lean, the one their view gets when filled in; absent for a full person. */
@@ -608,7 +608,7 @@ export function caseLoad(api: CoreAPI, open: number): number {
  * official is to them, less the load of the other cases already open. With
  * no case named, the base alone.
  */
-export function caseDuty(
+function caseDuty(
   api: CoreAPI,
   officialId: string,
   row?: Readonly<CaseRow>,

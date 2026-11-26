@@ -12,7 +12,7 @@ import { remainingDaysAfterOnset } from "./death-cause";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, IsoDate, PersonId, PlaceId } from "./types";
 
-export const COUNTED_ILLNESS_TABLE = "countedIllness";
+const COUNTED_ILLNESS_TABLE = "countedIllness";
 const RENEWAL_MODULE = "core2-renewal-v1";
 
 export interface CountedIllnessRow {

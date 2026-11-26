@@ -11,7 +11,7 @@ import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { CoreAPI } from "./types";
 
-export const DISCRIMINATION_KEY =
+const DISCRIMINATION_KEY =
   "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work";
 const JOBS_ID = "jobs";
 

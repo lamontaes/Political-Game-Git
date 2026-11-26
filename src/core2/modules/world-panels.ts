@@ -239,19 +239,6 @@ export function metricsPanel(api: CoreAPI, placeId: string) {
     : [];
 }
 
-/** One household's home: owned or rented, its value or rent, who holds its loan, and how it got there. */
-export function homePanel(api: CoreAPI, householdId: string) {
-  if (!has(api, "housing")) return undefined;
-  const housing = api.moduleState("housing");
-  return {
-    dwelling: housing.table("dwellings").get(`dwelling:${householdId}`),
-    mortgage: housing.table("mortgages").get(`mortgage:${householdId}`),
-    purchases: housing
-      .table("purchases")
-      .rows()
-      .filter((row) => row.householdId === householdId),
-  };
-}
 
 // Re-exported so the bill stage view and the states screen read the legislature's sessions and roll calls through this entry (families guard).
 export { legislativeSessionsOf, rollCallOf } from "./world-legislating";

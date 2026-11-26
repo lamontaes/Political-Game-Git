@@ -20,7 +20,7 @@ import type {
 } from "./municipal-election-rules";
 
 /** A rule as a pack holds it; only the kinds a reader acts on carry a value. */
-export type PackRule<T> =
+type PackRule<T> =
   | { readonly kind: "known"; readonly value: T }
   | {
       readonly kind: "locally-selectable";

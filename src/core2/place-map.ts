@@ -19,7 +19,7 @@ import {
   countyPopulationSharesForPlace,
 } from "./reference/government-units";
 
-export type PlaceLevel = "country" | "state" | "county" | "town";
+type PlaceLevel = "country" | "state" | "county" | "town";
 
 export interface PlaceRow {
   readonly id: string;

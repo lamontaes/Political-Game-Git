@@ -17,7 +17,7 @@ import type {
   ReasonProvider,
 } from "./types";
 
-export type OfficeOfferProvider = (
+type OfficeOfferProvider = (
   api: CoreAPI,
   actor: Readonly<PersonState>,
   action: ActionDefinition,

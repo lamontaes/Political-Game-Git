@@ -109,7 +109,7 @@ export interface OpeningIncomePlace {
   source: Source;
 }
 
-export interface RecordedMonthlyIncome {
+interface RecordedMonthlyIncome {
   personId: string;
   householdId: string;
   payerId: string;
@@ -133,7 +133,7 @@ export interface OpeningIncomeOptions {
   allowPastGeneration?: boolean;
 }
 
-export interface OpeningIncomeRecipient {
+interface OpeningIncomeRecipient {
   personId: string;
   householdId: string;
   placeId: string;

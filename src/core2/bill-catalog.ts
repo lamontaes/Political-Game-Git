@@ -49,7 +49,7 @@ interface CatalogPolicy {
   readonly levels: readonly Level[];
 }
 
-export interface DraftablePolicy extends CatalogPolicy {
+interface DraftablePolicy extends CatalogPolicy {
   readonly inForce: number | null;
   readonly inForceRecordId: string | null;
   readonly inForceUnit: string | null;

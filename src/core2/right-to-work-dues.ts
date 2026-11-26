@@ -20,7 +20,7 @@ import { setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
 import { reachParameter, REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 
-export const RTW_KEY = "us-policy-positions:labor-workforce.right-to-work";
+const RTW_KEY = "us-policy-positions:labor-workforce.right-to-work";
 
 export interface RtwRow {
   readonly id: string;
@@ -54,7 +54,7 @@ function localRate(api: CoreAPI): number {
 }
 
 /** Whether a level of the town's chain has the right-to-work law in force today. */
-export function rightToWorkStands(api: CoreAPI): boolean {
+function rightToWorkStands(api: CoreAPI): boolean {
   return lawInForce(api, RTW_KEY).levels.some(
     (level) => level.row?.value === 1,
   );

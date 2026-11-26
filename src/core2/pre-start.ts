@@ -22,8 +22,8 @@ import type {
 } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 
-export const PRE_START_PHASES = ["economy", "people", "government"] as const;
-export type PreStartPhase = (typeof PRE_START_PHASES)[number];
+const PRE_START_PHASES = ["economy", "people", "government"] as const;
+type PreStartPhase = (typeof PRE_START_PHASES)[number];
 
 export interface PreStartWindow {
   /** First day of the coarse run. */
@@ -56,7 +56,7 @@ export interface HistoryWriter {
   read(filter?: { kind?: string; placeId?: PlaceId }): readonly HistoryRecord[];
 }
 
-export interface PreStartPass {
+interface PreStartPass {
   phase: PreStartPhase;
   /** Runs once; step through `coarseSteps(window)` and date every record. */
   run(api: CoreAPI, window: PreStartWindow, history: HistoryWriter): void;

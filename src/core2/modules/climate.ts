@@ -35,7 +35,7 @@ import { stateLawInForce } from "./laws";
 import { carriedLink, WEB_LINKS } from "./outcome-web";
 import { residentsOf, STATES } from "./budgets";
 
-export const CLIMATE_MODULE_ID = "climate";
+const CLIMATE_MODULE_ID = "climate";
 const RUN_KIND = "climate-month";
 export const HAZARDS = [
   "heat",
@@ -127,7 +127,7 @@ function usIndex(api: CoreAPI): number {
 }
 
 /** This world's own steady yearly change of the rest of the world's fossil CO2, drawn once from its seed within the span the scenarios cover. */
-export function restOfWorldTrend(api: CoreAPI): number {
+function restOfWorldTrend(api: CoreAPI): number {
   const { low, high } = emissions.restOfWorldTrendPerYear;
   return low + (high - low) * seededUnit(api.state.seed, "climate:rest-trend");
 }
@@ -192,7 +192,7 @@ function schedule(api: CoreAPI): void {
   });
 }
 
-export const CLIMATE_MODULE: CoreModule = {
+const CLIMATE_MODULE: CoreModule = {
   id: CLIMATE_MODULE_ID,
   state: { schemaVersion: 1, tables: { state: {}, months: {} } },
   onCalendarWork(api, work) {
@@ -219,10 +219,6 @@ export function climateNow(api: CoreAPI): ClimateMonth | null {
     : null;
 }
 
-/** Degrees C of warming since the world opened. */
-export function warmingNow(api: CoreAPI): number {
-  return climateNow(api)?.warmingC ?? 0;
-}
 
 /** A hazard's level against the recorded history's own (1 before the climate has a month). */
 export function hazardFactor(api: CoreAPI, hazard: Hazard): number {
@@ -230,7 +226,7 @@ export function hazardFactor(api: CoreAPI, hazard: Hazard): number {
 }
 
 /** The season a calendar month (1 to 12) falls in: 0 winter (Dec to Feb), 1 spring, 2 summer, 3 fall. */
-export function seasonOf(month: number): 0 | 1 | 2 | 3 {
+function seasonOf(month: number): 0 | 1 | 2 | 3 {
   return ([0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 0] as const)[month - 1]!;
 }
 

@@ -21,7 +21,7 @@ import { placeStateKey } from "./place-map";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
-export interface PropertyTaxTerms {
+interface PropertyTaxTerms {
   /** Annual tax as a share of assessed value. */
   readonly rate: number;
   /** The most assessed value may rise in a year, as a share; none when uncapped. */
@@ -35,7 +35,7 @@ export interface PropertyTaxTerms {
 }
 
 /** Tax a household (or a place's counted owners) couldn't pay; the next bill adds it and is paid it first. */
-export interface PropertyTaxArrearsRow {
+interface PropertyTaxArrearsRow {
   id: string;
   householdId: string;
   dwellingId: string;
@@ -69,7 +69,7 @@ export function stateEffectiveRate(usps: string): number {
 }
 
 /** One bill date: a day of the month, the month's last day, or the nth weekday (1 = Monday). */
-export type PropertyTaxDueDate =
+type PropertyTaxDueDate =
   | { readonly month: number; readonly day: number | "last" }
   | { readonly month: number; readonly nth: number; readonly weekday: number };
 

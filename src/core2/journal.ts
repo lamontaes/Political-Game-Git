@@ -98,7 +98,7 @@ export function cashJournalSignedLifetimeMinor(
     : Number(value);
 }
 
-export interface CashJournalExternalFlowChange {
+interface CashJournalExternalFlowChange {
   ownerId: string;
   beforeNetMinor: CashJournalSignedLifetimeMinor;
   afterNetMinor: CashJournalSignedLifetimeMinor;
@@ -118,13 +118,13 @@ export interface CashJournalContext {
   keepAllFundChanges?: boolean;
 }
 
-export interface CashJournalOwnerChange {
+interface CashJournalOwnerChange {
   ownerId: string;
   beforeMinor: number;
   afterMinor: number;
 }
 
-export interface CashJournalAccountChange {
+interface CashJournalAccountChange {
   accountId: string;
   ownerId: string;
   beforeMinor: number;

@@ -24,8 +24,8 @@ import {
 } from "./group-b-money";
 
 /** The federal budget line veterans' benefits are paid from, and its law-reach key. */
-export const VETERANS_LINE = "veterans";
-export const VETERANS_KEY = `budget-line:${VETERANS_LINE}`;
+const VETERANS_LINE = "veterans";
+const VETERANS_KEY = `budget-line:${VETERANS_LINE}`;
 
 /** The record of each household's month of veterans' benefits (the reach's `taken` table). */
 const VETERANS_INCOME_ROW = `veterans|${VETERANS_KEY}`;

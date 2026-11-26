@@ -31,7 +31,7 @@ import type {
   PetitionThreshold,
 } from "./municipal-election-rules";
 
-export type MunicipalBallotRuleBasis =
+type MunicipalBallotRuleBasis =
   "state-law-unverified" | "local-choice-estimated" | "national-estimated";
 
 /**
@@ -39,7 +39,7 @@ export type MunicipalBallotRuleBasis =
  * in the order given. No hash and no draw: every place asking gets the same
  * answer.
  */
-export function modalValue<T>(
+function modalValue<T>(
   items: readonly { weight: number }[],
   values: readonly T[],
 ): T {
@@ -141,7 +141,7 @@ function nationalTimingCounts(): ReadonlyMap<MunicipalElectionTiming, number> {
  * Where a recall doctrine comes from: the state's pack, the national mode, or
  * a law enacted during play (`enacted-in-game`).
  */
-export type MunicipalRecallBasis = MunicipalBallotRuleBasis | "enacted-in-game";
+type MunicipalRecallBasis = MunicipalBallotRuleBasis | "enacted-in-game";
 
 /** How a town's voters may remove an official, and on what basis that is known. */
 export interface ResolvedMunicipalRecallRule {
@@ -172,7 +172,7 @@ interface RecallSpread {
 let recallSpread: RecallSpread | null = null;
 
 /** The spread across states whose pack reads a recall doctrine and window. */
-export function municipalRecallNationalSpread(): RecallSpread {
+function municipalRecallNationalSpread(): RecallSpread {
   if (recallSpread) return recallSpread;
   const doctrines = new Map<MunicipalRecallDoctrine, number>();
   const windows = new Map<number, number>();

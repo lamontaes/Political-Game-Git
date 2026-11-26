@@ -133,7 +133,7 @@ export function stopKinds(): readonly string[] {
 const defaultStops = (): Record<string, boolean> =>
   Object.fromEntries(officeStopKinds().map((row) => [row.kind, row.byDefault]));
 
-export interface StopSettingsRow {
+interface StopSettingsRow {
   readonly id: string;
   readonly stops: Readonly<Record<string, boolean>>;
   readonly since: string;
@@ -846,7 +846,7 @@ export function attendMeeting(
  * Someone who said they would come to a posted meeting with the player is
  * written onto it (a friend's ask): the public-meeting record names them.
  */
-export function comeWith(
+function comeWith(
   api: CoreAPI,
   meetingIdValue: string,
   personId: string,
@@ -1043,7 +1043,7 @@ export function meetingOf(api: CoreAPI, id: string): MeetingRow | undefined {
 }
 
 /** The meetings a body has held or will hold today, newest first. */
-export function meetingsOf(api: CoreAPI, officeId: string): MeetingRow[] {
+function meetingsOf(api: CoreAPI, officeId: string): MeetingRow[] {
   return (
     table(api, "meetings").query("byOffice", [
       officeId,

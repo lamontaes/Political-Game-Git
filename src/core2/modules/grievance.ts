@@ -69,7 +69,7 @@ const table = (api: CoreAPI) =>
   api.moduleState(GRIEVANCE_MODULE_ID).table("grievances");
 
 /** The grievances not yet ended. */
-export function grievancesOpen(api: CoreAPI): GrievanceRow[] {
+function grievancesOpen(api: CoreAPI): GrievanceRow[] {
   if (!api.state.modules.has(GRIEVANCE_MODULE_ID)) return [];
   return table(api).query("byOpen", [true]) as unknown as GrievanceRow[];
 }
@@ -268,7 +268,7 @@ function endRehired(api: CoreAPI): void {
   }
 }
 
-export const GRIEVANCE_MODULE: CoreModule = {
+const GRIEVANCE_MODULE: CoreModule = {
   id: GRIEVANCE_MODULE_ID,
   state: {
     schemaVersion: 1,

@@ -156,7 +156,7 @@ export interface AppointmentRow {
   readonly since: string;
 }
 
-export const EXECUTIVE_MODULE: CoreModule = {
+const EXECUTIVE_MODULE: CoreModule = {
   id: EXECUTIVE_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -2266,7 +2266,7 @@ export function pendingEmergencyOffers(
 }
 
 /** The governor answers an offer: declare the emergency (the engine's own declaration), or let it pass. */
-export function answerEmergencyOffer(
+function answerEmergencyOffer(
   api: CoreAPI,
   offerId: string,
   declare: boolean,

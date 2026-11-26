@@ -162,15 +162,3 @@ export function sha256Hex(text: string): string {
     .map((word) => word.toString(16).padStart(8, "0"))
     .join("");
 }
-
-/**
- * Orders candidates by digest, lowest first, with the digested text itself as
- * the final separator so the order is total even in the (practically
- * impossible) event of a prefix collision.
- */
-export function lowestDigestFirst(left: string, right: string): number {
-  const leftDigest = sha256Hex(left);
-  const rightDigest = sha256Hex(right);
-  if (leftDigest !== rightDigest) return leftDigest < rightDigest ? -1 : 1;
-  return left < right ? -1 : left > right ? 1 : 0;
-}

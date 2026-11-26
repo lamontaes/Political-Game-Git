@@ -39,7 +39,7 @@ export function rosterKeyOf(job: ScheduleJob, pattern: WorkPatternKey): string {
 }
 
 /** GAME ASSUMPTION: which pattern each town workplace works by. */
-export const WORKPLACE_PATTERN: Readonly<Record<string, WorkPatternKey>> = {
+const WORKPLACE_PATTERN: Readonly<Record<string, WorkPatternKey>> = {
   farm: "farm",
   quarry: "day-trade",
   utility: "day-trade",
@@ -99,7 +99,7 @@ const TITLE_PATTERN: readonly (readonly [RegExp, WorkPatternKey])[] = [
  * at a different place in the same building: the city clerk stands at the
  * clerk counter, not outside city hall.
  */
-export const WORKPLACE_PLACE: Readonly<Record<string, string>> = {
+const WORKPLACE_PLACE: Readonly<Record<string, string>> = {
   farm: "rural-farmhouse",
   quarry: "construction-site",
   utility: "office",
@@ -162,7 +162,7 @@ export interface WorkSchedule {
   readonly worksOn: (date: IsoDate) => boolean;
 }
 
-export const EPOCH = makeIsoDate("2000-01-02"); // a Sunday
+const EPOCH = makeIsoDate("2000-01-02"); // a Sunday
 
 function weekdayOf(date: IsoDate): Weekday {
   return new Date(`${date}T12:00:00Z`).getUTCDay() as Weekday;

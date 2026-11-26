@@ -9,7 +9,6 @@ declare const currencyCodeBrand: unique symbol;
 
 export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
-export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 
 /**
  * Identity for a public account or program owner. Most existing records are

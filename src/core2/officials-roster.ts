@@ -103,7 +103,7 @@ export function seededNormal(key: string): number {
 }
 
 /** The party's spread for a kind of body, from the data. */
-export function partySpread(
+function partySpread(
   party: PartyKey,
   body: BodyKind,
   /** Where each side's party stands in Congress when a world's own history sets it (the century's parties), by side. */
@@ -172,7 +172,7 @@ export interface OfficialDraw {
  * trait table as a resident. `roster` gives those facets back on the roster's
  * own scale, for the loyalty and ambition the roster's weights were set on.
  */
-export function officialTraits(temperament: Readonly<Record<string, number>>): {
+function officialTraits(temperament: Readonly<Record<string, number>>): {
   traits: Record<string, number>;
   roster: Record<string, number>;
 } {
@@ -377,7 +377,7 @@ export function ownStance(
  * their own views: the roster's caucus where it records one; otherwise the
  * party closest to them, unless they sit between the parties.
  */
-export function independentRecord(
+function independentRecord(
   body: BodyKind,
   ideal: number,
   signature: readonly SignatureIssue[],

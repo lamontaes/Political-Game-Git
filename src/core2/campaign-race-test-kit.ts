@@ -20,7 +20,7 @@ import { resultOf } from "./modules/voting";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
-export interface PrintedRow {
+interface PrintedRow {
   readonly id: string;
   readonly kind: string;
   readonly date: string;

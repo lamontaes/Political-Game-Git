@@ -119,19 +119,19 @@ export type CashJournalSourceProvider = (
 export type CashJournalLifetimeMinor = number | bigint;
 
 /** Gross volume includes internal reclassification; it is not consumer spending. */
-export interface CashJournalTotals {
+interface CashJournalTotals {
   count: number;
   grossDebitMinor: CashJournalLifetimeMinor;
   grossCreditMinor: CashJournalLifetimeMinor;
 }
 
-export interface CashJournalExternalFlowTotals {
+interface CashJournalExternalFlowTotals {
   netMinor: CashJournalSignedLifetimeMinor;
   outgoingMinor: CashJournalLifetimeMinor;
   incomingMinor: CashJournalLifetimeMinor;
 }
 
-export interface CashJournalShortResult {
+interface CashJournalShortResult {
   id: string;
   date: IsoDate;
   sequence: number;
@@ -158,7 +158,7 @@ export interface CashJournalReceipt extends CashJournalProjection {
  * came in, what went out and how many payments. At most one row per person,
  * kind and year.
  */
-export interface CashJournalFoldedTotal {
+interface CashJournalFoldedTotal {
   readonly ownerId: string;
   readonly year: number;
   /** The receipt's source kind (`sourceRef.kind`), as dev mode's ledger groups it. */

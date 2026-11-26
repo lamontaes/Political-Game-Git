@@ -1108,40 +1108,6 @@ export function prepareWorkPayrollSettlement(
   return bookkeeping() ? Object.freeze(settled) : settled;
 }
 
-/** Readonly validation of already recorded earned stocks; no due request or payment is created. */
-export function validateRetainedWorkPayrollObligation(
-  r: FinanceReadGuard,
-  c: WorkPayrollCalendarInput,
-  b: WorkPayrollBasis,
-  ledger: WorkPayrollLedger,
-  period: WorkEarnedPayPeriod | undefined,
-  evidenceAvailableAt: string,
-  u: Units,
-): void {
-  u = capturedUnits(r, u);
-  const at = date(evidenceAvailableAt);
-  c = calendar(r, c, at, u);
-  b = basis(r, c, b, at, u);
-  const recorded = readLedger(r, c, b, ledger, u);
-  if (recorded.lastEarnedAt !== undefined && recorded.lastEarnedAt > at)
-    throw new Error(
-      "Retained payroll earning evidence is unavailable at this date.",
-    );
-  if (period) {
-    const earned = readPeriod(r, c, b, period, u),
-      last = workPayPeriodOnDate(r, c, earned.lastEarnedAt, u);
-    if (
-      earned.lastEarnedAt > at ||
-      last.index !== earned.index ||
-      earned.earnedMinor > recorded.accruedMinor ||
-      (recorded.lastSettledPeriodIndex !== undefined &&
-        earned.index <= recorded.lastSettledPeriodIndex)
-    )
-      throw new Error(
-        "Retained payroll period is future, spent or outside its genuine earned stocks.",
-      );
-  }
-}
 
 /** Exact recorded period query; it creates no attendance, due request or payment. */
 export function workPayPeriodAtIndex(

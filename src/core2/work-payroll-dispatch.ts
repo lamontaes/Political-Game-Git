@@ -51,7 +51,7 @@ type Candidate = {
   periodId?: string;
   arrears: boolean;
 };
-export interface WorkPayrollDispatchHold {
+interface WorkPayrollDispatchHold {
   date: string;
   commitmentId: string;
   jobId: string;

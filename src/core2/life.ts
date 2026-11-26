@@ -512,7 +512,7 @@ function performPlanned(core: CoreState, act: PlannedAct): boolean {
 }
 
 /** Routine statistics compact by indexed month; visible history and open callbacks are exempt. */
-export function compactRoutineMetrics(core: CoreState): void {
+function compactRoutineMetrics(core: CoreState): void {
   const p = (key: string) => parameter(key, core.data.parameters);
   const cutoff = new Date(core.date);
   cutoff.setUTCDate(p("one"));

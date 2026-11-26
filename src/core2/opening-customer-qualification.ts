@@ -26,7 +26,7 @@ export interface OpeningCustomerQualificationReference {
   /** Complete original record digest; actual jobs and full Sources still own scope. */
   qualificationHash: string;
 }
-export interface OpeningCustomerInlineQualificationReference {
+interface OpeningCustomerInlineQualificationReference {
   agreementId: string;
   organizationId: string;
   serviceKey: string;

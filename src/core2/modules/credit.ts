@@ -239,7 +239,7 @@ export function smallDollarTerms(
 }
 
 /** A town's small-dollar lender as the opening writes it. */
-export interface SmallDollarLender extends SmallDollarTerms {
+interface SmallDollarLender extends SmallDollarTerms {
   organizationId: string;
   placeId: string;
   /** The real households the town's counted and full households stand for. */
@@ -487,7 +487,7 @@ export function heldMortgages(api: CoreAPI, bankId: string) {
 }
 
 /** How willing the town bank is to lend today: falls smoothly as its capital falls below where it opened. */
-export function bankAppetite(api: CoreAPI): number {
+function bankAppetite(api: CoreAPI): number {
   const bank = bankOf(api);
   if (!bank) return 0;
   const p = (key: string) => api.parameter(key);

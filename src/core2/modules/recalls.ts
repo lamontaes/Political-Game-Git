@@ -100,7 +100,7 @@ export interface RecallRow {
 }
 
 /** One reply the member gave the petition's organizer, and the public record of it voters hear. */
-export interface RecallAnswer {
+interface RecallAnswer {
   /** The scene's reply record. */
   readonly id: string;
   /** The public record of the answer, which the press and the news carry. */
@@ -112,7 +112,7 @@ export interface RecallAnswer {
 }
 
 /** The due day's count where the member answered: before and after their answer, whom it reached and the signatures it changed. */
-export interface RecallCount {
+interface RecallCount {
   readonly date: string;
   readonly before: number;
   readonly signatures: number;
@@ -124,7 +124,7 @@ export interface RecallCount {
   readonly changed: number;
 }
 
-export const RECALLS_MODULE: CoreModule = {
+const RECALLS_MODULE: CoreModule = {
   id: RECALLS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -373,7 +373,7 @@ export function recallWindowFor(
 }
 
 /** The signature base a petition's percentage applies to, as a whole count of voters, and where it came from. */
-export interface SignatureBase {
+interface SignatureBase {
   readonly kind: PetitionSignatureBase;
   readonly count: number;
   /** "recorded" where a record in the world holds it; "estimated" where it is sized from the real averages. */
@@ -403,7 +403,7 @@ function eligibleVoters(api: CoreAPI, voters: readonly TownVoter[]): number {
  * holds no such record (it keeps no voter rolls, and a statewide race's
  * votes are not kept by town), the base is sized from the real averages.
  */
-export function signatureBase(
+function signatureBase(
   api: CoreAPI,
   kind: PetitionSignatureBase,
   term: Readonly<Pick<TermRow, "officeId">>,

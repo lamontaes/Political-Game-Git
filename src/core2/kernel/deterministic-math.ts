@@ -12,7 +12,7 @@ import type { SeededRng } from "./rng";
 const LN2 = 0.6931471805599453;
 const SQRT_HALF = 0.7071067811865476;
 
-export function detLog(value: number): number {
+function detLog(value: number): number {
   if (!(value > 0) || !Number.isFinite(value)) {
     throw new Error(`detLog needs a finite positive number: ${value}`);
   }
@@ -40,7 +40,7 @@ export function detLog(value: number): number {
   return 2 * sum + exponent * LN2;
 }
 
-export function detExp(value: number): number {
+function detExp(value: number): number {
   if (!Number.isFinite(value)) {
     throw new Error(`detExp needs a finite number: ${value}`);
   }
@@ -71,17 +71,7 @@ export function logit(p: number): number {
   return detLog(p / (1 - p));
 }
 
-/** A share kept strictly inside (0, 1) before a logit. */
-export function clampShare(p: number, epsilon: number): number {
-  return Math.min(1 - epsilon, Math.max(epsilon, p));
-}
 
-/** Rounded for persistence, so stored values never carry float tails. */
-export function roundTo(value: number, places = 6): number {
-  const factor = 10 ** places;
-  const rounded = Math.round(value * factor) / factor;
-  return Object.is(rounded, -0) ? 0 : rounded;
-}
 
 // Acklam's rational approximation to the inverse normal CDF (relative error
 // below 1.15e-9), which needs only the operations above.

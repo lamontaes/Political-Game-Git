@@ -15,7 +15,7 @@ import { placeLocalGovernmentUnits } from "./modules/executive";
 
 export type LawLevelName = GovernmentLevelWithTownship;
 
-export interface LawChainLevel {
+interface LawChainLevel {
   readonly level: LawLevelName;
   readonly jurisdiction: string;
 }

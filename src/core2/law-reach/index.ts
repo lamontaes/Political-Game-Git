@@ -34,7 +34,7 @@ let standingKeys: readonly string[] | undefined;
  * the treasury to run each month it closes and each year a budget is adopted.
  * Only a world that opened law reach has its laws applied to the budget.
  */
-export function reassertStandingLineLaws(api: CoreAPI): void {
+function reassertStandingLineLaws(api: CoreAPI): void {
   if (!api.state.modules.has(LAW_REACH_HOST_ID)) return;
   standingKeys ??= standingLineKeys();
   reassertStandingLaws(api, standingKeys);

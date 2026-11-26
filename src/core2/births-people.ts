@@ -17,7 +17,7 @@ export interface BirthKin {
 }
 
 /** Reuse the P15 record vocabulary; existing relatives keep their identity and past. */
-export function birthKin(
+function birthKin(
   api: CoreAPI,
   parents: readonly [string, string],
 ): BirthKin[] {

@@ -53,8 +53,8 @@ import data from "../data/public-action/actions.json" with { type: "json" };
 export const PUBLIC_ACTION_MODULE_ID = "core2-public-action-v1";
 const RUN_KIND = "public-action";
 /** The kinds of public record an action leaves. */
-export const ACTION_KINDS = ["strike", "protest", "rally"] as const;
-export type ActionKind = (typeof ACTION_KINDS)[number];
+const ACTION_KINDS = ["strike", "protest", "rally"] as const;
+type ActionKind = (typeof ACTION_KINDS)[number];
 
 type Touches = "school-staff" | "renters" | "jobless" | "residents";
 export interface AreaRule {
@@ -69,7 +69,7 @@ const PAR = data.parameters;
 const ADULT_AGE = 18;
 
 /** The town's organizing in one area, one side of it. */
-export interface MobilizationRow {
+interface MobilizationRow {
   readonly id: string;
   readonly placeId: string;
   readonly area: string;
@@ -411,7 +411,7 @@ function gatherCounted(
  * record keeps the size; a scene says only how it looks, so the same record
  * is read at the same scale wherever it is told.
  */
-export function turnoutLooks(
+function turnoutLooks(
   api: CoreAPI,
   core: CoreState,
   placeId: string,
@@ -853,7 +853,7 @@ function schedule(api: CoreAPI): void {
   });
 }
 
-export const PUBLIC_ACTION_MODULE: CoreModule = {
+const PUBLIC_ACTION_MODULE: CoreModule = {
   id: PUBLIC_ACTION_MODULE_ID,
   state: {
     schemaVersion: 1,

@@ -190,7 +190,7 @@ function bandIndex(bands: readonly Band[], age: number): number {
 }
 
 /** People of each single year of age, from the place's ACS sex-by-age bands. */
-export function peopleAtAge(rows: Geo, sex: Sex, age: number): number {
+function peopleAtAge(rows: Geo, sex: Sex, age: number): number {
   const index = bandIndex(POPULATION_BANDS, age);
   if (index < p("zero")) return p("zero");
   const band = POPULATION_BANDS[index]!;

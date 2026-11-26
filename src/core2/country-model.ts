@@ -35,7 +35,7 @@ export const COUNTRY_AGE_BANDS = [
   "45-64",
   "65-plus",
 ] as const;
-export const COUNTRY_FIFTHS = 5;
+const COUNTRY_FIFTHS = 5;
 const PUBLIC: CountrySector = "government";
 const HOMES: CountrySector = "construction";
 const OLDEST = COUNTRY_AGE_BANDS.length - 1;
@@ -190,7 +190,7 @@ export function countryRules(p: MacroParameter): CountryRules {
 }
 
 /** One income fifth of one age band in one state. */
-export interface HouseholdCell {
+interface HouseholdCell {
   fifth: number;
   band: number;
   people: number;
@@ -200,7 +200,7 @@ export interface HouseholdCell {
 }
 
 /** One sector's employers in one state. */
-export interface SectorCell {
+interface SectorCell {
   sector: CountrySector;
   jobs: number;
   /** A full-time worker's pay, dollars a year. */
@@ -220,7 +220,7 @@ export interface SectorCell {
 }
 
 /** A state's governments, state and local together. */
-export interface StateLedger {
+interface StateLedger {
   cash: number;
   /** The budget adopted for the year, dollars a year. */
   budgetYear: number;
@@ -289,7 +289,7 @@ export interface CountryWithheldLine {
  * households spent, the jobs added and cut by sector, who arrived and left, and the ledger's
  * revenue and budget. Kept so a trace can open why one month or one world differs from another.
  */
-export interface CountryStateMoved {
+interface CountryStateMoved {
   /** The tier's month this row is of, counted from the opening. */
   month: number;
   /** Withheld from this month's pay, under each law row read. */
@@ -348,7 +348,7 @@ export interface CountryFederalLine {
 }
 
 /** The federal dollars one state received in a month, dollars. */
-export interface CountryFederalMonth {
+interface CountryFederalMonth {
   /** The budget row read, or null where no federal budget is in force. */
   budgetId: string | null;
   /** Paid to its households as benefits, through the cells. */

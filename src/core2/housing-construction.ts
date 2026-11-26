@@ -37,7 +37,7 @@ export const CONSTRUCTION_LAW_KEYS = {
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
 } as const;
 
-export type ConstructionLawIds = {
+type ConstructionLawIds = {
   readonly [K in keyof typeof CONSTRUCTION_LAW_KEYS]?: string;
 };
 
@@ -92,7 +92,7 @@ interface ProjectRow {
 
 const MONTHS = 12;
 
-export function openingZoning(): Zoning {
+function openingZoning(): Zoning {
   return {
     inclusionaryShare: 0,
     allElectric: false,

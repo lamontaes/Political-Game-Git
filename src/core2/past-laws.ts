@@ -419,7 +419,7 @@ function lawStance(
 }
 
 /** A starting policy answer of no: the research says the place has no such law. */
-export function noSuchLaw(row: LawRowInput): boolean {
+function noSuchLaw(row: LawRowInput): boolean {
   return (
     row.id.endsWith(":starting") &&
     !!POLICY_QUESTIONS[row.series] &&

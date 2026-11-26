@@ -40,7 +40,7 @@ export interface ReachRule {
 }
 
 /** What a dollar rule reads about one person reached. */
-export interface ReachFacts {
+interface ReachFacts {
   readonly age: number;
   /** Their own yearly pay. */
   readonly wageDollars: number;

@@ -136,7 +136,7 @@ export function townshipGovernmentUnitsForPlace(
 }
 
 /** The board that governs one town or township, at the size its law sets. */
-export function townshipGoverningBodyRules(
+function townshipGoverningBodyRules(
   unit: GovernmentUnitIdentity,
 ): CountyGoverningBodyRules | null {
   if (unit.unitType !== "township" || !unit.functionalActive) return null;

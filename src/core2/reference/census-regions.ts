@@ -1,14 +1,7 @@
-/**
- * The Census Bureau's four statistical regions. An institutional
- * classification used only to share a regional political factor; it says
- * nothing about any state's politics.
- */
-export const CENSUS_REGIONS_SOURCE =
-  "https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf";
 
 export type CensusRegion = "northeast" | "midwest" | "south" | "west";
 
-export const CENSUS_REGION_ORDER: readonly CensusRegion[] = [
+const CENSUS_REGION_ORDER: readonly CensusRegion[] = [
   "northeast",
   "midwest",
   "south",

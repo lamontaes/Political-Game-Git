@@ -86,7 +86,7 @@ export interface HonorDefinition {
 export const HONORS = data.honors as unknown as readonly HonorDefinition[];
 
 /** The month the honor after this one is decided, as "03", when the honor has one. */
-export function followingMonth(key: string): string | undefined {
+function followingMonth(key: string): string | undefined {
   const next = HONORS.find(
     (h) => h.key === HONORS.find((x) => x.key === key)?.followedBy,
   );
@@ -94,7 +94,7 @@ export function followingMonth(key: string): string | undefined {
 }
 
 /** The grade a student is in for the school year starting in `startYear`, by their age that September 1. */
-export function gradeIn(birthDate: string, startYear: number): number {
+function gradeIn(birthDate: string, startYear: number): number {
   return (
     ageOn(birthDate, `${startYear}-${schoolDays.schoolYear.firstDay}`) -
     outcomes.gradeAgeFirst

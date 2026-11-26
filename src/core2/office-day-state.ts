@@ -297,7 +297,7 @@ export function stateOfficeOf(
 
 // ---------------------------------------------------------------- the calendar
 
-export type StateEntryKind =
+type StateEntryKind =
   | "floor-session"
   | "committee"
   | "caucus"
@@ -340,7 +340,7 @@ const endOf = (w: SessionWindow, year: number) =>
   w.adjournAt === "full-year" ? `${year}-12-31` : w.adjournAt;
 
 /** The session window a date falls in, if the legislature is sitting. */
-export function sessionOn(
+function sessionOn(
   stateKey: string,
   date: string,
 ): {
@@ -784,7 +784,7 @@ const DUTY_DECISION = "office-day-state.attend";
 const CLEMENCY_DECISION = "office-day-state.clemency";
 
 /** The character's own lean toward showing up: duty beside their traits. */
-export function ownAttendance(
+function ownAttendance(
   api: CoreAPI,
   person: Readonly<PersonState>,
   duty: number,
@@ -1163,7 +1163,7 @@ export function actOn(
 }
 
 /** The leader of the member's own party in their chamber (the majority or minority leader). */
-export function caucusLeader(api: CoreAPI, office: StateOffice): string | null {
+function caucusLeader(api: CoreAPI, office: StateOffice): string | null {
   if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return null;
   const majority = leaderOf(api, office.officeId, "majority-leader");
   const minority = leaderOf(api, office.officeId, "minority-leader");
@@ -1177,7 +1177,7 @@ export function caucusLeader(api: CoreAPI, office: StateOffice): string | null {
 }
 
 /** The legislature's leaders the governor deals with: each chamber's presiding officer and floor leaders. */
-export function legislativeLeaders(
+function legislativeLeaders(
   api: CoreAPI,
   stateKey: string,
 ): readonly string[] {
@@ -1647,7 +1647,7 @@ function worldGovernors(api: CoreAPI): string[] {
  * convening and the days after it), so a world governor and a played one
  * speak on the same kind of day. The calendar gives it on the day itself.
  */
-export function scheduleGovernorAddresses(api: CoreAPI): void {
+function scheduleGovernorAddresses(api: CoreAPI): void {
   if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return;
   const today = api.state.date;
   const [year, month] = [Number(today.slice(0, 4)), Number(today.slice(5, 7))];
@@ -1815,7 +1815,7 @@ export function voteOnStateFloor(
   table(api, "floorHolds").remove(row.id);
 }
 
-export const OFFICE_DAY_STATE_MODULE: CoreModule = {
+const OFFICE_DAY_STATE_MODULE: CoreModule = {
   id: OFFICE_DAY_STATE_MODULE_ID,
   state: {
     schemaVersion: 1,

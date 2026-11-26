@@ -84,7 +84,7 @@ export interface ApprovalRow {
 }
 
 /** An outside engine's push on opinion: points at its month, fading by half-life. */
-export interface OpinionPush {
+interface OpinionPush {
   readonly id: string;
   readonly month: string;
   readonly points: number;
@@ -351,7 +351,7 @@ function scheduleInauguration(api: CoreAPI, date: string): void {
   });
 }
 
-export const NATIONAL_OPINION_MODULE: CoreModule = {
+const NATIONAL_OPINION_MODULE: CoreModule = {
   id: NATIONAL_OPINION_MODULE_ID,
   state: {
     schemaVersion: 1,

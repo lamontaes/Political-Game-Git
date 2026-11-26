@@ -215,7 +215,7 @@ export function levelMayDecide(
 
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
 
-export const WORLD_LEGISLATING_MODULE: CoreModule = {
+const WORLD_LEGISLATING_MODULE: CoreModule = {
   id: WORLD_LEGISLATING_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -362,7 +362,7 @@ interface Body {
 }
 
 /** One bill a session takes up, with who filed it and how far it got. */
-export interface SessionBill {
+interface SessionBill {
   readonly number: string;
   readonly question: string;
   readonly change: "enact" | "repeal";

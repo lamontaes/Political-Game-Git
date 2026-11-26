@@ -73,7 +73,7 @@ export interface DriveKindRow {
   shareable: boolean;
 }
 
-export interface ResponseRow extends ActionDefinition {
+interface ResponseRow extends ActionDefinition {
   driveKind?: string;
   requires: readonly string[];
   fitParameter: string;
@@ -164,7 +164,7 @@ type FactKey =
 
 export const DEFAULT_DRIVES_DATA = drivesJson as unknown as DrivesData;
 
-export interface ScoredResponse {
+interface ScoredResponse {
   responseId: string;
   score: number;
   reasons: DecisionReason;
@@ -212,7 +212,7 @@ export interface FormationTrace {
  * scored before the effect, as the chooser scored them; for the life
  * module's civic acts they are reconstructed from current state at the event.
  */
-export interface DriveActTrace {
+interface DriveActTrace {
   date: IsoDate;
   actionId: string;
   targetId?: string;
@@ -2555,7 +2555,7 @@ export function createDrivesModule(
   };
 }
 
-export const DRIVES_MODULE = createDrivesModule();
+const DRIVES_MODULE = createDrivesModule();
 // Its runtime is a saved world part; the other maps are caches (rows of static
 // data, or rebuilt from the restored organizations).
 declareSnapshotCovered(DRIVES_MODULE.id);

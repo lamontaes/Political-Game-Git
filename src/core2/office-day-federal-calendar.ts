@@ -13,7 +13,7 @@
  */
 import table from "./data/office-day/federal-calendar.json" with { type: "json" };
 
-export type CalendarTag = "SOURCED" | "ESTIMATED";
+type CalendarTag = "SOURCED" | "ESTIMATED";
 export type FederalChamber = "house" | "senate";
 
 interface HouseYear {
@@ -137,7 +137,7 @@ export function senateSits(date: string): Sitting {
   };
 }
 
-export function chamberSits(chamber: FederalChamber, date: string): Sitting {
+function chamberSits(chamber: FederalChamber, date: string): Sitting {
   return chamber === "house" ? houseSits(date) : senateSits(date);
 }
 

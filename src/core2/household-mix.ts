@@ -25,7 +25,7 @@ export const HOUSEHOLD_SHAPE_ORDER: readonly HouseholdShape[] = [
 ];
 
 /** Which record the shares came from, so no fallback reads as the town's own. */
-export type HouseholdMixBasis = "place" | "state" | "national";
+type HouseholdMixBasis = "place" | "state" | "national";
 
 export interface HouseholdMix {
   /** Share of households of each shape, in `HOUSEHOLD_SHAPE_ORDER`, summing to 1. */

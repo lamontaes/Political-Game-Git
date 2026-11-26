@@ -41,13 +41,13 @@ import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 
 export const SPEECH_MODULE_ID = "speech";
 export const SPEECH_HEARD = "speech.heard";
-export const SPEECH_RETOLD = "speech.retold";
+const SPEECH_RETOLD = "speech.retold";
 /** Word of an act retold by one who saw it: the teller is its person, the hearers who believed it its witnesses. */
 export const WORD_RETOLD = "word.retold";
 /** The `word.retold` fact holding the act as it was recorded (JSON), so a hearer's engines read the act itself. */
 export const WORD_EVENT = "wordEvent";
 /** A hearer's kept fact that they were told of an act, and by whom. */
-export const wordHeardKey = (eventId: string) => `word:${eventId}:heardFrom`;
+const wordHeardKey = (eventId: string) => `word:${eventId}:heardFrom`;
 
 /** An act people talk about: who saw it and whom it is about, by the event's own fields. */
 interface WordKind {
@@ -130,7 +130,7 @@ function action(id: string, retelling: boolean): ActionDefinition {
     ],
   };
 }
-export const RETELL = action("speech-retell", true);
+const RETELL = action("speech-retell", true);
 export const KEEP = action("speech-keep", false);
 
 const table = (api: CoreAPI) =>

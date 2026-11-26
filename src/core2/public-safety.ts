@@ -224,7 +224,7 @@ function serviceOf(
 
 // ---- the town's people, both tiers ------------------------------------------
 
-export interface FullPerson {
+interface FullPerson {
   readonly id: PersonId;
   readonly householdId: string;
   readonly age: number;

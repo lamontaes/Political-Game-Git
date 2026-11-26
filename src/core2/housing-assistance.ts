@@ -26,7 +26,7 @@ import { noteLinePaid } from "./budgets-treasury";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState } from "./types";
 
-export const HOUSING_ASSISTANCE_KEY = HOUSING_LINE_KEY;
+const HOUSING_ASSISTANCE_KEY = HOUSING_LINE_KEY;
 
 /** Pay this month's rent assistance and end it for households no longer covered. */
 export function payRentAssistance(

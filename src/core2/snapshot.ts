@@ -22,7 +22,7 @@ import {
 } from "./module-state";
 import type { CoreState } from "./types";
 
-export const SNAPSHOT_FORMAT = "core2-snapshot-v1";
+const SNAPSHOT_FORMAT = "core2-snapshot-v1";
 const NOT_YET = Symbol("registered on first use");
 
 /** Rebuilt from the recipe, never saved: the data tables, engines and listeners. */

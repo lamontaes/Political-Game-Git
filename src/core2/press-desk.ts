@@ -114,7 +114,7 @@ const LETTER_KIND = "press.letter";
 /** An endorsement kept and announced; the outlet's own prints in its own pages. */
 const ENDORSED_KIND = "campaign-endorsed";
 /** The week's sittings that took up nothing, printed as one brief. */
-export const MEETINGS_WEEK_KIND = "meetings-week";
+const MEETINGS_WEEK_KIND = "meetings-week";
 
 export interface DeskOutlet {
   readonly id: string;

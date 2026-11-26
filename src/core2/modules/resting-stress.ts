@@ -15,7 +15,7 @@ import { parameter, parameterValues } from "../parameters";
 import type { ModuleRow } from "../module-data";
 import type { CoreModule, CoreState } from "../types";
 
-export const RESTING_STRESS_MODULE_ID = "core2-resting-stress-v1";
+const RESTING_STRESS_MODULE_ID = "core2-resting-stress-v1";
 
 export const RESTING_STRESS_MODULE: CoreModule = {
   id: RESTING_STRESS_MODULE_ID,

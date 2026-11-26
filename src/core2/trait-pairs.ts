@@ -67,7 +67,7 @@ const TWO_WAY = new Map(
  * options. While it plays, every full person's formula decision is kept as a
  * `person.weighed` record, as the player's are, and each call names its record.
  */
-export function playWeighing(
+function playWeighing(
   core: CoreState,
   until: string,
   /** Each decision id, with its yes option where the chooser decides it. */
@@ -145,7 +145,7 @@ export function playWeighing(
  * given that person the other answer). `among` keeps the people a test
  * names to the ones it asks about (a town's own residents, say).
  */
-export function opposedPairs(
+function opposedPairs(
   calls: readonly PlayedCall[],
   {
     caseWithin = 0.05,
@@ -205,7 +205,7 @@ export function opposedPairs(
 }
 
 /** Whether a person, full or counted, lives in `placeId`: for `opposedPairs`' `among`. */
-export function livesIn(
+function livesIn(
   core: CoreState,
   placeId: string,
 ): (actorId: string) => boolean {

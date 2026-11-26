@@ -287,69 +287,8 @@ export function setPlacePrice(
   put(api, { ...input, kind: "price", value: input.priceMinor });
 }
 
-/** A law taxes use (a mileage fee), optionally in place of the fuel tax. */
-export function setPlaceTax(
-  api: CoreAPI,
-  input: {
-    placeId: string;
-    good: "vehicle-miles";
-    centsPerUnit: number;
-    payeeAccountId: string;
-    replacesFuelTax?: boolean;
-    cause: string;
-    source: Source;
-  },
-): void {
-  put(api, {
-    placeId: input.placeId,
-    good: input.good,
-    kind: "per-unit",
-    value: input.centsPerUnit,
-    payeeId: input.payeeAccountId,
-    ...(input.replacesFuelTax ? { replacesFuelTax: true } : {}),
-    cause: input.cause,
-    source: input.source,
-  });
-}
 
-/** A per-unit charge (a bottle deposit); a refundable charge comes back on what's redeemed. */
-export function addPerUnitCharge(
-  api: CoreAPI,
-  input: {
-    placeId: string;
-    good: "beverage-container";
-    centsPerUnit: number;
-    refundable: boolean;
-    payeeId?: string;
-    cause: string;
-    source: Source;
-  },
-): void {
-  put(api, { ...input, kind: "per-unit", value: input.centsPerUnit });
-}
 
-/** A public offer of a household service (public broadband) at a monthly price. */
-export function offerHouseholdService(
-  api: CoreAPI,
-  input: {
-    placeId: string;
-    service: "broadband";
-    providerId: string;
-    monthlyMinor: number;
-    cause: string;
-    source: Source;
-  },
-): void {
-  put(api, {
-    placeId: input.placeId,
-    good: input.service,
-    kind: "offer",
-    value: input.monthlyMinor,
-    providerId: input.providerId,
-    cause: input.cause,
-    source: input.source,
-  });
-}
 
 /** The share of the place's roads in poor condition, as a budget leaves them. */
 export function setRoadCondition(

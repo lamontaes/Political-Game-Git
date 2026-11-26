@@ -581,7 +581,7 @@ function partneredRecords(
  * (SG-HIST-counted-couples-from-household). Dated by the same rule: the later of the
  * days each was grown and working, no later than the child's birth. No dice.
  */
-export function partneredForFilledIn(
+function partneredForFilledIn(
   api: CoreAPI,
   people: readonly PersonState[],
   moduleId: string,

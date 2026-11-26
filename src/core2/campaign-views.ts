@@ -398,7 +398,7 @@ export const STANCE_LOADINGS = stanceLoadings.questions as unknown as Record<
  * opening record (`openingRecord`), so a counted voter and the same person
  * filled in stand alike.
  */
-export function loadingShift(
+function loadingShift(
   profile: StanceProfile | null | undefined,
   question: string,
 ): number {

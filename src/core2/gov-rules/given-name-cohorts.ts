@@ -48,7 +48,7 @@ function decadeKey(start: number): string {
  * The decades a birth year draws from, and how much each counts. Weights sum
  * to one.
  */
-export function birthYearDecadeWeights(
+function birthYearDecadeWeights(
   birthYear: number,
 ): readonly (readonly [string, number])[] {
   const middles = DECADE_STARTS.map((start) => start + 5);

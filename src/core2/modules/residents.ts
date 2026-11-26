@@ -123,7 +123,7 @@ export { householdBalanceDraw } from "../household-balance-draw";
 // The counted jobs of an employer, for engines outside this family (the patrol-hours record).
 export { countedJobHeads, countedJobsOf };
 
-export const RESIDENTS_MODULE_ID = "core2-residents-v1";
+const RESIDENTS_MODULE_ID = "core2-residents-v1";
 // Outside buyers pay first, so a day's receipts can meet that day's payroll.
 const ORDER = {
   "outside-sales": 0,
@@ -164,7 +164,7 @@ interface FlowState extends ResidentFlowInput {
  * Not its households or flows (MEMORY-FLAT): the households live on as the
  * records below, and the flows as their running state.
  */
-export type ResidentsRecipe = Omit<ResidentsInput, "households" | "flows">;
+type ResidentsRecipe = Omit<ResidentsInput, "households" | "flows">;
 
 export interface ResidentsRuntime {
   input: ResidentsRecipe;
@@ -625,7 +625,7 @@ export function householdCashReader(
  * `householdCash` shares the group's money. The last household of a group
  * takes all of it, so an empty group owes none.
  */
-export function householdArrears(
+function householdArrears(
   rt: ResidentsRuntime,
   h: CountedHousehold,
   /** The people the share is for: one real household's (the default) or a whole record's, which stands for its weight. */
@@ -685,10 +685,10 @@ function writeOffEmptyGroup(
 }
 
 /** Working-age counted members without a recorded job. */
-export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
+const DISTRICT_STOPGAP = "SG-CORE-district-placement";
 
 /** The town's districts and their people (state House, else state Senate), by GEOID. */
-export function townDistricts(core: CoreState): [string, number][] {
+function townDistricts(core: CoreState): [string, number][] {
   const geoid = core.placeMetadata?.placeKey;
   if (!geoid) return [];
   for (const chamber of ["state-lower", "state-upper"] as const) {
@@ -1867,15 +1867,6 @@ export function residentFacts(
 
 registerCountedPersonSource(residentPerson);
 
-/** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
-export function countedSinceOpening(
-  core: CoreState,
-  personId: PersonId,
-): boolean {
-  const rt = runtimes.get(core);
-  const m = rt?.store.memberOf.get(personId);
-  return m !== undefined && m < rt!.store.openingMembers;
-}
 
 /** The id of the counted group a counted person's household stands in today, if any. */
 export function countedGroupIdOf(
@@ -3552,14 +3543,6 @@ export function departCountedHousehold(
   };
 }
 
-/** The place's account for buyers, sellers and movers outside the town. */
-export function countedOutsideAccount(
-  core: CoreState,
-  placeId: PlaceId,
-): string | undefined {
-  const rt = runtimes.get(core);
-  return rt ? outsideMarketFor(core, rt, placeId) : undefined;
-}
 
 /** A baby born into a counted household joins its record and its group. */
 export function addCountedPerson(
@@ -3635,48 +3618,6 @@ export function admitCountedHousehold(
     });
 }
 
-/**
- * Newcomers move into a counted home its people just left: the old members
- * leave the counts (their jobs and awards end), the newcomers take their
- * places with the home's purchases, mortgage and rent, and no job yet.
- */
-export function replaceCountedMembers(
-  core: CoreState,
-  householdId: string,
-  newcomers: readonly PersonInput[],
-): void {
-  const rt = runtimes.get(core);
-  const ix = rt?.store.householdOf.get(householdId);
-  const h = ix === undefined ? undefined : rt!.store.households[ix];
-  if (!rt || !h || h.gone)
-    throw new Error(`Not a counted household: ${householdId}`);
-  const store = rt.store;
-  dropCountedJobs(rt, new Set(h.jobs.map((row) => row.id)));
-  dropCountedContracts(rt, new Set(h.incomeContracts.map((row) => row.id)), [
-    "retirement",
-  ]);
-  for (const m of store.countedMembers(h)) store.state[m] = MemberState.Moved;
-  store.membersVersion++;
-  store.touch(h);
-  const members = newcomers.map((person) => store.addMember(person, h.index));
-  indexWorkingAgeEnds(rt, members, core.date);
-  const position = new Map(newcomers.map((p, i) => [p.id, members[i]!]));
-  h.kin = [];
-  for (const person of newcomers)
-    for (const other of person.familyIds) {
-      const a = position.get(person.id)!,
-        b = position.get(other);
-      if (b !== undefined && a < b) h.kin.push(a, b);
-    }
-  h.members = [...h.members, ...members];
-  h.jobs = [];
-  h.workCommitments = [];
-  h.incomeContracts = [];
-  h.wagesMinorYear = 0;
-  h.retirementMinorYear = 0;
-  h.unplacedWorkers = 0;
-  regroupHousehold(rt, h, core.date);
-}
 
 /**
  * A full household returns to the counts (demotion): its people are packed
@@ -3945,7 +3886,7 @@ export function keepCalendar(
 }
 
 /** The commuter job's id for a person; the demotion reads it to put the pay back. */
-export const commuterJobId = (personId: string, startsAt: string) =>
+const commuterJobId = (personId: string, startsAt: string) =>
   `job:commuter:${personId}:${startsAt}`;
 
 /**

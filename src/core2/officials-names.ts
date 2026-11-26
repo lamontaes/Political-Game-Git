@@ -9,7 +9,7 @@ import nameHashes from "../../data/research/offices/real-officeholder-name-hashe
 
 let hashes: ReadonlySet<string> | null = null;
 
-export function normalizedFullName(given: string, family: string): string {
+function normalizedFullName(given: string, family: string): string {
   return `${given} ${family}`
     .toLowerCase()
     .replace(/[^a-z ]/g, "")

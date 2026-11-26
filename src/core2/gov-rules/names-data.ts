@@ -21,7 +21,7 @@
 
 import PLACE_NAME_CORPORA from "../data/names/place-name-corpora.json" with { type: "json" };
 
-export interface NameCorpusProvenance {
+interface NameCorpusProvenance {
   readonly source: string;
   readonly license: string;
   readonly notes: string;
@@ -58,7 +58,7 @@ export const DEFAULT_CORPUS_VERSION = "names-v1";
  * Starter corpus version 1.
  * 320 given names, 320 family names (102,400 distinct full name combinations).
  */
-export const NAMES_STARTER_V1: NameCorpus = {
+const NAMES_STARTER_V1: NameCorpus = {
   version: "names-v1",
   provenance: {
     source:
@@ -1120,7 +1120,7 @@ export const NAMES_STARTER_V1: NameCorpus = {
  * Legacy demonstration corpus (12 given names, 12 family names).
  * Maintained strictly for backward compatibility with existing Stage 6.5 demo worlds.
  */
-export const DEMO_NAMES_V4: NameCorpus = {
+const DEMO_NAMES_V4: NameCorpus = {
   version: "demo-names-v4",
   provenance: {
     source: "Political Game Stage 6.5 Synthetic Demonstration Fixture",
@@ -1184,7 +1184,7 @@ const PR_MEASURED = PLACE_NAME_CORPORA.places.PR as unknown as {
  * mother's. The given names are those of honorees born mostly before 1950;
  * `puerto-rico-and-territory-names` asks for the names by birth year.
  */
-export const PUERTO_RICO_NAMES_V1: NameCorpus = {
+const PUERTO_RICO_NAMES_V1: NameCorpus = {
   version: "names-pr-v1",
   placesUsps: ["PR"],
   provenance: {
@@ -1270,13 +1270,13 @@ export function nameCorpusVersionForPlace(
  *
  * A player who states nothing draws from the whole corpus exactly as before.
  */
-export interface GivenNameGenerationPools {
+interface GivenNameGenerationPools {
   readonly male: readonly string[];
   readonly female: readonly string[];
   readonly neutral: readonly string[];
 }
 
-export const GIVEN_NAME_GENERATION_POOLS_V1: GivenNameGenerationPools = {
+const GIVEN_NAME_GENERATION_POOLS_V1: GivenNameGenerationPools = {
   male: [
     "Aaron",
     "Adam",
@@ -1652,7 +1652,7 @@ export const GIVEN_NAME_GENERATION_POOLS_V1: GivenNameGenerationPools = {
  *
  * The player's own typed name always overrides anything drawn here.
  */
-export const GIVEN_NAME_POOL_REACH_V1: Readonly<
+const GIVEN_NAME_POOL_REACH_V1: Readonly<
   Record<
     "male" | "female" | "nonbinary",
     readonly (keyof GivenNameGenerationPools)[]

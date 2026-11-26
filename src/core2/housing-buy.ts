@@ -54,7 +54,7 @@ export function monthlyPayment(market: BuyMarket, principal: number): number {
 }
 
 /** 0 to 1: rises through the late twenties and fades after the late fifties, each a smooth step. */
-export function buyingAgeShape(api: CoreAPI, age: number): number {
+function buyingAgeShape(api: CoreAPI, age: number): number {
   const step = (center: number) =>
     1 / (1 + Math.exp(-(age - center) / api.parameter("housingBuyAgeScale")));
   return (

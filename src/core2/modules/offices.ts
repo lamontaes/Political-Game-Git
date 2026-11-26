@@ -591,7 +591,7 @@ function municipalVacancyRule(stateUsps: string): VacancyRule {
 }
 
 /** Someone who could hold a local seat: a full person, or a counted adult filled in only when seated. */
-export interface Suited {
+interface Suited {
   readonly person: {
     readonly id: string;
     readonly traits: Readonly<Record<string, number>>;
@@ -616,7 +616,7 @@ const seatFit = (traits: Readonly<Record<string, number>>) =>
  * department heads' appointments read it too once gov-appointments-weigh-
  * counted-adults is built.
  */
-export function suitedResidents(
+function suitedResidents(
   api: CoreAPI,
   date: string,
   taken: ReadonlySet<string>,
@@ -683,7 +683,7 @@ export function suitedResidents(
  * null when the filled-in person turns out to share a real officeholder's
  * name or a press job, so the seat goes to the next best suited.
  */
-export function seatSuited(api: CoreAPI, suited: Suited): string | null {
+function seatSuited(api: CoreAPI, suited: Suited): string | null {
   if (!suited.counted) return suited.person.id;
   const person = fillInPerson(
     api.state as CoreState,

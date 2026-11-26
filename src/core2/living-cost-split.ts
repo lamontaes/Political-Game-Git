@@ -10,7 +10,7 @@
  */
 import type { CoreState } from "./types";
 
-export interface LivingCostShare {
+interface LivingCostShare {
   /** Who is paid: a government's organization, an outlet. */
   readonly organizationId: string;
   /** The part of the payment that goes to it. */
@@ -59,12 +59,6 @@ export function setLivingCostSplit(
   register(living, core, key, split);
 }
 
-export function livingCostSplit(
-  core: CoreState,
-  key = "budgets",
-): LivingCostSplit | undefined {
-  return living.get(core)?.get(key);
-}
 
 /** A module's part of what a business pays outside the town for its costs. */
 export function setOutsideCostSplit(

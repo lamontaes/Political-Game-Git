@@ -261,7 +261,7 @@ const LAWS_HISTORY: HistorySource = {
   },
 };
 
-export const LAWS_MODULE: PreStartModule & HistoryModule = {
+const LAWS_MODULE: PreStartModule & HistoryModule = {
   history: LAWS_HISTORY,
   id: LAWS_MODULE_ID,
   preStart: { phase: "government", run: lawHistoryPass },
@@ -669,7 +669,7 @@ export function lawRows(
  * world's past: the enactment date, body, session and roll calls). Null for a
  * law with neither.
  */
-export function enactmentOf(
+function enactmentOf(
   api: CoreAPI,
   row: LawRowInput,
 ): {

@@ -16,7 +16,7 @@ import type { CoreAPI, PersonId } from "./types";
 
 const PRESS = "core2-press-v1";
 
-export type PressConflictRole = "reporter" | "head" | "owner";
+type PressConflictRole = "reporter" | "head" | "owner";
 
 export interface PressConflict {
   readonly outletId: string;

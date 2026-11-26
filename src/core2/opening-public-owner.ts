@@ -15,10 +15,10 @@ import { stopgap } from "./stopgaps";
 import type { CoreInput, OrganizationInput, Source } from "./types";
 
 export const OPENING_COUNTY_BUYER_CLASSIFICATION = "service:county-government";
-export const OPENING_PUBLIC_OWNER_HISTORY_STOPGAP = stopgap(
+const OPENING_PUBLIC_OWNER_HISTORY_STOPGAP = stopgap(
   "SG-P8-opening-public-owner-history",
 ).id;
-export const OPENING_PUBLIC_OWNER_COVERAGE_STOPGAP = stopgap(
+const OPENING_PUBLIC_OWNER_COVERAGE_STOPGAP = stopgap(
   "SG-P8-opening-public-owner-coverage",
 ).id;
 const prefix = "local-government:";
@@ -26,7 +26,7 @@ const factPrefix = "openingPublicOwner.";
 const zero = parameter("zero");
 const one = parameter("one");
 
-export interface HistoricalCountyObservation {
+interface HistoricalCountyObservation {
   censusGovernmentId: string;
   name: string;
   stateUsps: string;
@@ -191,13 +191,13 @@ export function openingHistoricalCountyOwnerFacts(
   };
 }
 
-export interface OpeningCountyPlaceCoverage {
+interface OpeningCountyPlaceCoverage {
   placeId: string;
   basisRecordIds: readonly string[];
   identitySource: Source;
   coverageSource: Source;
 }
-export interface OpeningCountyPurchaseCoverage extends OpeningCountyPlaceCoverage {
+interface OpeningCountyPurchaseCoverage extends OpeningCountyPlaceCoverage {
   representedResidentCount: number;
 }
 export interface OpeningCountyPurchaseCoverageResult {

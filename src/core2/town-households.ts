@@ -44,7 +44,7 @@ export interface TownPersonInput {
   readonly identity: PersonIdentity;
 }
 
-export interface SkeletonMember {
+interface SkeletonMember {
   readonly age: number;
   readonly role: "adult" | "child";
 }
@@ -57,12 +57,12 @@ export interface TownHouseholdSkeleton {
   readonly members: readonly SkeletonMember[];
 }
 
-export function townHouseholdKey(town: EntityId, index: number): string {
+function townHouseholdKey(town: EntityId, index: number): string {
   return `${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`;
 }
 
 /** The stable key of member `member` of household `index`. */
-export function townResidentKey(
+function townResidentKey(
   town: EntityId,
   index: number,
   member: number,
@@ -70,7 +70,7 @@ export function townResidentKey(
   return `${townHouseholdKey(town, index)}:person:${member}`;
 }
 
-export function townHouseholdRng(seed: string, town: EntityId, index: number) {
+function townHouseholdRng(seed: string, town: EntityId, index: number) {
   return new SeededRng(seed).fork(townHouseholdKey(town, index));
 }
 
