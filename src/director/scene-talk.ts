@@ -2671,8 +2671,10 @@ export function composeSceneTalk(
     // this path is never offered again.
     const fresh = [...new Set(moves)];
     const seen = new Set([...path.said, ...path.offeredPieces]);
-    const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
-      const reply = render(
+    // One reply line for a move, from the bank (or, tagged, the extra option
+    // drawn from the player's own life), worded against what the path said.
+    const wordReply = (move: string, tagged: boolean) =>
+      render(
         {
           step: "reply",
           move,
@@ -2683,11 +2685,13 @@ export function composeSceneTalk(
         },
         cast.askedId,
         askedTraits,
-        `${path.id}:reply:${move}`,
+        `${path.id}:${tagged ? "tagged" : "reply"}:${move}`,
         seen,
-        false,
+        tagged,
         heard(path.said),
       );
+    const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
+      const reply = wordReply(move, false);
       if (!reply) {
         gap("reply", move, path.askerMove);
         return [];
@@ -2700,22 +2704,7 @@ export function composeSceneTalk(
     // One extra option from the player's own life, where a piece fits.
     for (const move of fresh) {
       if (offered.length >= maxReplies + one) break;
-      const extra = render(
-        {
-          step: "reply",
-          move,
-          role: "asked",
-          ...base,
-          after: path.askerMove,
-          ...(path.askerPiece ? { afterPiece: path.askerPiece } : {}),
-        },
-        cast.askedId,
-        askedTraits,
-        `${path.id}:tagged:${move}`,
-        seen,
-        true,
-        heard(path.said),
-      );
+      const extra = wordReply(move, true);
       if (!extra || seen.has(extra.parts[zero] ?? "")) continue;
       extra.round = round;
       offered.push(extra);
