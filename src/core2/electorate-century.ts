@@ -51,6 +51,7 @@ import {
 import { seededUnit } from "./seeded";
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import { readinessOf } from "./turnout";
+import { sessionWindows } from "./state-session-calendar";
 import { gameStartDate } from "./game-start";
 import { stateOffices } from "./modules/offices";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
@@ -994,7 +995,8 @@ function nationalChamber(stateKey: string, rosterChamber: string): boolean {
  * that side (Minnesota's Democratic-Farmer-Labor, Puerto Rico's Partido Nuevo Progresista), else
  * the roster's national label for the side.
  */
-function chamberLabel(
+/** A chamber's party label for a side, as the roster names it (the offices engine's party for a seat). */
+export function chamberLabel(
   stateKey: string,
   rosterChamber: string | undefined,
   side: number,
@@ -1805,6 +1807,46 @@ export function* runCentury(
 const legislatureRuns = new Map<string, Map<string, CenturySeat>>();
 
 /**
+ * The played state's last regular sitting before day one, the one the real bill engine runs in a
+ * small world before the day-one world opens (owner, Nov 26, 2026, row 14: "last few sessions"),
+ * and who sat for it: each legislative seat's side after the last even November before it, by the
+ * offices engine's seat id. The century's own law session for that sitting (and every later one)
+ * is not held for this state; the engine's sitting replaces it, and day one's own sitting runs on
+ * the real engine as it always did.
+ */
+export interface PastSessionPlan {
+  readonly stateKey: string;
+  readonly sittingYear: number;
+  readonly conveneAt: string;
+  readonly adjournAt: string;
+  readonly rosterYear: number;
+  readonly roster: ReadonlyMap<
+    string,
+    { readonly side: number; readonly rosterChamber: string }
+  >;
+}
+
+const pastPlans = new Map<string, PastSessionPlan>();
+
+/** A state's last regular sitting that adjourned before `startDate`, within a few years back. */
+function lastSittingBefore(
+  stateKey: string,
+  startDate: string,
+): { year: number; conveneAt: string; adjournAt: string } | undefined {
+  const first = Number(startDate.slice(0, 4));
+  for (let year = first; year >= first - 3; year -= 1) {
+    const window = sessionWindows(stateKey, year)[0];
+    if (!window) continue;
+    const adjournAt = /^\d{4}-\d{2}-\d{2}$/.test(window.adjournAt)
+      ? window.adjournAt
+      : `${year}-12-31`;
+    if (adjournAt < startDate)
+      return { year, conveneAt: window.conveneAt, adjournAt };
+  }
+  return undefined;
+}
+
+/**
  * The century's state legislatures, a pass of their own after the century's other offices: no
  * President, member of Congress or statewide officer reads a legislature's count, so it is run on
  * the loading screen after them (yielding a year at a time) and on first read everywhere else.
@@ -1836,6 +1878,19 @@ export function* runLegislatures(
   );
   const voters = centuryVoters();
   const stateLaws = new Map<string, CenturyLaw>();
+  const townState = townStates.get(seed);
+  const pastSitting = townState
+    ? lastSittingBefore(townState, startDate)
+    : undefined;
+  let pastRoster:
+    | {
+        year: number;
+        roster: ReadonlyMap<
+          string,
+          { readonly side: number; readonly rosterChamber: string }
+        >;
+      }
+    | undefined;
   const hiddenVoters = centuryVoters(centuryParameter("centuryHiddenVoters"));
   for (const [at, year] of years.entries()) {
     const results = new YearResults();
@@ -1859,6 +1914,24 @@ export function* runLegislatures(
     // Each state's legislature and governor sit after each even November.
     if (year % 2 === 0)
       for (const [stateKey, chambers] of stateChambers(seats, districtLeans)) {
+        if (pastSitting && stateKey === townState) {
+          // Who sat for the sitting: the seats after the last even November before it.
+          if (year < pastSitting.year) {
+            const roster = new Map<
+              string,
+              { side: number; rosterChamber: string }
+            >();
+            for (const seat of seats.values())
+              if (seat.stateKey === stateKey && seat.chamber === "legislature")
+                roster.set(seat.key, {
+                  side: seat.side,
+                  rosterChamber: seat.rosterChamber ?? "",
+                });
+            pastRoster = { year, roster };
+          }
+          // The engine's sitting replaces the century's session for it and every later one.
+          if (year + 1 >= pastSitting.year) continue;
+        }
         let governor = (century.leans[stateKey] ?? 0.5) >= 0.5 ? 1 : -1;
         for (const change of century.governorSides.get(stateKey) ?? [])
           if (change.year <= year) governor = change.side;
@@ -1876,6 +1949,15 @@ export function* runLegislatures(
   }
   legislatureRuns.set(key, seats);
   legislatureLaws.set(key, stateLaws);
+  if (townState && pastSitting && pastRoster)
+    pastPlans.set(key, {
+      stateKey: townState,
+      sittingYear: pastSitting.year,
+      conveneAt: pastSitting.conveneAt,
+      adjournAt: pastSitting.adjournAt,
+      rosterYear: pastRoster.year,
+      roster: pastRoster.roster,
+    });
   return seats;
 }
 
@@ -1963,6 +2045,18 @@ export function centuryLaw(
     return undefined;
   const key = `${seed}|${centuryYears(start).at(-1) ?? ""}`;
   return legislatureLaws.get(key)?.get(`${place}|${question}`) ?? null;
+}
+
+/**
+ * The played state's last sitting before day one and who sat for it, for the small world that runs
+ * it through the real bill engine; undefined under "today", where the century did not hold the
+ * state's sessions, and for a state with no sitting in the years before day one.
+ */
+export function pastSessionPlan(seed: string): PastSessionPlan | undefined {
+  if (historyMode(seed) !== "century") return undefined;
+  const start = openingOf(seed);
+  centuryLegislatures(seed, start);
+  return pastPlans.get(`${seed}|${centuryYears(start).at(-1) ?? ""}`);
 }
 
 /** The century's state legislative seats by the offices engine's seat id, run on first read. */

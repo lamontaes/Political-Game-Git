@@ -28,6 +28,7 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import { applyPastSessionLaws, pastSessionLaws } from "../core2/past-sessions";
 import type { EntityId } from "../core2/kernel/brands";
 import { coreAPI } from "../core2/state";
 import { openStartingCircle } from "../core2/modules/people";
@@ -775,6 +776,8 @@ function* benchWorldStages(
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);
+  // The played state's last sitting before day one, through the real bill engine (row 14).
+  applyPastSessionLaws(core, pastSessionLaws(seed, place.key, startDate));
   openOffices(core, seed, startDate);
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).

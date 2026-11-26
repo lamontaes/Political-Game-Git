@@ -367,5 +367,17 @@
       "citation": "From all stays (1) to a quarter less."
     },
     "role": "coefficient"
+  },
+  "pastSessionMinimumPeople": {
+    "value": 60,
+    "role": "level",
+    "tag": "TUNABLE",
+    "citation": "People in the small world that runs the played state's last sitting through the bill engine: the legislators are seated by the century, so the town's own people only fill the world's households. Spread 30 to 200.",
+    "spread": {
+      "low": 30,
+      "high": 200,
+      "unit": "people",
+      "citation": "The legislature's own test world uses 200; the load-time budget favors fewer (the world takes about 0.6 s to build at 60)."
+    }
   }
 }

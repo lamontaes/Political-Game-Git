@@ -233,7 +233,11 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
 };
 
 /** Register the module and put the state's session ends on the calendar. */
-export function openWorldLegislating(core: CoreState): void {
+export function openWorldLegislating(
+  core: CoreState,
+  /** Only this legislature sits (a past pass for the played state: no Congress, no other state). */
+  only?: string,
+): void {
   registerSittingReader(nextSitting);
   registerWeeklyFloorReader(weeklyFloorOn);
   registerFloorDateReader(floorDateOf);
@@ -244,10 +248,10 @@ export function openWorldLegislating(core: CoreState): void {
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
   // The town's council and its county board meet on their own.
-  for (const office of townBodies(api)) scheduleMeeting(api, office);
+  if (!only) for (const office of townBodies(api)) scheduleMeeting(api, office);
   // Congress and every legislature in the session calendar open their next
   // session (or the one already sitting, today), each on its own dates.
-  for (const jurisdiction of ["US", ...sessionPlaceKeys()])
+  for (const jurisdiction of only ? [only] : ["US", ...sessionPlaceKeys()])
     scheduleOpening(api, jurisdiction, core.date, true);
 }
 
