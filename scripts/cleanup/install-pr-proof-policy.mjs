@@ -69,11 +69,11 @@ const line =
 edit(
   ".github/workflows/validate.yml",
   /^          CHANGED_FILES=(.*)$/m,
-  line +
+  readFileSync(".github/workflows/validate.yml", "utf8").match(
+    /^          CHANGED_FILES=.*$/m,
+  )[0] +
     "\n" +
-    readFileSync(".github/workflows/validate.yml", "utf8").match(
-      /^          CHANGED_FILES=.*$/m,
-    )[0],
+    line,
 );
 for (const [file, text] of pending) writeFileSync(file, text);
 console.log(`Updated ${pending.size} proof-policy files.`);

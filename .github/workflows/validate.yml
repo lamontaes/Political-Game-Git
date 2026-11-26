@@ -158,8 +158,8 @@ jobs:
           else
             base="$(git rev-parse HEAD~1)"
           fi
-          node scripts/guards/no-doc-proof-images.mjs "$base" HEAD
           CHANGED_FILES="$(git diff --name-only --diff-filter=AMR "$base" HEAD -- docs/pool/items/)" npm run guards
+          node scripts/guards/no-doc-proof-images.mjs "$base" HEAD
 
   scope:
     name: scope
