@@ -1708,7 +1708,7 @@
     },
     {
       "old": "src/core2/data/stopgaps.json",
-      "now": "split into one register file per family under src/core2/data/stopgaps/, with the director's own at src/director/data/stopgaps.json (tooling-stopgaps-register-per-family)",
+      "now": "split into one register file per family under src/core2/data/stopgaps/, (tooling-stopgaps-register-per-family); the director's rows moved into those family files on Nov 26 (map row 9)",
       "when": "2026-11-24",
       "why": "The single register file was split into family files; the move script still names the old one."
     },

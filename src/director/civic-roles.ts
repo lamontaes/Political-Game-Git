@@ -70,7 +70,7 @@ import {
 } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
 import { colleagues, outgoingHolder, swornOffice } from "./swearing-in";
-import { markWordsStopgap } from "./stopgaps";
+import { markWordsStopgap } from "../core2/stopgaps";
 import type { Moment } from "./types";
 
 const zero = P.zero;
