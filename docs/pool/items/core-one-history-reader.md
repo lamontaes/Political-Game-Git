@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 1
 size: L
-status: in-pr
+status: merged
 standard: 2
 claimed-by: history-reader
-pr: #10644
+pr: #10668
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: CTO, Nov 26, about 2 a.m. Eastern, from the owner ("the reader needs to be like the main, it needs to be in the core ... it needs to be a game-wide thing")
+merged-at: 2026-11-26T17:38:02.123Z
 ---
 
 **What.** The one history reader (`historyOf`, src/core2/past-history.ts) gives every system the same events for a person, household, employer, place, state or the nation, each with its record id, date, cause and what it led to. It was built on story/first-evening (#10634 to #10641); this item puts it on main without the Story branch's word changes, so every engine and view on main reads one history.
