@@ -152,8 +152,6 @@ import {
   type PetitionSigner,
   worldSwing,
 } from "./elections";
-export { personLean } from "../campaign-views";
-export { legislativeDistrictResult } from "../legislative-district-results";
 export {
   NATIONAL_ENGAGEMENT,
   countedResidents,
@@ -163,6 +161,7 @@ export {
 export { StanceReader, candidateStance } from "../campaign-stances";
 export { publicOffset, questionAxis } from "../campaign-views";
 export { withMembershipDues } from "../membership-dues";
+export { refreshOfficeStaff } from "../civic-inputs";
 export { electionsParameter } from "../elections-calendar";
 
 export { candidatePlatform } from "../campaign-stances";

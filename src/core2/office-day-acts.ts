@@ -54,11 +54,10 @@ import {
   governments,
   setBudgetPriorities,
 } from "./modules/budgets";
-import { deliverSpeech } from "./modules/people";
-import { cutRibbon, ribbonsToCut } from "./budgets-treasury";
-import { personLean, questionAxis } from "./modules/campaigns";
-import { personStance } from "./modules/elections";
-import { POLICY_QUESTIONS } from "./modules/laws";
+import { deliverSpeech } from "./modules/speech";
+import { cutRibbon, ribbonsToCut } from "./modules/projects";
+import { personLean, personStance, questionAxis } from "./campaign-views";
+import { POLICY_QUESTIONS } from "./policy-answers";
 import { adviseOnBudget, servingStaffOf } from "./modules/staff";
 import {
   executiveBudgetChanges,

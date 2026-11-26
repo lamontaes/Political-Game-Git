@@ -67,7 +67,7 @@ import {
   type NominationReasons,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { personLean } from "./campaigns";
+import { personLean } from "../campaign-views";
 import { appointeeHourlyMinor } from "../town-labor-pay";
 import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
