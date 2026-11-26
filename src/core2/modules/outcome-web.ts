@@ -45,7 +45,7 @@ import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
-import { schoolsLineAboveBase } from "../school-budget-line";
+import { schoolsLineAboveBase } from "../budgets-treasury";
 import { inTownChain } from "../laws-in-force";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
@@ -57,7 +57,7 @@ import {
   govMeasureRecord,
   snapMaximumChangePct,
 } from "../gov-measures";
-import { monthEvent } from "../outcome-news";
+import { monthEvent } from "./press";
 import { closedNewspapers } from "./press";
 import severityData from "../data/disasters/severity.json" with { type: "json" };
 import { ELECTIONS_MODULE_ID } from "./elections";

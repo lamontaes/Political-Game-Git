@@ -27,7 +27,7 @@ export { townMetrics } from "./world-metrics";
 /** The town's disasters, read through this family's entry. */
 export { DISASTERS_MODULE_ID, townDisasters } from "./disasters";
 import { PLACE_PRICES_MODULE, PRICES_PARAMETERS } from "./place-prices";
-import { withMembershipDues } from "../membership-dues";
+import { withMembershipDues } from "./campaigns";
 
 export const WORLD_MODULES = [
   MACRO_MODULE,

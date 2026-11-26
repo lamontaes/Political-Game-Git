@@ -48,7 +48,7 @@ import {
   rerateCountedRetirement,
   residentsRuntime,
 } from "./modules/residents";
-import { countedJobHeads, countedJobsOf } from "./residents-economy";
+import { countedJobHeads, countedJobsOf } from "./modules/residents";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import {
@@ -57,6 +57,11 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { FinanceReadGuard } from "./finance-plan";
+export { ACCOUNTS_MODULE } from "./accounts";
+export { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
+export { schoolsLineAboveBase } from "./school-budget-line";
+export { transfer, transferSplit } from "./accounts";
 
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
