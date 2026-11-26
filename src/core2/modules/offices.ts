@@ -1911,6 +1911,8 @@ export function vacateUnheldSeat(
     readonly stateKey: string;
     readonly officeKind: string;
     readonly cause: string;
+    /** The record the seat fell vacant from (a death), where the caller holds it. */
+    readonly causeRecordId?: string;
   },
 ): VacancyRow | null {
   const office = unheldOffice(api, input);
@@ -1946,6 +1948,7 @@ export function vacateUnheldSeat(
       seatId: input.seatId,
       cause: input.cause,
       rule: office.vacancyRule.method,
+      ...(input.causeRecordId ? { causeRecordId: input.causeRecordId } : {}),
     },
   });
   const filled = fillVacancy(

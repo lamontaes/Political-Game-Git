@@ -169,6 +169,7 @@ export const OFFICIALS_MODULE: CoreModule = {
             stateKey: row.stateKey,
             officeKind: row.officeKind,
             cause: "death",
+            causeRecordId: event.id,
           });
       }
       return;
