@@ -77,6 +77,9 @@ import type {
   PersonState,
   Source,
 } from "../types";
+export { retellingsOf, speechModule } from "./speech";
+export { DEFAULT_DRIVES_DATA, createDrivesModule, withDrives } from "./drives";
+export { TRAIT_CHANGE_MODULE } from "./trait-change";
 export type { TraitMovability, TraitPack, TraitScale } from "../trait-packs";
 export {
   countedHouseholdSavings,
