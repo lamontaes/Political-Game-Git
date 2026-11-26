@@ -1,4 +1,4 @@
-import type { GenderIdentityKey } from "../core2/gov-rules/types";
+import type { GenderIdentityKey } from "../core2/modules/executive";
 import { parameter } from "../core2/parameters";
 
 /**
