@@ -102,6 +102,8 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
+export { giveLivingCost, spendLivingCost } from "../official-living";
+export { isRealOfficeholderName } from "../officials-names";
 export { outsideGovernment } from "../outside-governments";
 export { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 

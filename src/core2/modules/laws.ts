@@ -62,6 +62,8 @@ import {
   type EnactedAuthority,
   type LawInForceAnswer,
 } from "../laws-in-force";
+export { CRIME_EVENT, CRIME_MODULE_ID } from "./crime";
+export { WIRED_INTO } from "../outcome-web-model";
 
 /**
  * How a law's effect reaches a person through the outcome web: the web's factor

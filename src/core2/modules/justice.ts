@@ -72,6 +72,8 @@ import {
   endPretrial,
   type PretrialRow,
 } from "../justice-pretrial";
+export { wantedFacts } from "./corruption";
+export type { CrimeRecord } from "./corruption";
 export { settleBribe } from "./corruption";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";

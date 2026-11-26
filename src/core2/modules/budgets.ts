@@ -105,6 +105,8 @@ import {
 import { syncServiceCharges } from "../budgets-service-charges";
 export { chargedServicesOf } from "../budgets-service-charges";
 import { isFeeLevelSeries } from "../fee-levels";
+export { CONTRACTS_MODULE_ID, OWNER_RELATION } from "./contracts";
+export type { ContractAwardRow } from "./contracts";
 export { FinanceReadGuard } from "../finance-plan";
 export { ACCOUNTS_MODULE } from "../accounts";
 export { PURCHASE_TAX_MODULE } from "./purchase-tax";

@@ -101,6 +101,7 @@ import {
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { headsLocalExecutive } from "../offices-executives";
+export { payPostFromOutside } from "./official-pay";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
