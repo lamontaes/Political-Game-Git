@@ -28,6 +28,7 @@ export { townMetrics } from "./world-metrics";
 export { DISASTERS_MODULE_ID, townDisasters } from "./disasters";
 import { PLACE_PRICES_MODULE, PRICES_PARAMETERS } from "./place-prices";
 import { withMembershipDues } from "../membership-dues";
+export { WORLD_METRICS_MODULE_ID } from "./world-metrics";
 
 export const WORLD_MODULES = [
   MACRO_MODULE,

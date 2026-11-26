@@ -270,6 +270,7 @@ import { scandalsOf } from "./corruption";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
 import { keepsWhy } from "../why-kept";
+export { electionsParameter } from "../elections-calendar";
 
 function electionsParameter(key: string): number {
   const row = (

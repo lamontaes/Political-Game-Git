@@ -40,7 +40,7 @@ export {
 } from "./voting-keys";
 import type { CoreAPI, CoreState, PersonState, Source } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
-import { electionsParameter } from "../elections-calendar";
+import { electionsParameter } from "../modules/voting";
 import { campaignParameter } from "../campaign-data";
 import { incarceratedMayVote } from "../justice-law";
 import { corePlaceByKey, coreStateName } from "../place-lookup";
