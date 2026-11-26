@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 1
 size: L
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: history-reader
-pr:
+pr: #10644
 after:
 blocked-on:
 lead: cto
