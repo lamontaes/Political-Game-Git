@@ -36,7 +36,7 @@ import { admitCountedHousehold } from "./modules/residents";
 import type { CoreState } from "./types";
 import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
-import { coarsePlace, metResident, metWork } from "./life";
+import { coarsePlace, metResident, metWork } from "./coarse-place";
 import {
   OFFICIALS_MODULE_ID,
   officialLean,

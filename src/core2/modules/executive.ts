@@ -85,7 +85,7 @@ import {
   governmentOfJurisdiction,
   governments,
 } from "./budgets";
-import { federalAidFor } from "../life";
+import { federalAidFor } from "./disasters";
 import {
   lineForPost,
   postPayCapDaily,
