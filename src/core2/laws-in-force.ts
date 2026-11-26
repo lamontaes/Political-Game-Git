@@ -23,7 +23,6 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
-export { raiseOne } from "./wage-floor";
 export { WIRED_INTO } from "./outcome-web-model";
 export { lawChainForPlace } from "./laws-starting";
 export type { LawChain } from "./laws-starting";
