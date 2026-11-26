@@ -1,0 +1,299 @@
+[
+  {
+    "key": "scene-talk.narrate-narrate.name-stops-to-ask-you-about-law",
+    "kind": "spoken",
+    "move": "narrate-narrate",
+    "text": "{name} stops to ask you about {law}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["name", "law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.you-hear-your-name-it-s-name-with-a-question-about-law",
+    "kind": "spoken",
+    "move": "narrate-narrate",
+    "text": "You hear your name. It's {name}, with a question about {law}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["name", "law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-ve-been-trying-to-work-out-who-decides-what-happens-with-law-do-i-start-with-you",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I've been trying to work out who decides what happens with {law}. Do I start with you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.can-i-have-a-minute-it-s-about-law-i-d-like-you-to-hear-what-it-s-like-here",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Can I have a minute? It's about {law}. I'd like you to hear what it's like here.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.who-do-i-talk-to-about-law-if-i-want-somebody-to-go-over-my-case",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "Who do I talk to about {law} if I want somebody to go over my case?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-had-a-question-about-law-before-i-saw-you-how-do-i-get-it-on-the-record",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I had a question about {law} before I saw you. How do I get it on the record?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-tell.let-s-start-with-what-happened-to-you-under-law-i-m-listening",
+    "kind": "spoken",
+    "move": "reply-tell",
+    "text": "Let's start with what happened to you under {law}. I'm listening.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "tell",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-tell.is-your-question-about-how-law-works-or-about-getting-it-changed",
+    "kind": "spoken",
+    "move": "reply-tell",
+    "text": "Is your question about how {law} works or about getting it changed?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "tell",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-tell.i-d-need-to-hear-your-case-before-i-could-tell-you-where-to-take-it-how-did-law-come-up-for-you",
+    "kind": "spoken",
+    "move": "reply-tell",
+    "text": "I'd need to hear your case before I could tell you where to take it. How did {law} come up for you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "tell",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-ll-check-who-handles-questions-about-law-here-where-can-i-get-an-answer-back-to-you",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I'll check who handles questions about {law} here. Where can I get an answer back to you?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  },
+  {
+    "key": "scene-talk.reply-promise.i-can-look-into-your-case-tell-me-what-you-want-me-to-find-out-about-law",
+    "kind": "spoken",
+    "move": "reply-promise",
+    "text": "I can look into your case. Tell me what you want me to find out about {law}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "promise",
+        "role": "asked",
+        "purpose": "law-reaches",
+        "key": "news-received",
+        "requiresFacts": ["law"],
+        "onlyWhen": ["in-force"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "promise",
+      "key": "news-received"
+    },
+    "elements": ["pattern-b6-08-stopped-in-the-aisle-asked-at-the-door"]
+  }
+]
