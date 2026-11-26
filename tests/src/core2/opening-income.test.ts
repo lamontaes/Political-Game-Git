@@ -6,7 +6,11 @@ import {
   type OpeningIncomeContract,
   type OpeningIncomeOptions,
 } from "../../../src/core2/opening-income";
-import { PARAMETERS, parameter as p, type Parameter } from "../../../src/core2/parameters";
+import {
+  PARAMETERS,
+  parameter as p,
+  type Parameter,
+} from "../../../src/core2/parameters";
 import { stableHash } from "../../../src/core2/kernel/ids";
 import {
   corePlaceStateIdentities,

@@ -15,7 +15,10 @@ import { afterAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { groupAgreement, type StanceProfile } from "../../../src/core2/campaign-views";
+import {
+  groupAgreement,
+  type StanceProfile,
+} from "../../../src/core2/campaign-views";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";

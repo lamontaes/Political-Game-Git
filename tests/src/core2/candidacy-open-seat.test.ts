@@ -20,7 +20,10 @@ import {
   CANDIDACY_PARAMETERS,
   type CandidacyDecision,
 } from "../../../src/core2/modules/candidacy";
-import { ballot, ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
+import {
+  ballot,
+  ELECTIONS_MODULE_ID,
+} from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

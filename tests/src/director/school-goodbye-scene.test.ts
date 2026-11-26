@@ -11,9 +11,19 @@ import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 import type { Fact } from "../../../src/english/scene-talk-words";
 import type { Director } from "../../../src/director/ledger";
-import { purposeScene, replyInScene, typeForCause } from "../../../src/director/purpose-scene";
-import { composeSceneTalk, type PurposeType } from "../../../src/director/scene-talk";
-import { SITUATION_LIBRARY, type ScheduleEntry } from "../../../src/director/scheduling";
+import {
+  purposeScene,
+  replyInScene,
+  typeForCause,
+} from "../../../src/director/purpose-scene";
+import {
+  composeSceneTalk,
+  type PurposeType,
+} from "../../../src/director/scene-talk";
+import {
+  SITUATION_LIBRARY,
+  type ScheduleEntry,
+} from "../../../src/director/scheduling";
 import type { Moment } from "../../../src/director/types";
 
 // The last day of the player's school year (situation type `last-day`, its

@@ -20,7 +20,11 @@ import {
   type TermRow,
   type VacancyRow,
 } from "../../../src/core2/modules/offices";
-import { racesOf, VOTING_MODULE_ID, worldRacesOpen } from "../../../src/core2/modules/voting";
+import {
+  racesOf,
+  VOTING_MODULE_ID,
+  worldRacesOpen,
+} from "../../../src/core2/modules/voting";
 import { stateParties } from "../../../src/core2/modules/parties";
 import { partySide } from "../../../src/core2/appointments";
 import { coreAPI } from "../../../src/core2/state";

@@ -25,11 +25,21 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { advanceCore } from "../../../src/core2/life";
 import { LAWS_MODULE_ID, lawChain } from "../../../src/core2/modules/laws";
-import { LEGISLATURE_MODULE_ID, type BillRow } from "../../../src/core2/modules/legislature";
-import { legislativeSessionsOf, windowsIn } from "../../../src/core2/modules/world-legislating";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../../../src/core2/modules/legislature";
+import {
+  legislativeSessionsOf,
+  windowsIn,
+} from "../../../src/core2/modules/world-legislating";
 import { answerIn } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
-import { auditPassed, laterOf, oppositePairs } from "../../../src/core2/session-law-audit";
+import {
+  auditPassed,
+  laterOf,
+  oppositePairs,
+} from "../../../src/core2/session-law-audit";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 /** Places tried before giving up on finding a state whose legislature sits in the window. */

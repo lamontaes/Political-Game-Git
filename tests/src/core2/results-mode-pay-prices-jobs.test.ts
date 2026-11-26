@@ -21,11 +21,18 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { parameter } from "../../../src/core2/parameters";
 import { coreAPI } from "../../../src/core2/state";
-import { residentCounts, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  residentCounts,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { townMetrics } from "../../../src/core2/modules/world-metrics";
 import type { CoreState } from "../../../src/core2/types";
 

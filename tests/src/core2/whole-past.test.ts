@@ -16,7 +16,11 @@ import { openWholePast } from "../../../src/core2/modules/people";
 import { lifeOf } from "../../../src/core2/person-life";
 import { onCalendar } from "../../../src/core2/past-school-calendar";
 import { preStartHistory, preStartWindowOf } from "../../../src/core2/past";
-import type { CoreState, PersonId, PersonState } from "../../../src/core2/types";
+import type {
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../../../src/core2/types";
 
 const seed = process.env.WHOLE_SEED ?? randomBytes(8).toString("hex");
 const drawn = drawPlace(seed, "whole-past");

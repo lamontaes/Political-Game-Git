@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { closenessBetween } from "../../../src/core2/closeness";
-import { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "../../../src/core2/modules/kin-contact";
+import {
+  FAMILY_CONTACT,
+  FAMILY_GATHERING_MISSED,
+} from "../../../src/core2/modules/kin-contact";
 import { livesElsewhere } from "../../../src/core2/modules/moves";
 import { partnershipsModule } from "../../../src/core2/modules/partnerships";
 import { registerModule } from "../../../src/core2/state";

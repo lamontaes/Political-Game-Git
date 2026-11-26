@@ -26,7 +26,10 @@ import { townOutlet } from "../../../src/core2/modules/press";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 import { purposeScene } from "../../../src/director/purpose-scene";
-import { chooseAtCounter, openBenchFilingVisit } from "../../../src/bench/filing";
+import {
+  chooseAtCounter,
+  openBenchFilingVisit,
+} from "../../../src/bench/filing";
 import { buildBenchWorld } from "../../../src/bench/world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");

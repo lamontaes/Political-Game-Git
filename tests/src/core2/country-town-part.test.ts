@@ -12,12 +12,18 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { traceNode } from "../../../src/bench/dev-trace";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { countryProblems, type CountryTier } from "../../../src/core2/country-model";
+import {
+  countryProblems,
+  type CountryTier,
+} from "../../../src/core2/country-model";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { ownerOf } from "../../../src/core2/modules/business";
-import { countryStateParts, countryStates } from "../../../src/core2/modules/macro";
+import {
+  countryStateParts,
+  countryStates,
+} from "../../../src/core2/modules/macro";
 import {
   residentCounts,
   residentsAccountFor,

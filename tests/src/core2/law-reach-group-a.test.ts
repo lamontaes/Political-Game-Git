@@ -25,7 +25,10 @@ import { openOffices, townSeats } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
-import { authorityFor, openLegislature } from "../../../src/core2/modules/legislature";
+import {
+  authorityFor,
+  openLegislature,
+} from "../../../src/core2/modules/legislature";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import powerCatalog from "../../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import powerMapping from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
@@ -47,7 +50,10 @@ import {
   targetsOf,
   townPeople,
 } from "../../../src/core2/law-reach/group-a-records";
-import { budgetToday, leavePremiumsOf } from "../../../src/core2/law-reach/group-a-money";
+import {
+  budgetToday,
+  leavePremiumsOf,
+} from "../../../src/core2/law-reach/group-a-money";
 import {
   ALL_MAIL,
   AUTO_REGISTRATION,
@@ -62,7 +68,10 @@ import {
 import { govMeasure } from "../../../src/core2/gov-measures";
 import { openClimate } from "../../../src/core2/modules/climate";
 import { governmentUnitsForPlace } from "../../../src/core2/reference/government-units";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

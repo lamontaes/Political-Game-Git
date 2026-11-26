@@ -12,7 +12,10 @@ import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, openOffices } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+} from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
@@ -25,11 +28,17 @@ import {
   motionOn,
   openLegislature,
 } from "../../../src/core2/modules/legislature";
-import { bodyNumbering, designation } from "../../../src/core2/legislature-bill-form";
+import {
+  bodyNumbering,
+  designation,
+} from "../../../src/core2/legislature-bill-form";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { localPlaceOf } from "../../../src/core2/modules/legislature";
 import clauses from "../../../src/core2/data/legislature/enacting-clauses.json" with { type: "json" };
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??

@@ -10,7 +10,11 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { lawChainForPlace } from "../../../src/core2/laws-starting";
 import { advanceCore } from "../../../src/core2/life";
 import { billCatalog } from "../../../src/core2/bill-catalog";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 
 const QUESTION =

@@ -14,7 +14,10 @@ import { townSeats } from "../../../src/core2/modules/offices";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import { billStage } from "../../../src/bench/bill-stage";
 import { BenchPlayer } from "../../../src/bench/player";
 import { buildBenchWorld } from "../../../src/bench/world";

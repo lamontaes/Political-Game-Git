@@ -21,7 +21,10 @@ import { advanceCore } from "../../../src/core2/life";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import { wordPrintedStory } from "../../../src/bench/archive-words";
 
 // A study committee (legislature.ts referToStudy and reportStudy: a bill that

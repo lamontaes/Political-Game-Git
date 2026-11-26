@@ -16,7 +16,10 @@ import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { openOffices, OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
+import {
+  openOffices,
+  OFFICES_MODULE_ID,
+} from "../../../src/core2/modules/offices";
 import {
   ballot,
   ELECTIONS_MODULE_ID,

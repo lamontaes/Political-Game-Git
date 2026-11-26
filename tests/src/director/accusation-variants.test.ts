@@ -17,7 +17,10 @@ import type { PersonId } from "../../../src/core2/types";
 import sceneBank from "../../../data/english/parts/scene-talk.json" with { type: "json" };
 import { chooseVariant } from "../../../src/director/arc-variant";
 import variantFile from "../../../src/director/data/arc-variants.json" with { type: "json" };
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import type { TreeNode } from "../../../src/director/scene-talk";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

@@ -4,7 +4,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { beginSeriousIllness } from "../../../src/core2/modules/health";
 import { coreAPI, personOrFillIn } from "../../../src/core2/state";

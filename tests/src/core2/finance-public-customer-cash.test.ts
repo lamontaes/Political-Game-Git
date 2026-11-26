@@ -17,7 +17,12 @@ import type {
 } from "../../../src/core2/finance-types";
 import { parameter as p } from "../../../src/core2/parameters";
 import { coreAPI, createCore } from "../../../src/core2/state";
-import type { CoreAPI, CoreInput, CoreState, Source } from "../../../src/core2/types";
+import type {
+  CoreAPI,
+  CoreInput,
+  CoreState,
+  Source,
+} from "../../../src/core2/types";
 
 type Domain = "public" | "visitor";
 type RecordRow = Record<string, unknown>;

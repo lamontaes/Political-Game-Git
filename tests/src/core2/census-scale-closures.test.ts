@@ -11,7 +11,10 @@ import { it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { publishedPlaceReferencePopulation } from "../../../src/core2/gov-rules/place-population";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
-import { SAMPLE, compareClosures } from "../../../src/core2/census-scale-closures-support";
+import {
+  SAMPLE,
+  compareClosures,
+} from "../../../src/core2/census-scale-closures-support";
 
 const REDRAWS = 200;
 /** A year of a larger city at its Census size does not fit one test process's memory. */

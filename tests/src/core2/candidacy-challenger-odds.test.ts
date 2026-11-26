@@ -17,8 +17,14 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { challengerOdds } from "../../../src/core2/modules/candidacy";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { seatLastMargin } from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
 

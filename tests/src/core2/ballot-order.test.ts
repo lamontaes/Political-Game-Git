@@ -31,7 +31,11 @@ import {
   partiesHere,
   type TieRow,
 } from "../../../src/core2/modules/parties";
-import { countedField, holdPrimary, openVoting } from "../../../src/core2/modules/voting";
+import {
+  countedField,
+  holdPrimary,
+  openVoting,
+} from "../../../src/core2/modules/voting";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??

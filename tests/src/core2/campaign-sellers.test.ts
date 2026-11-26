@@ -27,7 +27,10 @@ import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { setJournalTrace } from "../../../src/core2/journal-state";
-import { outsideMarketAccount, townOutsideOf } from "../../../src/core2/opening-outside-market";
+import {
+  outsideMarketAccount,
+  townOutsideOf,
+} from "../../../src/core2/opening-outside-market";
 import {
   campaignFor,
   rentVenue,

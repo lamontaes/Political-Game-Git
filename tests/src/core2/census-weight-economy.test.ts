@@ -16,7 +16,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
 import { countedHeadcountOf } from "../../../src/core2/residents-economy";
-import { residentCounts, townPlaceOf } from "../../../src/core2/modules/residents";
+import {
+  residentCounts,
+  townPlaceOf,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 import type { StockRow } from "../../../src/core2/housing-construction";
 

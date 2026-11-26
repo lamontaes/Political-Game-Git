@@ -3,7 +3,14 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-const html = readFileSync(new URL("./play.html", (new URL("../../../src/bench/play-dev-controls.test.ts", import.meta.url).href)), "utf8");
+const html = readFileSync(
+  new URL(
+    "./play.html",
+    new URL("../../../src/bench/play-dev-controls.test.ts", import.meta.url)
+      .href,
+  ),
+  "utf8",
+);
 
 describe("the play page's markup", () => {
   it("has no Mark gap control", () => {

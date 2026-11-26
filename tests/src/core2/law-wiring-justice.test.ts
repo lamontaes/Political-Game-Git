@@ -19,7 +19,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { electorateChange } from "../../../src/core2/electorate-inputs";
 import { RESTORE_VOTE } from "../../../src/core2/law-reach/group-a-voting";
-import { openReach, townAdults } from "../../../src/core2/law-reach/group-a-records";
+import {
+  openReach,
+  townAdults,
+} from "../../../src/core2/law-reach/group-a-records";
 import {
   appliedEver,
   appliedOn,
@@ -38,8 +41,14 @@ import {
   LAWS_MODULE_ID,
   yesLevels,
 } from "../../../src/core2/modules/laws";
-import { countedHouseholdOf, residentsRuntime } from "../../../src/core2/modules/residents";
-import { countedCases, type CountedCaseRow } from "../../../src/core2/modules/justice";
+import {
+  countedHouseholdOf,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
+import {
+  countedCases,
+  type CountedCaseRow,
+} from "../../../src/core2/modules/justice";
 import { reachParameter } from "../../../src/core2/law-reach/group-a-records";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import {

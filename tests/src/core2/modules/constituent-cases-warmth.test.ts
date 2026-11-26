@@ -15,7 +15,10 @@ import { advanceCore } from "../../../../src/core2/life";
 import { coreAPI, fillInPerson } from "../../../../src/core2/state";
 import { countedAppeal } from "../../../../src/core2/electorate";
 import { impressionOf } from "../../../../src/core2/modules/campaigns";
-import { allCases, caseWarmthsOf } from "../../../../src/core2/modules/constituent-cases";
+import {
+  allCases,
+  caseWarmthsOf,
+} from "../../../../src/core2/modules/constituent-cases";
 import { ELECTIONS_MODULE_ID } from "../../../../src/core2/modules/elections";
 import { countedBallotsOf } from "../../../../src/core2/modules/voting";
 

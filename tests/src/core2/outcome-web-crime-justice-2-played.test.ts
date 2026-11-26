@@ -45,7 +45,11 @@ import { STOPGAPS as stopgaps } from "../../../src/core2/stopgaps";
 import unwired from "../../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
 import { gameStartDate } from "../../../src/core2/game-start";
 import { briberyRange, dispositionDays } from "../../../src/core2/justice-law";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
   chargeDecision,
@@ -56,10 +60,20 @@ import {
   type SentenceRow,
 } from "../../../src/core2/modules/justice";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OFFICE_DAY_MODULE_ID, type OfficeJobRow } from "../../../src/core2/modules/office-day";
+import {
+  OFFICE_DAY_MODULE_ID,
+  type OfficeJobRow,
+} from "../../../src/core2/modules/office-day";
 import { OFFICIAL_PAY_MODULE_ID } from "../../../src/core2/modules/official-pay";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "../../../src/core2/modules/officials";
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
+import {
+  OFFICIALS_MODULE_ID,
+  type OfficialRow,
+} from "../../../src/core2/modules/officials";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

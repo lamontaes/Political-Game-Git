@@ -16,11 +16,18 @@ import {
   postsToFill,
 } from "../../../src/core2/modules/executive";
 import { officeView } from "../../../src/bench/office";
-import { officeActsOf, officeHost, prepareAct } from "../../../src/core2/modules/office-day";
+import {
+  officeActsOf,
+  officeHost,
+  prepareAct,
+} from "../../../src/core2/modules/office-day";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { memberKey } from "../../../src/core2/modules/legislature";
-import { officeActHandlers, OFFICE_ACTS } from "../../../src/core2/office-day-acts";
+import {
+  officeActHandlers,
+  OFFICE_ACTS,
+} from "../../../src/core2/office-day-acts";
 import { coreAPI } from "../../../src/core2/state";
 import type { ActOffer, PersonState } from "../../../src/core2/types";
 

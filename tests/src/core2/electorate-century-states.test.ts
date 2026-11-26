@@ -11,7 +11,10 @@ import { partySide } from "../../../src/core2/appointments";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { centuryOf } from "../../../src/core2/electorate-century";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 
 const RUN = `history-states:${Date.now()}`;

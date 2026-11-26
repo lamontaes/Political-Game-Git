@@ -14,7 +14,10 @@ import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { campaignFor, giftOf } from "../../../src/core2/modules/campaigns";
 import { campaignDay, campaignView } from "../../../src/bench/campaign";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";

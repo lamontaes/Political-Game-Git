@@ -11,7 +11,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { composeBill } from "../../../src/english/bill-sections";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { billValueInForce, enactLaw, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  billValueInForce,
+  enactLaw,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import {
   billOf,
   billSections,

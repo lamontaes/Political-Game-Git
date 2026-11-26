@@ -8,8 +8,15 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { pullBetween, runtimeOf } from "../../../src/core2/modules/counted-moves";
-import { enactLaw, lawChain, stateLawInForce } from "../../../src/core2/modules/laws";
+import {
+  pullBetween,
+  runtimeOf,
+} from "../../../src/core2/modules/counted-moves";
+import {
+  enactLaw,
+  lawChain,
+  stateLawInForce,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

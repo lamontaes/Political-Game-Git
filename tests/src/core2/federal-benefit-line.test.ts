@@ -14,7 +14,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { governments } from "../../../src/core2/modules/budgets";
-import { budgetInForce, treasuryMonthsOf } from "../../../src/core2/budgets-treasury";
+import {
+  budgetInForce,
+  treasuryMonthsOf,
+} from "../../../src/core2/budgets-treasury";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 

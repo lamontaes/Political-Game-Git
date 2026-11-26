@@ -23,11 +23,17 @@
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { campaignDayChoices, takeCampaignDayChoice } from "../../../src/core2/campaign-day";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+} from "../../../src/core2/campaign-day";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { campaignFor, signaturesToGather } from "../../../src/core2/modules/campaigns";
+import {
+  campaignFor,
+  signaturesToGather,
+} from "../../../src/core2/modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
   PETITION_CHECKED_EVENT,

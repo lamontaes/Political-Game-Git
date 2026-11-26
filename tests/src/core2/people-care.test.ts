@@ -4,7 +4,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { peopleData, peopleModules } from "../../../src/director/play-modules";
 import { closenessBetween } from "../../../src/core2/closeness";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { advanceCore, availableActs, createLifeCore } from "../../../src/core2/life";
+import {
+  advanceCore,
+  availableActs,
+  createLifeCore,
+} from "../../../src/core2/life";
 import { careNeedOf, healthReport } from "../../../src/core2/modules/health";
 import { parameter } from "../../../src/core2/parameters";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";

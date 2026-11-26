@@ -12,7 +12,11 @@ import { coreAPI } from "../../../src/core2/state";
 import { declinedAsks } from "../../../src/core2/modules/legislature";
 import { questionReasons } from "../../../src/english/question-names";
 import { buildBenchWorld } from "../../../src/bench/world";
-import { seatAsk, seatAskOptions, seatView } from "../../../src/bench/legislature";
+import {
+  seatAsk,
+  seatAskOptions,
+  seatView,
+} from "../../../src/bench/legislature";
 
 const TRANSIT =
   "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit";

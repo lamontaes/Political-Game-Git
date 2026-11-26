@@ -18,7 +18,10 @@ import {
   decisionTraitWeight,
   leanedYes,
 } from "../../../src/core2/trait-decisions";
-import { setTraitProbe, type FormulaProbeRow } from "../../../src/core2/trait-probe";
+import {
+  setTraitProbe,
+  type FormulaProbeRow,
+} from "../../../src/core2/trait-probe";
 import type { DecisionResult } from "../../../src/core2/types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

@@ -11,7 +11,11 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { holdsHighOffice } from "../../../src/core2/press-desk";
-import { seatTerm, townSeats, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  seatTerm,
+  townSeats,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 

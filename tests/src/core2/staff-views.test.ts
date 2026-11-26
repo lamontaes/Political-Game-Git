@@ -7,7 +7,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { personLean, personStance } from "../../../src/core2/campaign-views";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { hireStaff, staffCandidates, workQuality } from "../../../src/core2/modules/staff";
+import {
+  hireStaff,
+  staffCandidates,
+  workQuality,
+} from "../../../src/core2/modules/staff";
 import { VIEWS_MODULE_ID } from "../../../src/core2/modules/views";
 import { coreAPI } from "../../../src/core2/state";
 

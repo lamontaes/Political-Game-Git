@@ -7,7 +7,11 @@
 import { describe, expect, it } from "vitest";
 import bases from "../../../data/research/outcome-web/place-outcome-bases-2024.json" with { type: "json" };
 import local from "../../../src/core2/data/outcome-web/outcome-web.json" with { type: "json" };
-import { KEPT_OUTCOMES, baseOf, publishedBaseOf } from "../../../src/core2/outcome-web-model";
+import {
+  KEPT_OUTCOMES,
+  baseOf,
+  publishedBaseOf,
+} from "../../../src/core2/outcome-web-model";
 import { placeStateKeys } from "../../../src/core2/places";
 
 const LAW = new Set(local.worldBases.lawMeasures);

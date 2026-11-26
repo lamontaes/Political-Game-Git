@@ -15,7 +15,10 @@ import { governments } from "../../../../src/core2/modules/budgets";
 import { lawChain, lawInForce } from "../../../../src/core2/modules/laws";
 import { coreAPI } from "../../../../src/core2/state";
 import { foodAidDollars } from "../../../../src/core2/law-reach/group-b-food-aid";
-import { povertyLineDollars, townFacts } from "../../../../src/core2/law-reach/group-b-people";
+import {
+  povertyLineDollars,
+  townFacts,
+} from "../../../../src/core2/law-reach/group-b-people";
 import { rowsOf } from "../../../../src/core2/law-reach/group-b-store";
 
 const household = (

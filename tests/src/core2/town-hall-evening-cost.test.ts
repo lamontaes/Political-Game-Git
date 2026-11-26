@@ -13,7 +13,10 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { townAdults, townHallDrives } from "../../../src/core2/modules/meetings";
+import {
+  townAdults,
+  townHallDrives,
+} from "../../../src/core2/modules/meetings";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

@@ -15,7 +15,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { outletsHere } from "../../../src/core2/modules/press";
-import { checkEligibility, ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
+import {
+  checkEligibility,
+  ELECTIONS_MODULE_ID,
+} from "../../../src/core2/modules/elections";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "press-owner-household");

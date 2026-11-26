@@ -11,12 +11,20 @@ import {
 } from "../../../src/core2/opening-capital";
 import reference from "../../../src/core2/data/opening-employer-cash-reference.json" with { type: "json" };
 import originalContext from "../../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
-import { PARAMETERS, parameter as p, type Parameter } from "../../../src/core2/parameters";
+import {
+  PARAMETERS,
+  parameter as p,
+  type Parameter,
+} from "../../../src/core2/parameters";
 import { buildPopulation } from "../../../src/core2/population";
 import { buildOpeningCustomers } from "../../../src/core2/opening-customers";
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "../../../src/core2/opening-customer-qualification";
 import { createCore } from "../../../src/core2/state";
-import type { CoreInput, Source, WorkCommitmentInput } from "../../../src/core2/types";
+import type {
+  CoreInput,
+  Source,
+  WorkCommitmentInput,
+} from "../../../src/core2/types";
 
 const at = "2021-01-01";
 const source: Source = {

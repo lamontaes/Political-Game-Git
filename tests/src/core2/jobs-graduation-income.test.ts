@@ -24,16 +24,26 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { JOBS_MODULE_ID } from "../../../src/core2/modules/jobs";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import {
   householdIncome,
   residentPerson,
   residentsRuntime,
 } from "../../../src/core2/modules/residents";
 import unwired from "../../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
 import { SCHOOL_MODULE_ID } from "../../../src/core2/school-measures";
-import { SCHOOL_MEASURE, type SchoolResultRow } from "../../../src/core2/school-outcomes";
+import {
+  SCHOOL_MEASURE,
+  type SchoolResultRow,
+} from "../../../src/core2/school-outcomes";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

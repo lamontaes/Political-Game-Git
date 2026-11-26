@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { createLifeCore } from "../../../src/core2/life";
 import { deliverSpeech, speechModule } from "../../../src/core2/modules/speech";
-import { stancesOf, viewOf, viewsModule } from "../../../src/core2/modules/views";
+import {
+  stancesOf,
+  viewOf,
+  viewsModule,
+} from "../../../src/core2/modules/views";
 import { buildPopulation } from "../../../src/core2/population";
 import { coreAPI } from "../../../src/core2/state";
 

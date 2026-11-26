@@ -7,9 +7,16 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { promisesOf, votesOf } from "../../../src/core2/modules/record";
 import { LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
 import { NEWS_MODULE_ID } from "../../../src/core2/modules/news";
-import { outletsHere, PRESS_MODULE_ID, townOutlet } from "../../../src/core2/modules/press";
+import {
+  outletsHere,
+  PRESS_MODULE_ID,
+  townOutlet,
+} from "../../../src/core2/modules/press";
 import { ARCHIVE_STORY_KIND } from "../../../src/core2/press-desk";
-import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "../../../src/core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  type PromiseRow,
+} from "../../../src/core2/modules/campaigns";
 import {
   OFFICES_MODULE_ID,
   pastElections,
@@ -20,7 +27,10 @@ import {
   PAST_MODULE_ID,
   type PublicFigureRow,
 } from "../../../src/core2/past-module";
-import { businessesIn, stateExitShare } from "../../../src/core2/modules/business";
+import {
+  businessesIn,
+  stateExitShare,
+} from "../../../src/core2/modules/business";
 import { publicKnowledgeOf } from "../../../src/core2/past-public";
 import { openThePast } from "../../../src/core2/past";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";

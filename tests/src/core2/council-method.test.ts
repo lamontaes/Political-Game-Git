@@ -26,7 +26,10 @@ import { openVoting, resultOf } from "../../../src/core2/modules/voting";
 import { councilElectionMethod } from "../../../src/core2/gov-rules/council-election-method";
 import { allGovernmentUnits } from "../../../src/core2/reference/government-units";
 import { localOfficesForPlace } from "../../../src/core2/offices-local";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

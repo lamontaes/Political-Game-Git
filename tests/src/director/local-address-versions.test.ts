@@ -3,7 +3,10 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { composeLocalAddress, type LocalLevel } from "../../../src/director/local-address";
+import {
+  composeLocalAddress,
+  type LocalLevel,
+} from "../../../src/director/local-address";
 import { addressSentences } from "../../../src/director/address-sentences";
 
 /**

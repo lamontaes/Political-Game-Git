@@ -15,11 +15,19 @@ import { setJournalTrace } from "../../../src/core2/journal-state";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { LAW_REACH_HOST_ID } from "../../../src/core2/law-reach/host";
-import { LAW_APPLIED_TABLE, type LawAppliedRow } from "../../../src/core2/law-reach/applied";
+import {
+  LAW_APPLIED_TABLE,
+  type LawAppliedRow,
+} from "../../../src/core2/law-reach/applied";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { BUDGETS_MODULE_ID } from "../../../src/core2/modules/budgets";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import {
   OUTCOME_WEB_MODULE_ID,
   WEB_PRICE_ENGINE,

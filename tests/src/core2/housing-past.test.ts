@@ -4,11 +4,24 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { metricsView } from "../../../src/bench/metrics";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { HOME_BOUGHT, LEASE_SIGNED, TOWN_FIGURES } from "../../../src/core2/housing-past";
+import {
+  HOME_BOUGHT,
+  LEASE_SIGNED,
+  TOWN_FIGURES,
+} from "../../../src/core2/housing-past";
 import { HOUSING_MODULE_ID } from "../../../src/core2/modules/housing";
-import { OUTPUT_NUMBERS_MODULE_ID, yearRowId } from "../../../src/core2/output-numbers";
-import { PERSON_MOVED_IN, PERSON_MOVED_WITHIN } from "../../../src/core2/past-moves";
-import { preStartHistory, preStartWindowOf } from "../../../src/core2/pre-start";
+import {
+  OUTPUT_NUMBERS_MODULE_ID,
+  yearRowId,
+} from "../../../src/core2/output-numbers";
+import {
+  PERSON_MOVED_IN,
+  PERSON_MOVED_WITHIN,
+} from "../../../src/core2/past-moves";
+import {
+  preStartHistory,
+  preStartWindowOf,
+} from "../../../src/core2/pre-start";
 import { coreAPI } from "../../../src/core2/state";
 
 // Housing's past (owner, Nov 13, 2026: the past is simulated so the present

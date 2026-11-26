@@ -45,8 +45,14 @@ import {
   type CauseRow,
   type ImpressionRow,
 } from "../../../src/core2/modules/campaigns";
-import { PLATFORM_QUESTIONS, campaignParameter } from "../../../src/core2/campaign-data";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  PLATFORM_QUESTIONS,
+  campaignParameter,
+} from "../../../src/core2/campaign-data";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { setKeepEveryonesWhy } from "../../../src/core2/why-kept";
 import { discretionaryHours } from "../../../src/core2/modules/work";
 import { OPENING_CARRY } from "../../../src/core2/turnout";

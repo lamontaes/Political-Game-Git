@@ -12,14 +12,24 @@ import { buildPopulation } from "../../../src/core2/population";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, openOffices } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+} from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openParties } from "../../../src/core2/modules/parties";
 import { openVoting } from "../../../src/core2/modules/voting";
 import { openLegislature } from "../../../src/core2/modules/legislature";
-import { openWorldRaces, raceResult, racesOf } from "../../../src/core2/modules/voting";
-import { corePlaceStateIdentities, searchCorePlaces } from "../../../src/core2/place-lookup";
+import {
+  openWorldRaces,
+  raceResult,
+  racesOf,
+} from "../../../src/core2/modules/voting";
+import {
+  corePlaceStateIdentities,
+  searchCorePlaces,
+} from "../../../src/core2/place-lookup";
 import { placeDistrictJoin } from "../../../src/districts/place-membership";
 
 const START = "2026-10-20";

@@ -28,7 +28,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { budgetsOf, chargedServicesOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  budgetsOf,
+  chargedServicesOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
 
 const SEED = "fee-level-by-bill-pinned-1";

@@ -5,7 +5,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { ownedHomes } from "../../../src/core2/modules/housing";
-import { billPropertyTax, stateEffectiveRate } from "../../../src/core2/housing-property-tax";
+import {
+  billPropertyTax,
+  stateEffectiveRate,
+} from "../../../src/core2/housing-property-tax";
 import { townOutsideOf } from "../../../src/core2/opening-outside-market";
 import { placeStateKey } from "../../../src/core2/place-map";
 import type { ModuleTable } from "../../../src/core2/module-state";

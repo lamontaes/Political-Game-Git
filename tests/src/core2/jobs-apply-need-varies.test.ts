@@ -13,7 +13,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { JOBS_MODULE_ID, unemployedNeed } from "../../../src/core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  unemployedNeed,
+} from "../../../src/core2/modules/jobs";
 import {
   countedHouseholdOf,
   householdCash,

@@ -9,7 +9,10 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { candidateReasons, electorateParameter } from "../../../src/core2/electorate-inputs";
+import {
+  candidateReasons,
+  electorateParameter,
+} from "../../../src/core2/electorate-inputs";
 import {
   centuryOf,
   centuryPresidency,
@@ -17,7 +20,10 @@ import {
 } from "../../../src/core2/electorate-century";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { presidentElection } from "../../../src/core2/modules/national-opinion";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import { contestedStates2024 } from "../../../src/core2/officials-president";
 

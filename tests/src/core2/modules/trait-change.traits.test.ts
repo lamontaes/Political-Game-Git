@@ -10,9 +10,17 @@ import { setBookkeeping } from "../../../../src/core2/bookkeeping";
 import { P } from "../../../../src/core2/parameters";
 import { advanceCore, createLifeCore } from "../../../../src/core2/life";
 import { traitLean } from "../../../../src/core2/choice";
-import { DEFAULT_HEALTH_DATA, severityImpulse } from "../../../../src/core2/modules/health";
+import {
+  DEFAULT_HEALTH_DATA,
+  severityImpulse,
+} from "../../../../src/core2/modules/health";
 import { TRAIT_CHANGE_MODULE } from "../../../../src/core2/modules/trait-change";
-import type { CoreInput, CoreModule, PersonInput, Source } from "../../../../src/core2/types";
+import type {
+  CoreInput,
+  CoreModule,
+  PersonInput,
+  Source,
+} from "../../../../src/core2/types";
 
 // Play runs with bookkeeping off; the twenty-year checks below would take
 // minutes with it on.

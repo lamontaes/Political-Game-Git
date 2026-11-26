@@ -69,19 +69,32 @@ import { createHash } from "node:crypto";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld, NoPlayerHereError } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { chooseAtCounter, openBenchFilingVisit } from "../../../src/bench/filing";
+import {
+  chooseAtCounter,
+  openBenchFilingVisit,
+} from "../../../src/bench/filing";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { localOfficesForPlace } from "../../../src/core2/offices-local";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreAPI, CoreState } from "../../../src/core2/types";
 import type * as Stances from "../../../src/core2/campaign-stances";
-import { candidatePlatform, type PlatformScore } from "../../../src/core2/campaign-stances";
+import {
+  candidatePlatform,
+  type PlatformScore,
+} from "../../../src/core2/campaign-stances";
 import { campaignParameter } from "../../../src/core2/campaign-data";
 import campaignParameters from "../../../src/core2/data/campaigns/parameters.json" with { type: "json" };
 import { contestPositions } from "../../../src/core2/contest-positions";
-import { CAMPAIGNS_MODULE_ID, type CampaignRow } from "../../../src/core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  type CampaignRow,
+} from "../../../src/core2/modules/campaigns";
 import {
   checkEligibility,
   ELECTIONS_MODULE_ID,
@@ -97,7 +110,10 @@ import {
   sidesByAgreement,
   type AgreementSides,
 } from "../../../src/core2/campaign-platform-test-kit";
-import { agreementWith, countedStanceProfile } from "../../../src/core2/modules/views";
+import {
+  agreementWith,
+  countedStanceProfile,
+} from "../../../src/core2/modules/views";
 
 /** Each platform chosen in play: the rule's scores, and the electorate by the ballot's readers, in the same instant. */
 interface Chosen {

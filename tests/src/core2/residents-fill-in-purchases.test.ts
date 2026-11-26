@@ -11,7 +11,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { householdPart, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  householdPart,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { fillInPerson } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

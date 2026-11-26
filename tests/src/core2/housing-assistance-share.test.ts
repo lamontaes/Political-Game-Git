@@ -9,7 +9,11 @@ import { advanceCore } from "../../../src/core2/life";
 import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { HOUSING_LINE_KEY } from "../../../src/core2/law-reach/group-a-money";
 import { townShare } from "../../../src/core2/law-reach/group-b-money";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
 import parameters from "../../../src/core2/data/laws/reach-group-a-parameters.json" with { type: "json" };
 

@@ -43,7 +43,10 @@ import {
 } from "../../../src/core2/modules/voting";
 import { contingentElection } from "../../../src/core2/contingent-election";
 import { partySide } from "../../../src/core2/appointments";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-10-20";
 const seed =

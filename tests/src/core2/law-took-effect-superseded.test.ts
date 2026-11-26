@@ -14,7 +14,11 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import type { ModuleRow } from "../../../src/core2/module-data";
 import { coreAPI } from "../../../src/core2/state";
 

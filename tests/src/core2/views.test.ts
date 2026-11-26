@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { stableHash } from "../../../src/core2/kernel/ids";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
 import { createLifeCore } from "../../../src/core2/life";
 import {

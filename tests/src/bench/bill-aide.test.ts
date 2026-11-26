@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { learnStake, memberKey, members } from "../../../src/core2/modules/legislature";
+import {
+  learnStake,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { coreAPI } from "../../../src/core2/state";
 import { billStage } from "../../../src/bench/bill-stage";
 import { seatAct, seatView } from "../../../src/bench/legislature";

@@ -35,9 +35,19 @@ import {
   COUNTED_MOVES_MODULE_ID,
   type MoveRecord,
 } from "../../../src/core2/modules/counted-moves";
-import { carriedLink, placeOutcome } from "../../../src/core2/modules/outcome-web";
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
-import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../../../src/core2/school-measures";
+import {
+  carriedLink,
+  placeOutcome,
+} from "../../../src/core2/modules/outcome-web";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
+import {
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "../../../src/core2/school-measures";
 import {
   movedInSince,
   SCHOOL_MEASURE,

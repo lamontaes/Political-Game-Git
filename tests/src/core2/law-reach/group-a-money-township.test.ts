@@ -18,11 +18,18 @@ import {
   type GovernmentRow,
 } from "../../../../src/core2/modules/budgets";
 import { lawChainForPlace } from "../../../../src/core2/laws-starting";
-import { LAWS_MODULE_ID, lawChain, yesLevels } from "../../../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  yesLevels,
+} from "../../../../src/core2/modules/laws";
 import { coreAPI } from "../../../../src/core2/state";
 import type { ModuleRow } from "../../../../src/core2/module-data";
 import { mechanicRow } from "../../../../src/core2/law-reach/group-a-records";
-import { LEAVE_KEY, paidLeave } from "../../../../src/core2/law-reach/group-a-money";
+import {
+  LEAVE_KEY,
+  paidLeave,
+} from "../../../../src/core2/law-reach/group-a-money";
 
 /** Places drawn (records only) and places built among them. */
 const DRAWS = 400;

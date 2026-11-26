@@ -1,6 +1,9 @@
 /** Technical metadata identity and stale-payload guards; no generated-world claim. */
 import { describe, expect, it } from "vitest";
-import { FinanceMetadataComposer, FinanceReadGuard } from "../../../src/core2/finance-plan";
+import {
+  FinanceMetadataComposer,
+  FinanceReadGuard,
+} from "../../../src/core2/finance-plan";
 import { P } from "../../../src/core2/parameters";
 
 function composer() {

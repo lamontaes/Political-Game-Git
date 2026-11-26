@@ -35,11 +35,21 @@ import {
 } from "../../../src/core2/modules/budgets";
 import { schoolingOn } from "../../../src/core2/modules/jobs";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
-import { scaleOf, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
+import {
+  scaleOf,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
 import { subjectWeight } from "../../../src/core2/outcome-web-reach";
 import { SCHOOL_MODULE_ID } from "../../../src/core2/school-measures";
-import { SCHOOL_MEASURE, type CollegeRow } from "../../../src/core2/school-outcomes";
+import {
+  SCHOOL_MEASURE,
+  type CollegeRow,
+} from "../../../src/core2/school-outcomes";
 import { coreAPI } from "../../../src/core2/state";
 import { worldRateFactor } from "../../../src/core2/world-base-rates";
 import type { CoreState } from "../../../src/core2/types";

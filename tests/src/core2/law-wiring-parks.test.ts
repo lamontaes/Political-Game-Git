@@ -20,7 +20,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
 import { LIFE_MODULE, PARK_ACCESS } from "../../../src/core2/modules/life";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { webReach } from "../../../src/core2/outcome-web-reach";
 import { parameterValues } from "../../../src/core2/parameters";
 import { coreAPI } from "../../../src/core2/state";

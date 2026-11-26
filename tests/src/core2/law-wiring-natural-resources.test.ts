@@ -27,7 +27,10 @@ import {
 } from "../../../src/core2/modules/budgets";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { LIFE_MODULE, PARK_ACCESS } from "../../../src/core2/modules/life";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { webReach } from "../../../src/core2/outcome-web-reach";
 import { parameterValues } from "../../../src/core2/parameters";

@@ -7,7 +7,10 @@
  * staff the employer opened with.
  */
 import { expect, it } from "vitest";
-import { baseStaffFor, type StaffingRow } from "../../../src/core2/law-reach/group-a-staffing";
+import {
+  baseStaffFor,
+  type StaffingRow,
+} from "../../../src/core2/law-reach/group-a-staffing";
 
 const row = (over: Partial<StaffingRow>): StaffingRow => ({
   id: "budget-line:administration:organization_x",

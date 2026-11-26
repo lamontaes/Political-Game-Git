@@ -20,7 +20,10 @@ import {
   openElections,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { knockDoors, openCampaigns } from "../../../src/core2/modules/campaigns";
+import {
+  knockDoors,
+  openCampaigns,
+} from "../../../src/core2/modules/campaigns";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import {
   PARTIES_MODULE_ID,

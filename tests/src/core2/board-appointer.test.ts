@@ -13,8 +13,14 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { FEDERAL_SENATE, members } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  FEDERAL_SENATE,
+  members,
+} from "../../../src/core2/modules/legislature";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex");

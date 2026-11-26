@@ -18,7 +18,11 @@ import {
   traitTable,
   type ResolvedDecision,
 } from "../../../src/core2/tooling/trait-coverage";
-import type { ActOffer, CoreState, PersonState } from "../../../src/core2/types";
+import type {
+  ActOffer,
+  CoreState,
+  PersonState,
+} from "../../../src/core2/types";
 
 // Owner, Oct 6 and Oct 12, 2026: every trait is wired into every decision a
 // person makes, at both ends. This holds the trait table, the decision table

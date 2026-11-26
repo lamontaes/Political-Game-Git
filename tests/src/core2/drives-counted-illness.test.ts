@@ -17,7 +17,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { DEFAULT_HEALTH_DATA } from "../../../src/core2/modules/health";
-import { countedDrivesHeld, drivesReport } from "../../../src/core2/modules/drives";
+import {
+  countedDrivesHeld,
+  drivesReport,
+} from "../../../src/core2/modules/drives";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

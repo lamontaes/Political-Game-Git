@@ -17,7 +17,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { considerBribe } from "../../../src/core2/modules/corruption";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 

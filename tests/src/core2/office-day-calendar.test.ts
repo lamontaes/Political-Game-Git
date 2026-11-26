@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { meetsOn, type MeetingRule } from "../../../src/core2/office-day-calendar";
+import {
+  meetsOn,
+  type MeetingRule,
+} from "../../../src/core2/office-day-calendar";
 
 const rule = (intervalDays: number, weeksOfMonth: number[]): MeetingRule => ({
   officeId: "office:test:council",

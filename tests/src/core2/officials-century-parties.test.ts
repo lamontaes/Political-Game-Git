@@ -9,10 +9,16 @@
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { centuryParties, setHistoryMode } from "../../../src/core2/electorate-century";
+import {
+  centuryParties,
+  setHistoryMode,
+} from "../../../src/core2/electorate-century";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { createLifeCore } from "../../../src/core2/life";
-import { allOfficials, openOfficials } from "../../../src/core2/modules/officials";
+import {
+  allOfficials,
+  openOfficials,
+} from "../../../src/core2/modules/officials";
 import { openOffices } from "../../../src/core2/modules/offices";
 import { partySide } from "../../../src/core2/appointments";
 import { buildPopulation } from "../../../src/core2/population";

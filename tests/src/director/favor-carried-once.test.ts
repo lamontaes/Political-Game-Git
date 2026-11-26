@@ -31,7 +31,10 @@ import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreEventInput, PersonId } from "../../../src/core2/types";
 import { traceNode } from "../../../src/bench/dev-trace";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 
 const PLACE = {
   name: "South Glastonbury, Montana",

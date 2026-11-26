@@ -20,7 +20,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
 import { shiftMonth } from "../../../src/core2/macro-model";
 import { stateUnemployment } from "../../../src/core2/modules/counted-moves";
-import { countryStateMonth, countryStates } from "../../../src/core2/modules/macro";
+import {
+  countryStateMonth,
+  countryStates,
+} from "../../../src/core2/modules/macro";
 import { coreAPI } from "../../../src/core2/state";
 
 const SEED = "7a5e19c2b3d84f60";

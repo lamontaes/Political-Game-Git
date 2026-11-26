@@ -11,7 +11,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { openingEmployerCashBufferPrior } from "../../../src/core2/opening-capital";
-import { outletsHere, pressParameter, PRESS_MODULE_ID } from "../../../src/core2/modules/press";
+import {
+  outletsHere,
+  pressParameter,
+  PRESS_MODULE_ID,
+} from "../../../src/core2/modules/press";
 import { advanceCore } from "../../../src/core2/life";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 

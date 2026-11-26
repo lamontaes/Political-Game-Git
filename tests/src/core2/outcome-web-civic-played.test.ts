@@ -26,7 +26,10 @@ import { advanceCore } from "../../../src/core2/life";
 import { CORRUPTION_MODULE_ID } from "../../../src/core2/modules/corruption";
 import { ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
 import { newsKey } from "../../../src/core2/modules/news";
-import { scandalStoriesOf, VOTING_MODULE_ID } from "../../../src/core2/modules/voting";
+import {
+  scandalStoriesOf,
+  VOTING_MODULE_ID,
+} from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
 import type { CandidateReasons } from "../../../src/core2/electorate-inputs";
 import type { CoreState } from "../../../src/core2/types";

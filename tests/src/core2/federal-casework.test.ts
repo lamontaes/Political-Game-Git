@@ -4,7 +4,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { allCases, bringCases, handleCase } from "../../../src/core2/modules/constituent-cases";
+import {
+  allCases,
+  bringCases,
+  handleCase,
+} from "../../../src/core2/modules/constituent-cases";
 import { lawInForce } from "../../../src/core2/modules/laws";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";

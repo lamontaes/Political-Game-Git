@@ -21,7 +21,10 @@ import {
 import { lawInForce } from "../../../src/core2/modules/laws";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { deskWaiting } from "../../../src/core2/modules/office-day";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
 import { billStage } from "../../../src/bench/bill-stage";
 import { deskDecide } from "../../../src/bench/office";
 import { drawPlace } from "../../../scripts/core2-year/place";

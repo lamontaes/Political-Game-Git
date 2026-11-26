@@ -4,12 +4,22 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { BUDGETS_MODULE_ID, withholdingOf } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  withholdingOf,
+} from "../../../src/core2/modules/budgets";
 import { countedDemotions } from "../../../src/core2/modules/counted-demotion";
 import { lawInForce } from "../../../src/core2/modules/laws";
-import { countedParameter, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  countedParameter,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { OUTSIDE_MARKET_KIND } from "../../../src/core2/opening-outside-market";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { CoreState, PersonState } from "../../../src/core2/types";

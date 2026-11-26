@@ -8,8 +8,14 @@
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
-import { centuryOf, setHistoryMode } from "../../../src/core2/electorate-century";
-import { publishedStatePlaces, statePlaces } from "../../../src/core2/electorate-places";
+import {
+  centuryOf,
+  setHistoryMode,
+} from "../../../src/core2/electorate-century";
+import {
+  publishedStatePlaces,
+  statePlaces,
+} from "../../../src/core2/electorate-places";
 import { gameStartDate } from "../../../src/core2/game-start";
 
 const RUN = `century-state-places:${Date.now()}`;

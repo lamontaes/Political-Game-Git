@@ -194,7 +194,13 @@ it("a partner the person was made with is told before their children", () => {
 
 it("My life and every card tell a life in the order it was lived, a new paragraph where the kind of thing changes (Fable A, Nov 13, rule 17)", () => {
   const groups: string[][] = JSON.parse(
-    readFileSync(new URL("./data/controls.json", (new URL("../../../src/bench/card-life.test.ts", import.meta.url).href)), "utf8"),
+    readFileSync(
+      new URL(
+        "./data/controls.json",
+        new URL("../../../src/bench/card-life.test.ts", import.meta.url).href,
+      ),
+      "utf8",
+    ),
   ).lifeGroups;
   // P2, Fruitland, Idaho (Nov 13): My life opened "I separated from
   // Jeffrey Pennington in 2016." before "In 1979, I began school", and ended

@@ -5,7 +5,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { countedResidents } from "../../../src/core2/electorate";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { postHourlyMinor, staffCandidates } from "../../../src/core2/modules/staff";
+import {
+  postHourlyMinor,
+  staffCandidates,
+} from "../../../src/core2/modules/staff";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";

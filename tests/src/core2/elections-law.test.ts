@@ -37,13 +37,20 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { OFFICES_MODULE_ID, openOffices, vacateSeat } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+  vacateSeat,
+} from "../../../src/core2/modules/offices";
 import { buildPopulation } from "../../../src/core2/population";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import type { OfficeInput } from "../../../src/core2/offices-local";
 import type { CoreAPI } from "../../../src/core2/types";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { resolveMunicipalElectionTiming } from "../../../src/core2/gov-rules/municipal-ballot-rules";
 
 const START = "2026-01-05";

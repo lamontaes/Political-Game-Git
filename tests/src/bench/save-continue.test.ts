@@ -17,7 +17,11 @@ import { join } from "node:path";
 import { expect, it } from "vitest";
 import { countedResidents } from "../../../src/core2/electorate";
 import { snapshotWorld } from "../../../src/core2/snapshot";
-import { benchRequest, benchWorld, emptyBench } from "../../../src/bench/handler";
+import {
+  benchRequest,
+  benchWorld,
+  emptyBench,
+} from "../../../src/bench/handler";
 
 // Pinned (pinned-tests): this seed draws Opal, Wyoming. Alone the test takes
 // about 37 seconds and 56 beside the other save tests (the world is built

@@ -20,8 +20,15 @@ import { govReport } from "../../../src/core2/gov-test-report";
 import { setJournalTrace } from "../../../src/core2/journal-state";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { appliedOn, appliedTo, type LawAppliedRow } from "../../../src/core2/law-reach/applied";
-import { allotments, foodAidDollars } from "../../../src/core2/law-reach/group-b-food-aid";
+import {
+  appliedOn,
+  appliedTo,
+  type LawAppliedRow,
+} from "../../../src/core2/law-reach/applied";
+import {
+  allotments,
+  foodAidDollars,
+} from "../../../src/core2/law-reach/group-b-food-aid";
 import { jobsAt, source } from "../../../src/core2/law-reach/group-b-money";
 import {
   povertyLineDollars,
@@ -30,7 +37,10 @@ import {
   townFacts,
   type PeopleSelector,
 } from "../../../src/core2/law-reach/group-b-people";
-import { rowsOf, type PersonReach } from "../../../src/core2/law-reach/group-b-store";
+import {
+  rowsOf,
+  type PersonReach,
+} from "../../../src/core2/law-reach/group-b-store";
 import { advanceCore } from "../../../src/core2/life";
 import {
   amendBudget,

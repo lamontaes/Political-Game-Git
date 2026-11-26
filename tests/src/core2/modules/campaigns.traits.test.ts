@@ -38,7 +38,10 @@ import {
   type EndorsementRow,
 } from "../../../../src/core2/modules/campaigns";
 import { standAgainReason } from "../../../../src/core2/modules/candidacy";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../../src/core2/modules/elections";
 import { partyFirmness } from "../../../../src/core2/campaign-stances";
 
 /** A drawn place from all 56; up to MAX_PLAYED draws are tried before the test fails. */

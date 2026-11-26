@@ -8,7 +8,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import controls from "../../../src/bench/data/controls.json";
 import { governmentView } from "../../../src/bench/government";
-import { ALL, filterLaws, levelChoices } from "../../../src/bench/ui/issue-filter.mjs";
+import {
+  ALL,
+  filterLaws,
+  levelChoices,
+} from "../../../src/bench/ui/issue-filter.mjs";
 import { buildBenchWorld } from "../../../src/bench/world";
 
 const seeds = [

@@ -8,7 +8,10 @@ import { chromium } from "playwright";
 import { chooseTrailAct } from "../../../src/bench/trail-act.mjs";
 import { fileWhenFilingOpens } from "../../../src/bench/start-life.mjs";
 import { openCampaignTrail } from "../../../src/bench/campaign-trail.mjs";
-import { devModeOn, devEveryoneSaysYes } from "../../../src/bench/dev-setup.mjs";
+import {
+  devModeOn,
+  devEveryoneSaysYes,
+} from "../../../src/bench/dev-setup.mjs";
 
 const shots = process.argv[2];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;

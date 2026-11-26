@@ -17,8 +17,15 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { setJournalTrace } from "../../../src/core2/journal-state";
 import { advanceCore } from "../../../src/core2/life";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import {
   baseOf,
   publishedBaseOf,
@@ -26,14 +33,20 @@ import {
   WEB_LINKS,
   COVERAGE_DATA,
 } from "../../../src/core2/outcome-web-model";
-import { LOW_LEVEL_CATEGORIES, lowLevelRates } from "../../../src/core2/low-level-offenses";
+import {
+  LOW_LEVEL_CATEGORIES,
+  lowLevelRates,
+} from "../../../src/core2/low-level-offenses";
 import { placeStateKeys } from "../../../src/core2/places";
 import {
   LOW_LEVEL_MEASURE,
   PUBLIC_SAFETY_MODULE_ID,
   type SafetyMonth,
 } from "../../../src/core2/public-safety";
-import { countedCases, type CountedCaseRow } from "../../../src/core2/modules/justice";
+import {
+  countedCases,
+  type CountedCaseRow,
+} from "../../../src/core2/modules/justice";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreAPI, CoreState } from "../../../src/core2/types";
 

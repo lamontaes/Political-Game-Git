@@ -17,7 +17,11 @@ import { buildPopulation } from "../../../src/core2/population";
 import { advanceToFilingOpen } from "../../../src/core2/gov-test-clock";
 import { applyCoreEvent, coreAPI } from "../../../src/core2/state";
 import { createLifeCore } from "../../../src/core2/life";
-import type { CoreEventInput, CoreState, PersonId } from "../../../src/core2/types";
+import type {
+  CoreEventInput,
+  CoreState,
+  PersonId,
+} from "../../../src/core2/types";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
 import { openRecord } from "../../../src/core2/modules/record";

@@ -37,7 +37,10 @@ import type { LawInForceAnswer } from "../../../src/core2/laws-in-force";
 import type { TaxIndex } from "../../../src/core2/tax-index";
 import { historyMonths } from "../../../src/core2/macro-model";
 import { macroCoreData } from "../../../src/core2/modules/macro";
-import { openingRegionMonths, stateFigures } from "../../../src/core2/regional-model";
+import {
+  openingRegionMonths,
+  stateFigures,
+} from "../../../src/core2/regional-model";
 
 const seed = process.env.COUNTRY_SEED ?? randomBytes(6).toString("hex");
 const rows = macroCoreData().parameters;

@@ -34,8 +34,14 @@ import {
   openCampaigns,
 } from "../../../src/core2/modules/campaigns";
 import { personStance } from "../../../src/core2/campaign-views";
-import { campaignParameter, PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  campaignParameter,
+  PLATFORM_QUESTIONS,
+} from "../../../src/core2/campaign-data";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

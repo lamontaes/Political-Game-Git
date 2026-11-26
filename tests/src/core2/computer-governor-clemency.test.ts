@@ -14,16 +14,25 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { chargeDecisionDays, dispositionDays } from "../../../src/core2/justice-law";
+import {
+  chargeDecisionDays,
+  dispositionDays,
+} from "../../../src/core2/justice-law";
 import { advanceCore } from "../../../src/core2/life";
 import { considerBribe } from "../../../src/core2/modules/corruption";
 import {
   clemencyAuthority,
   GOVERNOR_DECIDES_CLEMENCY,
 } from "../../../src/core2/modules/executive";
-import { clemenciesOf, prisonersServing } from "../../../src/core2/modules/justice";
+import {
+  clemenciesOf,
+  prisonersServing,
+} from "../../../src/core2/modules/justice";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { resultsOf, stateOfficeOf } from "../../../src/core2/office-day-state";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreAPI } from "../../../src/core2/types";

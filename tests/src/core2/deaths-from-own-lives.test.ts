@@ -20,7 +20,16 @@ describe("deaths come from the one hazard curve and the people's own records", (
     expect(BASE_RATE_TABLES).not.toContain("mortality");
     for (const file of ["births-counted.ts", "modules/health.ts"])
       expect(
-        readFileSync(new URL(`./${file}`, (new URL("../../../src/core2/deaths-from-own-lives.test.ts", import.meta.url).href)), "utf8"),
+        readFileSync(
+          new URL(
+            `./${file}`,
+            new URL(
+              "../../../src/core2/deaths-from-own-lives.test.ts",
+              import.meta.url,
+            ).href,
+          ),
+          "utf8",
+        ),
         file,
       ).not.toMatch(/worldRateFactor\([^)]*"mortality"|stateMortality/);
   });

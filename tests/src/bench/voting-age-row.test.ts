@@ -15,7 +15,14 @@ const sites = [
 
 it("no bench check or figure types the age of majority", () => {
   for (const file of sites) {
-    const text = readFileSync(new URL(`./${file}`, (new URL("../../../src/bench/voting-age-row.test.ts", import.meta.url).href)), "utf8");
+    const text = readFileSync(
+      new URL(
+        `./${file}`,
+        new URL("../../../src/bench/voting-age-row.test.ts", import.meta.url)
+          .href,
+      ),
+      "utf8",
+    );
     expect(
       text.match(/(?:age|\)|\d)\s*(?:>=|<)\s*18\b/g),
       `${file} types the age of majority`,

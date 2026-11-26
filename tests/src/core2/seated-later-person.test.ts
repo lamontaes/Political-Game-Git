@@ -4,7 +4,10 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { memberKey } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 
 // A holder the offices engine seats by identity alone (a vacancy's filler, a successor) is a

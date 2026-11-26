@@ -11,7 +11,10 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { PAYER_RECORD_CLASSIFICATIONS, townPlaces } from "../../../src/bench/places";
+import {
+  PAYER_RECORD_CLASSIFICATIONS,
+  townPlaces,
+} from "../../../src/bench/places";
 import { orgPlace, staffOf } from "../../../src/bench/scene";
 import { hasBackdrop } from "../../../src/bench/backdrop-places";
 import { drawPlace } from "../../../scripts/core2-year/place";

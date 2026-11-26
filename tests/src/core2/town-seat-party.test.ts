@@ -26,8 +26,14 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
-import { townBodyParties, townRightShare } from "../../../src/core2/electorate-places";
-import { OFFICES_MODULE_ID, townSeats } from "../../../src/core2/modules/offices";
+import {
+  townBodyParties,
+  townRightShare,
+} from "../../../src/core2/electorate-places";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+} from "../../../src/core2/modules/offices";
 import { partySide } from "../../../src/core2/appointments";
 
 const seed = process.env.GOLDEN_PATH_SEED || randomBytes(8).toString("hex");

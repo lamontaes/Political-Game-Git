@@ -18,7 +18,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { demoteHousehold } from "../../../src/core2/modules/counted-demotion";
 import { moveCountedHouseholdAway } from "../../../src/core2/modules/counted-moves";
 import { JOBS_MODULE_ID } from "../../../src/core2/modules/jobs";
-import { residentFacts, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  residentFacts,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

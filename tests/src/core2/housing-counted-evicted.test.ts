@@ -30,7 +30,10 @@ import {
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { drivesReport } from "../../../src/core2/modules/drives";
-import { HOUSING_MODULE_ID, leaseHousehold } from "../../../src/core2/modules/housing";
+import {
+  HOUSING_MODULE_ID,
+  leaseHousehold,
+} from "../../../src/core2/modules/housing";
 import {
   householdCash,
   householdIncome,
@@ -38,7 +41,11 @@ import {
   residentsRuntime,
 } from "../../../src/core2/modules/residents";
 import { healthHousingOf } from "../../../src/core2/modules/health";
-import { coreAPI, fillInPerson, registerModule } from "../../../src/core2/state";
+import {
+  coreAPI,
+  fillInPerson,
+  registerModule,
+} from "../../../src/core2/state";
 import type { CoreEventInput } from "../../../src/core2/types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

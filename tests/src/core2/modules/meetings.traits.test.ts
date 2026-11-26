@@ -16,7 +16,10 @@ import {
   withTraitWeight,
 } from "../../../../src/core2/trait-test-kit";
 import { decisionLean } from "../../../../src/core2/trait-decisions";
-import { meetingParameter, townHallDrives } from "../../../../src/core2/modules/meetings";
+import {
+  meetingParameter,
+  townHallDrives,
+} from "../../../../src/core2/modules/meetings";
 import type { CoreAPI, CoreState } from "../../../../src/core2/types";
 
 const SEED = `${RUN_SEED}:meetings`;

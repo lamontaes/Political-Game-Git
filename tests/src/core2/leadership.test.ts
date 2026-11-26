@@ -13,7 +13,10 @@ import { buildPopulation } from "../../../src/core2/population";
 import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, openOffices } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+} from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
@@ -34,7 +37,10 @@ import {
   voteForPost,
 } from "../../../src/core2/modules/leadership";
 import { partySide } from "../../../src/core2/appointments";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

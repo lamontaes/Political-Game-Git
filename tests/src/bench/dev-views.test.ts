@@ -26,9 +26,13 @@ const PINNED = { run: "8341-pin", purpose: "p6", key: "0164656" };
 /** The routes dev-api.ts answers itself, read from its switch. */
 const builtIn = new Set(
   [
-    ...readFileSync(new URL("./dev-api.ts", (new URL("../../../src/bench/dev-views.test.ts", import.meta.url).href)), "utf8").matchAll(
-      /case "((?:GET|POST) [^"]+)":/g,
-    ),
+    ...readFileSync(
+      new URL(
+        "./dev-api.ts",
+        new URL("../../../src/bench/dev-views.test.ts", import.meta.url).href,
+      ),
+      "utf8",
+    ).matchAll(/case "((?:GET|POST) [^"]+)":/g),
   ].map((m) => m[1]!),
 );
 

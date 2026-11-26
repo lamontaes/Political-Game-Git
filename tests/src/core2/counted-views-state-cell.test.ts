@@ -12,7 +12,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { countedResidents, countedSurveyCell } from "../../../src/core2/electorate";
+import {
+  countedResidents,
+  countedSurveyCell,
+} from "../../../src/core2/electorate";
 import { corePlaceByJurisdictionId } from "../../../src/core2/place-lookup";
 import { placeStateKey } from "../../../src/core2/place-map";
 import { VIEWS_KEYS } from "../../../src/core2/modules/views";

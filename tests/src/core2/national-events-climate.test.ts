@@ -14,7 +14,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { openClimate, hazardFactor } from "../../../src/core2/modules/climate";
-import { enactLaw, openLaws, stateLawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  openLaws,
+  stateLawInForce,
+} from "../../../src/core2/modules/laws";
 import {
   nationalDisasterDetail,
   nationalEvents,

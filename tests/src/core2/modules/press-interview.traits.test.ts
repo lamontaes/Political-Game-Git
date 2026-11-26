@@ -9,8 +9,16 @@
  */
 import { drawPlace } from "../../../golden-path/place";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { drawnRaceWorld, RUN_SEED, weightOf } from "../../../../src/core2/trait-test-kit";
-import { acceptCase, PRESS_MODULE_ID, type InterviewRow } from "../../../../src/core2/modules/press";
+import {
+  drawnRaceWorld,
+  RUN_SEED,
+  weightOf,
+} from "../../../../src/core2/trait-test-kit";
+import {
+  acceptCase,
+  PRESS_MODULE_ID,
+  type InterviewRow,
+} from "../../../../src/core2/modules/press";
 import type { CoreAPI, CoreState } from "../../../../src/core2/types";
 import { setKeepEveryonesWhy } from "../../../../src/core2/why-kept";
 

@@ -14,8 +14,14 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { countedDaysOfMoney, JOBS_MODULE_ID } from "../../../src/core2/modules/jobs";
-import { householdCashReader, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  countedDaysOfMoney,
+  JOBS_MODULE_ID,
+} from "../../../src/core2/modules/jobs";
+import {
+  householdCashReader,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");

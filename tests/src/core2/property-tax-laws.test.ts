@@ -10,7 +10,11 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { ownedHomes } from "../../../src/core2/modules/housing";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import capData from "../../../src/core2/data/laws/reach-group-b-parameters.json" with { type: "json" };
 import statutes from "../../../src/core2/data/laws/property-tax-caps.json" with { type: "json" };
 

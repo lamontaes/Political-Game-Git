@@ -13,7 +13,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -22,7 +25,10 @@ import {
 import { filingWindowOpens } from "../../../src/core2/modules/candidacy";
 import type { ModuleRow } from "../../../src/core2/module-data";
 import { officialOf } from "../../../src/core2/modules/officials";
-import { breakElectionTie, type TieRow } from "../../../src/core2/election-ties";
+import {
+  breakElectionTie,
+  type TieRow,
+} from "../../../src/core2/election-ties";
 import tieRules from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 
 const seed =

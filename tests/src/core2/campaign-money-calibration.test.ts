@@ -43,11 +43,17 @@ import {
   openElections,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { campaignFor, openCampaigns } from "../../../src/core2/modules/campaigns";
+import {
+  campaignFor,
+  openCampaigns,
+} from "../../../src/core2/modules/campaigns";
 import { openParties } from "../../../src/core2/modules/parties";
 import { openPress } from "../../../src/core2/modules/press";
 import { viewsModule } from "../../../src/core2/modules/views";
-import { campaignDayChoices, takeCampaignDayChoice } from "../../../src/core2/campaign-day";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+} from "../../../src/core2/campaign-day";
 
 const START = "2026-01-05";
 const runSeed =

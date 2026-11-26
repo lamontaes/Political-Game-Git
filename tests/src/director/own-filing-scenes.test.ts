@@ -3,7 +3,11 @@ import { fileForOffice } from "../../../src/bench/government";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { familyFactsOf } from "../../../src/core2/closeness";
 import { advanceCore } from "../../../src/core2/life";
 import { openContests } from "../../../src/core2/modules/elections";

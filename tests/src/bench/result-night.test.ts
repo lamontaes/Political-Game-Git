@@ -16,7 +16,10 @@ import { filingClerkFor } from "../../../src/core2/modules/filing-clerk";
 import { resultOf } from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
-import { electionNight, resultMomentOf } from "../../../src/bench/election-night";
+import {
+  electionNight,
+  resultMomentOf,
+} from "../../../src/bench/election-night";
 import { buildBenchWorld } from "../../../src/bench/world";
 
 // The night of the count, once the returns close, the bench stages the

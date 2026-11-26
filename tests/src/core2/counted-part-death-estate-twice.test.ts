@@ -14,7 +14,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { setJournalTrace } from "../../../src/core2/journal-state";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import {
   countedEstateOf,
   countedPartDeath,

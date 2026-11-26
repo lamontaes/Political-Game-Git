@@ -8,7 +8,11 @@ import {
 } from "../../../src/core2/modules/office-day";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI, type CoreState } from "../../../src/core2/state";
-import { leaveHoldsToCharacter, officeStops, officeView } from "../../../src/bench/office";
+import {
+  leaveHoldsToCharacter,
+  officeStops,
+  officeView,
+} from "../../../src/bench/office";
 import { BenchPlayer } from "../../../src/bench/player";
 import { buildBenchWorld } from "../../../src/bench/world";
 

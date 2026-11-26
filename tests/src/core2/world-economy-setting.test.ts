@@ -12,7 +12,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { MACRO_MODULE_ID, nationalPanel } from "../../../src/core2/modules/macro";
+import {
+  MACRO_MODULE_ID,
+  nationalPanel,
+} from "../../../src/core2/modules/macro";
 import { coreAPI } from "../../../src/core2/state";
 import { checkSettings } from "../../../src/core2/world-settings";
 

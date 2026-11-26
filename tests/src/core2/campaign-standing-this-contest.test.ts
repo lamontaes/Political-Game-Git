@@ -15,8 +15,14 @@ import { contestStanding } from "../../../src/core2/campaign-day";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { CAMPAIGNS_MODULE_ID, type CauseRow } from "../../../src/core2/modules/campaigns";
-import { ELECTIONS_MODULE_ID, type FilingRow } from "../../../src/core2/modules/elections";
+import {
+  CAMPAIGNS_MODULE_ID,
+  type CauseRow,
+} from "../../../src/core2/modules/campaigns";
+import {
+  ELECTIONS_MODULE_ID,
+  type FilingRow,
+} from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
 import type { ModuleRow } from "../../../src/core2/module-data";
 

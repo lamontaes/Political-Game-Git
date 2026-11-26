@@ -24,7 +24,10 @@ import {
 } from "../../../src/core2/modules/offices";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { isRealOfficeholderName } from "../../../src/core2/officials-names";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import estimates from "../../../src/districts/place-district-estimates.generated.json" with { type: "json" };
 
 const START = "2026-01-05";

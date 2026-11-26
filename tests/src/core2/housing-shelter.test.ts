@@ -8,7 +8,10 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { withoutOutsideShelter } from "../../../src/core2/housing-shelter";
-import { bedroomsForHousehold, hudRentRowFor } from "../../../src/core2/hud-rents";
+import {
+  bedroomsForHousehold,
+  hudRentRowFor,
+} from "../../../src/core2/hud-rents";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
 import type { CoreInput } from "../../../src/core2/types";
 

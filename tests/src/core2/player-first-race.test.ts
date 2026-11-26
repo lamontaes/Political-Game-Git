@@ -16,7 +16,11 @@ import { stateOffices } from "../../../src/core2/offices-state";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
 import { placeCountyGeoids } from "../../../src/core2/place-map";
 import { countyGovernmentUnit } from "../../../src/core2/reference/government-units";
-import { placeLocalities, placeStateKeys, type PlaceLocality } from "../../../src/core2/places";
+import {
+  placeLocalities,
+  placeStateKeys,
+  type PlaceLocality,
+} from "../../../src/core2/places";
 
 /** The local races the ruling names: the place's lawmaking body and its chief executive. */
 const LOCAL_RACES = [

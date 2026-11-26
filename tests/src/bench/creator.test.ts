@@ -38,7 +38,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { schoolsAttended } from "../../../src/core2/past";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { ageOnDate, daysBetween, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { OPENING_KIN } from "../../../src/core2/opening-kin";
 import { coreAPI, personOrFillIn } from "../../../src/core2/state";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";

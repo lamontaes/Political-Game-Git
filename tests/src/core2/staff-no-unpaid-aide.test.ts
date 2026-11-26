@@ -13,7 +13,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { STAFF_MODULE_ID, type StafferRow } from "../../../src/core2/modules/staff";
+import {
+  STAFF_MODULE_ID,
+  type StafferRow,
+} from "../../../src/core2/modules/staff";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const cases = [

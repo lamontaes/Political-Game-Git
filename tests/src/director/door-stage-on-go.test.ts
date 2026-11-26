@@ -6,10 +6,20 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { CAMPAIGNS_MODULE_ID, type CauseRow } from "../../../src/core2/modules/campaigns";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  CAMPAIGNS_MODULE_ID,
+  type CauseRow,
+} from "../../../src/core2/modules/campaigns";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { P } from "../../../src/core2/parameters";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../../src/core2/civic-inputs";
 import { CLOSENESS, levelFromHours } from "../../../src/core2/closeness";
 import { ENCOUNTERS } from "../../../src/core2/encounters";

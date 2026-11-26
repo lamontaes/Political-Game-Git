@@ -17,7 +17,10 @@ import {
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
 import { coreAPI } from "../../../src/core2/state";
 import { drawPlace } from "../../../scripts/core2-year/place";

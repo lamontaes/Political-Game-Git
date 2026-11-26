@@ -22,7 +22,10 @@ import {
   openElections,
   type ContestRow,
 } from "../../../src/core2/modules/elections";
-import { knockDoors, openCampaigns } from "../../../src/core2/modules/campaigns";
+import {
+  knockDoors,
+  openCampaigns,
+} from "../../../src/core2/modules/campaigns";
 import { openParties } from "../../../src/core2/modules/parties";
 import { openVoting, resultOf } from "../../../src/core2/modules/voting";
 import { openRecord } from "../../../src/core2/modules/record";
@@ -35,7 +38,10 @@ import {
   openLegislature,
 } from "../../../src/core2/modules/legislature";
 import { partySide } from "../../../src/core2/appointments";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 
 const START = "2026-01-05";

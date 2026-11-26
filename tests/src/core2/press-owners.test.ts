@@ -29,11 +29,20 @@ import { grudge, slantOf } from "../../../src/core2/press-desk";
 import { viewsModule } from "../../../src/core2/modules/views";
 import { newsModule } from "../../../src/core2/modules/news";
 import { speechModule } from "../../../src/core2/modules/speech";
-import { corruptionModule, CORRUPTION_MODULE_ID } from "../../../src/core2/modules/corruption";
-import { createDrivesModule, DEFAULT_DRIVES_DATA } from "../../../src/core2/modules/drives";
+import {
+  corruptionModule,
+  CORRUPTION_MODULE_ID,
+} from "../../../src/core2/modules/corruption";
+import {
+  createDrivesModule,
+  DEFAULT_DRIVES_DATA,
+} from "../../../src/core2/modules/drives";
 import { peopleData } from "../../../src/director/play-modules";
 import { DEFAULT_DATA } from "../../../src/core2/data";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

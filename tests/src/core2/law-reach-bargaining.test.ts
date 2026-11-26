@@ -10,7 +10,10 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { governmentUnitsForPlace } from "../../../src/core2/reference/government-units";
-import { corePlaceStateIdentities, searchCorePlaces } from "../../../src/core2/place-lookup";
+import {
+  corePlaceStateIdentities,
+  searchCorePlaces,
+} from "../../../src/core2/place-lookup";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";

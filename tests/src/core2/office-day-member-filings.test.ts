@@ -16,7 +16,11 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { billOf, bodyOf } from "../../../src/core2/modules/legislature";
-import { adjourn, meetingInProgress, takeUpItem } from "../../../src/core2/modules/office-day";
+import {
+  adjourn,
+  meetingInProgress,
+  takeUpItem,
+} from "../../../src/core2/modules/office-day";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 

@@ -17,7 +17,11 @@ import {
 import { campaignFor } from "../../../src/core2/modules/campaigns";
 import { campaignDayOpen } from "../../../src/core2/campaign-day";
 import { campaignDay } from "../../../src/bench/campaign";
-import { announceForOffice, fileForOffice, localRaces } from "../../../src/bench/government";
+import {
+  announceForOffice,
+  fileForOffice,
+  localRaces,
+} from "../../../src/bench/government";
 import {
   buildBenchWorld,
   NoPlayerHereError,

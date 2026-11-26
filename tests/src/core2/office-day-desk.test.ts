@@ -29,7 +29,10 @@ import {
   officeActsOf,
   setStops,
 } from "../../../src/core2/modules/office-day";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { leaveHoldsToCharacter } from "../../../src/bench/office";
 

@@ -7,7 +7,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays } from "../../../src/core2/kernel/dates";
-import { enactLaw, lawInForce, questionSettled } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawInForce,
+  questionSettled,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

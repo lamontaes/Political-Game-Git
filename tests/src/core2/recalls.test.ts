@@ -10,7 +10,10 @@ import { govReport } from "../../../src/core2/gov-test-report";
 import { advanceCore } from "../../../src/core2/life";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { coreAPI } from "../../../src/core2/state";
-import { OFFICES_MODULE_ID, townSeats } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+} from "../../../src/core2/modules/offices";
 import { draftBill, holdVote } from "../../../src/core2/modules/legislature";
 import {
   recallWindowFor,
@@ -23,14 +26,20 @@ import {
 import { personStance } from "../../../src/core2/campaign-views";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { governmentUnitsForPlace } from "../../../src/core2/reference/government-units";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { countedVoters } from "../../../src/core2/modules/voting";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { resolveRequiredSignatures } from "../../../src/core2/gov-rules/municipal-election-rules";
-import { VOTING_MODULE_ID, type ResultRow } from "../../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  type ResultRow,
+} from "../../../src/core2/modules/voting";
 import { resolveMunicipalRecallRule } from "../../../src/core2/gov-rules/municipal-ballot-rules";
 
 const seed =

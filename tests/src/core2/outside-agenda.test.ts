@@ -16,7 +16,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { LAWS_MODULE_ID, type LawRowInput } from "../../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  type LawRowInput,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 
 setBookkeeping(false);

@@ -6,7 +6,10 @@
  */
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
-import { clearPersonOutflows, personOutflowsForMonth } from "../../../src/core2/accounts";
+import {
+  clearPersonOutflows,
+  personOutflowsForMonth,
+} from "../../../src/core2/accounts";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";

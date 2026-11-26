@@ -9,7 +9,11 @@ import { buildPopulation } from "../../../src/core2/population";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { BUDGETS_MODULE_ID, governments, openBudgets } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+  openBudgets,
+} from "../../../src/core2/modules/budgets";
 import {
   debtBalanceMinor,
   debtBalanceExact,
@@ -21,7 +25,10 @@ import {
 } from "../../../src/core2/budgets-treasury";
 import debtData from "../../../src/core2/data/budgets/federal-debt.json" with { type: "json" };
 import ofs2 from "../../../data/source/treasury-ofs2/ofs2-2026-03-31.json" with { type: "json" };
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

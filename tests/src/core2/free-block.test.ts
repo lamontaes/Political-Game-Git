@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { addDays, daysBetween, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../../src/core2/civic-inputs";
-import { advanceCore, availableActs, createLifeCore } from "../../../src/core2/life";
+import {
+  advanceCore,
+  availableActs,
+  createLifeCore,
+} from "../../../src/core2/life";
 import { parameter } from "../../../src/core2/parameters";
 import { buildPopulation } from "../../../src/core2/population";
 

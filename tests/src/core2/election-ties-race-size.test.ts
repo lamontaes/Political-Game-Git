@@ -23,7 +23,11 @@ import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openParties } from "../../../src/core2/modules/parties";
 import { openVoting } from "../../../src/core2/modules/voting";
 import { openOfficials } from "../../../src/core2/modules/officials";
-import { breakElectionTie, ruleField, type TieRow } from "../../../src/core2/election-ties";
+import {
+  breakElectionTie,
+  ruleField,
+  type TieRow,
+} from "../../../src/core2/election-ties";
 import tieRules from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { searchCorePlaces } from "../../../src/core2/place-lookup";
 

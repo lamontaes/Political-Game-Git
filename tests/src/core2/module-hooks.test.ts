@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 import { chooseAct } from "../../../src/core2/choice";
 import { DEFAULT_DATA } from "../../../src/core2/data";
 import { createCore, coreAPI, registerModule } from "../../../src/core2/state";
-import type { ActOffer, CoreInput, CoreState, Source } from "../../../src/core2/types";
+import type {
+  ActOffer,
+  CoreInput,
+  CoreState,
+  Source,
+} from "../../../src/core2/types";
 
 const date = "2021-01-01";
 const actorId = "person:hooks";

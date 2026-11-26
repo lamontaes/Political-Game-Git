@@ -1,5 +1,9 @@
 import { expect, it } from "vitest";
-import { fitMoves, moveVariantKey, pronounFor } from "../../../src/english/move-fit";
+import {
+  fitMoves,
+  moveVariantKey,
+  pronounFor,
+} from "../../../src/english/move-fit";
 
 const relations = new Set(["father", "mother"]);
 const base = { relationWord: undefined, relationWords: relations, facts: {} };

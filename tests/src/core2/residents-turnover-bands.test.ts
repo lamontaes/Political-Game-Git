@@ -16,9 +16,16 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { JOBS_MODULE_ID } from "../../../src/core2/modules/jobs";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import { countedHeadsOf, countedJobHeads } from "../../../src/core2/residents-economy";
+import {
+  countedHeadsOf,
+  countedJobHeads,
+} from "../../../src/core2/residents-economy";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
-import { absenceRate, joltsRate, turnoverReport } from "../../../src/core2/turnover-check";
+import {
+  absenceRate,
+  joltsRate,
+  turnoverReport,
+} from "../../../src/core2/turnover-check";
 
 const seed = process.env.TURNOVER_SEED ?? randomBytes(8).toString("hex");
 

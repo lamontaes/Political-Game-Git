@@ -14,7 +14,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
 import { townDisasters } from "../../../src/core2/modules/disasters";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import {
   cabinetOf,
   crisesToday,

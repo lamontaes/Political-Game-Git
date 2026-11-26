@@ -5,7 +5,10 @@ import { homeOf, roomCondition } from "../../../src/bench/scene";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { HOUSING_MODULE_ID, openHousing } from "../../../src/core2/modules/housing";
+import {
+  HOUSING_MODULE_ID,
+  openHousing,
+} from "../../../src/core2/modules/housing";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

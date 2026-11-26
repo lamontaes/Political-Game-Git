@@ -23,8 +23,17 @@ import {
   considerBribe,
   corruptionModule,
 } from "../../../src/core2/modules/corruption";
-import { LAWS_MODULE_ID, lawChain, lawInForce, openLaws } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, openOffices, townSeats } from "../../../src/core2/modules/offices";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  openLaws,
+} from "../../../src/core2/modules/laws";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+  townSeats,
+} from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord, votesOf } from "../../../src/core2/modules/record";
@@ -71,10 +80,16 @@ import {
   reviseBill,
   type Provision,
 } from "../../../src/core2/modules/legislature";
-import { campaignParameter, PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
+import {
+  campaignParameter,
+  PLATFORM_QUESTIONS,
+} from "../../../src/core2/campaign-data";
 import { partySide } from "../../../src/core2/appointments";
 import { officialLean, officialOf } from "../../../src/core2/modules/officials";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { billCatalog, provisionFor } from "../../../src/core2/bill-catalog";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { seatAct, seatView } from "../../../src/bench/legislature";

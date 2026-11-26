@@ -4,7 +4,11 @@
  * core-speed-date-parse).
  */
 import { expect, it } from "vitest";
-import { addDays, daysBetween, makeIsoDate } from "../../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+} from "../../../../src/core2/kernel/dates";
 
 it("counts every day from 0000 to 9999 the way the calendar does", () => {
   const base = new Date(0);

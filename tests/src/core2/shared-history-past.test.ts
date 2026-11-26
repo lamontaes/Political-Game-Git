@@ -14,7 +14,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { schoolSpans } from "../../../src/core2/past-school";
-import { inSummerBreak, sharedHistory } from "../../../src/core2/shared-history";
+import {
+  inSummerBreak,
+  sharedHistory,
+} from "../../../src/core2/shared-history";
 import { ageOn } from "../../../src/core2/counted-groups";
 import { advanceCore } from "../../../src/core2/life";
 import { makeIsoDate } from "../../../src/core2/kernel/dates";

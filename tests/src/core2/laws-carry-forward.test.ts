@@ -16,7 +16,10 @@ import {
 } from "../../../src/core2/laws-starting";
 import { resolveLawInForce } from "../../../src/core2/laws-in-force";
 import { withholdingFor } from "../../../src/core2/tax-withholding";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??

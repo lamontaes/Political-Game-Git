@@ -8,7 +8,10 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { countParties } from "../../../src/core2/electorate";
-import type { CandidateInputs, RaceConditions } from "../../../src/core2/electorate-inputs";
+import type {
+  CandidateInputs,
+  RaceConditions,
+} from "../../../src/core2/electorate-inputs";
 import {
   centuryOf,
   centuryParameter,

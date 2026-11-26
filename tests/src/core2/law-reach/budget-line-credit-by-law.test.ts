@@ -15,7 +15,10 @@ import { setBookkeeping } from "../../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../../src/core2/life";
-import { amendBudget, governments } from "../../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  governments,
+} from "../../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../../src/core2/state";
 import { budgetToday } from "../../../../src/core2/law-reach/group-a-money";
 import { rowsOf } from "../../../../src/core2/law-reach/group-b-store";

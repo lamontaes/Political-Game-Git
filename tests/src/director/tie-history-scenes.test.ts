@@ -21,7 +21,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { campaignFor, enlistVolunteer } from "../../../src/core2/modules/campaigns";
+import {
+  campaignFor,
+  enlistVolunteer,
+} from "../../../src/core2/modules/campaigns";
 import { playerContests } from "../../../src/core2/modules/elections";
 import { sharedHistory } from "../../../src/core2/shared-history";
 import { coreAPI, registerModule } from "../../../src/core2/state";

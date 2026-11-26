@@ -25,7 +25,11 @@ import {
 } from "../../../src/core2/modules/executive";
 import { prisonersServing } from "../../../src/core2/modules/justice";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  vacateSeat,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { resultsOf, stateOfficeOf } from "../../../src/core2/office-day-state";
 import { coreAPI } from "../../../src/core2/state";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";

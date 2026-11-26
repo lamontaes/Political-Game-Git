@@ -15,13 +15,23 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { aidedLines, outsideRevenueMonthly } from "../../../src/core2/budgets-treasury";
+import {
+  aidedLines,
+  outsideRevenueMonthly,
+} from "../../../src/core2/budgets-treasury";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { budgetInForce, governments, taxPaymentsOf } from "../../../src/core2/modules/budgets";
+import {
+  budgetInForce,
+  governments,
+  taxPaymentsOf,
+} from "../../../src/core2/modules/budgets";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { countryStateParts, countryStates } from "../../../src/core2/modules/macro";
+import {
+  countryStateParts,
+  countryStates,
+} from "../../../src/core2/modules/macro";
 import { coreAPI } from "../../../src/core2/state";
 
 const place = drawPlace("meet-a1:1", "meetings-floor");

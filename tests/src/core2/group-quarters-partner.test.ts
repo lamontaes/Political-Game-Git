@@ -11,10 +11,17 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { inGroupQuarters } from "../../../src/core2/modules/moves";
-import { movingOrder, PARTNERSHIPS_MODULE_ID } from "../../../src/core2/modules/partnerships";
+import {
+  movingOrder,
+  PARTNERSHIPS_MODULE_ID,
+} from "../../../src/core2/modules/partnerships";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 

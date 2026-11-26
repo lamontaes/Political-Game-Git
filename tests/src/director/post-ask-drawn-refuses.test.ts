@@ -38,7 +38,11 @@ import {
   statePostsToFill,
 } from "../../../src/core2/modules/executive";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { askToServe, postAsks, serveAsk } from "../../../src/core2/modules/serve-asks";
+import {
+  askToServe,
+  postAsks,
+  serveAsk,
+} from "../../../src/core2/modules/serve-asks";
 import { seatPlayerInStateOffice } from "../../../src/core2/office-day-state";
 import { workHeld } from "../../../src/core2/person-work";
 import { coreAPI } from "../../../src/core2/state";

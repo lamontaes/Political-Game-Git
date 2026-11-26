@@ -19,7 +19,10 @@ import { OUTCOME_WEB_MODULE_ID } from "../../../src/core2/outcome-web-model";
 import { TERM_MEASURES, areasAnswered } from "../../../src/core2/term-read";
 import { platformShares } from "../../../src/core2/campaign-stances";
 import { campaignFor } from "../../../src/core2/modules/campaigns";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 

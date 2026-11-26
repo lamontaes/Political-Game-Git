@@ -8,7 +8,10 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { buildBenchWorld } from "../../../src/bench/world";
-import { politicsStates, stateLegislators } from "../../../src/bench/government";
+import {
+  politicsStates,
+  stateLegislators,
+} from "../../../src/bench/government";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 

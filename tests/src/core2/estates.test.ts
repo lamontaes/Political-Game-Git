@@ -1,10 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { piecesInput, piecesSource } from "../../../src/core2/core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../../src/core2/core-pieces-fixture";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { heirsOf, openEstates, settleEstate, trustOf, willOf } from "../../../src/core2/estates";
-import type { CoreInput, CoreState, PersonInput } from "../../../src/core2/types";
+import {
+  heirsOf,
+  openEstates,
+  settleEstate,
+  trustOf,
+  willOf,
+} from "../../../src/core2/estates";
+import type {
+  CoreInput,
+  CoreState,
+  PersonInput,
+} from "../../../src/core2/types";
 
 const fact = (personId: string, relation: string, otherId: string) => ({
   id: `${personId}:past:${otherId}`,

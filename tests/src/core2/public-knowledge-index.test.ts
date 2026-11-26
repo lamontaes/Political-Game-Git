@@ -4,7 +4,12 @@ import { createLifeCore, availableActs } from "../../../src/core2/life";
 import { LIFE_MODULE } from "../../../src/core2/modules/life";
 import { parameter as p } from "../../../src/core2/parameters";
 import { coreAPI, knownPublicOrganizationIds } from "../../../src/core2/state";
-import type { CoreInput, CoreState, PersonInput, Source } from "../../../src/core2/types";
+import type {
+  CoreInput,
+  CoreState,
+  PersonInput,
+  Source,
+} from "../../../src/core2/types";
 
 const date = "2021-01-01";
 const actorId = "person:public-knowledge-fixture";

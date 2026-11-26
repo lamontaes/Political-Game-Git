@@ -6,7 +6,10 @@
 import { describe, expect, it } from "vitest";
 import housingData from "../../../src/core2/data/housing/housing.json" with { type: "json" };
 import parameters from "../../../src/core2/data/housing/parameters.json" with { type: "json" };
-import { publishedRentValueOf, rentValueOf } from "../../../src/core2/modules/housing";
+import {
+  publishedRentValueOf,
+  rentValueOf,
+} from "../../../src/core2/modules/housing";
 
 const counties = Object.keys(housingData.countyRentValue);
 const spread = parameters.housingWorldRentValueSpreadShare.value;

@@ -13,8 +13,15 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageInYears, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { openReach, reachParameter } from "../../../src/core2/law-reach/group-a-records";
+import {
+  addDays,
+  ageInYears,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
+import {
+  openReach,
+  reachParameter,
+} from "../../../src/core2/law-reach/group-a-records";
 import { advanceCore } from "../../../src/core2/life";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";

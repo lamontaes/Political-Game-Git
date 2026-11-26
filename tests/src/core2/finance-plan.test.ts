@@ -18,7 +18,10 @@ import {
   prepareFinanceCredit,
   prepareWorkFinancePlan,
 } from "../../../src/core2/finance-plan";
-import type { PreparedFinancePlan, PreparedWorkFinance } from "../../../src/core2/finance-plan";
+import type {
+  PreparedFinancePlan,
+  PreparedWorkFinance,
+} from "../../../src/core2/finance-plan";
 import type {
   CashJournalHost,
   CashJournalMetadataWrite,

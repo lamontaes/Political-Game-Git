@@ -18,9 +18,15 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { appliedOn, type LawAppliedRow } from "../../../src/core2/law-reach/applied";
+import {
+  appliedOn,
+  type LawAppliedRow,
+} from "../../../src/core2/law-reach/applied";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";
 import { drawPlace } from "../../../scripts/core2-year/place";

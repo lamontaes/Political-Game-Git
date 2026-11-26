@@ -6,7 +6,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { provisionFor } from "../../../src/core2/bill-catalog";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { groupWithholding, peopleInGroup } from "../../../src/core2/counted-money";
+import {
+  groupWithholding,
+  peopleInGroup,
+} from "../../../src/core2/counted-money";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";

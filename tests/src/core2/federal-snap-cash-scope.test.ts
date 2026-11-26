@@ -6,11 +6,27 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { amendBudget, governments, lineBeforeBill } from "../../../src/core2/modules/budgets";
-import { budgetNow, modeledShare, townShare } from "../../../src/core2/law-reach/group-b-money";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  amendBudget,
+  governments,
+  lineBeforeBill,
+} from "../../../src/core2/modules/budgets";
+import {
+  budgetNow,
+  modeledShare,
+  townShare,
+} from "../../../src/core2/law-reach/group-b-money";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
-import { putRow, rowsOf, REACH_B_MODULE_ID } from "../../../src/core2/law-reach/group-b-store";
+import {
+  putRow,
+  rowsOf,
+  REACH_B_MODULE_ID,
+} from "../../../src/core2/law-reach/group-b-store";
 import {
   selectResidents,
   townFacts,

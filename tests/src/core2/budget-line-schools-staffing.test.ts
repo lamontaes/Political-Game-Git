@@ -31,7 +31,10 @@ import {
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { prepareAct, officeHost } from "../../../src/core2/modules/office-day";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { budgetProposalDue, officeActHandlers } from "../../../src/core2/office-day-acts";
+import {
+  budgetProposalDue,
+  officeActHandlers,
+} from "../../../src/core2/office-day-acts";
 import { coreAPI } from "../../../src/core2/state";
 
 const seed = process.env.SCHOOLS_LINE_SEED ?? randomBytes(8).toString("hex");

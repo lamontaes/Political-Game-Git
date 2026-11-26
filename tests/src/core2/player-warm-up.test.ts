@@ -10,7 +10,11 @@ import {
 } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { warmUpOpening } from "../../../src/core2/player-warm-up";
 import { snapshotExplicitControlV1 } from "../../../src/core2/player-control-state-v1";
 

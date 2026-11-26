@@ -35,7 +35,10 @@ import { coreAPI } from "../../../src/core2/state";
 import type { CoreEventInput, PersonId } from "../../../src/core2/types";
 import replyMoves from "../../../src/core2/data/legislature/vote-replies.json" with { type: "json" };
 import sceneBank from "../../../data/english/parts/scene-talk.json" with { type: "json" };
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 /** Places tried before giving up on an ask by the player. */

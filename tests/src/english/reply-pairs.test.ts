@@ -12,10 +12,7 @@ import {
 import { talkReplyFlow, talkScenes } from "../../../src/director/scene-talk";
 import { tableOf } from "../../../src/english/reply-follows";
 import { idsHash } from "../../../src/english/judged";
-import {
-  buildTalks,
-  observedPairs,
-} from "../../support/scene-talk-fixture";
+import { buildTalks, observedPairs } from "../../support/scene-talk-fixture";
 
 const parts = (sceneBank as unknown as { parts: BankPart[] }).parts.filter(
   playable,

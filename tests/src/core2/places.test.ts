@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { placeLocalities, placeStateKeys } from "../../../src/core2/places";
 
 describe("core2 place listing", () => {

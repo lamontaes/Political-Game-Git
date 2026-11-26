@@ -17,8 +17,15 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { displacementExcess } from "../../../src/core2/health-own";
-import { DEATH_WEB_REFRESH_DAY, deathWebFactor } from "../../../src/core2/health-web";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  DEATH_WEB_REFRESH_DAY,
+  deathWebFactor,
+} from "../../../src/core2/health-web";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { medicaidCoverageSpells } from "../../../src/core2/law-reach/group-b-money";
 import { advanceCore } from "../../../src/core2/life";
 import {
@@ -27,8 +34,15 @@ import {
   healthReport,
 } from "../../../src/core2/modules/health";
 import { JOBS_MODULE_ID, tenureYears } from "../../../src/core2/modules/jobs";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  enactLaw,
+  lawChain,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";

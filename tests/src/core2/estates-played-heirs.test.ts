@@ -3,7 +3,12 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { ESTATES_MODULE_ID, heirsOf, settleEstate, willOf } from "../../../src/core2/estates";
+import {
+  ESTATES_MODULE_ID,
+  heirsOf,
+  settleEstate,
+  willOf,
+} from "../../../src/core2/estates";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI, registerModule } from "../../../src/core2/state";

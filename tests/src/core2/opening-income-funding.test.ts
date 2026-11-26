@@ -14,7 +14,11 @@ import {
   type OpeningRetirementFundingContract,
   type OpeningRetirementFundingOptions,
 } from "../../../src/core2/opening-income-funding";
-import { PARAMETERS, parameter as p, type Parameter } from "../../../src/core2/parameters";
+import {
+  PARAMETERS,
+  parameter as p,
+  type Parameter,
+} from "../../../src/core2/parameters";
 import { coreAPI, createCore } from "../../../src/core2/state";
 import { FINANCE_MODULE } from "../../../src/core2/modules/finance";
 import type {

@@ -14,7 +14,10 @@ import { countyPopulationSharesForPlace } from "../../../src/core2/reference/gov
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
 import { countyNonattainment } from "../../../src/core2/business-operating-rules";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { BUSINESS_MODULE, countedClosurePulls } from "../../../src/core2/modules/business";
+import {
+  BUSINESS_MODULE,
+  countedClosurePulls,
+} from "../../../src/core2/modules/business";
 import { worldCoreData } from "../../../src/core2/modules/world";
 import { realLocalities, type CorePlace } from "../../../src/core2/places";
 import { coreAPI } from "../../../src/core2/state";

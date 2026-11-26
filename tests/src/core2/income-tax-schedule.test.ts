@@ -5,9 +5,17 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { worldCoreData } from "../../../src/core2/modules/world";
-import { enactLaw, lawChain, lawInForce, openLaws } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  openLaws,
+} from "../../../src/core2/modules/laws";
 import { incomeTaxAct } from "../../../src/core2/law-reach/group-b-money";
-import { graduatedSchedule, reachParameter } from "../../../src/core2/law-reach/group-b-people";
+import {
+  graduatedSchedule,
+  reachParameter,
+} from "../../../src/core2/law-reach/group-b-people";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { withholdingFor } from "../../../src/core2/tax-withholding";
 import startingLaw from "../../../src/core2/data/laws/starting-law.json" with { type: "json" };

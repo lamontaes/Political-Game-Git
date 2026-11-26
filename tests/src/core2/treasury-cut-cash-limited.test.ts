@@ -17,7 +17,11 @@ import { treasuryMonthsOf } from "../../../src/core2/budgets-treasury";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { placeLocalities } from "../../../src/core2/places";
 import { coreAPI } from "../../../src/core2/state";
 

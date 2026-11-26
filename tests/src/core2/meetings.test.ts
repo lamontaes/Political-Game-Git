@@ -49,10 +49,17 @@ import {
   remarksOn,
   signUpToSpeak,
 } from "../../../src/core2/modules/meetings";
-import { personLean, personStance, questionAxis } from "../../../src/core2/campaign-views";
+import {
+  personLean,
+  personStance,
+  questionAxis,
+} from "../../../src/core2/campaign-views";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 
 const START = "2026-01-05";

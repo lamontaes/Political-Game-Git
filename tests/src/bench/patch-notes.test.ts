@@ -65,7 +65,10 @@ describe("patch notes for the title", () => {
 
   it("reads the repository's own notes file", () => {
     const text = readFileSync(
-      new URL("../../PATCH_NOTES.md", (new URL("../../../src/bench/patch-notes.test.ts", import.meta.url).href)),
+      new URL(
+        "../../PATCH_NOTES.md",
+        new URL("../../../src/bench/patch-notes.test.ts", import.meta.url).href,
+      ),
       "utf8",
     );
     const releases = patchNoteReleases(text);

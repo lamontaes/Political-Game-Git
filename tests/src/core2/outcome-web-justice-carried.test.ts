@@ -11,7 +11,11 @@ import { describe, expect, it } from "vitest";
 import crimeData from "../../../src/core2/data/crime/victimization.json" with { type: "json" };
 import { END_CASH_BAIL } from "../../../src/core2/justice-pretrial";
 import { VIOLENT } from "../../../src/core2/modules/crime";
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
 
 const link = (key: string) => WEB_LINKS.find((row) => row.key === key)!;
 

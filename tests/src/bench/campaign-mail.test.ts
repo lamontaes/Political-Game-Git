@@ -35,8 +35,16 @@ import {
 } from "../../../src/core2/modules/campaigns";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { takeCampaignDayChoice } from "../../../src/core2/campaign-day";
-import { campaignAct, campaignDay, campaignView } from "../../../src/bench/campaign";
-import { FOLDED_AT_POST, findRecord, traceNode } from "../../../src/bench/dev-trace";
+import {
+  campaignAct,
+  campaignDay,
+  campaignView,
+} from "../../../src/bench/campaign";
+import {
+  FOLDED_AT_POST,
+  findRecord,
+  traceNode,
+} from "../../../src/bench/dev-trace";
 import controls from "../../../src/bench/data/controls.json" with { type: "json" };
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 

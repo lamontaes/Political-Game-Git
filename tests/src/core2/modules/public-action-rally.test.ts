@@ -7,7 +7,10 @@ import { advanceCore } from "../../../../src/core2/life";
 import { coreAPI, registerModule } from "../../../../src/core2/state";
 import { OUTCOME_WEB_MODULE_ID } from "../../../../src/core2/outcome-web-model";
 import { TERM_MEASURES } from "../../../../src/core2/term-read";
-import { actionsOf, PUBLIC_ACTION_MODULE_ID } from "../../../../src/core2/modules/public-action";
+import {
+  actionsOf,
+  PUBLIC_ACTION_MODULE_ID,
+} from "../../../../src/core2/modules/public-action";
 import { CASE_MADE } from "../../../../src/core2/modules/speech";
 
 // A rally has no demand (owner, Nov 8: "if the world is great... you show up

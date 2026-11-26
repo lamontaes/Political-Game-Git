@@ -11,11 +11,18 @@
  */
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../golden-path/place";
-import { PARTIES_MODULE_ID, type PartyRow } from "../../../src/core2/modules/parties";
+import {
+  PARTIES_MODULE_ID,
+  type PartyRow,
+} from "../../../src/core2/modules/parties";
 import { coreAPI } from "../../../src/core2/state";
 import { decisionTraitWeight } from "../../../src/core2/trait-decisions";
 import { RUN_SEED } from "../../../src/core2/trait-test-kit";
-import { describePair, playedPairs, type PlayedCall } from "../../../src/core2/trait-pairs";
+import {
+  describePair,
+  playedPairs,
+  type PlayedCall,
+} from "../../../src/core2/trait-pairs";
 
 /** The civic decisions a played window weighs for named actors (all formula decisions). */
 const CIVIC = {

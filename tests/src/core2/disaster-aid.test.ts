@@ -12,7 +12,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { BUDGETS_MODULE_ID, type BudgetRow } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  type BudgetRow,
+} from "../../../src/core2/modules/budgets";
 import {
   nationalDisasterDetail,
   nationalEvents,

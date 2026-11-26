@@ -22,11 +22,18 @@ import {
   type InvestigationRow,
   type SentenceRow,
 } from "../../../src/core2/modules/justice";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 import { justiceChains } from "../../../src/core2/justice-chain";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { isExplicitlyControlledPersonV1 } from "../../../src/core2/player-control-state-v1";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 

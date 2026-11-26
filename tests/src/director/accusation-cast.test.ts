@@ -7,7 +7,10 @@
  * self-named; the cause reads the record's own `accuserId`.
  */
 import { expect, it } from "vitest";
-import { SITUATION_LIBRARY, causeMatches } from "../../../src/director/scheduling";
+import {
+  SITUATION_LIBRARY,
+  causeMatches,
+} from "../../../src/director/scheduling";
 
 const accusation = SITUATION_LIBRARY.types.find(
   (type) => type.key === "accusation",

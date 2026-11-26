@@ -25,7 +25,11 @@ import { outletsHere } from "../../../src/core2/modules/press";
 import { printStory, storiesHeard } from "../../../src/core2/modules/news";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
-import { newsStake, openConversation, say } from "../../../src/director/conversation";
+import {
+  newsStake,
+  openConversation,
+  say,
+} from "../../../src/director/conversation";
 import { strongestQuestion } from "../../../src/director/view-learned";
 
 interface Case {

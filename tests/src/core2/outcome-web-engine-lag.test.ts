@@ -13,8 +13,15 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

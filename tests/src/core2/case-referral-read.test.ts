@@ -13,7 +13,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { allCases, handleCase } from "../../../src/core2/modules/constituent-cases";
+import {
+  allCases,
+  handleCase,
+} from "../../../src/core2/modules/constituent-cases";
 import { referralStanding } from "../../../src/core2/modules/jobs";
 import { coreAPI } from "../../../src/core2/state";
 

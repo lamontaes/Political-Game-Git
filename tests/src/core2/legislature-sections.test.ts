@@ -12,7 +12,10 @@ import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, openOffices } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+} from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";

@@ -14,7 +14,11 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { JOBS_MODULE_ID, hirePay, type PositionRow } from "../../../src/core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  hirePay,
+  type PositionRow,
+} from "../../../src/core2/modules/jobs";
 import { lawInForce } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 

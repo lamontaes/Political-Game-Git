@@ -16,7 +16,10 @@ import {
   WEB_LINKS,
   WIRED_INTO,
 } from "../../../src/core2/outcome-web-model";
-import { nationalMeanWeight, subjectWeight } from "../../../src/core2/outcome-web-reach";
+import {
+  nationalMeanWeight,
+  subjectWeight,
+} from "../../../src/core2/outcome-web-reach";
 
 const link = (key: string) => WEB_LINKS.find((row) => row.key === key)!;
 const ENGINE_FILE = readFileSync("src/core2/school-outcomes.ts", "utf8");

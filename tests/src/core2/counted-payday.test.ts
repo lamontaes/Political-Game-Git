@@ -14,7 +14,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { FinanceReadGuard } from "../../../src/core2/finance-plan";
-import { nextWorkPayrollPeriod, workPayPeriodAtIndex } from "../../../src/core2/work-pay-period";
+import {
+  nextWorkPayrollPeriod,
+  workPayPeriodAtIndex,
+} from "../../../src/core2/work-pay-period";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 

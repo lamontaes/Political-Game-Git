@@ -19,7 +19,11 @@ import {
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { BUDGETS_MODULE_ID, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 

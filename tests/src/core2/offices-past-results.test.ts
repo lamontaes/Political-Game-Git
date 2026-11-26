@@ -14,7 +14,10 @@ import type { OpeningView } from "../../../src/bench/dev-views/opening";
 import SOURCES from "../../../src/bench/dev-views/opening-sources.json" with { type: "json" };
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { centurySeatRace, setHistoryMode } from "../../../src/core2/electorate-century";
+import {
+  centurySeatRace,
+  setHistoryMode,
+} from "../../../src/core2/electorate-century";
 import { buildPopulation } from "../../../src/core2/population";
 import { createLifeCore } from "../../../src/core2/life";
 import { gameStartDate } from "../../../src/core2/game-start";
@@ -24,7 +27,10 @@ import {
   openOffices,
   type TermRow,
 } from "../../../src/core2/modules/offices";
-import { realResult, recordedRaceShare } from "../../../src/core2/offices-past-results";
+import {
+  realResult,
+  recordedRaceShare,
+} from "../../../src/core2/offices-past-results";
 
 const RUN = `past-results:${Date.now()}`;
 

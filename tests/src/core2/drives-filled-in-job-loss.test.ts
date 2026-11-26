@@ -25,7 +25,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { drivesReport, type FormationTrace } from "../../../src/core2/modules/drives";
+import {
+  drivesReport,
+  type FormationTrace,
+} from "../../../src/core2/modules/drives";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 

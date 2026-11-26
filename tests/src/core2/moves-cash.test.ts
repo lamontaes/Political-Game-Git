@@ -8,7 +8,10 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { departuresSeen, watchDepartures } from "../../../src/core2/modules/moves";
+import {
+  departuresSeen,
+  watchDepartures,
+} from "../../../src/core2/modules/moves";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??

@@ -13,14 +13,21 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, townSeats } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+} from "../../../src/core2/modules/offices";
 import {
   FEDERAL_SENATE,
   bodyOf,
   mayorVeto,
   members,
 } from "../../../src/core2/modules/legislature";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import {
   appoint,
   appointmentQualification,
@@ -31,9 +38,15 @@ import {
   townForm,
 } from "../../../src/core2/modules/executive";
 import { answerIn } from "../../../src/core2/modules/laws";
-import { governmentOfJurisdiction, governments } from "../../../src/core2/modules/budgets";
+import {
+  governmentOfJurisdiction,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { postPayCapDaily } from "../../../src/core2/budgets-treasury";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??

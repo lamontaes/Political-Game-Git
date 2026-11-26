@@ -289,7 +289,10 @@ describe("the bust bank", () => {
   describe("head shapes, shades and the flagged pairs", () => {
     const manifest = JSON.parse(
       readFileSync(
-        new URL("../../art/busts/v1/manifest.json", (new URL("../../../src/bench/bust.test.ts", import.meta.url).href)),
+        new URL(
+          "../../art/busts/v1/manifest.json",
+          new URL("../../../src/bench/bust.test.ts", import.meta.url).href,
+        ),
         "utf8",
       ),
     ) as {

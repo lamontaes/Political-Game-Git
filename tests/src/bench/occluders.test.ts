@@ -25,7 +25,7 @@ describe("occluder masks baked from each place painting", () => {
     for (const [place, entry] of Object.entries(places)) {
       const parent = new URL(
         `../../art/backdrops/${entry.parent}`,
-        (new URL("../../../src/bench/occluders.test.ts", import.meta.url).href),
+        new URL("../../../src/bench/occluders.test.ts", import.meta.url).href,
       );
       expect(entry.parent.startsWith(`${place}__`)).toBe(true);
       expect(

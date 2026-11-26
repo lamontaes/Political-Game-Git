@@ -18,8 +18,15 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { newsKey, storyDelivered, storyOfReadEvent } from "../../../src/core2/modules/news";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  newsKey,
+  storyDelivered,
+  storyOfReadEvent,
+} from "../../../src/core2/modules/news";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { PRESS_MODULE_ID } from "../../../src/core2/modules/press";
 import {
   registerStanceListener,

@@ -13,7 +13,10 @@ import {
   makeIsoDate,
 } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { careNeedOf } from "../../../src/core2/modules/health";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { partyTie } from "../../../src/core2/modules/parties";

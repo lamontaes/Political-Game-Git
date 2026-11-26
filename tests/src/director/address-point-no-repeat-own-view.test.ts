@@ -12,7 +12,12 @@ import {
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import type { PersonId } from "../../../src/core2/types";
-import { meetOverTalk, noteHeard, openConversation, say } from "../../../src/director/conversation";
+import {
+  meetOverTalk,
+  noteHeard,
+  openConversation,
+  say,
+} from "../../../src/director/conversation";
 
 // The first evening's talk after the address point (the Story lead's pick (b)
 // of Fixer A's trace, #9750): where the housemate then says where they stand

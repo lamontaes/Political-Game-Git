@@ -35,7 +35,10 @@ import {
   fullFacts,
   participationShift,
 } from "../../../src/core2/jobs-web";
-import { END_CASH_BAIL, type PretrialRow } from "../../../src/core2/justice-pretrial";
+import {
+  END_CASH_BAIL,
+  type PretrialRow,
+} from "../../../src/core2/justice-pretrial";
 import {
   addDays,
   ageOnDate,
@@ -62,7 +65,12 @@ import {
   type CaseRow,
   type InvestigationRow,
 } from "../../../src/core2/modules/justice";
-import { enactLaw, lawChain, lawInForce, webReach } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  webReach,
+} from "../../../src/core2/modules/laws";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";

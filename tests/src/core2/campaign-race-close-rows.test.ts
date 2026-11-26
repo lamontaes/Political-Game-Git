@@ -11,7 +11,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { CAMPAIGNS_MODULE_ID, closeRace } from "../../../src/core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  closeRace,
+} from "../../../src/core2/modules/campaigns";
 import { ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";

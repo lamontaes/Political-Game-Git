@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../../../src/core2/civic-inputs";
 import { initialFocusPeople } from "../../../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../../../src/core2/life";
@@ -7,7 +11,10 @@ import { buildPopulation } from "../../../../src/core2/population";
 import type { CoreState } from "../../../../src/core2/types";
 import { composeJournal } from "../../../../src/director/journal";
 import { createDirector } from "../../../../src/director/ledger";
-import { JOURNAL_BANK, journalDataFromBank } from "../../../../src/english/mined/journal-bank";
+import {
+  JOURNAL_BANK,
+  journalDataFromBank,
+} from "../../../../src/english/mined/journal-bank";
 
 /**
  * The mined journal bank, written through the story director's own

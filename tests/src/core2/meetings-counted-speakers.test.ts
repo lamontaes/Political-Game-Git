@@ -18,10 +18,16 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { isDemoted } from "../../../src/core2/counted-groups";
 import { advanceCore } from "../../../src/core2/life";
 import { countedDemotions } from "../../../src/core2/modules/counted-demotion";
-import { LEGISLATURE_MODULE_ID, type BillRow } from "../../../src/core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../../../src/core2/modules/legislature";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { addressesGivenBy } from "../../../src/core2/modules/speech";
-import { countedRecordOnly, MEETINGS_MODULE_ID } from "../../../src/core2/modules/meetings";
+import {
+  countedRecordOnly,
+  MEETINGS_MODULE_ID,
+} from "../../../src/core2/modules/meetings";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

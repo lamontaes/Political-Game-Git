@@ -14,7 +14,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import { coreAPI, fillInPerson, registerModule } from "../../../src/core2/state";
+import {
+  coreAPI,
+  fillInPerson,
+  registerModule,
+} from "../../../src/core2/state";
 import type { CoreEventInput } from "../../../src/core2/types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

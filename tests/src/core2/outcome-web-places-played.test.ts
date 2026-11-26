@@ -27,13 +27,21 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import {
   lawValue,
   OUTCOME_WEB_MODULE_ID,
   type WebMonth,
 } from "../../../src/core2/modules/outcome-web";
-import { CALIBRATED_AT, moderatorScale, WEB_LINKS } from "../../../src/core2/outcome-web-model";
+import {
+  CALIBRATED_AT,
+  moderatorScale,
+  WEB_LINKS,
+} from "../../../src/core2/outcome-web-model";
 import { webFactorFor } from "../../../src/core2/outcome-web-reach";
 import WEB_SETTINGS from "../../../src/core2/data/outcome-web/outcome-web.json";
 import { coreAPI } from "../../../src/core2/state";

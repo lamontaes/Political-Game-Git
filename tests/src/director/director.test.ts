@@ -18,7 +18,10 @@ import type {
   Source,
 } from "../../../src/core2/types";
 import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
-import { createDirector, DEFAULT_DIRECTOR_DATA } from "../../../src/director/ledger";
+import {
+  createDirector,
+  DEFAULT_DIRECTOR_DATA,
+} from "../../../src/director/ledger";
 import {
   paceOf,
   scheduleMoment,
@@ -26,7 +29,10 @@ import {
   type SituationLibrary,
 } from "../../../src/director/scheduling";
 import { composeScene } from "../../../src/director/scene";
-import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "../../../src/director/stopgaps";
+import {
+  DIRECTOR_STOPGAPS,
+  openDirectorStopgapCount,
+} from "../../../src/director/stopgaps";
 import type { DirectorData } from "../../../src/director/types";
 
 const startedAt = "2021-01-01";

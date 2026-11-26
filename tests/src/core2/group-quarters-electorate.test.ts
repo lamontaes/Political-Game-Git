@@ -13,7 +13,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { countedResidents } from "../../../src/core2/electorate";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { prisonPartOfBarredShare } from "../../../src/core2/law-reach/group-a-voting";
-import { CAMPAIGNS_MODULE_ID, townDoorCount } from "../../../src/core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  townDoorCount,
+} from "../../../src/core2/modules/campaigns";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { countedVoters } from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";

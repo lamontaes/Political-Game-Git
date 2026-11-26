@@ -2,9 +2,17 @@ import { describe, expect, it } from "vitest";
 import { randomBytes } from "node:crypto";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { ageOnDate, addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  ageOnDate,
+  addDays,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { buildBenchWorld, entrantChoice, entrantOf } from "../../../src/bench/world";
+import {
+  buildBenchWorld,
+  entrantChoice,
+  entrantOf,
+} from "../../../src/bench/world";
 import type { CoreInput } from "../../../src/core2/types";
 
 const place = "place:entrant-fixture";

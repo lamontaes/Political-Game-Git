@@ -2,7 +2,10 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { purchaseTaxes, taxInside } from "../../../src/core2/modules/purchase-tax";
+import {
+  purchaseTaxes,
+  taxInside,
+} from "../../../src/core2/modules/purchase-tax";
 import {
   countedFundOf,
   countedHouseholdsByPlace,
@@ -10,7 +13,11 @@ import {
 } from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
-import type { CoreModule, CoreState, SalesReceiptNotice } from "../../../src/core2/types";
+import type {
+  CoreModule,
+  CoreState,
+  SalesReceiptNotice,
+} from "../../../src/core2/types";
 import { daysAfterStart } from "../../../src/core2/tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

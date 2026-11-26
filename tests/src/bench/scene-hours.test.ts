@@ -16,7 +16,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { BenchPlayer } from "../../../src/bench/player";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { parameter } from "../../../src/core2/parameters";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { coreAPI } from "../../../src/core2/state";
 import {

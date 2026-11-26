@@ -7,8 +7,14 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { LEGISLATURE_MODULE_ID, members } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  LEGISLATURE_MODULE_ID,
+  members,
+} from "../../../src/core2/modules/legislature";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
   standing,
@@ -24,7 +30,11 @@ import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 import { CIRCUMSTANCES } from "../../../src/director/circumstance";
 import type { Director } from "../../../src/director/ledger";
-import { lawName, purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  lawName,
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import { composeScene } from "../../../src/director/scene";
 import { SITUATION_LIBRARY } from "../../../src/director/scheduling";
 import { gatherSignatures } from "../../../src/core2/campaign-petition-kit";

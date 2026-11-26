@@ -5,7 +5,10 @@ import {
   centuryLegislatures,
   setHistoryMode,
 } from "../../../src/core2/electorate-century";
-import { legislativePlace, worldSwing } from "../../../src/core2/electorate-places";
+import {
+  legislativePlace,
+  worldSwing,
+} from "../../../src/core2/electorate-places";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { districtIdentityCatalog } from "../../../src/districts/catalog";
 import {

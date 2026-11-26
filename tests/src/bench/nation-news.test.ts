@@ -10,7 +10,11 @@ import { advanceCore } from "../../../src/core2/life";
 import reach from "../../../src/core2/data/places/state-reach.json" with { type: "json" };
 import { parameter } from "../../../src/core2/parameters";
 import { placeStateKey } from "../../../src/core2/place-map";
-import { nationLaws, nationScore, nationStories } from "../../../src/bench/nation-news";
+import {
+  nationLaws,
+  nationScore,
+  nationStories,
+} from "../../../src/bench/nation-news";
 import { buildBenchWorld } from "../../../src/bench/world";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

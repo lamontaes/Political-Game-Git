@@ -18,7 +18,11 @@ import { OPENING_KIN } from "../../../src/core2/opening-kin";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 import { applyChosenPerson } from "../../../src/bench/creator";
-import { buildBenchWorld, type EntrantPick, PLAYER_MIN_AGE } from "../../../src/bench/world";
+import {
+  buildBenchWorld,
+  type EntrantPick,
+  PLAYER_MIN_AGE,
+} from "../../../src/bench/world";
 
 const PLACES = [
   {

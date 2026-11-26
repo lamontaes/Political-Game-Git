@@ -3,7 +3,10 @@ import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
 import { openLaws, lawInForce } from "../../../src/core2/modules/laws";
 import { unemploymentTerms } from "../../../src/core2/jobs-benefits";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import {
   JOBS_MODULE,
@@ -23,7 +26,10 @@ import { parameter } from "../../../src/core2/parameters";
 import startingLaw from "../../../src/core2/data/laws/starting-law.json" with { type: "json" };
 import { startPublicJob } from "../../../src/core2/public-payroll";
 import { hireStaff } from "../../../src/core2/modules/staff";
-import { JUSTICE_MODULE, JUSTICE_MODULE_ID } from "../../../src/core2/modules/justice";
+import {
+  JUSTICE_MODULE,
+  JUSTICE_MODULE_ID,
+} from "../../../src/core2/modules/justice";
 import { coreAPI } from "../../../src/core2/state";
 import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { residentsRuntime } from "../../../src/core2/modules/residents";

@@ -20,7 +20,10 @@ import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
 } from "../../../src/core2/modules/elections";
-import { VOTING_MODULE_ID, type ResultRow } from "../../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  type ResultRow,
+} from "../../../src/core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import { candidacyParameter } from "../../../src/core2/candidate-pool";
 import {

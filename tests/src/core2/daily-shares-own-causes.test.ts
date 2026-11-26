@@ -5,14 +5,21 @@ import { findRecord } from "../../../src/bench/dev-trace";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { piecesInput, piecesSource } from "../../../src/core2/core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../../src/core2/core-pieces-fixture";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { openingClosenessHours } from "../../../src/core2/closeness";
 import { ownUpkeep, reserveHours } from "../../../src/core2/free-block";
 import { willOf } from "../../../src/core2/estates";
-import type { CoreInput, CoreState, PersonInput } from "../../../src/core2/types";
+import type {
+  CoreInput,
+  CoreState,
+  PersonInput,
+} from "../../../src/core2/types";
 
 // Pins family 31 (CTO, "LIFT THE PINS", #9747): the day's small shares come
 // from each person's own home, job, savings and family, never from a

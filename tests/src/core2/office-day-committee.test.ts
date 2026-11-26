@@ -16,8 +16,14 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { committeeForSection } from "../../../src/core2/legislature-committees";
 import { lawHere } from "../../../src/core2/modules/laws";
-import { draftBill, holdCommittee } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  draftBill,
+  holdCommittee,
+} from "../../../src/core2/modules/legislature";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import {
   actOn,
   committeesOf,

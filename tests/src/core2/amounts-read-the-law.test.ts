@@ -16,14 +16,23 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { traceNode } from "../../../src/bench/dev-trace";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { DEBT_LIMIT, federalDebtLimit } from "../../../src/core2/budgets-treasury";
+import {
+  DEBT_LIMIT,
+  federalDebtLimit,
+} from "../../../src/core2/budgets-treasury";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { withholdingOf } from "../../../src/core2/modules/budgets";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { OFFICE_DAY_MODULE_ID, type OfficeJobRow } from "../../../src/core2/modules/office-day";
-import { localSeatPaySeries, seatPayRow } from "../../../src/core2/office-day-pay";
+import {
+  OFFICE_DAY_MODULE_ID,
+  type OfficeJobRow,
+} from "../../../src/core2/modules/office-day";
+import {
+  localSeatPaySeries,
+  seatPayRow,
+} from "../../../src/core2/office-day-pay";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import {
   PAID_LEAVE_KEY,

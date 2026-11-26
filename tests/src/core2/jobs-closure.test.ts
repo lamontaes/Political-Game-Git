@@ -2,9 +2,15 @@
 import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { filingDecision, unemploymentTerms } from "../../../src/core2/jobs-benefits";
+import {
+  filingDecision,
+  unemploymentTerms,
+} from "../../../src/core2/jobs-benefits";
 import traitPulls from "../../../data/content/trait-act-pulls.json";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { closeBusinessByChoice } from "../../../src/core2/finance-state";
 import { JOBS_MODULE } from "../../../src/core2/modules/jobs";

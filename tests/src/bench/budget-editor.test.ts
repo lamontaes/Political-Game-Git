@@ -11,11 +11,17 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { budgetPriorities, governments } from "../../../src/core2/modules/budgets";
+import {
+  budgetPriorities,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { memberKey } from "../../../src/core2/modules/legislature";
 import { officeHost } from "../../../src/core2/modules/office-day";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { budgetProposalDue, officeActHandlers } from "../../../src/core2/office-day-acts";
+import {
+  budgetProposalDue,
+  officeActHandlers,
+} from "../../../src/core2/office-day-acts";
 import { coreAPI } from "../../../src/core2/state";
 import { budgetLinePick, officeView } from "../../../src/bench/office";
 import { buildBenchWorld } from "../../../src/bench/world";

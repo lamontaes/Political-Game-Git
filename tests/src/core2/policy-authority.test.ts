@@ -239,7 +239,8 @@ describe("recorded policy powers", () => {
     const territories = ["PR", "GU", "VI", "AS", "MP"];
     const usps =
       territories[parseInt(seed.slice(0, 4), 16) % territories.length]!;
-    const { searchCorePlaces } = await import("../../../src/core2/place-lookup");
+    const { searchCorePlaces } =
+      await import("../../../src/core2/place-lookup");
     const places = [
       ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: `US-${usps}`,

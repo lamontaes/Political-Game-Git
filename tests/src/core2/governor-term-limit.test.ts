@@ -15,7 +15,10 @@ import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { executiveTermLimit } from "../../../src/core2/executive-term-limits";
 import { advanceCore } from "../../../src/core2/life";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 
 const SERIES = "executive-term-limit";

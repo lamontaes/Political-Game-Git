@@ -1,5 +1,8 @@
 import { expect, it } from "vitest";
-import { COUNTER_REPLIES, counterReplies } from "../../../src/bench/ui/counter-picks.mjs";
+import {
+  COUNTER_REPLIES,
+  counterReplies,
+} from "../../../src/bench/ui/counter-picks.mjs";
 
 const pick = (id: string) => ({
   key: `pick:${id}`,

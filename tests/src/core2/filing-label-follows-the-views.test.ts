@@ -3,7 +3,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { partiesHere, partyTie, tieBeforeFiling } from "../../../src/core2/modules/parties";
+import {
+  partiesHere,
+  partyTie,
+  tieBeforeFiling,
+} from "../../../src/core2/modules/parties";
 import { ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
 

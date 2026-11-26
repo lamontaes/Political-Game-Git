@@ -28,7 +28,10 @@ import {
   runtimeOf,
   stateOfCountedPlace,
 } from "../../../src/core2/modules/counted-moves";
-import { residentsRuntime, townPlaceOf } from "../../../src/core2/modules/residents";
+import {
+  residentsRuntime,
+  townPlaceOf,
+} from "../../../src/core2/modules/residents";
 import moveRows from "../../../src/core2/data/moves/parameters.json" with { type: "json" };
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";

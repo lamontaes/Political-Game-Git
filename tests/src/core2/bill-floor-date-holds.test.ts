@@ -15,8 +15,14 @@ import { BenchPlayer } from "../../../src/bench/player";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { billPaper, seatAct } from "../../../src/bench/legislature";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
-import { stateFloorHolds, voteOnStateFloor } from "../../../src/core2/office-day-state";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
+import {
+  stateFloorHolds,
+  voteOnStateFloor,
+} from "../../../src/core2/office-day-state";
 import { lawInForce } from "../../../src/core2/modules/laws";
 import { LEGISLATURE_MODULE_ID } from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";

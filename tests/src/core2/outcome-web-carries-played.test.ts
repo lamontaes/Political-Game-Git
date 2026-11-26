@@ -17,7 +17,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { VOTING_MODULE_ID } from "../../../src/core2/voting-module-id";
 import { federalOffices } from "../../../src/core2/offices-state";
 import { baseOf } from "../../../src/core2/outcome-web-model";

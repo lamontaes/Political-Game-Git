@@ -16,8 +16,14 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
 import { coreAPI } from "../../../src/core2/state";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "../../../src/core2/modules/officials";
-import { OFFICIAL_PAY_MODULE_ID, officialSalary } from "../../../src/core2/modules/official-pay";
+import {
+  OFFICIALS_MODULE_ID,
+  type OfficialRow,
+} from "../../../src/core2/modules/officials";
+import {
+  OFFICIAL_PAY_MODULE_ID,
+  officialSalary,
+} from "../../../src/core2/modules/official-pay";
 import { placeStateKey } from "../../../src/core2/place-map";
 import { keepsWhy } from "../../../src/core2/why-kept";
 

@@ -11,7 +11,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { draftBill, billOf } from "../../../src/core2/modules/legislature";
-import { officeActsOf, officeHost } from "../../../src/core2/modules/office-day";
+import {
+  officeActsOf,
+  officeHost,
+} from "../../../src/core2/modules/office-day";
 import {
   OFFICES_MODULE_ID,
   townSeats,

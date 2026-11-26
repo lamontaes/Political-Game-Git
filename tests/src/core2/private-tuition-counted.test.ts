@@ -14,7 +14,10 @@ import {
   residentsRuntime,
 } from "../../../src/core2/modules/residents";
 import { parameter as p } from "../../../src/core2/parameters";
-import { lastTuitionRanking, tuitionPlans } from "../../../src/core2/private-tuition-reenroll";
+import {
+  lastTuitionRanking,
+  tuitionPlans,
+} from "../../../src/core2/private-tuition-reenroll";
 import { fillInPerson } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

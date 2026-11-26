@@ -12,7 +12,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { fillInPerson } from "../../../src/core2/state";
-import { pooledFlows, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  pooledFlows,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "fill-in-pooled-flows");

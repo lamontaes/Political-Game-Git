@@ -10,7 +10,10 @@ import { lawChainForPlace } from "../../../src/core2/laws-starting";
 import { advanceCore } from "../../../src/core2/life";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { provisionStance, type Provision } from "../../../src/core2/modules/legislature";
+import {
+  provisionStance,
+  type Provision,
+} from "../../../src/core2/modules/legislature";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

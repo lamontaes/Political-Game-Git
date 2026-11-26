@@ -13,7 +13,10 @@ import {
   OFFICIAL_PAY_MODULE,
   OFFICIAL_PAY_MODULE_ID,
 } from "../../../src/core2/modules/official-pay";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "../../../src/core2/modules/officials";
+import {
+  OFFICIALS_MODULE_ID,
+  type OfficialRow,
+} from "../../../src/core2/modules/officials";
 import {
   OFFICES_MODULE_ID,
   seatTerm,

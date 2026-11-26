@@ -7,7 +7,11 @@ import {
 import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { fillInPerson } from "../../../src/core2/state";
-import { buildMonth, openStock, permitRates } from "../../../src/core2/housing-construction";
+import {
+  buildMonth,
+  openStock,
+  permitRates,
+} from "../../../src/core2/housing-construction";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { HOUSING_MODULE } from "../../../src/core2/modules/housing";
 import { worldCoreData } from "../../../src/core2/modules/world";

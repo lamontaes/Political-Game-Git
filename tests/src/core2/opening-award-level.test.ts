@@ -12,7 +12,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { daysAfterStart } from "../../../src/core2/tooling/test-days";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { amendBudget, governments, openBudgets } from "../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  governments,
+  openBudgets,
+} from "../../../src/core2/modules/budgets";
 import { budgetInForce } from "../../../src/core2/budgets-treasury";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";

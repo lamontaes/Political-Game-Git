@@ -14,15 +14,26 @@ import {
   settleWorkPayrollJournal,
   workPayrollCashSourceProvider,
 } from "../../../src/core2/work-payroll-cash";
-import { nextWorkPayrollPeriod, workPayPeriodAtIndex } from "../../../src/core2/work-pay-period";
+import {
+  nextWorkPayrollPeriod,
+  workPayPeriodAtIndex,
+} from "../../../src/core2/work-pay-period";
 import {
   FinanceReadGuard,
   FinancePlanningSession,
   prepareWorkFinancePlan,
 } from "../../../src/core2/finance-plan";
 import { cashJournalParameters } from "../../../src/core2/cash-host";
-import type { BusinessBooksState, CreditFacilityState } from "../../../src/core2/finance-types";
-import type { CoreAPI, CoreInput, CoreState, Source } from "../../../src/core2/types";
+import type {
+  BusinessBooksState,
+  CreditFacilityState,
+} from "../../../src/core2/finance-types";
+import type {
+  CoreAPI,
+  CoreInput,
+  CoreState,
+  Source,
+} from "../../../src/core2/types";
 import type { WorkPayrollCalendarInput } from "../../../src/core2/work-pay-period";
 
 const employer = "cash-fixture-employer",

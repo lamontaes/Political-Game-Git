@@ -3,7 +3,10 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { payrollReserve, sameGovernment } from "../../../src/core2/budgets-treasury";
+import {
+  payrollReserve,
+  sameGovernment,
+} from "../../../src/core2/budgets-treasury";
 import {
   federalJurisdictionId,
   stateJurisdictionId,

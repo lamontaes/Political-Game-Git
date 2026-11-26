@@ -9,8 +9,18 @@ import { drawPlace } from "../../golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
 import { fileClaim, unemploymentTerms } from "../../../src/core2/jobs-benefits";
 import { decisionLean } from "../../../src/core2/trait-decisions";
-import { adultsOf, drawnRaceWorld, RUN_SEED, weightOf } from "../../../src/core2/trait-test-kit";
-import type { CoreAPI, CoreState, JobInput, PersonState } from "../../../src/core2/types";
+import {
+  adultsOf,
+  drawnRaceWorld,
+  RUN_SEED,
+  weightOf,
+} from "../../../src/core2/trait-test-kit";
+import type {
+  CoreAPI,
+  CoreState,
+  JobInput,
+  PersonState,
+} from "../../../src/core2/types";
 
 const SEED = `${RUN_SEED}:jobs-benefits`;
 

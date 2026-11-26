@@ -23,7 +23,10 @@ import {
   PRESS_MODULE_ID,
 } from "../../../src/core2/modules/press";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import type { AdBuyRow, OutletRevenueMonthRow } from "../../../src/core2/press-money";
+import type {
+  AdBuyRow,
+  OutletRevenueMonthRow,
+} from "../../../src/core2/press-money";
 import { coreAPI } from "../../../src/core2/state";
 import type { CashJournalReceipt } from "../../../src/core2/journal-state";
 import type { CoreState } from "../../../src/core2/types";

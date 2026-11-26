@@ -18,10 +18,20 @@ import {
   DEATH_CAUSE_IDS,
 } from "../../../src/core2/death-cause";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { healthDeathWebOf, healthReport } from "../../../src/core2/modules/health";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  healthDeathWebOf,
+  healthReport,
+} from "../../../src/core2/modules/health";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
 import { coreAPI } from "../../../src/core2/state";
 import { drawPlace } from "../../../scripts/core2-year/place";

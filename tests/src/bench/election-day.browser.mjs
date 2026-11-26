@@ -10,7 +10,10 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { drawPlace } from "../../../scripts/core2-year/place.ts";
-import { devModeOn, devRunUntilMayFile } from "../../../src/bench/dev-setup.mjs";
+import {
+  devModeOn,
+  devRunUntilMayFile,
+} from "../../../src/bench/dev-setup.mjs";
 
 // Pinned: without EDAY_SEED the check plays the place the polling check plays
 // (Hampstead, Maryland); the check files for the race asking the fewest

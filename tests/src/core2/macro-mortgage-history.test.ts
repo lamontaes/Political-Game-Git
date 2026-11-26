@@ -28,7 +28,10 @@ function transitionIndex(): Map<string, number> {
   for (const line of readFileSync(
     new URL(
       "../../data/research/macro/series/mirs-transition-index.csv",
-      (new URL("../../../src/core2/macro-mortgage-history.test.ts", import.meta.url).href),
+      new URL(
+        "../../../src/core2/macro-mortgage-history.test.ts",
+        import.meta.url,
+      ).href,
     ),
     "utf8",
   )

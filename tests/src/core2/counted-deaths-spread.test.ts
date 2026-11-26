@@ -3,7 +3,11 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { advanceCore } from "../../../src/core2/life";
 import { createRenewalCore } from "../../../src/core2/births-setup";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";

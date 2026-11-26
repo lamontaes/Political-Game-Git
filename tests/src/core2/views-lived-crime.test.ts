@@ -19,7 +19,11 @@ import types from "../../../src/core2/data/crime/victimization.json" with { type
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { CRIME_EVENT, CRIME_MODULE_ID, type CrimeMonth } from "../../../src/core2/modules/crime";
+import {
+  CRIME_EVENT,
+  CRIME_MODULE_ID,
+  type CrimeMonth,
+} from "../../../src/core2/modules/crime";
 import {
   registerStanceListener,
   viewOf,

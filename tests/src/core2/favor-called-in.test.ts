@@ -20,7 +20,10 @@ import {
   campaignTurn,
   type EndorsementRow,
 } from "../../../src/core2/modules/campaigns";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import {
   bodyOf,
   draftBill,

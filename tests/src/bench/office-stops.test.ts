@@ -4,7 +4,10 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { heldFederal } from "../../../src/core2/office-day-federal";
-import { deskWaiting, leaveDeskToCharacter } from "../../../src/core2/modules/office-day";
+import {
+  deskWaiting,
+  leaveDeskToCharacter,
+} from "../../../src/core2/modules/office-day";
 import {
   cabinetOf,
   leavePostOpen,
@@ -17,7 +20,11 @@ import {
   type TermRow,
 } from "../../../src/core2/modules/offices";
 import { coreAPI, type CoreState } from "../../../src/core2/state";
-import { nominationsView, ordersDecide, ordersView } from "../../../src/bench/office";
+import {
+  nominationsView,
+  ordersDecide,
+  ordersView,
+} from "../../../src/bench/office";
 import { BenchPlayer } from "../../../src/bench/player";
 
 // No stop may trap a player: every moment that holds the clock for a governor or a president has

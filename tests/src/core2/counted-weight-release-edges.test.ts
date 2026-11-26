@@ -16,13 +16,19 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import type { CountedHousehold } from "../../../src/core2/counted-groups";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { householdIncome, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  householdIncome,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import {
   countedHeadcountOf,
   countedJobHeads,
   countedJobsOf,
 } from "../../../src/core2/residents-economy";
-import { payrollReserve, treasuryParameter } from "../../../src/core2/budgets-treasury";
+import {
+  payrollReserve,
+  treasuryParameter,
+} from "../../../src/core2/budgets-treasury";
 import { governments } from "../../../src/core2/modules/budgets";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { CoreState, JobInput } from "../../../src/core2/types";

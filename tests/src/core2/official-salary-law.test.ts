@@ -20,8 +20,14 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { withholdingOf } from "../../../src/core2/modules/budgets";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { OFFICIAL_PAY_MODULE_ID, salarySeries } from "../../../src/core2/modules/official-pay";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "../../../src/core2/modules/officials";
+import {
+  OFFICIAL_PAY_MODULE_ID,
+  salarySeries,
+} from "../../../src/core2/modules/official-pay";
+import {
+  OFFICIALS_MODULE_ID,
+  type OfficialRow,
+} from "../../../src/core2/modules/officials";
 import { coreAPI } from "../../../src/core2/state";
 import { setKeepEveryonesWhy } from "../../../src/core2/why-kept";
 

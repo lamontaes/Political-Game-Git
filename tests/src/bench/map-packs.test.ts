@@ -19,7 +19,10 @@ import { placeLocalities } from "../../../src/core2/places";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { governmentMap } from "../../../src/bench/map";
 
-const GEOMETRY = new URL("../maps/geometry/states/", (new URL("../../../src/bench/map-packs.test.ts", import.meta.url).href));
+const GEOMETRY = new URL(
+  "../maps/geometry/states/",
+  new URL("../../../src/bench/map-packs.test.ts", import.meta.url).href,
+);
 /** Every locked source file by id: the boundary files and the 2026 district-line files the packs are drawn from. */
 function lockedArtifacts(): Map<string, string> {
   const found = new Map<string, string>();
@@ -36,7 +39,18 @@ function lockedArtifacts(): Map<string, string> {
     "../../data/source/map-geometry/artifact-lock.json",
     "../../data/research/district-lines-2026/artifact-lock.json",
   ])
-    walk(JSON.parse(readFileSync(new URL(path, (new URL("../../../src/bench/map-packs.test.ts", import.meta.url).href)), "utf8")));
+    walk(
+      JSON.parse(
+        readFileSync(
+          new URL(
+            path,
+            new URL("../../../src/bench/map-packs.test.ts", import.meta.url)
+              .href,
+          ),
+          "utf8",
+        ),
+      ),
+    );
   return found;
 }
 const LOCKED = lockedArtifacts();
@@ -141,7 +155,10 @@ it("a drawn territory's town loads its map with the outline and its county equiv
 it("the manifest names each territory pack by its size and hash", () => {
   const manifest = JSON.parse(
     readFileSync(
-      new URL("../../data/source/map-geometry/manifest.json", (new URL("../../../src/bench/map-packs.test.ts", import.meta.url).href)),
+      new URL(
+        "../../data/source/map-geometry/manifest.json",
+        new URL("../../../src/bench/map-packs.test.ts", import.meta.url).href,
+      ),
       "utf8",
     ),
   ) as {

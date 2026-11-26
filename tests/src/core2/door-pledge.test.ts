@@ -59,9 +59,15 @@ import {
   resultOf,
   type BallotRow,
 } from "../../../src/core2/modules/voting";
-import { campaignParameter, PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
+import {
+  campaignParameter,
+  PLATFORM_QUESTIONS,
+} from "../../../src/core2/campaign-data";
 import campaignParameters from "../../../src/core2/data/campaigns/parameters.json" with { type: "json" };
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceToFilingOpen } from "../../../src/core2/gov-test-clock";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";

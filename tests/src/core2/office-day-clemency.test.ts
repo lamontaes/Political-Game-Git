@@ -29,7 +29,10 @@ import {
   type SentenceRow,
 } from "../../../src/core2/modules/justice";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import {
   actOn,
   stateDay,

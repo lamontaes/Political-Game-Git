@@ -23,7 +23,10 @@ import {
   yesLevels,
 } from "../../../src/core2/modules/laws";
 import { LAW_REACH_HOST_ID } from "../../../src/core2/law-reach/host";
-import { LAW_APPLIED_TABLE, type LawAppliedRow } from "../../../src/core2/law-reach/applied";
+import {
+  LAW_APPLIED_TABLE,
+  type LawAppliedRow,
+} from "../../../src/core2/law-reach/applied";
 import { OUTCOME_WEB_MODULE_ID } from "../../../src/core2/modules/outcome-web";
 import { governments } from "../../../src/core2/modules/budgets";
 import { townSeats } from "../../../src/core2/modules/offices";

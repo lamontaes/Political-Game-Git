@@ -10,11 +10,18 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "../../../src/core2/gov-test-report";
 import { buildBenchWorld } from "../../../src/bench/world";
-import { PURCHASE_TAX_MODULE_ID, purchaseTaxes } from "../../../src/core2/modules/purchase-tax";
+import {
+  PURCHASE_TAX_MODULE_ID,
+  purchaseTaxes,
+} from "../../../src/core2/modules/purchase-tax";
 import { buildPopulation } from "../../../src/core2/population";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { lawChain, lawInForce, openLaws } from "../../../src/core2/modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  openLaws,
+} from "../../../src/core2/modules/laws";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
@@ -33,7 +40,10 @@ import {
 import { billPropertyTax } from "../../../src/core2/housing-property-tax";
 import { HOUSING_MODULE_ID } from "../../../src/core2/modules/housing";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { setKeepEveryonesWhy } from "../../../src/core2/why-kept";
 
 // Reads every paycheck's withholding record for people outside the player's circle.

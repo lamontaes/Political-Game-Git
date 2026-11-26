@@ -33,7 +33,10 @@ import type {
   Source,
   WorkCommitmentInput,
 } from "../../../src/core2/types";
-import type { BusinessBooksState, CreditFacilityState } from "../../../src/core2/finance-types";
+import type {
+  BusinessBooksState,
+  CreditFacilityState,
+} from "../../../src/core2/finance-types";
 
 const employer = "group-fixture-employer",
   worker = "group-fixture-worker",

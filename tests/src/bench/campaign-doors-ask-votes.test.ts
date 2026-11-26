@@ -2,7 +2,11 @@ import { expect, it } from "vitest";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
   fileCandidacy,

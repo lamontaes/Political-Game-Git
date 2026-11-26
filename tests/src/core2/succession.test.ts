@@ -14,7 +14,10 @@ import { DevMode } from "../../../src/bench/dev-mode";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { coreAPI } from "../../../src/core2/state";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { cabinet, successions } from "../../../src/core2/modules/succession";
 import { PRESS_MODULE_ID } from "../../../src/core2/modules/press";
 import { NATIVITY_FACT } from "../../../src/core2/nativity";

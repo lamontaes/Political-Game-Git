@@ -12,7 +12,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { memberKey, members } from "../../../src/core2/modules/legislature";
 import { coreAPI } from "../../../src/core2/state";
-import { billPageView, billStage, followedBills } from "../../../src/bench/bill-stage";
+import {
+  billPageView,
+  billStage,
+  followedBills,
+} from "../../../src/bench/bill-stage";
 import { governmentBodies } from "../../../src/bench/government-bodies";
 import { seatAct, seatView } from "../../../src/bench/legislature";
 import { officeView } from "../../../src/bench/office";

@@ -9,8 +9,15 @@ import { describe, expect, it } from "vitest";
 import { buildPopulation } from "../../../src/core2/population";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { enactLaw, openLaws, socialSecurityAges } from "../../../src/core2/modules/laws";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  enactLaw,
+  openLaws,
+  socialSecurityAges,
+} from "../../../src/core2/modules/laws";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-10-12";
 const seed =

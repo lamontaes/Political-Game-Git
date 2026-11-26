@@ -21,7 +21,10 @@ import { NEWS_MODULE_ID } from "../../../src/core2/modules/news";
 import { commentOn } from "../../../src/core2/modules/press";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import type { TreeNode } from "../../../src/director/scene-talk";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

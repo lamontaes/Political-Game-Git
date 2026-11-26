@@ -3,9 +3,21 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { officeActsOf, officeHost, prepareAct } from "../../../src/core2/modules/office-day";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "../../../src/core2/modules/offices";
-import { followersOf, interviewsFor, outletsHere } from "../../../src/core2/modules/press";
+import {
+  officeActsOf,
+  officeHost,
+  prepareAct,
+} from "../../../src/core2/modules/office-day";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
+import {
+  followersOf,
+  interviewsFor,
+  outletsHere,
+} from "../../../src/core2/modules/press";
 import { officeActHandlers } from "../../../src/core2/office-day-acts";
 import { coreAPI } from "../../../src/core2/state";
 

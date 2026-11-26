@@ -16,8 +16,14 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { OLDER_WORK } from "../../../src/core2/jobs-web";
-import { JOBS_MODULE_ID, laborGroupShares } from "../../../src/core2/modules/jobs";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  JOBS_MODULE_ID,
+  laborGroupShares,
+} from "../../../src/core2/modules/jobs";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 import links from "../../../data/research/outcome-web/links.json" with { type: "json" };

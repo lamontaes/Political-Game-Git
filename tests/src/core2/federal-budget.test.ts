@@ -18,8 +18,15 @@ import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
 import { openLegislature } from "../../../src/core2/modules/legislature";
-import { budgetsOf, governments, openBudgets } from "../../../src/core2/modules/budgets";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  budgetsOf,
+  governments,
+  openBudgets,
+} from "../../../src/core2/modules/budgets";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-09-24";
 const seed =

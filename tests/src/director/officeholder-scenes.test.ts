@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { SITUATION_LIBRARY, causeMatches } from "../../../src/director/scheduling";
+import {
+  SITUATION_LIBRARY,
+  causeMatches,
+} from "../../../src/director/scheduling";
 import type { CoreState } from "../../../src/core2/types";
 import type { Moment } from "../../../src/director/types";
 import type { PersonLedger } from "../../../src/director/ledger";

@@ -15,7 +15,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { OUTCOME_WEB_MODULE_ID } from "../../../src/core2/modules/outcome-web";
-import { incomeBandOf, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  incomeBandOf,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { WORLD_METRICS_MODULE_ID } from "../../../src/core2/modules/world-metrics";
 import {
   WEB_LINKS,

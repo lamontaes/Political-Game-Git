@@ -5,7 +5,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
   HOUSING_MODULE_ID,
@@ -15,7 +19,10 @@ import { P } from "../../../src/core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";
 import { composeJournal } from "../../../src/director/journal";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import type { TreeNode } from "../../../src/director/scene-talk";
 import type { ScheduleEntry } from "../../../src/director/scheduling";
 

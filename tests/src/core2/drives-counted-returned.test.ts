@@ -22,9 +22,19 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { demoteHousehold } from "../../../src/core2/modules/counted-demotion";
 import { drivesReport } from "../../../src/core2/modules/drives";
-import { DEFAULT_HEALTH_DATA, severityImpulse } from "../../../src/core2/modules/health";
-import { residentPerson, residentsRuntime } from "../../../src/core2/modules/residents";
-import { coreAPI, fillInPerson, registerModule } from "../../../src/core2/state";
+import {
+  DEFAULT_HEALTH_DATA,
+  severityImpulse,
+} from "../../../src/core2/modules/health";
+import {
+  residentPerson,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
+import {
+  coreAPI,
+  fillInPerson,
+  registerModule,
+} from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

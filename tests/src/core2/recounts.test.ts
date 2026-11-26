@@ -17,7 +17,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import rules from "../../../data/research/elections/recount-rules-2026.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import { lawChain } from "../../../src/core2/modules/laws";
 import {
   electedWithGovernorOnTicket,
@@ -25,7 +28,11 @@ import {
   type TermRow,
 } from "../../../src/core2/modules/offices";
 import { PRESS_MODULE_ID } from "../../../src/core2/modules/press";
-import { recountOf, resultOf, VOTING_MODULE_ID } from "../../../src/core2/modules/voting";
+import {
+  recountOf,
+  resultOf,
+  VOTING_MODULE_ID,
+} from "../../../src/core2/modules/voting";
 import {
   countMargin,
   insideRecountMargin,

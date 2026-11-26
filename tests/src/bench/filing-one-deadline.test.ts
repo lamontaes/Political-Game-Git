@@ -13,7 +13,10 @@ import {
 } from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
 import { spokenDate } from "../../../src/director/words";
-import { chooseAtCounter, openBenchFilingVisit } from "../../../src/bench/filing";
+import {
+  chooseAtCounter,
+  openBenchFilingVisit,
+} from "../../../src/bench/filing";
 import { buildBenchWorld } from "../../../src/bench/world";
 
 // One deadline per contest (filing-clerk-deadline-differs-from-rules): at

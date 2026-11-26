@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA, extendData } from "../../../src/core2/data";
-import { holdInCustody, releaseFromCustody } from "../../../src/core2/justice-custody";
+import {
+  holdInCustody,
+  releaseFromCustody,
+} from "../../../src/core2/justice-custody";
 import { parameter as p } from "../../../src/core2/parameters";
 import {
   assertCoreIntegrity,
@@ -11,7 +14,10 @@ import {
   registerModule,
   resolveOperation,
 } from "../../../src/core2/state";
-import type { CashJournalPosting, ResolvedCashJournalSource } from "../../../src/core2/journal";
+import type {
+  CashJournalPosting,
+  ResolvedCashJournalSource,
+} from "../../../src/core2/journal";
 import type {
   ActOffer,
   CoreEventInput,

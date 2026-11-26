@@ -11,7 +11,11 @@ import { buildPopulation } from "../../../src/core2/population";
 import { searchCorePlaces } from "../../../src/core2/place-lookup";
 import { coreAPI } from "../../../src/core2/state";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { budgetsOf, governments, openBudgets } from "../../../src/core2/modules/budgets";
+import {
+  budgetsOf,
+  governments,
+  openBudgets,
+} from "../../../src/core2/modules/budgets";
 import municipal from "../../../data/research/money/puerto-rico-municipal-budget-fy2025.json" with { type: "json" };
 
 const START = "2026-01-05";

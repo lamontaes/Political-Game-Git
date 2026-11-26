@@ -2,7 +2,11 @@ import { withPublicSchoolDistrict } from "../../../src/core2/opening-public-scho
 import { defaultPreStart } from "../../../src/core2/saves";
 import { preStartWindow, runPreStart } from "../../../src/core2/pre-start";
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { financeIndex } from "../../../src/core2/finance-state";
 import { enrichCivicInputs } from "../../../src/core2/civic-inputs";
 import { initialFocusPeople } from "../../../src/core2/focus";
@@ -22,7 +26,10 @@ import {
   subjectsBetween,
   type Conversation,
 } from "../../../src/director/conversation";
-import { createDirector, DEFAULT_DIRECTOR_DATA } from "../../../src/director/ledger";
+import {
+  createDirector,
+  DEFAULT_DIRECTOR_DATA,
+} from "../../../src/director/ledger";
 import { kinAddress, relationPhrase } from "../../../src/english/journal-words";
 import type { PersonId } from "../../../src/core2/types";
 

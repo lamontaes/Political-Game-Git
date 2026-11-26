@@ -12,13 +12,23 @@ import {
   claimRetirementNow,
   retirementClaims,
 } from "../../../src/core2/modules/retirement-claims";
-import { residentPerson, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  residentPerson,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { countedMoves } from "../../../src/core2/modules/counted-moves";
-import { coreAPI, fillInPerson, personOrFillIn } from "../../../src/core2/state";
+import {
+  coreAPI,
+  fillInPerson,
+  personOrFillIn,
+} from "../../../src/core2/state";
 import { isDemoted } from "../../../src/core2/counted-groups";
 import { isExperiencedKey } from "../../../src/core2/knowledge-retention";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
-import { corePlaceByKey, coreStateJurisdiction } from "../../../src/core2/place-lookup";
+import {
+  corePlaceByKey,
+  coreStateJurisdiction,
+} from "../../../src/core2/place-lookup";
 import type { CoreState } from "../../../src/core2/types";
 
 const after = (days: number) => {

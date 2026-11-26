@@ -24,7 +24,10 @@ import {
   WORLD_LEGISLATING_MODULE_ID,
 } from "../../../src/core2/modules/world-legislating";
 import { sessionYear } from "../../../src/core2/state-session-calendar";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??

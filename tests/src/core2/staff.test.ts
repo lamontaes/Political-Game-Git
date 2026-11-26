@@ -17,8 +17,14 @@ import { lawInForce, openLaws } from "../../../src/core2/modules/laws";
 import { openOffices, townSeats } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
-import { draftBill, openLegislature } from "../../../src/core2/modules/legislature";
-import { allCases, openCases } from "../../../src/core2/modules/constituent-cases";
+import {
+  draftBill,
+  openLegislature,
+} from "../../../src/core2/modules/legislature";
+import {
+  allCases,
+  openCases,
+} from "../../../src/core2/modules/constituent-cases";
 import {
   briefOnBill,
   adviseOnBudget,
@@ -33,7 +39,10 @@ import {
   workingAgeWeight,
 } from "../../../src/core2/modules/staff";
 import { governmentUnitsForPlace } from "../../../src/core2/reference/government-units";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

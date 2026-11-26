@@ -15,15 +15,26 @@ import { openOffices, townSeats } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
-import { draftBill, holdVote, openLegislature } from "../../../src/core2/modules/legislature";
+import {
+  draftBill,
+  holdVote,
+  openLegislature,
+} from "../../../src/core2/modules/legislature";
 import { openPress } from "../../../src/core2/modules/press";
-import { openMeetings, remarksOn, signUpToSpeak } from "../../../src/core2/modules/meetings";
+import {
+  openMeetings,
+  remarksOn,
+  signUpToSpeak,
+} from "../../../src/core2/modules/meetings";
 import { ENCOUNTERS } from "../../../src/core2/encounters";
 import { viewsModule } from "../../../src/core2/modules/views";
 import { speechModule } from "../../../src/core2/modules/speech";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import { questionAxis } from "../../../src/core2/campaign-views";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

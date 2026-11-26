@@ -10,10 +10,16 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { partySide } from "../../../src/core2/appointments";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { centuryOf, senateClassUp } from "../../../src/core2/electorate-century";
+import {
+  centuryOf,
+  senateClassUp,
+} from "../../../src/core2/electorate-century";
 import { worldRoster } from "../../../src/core2/electorate-places";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 
 const RUN = `history-congress:${Date.now()}`;

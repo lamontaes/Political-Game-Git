@@ -2,7 +2,12 @@ import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import { loadGame, newGame, runCommand, saveGame } from "../../../src/core2/saves";
+import {
+  loadGame,
+  newGame,
+  runCommand,
+  saveGame,
+} from "../../../src/core2/saves";
 import type { CoreModule, CoreState } from "../../../src/core2/types";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays } from "../../../src/core2/kernel/dates";

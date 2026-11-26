@@ -40,12 +40,18 @@ import {
 } from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { partyTie } from "../../../src/core2/modules/elections";
-import { attendMeeting, meetingOf } from "../../../src/core2/modules/office-day";
+import {
+  attendMeeting,
+  meetingOf,
+} from "../../../src/core2/modules/office-day";
 import { sharedHistory } from "../../../src/core2/past";
 import { nextMeetingFacts } from "../../../src/director/meeting-facts";
 import { openConversation, say } from "../../../src/director/conversation";
 import { promisesBetween } from "../../../src/core2/modules/promises";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import {
   LOAN_SEED,
   findTownBorrower,

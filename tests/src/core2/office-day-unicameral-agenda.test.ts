@@ -12,7 +12,10 @@ import { seatAct, seatView } from "../../../src/bench/legislature";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { askLeaderForHearing } from "../../../src/core2/office-day-state";
-import { leaderOf, presidingOfficer } from "../../../src/core2/modules/leadership";
+import {
+  leaderOf,
+  presidingOfficer,
+} from "../../../src/core2/modules/leadership";
 import { townSeats } from "../../../src/core2/modules/offices";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

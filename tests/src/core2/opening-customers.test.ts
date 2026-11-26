@@ -1,6 +1,9 @@
 /** Opening record/term fixtures; generated-world outcomes are measured separately. */
 import { describe, expect, it } from "vitest";
-import { corePlaceByKey, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  corePlaceByKey,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
@@ -23,7 +26,11 @@ import {
   type OpeningCustomerQualificationPlanReference,
   type OpeningCustomerQualificationRecord,
 } from "../../../src/core2/opening-customer-qualification";
-import { parameter as p, PARAMETERS, type Parameter } from "../../../src/core2/parameters";
+import {
+  parameter as p,
+  PARAMETERS,
+  type Parameter,
+} from "../../../src/core2/parameters";
 import type {
   CoreInput,
   OrganizationInput,

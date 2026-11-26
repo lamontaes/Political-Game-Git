@@ -8,7 +8,10 @@
  */
 import { describe, expect, it } from "vitest";
 import { howTheyWork, withinJobRaise } from "../../../src/core2/modules/jobs";
-import { coreWithPeople, drawnTraits } from "../../../src/core2/money-traits-kit";
+import {
+  coreWithPeople,
+  drawnTraits,
+} from "../../../src/core2/money-traits-kit";
 import { coreAPI } from "../../../src/core2/state";
 
 const core = coreWithPeople(drawnTraits("pay-growth", 300));

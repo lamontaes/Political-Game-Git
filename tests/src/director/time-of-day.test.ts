@@ -5,8 +5,14 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { LEGISLATURE_MODULE_ID, members } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  LEGISLATURE_MODULE_ID,
+  members,
+} from "../../../src/core2/modules/legislature";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { P } from "../../../src/core2/parameters";
 import { playerClockFrontierV1 } from "../../../src/core2/player-stops-v1";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
@@ -15,7 +21,10 @@ import type { CoreState, PersonId } from "../../../src/core2/types";
 import sceneTalkBank from "../../../data/english/parts/scene-talk.json" with { type: "json" };
 import rules from "../../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import type { Director } from "../../../src/director/ledger";
-import { purposeScene, type PurposeScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  type PurposeScene,
+} from "../../../src/director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../../../src/director/scene-talk";
 
 // A scene says what hour it is only when its own hour makes it true

@@ -25,10 +25,18 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { makeIsoDate } from "../../../src/core2/kernel/dates";
 import { pairKey } from "../../../src/core2/kernel/ids";
 import { advanceCore } from "../../../src/core2/life";
-import { bodyOf, memberKey, members } from "../../../src/core2/modules/legislature";
+import {
+  bodyOf,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { seatedCommittees } from "../../../src/core2/modules/leadership";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { doEntry, stateDayParameter, stateOfficeOf } from "../../../src/core2/office-day-state";
+import {
+  doEntry,
+  stateDayParameter,
+  stateOfficeOf,
+} from "../../../src/core2/office-day-state";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { CountedStore, decodeStore, encodeStore } from "../../../src/core2/counted-groups";
+import {
+  CountedStore,
+  decodeStore,
+  encodeStore,
+} from "../../../src/core2/counted-groups";
 import type { PersonInput } from "../../../src/core2/types";
 
 const source = {

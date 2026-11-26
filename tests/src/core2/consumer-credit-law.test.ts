@@ -9,7 +9,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
-import { residentPerson, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  residentPerson,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { lawInForce } from "../../../src/core2/modules/laws";
 
 const question =

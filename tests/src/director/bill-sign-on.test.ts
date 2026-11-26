@@ -16,7 +16,10 @@
  * path: the player's first bills, one on every question, go to the floor at
  * the chamber's next sitting before the second round is drafted.
  */
-import { stateFloorHolds, voteOnStateFloor } from "../../../src/core2/office-day-state";
+import {
+  stateFloorHolds,
+  voteOnStateFloor,
+} from "../../../src/core2/office-day-state";
 import { afterAll, describe, expect, it } from "vitest";
 import { seatAct, seatView } from "../../../src/bench/legislature";
 import { buildBenchWorld } from "../../../src/bench/world";
@@ -43,7 +46,10 @@ import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 import sceneBank from "../../../data/english/parts/scene-talk.json" with { type: "json" };
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 
 const PLACES = [
   {

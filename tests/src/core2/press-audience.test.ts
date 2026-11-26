@@ -26,7 +26,10 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import {
   PRESS_MODULE_ID,
   levelAudienceShare,

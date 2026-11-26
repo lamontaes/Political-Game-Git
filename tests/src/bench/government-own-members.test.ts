@@ -11,7 +11,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { officesOfState, townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
-import { governmentView, politicsStates, stateLegislators } from "../../../src/bench/government";
+import {
+  governmentView,
+  politicsStates,
+  stateLegislators,
+} from "../../../src/bench/government";
 import { buildBenchWorld } from "../../../src/bench/world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

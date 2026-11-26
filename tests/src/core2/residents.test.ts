@@ -1,4 +1,8 @@
-import { preStartHistory, preStartWindow, runPreStart } from "../../../src/core2/pre-start";
+import {
+  preStartHistory,
+  preStartWindow,
+  runPreStart,
+} from "../../../src/core2/pre-start";
 import { SCHOOL_STARTED } from "../../../src/core2/past-school";
 import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -14,7 +18,11 @@ import {
   residentCounts,
   residentsRuntime,
 } from "../../../src/core2/modules/residents";
-import { coreAPI, fillInPerson, personOrFillIn } from "../../../src/core2/state";
+import {
+  coreAPI,
+  fillInPerson,
+  personOrFillIn,
+} from "../../../src/core2/state";
 import { countedResidents } from "../../../src/core2/electorate";
 import { citizenShareOf } from "../../../src/core2/electorate-places";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";

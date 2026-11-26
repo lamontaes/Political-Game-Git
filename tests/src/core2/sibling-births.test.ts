@@ -1,7 +1,11 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
-import { ageOnDate, daysBetween, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { P } from "../../../src/core2/parameters";
 import { buildPopulation } from "../../../src/core2/population";
 import { spacedSiblingBirths } from "../../../src/core2/sibling-births";

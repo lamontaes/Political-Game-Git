@@ -4,13 +4,20 @@ import { buildBenchWorld, NoPlayerHereError } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { applyForOpening } from "../../../src/core2/modules/jobs";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 import sceneBank from "../../../data/english/parts/scene-talk.json" with { type: "json" };
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import type { ScheduleEntry } from "../../../src/director/scheduling";
 import type { TreeNode } from "../../../src/director/scene-talk";
 

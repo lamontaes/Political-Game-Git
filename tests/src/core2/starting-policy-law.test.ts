@@ -13,7 +13,11 @@ import { buildPopulation } from "../../../src/core2/population";
 import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { setHistoryMode } from "../../../src/core2/electorate-century";
-import { LAWS_MODULE_ID, openLaws, yesLevels } from "../../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  openLaws,
+  yesLevels,
+} from "../../../src/core2/modules/laws";
 import { openBudgets } from "../../../src/core2/modules/budgets";
 import { openLawReach } from "../../../src/core2/law-reach/host";
 import { answerIn } from "../../../src/core2/modules/laws";
@@ -21,7 +25,10 @@ import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import { REACH_A_MODULE_ID } from "../../../src/core2/law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "../../../src/core2/law-reach/group-b-store";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

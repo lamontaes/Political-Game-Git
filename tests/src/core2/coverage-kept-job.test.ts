@@ -9,7 +9,10 @@ import {
   type CountedCoverageRow,
   type CoverageRow,
 } from "../../../src/core2/modules/coverage";
-import { countedJob, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  countedJob,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

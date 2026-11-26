@@ -15,7 +15,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { openWholePast } from "../../../src/core2/modules/people";
 import { lifeOf } from "../../../src/core2/person-life";
-import type { CoreState, PersonId, PersonState } from "../../../src/core2/types";
+import type {
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../../../src/core2/types";
 
 const seed = process.env.LIFE_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 8;

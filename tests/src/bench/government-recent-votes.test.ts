@@ -7,7 +7,10 @@ import { advanceCore } from "../../../src/core2/life";
 import { RECORD_MODULE_ID } from "../../../src/core2/modules/record";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
-import { governmentBodies, RECENT_VOTES } from "../../../src/bench/government-bodies";
+import {
+  governmentBodies,
+  RECENT_VOTES,
+} from "../../../src/bench/government-bodies";
 
 // The Government screen lists a body's past measures from the record: every measure the body has
 // voted this term, newest first, up to a page, not a hand-typed few. A place drawn from all 56 on

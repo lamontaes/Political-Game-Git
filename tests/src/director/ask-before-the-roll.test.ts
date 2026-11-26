@@ -30,9 +30,15 @@ import {
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreEventInput } from "../../../src/core2/types";
-import { billTitleOf, spokenDesignation } from "../../../src/english/bill-names";
+import {
+  billTitleOf,
+  spokenDesignation,
+} from "../../../src/english/bill-names";
 import { composeJournal } from "../../../src/director/journal";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import { SITUATION_LIBRARY } from "../../../src/director/scheduling";
 import type { PersonLedger } from "../../../src/director/types";
 

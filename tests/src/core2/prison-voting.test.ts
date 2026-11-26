@@ -26,7 +26,10 @@ import {
   type CustodyRow,
 } from "../../../src/core2/modules/justice";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { placeStateKeys } from "../../../src/core2/places";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreAPI } from "../../../src/core2/types";

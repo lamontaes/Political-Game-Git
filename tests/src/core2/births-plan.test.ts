@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { piecesInput, piecesSource as source } from "../../../src/core2/core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource as source,
+} from "../../../src/core2/core-pieces-fixture";
 import { coreAPI } from "../../../src/core2/state";
 import { createRenewalCore } from "../../../src/core2/births-setup";
-import { birthCircumstances, partnershipStart } from "../../../src/core2/births-plan";
+import {
+  birthCircumstances,
+  partnershipStart,
+} from "../../../src/core2/births-plan";
 import { renewalParameter } from "../../../src/core2/births-parameters";
 import type { CoreInput } from "../../../src/core2/types";
 

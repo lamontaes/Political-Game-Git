@@ -16,8 +16,14 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { declineJobOffer, JOBS_MODULE_ID } from "../../../src/core2/modules/jobs";
-import { STAFF_MODULE_ID, type StafferRow } from "../../../src/core2/modules/staff";
+import {
+  declineJobOffer,
+  JOBS_MODULE_ID,
+} from "../../../src/core2/modules/jobs";
+import {
+  STAFF_MODULE_ID,
+  type StafferRow,
+} from "../../../src/core2/modules/staff";
 import { coreAPI } from "../../../src/core2/state";
 
 const BRUCETON_MILLS = {

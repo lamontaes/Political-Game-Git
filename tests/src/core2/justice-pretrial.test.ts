@@ -13,7 +13,10 @@ import {
   type CaseRow,
   type InvestigationRow,
 } from "../../../src/core2/modules/justice";
-import { END_CASH_BAIL, type PretrialRow } from "../../../src/core2/justice-pretrial";
+import {
+  END_CASH_BAIL,
+  type PretrialRow,
+} from "../../../src/core2/justice-pretrial";
 import { dispositionDays } from "../../../src/core2/justice-law";
 import justiceParameters from "../../../src/core2/data/justice/parameters.json" with { type: "json" };
 

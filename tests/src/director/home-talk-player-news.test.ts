@@ -34,7 +34,11 @@ import {
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
-import { noteHeard, openConversation, say } from "../../../src/director/conversation";
+import {
+  noteHeard,
+  openConversation,
+  say,
+} from "../../../src/director/conversation";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const DRAWS = Number(process.env.TALK_DRAWS ?? 3);

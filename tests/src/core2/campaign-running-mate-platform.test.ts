@@ -14,7 +14,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { ELECTIONS_MODULE_ID, type FilingRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type FilingRow,
+} from "../../../src/core2/modules/elections";
 
 const PLACE = {
   key: "3439810",

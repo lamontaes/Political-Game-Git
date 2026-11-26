@@ -12,7 +12,10 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { addressesGivenBy, deliverSpeech } from "../../../src/core2/modules/speech";
+import {
+  addressesGivenBy,
+  deliverSpeech,
+} from "../../../src/core2/modules/speech";
 import { PRESIDENT_FACT } from "../../../src/core2/officials-president";
 import { coreAPI } from "../../../src/core2/state";
 

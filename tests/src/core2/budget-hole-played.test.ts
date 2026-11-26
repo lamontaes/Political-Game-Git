@@ -15,7 +15,10 @@ import { revenueGivenUp } from "../../../src/core2/budget-stakes";
 import { campaignParameter } from "../../../src/core2/campaign-data";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { budgetsOf, governmentOfJurisdiction } from "../../../src/core2/modules/budgets";
+import {
+  budgetsOf,
+  governmentOfJurisdiction,
+} from "../../../src/core2/modules/budgets";
 import {
   billEnding,
   chambersOf,

@@ -14,7 +14,10 @@ import {
 } from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
-import { chooseAtCounter, openBenchFilingVisit } from "../../../src/bench/filing";
+import {
+  chooseAtCounter,
+  openBenchFilingVisit,
+} from "../../../src/bench/filing";
 import { buildBenchWorld } from "../../../src/bench/world";
 
 // A filing made at the counter carries no hand-built platform: the filing

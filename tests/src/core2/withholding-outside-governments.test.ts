@@ -13,12 +13,19 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { coreAPI } from "../../../src/core2/state";
-import { governments, withholdingOf, withholdPay } from "../../../src/core2/modules/budgets";
+import {
+  governments,
+  withholdingOf,
+  withholdPay,
+} from "../../../src/core2/modules/budgets";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import type { ModuleRow } from "../../../src/core2/module-data";
 import { outsideGovernment } from "../../../src/core2/outside-governments";
 import { LAWS_MODULE_ID, lawChain } from "../../../src/core2/modules/laws";
-import { corePlaceStateIdentities, searchCorePlaces } from "../../../src/core2/place-lookup";
+import {
+  corePlaceStateIdentities,
+  searchCorePlaces,
+} from "../../../src/core2/place-lookup";
 import { setKeepEveryonesWhy } from "../../../src/core2/why-kept";
 
 // Reads a payer's withholding record for people outside the player's circle.

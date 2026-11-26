@@ -1,7 +1,10 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { PAST_MODULE_ID, type PublicFigureRow } from "../../../src/core2/past-module";
+import {
+  PAST_MODULE_ID,
+  type PublicFigureRow,
+} from "../../../src/core2/past-module";
 import { coreAPI } from "../../../src/core2/state";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { knownCard } from "../../../src/bench/card";

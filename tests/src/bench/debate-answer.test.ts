@@ -28,7 +28,11 @@ import {
   debatesIn,
 } from "../../../src/core2/modules/meetings";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { campaignView, debateAccept, debateAnswer } from "../../../src/bench/campaign";
+import {
+  campaignView,
+  debateAccept,
+  debateAnswer,
+} from "../../../src/bench/campaign";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 
 const runSeed =

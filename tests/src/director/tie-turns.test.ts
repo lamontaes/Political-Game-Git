@@ -159,7 +159,9 @@ it(`a tie that grows over time together is a becoming-friends scene, in ${place.
 }, 900_000);
 
 it("a tie in the family never stages becoming-friends", async () => {
-  const types = (await import("../../../src/director/data/situation-types.json")).default.types as {
+  const types = (
+    await import("../../../src/director/data/situation-types.json")
+  ).default.types as {
     key: string;
     causes: { match?: { labelPrefix?: string } }[];
   }[];

@@ -29,8 +29,16 @@ import { advanceCore } from "../../../src/core2/life";
 import { demoteHousehold } from "../../../src/core2/modules/counted-demotion";
 import { countedMoves } from "../../../src/core2/modules/counted-moves";
 import { healthReport } from "../../../src/core2/modules/health";
-import { residentPerson, residentsRuntime } from "../../../src/core2/modules/residents";
-import { coreAPI, fillInPerson, personOrFillIn, registerModule } from "../../../src/core2/state";
+import {
+  residentPerson,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
+import {
+  coreAPI,
+  fillInPerson,
+  personOrFillIn,
+  registerModule,
+} from "../../../src/core2/state";
 
 /** Where the case is known to occur (the scan in the header), smallest first. */
 const PINNED = [

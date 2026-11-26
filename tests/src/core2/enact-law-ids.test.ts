@@ -13,7 +13,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { LAWS_MODULE_ID, enactLaw, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  enactLaw,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { coreAPI } from "../../../src/core2/state";
 

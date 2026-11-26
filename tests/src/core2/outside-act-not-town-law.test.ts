@@ -9,7 +9,11 @@ import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { lawValue } from "../../../src/core2/modules/outcome-web";
 import { coreAPI } from "../../../src/core2/state";
 

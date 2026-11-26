@@ -13,7 +13,11 @@ import { fileForOffice } from "../../../src/bench/government";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gatherSignatures } from "../../../src/core2/campaign-petition-kit";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, makeIsoDate, type IsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  makeIsoDate,
+  type IsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
   ELECTIONS_MODULE_ID,

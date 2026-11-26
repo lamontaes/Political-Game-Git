@@ -3,8 +3,15 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { createRenewalCore } from "../../../src/core2/births-setup";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { RENEWAL_MODULE, RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
-import { restoreWorld, snapshotWorld, uncoveredModules } from "../../../src/core2/snapshot";
+import {
+  RENEWAL_MODULE,
+  RENEWAL_MODULE_ID,
+} from "../../../src/core2/modules/renewal";
+import {
+  restoreWorld,
+  snapshotWorld,
+  uncoveredModules,
+} from "../../../src/core2/snapshot";
 import { coreAPI } from "../../../src/core2/state";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
 import type { CoreState } from "../../../src/core2/types";

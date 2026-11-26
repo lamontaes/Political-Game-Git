@@ -26,7 +26,10 @@ import { coreAPI } from "../../../src/core2/state";
 import { parameter as p } from "../../../src/core2/parameters";
 import { realLocalities } from "../../../src/core2/places";
 import { buildPopulation } from "../../../src/core2/population";
-import { censusRegionOf, censusRegionStates } from "../../../src/core2/reference/census-regions";
+import {
+  censusRegionOf,
+  censusRegionStates,
+} from "../../../src/core2/reference/census-regions";
 
 const seed = "joint-use-1";
 const directory = directoryJson as unknown as {

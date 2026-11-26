@@ -7,11 +7,18 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
-import { addDays, daysBetween, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { JOBS_DATA, JOBS_MODULE_ID } from "../../../src/core2/modules/jobs";
-import { residentFacts, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  residentFacts,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

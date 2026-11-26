@@ -10,7 +10,10 @@
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
-import { centuryDistrictLean, setHistoryMode } from "../../../src/core2/electorate-century";
+import {
+  centuryDistrictLean,
+  setHistoryMode,
+} from "../../../src/core2/electorate-century";
 import { gameStartDate } from "../../../src/core2/game-start";
 import corpus from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { campaignParameter } from "../../../src/core2/campaign-data";

@@ -3,7 +3,10 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { residentPerson, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  residentPerson,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { enactLaw, openLaws } from "../../../src/core2/modules/laws";
 import {
   claimRetirementNow,
@@ -14,7 +17,10 @@ import { PARAMETERS } from "../../../src/core2/parameters";
 import { retirementClaimAgeMonths } from "../../../src/core2/retirement-claim";
 import { startingSocialSecurityAges } from "../../../src/core2/social-security-law";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
-import { decisionLean, decisionTraitWeight } from "../../../src/core2/trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+} from "../../../src/core2/trait-decisions";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
 import type { CoreState } from "../../../src/core2/types";
 import { daysAfterStart } from "../../../src/core2/tooling/test-days";

@@ -5,7 +5,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { describe, expect, it } from "vitest";
 import housingData from "../../../src/core2/data/housing/housing.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { HOUSING_MODULE, setRightToCounsel } from "../../../src/core2/modules/housing";
+import {
+  HOUSING_MODULE,
+  setRightToCounsel,
+} from "../../../src/core2/modules/housing";
 import { worldCoreData } from "../../../src/core2/modules/world";
 import { coreAPI } from "../../../src/core2/state";
 import { transferCash } from "../../../src/core2/world-transfer";
@@ -198,7 +201,8 @@ describe("paying within the notice period", () => {
 describe("buying a home", () => {
   it("a renter whose rent outruns what a mortgage would cost buys with the down payment from savings and a loan from the town bank; the lease ends; money balances", async () => {
     const { CREDIT_MODULE } = await import("../../../src/core2/modules/credit");
-    const { MACRO_MODULE, withCentralBank } = await import("../../../src/core2/modules/macro");
+    const { MACRO_MODULE, withCentralBank } =
+      await import("../../../src/core2/modules/macro");
     const base = input("TX");
     const buyer = {
       ...base.people[0]!,

@@ -11,7 +11,10 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { askToVolunteer, campaignFor } from "../../../src/core2/modules/campaigns";
+import {
+  askToVolunteer,
+  campaignFor,
+} from "../../../src/core2/modules/campaigns";
 import { resultOf } from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
 

@@ -18,7 +18,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { countedMoves } from "../../../src/core2/modules/counted-moves";
-import { residentPerson, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  residentPerson,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 
 const ATTEMPTS = 6;

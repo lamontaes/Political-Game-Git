@@ -16,7 +16,12 @@ import type { WorkPayrollCalendarInput } from "../../../../src/core2/work-pay-pe
 import { parameter as p } from "../../../../src/core2/parameters";
 import { coreAPI, createCore } from "../../../../src/core2/state";
 import type { FinanceContractInput } from "../../../../src/core2/finance-types";
-import type { CoreInput, CoreState, PersonInput, Source } from "../../../../src/core2/types";
+import type {
+  CoreInput,
+  CoreState,
+  PersonInput,
+  Source,
+} from "../../../../src/core2/types";
 import { financeObservables } from "../../../../src/core2/tooling/finance-observables";
 
 const opening = "2021-01-01",

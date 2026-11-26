@@ -7,7 +7,10 @@ import {
   resumePlayerV1,
 } from "../../../src/core2/player-v1";
 import { runModuleCalendar } from "../../../src/core2/module-calendar";
-import { piecesInput, piecesSource as source } from "../../../src/core2/core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource as source,
+} from "../../../src/core2/core-pieces-fixture";
 import type { CoreModule } from "../../../src/core2/types";
 import type { FinanceConditionInput } from "../../../src/core2/finance-types";
 const work = {

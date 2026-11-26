@@ -16,7 +16,11 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { attackOutlet, PRESS_MODULE_ID, type OutletRow } from "../../../src/core2/modules/press";
+import {
+  attackOutlet,
+  PRESS_MODULE_ID,
+  type OutletRow,
+} from "../../../src/core2/modules/press";
 import {
   heardFrom,
   retellingsOf,

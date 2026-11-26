@@ -17,7 +17,10 @@ import {
   standingReserve,
   treasuryMonthsOf,
 } from "../../../src/core2/budgets-treasury";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import type { IsoDate } from "../../../src/core2/kernel/dates";
 
 const START = "2026-01-05";

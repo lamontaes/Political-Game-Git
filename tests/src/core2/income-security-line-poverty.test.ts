@@ -17,7 +17,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { ssiIncomeByHousehold } from "../../../src/core2/law-reach/group-b-money";
 import { advanceCore } from "../../../src/core2/life";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";
 import { householdPoverty } from "../../../src/core2/world-poverty";

@@ -15,7 +15,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { coreAPI } from "../../../src/core2/state";
 import tenure from "../../../src/core2/data/offices/tenure.json" with { type: "json" };
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "../../../src/core2/modules/officials";
+import {
+  OFFICIALS_MODULE_ID,
+  type OfficialRow,
+} from "../../../src/core2/modules/officials";
 import { filingRequirements } from "../../../src/core2/modules/elections";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

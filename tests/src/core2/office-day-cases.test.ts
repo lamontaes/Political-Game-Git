@@ -21,7 +21,10 @@ import {
   type CaseRow,
 } from "../../../src/core2/modules/constituent-cases";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { OFFICE_DAY_MODULE, officeActsOf } from "../../../src/core2/modules/office-day";
+import {
+  OFFICE_DAY_MODULE,
+  officeActsOf,
+} from "../../../src/core2/modules/office-day";
 import { addDays } from "../../../src/core2/office-day-federal-calendar";
 import type { ModuleRow } from "../../../src/core2/module-data";
 

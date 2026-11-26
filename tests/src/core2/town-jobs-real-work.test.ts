@@ -24,7 +24,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { fillableOpenings, JOBS_MODULE_ID } from "../../../src/core2/modules/jobs";
+import {
+  fillableOpenings,
+  JOBS_MODULE_ID,
+} from "../../../src/core2/modules/jobs";
 import { OUTSIDE_MARKET_KIND } from "../../../src/core2/opening-outside-market";
 import { countedJobsOf } from "../../../src/core2/residents-economy";
 import { publishedTownWorkplaceWeights } from "../../../src/core2/town-employment-mix";

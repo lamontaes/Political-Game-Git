@@ -16,8 +16,15 @@ import {
 import { decisionLean } from "../../../../src/core2/trait-decisions";
 import { believesClaim } from "../../../../src/core2/heard-claims";
 import { closenessBetween } from "../../../../src/core2/closeness";
-import { newsKey, storiesOwedAtContact } from "../../../../src/core2/modules/news";
-import type { CoreAPI, CoreState, PersonState } from "../../../../src/core2/types";
+import {
+  newsKey,
+  storiesOwedAtContact,
+} from "../../../../src/core2/modules/news";
+import type {
+  CoreAPI,
+  CoreState,
+  PersonState,
+} from "../../../../src/core2/types";
 
 const SEED = `${RUN_SEED}:news`;
 

@@ -7,7 +7,10 @@ import {
   withDistrictPayAuthority,
 } from "../../../src/core2/opening-department-pay";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
-import type { OrganizationInput, WorkCommitmentInput } from "../../../src/core2/types";
+import type {
+  OrganizationInput,
+  WorkCommitmentInput,
+} from "../../../src/core2/types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const DRAWS = 200;

@@ -18,7 +18,10 @@ import { coreAPI } from "../../../src/core2/state";
 import type { PlayerMomentV1 } from "../../../src/core2/player-v1";
 import { townSeats } from "../../../src/core2/modules/offices";
 import type { CoreState } from "../../../src/core2/types";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { campaignDay } from "../../../src/bench/campaign";
 import { applyChosenPerson } from "../../../src/bench/creator";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";

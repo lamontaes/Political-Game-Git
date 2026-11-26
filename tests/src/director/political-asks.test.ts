@@ -13,7 +13,10 @@ import {
 import { PARTIES_MODULE_ID } from "../../../src/core2/modules/parties";
 import { P } from "../../../src/core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
-import { storiesHeard, storyOfReadEvent } from "../../../src/core2/modules/news";
+import {
+  storiesHeard,
+  storyOfReadEvent,
+} from "../../../src/core2/modules/news";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 import { variantArc, variantFamilies } from "../../../src/director/arc-variant";

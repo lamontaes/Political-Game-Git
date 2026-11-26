@@ -9,8 +9,14 @@ import {
   INTEREST_GROUPS_MODULE_ID,
   type LobbyMeeting,
 } from "../../../src/core2/modules/interest-groups";
-import { LEGISLATURE_MODULE_ID, members } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  LEGISLATURE_MODULE_ID,
+  members,
+} from "../../../src/core2/modules/legislature";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { P } from "../../../src/core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";

@@ -21,7 +21,10 @@ import { addDays } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { FEDERAL_HOUSE, members } from "../../../src/core2/modules/legislature";
 import { allOfficials } from "../../../src/core2/modules/officials";
-import { OFFICES_MODULE_ID, type VacancyRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type VacancyRow,
+} from "../../../src/core2/modules/offices";
 import { racesOf } from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
 

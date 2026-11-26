@@ -19,7 +19,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import { countedVoters, electorateSample } from "../../../src/core2/modules/voting";
+import {
+  countedVoters,
+  electorateSample,
+} from "../../../src/core2/modules/voting";
 import {
   countPlaces,
   countedResidents,

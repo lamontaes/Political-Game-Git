@@ -21,7 +21,11 @@ import {
   runtimeOf,
   stateUnemployment,
 } from "../../../src/core2/modules/counted-moves";
-import { enactLaw, lawChain, stateLawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  stateLawInForce,
+} from "../../../src/core2/modules/laws";
 import { countryStates } from "../../../src/core2/modules/macro";
 import regions from "../../../src/core2/data/regional/regions.json" with { type: "json" };
 import { restoreWorld, snapshotWorld } from "../../../src/core2/snapshot";

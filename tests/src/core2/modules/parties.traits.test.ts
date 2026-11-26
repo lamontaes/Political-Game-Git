@@ -6,7 +6,11 @@
  */
 import { drawPlace } from "../../../golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
-import { adultsOf, drawnRaceWorld, RUN_SEED } from "../../../../src/core2/trait-test-kit";
+import {
+  adultsOf,
+  drawnRaceWorld,
+  RUN_SEED,
+} from "../../../../src/core2/trait-test-kit";
 import { campaignParameter } from "../../../../src/core2/campaign-data";
 import { homeDistanceMiles } from "../../../../src/core2/home-distance";
 import { decisionLean } from "../../../../src/core2/trait-decisions";

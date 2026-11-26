@@ -16,7 +16,11 @@ import {
   provisionStance,
 } from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { joinParty, partiesHere, partyTie } from "../../../src/core2/modules/parties";
+import {
+  joinParty,
+  partiesHere,
+  partyTie,
+} from "../../../src/core2/modules/parties";
 import { recordVote } from "../../../src/core2/modules/record";
 import { electorateSides } from "../../../src/core2/modules/voting";
 import { applyCoreEvent, coreAPI } from "../../../src/core2/state";

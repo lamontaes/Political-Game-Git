@@ -6,9 +6,16 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { CAMPAIGNS_MODULE_ID, type CauseRow } from "../../../src/core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  type CauseRow,
+} from "../../../src/core2/modules/campaigns";
 import {
   fileCandidacy,
   openContests,
@@ -21,7 +28,10 @@ import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 import sceneBank from "../../../data/english/parts/scene-talk.json" with { type: "json" };
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import { viewQuestionKey } from "../../../src/director/view-learned";
 import type { TreeNode } from "../../../src/director/scene-talk";
 import type { ScheduleEntry } from "../../../src/director/scheduling";

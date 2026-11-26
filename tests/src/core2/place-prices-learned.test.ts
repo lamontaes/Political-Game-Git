@@ -8,7 +8,11 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import type { CoreEventInput } from "../../../src/core2/types";
 import { coreAPI, registerModule } from "../../../src/core2/state";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { newsKey, printStory } from "../../../src/core2/modules/news";
 import { appliedTo } from "../../../src/core2/law-reach/applied";
 import { stancesOf, viewOf } from "../../../src/core2/modules/views";

@@ -23,7 +23,10 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { chromium } from "playwright";
-import { fileWhenFilingOpens, startLife } from "../../../src/bench/start-life.mjs";
+import {
+  fileWhenFilingOpens,
+  startLife,
+} from "../../../src/bench/start-life.mjs";
 import {
   scanBoxes,
   scanClipped,
@@ -35,7 +38,7 @@ import {
 
 const BASELINE = new URL(
   "../../tests/guards/ui-look-baseline.json",
-  (new URL("../../../src/bench/ui-look.browser.mjs", import.meta.url).href),
+  new URL("../../../src/bench/ui-look.browser.mjs", import.meta.url).href,
 );
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 /** Each rule's baseline kind and what its failure says. */

@@ -17,10 +17,17 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { deathWebFactor } from "../../../src/core2/health-web";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { healthDeathWebOf } from "../../../src/core2/modules/health";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { countedHouseholdsByPlace } from "../../../src/core2/modules/residents";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
 import { WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";

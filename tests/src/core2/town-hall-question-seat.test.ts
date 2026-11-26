@@ -6,7 +6,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { contestPositions } from "../../../src/core2/contest-positions";
 import { members } from "../../../src/core2/modules/legislature";
 import { townHallDrives } from "../../../src/core2/modules/meetings";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 

@@ -24,7 +24,11 @@ import {
   turnoutReasons,
   type BallotRow,
 } from "../../../../src/core2/modules/voting";
-import type { CoreAPI, CoreState, PersonState } from "../../../../src/core2/types";
+import type {
+  CoreAPI,
+  CoreState,
+  PersonState,
+} from "../../../../src/core2/types";
 import { setKeepEveryonesWhy } from "../../../../src/core2/why-kept";
 
 const SEED = `${RUN_SEED}:voting`;

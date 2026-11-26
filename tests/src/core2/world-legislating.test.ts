@@ -13,14 +13,25 @@ import { govReport } from "../../../src/core2/gov-test-report";
 import { buildPopulation } from "../../../src/core2/population";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { enactLaw, lawChain, openLaws, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, openOffices } from "../../../src/core2/modules/offices";
+import {
+  enactLaw,
+  lawChain,
+  openLaws,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+} from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
 import { meetingRule, meetsOn } from "../../../src/core2/office-day-calendar";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { openLegislature, type CommitteeRecord } from "../../../src/core2/modules/legislature";
+import {
+  openLegislature,
+  type CommitteeRecord,
+} from "../../../src/core2/modules/legislature";
 import { budgetsOf, openBudgets } from "../../../src/core2/modules/budgets";
 import { openLawReach, reachOn } from "../../../src/core2/law-reach/host";
 import { REACH_A_MODULE_ID } from "../../../src/core2/law-reach/group-a-records";
@@ -32,7 +43,10 @@ import {
   WORLD_LEGISLATING_MODULE_ID,
 } from "../../../src/core2/modules/world-legislating";
 import { answerIn } from "../../../src/core2/modules/laws";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 // Pinned (pinned-tests): the places come from this seed, never the clock, so

@@ -24,7 +24,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { fundBalance, fundGroups } from "../../../src/core2/counted-money";
-import { householdCashReader, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  householdCashReader,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 
 const PLACES = [
   {

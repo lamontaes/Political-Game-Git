@@ -14,7 +14,10 @@
  *   unwired: no engine names its outcome, so none can multiply its own rate
  *   by the web's factor. When one does, the test fails and the link is wired.
  */
-import { townFacts, selectResidents } from "../../../src/core2/law-reach/group-b-people";
+import {
+  townFacts,
+  selectResidents,
+} from "../../../src/core2/law-reach/group-b-people";
 import { groupBPolicy } from "../../../src/core2/law-reach/group-b";
 import { randomBytes } from "node:crypto";
 import { readdirSync, readFileSync, statSync } from "node:fs";
@@ -31,10 +34,22 @@ import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { rowsOf } from "../../../src/core2/law-reach/group-b-store";
 import { advanceCore } from "../../../src/core2/life";
 import { governments } from "../../../src/core2/modules/budgets";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreAPI } from "../../../src/core2/types";
 

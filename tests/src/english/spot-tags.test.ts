@@ -14,7 +14,11 @@ import {
   type RulePiece,
 } from "../../../src/english/line-rules";
 import { useSpotId } from "../../../src/english/spot-id";
-import { spotTags, spotTagsOf, typesByPurpose } from "../../../src/english/spot-tags";
+import {
+  spotTags,
+  spotTagsOf,
+  typesByPurpose,
+} from "../../../src/english/spot-tags";
 
 const NO_GRADES: PartGradeLedger = {
   schema: "english-part-grades/1",

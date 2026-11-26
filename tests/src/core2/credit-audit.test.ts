@@ -11,7 +11,10 @@
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { CREDIT_MODULE, monthlyIncome } from "../../../src/core2/modules/credit";
+import {
+  CREDIT_MODULE,
+  monthlyIncome,
+} from "../../../src/core2/modules/credit";
 import {
   MACRO_MODULE,
   macroCoreData,

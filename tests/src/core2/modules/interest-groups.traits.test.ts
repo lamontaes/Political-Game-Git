@@ -11,7 +11,11 @@ import { gameStartDate } from "../../../../src/core2/game-start";
 import { addDays } from "../../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../../src/core2/life";
 import { coreAPI } from "../../../../src/core2/state";
-import { drawnRaceWorld, RUN_SEED, weightOf } from "../../../../src/core2/trait-test-kit";
+import {
+  drawnRaceWorld,
+  RUN_SEED,
+  weightOf,
+} from "../../../../src/core2/trait-test-kit";
 import { decisionLean } from "../../../../src/core2/trait-decisions";
 import { setTraitProbe } from "../../../../src/core2/trait-probe";
 import { personLean } from "../../../../src/core2/campaign-views";
@@ -25,7 +29,11 @@ import {
   ownerJoins,
   type GroupRow,
 } from "../../../../src/core2/modules/interest-groups";
-import type { CoreAPI, CoreState, PersonState } from "../../../../src/core2/types";
+import type {
+  CoreAPI,
+  CoreState,
+  PersonState,
+} from "../../../../src/core2/types";
 
 const SEED = `${RUN_SEED}:interest-groups`;
 

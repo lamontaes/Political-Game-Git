@@ -112,6 +112,18 @@ it("leaves no list of executive office kinds typed in code under src", () => {
       }
     }
   };
-  walk(join(dirname(fileURLToPath((new URL("../../../src/core2/offices-executives.test.ts", import.meta.url).href))), ".."));
+  walk(
+    join(
+      dirname(
+        fileURLToPath(
+          new URL(
+            "../../../src/core2/offices-executives.test.ts",
+            import.meta.url,
+          ).href,
+        ),
+      ),
+      "..",
+    ),
+  );
   expect(found).toEqual([]);
 });

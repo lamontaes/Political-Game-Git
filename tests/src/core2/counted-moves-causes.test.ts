@@ -12,10 +12,17 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, daysBetweenText, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetweenText,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import { countedMoves, type MoveRecord } from "../../../src/core2/modules/counted-moves";
+import {
+  countedMoves,
+  type MoveRecord,
+} from "../../../src/core2/modules/counted-moves";
 import { coreAPI } from "../../../src/core2/state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

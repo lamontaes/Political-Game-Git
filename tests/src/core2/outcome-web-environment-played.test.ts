@@ -34,20 +34,34 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { deathWebFactor } from "../../../src/core2/health-web";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { BUSINESS_MODULE_ID } from "../../../src/core2/modules/business";
 import { advanceCore } from "../../../src/core2/life";
 import { healthDeathWebOf } from "../../../src/core2/modules/health";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import {
   lawValue,
   OUTCOME_WEB_MODULE_ID,
   type WebMonth,
 } from "../../../src/core2/modules/outcome-web";
-import { householdComposition, useFactor } from "../../../src/core2/modules/place-prices";
+import {
+  householdComposition,
+  useFactor,
+} from "../../../src/core2/modules/place-prices";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
-import { countedHouseholdsByPlace, incomeBandOn } from "../../../src/core2/modules/residents";
+import {
+  countedHouseholdsByPlace,
+  incomeBandOn,
+} from "../../../src/core2/modules/residents";
 import { CALIBRATED_AT, WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { webLevel, webReach } from "../../../src/core2/outcome-web-reach";
 import { coreAPI } from "../../../src/core2/state";

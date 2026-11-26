@@ -7,7 +7,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { billCatalog } from "../../../src/core2/bill-catalog";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { budgetInForce, governmentOfJurisdiction } from "../../../src/core2/modules/budgets";
+import {
+  budgetInForce,
+  governmentOfJurisdiction,
+} from "../../../src/core2/modules/budgets";
 import { billValueInForce, lawInForce } from "../../../src/core2/modules/laws";
 import {
   billJurisdiction,

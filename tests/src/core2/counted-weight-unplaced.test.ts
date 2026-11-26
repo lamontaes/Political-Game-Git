@@ -7,7 +7,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { householdCashReader, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  householdCashReader,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 
 const SCALE = 3;
 

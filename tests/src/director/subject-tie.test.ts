@@ -11,8 +11,15 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import type { PersonId } from "../../../src/core2/types";
 import { buildBenchWorld } from "../../../src/bench/world";
-import { subjectsBetween, type Subject } from "../../../src/director/conversation";
-import { acceptSubjects, OWN_RECORD_KINDS, storyTie } from "../../../src/director/subject-tie";
+import {
+  subjectsBetween,
+  type Subject,
+} from "../../../src/director/conversation";
+import {
+  acceptSubjects,
+  OWN_RECORD_KINDS,
+  storyTie,
+} from "../../../src/director/subject-tie";
 import type { Story } from "../../../src/core2/modules/news";
 
 const PINNED = { run: "8341-pin", purpose: "p6", key: "0164656" };

@@ -20,7 +20,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { personCard } from "../../../src/bench/card";
 import { isDemoted } from "../../../src/core2/counted-groups";
 import { knownAmong } from "../../../src/core2/encounters";
-import { countedHeadcountOf, countedJobsOf } from "../../../src/core2/residents-economy";
+import {
+  countedHeadcountOf,
+  countedJobsOf,
+} from "../../../src/core2/residents-economy";
 import {
   acceptJobOffer,
   coworkersToMeet,

@@ -4,7 +4,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { billCatalog, provisionFor } from "../../../src/core2/bill-catalog";
 import { advanceCore } from "../../../src/core2/life";
 import {
@@ -14,7 +18,11 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { draftBill, memberKey, members } from "../../../src/core2/modules/legislature";
+import {
+  draftBill,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { filingClerkFor } from "../../../src/core2/modules/filing-clerk";
 import { lawChain } from "../../../src/core2/modules/laws";

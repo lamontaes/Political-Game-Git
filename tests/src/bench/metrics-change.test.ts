@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { metricsChange, metricsFigure } from "../../../src/bench/ui/metrics-change.mjs";
+import {
+  metricsChange,
+  metricsFigure,
+} from "../../../src/bench/ui/metrics-change.mjs";
 
 // A Metrics row's change from last year is the difference of the two figures the row shows
 // (Words lead, Nov 13: "$209,000 / last year $207,000, up $2,200"). The figures are

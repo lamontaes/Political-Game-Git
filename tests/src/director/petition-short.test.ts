@@ -49,7 +49,10 @@ import type { PersonId } from "../../../src/core2/types";
 import controls from "../../../src/bench/data/controls.json" with { type: "json" };
 import { DevMode } from "../../../src/bench/dev-mode";
 import { composeJournal } from "../../../src/director/journal";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import { composeScene } from "../../../src/director/scene";
 import type { TreeNode } from "../../../src/director/scene-talk";
 

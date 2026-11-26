@@ -1,7 +1,10 @@
 // The M1-11 check reads whether an event happened from the event itself, so a
 // kind whose responses were all lost fails instead of reading as not exercised.
 import { describe, expect, it } from "vitest";
-import { occurrence, type OccurredEvent } from "../../../src/bench/m1-11-occurred";
+import {
+  occurrence,
+  type OccurredEvent,
+} from "../../../src/bench/m1-11-occurred";
 
 const KINDS = ["work.job-lost", "organization.closed", "housing.eviction"];
 const year: OccurredEvent[] = [

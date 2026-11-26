@@ -18,7 +18,10 @@ import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { openOffices, OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
+import {
+  openOffices,
+  OFFICES_MODULE_ID,
+} from "../../../src/core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
   openElections,
@@ -26,7 +29,10 @@ import {
 } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openParties } from "../../../src/core2/modules/parties";
-import { openVoting, VOTING_MODULE_ID } from "../../../src/core2/modules/voting";
+import {
+  openVoting,
+  VOTING_MODULE_ID,
+} from "../../../src/core2/modules/voting";
 
 const START = "2026-10-20";
 

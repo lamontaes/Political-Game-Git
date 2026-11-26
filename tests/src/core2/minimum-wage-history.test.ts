@@ -10,10 +10,18 @@ import { govReport } from "../../../src/core2/gov-test-report";
 import { buildPopulation } from "../../../src/core2/population";
 import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { LAWS_MODULE_ID, lawChain, lawInForce, openLaws } from "../../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  openLaws,
+} from "../../../src/core2/modules/laws";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import history from "../../../data/research/laws/minimum-wage-history-2000-2026.json" with { type: "json" };
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

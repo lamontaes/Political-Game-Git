@@ -27,8 +27,14 @@ import {
   UNDOCUMENTED,
   US_BORN,
 } from "../../../src/core2/jobs-web";
-import { JOBS_MODULE_ID, laborGroupShares } from "../../../src/core2/modules/jobs";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  JOBS_MODULE_ID,
+  laborGroupShares,
+} from "../../../src/core2/modules/jobs";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { webReach } from "../../../src/core2/outcome-web-reach";
 import { coreAPI } from "../../../src/core2/state";

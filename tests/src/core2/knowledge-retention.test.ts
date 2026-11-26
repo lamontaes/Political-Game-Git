@@ -3,7 +3,11 @@ import { piecesInput } from "../../../src/core2/core-pieces-fixture";
 import { createLifeCore } from "../../../src/core2/life";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { forgetOldExperiences } from "../../../src/core2/knowledge-retention";
-import { restoreWorld, snapshotWorld, type WorldSnapshot } from "../../../src/core2/snapshot";
+import {
+  restoreWorld,
+  snapshotWorld,
+  type WorldSnapshot,
+} from "../../../src/core2/snapshot";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

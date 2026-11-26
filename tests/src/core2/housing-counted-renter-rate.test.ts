@@ -37,7 +37,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, addMonths, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  addMonths,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";

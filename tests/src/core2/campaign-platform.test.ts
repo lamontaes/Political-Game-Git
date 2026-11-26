@@ -32,11 +32,17 @@ import {
 import { campaignParameter } from "../../../src/core2/campaign-data";
 import { contestPositions } from "../../../src/core2/contest-positions";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import { townStand } from "../../../src/core2/modules/press";
 import { sidesByAgreement } from "../../../src/core2/campaign-platform-test-kit";
-import { agreementWith, countedStanceProfile } from "../../../src/core2/modules/views";
+import {
+  agreementWith,
+  countedStanceProfile,
+} from "../../../src/core2/modules/views";
 
 /** The views engine's readers the shares are counted by. */
 const VIEWS = {

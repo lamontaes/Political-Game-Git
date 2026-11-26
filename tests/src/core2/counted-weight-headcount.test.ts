@@ -7,7 +7,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import { countedHeadcountOf, countedJobsOf } from "../../../src/core2/residents-economy";
+import {
+  countedHeadcountOf,
+  countedJobsOf,
+} from "../../../src/core2/residents-economy";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

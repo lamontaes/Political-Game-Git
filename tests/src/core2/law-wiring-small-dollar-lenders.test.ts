@@ -46,8 +46,16 @@ import {
   CREDIT_PARAMETERS,
   smallDollarTerms,
 } from "../../../src/core2/modules/credit";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
-import { OUTCOME_WEB_MODULE_ID, WEB_LINKS } from "../../../src/core2/outcome-web-model";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  WEB_LINKS,
+} from "../../../src/core2/outcome-web-model";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
 import { coreAPI } from "../../../src/core2/state";

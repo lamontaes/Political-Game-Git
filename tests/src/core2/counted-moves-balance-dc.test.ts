@@ -11,11 +11,17 @@
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { townPeople, yearsOf } from "../../../src/core2/counted-moves-balance-kit";
+import {
+  townPeople,
+  yearsOf,
+} from "../../../src/core2/counted-moves-balance-kit";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { countedMoves, countedStatePeople } from "../../../src/core2/modules/counted-moves";
+import {
+  countedMoves,
+  countedStatePeople,
+} from "../../../src/core2/modules/counted-moves";
 import { countryAbroadArrivals } from "../../../src/core2/modules/macro";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";

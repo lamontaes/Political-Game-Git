@@ -104,7 +104,8 @@ describe.each(PLACES)("the Elections page at $name", ({ at, name }) => {
 describe("dev mode's Election offers (McMinnville)", () => {
   it("lists every office the page shows with the one reason it is or is not offered", async () => {
     const { core, where } = opening("e:5", "McMinnville");
-    const view = (await import("../../../src/bench/dev-views/election-offers")).default;
+    const view = (await import("../../../src/bench/dev-views/election-offers"))
+      .default;
     const { offers } = view.routes!["GET election-offers"]!({
       mode: { core },
       q: () => "",

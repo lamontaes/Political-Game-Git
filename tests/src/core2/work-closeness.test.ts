@@ -13,14 +13,21 @@
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { closenessBetween, currentCloseness } from "../../../src/core2/closeness";
+import {
+  closenessBetween,
+  currentCloseness,
+} from "../../../src/core2/closeness";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { pairKey } from "../../../src/core2/kernel/ids";
 import { advanceCore } from "../../../src/core2/life";
 import { knownAmong } from "../../../src/core2/encounters";
 import { creditWorkTime } from "../../../src/core2/work-closeness";
-import { acceptJobOffer, jobOffersFor, quitJob } from "../../../src/core2/modules/jobs";
+import {
+  acceptJobOffer,
+  jobOffersFor,
+  quitJob,
+} from "../../../src/core2/modules/jobs";
 import { countedJobsOf } from "../../../src/core2/residents-economy";
 import { coreAPI } from "../../../src/core2/state";
 

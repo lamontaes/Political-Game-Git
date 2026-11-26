@@ -23,7 +23,10 @@ import {
   townShareOf,
 } from "../../../src/core2/modules/budgets";
 import { GOV_MEASURES, govMeasure } from "../../../src/core2/gov-measures";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-10-01";
 const seed =

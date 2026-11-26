@@ -6,7 +6,11 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { ownMoves, type RacePlace, type SampleVoter } from "../../../src/core2/electorate";
+import {
+  ownMoves,
+  type RacePlace,
+  type SampleVoter,
+} from "../../../src/core2/electorate";
 import {
   carryLeans,
   leanOf,

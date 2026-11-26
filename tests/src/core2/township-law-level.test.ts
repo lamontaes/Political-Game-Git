@@ -11,14 +11,23 @@ import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { lawChainForPlace } from "../../../src/core2/laws-starting";
 import { LAWS_MODULE_ID, openLaws } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, openOffices } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  openOffices,
+} from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
 import { openLegislature } from "../../../src/core2/modules/legislature";
 import { openLawReach } from "../../../src/core2/law-reach/host";
-import { openWorldLegislating, sessionsOf } from "../../../src/core2/modules/world-legislating";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  openWorldLegislating,
+  sessionsOf,
+} from "../../../src/core2/modules/world-legislating";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 
 const START = "2026-01-05";

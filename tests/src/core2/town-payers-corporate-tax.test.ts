@@ -14,7 +14,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { BUDGETS_MODULE_ID, taxPaymentsOf } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  taxPaymentsOf,
+} from "../../../src/core2/modules/budgets";
 import { profitTaxesOf } from "../../../src/core2/modules/employer-taxes";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

@@ -7,9 +7,15 @@ import {
   type ContestRow,
 } from "../../../src/core2/modules/elections";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
-import { VOTING_MODULE_ID, recordedBase } from "../../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  recordedBase,
+} from "../../../src/core2/modules/voting";
 import type { CoreAPI } from "../../../src/core2/types";
-import { corePlaceStateIdentities, searchCorePlaces } from "../../../src/core2/place-lookup";
+import {
+  corePlaceStateIdentities,
+  searchCorePlaces,
+} from "../../../src/core2/place-lookup";
 
 // A council petition is never larger than the town (elections-petition-
 // larger-than-the-town): Johnson, Minnesota once asked 30 signatures of a

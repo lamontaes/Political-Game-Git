@@ -23,7 +23,10 @@ import { closenessBetween } from "../../../src/core2/closeness";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import {
   PARTY_MENTORSHIP,
   partyMentorOf,

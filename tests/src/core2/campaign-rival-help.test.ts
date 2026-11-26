@@ -38,7 +38,10 @@ import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { advanceToRaceFiling } from "../../../src/core2/gov-test-clock";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { decisionLean, decisionTraitWeight } from "../../../src/core2/trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+} from "../../../src/core2/trait-decisions";
 import type { CoreAPI, CoreState, PersonState } from "../../../src/core2/types";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
@@ -89,7 +92,10 @@ import { openPress } from "../../../src/core2/modules/press";
 import { agreementWith, viewsModule } from "../../../src/core2/modules/views";
 import { sharedHistory } from "../../../src/core2/shared-history";
 import { personLean } from "../../../src/core2/campaign-views";
-import { PLATFORM_QUESTIONS, campaignParameter } from "../../../src/core2/campaign-data";
+import {
+  PLATFORM_QUESTIONS,
+  campaignParameter,
+} from "../../../src/core2/campaign-data";
 
 const START = "2026-01-05";
 const runSeed =

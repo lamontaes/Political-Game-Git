@@ -34,8 +34,14 @@ import {
 import { openParties } from "../../../src/core2/modules/parties";
 import { openPress } from "../../../src/core2/modules/press";
 import { viewsModule } from "../../../src/core2/modules/views";
-import { PLATFORM_QUESTIONS, campaignParameter } from "../../../src/core2/campaign-data";
-import { campaignDayChoices, takeCampaignDayChoice } from "../../../src/core2/campaign-day";
+import {
+  PLATFORM_QUESTIONS,
+  campaignParameter,
+} from "../../../src/core2/campaign-data";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+} from "../../../src/core2/campaign-day";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 
 const START = "2026-01-05";

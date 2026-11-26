@@ -36,10 +36,18 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { deathWebFactor } from "../../../src/core2/health-web";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { healthDeathWebOf } from "../../../src/core2/modules/health";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import {
   lawValue,
   OUTCOME_WEB_MODULE_ID,
@@ -47,7 +55,11 @@ import {
 } from "../../../src/core2/modules/outcome-web";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
 import { countedHouseholdsByPlace } from "../../../src/core2/modules/residents";
-import { CALIBRATED_AT, moderatorScale, WEB_LINKS } from "../../../src/core2/outcome-web-model";
+import {
+  CALIBRATED_AT,
+  moderatorScale,
+  WEB_LINKS,
+} from "../../../src/core2/outcome-web-model";
 import { webReach } from "../../../src/core2/outcome-web-reach";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreAPI, CoreState } from "../../../src/core2/types";

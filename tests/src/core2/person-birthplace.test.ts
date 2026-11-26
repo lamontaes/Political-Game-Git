@@ -18,7 +18,10 @@ import {
   coreStateKeyOfJurisdictionId,
   corePlaceByJurisdictionId,
 } from "../../../src/core2/place-lookup";
-import { BIRTHPLACE_FACT, BORN_ABROAD } from "../../../src/core2/person-birthplace";
+import {
+  BIRTHPLACE_FACT,
+  BORN_ABROAD,
+} from "../../../src/core2/person-birthplace";
 import { preStartHistory } from "../../../src/core2/pre-start";
 import type { PersonId } from "../../../src/core2/types";
 

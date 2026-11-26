@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { createNewsModule, newsKey, storiesHeard } from "../../../src/core2/modules/news";
+import {
+  createNewsModule,
+  newsKey,
+  storiesHeard,
+} from "../../../src/core2/modules/news";
 import { viewsModule } from "../../../src/core2/modules/views";
 import { buildPopulation } from "../../../src/core2/population";
 import { applyCoreEvent, coreAPI } from "../../../src/core2/state";

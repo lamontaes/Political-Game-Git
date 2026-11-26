@@ -17,7 +17,11 @@ import { drawPlace } from "../../golden-path/place";
 import { CASES_MODULE_ID } from "../../../src/core2/modules/constituent-cases";
 import { coreAPI } from "../../../src/core2/state";
 import { decisionTraitWeight } from "../../../src/core2/trait-decisions";
-import { describePair, playedPairs, type PlayedCall } from "../../../src/core2/trait-pairs";
+import {
+  describePair,
+  playedPairs,
+  type PlayedCall,
+} from "../../../src/core2/trait-pairs";
 
 /** One seed per run, or GOLDEN_PATH_SEED to replay one. */
 const RUN_SEED =

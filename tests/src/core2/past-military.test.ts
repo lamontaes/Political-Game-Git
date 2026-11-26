@@ -15,8 +15,15 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { openWholePast } from "../../../src/core2/modules/people";
 import { lifeOf } from "../../../src/core2/person-life";
-import { PAST_DISCHARGED, PAST_ENLISTED } from "../../../src/core2/past-military";
-import { PAST_WORK_SPELL, serviceOf, veteranShare } from "../../../src/core2/past-work";
+import {
+  PAST_DISCHARGED,
+  PAST_ENLISTED,
+} from "../../../src/core2/past-military";
+import {
+  PAST_WORK_SPELL,
+  serviceOf,
+  veteranShare,
+} from "../../../src/core2/past-work";
 import { preStartHistory } from "../../../src/core2/pre-start";
 import type { PersonId } from "../../../src/core2/types";
 

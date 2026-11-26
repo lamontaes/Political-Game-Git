@@ -18,7 +18,10 @@ import { govReport } from "../../../src/core2/gov-test-report";
 import { setJournalTrace } from "../../../src/core2/journal-state";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { appliedOn, type LawAppliedRow } from "../../../src/core2/law-reach/applied";
+import {
+  appliedOn,
+  type LawAppliedRow,
+} from "../../../src/core2/law-reach/applied";
 import { reachedBy } from "../../../src/core2/law-reach/host";
 import { REACH_B_MODULE_ID } from "../../../src/core2/law-reach/group-b-store";
 import { townFacts } from "../../../src/core2/law-reach/group-b-people";

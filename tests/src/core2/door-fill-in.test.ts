@@ -13,7 +13,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
-import { campaignParameter, PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
+import {
+  campaignParameter,
+  PLATFORM_QUESTIONS,
+} from "../../../src/core2/campaign-data";
 import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,

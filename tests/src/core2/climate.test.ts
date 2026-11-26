@@ -5,9 +5,17 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { buildPopulation } from "../../../src/core2/population";
-import { climateNow, HAZARDS, type ClimateMonth } from "../../../src/core2/modules/climate";
+import {
+  climateNow,
+  HAZARDS,
+  type ClimateMonth,
+} from "../../../src/core2/modules/climate";
 import { openClimate } from "../../../src/core2/modules/climate";
-import { enactLaw, openLaws, stateLawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  openLaws,
+  stateLawInForce,
+} from "../../../src/core2/modules/laws";
 import { STATES } from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
 

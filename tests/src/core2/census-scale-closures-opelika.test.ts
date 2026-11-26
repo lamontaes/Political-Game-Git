@@ -12,7 +12,10 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { publishedPlaceReferencePopulation } from "../../../src/core2/gov-rules/place-population";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
-import { SAMPLE, compareClosures } from "../../../src/core2/census-scale-closures-support";
+import {
+  SAMPLE,
+  compareClosures,
+} from "../../../src/core2/census-scale-closures-support";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";

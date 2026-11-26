@@ -63,7 +63,10 @@ import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { campaignDay } from "../../../src/bench/campaign";
-import { chooseAtCounter, openBenchFilingVisit } from "../../../src/bench/filing";
+import {
+  chooseAtCounter,
+  openBenchFilingVisit,
+} from "../../../src/bench/filing";
 import { governmentView } from "../../../src/bench/government";
 import { BenchPlayer } from "../../../src/bench/player";
 import { buildBenchWorld, NoPlayerHereError } from "../../../src/bench/world";
@@ -96,7 +99,10 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { MEETINGS_MODULE_ID, type TownHallRow } from "../../../src/core2/modules/meetings";
+import {
+  MEETINGS_MODULE_ID,
+  type TownHallRow,
+} from "../../../src/core2/modules/meetings";
 import {
   adjourn,
   deskWaiting,

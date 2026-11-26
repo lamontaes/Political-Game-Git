@@ -35,8 +35,15 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { CRIME_EVENT, CRIME_MODULE_ID, type CrimeMonth } from "../../../src/core2/modules/crime";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  CRIME_EVENT,
+  CRIME_MODULE_ID,
+  type CrimeMonth,
+} from "../../../src/core2/modules/crime";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import {
   registerStanceListener,
   viewOf,

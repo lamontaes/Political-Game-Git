@@ -21,7 +21,10 @@ import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { householdIncome, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  householdIncome,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { housingStatusCounts } from "../../../src/core2/housing-homeless";
 import hud from "../../../docs/research/cloud-b-outcomes-2024/homelessness-hud-2024.json" with { type: "json" };
 

@@ -5,7 +5,12 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 import { minimumWageExempt } from "../../../src/core2/wage-floor";
 

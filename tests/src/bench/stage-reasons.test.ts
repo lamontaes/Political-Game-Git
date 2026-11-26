@@ -12,7 +12,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import type { CoreState } from "../../../src/core2/types";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { BenchPlayer, ownPick } from "../../../src/bench/player";
-import { benchScene, peopleHere, type BenchScenePerson } from "../../../src/bench/scene";
+import {
+  benchScene,
+  peopleHere,
+  type BenchScenePerson,
+} from "../../../src/bench/scene";
 import { storyScene } from "../../../src/bench/story";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import staging from "../../../art/backdrops/staging.json" with { type: "json" };

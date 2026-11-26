@@ -12,7 +12,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { candidacyReasons, civicRolesOf } from "../../../src/core2/modules/candidacy";
+import {
+  candidacyReasons,
+  civicRolesOf,
+} from "../../../src/core2/modules/candidacy";
 import { partiesHere, partyMeetings } from "../../../src/core2/modules/parties";
 import { coreAPI } from "../../../src/core2/state";
 

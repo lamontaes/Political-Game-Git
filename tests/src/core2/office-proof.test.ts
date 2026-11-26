@@ -13,8 +13,14 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { coreAPI } from "../../../src/core2/state";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { deskWaiting, leaveDeskToCharacter } from "../../../src/core2/modules/office-day";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
+import {
+  deskWaiting,
+  leaveDeskToCharacter,
+} from "../../../src/core2/modules/office-day";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
 import {
   actOn,
   resultsOf,

@@ -5,7 +5,11 @@
  */
 import { describe, expect, it } from "vitest";
 import bodies from "../../../src/core2/data/offices/bodies.json" with { type: "json" };
-import { bodyRow, FEDERAL_HOUSE, FEDERAL_SENATE } from "../../../src/core2/modules/legislature";
+import {
+  bodyRow,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
+} from "../../../src/core2/modules/legislature";
 
 describe("lawmaking bodies are rows", () => {
   it("reads each body's level, legislature and first chamber from its row", () => {

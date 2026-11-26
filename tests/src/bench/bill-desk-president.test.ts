@@ -15,9 +15,15 @@ import {
   members,
   type Provision,
 } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { deskWaiting } from "../../../src/core2/modules/office-day";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
 import { coreAPI } from "../../../src/core2/state";
 import { billStage } from "../../../src/bench/bill-stage";
 import { deskDecide } from "../../../src/bench/office";

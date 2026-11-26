@@ -14,7 +14,11 @@ import {
   holdElection,
   pollingPlaceOf,
 } from "../../../src/core2/modules/voting";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { parameter } from "../../../src/core2/parameters";
 import { SITUATION_LIBRARY } from "../../../src/director/scheduling";

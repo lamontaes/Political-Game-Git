@@ -6,7 +6,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { enactLaw, lawChain, LOCAL_POWER_PREFIX } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  LOCAL_POWER_PREFIX,
+} from "../../../src/core2/modules/laws";
 import { placeRow } from "../../../src/core2/place-map";
 import { policyAuthority } from "../../../src/core2/policy-authority";
 import { coreAPI } from "../../../src/core2/state";

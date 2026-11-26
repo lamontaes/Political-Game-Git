@@ -11,9 +11,16 @@ import {
   memberKey,
   members,
 } from "../../../src/core2/modules/legislature";
-import { deskWaiting, officeActsOf } from "../../../src/core2/modules/office-day";
+import {
+  deskWaiting,
+  officeActsOf,
+} from "../../../src/core2/modules/office-day";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { coreAPI, fillInPerson, type CoreState } from "../../../src/core2/state";
+import {
+  coreAPI,
+  fillInPerson,
+  type CoreState,
+} from "../../../src/core2/state";
 import { deskDecide, officeStops, officeView } from "../../../src/bench/office";
 import { BenchPlayer } from "../../../src/bench/player";
 import { buildBenchWorld } from "../../../src/bench/world";

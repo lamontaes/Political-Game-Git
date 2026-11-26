@@ -17,7 +17,12 @@ import {
   draftBill,
   memberKey,
 } from "../../../src/core2/modules/legislature";
-import { enactLaw, LAWS_MODULE_ID, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 

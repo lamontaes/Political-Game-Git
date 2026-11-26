@@ -7,11 +7,7 @@ import { applyCoreEvent } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 import { chooseVariant } from "../../../src/director/arc-variant";
 import variantFile from "../../../src/director/data/arc-variants.json" with { type: "json" };
-import {
-  LOAN_SEED,
-  findTownBorrower,
-  play,
-} from "../../support/real-borrower";
+import { LOAN_SEED, findTownBorrower, play } from "../../support/real-borrower";
 
 // A quarrel over a missed payment (the partnerships engine's own
 // `family.quarrel`, written when the credit engine's `credit.payment-missed`

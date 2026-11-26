@@ -15,7 +15,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { advanceCore } from "../../../src/core2/life";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { stancesOf } from "../../../src/core2/modules/views";
 import { SPEECH_STAGES } from "../../../src/director/speech-builder";

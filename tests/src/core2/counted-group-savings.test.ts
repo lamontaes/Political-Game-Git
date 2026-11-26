@@ -19,7 +19,10 @@ import {
   savingWeight,
 } from "../../../src/core2/counted-money";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { householdCashReader, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  householdCashReader,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { OUTCOME_WEB_MODULE } from "../../../src/core2/modules/outcome-web";
 import {
   WORLD_MODULES,

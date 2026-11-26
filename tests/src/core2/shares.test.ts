@@ -5,7 +5,11 @@ import {
   modalShare,
   typicalCouncilTables,
 } from "../../../src/core2/gov-rules/typical-council-size";
-import { partTimeShare, shareTable, shareValue } from "../../../src/core2/shares";
+import {
+  partTimeShare,
+  shareTable,
+  shareValue,
+} from "../../../src/core2/shares";
 
 const TAGS = ["SOURCED", "ESTIMATED", "TUNABLE"];
 

@@ -3,12 +3,19 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { addDays, daysBetween, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { workSpansOnDateV1 } from "../../../src/core2/work-spans-v1";
 import type { CoreState, PersonId } from "../../../src/core2/types";
-import { openConversation, subjectsBetween } from "../../../src/director/conversation";
+import {
+  openConversation,
+  subjectsBetween,
+} from "../../../src/director/conversation";
 import { DEFAULT_DIRECTOR_DATA } from "../../../src/director/ledger";
 
 // Talk at home on a quiet day opens on the day itself

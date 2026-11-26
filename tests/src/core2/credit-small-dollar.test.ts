@@ -8,7 +8,10 @@
 import { describe, expect, it } from "vitest";
 import startingLaw from "../../../data/research/laws/starting-law-2026/business-commerce.json";
 import table from "../../../src/core2/data/credit/small-dollar.json";
-import { CREDIT_PARAMETERS, smallDollarTerms } from "../../../src/core2/modules/credit";
+import {
+  CREDIT_PARAMETERS,
+  smallDollarTerms,
+} from "../../../src/core2/modules/credit";
 
 const answers = (
   startingLaw.questions as Record<

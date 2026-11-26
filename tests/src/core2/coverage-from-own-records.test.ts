@@ -16,7 +16,10 @@ import bills from "../../../src/core2/data/health/medical-bills.json" with { typ
 import { gameStartDate } from "../../../src/core2/game-start";
 import { makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { carePrices, type MedicalBillRow } from "../../../src/core2/medical-bills";
+import {
+  carePrices,
+  type MedicalBillRow,
+} from "../../../src/core2/medical-bills";
 import {
   COVERAGE_MODULE_ID,
   employerPlansToday,
@@ -25,7 +28,10 @@ import {
   workerPremium,
   type CountedCoverageRow,
 } from "../../../src/core2/modules/coverage";
-import { countedJob, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  countedJob,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

@@ -11,7 +11,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { tenants } from "../../../src/core2/housing-occupancy";
 import { putRow } from "../../../src/core2/law-reach/group-b-store";
-import { householdIncome, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  householdIncome,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 import { householdPoverty } from "../../../src/core2/world-poverty";
 

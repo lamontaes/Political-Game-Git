@@ -2,7 +2,10 @@
 import { describe, expect, it } from "vitest";
 import { FinanceReadGuard } from "../../../src/core2/finance-plan";
 import { parameter as p } from "../../../src/core2/parameters";
-import { nextWorkPayrollPeriod, workPayPeriodAtIndex } from "../../../src/core2/work-pay-period";
+import {
+  nextWorkPayrollPeriod,
+  workPayPeriodAtIndex,
+} from "../../../src/core2/work-pay-period";
 import type { WorkPayrollCalendarInput } from "../../../src/core2/work-pay-period";
 
 const units = {

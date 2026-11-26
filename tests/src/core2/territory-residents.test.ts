@@ -10,7 +10,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import { gameStartDate } from "../../../src/core2/game-start";
-import { residentsOf, townShare } from "../../../src/core2/law-reach/group-b-money";
+import {
+  residentsOf,
+  townShare,
+} from "../../../src/core2/law-reach/group-b-money";
 import { governments } from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
 

@@ -12,7 +12,10 @@ import {
   resolveCompositeFinanceCreditSources,
   settleFinanceContractJournal,
 } from "../../../src/core2/finance-cash";
-import { FinancePlanningSession, prepareWorkFinancePlan } from "../../../src/core2/finance-plan";
+import {
+  FinancePlanningSession,
+  prepareWorkFinancePlan,
+} from "../../../src/core2/finance-plan";
 import { parameter as p } from "../../../src/core2/parameters";
 import { coreAPI, createCore, registerModule } from "../../../src/core2/state";
 import type {

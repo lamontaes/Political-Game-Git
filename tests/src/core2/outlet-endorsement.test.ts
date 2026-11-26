@@ -21,7 +21,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { CAMPAIGNS_MODULE_ID } from "../../../src/core2/modules/campaigns";
-import { followersOf, PRESS_MODULE_ID, type OutletRow } from "../../../src/core2/modules/press";
+import {
+  followersOf,
+  PRESS_MODULE_ID,
+  type OutletRow,
+} from "../../../src/core2/modules/press";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 import endorsing from "../../../src/core2/data/press/endorsements.json" with { type: "json" };

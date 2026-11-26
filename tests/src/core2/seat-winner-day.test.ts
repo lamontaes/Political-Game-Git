@@ -20,7 +20,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { novemberGeneralElectionDay } from "../../../src/core2/gov-rules/town-election-calendar";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { racesOf, worldRacesOpen } from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
 

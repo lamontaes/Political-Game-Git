@@ -6,7 +6,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { BUDGETS_MODULE_ID } from "../../../src/core2/modules/budgets";
-import { BRIBE_OFFERED, considerBribe } from "../../../src/core2/modules/corruption";
+import {
+  BRIBE_OFFERED,
+  considerBribe,
+} from "../../../src/core2/modules/corruption";
 import { coreAPI } from "../../../src/core2/state";
 import { purposeScene } from "../../../src/director/purpose-scene";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";

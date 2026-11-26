@@ -13,7 +13,10 @@ import {
   groupStance,
   type GroupRow,
 } from "../../../../src/core2/modules/interest-groups";
-import { actionsOf, organizerOf } from "../../../../src/core2/modules/public-action";
+import {
+  actionsOf,
+  organizerOf,
+} from "../../../../src/core2/modules/public-action";
 
 // A movement can grow (owner, Nov 8: "can you start a movement?"). One of the
 // people who keep turning out over a grievance decides to found a standing

@@ -2,7 +2,10 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
-import { DEFAULT_BUSINESS_BOOKS_DATA, sectorOfKind } from "../../../src/core2/business-books";
+import {
+  DEFAULT_BUSINESS_BOOKS_DATA,
+  sectorOfKind,
+} from "../../../src/core2/business-books";
 import { COUNTRY_SECTORS } from "../../../src/core2/country-model";
 import { gameStartDate } from "../../../src/core2/game-start";
 

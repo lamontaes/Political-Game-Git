@@ -27,7 +27,11 @@ import {
 } from "../../../src/core2/modules/campaigns";
 import { interviewsFor } from "../../../src/core2/modules/press";
 import { campaignDayChoices } from "../../../src/core2/campaign-day";
-import { campaignAct, campaignDay, campaignView } from "../../../src/bench/campaign";
+import {
+  campaignAct,
+  campaignDay,
+  campaignView,
+} from "../../../src/bench/campaign";
 import controls from "../../../src/bench/data/controls.json" with { type: "json" };
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 

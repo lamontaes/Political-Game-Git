@@ -68,7 +68,10 @@ import {
 import type { TreasuryMonthRow } from "../../../src/core2/budgets-treasury";
 import { advanceCore } from "../../../src/core2/life";
 import type { MedicalBillRow } from "../../../src/core2/medical-bills";
-import { BUDGETS_MODULE_ID, outsideAccountOf } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  outsideAccountOf,
+} from "../../../src/core2/modules/budgets";
 import {
   COVERAGE_MODULE_ID,
   employerPlansToday,
@@ -76,7 +79,12 @@ import {
 } from "../../../src/core2/modules/coverage";
 import { medicalDebtOf } from "../../../src/core2/modules/credit";
 import { healthReport } from "../../../src/core2/modules/health";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import expansionMatch from "../../../src/core2/data/laws/medicaid-expansion-match.json" with { type: "json" };
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import type { LawRowInput } from "../../../src/core2/laws-starting";

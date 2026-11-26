@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import {
   addressesGivenBy,

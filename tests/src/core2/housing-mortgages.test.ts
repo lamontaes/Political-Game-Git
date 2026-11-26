@@ -4,7 +4,10 @@ import { DEFAULT_DATA } from "../../../src/core2/data";
 import { randomBytes } from "node:crypto";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import acs from "../../../data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json" with { type: "json" };
-import { mortgageShares, openingMortgages } from "../../../src/core2/housing-mortgages";
+import {
+  mortgageShares,
+  openingMortgages,
+} from "../../../src/core2/housing-mortgages";
 import { placeCounty, placeStateKey } from "../../../src/core2/place-map";
 import { HOUSING_PARAMETERS } from "../../../src/core2/modules/housing";
 import { MACRO_PARAMETERS } from "../../../src/core2/modules/macro";

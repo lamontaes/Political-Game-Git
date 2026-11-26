@@ -20,19 +20,39 @@ import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { setJournalTrace } from "../../../src/core2/journal-state";
 import type { CoreAPI, CoreState, Source } from "../../../src/core2/types";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import { OUTCOME_WEB_MODULE_ID } from "../../../src/core2/modules/outcome-web";
-import { appliedOn, type LawAppliedRow } from "../../../src/core2/law-reach/applied";
+import {
+  appliedOn,
+  type LawAppliedRow,
+} from "../../../src/core2/law-reach/applied";
 import { localOfficesForPlace } from "../../../src/core2/offices-local";
 import { councilElectionMethod } from "../../../src/core2/gov-rules/council-election-method";
 import { allGovernmentUnits } from "../../../src/core2/reference/government-units";
-import { electorateRoll, holdElection } from "../../../src/core2/modules/voting";
+import {
+  electorateRoll,
+  holdElection,
+} from "../../../src/core2/modules/voting";
 import { policyAuthority } from "../../../src/core2/policy-authority";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
-import { checkEligibility, fileCandidacy } from "../../../src/core2/modules/elections";
+import {
+  checkEligibility,
+  fileCandidacy,
+} from "../../../src/core2/modules/elections";
 import { draftBill } from "../../../src/core2/modules/legislature";
 import {
   OFFICES_MODULE_ID,
@@ -55,8 +75,14 @@ import { outsideAccountOf } from "../../../src/core2/budgets-treasury";
 import { drawPlace } from "../../golden-path/place";
 import { realLocalities } from "../../../src/core2/places";
 import { jobsAt } from "../../../src/core2/law-reach/group-b-money";
-import { countedJob, residentsRuntime } from "../../../src/core2/modules/residents";
-import { PUBLIC_EMPLOYER_CLASSES, PUBLIC_PAY_FLOOR } from "../../../src/core2/public-pay-floor";
+import {
+  countedJob,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
+import {
+  PUBLIC_EMPLOYER_CLASSES,
+  PUBLIC_PAY_FLOOR,
+} from "../../../src/core2/public-pay-floor";
 
 const P = "us-policy-positions:government-operations.";
 const ALL_MAIL = `${P}all-mail-voting`;

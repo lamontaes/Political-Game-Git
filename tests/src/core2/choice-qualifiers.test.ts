@@ -1,10 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA, extendData } from "../../../src/core2/data";
-import { compactOriginalAnswer, validateCompactChoice } from "../../../src/core2/compact-choice";
+import {
+  compactOriginalAnswer,
+  validateCompactChoice,
+} from "../../../src/core2/compact-choice";
 import { activate, chooseAct, createLifeCore } from "../../../src/core2/life";
 import { parameter as p } from "../../../src/core2/parameters";
 import { coreAPI } from "../../../src/core2/state";
-import type { ActOffer, ActionDefinition, CoreState, Source } from "../../../src/core2/types";
+import type {
+  ActOffer,
+  ActionDefinition,
+  CoreState,
+  Source,
+} from "../../../src/core2/types";
 
 const date = "2021-01-01";
 const actorId = "person:qualifier-fixture";

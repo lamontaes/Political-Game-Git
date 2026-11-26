@@ -12,7 +12,10 @@ import { buildBenchWorld, OPENING_WARMUP_DAYS } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { cabinetOf } from "../../../src/core2/office-day-federal-president";
 
 const seed = process.env.GOLDEN_PATH_SEED || randomBytes(8).toString("hex");

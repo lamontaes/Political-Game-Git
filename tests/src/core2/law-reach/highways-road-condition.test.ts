@@ -15,7 +15,10 @@ import { buildBenchWorld } from "../../../../src/bench/world";
 import { setBookkeeping } from "../../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../../src/core2/game-start";
 import { advanceCore } from "../../../../src/core2/life";
-import { amendBudget, governments } from "../../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  governments,
+} from "../../../../src/core2/modules/budgets";
 import { lawChain } from "../../../../src/core2/modules/laws";
 import {
   PLACE_PRICES_MODULE_ID,
@@ -23,7 +26,10 @@ import {
   worldGoods,
 } from "../../../../src/core2/modules/place-prices";
 import { coreAPI } from "../../../../src/core2/state";
-import { budgetNow, residentsOf } from "../../../../src/core2/law-reach/group-b-money";
+import {
+  budgetNow,
+  residentsOf,
+} from "../../../../src/core2/law-reach/group-b-money";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex");
 

@@ -4,7 +4,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { createLifeCore } from "../../../src/core2/life";
 import { isDemoted } from "../../../src/core2/counted-groups";
 import { demoteHousehold } from "../../../src/core2/modules/counted-demotion";
-import { removeCountedPerson, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  removeCountedPerson,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
 

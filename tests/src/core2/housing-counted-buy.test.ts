@@ -28,9 +28,17 @@ import housingData from "../../../src/core2/data/housing/housing.json" with { ty
 import { countedLeaseStart } from "../../../src/core2/housing-counted-buy";
 import { buyMarket, weighHome } from "../../../src/core2/housing-buy";
 import { countedMortgageFlowId } from "../../../src/core2/housing-mortgages";
-import { ageInYears, daysBetweenText, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  ageInYears,
+  daysBetweenText,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { bankYes, heldMortgages, mortgageRoom } from "../../../src/core2/modules/credit";
+import {
+  bankYes,
+  heldMortgages,
+  mortgageRoom,
+} from "../../../src/core2/modules/credit";
 import {
   ownedHomes,
   rentHomeValue,
@@ -41,7 +49,11 @@ import {
   householdIncome,
   residentsRuntime,
 } from "../../../src/core2/modules/residents";
-import { claimsInGroup, countedDeposits, fundBalance } from "../../../src/core2/counted-money";
+import {
+  claimsInGroup,
+  countedDeposits,
+  fundBalance,
+} from "../../../src/core2/counted-money";
 import { coreAPI } from "../../../src/core2/state";
 import { depositsAtBank } from "../../../src/core2/accounts";
 

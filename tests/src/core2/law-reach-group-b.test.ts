@@ -39,7 +39,11 @@ import { withholdingFor } from "../../../src/core2/tax-withholding";
 import type { LawInForceAnswer } from "../../../src/core2/laws-in-force";
 import type { CoreAPI, CoreState } from "../../../src/core2/types";
 import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { getRow, putRow, REACH_B_MODULE_ID } from "../../../src/core2/law-reach/group-b-store";
+import {
+  getRow,
+  putRow,
+  REACH_B_MODULE_ID,
+} from "../../../src/core2/law-reach/group-b-store";
 import type {
   GroupReach,
   OrganizationReach,

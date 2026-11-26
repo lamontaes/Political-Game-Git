@@ -8,8 +8,14 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { appliedOn } from "../../../src/core2/law-reach/applied";
-import { inTownChain, resolveLawInForce } from "../../../src/core2/laws-in-force";
-import { lawChainForPlace, type LawRowInput } from "../../../src/core2/laws-starting";
+import {
+  inTownChain,
+  resolveLawInForce,
+} from "../../../src/core2/laws-in-force";
+import {
+  lawChainForPlace,
+  type LawRowInput,
+} from "../../../src/core2/laws-starting";
 import { advanceCore } from "../../../src/core2/life";
 import { lawChain, lawInForce } from "../../../src/core2/modules/laws";
 import { purchaseTaxes } from "../../../src/core2/modules/purchase-tax";

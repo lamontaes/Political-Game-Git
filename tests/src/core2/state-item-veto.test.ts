@@ -16,7 +16,10 @@ import {
   LEGISLATURE_MODULE_ID,
 } from "../../../src/core2/modules/legislature";
 import { openBudgets, budgetsOf } from "../../../src/core2/modules/budgets";
-import { itemOverrideNeeded, lineItemVetoOf } from "../../../src/core2/state-item-veto";
+import {
+  itemOverrideNeeded,
+  lineItemVetoOf,
+} from "../../../src/core2/state-item-veto";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import type { ModuleRow } from "../../../src/core2/module-data";
 

@@ -6,12 +6,18 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { forgetTownFacts, townFacts } from "../../../src/core2/law-reach/group-b-people";
+import {
+  forgetTownFacts,
+  townFacts,
+} from "../../../src/core2/law-reach/group-b-people";
 import { COUNTED_MOVES_MODULE_ID } from "../../../src/core2/modules/counted-moves";
 import { reachOf } from "../../../src/core2/counted-reach";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { residentsRuntime, takeResidentHousehold } from "../../../src/core2/modules/residents";
+import {
+  residentsRuntime,
+  takeResidentHousehold,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 
 const SCALE = 3;

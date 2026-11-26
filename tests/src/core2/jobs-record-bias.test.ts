@@ -19,7 +19,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { BAN_THE_BOX_KEY, recordBiasAt } from "../../../src/core2/jobs-record-bias";
+import {
+  BAN_THE_BOX_KEY,
+  recordBiasAt,
+} from "../../../src/core2/jobs-record-bias";
 import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { budgetToday } from "../../../src/core2/law-reach/group-a-money";
 import {

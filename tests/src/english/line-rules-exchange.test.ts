@@ -18,7 +18,11 @@ import {
   type LineRule,
   type RulePiece,
 } from "../../../src/english/line-rules";
-import { REPLY_STORE_TABLE, follows, withBarred } from "../../../src/english/reply-follows";
+import {
+  REPLY_STORE_TABLE,
+  follows,
+  withBarred,
+} from "../../../src/english/reply-follows";
 
 const piece = (key: string, text: string, move: string): RulePiece => ({
   bank: "scene-talk",

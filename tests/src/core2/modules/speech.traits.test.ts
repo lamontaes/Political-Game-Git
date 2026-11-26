@@ -12,9 +12,17 @@ import { buildPopulation } from "../../../../src/core2/population";
 import { coreAPI } from "../../../../src/core2/state";
 import { believesClaim, claimFit } from "../../../../src/core2/heard-claims";
 import { decisionLean } from "../../../../src/core2/trait-decisions";
-import { thirdsLogOdds, withTraitWeight, RUN_SEED } from "../../../../src/core2/trait-test-kit";
+import {
+  thirdsLogOdds,
+  withTraitWeight,
+  RUN_SEED,
+} from "../../../../src/core2/trait-test-kit";
 import { drawPlace } from "../../../golden-path/place";
-import { deliverSpeech, speechModule, type Retelling } from "../../../../src/core2/modules/speech";
+import {
+  deliverSpeech,
+  speechModule,
+  type Retelling,
+} from "../../../../src/core2/modules/speech";
 import { viewsModule } from "../../../../src/core2/modules/views";
 
 const SEED = `${RUN_SEED}:speech`;

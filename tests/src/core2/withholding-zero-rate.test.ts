@@ -7,7 +7,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
 import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { withholdingOf } from "../../../src/core2/modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 
 // A zero state income-tax rate that keeps its table stops collecting: named

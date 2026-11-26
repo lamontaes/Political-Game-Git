@@ -20,7 +20,11 @@ import { BUSINESS_MODULE_ID } from "../../../src/core2/business-module-id";
 import { governments } from "../../../src/core2/modules/budgets";
 import { awardsOn, contractsOf } from "../../../src/core2/modules/contracts";
 import { governingMembers } from "../../../src/core2/modules/legislature";
-import { followersOf, outletsHere, PRESS_MODULE_ID } from "../../../src/core2/modules/press";
+import {
+  followersOf,
+  outletsHere,
+  PRESS_MODULE_ID,
+} from "../../../src/core2/modules/press";
 import { impressionOf } from "../../../src/core2/modules/campaigns";
 import type { LogRecord } from "../../../src/core2/types";
 

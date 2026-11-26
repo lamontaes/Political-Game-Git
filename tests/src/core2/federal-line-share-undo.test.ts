@@ -17,7 +17,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { advanceCore } from "../../../src/core2/life";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

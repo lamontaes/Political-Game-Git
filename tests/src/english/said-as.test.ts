@@ -10,7 +10,12 @@ import {
   ownGovernmentSaid,
   type SaidPerson,
 } from "../../../src/english/said-as";
-import { clockOf, heardBefore, noteSaid, tellingOf } from "../../../src/english/telling";
+import {
+  clockOf,
+  heardBefore,
+  noteSaid,
+  tellingOf,
+} from "../../../src/english/telling";
 
 const vice: SaidPerson = {
   id: "p:vice",

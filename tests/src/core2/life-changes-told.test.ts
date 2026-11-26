@@ -13,7 +13,11 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { candidateStance } from "../../../src/core2/campaign-stances";
 import { personStance } from "../../../src/core2/campaign-views";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { fullLifeStake } from "../../../src/core2/life-stakes";
 import { ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
@@ -27,7 +31,12 @@ import {
 } from "../../../src/core2/modules/views";
 import { registerStanceListener } from "../../../src/core2/stance-listeners";
 import { coreAPI } from "../../../src/core2/state";
-import type { CoreAPI, CoreState, PersonId, PersonState } from "../../../src/core2/types";
+import type {
+  CoreAPI,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../../../src/core2/types";
 
 // The place the life-stakes test draws (base seed lv5, purpose "life-stakes"):
 // full workers who lose work, and full people out of work who find it, in the

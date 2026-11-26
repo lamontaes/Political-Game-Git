@@ -17,7 +17,11 @@ import {
   setStops,
 } from "../../../src/core2/modules/office-day";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { coreAPI, fillInPerson, type CoreState } from "../../../src/core2/state";
+import {
+  coreAPI,
+  fillInPerson,
+  type CoreState,
+} from "../../../src/core2/state";
 import { purposeScene } from "../../../src/director/purpose-scene";
 import type { TreeNode } from "../../../src/director/scene-talk";
 import type { PersonId } from "../../../src/core2/types";

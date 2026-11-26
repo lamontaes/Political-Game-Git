@@ -15,7 +15,10 @@ import {
   type FilingRow,
 } from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { questionAxis } from "../../../src/core2/campaign-views";
 import { campaignParameter } from "../../../src/core2/campaign-data";
 import {
@@ -23,8 +26,14 @@ import {
   type BallotRow,
   type ResultRow,
 } from "../../../src/core2/modules/voting";
-import { VIEWS_MODULE_ID, type PersonView } from "../../../src/core2/modules/views";
-import { CAMPAIGNS_MODULE_ID, parsePlatform } from "../../../src/core2/modules/campaigns";
+import {
+  VIEWS_MODULE_ID,
+  type PersonView,
+} from "../../../src/core2/modules/views";
+import {
+  CAMPAIGNS_MODULE_ID,
+  parsePlatform,
+} from "../../../src/core2/modules/campaigns";
 
 // PW-3 in the world the owner plays: the bench world on a seed nobody chose,
 // run for a year. Every named adult in town weighed each local contest whose

@@ -4,7 +4,11 @@ import { setBookkeeping } from "../../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../../src/core2/game-start";
 import { leanedYes } from "../../../../src/core2/trait-decisions";
 import { coreAPI } from "../../../../src/core2/state";
-import { attendCase, partiesHere, partyMemberIds } from "../../../../src/core2/modules/parties";
+import {
+  attendCase,
+  partiesHere,
+  partyMemberIds,
+} from "../../../../src/core2/modules/parties";
 
 // A party met every month before the world opens: at the opening, the chair
 // already has a tie with each member who would have come by the meeting's own

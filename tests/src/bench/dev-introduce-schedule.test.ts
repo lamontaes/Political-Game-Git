@@ -5,7 +5,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { stateFloorHolds } from "../../../src/core2/office-day-state";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
 import { coreAPI } from "../../../src/core2/state";
 import { DevMode } from "../../../src/bench/dev-mode";
 import { ordersDecide, ordersView } from "../../../src/bench/office";

@@ -9,8 +9,16 @@ import { runWorkPayrollDay } from "../../../src/core2/work-payroll-dispatch";
 import { LIFE_MODULE } from "../../../src/core2/modules/life";
 import { parameter as p } from "../../../src/core2/parameters";
 import { coreAPI, createCore } from "../../../src/core2/state";
-import type { BusinessBooksInput, FinanceContractInput } from "../../../src/core2/finance-types";
-import type { CoreInput, CoreState, PersonInput, Source } from "../../../src/core2/types";
+import type {
+  BusinessBooksInput,
+  FinanceContractInput,
+} from "../../../src/core2/finance-types";
+import type {
+  CoreInput,
+  CoreState,
+  PersonInput,
+  Source,
+} from "../../../src/core2/types";
 
 const opening = "2021-01-31",
   february = "2021-02-28",

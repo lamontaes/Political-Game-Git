@@ -3,10 +3,23 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
-import { officeHost, officeActsOf } from "../../../src/core2/modules/office-day";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "../../../src/core2/modules/offices";
-import { officeActHandlers, townHallDue } from "../../../src/core2/office-day-acts";
-import { holdTownHall, MEETINGS_MODULE_ID } from "../../../src/core2/modules/meetings";
+import {
+  officeHost,
+  officeActsOf,
+} from "../../../src/core2/modules/office-day";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
+import {
+  officeActHandlers,
+  townHallDue,
+} from "../../../src/core2/office-day-acts";
+import {
+  holdTownHall,
+  MEETINGS_MODULE_ID,
+} from "../../../src/core2/modules/meetings";
 import { coreAPI } from "../../../src/core2/state";
 
 // A named place on a fixed draw (skill pinned-tests), never red by draw.

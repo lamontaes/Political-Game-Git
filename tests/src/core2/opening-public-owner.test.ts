@@ -15,7 +15,11 @@ import {
   type HistoricalCountyOwnerData,
 } from "../../../src/core2/opening-public-owner";
 import { parameter as p } from "../../../src/core2/parameters";
-import type { CoreInput, OrganizationInput, Source } from "../../../src/core2/types";
+import type {
+  CoreInput,
+  OrganizationInput,
+  Source,
+} from "../../../src/core2/types";
 
 const at = "2021-01-01";
 const fixtureSource: Source = {

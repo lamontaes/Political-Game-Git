@@ -16,7 +16,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import type { PersonId } from "../../../src/core2/types";
-import { openConversation, say, type Conversation } from "../../../src/director/conversation";
+import {
+  openConversation,
+  say,
+  type Conversation,
+} from "../../../src/director/conversation";
 import rules from "../../../src/director/data/conversation-rules.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

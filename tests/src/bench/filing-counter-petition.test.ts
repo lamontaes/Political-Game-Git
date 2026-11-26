@@ -16,7 +16,10 @@ import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 import { purposeScene } from "../../../src/director/purpose-scene";
 import { spokenDate } from "../../../src/director/words";
-import { chooseAtCounter, openBenchFilingVisit } from "../../../src/bench/filing";
+import {
+  chooseAtCounter,
+  openBenchFilingVisit,
+} from "../../../src/bench/filing";
 import { buildBenchWorld } from "../../../src/bench/world";
 
 // At the counter in a drawn town the player picks the office and files;

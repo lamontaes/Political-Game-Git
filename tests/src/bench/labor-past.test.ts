@@ -14,7 +14,10 @@ import { metricsView } from "../../../src/bench/metrics";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
-import { yearRowId, type OutputYearRow } from "../../../src/core2/output-numbers";
+import {
+  yearRowId,
+  type OutputYearRow,
+} from "../../../src/core2/output-numbers";
 import { preStartHistory } from "../../../src/core2/pre-start";
 import { coreAPI } from "../../../src/core2/state";
 

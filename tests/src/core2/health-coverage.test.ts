@@ -7,7 +7,10 @@ import { outsideAccountOf } from "../../../src/core2/budgets-treasury";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { COVERAGE_MODULE_ID, type CoverageRow } from "../../../src/core2/modules/coverage";
+import {
+  COVERAGE_MODULE_ID,
+  type CoverageRow,
+} from "../../../src/core2/modules/coverage";
 import { coreAPI } from "../../../src/core2/state";
 
 // Each full person holds a coverage record and the policyholder's household

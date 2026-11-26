@@ -12,9 +12,16 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { buildPopulation } from "../../../src/core2/population";
 import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { lawChain, lawInForce, openLaws } from "../../../src/core2/modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  openLaws,
+} from "../../../src/core2/modules/laws";
 import { openOffices, townSeats } from "../../../src/core2/modules/offices";
-import { ELECTIONS_MODULE_ID, openElections } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  openElections,
+} from "../../../src/core2/modules/elections";
 import type { ContestRow } from "../../../src/core2/modules/elections";
 import { placeLocalities, placeStateKeys } from "../../../src/core2/places";
 import filingResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };

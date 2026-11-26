@@ -30,7 +30,10 @@ import { coreAPI } from "../../../../src/core2/state";
 import type { CoreAPI, CoreState } from "../../../../src/core2/types";
 import { appliedOn } from "../../../../src/core2/law-reach/applied";
 import { rowsOf } from "../../../../src/core2/law-reach/group-b-store";
-import { schoolAidNeed, schoolAidShares } from "../../../../src/core2/law-reach/group-b-school-aid";
+import {
+  schoolAidNeed,
+  schoolAidShares,
+} from "../../../../src/core2/law-reach/group-b-school-aid";
 
 const KEY = "us-policy-positions:education.equalize-school-funding";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");

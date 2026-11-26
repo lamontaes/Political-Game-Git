@@ -1,10 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { piecesInput, piecesSource } from "../../../src/core2/core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../../src/core2/core-pieces-fixture";
 import { createLifeCore, advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { viewsModule, VIEWS_MODULE_ID } from "../../../src/core2/modules/views";
 import { wireItem } from "../../../src/core2/press-topics";
-import { printItem, type DeskContext, type DeskOutlet } from "../../../src/core2/press-desk";
+import {
+  printItem,
+  type DeskContext,
+  type DeskOutlet,
+} from "../../../src/core2/press-desk";
 import { newsModule, storiesHeard } from "../../../src/core2/modules/news";
 
 describe("public facts through a printed story", () => {

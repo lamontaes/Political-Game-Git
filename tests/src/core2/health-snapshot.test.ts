@@ -4,8 +4,15 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { createHealthModule, healthReport } from "../../../src/core2/modules/health";
-import { restoreWorld, snapshotWorld, uncoveredModules } from "../../../src/core2/snapshot";
+import {
+  createHealthModule,
+  healthReport,
+} from "../../../src/core2/modules/health";
+import {
+  restoreWorld,
+  snapshotWorld,
+  uncoveredModules,
+} from "../../../src/core2/snapshot";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");

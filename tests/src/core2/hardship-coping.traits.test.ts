@@ -10,13 +10,25 @@
  */
 import { describe, expect, it } from "vitest";
 import { appraiseEvent } from "../../../src/core2/emotion";
-import { claimantFeeling, filingDecision } from "../../../src/core2/jobs-benefits";
-import { coreWithPeople, drawnTraits } from "../../../src/core2/money-traits-kit";
+import {
+  claimantFeeling,
+  filingDecision,
+} from "../../../src/core2/jobs-benefits";
+import {
+  coreWithPeople,
+  drawnTraits,
+} from "../../../src/core2/money-traits-kit";
 import { personalBorrowingDecision } from "../../../src/core2/modules/credit";
-import { DEFAULT_HEALTH_DATA, severityImpulse } from "../../../src/core2/modules/health";
+import {
+  DEFAULT_HEALTH_DATA,
+  severityImpulse,
+} from "../../../src/core2/modules/health";
 import { pushesOf } from "../../../src/core2/modules/moves";
 import { coreAPI } from "../../../src/core2/state";
-import { hardshipReason, hardshipStress } from "../../../src/core2/trait-decisions";
+import {
+  hardshipReason,
+  hardshipStress,
+} from "../../../src/core2/trait-decisions";
 import type { CoreState, PersonState } from "../../../src/core2/types";
 
 const STRESSES = Array.from({ length: 31 }, (_, i) => i * 0.05);

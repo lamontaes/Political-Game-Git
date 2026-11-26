@@ -38,7 +38,13 @@ describe("place pictures", () => {
   it("every manifest row's picture is in the repository", () => {
     for (const row of manifest.backdrops)
       expect(
-        existsSync(new URL(`../../art/backdrops/${row.file}`, (new URL("../../../src/bench/scene-places.test.ts", import.meta.url).href))),
+        existsSync(
+          new URL(
+            `../../art/backdrops/${row.file}`,
+            new URL("../../../src/bench/scene-places.test.ts", import.meta.url)
+              .href,
+          ),
+        ),
         row.file,
       ).toBe(true);
   });

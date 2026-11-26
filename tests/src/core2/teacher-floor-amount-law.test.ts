@@ -19,7 +19,10 @@ import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { jobsAt } from "../../../src/core2/law-reach/group-b-money";
 import { advanceCore } from "../../../src/core2/life";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { TEACHER_FLOOR, TEACHER_FLOOR_AMOUNT } from "../../../src/core2/public-pay-floor";
+import {
+  TEACHER_FLOOR,
+  TEACHER_FLOOR_AMOUNT,
+} from "../../../src/core2/public-pay-floor";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

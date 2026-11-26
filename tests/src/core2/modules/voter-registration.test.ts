@@ -24,8 +24,15 @@ import { addDays, makeIsoDate } from "../../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../../src/core2/life";
 import { automaticRegistrationInForce } from "../../../../src/core2/law-reach/group-a-voting";
 import { coreAPI } from "../../../../src/core2/state";
-import type { CoreAPI, CoreState, PersonState } from "../../../../src/core2/types";
-import { ELECTIONS_MODULE_ID, ballot } from "../../../../src/core2/modules/elections";
+import type {
+  CoreAPI,
+  CoreState,
+  PersonState,
+} from "../../../../src/core2/types";
+import {
+  ELECTIONS_MODULE_ID,
+  ballot,
+} from "../../../../src/core2/modules/elections";
 import {
   VOTING_MODULE_ID,
   castBallot,

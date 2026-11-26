@@ -1,11 +1,15 @@
 import { randomInt } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { geoidGroup, groupedJsonTable } from "../../../../src/core2/reference/lazy-data";
+import {
+  geoidGroup,
+  groupedJsonTable,
+} from "../../../../src/core2/reference/lazy-data";
 
 const FILE = new URL(
   "../../../data/research/places/local-institutions.json",
-  (new URL("../../../../src/core2/reference/lazy-data.test.ts", import.meta.url).href),
+  new URL("../../../../src/core2/reference/lazy-data.test.ts", import.meta.url)
+    .href,
 );
 const whole = JSON.parse(readFileSync(FILE, "utf8")) as {
   asOf: string;

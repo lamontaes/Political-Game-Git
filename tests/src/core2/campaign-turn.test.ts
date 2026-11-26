@@ -22,7 +22,10 @@ import { campaignParameter } from "../../../src/core2/campaign-data";
 import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { setJournalTrace } from "../../../src/core2/journal-state";
-import { campaignDayChoices, takeCampaignDayChoice } from "../../../src/core2/campaign-day";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+} from "../../../src/core2/campaign-day";
 import type { CoreAPI, CoreState } from "../../../src/core2/types";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
@@ -60,8 +63,15 @@ import {
   openPress,
   requestInterview,
 } from "../../../src/core2/modules/press";
-import { stancesOf, VIEWS_MODULE_ID, viewsModule } from "../../../src/core2/modules/views";
-import { candidateStance, stanceReader } from "../../../src/core2/campaign-stances";
+import {
+  stancesOf,
+  VIEWS_MODULE_ID,
+  viewsModule,
+} from "../../../src/core2/modules/views";
+import {
+  candidateStance,
+  stanceReader,
+} from "../../../src/core2/campaign-stances";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 

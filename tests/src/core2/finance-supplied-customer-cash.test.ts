@@ -15,7 +15,12 @@ import type {
 import { parameter as p } from "../../../src/core2/parameters";
 import { coreAPI, createCore } from "../../../src/core2/state";
 import { financeSettlementPhase } from "../../../src/core2/finance-state";
-import type { CoreAPI, CoreInput, CoreState, Source } from "../../../src/core2/types";
+import type {
+  CoreAPI,
+  CoreInput,
+  CoreState,
+  Source,
+} from "../../../src/core2/types";
 
 type Domain = "public" | "visitor";
 type PhaseMode = "omitted" | "explicit-default" | "generated";

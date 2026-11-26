@@ -1,7 +1,10 @@
 import RULES_BOUND from "../../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { composeSceneTalk } from "../../../src/director/scene-talk";
-import { wordSceneMove, type BankPart } from "../../../src/english/scene-talk-words";
+import {
+  wordSceneMove,
+  type BankPart,
+} from "../../../src/english/scene-talk-words";
 import sceneBank from "../../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../../../src/english/english-grades";
 import { traitLean } from "../../../src/core2/choice";

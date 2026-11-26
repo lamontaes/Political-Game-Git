@@ -8,7 +8,11 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import unwired from "../../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
 
 const link = (key: string) => WEB_LINKS.find((row) => row.key === key)!;
 const read = (path: string) => readFileSync(path, "utf8");

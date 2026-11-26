@@ -17,7 +17,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { publishedMonths, type MacroMonth } from "../../../src/core2/macro-model";
+import {
+  publishedMonths,
+  type MacroMonth,
+} from "../../../src/core2/macro-model";
 import { MACRO_MODULE_ID } from "../../../src/core2/modules/macro";
 import {
   placeReferencePopulation,
@@ -47,7 +50,10 @@ import {
 } from "../../../src/core2/budgets-treasury";
 import debtData from "../../../src/core2/data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
-import { publishedStateStake, stateStake } from "../../../src/core2/budget-stakes";
+import {
+  publishedStateStake,
+  stateStake,
+} from "../../../src/core2/budget-stakes";
 import { serviceChargeShares } from "../../../src/core2/budgets-service-charges";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { partyName } from "../../../src/core2/appointments";
@@ -55,8 +61,14 @@ import { allOfficials } from "../../../src/core2/modules/officials";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import { centuryRecordVotes } from "../../../src/core2/modules/elections";
 import { REGIONAL_MODULE_ID } from "../../../src/core2/modules/regional";
-import { publishedRegionMonths, type RegionMonth } from "../../../src/core2/regional-model";
-import { CONDITION_PACK, conditionPrevalence } from "../../../src/core2/condition-pack";
+import {
+  publishedRegionMonths,
+  type RegionMonth,
+} from "../../../src/core2/regional-model";
+import {
+  CONDITION_PACK,
+  conditionPrevalence,
+} from "../../../src/core2/condition-pack";
 import { coreAPI } from "../../../src/core2/state";
 import { seasonalStaffing } from "../../../src/core2/modules/jobs";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
@@ -67,9 +79,15 @@ import {
   type OpeningEmploymentAllocation,
 } from "../../../src/core2/opening-employment";
 import { parameter } from "../../../src/core2/parameters";
-import { corePlaceByKey, searchCorePlaces } from "../../../src/core2/place-lookup";
+import {
+  corePlaceByKey,
+  searchCorePlaces,
+} from "../../../src/core2/place-lookup";
 import PLACE_EARNINGS from "../../../src/core2/data/place-earnings-2024.json" with { type: "json" };
-import { placeEarningsOf, publishedPlaceEarnings } from "../../../src/core2/residents";
+import {
+  placeEarningsOf,
+  publishedPlaceEarnings,
+} from "../../../src/core2/residents";
 import { TOWN_JOB_SOC } from "../../../src/core2/reference/town-job-soc";
 import {
   publishedTownWorkplaceWeights,
@@ -87,12 +105,21 @@ import {
   hudRentRowFor,
   hudStateRentRow,
 } from "../../../src/core2/hud-rents";
-import { permitRates, publishedPermitRates } from "../../../src/core2/housing-construction";
-import { publishedShelterRateFor, shelterRateFor } from "../../../src/core2/housing-homeless";
+import {
+  permitRates,
+  publishedPermitRates,
+} from "../../../src/core2/housing-construction";
+import {
+  publishedShelterRateFor,
+  shelterRateFor,
+} from "../../../src/core2/housing-homeless";
 import { pastPriceRatio } from "../../../src/core2/housing-price-path";
 import { housingMacroParameter } from "../../../src/core2/modules/housing";
 import { publishedHomePriceRatio } from "../../../scripts/research/home-price-fit";
-import { worldRateFactor, type BaseRateTable } from "../../../src/core2/world-base-rates";
+import {
+  worldRateFactor,
+  type BaseRateTable,
+} from "../../../src/core2/world-base-rates";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
   publishedBookRatio,
@@ -101,7 +128,10 @@ import {
 } from "../../../src/core2/business-books";
 import unitPriceData from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import newsData from "../../../data/research/press/local-news-2026.json" with { type: "json" };
-import { publishedUnionRatePct, worldUnionRatePct } from "../../../src/core2/union-rate";
+import {
+  publishedUnionRatePct,
+  worldUnionRatePct,
+} from "../../../src/core2/union-rate";
 import {
   outsideOwnedShare,
   publishedOutsideOwnedShare,
@@ -120,7 +150,10 @@ import {
 } from "../../../src/core2/modules/press";
 import { schoolsAttended } from "../../../src/core2/past";
 import { NEWS_MODULE_ID } from "../../../src/core2/modules/news";
-import { publishedSupportShare, supportShare } from "../../../src/core2/campaign-views";
+import {
+  publishedSupportShare,
+  supportShare,
+} from "../../../src/core2/campaign-views";
 import supportData from "../../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
 import electoralCorpus from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import {
@@ -633,7 +666,16 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       "school-outcomes.ts",
     ])
       expect(
-        readFileSync(new URL(`./${file}`, (new URL("../../../src/core2/realistic-not-real.test.ts", import.meta.url).href)), "utf8"),
+        readFileSync(
+          new URL(
+            `./${file}`,
+            new URL(
+              "../../../src/core2/realistic-not-real.test.ts",
+              import.meta.url,
+            ).href,
+          ),
+          "utf8",
+        ),
         file,
       ).toContain("worldRateFactor(");
   });

@@ -13,29 +13,46 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { setJournalTrace } from "../../../src/core2/journal-state";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { heirsOf, settleCountedEstate, settleEstate } from "../../../src/core2/estates";
+import {
+  heirsOf,
+  settleCountedEstate,
+  settleEstate,
+} from "../../../src/core2/estates";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { appliedOn, type LawAppliedRow } from "../../../src/core2/law-reach/applied";
+import {
+  appliedOn,
+  type LawAppliedRow,
+} from "../../../src/core2/law-reach/applied";
 import { advanceCore } from "../../../src/core2/life";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import {
   EMPLOYER_TAXES_MODULE_ID,
   profitTaxesOf,
 } from "../../../src/core2/modules/employer-taxes";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import {
   countedEstateOf,
   householdCash,
   removeCountedPerson,
   residentsRuntime,
 } from "../../../src/core2/modules/residents";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { ownerOf } from "../../../src/core2/modules/business";
 import { ownedHomes } from "../../../src/core2/modules/housing";
 import { PUBLIC_EMPLOYERS } from "../../../src/core2/law-reach/group-b";
 import { jobsAt } from "../../../src/core2/law-reach/group-b-money";
 import { townFacts } from "../../../src/core2/law-reach/group-b-people";
-import { outsideAccountOf, treasuryMonthsOf } from "../../../src/core2/budgets-treasury";
+import {
+  outsideAccountOf,
+  treasuryMonthsOf,
+} from "../../../src/core2/budgets-treasury";
 import {
   bodyOf,
   castMemberVote,
@@ -55,9 +72,17 @@ import {
   LAWS_MODULE_ID,
   localPowerBarred,
 } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, townSeats } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
-import type { CoreAPI, CoreState, PersonState, Source } from "../../../src/core2/types";
+import type {
+  CoreAPI,
+  CoreState,
+  PersonState,
+  Source,
+} from "../../../src/core2/types";
 
 // Pinned to named places: each case builds one place at one world seed, found
 // by a one-off search outside the test (nothing is drawn here).

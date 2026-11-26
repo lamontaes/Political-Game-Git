@@ -43,7 +43,11 @@ import {
 } from "../../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import { parsePlatform } from "../../../src/core2/modules/campaigns";
-import { BUDGETS_MODULE_ID, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { ballotOf, resultOf } from "../../../src/core2/modules/voting";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { levelMayDecide } from "../../../src/core2/modules/world-legislating";

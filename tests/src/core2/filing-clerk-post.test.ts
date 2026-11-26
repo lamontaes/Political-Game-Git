@@ -10,9 +10,15 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import { agencyHeadSaid, counterSaid } from "../../../src/english/said-as";
-import { counterNarration, openFilingVisit } from "../../../src/director/filing-visit";
+import {
+  counterNarration,
+  openFilingVisit,
+} from "../../../src/director/filing-visit";
 import { filingClerkFor } from "../../../src/core2/modules/filing-clerk";
 
 // Pinned: a draw that finds no state counter with an agency head names every place it passed over.

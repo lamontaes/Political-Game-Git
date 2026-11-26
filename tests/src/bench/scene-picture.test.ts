@@ -10,7 +10,12 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { servingTermsOf } from "../../../src/core2/modules/offices";
-import { homeOf, officeWorkplace, pictureFor, servingOfficeIds } from "../../../src/bench/scene";
+import {
+  homeOf,
+  officeWorkplace,
+  pictureFor,
+  servingOfficeIds,
+} from "../../../src/bench/scene";
 import { bodyPicture } from "../../../src/bench/legislature";
 import { hasBackdrop } from "../../../src/bench/backdrop-places";
 import { scenePicture } from "../../../src/bench/scene-picture";

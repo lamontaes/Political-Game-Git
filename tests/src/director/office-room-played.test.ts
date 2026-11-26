@@ -17,7 +17,10 @@ import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 import { isPayrollOrganization } from "../../../src/english/journal-words";
-import { resolveSetting, SITUATION_LIBRARY } from "../../../src/director/scheduling";
+import {
+  resolveSetting,
+  SITUATION_LIBRARY,
+} from "../../../src/director/scheduling";
 import type { Moment } from "../../../src/director/types";
 
 const CLASSES: readonly [string, RegExp][] = [

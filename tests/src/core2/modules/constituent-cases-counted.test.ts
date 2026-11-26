@@ -19,10 +19,17 @@ import { setBookkeeping } from "../../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../../src/core2/life";
-import { coreAPI, fillInPerson, registerModule } from "../../../../src/core2/state";
+import {
+  coreAPI,
+  fillInPerson,
+  registerModule,
+} from "../../../../src/core2/state";
 import { closenessBetween } from "../../../../src/core2/closeness";
 import { impressionOf } from "../../../../src/core2/modules/campaigns";
-import { allCases, ownCaseDecision } from "../../../../src/core2/modules/constituent-cases";
+import {
+  allCases,
+  ownCaseDecision,
+} from "../../../../src/core2/modules/constituent-cases";
 import { keepsWhy } from "../../../../src/core2/why-kept";
 import { residentFacts } from "../../../../src/core2/modules/residents";
 

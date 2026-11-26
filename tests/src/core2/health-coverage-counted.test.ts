@@ -4,7 +4,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
   COVERAGE_MODULE_ID,
@@ -16,7 +20,10 @@ import {
   type CountedCoverageRow,
   type CoverageRow,
 } from "../../../src/core2/modules/coverage";
-import { countedJob, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  countedJob,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 
 // Counted households hold a coverage record and pay a premium by the same rule

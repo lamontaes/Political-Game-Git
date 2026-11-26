@@ -22,8 +22,15 @@ import {
 } from "../../../src/core2/modules/legislature";
 import { lawInForce } from "../../../src/core2/modules/laws";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
-import { billStage, callOverrideVote, chooseOverrideVote } from "../../../src/bench/bill-stage";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
+import {
+  billStage,
+  callOverrideVote,
+  chooseOverrideVote,
+} from "../../../src/bench/bill-stage";
 import { drawPlace } from "../../../scripts/core2-year/place";
 
 const seed =

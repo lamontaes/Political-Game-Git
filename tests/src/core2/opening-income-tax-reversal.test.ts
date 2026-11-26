@@ -17,7 +17,11 @@ import {
   LEGISLATURE_MODULE_ID,
   memberKey,
 } from "../../../src/core2/modules/legislature";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import { withholdingFor } from "../../../src/core2/tax-withholding";

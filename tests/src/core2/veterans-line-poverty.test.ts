@@ -16,8 +16,15 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { veteransIncomeByHousehold } from "../../../src/core2/law-reach/group-b-veterans";
 import { advanceCore } from "../../../src/core2/life";
-import { residentsRuntime, unplacedPayPerWorker } from "../../../src/core2/modules/residents";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  residentsRuntime,
+  unplacedPayPerWorker,
+} from "../../../src/core2/modules/residents";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";

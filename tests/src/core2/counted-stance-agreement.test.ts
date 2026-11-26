@@ -12,7 +12,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { groupAgreement } from "../../../src/core2/campaign-views";
 import { countedResidents } from "../../../src/core2/electorate";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { agreementWith, countedStanceProfile } from "../../../src/core2/modules/views";
+import {
+  agreementWith,
+  countedStanceProfile,
+} from "../../../src/core2/modules/views";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import type { CoreState } from "../../../src/core2/types";

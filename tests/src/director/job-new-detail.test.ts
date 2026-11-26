@@ -5,7 +5,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { openConversation, say, subjectsBetween } from "../../../src/director/conversation";
+import {
+  openConversation,
+  say,
+  subjectsBetween,
+} from "../../../src/director/conversation";
 
 // A question is never left unanswered (owner, Oct 15, batch 12: "A yes or no
 // never ends a talk; the asker follows up"; the Oct 28 proof year: "What will

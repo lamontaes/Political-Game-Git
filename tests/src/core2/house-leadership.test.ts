@@ -7,7 +7,10 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { worldWith, type PlayedWorld } from "../../../src/core2/tooling/world-with";
+import {
+  worldWith,
+  type PlayedWorld,
+} from "../../../src/core2/tooling/world-with";
 import { FEDERAL_HOUSE } from "../../../src/core2/modules/legislature";
 import {
   LEADERSHIP_MODULE_ID,

@@ -17,7 +17,12 @@ import { placeLocalities } from "../../../src/core2/places";
 import { governmentUnitsForPlace } from "../../../src/core2/reference/government-units";
 import { advanceCore } from "../../../src/core2/life";
 import { draftBill } from "../../../src/core2/modules/legislature";
-import { enactLaw, lawChain, lawInForce, yesLevels } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  yesLevels,
+} from "../../../src/core2/modules/laws";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreAPI } from "../../../src/core2/types";

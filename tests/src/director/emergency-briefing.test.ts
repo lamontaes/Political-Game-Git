@@ -25,7 +25,10 @@ import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 import type { ScheduleEntry } from "../../../src/director/scheduling";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 
 // The governor's briefing room (owner, Oct 14: the engine never declares for the player; Nov 15
 // build-out step 8). A disaster record lands in the state of a governor the player plays: the

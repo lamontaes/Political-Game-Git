@@ -7,7 +7,10 @@ import {
   memberKey,
   members,
 } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import { billStage } from "../../../src/bench/bill-stage";
 import { BenchPlayer } from "../../../src/bench/player";

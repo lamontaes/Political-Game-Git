@@ -11,7 +11,10 @@ import {
   openContests,
   openElections,
 } from "../../../src/core2/modules/elections";
-import { knockDoors, openCampaigns } from "../../../src/core2/modules/campaigns";
+import {
+  knockDoors,
+  openCampaigns,
+} from "../../../src/core2/modules/campaigns";
 import { personLean, personStance } from "../../../src/core2/campaign-views";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
 import { drawPlace } from "../../../scripts/core2-year/place";

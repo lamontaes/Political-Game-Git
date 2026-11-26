@@ -16,7 +16,11 @@ import {
   trustLostHours,
 } from "../../../src/core2/closeness";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { bodyOf, memberKey, members } from "../../../src/core2/modules/legislature";
+import {
+  bodyOf,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { parameter } from "../../../src/core2/parameters";
 import { coreAPI } from "../../../src/core2/state";

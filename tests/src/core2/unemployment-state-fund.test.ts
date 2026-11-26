@@ -12,7 +12,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { fileClaim, payClaims, unemploymentTerms } from "../../../src/core2/jobs-benefits";
+import {
+  fileClaim,
+  payClaims,
+  unemploymentTerms,
+} from "../../../src/core2/jobs-benefits";
 import { governments } from "../../../src/core2/modules/budgets";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";

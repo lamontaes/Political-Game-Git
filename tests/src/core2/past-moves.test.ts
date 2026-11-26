@@ -13,12 +13,19 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { composeJournal } from "../../../src/director/journal";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { PAST_WORK_SPELL, PERSON_MOVED_IN, pastWorkOf } from "../../../src/core2/past-module";
+import {
+  PAST_WORK_SPELL,
+  PERSON_MOVED_IN,
+  pastWorkOf,
+} from "../../../src/core2/past-module";
 import { preStartHistory } from "../../../src/core2/pre-start";
 import type { PersonId } from "../../../src/core2/types";
 import { placeStateKey } from "../../../src/core2/place-map";
 import { residenceOn } from "../../../src/core2/past-moves";
-import { ELSEWHERE_EMPLOYER, organizationName } from "../../../src/core2/places-elsewhere";
+import {
+  ELSEWHERE_EMPLOYER,
+  organizationName,
+} from "../../../src/core2/places-elsewhere";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const start = gameStartDate();

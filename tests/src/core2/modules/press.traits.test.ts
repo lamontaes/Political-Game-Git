@@ -8,11 +8,29 @@
  */
 import { drawPlace } from "../../../golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
-import { adultsOf, drawnRaceWorld, RUN_SEED } from "../../../../src/core2/trait-test-kit";
-import { decisionLean, decisionTraitWeight } from "../../../../src/core2/trait-decisions";
-import { engagementOf, NATIONAL_ENGAGEMENT } from "../../../../src/core2/electorate";
-import { followersOf, habitScore, outletsHere } from "../../../../src/core2/modules/press";
-import type { CoreAPI, CoreState, PersonState } from "../../../../src/core2/types";
+import {
+  adultsOf,
+  drawnRaceWorld,
+  RUN_SEED,
+} from "../../../../src/core2/trait-test-kit";
+import {
+  decisionLean,
+  decisionTraitWeight,
+} from "../../../../src/core2/trait-decisions";
+import {
+  engagementOf,
+  NATIONAL_ENGAGEMENT,
+} from "../../../../src/core2/electorate";
+import {
+  followersOf,
+  habitScore,
+  outletsHere,
+} from "../../../../src/core2/modules/press";
+import type {
+  CoreAPI,
+  CoreState,
+  PersonState,
+} from "../../../../src/core2/types";
 
 const SEED = `${RUN_SEED}:press`;
 

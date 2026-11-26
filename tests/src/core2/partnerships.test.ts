@@ -3,8 +3,14 @@ import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { livesElsewhere } from "../../../src/core2/modules/moves";
-import { partnershipsModule, UNION_FACT } from "../../../src/core2/modules/partnerships";
-import { partneringPerYear, partnershipGeo } from "../../../src/core2/opening-partnership";
+import {
+  partnershipsModule,
+  UNION_FACT,
+} from "../../../src/core2/modules/partnerships";
+import {
+  partneringPerYear,
+  partnershipGeo,
+} from "../../../src/core2/opening-partnership";
 import { coreAPI, registerModule } from "../../../src/core2/state";
 import { drawPlace } from "../../golden-path/place";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
@@ -164,7 +170,8 @@ describe("who can leave a household", () => {
       },
     }) as never;
   it("refuses to leave only the dead on the books, or a child; allows leaving a living adult", async () => {
-    const { canLeave } = await import("../../../src/core2/modules/partnerships");
+    const { canLeave } =
+      await import("../../../src/core2/modules/partnerships");
     const mover = person("mover", "1990-01-01", true);
     const child = person("child", "2018-01-01", true);
     const deadParent = person("parent", "1960-01-01", false);

@@ -30,7 +30,10 @@ import { coreAPI } from "../../../src/core2/state";
 import type { CoreEventInput, PersonId } from "../../../src/core2/types";
 import sceneBank from "../../../data/english/parts/scene-talk.json" with { type: "json" };
 import { questionSaid } from "../../../src/english/question-names";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 
 /**
  * Banks, Idaho: a town board; the second ask comes on 2025-03-03, before the

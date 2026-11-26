@@ -14,7 +14,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { askCircleToSign, campaignFor } from "../../../src/core2/modules/campaigns";
+import {
+  askCircleToSign,
+  campaignFor,
+} from "../../../src/core2/modules/campaigns";
 import {
   filingRequirements,
   openContests,

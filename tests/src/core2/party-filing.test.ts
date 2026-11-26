@@ -28,7 +28,10 @@ import { benchRequest, benchWorld } from "../../../src/bench/handler";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { PARTIES_MODULE_ID, type TieRow } from "../../../src/core2/modules/parties";
+import {
+  PARTIES_MODULE_ID,
+  type TieRow,
+} from "../../../src/core2/modules/parties";
 
 const START = "2026-01-05";
 // Pinned (Nov 16). Before, the seed came from GOLDEN_PATH_SEED or the clock,

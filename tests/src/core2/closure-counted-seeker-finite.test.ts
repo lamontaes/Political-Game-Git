@@ -17,7 +17,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { moduleData, type ModuleRow } from "../../../src/core2/module-data";
-import { JOBS_MODULE_ID, type PositionRow } from "../../../src/core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  type PositionRow,
+} from "../../../src/core2/modules/jobs";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 

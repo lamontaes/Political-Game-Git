@@ -14,7 +14,11 @@ import { countyNonattainment } from "../../../src/core2/business-operating-rules
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { REACH_B_MODULE_ID } from "../../../src/core2/law-reach/group-b-store";
 import { corePlaceByKey } from "../../../src/core2/place-lookup";
 import { realLocalities } from "../../../src/core2/places";

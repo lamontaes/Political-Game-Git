@@ -16,19 +16,35 @@ import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
-import { CAMPAIGNS_MODULE_ID, openCampaigns } from "../../../src/core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  openCampaigns,
+} from "../../../src/core2/modules/campaigns";
 import { openParties } from "../../../src/core2/modules/parties";
-import { electorateSample, openVoting } from "../../../src/core2/modules/voting";
+import {
+  electorateSample,
+  openVoting,
+} from "../../../src/core2/modules/voting";
 import {
   countPlaces,
   countedChoice,
   countedResidents,
   type CountedFieldEntry,
 } from "../../../src/core2/electorate";
-import { cpsTurnout, stateRightShare, statePlaces } from "../../../src/core2/electorate-places";
-import { appealOfShare, electorateParameter } from "../../../src/core2/electorate-inputs";
+import {
+  cpsTurnout,
+  stateRightShare,
+  statePlaces,
+} from "../../../src/core2/electorate-places";
+import {
+  appealOfShare,
+  electorateParameter,
+} from "../../../src/core2/electorate-inputs";
 import { campaignParameter } from "../../../src/core2/campaign-data";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-10-20";
 const PRESIDENTIAL = "2028-11-07";

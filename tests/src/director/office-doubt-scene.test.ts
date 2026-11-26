@@ -5,8 +5,14 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { LEGISLATURE_MODULE_ID, members } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  LEGISLATURE_MODULE_ID,
+  members,
+} from "../../../src/core2/modules/legislature";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { OUTCOME_WEB_MODULE_ID } from "../../../src/core2/outcome-web-model";
 import { P } from "../../../src/core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";

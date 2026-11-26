@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { piecesInput, piecesSource } from "../../../src/core2/core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../../src/core2/core-pieces-fixture";
 import { createLifeCore } from "../../../src/core2/life";
 import { PEOPLE_MODULE_ID } from "../../../src/core2/modules/people";
 import { SCHOOL_MODULE_ID } from "../../../src/core2/modules/school";
@@ -13,7 +16,11 @@ import {
   type PreStartModule,
 } from "../../../src/core2/pre-start";
 import { defaultPreStart, preStartFromYear } from "../../../src/core2/saves";
-import { restoreWorld, snapshotWorld, type WorldSnapshot } from "../../../src/core2/snapshot";
+import {
+  restoreWorld,
+  snapshotWorld,
+  type WorldSnapshot,
+} from "../../../src/core2/snapshot";
 import type { PersonId } from "../../../src/core2/types";
 
 describe("history before the start", () => {

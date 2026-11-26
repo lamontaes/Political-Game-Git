@@ -14,12 +14,21 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { buildMonth } from "../../../src/core2/housing-construction";
 import { reviewHomeless } from "../../../src/core2/housing-homeless";
-import { renewRentalLeases, tenants } from "../../../src/core2/housing-occupancy";
+import {
+  renewRentalLeases,
+  tenants,
+} from "../../../src/core2/housing-occupancy";
 import { webFactorFor } from "../../../src/core2/outcome-web-reach";
 import { townFigures } from "../../../src/core2/modules/housing";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { coreAPI } from "../../../src/core2/state";
-import { worldWith, type PlayedWorld } from "../../../src/core2/tooling/world-with";
+import {
+  worldWith,
+  type PlayedWorld,
+} from "../../../src/core2/tooling/world-with";
 import type { CoreState } from "../../../src/core2/types";
 
 const seed = process.env.WEB_HOUSING_SEED || randomBytes(8).toString("hex");

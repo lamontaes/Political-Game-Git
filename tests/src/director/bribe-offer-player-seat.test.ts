@@ -13,7 +13,11 @@ import {
 } from "../../../src/core2/modules/corruption";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import { billCatalog, provisionFor } from "../../../src/core2/bill-catalog";
-import { bodyOf, draftBill, members } from "../../../src/core2/modules/legislature";
+import {
+  bodyOf,
+  draftBill,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { purposeScene } from "../../../src/director/purpose-scene";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";

@@ -10,7 +10,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
-import { outletsHere, pressParameter, staffOf } from "../../../src/core2/modules/press";
+import {
+  outletsHere,
+  pressParameter,
+  staffOf,
+} from "../../../src/core2/modules/press";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 

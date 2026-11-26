@@ -32,7 +32,12 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { closenessBetween } from "../../../src/core2/closeness";
 import { decisionLean } from "../../../src/core2/trait-decisions";
 import { setKeepEveryonesWhy } from "../../../src/core2/why-kept";
-import type { CoreAPI, CoreEventInput, CoreState, PersonState } from "../../../src/core2/types";
+import type {
+  CoreAPI,
+  CoreEventInput,
+  CoreState,
+  PersonState,
+} from "../../../src/core2/types";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openOffices } from "../../../src/core2/modules/offices";
 import { openRecord } from "../../../src/core2/modules/record";
@@ -55,9 +60,16 @@ import {
   type EndorsementRow,
 } from "../../../src/core2/modules/campaigns";
 import { openParties } from "../../../src/core2/modules/parties";
-import { agreementWith, viewOn, viewsModule } from "../../../src/core2/modules/views";
+import {
+  agreementWith,
+  viewOn,
+  viewsModule,
+} from "../../../src/core2/modules/views";
 import { personLean } from "../../../src/core2/campaign-views";
-import { campaignParameter, PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
+import {
+  campaignParameter,
+  PLATFORM_QUESTIONS,
+} from "../../../src/core2/campaign-data";
 
 // Keeps every reached member's recorded cause, not only the player's circle's.
 setKeepEveryonesWhy(true);

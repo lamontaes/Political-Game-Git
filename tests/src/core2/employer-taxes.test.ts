@@ -19,7 +19,10 @@ import {
   openEmployerTaxes,
   type EmployerTaxRecord,
 } from "../../../src/core2/modules/employer-taxes";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??

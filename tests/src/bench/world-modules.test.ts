@@ -1,6 +1,8 @@
 import { fileURLToPath as __moveTestsFromUrl } from "node:url";
 import { dirname as __moveTestsDirname } from "node:path";
-const __moveTestsFile = __moveTestsFromUrl(new URL("../../../src/bench/world-modules.test.ts", import.meta.url).href);
+const __moveTestsFile = __moveTestsFromUrl(
+  new URL("../../../src/bench/world-modules.test.ts", import.meta.url).href,
+);
 const __moveTestsDir = __moveTestsDirname(__moveTestsFile);
 /**
  * Guard: every finished engine under src/core2/modules runs in the world the

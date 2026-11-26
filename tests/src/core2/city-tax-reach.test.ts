@@ -11,7 +11,11 @@ import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { lawChainForPlace } from "../../../src/core2/laws-starting";
 import { advanceCore } from "../../../src/core2/life";
 import { withholdingOf } from "../../../src/core2/modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { purchaseTaxes } from "../../../src/core2/modules/purchase-tax";
 import { coreAPI } from "../../../src/core2/state";
 

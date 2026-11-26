@@ -18,7 +18,11 @@ import {
   votesOn,
 } from "../../../src/core2/modules/legislature";
 import { governments } from "../../../src/core2/modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { adjustPrice } from "../../../src/core2/modules/place-prices";
 
 const keys = [

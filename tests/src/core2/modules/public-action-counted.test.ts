@@ -8,7 +8,11 @@ import { advanceCore } from "../../../../src/core2/life";
 import { coreAPI } from "../../../../src/core2/state";
 import { OUTCOME_WEB_MODULE_ID } from "../../../../src/core2/outcome-web-model";
 import { TERM_MEASURES } from "../../../../src/core2/term-read";
-import { actionsOf, areaRule, joinCase } from "../../../../src/core2/modules/public-action";
+import {
+  actionsOf,
+  areaRule,
+  joinCase,
+} from "../../../../src/core2/modules/public-action";
 import { residentsRuntime } from "../../../../src/core2/modules/residents";
 
 // Who joins a strike, protest or rally (owner, Oct 14: one model, two tiers).

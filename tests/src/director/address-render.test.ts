@@ -7,7 +7,11 @@ import { advanceCore } from "../../../src/core2/life";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { ADDRESS_FACT } from "../../../src/director/opening-facts";
 import { OPENING_ADDRESS_EVENT } from "../../../src/director/opening-story";
-import { addressPartsOf, rememberedOf, saidOf } from "../../../src/director/address-render";
+import {
+  addressPartsOf,
+  rememberedOf,
+  saidOf,
+} from "../../../src/director/address-render";
 
 // A speech that was given is a record of what was said (the lead, Nov 16):
 // the President's opening is composed once on its day, its record keeps each

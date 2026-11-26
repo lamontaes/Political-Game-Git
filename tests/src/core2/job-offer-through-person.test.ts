@@ -24,7 +24,10 @@ import {
   type JobOfferRow,
 } from "../../../src/core2/modules/jobs";
 import { earliestModuleStopsV1 } from "../../../src/core2/player-stops-v1";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import { dollars } from "../../../src/english/bill-sections";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";

@@ -11,8 +11,14 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
-import { OFFICE_DAY_MODULE_ID, reviewOfficeJobs } from "../../../src/core2/modules/office-day";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
+import {
+  OFFICE_DAY_MODULE_ID,
+  reviewOfficeJobs,
+} from "../../../src/core2/modules/office-day";
 import type { ModuleRow } from "../../../src/core2/module-data";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

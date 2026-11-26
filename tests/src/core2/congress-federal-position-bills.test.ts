@@ -9,7 +9,12 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawChain, lawInForce, webReach } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  webReach,
+} from "../../../src/core2/modules/laws";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";
 

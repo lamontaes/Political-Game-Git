@@ -13,7 +13,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { coreAPI } from "../../../src/core2/state";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { VOTING_MODULE_ID, pollingStatus } from "../../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  pollingStatus,
+} from "../../../src/core2/modules/voting";
 
 const seed = process.env.REGISTERED_SEED || randomBytes(8).toString("hex");
 

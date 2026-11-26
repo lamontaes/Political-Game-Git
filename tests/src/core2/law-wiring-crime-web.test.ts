@@ -25,7 +25,11 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import type { LawRowInput } from "../../../src/core2/modules/laws";
 import {
   countedCases,
@@ -40,7 +44,10 @@ import {
   VIOLENT,
   type CrimeMonth,
 } from "../../../src/core2/modules/crime";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { WORLD_METRICS_MODULE_ID } from "../../../src/core2/modules/world-metrics";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { CASH_BAIL, safetyParameter } from "../../../src/core2/public-safety";

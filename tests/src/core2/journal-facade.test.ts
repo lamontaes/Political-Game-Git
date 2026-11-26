@@ -2,7 +2,12 @@
 import { describe, expect, it } from "vitest";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION } from "../../../src/core2/data";
 import { parameterValues, P } from "../../../src/core2/parameters";
-import { coreAPI, createCore, promoteHusk, registerModule } from "../../../src/core2/state";
+import {
+  coreAPI,
+  createCore,
+  promoteHusk,
+  registerModule,
+} from "../../../src/core2/state";
 import { cashJournalFieldWrite } from "../../../src/core2/journal-state";
 import type {
   CashJournalInput,

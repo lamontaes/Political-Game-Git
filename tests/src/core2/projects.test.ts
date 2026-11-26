@@ -2,7 +2,11 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, daysBetween, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { localOfficeKit } from "../../../src/core2/office-day-acts";
 import { governments } from "../../../src/core2/modules/budgets";

@@ -10,8 +10,16 @@ import {
 } from "../../../src/core2/modules/work";
 import { parameter as p } from "../../../src/core2/parameters";
 import { coreAPI, createCore } from "../../../src/core2/state";
-import { ensureWorkCashModule, settleWorkResultJournal } from "../../../src/core2/work-cash";
-import type { CoreAPI, CoreInput, CoreState, Source } from "../../../src/core2/types";
+import {
+  ensureWorkCashModule,
+  settleWorkResultJournal,
+} from "../../../src/core2/work-cash";
+import type {
+  CoreAPI,
+  CoreInput,
+  CoreState,
+  Source,
+} from "../../../src/core2/types";
 import { summarizeWorkObservables } from "../../../src/core2/tooling/work-observables";
 import {
   registerControlledPersonV1,

@@ -7,11 +7,22 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { worldWith, type PlayedWorld } from "../../../src/core2/tooling/world-with";
+import {
+  worldWith,
+  type PlayedWorld,
+} from "../../../src/core2/tooling/world-with";
 import { coreAPI } from "../../../src/core2/state";
-import { adAudience, adTimeForSale, buyAdTime } from "../../../src/core2/modules/campaigns";
+import {
+  adAudience,
+  adTimeForSale,
+  buyAdTime,
+} from "../../../src/core2/modules/campaigns";
 import { campaignParameter } from "../../../src/core2/campaign-data";
-import { countedFollowers, followersOf, outletsHere } from "../../../src/core2/modules/press";
+import {
+  countedFollowers,
+  followersOf,
+  outletsHere,
+} from "../../../src/core2/modules/press";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 
 const seed = process.env.CAMPAIGN_ADS_SEED || randomBytes(8).toString("hex");

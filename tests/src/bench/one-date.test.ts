@@ -5,7 +5,13 @@ import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 
 it("play.mjs reads the load day only inside today()", () => {
-  const lines = readFileSync(new URL("./play.mjs", (new URL("../../../src/bench/one-date.test.ts", import.meta.url).href)), "utf8")
+  const lines = readFileSync(
+    new URL(
+      "./play.mjs",
+      new URL("../../../src/bench/one-date.test.ts", import.meta.url).href,
+    ),
+    "utf8",
+  )
     .split("\n")
     .map((text, index) => ({ text, line: index + 1 }))
     .filter(({ text }) => /\bme\.date\b/.test(text) && !/^\s*\/\//.test(text));

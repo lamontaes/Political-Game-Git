@@ -13,10 +13,22 @@ import { createLifeCore } from "../../../../src/core2/life";
 import { buildPopulation } from "../../../../src/core2/population";
 import { coreAPI } from "../../../../src/core2/state";
 import { decisionLean } from "../../../../src/core2/trait-decisions";
-import { weightOf, withTraitWeight, RUN_SEED } from "../../../../src/core2/trait-test-kit";
+import {
+  weightOf,
+  withTraitWeight,
+  RUN_SEED,
+} from "../../../../src/core2/trait-test-kit";
 import { drawPlace } from "../../../golden-path/place";
-import { deliverSpeech, speechModule, type Retelling } from "../../../../src/core2/modules/speech";
-import { standingWith, viewOf, viewsModule } from "../../../../src/core2/modules/views";
+import {
+  deliverSpeech,
+  speechModule,
+  type Retelling,
+} from "../../../../src/core2/modules/speech";
+import {
+  standingWith,
+  viewOf,
+  viewsModule,
+} from "../../../../src/core2/modules/views";
 
 const SEED = `${RUN_SEED}:views`;
 const place = drawPlace(SEED, "trait-wiring");

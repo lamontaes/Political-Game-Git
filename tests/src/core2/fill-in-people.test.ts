@@ -1,9 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../../../src/core2/kernel/dates";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
-import { buildOpeningKin, type KinHouseholdInput } from "../../../src/core2/opening-kin";
+import {
+  buildOpeningKin,
+  type KinHouseholdInput,
+} from "../../../src/core2/opening-kin";
 import { buildPopulation } from "../../../src/core2/population";
-import { piecesInput, piecesSource } from "../../../src/core2/core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../../src/core2/core-pieces-fixture";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { fillInIdentity } from "../../../src/core2/state";
 

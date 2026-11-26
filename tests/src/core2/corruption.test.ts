@@ -12,7 +12,11 @@ import {
   type CrimeRecord,
 } from "../../../src/core2/modules/corruption";
 import { buildPopulation } from "../../../src/core2/population";
-import { currentCloseness, temperedHours, tieHoursBetween } from "../../../src/core2/closeness";
+import {
+  currentCloseness,
+  temperedHours,
+  tieHoursBetween,
+} from "../../../src/core2/closeness";
 import { coreAPI } from "../../../src/core2/state";
 import { decisionLean } from "../../../src/core2/trait-decisions";
 import { officialHousehold } from "../../../src/core2/official-living";

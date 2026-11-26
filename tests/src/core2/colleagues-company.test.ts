@@ -47,7 +47,11 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { bodyOf, memberKey, members } from "../../../src/core2/modules/legislature";
+import {
+  bodyOf,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";

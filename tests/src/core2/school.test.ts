@@ -2,7 +2,10 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { isSchoolDay, SCHOOL_MODULE_ID } from "../../../src/core2/modules/school";
+import {
+  isSchoolDay,
+  SCHOOL_MODULE_ID,
+} from "../../../src/core2/modules/school";
 import { coreAPI } from "../../../src/core2/state";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
 import { daysAfterStart } from "../../../src/core2/tooling/test-days";

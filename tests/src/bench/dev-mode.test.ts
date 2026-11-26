@@ -9,7 +9,11 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
-import { lawChain, lawInForce, stateLawInForce } from "../../../src/core2/modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  stateLawInForce,
+} from "../../../src/core2/modules/laws";
 import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
 import { BenchPlayer } from "../../../src/bench/player";
 import { residentsRuntime } from "../../../src/core2/modules/residents";

@@ -4,7 +4,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { keyChambersOf, keyPeopleOf } from "../../../src/core2/opening-key-people";
+import {
+  keyChambersOf,
+  keyPeopleOf,
+} from "../../../src/core2/opening-key-people";
 import { leaderOf } from "../../../src/core2/modules/leadership";
 import {
   FEDERAL_HOUSE,
@@ -12,7 +15,10 @@ import {
   memberKey,
   members,
 } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, townSeats } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+} from "../../../src/core2/modules/offices";
 import { governmentView } from "../../../src/bench/government";
 import { coreAPI } from "../../../src/core2/state";
 import keyData from "../../../src/core2/data/opening/key-people.json" with { type: "json" };

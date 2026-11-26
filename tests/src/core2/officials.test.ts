@@ -19,7 +19,10 @@ import {
   OFFICES_MODULE_ID,
   type TermRow,
 } from "../../../src/core2/modules/offices";
-import { centuryParties, openElections } from "../../../src/core2/modules/elections";
+import {
+  centuryParties,
+  openElections,
+} from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
 import {

@@ -12,7 +12,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { LEGISLATURE_MODULE_ID, type BillRow } from "../../../src/core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../../../src/core2/modules/legislature";
 import { recallsOf } from "../../../src/core2/modules/recalls";
 import { coreAPI } from "../../../src/core2/state";
 import { drawPlace } from "../../../scripts/core2-year/place";

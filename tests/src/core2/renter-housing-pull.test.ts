@@ -10,7 +10,10 @@ import regions from "../../../src/core2/data/regional/regions.json" with { type:
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { pullBetween, runtimeOf } from "../../../src/core2/modules/counted-moves";
+import {
+  pullBetween,
+  runtimeOf,
+} from "../../../src/core2/modules/counted-moves";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

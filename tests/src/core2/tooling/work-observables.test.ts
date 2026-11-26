@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "../../../../src/core2/life";
 import { parameter as p } from "../../../../src/core2/parameters";
-import type { CoreInput, Source, WorkCommitmentInput } from "../../../../src/core2/types";
+import type {
+  CoreInput,
+  Source,
+  WorkCommitmentInput,
+} from "../../../../src/core2/types";
 import {
   rosterDiaryExposure,
   summarizeWorkObservables,

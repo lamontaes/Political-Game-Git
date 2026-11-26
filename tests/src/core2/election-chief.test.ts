@@ -8,8 +8,14 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
-import { ELECTION_CHIEF_POST, agencyHeadsIn } from "../../../src/core2/modules/executive";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
+import {
+  ELECTION_CHIEF_POST,
+  agencyHeadsIn,
+} from "../../../src/core2/modules/executive";
 import { filingClerkFor } from "../../../src/core2/modules/filing-clerk";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { postPayCapDaily } from "../../../src/core2/budgets-treasury";

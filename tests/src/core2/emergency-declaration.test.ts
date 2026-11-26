@@ -16,8 +16,14 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
-import { BUDGETS_MODULE_ID, governments } from "../../../src/core2/modules/budgets";
-import { federalAidFor, townDisasters } from "../../../src/core2/modules/disasters";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+} from "../../../src/core2/modules/budgets";
+import {
+  federalAidFor,
+  townDisasters,
+} from "../../../src/core2/modules/disasters";
 import {
   declareEmergency,
   emergencyPower,

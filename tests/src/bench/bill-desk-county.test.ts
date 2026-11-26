@@ -6,7 +6,10 @@ import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { searchCorePlaces } from "../../../src/core2/place-lookup";
 import { memberKey, members } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import { billStage } from "../../../src/bench/bill-stage";
 import { BenchPlayer } from "../../../src/bench/player";

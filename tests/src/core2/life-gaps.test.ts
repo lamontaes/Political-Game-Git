@@ -13,9 +13,16 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { isDemoted } from "../../../src/core2/counted-groups";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, daysBetweenText, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetweenText,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import { livesElsewhere } from "../../../src/core2/modules/moves";
 import { lifeOf } from "../../../src/core2/person-life";
 import { lifeSummary, whoRemembers } from "../../../src/core2/person-life";

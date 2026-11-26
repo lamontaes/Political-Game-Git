@@ -3,7 +3,10 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { resolveLawInForce } from "../../../src/core2/laws-in-force";
-import { lawChainForPlace, type LawRowInput } from "../../../src/core2/laws-starting";
+import {
+  lawChainForPlace,
+  type LawRowInput,
+} from "../../../src/core2/laws-starting";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(replay, "wage-floor-levels");

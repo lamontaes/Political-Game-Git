@@ -38,7 +38,10 @@ import {
   upcomingMeeting,
   type MeetingRow,
 } from "../../../src/core2/modules/office-day";
-import { BUDGETS_MODULE_ID, type BudgetRow } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  type BudgetRow,
+} from "../../../src/core2/modules/budgets";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI, type CoreState } from "../../../src/core2/state";
 import type { CoreAPI } from "../../../src/core2/types";

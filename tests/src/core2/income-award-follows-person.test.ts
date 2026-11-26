@@ -9,7 +9,11 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { createRenewalCore } from "../../../src/core2/births-setup";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { movesModule, reviewMove } from "../../../src/core2/modules/moves";
 import { coreAPI } from "../../../src/core2/state";

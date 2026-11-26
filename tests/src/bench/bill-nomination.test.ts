@@ -11,7 +11,12 @@ import { lawChain } from "../../../src/core2/modules/laws";
 import { memberKey } from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
-import { askHead, officeView, ordersDecide, ordersView } from "../../../src/bench/office";
+import {
+  askHead,
+  officeView,
+  ordersDecide,
+  ordersView,
+} from "../../../src/bench/office";
 import { postStanding } from "../../../src/core2/modules/serve-asks";
 import type { PersonId } from "../../../src/core2/types";
 import { playServeAsk } from "../../support/serve-ask-play";

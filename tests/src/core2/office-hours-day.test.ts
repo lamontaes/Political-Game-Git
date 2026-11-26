@@ -26,7 +26,11 @@ import { campaignParameter } from "../../../src/core2/campaign-data";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { bodyOf, memberKey, members } from "../../../src/core2/modules/legislature";
+import {
+  bodyOf,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { discretionaryHours } from "../../../src/core2/modules/work";
 import {

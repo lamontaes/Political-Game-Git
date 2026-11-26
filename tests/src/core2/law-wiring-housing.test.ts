@@ -23,7 +23,12 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { setJournalTrace } from "../../../src/core2/journal-state";
 import { govReport } from "../../../src/core2/gov-test-report";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import {
   amendBudget,
   lineExtra,
@@ -37,7 +42,10 @@ import {
   LAW_APPLIED_TABLE,
   type LawAppliedRow,
 } from "../../../src/core2/law-reach/applied";
-import { budgetToday, housingLineMeasureId } from "../../../src/core2/law-reach/group-a-money";
+import {
+  budgetToday,
+  housingLineMeasureId,
+} from "../../../src/core2/law-reach/group-a-money";
 import { mechanicRow } from "../../../src/core2/law-reach/group-a-records";
 import { LAW_REACH_HOST_ID } from "../../../src/core2/law-reach/host";
 import type { LawRowInput } from "../../../src/core2/laws-starting";

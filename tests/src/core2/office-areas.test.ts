@@ -26,7 +26,10 @@ import {
 } from "../../../src/core2/contest-positions";
 import { platformFromViews } from "../../../src/core2/modules/candidacy";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 

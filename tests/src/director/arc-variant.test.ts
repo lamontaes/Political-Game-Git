@@ -1,6 +1,10 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate, addDays } from "../../../src/core2/kernel/dates";
+import {
+  ageOnDate,
+  makeIsoDate,
+  addDays,
+} from "../../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../../src/core2/civic-inputs";
 import { initialFocusPeople } from "../../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
@@ -22,7 +26,10 @@ import variantFile from "../../../src/director/data/arc-variants.json" with { ty
 import situationFile from "../../../src/director/data/situation-types.json" with { type: "json" };
 import { createDirector } from "../../../src/director/ledger";
 import { chooseVariant } from "../../../src/director/arc-variant";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import {
   composeSceneTalk,
   type PurposeType,

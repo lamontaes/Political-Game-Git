@@ -2,7 +2,11 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { billCatalog, provisionFor } from "../../../src/core2/bill-catalog";
 import { closenessBetween } from "../../../src/core2/closeness";
 import { advanceCore } from "../../../src/core2/life";
@@ -29,7 +33,10 @@ import { filingClerkFor } from "../../../src/core2/modules/filing-clerk";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 import type { ScheduleEntry } from "../../../src/director/scheduling";
 import type { TreeNode } from "../../../src/director/scene-talk";
 

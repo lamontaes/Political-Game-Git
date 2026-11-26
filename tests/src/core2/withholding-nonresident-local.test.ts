@@ -3,7 +3,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { lawInForceToday } from "../../../src/core2/modules/laws";
-import { BUDGETS_MODULE_ID, withholdPay } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  withholdPay,
+} from "../../../src/core2/modules/budgets";
 import { outsideGovernment } from "../../../src/core2/outside-governments";
 import type { CoreState } from "../../../src/core2/types";
 

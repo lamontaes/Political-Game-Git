@@ -43,7 +43,10 @@ import {
   type BallotRow,
 } from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
-import { setTraitProbe, type OutcomeProbeRow } from "../../../src/core2/trait-probe";
+import {
+  setTraitProbe,
+  type OutcomeProbeRow,
+} from "../../../src/core2/trait-probe";
 import { setKeepEveryonesWhy } from "../../../src/core2/why-kept";
 
 /** The ruling's share, worked out here: exp(k a_i) / sum_j exp(k a_j), k = 4 / appealPerShare. */

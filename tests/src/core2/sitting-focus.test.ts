@@ -22,11 +22,22 @@ import { DevMode } from "../../../src/bench/dev-mode";
 import personFocus from "../../../src/bench/dev-views/person-focus";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { knownThroughRecords, lastTogether } from "../../../src/core2/closeness";
+import {
+  knownThroughRecords,
+  lastTogether,
+} from "../../../src/core2/closeness";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, daysBetweenText, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetweenText,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { bodyOf, memberKey, members } from "../../../src/core2/modules/legislature";
+import {
+  bodyOf,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";

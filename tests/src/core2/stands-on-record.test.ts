@@ -13,7 +13,10 @@ import {
   playerContests,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { platformAnswers, standsOnRecord } from "../../../src/core2/modules/press";
+import {
+  platformAnswers,
+  standsOnRecord,
+} from "../../../src/core2/modules/press";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 

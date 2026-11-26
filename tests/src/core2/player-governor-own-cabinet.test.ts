@@ -18,7 +18,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { appointmentsIn, statePostsToFill } from "../../../src/core2/modules/executive";
+import {
+  appointmentsIn,
+  statePostsToFill,
+} from "../../../src/core2/modules/executive";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { seatPlayerInStateOffice } from "../../../src/core2/office-day-state";
 import { coreAPI } from "../../../src/core2/state";

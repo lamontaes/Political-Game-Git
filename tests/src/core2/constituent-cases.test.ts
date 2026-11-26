@@ -22,7 +22,10 @@ import {
   problemOf,
 } from "../../../src/core2/modules/constituent-cases";
 import { governmentUnitsForPlace } from "../../../src/core2/reference/government-units";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = gameStartDate();
 /** Two months of office hours, then the response window after them. */

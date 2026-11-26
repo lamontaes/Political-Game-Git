@@ -14,7 +14,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { BUSINESS_MODULE_ID, ownerOf } from "../../../src/core2/modules/business";
+import {
+  BUSINESS_MODULE_ID,
+  ownerOf,
+} from "../../../src/core2/modules/business";
 import { contractFor } from "../../../src/core2/modules/contracts";
 import { lawChain } from "../../../src/core2/modules/laws";
 import spendingData from "../../../src/core2/data/budgets/treasury-spending.json" with { type: "json" };
@@ -31,7 +34,10 @@ import {
   treasuryMonthsOf,
   treasuryParameter,
 } from "../../../src/core2/budgets-treasury";
-import { officeActsOf, officeHost } from "../../../src/core2/modules/office-day";
+import {
+  officeActsOf,
+  officeHost,
+} from "../../../src/core2/modules/office-day";
 import { townSeats } from "../../../src/core2/modules/offices";
 import {
   budgetLineStakes,
@@ -41,8 +47,15 @@ import {
   registerLegislatureHooks,
   type BillRow,
 } from "../../../src/core2/modules/legislature";
-import { hireStaff, servingStaffOf, staffCandidates } from "../../../src/core2/modules/staff";
-import { budgetProposalDue, officeActHandlers } from "../../../src/core2/office-day-acts";
+import {
+  hireStaff,
+  servingStaffOf,
+  staffCandidates,
+} from "../../../src/core2/modules/staff";
+import {
+  budgetProposalDue,
+  officeActHandlers,
+} from "../../../src/core2/office-day-acts";
 import { budgetHearingOf } from "../../../src/core2/modules/legislature";
 import { coreAPI } from "../../../src/core2/state";
 

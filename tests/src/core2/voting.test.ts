@@ -31,7 +31,10 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { knockDoors, openCampaigns } from "../../../src/core2/modules/campaigns";
+import {
+  knockDoors,
+  openCampaigns,
+} from "../../../src/core2/modules/campaigns";
 import { openLaws } from "../../../src/core2/modules/laws";
 import { openParties } from "../../../src/core2/modules/parties";
 import {
@@ -43,7 +46,10 @@ import {
   type BallotRow,
 } from "../../../src/core2/modules/voting";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 
 const START = "2026-01-05";

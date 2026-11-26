@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { FinanceReadGuard } from "../../../src/core2/finance-plan";
-import { parameter as p, PARAMETERS, type Parameter } from "../../../src/core2/parameters";
+import {
+  parameter as p,
+  PARAMETERS,
+  type Parameter,
+} from "../../../src/core2/parameters";
 import {
   workPayPeriodOnDate,
   type WorkPayrollCalendarInput,

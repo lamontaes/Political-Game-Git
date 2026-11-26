@@ -15,7 +15,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import type { CoreState } from "../../../src/core2/types";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
-import { monthlyChange, worldGoods } from "../../../src/core2/modules/place-prices";
+import {
+  monthlyChange,
+  worldGoods,
+} from "../../../src/core2/modules/place-prices";
 import { coreAPI } from "../../../src/core2/state";
 
 const held = vi.hoisted(() => ({ factors: {} as Record<string, number> }));

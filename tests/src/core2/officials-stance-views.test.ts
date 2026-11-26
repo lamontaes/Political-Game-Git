@@ -12,7 +12,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
-import { OFFICIALS_MODULE_ID, officialStance } from "../../../src/core2/modules/officials";
+import {
+  OFFICIALS_MODULE_ID,
+  officialStance,
+} from "../../../src/core2/modules/officials";
 import { VIEWS_DATA, VIEWS_MODULE_ID } from "../../../src/core2/modules/views";
 import { coreAPI } from "../../../src/core2/state";
 

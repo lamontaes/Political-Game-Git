@@ -29,7 +29,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { personWorkOf } from "../../../src/core2/person-work";
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import type { CoreState, PersonId } from "../../../src/core2/types";
-import { meetOverTalk, openConversation } from "../../../src/director/conversation";
+import {
+  meetOverTalk,
+  openConversation,
+} from "../../../src/director/conversation";
 import type { Director } from "../../../src/director/ledger";
 import { purposeScene } from "../../../src/director/purpose-scene";
 

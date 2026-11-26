@@ -8,7 +8,10 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../../../src/core2/modules/elections";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { partySide } from "../../../src/core2/appointments";
 import { coreAPI } from "../../../src/core2/state";
 import { buildBenchWorld } from "../../../src/bench/world";

@@ -13,7 +13,10 @@ import { placeLocalities } from "../../../src/core2/places";
 import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
 import { coreAPI } from "../../../src/core2/state";
 import { governments } from "../../../src/core2/modules/budgets";
-import { budgetInForce, publicPayRoom } from "../../../src/core2/budgets-treasury";
+import {
+  budgetInForce,
+  publicPayRoom,
+} from "../../../src/core2/budgets-treasury";
 
 const ISLAND_AREAS = ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"];
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

@@ -22,7 +22,10 @@ import {
   worldRoster,
 } from "../../../src/core2/electorate-places";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import legislatureParties from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 

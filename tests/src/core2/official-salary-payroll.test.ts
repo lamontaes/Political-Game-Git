@@ -16,8 +16,14 @@ import { coreAPI } from "../../../src/core2/state";
 import { lineForPost } from "../../../src/core2/budgets-treasury";
 import { governments, withholdingOf } from "../../../src/core2/modules/budgets";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "../../../src/core2/modules/officials";
-import { OFFICIAL_PAY_MODULE_ID, officialSalary } from "../../../src/core2/modules/official-pay";
+import {
+  OFFICIALS_MODULE_ID,
+  type OfficialRow,
+} from "../../../src/core2/modules/officials";
+import {
+  OFFICIAL_PAY_MODULE_ID,
+  officialSalary,
+} from "../../../src/core2/modules/official-pay";
 import { setKeepEveryonesWhy } from "../../../src/core2/why-kept";
 
 // Reads each official's withholding record for people outside the player's circle.

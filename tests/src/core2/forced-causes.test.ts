@@ -24,7 +24,11 @@ import {
   putOnBallot,
   type MeasureRow,
 } from "../../../src/core2/modules/ballot-measures";
-import { appoint, appointmentsIn, postsToFill } from "../../../src/core2/modules/executive";
+import {
+  appoint,
+  appointmentsIn,
+  postsToFill,
+} from "../../../src/core2/modules/executive";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { settleEstate } from "../../../src/core2/estates";

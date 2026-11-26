@@ -17,7 +17,12 @@ import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 import { buildBenchWorld } from "../../../src/bench/world";
 import bank from "../../../data/english/parts/conversation.json" with { type: "json" };
-import { meetOverTalk, noteHeard, openConversation, say } from "../../../src/director/conversation";
+import {
+  meetOverTalk,
+  noteHeard,
+  openConversation,
+  say,
+} from "../../../src/director/conversation";
 
 /** Words that need the two people in one room. */
 const IN_ROOM =

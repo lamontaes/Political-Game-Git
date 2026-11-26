@@ -28,7 +28,10 @@ import {
   placeOutcome,
   type WebMonth,
 } from "../../../src/core2/modules/outcome-web";
-import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../../../src/core2/school-measures";
+import {
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "../../../src/core2/school-measures";
 import {
   SCHOOL_MEASURE,
   schoolStartYear,
@@ -38,7 +41,10 @@ import {
 } from "../../../src/core2/school-outcomes";
 import schoolDays from "../../../src/core2/data/school-days.json" with { type: "json" };
 import { ageOn } from "../../../src/core2/counted-groups";
-import { fullHouseholdIncomes, incomeBandOn } from "../../../src/core2/counted-income-fifth";
+import {
+  fullHouseholdIncomes,
+  incomeBandOn,
+} from "../../../src/core2/counted-income-fifth";
 import { webReach } from "../../../src/core2/outcome-web-reach";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { personalityCataloguePack } from "../../../src/core2/personality-catalogue";

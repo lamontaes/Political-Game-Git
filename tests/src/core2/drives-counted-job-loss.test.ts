@@ -15,7 +15,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { countedDrivesHeld, drivesReport } from "../../../src/core2/modules/drives";
+import {
+  countedDrivesHeld,
+  drivesReport,
+} from "../../../src/core2/modules/drives";
 import { JOBS_MODULE_ID } from "../../../src/core2/modules/jobs";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";

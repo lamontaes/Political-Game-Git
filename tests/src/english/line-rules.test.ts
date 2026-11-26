@@ -1,6 +1,8 @@
 import { fileURLToPath as __moveTestsFromUrl } from "node:url";
 import { dirname as __moveTestsDirname } from "node:path";
-const __moveTestsFile = __moveTestsFromUrl(new URL("../../../src/english/line-rules.test.ts", import.meta.url).href);
+const __moveTestsFile = __moveTestsFromUrl(
+  new URL("../../../src/english/line-rules.test.ts", import.meta.url).href,
+);
 const __moveTestsDir = __moveTestsDirname(__moveTestsFile);
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
@@ -654,7 +656,11 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
     const parts = (
       JSON.parse(
         readFileSync(
-          path.resolve(__moveTestsDir, "../../data/english/parts", `${name}.json`),
+          path.resolve(
+            __moveTestsDir,
+            "../../data/english/parts",
+            `${name}.json`,
+          ),
           "utf8",
         ),
       ) as {

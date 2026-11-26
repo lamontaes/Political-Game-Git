@@ -11,7 +11,10 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { placeLocalities, placeStateKeys } from "../../../src/core2/places";
-import { LAWS_MODULE_ID, stateOpeningLawRows } from "../../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  stateOpeningLawRows,
+} from "../../../src/core2/modules/laws";
 import { countryStates } from "../../../src/core2/modules/macro";
 import { coreAPI } from "../../../src/core2/state";
 import { gameStartDate } from "../../../src/core2/game-start";

@@ -27,7 +27,11 @@ import {
   type TieRow,
   PARTIES_MODULE_ID,
 } from "../../../src/core2/modules/parties";
-import { holdPrimary, openVoting, resultOf } from "../../../src/core2/modules/voting";
+import {
+  holdPrimary,
+  openVoting,
+  resultOf,
+} from "../../../src/core2/modules/voting";
 import { campaignDayChoices, raceLive } from "../../../src/core2/campaign-day";
 import { drawPlace } from "../../../scripts/core2-year/place";
 

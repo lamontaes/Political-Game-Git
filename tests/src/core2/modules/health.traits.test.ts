@@ -22,7 +22,10 @@ import {
 } from "../../../../src/core2/condition-pack";
 import { parameter } from "../../../../src/core2/parameters";
 import { worldRateFactor } from "../../../../src/core2/world-base-rates";
-import { healthReport, DEFAULT_HEALTH_DATA } from "../../../../src/core2/modules/health";
+import {
+  healthReport,
+  DEFAULT_HEALTH_DATA,
+} from "../../../../src/core2/modules/health";
 import type { CoreState } from "../../../../src/core2/types";
 
 const SEED = process.env.HEALTH_TRAITS_SEED ?? "traits-health-test";

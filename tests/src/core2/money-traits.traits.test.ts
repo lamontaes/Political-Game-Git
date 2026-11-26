@@ -9,11 +9,17 @@
  */
 import { describe, expect, it } from "vitest";
 import { scoreOffers, decisionFromScores } from "../../../src/core2/choice";
-import { ownerDrawCase, ownerDrawReasons } from "../../../src/core2/modules/business";
+import {
+  ownerDrawCase,
+  ownerDrawReasons,
+} from "../../../src/core2/modules/business";
 import { homeBuyReasons } from "../../../src/core2/housing-buy";
 import { applyNeed } from "../../../src/core2/modules/jobs";
 import { parameter } from "../../../src/core2/parameters";
-import { claimWaitCase, retirementClaimAgeMonths } from "../../../src/core2/retirement-claim";
+import {
+  claimWaitCase,
+  retirementClaimAgeMonths,
+} from "../../../src/core2/retirement-claim";
 import {
   decisionLean,
   decisionTraitTerm,

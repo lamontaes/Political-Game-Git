@@ -14,7 +14,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { localGoverningBodyName } from "../../../src/core2/gov-rules/local-governing-body-rules";
 import { addDays } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { LEGISLATURE_MODULE_ID, type BillRow } from "../../../src/core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { governmentProperName } from "../../../src/core2/government-proper-name";
 import { townAndBody } from "../../../src/core2/offices-local";

@@ -12,7 +12,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { pairKey } from "../../../src/core2/kernel/ids";
-import { appoint, appointmentsIn, townPosts } from "../../../src/core2/modules/executive";
+import {
+  appoint,
+  appointmentsIn,
+  townPosts,
+} from "../../../src/core2/modules/executive";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";

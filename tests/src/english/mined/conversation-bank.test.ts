@@ -11,7 +11,10 @@ import {
   type Conversation,
 } from "../../../../src/director/conversation";
 import { createDirector } from "../../../../src/director/ledger";
-import { CONVERSATION_BANK, MINED_CONVERSATION } from "../../../../src/english/mined/conversation-bank";
+import {
+  CONVERSATION_BANK,
+  MINED_CONVERSATION,
+} from "../../../../src/english/mined/conversation-bank";
 import sceneTalkJson from "../../../../data/english/parts/scene-talk.json" with { type: "json" };
 
 /**

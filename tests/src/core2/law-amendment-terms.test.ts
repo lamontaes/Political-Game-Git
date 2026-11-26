@@ -20,7 +20,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { appliedOn } from "../../../src/core2/law-reach/applied";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
-import { draftBill, type Provision } from "../../../src/core2/modules/legislature";
+import {
+  draftBill,
+  type Provision,
+} from "../../../src/core2/modules/legislature";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreAPI } from "../../../src/core2/types";
 import powers from "../../../src/core2/data/legislature/series-powers.json";

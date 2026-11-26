@@ -16,7 +16,10 @@ import {
   type ContestRow,
 } from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
-import { causeGroupForm, causeGroupName } from "../../../src/english/group-names";
+import {
+  causeGroupForm,
+  causeGroupName,
+} from "../../../src/english/group-names";
 import { allQuestions } from "../../../src/english/policy-names";
 import { wordPrintedStory } from "../../../src/bench/archive-words";
 import { buildBenchWorld } from "../../../src/bench/world";

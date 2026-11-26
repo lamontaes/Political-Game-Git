@@ -8,7 +8,11 @@ import "../../../src/bench/world";
 import { drawPlace } from "../../golden-path/place";
 import { describe, expect, it } from "vitest";
 import { fileClaim } from "../../../src/core2/jobs-benefits";
-import { adultsOf, drawnRaceWorld, RUN_SEED } from "../../../src/core2/trait-test-kit";
+import {
+  adultsOf,
+  drawnRaceWorld,
+  RUN_SEED,
+} from "../../../src/core2/trait-test-kit";
 import type { JobInput } from "../../../src/core2/types";
 
 const SEED = `${RUN_SEED}:one-open-claim`;

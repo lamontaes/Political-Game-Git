@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import billCatalog from "../../../src/core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { checkAmericanEnglish } from "../../../scripts/prose-eval/american-english";
-import { billNameFor, billNameOf, billTitleOf } from "../../../src/english/bill-names";
+import {
+  billNameFor,
+  billNameOf,
+  billTitleOf,
+} from "../../../src/english/bill-names";
 import federalQuestions from "../../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 
 const questions: { question: string; name: string }[] = [];

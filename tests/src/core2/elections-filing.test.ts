@@ -31,7 +31,10 @@ import {
   openElections,
   type ContestRow,
 } from "../../../src/core2/modules/elections";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { novemberGeneralElectionDay } from "../../../src/core2/gov-rules/town-election-calendar";
 
 const START = "2026-01-05";

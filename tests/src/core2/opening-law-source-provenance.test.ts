@@ -6,7 +6,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { lawHere, lawChain, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  lawHere,
+  lawChain,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { coreAPI } from "../../../src/core2/state";

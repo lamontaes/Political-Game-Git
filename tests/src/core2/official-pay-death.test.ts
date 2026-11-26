@@ -8,7 +8,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { OFFICIAL_PAY_MODULE_ID } from "../../../src/core2/modules/official-pay";
-import { OFFICIALS_MODULE_ID, type OfficialRow } from "../../../src/core2/modules/officials";
+import {
+  OFFICIALS_MODULE_ID,
+  type OfficialRow,
+} from "../../../src/core2/modules/officials";
 
 // An official who dies is paid no more, and their pay row ends the day they
 // die, read from the death's record (src/core2/modules/official-pay.ts). It

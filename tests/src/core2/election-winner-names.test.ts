@@ -4,7 +4,10 @@ import { electionResults } from "../../../src/bench/results";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import { drawPlace } from "../../golden-path/place";
 
 const seed =

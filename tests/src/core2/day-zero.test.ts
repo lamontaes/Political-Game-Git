@@ -36,7 +36,10 @@ interface Row {
 }
 const file = JSON.parse(
   readFileSync(
-    new URL("./data/opening/day-zero.json", (new URL("../../../src/core2/day-zero.test.ts", import.meta.url).href)),
+    new URL(
+      "./data/opening/day-zero.json",
+      new URL("../../../src/core2/day-zero.test.ts", import.meta.url).href,
+    ),
     "utf8",
   ),
 ) as {

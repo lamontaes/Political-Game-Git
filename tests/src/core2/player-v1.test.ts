@@ -9,9 +9,16 @@ import {
   retirePlayerV1,
 } from "../../../src/core2/player-v1";
 import type { PlayerPacketV1 } from "../../../src/core2/player-v1";
-import { registerModuleStopV1, releaseModuleStopV1 } from "../../../src/core2/player-stops-v1";
+import {
+  registerModuleStopV1,
+  releaseModuleStopV1,
+} from "../../../src/core2/player-stops-v1";
 import { resolveSavedTraceV1 } from "../../../src/core2/saved-trace-v1";
-import type { CoreInput, Source, DecisionResult } from "../../../src/core2/types";
+import type {
+  CoreInput,
+  Source,
+  DecisionResult,
+} from "../../../src/core2/types";
 import type { WorkPayrollCalendarInput } from "../../../src/core2/work-pay-period";
 const source: Source = {
   tag: "SOURCED",

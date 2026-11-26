@@ -4,7 +4,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { pairKey } from "../../../src/core2/kernel/ids";
 import { advanceCore } from "../../../src/core2/life";
 import {
@@ -17,7 +21,10 @@ import { filingClerkFor } from "../../../src/core2/modules/filing-clerk";
 import { lawChain } from "../../../src/core2/modules/laws";
 import type { PersonId } from "../../../src/core2/types";
 import { coreAPI } from "../../../src/core2/state";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 
 // The reply the player chooses in a scene with a purpose is a record the
 // core's own writers read. In the played world a resident who lives with

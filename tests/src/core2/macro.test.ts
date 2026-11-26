@@ -352,7 +352,7 @@ describe("the 30-year mortgage rate since June 2019", () => {
   for (const line of readFileSync(
     new URL(
       "../../data/research/macro/series/mirs-transition-index.csv",
-      (new URL("../../../src/core2/macro.test.ts", import.meta.url).href),
+      new URL("../../../src/core2/macro.test.ts", import.meta.url).href,
     ),
     "utf8",
   )
@@ -579,7 +579,9 @@ describe("each world's own economy (owner, Oct 27: realistic, not real)", () => 
 describe("history before the start (M1-14, the economy's part)", () => {
   it("calibrates a 2026 world on every published month since January 2021", async () => {
     const history = (
-      await import("../../../src/core2/data/macro/history.json", { with: { type: "json" } })
+      await import("../../../src/core2/data/macro/history.json", {
+        with: { type: "json" },
+      })
     ).default;
     const rows = publishedMonths("2026-10-01", p);
     expect(rows[0]!.month).toBe("2021-01");

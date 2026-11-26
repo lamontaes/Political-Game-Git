@@ -3,7 +3,12 @@ import eventInputs from "../../../src/core2/tooling/fixtures/event-inputs.json" 
 
 import { affectAt, appraiseEvent } from "../../../src/core2/emotion";
 import { P, parameter } from "../../../src/core2/parameters";
-import type { Affect, CoreEventInput, PersonState, Source } from "../../../src/core2/types";
+import type {
+  Affect,
+  CoreEventInput,
+  PersonState,
+  Source,
+} from "../../../src/core2/types";
 
 const source: Source = {
   tag: "ESTIMATED",

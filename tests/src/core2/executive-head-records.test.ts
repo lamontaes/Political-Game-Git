@@ -7,7 +7,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { appointmentsIn, postRecord } from "../../../src/core2/modules/executive";
+import {
+  appointmentsIn,
+  postRecord,
+} from "../../../src/core2/modules/executive";
 import { coreAPI } from "../../../src/core2/state";
 
 // A town's department heads are chosen by what the records say each resident

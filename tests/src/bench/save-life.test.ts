@@ -16,7 +16,12 @@ import { countedResidents } from "../../../src/core2/electorate";
 import { corePlaceByJurisdictionId } from "../../../src/core2/place-lookup";
 import { snapshotWorld } from "../../../src/core2/snapshot";
 import type { SaveV1 } from "../../../src/core2/saves";
-import { benchRequest, benchWorld, replayLife, savedLives } from "../../../src/bench/handler";
+import {
+  benchRequest,
+  benchWorld,
+  replayLife,
+  savedLives,
+} from "../../../src/bench/handler";
 
 // Pinned (pinned-tests): this seed draws Opal, Wyoming. About 60 seconds
 // alone and 75 beside the other save tests.

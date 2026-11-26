@@ -14,7 +14,10 @@ import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { JOBS_MODULE_ID, type JobOfferRow } from "../../../src/core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  type JobOfferRow,
+} from "../../../src/core2/modules/jobs";
 import { applyForOpeningAs, openingsView } from "../../../src/bench/openings";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");

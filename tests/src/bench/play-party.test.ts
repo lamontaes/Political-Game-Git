@@ -2,7 +2,10 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { checkEligibility, openContests } from "../../../src/core2/modules/elections";
+import {
+  checkEligibility,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { partyTie } from "../../../src/core2/modules/parties";
 import { coreAPI } from "../../../src/core2/state";
 import { governmentView, joinPartyAs } from "../../../src/bench/government";

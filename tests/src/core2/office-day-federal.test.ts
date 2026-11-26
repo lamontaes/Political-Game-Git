@@ -22,7 +22,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { coarsePlace } from "../../../src/core2/coarse-place";
 import { ageOn } from "../../../src/core2/counted-groups";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import {
   billOf,
   committeeRecords,

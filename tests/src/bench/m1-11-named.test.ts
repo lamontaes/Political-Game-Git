@@ -1,7 +1,10 @@
 // The M1-11 check's rule for who may answer an event: a counted person is
 // held to the event's own records like anyone else.
 import { describe, expect, it } from "vitest";
-import { answeredByNamed, type NamedLookups } from "../../../src/bench/m1-11-named";
+import {
+  answeredByNamed,
+  type NamedLookups,
+} from "../../../src/bench/m1-11-named";
 
 const homes: Record<string, string> = {
   worker: "h1",

@@ -5,8 +5,16 @@
 // no field name, status code, ISO date or developer button.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, leaveTalk, playOpening } from "../../../src/bench/start-life.mjs";
-import { devModeOff, devModeOn, devRunUntilMayFile } from "../../../src/bench/dev-setup.mjs";
+import {
+  finishTalk,
+  leaveTalk,
+  playOpening,
+} from "../../../src/bench/start-life.mjs";
+import {
+  devModeOff,
+  devModeOn,
+  devRunUntilMayFile,
+} from "../../../src/bench/dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });

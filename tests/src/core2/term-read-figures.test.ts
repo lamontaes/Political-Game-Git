@@ -6,7 +6,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { placeStateKey } from "../../../src/core2/place-map";
 import { advanceCore } from "../../../src/core2/life";
-import { countryTermRead, jurisdictionTermRead } from "../../../src/core2/term-read";
+import {
+  countryTermRead,
+  jurisdictionTermRead,
+} from "../../../src/core2/term-read";
 
 // A state's and the country's term read from their own monthly records (owner,
 // Nov 14: "it's all one simulation"): the regional module's months for a

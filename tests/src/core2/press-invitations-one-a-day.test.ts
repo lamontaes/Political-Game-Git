@@ -34,7 +34,10 @@ import {
 } from "../../../src/core2/modules/press";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 
 /*
  * Slow on purpose (about 3.5 minutes, so the timeout below is explicit): no

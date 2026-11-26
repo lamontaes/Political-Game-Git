@@ -13,7 +13,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { openWholePast } from "../../../src/core2/modules/people";
 import { lifeOf } from "../../../src/core2/person-life";
-import { COLLEGE_ENDED, COLLEGE_STARTED, SCHOOL_FINISHED } from "../../../src/core2/past-school";
+import {
+  COLLEGE_ENDED,
+  COLLEGE_STARTED,
+  SCHOOL_FINISHED,
+} from "../../../src/core2/past-school";
 import {
   educationLevelOf,
   PAST_WORK_SPELL,

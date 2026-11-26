@@ -1,6 +1,10 @@
 /** A first election turns out the share the voters' propensities say, not only those at one half or more. */
 import { describe, expect, it } from "vitest";
-import { OPENING_CARRY, namedTurnout, openingVoterCarry } from "../../../src/core2/turnout";
+import {
+  OPENING_CARRY,
+  namedTurnout,
+  openingVoterCarry,
+} from "../../../src/core2/turnout";
 
 const ids = Array.from({ length: 400 }, (_, i) => `person_${i.toString(16)}`);
 

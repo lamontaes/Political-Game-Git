@@ -10,7 +10,11 @@ import {
   OFFICES_MODULE_ID,
   type TermRow,
 } from "../../../src/core2/modules/offices";
-import { allOfficials, officialOf, officialStance } from "../../../src/core2/modules/officials";
+import {
+  allOfficials,
+  officialOf,
+  officialStance,
+} from "../../../src/core2/modules/officials";
 import { coreAPI, personOrFillIn } from "../../../src/core2/state";
 
 // Another state's officials are names on their terms until something opens

@@ -6,13 +6,24 @@ import {
 import { MULTIPLIER_ONE } from "../../../src/core2/health-hazard";
 import { doubledAgeYearHazard } from "../../../src/core2/health-mortality-table";
 import { FIXED_SCALE } from "../../../src/core2/kernel/fixed-point";
-import { ageOnDate, makeIsoDate, addDays } from "../../../src/core2/kernel/dates";
+import {
+  ageOnDate,
+  makeIsoDate,
+  addDays,
+} from "../../../src/core2/kernel/dates";
 import { type EntityId } from "../../../src/core2/kernel/brands";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
-import { createHealthModule, healthReport } from "../../../src/core2/modules/health";
+import {
+  createHealthModule,
+  healthReport,
+} from "../../../src/core2/modules/health";
 import { parameter as p } from "../../../src/core2/parameters";
 import { buildPopulation } from "../../../src/core2/population";
-import { type CoreInput, type PersonInput, type Source } from "../../../src/core2/types";
+import {
+  type CoreInput,
+  type PersonInput,
+  type Source,
+} from "../../../src/core2/types";
 import { randomBytes } from "node:crypto";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { createRenewalCore } from "../../../src/core2/births-setup";

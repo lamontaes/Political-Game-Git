@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import { advanceDate, catchUpPerson, duePeople } from "../../../src/core2/calendar";
+import {
+  advanceDate,
+  catchUpPerson,
+  duePeople,
+} from "../../../src/core2/calendar";
 import { DEFAULT_DATA, extendData } from "../../../src/core2/data";
 import { parameter as p } from "../../../src/core2/parameters";
 import { createCore } from "../../../src/core2/state";

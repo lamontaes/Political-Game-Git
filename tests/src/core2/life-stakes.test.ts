@@ -17,7 +17,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { stakeReasons, stakeShift } from "../../../src/core2/life-stake-rule";
-import { countedLifeStake, fullLifeStake } from "../../../src/core2/life-stakes";
+import {
+  countedLifeStake,
+  fullLifeStake,
+} from "../../../src/core2/life-stakes";
 import { ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
 import {
   countedStanceProfile,

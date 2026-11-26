@@ -9,7 +9,10 @@ import { TERM_MEASURES } from "../../../src/core2/term-read";
 
 import { ADDRESS_FACT } from "../../../src/director/opening-facts";
 
-import { localAddressDate, recordLocalAddress } from "../../../src/director/local-address";
+import {
+  localAddressDate,
+  recordLocalAddress,
+} from "../../../src/director/local-address";
 
 // A governor's State of the State and a mayor's State of the City (owner,
 // Nov 8: addresses by "governors' and mayors'"): the same address the

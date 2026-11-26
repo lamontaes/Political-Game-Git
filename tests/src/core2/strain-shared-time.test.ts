@@ -17,7 +17,11 @@ import {
   temperedHours,
 } from "../../../src/core2/closeness";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { bodyOf, memberKey, members } from "../../../src/core2/modules/legislature";
+import {
+  bodyOf,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";

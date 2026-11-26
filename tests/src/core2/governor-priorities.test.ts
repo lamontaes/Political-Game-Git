@@ -26,7 +26,10 @@ import {
   setBudgetPriorities,
 } from "../../../src/core2/modules/budgets";
 import { REACH_B_MODULE_ID } from "../../../src/core2/law-reach/group-b-store";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

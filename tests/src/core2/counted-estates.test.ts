@@ -5,7 +5,10 @@ import { createRenewalCore } from "../../../src/core2/births-setup";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
-import { removeCountedPerson, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  removeCountedPerson,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 import { generatedOpening } from "../../../src/core2/tooling/generated-world";
 

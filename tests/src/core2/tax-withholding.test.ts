@@ -10,11 +10,21 @@ import { buildPopulation } from "../../../src/core2/population";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { collapseToTwoLevels } from "../../../src/core2/residents";
-import { lawChain, lawInForce, openLaws } from "../../../src/core2/modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  openLaws,
+} from "../../../src/core2/modules/laws";
 import { openBudgets, withholdingOf } from "../../../src/core2/modules/budgets";
-import { scheduleTax, withholdingFor } from "../../../src/core2/tax-withholding";
+import {
+  scheduleTax,
+  withholdingFor,
+} from "../../../src/core2/tax-withholding";
 import type { LawInForceAnswer } from "../../../src/core2/laws-in-force";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import startingLaw from "../../../src/core2/data/laws/starting-law.json" with { type: "json" };
 import indexing from "../../../data/research/money/tax-indexing-2026.json" with { type: "json" };
 

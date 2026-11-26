@@ -20,7 +20,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { parameter } from "../../../src/core2/parameters";
-import { advancePlayerV1, resumePlayerV1, retirePlayerV1 } from "../../../src/core2/player-v1";
+import {
+  advancePlayerV1,
+  resumePlayerV1,
+  retirePlayerV1,
+} from "../../../src/core2/player-v1";
 import type { CoreState, PersonId } from "../../../src/core2/types";
 
 const base =

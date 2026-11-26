@@ -1,6 +1,8 @@
 import { fileURLToPath as __moveTestsFromUrl } from "node:url";
 import { dirname as __moveTestsDirname } from "node:path";
-const __moveTestsFile = __moveTestsFromUrl(new URL("../../../src/core2/stopgaps-register.test.ts", import.meta.url).href);
+const __moveTestsFile = __moveTestsFromUrl(
+  new URL("../../../src/core2/stopgaps-register.test.ts", import.meta.url).href,
+);
 const __moveTestsDir = __moveTestsDirname(__moveTestsFile);
 // The stopgap register is one folder of family files with one reader
 // (tooling-stopgaps-register-per-family).

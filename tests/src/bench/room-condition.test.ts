@@ -8,7 +8,12 @@ import { advanceCore } from "../../../src/core2/life";
 import type { CoreState } from "../../../src/core2/types";
 import manifest from "../../../art/backdrops/manifest.json" with { type: "json" };
 import { buildBenchWorld } from "../../../src/bench/world";
-import { backdropFile, homeOf, backdropFor, roomCondition } from "../../../src/bench/scene";
+import {
+  backdropFile,
+  homeOf,
+  backdropFor,
+  roomCondition,
+} from "../../../src/bench/scene";
 
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??

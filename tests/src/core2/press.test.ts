@@ -46,7 +46,10 @@ import {
 import type { ModuleRow } from "../../../src/core2/module-data";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 
 const START = "2026-01-05";

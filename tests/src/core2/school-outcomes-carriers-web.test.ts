@@ -24,10 +24,20 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { setTableTrace } from "../../../src/core2/module-state";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { subjectWeight } from "../../../src/core2/outcome-web-reach";
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
-import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../../../src/core2/school-measures";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
+import {
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "../../../src/core2/school-measures";
 import {
   SCHOOL_MEASURE,
   schoolStartYear,

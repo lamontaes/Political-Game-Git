@@ -7,14 +7,21 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { billCatalog, provisionFor } from "../../../src/core2/bill-catalog";
 import { personLean } from "../../../src/core2/campaign-views";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
   askForDonation,
   giftsToCampaign,
   townLean,
 } from "../../../src/core2/modules/campaigns";
-import { fileCandidacy, openContests } from "../../../src/core2/modules/elections";
+import {
+  fileCandidacy,
+  openContests,
+} from "../../../src/core2/modules/elections";
 import { filingClerkFor } from "../../../src/core2/modules/filing-clerk";
 import { lawChain } from "../../../src/core2/modules/laws";
 import {

@@ -2,7 +2,10 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
 import { lawInForce } from "../../../src/core2/modules/laws";
 import {
   FEDERAL_HOUSE,
@@ -12,7 +15,11 @@ import {
   votesOn,
 } from "../../../src/core2/modules/legislature";
 import { coreAPI } from "../../../src/core2/state";
-import { billStage, callOverrideVote, chooseOverrideVote } from "../../../src/bench/bill-stage";
+import {
+  billStage,
+  callOverrideVote,
+  chooseOverrideVote,
+} from "../../../src/bench/bill-stage";
 import { DevMode } from "../../../src/bench/dev-mode";
 import { BenchPlayer } from "../../../src/bench/player";
 

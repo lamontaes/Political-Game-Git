@@ -20,7 +20,11 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { appliedEver, appliedOn } from "../../../src/core2/law-reach/applied";
 import { advanceCore } from "../../../src/core2/life";
 import type { MedicalBillRow } from "../../../src/core2/medical-bills";
-import { amendBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  amendBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { COVERAGE_MODULE_ID } from "../../../src/core2/modules/coverage";
 import { WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";

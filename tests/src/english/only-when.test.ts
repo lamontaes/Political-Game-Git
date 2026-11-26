@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { Fact } from "../../../src/english/bank-line";
 import type { ReplyFollowsTable } from "../../../src/english/reply-follows";
-import { fitting, type BankPart, type SceneMove } from "../../../src/english/scene-talk-words";
+import {
+  fitting,
+  type BankPart,
+  type SceneMove,
+} from "../../../src/english/scene-talk-words";
 
 const NONE: ReplyFollowsTable = new Map();
 

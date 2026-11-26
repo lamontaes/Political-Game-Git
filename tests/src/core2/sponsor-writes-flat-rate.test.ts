@@ -5,7 +5,10 @@ import { coreAPI } from "../../../src/core2/state";
 import { billCatalog, provisionFor } from "../../../src/core2/bill-catalog";
 import { LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { draftBill, holdEveryChamber } from "../../../src/core2/modules/legislature";
+import {
+  draftBill,
+  holdEveryChamber,
+} from "../../../src/core2/modules/legislature";
 import { flatRateOf } from "../../../src/core2/law-reach/group-b-money";
 import {
   reachParameter,

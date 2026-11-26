@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { IRS_TOWN_BUSINESS_BOOKS } from "../../../src/core2/reference/town-business-books.generated";
-import { PARAMETERS, parameter, type Parameter } from "../../../src/core2/parameters";
+import {
+  PARAMETERS,
+  parameter,
+  type Parameter,
+} from "../../../src/core2/parameters";
 import {
   classifyBusiness,
   DEFAULT_BUSINESS_BOOKS_DATA as data,

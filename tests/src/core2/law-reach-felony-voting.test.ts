@@ -13,7 +13,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { barredFromVoting, RESTORE_VOTE } from "../../../src/core2/law-reach/group-a-voting";
+import {
+  barredFromVoting,
+  RESTORE_VOTE,
+} from "../../../src/core2/law-reach/group-a-voting";
 import { enactLaw, lawChain } from "../../../src/core2/modules/laws";
 import {
   JUSTICE_MODULE_ID,

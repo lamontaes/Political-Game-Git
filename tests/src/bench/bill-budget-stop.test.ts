@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays } from "../../../src/core2/kernel/dates";
-import { budgetPriorities, governments } from "../../../src/core2/modules/budgets";
+import {
+  budgetPriorities,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";

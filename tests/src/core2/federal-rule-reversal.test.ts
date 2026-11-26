@@ -10,7 +10,12 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays } from "../../../src/core2/kernel/dates";
 import { resolveLawInForce } from "../../../src/core2/laws-in-force";
 import { type LawRowInput } from "../../../src/core2/laws-starting";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

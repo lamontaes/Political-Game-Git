@@ -17,7 +17,10 @@ import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openParties } from "../../../src/core2/modules/parties";
 import { openVoting } from "../../../src/core2/modules/voting";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 import { coreAPI } from "../../../src/core2/state";
 import { lawChain } from "../../../src/core2/modules/laws";
 import {

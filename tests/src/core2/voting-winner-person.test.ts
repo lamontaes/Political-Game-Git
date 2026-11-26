@@ -10,7 +10,10 @@ import {
   type TermRow,
 } from "../../../src/core2/modules/offices";
 import { candidacyReasons } from "../../../src/core2/modules/candidacy";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
 import { incompatibleOffices } from "../../../src/core2/office-incompatibility";
 import {
   outletsHere,

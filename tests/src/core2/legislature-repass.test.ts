@@ -14,7 +14,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
-import { LEGISLATURE_MODULE_ID, type BillRow } from "../../../src/core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../../../src/core2/modules/legislature";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import { coreAPI } from "../../../src/core2/state";
 import type { LawRowInput } from "../../../src/core2/laws-starting";

@@ -23,7 +23,11 @@ import {
   PAST_HOSPITAL_STAY,
 } from "../../../src/core2/past-health";
 import { preStartHistory } from "../../../src/core2/pre-start";
-import type { CoreState, PersonId, PersonState } from "../../../src/core2/types";
+import type {
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../../../src/core2/types";
 
 const seed = process.env.LIFE_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "past-partners");

@@ -9,8 +9,16 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { budgetsOf, governments } from "../../../src/core2/modules/budgets";
-import { draftBill, holdVote, memberKey, members } from "../../../src/core2/modules/legislature";
-import { classSizeShiftSd, type SchoolGroupRow } from "../../../src/core2/school-outcomes";
+import {
+  draftBill,
+  holdVote,
+  memberKey,
+  members,
+} from "../../../src/core2/modules/legislature";
+import {
+  classSizeShiftSd,
+  type SchoolGroupRow,
+} from "../../../src/core2/school-outcomes";
 import { SCHOOL_MODULE_ID } from "../../../src/core2/school-measures";
 import { coreAPI } from "../../../src/core2/state";
 

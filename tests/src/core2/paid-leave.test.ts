@@ -12,10 +12,17 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { enactLaw, LAWS_MODULE_ID, lawChain } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  LAWS_MODULE_ID,
+  lawChain,
+} from "../../../src/core2/modules/laws";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
-import { leavePremiumsOf, type LeavePremium } from "../../../src/core2/law-reach/group-a-money";
+import {
+  leavePremiumsOf,
+  type LeavePremium,
+} from "../../../src/core2/law-reach/group-a-money";
 import {
   PAID_LEAVE_KEY,
   paidLeavePremium,

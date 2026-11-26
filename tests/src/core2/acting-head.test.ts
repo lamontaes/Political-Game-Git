@@ -3,8 +3,14 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { cabinetOf, leavePostOpen } from "../../../src/core2/office-day-federal-president";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  cabinetOf,
+  leavePostOpen,
+} from "../../../src/core2/office-day-federal-president";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 
 // A cabinet post the president leaves open runs under a named acting head: a person drawn from the

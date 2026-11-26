@@ -10,7 +10,11 @@ import { appliedOn } from "../../../src/core2/law-reach/applied";
 import { lobbyingBarredUntil } from "../../../src/core2/law-reach/group-a-voting";
 import { LOBBYING_BAN } from "../../../src/core2/law-reach/voting-keys";
 import { yesLevels } from "../../../src/core2/modules/laws";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import { coreAPI } from "../../../src/core2/state";
 

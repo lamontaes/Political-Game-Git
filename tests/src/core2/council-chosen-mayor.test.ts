@@ -13,12 +13,19 @@ import { buildPopulation } from "../../../src/core2/population";
 import { createLifeCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { openLaws } from "../../../src/core2/modules/laws";
-import { openOffices, townSeats, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  openOffices,
+  townSeats,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { openElections } from "../../../src/core2/modules/elections";
 import { openCampaigns } from "../../../src/core2/modules/campaigns";
 import { openRecord } from "../../../src/core2/modules/record";
 import { openLegislature } from "../../../src/core2/modules/legislature";
-import { openLeadership, presidingOfficer } from "../../../src/core2/modules/leadership";
+import {
+  openLeadership,
+  presidingOfficer,
+} from "../../../src/core2/modules/leadership";
 import {
   municipalGovernments,
   primaryReading,

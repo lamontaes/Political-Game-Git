@@ -1,5 +1,9 @@
 import { expect, it } from "vitest";
-import { saidOffice, describesByRule, spokenOffice } from "../../../src/director/filing-visit";
+import {
+  saidOffice,
+  describesByRule,
+  spokenOffice,
+} from "../../../src/director/filing-visit";
 import { readFileSync } from "node:fs";
 
 // Every filing office in the research is said the way people say it: the

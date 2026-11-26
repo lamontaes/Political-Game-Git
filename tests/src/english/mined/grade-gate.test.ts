@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { heldByGrades } from "../../../../src/english/english-grades";
-import { SCENE_BANK, sceneWordsFromBank } from "../../../../src/english/mined/scene-bank";
-import { JOURNAL_BANK, journalDataFromBank } from "../../../../src/english/mined/journal-bank";
+import {
+  SCENE_BANK,
+  sceneWordsFromBank,
+} from "../../../../src/english/mined/scene-bank";
+import {
+  JOURNAL_BANK,
+  journalDataFromBank,
+} from "../../../../src/english/mined/journal-bank";
 
 /**
  * The owner's grades are the one gate on a bank piece (words-engine, Oct 24):

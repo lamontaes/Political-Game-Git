@@ -28,7 +28,10 @@ import {
 import { BUSINESS_MODULE_ID } from "../../../src/core2/modules/business";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
-import { historyMonths, worldPublishedMonth } from "../../../src/core2/macro-model";
+import {
+  historyMonths,
+  worldPublishedMonth,
+} from "../../../src/core2/macro-model";
 import type { PersonId } from "../../../src/core2/types";
 
 // A named place and seed reproduce a report's draw (the label prints both).

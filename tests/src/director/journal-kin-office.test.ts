@@ -13,7 +13,10 @@ import {
 } from "../../../src/core2/modules/elections";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
-import { metRelation, relationPhrase } from "../../../src/english/journal-words";
+import {
+  metRelation,
+  relationPhrase,
+} from "../../../src/english/journal-words";
 import { composeJournal } from "../../../src/director/journal";
 
 // Someone else's swearing-in is told as theirs (words-journal-kin-took-office-as-i).

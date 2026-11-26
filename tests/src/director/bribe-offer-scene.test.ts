@@ -6,7 +6,10 @@ import { initialFocusPeople } from "../../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { buildPopulation } from "../../../src/core2/population";
 import { createDirector } from "../../../src/director/ledger";
-import { composeSceneTalk, type PurposeType } from "../../../src/director/scene-talk";
+import {
+  composeSceneTalk,
+  type PurposeType,
+} from "../../../src/director/scene-talk";
 import type { Fact } from "../../../src/english/scene-talk-words";
 import situationFile from "../../../src/director/data/situation-types.json" with { type: "json" };
 

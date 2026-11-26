@@ -22,8 +22,14 @@ import {
 } from "../../../src/core2/modules/laws";
 import { setHistoryMode } from "../../../src/core2/electorate-century";
 import { resolveLawInForce } from "../../../src/core2/laws-in-force";
-import { lawChainForPlace, type LawRowInput } from "../../../src/core2/laws-starting";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  lawChainForPlace,
+  type LawRowInput,
+} from "../../../src/core2/laws-starting";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

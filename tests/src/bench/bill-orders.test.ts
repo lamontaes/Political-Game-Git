@@ -4,7 +4,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { orderableBy } from "../../../src/core2/modules/executive";
 import { townSeats } from "../../../src/core2/modules/offices";
-import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
+import {
+  heldFederal,
+  releaseFederal,
+} from "../../../src/core2/office-day-federal";
 import { resultsOf } from "../../../src/core2/office-day-state";
 import { coreAPI } from "../../../src/core2/state";
 import { ordersDecide, ordersView } from "../../../src/bench/office";

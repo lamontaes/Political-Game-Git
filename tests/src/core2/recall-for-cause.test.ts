@@ -23,7 +23,11 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { resolveMunicipalRecallRule } from "../../../src/core2/gov-rules/municipal-ballot-rules";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { openToRecall, recallRule, recallsOf } from "../../../src/core2/modules/recalls";
+import {
+  openToRecall,
+  recallRule,
+  recallsOf,
+} from "../../../src/core2/modules/recalls";
 import { NEWS_MODULE_ID, storiesHeard } from "../../../src/core2/modules/news";
 import { setTraitProbe } from "../../../src/core2/trait-probe";
 

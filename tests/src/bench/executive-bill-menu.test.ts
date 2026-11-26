@@ -11,7 +11,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { coreAPI } from "../../../src/core2/state";
-import { proposalRight, type BillRow } from "../../../src/core2/modules/legislature";
+import {
+  proposalRight,
+  type BillRow,
+} from "../../../src/core2/modules/legislature";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { isByRequest, seatAsk, seatView } from "../../../src/bench/legislature";
 

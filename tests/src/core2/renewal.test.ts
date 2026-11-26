@@ -8,10 +8,17 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
-import { ABORTION_LAW_SERIES, decideUnplanned } from "../../../src/core2/births-unplanned";
+import {
+  ABORTION_LAW_SERIES,
+  decideUnplanned,
+} from "../../../src/core2/births-unplanned";
 import type { BirthCouple } from "../../../src/core2/births-plan";
 import { appliedOn, appliedTo } from "../../../src/core2/law-reach/applied";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import providerDistance from "../../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 

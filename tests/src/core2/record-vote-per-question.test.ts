@@ -21,7 +21,10 @@ import { recentVotesOf } from "../../../src/bench/government-bodies";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { govReport } from "../../../src/core2/gov-test-report";
-import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "../../../src/core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  type PromiseRow,
+} from "../../../src/core2/modules/campaigns";
 import {
   billOf,
   draftBill,

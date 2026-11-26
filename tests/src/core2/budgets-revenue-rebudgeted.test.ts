@@ -24,7 +24,11 @@ import {
 } from "../../../src/core2/budgets-treasury";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { advanceCore } from "../../../src/core2/life";
-import { baseBudget, budgetsOf, governments } from "../../../src/core2/modules/budgets";
+import {
+  baseBudget,
+  budgetsOf,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
 
 const SEED = "7a5e19c2b3d84f60";

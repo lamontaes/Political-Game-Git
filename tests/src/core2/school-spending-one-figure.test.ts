@@ -17,9 +17,15 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { budgetsOf, governments } from "../../../src/core2/modules/budgets";
 import { placeOutcome } from "../../../src/core2/modules/outcome-web";
-import { OUTPUT_NUMBERS_MODULE_ID, yearRowId } from "../../../src/core2/output-numbers";
+import {
+  OUTPUT_NUMBERS_MODULE_ID,
+  yearRowId,
+} from "../../../src/core2/output-numbers";
 import type { OutputYearRow } from "../../../src/core2/output-numbers";
-import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../../../src/core2/school-measures";
+import {
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "../../../src/core2/school-measures";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

@@ -20,7 +20,10 @@ import { seedableTraits } from "../../../src/core2/opening-trait-table";
 import { createOpeningDraft } from "../../../src/core2/opening-draft";
 import { parameter as p } from "../../../src/core2/parameters";
 import { OPENING_KIN } from "../../../src/core2/opening-kin";
-import { buildPopulation, POPULATION_VERSION } from "../../../src/core2/population";
+import {
+  buildPopulation,
+  POPULATION_VERSION,
+} from "../../../src/core2/population";
 import { realLocalities } from "../../../src/core2/places";
 import {
   placeReferencePopulation,

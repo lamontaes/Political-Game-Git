@@ -21,7 +21,11 @@ import {
   inheritedTemperament,
   type KeptParent,
 } from "../../../src/core2/opening-personality";
-import type { CoreInput, CoreState, PersonInput } from "../../../src/core2/types";
+import type {
+  CoreInput,
+  CoreState,
+  PersonInput,
+} from "../../../src/core2/types";
 
 // One random place from all 56, named with its seed in the test title.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

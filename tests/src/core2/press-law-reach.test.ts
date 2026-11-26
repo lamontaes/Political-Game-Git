@@ -10,7 +10,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { coreAPI } from "../../../src/core2/state";
 import { runDesk, type DeskOutlet } from "../../../src/core2/press-desk";
-import { deskContext, followersOf, outletsHere } from "../../../src/core2/modules/press";
+import {
+  deskContext,
+  followersOf,
+  outletsHere,
+} from "../../../src/core2/modules/press";
 import type { WireItem } from "../../../src/core2/press-topics";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

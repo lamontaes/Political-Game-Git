@@ -12,7 +12,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { advanceCore } from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { familyFactsOf } from "../../../src/core2/modules/people";
 import { drawPlace } from "../../../scripts/core2-year/place";

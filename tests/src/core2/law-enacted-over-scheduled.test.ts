@@ -5,7 +5,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { resolveLawInForce } from "../../../src/core2/laws-in-force";
 import type { LawChain, LawRowInput } from "../../../src/core2/laws-starting";
-import { LAWS_MODULE_ID, enactLaw, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  enactLaw,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { coreAPI } from "../../../src/core2/state";
 
 // An act enacted in play stands against a rate the data scheduled for a later

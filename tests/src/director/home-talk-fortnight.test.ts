@@ -1,6 +1,9 @@
 import { fileURLToPath as __moveTestsFromUrl } from "node:url";
 import { dirname as __moveTestsDirname } from "node:path";
-const __moveTestsFile = __moveTestsFromUrl(new URL("../../../src/director/home-talk-fortnight.test.ts", import.meta.url).href);
+const __moveTestsFile = __moveTestsFromUrl(
+  new URL("../../../src/director/home-talk-fortnight.test.ts", import.meta.url)
+    .href,
+);
 const __moveTestsDir = __moveTestsDirname(__moveTestsFile);
 /**
  * Two weeks of talk at home, played (words composer, unit 2: talk through
@@ -143,7 +146,10 @@ const POINT_SIDES = new Map<string, readonly string[]>();
 for (const part of (
   JSON.parse(
     readFileSync(
-      path.resolve(__moveTestsDir, "../../data/english/parts/conversation.json"),
+      path.resolve(
+        __moveTestsDir,
+        "../../data/english/parts/conversation.json",
+      ),
       "utf8",
     ),
   ) as {

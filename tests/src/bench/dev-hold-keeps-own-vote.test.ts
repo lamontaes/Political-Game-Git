@@ -9,7 +9,10 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { LEGISLATURE_MODULE_ID, votesOn } from "../../../src/core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  votesOn,
+} from "../../../src/core2/modules/legislature";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
 

@@ -22,13 +22,19 @@ import {
 import { appointmentsIn } from "../../../src/core2/modules/executive";
 import { governments } from "../../../src/core2/modules/budgets";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { filingClerkFor, TOWN_CLERK_POST } from "../../../src/core2/modules/filing-clerk";
+import {
+  filingClerkFor,
+  TOWN_CLERK_POST,
+} from "../../../src/core2/modules/filing-clerk";
 import {
   outletsHere,
   PRESS_MODULE_ID,
   requestInterview,
 } from "../../../src/core2/modules/press";
-import { VOTING_MODULE_ID, pollingPlaceOf } from "../../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  pollingPlaceOf,
+} from "../../../src/core2/modules/voting";
 import { CIVIC_FILLS, civicFill } from "../../../src/director/civic-roles";
 import type { CoreAPI, CoreState } from "../../../src/core2/types";
 import type { Moment } from "../../../src/director/types";

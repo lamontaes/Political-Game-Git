@@ -29,9 +29,16 @@ import { drawPlace, type DrawnPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { renewalParameter } from "../../../src/core2/births-parameters";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
 import { RENEWAL_MODULE_ID } from "../../../src/core2/modules/renewal";
 import { sizeIn, WEB_LINKS } from "../../../src/core2/outcome-web-model";
 import { subjectWeight } from "../../../src/core2/outcome-web-reach";

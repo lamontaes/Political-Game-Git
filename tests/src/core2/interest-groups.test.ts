@@ -30,7 +30,10 @@ import {
 } from "../../../src/core2/modules/interest-groups";
 import { campaignParameter } from "../../../src/core2/campaign-data";
 import { governmentUnitsForPlace } from "../../../src/core2/reference/government-units";
-import { searchCorePlaces, corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+import {
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../../../src/core2/place-lookup";
 
 const START = "2026-01-05";
 const seed =

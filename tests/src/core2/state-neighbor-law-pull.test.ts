@@ -6,7 +6,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import stateReach from "../../../src/core2/data/places/state-reach.json";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { campaignParameter, PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
+import {
+  campaignParameter,
+  PLATFORM_QUESTIONS,
+} from "../../../src/core2/campaign-data";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { lawChain } from "../../../src/core2/modules/laws";
 import {

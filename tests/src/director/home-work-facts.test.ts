@@ -36,7 +36,10 @@ import { purposeScene } from "../../../src/director/purpose-scene";
 import { graduationResults } from "../../../src/director/school";
 import { employerWords } from "../../../src/director/words";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../../../src/core2/business-books";
-import { schoolShortSaid, workplaceSaid } from "../../../src/english/workplace-words";
+import {
+  schoolShortSaid,
+  workplaceSaid,
+} from "../../../src/english/workplace-words";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 5;

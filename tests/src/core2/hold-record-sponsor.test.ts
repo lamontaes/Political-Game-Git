@@ -10,7 +10,11 @@ import { CORRUPTION_MODULE_ID } from "../../../src/core2/modules/corruption";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { wordPrintedStory } from "../../../src/bench/archive-words";
 import { wireItem } from "../../../src/core2/press-topics";
-import { billOf, chambersOf, committeeRecords } from "../../../src/core2/modules/legislature";
+import {
+  billOf,
+  chambersOf,
+  committeeRecords,
+} from "../../../src/core2/modules/legislature";
 import { coreAPI } from "../../../src/core2/state";
 import { applyCoreEvent } from "../../../src/core2/state";
 

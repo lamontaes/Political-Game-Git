@@ -5,7 +5,11 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, daysBetweenText, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetweenText,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
   FAMILY_CONTACT,

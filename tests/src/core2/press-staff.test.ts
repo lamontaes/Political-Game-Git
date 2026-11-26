@@ -17,11 +17,19 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, daysBetweenText, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetweenText,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { OFFICIAL_PAY_MODULE_ID } from "../../../src/core2/modules/official-pay";
-import { outletsHere, pressParameter, PRESS_MODULE_ID } from "../../../src/core2/modules/press";
+import {
+  outletsHere,
+  pressParameter,
+  PRESS_MODULE_ID,
+} from "../../../src/core2/modules/press";
 import { officialHousehold } from "../../../src/core2/official-living";
 import { STAFF_ROLES, type StaffRow } from "../../../src/core2/press-staff";
 import { coreAPI } from "../../../src/core2/state";

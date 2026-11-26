@@ -14,7 +14,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { businessTradingMonth, ownerOf } from "../../../src/core2/modules/business";
+import {
+  businessTradingMonth,
+  ownerOf,
+} from "../../../src/core2/modules/business";
 import {
   JOBS_MODULE_ID,
   raiseUnfilledPay,

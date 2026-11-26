@@ -9,7 +9,10 @@ import { paydayLaw } from "../../../src/core2/counted-money";
 import { BUDGETS_MODULE_ID } from "../../../src/core2/modules/budgets";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { countryStateNow } from "../../../src/core2/modules/macro";
-import { regionalMonth, regionOfPlace } from "../../../src/core2/modules/regional";
+import {
+  regionalMonth,
+  regionOfPlace,
+} from "../../../src/core2/modules/regional";
 import { coreAPI } from "../../../src/core2/state";
 import type { CoreState } from "../../../src/core2/types";
 

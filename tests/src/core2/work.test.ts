@@ -3,10 +3,17 @@ import { DEFAULT_DATA } from "../../../src/core2/data";
 import { advanceDate } from "../../../src/core2/calendar";
 import { ensureWorkCashModule } from "../../../src/core2/work-cash";
 import { ensureFinanceCashModule } from "../../../src/core2/finance-cash";
-import { advanceCore, createLifeCore, chooseAct } from "../../../src/core2/life";
+import {
+  advanceCore,
+  createLifeCore,
+  chooseAct,
+} from "../../../src/core2/life";
 import { coreAPI } from "../../../src/core2/state";
 import { parameter as p } from "../../../src/core2/parameters";
-import { plannedWorkMinutesBetween, runScheduledWork } from "../../../src/core2/modules/work";
+import {
+  plannedWorkMinutesBetween,
+  runScheduledWork,
+} from "../../../src/core2/modules/work";
 import {
   publishedResidentEmploymentRate,
   DEFAULT_RESIDENT_EMPLOYMENT,

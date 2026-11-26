@@ -14,7 +14,10 @@
  */
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
-import { campaignDayChoices, takeCampaignDayChoice } from "../../../src/core2/campaign-day";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+} from "../../../src/core2/campaign-day";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {

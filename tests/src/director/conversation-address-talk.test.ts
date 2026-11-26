@@ -35,7 +35,11 @@ import type { CoreState, PersonId } from "../../../src/core2/types";
 import { questionSubject } from "../../../src/english/policy-names";
 import { questionAbout, questionTo } from "../../../src/english/question-names";
 import rules from "../../../src/director/data/conversation-rules.json" with { type: "json" };
-import { addressPointFor, composedLine, subjectsBetween } from "../../../src/director/conversation";
+import {
+  addressPointFor,
+  composedLine,
+  subjectsBetween,
+} from "../../../src/director/conversation";
 import {
   ADDRESS_FACT,
   addressPoints,

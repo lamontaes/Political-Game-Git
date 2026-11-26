@@ -15,7 +15,10 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { coreAPI } from "../../../src/core2/state";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { businessesIn } from "../../../src/core2/modules/business";
-import { industryTally, industryBusiness } from "../../../src/bench/dev-industries";
+import {
+  industryTally,
+  industryBusiness,
+} from "../../../src/bench/dev-industries";
 
 setBookkeeping(false);
 const placeKey = "3813180";

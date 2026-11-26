@@ -2,9 +2,15 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { drawPlace } from "../../../scripts/core2-year/place";
-import { appointerWeighing, nominateAndConfirm } from "../../../src/core2/appointments";
+import {
+  appointerWeighing,
+  nominateAndConfirm,
+} from "../../../src/core2/appointments";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
-import { decisionLean, decisionTraitWeight } from "../../../src/core2/trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+} from "../../../src/core2/trait-decisions";
 import { gameStartDate } from "../../../src/core2/game-start";
 
 // An appointer's own traits tilt how they weigh a nominee between loyalty

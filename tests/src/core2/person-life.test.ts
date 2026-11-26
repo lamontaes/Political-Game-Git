@@ -12,13 +12,24 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { isDemoted } from "../../../src/core2/counted-groups";
-import { canReturnToCounts, demoteHousehold } from "../../../src/core2/modules/counted-demotion";
+import {
+  canReturnToCounts,
+  demoteHousehold,
+} from "../../../src/core2/modules/counted-demotion";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { openWholePast } from "../../../src/core2/modules/people";
-import { lifeOf, lifeSummary, REMEMBERED_RECORD_KINDS } from "../../../src/core2/person-life";
+import {
+  lifeOf,
+  lifeSummary,
+  REMEMBERED_RECORD_KINDS,
+} from "../../../src/core2/person-life";
 import table from "../../../src/core2/data/life/remembered.json" with { type: "json" };
 import parameters from "../../../src/core2/data/life/parameters.json" with { type: "json" };
-import { coreAPI, fillInPerson, personOrFillIn } from "../../../src/core2/state";
+import {
+  coreAPI,
+  fillInPerson,
+  personOrFillIn,
+} from "../../../src/core2/state";
 import type {
   CoreEventInput,
   CoreState,

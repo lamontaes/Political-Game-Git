@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { filingOfficeFor, playerContests } from "../../../src/core2/modules/elections";
+import {
+  filingOfficeFor,
+  playerContests,
+} from "../../../src/core2/modules/elections";
 import { filingClerkFor } from "../../../src/core2/modules/filing-clerk";
 import { searchCorePlaces } from "../../../src/core2/place-lookup";
 import { coreAPI } from "../../../src/core2/state";

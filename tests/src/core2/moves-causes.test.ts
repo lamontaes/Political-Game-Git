@@ -14,7 +14,11 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import {
   MOVES_PARAMETERS,
@@ -39,7 +43,10 @@ const DRAW_MS = 600_000;
 
 it("reads no cap or cutoff parameter", () => {
   const source = readFileSync(
-    new URL("./modules/moves.ts", (new URL("../../../src/core2/moves-causes.test.ts", import.meta.url).href)),
+    new URL(
+      "./modules/moves.ts",
+      new URL("../../../src/core2/moves-causes.test.ts", import.meta.url).href,
+    ),
     "utf8",
   );
   for (const key of GONE) {

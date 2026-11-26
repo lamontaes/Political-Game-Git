@@ -6,7 +6,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { ELECTIONS_MODULE_ID } from "../../../src/core2/modules/elections";
-import { VOTING_MODULE_ID, dropOlderTownReturns } from "../../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  dropOlderTownReturns,
+} from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

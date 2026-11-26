@@ -23,7 +23,10 @@ import {
   outsideRevenueMonthly,
 } from "../../../src/core2/budgets-treasury";
 import { lawChain } from "../../../src/core2/modules/laws";
-import { BUDGETS_MODULE_ID, governments } from "../../../src/core2/modules/budgets";
+import {
+  BUDGETS_MODULE_ID,
+  governments,
+} from "../../../src/core2/modules/budgets";
 import { coreAPI } from "../../../src/core2/state";
 import charges from "../../../data/research/money/service-charges-2022.json" with { type: "json" };
 

@@ -32,8 +32,14 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { COUNTED_MOVES_MODULE_ID, runtimeOf } from "../../../src/core2/modules/counted-moves";
-import { residentsRuntime, townPlaceOf } from "../../../src/core2/modules/residents";
+import {
+  COUNTED_MOVES_MODULE_ID,
+  runtimeOf,
+} from "../../../src/core2/modules/counted-moves";
+import {
+  residentsRuntime,
+  townPlaceOf,
+} from "../../../src/core2/modules/residents";
 import { coreAPI } from "../../../src/core2/state";
 
 setBookkeeping(false);

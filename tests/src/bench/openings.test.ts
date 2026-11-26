@@ -7,7 +7,10 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../../scripts/core2-year/place";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { JOBS_MODULE_ID, type PositionRow } from "../../../src/core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  type PositionRow,
+} from "../../../src/core2/modules/jobs";
 import { coreAPI } from "../../../src/core2/state";
 import { openingsView } from "../../../src/bench/openings";
 import { buildBenchWorld } from "../../../src/bench/world";

@@ -9,7 +9,11 @@ import { coreAPI, fillInPerson } from "../../../src/core2/state";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { enactLaw, lawChain, lawInForce } from "../../../src/core2/modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+} from "../../../src/core2/modules/laws";
 import { renewRentalLeases } from "../../../src/core2/housing-occupancy";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { stancesOf } from "../../../src/core2/modules/views";

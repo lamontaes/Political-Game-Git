@@ -18,8 +18,14 @@ import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { wireItem } from "../../../src/core2/press-topics";
-import { LEGISLATURE_MODULE_ID, type BillRow } from "../../../src/core2/modules/legislature";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../../../src/core2/modules/legislature";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { outletsHere, storiesPrinted } from "../../../src/core2/modules/press";
 import type { CoreEventInput } from "../../../src/core2/types";
 

@@ -8,7 +8,11 @@ import {
   type Fact,
   type SceneMove,
 } from "../../../src/english/scene-talk-words";
-import { follows, tableOf, type ReplyFollowsTable } from "../../../src/english/reply-follows";
+import {
+  follows,
+  tableOf,
+  type ReplyFollowsTable,
+} from "../../../src/english/reply-follows";
 import { replyPairs } from "../../../src/english/reply-pairs";
 import { talkReplyFlow, talkScenes } from "../../../src/director/scene-talk";
 import {

@@ -6,10 +6,18 @@
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "../../../src/core2/life";
 import { CREDIT_MODULE } from "../../../src/core2/modules/credit";
-import { MACRO_MODULE, withCentralBank } from "../../../src/core2/modules/macro";
+import {
+  MACRO_MODULE,
+  withCentralBank,
+} from "../../../src/core2/modules/macro";
 import { worldCoreData } from "../../../src/core2/modules/world";
 import { coreAPI } from "../../../src/core2/state";
-import type { CoreInput, CoreState, PersonInput, Source } from "../../../src/core2/types";
+import type {
+  CoreInput,
+  CoreState,
+  PersonInput,
+  Source,
+} from "../../../src/core2/types";
 
 const start = "2026-10-01",
   place = "place:household-money";

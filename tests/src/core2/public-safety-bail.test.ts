@@ -17,7 +17,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { setJournalTrace } from "../../../src/core2/journal-state";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { countedCases, escrowOf, type CountedCaseRow } from "../../../src/core2/modules/justice";
+import {
+  countedCases,
+  escrowOf,
+  type CountedCaseRow,
+} from "../../../src/core2/modules/justice";
 import { coreAPI } from "../../../src/core2/state";
 
 const ATTEMPTS = 4;

@@ -32,7 +32,10 @@ import type { PersonId } from "../../../src/core2/types";
 import type { Fact, wordJournalLine } from "../../../src/english/journal-words";
 import { topicInSentence } from "../../../src/english/policy-names";
 import { composeJournal } from "../../../src/director/journal";
-import { laterRecordsOf, officePhrase } from "../../../src/director/journal-later";
+import {
+  laterRecordsOf,
+  officePhrase,
+} from "../../../src/director/journal-later";
 
 const packets: Record<string, Fact>[] = [];
 

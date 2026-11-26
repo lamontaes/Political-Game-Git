@@ -1,14 +1,25 @@
 /** M1-08 first cut: owners and owner draws from profit, on a recorded fixture. */
 import { describe, expect, it } from "vitest";
-import { advanceCore, createLifeCore, chooseAct } from "../../../src/core2/life";
-import { BUSINESS_MODULE, estateHeir, ownerOf } from "../../../src/core2/modules/business";
+import {
+  advanceCore,
+  createLifeCore,
+  chooseAct,
+} from "../../../src/core2/life";
+import {
+  BUSINESS_MODULE,
+  estateHeir,
+  ownerOf,
+} from "../../../src/core2/modules/business";
 import { DEFAULT_DATA } from "../../../src/core2/data";
 import { worldCoreData } from "../../../src/core2/modules/world";
 import { coreAPI } from "../../../src/core2/state";
 import { transferCash } from "../../../src/core2/world-transfer";
 import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { depositsHeld } from "../../../src/core2/accounts";
-import { countedFundOf, residentsRuntime } from "../../../src/core2/modules/residents";
+import {
+  countedFundOf,
+  residentsRuntime,
+} from "../../../src/core2/modules/residents";
 import type { BusinessBooksState } from "../../../src/core2/finance-types";
 import { randomBytes } from "node:crypto";
 import { drawPlace } from "../../../scripts/core2-year/place";
@@ -177,7 +188,8 @@ async function foundingCore(
   unfunded = false,
 ) {
   const { CREDIT_MODULE } = await import("../../../src/core2/modules/credit");
-  const { MACRO_MODULE, withCentralBank } = await import("../../../src/core2/modules/macro");
+  const { MACRO_MODULE, withCentralBank } =
+    await import("../../../src/core2/modules/macro");
   const place2 = "place:founding-fixture",
     residentsId = "residents:founding-fixture";
   const s2: Source = { ...src, asOf: "2026-10-01" };

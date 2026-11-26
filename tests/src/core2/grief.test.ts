@@ -3,7 +3,12 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../../src/core2/civic-inputs";
 import { currentCloseness } from "../../../src/core2/closeness";
 import { GRIEF, griefHalfLifeDays, griefToday } from "../../../src/core2/grief";
-import { advanceCore, availableActs, chooseAct, createLifeCore } from "../../../src/core2/life";
+import {
+  advanceCore,
+  availableActs,
+  chooseAct,
+  createLifeCore,
+} from "../../../src/core2/life";
 import { parameter } from "../../../src/core2/parameters";
 import { buildPopulation } from "../../../src/core2/population";
 import { coreAPI } from "../../../src/core2/state";

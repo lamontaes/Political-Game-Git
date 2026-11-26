@@ -10,14 +10,21 @@
  */
 import { describe, expect, it } from "vitest";
 import { schoolsOf } from "../../../src/bench/words";
-import { piecesInput, piecesSource } from "../../../src/core2/core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../../src/core2/core-pieces-fixture";
 import { createLifeCore } from "../../../src/core2/life";
 import {
   PERSON_MOVED_IN,
   SCHOOL_STARTED,
   schoolsAttended,
 } from "../../../src/core2/past-module";
-import { preStartHistory, preStartWindow, runPreStart } from "../../../src/core2/pre-start";
+import {
+  preStartHistory,
+  preStartWindow,
+  runPreStart,
+} from "../../../src/core2/pre-start";
 import type { CoreInput } from "../../../src/core2/types";
 
 function world(parentBornIn: string): CoreInput {

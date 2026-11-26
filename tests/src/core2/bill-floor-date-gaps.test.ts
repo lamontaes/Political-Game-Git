@@ -13,7 +13,12 @@ import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
 import { askLeaderForHearing } from "../../../src/core2/office-day-state";
 import { lawInForce } from "../../../src/core2/modules/laws";
-import { floorDateOf, memberKey, members, billOf } from "../../../src/core2/modules/legislature";
+import {
+  floorDateOf,
+  memberKey,
+  members,
+  billOf,
+} from "../../../src/core2/modules/legislature";
 import { townSeats } from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 

@@ -11,8 +11,14 @@ import creditData from "../../../src/core2/data/credit/credit.json" with { type:
 import { collapseToTwoLevels } from "../../../src/core2/residents";
 import { residentsRuntime } from "../../../src/core2/modules/residents";
 import { fillInPerson, registerModule } from "../../../src/core2/state";
-import { CREDIT_MODULE, personalBorrowingDecision } from "../../../src/core2/modules/credit";
-import { MACRO_MODULE, withCentralBank } from "../../../src/core2/modules/macro";
+import {
+  CREDIT_MODULE,
+  personalBorrowingDecision,
+} from "../../../src/core2/modules/credit";
+import {
+  MACRO_MODULE,
+  withCentralBank,
+} from "../../../src/core2/modules/macro";
 import { worldCoreData } from "../../../src/core2/modules/world";
 import { hardshipStress } from "../../../src/core2/trait-decisions";
 import { coreAPI } from "../../../src/core2/state";

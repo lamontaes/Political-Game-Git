@@ -21,7 +21,11 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import type { LawRowInput } from "../../../src/core2/laws-starting";
 import { advanceCore } from "../../../src/core2/life";
-import { LAWS_MODULE_ID, lawChain, lawHere } from "../../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawHere,
+} from "../../../src/core2/modules/laws";
 import { POLICY_QUESTIONS } from "../../../src/core2/policy-answers";
 import { coreAPI } from "../../../src/core2/state";
 import { centuryLaw } from "../../../src/core2/electorate-century";

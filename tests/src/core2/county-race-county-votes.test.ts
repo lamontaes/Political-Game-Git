@@ -17,8 +17,14 @@ import { countyPlaceIdOf } from "../../../src/core2/electorate-places";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { advanceCore } from "../../../src/core2/life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "../../../src/core2/modules/elections";
-import { VOTING_MODULE_ID, type ResultRow } from "../../../src/core2/modules/voting";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../../src/core2/modules/elections";
+import {
+  VOTING_MODULE_ID,
+  type ResultRow,
+} from "../../../src/core2/modules/voting";
 import { coreAPI } from "../../../src/core2/state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");

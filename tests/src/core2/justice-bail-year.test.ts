@@ -33,7 +33,10 @@ import {
   type ComplaintRow,
   type InvestigationRow,
 } from "../../../src/core2/modules/justice";
-import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../../src/core2/modules/offices";
 import { coreAPI } from "../../../src/core2/state";
 import { townResidentsByCash } from "../../../src/core2/resident-adults-test-kit";
 

@@ -8,7 +8,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { LEASE_SIGNED } from "../../../src/core2/housing-past";
 import { HOUSING_MODULE_ID } from "../../../src/core2/modules/housing";
 import { tenureScaleOf } from "../../../src/core2/opening-tenure";
-import { preStartHistory, preStartWindowOf } from "../../../src/core2/pre-start";
+import {
+  preStartHistory,
+  preStartWindowOf,
+} from "../../../src/core2/pre-start";
 import { coreAPI } from "../../../src/core2/state";
 
 // Day one's vacant rentals come from the town's own past (History; the CTO's

@@ -16,7 +16,11 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
-import { addDays, daysBetween, makeIsoDate } from "../../../src/core2/kernel/dates";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+} from "../../../src/core2/kernel/dates";
 import {
   ELECTIONS_MODULE_ID,
   type FilingRow,
@@ -24,8 +28,15 @@ import {
 import { advancePlayerV1, resumePlayerV1 } from "../../../src/core2/player-v1";
 import { coreAPI } from "../../../src/core2/state";
 import type { PersonId } from "../../../src/core2/types";
-import { noteHeard, openConversation, say } from "../../../src/director/conversation";
-import { purposeScene, replyInScene } from "../../../src/director/purpose-scene";
+import {
+  noteHeard,
+  openConversation,
+  say,
+} from "../../../src/director/conversation";
+import {
+  purposeScene,
+  replyInScene,
+} from "../../../src/director/purpose-scene";
 
 const EVENING = 20 * 60 + 30;
 const VOTE = "2025-11-04";

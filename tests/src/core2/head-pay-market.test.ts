@@ -8,7 +8,10 @@ import { gameStartDate } from "../../../src/core2/game-start";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { postHourlyMinor } from "../../../src/core2/modules/staff";
 import { coreAPI } from "../../../src/core2/state";
-import { appointeeHourlyMinor, townPayNow } from "../../../src/core2/town-labor-pay";
+import {
+  appointeeHourlyMinor,
+  townPayNow,
+} from "../../../src/core2/town-labor-pay";
 
 // An appointed department head is paid from the town's own labor market, near
 // the top of what its private jobs pay, and moves when the town's pay moves.

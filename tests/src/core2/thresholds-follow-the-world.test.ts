@@ -15,7 +15,10 @@ import thresholds from "../../../src/core2/data/world-metrics/poverty-thresholds
 import COUNTED from "../../../src/core2/data/counted/parameters.json" with { type: "json" };
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { incomeBandOf, incomeBandOn } from "../../../src/core2/counted-income-fifth";
+import {
+  incomeBandOf,
+  incomeBandOn,
+} from "../../../src/core2/counted-income-fifth";
 import { lawChain } from "../../../src/core2/modules/laws";
 import { advanceCore } from "../../../src/core2/life";
 import { povertyLineDollars as hhsLineDollars } from "../../../src/core2/law-reach/poverty-line";
@@ -31,7 +34,10 @@ import {
 import { retirementAwardMonthlyMinor } from "../../../src/core2/modules/retirement-claims";
 import { coreAPI } from "../../../src/core2/state";
 import { sinceOpeningIndex, taxIndexOf } from "../../../src/core2/tax-index";
-import { householdPoverty, povertyThresholdMinor } from "../../../src/core2/world-poverty";
+import {
+  householdPoverty,
+  povertyThresholdMinor,
+} from "../../../src/core2/world-poverty";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(replay, "thresholds-follow-the-world");

@@ -7,10 +7,20 @@ import { buildBenchWorld } from "../../../src/bench/world";
 import { setBookkeeping } from "../../../src/core2/bookkeeping";
 import { gameStartDate } from "../../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../../src/core2/kernel/dates";
-import { inTownChain, officeLawJurisdiction } from "../../../src/core2/laws-in-force";
-import { lawChainForPlace, type LawRowInput } from "../../../src/core2/laws-starting";
+import {
+  inTownChain,
+  officeLawJurisdiction,
+} from "../../../src/core2/laws-in-force";
+import {
+  lawChainForPlace,
+  type LawRowInput,
+} from "../../../src/core2/laws-starting";
 import { advanceCore } from "../../../src/core2/life";
-import { lawChain, lawInForce, LAWS_MODULE_ID } from "../../../src/core2/modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../../../src/core2/modules/laws";
 import {
   billJurisdiction,
   bodyJurisdiction,
@@ -23,7 +33,10 @@ import {
 } from "../../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../../src/core2/modules/offices";
 import { sessionsOf } from "../../../src/core2/modules/world-legislating";
-import { localOfficesForPlace, type OfficeInput } from "../../../src/core2/offices-local";
+import {
+  localOfficesForPlace,
+  type OfficeInput,
+} from "../../../src/core2/offices-local";
 import { governmentUnit } from "../../../src/core2/reference/government-units";
 import { coreAPI } from "../../../src/core2/state";
 

@@ -31,14 +31,24 @@ import {
   isLocalFamily,
   type ContestRow,
 } from "../../../src/core2/modules/elections";
-import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "../../../src/core2/modules/outcome-web";
-import { closedNewspapers, outletsHere } from "../../../src/core2/modules/press";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../../src/core2/modules/outcome-web";
+import {
+  closedNewspapers,
+  outletsHere,
+} from "../../../src/core2/modules/press";
 import {
   turnoutOn,
   VOTING_MODULE_ID,
   type TurnoutReasonsRecord,
 } from "../../../src/core2/modules/voting";
-import { linkCoverage, WEB_LINKS, WIRED_INTO } from "../../../src/core2/outcome-web-model";
+import {
+  linkCoverage,
+  WEB_LINKS,
+  WIRED_INTO,
+} from "../../../src/core2/outcome-web-model";
 import { coreAPI } from "../../../src/core2/state";
 import { propensityOf, type TurnoutParts } from "../../../src/core2/turnout";
 import { ageOnElection } from "../../../src/core2/turnout-web";

@@ -19,7 +19,10 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { traitLean } from "../../../src/core2/choice";
 import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
 import { createLifeCore } from "../../../src/core2/life";
-import { corruptionModule, takeValues } from "../../../src/core2/modules/corruption";
+import {
+  corruptionModule,
+  takeValues,
+} from "../../../src/core2/modules/corruption";
 import rows from "../../../src/core2/data/corruption/parameters.json" with { type: "json" };
 import { buildPopulation } from "../../../src/core2/population";
 import { coreAPI } from "../../../src/core2/state";
