@@ -55,9 +55,6 @@ const PLACES = staging.places as unknown as Readonly<
   Record<string, PlaceStaging>
 >;
 
-/** The place pictures are all 1672 x 941. */
-export const BACKDROP_ASPECT = 1672 / 941;
-
 export function backdropStaging(place: string): PlaceStaging | null {
   return PLACES[place] ?? null;
 }
