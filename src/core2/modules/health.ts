@@ -77,6 +77,9 @@ import type {
   PersonState,
   Source,
 } from "../types";
+export { retellingsOf, speechModule } from "./speech";
+export { DEFAULT_DRIVES_DATA, createDrivesModule, withDrives } from "./drives";
+export { TRAIT_CHANGE_MODULE } from "./trait-change";
 
 /**
  * P10 producer, not a health engine: the existing Ruling 29/38/39 mortality
