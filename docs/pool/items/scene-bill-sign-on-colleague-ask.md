@@ -33,6 +33,6 @@ root: rc6-scenes-repeat
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/data/campaigns/parameters.json, src/core2/data/legislature/vote-replies.json, src/core2/data/life/remembered.json, src/director/data/director.json, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/scene-talk.ts, src/director/purpose-scene.ts, src/bench/data/scene-places.json, data/english/parts/scene-talk.json, src/director/bill-sign-on.test.ts (new)
+**Files.** src/core2/modules/legislature.ts, src/core2/data/campaigns/parameters.json, src/core2/data/legislature/vote-replies.json, src/core2/data/life/remembered.json, src/director/data/director.json, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/scene-talk.ts, src/director/purpose-scene.ts, src/bench/data/scene-places.json, data/english/parts/scene-talk.json, tests/src/director/bill-sign-on.test.ts (new)
 
 **Notes.** 2026-11-14: the director's season cap (situation-types.json `seasonCap`, six moments of a type in 91 days) also holds the player's own sign-on asks; a player who drafts bills on many days of one season sees the later asks as Journal lines only (Manteca CA, seed 1d3c1565, a second ask on 2025-02-12 held). Asks drafted on one day fold into one sitting (`repeatsBy: bill`).

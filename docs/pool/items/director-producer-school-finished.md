@@ -17,7 +17,7 @@ claimed-at: 2026-10-27T18:17:19.931Z
 
 **Rules.** Wire to the world: the scene reads the school engine's own graduation result and attended records, and casts a classmate who attended the same school that year, never a drawn person. No dice: whether the player graduated is the school engine's decision, and the celebration plays only when it says they did. One rule, all 56 places: the school year's last day comes from each place's own calendar data.
 
-**Done when.** In a buildBenchWorld drawn place with the seed named, a played year through the player clock in src/director/circumstance.test.ts stages last-day at the player's school on the result's day, citing the graduation result's record id and a classmate cast, and celebration at home the next day when the result says passed; the scene web report shows two fewer rows waiting on a producer.
+**Done when.** In a buildBenchWorld drawn place with the seed named, a played year through the player clock in tests/src/director/circumstance.test.ts stages last-day at the player's school on the result's day, citing the graduation result's record id and a classmate cast, and celebration at home the next day when the result says passed; the scene web report shows two fewer rows waiting on a producer.
 
 **Files.** src/director/school.ts, src/director/data/circumstances.json, src/director/data/situation-types.json, src/director/scheduling.ts
 

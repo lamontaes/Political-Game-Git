@@ -16,8 +16,8 @@ source: added with npm run pool -- add
 
 **Rules.** Sliding scales and causes: the workload weighs fully at a full desk and no more, as its parameter says, never a hard cutoff. One rule, all 56 places: the hearing waits the place's own time to disposition from its research row, and tests build the place they draw. No dice: the plea, the pretrial decision and the charge come from the recorded reasons, never a roll.
 
-**Done when.** On the day of a charge each charged defendant is still charged and held under the pretrial rule, with at least one who pleaded, and the plea is entered at the hearing (src/core2/justice-pretrial.test.ts, failing with the same-day conviction put back). The forfeiture test convicts officials who took a bribe with the workload capped, and fails without the cap. A played year with the bribe offers forced as a fixture shows a posted bail's journal entry ids out of the person's account and back at the hearing (src/core2/justice-bail-year.test.ts). The justice tests pass.
+**Done when.** On the day of a charge each charged defendant is still charged and held under the pretrial rule, with at least one who pleaded, and the plea is entered at the hearing (tests/src/core2/justice-pretrial.test.ts, failing with the same-day conviction put back). The forfeiture test convicts officials who took a bribe with the workload capped, and fails without the cap. A played year with the bribe offers forced as a fixture shows a posted bail's journal entry ids out of the person's account and back at the hearing (tests/src/core2/justice-bail-year.test.ts). The justice tests pass.
 
-**Files.** src/core2/modules/justice.ts, src/core2/justice-pretrial.ts, src/core2/justice-pretrial.test.ts, src/core2/justice-witness.test.ts, src/core2/justice-bail-year.test.ts, src/core2/justice-forfeiture.test.ts
+**Files.** src/core2/modules/justice.ts, src/core2/justice-pretrial.ts, tests/src/core2/justice-pretrial.test.ts, tests/src/core2/justice-witness.test.ts, tests/src/core2/justice-bail-year.test.ts, tests/src/core2/justice-forfeiture.test.ts
 
 **Notes.** TODO

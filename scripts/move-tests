@@ -1,0 +1,329 @@
+#!/usr/bin/env node
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+// Move tracked test entrypoints. Paths in tests/src mirror their original names.
+("use strict");
+const { execFileSync } = require("node:child_process");
+const fs = require("node:fs");
+const path = require("node:path");
+const ts = require("typescript");
+const root = execFileSync("git", ["rev-parse", "--show-toplevel"], {
+  encoding: "utf8",
+}).trim();
+process.chdir(root);
+const p = path.posix;
+const tracked = execFileSync("git", ["ls-files", "-z"], {
+  encoding: "utf8",
+  maxBuffer: 16 * 1024 * 1024,
+})
+  .split("\0")
+  .filter(Boolean);
+const test = /\.(?:test\.[cm]?[jt]sx?|spec\.ts|browser\.mjs)$/;
+const moves = new Map(
+  tracked
+    .filter((f) => f.startsWith("src/") && test.test(f))
+    .map((f) => [f, "tests/" + f]),
+);
+const redirects = new Map(moves);
+for (const file of tracked) {
+  if (file.startsWith("tests/src/") && test.test(file))
+    redirects.set(file.slice(6), file);
+}
+const textFile =
+  /\.(?:[cm]?[jt]sx?|jsonc?|md|mdx|ya?ml|txt|sh|css|html|py|toml)$/;
+const scriptFile = /\.[cm]?[jt]sx?$/;
+const known = new Set([...tracked, ...redirects.keys()]);
+const resolveTarget = (file, spec) => {
+  const exact = p.normalize(p.join(p.dirname(file), spec));
+  if (known.has(exact)) return [exact, ""];
+  const suffixes = [
+    ".ts",
+    ".tsx",
+    ".mts",
+    ".js",
+    ".mjs",
+    ".json",
+    "/index.ts",
+    "/index.mjs",
+  ];
+  for (const suffix of suffixes)
+    if (known.has(exact + suffix)) return [exact + suffix, suffix];
+  if (/\.[cm]?js$/.test(exact)) {
+    for (const variant of [
+      exact.replace(/\.js$/, ".ts"),
+      exact.replace(/\.mjs$/, ".mts"),
+    ])
+      if (known.has(variant)) return [variant, "", p.extname(exact)];
+  }
+  return null;
+};
+const relative = (file, target) => {
+  const spec = p.relative(p.dirname(file), target);
+  return spec.startsWith(".") ? spec : "./" + spec;
+};
+function updateCode(file, destination, contents) {
+  if (
+    destination === file &&
+    !/\.(?:test|spec|browser)(?:[.'"\x60])/.test(contents)
+  )
+    return contents;
+  const source = ts.createSourceFile(
+    file,
+    contents,
+    ts.ScriptTarget.Latest,
+    true,
+  );
+  const edits = [];
+  const replace = (node, value) =>
+    edits.push([node.getStart(source), node.end, value]);
+  const legacyUrl =
+    "new URL(" +
+    JSON.stringify(relative(destination, file)) +
+    ", import.meta.url).href";
+  let needsDir = false;
+  const isImportMeta = (node) =>
+    ts.isMetaProperty(node) &&
+    node.keywordToken === ts.SyntaxKind.ImportKeyword;
+  function walk(node) {
+    if (ts.isStringLiteralLike(node) && /^\.\.?\//.test(node.text)) {
+      const parent = node.parent;
+      const importPath =
+        ((ts.isImportDeclaration(parent) || ts.isExportDeclaration(parent)) &&
+          parent.moduleSpecifier === node) ||
+        ts.isExternalModuleReference(parent) ||
+        (ts.isLiteralTypeNode(parent) && ts.isImportTypeNode(parent.parent)) ||
+        (ts.isCallExpression(parent) &&
+          parent.arguments[0] === node &&
+          (parent.expression.kind === ts.SyntaxKind.ImportKeyword ||
+            (ts.isIdentifier(parent.expression) &&
+              ["require", "mock", "viMock"].includes(parent.expression.text)) ||
+            (ts.isPropertyAccessExpression(parent.expression) &&
+              [
+                "mock",
+                "doMock",
+                "unmock",
+                "importActual",
+                "importMock",
+                "resolve",
+              ].includes(parent.expression.name.text))));
+      if (importPath) {
+        const target = resolveTarget(file, node.text);
+        const mapped = target && (redirects.get(target[0]) ?? target[0]);
+        if (mapped && (mapped !== target[0] || destination !== file)) {
+          const rewritten = relative(
+            destination,
+            target[1]
+              ? mapped.slice(0, -target[1].length)
+              : target[2]
+                ? mapped.slice(0, -p.extname(mapped).length) + target[2]
+                : mapped,
+          );
+          if (rewritten !== node.text) replace(node, JSON.stringify(rewritten));
+        }
+      }
+    } else if (
+      destination !== file &&
+      ts.isPropertyAccessExpression(node) &&
+      isImportMeta(node.expression)
+    ) {
+      if (node.name.text === "url") replace(node, "(" + legacyUrl + ")");
+      if (node.name.text === "dirname" || node.name.text === "filename") {
+        needsDir = true;
+        replace(
+          node,
+          node.name.text === "dirname" ? "__moveTestsDir" : "__moveTestsFile",
+        );
+      }
+    } else if (
+      destination !== file &&
+      ts.isIdentifier(node) &&
+      ["__dirname", "__filename"].includes(node.text) &&
+      !(ts.isPropertyAccessExpression(node.parent) && node.parent.name === node)
+    ) {
+      needsDir = true;
+      replace(
+        node,
+        node.text === "__dirname" ? "__moveTestsDir" : "__moveTestsFile",
+      );
+    }
+    ts.forEachChild(node, walk);
+  }
+  walk(source);
+  for (const [start, end, value] of edits.sort((a, b) => b[0] - a[0])) {
+    contents = contents.slice(0, start) + value + contents.slice(end);
+  }
+  if (needsDir) {
+    const prelude = [
+      'import { fileURLToPath as __moveTestsFromUrl } from "node:url";',
+      'import { dirname as __moveTestsDirname } from "node:path";',
+      "const __moveTestsFile = __moveTestsFromUrl(" + legacyUrl + ");",
+      "const __moveTestsDir = __moveTestsDirname(__moveTestsFile);",
+      "",
+    ].join("\n");
+    // Keep a shebang first when present.
+    const at = contents.startsWith("#!") ? contents.indexOf("\n") + 1 : 0;
+    contents = contents.slice(0, at) + prelude + contents.slice(at);
+  }
+  return contents;
+}
+const explicit =
+  /(?<![\w/.-])src\/[\w./-]+\.(?:test\.[cm]?[jt]sx?|spec\.ts|browser\.mjs)(?![\w/-]|\.[\w-])/g;
+const testSelector = String.raw`\.test\.tsx?$`;
+const testAndSpecSelector = String.raw`\.(test|spec)\.tsx?$`;
+const noteRewrites = new Map([
+  [
+    "src/bench/m1-10-check.ts",
+    [["src/core2/views.test.ts", "tests/src/core2/views.test.ts"]],
+  ],
+  [
+    "tests/src/bench/history-reader-proof.test.ts",
+    [
+      [
+        "(scripts/words/first-evening-packet.ts)",
+        "(the archived first-evening packet)",
+      ],
+    ],
+  ],
+  [
+    "tests/src/core2/day-zero.test.ts",
+    [
+      [
+        "`data/opening/day-zero.json`",
+        "`src/core2/data/opening/day-zero.json`",
+      ],
+    ],
+  ],
+  [
+    "tests/src/core2/executive-ties.test.ts",
+    [
+      [
+        "// data/legislature/executive-sittings.json",
+        "// src/core2/data/legislature/executive-sittings.json",
+      ],
+    ],
+  ],
+  [
+    "tests/src/core2/life-kinds-told.test.ts",
+    [
+      [
+        "row in data/life/remembered.json",
+        "row in src/core2/data/life/remembered.json",
+      ],
+    ],
+  ],
+  [
+    "tests/src/core2/macro.test.ts",
+    [
+      [
+        "proof is tooling/macro-proof.ts",
+        "proof is src/core2/tooling/macro-proof.ts",
+      ],
+    ],
+  ],
+  [
+    "tests/src/core2/player-first-race.test.ts",
+    [
+      [
+        "`data/offices/player-offices.json`",
+        "`src/core2/data/offices/player-offices.json`",
+      ],
+    ],
+  ],
+  [
+    "tests/src/core2/sales-tax-base.test.ts",
+    [
+      [
+        "(data/laws/sales-tax-base.json",
+        "(src/core2/data/laws/sales-tax-base.json",
+      ],
+    ],
+  ],
+  [
+    "tests/src/director/circumstance.test.ts",
+    [
+      [
+        "the offer card's Take it, `src/bench/jobs.ts`",
+        "the offer card's Take it control",
+      ],
+    ],
+  ],
+]);
+const config = new Map([
+  [
+    "src/core2/tooling/vitest.config.ts",
+    [['"src/core2/**/*.test.ts"', '"tests/src/core2/**/*.test.ts"']],
+  ],
+  [
+    "src/director/vitest.config.ts",
+    [['"src/director/**/*.test.ts"', '"tests/src/director/**/*.test.ts"']],
+  ],
+  [".github/workflows/validate.yml", [[testSelector, testAndSpecSelector]]],
+  [
+    "vite.config.ts",
+    [["  test: {", "  test: {\n    include: configDefaults.include,"]],
+  ],
+]);
+function preserveNodeTypechecks(contents) {
+  const configFile = ts.readConfigFile("tsconfig.node.json", ts.sys.readFile);
+  if (configFile.error)
+    throw new Error("Could not read the node typecheck config");
+  const parsed = ts.parseJsonConfigFileContent(configFile.config, ts.sys, root);
+  const moved = parsed.fileNames
+    .map((file) => moves.get(p.relative(root, file)))
+    .filter((file) => file && !contents.includes(JSON.stringify(file)));
+  if (!moved.length) return contents;
+  const marker = '  "include": [';
+  if (!contents.includes(marker))
+    throw new Error("Node config include anchor changed");
+  return contents.replace(
+    marker,
+    marker +
+      "\n" +
+      moved
+        .sort()
+        .map((file) => "    " + JSON.stringify(file) + ",")
+        .join("\n"),
+  );
+}
+const dryRun = process.argv.includes("--dry-run");
+for (const [from, to] of moves) {
+  if (fs.existsSync(from) && fs.existsSync(to))
+    throw new Error("Test destination already exists: " + to);
+  if (!fs.existsSync(from) && !fs.existsSync(to))
+    throw new Error("Missing test: " + from);
+}
+const changes = [];
+for (const file of tracked) {
+  if (!textFile.test(file) || !fs.existsSync(file)) continue;
+  const destination = moves.get(file) ?? file;
+  const before = fs.readFileSync(file, "utf8");
+  let after = before;
+  if (scriptFile.test(file)) after = updateCode(file, destination, after);
+  // Prose, tools and test commands use repository-relative paths.
+  // Game source and word banks stay byte-identical except actual cross-test imports.
+  if (!/^(?:src|public|art|data)\//.test(file) || destination !== file)
+    after = after.replace(explicit, (match) => redirects.get(match) ?? match);
+  for (const [from, to] of noteRewrites.get(destination) ?? [])
+    after = after.replaceAll(from, to);
+  for (const [from, to] of config.get(file) ?? []) {
+    if (!after.includes(to)) {
+      if (!after.includes(from))
+        throw new Error("Config anchor changed: " + file);
+      after = after.replaceAll(from, to);
+    }
+  }
+  if (file === "tsconfig.node.json") after = preserveNodeTypechecks(after);
+  if (after !== before || destination !== file)
+    changes.push({ file, destination, after });
+}
+for (const { file, destination, after } of changes) {
+  if (dryRun) continue;
+  if (destination !== file) {
+    fs.mkdirSync(p.dirname(destination), { recursive: true });
+    fs.renameSync(file, destination);
+  }
+  fs.writeFileSync(destination, after);
+}
+console.log(
+  `${dryRun ? "Would update" : "Updated"} ${changes.length} paths, ${changes.filter((x) => x.file !== x.destination).length} moves.`,
+);

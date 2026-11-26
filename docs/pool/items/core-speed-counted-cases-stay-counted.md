@@ -34,6 +34,6 @@ merged-at: 2026-11-12T01:35:50.041Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/constituent-cases.ts, src/core2/modules/speech.ts, src/core2/modules/constituent-cases-counted.test.ts
+**Files.** src/core2/modules/constituent-cases.ts, src/core2/modules/speech.ts, tests/src/core2/modules/constituent-cases-counted.test.ts
 
 Taken over by opus-5251 (Nov 11, the lead's call): pull request 8861 replaces #8738, built on that day's main. #8738's test failed because its resident was full from the opening (`countedSinceOpening` counts people the opening filled in), not because anything filled them in.

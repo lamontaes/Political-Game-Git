@@ -1,5 +1,5 @@
 /**
- * Finds, for each seed named, the place src/core2/two-level-elections.test.ts
+ * Finds, for each seed named, the place tests/src/core2/two-level-elections.test.ts
  * plays: the seed draws a state and then a place in it (the test's old
  * draw), and a place with no race of both parties on Nov 3, 2026 moves to
  * the next draw, up to eight. The test then names the seed, state and place

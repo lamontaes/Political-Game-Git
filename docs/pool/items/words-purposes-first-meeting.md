@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T15:00:00.000Z
 
 **Rules.** No new engine. A reply is written on the scene.reply record by id; the endings keep a promise (agreed to show them around, agreed to the ask) or strain the tie (a put-off or a no that was pressed); every reply is also time together on the tie. No dice: the asker's answers follow the traits through the shared decision table.
 
-**Done when.** src/director/meeting-scene.test.ts, in worlds drawn from all 56 places, plays a hand-staged hire into a first-meeting scene through the director's own producer, grows a tie into a becoming-friends scene, finds each shared fact in the world's own records, writes a reply by record id and keeps the ending; the English guards and the bank tests pass.
+**Done when.** tests/src/director/meeting-scene.test.ts, in worlds drawn from all 56 places, plays a hand-staged hire into a first-meeting scene through the director's own producer, grows a tie into a becoming-friends scene, finds each shared fact in the world's own records, writes a reply by record id and keeps the ending; the English guards and the bank tests pass.
 
 **Files.** src/director/meeting-facts.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/data/stopgaps.json, data/english/parts/scene-talk.json
 

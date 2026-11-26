@@ -29,7 +29,7 @@ claimed-at:
 
 **Done when.** In a 36-month played world (`scripts/core2-guard/memory.mjs --months 36`, bookkeeping off, place key 1642130, seed memremeasure1) memory grows less than before with the same money to the cent: 12.5 MiB a month against 19.7 measured, the withholding table gone from the tables that grew, and the withholding, income-tax, budgets and counted-hooks tests pass with a test that turns bookkeeping on where it checks every official's record.
 
-**Files.** src/core2/modules/budgets.ts, src/core2/official-pay-withholding.test.ts, scripts/core2-guard/memory.mjs
+**Files.** src/core2/modules/budgets.ts, tests/src/core2/official-pay-withholding.test.ts, scripts/core2-guard/memory.mjs
 
 **Notes.** Body repaired from the item's title and its pull request on 2026-10-16.
 

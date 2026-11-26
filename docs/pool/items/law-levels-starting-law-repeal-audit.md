@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T21:56:27.016Z
 
 **Done when.** In a randomly drawn generated game the test walks every active starting law row, prints the place replay law IDs and authorized body/bill routes, and finds no missing route. New tests fail before missing routes are repaired and pass on ten fresh draws after. Any calibration fact wrongly stored as law is corrected at its producer, not skipped by the test.
 
-**Files.** src/core2/starting-law-repeal-routes.test.ts,scripts/law-wiring/catalog.ts,law-level follow-up fixes
+**Files.** tests/src/core2/starting-law-repeal-routes.test.ts,scripts/law-wiring/catalog.ts,law-level follow-up fixes
 
 **Notes.** Astra owner-goal item 1. One session, no helpers, initial two-hour diagnostic pass followed by bounded fixes. Keep a draft PR while the exhaustive assertion fails; do not merge a failing audit or declare the owner goal done. Known probes show unemployment-insurance and local-sales-tax-average lack direct routes; local-minimum-wage-authority has an existing policy-writer alias that must be verified.

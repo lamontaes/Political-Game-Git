@@ -4,7 +4,7 @@
  * (from the effect matrix) and the open stopgap that carries it. A link a
  * family's own stopgap row already names keeps that row; the rest share one
  * row per outcome measure; a shared row no link cites any more is kept as
- * resolved. src/core2/outcome-web-unwired.test.ts fails when
+ * resolved. tests/src/core2/outcome-web-unwired.test.ts fails when
  * this file and the matrix disagree.
  *
  *   node --import tsx scripts/outcome-web/write-unwired.ts

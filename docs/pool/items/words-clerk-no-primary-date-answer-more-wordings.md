@@ -28,7 +28,7 @@ branch:
 **Fix.**
 
 1. Add at least six more `filing-dates` cores (piece `of: "filing-dates"`, `part: "core"`, `required: true`) under `follow/answer` after `tell`, each requiring `no-primary`, `general` and `deadline`. Each names `{general}` and `{deadline}` in different words: the vote's day, the papers' last day, no primary. Short, plain clerk speech.
-2. Run `npm run words:rules` twice and `npm run words:verdicts`. Run tests/guards/english, tests/english-parts-banks.test.ts and src/director/filing-visit.test.ts.
+2. Run `npm run words:rules` twice and `npm run words:verdicts`. Run tests/guards/english, tests/english-parts-banks.test.ts and tests/src/director/filing-visit.test.ts.
 
 **Time box.** 1 hour for one session.
 

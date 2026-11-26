@@ -5,7 +5,7 @@ import { P } from "../parameters";
 export default defineConfig({
   cacheDir: "/tmp/p8-vitest-cache",
   test: {
-    include: ["src/core2/**/*.test.ts"],
+    include: ["tests/src/core2/**/*.test.ts"],
     environment: "node",
     maxWorkers: P.one,
     testTimeout: P.yearSecondsBudget * P.millisecondsPerSecond,

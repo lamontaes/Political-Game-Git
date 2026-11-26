@@ -19,9 +19,9 @@ checked: Account lead 2026-11-14
 source: Account lead T45, Nov 14 2026, red on the clean train 998ba95bf5 and on #9084 alike
 ---
 
-**What.** `src/core2/pre-start.test.ts`, "keeps writing after the run's writer reuses an id written for someone filled in during it, as before", expects the history to hold exactly `later-b, run-a, twice, twice, later-a` and gets a sixth id, `person.moved-within:actor:3`. Seen: no player-visible effect; the test is red on the train on every run.
+**What.** `tests/src/core2/pre-start.test.ts`, "keeps writing after the run's writer reuses an id written for someone filled in during it, as before", expects the history to hold exactly `later-b, run-a, twice, twice, later-a` and gets a sixth id, `person.moved-within:actor:3`. Seen: no player-visible effect; the test is red on the train on every run.
 
-**Cause.** Measured: `npx vitest run src/core2/pre-start.test.ts` in the fixture world (`createLifeCore(piecesInput(), …)`), which builds no place, same result on the clean train 998ba95bf5 and on #9084. Found in code: the test reads the whole pre-start history (`preStartHistory(core)`), and the moves pass (src/core2/past-moves.ts) now writes a `person.moved-within` record for the fixture's people, so the list has a row the fixture did not write.
+**Cause.** Measured: `npx vitest run tests/src/core2/pre-start.test.ts` in the fixture world (`createLifeCore(piecesInput(), …)`), which builds no place, same result on the clean train 998ba95bf5 and on #9084. Found in code: the test reads the whole pre-start history (`preStartHistory(core)`), and the moves pass (src/core2/past-moves.ts) now writes a `person.moved-within` record for the fixture's people, so the list has a row the fixture did not write.
 
 **Fix.** Read only the fixture's kind (`preStartHistory(core, { kind: "fixture.later" })`) in that assertion. The reuse check below it stays as it is.
 
@@ -33,6 +33,6 @@ source: Account lead T45, Nov 14 2026, red on the clean train 998ba95bf5 and on 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/pre-start.test.ts
+**Files.** tests/src/core2/pre-start.test.ts
 
 **Notes.** Filed by Account lead T45 on its branch at the Account lead's request.

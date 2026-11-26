@@ -17,7 +17,7 @@ claimed-at: 2026-10-18T08:16:53.787Z
 
 **Rules.** Wire to the world: the filing check, the clerk's counter and the candidates the world puts up all read the same rule. One rule, all 56 places: the floor is a data row keyed by office, never a named place. Estimate, never UNKNOWN: the floor is a sourced figure with its clause, not an estimate.
 
-**Done when.** In the played world (`buildBenchWorld`, a place drawn from all 56 with the seed named, Enumclaw, Washington with seed g0 among them) every U.S. Senator and presidential contest shows a minimum-age check of at least 30 and 35 that the 17-year-old player does not meet, and `src/core2/federal-office-age.test.ts` states it and fails on main.
+**Done when.** In the played world (`buildBenchWorld`, a place drawn from all 56 with the seed named, Enumclaw, Washington with seed g0 among them) every U.S. Senator and presidential contest shows a minimum-age check of at least 30 and 35 that the 17-year-old player does not meet, and `tests/src/core2/federal-office-age.test.ts` states it and fails on main.
 
 **Files.** src/core2/modules/elections.ts, src/core2/data/elections/federal-qualifications.json
 

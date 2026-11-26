@@ -25,7 +25,7 @@ merged-at: 2026-11-11T15:03:44.848Z
 
 **Cause.** Found in code: src/bench/ui/calendar.mjs and `peopleScreen` in src/bench/ui/people-screen.mjs build their own layouts and do not call `rosterScreen` (src/bench/ui/roster-screen.mjs) from src/bench/play.mjs.
 
-**Fix.** Rewrite both as callers of `rosterScreen`, keeping the Calendar's rows and the People groups and detail exactly, and delete the old builders, styles and browser-check selectors (src/bench/calendar.browser.mjs and the People checks are updated in the same change).
+**Fix.** Rewrite both as callers of `rosterScreen`, keeping the Calendar's rows and the People groups and detail exactly, and delete the old builders, styles and browser-check selectors (tests/src/bench/calendar.browser.mjs and the People checks are updated in the same change).
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -35,4 +35,4 @@ merged-at: 2026-11-11T15:03:44.848Z
 
 **Waits on.** play-six-list-and-detail-screens-build-their-own-part-1-journal-patch-notes
 
-**Files.** src/bench/ui/calendar.mjs, src/bench/ui/people-screen.mjs, src/bench/ui/roster-screen.mjs, src/bench/play.mjs, src/bench/play.css, src/bench/calendar.browser.mjs
+**Files.** src/bench/ui/calendar.mjs, src/bench/ui/people-screen.mjs, src/bench/ui/roster-screen.mjs, src/bench/play.mjs, src/bench/play.css, tests/src/bench/calendar.browser.mjs

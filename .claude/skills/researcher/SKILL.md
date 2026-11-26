@@ -162,7 +162,7 @@ engine can look it up and obey it.
   value and tag) / after (value, tag) / source (publisher, year) / what reads
   it (file and function).
 - Gate line: a builder runs only the tests it wrote or changed (owner, Oct 29); the checker runs `npm run typecheck` and the rest of the gate. Name here: prettier on changed files, the parameter
-  tests (`npx vitest run src/core2/tooling/tripwires.test.ts src/core2/tooling/calibration-guard.test.ts`),
+  tests (`npx vitest run tests/src/core2/tooling/tripwires.test.ts tests/src/core2/tooling/calibration-guard.test.ts`),
   `npm run zero-dice`, `npx vitest run tests/guards/research-data-has-reader.test.ts`,
   and the test of each engine whose read you touched.
 - A proof run: `buildBenchWorld`, a drawn place from all 56, the seed named,

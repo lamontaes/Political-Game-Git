@@ -22,7 +22,7 @@ merged-at: 2026-11-24T04:59:33.797Z
 **What.** The owner, Nov 23 (P21), said: look at the tiny headshots. Their bodies are cut off. The CTO caught (C8) that the hover name tip covers the member name. The council list draws each member as a 46 px face crop with no shoulders, and the card repeats name, party and office in a hover tip that lands on the name.
 Seen: Politics, Government, Members at 1440 by 900. Seen: Government, Members, bust with fade, after. Guards: member-cards-look.browser.mjs
 
-**Cause.** Measured: `node src/bench/member-cards-look.browser.mjs (new)` against `npm run bench` on main 2b7b3b28 fails "a member card carries a hover tip" (Garibaldi, Oregon). memberLayout in src/bench/ui/person-card.mjs calls drawFace with the default round crop (head only, face share 0.56) at 46 px, and sets title to name, party and line on the button.
+**Cause.** Measured: `node tests/src/bench/member-cards-look.browser.mjs (new)` against `npm run bench` on main 2b7b3b28 fails "a member card carries a hover tip" (Garibaldi, Oregon). memberLayout in src/bench/ui/person-card.mjs calls drawFace with the default round crop (head only, face share 0.56) at 46 px, and sets title to name, party and line on the button.
 
 **Fix.** Add a bust-small crop to src/bench/ui/face.mjs (head and shoulders, share 0.4), use it in memberLayout at 56 px with a bottom fade in play.css, and drop the title; add member-cards-look.browser.mjs.
 
@@ -34,4 +34,4 @@ Seen: Politics, Government, Members at 1440 by 900. Seen: Government, Members, b
 
 **Waits on.** Nothing
 
-**Files.** src/bench/ui/person-card.mjs,src/bench/ui/face.mjs,src/bench/play.css,src/bench/member-cards-look.browser.mjs (new)
+**Files.** src/bench/ui/person-card.mjs,src/bench/ui/face.mjs,src/bench/play.css,tests/src/bench/member-cards-look.browser.mjs (new)

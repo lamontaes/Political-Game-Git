@@ -75,6 +75,7 @@ export default defineConfig({
     rolldownOptions: { input: { play: "src/bench/play.html" } },
   },
   test: {
+    include: configDefaults.include,
     // Workers are child processes (the default pool), so the heap limit is set
     // where Vitest starts them.
     execArgv: [`--max-old-space-size=${TEST_WORKER_HEAP_MB}`],
@@ -104,7 +105,7 @@ export default defineConfig({
       // and the workflows), so Vitest finds no suite in them.
       "scripts/secrets/scan-tracked-secrets.test.mjs",
       "scripts/trait-effects/generate-manifest.test.mjs",
-      "src/bench/place-selection.test.mjs",
+      "tests/src/bench/place-selection.test.mjs",
       // The year-long platform calibration reads drawn places' played years
       // (about six minutes each) until its estimate is tight enough to judge
       // its band. It runs on purpose with `npm run test:calibration`, and the
@@ -113,13 +114,13 @@ export default defineConfig({
       ...(process.env.OCD_CALIBRATION
         ? []
         : [
-            "src/core2/campaign-platform-played.test.ts",
+            "tests/src/core2/campaign-platform-played.test.ts",
             // The rival's own campaign turn in a race's last four weeks plays
             // about 240 days of a world a draw (CTO, Nov 17, 21:53Z).
-            "src/core2/record-rival-turn.test.ts",
+            "tests/src/core2/record-rival-turn.test.ts",
             // Washington, D.C.'s three counted-moves worlds take 734 to 1,555
             // seconds each.
-            "src/core2/counted-moves-balance-dc.test.ts",
+            "tests/src/core2/counted-moves-balance-dc.test.ts",
           ]),
     ],
   },

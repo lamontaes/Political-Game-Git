@@ -34,4 +34,4 @@ source: counted-carry thread, Nov 15 (seen while tracing tl-c)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/bench/dev-trace.ts, src/core2/held-over-seat.test.ts (new)
+**Files.** src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/bench/dev-trace.ts, tests/src/core2/held-over-seat.test.ts (new)

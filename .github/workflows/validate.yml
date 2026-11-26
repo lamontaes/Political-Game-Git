@@ -190,7 +190,7 @@ jobs:
             if [[ -n "$files" ]] && ! grep -qvE '^(docs/.*|[^/]*\.md)$' <<<"$files"; then
               docs_only=true
             fi
-            tests="$(grep -cE '\.test\.tsx?$' <<<"$files" || true)"
+            tests="$(grep -cE '\.(test|spec)\.tsx?$' <<<"$files" || true)"
             shards=$(( (tests + 9) / 10 ))
             if (( shards < 1 )); then shards=1; fi
             if (( shards > 6 )); then shards=6; fi
@@ -249,7 +249,7 @@ jobs:
           # The sorted list is dealt out one file per job in turn, so every
           # changed test file runs in exactly one job.
           mapfile -t files < <(git diff --name-only --diff-filter=AMR "$base" HEAD \
-            | grep -E '\.test\.tsx?$' \
+            | grep -E '\.(test|spec)\.tsx?$' \
             | grep -vE '^(tests/e2e|tests/caller-proofs|desktop|art/authoring)/' \
             | LC_ALL=C sort \
             | awk -v shard="$SHARD" -v shards="$SHARDS" '(NR - 1) % shards == shard - 1' || true)

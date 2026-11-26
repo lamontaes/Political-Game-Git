@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** Serves LAW.md §1, Screens and menus (the calendar is an opaque panel, REG:149; the Nov 5 menu look: one month plus Coming up, day tiles with small event icons, a day panel opening between them on click) and LAW.md §9, Time. This is a game, not a spreadsheet. Replace, never layer: the always-open middle column is replaced by one that opens only when a day has something.
 
-**Done when.** In a drawn place at 1440x900 with a birthday and a filing deadline ahead, a check in src/bench/calendar.browser.mjs passes: the Calendar opens with today's tile boxed and the header naming today; clicking an empty day shows no middle panel; clicking a day with a birthday or the deadline shows the panel with the event in words; tiles with events carry the icons from art/ui-kit13/calendar; the panel's left and right padding are equal within 2 px; shown by a screenshot beside the Nov 5 menu look.
+**Done when.** In a drawn place at 1440x900 with a birthday and a filing deadline ahead, a check in tests/src/bench/calendar.browser.mjs passes: the Calendar opens with today's tile boxed and the header naming today; clicking an empty day shows no middle panel; clicking a day with a birthday or the deadline shows the panel with the event in words; tiles with events carry the icons from art/ui-kit13/calendar; the panel's left and right padding are equal within 2 px; shown by a screenshot beside the Nov 5 menu look.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,6 +27,6 @@ claimed-at:
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/calendar.ts, src/bench/play.mjs, src/bench/play.css, src/bench/calendar.browser.mjs, art/ui-kit13/calendar
+**Files.** src/bench/calendar.ts, src/bench/play.mjs, src/bench/play.css, tests/src/bench/calendar.browser.mjs, art/ui-kit13/calendar
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "If there's nothing there, the middle panel should not be there." New owner instruction in playtest; CTO to record in OWNER-DECISIONS.md. The owner's "why is this screen not matte?" is unclear next to REG:149's opaque panel and the mock's gold-edged dark panel over the blurred room; the CTO confirms what he means (flat, non-glossy) before the finish is chosen. The relatives whose birthdays show (Aditi and Wesley Roberts) were never introduced (play-stop-15). Skipping to a future day is play-stop-47. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).

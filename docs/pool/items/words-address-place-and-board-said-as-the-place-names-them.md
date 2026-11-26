@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** T42's #9081 (`boardBodyName`) being on main.
 
-**Files.** src/director/speech-outline.ts, src/director/local-address.ts, src/english/said-as.ts, src/director/speech-outline.test.ts
+**Files.** src/director/speech-outline.ts, src/director/local-address.ts, src/english/said-as.ts, tests/src/director/speech-outline.test.ts
 
 **Notes.** Filed by the Speeches builder (D) from the Words lead's round 6 read of #9074.

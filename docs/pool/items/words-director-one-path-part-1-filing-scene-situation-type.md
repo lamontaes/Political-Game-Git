@@ -36,7 +36,7 @@ merged-at: 2026-11-15T22:47:18.474Z
 
 **Waits on.** Nothing.
 
-**Files.** src/director/filing-visit.ts, src/director/filing-visit.test.ts, src/director/scene-talk.ts, src/director/data/purpose-arcs.json, src/director/data/situation-types.json, src/director/data/stopgaps.json, src/bench/filing.ts, src/bench/handler.ts, src/bench/filing-visit-talk.test.ts, src/bench/play.mjs
+**Files.** src/director/filing-visit.ts, tests/src/director/filing-visit.test.ts, src/director/scene-talk.ts, src/director/data/purpose-arcs.json, src/director/data/situation-types.json, src/director/data/stopgaps.json, src/bench/filing.ts, src/bench/handler.ts, tests/src/bench/filing-visit-talk.test.ts, src/bench/play.mjs
 
 **Notes.** Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:32 UTC) on branch claude/pool-words-director-one-path-part-1-filing-scene-situation-type.
 

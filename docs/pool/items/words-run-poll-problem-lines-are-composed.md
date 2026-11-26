@@ -34,7 +34,7 @@ branch:
 5. **What it writes back.** The producer's item writes the outcome the voting engine already has (the vote cast at the right place, or no vote); `replyInScene` (src/director/purpose-scene.ts) writes `scene.reply` with the ending (`fixed`, `left-without-voting`, `scene-at-the-polls`, which the press reads as `story-runs`). Name the record ids in the pull request.
 6. **Delete what this replaces, with every reference.** The 62 lines with no insert under `poll-problem`. None is graded good, and none serves another purpose. Then `npm run words:grade` and `npm run words:rules` twice.
 7. **Lower the guard's count** for `scene-talk` in tests/guards/english/line-inserts-baseline.json.
-8. **Tests.** In src/director/polling-place.test.ts, on drawn places: a voter who moved hears the right polling place named; a worker who knows the voter speaks differently from one who does not; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
+8. **Tests.** In tests/src/director/polling-place.test.ts, on drawn places: a voter who moved hears the right polling place named; a worker who knows the voter speaks differently from one who does not; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
 
 **Time box.** 3 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -44,6 +44,6 @@ branch:
 
 **Waits on.** scene-trouble-at-the-polling-place (the producer that stages the scene), and the CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/polling-place.ts, src/director/polling-place.test.ts, src/director/purpose-scene.ts, src/director/words.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/voting.ts, data/english/parts/scene-talk.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/polling-place.ts, tests/src/director/polling-place.test.ts, src/director/purpose-scene.ts, src/director/words.ts, src/director/reply-set-check.ts, src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/english/scene-talk-words.ts, src/core2/modules/voting.ts, data/english/parts/scene-talk.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 64 lines, 62 with no insert and not excused. Three today: "Spell the last name for me?", "I'm sorry. You're not on the voter roll for this precinct.", "I've voted here for years. What changed?" This item is also `after:` words-run-filing-clerk-lines-are-composed for the composer; the pool field holds the producer, which is the longer wait.

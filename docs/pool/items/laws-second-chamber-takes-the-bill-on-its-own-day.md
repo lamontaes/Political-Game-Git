@@ -33,4 +33,4 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/legislature.ts, src/core2/modules/world-legislating.ts, src/bench/dev-mode.ts, src/bench/bill-stage.ts, src/core2/second-chamber-own-day.test.ts (new)
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/world-legislating.ts, src/bench/dev-mode.ts, src/bench/bill-stage.ts, tests/src/core2/second-chamber-own-day.test.ts (new)

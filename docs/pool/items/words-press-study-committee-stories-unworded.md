@@ -15,11 +15,11 @@ lead: words
 model: opus
 effort: medium
 root: none
-source: Red desk, Nov 12 (merger sonnet-dca4 on #8928; src/bench/printed-words.test.ts red on main by draw)
+source: Red desk, Nov 12 (merger sonnet-dca4 on #8928; tests/src/bench/printed-words.test.ts red on main by draw)
 merged-at: 2026-11-13T03:54:07.085Z
 ---
 
-**What.** src/bench/printed-words.test.ts, "words every story the press prints in a year", fails on clean main 07fb90ba at GOLDEN_PATH_SEED=7873af602be48421779c5ff88b277b2eace926b8 (Tierra Amarilla, New Mexico, place 3577670): 20 printed stories are unworded, all of the kinds `study-formed` and `study-reported` (the county board's study committee on a bill it narrowly lost, formed 2025-01-21, and its reports). The test passes in draws where no body forms a study committee in the year. Seen: News lists a printed story with no headline or lede for a study committee, and nobody in the town hears what the committee found.
+**What.** tests/src/bench/printed-words.test.ts, "words every story the press prints in a year", fails on clean main 07fb90ba at GOLDEN_PATH_SEED=7873af602be48421779c5ff88b277b2eace926b8 (Tierra Amarilla, New Mexico, place 3577670): 20 printed stories are unworded, all of the kinds `study-formed` and `study-reported` (the county board's study committee on a bill it narrowly lost, formed 2025-01-21, and its reports). The test passes in draws where no body forms a study committee in the year. Seen: News lists a printed story with no headline or lede for a study committee, and nobody in the town hears what the committee found.
 
 **Cause.** Found in code: the legislature engine records a study committee's forming and report as public events (`study-formed` and `study-reported`, src/core2/modules/legislature.ts lines 5058 and 5128, since c96372b405 on Nov 9), and the press prints them, but `BUILDERS` in src/bench/printed-words.ts (line 3345) has no reader for either kind, so `printedFacts` returns null and `wordPrintedStory` in src/bench/archive-words.ts words nothing. No bank under data/english holds lines for a study committee's story.
 

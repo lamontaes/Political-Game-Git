@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T18:27:17.606Z
 
 **Rules.** An effect is a read, not a record: each outcome is read by views, budgets, news or a screen. Estimate, never UNKNOWN: each starts at its real recent level with a source.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) each added outcome has a starting level from the base file and moves after its cause changes, shown by the outcome's month record id and a reader's record id; the test in src/core2/outcome-web.test.ts lists the link as built.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) each added outcome has a starting level from the base file and moves after its cause changes, shown by the outcome's month record id and a reader's record id; the test in tests/src/core2/outcome-web.test.ts lists the link as built.
 
 **Files.** src/core2/outcome-web-model.ts, data/research/outcome-web/place-outcome-bases-2024.json, data/research/outcome-web/links.json
 

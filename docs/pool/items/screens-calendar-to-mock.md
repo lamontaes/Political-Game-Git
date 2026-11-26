@@ -33,6 +33,6 @@ Seen: Calendar on main, beside `docs/mocks/2026-11-08-play/renders/pl-calendar.j
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/ui/calendar.mjs, src/bench/play.css, src/bench/calendar.browser.mjs
+**Files.** src/bench/ui/calendar.mjs, src/bench/play.css, tests/src/bench/calendar.browser.mjs
 
 **Notes.** Crew line #9747, item 4. The mock's times beside each thing ("11 AM") and its Tomorrow block need a time on the calendar's items, which they do not carry yet.

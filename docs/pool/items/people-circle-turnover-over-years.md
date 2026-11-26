@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 
 **What.** Roadmap M0-07's test text ends "over years, circle turnover matches a sourced study". Its command passes on main in Bridgeville, Pennsylvania, but its four tests cover 91 days only: new acquaintances, a tie growing closer, saved reasons and visits inside the GSS and ATUS ranges. No test plays years or compares how many of a person's ties are replaced with a study. Research the turnover rate, then add the multi-year check against it.
 
-**Cause.** Found in code: src/core2/m0-meeting-people.test.ts (the describe at line 104 and its four tests, lines 110 to 151) covers 91 days only; nothing plays years against a sourced turnover rate.
+**Cause.** Found in code: tests/src/core2/m0-meeting-people.test.ts (the describe at line 104 and its four tests, lines 110 to 151) covers 91 days only; nothing plays years against a sourced turnover rate.
 
 **Fix.** Research the turnover rate of a person's close ties from a fetched study, then add a three-year test in two drawn places that reports the share of the player's circle replaced beside the study's figure and fails if ties never end.
 
@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** people-circle-turnover-too-low (the check passes in two drawn places only after the turnover fix).
 
-**Files.** src/core2/m0-meeting-people.test.ts, src/core2/data/parameters.json
+**Files.** tests/src/core2/m0-meeting-people.test.ts, src/core2/data/parameters.json
 
 **Notes.** Found by the M0-M2 lead, Oct 24. Blocks roadmap M0-07's flag.
 

@@ -29,8 +29,8 @@ merged-at: 2026-11-11T23:27:40.783Z
 
 **Rules.** No hand-written player text: the refusal shown is the engine's own line. One rule, all 56 places: the check draws its place unless a seed is given and names it.
 
-**Done when.** A second session, on main, steps in as a member of a local body (Advanced) in a drawn place named with its seed, reaches the body's meeting, double-clicks Yes on an item and sees the item's result with the player's vote once and no page error; `src/bench/meeting-double-vote.browser.mjs` passes against a fresh bench.
+**Done when.** A second session, on main, steps in as a member of a local body (Advanced) in a drawn place named with its seed, reaches the body's meeting, double-clicks Yes on an item and sees the item's result with the player's vote once and no page error; `tests/src/bench/meeting-double-vote.browser.mjs` passes against a fresh bench.
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs (`inMeeting`), src/bench/meeting-double-vote.browser.mjs (new)
+**Files.** src/bench/play.mjs (`inMeeting`), tests/src/bench/meeting-double-vote.browser.mjs (new)

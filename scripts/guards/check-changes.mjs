@@ -389,6 +389,40 @@ function show(sha, file) {
   }
 }
 
+/**
+ * Git may report a large mirrored test move as delete/add. Compare the exact
+ * old and new files, so every existing assertion and test rule still applies.
+ * @param {Change[]} changes
+ * @returns {Change[]}
+ */
+export function pairMirroredTestMoves(changes) {
+  const added = new Map(
+    changes
+      .filter((change) => change.before === null && change.after !== null)
+      .map((change) => [change.path, change]),
+  );
+  const consumed = new Set();
+  const paired = changes.map((change) => {
+    if (
+      change.after !== null ||
+      change.before === null ||
+      !/^src\/.*\.(?:test\.[cm]?[jt]sx?|spec\.ts|browser\.mjs)$/.test(
+        change.path,
+      )
+    )
+      return change;
+    const destination = added.get(`tests/${change.path}`);
+    if (!destination) return change;
+    consumed.add(destination);
+    return {
+      path: destination.path,
+      before: change.before,
+      after: destination.after,
+    };
+  });
+  return paired.filter((change) => !consumed.has(change));
+}
+
 /** The changed files between two commits; a rename is one change at its new path. */
 function changesBetween(base, head) {
   const rows = git("diff", "--name-status", "-M", "-z", base, head)
@@ -415,7 +449,7 @@ function changesBetween(base, head) {
       });
     }
   }
-  return changes;
+  return pairMirroredTestMoves(changes);
 }
 
 function approvedOnCrewIssue(rules) {

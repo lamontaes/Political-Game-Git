@@ -19,6 +19,6 @@ claimed-at: 2026-11-01T19:59:45.121Z
 
 **Done when.** A circle stance keeps the causes from the last stanceCauseKeptDays plus the newest, while heard, strength and desired change stay whole. The four-year Ringgold proof differs from main only in the views engine's stance rows; npm run speed:year -- --seed long-1 --years 4 on main and on the branch, one process each, keeps dev mode's records proof identical in every table but the folded ones (views.stances:) in the played world (buildBenchWorld), the tests the PR names pass, with the times in the PR body.
 
-**Files.** src/core2/data/views/views.json, src/core2/modules/views.ts, src/core2/views.test.ts
+**Files.** src/core2/data/views/views.json, src/core2/modules/views.ts, tests/src/core2/views.test.ts
 
 **Notes.** TODO

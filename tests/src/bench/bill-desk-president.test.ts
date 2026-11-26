@@ -1,0 +1,135 @@
+import { buildBenchWorld } from "../../../src/bench/world";
+import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../../scripts/core2-year/place";
+import { PLATFORM_QUESTIONS } from "../../../src/core2/campaign-data";
+import { gameStartDate } from "../../../src/core2/game-start";
+import { lawInForce } from "../../../src/core2/modules/laws";
+import {
+  castMemberVote,
+  draftBill,
+  executiveLean,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
+  holdEveryChamber,
+  memberKey,
+  members,
+  type Provision,
+} from "../../../src/core2/modules/legislature";
+import { OFFICES_MODULE_ID, type TermRow } from "../../../src/core2/modules/offices";
+import { deskWaiting } from "../../../src/core2/modules/office-day";
+import { heldFederal, releaseFederal } from "../../../src/core2/office-day-federal";
+import { coreAPI } from "../../../src/core2/state";
+import { billStage } from "../../../src/bench/bill-stage";
+import { deskDecide } from "../../../src/bench/office";
+import { BenchPlayer } from "../../../src/bench/player";
+
+// The president's desk in the stage view (the federal level of the Legislation mocks): the player
+// takes the presidency, a bill both chambers of Congress passed waits on their desk, the stage view
+// says so with the lean, and once they sign or veto it names them and the reasons. A place drawn
+// from all 56 on a seed nobody chose.
+// Pinned (Nov 16, trial batch). Before, the seed came at run time from
+// process.env PRESIDENT_DESK_SEED, GOLDEN_PATH_SEED or randomBytes, so the
+// places it drew changed every run. The fixed seed below draws Foraker,
+// Oklahoma (4026750) first for "president-desk".
+// Limit: the slowest case took 19 s, run two files at a time (Nov 16,
+// Train 6d12556a); each case's limit is about twice that, 40 s.
+const seed = "pin-bill-desk-president";
+
+it("draws its pinned place from the fixed seed", () => {
+  expect(drawPlace(`${seed}:0`, "president-desk")).toMatchObject({
+    key: "4026750",
+    name: "Foraker, Oklahoma",
+  });
+});
+
+describe(`the president's desk in the stage view (seed ${seed})`, () => {
+  it("shows the waiting bill, then who signed or vetoed it and why", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const place = drawPlace(`${seed}:${attempt}`, "president-desk");
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const core = world.core;
+      const api = coreAPI(core);
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const president = (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .query("bySeatStatus", [
+            "seat:US:president",
+            "serving",
+          ]) as unknown as TermRow[]
+      )[0]?.personId;
+      expect(president, where).toBeTruthy();
+      const player = new BenchPlayer(core, world.director);
+      player.select(president!);
+      const start = core.date;
+      for (let guard = 0; guard < 50 && core.date <= start; guard += 1) {
+        const packet = player.packet;
+        if (packet?.kind === "stop") {
+          for (const key of heldFederal(api)) releaseFederal(api, key);
+          player.resume({ kind: "stop", pauseId: packet.pauseId });
+        } else if (packet?.kind === "choice")
+          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+        else player.advance("day");
+      }
+      const floor = lawInForce(api, "minimum-wage").value ?? 0;
+      const candidates: Provision[] = [
+        {
+          kind: "law-amount",
+          series: "minimum-wage",
+          value: floor + 100,
+          unit: "minor/hour",
+        },
+        ...PLATFORM_QUESTIONS.map((question): Provision => ({
+          kind: "policy-question",
+          question,
+          value: 1,
+        })),
+      ];
+      const sponsor = members(api, FEDERAL_HOUSE)[0];
+      expect(sponsor, where).toBeTruthy();
+      const everyone = [FEDERAL_HOUSE, FEDERAL_SENATE].flatMap((body) =>
+        members(api, body).map(memberKey),
+      );
+      let reached = 0;
+      // The authority check is the body's own (a blocked draft is skipped), not the town's.
+      for (const provision of candidates) {
+        const draft = draftBill(api, {
+          bodyOfficeId: FEDERAL_HOUSE,
+          sponsorId: memberKey(sponsor!),
+          provisions: [provision],
+        });
+        if (draft.status === "blocked") continue;
+        for (const id of everyone) castMemberVote(api, draft.id, id, "yes");
+        holdEveryChamber(api, draft.id);
+        if (!deskWaiting(api).some((b) => b.id === draft.id)) continue;
+        reached += 1;
+        const waiting = billStage(core, draft.id, president!);
+        expect(waiting.desk.waiting, where).toBe(true);
+        expect(waiting.desk.lean, where).toBeTruthy();
+        expect(waiting.desk.decided, where).toEqual([]);
+        const how =
+          executiveLean(api, draft.id, president!).lean >= 0 ? "sign" : "veto";
+        deskDecide(core, draft.id, how);
+        const done = billStage(core, draft.id, president!);
+        expect(done.desk.waiting, where).toBe(false);
+        expect(done.desk.decided.length, where).toBe(1);
+        expect(done.desk.decided[0]!.vote, where).toBe(how);
+        expect(done.desk.decided[0]!.name.length, where).toBeGreaterThan(0);
+        console.log(
+          `president desk: ${where}, ${draft.id} ${how}, reasons ${done.desk.decided[0]!.reasons.map((r) => `${r.reason}:${r.side}`).join(",")}`,
+        );
+        break;
+      }
+      if (reached > 0) return;
+      tried.push(`${where}: no Congress bill reached the desk`);
+    }
+    throw new Error(
+      `no drawn place sent a Congress bill to the president (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 40_000);
+});

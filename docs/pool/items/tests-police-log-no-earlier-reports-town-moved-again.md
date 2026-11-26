@@ -18,7 +18,7 @@ source: "Train #9554 (29ef4685) bisect, Nov 15, 2026: red right after the fold o
 root: none
 ---
 
-**What.** In `src/bench/printed-police-log.test.ts`, the case "a town with no earlier reports compares no month and says nothing of the usual" at Surrency, Georgia (1374852, seed pl4) is red on the Train with #9544 merged: "police-log:2025-11 has no usual to compare: expected '9' to be undefined". The case came in with #9544 and was green on the Train before the renters-buy fold. Guards: a town's first police log never compares itself with a usual it does not have.
+**What.** In `tests/src/bench/printed-police-log.test.ts`, the case "a town with no earlier reports compares no month and says nothing of the usual" at Surrency, Georgia (1374852, seed pl4) is red on the Train with #9544 merged: "police-log:2025-11 has no usual to compare: expected '9' to be undefined". The case came in with #9544 and was green on the Train before the renters-buy fold. Guards: a town's first police log never compares itself with a usual it does not have.
 
 **Cause.** Measured: Surrency, Georgia (1374852), seed pl4, 330 days, before and after the fold of #9117 (058294ec, 4fcbe42e). After renters-buy, Surrency keeps renting households: 11 renting and 35 owning by November, against 4 and 41 before. Renters carry more property-crime exposure (data/crime/victimization.json), so expected other-property crime rises from 0.661 to 0.724 a month. The carried remainder crosses one in November instead of December, and November's report is real. November's log then has July's report behind it: a usual of 0.1 over nine months, vsUsual 9. The old premise, one reported month in the first eleven, is gone. The renters thread confirms the tenure direction is intended.
 
@@ -32,4 +32,4 @@ root: none
 
 **Waits on.** #9544 folding.
 
-**Files.** src/bench/printed-police-log.test.ts
+**Files.** tests/src/bench/printed-police-log.test.ts

@@ -32,4 +32,4 @@ source: counted-carry thread, Nov 15 (traced from two-level-elections at tl-c)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/closed-race-holders.test.ts (new)
+**Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, tests/src/core2/closed-race-holders.test.ts (new)

@@ -32,7 +32,7 @@ merged-at: 2026-11-16T01:05:08.726Z
 
 **Rules.** Ask why: every failure the check prints names the file and the first line of its error, so the cause can be followed without a rerun. One rule, all 56 places: the check loads every test file the same way and names no file or engine in its code. Red main comes first: a file that cannot load is a red, and this check is how it is seen. Keep it simple: one script and one place it runs, with no new service. Never weaken a test: the check adds no skip list beyond the folders the workflow already leaves out, and a file that fails is fixed or filed, never excused. Follow .agents/skills/red-main/SKILL.md for what a red found by this check becomes.
 
-**Done when.** A second session, on main, runs `npm run tests:load` and reads a pass with the count of test files checked and the seconds it took. It then breaks one import on a scratch branch (it puts back the top-level read of a table across the views and campaign engines that pull request 8243 removed), runs the check again, and reads a failure that names src/core2/elections-law.test.ts. This is a check, so there is no drawn place to play; the test of the check is that break.
+**Done when.** A second session, on main, runs `npm run tests:load` and reads a pass with the count of test files checked and the seconds it took. It then breaks one import on a scratch branch (it puts back the top-level read of a table across the views and campaign engines that pull request 8243 removed), runs the check again, and reads a failure that names tests/src/core2/elections-law.test.ts. This is a check, so there is no drawn place to play; the test of the check is that break.
 
 **Waits on.** Nothing.
 

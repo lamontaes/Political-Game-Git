@@ -35,10 +35,10 @@ A drive forms only from something the person perceives while the world runs (`pe
 
 **Rules.** One rule, all 56 places. No dice: a drive comes from a record the person lived. One model, two tiers.
 
-**Done when.** A second session, on main, opens a played world (`buildBenchWorld`) at Marshfield MA (seed above) on Sep 1, 2025, and in the running game sees a candidate in the board seat 0 race on Oct 1 who filed on a cause, naming that drive's record id and the past record it came from. It then repeats this in a drawn place whose state holds races that fall, naming the place and seed, and sees a state or federal candidate whose cause was lived before the opening. A world opened on Jan 20 keeps its winners in a year-1 run at three places, within the speed rule. The pinned test `src/core2/candidate-platform-spread.test.ts` then opens late (Sep 1), runs near a minute, and still fails when platforms carry the country's view.
+**Done when.** A second session, on main, opens a played world (`buildBenchWorld`) at Marshfield MA (seed above) on Sep 1, 2025, and in the running game sees a candidate in the board seat 0 race on Oct 1 who filed on a cause, naming that drive's record id and the past record it came from. It then repeats this in a drawn place whose state holds races that fall, naming the place and seed, and sees a state or federal candidate whose cause was lived before the opening. A world opened on Jan 20 keeps its winners in a year-1 run at three places, within the speed rule. The pinned test `tests/src/core2/candidate-platform-spread.test.ts` then opens late (Sep 1), runs near a minute, and still fails when platforms carry the country's view.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/drives.ts, src/core2/modules/views.ts, src/core2/modules/candidacy.ts, src/core2/candidate-platform-spread.test.ts
+**Files.** src/core2/modules/drives.ts, src/core2/modules/views.ts, src/core2/modules/candidacy.ts, tests/src/core2/candidate-platform-spread.test.ts
 
 **Notes.**

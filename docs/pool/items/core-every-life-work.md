@@ -17,8 +17,8 @@ claimed-at: 2026-11-01T20:10:34.441Z
 
 **Rules.** One engine per mechanic: the working-life pulls of past-work.ts are shared, not copied, and the jobs engine runs them on its own review day. No dice: pulls add up from rates, causes and traits, with CPS rates checking totals and seeding only who exists on day one.
 
-**Done when.** In a generated world of a place drawn from all 56, the share employed after a year and the year's layoffs and job moves are within the CPS and JOLTS rates' spread (src/core2/jobs-elsewhere.test.ts, three draws); in a buildBenchWorld run with a seed the builder did not choose, a relative's work record is named by id and in the player's knowledge; speed:year within 20% of base.
+**Done when.** In a generated world of a place drawn from all 56, the share employed after a year and the year's layoffs and job moves are within the CPS and JOLTS rates' spread (tests/src/core2/jobs-elsewhere.test.ts, three draws); in a buildBenchWorld run with a seed the builder did not choose, a relative's work record is named by id and in the player's knowledge; speed:year within 20% of base.
 
-**Files.** src/core2/jobs-elsewhere.ts, src/core2/past-work.ts, src/core2/modules/jobs.ts, src/core2/jobs-elsewhere.test.ts
+**Files.** src/core2/jobs-elsewhere.ts, src/core2/past-work.ts, src/core2/modules/jobs.ts, tests/src/core2/jobs-elsewhere.test.ts
 
 **Notes.** Split from core-every-life-simulated by the lives lead, Nov 1; stacked on PR #7032.

@@ -4,7 +4,7 @@ Ruling: Fable A on the crew line, Nov 13, 04:04Z: "the law-reaches tell always h
 
 The red on main this answers (Red desk, Nov 13, `circumstance.test.ts`, seed `93ab4181cd158fb9e2b9f5f19ae6e8526180c322`): "the tell that states law-reaches cannot be worded from the records given", for `person_1b827590d2511e7b` (a printed `law-enacted` story about `law:US-OR:federal:snap-maximum:general:2026-10-01`, enacted but not yet in force) and `person_a4b9e7e29d4b6509` (a `law-took-effect` story about a Delaware law, heard in another state).
 
-The tell as worded from the laws engine's own rows in three drawn places (`src/director/law-reaches-tell.test.ts`):
+The tell as worded from the laws engine's own rows in three drawn places (`tests/src/director/law-reaches-tell.test.ts`):
 
 | Place (seed)                      | Not yet in force                                                        | Another state's law                                           | No longer in force                                    |
 | --------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------- |

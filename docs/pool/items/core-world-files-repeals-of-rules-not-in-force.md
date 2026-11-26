@@ -28,16 +28,16 @@ merged-at: 2026-11-16T01:35:38.104Z
 1. `lawNeedsChange(api, level, jurisdiction, question, direction)` in src/core2/modules/laws.ts is the rule the three filers passed as `needsChange`: a state or Congress reads its own answer in force, its recorded starting answer counted; a town, county or township body enacts only what is not already law for the town at any level, and repeals only a rule of its own. `answerIn`, `ownRow` and `inForceForTown` move there with it.
 2. The three filers and the two re-checks in world-legislating.ts call it. `ownSections` keeps a section only where it says the law needs the change.
 3. The copies in world-legislating.ts are deleted (`needsChange`, `ownRow`, `inForceForTown`, `answerIn` and its federal answers reader), and the seven files that imported `answerIn` from there import it from laws.
-4. src/core2/traded-sections-need-a-law.test.ts is pinned to the two places above.
+4. tests/src/core2/traded-sections-need-a-law.test.ts is pinned to the two places above.
 
 **Time box.** 3 hours. If the trade stops producing any section in the pinned places, stop and write what was seen in Notes.
 
 **Rules.** One rule, all 56 places: the check draws its places and names them with their seeds. No dice: a body files a change from its members' wants and the law in force, never by chance. An effect is a read: the filer reads the same law record the bill's section reads.
 
-**Done when.** A second session, on the train or on main once it is there, starts the bench at Lino Lakes, Minnesota with seed 046d2235-27df-4daa-a680-423d6f24d0d7 (or a place it draws and writes down with its seed), plays to the council's or county board's second meeting, opens Politics, Bills and reads every ordinance with more than one section: no section says it repeals the rules now in force on a question unless Politics, Laws shows that body's own rule on it, and at least one ordinance still carries a second section a member won in a trade. The test src/core2/traded-sections-need-a-law.test.ts passes at both named places and fails at both with the new check taken out of `ownSections`.
+**Done when.** A second session, on the train or on main once it is there, starts the bench at Lino Lakes, Minnesota with seed 046d2235-27df-4daa-a680-423d6f24d0d7 (or a place it draws and writes down with its seed), plays to the council's or county board's second meeting, opens Politics, Bills and reads every ordinance with more than one section: no section says it repeals the rules now in force on a question unless Politics, Laws shows that body's own rule on it, and at least one ordinance still carries a second section a member won in a trade. The test tests/src/core2/traded-sections-need-a-law.test.ts passes at both named places and fails at both with the new check taken out of `ownSections`.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/laws.ts (`lawNeedsChange`, `answerIn`); src/core2/modules/legislature.ts (`ownSections`); src/core2/modules/world-legislating.ts (the three filers); src/core2/traded-sections-need-a-law.test.ts
+**Files.** src/core2/modules/laws.ts (`lawNeedsChange`, `answerIn`); src/core2/modules/legislature.ts (`ownSections`); src/core2/modules/world-legislating.ts (the three filers); tests/src/core2/traded-sections-need-a-law.test.ts
 
 **Notes.** Cause found and built by Fable B, Nov 15, 2026, on a branch from the Account lead's train. O3 reached the same cause on Nov 11 and proposed changing `questionSettled` to call a repeal with no row settled; that was not built, because `enact` reads `questionSettled` too and a state's repeal of a starting answer that is not a row would then write no law.

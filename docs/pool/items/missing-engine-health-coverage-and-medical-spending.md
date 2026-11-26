@@ -30,11 +30,11 @@ checked: fable 2026-11-10
 
 **Rules.** The chain is the acceptance: the roll-up closes only when one Medicaid law is followed to a named person's lower bill and cash. One model, two tiers: counted groups pay and are covered by the same rule as full people times their weight. An effect is a read: the household medical flow in src/core2/modules/health.ts must read the coverage record that the law reach wrote. No dice: coverage follows age, income, job, the law in force and the state.
 
-**Done when.** A second session, not the builder, plays a one-year world (buildBenchWorld, a drawn place from all 56, a seed nobody chose) with a Medicaid expansion law in force and sees a named low-income adult and a counted group with a coverage record, a medical out-of-pocket line below an uncovered neighbor's by record id, and a balanced cash journal. A test in src/core2/health-own.test.ts or src/core2/health-web.test.ts proves it, and SG-GOV-REACH-B-medicaid-coverage is closed with the reader named.
+**Done when.** A second session, not the builder, plays a one-year world (buildBenchWorld, a drawn place from all 56, a seed nobody chose) with a Medicaid expansion law in force and sees a named low-income adult and a counted group with a coverage record, a medical out-of-pocket line below an uncovered neighbor's by record id, and a balanced cash journal. A test in tests/src/core2/health-own.test.ts or tests/src/core2/health-web.test.ts proves it, and SG-GOV-REACH-B-medicaid-coverage is closed with the reader named.
 
 **Waits on.** gov-medicaid-coverage-reader (open), world-medical-spending-categories (in a PR).
 
-**Files.** src/core2/modules/health.ts, src/core2/reference/living-costs-data.ts, src/core2/law-reach/group-b.ts, src/core2/data/stopgaps/gov.json, src/core2/health-own.test.ts
+**Files.** src/core2/modules/health.ts, src/core2/reference/living-costs-data.ts, src/core2/law-reach/group-b.ts, src/core2/data/stopgaps/gov.json, tests/src/core2/health-own.test.ts
 
 **Notes.** Oct 20 (pool feeder): spec written as a roll-up; the four children already exist as pool items. laws-reach-b-medicaid-coverage looks like a duplicate of gov-medicaid-coverage-reader (same Medicaid reader) and is itself blocked on this item, so it is left out of after: to avoid a cycle; the lead should drop or re-point it.
 

@@ -33,4 +33,4 @@ claimed-at: 2026-11-11T03:13:35.907Z
 
 **Waits on.** Nothing
 
-**Files.** src/bench/play.mjs, src/bench/ui/talk-box.mjs, src/bench/talk-box.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/ui/talk-box.mjs, tests/src/bench/talk-box.browser.mjs

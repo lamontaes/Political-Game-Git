@@ -16,6 +16,13 @@
   },
   "files": ["data/research/laws/starting-law-2026/index.ts"],
   "include": [
+    "tests/src/core2/gov-rules/county-governing-body-names.test.ts",
+    "tests/src/core2/gov-rules/given-name-cohorts.test.ts",
+    "tests/src/core2/gov-rules/municipal-recall-rule.test.ts",
+    "tests/src/core2/kernel/dates-civil-day.test.ts",
+    "tests/src/core2/kernel/fixed-point-product.test.ts",
+    "tests/src/core2/reference/lazy-data.test.ts",
+    "tests/src/districts/query.test.ts",
     "scripts/dev-lab/**/*.ts",
     "scripts/content/**/*.ts",
     "scripts/maps/**/*.ts",

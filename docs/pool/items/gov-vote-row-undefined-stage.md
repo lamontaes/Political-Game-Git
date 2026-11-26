@@ -9,7 +9,7 @@ status: done
 claimed-by: claude/vote-stage-undefined
 pr: #4730
 blocked-on:
-source: "found running src/core2/legislature.test.ts on main, Oct 16"
+source: "found running tests/src/core2/legislature.test.ts on main, Oct 16"
 claimed-at: 2026-10-16T17:09:01.168Z
 ---
 

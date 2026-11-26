@@ -2968,12 +2968,12 @@ _Released November 15, 2026._
   ones. Wire to the world: the stopped household's payment, and the poverty
   measure that reads it, change. **Done when.** A second session, not the
   builder, runs the assistance work requirement case of `npx vitest run
-src/core2/law-reach-group-b.test.ts` on main at a drawn place and seed it
+tests/src/core2/law-reach-group-b.test.ts` on main at a drawn place and seed it
   names and sees a stopped head's welfare payment end, the counted groups paid
   the whole-cent rate over those still drawing, and a repeal pay them again.
   **Waits on.** The group B test setup fix folding. **Files.**
   src/core2/law-reach/group-b-money.ts; src/core2/law-reach/group-b.ts;
-  src/core2/law-reach-group-b.test.ts **Notes.** Years with no work rule in
+  tests/src/core2/law-reach-group-b.test.ts **Notes.** Years with no work rule in
   force are unchanged. The 60 months and 30 hours are the federal default,
   unverified here; per-state limits are a research item.
 

@@ -33,4 +33,4 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-outside-donors.test.ts
+**Files.** src/core2/modules/campaigns.ts, tests/src/core2/campaign-outside-donors.test.ts

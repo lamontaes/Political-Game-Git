@@ -19,9 +19,9 @@ source: "Account lead builder, Nov 15 (duty need PR, coordinator's request)"
 checked:
 ---
 
-**What.** `src/core2/office-day-name-head.test.ts` (two cases) and `src/core2/office-day-budget-season.test.ts` (two cases) go red at whatever places a random seed draws, on the clean train head too: Mosier OR, West Memphis AR, Miami MO, Oak Creek WI, Latimer KS and Wilmington DE failed across runs on Nov 14 to 15. Seen: the changed-file gate of a PR that touches the office-day files fails on a place the PR did not choose.
+**What.** `tests/src/core2/office-day-name-head.test.ts` (two cases) and `tests/src/core2/office-day-budget-season.test.ts` (two cases) go red at whatever places a random seed draws, on the clean train head too: Mosier OR, West Memphis AR, Miami MO, Oak Creek WI, Latimer KS and Wilmington DE failed across runs on Nov 14 to 15. Seen: the changed-file gate of a PR that touches the office-day files fails on a place the PR did not choose.
 
-**Cause.** Found in code: both tests take their seed from `randomBytes(8)` (src/core2/office-day-name-head.test.ts line 28; the budget-season file builds `${seed}:${draw}` the same way), so each run draws new places and a place where the town's pay line, head or council differs fails. They break the pinned-tests rule: named places with fixed seeds.
+**Cause.** Found in code: both tests take their seed from `randomBytes(8)` (tests/src/core2/office-day-name-head.test.ts line 28; the budget-season file builds `${seed}:${draw}` the same way), so each run draws new places and a place where the town's pay line, head or council differs fails. They break the pinned-tests rule: named places with fixed seeds.
 
 **Fix.** Pin each case to named places with fixed seeds (the places it passed at, and one where it failed, with the reason the failing one differs: found by reading the failure at that place), explicit time limits near twice the measured run, no draw loops. Do not loosen an assertion; where a place fails for a real reason, file that as its own item.
 
@@ -35,6 +35,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/office-day-name-head.test.ts, src/core2/office-day-budget-season.test.ts
+**Files.** tests/src/core2/office-day-name-head.test.ts, tests/src/core2/office-day-budget-season.test.ts
 
 **Notes.** Found while gating the duty need (Nov 15). Seen again Nov 15 on #9485's gate and on Train 88b5b879: office-day-name-head at seed c5fa51b05add8d84, "No town with an appointed head and a pay line to name them in 8 draws".

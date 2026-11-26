@@ -17,7 +17,7 @@ claimed-at: 2026-10-28T03:56:35.505Z
 
 **Rules.** Replace, never layer: the journal reads the next spell without a typed number, and the kit baseline records what main held when its guard landed. Every number lives in a parameter table, so no literal stays in director code.
 
-**Done when.** npm run guards passes all fourteen guards on the fix branch merged with main, src/director/journal.test.ts passes, and the kit-only-ui and director-numbers-in-data guards fail on main without the fix, as shown in the PR body.
+**Done when.** npm run guards passes all fourteen guards on the fix branch merged with main, tests/src/director/journal.test.ts passes, and the kit-only-ui and director-numbers-in-data guards fail on main without the fix, as shown in the PR body.
 
 **Files.** src/director/journal.ts, tests/guards/kit-only-ui-baseline.json
 

@@ -34,6 +34,6 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/country-model.ts, src/core2/country-law.ts, src/core2/modules/budgets.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps/gov.json, src/core2/federal-income-tier.test.ts (new)
+**Files.** src/core2/budgets-treasury.ts, src/core2/country-model.ts, src/core2/country-law.ts, src/core2/modules/budgets.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps/gov.json, tests/src/core2/federal-income-tier.test.ts (new)
 
 **Notes.** The payroll lines (social security and medicare, read from the same withholding rows) and the state treasuries' income, sales and profit lines follow as one line each. The calibration keeps the plan's level (Census) and moves it by the tier's own withholding, so the level of the line is still an estimate.

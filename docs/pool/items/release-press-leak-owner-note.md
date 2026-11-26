@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T13:14:25.339Z
 
 **Rules.** Replace, never layer: the comment is rewritten in place and nothing else in the press engine changes, so the leak path behaves exactly as before.
 
-**Done when.** The grep for 'owner ruling' and 'Oct 14' in src/core2/modules/press.ts prints nothing, and src/core2/press-owners.test.ts still passes in a drawn place with its seed named in the PR body; eslint and prettier are clean on the file.
+**Done when.** The grep for 'owner ruling' and 'Oct 14' in src/core2/modules/press.ts prints nothing, and tests/src/core2/press-owners.test.ts still passes in a drawn place with its seed named in the PR body; eslint and prettier are clean on the file.
 
 **Files.** src/core2/modules/press.ts
 

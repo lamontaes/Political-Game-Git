@@ -19,6 +19,6 @@ claimed-at: 2026-11-08T00:37:28.155Z
 
 **Done when.** Both rows are preempts true with the statute cited, estimate false, and a test shows the two lists agree on both states.
 
-**Files.** data/research/laws/local-starting-law/local-minimum-wage.json,src/core2/local-minimum-wage-bars.test.ts
+**Files.** data/research/laws/local-starting-law/local-minimum-wage.json,tests/src/core2/local-minimum-wage-bars.test.ts
 
 **Notes.** TODO

@@ -8,12 +8,12 @@ The original opening-treasury writer stores `journalSequence: undefined` when th
 
 On original main 69b9126328, replay 75ae3c9378284205, the unchanged legislature project-request test fails at openBudgets → government → moduleData: `Module data must be finite, acyclic JSON data.` One failed, 19 skipped, 10.00 seconds. The prior complete run on bill-values reports 15 passed / 5 failed at that same write (104.50 seconds). Neither result is counted as passing.
 
-With this seven-line writer replacement on main bf4e8386cd, the unchanged `src/core2/legislature.test.ts` passes all 20 tests: 214.11 seconds of tests, 222.58 seconds total. No test file, assertion, law, vote or guard changed.
+With this seven-line writer replacement on main bf4e8386cd, the unchanged `tests/src/core2/legislature.test.ts` passes all 20 tests: 214.11 seconds of tests, 222.58 seconds total. No test file, assertion, law, vote or guard changed.
 
 Run from the repository root, with the required environment:
 
 ```sh
-OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 GOLDEN_PATH_SEED=75ae3c9378284205 npm exec -- vitest run src/core2/legislature.test.ts --maxWorkers=1 --reporter=verbose
+OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 GOLDEN_PATH_SEED=75ae3c9378284205 npm exec -- vitest run tests/src/core2/legislature.test.ts --maxWorkers=1 --reporter=verbose
 ```
 
 ## The full world reads the record
@@ -49,7 +49,7 @@ The new opening-treasury-json.test.ts checks every government's finite opening a
 | Oakland Park, FL 1250575   | 1f67dd9fee9d631f:0                                               | a884190aa03e4358c3b4f52d8eeb33cae4acf5ad103dca225f5e416ec84288da | Four finite openings, sequences 0–3           |
 | Matfield Green, KS 2045150 | 1f67dd9fee9d631f:1                                               | 31ab8a5af9e9b67ce6aaf8233130fa235b46f939adcf222e776288b56e1e4b6d | Four finite openings, sequences 0–3           |
 
-All three pass: 47.31 seconds of tests / 56.72 total. Restoring only the original writer makes Checotah fail through the unchanged JSON guard (one failed, two skipped; 10.92 / 20.44 seconds); corrected source restored byte-for-byte. Reproduce with `OPENING_TREASURY_SEED=1f67dd9fee9d631f` and the required environment, `npm exec -- vitest run src/core2/opening-treasury-json.test.ts --maxWorkers=1 --reporter=verbose`. The unchanged legislature suite's earlier 20 passing cases remain pinned to their original source.
+All three pass: 47.31 seconds of tests / 56.72 total. Restoring only the original writer makes Checotah fail through the unchanged JSON guard (one failed, two skipped; 10.92 / 20.44 seconds); corrected source restored byte-for-byte. Reproduce with `OPENING_TREASURY_SEED=1f67dd9fee9d631f` and the required environment, `npm exec -- vitest run tests/src/core2/opening-treasury-json.test.ts --maxWorkers=1 --reporter=verbose`. The unchanged legislature suite's earlier 20 passing cases remain pinned to their original source.
 
 Integrated New Game passes **Big Pine Key, Florida / 769fd576a0db7190**, player person_ea79faa836e4182c, through four weeks; all new-life, advance, resume, scene and Journal requests return HTTP 200. This is unit proof, not another confirmed played path.
 

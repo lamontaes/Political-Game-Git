@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** One rule, all 56 places: the buffer is sized from each outlet's own payroll, with no place named. An effect is a read, not a record: the cash is what the outlet's payroll draws on at its next payday. Every dollar balances, and the buffer is a SOURCED parameter with its spread; the funding is covered by the open stopgap `SG-PEOPLE-press-outlet-revenue`, whose text now names it.
 
-**Done when.** In the five places above (seeds `pq1` to `pq5`, purpose "pclose", a year) closures of press outlets fall from 4 to 1, and `src/core2/press-working-capital.test.ts` fails without the buffer in Gothenburg and passes with it. The owner plays it: his town keeps its paper and stations through the first year.
+**Done when.** In the five places above (seeds `pq1` to `pq5`, purpose "pclose", a year) closures of press outlets fall from 4 to 1, and `tests/src/core2/press-working-capital.test.ts` fails without the buffer in Gothenburg and passes with it. The owner plays it: his town keeps its paper and stations through the first year.
 
 **Files.** src/core2/modules/press.ts, src/core2/data/press/parameters.json
 

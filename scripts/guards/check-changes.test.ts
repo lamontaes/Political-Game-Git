@@ -4,6 +4,7 @@ import { britishSpellings } from "../prose-eval/american-spelling";
 import {
   approves,
   checkChanges,
+  pairMirroredTestMoves,
   sourcedLevelRows,
   splitByMode,
   stampMissing,
@@ -489,9 +490,25 @@ describe("check-changes: what a pull request may not add to its own checks", () 
       "a read that was already there",
     ).toEqual([]);
     expect(
-      read("src/core2/jobs.test.ts", "", 'c(api, "jobsLevel")'),
+      read("tests/src/core2/jobs.test.ts", "", 'c(api, "jobsLevel")'),
       "a test may compare with a level",
     ).toEqual([]);
     expect(rules.observe).toContain("sourced-level-read");
   });
+});
+
+it("compares a mirrored test move even when Git reports a deletion and addition", () => {
+  const before =
+    'test("keeps the assertion", () => { expect(true).toBe(true); });';
+  const after = 'test("keeps the assertion", () => {});';
+  const changes = pairMirroredTestMoves([
+    { path: "src/core2/a.test.ts", before, after: null },
+    { path: "tests/src/core2/a.test.ts", before: null, after },
+  ]);
+  expect(changes).toEqual([
+    { path: "tests/src/core2/a.test.ts", before, after },
+  ]);
+  expect(checkChanges(changes, rules).map((finding) => finding.id)).toContain(
+    "assertions-dropped",
+  );
 });

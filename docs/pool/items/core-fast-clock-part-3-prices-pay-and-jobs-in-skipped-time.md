@@ -36,6 +36,6 @@ seen-at: 2026-11-11T00:00:38.282Z
 
 **Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/modules/place-prices.ts, src/core2/life.ts, src/core2/results-mode-pay-prices-jobs.test.ts (new)
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/place-prices.ts, src/core2/life.ts, tests/src/core2/results-mode-pay-prices-jobs.test.ts (new)
 
 **Notes.** Seen in the game (2026-11-11, second-session-1): Barrigada, Guam, seed 9d41e6a07b3c58f2e610, main c330c7fe8fe102d9e3932836b4e5a307cb26d32d: Test printed prices 2.13% and 10.29% out of work day by day against 2.44% and 11.00% skipped, within a fifth; in the browser the skip in Ponce, Puerto Rico (seed 835bc84d-d3db-4c92-92e3-08c18fed5ed9) read every count possible, took 63.0 seconds a year, and a played week afterward ran with no error.

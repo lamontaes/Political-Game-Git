@@ -22,9 +22,9 @@ claimed-at:
 
 **What.** The constituent-help family in src/director/data/arc-variants.json has three variants left: plain, eviction and sick. Two of them share one step and one set of replies, so the family has two skeletons, not three, and the arc-variant "differ" test has a floor of min(3, variants minus 1) instead of one skeleton per variant. A constituent who is ill, or caring for someone who is, answers to a different need than a rent notice or a job, and the scene should ask different things and offer different replies (what the official can do about leave, care, bills, time). Seen: a second session plays a sick case and an eviction case at two drawn places and the steps and replies the player is offered differ, with each offered reply answered.
 
-**Cause.** Found in code: in src/director/data/arc-variants.json the families.constituent-help.variants rows `eviction` and `sick` carry the same `state` and the same `replies` list, so only their lines differ; src/director/arc-variant.test.ts reads the skeleton as `state|replies` per variant and counts distinct ones.
+**Cause.** Found in code: in src/director/data/arc-variants.json the families.constituent-help.variants rows `eviction` and `sick` carry the same `state` and the same `replies` list, so only their lines differ; tests/src/director/arc-variant.test.ts reads the skeleton as `state|replies` per variant and counts distinct ones.
 
-**Fix.** Give `sick` its own steps and replies in arc-variants.json (the state the person tells, the replies that fit illness, the follow, again and endings), write the lines through the civic-prose process with the Words lead's rules, and restore the floor in src/director/arc-variant.test.ts to one skeleton per variant.
+**Fix.** Give `sick` its own steps and replies in arc-variants.json (the state the person tells, the replies that fit illness, the follow, again and endings), write the lines through the civic-prose process with the Words lead's rules, and restore the floor in tests/src/director/arc-variant.test.ts to one skeleton per variant.
 
 **Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -34,4 +34,4 @@ claimed-at:
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/director/arc-variant.test.ts
+**Files.** src/director/data/arc-variants.json, data/english/parts/scene-talk.json, tests/src/director/arc-variant.test.ts

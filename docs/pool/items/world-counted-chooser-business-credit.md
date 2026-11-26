@@ -30,10 +30,10 @@ checked: fable 2026-11-10
 
 **Rules.** One model, two tiers: a counted owner is weighed by the same offers as a full one, times the group's count. No dice: shares come from scored offers and a carried remainder. Replace, never layer: `strongestPulls` and its stopgap marker are deleted and the row is marked resolved in the same change. An effect is a read, not a record: the credit engine reads the borrowers chosen and the business engine reads the closings. Speed: no whole-world scan; groups, not people.
 
-**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place and a seed the builder did not choose, both named in the PR body) and sees counted businesses close, start and borrow through the shared chooser, each as a business or credit record id with its group's reasons, with no call of strongestPulls remaining in src, shown by src/core2/business.test.ts and src/core2/credit.test.ts. On screen: nothing yet; it would show on Politics, Campaigns and the election night results, and nothing there reads it.
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place and a seed the builder did not choose, both named in the PR body) and sees counted businesses close, start and borrow through the shared chooser, each as a business or credit record id with its group's reasons, with no call of strongestPulls remaining in src, shown by tests/src/core2/business.test.ts and tests/src/core2/credit.test.ts. On screen: nothing yet; it would show on Politics, Campaigns and the election night results, and nothing there reads it.
 
 **Waits on.** Nothing. Its `after` item (world-jobs-counted-choices-one-rule) was dropped as a duplicate; counted workers' shared chooser is already on main.
 
-**Files.** src/core2/modules/business.ts, src/core2/modules/credit.ts, src/core2/modules/jobs.ts, src/core2/data/stopgaps/world.json, src/core2/business.test.ts, src/core2/credit.test.ts
+**Files.** src/core2/modules/business.ts, src/core2/modules/credit.ts, src/core2/modules/jobs.ts, src/core2/data/stopgaps/world.json, tests/src/core2/business.test.ts, tests/src/core2/credit.test.ts
 
 **Notes.** Split from world-jobs-counted-choices Oct 20.

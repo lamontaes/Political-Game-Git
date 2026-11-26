@@ -29,7 +29,7 @@ checked:
 
 **Rules.** No dice: a recorded cause, never a seeded roll or a typed count, decides whether a body amends (`no-dice`). An effect is a read, not a record: the treasury, disaster and aid records are read when the body decides (`wire-to-the-world`). One model, two tiers: the rule reads the same for every body (`one-model-two-tiers`).
 
-**Done when.** At Lincolnshire KY, Trenton UT and Williams SC (pinned seeds) a year of play shows each amendment with a named recorded cause and the amendment count per year follows those causes (counts reported before and after); the budget-season cases in src/core2/office-day-budget-season.test.ts pass unchanged; a second session sees the council's line bills and the paper's reason in the running game at a drawn place.
+**Done when.** At Lincolnshire KY, Trenton UT and Williams SC (pinned seeds) a year of play shows each amendment with a named recorded cause and the amendment count per year follows those causes (counts reported before and after); the budget-season cases in tests/src/core2/office-day-budget-season.test.ts pass unchanged; a second session sees the council's line bills and the paper's reason in the running game at a drawn place.
 
 **Waits on.** The laws thread's open files (world-legislating.ts, budgets.ts), asked Nov 15.
 

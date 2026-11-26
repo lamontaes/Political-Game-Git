@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   cacheDir: "/tmp/p13-vitest-cache",
   test: {
-    include: ["src/director/**/*.test.ts"],
+    include: ["tests/src/director/**/*.test.ts"],
     environment: "node",
     maxWorkers: 1,
     testTimeout: 120_000,

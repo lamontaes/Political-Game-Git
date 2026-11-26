@@ -19,7 +19,7 @@ claimed-at: 2026-11-08T02:02:45.005Z
 
 **Done when.** A generated-world test prints place and replay, walks every active opening law, signs its authorized reversal draft and verifies the resulting effective law replaces the opening answer. Failures identify the law, body and bill. New/changed tests fail on the old behavior where a defect is fixed, pass ten fresh draws, and a new game passes. Report constitutional and scope limitations.
 
-**Files.** src/core2/starting-law-repeal-routes.test.ts, src/core2/law-reach/group-b-money.ts
+**Files.** tests/src/core2/starting-law-repeal-routes.test.ts, src/core2/law-reach/group-b-money.ts
 
 **Notes.** Astra Nov 8 main 2ff1b32b66 Irwin ID replay ab9d4c244299c95b: 83 active rows have draft routes, missing empty. The test never executes them. Follow-up to completed law-levels-starting-law-repeal-audit, not a claim that its draft proof establishes real constitutional procedure.
 

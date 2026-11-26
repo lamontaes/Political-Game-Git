@@ -36,7 +36,7 @@ merged-at: 2026-11-11T13:57:42.997Z
 6. **What it writes back.** A true answer already tells the listener the speaker's employer through `say` (`data.toldEvent`, `person:<id>:employer`); add the position the same way under `person:<id>:position`, so the person card reads it. Name the record id in the pull request.
 7. **Delete what this replaces, with every reference.** The 23 lines with no insert under the four work subjects; a piece that also serves another subject (43 do, mostly the shared `news-answer-react` and `own-work-answer-turn` parts) loses only these uses. Then `npm run words:grade` and `npm run words:rules` twice.
 8. **Lower the guard's count** for `conversation` in tests/guards/english/line-inserts-baseline.json.
-9. **Tests.** In src/director/conversation.test.ts, on drawn places: two people who work at different places name both employers and at least one position; a question about how long is answered with the years on record; no line asks how busy a place is; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
+9. **Tests.** In tests/src/director/conversation.test.ts, on drawn places: two people who work at different places name both employers and at least one position; a question about how long is answered with the years on record; no line asks how busy a place is; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
 
 **Time box.** 5 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -46,7 +46,7 @@ merged-at: 2026-11-11T13:57:42.997Z
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, tests/src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 90 distinct lines across the four subjects, 23 with no insert and not excused (own-work 39 and 8, other-work 42 and 14, heard-work 21 and 3, shared-work 17 and 1). Three today: "What do you do?", "Have you been there long?", "Let's not talk shop. Maybe another time." Work is not talked about between relatives (`familyTalk.dropped`), so this is heard away from home.
 

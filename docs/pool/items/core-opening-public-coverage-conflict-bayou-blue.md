@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** core-opening-coverage-every-locality, the sibling item that builds the same all-localities check; this item closes when that lands.
 
-**Files.** src/core2/opening-customers.ts, src/core2/opening-customers-county-office.test.ts
+**Files.** src/core2/opening-customers.ts, tests/src/core2/opening-customers-county-office.test.ts
 
 **Notes.** TODO
 

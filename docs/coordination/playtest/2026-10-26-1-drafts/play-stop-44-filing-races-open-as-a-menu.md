@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** Serves LAW.md §4, Scenes and conversations (four dynamic choices in a conversation, OD:209: the races are a choice among records, not a reply in the talk) and LAW.md §8, Dev-speak. No hand-written player text. This is a game, not a spreadsheet. Replace, never layer: the long numbered list in the talk box is replaced by the panel. Introduce people before they speak (OD:345): the clerk is named and placed before the first line.
 
-**Done when.** In a drawn place whose filing office has more than four open races, the clerk's talk box shows no more than four numbered replies and the races open as a menu panel with one row per race (office, seat, election date, who holds it now); a test over the counter packet fails on any filing line matching a year-and-number parenthesis; the clerk is introduced before speaking; shown by a screenshot of the panel, the talk box and the clerk's introduction with the place and seed named, checked in src/bench/seat-choices.browser.mjs.
+**Done when.** In a drawn place whose filing office has more than four open races, the clerk's talk box shows no more than four numbered replies and the races open as a menu panel with one row per race (office, seat, election date, who holds it now); a test over the counter packet fails on any filing line matching a year-and-number parenthesis; the clerk is introduced before speaking; shown by a screenshot of the panel, the talk box and the clerk's introduction with the place and seed named, checked in tests/src/bench/seat-choices.browser.mjs.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,6 +27,6 @@ claimed-at:
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/filing.ts, src/director/filing-visit.ts, src/bench/play.mjs, src/bench/play.css, src/bench/seat-choices.browser.mjs, src/bench/filing.browser.mjs
+**Files.** src/bench/filing.ts, src/director/filing-visit.ts, src/bench/play.mjs, src/bench/play.css, tests/src/bench/seat-choices.browser.mjs, tests/src/bench/filing.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "If there's this many options, it should open an actual menu. It shouldn't just be in the chat." New owner instruction in playtest; CTO to record in OWNER-DECISIONS.md. LAW.md §4 says four choices always in a conversation; this item reads the owner's menu instruction as applying to a choice among races, not to a conversational reply, and the CTO should confirm. play-stop-16 (done) added the seat, date and holder lines; the codes and the six-line list remain. The clerk, Laura Pierce, spoke without being introduced. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).

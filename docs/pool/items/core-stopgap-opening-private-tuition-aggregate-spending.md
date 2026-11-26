@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** Replace, never layer: the opening's means-ranked quota is deleted in the same change that the choice replaces it, not left beside it. Placeholders: the row is closed only because the mechanic is built, never by deleting it. One model, two tiers: the proof covers both a full family and a counted group. An effect is a read, not a record: a tuition contract must be read by the finance engine as a household payment to the school. No dice: the NCES share checks the town total and never picks a family.
 
-**Done when.** After the three parts are done, a one-year run of buildBenchWorld in a drawn place from all 56 with a private school (place and seed named in the PR body, a seed the builder did not choose) shows no stopgap hit for SG-CORE-private-tuition-average, tuition paid by a full and a counted family by finance contract and journal record id, the row resolved in stopgaps.json, and src/core2/opening-private-tuition.test.ts plus the tripwire tests in src/core2/tooling/tripwires.test.ts pass.
+**Done when.** After the three parts are done, a one-year run of buildBenchWorld in a drawn place from all 56 with a private school (place and seed named in the PR body, a seed the builder did not choose) shows no stopgap hit for SG-CORE-private-tuition-average, tuition paid by a full and a counted family by finance contract and journal record id, the row resolved in stopgaps.json, and tests/src/core2/opening-private-tuition.test.ts plus the tripwire tests in tests/src/core2/tooling/tripwires.test.ts pass.
 
-**Files.** src/core2/opening-private-tuition.ts, src/core2/data/opening-private-tuition.json, src/core2/data/stopgaps.json, src/core2/opening-private-tuition.test.ts
+**Files.** src/core2/opening-private-tuition.ts, src/core2/data/opening-private-tuition.json, src/core2/data/stopgaps.json, tests/src/core2/opening-private-tuition.test.ts
 
 **Notes.** First row: Each household with school-age children pays its children's share of the town's private tuition (the national private share times the average tuition) to the town's private school; no family chooses a school, and no chil
 

@@ -17,8 +17,8 @@ claimed-at: 2026-10-19T22:30:16.010Z
 
 **Rules.** One model, two tiers: a counted renter pays and is evicted under the same rule as a full one, times its count. No dice: who falls behind follows income against rent and the place's conditions, never a fixed share. Wire to the world: money moves only through the accounts API and every dollar balances.
 
-**Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) a counted household whose income falls short of its rent is shown by record id as behind on rent, filled in, and in an eviction case, and the town's pooled account no longer pays that rent. The test in `src/core2/housing.test.ts` and the stopgap tripwire show SG-WORLD-housing-counted-rent resolved in `src/core2/data/stopgaps.json` (removed).
+**Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) a counted household whose income falls short of its rent is shown by record id as behind on rent, filled in, and in an eviction case, and the town's pooled account no longer pays that rent. The test in `tests/src/core2/housing.test.ts` and the stopgap tripwire show SG-WORLD-housing-counted-rent resolved in `src/core2/data/stopgaps.json` (removed).
 
-**Files.** src/core2/modules/housing.ts, src/core2/data/stopgaps.json, src/core2/housing.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/data/stopgaps.json, tests/src/core2/housing.test.ts
 
 **Notes.** The pooled flow is in housing.ts at about line 473 (`rent:<household>`). Related: PR for world-fill-in-arrears-from-household.

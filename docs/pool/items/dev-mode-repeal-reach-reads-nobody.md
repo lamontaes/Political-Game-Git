@@ -32,4 +32,4 @@ root: rc8-law-judged-by-paperwork
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/dev-mode.ts, src/core2/law-reach/applied.ts, src/bench/data/controls.json, src/bench/ui/dev-bill-card.mjs, src/bench/dev-repeal-reach.test.ts (new), src/bench/dev-repeal.browser.mjs (new)
+**Files.** src/bench/dev-mode.ts, src/core2/law-reach/applied.ts, src/bench/data/controls.json, src/bench/ui/dev-bill-card.mjs, tests/src/bench/dev-repeal-reach.test.ts (new), tests/src/bench/dev-repeal.browser.mjs (new)

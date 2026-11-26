@@ -21,7 +21,7 @@ claimed-at: 2026-10-17T00:52:58.058Z
 
 **Done when.** In a played world drawn at a real place (for example Robbins, Illinois, or Lake Ridge, Virginia), the Politics screen filtered to state lists every sitting state legislator of that state, and switching the state to another lists that state's legislators instead; a screenshot of the screen filtered to state and then switched to another state is in the PR, and the browser spec for the screen passes.
 
-**Files.** `src/bench/politics.browser.mjs` (the Politics screen spec), `src/bench/play.mjs` and `src/bench/data/controls.json` (find the Politics hub screen), `src/core2/opening-key-people.ts` (the list it currently reads).
+**Files.** `tests/src/bench/politics.browser.mjs` (the Politics screen spec), `src/bench/play.mjs` and `src/bench/data/controls.json` (find the Politics hub screen), `src/core2/opening-key-people.ts` (the list it currently reads).
 
 **Notes.** From the owner's answer to the Oct 15 question in OWNER-DECISIONS.md ("say if it should list only the leaders and the player's own"): keep everyone, filter by division.
 

@@ -15,7 +15,7 @@ lead: laws
 model: opus
 effort: medium
 root: rc1-world-outside-town
-source: the federal views helper, Nov 11, 2026, tracing the red press check in src/director/opening-story.test.ts
+source: the federal views helper, Nov 11, 2026, tracing the red press check in tests/src/director/opening-story.test.ts
 checked:
 claimed-at: 2026-11-11T08:35:00.000Z
 branch: claude/red-press-address-tie
@@ -31,10 +31,10 @@ branch: claude/red-press-address-tie
 
 **Rules.** No dice: the order comes from the records, never a draw. One rule, all 56 places: nothing names a place. Replace, never layer: the sort's tie rule changes in place.
 
-**Done when.** src/director/opening-story.test.ts passes on a fresh draw and on Arrowhead Springs, Wyoming (seed `da5c1844fcee4270`) and Carnuel, New Mexico (seed `12aef90a529b9e19`). A second session on main, in a drawn place it writes down with its seed, reads the national stories of a new life's first two weeks in dev mode and finds the President's address printed.
+**Done when.** tests/src/director/opening-story.test.ts passes on a fresh draw and on Arrowhead Springs, Wyoming (seed `da5c1844fcee4270`) and Carnuel, New Mexico (seed `12aef90a529b9e19`). A second session on main, in a drawn place it writes down with its seed, reads the national stories of a new life's first two weeks in dev mode and finds the President's address printed.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/press-desk.ts, src/core2/press-topics.ts, src/core2/press-address-tie.test.ts (new)
+**Files.** src/core2/press-desk.ts, src/core2/press-topics.ts, tests/src/core2/press-address-tie.test.ts (new)
 
 **Notes.** Found while tracing the red; the other half is press-other-place-law-involves-no-one (#8761). Fable B, 08:34Z on #7365: the tie rule ships alone as a red on main; the other fix first written here (the address carries its first policy point as its topic, one line in `recordOpeningStory`) stays with words-opening-address-leads-with-the-presidents-own-causes, after #8743. Built on #8768: the opening-story check passes 6 of 6 on both seeds and on Washington, District of Columbia (seed `d64b306e8bbe952c`); in both named places the address won on witnesses (6 and 4 against 0).

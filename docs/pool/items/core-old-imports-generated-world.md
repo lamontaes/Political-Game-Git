@@ -17,9 +17,9 @@ claimed-at: 2026-10-22T06:11:44.353Z
 
 **Rules.** Replace, never layer: the old calls are deleted when the core path stands alone, and the PR body counts them. Bookkeeping is a debug switch: world validation stays in tests and the bench only. Speed: opening time and memory stay within 20 percent of base, measured before and after on the same machine. One rule, all 56 places: the generated place is drawn, never named.
 
-**Done when.** The grep `grep -n 'simulation/' src/core2/tooling/generated-world.ts` prints nothing, and a generated opening in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body) builds the same people and organizations by record id and passes a one-year run of `buildBenchWorld`; src/core2/tooling/calibration-guard.test.ts passes.
+**Done when.** The grep `grep -n 'simulation/' src/core2/tooling/generated-world.ts` prints nothing, and a generated opening in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body) builds the same people and organizations by record id and passes a one-year run of `buildBenchWorld`; tests/src/core2/tooling/calibration-guard.test.ts passes.
 
-**Files.** src/core2/tooling/generated-world.ts, src/core2/tooling/calibration-guard.test.ts
+**Files.** src/core2/tooling/generated-world.ts, tests/src/core2/tooling/calibration-guard.test.ts
 
 **Notes.** Found by the pool feeder: the roll-up grep still lists this file, and the earlier tooling item left it.
 

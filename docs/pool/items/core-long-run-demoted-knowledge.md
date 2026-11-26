@@ -19,6 +19,6 @@ claimed-at: 2026-11-09T10:02:10.556Z
 
 **Done when.** A person returned to the counts holds no facts but the notes of events they take part in, and api.observe adds nothing else while they are counted; a refilled person learns again (counted-demotion.test.ts); a 4-year Montpelier twin against the same main shows the facts held by people back in the counts, the heap, and races, deaths and money with the differences explained.
 
-**Files.** src/core2/modules/counted-demotion.ts, src/core2/state.ts, src/core2/knowledge-retention.ts, src/core2/counted-demotion.test.ts
+**Files.** src/core2/modules/counted-demotion.ts, src/core2/state.ts, src/core2/knowledge-retention.ts, tests/src/core2/counted-demotion.test.ts
 
 **Notes.** TODO

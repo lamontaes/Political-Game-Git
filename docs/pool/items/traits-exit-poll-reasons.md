@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** No dice: the answer follows the voter's recorded reasons and lean, never a roll. Research before building: the response rate and the trait size come from fetched pages, quoted. Ask why: each ballot's why keeps the parts.
 
-**Done when.** In the named voters of two drawn race towns' played windows (src/core2/trait-test-kit.ts drawnRaceWorld), seeds named, the share who tell the pollster is between 35% and 60% and the crossed net odds between the thirds of lean are from 1.1 to 1.4, with the base, engagement and interest weights and traitWeightVotingExitPoll tagged ESTIMATED with their sources; src/core2/modules/voting.traits.test.ts checks that every voter's answer follows their kept reasons at the weight; and the voting.exit-poll gap row is removed. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
+**Done when.** In the named voters of two drawn race towns' played windows (src/core2/trait-test-kit.ts drawnRaceWorld), seeds named, the share who tell the pollster is between 35% and 60% and the crossed net odds between the thirds of lean are from 1.1 to 1.4, with the base, engagement and interest weights and traitWeightVotingExitPoll tagged ESTIMATED with their sources; tests/src/core2/modules/voting.traits.test.ts checks that every voter's answer follows their kept reasons at the weight; and the voting.exit-poll gap row is removed. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
 
-**Files.** src/core2/modules/voting.ts, src/core2/data/elections/parameters.json, src/core2/data/parameters.json, data/research/trait-effect-sizes.json, src/core2/modules/voting.traits.test.ts
+**Files.** src/core2/modules/voting.ts, src/core2/data/elections/parameters.json, src/core2/data/parameters.json, data/research/trait-effect-sizes.json, tests/src/core2/modules/voting.traits.test.ts
 
 **Notes.** Built Oct 25 by the traits lead on branch claude/traits-exit-poll, stacked on traits-civic-shared-rule. Fitted on Finklea, South Carolina (4525405), Silver City, Nevada (3266800) and Douglas, Nebraska (3113505): 46.5% tell pooled, crossed odds 1.18.
 

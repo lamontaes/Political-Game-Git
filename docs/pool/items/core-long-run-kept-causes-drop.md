@@ -18,7 +18,7 @@ claimed-at: 2026-10-30T09:20:03.360Z
 
 **Rules.** Speed: years 97 to 100 of a save run at most 1.2 times as long as years 1 to 4, and records kept hold the same way; old records fold into summaries once play no longer reads them. An effect is a read, not a record: a kept row nothing in play reads is an unregistered placeholder (CTO, Oct 30, amending the 03:05 ruling).
 
-**Done when.** foldCauses keeps in foldedCauses only causes a voter's known fact names, and causesKeptPerCandidate is removed; src/core2/campaign-causes-fold.test.ts passes in a drawn place; a 4-year speed:year run of seed long-1 against the circle fold's head differs in dev mode's records proof only in foldedCauses, with its rows before and after and the readers swept in the PR body.
+**Done when.** foldCauses keeps in foldedCauses only causes a voter's known fact names, and causesKeptPerCandidate is removed; tests/src/core2/campaign-causes-fold.test.ts passes in a drawn place; a 4-year speed:year run of seed long-1 against the circle fold's head differs in dev mode's records proof only in foldedCauses, with its rows before and after and the readers swept in the PR body.
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/data/campaigns/parameters.json
 

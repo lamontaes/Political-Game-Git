@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** An effect is a read, not a record: read the committee record where it exists. No hand-written player text: the line is a developer log. Replace, never layer: one tally line, not two.
 
-**Done when.** The path-check line for a drawn place and seed where the committee kills the bill (seed sw6e30e80c) shows the committee's vote and "died in committee", and for a bill that reaches the floor shows the floor tally; a test beside src/bench/path-check-step-11.test.ts or in src/bench states both.
+**Done when.** The path-check line for a drawn place and seed where the committee kills the bill (seed sw6e30e80c) shows the committee's vote and "died in committee", and for a bill that reaches the floor shows the floor tally; a test beside tests/src/bench/path-check-step-11.test.ts or in src/bench states both.
 
 **Files.** src/bench/path-check.ts, src/bench/legislature.ts
 

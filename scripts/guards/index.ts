@@ -75,7 +75,7 @@ export const GUARDS: readonly Guard[] = [
     id: "two-seeds-differ",
     rule: "Realistic, not real: no statistic but law opens on its published value, and two worlds never open on the same one; the known copies only shrink.",
     readMore:
-      "src/core2/realistic-not-real.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Realistic not real",
+      "tests/src/core2/realistic-not-real.test.ts, its header; docs/coordination/OWNER-DECISIONS.md, Realistic not real",
     // Two played worlds: its npm script gives it the heap it needs.
     command: ["npm", "run", "-s", "zero-real-data"],
   },
@@ -204,7 +204,7 @@ export const GUARDS: readonly Guard[] = [
     rule: "Every number lives in a parameter table, and every stopgap the director marks is registered.",
     readMore: "AGENTS.md, Placeholders",
     command: vitest(
-      "src/director/director.test.ts",
+      "tests/src/director/director.test.ts",
       "-t",
       "registers every stopgap it marks and keeps numbers in data",
     ),

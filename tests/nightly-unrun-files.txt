@@ -2,9 +2,9 @@
 # exactly these on main every night (and by hand), so a red here is seen.
 # One path per line; blank lines and lines starting with # are ignored.
 # To add a file, add its path on a new line. Never make this a required check.
-src/english/bill-sections.test.ts
-src/english/opening-speech-ties.test.ts
-src/director/petition-short.test.ts
-src/director/conversation-crime.test.ts
-src/director/conversation-home-lines.test.ts
-src/director/conversation-said.test.ts
+tests/src/english/bill-sections.test.ts
+tests/src/english/opening-speech-ties.test.ts
+tests/src/director/petition-short.test.ts
+tests/src/director/conversation-crime.test.ts
+tests/src/director/conversation-home-lines.test.ts
+tests/src/director/conversation-said.test.ts

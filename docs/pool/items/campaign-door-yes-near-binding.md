@@ -18,8 +18,8 @@ claimed-at: 2026-10-29T22:06:49.333Z
 
 **Rules.** No dice: the pledge is the resident's own warm answer and it is undone only by records they learned since (a scandal story, a closer rival, heard promises broken), sliding with no roll. One model, two tiers: a counted resident's door answer is written by the same first-visit rule and read by the same appeal function times its count.
 
-**Done when.** src/core2/door-pledge.test.ts passes in a drawn place with the seed it prints: every warm door answer is a pledge row naming its cause id, the ballot of each pledged voter carries the pledge part and a held pledge decides the vote, counted ballots keep counted pledges, and a closer rival raises pledgeDoubt.
+**Done when.** tests/src/core2/door-pledge.test.ts passes in a drawn place with the seed it prints: every warm door answer is a pledge row naming its cause id, the ballot of each pledged voter carries the pledge part and a held pledge decides the vote, counted ballots keep counted pledges, and a closer rival raises pledgeDoubt.
 
-**Files.** src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/core2/electorate.ts, src/core2/data/campaigns/parameters.json, src/core2/door-pledge.test.ts
+**Files.** src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/core2/electorate.ts, src/core2/data/campaigns/parameters.json, tests/src/core2/door-pledge.test.ts
 
 **Notes.** TODO

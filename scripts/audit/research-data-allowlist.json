@@ -51,7 +51,7 @@
     },
     {
       "file": "data/research/laws/regular-session-years.json",
-      "reason": "Raw source the game does not read directly: checked against by src/core2/session-calendar.test.ts. Its only direct reader was the old engine, deleted Oct 28, 2026."
+      "reason": "Raw source the game does not read directly: checked against by tests/src/core2/session-calendar.test.ts. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
       "file": "data/research/legislative-procedure/item-veto.json",
@@ -71,7 +71,7 @@
     },
     {
       "file": "data/research/money/opening-employer-cash-buffers.json",
-      "reason": "Raw source the game does not read directly: checked against by src/core2/opening-capital.test.ts; source cited by src/core2/data/opening-employer-cash-reference.json and src/core2/data/opening-capital.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
+      "reason": "Raw source the game does not read directly: checked against by tests/src/core2/opening-capital.test.ts; source cited by src/core2/data/opening-employer-cash-reference.json and src/core2/data/opening-capital.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
       "file": "data/research/money/public-programs-2026.json",

@@ -17,8 +17,8 @@ claimed-at: 2026-10-24T17:24:32.605Z
 
 **Rules.** An effect is a read, not a record: a carried link names the engine function that reads its cause at the moment a voter chooses, and the web never runs it beside that function. Replace, never layer: no second web effect is added to make evidence.
 
-**Done when.** src/core2/outcome-web-civic-carried.test.ts holds each carried link's reader and each unwired link's reason; the unwired list, coverage and effect matrix are regenerated on the branch from main; and outcome-web-unwired.test.ts passes against the matrix. The played world record ids for the two readers stay with web-reach-civic.
+**Done when.** tests/src/core2/outcome-web-civic-carried.test.ts holds each carried link's reader and each unwired link's reason; the unwired list, coverage and effect matrix are regenerated on the branch from main; and outcome-web-unwired.test.ts passes against the matrix. The played world record ids for the two readers stay with web-reach-civic.
 
-**Files.** src/core2/outcome-web-civic-carried.test.ts, src/core2/data/outcome-web/coverage.json, src/core2/data/outcome-web/unwired.json
+**Files.** tests/src/core2/outcome-web-civic-carried.test.ts, src/core2/data/outcome-web/coverage.json, src/core2/data/outcome-web/unwired.json
 
 **Notes.** Split Oct 24 by the effects lead from web-reach-civic, on the route Merger 3 offered when sending back #5927: the audit completes here, and the family's played-year acceptance stays open.

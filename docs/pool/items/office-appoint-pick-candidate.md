@@ -17,7 +17,7 @@ claimed-at: 2026-10-16T21:28:04.560Z
 
 **Rules.** No hand-written player text: the list shows record data and control names, and any sentence comes from the English engine. This is a game, not a spreadsheet: one choice among people, no form. No dice: the ranking is the engine's reasons, and the council confirms by its members' views. Ask why: the nomination and the vote keep reasons by record id. One rule, all 56 places: which posts exist comes from place data.
 
-**Done when.** In a drawn place (`buildBenchWorld`, a seed the builder did not choose, both named in the PR body) with a post open, the office panel returns the ranked candidates with their reasons, a pick of a candidate other than the first is passed to `appoint`, and the appointment record id, the council vote and the new head's job are shown by record id in a test beside src/core2/office-day-name-head.test.ts. The owner plays it: opens the office panel after a department head dies and names someone.
+**Done when.** In a drawn place (`buildBenchWorld`, a seed the builder did not choose, both named in the PR body) with a post open, the office panel returns the ranked candidates with their reasons, a pick of a candidate other than the first is passed to `appoint`, and the appointment record id, the council vote and the new head's job are shown by record id in a test beside tests/src/core2/office-day-name-head.test.ts. The owner plays it: opens the office panel after a department head dies and names someone.
 
 **Files.** src/bench/office.ts, src/bench/handler.ts, src/bench/play.mjs, src/core2/modules/executive.ts, src/core2/office-day-acts.ts
 

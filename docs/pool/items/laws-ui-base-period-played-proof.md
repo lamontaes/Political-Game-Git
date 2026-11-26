@@ -35,7 +35,7 @@ branch: claude/pool-laws-ui-base-period-played-proof
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/jobs-benefits.ts,src/core2/unemployment-base-period.test.ts
+**Files.** src/core2/jobs-benefits.ts,tests/src/core2/unemployment-base-period.test.ts
 
 **Notes.** Nov 9 (Laws and effects, #7949): the first played pair (Cutter AZ, seed 8a2cb07c) found no claim because layOffWorker returned worked-today, so the test must retry the layoff the next day. The twin needs a worker whose benefit is below the state's weekly maximum, since Arizona's 32,000 minor units caps both the base-period read and the last-pay read. A run takes about 13 minutes, so it is a run in the PR body, not a test in the suite.
 

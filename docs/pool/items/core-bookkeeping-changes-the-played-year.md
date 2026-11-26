@@ -33,4 +33,4 @@ checked: account lead 2026-11-14
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/people.ts, src/core2/modules/drives.ts, src/core2/life.ts, src/core2/types.ts, src/core2/bookkeeping-same-records.test.ts
+**Files.** src/core2/modules/people.ts, src/core2/modules/drives.ts, src/core2/life.ts, src/core2/types.ts, tests/src/core2/bookkeeping-same-records.test.ts

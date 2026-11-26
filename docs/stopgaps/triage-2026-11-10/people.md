@@ -42,7 +42,7 @@ Checker T7, from today's main. 16 stand-ins. Every row also carries the owner's 
 - `SG-PEOPLE-origin-skin-tones`: src/bench/whole-figures.ts:90 marker; ORIGIN_TONES from src/bench/data/whole-figures.json originTones (line 111). Marker moved from 89 to 90; the register's data path data/whole-figures.json is src/bench/data/whole-figures.json.
 - `SG-PEOPLE-life-record-cap`: src/core2/person-life.ts:129-152 fold() orders by TABLE.keeps; src/core2/data/life/parameters.json:2 lifeRememberedMost 60 TUNABLE, stopgapId at :13.
 - `SG-PEOPLE-whole-past-first-month-economy`: src/core2/past-work.ts:521 stopgap on before-run; monthOn at :169-176 returns months[0] before the window; :579 comment.
-- `SG-PEOPLE-role-people-have-no-past`: src/core2/person-life.test.ts:132 still asserts the empty life for role people; src/core2/person-life.ts header; item core-life-record-part-4 is open and says registered in #8123. No code builds role holders a past.
+- `SG-PEOPLE-role-people-have-no-past`: tests/src/core2/person-life.test.ts:132 still asserts the empty life for role people; src/core2/person-life.ts header; item core-life-record-part-4 is open and says registered in #8123. No code builds role holders a past.
 - `SG-PEOPLE-played-jobs-read-at-open`: src/core2/person-life.ts:288 constant, :335 stopgap(PLAYED_JOBS_STOPGAP) inside playedJobs reading jobs 'changes' byPerson; remembered.json holds only work.job-lost and person.work-spell; jobs.ts:1890 emits only work.job-lost.
 
 ## Borderline, for the owner

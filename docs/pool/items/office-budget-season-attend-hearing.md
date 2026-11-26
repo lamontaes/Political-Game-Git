@@ -30,7 +30,7 @@ checked: fable 2026-11-10
 
 **Rules.** Replace, never layer: the one-call draft-and-vote path is deleted; No dice; One rule, all 56 places: the meeting day comes from the body's own rule; No hand-written player text: hearing wording waits on words-budget-hearing-speakers.
 
-**Done when.** A second session, not the builder, plays a drawn place and seed (named), with a seated player holding the every-meeting stop, and sees them stopped at the meeting that votes the budget, speak on it, and the adopted budget id and the kept act id named; src/core2/office-day-budget-season.test.ts still passes.
+**Done when.** A second session, not the builder, plays a drawn place and seed (named), with a seated player holding the every-meeting stop, and sees them stopped at the meeting that votes the budget, speak on it, and the adopted budget id and the kept act id named; tests/src/core2/office-day-budget-season.test.ts still passes.
 
 **Waits on.** Its three parts: office-budget-season-attend-hearing-part-1-agenda-placement, office-budget-season-attend-hearing-part-2-vote-at-meeting and office-budget-season-attend-hearing-part-3-player-at-hearing.
 

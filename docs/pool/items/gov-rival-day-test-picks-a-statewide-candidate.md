@@ -19,7 +19,7 @@ root: none
 checked:
 ---
 
-**What.** `src/core2/rival-campaign-day-played.test.ts` draws a place and takes the first world candidate on a ballot with an event and an interview on offer. When that candidate runs for a statewide office, the test's "the rich turn holds the event" line fails ("expected null to be 'event'") even though the day's plan is an event. It fails on some draws and passes on others, with no change in the code, so a red there says nothing about the campaign engine. Seen: a rival's campaign day on a statewide race, where the town hears of an evening event only when the town's share of the race has built up to one.
+**What.** `tests/src/core2/rival-campaign-day-played.test.ts` draws a place and takes the first world candidate on a ballot with an event and an interview on offer. When that candidate runs for a statewide office, the test's "the rich turn holds the event" line fails ("expected null to be 'event'") even though the day's plan is an event. It fails on some draws and passes on others, with no change in the code, so a red there says nothing about the campaign engine. Seen: a rival's campaign day on a statewide race, where the town hears of an evening event only when the town's share of the race has built up to one.
 
 **Cause.** Measured: place Hayfield, Virginia (5135912), place seed `9ef69bf9b9f5a4ebc1b139d323419e9f51bd165797c008f8692f1b741a9fc0b8`, twoLevel world played to 2025-02-19. The world candidate there files for attorney general. With the bank set rich, `rivalDay` returns act `event` (callHours 0.158, doorHours 0.394, actHours 3), and `campaignTurn` returns `dayAct` null, on the train at ee82407b5d with campaigns.ts as on the train and again with the #8516 carry. In `campaignTurn` an event is taken only when `heldInTown` (`src/core2/modules/campaigns.ts`) says so, and for a race the town is only part of it holds an event once the town's share of the race (`townShareOfRace`, under 1) has added up to one, so the first turns hold none.
 
@@ -33,6 +33,6 @@ checked:
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/rival-campaign-day-played.test.ts
+**Files.** tests/src/core2/rival-campaign-day-played.test.ts
 
 **Notes.** Nov 14 (account lead): found while carrying #8516, where two of six draws failed; the clean train fails at the same place, so the carry did not cause it.

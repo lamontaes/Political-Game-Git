@@ -23,10 +23,10 @@ checked:
 
 **Cause.** Measured: on the cut (#10063):
 
-- `src/english/bill-paper-words.test.ts` fails 2 cases, both "expected null", because data/english/parts/bill-paper.json holds no lines (`CUT_BANKS` in tests/english-parts-banks.test.ts).
+- `tests/src/english/bill-paper-words.test.ts` fails 2 cases, both "expected null", because data/english/parts/bill-paper.json holds no lines (`CUT_BANKS` in tests/english-parts-banks.test.ts).
 - data/english/parts/opening-speech.json went from 3,200 pieces on train/nov18 to 131. Story wrote the opening evening's greeting, standing, stance, reason and order lines back on Nov 19, 69 pieces. Still missing are the parts the yearly and later addresses use: occasion, oath, unity, creed, hope, pledge, the lines to Congress, the Vice President and the states, people, history, call, families, meaning, tie, question, change, subject, and the belief words that give a stance its reason.
 
-Shown by `npx vitest run src/english/bill-paper-words.test.ts` on the cut.
+Shown by `npx vitest run tests/src/english/bill-paper-words.test.ts` on the cut.
 
 **Fix.** Write the bill paper's lines in data/english/parts/bill-paper.json from the facts the paper's packet sets: the lawyer's title, the body and the authority in dispute. Then remove bill-paper from `CUT_BANKS`. Write the address parts in data/english/parts/opening-speech.json, in both voices, for every kind the speech outline asks. Take each `it.fails` mark off as its case passes.
 
@@ -38,6 +38,6 @@ Shown by `npx vitest run src/english/bill-paper-words.test.ts` on the cut.
 
 **Waits on.** Nothing.
 
-**Files.** data/english/parts/bill-paper.json, data/english/parts/opening-speech.json, src/english/bill-paper-words.test.ts, tests/english-parts-banks.test.ts
+**Files.** data/english/parts/bill-paper.json, data/english/parts/opening-speech.json, tests/src/english/bill-paper-words.test.ts, tests/english-parts-banks.test.ts
 
 **Notes.** Nov 19 (Story): filed with the cut, as the CTO asked on #9750 at 04:53Z.

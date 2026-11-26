@@ -30,7 +30,7 @@ merged-at: 2026-11-11T14:39:31.085Z
 1. In src/bench/play.mjs the handler closes the top thing that is open, in this order: a person's card, the news reader, a term's card, the open menu. Only when none is open, and the game is in play, does it open Options. One list in one handler; no screen adds its own key listener for this.
 2. Focus goes back to the control that opened what was closed (the rail button for a menu), as the ruling says.
 3. A talk or a scene is not a transient context: Escape during one opens Options, as today, and never skips a line or a choice.
-4. The browser checks that press Escape with a menu open and then expect Options (src/bench/birthday.browser.mjs line 92, src/bench/budgets.browser.mjs line 72 and any other the search `"Escape"` over src/bench finds) are changed to what a player now does: one press closes the menu. The walk library's `closeMenu` in scripts/play-walks/lib.mjs goes back to pressing Escape once this is on main.
+4. The browser checks that press Escape with a menu open and then expect Options (tests/src/bench/birthday.browser.mjs line 92, tests/src/bench/budgets.browser.mjs line 72 and any other the search `"Escape"` over src/bench finds) are changed to what a player now does: one press closes the menu. The walk library's `closeMenu` in scripts/play-walks/lib.mjs goes back to pressing Escape once this is on main.
 
 **Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -40,6 +40,6 @@ merged-at: 2026-11-11T14:39:31.085Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/play.mjs, src/bench/birthday.browser.mjs, src/bench/budgets.browser.mjs, src/bench/escape-closes-what-is-open.browser.mjs (new)
+**Files.** src/bench/play.mjs, tests/src/bench/birthday.browser.mjs, tests/src/bench/budgets.browser.mjs, tests/src/bench/escape-closes-what-is-open.browser.mjs (new)
 
 **Notes.** Written by the lead (Fable B), Nov 11, 10:52 UTC. Found when a walk script pressed Escape to close Politics and the next day could not be pressed. Before and after pictures at 1440x900 go under docs/seen/ in the pull request, with how fast the menu closes.

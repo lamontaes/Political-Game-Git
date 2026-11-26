@@ -22,6 +22,6 @@ claimed-at: 2026-10-28T01:35:04.157Z
 
 **Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 
-**Files.** src/core2/realistic-not-real.test.ts, .agents/rules/standing-skills/local-gate/SKILL.md
+**Files.** tests/src/core2/realistic-not-real.test.ts, .agents/rules/standing-skills/local-gate/SKILL.md
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.

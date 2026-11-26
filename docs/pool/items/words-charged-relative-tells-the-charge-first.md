@@ -31,11 +31,11 @@ Seen: a relative charged, convicted or acquitted that day opens the talk with it
 
 **Rules.** Replace, never layer: the one opener rule takes the case kinds; no second path. One rule, all 56 places.
 
-**Done when.** A second session runs the justice walk (or any played world where the justice engine charges someone the player can click) at a drawn place, clicks each charged relative on the day of the charge and of the verdict, and every talk opens with the case; src/director/eviction-leads-the-talk.test.ts or a sibling pinned test checks a charge leads over a printed story.
+**Done when.** A second session runs the justice walk (or any played world where the justice engine charges someone the player can click) at a drawn place, clicks each charged relative on the day of the charge and of the verdict, and every talk opens with the case; tests/src/director/eviction-leads-the-talk.test.ts or a sibling pinned test checks a charge leads over a printed story.
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/director/eviction-leads-the-talk.test.ts
+**Files.** src/director/conversation.ts, tests/src/director/eviction-leads-the-talk.test.ts
 
 **Notes.**
 

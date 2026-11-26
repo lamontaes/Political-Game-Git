@@ -29,7 +29,7 @@ checked: fable 2026-11-10
 
 **Rules.** Replace, never layer: the one-call draft-and-vote path is deleted. No dice. One rule, all 56 places: the meeting day comes from the body's own rule.
 
-**Done when.** A second session, not the builder, plays a drawn place and seed (named) and sees the budget voted at the meeting the bill sat on, by the vote record id, with the adopted budget id named and no other path that adopts a budget; src/core2/office-day-budget-season.test.ts still passes.
+**Done when.** A second session, not the builder, plays a drawn place and seed (named) and sees the budget voted at the meeting the bill sat on, by the vote record id, with the adopted budget id named and no other path that adopts a budget; tests/src/core2/office-day-budget-season.test.ts still passes.
 
 **Waits on.** office-budget-season-attend-hearing-part-1-agenda-placement.
 

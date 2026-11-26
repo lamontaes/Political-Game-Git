@@ -20,4 +20,4 @@ merged-at: 2026-11-10T18:36:20.387Z
 
 **Done when.** Seeds 211 and 213 print no close said more than a few times; the gates above pass.
 
-**Files.** data/english/parts/scene-talk.json, src/director/scene-talk.ts, src/director/reads-wrong-scenes.test.ts
+**Files.** data/english/parts/scene-talk.json, src/director/scene-talk.ts, tests/src/director/reads-wrong-scenes.test.ts

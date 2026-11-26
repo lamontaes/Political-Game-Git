@@ -19,6 +19,6 @@ claimed-at: 2026-11-06T17:13:46.331Z
 
 **Done when.** billCatalog's authority for a state or federal body equals policyAuthority for a policy question and beyondPower for an amount; a test on a drawn place shows the menu and the check agree for every state-level question.
 
-**Files.** src/core2/bill-catalog.ts,src/core2/bill-catalog-state-authority.test.ts
+**Files.** src/core2/bill-catalog.ts,tests/src/core2/bill-catalog-state-authority.test.ts
 
 **Notes.** TODO

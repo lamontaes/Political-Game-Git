@@ -34,7 +34,7 @@ branch:
 5. **What it writes back.** The listener already remembers the talk's topic (`talkedKey` in `say`). Add: when the player is told a happening, they learn it as `api.observe` knowledge keyed by the moment, cited to it, so a later talk with that person can ask after it rather than learning it again. Name the record id in the pull request.
 6. **Delete what this replaces, with every reference.** The 22 lines with no insert under the three subjects. None of them is graded good; the one line graded good here, "Have you seen {name}?", carries an insert and stays. A piece that also serves another subject (14 do) loses only these uses. Then `npm run words:grade` and `npm run words:rules` twice.
 7. **Lower the guard's count** for `conversation` in tests/guards/english/line-inserts-baseline.json.
-8. **Tests.** In src/director/conversation.test.ts, on drawn places: a mutual acquaintance who took a job is raised with the employer; two schoolmates name the school and the years; no answer to "Have you seen {name}?" jumps to work or home; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
+8. **Tests.** In tests/src/director/conversation.test.ts, on drawn places: a mutual acquaintance who took a job is raised with the employer; two schoolmates name the school and the years; no answer to "Have you seen {name}?" jumps to work or home; every reply set passes `expectUpToFourDifferent`. Run tests/guards/english and the bank tests yourself.
 
 **Time box.** 4 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -44,6 +44,6 @@ branch:
 
 **Waits on.** The CTO's ruling on whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (the same question as words-opening-evening-talk-raises-what-the-president-said; PR #8715).
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
+**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, tests/src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 71 distinct lines, 22 with no insert and not excused (shared-school 29 and 10, mutual 29 and 6, asked-mutual 17 and 6). Three today: "That was a long time ago.", "I haven't seen him.", "Not for a long time." Between relatives neither subject is raised (`familyTalk.dropped`).

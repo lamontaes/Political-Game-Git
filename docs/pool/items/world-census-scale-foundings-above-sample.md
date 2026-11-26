@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing. world-census-scale-closures-large-cities is done.
 
-**Files.** src/core2/modules/residents.ts, src/core2/modules/jobs.ts, src/core2/modules/macro.ts, src/core2/modules/regional.ts, src/core2/modules/business.ts, src/core2/census-scale-closures-large-cities.test.ts
+**Files.** src/core2/modules/residents.ts, src/core2/modules/jobs.ts, src/core2/modules/macro.ts, src/core2/modules/regional.ts, src/core2/modules/business.ts, tests/src/core2/census-scale-closures-large-cities.test.ts
 
 **Notes.** TODO
 

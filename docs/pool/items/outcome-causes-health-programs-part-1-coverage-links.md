@@ -31,11 +31,11 @@ branch: claude/pool-outcome-causes-health-programs-part-1-coverage-links
 
 **Rules.** Wire to the world: an effect is a read, not a record, so the outcome is read by the engine that owns it through outcomeWebFactor or a kept measure that views and news read. No dice: the cause record moves the outcome by the link's researched size, never a roll. One rule, all 56 places: place facts live in data. Estimate, never UNKNOWN: a kept outcome starts from a sourced or estimated national base with its spread.
 
-**Done when.** A second session runs a one-year played world (buildBenchWorld) in a drawn place and a seed the builder did not choose (both named in the PR body), changes the place's coverage share, and sees catastrophic bills, medical debt and depression move after the link's lag, each named by the engine's record id, the link key and the web month record id. src/core2/outcome-web.test.ts lists the four links as built and coverage.json shows them under wired.
+**Done when.** A second session runs a one-year played world (buildBenchWorld) in a drawn place and a seed the builder did not choose (both named in the PR body), changes the place's coverage share, and sees catastrophic bills, medical debt and depression move after the link's lag, each named by the engine's record id, the link key and the web month record id. tests/src/core2/outcome-web.test.ts lists the four links as built and coverage.json shows them under wired.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/health.ts, src/core2/modules/coverage.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/outcome-web.test.ts
+**Files.** src/core2/modules/health.ts, src/core2/modules/coverage.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, tests/src/core2/outcome-web.test.ts
 
 **Notes.** Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-outcome-causes-health-programs-part-1-coverage-links.
 

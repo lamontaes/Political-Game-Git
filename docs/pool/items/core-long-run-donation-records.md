@@ -19,6 +19,6 @@ claimed-at: 2026-11-09T11:01:47.082Z
 
 **Done when.** In play a donation's record is gone once its entry posts, and money moves exactly as before; with bookkeeping on it is kept; a test shows both; speed:year --seed mont1 --place 5046000 --years 2 records proof against the same main differs only in part.core2-drives-runtime.donations.
 
-**Files.** src/core2/modules/drives.ts, src/core2/drives.test.ts
+**Files.** src/core2/modules/drives.ts, tests/src/core2/drives.test.ts
 
 **Notes.** TODO

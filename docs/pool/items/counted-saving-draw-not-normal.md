@@ -32,4 +32,4 @@ source: "T54's trace of the town means at Staples CT, Tanapag MP and Maloata AS,
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/counted-money.ts, src/core2/saving-weight-draw.test.ts (new).
+**Files.** src/core2/counted-money.ts, tests/src/core2/saving-weight-draw.test.ts (new).

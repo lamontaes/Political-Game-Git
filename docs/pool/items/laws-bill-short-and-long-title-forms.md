@@ -31,11 +31,11 @@ branch: claude/pool-laws-bill-short-and-long-title-forms
 
 **Rules.** Wire to the world: the title and purpose come from the bill-names row of the bill's own policy (`billNameOf`), never typed. Replace, never layer: the new forms replace the matching form in bill-sections.json and the legislation bank piece is deleted once its words live there. No hand-written player text: the words come from the English engine's banks.
 
-**Done when.** A second session, not the builder, plays a drawn place from all 56 (name and seed in the PR body). A federal bill's text opens with a short title and a long title in these words and a repeal bill carries the repeal clause, and a local bill reads the local form. src/english/bill-sections.test.ts names the bill record ids. The stopgap row SG-WORDS-legislation-no-reader is gone and the four graded keys stay accepted by the liked-lines test.
+**Done when.** A second session, not the builder, plays a drawn place from all 56 (name and seed in the PR body). A federal bill's text opens with a short title and a long title in these words and a repeal bill carries the repeal clause, and a local bill reads the local form. tests/src/english/bill-sections.test.ts names the bill record ids. The stopgap row SG-WORDS-legislation-no-reader is gone and the four graded keys stay accepted by the liked-lines test.
 
 **Waits on.** Nothing.
 
-**Files.** data/english/bill-sections.json, src/english/bill-sections.ts, src/english/bill-sections.test.ts, src/director/data/stopgaps.json
+**Files.** data/english/bill-sections.json, src/english/bill-sections.ts, tests/src/english/bill-sections.test.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
 

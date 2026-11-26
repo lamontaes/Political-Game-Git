@@ -19,6 +19,6 @@ claimed-at: 2026-11-09T09:27:50.187Z
 
 **Done when.** In play the engine holds the current and previous month's transfer ids and refuses a repeat in either; with bookkeeping on it holds all; a test shows both; speed:year --seed mont1 --place 5046000 --years 2 records proof against the same main differs only in part.core2-accounts.
 
-**Files.** src/core2/accounts.ts, src/core2/accounts.test.ts
+**Files.** src/core2/accounts.ts, tests/src/core2/accounts.test.ts
 
 **Notes.** TODO

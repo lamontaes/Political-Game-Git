@@ -46,12 +46,12 @@ This re-slices `05-phase-b-plan.md` (Oct 30) so that M3-01 can flip first and M3
   - `src/bench/legislature.ts` (seatAct :219)
   - `src/core2/modules/legislature.ts` (draftBill :1934)
   - `src/core2/laws-in-force.ts`
-  - `src/bench/phase-in.test.ts`
+  - `tests/src/bench/phase-in.test.ts`
   - `src/core2/data/stopgaps.json` (removed)
   - `docs/roadmap/features.json` (the M3-01 command gains phase-in.test.ts)
 - **Engine:** draftBill provisions carry an effectiveDate, enactLaw turns them into phases, and lawInForce reads them. There is no second law store.
 - **Done when:** the item's own done-when (`docs/pool/items/gov-m3-01-phase-in-by-dated-steps.md`), after merging main into the 2-day-old branch, in a drawn place with its seed printed. lawInForce shows step 1 the day after date 1 and step 2 the day after date 2, and each law row names the bill id.
-- **Seam, the lane:** "governing/phase-in-dated-steps adds a date per section to seatAct (src/bench/legislature.ts:219) and a new src/bench/phase-in.test.ts. No play.mjs change. Is the draft card's second-step control yours, in a later PR?"
+- **Seam, the lane:** "governing/phase-in-dated-steps adds a date per section to seatAct (src/bench/legislature.ts:219) and a new tests/src/bench/phase-in.test.ts. No play.mjs change. Is the draft card's second-step control yours, in a later PR?"
 - **Seam, Words:** "#6951 (merged Oct 30) keys the section-date lines. Does billPaper need to pass each section's date for them, and is that yours or mine?"
 
 ### 2. gov-m3-01-ban-blocks-the-seats-bill (new)
@@ -171,7 +171,7 @@ This re-slices `05-phase-b-plan.md` (Oct 30) so that M3-01 can flip first and M3
   - learnStake (:2844) returns only what each route can know.
   - `office-day-acts.ts:640` and `:661` stop storing the exact total.
   - `bench/legislature.ts` floorOf (:126-148).
-  - `src/bench/office-deals.test.ts`.
+  - `tests/src/bench/office-deals.test.ts`.
   - `legislature.test.ts` test 1, whose learnStake and total assertions (:197-206) are rewritten.
 - **Done when:** office-deals.test.ts runs in a drawn place, with a line printed (it prints nothing today).
   - One stake is learned by a talk (promise row id) and one by the estimate (work row id).

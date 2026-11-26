@@ -70,7 +70,7 @@ describe("agent test cadence planning", () => {
     const stages = planCadence(["src/bench/play.mjs"]);
     expect(
       stages.some(
-        (stage) => stage.command === "node src/bench/no-scroll.browser.mjs",
+        (stage) => stage.command === "node tests/src/bench/no-scroll.browser.mjs",
       ),
     ).toBe(true);
   });
@@ -79,7 +79,7 @@ describe("agent test cadence planning", () => {
     for (const file of ["src/bench/title.ts", "src/bench/play.css"]) {
       const commands = planCadence([file]).map((stage) => stage.command);
       expect(
-        commands.some((c) => c.includes("src/bench/title-motion.browser.mjs")),
+        commands.some((c) => c.includes("tests/src/bench/title-motion.browser.mjs")),
       ).toBe(true);
     }
   });

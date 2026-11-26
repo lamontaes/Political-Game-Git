@@ -18,7 +18,7 @@ claimed-at: 2026-11-09T07:00:00.000Z
 
 **Rules.** One engine for every kind of scene (`arc-variant.ts`). No dice, no thresholds: scores slide. Weights are TUNABLE under SG-STORY-arc-variant-weights.
 
-**Done when.** src/director/donor-ask-variants.test.ts, in a campaign of a drawn place and seed, shows each gift of the played campaign playing the variant with the highest score with the gift's record among its reads, and controlled causes on the same two people moving to small, large, friend and again by the gift's record, the tie and the earlier put-off replies; src/director/arc-variant.test.ts composes every donor-ask variant whole.
+**Done when.** tests/src/director/donor-ask-variants.test.ts, in a campaign of a drawn place and seed, shows each gift of the played campaign playing the variant with the highest score with the gift's record among its reads, and controlled causes on the same two people moving to small, large, friend and again by the gift's record, the tie and the earlier put-off replies; tests/src/director/arc-variant.test.ts composes every donor-ask variant whole.
 
 **Files.** src/director/arc-variant.ts, src/director/data/arc-variants.json, data/english/parts/scene-talk.json, src/director/data/stopgaps.json
 

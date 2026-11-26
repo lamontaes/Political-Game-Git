@@ -19,6 +19,6 @@ claimed-at: 2026-11-07T21:41:59.000Z
 
 **Done when.** A generated-world regression draws a place, identifies its actual starting federal Medicaid-match row, drafts an authorized Congress replacement, and proves the resolver reads the later nationwide amount, a later specific act, and a subsequent nationwide act in order. It fails on the old resolver, passes ten fresh draws, and names place replay and rows. Reader fixtures are not claimed as votes.
 
-**Files.** src/core2/laws-in-force.ts,src/core2/federal-amount-replacement.test.ts
+**Files.** src/core2/laws-in-force.ts,tests/src/core2/federal-amount-replacement.test.ts
 
 **Notes.** Astra follow-up to every starting law having a reversal route. Two-hour time box, one session, no helpers. The federal Medicaid matching formula is 42 USC 1396d(b). Same-level competing federal amounts, not a new federal preemption doctrine.

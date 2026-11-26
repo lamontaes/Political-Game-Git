@@ -35,4 +35,4 @@ merged-at: 2026-11-15T23:42:06.251Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/state.ts, src/core2/modules/speech.ts, src/core2/speech-retellings-fold.test.ts, scripts/speed-years/run.ts
+**Files.** src/core2/state.ts, src/core2/modules/speech.ts, tests/src/core2/speech-retellings-fold.test.ts, scripts/speed-years/run.ts

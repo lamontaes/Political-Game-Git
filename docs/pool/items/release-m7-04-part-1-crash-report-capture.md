@@ -34,4 +34,4 @@ checked: fable 2026-11-10
 
 **Waits on.** release-bug-report-control for the prompt that offers the report. Early-access preparation (AGENTS.md: saves and release work wait for it) and the weekly reschedule.
 
-**Files.** src/core2/bug-report.ts, src/core2/bug-report.test.ts, desktop/main.mjs
+**Files.** src/core2/bug-report.ts, tests/src/core2/bug-report.test.ts, desktop/main.mjs

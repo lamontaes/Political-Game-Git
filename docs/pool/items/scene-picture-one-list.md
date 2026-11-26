@@ -33,6 +33,6 @@ claimed-at: 2026-11-14T01:52:00.000Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/scene-picture-steps.ts, src/bench/scene-picture.ts, src/bench/scene-picture.test.ts, src/bench/story.ts, src/bench/scene.ts, src/bench/data/scene-places.json, src/director/scheduling.ts, src/director/scene.ts, scripts/scene-pictures/report.ts, scripts/scene-pictures/build.ts, tests/guards/scene-pictures.test.ts, art/backdrops/categories.json, docs/art/SCENE-PICTURES.md, docs/art/WANTED.md
+**Files.** src/bench/scene-picture-steps.ts, src/bench/scene-picture.ts, tests/src/bench/scene-picture.test.ts, src/bench/story.ts, src/bench/scene.ts, src/bench/data/scene-places.json, src/director/scheduling.ts, src/director/scene.ts, scripts/scene-pictures/report.ts, scripts/scene-pictures/build.ts, tests/guards/scene-pictures.test.ts, art/backdrops/categories.json, docs/art/SCENE-PICTURES.md, docs/art/WANTED.md
 
 **Notes.** Arc variants (the door scenes' lost-job, rent-notice and the rest) get a picture by adding `"<variant purpose>:other-home"` rows once their variant ids are in `arc-variants.json`; the guard checks the purpose id exists. `unmappedToday` in `scene-places.json` lists the types still on a setting default; it only shrinks.

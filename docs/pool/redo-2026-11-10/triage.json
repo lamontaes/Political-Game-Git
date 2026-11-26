@@ -4,7 +4,7 @@
     "verdict": "rewrite",
     "reason": "Still live: reproducible red test by seed; cause (no household month row for a borrower) is stated as two hypotheses in the item.",
     "causeKind": "Measured",
-    "cause": "BANK_MONTH_SEED=a2 (also a3, a4) npx vitest run src/bench/bank-month.test.ts throws 'Cannot read properties of undefined (reading id)' at line 70 on clean main; the credit engine (src/core2/modules/credit.ts) returns no household month row for the borrower.",
+    "cause": "BANK_MONTH_SEED=a2 (also a3, a4) npx vitest run tests/src/bench/bank-month.test.ts throws 'Cannot read properties of undefined (reading id)' at line 70 on clean main; the credit engine (src/core2/modules/credit.ts) returns no household month row for the borrower.",
     "fix": "Find in src/core2/modules/credit.ts why no household month row exists for that borrower; either write the row or have the Money screen (src/bench/bank.ts) show no month for a borrower with none, and make the test pick a booked borrower with a stated reason.",
     "root": "none",
     "model": "sonnet",
@@ -69,7 +69,7 @@
     "verdict": "rewrite",
     "reason": "Live: the test's fixed 20 weeks is wrong for towns with a spring election; fix is in the test only.",
     "causeKind": "Measured",
-    "cause": "GOLDEN_PATH_SEED=wk-104 (Highgate Center VT 5033175, 9 weeks) and wk-142 (Hobart WI 5535150, 14 weeks) fail src/core2/campaign-day.test.ts, which expects more than 20 weeks of knocking.",
+    "cause": "GOLDEN_PATH_SEED=wk-104 (Highgate Center VT 5033175, 9 weeks) and wk-142 (Hobart WI 5535150, 14 weeks) fail tests/src/core2/campaign-day.test.ts, which expects more than 20 weeks of knocking.",
     "fix": "Make the test read each drawn place's own election date from its contest record and expect weeks of knocking up to that date; print place and seed on failure.",
     "root": "none",
     "model": "haiku",
@@ -101,7 +101,7 @@
     "verdict": "rewrite",
     "reason": "Live: a test compares against a drifted state; the item states the cause.",
     "causeKind": "Found in code",
-    "cause": "src/core2/door-pledge.test.ts recomputes pledgeDoubt (src/core2/modules/voting.ts line 791) after the election, but pledgeDoubt reads relationships and news as of state.date, so it differs from the ballot's recorded pledge part (1.9336394 vs 1.9337205 in Merizo, Guam, seed e1fedb0d3a7de565c35eaf9f988e4bc793010cc88e0dc52957a07a8ba6e6466d).",
+    "cause": "tests/src/core2/door-pledge.test.ts recomputes pledgeDoubt (src/core2/modules/voting.ts line 791) after the election, but pledgeDoubt reads relationships and news as of state.date, so it differs from the ballot's recorded pledge part (1.9336394 vs 1.9337205 in Merizo, Guam, seed e1fedb0d3a7de565c35eaf9f988e4bc793010cc88e0dc52957a07a8ba6e6466d).",
     "fix": "Make the ballot keep the doubt it used (or the test read the ballot-day facts), keep the tolerance, and check the pledge part equals pledge weight times one minus that doubt at 6 digits.",
     "root": "none",
     "model": "sonnet",
@@ -149,7 +149,7 @@
     "verdict": "rewrite",
     "reason": "Live feature: the campaigns engine keeps gifts and spending but emits no periodic report record.",
     "causeKind": "Measured",
-    "cause": "Seed 6dcbf05d1596da71: a passive player's race is silent from July 12 to Aug 8, 2025 (src/director/campaign-months.test.ts on branch lane3/campaign-months); src/core2/modules/campaigns.ts emits no report record.",
+    "cause": "Seed 6dcbf05d1596da71: a passive player's race is silent from July 12 to Aug 8, 2025 (tests/src/director/campaign-months.test.ts on branch lane3/campaign-months); src/core2/modules/campaigns.ts emits no report record.",
     "fix": "Emit a dated report record on the place's filing calendar (from data, one rule for 56 places) naming raised and spent sums from the campaign's own rows; the Journal and the paper read it.",
     "root": "none",
     "model": "opus",
@@ -188,7 +188,7 @@
     "adds": "The told-door answers open a reading by themselves from a doors record naming pledge ids (no rivalWord row, no poll), one stepped-up row per new evening, and campaign-real-race-played.test.ts clause (d) accepts the doors source kind.",
     "stalePaths": {
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/gov.json",
-      "src/core2/campaign-real-race-played.test.ts": "gone on main (new file on branch governing/real-race-played-proof)"
+      "tests/src/core2/campaign-real-race-played.test.ts": "gone on main (new file on branch governing/real-race-played-proof)"
     }
   },
   {
@@ -249,7 +249,7 @@
     "verdict": "rewrite",
     "reason": "Live: the second half of campaign-like-real-races; the test file is not on main, it exists on branch governing/real-race-played-proof at ede6bf1934.",
     "causeKind": "Design",
-    "cause": "Owner ruling Oct 29, 2026 (OWNER-DECISIONS.md, Oct 29 21:40 UTC) behind campaign-like-real-races; the test src/core2/campaign-real-race-played.test.ts (new) asserts the chain by record id.",
+    "cause": "Owner ruling Oct 29, 2026 (OWNER-DECISIONS.md, Oct 29 21:40 UTC) behind campaign-like-real-races; the test tests/src/core2/campaign-real-race-played.test.ts (new) asserts the chain by record id.",
     "fix": "Check out the branch, run its played test on two fresh seeds against the done-when, and open the PR (or write what is left).",
     "root": "none",
     "model": "sonnet",
@@ -260,7 +260,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/campaign-real-race-played.test.ts": "(new) on branch governing/real-race-played-proof"
+      "tests/src/core2/campaign-real-race-played.test.ts": "(new) on branch governing/real-race-played-proof"
     }
   },
   {
@@ -395,7 +395,7 @@
     "verdict": "rewrite",
     "reason": "Live: the test OOMs at 5 GiB; two leaks already fixed under core-memory-circle-retention-leaks (done); the remaining causes are named in the item.",
     "causeKind": "Measured",
-    "cause": "GOLDEN_PATH_SEED=93678d3573d46855 (Gastonia NC 3725580) src/core2/legislature-committees.test.ts: 1,848 s then worker exit on main e269fd0acf, one worker, --max-old-space-size=5120; at day 660 the player's circle holds 358 people and 1.6 million of 2.2 million known facts belong to focused people.",
+    "cause": "GOLDEN_PATH_SEED=93678d3573d46855 (Gastonia NC 3725580) tests/src/core2/legislature-committees.test.ts: 1,848 s then worker exit on main e269fd0acf, one worker, --max-old-space-size=5120; at day 660 the player's circle holds 358 people and 1.6 million of 2.2 million known facts belong to focused people.",
     "fix": "Store one shared copy of an event's facts instead of one per witness, and let old focus that the player no longer deals with leave the circle; keep the test, bookkeeping and assertions unchanged.",
     "root": "rc5-full-detail-every-day",
     "model": "opus",
@@ -411,7 +411,7 @@
     "verdict": "needs-cause",
     "reason": "Only a title: 'counted-deaths-opening.test fails ... 2 counted people died against 13.4 expected (Wiley Ford WV, seed 277237f6...); passed on a rerun of the same seed'. A pass on rerun of the same seed means something is non-deterministic; every other field is TODO.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. The item has only the title; src/core2/counted-deaths-opening.test.ts exists but was not read.",
+    "cause": "Needs cause. The item has only the title; tests/src/core2/counted-deaths-opening.test.ts exists but was not read.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -458,7 +458,7 @@
     "sizeL": false,
     "stalePaths": {
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/core.json",
-      "src/core2/counted-groups.test.ts": "src/core2/counted-groups-exact-traits.test.ts",
+      "src/core2/counted-groups.test.ts": "tests/src/core2/counted-groups-exact-traits.test.ts",
       "modules/residents.ts": "src/core2/modules/residents.ts",
       "modules/world-metrics.ts": "src/core2/modules/world-metrics.ts",
       "scripts/world-proofs/session-b-deposits.ts": "gone",
@@ -699,7 +699,7 @@
     "verdict": "rewrite",
     "reason": "Live Fable-measured bug with code lines.",
     "causeKind": "Found in code",
-    "cause": "src/core2/state.ts recordEntry (line 2177), called at lines 2058, 2515, 2756 and 2800, writes person.recorded/organization.recorded with a reason in words and no record id; Measured with src/bench/dev-trace-every-id.test.ts: 569 of 5,844 traced ids across five places had no cause kept (Merrionette Park IL, seed b8f2b0de6397b36c: 122 of 819).",
+    "cause": "src/core2/state.ts recordEntry (line 2177), called at lines 2058, 2515, 2756 and 2800, writes person.recorded/organization.recorded with a reason in words and no record id; Measured with tests/src/bench/dev-trace-every-id.test.ts: 569 of 5,844 traced ids across five places had no cause kept (Merrionette Park IL, seed b8f2b0de6397b36c: 122 of 819).",
     "fix": "Pass the cause record id (birth, move, hiring, founding, or the fill-in act) from each of the four callers into recordEntry and store it on the record so Trace opens it.",
     "root": "none",
     "model": "sonnet",
@@ -872,7 +872,7 @@
     "verdict": "rewrite",
     "reason": "Live and red: group-quarters.test.ts fails on main in every drawn place, per Fable's Nov 10 note; the engine now admits arrivals (roomCapacity, roomQueue), so the test or the engine is stale.",
     "causeKind": "Measured",
-    "cause": "npx vitest run src/core2/group-quarters.test.ts is red on main c00d0a7b6d (3 of 4 tests): an arriving household is housed in a group-quarters room ('college' in 0973980, 'nursing' in 3929428 and 5683040); src/core2/modules/counted-moves.ts roomCapacity/roomQueue.",
+    "cause": "npx vitest run tests/src/core2/group-quarters.test.ts is red on main c00d0a7b6d (3 of 4 tests): an arriving household is housed in a group-quarters room ('college' in 0973980, 'nursing' in 3929428 and 5683040); src/core2/modules/counted-moves.ts roomCapacity/roomQueue.",
     "fix": "First settle which is right (the test or the admission) and make the test say it; then add institution intake on its own calendar (college each fall, prison/nursing home as residents leave) and resolve SG-GQ-no-turnover.",
     "root": "none",
     "model": "sonnet",
@@ -1203,7 +1203,7 @@
     "critical": false,
     "stalePaths": {
       "src/core2/modules/world-races.ts": "src/core2/modules/voting.ts (racePlaces, line 3552) and src/core2/race-places.ts",
-      "src/core2/decision-detail.test.ts": "src/core2/condense-decisions.test.ts",
+      "src/core2/decision-detail.test.ts": "tests/src/core2/condense-decisions.test.ts",
       "modules/life.ts": "src/core2/modules/life.ts"
     }
   },
@@ -1254,7 +1254,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/officials-deep-past.test.ts": "gone (new test needed, e.g. src/core2/official-living.test.ts neighbors)"
+      "src/core2/officials-deep-past.test.ts": "gone (new test needed, e.g. tests/src/core2/official-living.test.ts neighbors)"
     }
   },
   {
@@ -1280,7 +1280,7 @@
     "reason": "The original measure was shown unfair by three passes of notes; what is left is a fill-in check and one open ruling. Narrow it.",
     "causeKind": "Measured",
     "cause": "Measured: Cedro, New Mexico (3513450, seed 6688ecf3fa1f22a83b3c21db8f19f866d6b21ebfd85a86b0623a3a7221c5c248), residents of the town only: at the opening full 8 of 12 and counted 22 of 29 aged 62 to 67 work (within 9 points), against 16 of 16 recorded work for 62 to 64 versus an ACS target of 7 (src/core2/opening-employment.ts adds jobs up to a cohort target but never trims). Fill-in itself keeps the job (10 of 13 carried their open counted job in Nicholson, Mississippi, the other 3 had jobs the counted books had already ended).",
-    "fix": "Add a test that fills in a counted worker aged 62 to 67 with a held job and asserts the full person holds the same job id and pay (src/core2/fill-in-tenure.test.ts covers tenure only). Register a stopgap of kind owner-decision for whether the opening trims recorded jobs for ages 62 to 64 to the BLS band, and build the simplest version (records win) until ruled.",
+    "fix": "Add a test that fills in a counted worker aged 62 to 67 with a held job and asserts the full person holds the same job id and pay (tests/src/core2/fill-in-tenure.test.ts covers tenure only). Register a stopgap of kind owner-decision for whether the opening trims recorded jobs for ages 62 to 64 to the BLS band, and build the simplest version (records win) until ruled.",
     "root": "design-one-model-two-tiers",
     "model": "sonnet",
     "effort": "medium",
@@ -1304,7 +1304,7 @@
   {
     "id": "core-opening-customer-public-owner-coverage-missing",
     "verdict": "drop-done",
-    "reason": "The error text \"Actual customer public owner coverage record is missing\" is no longer thrown anywhere in src; the guard from #5548 is on main and src/core2/opening-customers-owner-elsewhere.test.ts holds the regression (its header names the old throw). The item's own send-back says the second guard would be unreachable.",
+    "reason": "The error text \"Actual customer public owner coverage record is missing\" is no longer thrown anywhere in src; the guard from #5548 is on main and tests/src/core2/opening-customers-owner-elsewhere.test.ts holds the regression (its header names the old throw). The item's own send-back says the second guard would be unreachable.",
     "critical": false
   },
   {
@@ -1570,7 +1570,7 @@
     "verdict": "needs-cause",
     "reason": "Still wanted (a crash in a played year) but no cause yet.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at: src/core2/state.ts:1700-1720, where `relocatePeopleV1` throws \"Invalid relocation: one living household, no job held\" for four different conditions (household missing, duplicate ids, a dead or foreign member, a mover whose live job is outside the destination place); the callers are src/core2/modules/moves.ts (lines 967, 1087, 1835), counted-demotion.ts:396 and partnerships.ts:259. The only capture is in PR #5149 comments: Dover, New Hampshire (3318820, seed ee04c2985f301a47), and src/core2/agreement-jobs-free.test.ts names the place and seed on failure.",
+    "cause": "Needs cause. Looked at: src/core2/state.ts:1700-1720, where `relocatePeopleV1` throws \"Invalid relocation: one living household, no job held\" for four different conditions (household missing, duplicate ids, a dead or foreign member, a mover whose live job is outside the destination place); the callers are src/core2/modules/moves.ts (lines 967, 1087, 1835), counted-demotion.ts:396 and partnerships.ts:259. The only capture is in PR #5149 comments: Dover, New Hampshire (3318820, seed ee04c2985f301a47), and tests/src/core2/agreement-jobs-free.test.ts names the place and seed on failure.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -2119,7 +2119,7 @@
     "verdict": "rewrite",
     "reason": "Golden-path test fails by draw; the weight formula can go under 1 and is readable in code.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/opening-county-sample.ts, the county sample's household weight is max(county.eligible - kinEligible, 1) / sampleEligible, so it falls below 1 whenever the sampled adult citizens outnumber the county's eligible voters (item: 0.414 at Valley City, North Dakota, key 3881180, seed d5a9ce3f642229fdc5611e1a85e2e1565f79688af5a1f55b560643f2d082a184); the builder confirms this is the setter of that household's weight, since the test asserts weight >= 1 (src/core2/voter-groups.test.ts line 83) via store.weightOf (src/core2/counted-groups.ts).",
+    "cause": "Found in code: src/core2/opening-county-sample.ts, the county sample's household weight is max(county.eligible - kinEligible, 1) / sampleEligible, so it falls below 1 whenever the sampled adult citizens outnumber the county's eligible voters (item: 0.414 at Valley City, North Dakota, key 3881180, seed d5a9ce3f642229fdc5611e1a85e2e1565f79688af5a1f55b560643f2d082a184); the builder confirms this is the setter of that household's weight, since the test asserts weight >= 1 (tests/src/core2/voter-groups.test.ts line 83) via store.weightOf (src/core2/counted-groups.ts).",
     "fix": "Keep every counted household at weight one or more: when the sample is larger than the county needs, draw fewer sample households (or keep the weight at one) so the weighted adults still match the county's eligible count. Fix the weight, not the test.",
     "root": "design-one-model-two-tiers",
     "model": "sonnet",
@@ -2191,7 +2191,7 @@
     "verdict": "needs-cause",
     "reason": "Two tests fail on named seeds on clean main; no cause is known.",
     "causeKind": "Measured",
-    "cause": "Needs cause. Measured: DEATH_CAUSE_SEED=9c7ce4dc6075f587 (Kingston, Rhode Island) on src/core2/death-cause.test.ts gives 'other' for a drug-overdose death; FIREARM_HOMICIDE_SEED=0ca4bee1b70dbf0c (Malaeloa/Ituau, American Samoa) on src/core2/death-cause-firearm-homicide.test.ts reads hazard 1, not 1.1664. I did not read death-cause.ts or health-web.ts.",
+    "cause": "Needs cause. Measured: DEATH_CAUSE_SEED=9c7ce4dc6075f587 (Kingston, Rhode Island) on tests/src/core2/death-cause.test.ts gives 'other' for a drug-overdose death; FIREARM_HOMICIDE_SEED=0ca4bee1b70dbf0c (Malaeloa/Ituau, American Samoa) on tests/src/core2/death-cause-firearm-homicide.test.ts reads hazard 1, not 1.1664. I did not read death-cause.ts or health-web.ts.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -2337,7 +2337,7 @@
     "verdict": "needs-cause",
     "reason": "Wants a cause for why four rows are rare; the cause is not known.",
     "causeKind": "Measured",
-    "cause": "Needs cause. Measured: src/director/circumstance.test.ts (header lines 53-55) counts price-moved-street, rent-news-street, death-known-street, new-coworker, rival-message and lobbyist-hallway but cannot assert them; seeds adf2b240b2d518b4f73a5c107884f60b75c71249 and 28a43cad632afa618a63b16b1fc951c92738e133 gave 0 for the first two. I did not trace why.",
+    "cause": "Needs cause. Measured: tests/src/director/circumstance.test.ts (header lines 53-55) counts price-moved-street, rent-news-street, death-known-street, new-coworker, rival-message and lobbyist-hallway but cannot assert them; seeds adf2b240b2d518b4f73a5c107884f60b75c71249 and 28a43cad632afa618a63b16b1fc951c92738e133 gave 0 for the first two. I did not trace why.",
     "fix": "None until the cause is found.",
     "root": "design-story-director",
     "model": "opus",
@@ -2360,7 +2360,7 @@
     "verdict": "rewrite",
     "reason": "Red test by draw; the test picks talk.choices[0] blindly.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/director/conversation.test.ts line 314 (the 'passes news' test at line 301) says talk.choices[0] and expects the other to know the story; in Moscow, Tennessee (GOLDEN_PATH_SEED=cvd4) and Galateo, Puerto Rico (cvd5) the first choice tells no news.",
+    "cause": "Found in code: tests/src/director/conversation.test.ts line 314 (the 'passes news' test at line 301) says talk.choices[0] and expects the other to know the story; in Moscow, Tennessee (GOLDEN_PATH_SEED=cvd4) and Galateo, Puerto Rico (cvd5) the first choice tells no news.",
     "fix": "Pick the choice that tells the news from the conversation's own tells data (CONVERSATION_DATA) rather than index 0; keep the assertion that the news was told.",
     "root": "none",
     "model": "sonnet",
@@ -2377,7 +2377,7 @@
     "verdict": "rewrite",
     "reason": "Red by draw (fn-1, fn-2); Words diagnosed the test's player pick, fix is known.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/director/conversation.test.ts 'offers four distinct replies' (line 220) and 'never parts with a word' (line 1019) fail at Lavalette, West Virginia (draws fn-1, fn-2) because the player picked from the opening records knows few full people (23 known, 5 full; the opening lists 1 to 4 as known).",
+    "cause": "Found in code: tests/src/director/conversation.test.ts 'offers four distinct replies' (line 220) and 'never parts with a word' (line 1019) fail at Lavalette, West Virginia (draws fn-1, fn-2) because the player picked from the opening records knows few full people (23 known, 5 full; the opening lists 1 to 4 as known).",
     "fix": "Choose the player and the people talked to from the core's knownIds once the world has started (a record, not a talk's output), never by redrawing after a result; keep every assertion.",
     "root": "none",
     "model": "sonnet",
@@ -2435,7 +2435,7 @@
     "verdict": "needs-cause",
     "reason": "Item body is empty (TODO); only the title says what is measured.",
     "causeKind": "Measured",
-    "cause": "Needs cause. Measured (title only): src/director/electoral-scenes.test.ts exceeds 1,200 seconds at GOLDEN_PATH_SEED=fs1 on clean main. I did not run it or read what it spends the time on.",
+    "cause": "Needs cause. Measured (title only): tests/src/director/electoral-scenes.test.ts exceeds 1,200 seconds at GOLDEN_PATH_SEED=fs1 on clean main. I did not run it or read what it spends the time on.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -2452,7 +2452,7 @@
     "verdict": "needs-cause",
     "reason": "Roadmap spec M4-01 is mostly built (moments from campaigns, votes, laws; impact-sized stops); what remains is not known.",
     "causeKind": "Measured",
-    "cause": "Needs cause. Looked at: scheduleMoment sizes interrupts by impact (src/director/scheduling.ts), director-civic-producers and its six parts are done, src/director/world-moments.test.ts and journal.test.ts exist. Run the spec's command in docs/roadmap/features.json (M4-01) in a drawn place to see which clauses fail (broad-event chapters, lie/favor/promise callbacks).",
+    "cause": "Needs cause. Looked at: scheduleMoment sizes interrupts by impact (src/director/scheduling.ts), director-civic-producers and its six parts are done, tests/src/director/world-moments.test.ts and journal.test.ts exist. Run the spec's command in docs/roadmap/features.json (M4-01) in a drawn place to see which clauses fail (broad-event chapters, lie/favor/promise callbacks).",
     "fix": "None until the cause is found.",
     "root": "design-story-director",
     "model": "sonnet",
@@ -2586,7 +2586,7 @@
     "verdict": "needs-cause",
     "reason": "Red by seed; the item itself says which of two causes is unknown.",
     "causeKind": "Measured",
-    "cause": "Needs cause. Measured: GOLDEN_PATH_SEED=041a8d22aeee on src/director/scene-talk.test.ts 'composes every purpose' (line 124) fails for the apology purpose, no line that apologizes; either the bank has no apologizing line for the cast or the cast never reaches that move (src/director/data/situation-types.json apology type). I did not run it.",
+    "cause": "Needs cause. Measured: GOLDEN_PATH_SEED=041a8d22aeee on tests/src/director/scene-talk.test.ts 'composes every purpose' (line 124) fails for the apology purpose, no line that apologizes; either the bank has no apologizing line for the cast or the cast never reaches that move (src/director/data/situation-types.json apology type). I did not run it.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -2601,7 +2601,7 @@
   {
     "id": "director-scenes-from-circumstance",
     "verdict": "drop-done",
-    "reason": "Merged as #6263 (Oct 27 look-first audit): src/director/circumstance.ts, src/director/data/circumstances.json and src/director/circumstance.test.ts exist and the test header lists the row families (price, rent, death, hire, rival message, lobbyist). The follow-ups are director-circumstance-counted-cast-filled-in and director-circumstance-rare-families-asserted.",
+    "reason": "Merged as #6263 (Oct 27 look-first audit): src/director/circumstance.ts, src/director/data/circumstances.json and tests/src/director/circumstance.test.ts exist and the test header lists the row families (price, rent, death, hire, rival message, lobbyist). The follow-ups are director-circumstance-counted-cast-filled-in and director-circumstance-rare-families-asserted.",
     "critical": false
   },
   {
@@ -2749,7 +2749,7 @@
     "verdict": "needs-cause",
     "reason": "M1-11 red on main in two places; the band check reads a floor the rate sits just under.",
     "causeKind": "Measured",
-    "cause": "Needs cause. Measured: src/core2/drives-economy.test.ts 'forms ambitions at the displaced-worker rate, with most people carrying on' saw 0.0588 (1 of 17) at Playita, Puerto Rico (7263503, seed 8be0e68a6844fe807895aebee61028b0fc511fbe4baf92fc675e9d19d427046b) and 0.0559 (9 of 161) at Bellview, Florida (1205462, seed 68c7747a284e52a1b25d6cb988de91bd09a04462452082d58f951267965e14de), against a 0.06 floor; the second is not a small sample, so the rate itself sits under the floor. I did not read the drive's formation rule.",
+    "cause": "Needs cause. Measured: tests/src/core2/drives-economy.test.ts 'forms ambitions at the displaced-worker rate, with most people carrying on' saw 0.0588 (1 of 17) at Playita, Puerto Rico (7263503, seed 8be0e68a6844fe807895aebee61028b0fc511fbe4baf92fc675e9d19d427046b) and 0.0559 (9 of 161) at Bellview, Florida (1205462, seed 68c7747a284e52a1b25d6cb988de91bd09a04462452082d58f951267965e14de), against a 0.06 floor; the second is not a small sample, so the rate itself sits under the floor. I did not read the drive's formation rule.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -2840,7 +2840,7 @@
     "verdict": "needs-cause",
     "reason": "Red by seed; cause not known.",
     "causeKind": "Measured",
-    "cause": "Needs cause. Measured: GOLDEN_PATH_SEED=53cc0ecaeb4fa8faa359aa4d217f1bef751915df839c9f9e668e38aba1d6ac6c at Whiteville, North Carolina (3773660) on src/core2/campaign-turn.test.ts (line 173, the raise-and-spend case) gives raisedMinor 0. Whether no one reached had a reason to give or the test's candidate pick leaves no donors is not known; the Nov 2 donor-call ruling may have changed it.",
+    "cause": "Needs cause. Measured: GOLDEN_PATH_SEED=53cc0ecaeb4fa8faa359aa4d217f1bef751915df839c9f9e668e38aba1d6ac6c at Whiteville, North Carolina (3773660) on tests/src/core2/campaign-turn.test.ts (line 173, the raise-and-spend case) gives raisedMinor 0. Whether no one reached had a reason to give or the test's candidate pick leaves no donors is not known; the Nov 2 donor-call ruling may have changed it.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -2857,7 +2857,7 @@
     "verdict": "rewrite",
     "reason": "Slow test; the cost is in the file.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/candidacy-in-play.test.ts builds a bench world and plays a year at module level (lines 42-82, outside any it), import took 588 s at West Wendover, Nevada (3283730, PW3_SEED=f24b370d1a4c2d35).",
+    "cause": "Found in code: tests/src/core2/candidacy-in-play.test.ts builds a bench world and plays a year at module level (lines 42-82, outside any it), import took 588 s at West Wendover, Nevada (3283730, PW3_SEED=f24b370d1a4c2d35).",
     "fix": "Share one played world with the other path tests that play the same span or play a shorter span still holding a filing day and a general election; keep all four tests; no timeout raised.",
     "root": "none",
     "model": "sonnet",
@@ -2933,7 +2933,7 @@
       }
     ],
     "stalePaths": {
-      "src/core2/county-race-challengers.test.ts": "gone (set aside with the branch; src/core2/county-race-county-votes.test.ts is step A)"
+      "src/core2/county-race-challengers.test.ts": "gone (set aside with the branch; tests/src/core2/county-race-county-votes.test.ts is step A)"
     }
   },
   {
@@ -2941,7 +2941,7 @@
     "verdict": "rewrite",
     "reason": "Measurement not printed anywhere a session can read.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/bench/path-check.ts line 385 prints the count of door yeses (`door yes N`) but not whether they voted; the comparison exists only in src/core2/door-pledge.test.ts. Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5).",
+    "cause": "Found in code: src/bench/path-check.ts line 385 prints the count of door yeses (`door yes N`) but not whether they voted; the comparison exists only in tests/src/core2/door-pledge.test.ts. Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5).",
     "fix": "Print, in path-check's campaign line or the race's results record, the share of door-yes people who voted and the share of other adults who voted, reading the campaigns pledges table and the ballots; no new screen.",
     "root": "none",
     "model": "sonnet",
@@ -2982,7 +2982,7 @@
     "reason": "Exit poll tally counts only named voters; read by src/bench/results.ts.",
     "causeKind": "Found in code",
     "cause": "Found in code: src/core2/modules/voting.ts holdElection builds exitPoll (line 2945) in the named-voter loop only and returns `exitPoll: named.exitPoll` (line 3833); counted residents vote in their own loop and never weigh voting.exit-poll.",
-    "fix": "Have a counted voter weigh voting.exit-poll by the same case and lean as pollsterCase (line 2409) and add its answer weighted by its turnout share; check against src/core2/modules/voting.traits.test.ts.",
+    "fix": "Have a counted voter weigh voting.exit-poll by the same case and lean as pollsterCase (line 2409) and add its answer weighted by its turnout share; check against tests/src/core2/modules/voting.traits.test.ts.",
     "root": "design-one-model-two-tiers",
     "model": "sonnet",
     "effort": "medium",
@@ -3008,7 +3008,7 @@
     "reason": "Owner reversed 'no fee' on Oct 28; nothing charges the fee yet.",
     "causeKind": "Found in code",
     "cause": "Found in code: src/core2/modules/candidacy.ts line 828 ('File for a runner: no fee') and the header of src/core2/modules/elections.ts (line 16, 'No fee is...'); fee data by office family is in data/research/elections/filing-requirements.json. Design: docs/coordination/OWNER-DECISIONS.md Oct 28 ruling (line 476).",
-    "fix": "Post the place's filing fee from the candidate's account to the filing office's treasury through the money journal for the player and world candidates alike; a candidate short of the fee is refused with the reason; a place with no fee posts nothing. Update the 'files once, at no charge' test in src/core2/elections-filing.test.ts.",
+    "fix": "Post the place's filing fee from the candidate's account to the filing office's treasury through the money journal for the player and world candidates alike; a candidate short of the fee is refused with the reason; a place with no fee posts nothing. Update the 'files once, at no charge' test in tests/src/core2/elections-filing.test.ts.",
     "root": "rc9-place-facts-one-default",
     "model": "sonnet",
     "effort": "medium",
@@ -3024,7 +3024,7 @@
   {
     "id": "elections-filing-test-waits-for-filing-window",
     "verdict": "drop-done",
-    "reason": "src/core2/elections-filing.test.ts now calls advanceToFilingOpen(core) from ./gov-test-clock before openContests (lines 16 and 159), so the first-day assertion no longer depends on the draw.",
+    "reason": "tests/src/core2/elections-filing.test.ts now calls advanceToFilingOpen(core) from ./gov-test-clock before openContests (lines 16 and 159), so the first-day assertion no longer depends on the draw.",
     "critical": false
   },
   {
@@ -3049,7 +3049,7 @@
     "verdict": "needs-cause",
     "reason": "Red on main on two draws; cause not traced.",
     "causeKind": "Measured",
-    "cause": "Needs cause. Measured: GOLDEN_PATH_SEED=e7e4517e988c on src/core2/elections-law.test.ts fails the filing-announcement tag test (Waimea, Hawaii, and Durham, New Hampshire); contests 2026 to 2030 listed; #7239 last changed the test. I did not read src/core2/elections-calendar.ts or gov-rules.",
+    "cause": "Needs cause. Measured: GOLDEN_PATH_SEED=e7e4517e988c on tests/src/core2/elections-law.test.ts fails the filing-announcement tag test (Waimea, Hawaii, and Durham, New Hampshire); contests 2026 to 2030 listed; #7239 last changed the test. I did not read src/core2/elections-calendar.ts or gov-rules.",
     "fix": "None until the cause is found.",
     "root": "rc9-place-facts-one-default",
     "model": "sonnet",
@@ -3155,7 +3155,7 @@
     "verdict": "rewrite",
     "reason": "Cause readable in code: the check sums roll counts, the test counts rows.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/modules/voting.ts checkPetition (line ~639) sets valid to the rounded sum of each standing signer's roll count (electorateRoll, line 1501, gives a counted resident v.weight * scale, not 1) while struckIds counts one per row, so valid + struck differs from signature rows when a counted resident signed; src/core2/petition-filing.test.ts line 211 asserts the rows add up.",
+    "cause": "Found in code: src/core2/modules/voting.ts checkPetition (line ~639) sets valid to the rounded sum of each standing signer's roll count (electorateRoll, line 1501, gives a counted resident v.weight * scale, not 1) while struckIds counts one per row, so valid + struck differs from signature rows when a counted resident signed; tests/src/core2/petition-filing.test.ts line 211 asserts the rows add up.",
     "fix": "Count each standing signature row once in valid (a counted signer is one signature, not a bloc), keep struckIds as is, and leave the test strict. Note: the in-code comment says counted signers stand for people like them; the signature-row rule overrides that, so state the choice in the PR.",
     "root": "none",
     "model": "opus",
@@ -3256,7 +3256,7 @@
   {
     "id": "elections-special-race-no-national-party",
     "verdict": "drop-done",
-    "reason": "Fixed: src/core2/modules/voting.ts (around line 5252) builds a side-0 special race from both sides' parties via partyOnSideIn instead of throwing, and src/core2/special-election-outside.test.ts has the named regression \"a vacancy outside the town is filled where the state has no third party\" citing this exact crash. Illinois is among the states it names.",
+    "reason": "Fixed: src/core2/modules/voting.ts (around line 5252) builds a side-0 special race from both sides' parties via partyOnSideIn instead of throwing, and tests/src/core2/special-election-outside.test.ts has the named regression \"a vacancy outside the town is filled where the state has no third party\" citing this exact crash. Illinois is among the states it names.",
     "critical": false
   },
   {
@@ -3406,7 +3406,7 @@
   {
     "id": "golden-door-ask",
     "verdict": "drop-done",
-    "reason": "Door rows play as the player's ask: src/director/purpose-scene.ts line 1222 handles a campaign.door moment through doorStanding, situation-types.json has the \"door-ask\" type, and src/director/door-ask-scene.test.ts asserts a door plays as the player's ask answered from the knock.",
+    "reason": "Door rows play as the player's ask: src/director/purpose-scene.ts line 1222 handles a campaign.door moment through doorStanding, situation-types.json has the \"door-ask\" type, and tests/src/director/door-ask-scene.test.ts asserts a door plays as the player's ask answered from the knock.",
     "critical": false,
     "stalePaths": {
       "src/director/ask-talk.ts": "src/director/purpose-scene.ts (line 1222 door row) and src/director/doors.ts"
@@ -3495,7 +3495,7 @@
   {
     "id": "gov-campaign-day-test-nobody-can-file",
     "verdict": "drop-done",
-    "reason": "The test already redraws up to PLACES = 6 places until a candidate can file (src/bench/campaign-day-controls.test.ts lines 37 and 337-343) and passed on fresh seeds cd1 and cd2 (Oct 27 note); no failing draw was ever recorded, which is what the item's own done-when allows closing on.",
+    "reason": "The test already redraws up to PLACES = 6 places until a candidate can file (tests/src/bench/campaign-day-controls.test.ts lines 37 and 337-343) and passed on fresh seeds cd1 and cd2 (Oct 27 note); no failing draw was ever recorded, which is what the item's own done-when allows closing on.",
     "critical": false
   },
   {
@@ -3561,7 +3561,7 @@
     "verdict": "rewrite",
     "reason": "Governor-alone clemency exists; the board and council authorities do not.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/office-day-state.ts lines 461-468 run the governor's clemency review where governor decides; stopgap SG-GOV-clemency-boards (row in src/core2/data/stopgaps/gov.json) marks the missing board; src/core2/office-day-clemency.test.ts covers governor-alone.",
+    "cause": "Found in code: src/core2/office-day-state.ts lines 461-468 run the governor's clemency review where governor decides; stopgap SG-GOV-clemency-boards (row in src/core2/data/stopgaps/gov.json) marks the missing board; tests/src/core2/office-day-clemency.test.ts covers governor-alone.",
     "fix": "Add a small clemency board (members per the state's data, petitions from the justice engine, recommendations the governor's act reads where the law requires them).",
     "root": "none",
     "model": "opus",
@@ -3580,7 +3580,7 @@
     "verdict": "rewrite",
     "reason": "Red by seed on clean main per Fable, Nov 10; cause is one of two named alternatives.",
     "causeKind": "Measured",
-    "cause": "Measured: GOLDEN_PATH_SEED=0fa0de4be8c33033 in Achugao, Northern Mariana Islands (place seed 3b0d7e36...), test \"makes a trade in committee...\" in src/core2/legislature-committees.test.ts.",
+    "cause": "Measured: GOLDEN_PATH_SEED=0fa0de4be8c33033 in Achugao, Northern Mariana Islands (place seed 3b0d7e36...), test \"makes a trade in committee...\" in tests/src/core2/legislature-committees.test.ts.",
     "fix": "Find whether a later step struck the traded section while leaving the deal \"kept\", or the deal was recorded for a section never added, and make a trade always match a section on the bill or end with the step that ended it.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "opus",
@@ -3621,7 +3621,7 @@
       }
     ],
     "stalePaths": {
-      "src/core2/world-legislating-federal.test.ts": "gone (never created; src/core2/world-legislating.test.ts exists)",
+      "tests/src/core2/world-legislating-federal.test.ts": "gone (never created; tests/src/core2/world-legislating.test.ts exists)",
       "docs/audits/fable-vision-2026-11-09.md": "gone from main (lives only on branch audit/fable-vision)"
     }
   },
@@ -3660,7 +3660,7 @@
   {
     "id": "gov-corruption-small-territory-bribe",
     "verdict": "drop-done",
-    "reason": "The M3-09 corruption test now passes over places that cannot give two taken bribes and draws three that can (src/core2/corruption.test.ts lines 355-366, \"finds three drawn places with at least two taken bribes\"); the twin item gov-corruption-test-two-taken-bribes is done.",
+    "reason": "The M3-09 corruption test now passes over places that cannot give two taken bribes and draws three that can (tests/src/core2/corruption.test.ts lines 355-366, \"finds three drawn places with at least two taken bribes\"); the twin item gov-corruption-test-two-taken-bribes is done.",
     "critical": false
   },
   {
@@ -3799,7 +3799,7 @@
       }
     ],
     "stalePaths": {
-      "src/core2/modules/voting.test.ts": "src/core2/voting.test.ts",
+      "src/core2/modules/voting.test.ts": "tests/src/core2/voting.test.ts",
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/ (family files: gov.json, state.json, ...)"
     }
   },
@@ -3979,7 +3979,7 @@
     "verdict": "needs-cause",
     "reason": "The failing test is not on main (the PR was closed; the branch is claude/firearm-storage-extra-duty), so nothing reproduces on main; the same four extra person ids were recorded on the branch only.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Searched src/core2 for household-firearms.test.ts (absent) and storage-duty (only src/core2/law-wiring-justice.test.ts and src/core2/public-safety.ts); the repro seed is HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c, Atascadero, California.",
+    "cause": "Needs cause. Searched src/core2 for household-firearms.test.ts (absent) and storage-duty (only tests/src/core2/law-wiring-justice.test.ts and src/core2/public-safety.ts); the repro seed is HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c, Atascadero, California.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -4009,7 +4009,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/modules/interest-groups.test.ts": "src/core2/modules/interest-groups.traits.test.ts (the closest; the named test file does not exist)",
+      "src/core2/modules/interest-groups.test.ts": "tests/src/core2/modules/interest-groups.traits.test.ts (the closest; the named test file does not exist)",
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/ (family files: gov.json, state.json, ...)"
     }
   },
@@ -4029,7 +4029,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/modules/legislature.test.ts": "src/core2/legislature.test.ts",
+      "src/core2/modules/legislature.test.ts": "tests/src/core2/legislature.test.ts",
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/ (family files: gov.json, state.json, ...)"
     }
   },
@@ -4239,9 +4239,9 @@
   {
     "id": "gov-legislature-roster-size-data",
     "verdict": "rewrite",
-    "reason": "Live: the test at src/core2/offices-state.test.ts:251 still lists exactly these four chambers as disagreeing (ME lower 153/151, NH lower 386/400, PR upper 28/27, PR lower 53/51).",
+    "reason": "Live: the test at tests/src/core2/offices-state.test.ts:251 still lists exactly these four chambers as disagreeing (ME lower 153/151, NH lower 386/400, PR upper 28/27, PR lower 53/51).",
     "causeKind": "Found in code",
-    "cause": "src/core2/offices-state.test.ts line 251 test and its expected list (ME, NH, PR upper, PR lower) pins four chambers whose roster in data/research/offices/legislature-party-counts-2026.json holds a different number of members than the legal size.",
+    "cause": "tests/src/core2/offices-state.test.ts line 251 test and its expected list (ME, NH, PR upper, PR lower) pins four chambers whose roster in data/research/offices/legislature-party-counts-2026.json holds a different number of members than the legal size.",
     "fix": "Research and record in data, each with a citation, the non-voting delegates (Maine), each multi-member district's number of members (New Hampshire) and the minority seats a territory's constitution adds (Puerto Rico), and have stateOffices seat exactly the voting seats including vacancies; then shrink the test's expected list to empty.",
     "root": "rc9-place-facts-one-default",
     "model": "sonnet",
@@ -4275,7 +4275,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted: the preemption ban is only tested through draftBill in a small world (legislature.test.ts:911-933), never through the seat route; test-only change.",
     "causeKind": "Found in code",
-    "cause": "src/core2/legislature.test.ts lines 911-933 test the ban via draftBill in a createLifeCore world; src/core2/policy-authority.test.ts line 56 expects level-lacks-power without going through seatView/seatAct/holdVote in src/bench/legislature.ts (seatView line 191, seatAct line 258).",
+    "cause": "tests/src/core2/legislature.test.ts lines 911-933 test the ban via draftBill in a createLifeCore world; tests/src/core2/policy-authority.test.ts line 56 expects level-lacks-power without going through seatView/seatAct/holdVote in src/bench/legislature.ts (seatView line 191, seatAct line 258).",
     "fix": "Extend those two tests (no new file) to draw a preempting place with buildBenchWorld and check the ban through seatView, seatAct and holdVote by bill id, printing place and seed.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -4294,7 +4294,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted: M3-01's tests hash their own place and do not read GOLDEN_PATH_PLACE_KEY; features.json still has M3-01 passes false.",
     "causeKind": "Found in code",
-    "cause": "docs/roadmap/features.json entry M3-01 (passes false) names seven test files; src/core2/legislature-bill-form.test.ts, legislature-sections.test.ts and policy-authority.test.ts do not print the place they played.",
+    "cause": "docs/roadmap/features.json entry M3-01 (passes false) names seven test files; tests/src/core2/legislature-bill-form.test.ts, legislature-sections.test.ts and policy-authority.test.ts do not print the place they played.",
     "fix": "Make each M3-01 file run in GOLDEN_PATH_PLACE_KEY's place first (redraw only with a printed reason), print place, seed and record ids, table each clause against its assertion in the PR body, and flip passes to true.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -4381,7 +4381,7 @@
     "verdict": "rewrite",
     "reason": "Live: the engine weighs a known tie (executive.ts townPostInput, line 410) but no test proves the player's route names someone from their circle; test-only.",
     "causeKind": "Found in code",
-    "cause": "src/core2/modules/executive.ts townPostInput (line 410; `known` at line 498) weighs the tie; src/core2/executive.test.ts has the player name the first resident by id and checks no relationship.",
+    "cause": "src/core2/modules/executive.ts townPostInput (line 410; `known` at line 498) weighs the tie; tests/src/core2/executive.test.ts has the player name the first resident by id and checks no relationship.",
     "fix": "Write a test seating the player as mayor in a drawn place, naming a person from the player's circle to a vacant post through the office acts, and finding the appointment's reason citing the relationship record by id.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -4422,7 +4422,7 @@
   {
     "id": "gov-next",
     "verdict": "drop-done",
-    "reason": "Roll-up whose children are finished: play-speech-builder and play-join-party are done, words-speech-part-words is dropped, play-first-13-campaign-screen-to-mock-b is done, and src/bench/campaign.browser.mjs and src/director/speech-builder.ts exist; the whole-day play is now the seen-in-game check of those items, not a separate item (the Oct 27 look-first audit also said close).",
+    "reason": "Roll-up whose children are finished: play-speech-builder and play-join-party are done, words-speech-part-words is dropped, play-first-13-campaign-screen-to-mock-b is done, and tests/src/bench/campaign.browser.mjs and src/director/speech-builder.ts exist; the whole-day play is now the seen-in-game check of those items, not a separate item (the Oct 27 look-first audit also said close).",
     "critical": false,
     "stalePaths": {}
   },
@@ -4467,7 +4467,7 @@
     "verdict": "needs-cause",
     "reason": "Red golden-path step M2-01 in Alonzaville, Virginia (place 5101416); which of the two counts (before / withPast) is zero was never checked, so no cause yet.",
     "causeKind": "Needs cause",
-    "cause": "Looked at src/core2/offices.test.ts lines 187-227: the failing assertion 'expected 0 to be greater than 0' is one of the two counts `before` (terms begun before the opening) or `withPast`; careers are built in src/core2/modules/offices.ts (the named src/core2/opening-officials.ts is gone). Not run.",
+    "cause": "Looked at tests/src/core2/offices.test.ts lines 187-227: the failing assertion 'expected 0 to be greater than 0' is one of the two counts `before` (terms begun before the opening) or `withPast`; careers are built in src/core2/modules/offices.ts (the named src/core2/opening-officials.ts is gone). Not run.",
     "fix": "None until the cause is found.",
     "root": "rc9-place-facts-one-default",
     "model": "sonnet",
@@ -4684,7 +4684,7 @@
   {
     "id": "gov-press-outlet-revenue",
     "verdict": "drop-done",
-    "reason": "Stopgap SG-PEOPLE-press-outlet-revenue is status resolved with the replacement named: src/core2/press-money.ts (subscriptions from readers' living cost, ads from local businesses' outside costs) shown in src/core2/press-money.test.ts. The local-shop ad on screen is play-paper-shows-local-ads.",
+    "reason": "Stopgap SG-PEOPLE-press-outlet-revenue is status resolved with the replacement named: src/core2/press-money.ts (subscriptions from readers' living cost, ads from local businesses' outside costs) shown in tests/src/core2/press-money.test.ts. The local-shop ad on screen is play-paper-shows-local-ads.",
     "critical": false,
     "stalePaths": {
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/people.json"
@@ -4695,7 +4695,7 @@
     "verdict": "rewrite",
     "reason": "Red test on main with a read cause: the test reads personCard(...).seats but seats moved to knownCard.",
     "causeKind": "Found in code",
-    "cause": "src/core2/pre-start-government.test.ts line 38 reads personCard(core, holder).seats; src/bench/card.ts personCard (line 45) returns no seats field, while knownCard (line 1019, field at line 1211) does.",
+    "cause": "tests/src/core2/pre-start-government.test.ts line 38 reads personCard(core, holder).seats; src/bench/card.ts personCard (line 45) returns no seats field, while knownCard (line 1019, field at line 1211) does.",
     "fix": "Change the test to read the card a click opens (knownCard) and say so in the PR; if the life-record work moves seats, read from its reader instead. Never skip the test.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -4729,7 +4729,7 @@
   {
     "id": "gov-recall-for-cause-start",
     "verdict": "drop-done",
-    "reason": "Built: src/core2/modules/recalls.ts skips ordinance-started recalls where groundsRequired (line 449) and starts one from a misconduct record heard of (lines 628-670, cause 'misconduct'); src/core2/recall-for-cause.test.ts proves it in a drawn place whose state requires grounds.",
+    "reason": "Built: src/core2/modules/recalls.ts skips ordinance-started recalls where groundsRequired (line 449) and starts one from a misconduct record heard of (lines 628-670, cause 'misconduct'); tests/src/core2/recall-for-cause.test.ts proves it in a drawn place whose state requires grounds.",
     "critical": false,
     "stalePaths": {}
   },
@@ -5159,7 +5159,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/modules/candidacy.test.ts": "src/core2/candidacy-in-play.test.ts",
+      "src/core2/modules/candidacy.test.ts": "tests/src/core2/candidacy-in-play.test.ts",
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/gov.json"
     }
   },
@@ -5221,7 +5221,7 @@
     "verdict": "needs-cause",
     "reason": "Red test by draw on main; cause not stated.",
     "causeKind": "Measured",
-    "cause": "HEALTH_WEB_SEED=e278a4ff7b6b5d53 (Bayside, Wisconsin) fails src/core2/health-web.test.ts: 0.90918 vs 0.90886.",
+    "cause": "HEALTH_WEB_SEED=e278a4ff7b6b5d53 (Bayside, Wisconsin) fails tests/src/core2/health-web.test.ts: 0.90918 vs 0.90886.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -5259,7 +5259,7 @@
   {
     "id": "housing-fill-in-cash-extra-after-eviction",
     "verdict": "drop-done",
-    "reason": "Resolved as a test assumption: src/core2/housing-counted-evicted.test.ts now asserts after = before + share (comment ~line 513). Residual (a demoted person keeps collecting pay) is a note, not a defect with a cause.",
+    "reason": "Resolved as a test assumption: tests/src/core2/housing-counted-evicted.test.ts now asserts after = before + share (comment ~line 513). Residual (a demoted person keeps collecting pay) is a note, not a defect with a cause.",
     "critical": false
   },
   {
@@ -5385,7 +5385,7 @@
     "verdict": "needs-cause",
     "reason": "Red by draw; three candidate causes, none shown.",
     "causeKind": "Measured",
-    "cause": "WEB_LABOR_SEED=c0cb88e1667c71e5 (Montrose, Arkansas) fails src/core2/jobs-web.test.ts: pay 1.0126 in both worlds.",
+    "cause": "WEB_LABOR_SEED=c0cb88e1667c71e5 (Montrose, Arkansas) fails tests/src/core2/jobs-web.test.ts: pay 1.0126 in both worlds.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -5524,7 +5524,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/income-tax-learned.test.ts": "new test needed",
+      "tests/src/core2/income-tax-learned.test.ts": "new test needed",
       "docs/lanes/proof/meadow-law-chain-investigation.md": "gone (branch lane-2/law-chain-proof only)"
     }
   },
@@ -5888,7 +5888,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/modules/legislature.test.ts": "src/core2/legislature.test.ts"
+      "src/core2/modules/legislature.test.ts": "tests/src/core2/legislature.test.ts"
     }
   },
   {
@@ -5953,7 +5953,7 @@
     "sizeL": false,
     "stalePaths": {
       "src/core2/justice-incidents.test.ts": "new test, made with gov-justice-incident-producer",
-      "src/core2/household-firearms.test.ts": "gone (see src/core2/death-cause-firearm-homicide.test.ts, firearm-ownership.ts)"
+      "src/core2/household-firearms.test.ts": "gone (see tests/src/core2/death-cause-firearm-homicide.test.ts, firearm-ownership.ts)"
     }
   },
   {
@@ -6048,7 +6048,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted: a seed-specific red in law-wiring-mortality-web.test.ts. The test (line ~459) already throws \"no coverage part\" for a treated person with no part, so either the hazard (health-own.ts) or the test pass-over is wrong; not yet decided.",
     "causeKind": "Measured",
-    "cause": "MORTALITY_WEB_SEED=m2 GOLDEN_PATH_SEED=m2 npx vitest run src/core2/law-wiring-mortality-web.test.ts fails in Sale Creek, Tennessee (4766220), draw m2:5, person_ad93ce081ff8fceb: own factor 1, no coverage-to-mortality-55-64 part, though two coverage spells dated 2025-03-23 pay them.",
+    "cause": "MORTALITY_WEB_SEED=m2 GOLDEN_PATH_SEED=m2 npx vitest run tests/src/core2/law-wiring-mortality-web.test.ts fails in Sale Creek, Tennessee (4766220), draw m2:5, person_ad93ce081ff8fceb: own factor 1, no coverage-to-mortality-55-64 part, though two coverage spells dated 2025-03-23 pay them.",
     "fix": "Read the person's age and the link's lag at the look from their record. If they are in band, make the hazard in src/core2/health-own.ts read both the state and the federal spell; if not, make the test pass them over with a named reason.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "sonnet",
@@ -6245,7 +6245,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted: weights.statePartyLoyalty in modules/officials.ts and stopgap SG-LAWS-state-party-loyalty-target (open, laws.json) still use the federal 0.90 target. Sent back three times; the data file it named is gone. Nov 8 ruling \"ranges are not targets\": the roll-call rate may calibrate the parameter inside a cause formula but no check should fail a run for leaving the band.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/modules/officials.ts (weights.statePartyLoyalty, one shared value), src/core2/party-loyalty.test.ts, stopgap SG-LAWS-state-party-loyalty-target in src/core2/data/stopgaps/laws.json.",
+    "cause": "Found in code: src/core2/modules/officials.ts (weights.statePartyLoyalty, one shared value), tests/src/core2/party-loyalty.test.ts, stopgap SG-LAWS-state-party-loyalty-target in src/core2/data/stopgaps/laws.json.",
     "fix": "Tabulate each chamber's public roll-call party-unity rate with source and years, store a per-chamber multiple in a data table (ESTIMATED with spread where none published), read it where the member's party term is scaled, delete the shared weight; the test reports the simulated unity rate without failing the run on a band.",
     "root": "rc9-place-facts-one-default",
     "model": "sonnet",
@@ -6293,7 +6293,7 @@
     "verdict": "rewrite",
     "reason": "Live seed-specific red, cause in two named places that disagree.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/modules/place-prices.ts (treasury choice ~lines 964-985 pays the nearest government that has one) vs src/core2/price-laws.test.ts line 148-157 (expects no rule where the governing place has no treasury).",
+    "cause": "Found in code: src/core2/modules/place-prices.ts (treasury choice ~lines 964-985 pays the nearest government that has one) vs tests/src/core2/price-laws.test.ts line 148-157 (expects no rule where the governing place has no treasury).",
     "fix": "Decide the rule (the engine's nearest-treasury is the one a territory needs) and make the test read the same rule.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "haiku",
@@ -6439,7 +6439,7 @@
     "verdict": "rewrite",
     "reason": "Test red on main with a seed; cause is \"fixture's need changed or draw too narrow\", not decided.",
     "causeKind": "Measured",
-    "cause": "Measured: GOLDEN_PATH_SEED=ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab throws \"no town with an employed adult and medicaid in forty draws\" from src/core2/law-reach-group-b.test.ts (line 243).",
+    "cause": "Measured: GOLDEN_PATH_SEED=ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab throws \"no town with an employed adult and medicaid in forty draws\" from tests/src/core2/law-reach-group-b.test.ts (line 243).",
     "fix": "Read why forty drawn towns hold no employed Medicaid adult (the coverage record or the opening changed), fix at that, and never pin a place.",
     "root": "rc2-done-from-records",
     "model": "haiku",
@@ -6736,7 +6736,7 @@
     "reason": "Asked for a full typecheck on main (a checker's job under \"Builders build; checkers check\") and for rent-help coverage in law-wiring-housing.test.ts; that file's header (lines 5-8) says \"the rent help cases keep what the deleted rent-help test asserted\".",
     "critical": false,
     "stalePaths": {
-      "src/core2/rent-help.test.ts": "gone (folded into src/core2/law-wiring-housing.test.ts)"
+      "src/core2/rent-help.test.ts": "gone (folded into tests/src/core2/law-wiring-housing.test.ts)"
     }
   },
   {
@@ -6772,7 +6772,7 @@
   {
     "id": "legislature-catalog-test-no-seated-council",
     "verdict": "drop-done",
-    "reason": "Item's own Notes (Oct 28): does not reproduce, ten fresh seeds and 20 of 20 whole-file runs pass; its Done when allows closing with that evidence. The test exists at src/core2/legislature.test.ts.",
+    "reason": "Item's own Notes (Oct 28): does not reproduce, ten fresh seeds and 20 of 20 whole-file runs pass; its Done when allows closing with that evidence. The test exists at tests/src/core2/legislature.test.ts.",
     "critical": false
   },
   {
@@ -6826,7 +6826,7 @@
       }
     ],
     "stalePaths": {
-      "src/core2/modules/health.test.ts": "gone (src/core2/health-own.test.ts and health-web.test.ts)",
+      "src/core2/modules/health.test.ts": "gone (tests/src/core2/health-own.test.ts and health-web.test.ts)",
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/gov.json"
     }
   },
@@ -7398,7 +7398,7 @@
     "verdict": "rewrite",
     "reason": "Still a missing check; waits on the fix item people-circle-turnover-too-low (claimed).",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/m0-meeting-people.test.ts has four tests covering 91 days only; nothing plays years against a sourced turnover rate (item).",
+    "cause": "Found in code: tests/src/core2/m0-meeting-people.test.ts has four tests covering 91 days only; nothing plays years against a sourced turnover rate (item).",
     "fix": "Research the turnover rate of a person's close ties from a fetched study, then add a three-year test in two drawn places comparing the share replaced with it.",
     "root": "none",
     "model": "sonnet",
@@ -7460,7 +7460,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/views-counted-victims.test.ts": "never merged (new test this item writes)"
+      "tests/src/core2/views-counted-victims.test.ts": "never merged (new test this item writes)"
     }
   },
   {
@@ -7468,7 +7468,7 @@
     "verdict": "rewrite",
     "reason": "Small bounded bug, measured.",
     "causeKind": "Measured",
-    "cause": "Measured: Gallina, New Mexico (place 3528180, seed aa11bb22cc33dd44, src/core2/health-coverage-counted.test.ts): the spouse's commuter job at outside-market (staff 10) took the household's policy from a school-district worker (staff 5) on July 1, 2025; code at src/core2/modules/coverage.ts holdersToday (line 164) ranks by staffOf (line 129).",
+    "cause": "Measured: Gallina, New Mexico (place 3528180, seed aa11bb22cc33dd44, tests/src/core2/health-coverage-counted.test.ts): the spouse's commuter job at outside-market (staff 10) took the household's policy from a school-district worker (staff 5) on July 1, 2025; code at src/core2/modules/coverage.ts holdersToday (line 164) ranks by staffOf (line 129).",
     "fix": "Rank a commuter by an estimated size for the outside employer (sourced firm-size distribution with spread) instead of the town's commuter count.",
     "root": "none",
     "model": "sonnet",
@@ -8134,7 +8134,7 @@
       },
       {
         "title": "Answer key check",
-        "done_when": "src/core2/views.test.ts checks the values against a sourced key and the counted groups carry the same terms times their count."
+        "done_when": "tests/src/core2/views.test.ts checks the values against a sourced key and the counted groups carry the same terms times their count."
       }
     ],
     "stalePaths": {}
@@ -8293,7 +8293,7 @@
     "verdict": "rewrite",
     "reason": "Reproducible hang: advance gets no answer after a talk stop; stops play for anyone who jumps the calendar. Cause not yet named but the replay command is in the item.",
     "causeKind": "Measured",
-    "cause": "Measured: BENCH_SEED=4d50e1f88df997f9 BENCH_PLACE=1009850 BENCH_JUMP=2026-05-16 node src/bench/office-hours.browser.mjs (Brookside, Delaware) answers 400 'Answer the open choice or stop first.' after Continue, and the request after the Robert Moran talk on 2025-06-11 gets no response in 600 seconds; also calendar.browser.mjs fails 2 of 3 in Papago, Northern Mariana Islands and La Madera, New Mexico (e34de8c1ee).",
+    "cause": "Measured: BENCH_SEED=4d50e1f88df997f9 BENCH_PLACE=1009850 BENCH_JUMP=2026-05-16 node tests/src/bench/office-hours.browser.mjs (Brookside, Delaware) answers 400 'Answer the open choice or stop first.' after Continue, and the request after the Robert Moran talk on 2025-06-11 gets no response in 600 seconds; also calendar.browser.mjs fails 2 of 3 in Papago, Northern Mariana Islands and La Madera, New Mexico (e34de8c1ee).",
     "fix": "Find which stop holds the advance (the talk after a closed-at-night visit) and why the next request is never answered, fix it in the advance or the talk, and never shorten the jump.",
     "root": "rc2-done-from-records",
     "model": "opus",
@@ -8436,7 +8436,7 @@
   {
     "id": "play-continue-news-check-fails-on-main",
     "verdict": "needs-cause",
-    "reason": "I read src/bench/continue-news.browser.mjs lines 85-115: it asserts every continued-reader sentence is in the kept opening record (lead paragraphs, or broadcast plus address, plus later headlines). Failing 'kept in the opening record: <place> unemployment at <rate>' means the reader shows rate sentences the record does not hold in that form; not traced further. Likely related to play-news-reader-lead-without-text-crashes (lead with neither paragraphs nor broadcast).",
+    "reason": "I read tests/src/bench/continue-news.browser.mjs lines 85-115: it asserts every continued-reader sentence is in the kept opening record (lead paragraphs, or broadcast plus address, plus later headlines). Failing 'kept in the opening record: <place> unemployment at <rate>' means the reader shows rate sentences the record does not hold in that form; not traced further. Likely related to play-news-reader-lead-without-text-crashes (lead with neither paragraphs nor broadcast).",
     "causeKind": "Needs cause",
     "cause": "Needs cause. Looked at continue-news.browser.mjs lines 85-115; the failing assertion compares reader sentences with the kept opening news record, and which side changed since #6234 is not found.",
     "fix": "None until the cause is found.",
@@ -8550,7 +8550,7 @@
     "reason": "Cause confirmed: src/bench/play.css has no rule for .dev-watch (grep finds none); tables are bare elements.",
     "causeKind": "Found in code",
     "cause": "Found in code: devWatchSections in src/bench/ui/dev-watch.mjs (line 36) builds bare table elements inside div.scroll in a div.dev-only.dev-watch appended by calendar() in src/bench/play.mjs; src/bench/play.css has no rule for .dev-watch, th, td, .scroll or .kv. Seen in Ten Broeck, Kentucky (no seed).",
-    "fix": "Rebuild every dev table and record tree (Watch, Golden path, loans, the Records tree) from the one shared table look so text passes the 4.5 to 1 contrast the panels check already holds (src/bench/panels.browser.mjs), and delete the bare tables.",
+    "fix": "Rebuild every dev table and record tree (Watch, Golden path, loans, the Records tree) from the one shared table look so text passes the 4.5 to 1 contrast the panels check already holds (tests/src/bench/panels.browser.mjs), and delete the bare tables.",
     "root": "rc10-screens-keep-own-facts",
     "model": "sonnet",
     "effort": "low",
@@ -8890,7 +8890,7 @@
   {
     "id": "play-m6-04-custom-world-added-oct",
     "verdict": "drop-replaced",
-    "reason": "Replaced by the Advanced start: OWNER-DECISIONS Oct 26 ('Watch the World and the custom world become one dev mode... get rid of the opening questions') built as play-dev-mode-one-advanced-start (done, src/bench/advanced.browser.mjs) and play-new-game-world-options (done). Any remaining unhonored setting is a new bounded item.",
+    "reason": "Replaced by the Advanced start: OWNER-DECISIONS Oct 26 ('Watch the World and the custom world become one dev mode... get rid of the opening questions') built as play-dev-mode-one-advanced-start (done, tests/src/bench/advanced.browser.mjs) and play-new-game-world-options (done). Any remaining unhonored setting is a new bounded item.",
     "critical": false
   },
   {
@@ -8953,7 +8953,7 @@
     "waitsOn": "Nothing",
     "critical": true,
     "stalePaths": {
-      "src/bench/news.browser.mjs": "src/bench/news-clicks.browser.mjs and src/bench/printed-news.browser.mjs"
+      "src/bench/news.browser.mjs": "tests/src/bench/news-clicks.browser.mjs and tests/src/bench/printed-news.browser.mjs"
     }
   },
   {
@@ -9156,7 +9156,7 @@
     "verdict": "rewrite",
     "reason": "Still live: staffReview skips the player and no bench control calls hireStaff.",
     "causeKind": "Found in code",
-    "cause": "src/core2/modules/staff.ts staffReview (line 1202) filters out state.playerId (line 1225); hireStaff (line 700), staffCandidates (line 401) and hireReasons (line 679) are called only from src/bench/office-two-stakes.test.ts, never from the bench screens.",
+    "cause": "src/core2/modules/staff.ts staffReview (line 1202) filters out state.playerId (line 1225); hireStaff (line 700), staffCandidates (line 401) and hireReasons (line 679) are called only from tests/src/bench/office-two-stakes.test.ts, never from the bench screens.",
     "fix": "List the staff engine's candidates with their reasons on the player's office screen and let the player hire one through hireStaff, paid from the same post the engine's hires are.",
     "root": "none",
     "model": "sonnet",
@@ -9318,7 +9318,7 @@
   {
     "id": "play-screens-codes-and-iso-dates",
     "verdict": "drop-done",
-    "reason": "The strings are gone from the screens: no 'in office at the opening' or 'Press.archived' in src/bench UI code, the filing status maps to a control name ('You are on the ballot', src/bench/data/controls.json line 478), Mark gap joins the talk box only in dev mode (src/bench/play.mjs line 1385), and the item's own check src/bench/plain-text.browser.mjs exists. Its parent play-stop-02-developer-text-on-play-screens (children done) covers the rest.",
+    "reason": "The strings are gone from the screens: no 'in office at the opening' or 'Press.archived' in src/bench UI code, the filing status maps to a control name ('You are on the ballot', src/bench/data/controls.json line 478), Mark gap joins the talk box only in dev mode (src/bench/play.mjs line 1385), and the item's own check tests/src/bench/plain-text.browser.mjs exists. Its parent play-stop-02-developer-text-on-play-screens (children done) covers the rest.",
     "critical": false
   },
   {
@@ -9364,7 +9364,7 @@
     "verdict": "rewrite",
     "reason": "Still live; rollCallOf has no caller but tests, and no screen opens another state.",
     "causeKind": "Found in code",
-    "cause": "rollCallOf in src/core2/modules/world-legislating.ts (line 1548) is called only from src/core2/state-sessions.test.ts; stateLegislators and politicsStates in src/bench/government.ts list another state's members but nothing opens its laws, governor or roll calls.",
+    "cause": "rollCallOf in src/core2/modules/world-legislating.ts (line 1548) is called only from tests/src/core2/state-sessions.test.ts; stateLegislators and politicsStates in src/bench/government.ts list another state's members but nothing opens its laws, governor or roll calls.",
     "fix": "Build one States screen on the existing state filter and the one list-beside-detail renderer that opens any state's governor, chamber party counts, laws changed with vote counts and each roll call (built on open, same every time), all from kept records.",
     "root": "rc1-world-outside-town",
     "model": "opus",
@@ -9386,7 +9386,7 @@
   {
     "id": "play-stop-02-developer-text-on-play-screens",
     "verdict": "rewrite",
-    "reason": "Both children (-a and -b) are done; Mark gap is dev-only (src/bench/play.mjs line 1385), statuses read through control names, and src/bench/plain-text.browser.mjs checks News, Politics, the filing panel and the talk box. The owner-installed-build acceptance is replaced by the second-session rule (AGENTS.md step 5).",
+    "reason": "Both children (-a and -b) are done; Mark gap is dev-only (src/bench/play.mjs line 1385), statuses read through control names, and tests/src/bench/plain-text.browser.mjs checks News, Politics, the filing panel and the talk box. The owner-installed-build acceptance is replaced by the second-session rule (AGENTS.md step 5).",
     "model": "sonnet",
     "waitsOn": "A second session's check in the running game (seen-in-game)",
     "critical": false
@@ -9729,7 +9729,7 @@
   {
     "id": "realistic-row-45-dc-delegate-seat",
     "verdict": "drop-done",
-    "reason": "src/core2/realistic-not-real.test.ts holderIn (lines 947-960) now maps a non-voting delegate's seat 98 (DELEGATE_DISTRICT, line 142) to the roster's at-large seat, with the comment naming Moca, Puerto Rico seed 08477dec014e6c2e; D.C. and the territories are covered.",
+    "reason": "tests/src/core2/realistic-not-real.test.ts holderIn (lines 947-960) now maps a non-voting delegate's seat 98 (DELEGATE_DISTRICT, line 142) to the roster's at-large seat, with the comment naming Moca, Puerto Rico seed 08477dec014e6c2e; D.C. and the territories are covered.",
     "critical": false
   },
   {
@@ -9811,8 +9811,8 @@
     "verdict": "rewrite",
     "reason": "Mostly stale: SG-CORE-territory-places is resolved and a territory-deposits test exists; what is left is stale references to a deleted file.",
     "causeKind": "Found in code",
-    "cause": "Found in code: build-place-lookup-data.ts is still named in .prettierignore and docs/design/old-core-retirement-map.md (grep); SG-WORLD-credit-island-deposits (src/core2/data/stopgaps/world.json) is still open with its island text; src/core2/territory-deposits.test.ts exists.",
-    "fix": "Remove the references to the deleted build-place-lookup-data.ts from .prettierignore and the live docs; reread SG-WORLD-credit-island-deposits against src/core2/territory-deposits.test.ts and correct its text or keep it with a reason. Skip the PR-link and blocked-status edits the audit listed if the item files already read right.",
+    "cause": "Found in code: build-place-lookup-data.ts is still named in .prettierignore and docs/design/old-core-retirement-map.md (grep); SG-WORLD-credit-island-deposits (src/core2/data/stopgaps/world.json) is still open with its island text; tests/src/core2/territory-deposits.test.ts exists.",
+    "fix": "Remove the references to the deleted build-place-lookup-data.ts from .prettierignore and the live docs; reread SG-WORLD-credit-island-deposits against tests/src/core2/territory-deposits.test.ts and correct its text or keep it with a reason. Skip the PR-link and blocked-status edits the audit listed if the item files already read right.",
     "root": "none",
     "model": "haiku",
     "effort": "low",
@@ -9976,7 +9976,7 @@
   {
     "id": "release-merge-audit-oct20-morning-fixes",
     "verdict": "drop-done",
-    "reason": "All seven fixes merged: notes record #5655, #5658/#5748, #5707/#5818, #5668/#5712 (git log: fc0f9349d1 staff-paid-territory-no-payroll-template done), #5705, #5697, and fix 2 via #5703 (merge c611f79505); scripts/audit/research-data-allowlist.json lists data/research/jobs/employer-callback-gaps.json under awaitingReader (line 111, after the awaitingReader key at 97), and src/core2/staff-paid-every-place.test.ts has the pinned territory:VI:charlotte-amalie-east case.",
+    "reason": "All seven fixes merged: notes record #5655, #5658/#5748, #5707/#5818, #5668/#5712 (git log: fc0f9349d1 staff-paid-territory-no-payroll-template done), #5705, #5697, and fix 2 via #5703 (merge c611f79505); scripts/audit/research-data-allowlist.json lists data/research/jobs/employer-callback-gaps.json under awaitingReader (line 111, after the awaitingReader key at 97), and tests/src/core2/staff-paid-every-place.test.ts has the pinned territory:VI:charlotte-amalie-east case.",
     "critical": false,
     "stalePaths": {
       "src/core2/staff.ts": "src/core2/modules/staff.ts"
@@ -9987,7 +9987,7 @@
     "verdict": "needs-cause",
     "reason": "Test was rewritten since (line 81 is no longer the assertion); the red may or may not remain.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at src/core2/housing-calibration.test.ts: it builds one place and reads its eviction cases per burden band after a year; the Oct 19 red at line 81 and the Oct 25 note (place 2309585, 1 of 170 vs 1 of 197) pointed at too few cases in a small town, but the file changed in #7300 and I did not run it.",
+    "cause": "Needs cause. Looked at tests/src/core2/housing-calibration.test.ts: it builds one place and reads its eviction cases per burden band after a year; the Oct 19 red at line 81 and the Oct 25 note (place 2309585, 1 of 170 vs 1 of 197) pointed at too few cases in a small town, but the file changed in #7300 and I did not run it.",
     "fix": "None until the cause is found. First step: run the test on a drawn place and seed on main; if it is green over five draws, drop the item; if red, pool cases over up to four drawn places as the item says.",
     "root": "none",
     "model": "haiku",
@@ -10003,7 +10003,7 @@
     "verdict": "needs-cause",
     "reason": "Reported red on Oct 20; unverified now, test file has changed.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at src/core2/law-reach-group-b.test.ts (test at line 628 registers a handler for every group B policy and budget line) and src/core2/law-reach/; the Oct 20 failure (34 handlers not 35; no price records for a city sales tax in Pecktonville, Maryland, seed fe0ccacf...) was not re-run here.",
+    "cause": "Needs cause. Looked at tests/src/core2/law-reach-group-b.test.ts (test at line 628 registers a handler for every group B policy and budget line) and src/core2/law-reach/; the Oct 20 failure (34 handlers not 35; no price records for a city sales tax in Pecktonville, Maryland, seed fe0ccacf...) was not re-run here.",
     "fix": "None until the cause is found. First step: run the file on main and on that seed; if green, drop; if red, find the policy row or handler added or removed without the other and the sales-tax price-record path.",
     "root": "none",
     "model": "sonnet",
@@ -10174,7 +10174,7 @@
     "reason": "Still wanted; the named check script is gone.",
     "causeKind": "Found in code",
     "cause": "Found in code: SG-GOV-filing-deadline-estimate and SG-GOV-filing-fallbacks in src/core2/modules/elections.ts and SG-GOV-ballot-order-estimates in src/core2/modules/voting.ts are open; 38 deadline rows are ESTIMATED in src/core2/data/elections/filing-deadlines.json.",
-    "fix": "Read each unread or ESTIMATED deadline and each 'not specified' registration row from its statute or office page with section and URL, or keep it with a reason; narrow the three stopgap rows; src/core2/elections-law.test.ts passes in a drawn place.",
+    "fix": "Read each unread or ESTIMATED deadline and each 'not specified' registration row from its statute or office page with section and URL, or keep it with a reason; narrow the three stopgap rows; tests/src/core2/elections-law.test.ts passes in a drawn place.",
     "root": "none",
     "model": "sonnet",
     "effort": "medium",
@@ -10388,7 +10388,7 @@
     "reason": "Still wanted: no local-income-tax-authority row for six places.",
     "causeKind": "Measured",
     "cause": "Measured: src/core2/data/laws/starting-law.json has the local-income-tax-authority row for the 50 states and none for D.C., Puerto Rico, Guam, the Virgin Islands, American Samoa or the Northern Mariana Islands (laws lead, Oct 25; drawn place Marueno, Puerto Rico).",
-    "fix": "Research each of the six places' rule on local income taxes with quote and URL, add the six rows through scripts/research/build-starting-law.py, and make src/core2/law-wiring-taxes.test.ts read them.",
+    "fix": "Research each of the six places' rule on local income taxes with quote and URL, add the six rows through scripts/research/build-starting-law.py, and make tests/src/core2/law-wiring-taxes.test.ts read them.",
     "root": "none",
     "model": "sonnet",
     "effort": "low",
@@ -11050,7 +11050,7 @@
     "verdict": "needs-cause",
     "reason": "Item reports a deterministic red on clean main (Oct 28) with no cause; business.test.ts and modules/business.ts exist.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at the item only: src/core2/business.test.ts restaurant-founding case gets 'expected 0 to be greater than 0' for the share of purchases or the startup loan.",
+    "cause": "Needs cause. Looked at the item only: tests/src/core2/business.test.ts restaurant-founding case gets 'expected 0 to be greater than 0' for the share of purchases or the startup loan.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11066,7 +11066,7 @@
     "verdict": "needs-cause",
     "reason": "Door contact 0.494 vs ceiling 0.45 in West Virginia place 5431732; item gives two hypotheses. Note the Nov 8 ruling that no check fails a run for leaving a real band may let the band become a report with a sample spread.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/campaign-calibration.test.ts and src/core2/modules/campaigns.ts exist; the item offers a wide band or a double-counted door and neither is shown. Measured seed 1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b.",
+    "cause": "Needs cause. tests/src/core2/campaign-calibration.test.ts and src/core2/modules/campaigns.ts exist; the item offers a wide band or a double-counted door and neither is shown. Measured seed 1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11082,7 +11082,7 @@
     "verdict": "needs-cause",
     "reason": "Item says the cause is not traced (race five years out, poll may wait for a window).",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/campaign-outside-donors.test.ts and src/core2/modules/campaigns.ts exist; GOLDEN_PATH_SEED=pet-run-1 in Strasburg, North Dakota gives polls 0.",
+    "cause": "Needs cause. tests/src/core2/campaign-outside-donors.test.ts and src/core2/modules/campaigns.ts exist; GOLDEN_PATH_SEED=pet-run-1 in Strasburg, North Dakota gives polls 0.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11098,7 +11098,7 @@
     "verdict": "needs-cause",
     "reason": "The test's cited lines (246/279) have moved and the cause (gift row vs money rows) is a stated either-or.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/campaign-turn.test.ts exists but its donor-total case no longer sits at line 246; askForDonation is at src/core2/modules/campaigns.ts:3309. Measured: seed 5c889114d55002d33b15aaa8fee51c97466951d20e0037d2cda905baa12e207f in Mildred, Kansas.",
+    "cause": "Needs cause. tests/src/core2/campaign-turn.test.ts exists but its donor-total case no longer sits at line 246; askForDonation is at src/core2/modules/campaigns.ts:3309. Measured: seed 5c889114d55002d33b15aaa8fee51c97466951d20e0037d2cda905baa12e207f in Mildred, Kansas.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11114,7 +11114,7 @@
     "verdict": "needs-cause",
     "reason": "Odds ratio 3.26 vs ceiling 2.67 in Cruz Bay; item states a hypothesis (newcomer count) but not a cause.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/modules/campaigns.traits.test.ts (run-for-office case) and src/core2/modules/candidacy.ts exist; Measured: GOLDEN_PATH_SEED=a4eca5af1791dc3df7527d94791fb774b3fcdd52, Cruz Bay, U.S. Virgin Islands.",
+    "cause": "Needs cause. tests/src/core2/modules/campaigns.traits.test.ts (run-for-office case) and src/core2/modules/candidacy.ts exist; Measured: GOLDEN_PATH_SEED=a4eca5af1791dc3df7527d94791fb774b3fcdd52, Cruz Bay, U.S. Virgin Islands.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11130,7 +11130,7 @@
     "verdict": "needs-cause",
     "reason": "Item's own probe: passes alone, fails in the whole file because an earlier test leaves every talk empty; the leaking state is not found.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/director/conversation.test.ts passes alone and fails in the full file (fixed world, seed conversation-test); openConversation in src/director/conversation.ts returns 0 lines and 0 choices after earlier tests.",
+    "cause": "Needs cause. tests/src/director/conversation.test.ts passes alone and fails in the full file (fixed world, seed conversation-test); openConversation in src/director/conversation.ts returns 0 lines and 0 choices after earlier tests.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11146,7 +11146,7 @@
     "verdict": "needs-cause",
     "reason": "Test sees fifteen identical 1.030 birth factors in Elyria, Nebraska; item offers fix-the-cause or fix-the-assumption without choosing.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/births-counted-web.test.ts:68 and src/core2/modules/outcome-web.ts exist; Measured: WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36 (Elyria, Nebraska) and WEB_BIRTHS_SEED=6e1164126090860a (Los Cerrillos, New Mexico).",
+    "cause": "Needs cause. tests/src/core2/births-counted-web.test.ts:68 and src/core2/modules/outcome-web.ts exist; Measured: WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36 (Elyria, Nebraska) and WEB_BIRTHS_SEED=6e1164126090860a (Los Cerrillos, New Mexico).",
     "fix": "None until the cause is found.",
     "root": "design-one-model-two-tiers",
     "model": "opus",
@@ -11162,7 +11162,7 @@
     "verdict": "needs-cause",
     "reason": "Item's own follow-up says the OOM may have come from RAM-backed /tmp and no production regression is confirmed; the repeat with disk-backed TMPDIR was never run.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/counted-births-weight.test.ts exists; per the item's Notes the Heath, Ohio (root 6caa430bbe8beeb2600e9413def52bb2) and Waimea cases were not repeated with a disk-backed TMPDIR.",
+    "cause": "Needs cause. tests/src/core2/counted-births-weight.test.ts exists; per the item's Notes the Heath, Ohio (root 6caa430bbe8beeb2600e9413def52bb2) and Waimea cases were not repeated with a disk-backed TMPDIR.",
     "fix": "None until the cause is found. First step: repeat both cases with disk-backed TMPDIR and report peak memory.",
     "root": "design-one-model-two-tiers",
     "model": "sonnet",
@@ -11178,7 +11178,7 @@
     "verdict": "needs-cause",
     "reason": "Filed Nov 9; same seed fails on another branch; no cause found; a888e786b7 (#8051) touched counted-demotion.test.ts since, so first re-run it on current main.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/counted-demotion.test.ts, src/core2/modules/counted-demotion.ts and src/core2/modules/residents.ts exist; Measured: GOLDEN_PATH_SEED=df6e76e8e58c78ac7e0fcd05f68ce334, Lookout Mountain, Georgia, person_be97cb8c926abd3c.",
+    "cause": "Needs cause. tests/src/core2/counted-demotion.test.ts, src/core2/modules/counted-demotion.ts and src/core2/modules/residents.ts exist; Measured: GOLDEN_PATH_SEED=df6e76e8e58c78ac7e0fcd05f68ce334, Lookout Mountain, Georgia, person_be97cb8c926abd3c.",
     "fix": "None until the cause is found.",
     "root": "design-one-model-two-tiers",
     "model": "opus",
@@ -11194,7 +11194,7 @@
     "verdict": "rewrite",
     "reason": "The failure message is the test's own search giving up (door-pledge.test.ts:682); the fix is in how the test finds or builds its case.",
     "causeKind": "Measured",
-    "cause": "Measured: GOLDEN_PATH_SEED=7f00b2b291d4f5b6fbf0f7e48b5ee7f458dfba81256a9a0258ecf560a0256416 npx vitest run src/core2/door-pledge.test.ts fails at door-pledge.test.ts:682 ('no drawn town had a weighted counted record that a door reached').",
+    "cause": "Measured: GOLDEN_PATH_SEED=7f00b2b291d4f5b6fbf0f7e48b5ee7f458dfba81256a9a0258ecf560a0256416 npx vitest run tests/src/core2/door-pledge.test.ts fails at door-pledge.test.ts:682 ('no drawn town had a weighted counted record that a door reached').",
     "fix": "Let the test keep drawing from all 56 or build the weighted-record case through the core's own seams, naming each place passed over, without pinning a seed.",
     "root": "design-one-model-two-tiers",
     "model": "sonnet",
@@ -11208,15 +11208,15 @@
   {
     "id": "tests-early-returns-office-proof-staging",
     "verdict": "drop-done",
-    "reason": "office-proof.test.ts now draws places until one has a seat and throws naming every place passed over (src/core2/office-proof.test.ts:33-54), and src/bench/scene-staging.test.ts draws a painted place (line 12); no bare return remains before an assertion in either file.",
+    "reason": "office-proof.test.ts now draws places until one has a seat and throws naming every place passed over (tests/src/core2/office-proof.test.ts:33-54), and tests/src/bench/scene-staging.test.ts draws a painted place (line 12); no bare return remains before an assertion in either file.",
     "critical": false
   },
   {
     "id": "tests-early-returns-residents-retirees",
     "verdict": "rewrite",
-    "reason": "Bare early returns remain on main in src/core2/residents.test.ts (lines 207, 712), campaign-day.test.ts:597 and leadership.test.ts:223.",
+    "reason": "Bare early returns remain on main in tests/src/core2/residents.test.ts (lines 207, 712), campaign-day.test.ts:597 and leadership.test.ts:223.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/residents.test.ts:207 and :712, src/core2/campaign-day.test.ts:597 and src/core2/leadership.test.ts:223 end with a bare `return` before any assertion.",
+    "cause": "Found in code: tests/src/core2/residents.test.ts:207 and :712, tests/src/core2/campaign-day.test.ts:597 and tests/src/core2/leadership.test.ts:223 end with a bare `return` before any assertion.",
     "fix": "Replace each early return with a bounded draw across the 56 places that fails by name on exhaustion (or an assertion proving the negative case), naming place and seed. Drop the old branch and the release-change file from the item.",
     "root": "none",
     "model": "sonnet",
@@ -11235,7 +11235,7 @@
     "verdict": "needs-cause",
     "reason": "Both browser checks are reported red before the ballot; the hiding element and the missing panel are not identified.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/bench/polling.browser.mjs times out on the Join Republican button (BENCH_SEED=poll-25-a) and src/bench/election-day.browser.mjs waits for the election-morning panel (EDAY_SEED=1793207574936, Livermore Falls, Maine); not re-run.",
+    "cause": "Needs cause. tests/src/bench/polling.browser.mjs times out on the Join Republican button (BENCH_SEED=poll-25-a) and tests/src/bench/election-day.browser.mjs waits for the election-morning panel (EDAY_SEED=1793207574936, Livermore Falls, Maine); not re-run.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11258,7 +11258,7 @@
     "verdict": "needs-cause",
     "reason": "A listener the test expects is missing from the speech record's crowd; not traced by record. The item's src/core2/campaign-turn.ts is gone.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/director/electoral-scenes.test.ts (second case) and the speech crowd in src/core2/modules/campaigns.ts; Measured: GOLDEN_PATH_SEED=78df996a2a76eb81378fcb7c5c00238bb398b33a, Bascom, Florida.",
+    "cause": "Needs cause. tests/src/director/electoral-scenes.test.ts (second case) and the speech crowd in src/core2/modules/campaigns.ts; Measured: GOLDEN_PATH_SEED=78df996a2a76eb81378fcb7c5c00238bb398b33a, Bascom, Florida.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11277,7 +11277,7 @@
     "verdict": "needs-cause",
     "reason": "Cold-bench timeouts on the first runs, passes warm; what was slow on the first request is unknown.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/bench/filing.browser.mjs timed out on place-go (Lennon, Michigan) and #talk-choices (Loma, Montana); src/bench/handler.ts is the first-request path; not reproduced.",
+    "cause": "Needs cause. tests/src/bench/filing.browser.mjs timed out on place-go (Lennon, Michigan) and #talk-choices (Loma, Montana); src/bench/handler.ts is the first-request path; not reproduced.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -11309,7 +11309,7 @@
     "verdict": "needs-cause",
     "reason": "Item says it is not known whether the town lacks an administration employer or the reach misses one.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/law-wiring-government.test.ts fails at the fifth attempt, ward-charter place 3050200, seed 446eaae155bdacc270446225a696c32454dda4b0; reach code is src/core2/law-reach/group-a-staffing.ts.",
+    "cause": "Needs cause. tests/src/core2/law-wiring-government.test.ts fails at the fifth attempt, ward-charter place 3050200, seed 446eaae155bdacc270446225a696c32454dda4b0; reach code is src/core2/law-reach/group-a-staffing.ts.",
     "fix": "None until the cause is found.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "opus",
@@ -11325,7 +11325,7 @@
     "verdict": "rewrite",
     "reason": "The test prints a person and a payment from different chains (item gives file and lines); the fix is to pick the person from the payment.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/law-wiring-health-schools.test.ts:675-698 builds the budget-line chain from an applied record, a person and a journal entry that are not one chain (Montgomery, Michigan seed 5bc87ba8c575d498bfcfbac8353c3cae24df7a433ca9e816da727ccfaff83c9e).",
+    "cause": "Found in code: tests/src/core2/law-wiring-health-schools.test.ts:675-698 builds the budget-line chain from an applied record, a person and a journal entry that are not one chain (Montgomery, Michigan seed 5bc87ba8c575d498bfcfbac8353c3cae24df7a433ca9e816da727ccfaff83c9e).",
     "fix": "Start from the journal entry that pays under the changed line, take its payee or household, and assert the applied record and the person match by id for welfare, health, schools and higher education. The example person id in the item belongs to a past world and should be dropped.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "sonnet",
@@ -11339,9 +11339,9 @@
   {
     "id": "tests-housing-apartment-gate-too-narrow",
     "verdict": "rewrite",
-    "reason": "The gate is in src/core2/law-wiring-housing.test.ts (apartmentsPermitted at line 82, used at lines 294-299 and 1064), not at line 211.",
+    "reason": "The gate is in tests/src/core2/law-wiring-housing.test.ts (apartmentsPermitted at line 82, used at lines 294-299 and 1064), not at line 211.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/law-wiring-housing.test.ts apartmentsPermitted (line 82) and the 'no subject: about N apartments permitted' gate (line 299, second use at line 1064) keep few places drawable.",
+    "cause": "Found in code: tests/src/core2/law-wiring-housing.test.ts apartmentsPermitted (line 82) and the 'no subject: about N apartments permitted' gate (line 299, second use at line 1064) keep few places drawable.",
     "fix": "Lower the gate to one expected building or play longer, and show three fresh seeds draw three different places.",
     "root": "none",
     "model": "sonnet",
@@ -11363,7 +11363,7 @@
     "verdict": "needs-cause",
     "reason": "Two tests flip by seed; neither failing seed nor the cause is recorded. Both test files exist (journal-race-margin.test.ts, scene-narration-once.test.ts).",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/director/journal-race-margin.test.ts and src/director/scene-narration-once.test.ts flip by drawn seed on main (merger 7, Oct 27); no seed was kept.",
+    "cause": "Needs cause. tests/src/director/journal-race-margin.test.ts and src/director/scene-narration-once.test.ts flip by drawn seed on main (merger 7, Oct 27); no seed was kept.",
     "fix": "None until the cause is found.",
     "root": "design-words-machine",
     "model": "opus",
@@ -11379,7 +11379,7 @@
     "verdict": "needs-cause",
     "reason": "Four folded journal failures; the relative's-race line cause (journal.test.ts:349) is not found, the school/visit checks were handed to #6093.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/director/journal.test.ts and src/director/journal.ts exist; Measured: GOLDEN_PATH_SEED=3d7f19f27037978915428ed7093ff881432c851d, Linganore, Maryland; folded seeds 071e6c46e10b194175b55a10bad86c1feaef2a2f (Parma), e9539f3aa58c00a1 and 761a6f6af12d05ad.",
+    "cause": "Needs cause. tests/src/director/journal.test.ts and src/director/journal.ts exist; Measured: GOLDEN_PATH_SEED=3d7f19f27037978915428ed7093ff881432c851d, Linganore, Maryland; folded seeds 071e6c46e10b194175b55a10bad86c1feaef2a2f (Parma), e9539f3aa58c00a1 and 761a6f6af12d05ad.",
     "fix": "None until the cause is found. Re-run each folded seed first; some may already pass.",
     "root": "design-words-machine",
     "model": "opus",
@@ -11395,7 +11395,7 @@
     "verdict": "rewrite",
     "reason": "Cause is in the test's structure and the Notes (Nov 9) show widening cannot work; the plan is stated.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/law-wiring-labor.test.ts runs one world through every labor law and needs every subject in one drawn town; it redrew ten worlds in 7 minutes on Nov 9.",
+    "cause": "Found in code: tests/src/core2/law-wiring-labor.test.ts runs one world through every labor law and needs every subject in one drawn town; it redrew ten worlds in 7 minutes on Nov 9.",
     "fix": "Split it into one test per labor law, each building its own subject through the core's seams or drawing a world that has it, each under 60 seconds and passing 10 of 10 draws; delete the all-in-one test.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "sonnet",
@@ -11411,7 +11411,7 @@
     "verdict": "needs-cause",
     "reason": "The cap case (law-wiring-housing.test.ts near line 833) has no pass-over and fails when no quoted household borrowed; the reason none borrowed is not found.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/law-wiring-housing.test.ts:833 and src/core2/modules/credit.ts; Measured: GOLDEN_PATH_SEED=c443c640669c9f2eb72d974b0cf926a6305a74b0 (Bel Air South, Maryland) and 7fba587294c64f3fe78585f25bdf6a254161c880 (Henderson, Nevada).",
+    "cause": "Needs cause. tests/src/core2/law-wiring-housing.test.ts:833 and src/core2/modules/credit.ts; Measured: GOLDEN_PATH_SEED=c443c640669c9f2eb72d974b0cf926a6305a74b0 (Bel Air South, Maryland) and 7fba587294c64f3fe78585f25bdf6a254161c880 (Henderson, Nevada).",
     "fix": "None until the cause is found.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "opus",
@@ -11427,7 +11427,7 @@
     "verdict": "rewrite",
     "reason": "Reopened Nov 8: voting.test.ts gives up after nine places (lines 142-146) with no race open at the start; the draws are small and the filing window is not waited for. Takes the election-day item too.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/voting.test.ts lines 142-146 report 'no open local or state race' after trying only the places drawn at the start date; Measured: seed 8204cf02c98b04d40207d6a46ee6d70f291c3712872130e95c5e24b207debf76 (Ivan, Arkansas) and seed 67c6696d488be63625780c83a2553abb64a3aaf1df2ea0e0a9ccbb0136e6adcc (Waikoloa Village, Hawaii).",
+    "cause": "Found in code: tests/src/core2/voting.test.ts lines 142-146 report 'no open local or state race' after trying only the places drawn at the start date; Measured: seed 8204cf02c98b04d40207d6a46ee6d70f291c3712872130e95c5e24b207debf76 (Ivan, Arkansas) and seed 67c6696d488be63625780c83a2553abb64a3aaf1df2ea0e0a9ccbb0136e6adcc (Waikoloa Village, Hawaii).",
     "fix": "Advance the drawn world weeks (bounded, as src/director/primary-challenge.test.ts does) until a race has filing open that two residents can file for, then run it to its result; name every place passed over and take the election-day.test case with it.",
     "root": "rc9-place-facts-one-default",
     "model": "sonnet",
@@ -11452,7 +11452,7 @@
     "verdict": "needs-cause",
     "reason": "Blocked item with TODO notes; Cave, Missouri gives no resident reading the outlet and the cause (no outlet vs story never reaches one) is not found.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/news.test.ts:83 and src/core2/modules/news.ts exist; Measured: GOLDEN_PATH_SEED=89974afab8e8ef9592bf602b64510149e1b7a1423695217f04d8ee4e19eb39c4 GOLDEN_PATH_PLACE_KEY=2912079 (Cave, Missouri).",
+    "cause": "Needs cause. tests/src/core2/news.test.ts:83 and src/core2/modules/news.ts exist; Measured: GOLDEN_PATH_SEED=89974afab8e8ef9592bf602b64510149e1b7a1423695217f04d8ee4e19eb39c4 GOLDEN_PATH_PLACE_KEY=2912079 (Cave, Missouri).",
     "fix": "None until the cause is found. Item is marked blocked with no stated blocker.",
     "root": "none",
     "model": "opus",
@@ -11466,19 +11466,19 @@
   {
     "id": "tests-offer-deadline-held-polling-place",
     "verdict": "drop-done",
-    "reason": "src/core2/jobs-offer-deadline-held.test.ts no longer exists on main; offer-deadline coverage now lives in src/core2/player-stops-v1.test.ts (kind offer-deadline, lines 209 and 247).",
+    "reason": "src/core2/jobs-offer-deadline-held.test.ts no longer exists on main; offer-deadline coverage now lives in tests/src/core2/player-stops-v1.test.ts (kind offer-deadline, lines 209 and 247).",
     "critical": false,
     "stalePaths": {
-      "src/core2/jobs-offer-deadline-held.test.ts": "gone (src/core2/player-stops-v1.test.ts covers offer-deadline)"
+      "src/core2/jobs-offer-deadline-held.test.ts": "gone (tests/src/core2/player-stops-v1.test.ts covers offer-deadline)"
     }
   },
   {
     "id": "tests-officials-deep-past-nonpartisan-seat",
     "verdict": "drop-done",
-    "reason": "The test file was renamed to src/core2/officials-past.test.ts, which already skips the party fact for nonpartisan seats at lines 45-46 (`!(nonpartisan && kind === \"identity:party\")`).",
+    "reason": "The test file was renamed to tests/src/core2/officials-past.test.ts, which already skips the party fact for nonpartisan seats at lines 45-46 (`!(nonpartisan && kind === \"identity:party\")`).",
     "critical": false,
     "stalePaths": {
-      "src/core2/officials-deep-past.test.ts": "src/core2/officials-past.test.ts"
+      "src/core2/officials-deep-past.test.ts": "tests/src/core2/officials-past.test.ts"
     }
   },
   {
@@ -11486,7 +11486,7 @@
     "verdict": "rewrite",
     "reason": "The test gives up at one-sponsor-one-evening-staged.test.ts:64 when a drawn place has no three-seat body; the fix is in the search.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/director/one-sponsor-one-evening-staged.test.ts:64 pushes 'no town body of three held seats' and fails when every draw is a small body (seed 8a51dac2a079525e).",
+    "cause": "Found in code: tests/src/director/one-sponsor-one-evening-staged.test.ts:64 pushes 'no town body of three held seats' and fails when every draw is a small body (seed 8a51dac2a079525e).",
     "fix": "Draw more places from all 56 or build a three-seat body through the core's seams, naming each place passed over, without pinning a seed.",
     "root": "none",
     "model": "sonnet",
@@ -11502,7 +11502,7 @@
     "verdict": "needs-cause",
     "reason": "Item says either Skip scene no longer clears the address or the next talk quotes the closing line; not decided.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/bench/opening-address.browser.mjs lines 58-70 assert the talk box lacks 'Thank you all' after Skip scene; Measured: Santa Isabel, Puerto Rico, seed fecc3ab9-7f3c-4efb-9845-569e4c79325d.",
+    "cause": "Needs cause. tests/src/bench/opening-address.browser.mjs lines 58-70 assert the talk box lacks 'Thank you all' after Skip scene; Measured: Santa Isabel, Puerto Rico, seed fecc3ab9-7f3c-4efb-9845-569e4c79325d.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -11518,7 +11518,7 @@
     "verdict": "needs-cause",
     "reason": "Item says the join act may be rarer or the window too short; not traced.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/party-filing.test.ts and src/core2/modules/parties.ts exist; GOLDEN_PATH_SEED=pet-run-1 passes over six places with no join act.",
+    "cause": "Needs cause. tests/src/core2/party-filing.test.ts and src/core2/modules/parties.ts exist; GOLDEN_PATH_SEED=pet-run-1 passes over six places with no join act.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11543,7 +11543,7 @@
     "verdict": "needs-cause",
     "reason": "Check reports no Travel place takes filings in Junction City, Georgia; the check was already changed on Nov 3 (5 s waits at plain-text.browser.mjs:130-153) and re-failure is unconfirmed.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/bench/plain-text.browser.mjs lines 130-153 click each .travel-tile[data-filing] and wait for a talk; Travel's UI is src/bench/ui/travel-screen.mjs; Measured: Junction City, Georgia, seed a3b686cb-ba71-4137-957b-a2e414912b99.",
+    "cause": "Needs cause. tests/src/bench/plain-text.browser.mjs lines 130-153 click each .travel-tile[data-filing] and wait for a talk; Travel's UI is src/bench/ui/travel-screen.mjs; Measured: Junction City, Georgia, seed a3b686cb-ba71-4137-957b-a2e414912b99.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -11594,7 +11594,7 @@
     "verdict": "rewrite",
     "reason": "The item's own analysis found the cause: the monthly sign check pairs reader noise with partial subscription payments by cash-short households; a threshold fix was tried and failed.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/press-money.test.ts near line 112 (first paper whose readers rose and fell) compares monthly signs, but src/core2/modules/press.ts lets households short of cash pay in part; Dawson Springs seed 87f9d8a36f733083.",
+    "cause": "Found in code: tests/src/core2/press-money.test.ts near line 112 (first paper whose readers rose and fell) compares monthly signs, but src/core2/modules/press.ts lets households short of cash pay in part; Dawson Springs seed 87f9d8a36f733083.",
     "fix": "Change the check's shape to the year's subscription cash against reader-months (the per-reader-month ceiling already holds), and pass it in Dawson Springs and Little America, Wyoming (seed pmf1:0).",
     "root": "none",
     "model": "sonnet",
@@ -11610,7 +11610,7 @@
     "verdict": "needs-cause",
     "reason": "Opening cash 711942 vs expected 948308 for one outlet head; item hypothesizes a per-world spread vs survey value, not shown.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/press-staff-cash.test.ts (uses officialHousehold from src/core2/official-living.ts) and src/core2/modules/press.ts; Measured: Roslyn Heights, New York, seed cbde9425c9b39c9028eb1b3abe5ce48509818e965fd5d5e38b0673d16bb83741.",
+    "cause": "Needs cause. tests/src/core2/press-staff-cash.test.ts (uses officialHousehold from src/core2/official-living.ts) and src/core2/modules/press.ts; Measured: Roslyn Heights, New York, seed cbde9425c9b39c9028eb1b3abe5ce48509818e965fd5d5e38b0673d16bb83741.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -11626,7 +11626,7 @@
     "verdict": "rewrite",
     "reason": "Cause is stated and readable: the test's observer captures every learned event and compares each with the transit fixture, so a legitimate clean-electricity event fails all three cases.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/core2/place-prices-learned.test.ts observer compares every captured learned event with the fare-free-transit fixture (Williamsburg, Virginia key 5186160, world seed 0b78c1619cc76f06cec8d961f71113190a9b7d0d6f2f8b03458f96bde27a5c13).",
+    "cause": "Found in code: tests/src/core2/place-prices-learned.test.ts observer compares every captured learned event with the fare-free-transit fixture (Williamsburg, Virginia key 5186160, world seed 0b78c1619cc76f06cec8d961f71113190a9b7d0d6f2f8b03458f96bde27a5c13).",
     "fix": "Filter each case's observed events to its own law id, keep before-payment, after-payment, remembered-hearing and unreceived-story assertions, and show the clean-electricity event is retained and traced to its source records.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "sonnet",
@@ -11640,9 +11640,9 @@
   {
     "id": "tests-printed-news-check-open-choice",
     "verdict": "rewrite",
-    "reason": "The loop in src/bench/printed-news.browser.mjs (lines 62-69) resumes only packets of kind stop and throws on any other refusal.",
+    "reason": "The loop in tests/src/bench/printed-news.browser.mjs (lines 62-69) resumes only packets of kind stop and throws on any other refusal.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/bench/printed-news.browser.mjs lines 62-69 resume `stop` packets only; an open choice makes /api/advance fail with 'Answer the open choice or stop first.'",
+    "cause": "Found in code: tests/src/bench/printed-news.browser.mjs lines 62-69 resume `stop` packets only; an open choice makes /api/advance fail with 'Answer the open choice or stop first.'",
     "fix": "Answer an open choice packet through the same controls a player uses (first reply), then continue to the printed story; print place and seed on each run.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -11658,7 +11658,7 @@
     "verdict": "needs-cause",
     "reason": "Six places start no recall under one seed; a prior fix (tests-recall-ordinance-no-recall-started, done) was undone or bypassed; why is not found.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. src/core2/recalls.test.ts and src/core2/modules/recalls.ts exist; Measured: GOLDEN_PATH_SEED=1b251a8aaa0f7710143adc4ff3cd45fa37ae0151be5cce350c171993b62555da fails 2 of 6 cases on main d3ee6986bc.",
+    "cause": "Needs cause. tests/src/core2/recalls.test.ts and src/core2/modules/recalls.ts exist; Measured: GOLDEN_PATH_SEED=1b251a8aaa0f7710143adc4ff3cd45fa37ae0151be5cce350c171993b62555da fails 2 of 6 cases on main d3ee6986bc.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "opus",
@@ -11682,7 +11682,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted: the cause is already traced in the item's Notes (the test's world is the bare life core with only the director, 45 days, so a staged scene needs a tie to turn by chance). Rewrite as a fix to the test's world.",
     "causeKind": "Found in code",
-    "cause": "src/director/scene.test.ts test 'builds each staged scene from its records, in second person, and opens a conversation' builds its world with buildDeepPast from the seed and runs 45 days with only the director installed; on GOLDEN_PATH_SEED=wire-l1-c (Elmwood, Illinois) all 18 scheduled moments are past family and work facts with no staging type, so the staged-scene count is 0 (item Notes, Oct 28).",
+    "cause": "tests/src/director/scene.test.ts test 'builds each staged scene from its records, in second person, and opens a conversation' builds its world with buildDeepPast from the seed and runs 45 days with only the director installed; on GOLDEN_PATH_SEED=wire-l1-c (Elmwood, Illinois) all 18 scheduled moments are past family and work facts with no staging type, so the staged-scene count is 0 (item Notes, Oct 28).",
     "fix": "Build the test's world with buildBenchWorld (every module installed), or run days until a moment stages, bounded, and name what was passed over. Do not change the seed.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -11696,9 +11696,9 @@
   {
     "id": "tests-staff-hire-employed-dismissed-aide",
     "verdict": "rewrite",
-    "reason": "Still wanted and the cause is read: reviewAttendance in src/core2/modules/staff.ts can end an aide's post for absence, and src/core2/staff-hire-employed.test.ts has no dismissal handling (grep for 'dismiss' finds nothing in it).",
+    "reason": "Still wanted and the cause is read: reviewAttendance in src/core2/modules/staff.ts can end an aide's post for absence, and tests/src/core2/staff-hire-employed.test.ts has no dismissal handling (grep for 'dismiss' finds nothing in it).",
     "causeKind": "Found in code",
-    "cause": "src/core2/modules/staff.ts reviewAttendance (about line 1091) lets an aide go when the share of missed days exceeds the official's tolerance, ending the post; src/core2/staff-hire-employed.test.ts requires each employed-hire aide's post still running after 400 days and never reads the staff row's recorded dismissal. Seen at Townshend, Vermont (5073225), seed e08b751381b9d0c300eb0c369cc39dd52f14125abbec67c38f2120e63ba15279.",
+    "cause": "src/core2/modules/staff.ts reviewAttendance (about line 1091) lets an aide go when the share of missed days exceeds the official's tolerance, ending the post; tests/src/core2/staff-hire-employed.test.ts requires each employed-hire aide's post still running after 400 days and never reads the staff row's recorded dismissal. Seen at Townshend, Vermont (5073225), seed e08b751381b9d0c300eb0c369cc39dd52f14125abbec67c38f2120e63ba15279.",
     "fix": "Make the test require a running post only for aides with no recorded dismissal, and for a dismissed aide check the post ended on the dismissal date. Keep the hire-from-private-job assertions.",
     "root": "none",
     "model": "sonnet",
@@ -11714,7 +11714,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted but stale in its blocker: tests-staff-work-why-records-empty-on-main is now done and #5769 (office-week fix) merged, so the item must be re-measured on main. Its Notes already name the remaining gates (budget line with no room in US-OR 4181300 and US-IA 1937200; no 'known' candidate in US-NH 3369940).",
     "causeKind": "Measured",
-    "cause": "GOLDEN_PATH_SEED=196612b7b9cc3d9b7c955d1fdc5446b2 npx vitest run src/core2/staff.test.ts (test 'no office could hire', src/core2/staff.test.ts line ~298); fresh seed c3be1ee291b4f1dee38390afc7a1c5e25df002e784aa632d8b455f55c2af8da7. Notes: after #5769 the four absence-dismissal places pass; the noRoom branch (staff.test.ts line ~216) and the no-known-candidate place remain.",
+    "cause": "GOLDEN_PATH_SEED=196612b7b9cc3d9b7c955d1fdc5446b2 npx vitest run tests/src/core2/staff.test.ts (test 'no office could hire', tests/src/core2/staff.test.ts line ~298); fresh seed c3be1ee291b4f1dee38390afc7a1c5e25df002e784aa632d8b455f55c2af8da7. Notes: after #5769 the four absence-dismissal places pass; the noRoom branch (staff.test.ts line ~216) and the no-known-candidate place remain.",
     "fix": "Rerun both seeds on main. If still red, name per drawn place the gate that rejected it (noRoom, no known candidate, no payday by the check date) and make the test keep drawing places until it finds one that can hire, naming the places passed over and why. No loosened assertions.",
     "root": "none",
     "model": "sonnet",
@@ -11728,9 +11728,9 @@
   {
     "id": "tests-talk-history-one-exchange",
     "verdict": "rewrite",
-    "reason": "Still wanted; the browser check reads a talk with one exchange. src/bench/talk-history.browser.mjs and src/bench/start-life.mjs both exist.",
+    "reason": "Still wanted; the browser check reads a talk with one exchange. tests/src/bench/talk-history.browser.mjs and src/bench/start-life.mjs both exist.",
     "causeKind": "Measured",
-    "cause": "Nibbe, Montana, seed 9300f75f-9b1d-48b4-8d84-c409754ff9a4: talk to the first person in the room after the President's address; the talk is one reply, the answer with Continue, then it ends, so src/bench/talk-history.browser.mjs finds no second reply.",
+    "cause": "Nibbe, Montana, seed 9300f75f-9b1d-48b4-8d84-c409754ff9a4: talk to the first person in the room after the President's address; the talk is one reply, the answer with Continue, then it ends, so tests/src/bench/talk-history.browser.mjs finds no second reply.",
     "fix": "Make the check talk to a person whose talk has two or more exchanges in play (pick the next person, or a later talk) through src/bench/start-life.mjs, then read the history block. Do not accept a one-exchange talk.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -11746,7 +11746,7 @@
     "verdict": "needs-cause",
     "reason": "Reports two reproducible reds (GOLDEN_PATH_SEED=b2 Clayville, Rhode Island 4415940: an independent in the Attorney General race gets 0 votes; c3 Machias, Washington 5341470: no two-party race on Nov 3, 2026) but neither the item nor the test file gives a cause; I did not trace it into voting.ts.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at: the item and that src/core2/two-level-elections.test.ts and src/core2/modules/voting.ts exist. Reproduce with GOLDEN_PATH_SEED=b2 and c3.",
+    "cause": "Needs cause. Looked at: the item and that tests/src/core2/two-level-elections.test.ts and src/core2/modules/voting.ts exist. Reproduce with GOLDEN_PATH_SEED=b2 and c3.",
     "fix": "None until the cause is found.",
     "root": "design-electorate-one-model",
     "model": "fable",
@@ -11760,9 +11760,9 @@
   {
     "id": "tests-web-layoffs-burglary-below-researched-size",
     "verdict": "needs-cause",
-    "reason": "Item states the cause is unknown: burglary rises 3.55 against the 3.69 the researched 3% a point implies in Little Creek, Delaware (seed aadb30b90a2c6e19e2d43de3106378f7). I read only the test header (src/core2/outcome-web.test.ts line 98 layoffs case) and found no more.",
+    "reason": "Item states the cause is unknown: burglary rises 3.55 against the 3.69 the researched 3% a point implies in Little Creek, Delaware (seed aadb30b90a2c6e19e2d43de3106378f7). I read only the test header (tests/src/core2/outcome-web.test.ts line 98 layoffs case) and found no more.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at: src/core2/outcome-web.test.ts line 98 ('layoffs raise unemployment and burglary follows by the researched 3% a point') and that the link is unemployment-to-burglary. Unknown whether the layoffs moved unemployment less than assumed or the link reads a different month.",
+    "cause": "Needs cause. Looked at: tests/src/core2/outcome-web.test.ts line 98 ('layoffs raise unemployment and burglary follows by the researched 3% a point') and that the link is unemployment-to-burglary. Unknown whether the layoffs moved unemployment less than assumed or the link reads a different month.",
     "fix": "None until the cause is found.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "sonnet",
@@ -11778,7 +11778,7 @@
     "verdict": "needs-cause",
     "reason": "Red on clean main; the item asks to trace the move record through tier transition, director delivery and memory compaction and gives no cause. I did not trace it.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at: item only; src/director/world-moments.test.ts (assertion near line 122), src/director/ledger.ts and src/core2/life.ts exist. Fresh root 7e53bd5ea7be7333 draws Oak Grove, Tennessee, move person.moved-away:person_ae64f4784a9311d3:2025-05-28; the actor is tier=husk with no kept moment.",
+    "cause": "Needs cause. Looked at: item only; tests/src/director/world-moments.test.ts (assertion near line 122), src/director/ledger.ts and src/core2/life.ts exist. Fresh root 7e53bd5ea7be7333 draws Oak Grove, Tennessee, move person.moved-away:person_ae64f4784a9311d3:2025-05-28; the actor is tier=husk with no kept moment.",
     "fix": "None until the cause is found.",
     "root": "design-life-record",
     "model": "opus",
@@ -11883,7 +11883,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted and red: campaigns.traits.test.ts giving case fails by draw (Nov 1: Lyndon Center, Vermont, GOLDEN_PATH_SEED=chk2-c, odds ratio 4.39 against a bound of 4.01). The gap-rows file moved to data/content/trait-decision-gaps.json.",
     "causeKind": "Measured",
-    "cause": "GOLDEN_PATH_SEED=chk2-c npx vitest run src/core2/modules/campaigns.traits.test.ts, Lyndon Center, Vermont (5041800), race 2025-03-04: campaigns.donate odds ratio 8.18 on Oct 30 and 4.39 on Nov 1 against target 1.82 and bound 4.01; 2104 calls, 357 distinct reason totals near zero, 57.5 percent say yes, personality weight 0.071. Elberta, Michigan (chk2-a) is inside the band.",
+    "cause": "GOLDEN_PATH_SEED=chk2-c npx vitest run tests/src/core2/modules/campaigns.traits.test.ts, Lyndon Center, Vermont (5041800), race 2025-03-04: campaigns.donate odds ratio 8.18 on Oct 30 and 4.39 on Nov 1 against target 1.82 and bound 4.01; 2104 calls, 357 distinct reason totals near zero, 57.5 percent say yes, personality weight 0.071. Elberta, Michigan (chk2-a) is inside the band.",
     "fix": "Give the donate choice a reason for each contacted person from their own money, ties, views and the race so the totals vary, with a sourced share of contacted people who give instead of about half; do not widen the test's slack.",
     "root": "none",
     "model": "opus",
@@ -11910,7 +11910,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted as a research fit: src/core2/modules/meetings.ts reads traitWeightMeetingsTakePart (parameters.json line 6557) and the spread across towns was measured 0.31 to 2.52 log odds. Its prerequisite #6143 has merged (traits-meetings-take-part-measured is done).",
     "causeKind": "Measured",
-    "cause": "src/core2/modules/meetings.traits.test.ts on fresh draws (Oct 27, #6143 head 99fc0b1579): 2.158 in Fair Oaks, Oregon; 1.167 in Brian Head, Utah; 0.941 in Denham, Minnesota; 2.058 in Crescent Springs, Oklahoma. Antelope Hills, Wyoming and Whitney, Nebraska fill a 40-seat room from about 55 driven residents and stay near 0.3 at any weight.",
+    "cause": "tests/src/core2/modules/meetings.traits.test.ts on fresh draws (Oct 27, #6143 head 99fc0b1579): 2.158 in Fair Oaks, Oregon; 1.167 in Brian Head, Utah; 0.941 in Denham, Minnesota; 2.058 in Crescent Springs, Oklahoma. Antelope Hills, Wyoming and Whitney, Nebraska fill a 40-seat room from about 55 driven residents and stay near 0.3 at any weight.",
     "fix": "Find whether the spread is saturated feeling, room size against town size, or too few contested rooms (read src/core2/modules/meetings.ts take-part drive at line ~185), then refit the weight or the cause across at least eight drawn places.",
     "root": "none",
     "model": "opus",
@@ -12057,7 +12057,7 @@
     "verdict": "needs-cause",
     "reason": "Red by draw on main (WEB_TURNOUT_SEED=6b7ac4d1e81306af, Rosine, Kentucky; and 88ebfe6449fd8869, As Rabagau, Northern Mariana Islands, a press outlet owner). I read decideTurnout: it caches a decision per `${date}|${voter.id}` and reads the web factor only through who.placeId and who.birthDate, but I did not trace which one applies to person_3145fcd0a79db1ab.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at: src/core2/modules/voting.ts decideTurnout (line ~1747; cache key at ~1760; web factor read from `who` after ~1798) and src/core2/turnout-web.test.ts line ~70 (expects t.web defined). Candidate causes: a decision cached earlier the same day, or a voter with no placeId or birthDate (press outlet owners).",
+    "cause": "Needs cause. Looked at: src/core2/modules/voting.ts decideTurnout (line ~1747; cache key at ~1760; web factor read from `who` after ~1798) and tests/src/core2/turnout-web.test.ts line ~70 (expects t.web defined). Candidate causes: a decision cached earlier the same day, or a voter with no placeId or birthDate (press outlet owners).",
     "fix": "None until the cause is found.",
     "root": "design-electorate-one-model",
     "model": "sonnet",
@@ -12103,9 +12103,9 @@
   {
     "id": "web-civic-scandal-played-witness",
     "verdict": "rewrite",
-    "reason": "Still wanted and now unblocked: gov-bribes-in-played-worlds-measured is done. The test file src/core2/outcome-web-civic-played.test.ts exists.",
+    "reason": "Still wanted and now unblocked: gov-bribes-in-played-worlds-measured is done. The test file tests/src/core2/outcome-web-civic-played.test.ts exists.",
     "causeKind": "Measured",
-    "cause": "src/core2/outcome-web-civic-played.test.ts in three drawn worlds played to Nov 30, 2026 (Cuyamungue Grant, New Mexico; Lawton, North Dakota; Camp Sherman, Oregon): no bribe was offered, so no scandal story reached a voter and the check held nothing.",
+    "cause": "tests/src/core2/outcome-web-civic-played.test.ts in three drawn worlds played to Nov 30, 2026 (Cuyamungue Grant, New Mexico; Lawton, North Dakota; Camp Sherman, Oregon): no bribe was offered, so no scandal story reached a voter and the check held nothing.",
     "fix": "Draw places until one shows a bribe or conviction story about a candidate that arose in play before a race (no hand-inserted scandal), and assert a kept ballot carries the scandal term for that candidate, naming the ballot id. If no drawn place in a bounded number does, report the rate and stop.",
     "root": "rc8-law-judged-by-paperwork",
     "model": "sonnet",
@@ -12185,7 +12185,7 @@
   {
     "id": "web-unwired-fire-link-row",
     "verdict": "drop-done",
-    "reason": "The row it asks for exists in the form the rules now want: src/core2/data/stopgaps/web.json line 1020 has SG-WEB-unread-fire-civilian-casualties ('its research finds no effect (about zero)'), the effect matrix has fire-spending-to-fire-deaths (docs/reports/effect-web-matrix-2026-10-20.json line 493), and src/core2/outcome-web-unwired.test.ts deliberately leaves about-zero links off unwired.json, so the missing row is correct. Not run: that test.",
+    "reason": "The row it asks for exists in the form the rules now want: src/core2/data/stopgaps/web.json line 1020 has SG-WEB-unread-fire-civilian-casualties ('its research finds no effect (about zero)'), the effect matrix has fire-spending-to-fire-deaths (docs/reports/effect-web-matrix-2026-10-20.json line 493), and tests/src/core2/outcome-web-unwired.test.ts deliberately leaves about-zero links off unwired.json, so the missing row is correct. Not run: that test.",
     "critical": false,
     "stalePaths": {
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/web.json"
@@ -12213,7 +12213,7 @@
     "reason": "Its Notes say it closes when two steps are done: web-views-hear-conditions-full-readers (status done) and people-counted-readers-stances-from-stories (claimed, registered as SG-PEOPLE-counted-readers-stories). Only the counted followers' step is left, so keep people-counted-readers-stances-from-stories.",
     "critical": false,
     "mergeInto": "people-counted-readers-stances-from-stories",
-    "adds": "The ruling text (Oct 22: hearing a moved condition moves the stance of the people the news reached, citing the story's news record) and the done-when test in src/core2/outcome-news.test.ts that fails when the read event is removed."
+    "adds": "The ruling text (Oct 22: hearing a moved condition moves the stance of the people the news reached, citing the story's news record) and the done-when test in tests/src/core2/outcome-news.test.ts that fails when the read event is removed."
   },
   {
     "id": "wire-law-links-to-people",
@@ -12351,7 +12351,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted; a red by seed. The test and the filling code both exist and I found the likely mismatch: the town-appointment branch of localClerkFor returns an appointment whenever its holder is alive, while the test also requires the clerk's payroll job to have no end date.",
     "causeKind": "Found in code",
-    "cause": "src/director/civic-roles.test.ts line ~193 expects `job?.endsAt` undefined for a town-appointment clerk; src/core2/modules/filing-clerk.ts localClerkFor (appointment branch, about line 163) picks the appointment on `living(core, row.holderId)` alone. Seen at Plandome Heights, New York (place 3658486), GOLDEN_PATH_SEED=f38fd92f521cda30: the job ended 2025-02-19. Not run.",
+    "cause": "tests/src/director/civic-roles.test.ts line ~193 expects `job?.endsAt` undefined for a town-appointment clerk; src/core2/modules/filing-clerk.ts localClerkFor (appointment branch, about line 163) picks the appointment on `living(core, row.holderId)` alone. Seen at Plandome Heights, New York (place 3658486), GOLDEN_PATH_SEED=f38fd92f521cda30: the job ended 2025-02-19. Not run.",
     "fix": "In localClerkFor, take the appointment only if it is still in force on the date (its job has not ended), as the filing office's records say; fix at the root, not in the test.",
     "root": "none",
     "model": "sonnet",
@@ -12542,7 +12542,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted; a red by seed. Words' branch note found the cause (a place whose races file with a county board has no town clerk, so filingClerkFor names no one), and gov-filing-counter-clerk-at-county-board, the item that seats that person, is now done, so re-measure before building.",
     "causeKind": "Measured",
-    "cause": "GOLDEN_PATH_SEED=96f34b32a90f7079 (North Amityville, New York 3651396) and GOLDEN_PATH_SEED=9472a5100db5d8d3 (Boggstown, Indiana 1806292) with npx vitest run src/bench/filing-counter-petition.test.ts: 'no filing scene staged'. Cause per Words (Nov 2): filingClerkFor (src/core2/modules/filing-clerk.ts) names no one for a county-board filing, so the filing scene cannot cast its clerk.",
+    "cause": "GOLDEN_PATH_SEED=96f34b32a90f7079 (North Amityville, New York 3651396) and GOLDEN_PATH_SEED=9472a5100db5d8d3 (Boggstown, Indiana 1806292) with npx vitest run tests/src/bench/filing-counter-petition.test.ts: 'no filing scene staged'. Cause per Words (Nov 2): filingClerkFor (src/core2/modules/filing-clerk.ts) names no one for a county-board filing, so the filing scene cannot cast its clerk.",
     "fix": "Rerun both seeds on main now that the county board has a clerk. If still red, stage the petition scene from the elections engine's petition record with a clerk from filingClerkFor, and where a counter truly has none skip it as filing-visit-talk.test.ts does, naming the place.",
     "root": "none",
     "model": "sonnet",
@@ -12569,7 +12569,7 @@
     "critical": false,
     "stalePaths": {
       "scripts/english-mining/mine-hearings.py": "gone",
-      "src/director/office-scene.ts": "gone (see src/director/officeholder-scenes.test.ts and the situation types)"
+      "src/director/office-scene.ts": "gone (see tests/src/director/officeholder-scenes.test.ts and the situation types)"
     }
   },
   {
@@ -12657,7 +12657,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted: 'That made me glad.' is still at data/english/parts/journal.json:4290 (journal.memoir-meant-friend.that-made-me-glad); a commit 57588bfb8a on a side branch dropped it as a duplicate of words-journal-no-feeling-words, which has no item file on main. Nov 10 ruling: the Journal names no feelings and Story rewrites the line.",
     "causeKind": "Found in code",
-    "cause": "data/english/parts/journal.json:4290 holds the piece journal.memoir-meant-friend.that-made-me-glad, which the 'names no feeling anywhere in the bank' test in src/english/mined/journal-bank.test.ts rejects.",
+    "cause": "data/english/parts/journal.json:4290 holds the piece journal.memoir-meant-friend.that-made-me-glad, which the 'names no feeling anywhere in the bank' test in tests/src/english/mined/journal-bank.test.ts rejects.",
     "fix": "Story rewrites the memoir line from the records without naming a feeling (OWNER-DECISIONS Nov 10: the Journal names no feelings); do not weaken the test.",
     "root": "rc4-hand-written-words",
     "model": "sonnet",
@@ -12671,7 +12671,7 @@
   {
     "id": "words-journal-work-line-without-employer",
     "verdict": "drop-done",
-    "reason": "src/core2/past-work.test.ts:173-198 now covers a past-work row with no employer and expects at least one journal line for it, naming the place (fix from #7023).",
+    "reason": "tests/src/core2/past-work.test.ts:173-198 now covers a past-work row with no employer and expects at least one journal line for it, naming the place (fix from #7023).",
     "critical": false,
     "stalePaths": {}
   },
@@ -12830,9 +12830,9 @@
   {
     "id": "words-one-sponsor-one-evening-setup",
     "verdict": "rewrite",
-    "reason": "Still wanted but low value: src/director/one-sponsor-one-evening.test.ts loops places and skips draws with no two-bill sponsor, so the case is rarely tested.",
+    "reason": "Still wanted but low value: tests/src/director/one-sponsor-one-evening.test.ts loops places and skips draws with no two-bill sponsor, so the case is rarely tested.",
     "causeKind": "Found in code",
-    "cause": "src/director/one-sponsor-one-evening.test.ts draws places and `continue`s past those with no sponsor holding two bills on one floor day, so the one-evening case runs only by luck of the draw.",
+    "cause": "tests/src/director/one-sponsor-one-evening.test.ts draws places and `continue`s past those with no sponsor holding two bills on one floor day, so the one-evening case runs only by luck of the draw.",
     "fix": "Build the case from the engine's own ask records in a bench world (a sponsor with two bills passing committee on one floor day) instead of waiting for a draw to hold it.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -13069,7 +13069,7 @@
     "verdict": "needs-cause",
     "reason": "Red test at a named seed; the cause is not known and the item asks for it.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at the item only: GOLDEN_PATH_SEED=e2ddb122b8bfe482, GOLDEN_PATH_PLACE_KEY=3678454 (Washington Mills, New York), src/director/conversation.test.ts 'answers a question about the player's relative' fails because no ask-back about the neighbor's relative is among the four replies; whether it is a missing event, a ranking or the opener is unfound.",
+    "cause": "Needs cause. Looked at the item only: GOLDEN_PATH_SEED=e2ddb122b8bfe482, GOLDEN_PATH_PLACE_KEY=3678454 (Washington Mills, New York), tests/src/director/conversation.test.ts 'answers a question about the player's relative' fails because no ask-back about the neighbor's relative is among the four replies; whether it is a missing event, a ranking or the opener is unfound.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -13340,7 +13340,7 @@
   {
     "id": "words-speech-craft-earned",
     "verdict": "drop-done",
-    "reason": "Earned devices are built: deviceEarned and speechCraft in src/english/speech-registers.ts (line 380, a sliding scale from addresses given, parameter speechCraftHalfAddresses) and src/core2/speech-craft.test.ts proves it in buildBenchWorld.",
+    "reason": "Earned devices are built: deviceEarned and speechCraft in src/english/speech-registers.ts (line 380, a sliding scale from addresses given, parameter speechCraftHalfAddresses) and tests/src/core2/speech-craft.test.ts proves it in buildBenchWorld.",
     "critical": false,
     "stalePaths": {
       "speakerSpeakingRecordIds": "deviceEarned(device, addressesGiven)"
@@ -13365,7 +13365,7 @@
   {
     "id": "words-speech-part-words-screen-read",
     "verdict": "drop-replaced",
-    "reason": "Its parent words-speech-part-words is dropped ('already built', Oct 27 look-first audit) and the speech is now built by stage: src/english/speech-stage-words.ts reads data/english/parts/speech-stages.json (item words-speech-built-in-stages, done); src/bench/speech-screen.test.ts exists.",
+    "reason": "Its parent words-speech-part-words is dropped ('already built', Oct 27 look-first audit) and the speech is now built by stage: src/english/speech-stage-words.ts reads data/english/parts/speech-stages.json (item words-speech-built-in-stages, done); tests/src/bench/speech-screen.test.ts exists.",
     "critical": false,
     "stalePaths": {}
   },
@@ -13680,9 +13680,9 @@
   {
     "id": "world-census-scale-rentals-low",
     "verdict": "needs-cause",
-    "reason": "Item says Merrick renters may really be 3.4 percent (premise wrong) and a note says CTO to drop; the test (src/core2/census-weight-economy.test.ts:95-98) still carries a 0.02 floor pointing here. Whether the stock is mis-scaled is not established.",
+    "reason": "Item says Merrick renters may really be 3.4 percent (premise wrong) and a note says CTO to drop; the test (tests/src/core2/census-weight-economy.test.ts:95-98) still carries a 0.02 floor pointing here. Whether the stock is mis-scaled is not established.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at src/core2/census-weight-economy.test.ts (floor 0.02, comment names this item); the real ACS renter share for Merrick vs the 3.6 percent is not checked.",
+    "cause": "Needs cause. Looked at tests/src/core2/census-weight-economy.test.ts (floor 0.02, comment names this item); the real ACS renter share for Merrick vs the 3.6 percent is not checked.",
     "fix": "None until the cause is found.",
     "root": "design-one-model-two-tiers",
     "model": "sonnet",
@@ -13904,7 +13904,7 @@
     "verdict": "rewrite",
     "reason": "A red test on main (Oct 29); not re-run by me.",
     "causeKind": "Measured",
-    "cause": "Measured (item): src/core2/counted-weight-release.test.ts fails on main fa97c57fc5 in both cases (Washington D.C. 1150000 seed dc-closures-a, worst ratio about 4.17; Wichita 2079000 base 0930f1635339f81e).",
+    "cause": "Measured (item): tests/src/core2/counted-weight-release.test.ts fails on main fa97c57fc5 in both cases (Washington D.C. 1150000 seed dc-closures-a, worst ratio about 4.17; Wichita 2079000 base 0930f1635339f81e).",
     "fix": "Find the main commit that moved the ratio by file and line and restore staff following sales at Census size; never loosen the test.",
     "root": "design-one-model-two-tiers",
     "model": "opus",
@@ -14009,7 +14009,7 @@
     "verdict": "rewrite",
     "reason": "A red test on main (Oct 28); not re-run by me.",
     "causeKind": "Measured",
-    "cause": "Measured (item): src/core2/disasters-no-market.test.ts fails on main 31ad11a8c6 for Guthrie, Oklahoma 4031700 seed 35f504a41ec4764f52666b6c5ccd1992aa077e83 (\"a town with nobody to pay: expected undefined to be defined\").",
+    "cause": "Measured (item): tests/src/core2/disasters-no-market.test.ts fails on main 31ad11a8c6 for Guthrie, Oklahoma 4031700 seed 35f504a41ec4764f52666b6c5ccd1992aa077e83 (\"a town with nobody to pay: expected undefined to be defined\").",
     "fix": "Find the commit that moved the named repro off the no-payee path, then play the path in that repro or name a new one; do not loosen the assertion.",
     "root": "rc2-done-from-records",
     "model": "sonnet",
@@ -14068,7 +14068,7 @@
       }
     ],
     "stalePaths": {
-      "src/core2/modules/disasters.test.ts": "src/core2/disaster-weather.test.ts",
+      "src/core2/modules/disasters.test.ts": "tests/src/core2/disaster-weather.test.ts",
       "src/core2/data/stopgaps.json": "family files under src/core2/data/stopgaps/ (world.json, core.json, gov.json, p15.json)"
     }
   },
@@ -14092,7 +14092,7 @@
     "verdict": "rewrite",
     "reason": "Still wanted; the table is on main but nothing reads it.",
     "causeKind": "Found in code",
-    "cause": "src/core2/data/jobs/employer-callback-gaps.json is imported only by src/core2/employer-callback-gaps.test.ts; the one hiring-bias reader is src/core2/jobs-age-bias.ts.",
+    "cause": "src/core2/data/jobs/employer-callback-gaps.json is imported only by tests/src/core2/employer-callback-gaps.test.ts; the one hiring-bias reader is src/core2/jobs-age-bias.ts.",
     "fix": "Draw each employer owner's attitude once from the table's between-employer spread and have the jobs engine read it when ranking applicants; keep ESTIMATED tags on the older-applicant and Pager rows.",
     "root": "none",
     "model": "opus",
@@ -14102,7 +14102,7 @@
     "waitsOn": "Nothing",
     "critical": false,
     "stalePaths": {
-      "src/core2/data/jobs/employer-callback-gaps.test.ts": "src/core2/employer-callback-gaps.test.ts",
+      "src/core2/data/jobs/employer-callback-gaps.test.ts": "tests/src/core2/employer-callback-gaps.test.ts",
       "src/director/office-scene.ts": "gone (src/director has office-doubt-scene, office-hours-scene and officeholder-scenes tests)",
       "src/simulation/compiled-trait-packs.ts": "gone (old core deleted Oct 28)"
     }
@@ -14205,7 +14205,7 @@
     "verdict": "rewrite",
     "reason": "Red test on main; item traces the cause by record.",
     "causeKind": "Measured",
-    "cause": "Measured (item): src/core2/living-costs-arrears.test.ts fails with GOLDEN_PATH_SEED=wf-arr-3, place 0118952, world seed cde228114c13c57e95bf40f5b8c7b9b101238c2ad6d661f2f7de336ea0e4b316; both households of counted group 9 were filled in on 2025-07-27 while the group owed 66,974 in rt.livingArrears, leaving it with no weight.",
+    "cause": "Measured (item): tests/src/core2/living-costs-arrears.test.ts fails with GOLDEN_PATH_SEED=wf-arr-3, place 0118952, world seed cde228114c13c57e95bf40f5b8c7b9b101238c2ad6d661f2f7de336ea0e4b316; both households of counted group 9 were filled in on 2025-07-27 while the group owed 66,974 in rt.livingArrears, leaving it with no weight.",
     "fix": "Carry the group's living arrears onto the filled-in households in the fill-in step (src/core2/modules/residents.ts) so an empty group owes none; do not loosen the test.",
     "root": "design-one-model-two-tiers",
     "model": "sonnet",
@@ -14376,7 +14376,7 @@
     "waitsOn": "Nothing",
     "critical": false,
     "stalePaths": {
-      "src/core2/modules/moves.test.ts": "src/core2/moves.test.ts",
+      "src/core2/modules/moves.test.ts": "tests/src/core2/moves.test.ts",
       "src/core2/data/stopgaps.json": "family files under src/core2/data/stopgaps/ (world.json, core.json, gov.json, p15.json)"
     }
   },
@@ -14687,7 +14687,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/unplaced-workers-unit.test.ts": "(new) on branch claude/fable-unplaced-workers-unit"
+      "tests/src/core2/unplaced-workers-unit.test.ts": "(new) on branch claude/fable-unplaced-workers-unit"
     }
   },
   {
@@ -14745,7 +14745,7 @@
       }
     ],
     "stalePaths": {
-      "src/core2/counted-days-of-money.test.ts": "(new) on branch claude/fable-newcomers-money",
+      "tests/src/core2/counted-days-of-money.test.ts": "(new) on branch claude/fable-newcomers-money",
       "modules/meetings.ts": "src/core2/modules/meetings.ts",
       "modules/voting.ts": "src/core2/modules/voting.ts",
       "modules/press.ts": "src/core2/modules/press.ts"
@@ -14774,7 +14774,7 @@
     "verdict": "needs-cause",
     "reason": "Set open by the Oct 25 audit pending reproduction on main; the named test exists.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at src/core2/player-money-year.test.ts (exists) and the item; the failing command (GOLDEN_PATH_SEED=4dd8e78f... GOLDEN_PATH_PLACE_KEY=1632950) has not been rerun on main, and the sibling core-player-household-no-income is done.",
+    "cause": "Needs cause. Looked at tests/src/core2/player-money-year.test.ts (exists) and the item; the failing command (GOLDEN_PATH_SEED=4dd8e78f... GOLDEN_PATH_PLACE_KEY=1632950) has not been rerun on main, and the sibling core-player-household-no-income is done.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -14832,7 +14832,7 @@
     "verdict": "needs-cause",
     "reason": "Cause (why public staff never open jobs-engine positions) never found; earlier PR conflicted with main's staff-hire route.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at the item, src/core2/public-pay-floor-hire.test.ts (proves the floor only for a hire, not an opening) and publicPayFloorHourly use in src/core2/modules/jobs.ts (lines 1691, 3632); SG-GOV-public-pay-floor-owner is open in gov.json.",
+    "cause": "Needs cause. Looked at the item, tests/src/core2/public-pay-floor-hire.test.ts (proves the floor only for a hire, not an opening) and publicPayFloorHourly use in src/core2/modules/jobs.ts (lines 1691, 3632); SG-GOV-public-pay-floor-owner is open in gov.json.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -14881,7 +14881,7 @@
     "critical": false,
     "sizeL": false,
     "stalePaths": {
-      "src/core2/housing-occupancy.test.ts": "gone (src/core2/housing-pipeline.test.ts is nearest)",
+      "src/core2/housing-occupancy.test.ts": "gone (tests/src/core2/housing-pipeline.test.ts is nearest)",
       "src/core2/data/stopgaps.json": "src/core2/data/stopgaps/world.json"
     }
   },
@@ -15105,7 +15105,7 @@
     "verdict": "rewrite",
     "reason": "Live and recent (Nov 9 Fable audit); already near the standard. It fails runs on real bands against the Nov 8 ruling.",
     "causeKind": "Found in code",
-    "cause": "Found in code: src/bench/m1-13-check.ts (band check lines 114 to 124), src/core2/counted-moves-balance.test.ts (the 1.5 percent assertions) and src/core2/electorate.test.ts (turnout tolerance) fail a run for leaving a real range.",
+    "cause": "Found in code: src/bench/m1-13-check.ts (band check lines 114 to 124), tests/src/core2/counted-moves-balance.test.ts (the 1.5 percent assertions) and tests/src/core2/electorate.test.ts (turnout tolerance) fail a run for leaving a real range.",
     "fix": "Replace each failing band assertion with a cause check and print the range beside it as a warning; reword docs/roadmap/features.json M1-02.",
     "root": "none",
     "model": "sonnet",
@@ -15141,7 +15141,7 @@
     "verdict": "needs-cause",
     "reason": "Not reproduced on main Oct 20, but the Oct 20 branch found it paying in some runs and not others; cause open.",
     "causeKind": "Needs cause",
-    "cause": "Needs cause. Looked at the item's Notes: Morrison, Oklahoma (4049450, seed 35ae004f...) paid or not depending on order of reads; src/core2/player-money-year.test.ts exists. No cause in the code named.",
+    "cause": "Needs cause. Looked at the item's Notes: Morrison, Oklahoma (4049450, seed 35ae004f...) paid or not depending on order of reads; tests/src/core2/player-money-year.test.ts exists. No cause in the code named.",
     "fix": "None until the cause is found.",
     "root": "none",
     "model": "sonnet",
@@ -15158,7 +15158,7 @@
     "verdict": "rewrite",
     "reason": "Reproducible symptom with seed; cause open.",
     "causeKind": "Measured",
-    "cause": "Measured: src/core2/effects-end-to-end.test.ts reads 25.76 percent unemployment at metrics:jurisdiction_12906d1946ba6871:2025-12-02 in Santa Rita, Guam (seed 6f539fcfdf6d96f9-5).",
+    "cause": "Measured: tests/src/core2/effects-end-to-end.test.ts reads 25.76 percent unemployment at metrics:jurisdiction_12906d1946ba6871:2025-12-02 in Santa Rita, Guam (seed 6f539fcfdf6d96f9-5).",
     "fix": "Find which record in src/core2/modules/world-metrics.ts or jobs.ts drives the rate in a territory town and fix the cause; report the real range as a warning only.",
     "root": "none",
     "model": "sonnet",

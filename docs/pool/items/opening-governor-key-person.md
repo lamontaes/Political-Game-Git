@@ -17,7 +17,7 @@ claimed-at: 2026-11-04T08:40:54.814Z
 
 **Rules.** One rule, all 56 places: the governor is read from the offices records of the player's state or territory, never named; wire to the world: the key-people list is read by both the opening and the Politics screen.
 
-**Done when.** In a drawn place (name the place and seed), src/director/opening-story.test.ts asserts the state's stage points out the player's governor by record id, and a screenshot of the opening's state stage with the governor's tag is in the PR body.
+**Done when.** In a drawn place (name the place and seed), tests/src/director/opening-story.test.ts asserts the state's stage points out the player's governor by record id, and a screenshot of the opening's state stage with the governor's tag is in the PR body.
 
 **Files.** src/core2/data/opening/key-people.json, src/core2/opening-key-people.ts, src/director/data/opening-story.json
 

@@ -19,7 +19,7 @@ claimed-at:
 
 **Rules.** Serves LAW.md §1, Screens and menus (the play screen: "The menu is a straight column of round icons, bottom left, above the player card; the name shows on hover. No radial menu,"; the menu structure, OD:76, names the seven entries and moves Options to Esc; alerts include a dot on a rail icon for something unread). This is a game, not a spreadsheet. Replace, never layer: the horizontal row of squares is deleted, not kept beside the column.
 
-**Done when.** In a drawn place on the play screen at 1440x900, a check in src/bench/panels.browser.mjs reads the rail and passes: seven icons share one x and their y strictly increases downward in the order Journal, Calendar, Money, Politics, News, People, Travel; each icon's width equals its height with a fully round border; the name shows on hover; News shows a dot while an unread story exists and not after it is read; there is no Options icon on the rail; and the player card covers none of the icons, shown by a screenshot with the mouse on one icon. The check fails on main's row of squares.
+**Done when.** In a drawn place on the play screen at 1440x900, a check in tests/src/bench/panels.browser.mjs reads the rail and passes: seven icons share one x and their y strictly increases downward in the order Journal, Calendar, Money, Politics, News, People, Travel; each icon's width equals its height with a fully round border; the name shows on hover; News shows a dot while an unread story exists and not after it is read; there is no Options icon on the rail; and the player card covers none of the icons, shown by a screenshot with the mouse on one icon. The check fails on main's row of squares.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -27,6 +27,6 @@ claimed-at:
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.html, src/bench/play.css, src/bench/play.mjs, src/bench/data/controls.json, src/bench/panels.browser.mjs
+**Files.** src/bench/play.html, src/bench/play.css, src/bench/play.mjs, src/bench/data/controls.json, tests/src/bench/panels.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). No owner words on the rail in this sitting; the CTO read the build against OD:76 and the Nov 5 menu look (the Nov 5 menu look). Split from play-menu-shell-oct20 (size L; its in-pr claim points at draft PR #5180, which is not menu work, so the CTO should set it open). The Menu list's subheadings are play-stop-40. Options moving to Esc and the old Menu panel leaving are the rest of play-menu-shell-oct20. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).

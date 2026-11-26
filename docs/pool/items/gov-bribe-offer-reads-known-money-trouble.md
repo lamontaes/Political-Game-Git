@@ -29,11 +29,11 @@ checked: fable 2026-11-10
 
 **Rules.** No dice: the offer follows the offerer's own reasons and what they can see, never a share or a roll. Look before you ask: owner rulings #5333 (offers follow reputation) and owner-why-money-exists (3) and (4). Sliding scales: the pull grows with the visible pressure, no cutoff. One rule, all 56 places. Speed: read on the award or meeting day only.
 
-**Done when.** A second session plays two years in four drawn places (`buildBenchWorld`, `scripts/research/bribe-chain-years.ts`, seeds named) and sees offers go to officials the offerers knew to be short, by person id and the knowledge record each offer cites, with the offer count per place-year reported next to the earlier 434 and 382. `src/core2/corruption.test.ts` passes with a case where an official in debt draws an offer a cushioned one does not.
+**Done when.** A second session plays two years in four drawn places (`buildBenchWorld`, `scripts/research/bribe-chain-years.ts`, seeds named) and sees offers go to officials the offerers knew to be short, by person id and the knowledge record each offer cites, with the offer count per place-year reported next to the earlier 434 and 382. `tests/src/core2/corruption.test.ts` passes with a case where an official in debt draws an offer a cushioned one does not.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/corruption.ts, src/core2/modules/contracts.ts, src/core2/modules/interest-groups.ts, src/core2/data/corruption/parameters.json, src/core2/corruption.test.ts, scripts/research/bribe-chain-years.ts
+**Files.** src/core2/modules/corruption.ts, src/core2/modules/contracts.ts, src/core2/modules/interest-groups.ts, src/core2/data/corruption/parameters.json, tests/src/core2/corruption.test.ts, scripts/research/bribe-chain-years.ts
 
 **Notes.** Filed Oct 25 by the effects lead from gov-bribes-in-played-worlds-measured.
 

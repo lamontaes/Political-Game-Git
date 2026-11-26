@@ -22,9 +22,9 @@ branch: claude/pool-gov-m3-05-mayor-appoints-someone-they-know
 merged-at: 2026-11-16T00:31:58.072Z
 ---
 
-**What.** M3-05's test sentence says the mayor appoints someone they know. The appointments engine already weighs whether a candidate is known to the appointer (`known`, a relationship pair, in `townPostInput`, src/core2/modules/executive.ts), and src/core2/executive.test.ts has the player name a resident to a post, but it picks the first resident by id, not anyone the player knows, and checks no tie. Nothing proves that the player's route as mayor lets them name a person from their own circle and that the record says so. Prove it from the player's office in the played world. Guards: the mayor's appointment choice, where the player names someone they know to a post and it takes, which the M3-05 golden-path check keeps working.
+**What.** M3-05's test sentence says the mayor appoints someone they know. The appointments engine already weighs whether a candidate is known to the appointer (`known`, a relationship pair, in `townPostInput`, src/core2/modules/executive.ts), and tests/src/core2/executive.test.ts has the player name a resident to a post, but it picks the first resident by id, not anyone the player knows, and checks no tie. Nothing proves that the player's route as mayor lets them name a person from their own circle and that the record says so. Prove it from the player's office in the played world. Guards: the mayor's appointment choice, where the player names someone they know to a post and it takes, which the M3-05 golden-path check keeps working.
 
-**Cause.** Found in code: src/core2/modules/executive.ts function townPostInput (line 410) weighs whether a candidate is known to the appointer, and src/core2/executive.test.ts has the player name the first resident by id and checks no relationship.
+**Cause.** Found in code: src/core2/modules/executive.ts function townPostInput (line 410) weighs whether a candidate is known to the appointer, and tests/src/core2/executive.test.ts has the player name the first resident by id and checks no relationship.
 
 **Fix.** Write a test seating the player as mayor in a drawn place, naming a person from the player's circle to a vacant post through the office acts, and finding the appointment's reason citing the relationship record by id.
 
@@ -36,7 +36,7 @@ merged-at: 2026-11-16T00:31:58.072Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/executive.ts, src/core2/executive.test.ts, src/core2/office-day-acts.ts, src/bench/office.ts
+**Files.** src/core2/modules/executive.ts, tests/src/core2/executive.test.ts, src/core2/office-day-acts.ts, src/bench/office.ts
 
 **Notes.** Filed by the governing lead, Oct 29, from the M3-05 command (branch governing/m3-spec-commands). Related, not a twin: gov-appointments-weigh-counted-adults widens the pool the character draws from.
 

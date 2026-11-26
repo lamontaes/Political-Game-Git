@@ -21,7 +21,7 @@ checked: fable 2026-11-10
 
 **What.** A study committee or task force is a row in the body engine, formed when a body cannot settle a bill, and nothing stages it or forms one by an executive's order. Add a task-force scene: an executive or a body forms it, the cast is the members the world gives, the player answers with four replies, and the report it files is read by the next bill's positions and by the press. The executive's order that forms one belongs to the body engine (Legislation); until it exists the scene uses the study-referral record and a registered stopgap names the missing order.
 
-**Cause.** Found in code: `referToStudy` (`src/core2/modules/legislature.ts` line 4940) writes the committee row; its only reader is `studiesOf` in `src/bench/study-committees.test.ts`. Design: the Nov 8 to 9 task-force call in docs/coordination/OWNER-DECISIONS.md ("a record in the one body engine... Story writes the scenes on top").
+**Cause.** Found in code: `referToStudy` (`src/core2/modules/legislature.ts` line 4940) writes the committee row; its only reader is `studiesOf` in `tests/src/bench/study-committees.test.ts`. Design: the Nov 8 to 9 task-force call in docs/coordination/OWNER-DECISIONS.md ("a record in the one body engine... Story writes the scenes on top").
 
 **Fix.** Add a `task-force` kind to `src/director/data/situation-types.json` with a purpose in `src/director/data/purpose-arcs.json`, a recipe in dev mode that calls the game's own study-referral code, and a reader of the report in the bill positions and the press. Register a stopgap for the executive's order.
 
@@ -33,4 +33,4 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/purpose-scene.ts, src/core2/modules/legislature.ts, src/bench/dev-mode.ts, src/bench/study-committees.test.ts
+**Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/purpose-scene.ts, src/core2/modules/legislature.ts, src/bench/dev-mode.ts, tests/src/bench/study-committees.test.ts

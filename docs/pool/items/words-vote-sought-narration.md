@@ -18,9 +18,9 @@ claimed-at: 2026-10-29T06:39:08.071Z
 
 **Rules.** No hand-written player text in code: the narration is a bank piece in data/english/parts/scene-talk.json with a use for step narrate, role narrator, purpose ask-vote and key vote-sought. Slots: {name} is the player, {first} the colleague, {bill} the bill as a clerk reads it. Scene standard: the narration sets the evening before the vote and never restates what the talk then says.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place with the seed named, src/director/player-asks-for-a-vote.test.ts shows the vote-sought talk opening on a narrate line from the bank for key vote-sought, and the scene-talk tests compose it in full, with at least three narration pieces so a player meets more than one.
+**Done when.** In a played world (buildBenchWorld) in a drawn place with the seed named, tests/src/director/player-asks-for-a-vote.test.ts shows the vote-sought talk opening on a narrate line from the bank for key vote-sought, and the scene-talk tests compose it in full, with at least three narration pieces so a player meets more than one.
 
-**Files.** data/english/parts/scene-talk.json, src/director/ask-talk.ts (narration step), src/director/player-asks-for-a-vote.test.ts
+**Files.** data/english/parts/scene-talk.json, src/director/ask-talk.ts (narration step), tests/src/director/player-asks-for-a-vote.test.ts
 
 **Notes.** TODO
 

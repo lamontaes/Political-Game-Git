@@ -12,7 +12,7 @@ Hebron, Wisconsin (5533675), world seed ed0fcb9d5fe8c4fc405921ee692d31ba212d34a2
 
 The existing kin and M0 suites plus opening-parent-birthdays.test.ts passed: 17 tests. Restoring the original opening-kin.ts made both new regression cases fail, in Hebron and Stoddard, Wisconsin (world seed ff28471ddd8550e2f827f9d66c567dfeea63171140ee0e35a12d38e286a3b788). No assertion, test range, town or timeout was loosened.
 
-Ten further independent fresh draws: 10 of 10 passed. Each invocation also checks the pinned Hebron case. All npm commands carry OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" and NODE_OPTIONS=--max-old-space-size=8192. Replay with GOLDEN_PATH_SEED=<replay> npm test -- src/core2/opening-parent-birthdays.test.ts --maxWorkers=1.
+Ten further independent fresh draws: 10 of 10 passed. Each invocation also checks the pinned Hebron case. All npm commands carry OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" and NODE_OPTIONS=--max-old-space-size=8192. Replay with GOLDEN_PATH_SEED=<replay> npm test -- tests/src/core2/opening-parent-birthdays.test.ts --maxWorkers=1.
 
 | Town                             | Place key | Replay           | Generated world seed                                             | Result |
 | -------------------------------- | --------- | ---------------- | ---------------------------------------------------------------- | ------ |
@@ -29,7 +29,7 @@ Ten further independent fresh draws: 10 of 10 passed. Each invocation also check
 
 ## Unchanged M0-06 checks
 
-All four runs passed (three tests per run). Replay with the listed world seed as GOLDEN_PATH_SEED and place key as GOLDEN_PATH_PLACE_KEY, using npm test -- src/core2/m0-life-at-18.test.ts --maxWorkers=1 and the environment settings above.
+All four runs passed (three tests per run). Replay with the listed world seed as GOLDEN_PATH_SEED and place key as GOLDEN_PATH_PLACE_KEY, using npm test -- tests/src/core2/m0-life-at-18.test.ts --maxWorkers=1 and the environment settings above.
 
 | Town                   | Place key | World seed                                                       | Result |
 | ---------------------- | --------- | ---------------------------------------------------------------- | ------ |

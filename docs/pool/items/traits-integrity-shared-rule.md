@@ -19,7 +19,7 @@ claimed-at: 2026-10-26T21:43:29.917Z
 
 **Done when.** scripts/traits/trait-wiring-audit.ts (played, flat and mirror twins) and scripts/traits/trait-wiring-matrix.ts on one year of buildBenchWorld in each of two places drawn from all 56, seeds named, show constituent-cases.bring-case, constituent-cases.handle-case, staff.follow-through, staff.hire, staff.dismiss and corruption.offer with calls above zero in both years, each with its traitWeight row cited to its study in data/research/trait-effect-sizes.json or a gap row; every other integrity decision has a gap row in data/content/trait-decision-gaps.json naming the cause and the open pool item that fixes it; and the family test reads from the log the person.weighed records of two people who chose differently for their traits, naming both record ids.
 
-**Files.** src/core2/trait-decisions.ts, src/core2/modules/constituent-cases.ts, src/core2/modules/corruption.ts, src/core2/integrity-traits-played.traits.test.ts, data/content/trait-decision-gaps.json
+**Files.** src/core2/trait-decisions.ts, src/core2/modules/constituent-cases.ts, src/core2/modules/corruption.ts, tests/src/core2/integrity-traits-played.traits.test.ts, data/content/trait-decision-gaps.json
 
 **Notes.** Split Oct 26 by the traits lead from traits-wire-integrity after Merger 3's Oct 26 send-back of PR 5715 (branch claude/traits-integrity), which offered an explicit bounded scope that keeps the uncompleted acceptance separately. Left on traits-wire-integrity: the ten decisions with no ordinary-year producer, until their records are written (people-corruption-honest-pull-calibrated, gov-recall-for-cause-start, traits-audit-opening-appointments).
 

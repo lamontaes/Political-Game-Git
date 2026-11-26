@@ -1,0 +1,434 @@
+import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../../scripts/core2-year/place";
+import { ageOnDate, makeIsoDate } from "../../../src/core2/kernel/dates";
+import { createLifeCore } from "../../../src/core2/life";
+import {
+  considerBribe,
+  corruptionModule,
+  crimesKnownTo,
+  scandalsOf,
+  settleBribe,
+  settleBribes,
+  type CrimeRecord,
+} from "../../../src/core2/modules/corruption";
+import { buildPopulation } from "../../../src/core2/population";
+import { currentCloseness, temperedHours, tieHoursBetween } from "../../../src/core2/closeness";
+import { coreAPI } from "../../../src/core2/state";
+import { decisionLean } from "../../../src/core2/trait-decisions";
+import { officialHousehold } from "../../../src/core2/official-living";
+import { corePlaceStateIdentities } from "../../../src/core2/place-lookup";
+
+// M3-09: a corrupt act happens only where the people's own traits and money
+// support it, leaves a record, and is learned by others only through a real
+// route.
+const sum = (values: Readonly<Record<string, number>>) =>
+  Object.values(values).reduce((a, b) => a + b, 0);
+
+/**
+ * The cases of M3-09 in one world: a seed, and a place (the seed's own when
+ * none is given). A fresh draw whose fixture asks yield fewer than two taken
+ * bribes, or none between people one of whom leans toward telling, registers
+ * nothing and returns why, so the caller can draw the next place.
+ */
+function corruptionCases(
+  seed: string,
+  placeKey?: string,
+  fresh = false,
+): string | null {
+  const input = buildPopulation({
+    seed,
+    ...(placeKey ? { placeKey } : {}),
+    startedAt: "2021-01-01",
+    minimumPeople: 500,
+  });
+  const core = createLifeCore(input, { modules: [corruptionModule] });
+  const api = coreAPI(core);
+  const adults = [...core.people.values()].filter(
+    (row) =>
+      row.tier !== "husk" &&
+      row.alive &&
+      ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(input.startedAt)) >= 21,
+  );
+  const cashBefore = new Map(adults.map((row) => [row.id, row.liquidMinor]));
+  // People with money and a large stake ask people under money strain. The
+  // sixty richest ask the twenty most strained, so a small town still has
+  // enough asks for the offerers' and officials' own reasons to yield two takes.
+  const byCash = [...adults].sort((a, b) => b.liquidMinor - a.liquidMinor);
+  const offerers = byCash.slice(0, 60);
+  const strained = [...adults]
+    .sort(
+      (a, b) =>
+        a.liquidMinor / (a.livingCostDailyMinor + 1) -
+        b.liquidMinor / (b.livingCostDailyMinor + 1),
+    )
+    .slice(0, 20);
+  const records: CrimeRecord[] = [];
+  for (const offerer of offerers)
+    for (const target of strained) {
+      if (target.id === offerer.id) continue;
+      const record = considerBribe(api, {
+        offererId: offerer.id,
+        officialId: target.id,
+        stakeMinor: 50000000,
+        subjectId: `fixture-contract:${offerer.id}:${target.id}`,
+      });
+      if (record) records.push(record);
+    }
+  if (fresh) {
+    const leansToTell = (id: string) =>
+      decisionLean(
+        core,
+        core.people.get(id)!,
+        "corruption.tell",
+        "corruption-tell-yes",
+        "corruption-tell-no",
+      ) > 0;
+    const taken = records.filter((row) => row.taken);
+    // The meeting case settles the first taken bribe as a broken promise, a
+    // falling-out of its own; the telling case needs another taken one.
+    if (
+      taken.length < 2 ||
+      !taken
+        .slice(1)
+        .some(
+          (row) => leansToTell(row.offererId) || leansToTell(row.officialId),
+        )
+    )
+      return `${input.placeMetadata?.placeName} (seed ${seed}): ${taken.length} taken of ${records.filter((row) => row.offered).length} offers`;
+  }
+
+  describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
+    it("offers and takes only where traits and money support it, some and not all", () => {
+      const offered = records.filter((row) => row.offered);
+      const taken = records.filter((row) => row.taken);
+      expect(offered.length).toBeGreaterThan(0);
+      expect(offered.length).toBeLessThan(records.length);
+      expect(taken.length).toBeLessThanOrEqual(offered.length);
+      const mean = (list: CrimeRecord[]) =>
+        list.reduce((s, row) => s + sum(row.reasons.offer!), 0) /
+        Math.max(1, list.length);
+      expect(mean(offered)).toBeGreaterThan(
+        mean(records.filter((row) => !row.offered)),
+      );
+    });
+
+    it("moves money through the books, balanced to the dollar", () => {
+      let total = 0;
+      for (const row of adults)
+        total += core.people.get(row.id)!.liquidMinor - cashBefore.get(row.id)!;
+      expect(total).toBe(0);
+      for (const row of records.filter((r) => r.taken).slice(0, 5))
+        expect(
+          core.people.get(row.officialId)!.liquidMinor,
+        ).toBeGreaterThanOrEqual(
+          cashBefore.get(row.officialId)! + row.amountMinor,
+        );
+    });
+
+    it("a taken bribe is a meeting, so a payer whose favor does not come has a tie to lose (contract awards settle it)", () => {
+      const pairKey = (x: string, y: string) => [x, y].sort().join(":");
+      // First of the cases to touch any pair: only the taking itself has met them.
+      const crime = records.find((row) => row.taken);
+      expect(crime).toBeDefined();
+      const level = () => {
+        const row = core.relationships.get(
+          pairKey(crime!.offererId, crime!.officialId),
+        );
+        return row ? currentCloseness(core, row) : 0;
+      };
+      // Passing the money alone built a tie between two who had none.
+      expect(level()).toBeGreaterThan(0);
+      const before = level();
+      const award = { ...crime!, id: `${crime!.id}:award` };
+      settleBribe(api, award, "contract:fixture", false, "other-firm");
+      expect(level()).toBeLessThan(before);
+      expect(
+        api
+          .moduleState("corruption")
+          .table("settled")
+          .get(`settled:${award.id}`),
+      ).toMatchObject({ delivered: false, vote: "other-firm" });
+    });
+
+    it("is known only to the two people, until one falls out with the other and tells someone", () => {
+      // A bribe where one of the two leans toward telling over keeping quiet:
+      // someone who leans hard the other way keeps it even after a falling-out.
+      const leansToTell = (id: string) =>
+        decisionLean(
+          core,
+          core.people.get(id)!,
+          "corruption.tell",
+          "corruption-tell-yes",
+          "corruption-tell-no",
+        ) > 0;
+      // The meeting case above settled the first taken bribe as a broken
+      // promise, and that falling-out may already have told someone (a cheated
+      // payer's tie sours): this case takes a pair no case has touched yet.
+      const settled = records.find((row) => row.taken);
+      const crime = records.find(
+        (row) =>
+          row.taken &&
+          row !== settled &&
+          (leansToTell(row.offererId) || leansToTell(row.officialId)),
+      );
+      expect(crime).toBeDefined();
+      const others = adults.filter(
+        (row) => row.id !== crime!.offererId && row.id !== crime!.officialId,
+      );
+      for (const row of others.slice(0, 50))
+        expect(crimesKnownTo(api, row.id).map((r) => r.id)).not.toContain(
+          crime!.id,
+        );
+      // A falling-out between the two: a rupture that takes the tie to its
+      // floor. Closeness saturates, so a fixed drop barely moves a pair that
+      // is already very close, and the chooser (rightly) weighs how far the
+      // tie soured, not that a fixed number of hours were lost.
+      api.relationship(crime!.offererId, crime!.officialId, "contact", 200);
+      // The rupture is sized to the tie it must take to its floor: every hour
+      // the tie stands on today, over what an hour of falling-out counts for
+      // between these two (`temperedHours`), twice over, and never less than
+      // the 5,000 hours this fixture always took. A fixed 5,000 left a pair
+      // with a long past at 0.96 of 0.98 (Gilbert, West Virginia, seed
+      // 5af5202e...), so neither told anyone.
+      const perHour = -temperedHours(
+        core,
+        core.people.get(crime!.offererId),
+        core.people.get(crime!.officialId),
+        -1,
+      );
+      const rupture = Math.max(
+        5000,
+        Math.ceil(
+          (2 * tieHoursBetween(core, crime!.offererId, crime!.officialId)) /
+            perHour,
+        ),
+      );
+      api.relationship(
+        crime!.offererId,
+        crime!.officialId,
+        "contact",
+        -rupture,
+        undefined,
+        {
+          cause: "fixture-falling-out",
+        },
+      );
+      // Whoever they told: anyone but the two, a relative elsewhere included.
+      const learned = [...core.people.values()].filter(
+        (row) =>
+          row.id !== crime!.offererId &&
+          row.id !== crime!.officialId &&
+          crimesKnownTo(api, row.id).some((r) => r.id === crime!.id),
+      );
+      expect(learned.length).toBeGreaterThan(0);
+      expect(learned.length).toBeLessThanOrEqual(2);
+      // Whoever learned it decided whether to take it to the press; a report
+      // is a public record the official and the reporter both hold, and the
+      // scandal reaches voters only through it.
+      for (const id of scandalsOf(api, crime!.officialId, core.date)) {
+        expect(
+          api.knows(crime!.officialId, `event:${id}:experienced`),
+        ).toBeTruthy();
+        expect(
+          learned.some((row) => api.knows(row.id, `event:${id}:experienced`)),
+        ).toBe(true);
+      }
+      expect(scandalsOf(api, crime!.officialId, "2000-01-01")).toEqual([]);
+    });
+
+    it("settles a taken bribe by the vote: delivered keeps the tie, a cheated payer loses closeness", () => {
+      const takenOn = records.filter((row) => row.taken);
+      expect(takenOn.length).toBeGreaterThanOrEqual(2);
+      const [cheated, kept] = takenOn;
+      const level = (a: string, b: string) => {
+        const row = core.relationships.get([a, b].sort().join(":"));
+        return row ? currentCloseness(core, row) : 0;
+      };
+      for (const crime of [cheated!, kept!])
+        api.relationship(crime.offererId, crime.officialId, "contact", 400);
+      const before = {
+        cheated: level(cheated!.offererId, cheated!.officialId),
+        kept: level(kept!.offererId, kept!.officialId),
+      };
+      // The payers are those who lose money, so the favor is a "no".
+      settleBribes(api, cheated!.subjectId, (id) =>
+        id === cheated!.officialId ? "yes" : undefined,
+      );
+      settleBribes(api, kept!.subjectId, (id) =>
+        id === kept!.officialId ? "no" : undefined,
+      );
+      const settled = (crime: CrimeRecord) =>
+        api
+          .moduleState("corruption")
+          .table("settled")
+          .get(`settled:${crime.id}`) as unknown as
+          { delivered: boolean; vote: string } | undefined;
+      expect(settled(cheated!)).toMatchObject({
+        delivered: false,
+        vote: "yes",
+      });
+      expect(settled(kept!)).toMatchObject({ delivered: true, vote: "no" });
+      expect(level(cheated!.offererId, cheated!.officialId)).toBeLessThan(
+        before.cheated,
+      );
+      expect(level(kept!.offererId, kept!.officialId)).toBeCloseTo(
+        before.kept,
+        5,
+      );
+      // Each bribe settles once.
+      const after = level(cheated!.offererId, cheated!.officialId);
+      settleBribes(api, cheated!.subjectId, () => "yes");
+      expect(level(cheated!.offererId, cheated!.officialId)).toBe(after);
+    });
+
+    it("draws more offers to an official the offerer has learned took a bribe, and no more for one nobody has heard of", () => {
+      const taken = records.find((row) => row.taken)!;
+      const outsider = adults
+        .filter(
+          (row) =>
+            row.id !== taken.offererId &&
+            row.id !== taken.officialId &&
+            !crimesKnownTo(api, row.id).length,
+        )
+        .sort((a, b) => b.liquidMinor - a.liquidMinor)[0]!;
+      // A favor worth the outsider's own cash: a bribe is a share of it, so a
+      // taken one leaves them the money to ask again. At the fixed stake one
+      // taken bribe moved all of it in Dulac, Louisiana, and the next ask had
+      // nothing to offer.
+      const stakeMinor = core.people.get(outsider.id)!.liquidMinor;
+      const ask = (officialId: string, subjectId: string) => {
+        const record = considerBribe(api, {
+          offererId: outsider.id,
+          officialId,
+          stakeMinor,
+          subjectId,
+        });
+        expect(
+          record,
+          `${input.placeMetadata?.placeName}, seed ${seed}: ${outsider.id} asks ${officialId} (${subjectId}) with ${core.people.get(outsider.id)!.liquidMinor} cents`,
+        ).not.toBeNull();
+        return record!;
+      };
+      const unheard = ask(taken.officialId, "reputation-before");
+      expect(unheard.reasons.offer!.reputation, `${seed}`).toBe(0);
+      expect(unheard.heardOf).toBeUndefined();
+      // The outsider hears of it from the offerer; the decision reads that record.
+      api.observe(outsider.id, {
+        key: `crime:${taken.id}`,
+        value: "bribe-taken",
+        learnedAt: api.state.date,
+        sourceId: taken.id,
+        access: "told",
+      });
+      const heard = ask(taken.officialId, "reputation-after");
+      expect(heard.heardOf).toEqual([taken.id]);
+      expect(heard.reasons.offer!.reputation).toBeGreaterThan(0);
+      // The same offerer's request of someone they heard nothing about is unchanged.
+      const other = adults.find(
+        (row) =>
+          row.id !== outsider.id &&
+          row.id !== taken.officialId &&
+          row.id !== taken.offererId &&
+          !crimesKnownTo(api, outsider.id).some((c) => c.officialId === row.id),
+      )!;
+      expect(ask(other.id, "reputation-other").reasons.offer!.reputation).toBe(
+        0,
+      );
+    });
+  });
+  return null;
+}
+
+// The regression: Hawleyville, Connecticut once gave one taken bribe where the
+// settlement case needs two.
+corruptionCases(
+  "7d4c701fc31a10350bc60db43d6af340a651c33e02de11d1a30d3b6d12e6dec6",
+  "0937490",
+);
+
+// The regression: in Dulac, Louisiana one taken bribe spent the outsider's
+// whole cash before their last ask.
+corruptionCases(
+  "85dd5f6c7746eccd0c937fe4f99a09c9b2b151392136efcb5109e58c9de16b86",
+  "2221940",
+);
+
+// Pinned (Nov 16). Before, the last three places were drawn at run time from
+// CORRUPTION_SEED or a random seed (or replayed from CORRUPTION_WORLD_SEED and
+// CORRUPTION_PLACE_KEY), up to twelve draws until three had two taken bribes,
+// so a red came and went with the draw: M3-09 failed in CI at Auburndale,
+// Wisconsin on an unprinted seed. The draws below are the old loop's at seed
+// pin-corruption-0 on the Train at c0f54ca0: Rosburg, Washington, Lebanon,
+// Tennessee and Mullan, Idaho pass (Middle Amana, Iowa was passed over with
+// fewer than two taken). Smithers, West Virginia is the old loop's second draw
+// at seed s34, found by a scan of seeds s11 to s50 on the Train at ce78169a
+// and the only red among them: nobody else learns of the bribe after the
+// fixture's falling-out (item
+// tests-corruption-smithers-nobody-learns-after-falling-out). It passes since
+// the fixture's falling-out takes the whole tie (PR 9710).
+// Limit: the whole file runs in about 27 s; each case is well inside the
+// default 30 s.
+const PINNED = [
+  {
+    name: "Rosburg, Washington",
+    key: "5359845",
+    seed: "d1e677142fbe35642e611db8c5bd4c0db5b16de5304292650dd268baace4cdbd",
+  },
+  {
+    name: "Lebanon, Tennessee",
+    key: "4741520",
+    seed: "4b4e61be363f24b7e4613903f0e50c6c56adf96626093dd32fc2ffaac21b96de",
+  },
+  {
+    name: "Mullan, Idaho",
+    key: "1655630",
+    seed: "f062ba9710d506abca8ebefad9c9bf8008f232a7d1525e055b2c9a74d0c52f57",
+  },
+  {
+    name: "Smithers, West Virginia",
+    key: "5474740",
+    seed: "739dfec671ca78ca207719831d6902f3575dbe23613e48f1ae686e73c311b348",
+  },
+];
+const refusedPins = PINNED.map((pin) => ({
+  pin,
+  refused: corruptionCases(pin.seed, pin.key, true),
+}));
+describe("pinned corruption places", () => {
+  it("draws its pinned places from the fixed seeds", () => {
+    expect(
+      [0, 1, 3].map((draw) =>
+        drawPlace(`pin-corruption-0:${draw}`, "corruption"),
+      ),
+    ).toMatchObject(PINNED.slice(0, 3).map(({ name, key }) => ({ name, key })));
+    expect(drawPlace("s34:1", "corruption")).toMatchObject({
+      name: PINNED[3]!.name,
+      key: PINNED[3]!.key,
+    });
+  });
+  it("finds at least two taken bribes in every pinned place", () => {
+    expect(
+      refusedPins.flatMap(({ refused }) => (refused ? [refused] : [])),
+    ).toEqual([]);
+  });
+});
+
+it("officials at one pay keep different savings, around the same median (a body is not all one cushion)", () => {
+  const input = buildPopulation({
+    seed: "official-savings-spread",
+    startedAt: "2021-01-01",
+    minimumPeople: 200,
+  });
+  const api = coreAPI(createLifeCore(input, { modules: [corruptionModule] }));
+  const stateKey = [...corePlaceStateIdentities()][0]!.jurisdictionKey;
+  const savings = Array.from({ length: 60 }, (_, i) =>
+    officialHousehold(api, stateKey, 9_000_000, `official:fixture:${i}`),
+  ).map((home) => home.savingsMinor);
+  const sorted = [...savings].sort((a, b) => a - b);
+  expect(sorted[0]).toBeLessThan(sorted.at(-1)! / 10);
+  // The same official always has the same savings.
+  expect(
+    officialHousehold(api, stateKey, 9_000_000, "official:fixture:3")
+      .savingsMinor,
+  ).toBe(savings[3]);
+});

@@ -17,8 +17,8 @@ claimed-at: 2026-10-20T10:05:23.468Z
 
 **Rules.** One model, two tiers: a returned counted household renews and is capped by the same rule as any counted tenant. An effect is a read: the rent stabilization law must be read for its flow. Replace, never layer: the lookup that assumed one lease id per household is replaced, not wrapped.
 
-**Done when.** In the played world (buildBenchWorld, Acushnet Center seed 4d483715b7e58e812cf2c8ba39e1e5906d5736df9877b91d3557798b7e134e13 and a fresh drawn place) a returned counted household's rent flow is renewed and capped at renewal, named by flow id, and src/core2/housing-laws.test.ts edge case passes with the household's live lease found by household, not by a single lease id.
+**Done when.** In the played world (buildBenchWorld, Acushnet Center seed 4d483715b7e58e812cf2c8ba39e1e5906d5736df9877b91d3557798b7e134e13 and a fresh drawn place) a returned counted household's rent flow is renewed and capped at renewal, named by flow id, and tests/src/core2/housing-laws.test.ts edge case passes with the household's live lease found by household, not by a single lease id.
 
-**Files.** src/core2/housing-occupancy.ts, src/core2/housing-laws.test.ts
+**Files.** src/core2/housing-occupancy.ts, tests/src/core2/housing-laws.test.ts
 
 **Notes.** TODO

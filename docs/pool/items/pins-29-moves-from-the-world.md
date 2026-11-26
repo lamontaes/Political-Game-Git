@@ -28,8 +28,8 @@ source: Pins lane, Nov 17 (the CTO's LIFT THE PINS family 29 on issue 9747; plan
 
 **Rules.** No dice: each record goes to the largest remaining due, a deterministic order, and no seeded share picks a destination. One rule, all 56 places: dues are read for every state and territory the tier keeps, never a named one.
 
-**Done when.** A second session plays a year at a drawn place with dev mode on, opens a move row in the Trace box and sees the tier rows it read; `src/core2/counted-moves-own-pace.test.ts` passes, and the in-state share by move records differs between two places with their dues.
+**Done when.** A second session plays a year at a drawn place with dev mode on, opens a move row in the Trace box and sees the tier rows it read; `tests/src/core2/counted-moves-own-pace.test.ts` passes, and the in-state share by move records differs between two places with their dues.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/counted-moves.ts, src/core2/modules/partnerships.ts, src/core2/modules/macro.ts, src/core2/counted-moves-own-pace.test.ts (new)
+**Files.** src/core2/modules/counted-moves.ts, src/core2/modules/partnerships.ts, src/core2/modules/macro.ts, tests/src/core2/counted-moves-own-pace.test.ts (new)

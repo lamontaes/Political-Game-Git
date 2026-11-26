@@ -95,7 +95,7 @@ export function planCadence(changedFiles, options = {}) {
   if (screens) {
     stages.push({
       label: "Bench browser checks (start the bench first: npm run bench)",
-      command: "node src/bench/no-scroll.browser.mjs",
+      command: "node tests/src/bench/no-scroll.browser.mjs",
       receiptStage: "browser",
       kind: options.readiness ? "readiness" : "focus",
     });
@@ -105,7 +105,7 @@ export function planCadence(changedFiles, options = {}) {
     stages.push({
       label: "Title tests and motion check (bench running)",
       command:
-        "npx vitest run src/bench/title.test.ts && node src/bench/title-motion.browser.mjs",
+        "npx vitest run tests/src/bench/title.test.ts && node tests/src/bench/title-motion.browser.mjs",
       receiptStage: "title",
       kind: "focus",
     });

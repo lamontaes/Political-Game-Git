@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-24T18:43:28.433Z
 ---
 
-**What.** M1-11 reads 'Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.' Its command, src/core2/drives-economy.test.ts, injects a fixture closure of every employer and fixture layoffs and evictions on one day in a drives-only world, the same proof the mergers rejected for M1-10. This item adds a check that plays a year of the world the player gets with the ordinary producers and holds the engine's own responses to those events to the spec.
+**What.** M1-11 reads 'Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.' Its command, tests/src/core2/drives-economy.test.ts, injects a fixture closure of every employer and fixture layoffs and evictions on one day in a drives-only world, the same proof the mergers rejected for M1-10. This item adds a check that plays a year of the world the player gets with the ordinary producers and holds the engine's own responses to those events to the spec.
 
 **Rules.** Ask why: every response and every aimed drive is named by record id. Real rates check the town's totals, never one person's outcome. A slow check is a script under src/bench/, not a unit test; never edit drives-economy.test.ts. A kind of event that never happened leaves its clause unchecked, so the check fails naming it.
 

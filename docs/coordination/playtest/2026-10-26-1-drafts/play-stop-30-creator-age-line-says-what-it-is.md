@@ -27,6 +27,6 @@ claimed-at:
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.mjs, src/bench/play.html, src/bench/data/controls.json, src/bench/creator-fields.browser.mjs
+**Files.** src/bench/play.mjs, src/bench/play.html, src/bench/data/controls.json, tests/src/bench/creator-fields.browser.mjs
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). Owner: "It doesn't tell you that it starts on January 2025. It needs to explain that a little bit." New owner instruction in playtest; CTO to record in OWNER-DECISIONS.md. The page opened on the default birthday August 6, 1954 (age 70); the owner set 1989 so the character could run for office; no ruling on the default was asked. Lead: play-first (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).

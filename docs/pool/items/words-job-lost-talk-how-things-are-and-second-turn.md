@@ -33,6 +33,6 @@ checked: S2 2026-11-14
 
 **Waits on.** PR 9122 and the conversation engine (PR 9067) on the train.
 
-**Files.** src/director/conversation.ts, data/english/parts/conversation.json, src/director/job-lost-talk-played.test.ts
+**Files.** src/director/conversation.ts, data/english/parts/conversation.json, tests/src/director/job-lost-talk-played.test.ts
 
 **Notes.** The act "keep an ear out for me" (the player hearing of an opening and telling them) is removed from the lines in 9122; a later design item for it: Design: the player hears of a job opening and can tell the person; no act for it exists.

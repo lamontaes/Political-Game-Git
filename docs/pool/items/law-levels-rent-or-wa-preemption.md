@@ -19,6 +19,6 @@ claimed-at: 2026-11-06T02:04:51.108Z
 
 **Done when.** Rent stabilization flags OR and WA as barring towns in every phase; a test reads both.
 
-**Files.** data/research/laws/starting-law-2026/housing-land-use.json,src/core2/rent-or-wa-preemption.test.ts
+**Files.** data/research/laws/starting-law-2026/housing-land-use.json,tests/src/core2/rent-or-wa-preemption.test.ts
 
 **Notes.** TODO

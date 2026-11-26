@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** In a drawn place that showed zero, a one-year run collects property tax from named owners, by home and payment record ids; a test fails when `ownedHomes` is empty for a town with owners.
 
-**Files.** src/core2/modules/housing.ts, src/core2/property-tax-laws.test.ts
+**Files.** src/core2/modules/housing.ts, tests/src/core2/property-tax-laws.test.ts
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
 

@@ -22,7 +22,7 @@ Seen: Journal and the heirs' balances in a town with an estate whose house does 
 
 **Cause.** Found in code: `distribute` in `src/core2/estates.ts` returned early (`if (sale?.status === "listed") { keepProbateOpen(...); return []; }`) before paying anything, and `keepProbateOpen` rewrote the probate row without the heirs and the will of the day of death.
 
-**Fix.** At the probate close an estate whose house is still for sale pays its heirs the cash by the will or the law, taxes on the part paid, and keeps the sale for the house; the pass after the sale pays the proceeds to the same heirs on the whole estate's tax (the carry the trust pass already uses). The row keeps the heirs and will of the day of death. The check `src/core2/estates-unsold-home-pays-cash.test.ts` draws places, plays two years and fails on main.
+**Fix.** At the probate close an estate whose house is still for sale pays its heirs the cash by the will or the law, taxes on the part paid, and keeps the sale for the house; the pass after the sale pays the proceeds to the same heirs on the whole estate's tax (the carry the trust pass already uses). The row keeps the heirs and will of the day of death. The check `tests/src/core2/estates-unsold-home-pays-cash.test.ts` draws places, plays two years and fails on main.
 
 **Time box.** 3 hours.
 
@@ -32,4 +32,4 @@ Seen: Journal and the heirs' balances in a town with an estate whose house does 
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/estates.ts, src/core2/estates-unsold-home-pays-cash.test.ts
+**Files.** src/core2/estates.ts, tests/src/core2/estates-unsold-home-pays-cash.test.ts

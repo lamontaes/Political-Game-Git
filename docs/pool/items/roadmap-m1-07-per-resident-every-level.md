@@ -36,7 +36,7 @@ merged-at: 2026-11-13T07:18:55.270Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/tooling/m1-07-check.ts, src/core2/tooling/m1-07-coverage.ts, src/core2/tooling/m1-07-coverage.test.ts, data/research/money/federal-budget-fy2025.json, data/research/money/state-local-finances-2022.json, docs/roadmap/features.json
+**Files.** src/core2/tooling/m1-07-check.ts, src/core2/tooling/m1-07-coverage.ts, tests/src/core2/tooling/m1-07-coverage.test.ts, data/research/money/federal-budget-fy2025.json, data/research/money/state-local-finances-2022.json, docs/roadmap/features.json
 
 **Notes.** TODO
 

@@ -19,6 +19,6 @@ claimed-at: 2026-10-20T12:40:35.823Z
 
 **Done when.** In a drawn place from all 56 (name it and the seed) the browser run shows the Campaigns screen with the four controls and no list of acts, and each control taken writes the engine's own record by id (cause rows for the event, the interview row for the interview); a screenshot is attached to the PR body and a test or note records the result.
 
-**Files.** src/bench/play.mjs,src/bench/data/controls.json,src/bench/campaign-day-controls.test.ts
+**Files.** src/bench/play.mjs,src/bench/data/controls.json,tests/src/bench/campaign-day-controls.test.ts
 
 **Notes.** TODO
