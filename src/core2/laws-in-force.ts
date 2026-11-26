@@ -23,6 +23,17 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
+export { countedWeight } from "./law-reach/pay-reach";
+export { webLevel } from "./outcome-web-reach";
+export { registerPricesWebGaps } from "./modules/prices-web-gaps";
+export { publicPayFloorHourly } from "./public-pay-floor";
+export {
+  mechanicRow,
+  putMechanic,
+  reachTable,
+  tomorrow,
+} from "./law-reach/group-a-records";
+export type { MechanicRow } from "./law-reach/group-a-records";
 export { recordHomeRule } from "./policy-authority";
 export {
   DEATH_WEB_REFRESH_DAY,

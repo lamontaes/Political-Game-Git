@@ -30,7 +30,7 @@ import type {
   PersonInput,
 } from "../types";
 import { linkCreditLineToPrime, quotedLineRate } from "./macro";
-import { countedPayment } from "../counted-money";
+import { countedPayment } from "./health";
 import {
   residentsRuntime,
   householdCash,
@@ -47,9 +47,9 @@ import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { transferCash } from "../budgets-treasury";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
-import { bankDepositLiability } from "../accounts";
+import { bankDepositLiability } from "../budgets-treasury";
 import { reviewBankDeposits } from "../credit-deposits";
-import { weightedPayrollMinor } from "../residents-economy";
+import { weightedPayrollMinor } from "./health";
 
 import {
   LAWS_MODULE_ID,

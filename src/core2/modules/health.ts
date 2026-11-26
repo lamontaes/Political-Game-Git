@@ -77,6 +77,34 @@ import type {
   PersonState,
   Source,
 } from "../types";
+export {
+  countedHouseholdSavings,
+  countedPayment,
+  fundBalance,
+} from "../counted-money";
+export {
+  addResidentFlow,
+  businessScaleOf,
+  outputLostPerYear,
+  purchaseShareOf,
+  scaleOutsideSales,
+  shiftPurchaseShare,
+  staffedScale,
+  weightedPayrollMinor,
+} from "../residents-economy";
+export type { OutsideSectorFactor } from "../residents-economy";
+export { countedPersonOf } from "../counted-actor";
+export { appraiseEvent } from "../emotion";
+export { initialPersonState } from "../person-state";
+export type {
+  CashJournalSourceRef,
+  ResolvedCashJournalSource,
+} from "../journal";
+export type {
+  CashJournalPostedMarker,
+  CashJournalSourceProvider,
+  CashJournalSourceSlot,
+} from "../journal-state";
 export { openEstates } from "../estates";
 export { openPublicAction } from "./public-action";
 export { collapseToTwoLevels, fullPeople } from "../residents";

@@ -5,7 +5,7 @@
  * closure does, keeping any wages already earned for the next recorded payday.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { financeIndex } from "./finance-state";
+import { financeIndex } from "./budgets-treasury";
 import { refreshOfficeStaff } from "./modules/campaigns";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";

@@ -102,6 +102,7 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
+export { reviewBoardTerms } from "../central-bank-appointments";
 export type { GenderIdentityKey } from "../gov-rules/types";
 export { nominateAndConfirm, partyName } from "../appointments";
 export { inflationLeans } from "../central-bank-board";

@@ -3,7 +3,7 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
-import { FinanceReadGuard } from "./finance-plan";
+import { FinanceReadGuard } from "./budgets-treasury";
 import {
   isExplicitlyControlledPersonV1,
   snapshotExplicitControlV1,
