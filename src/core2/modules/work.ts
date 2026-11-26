@@ -9,7 +9,7 @@ import {
 } from "../kernel/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
-import { FinanceReadGuard } from "../finance-plan";
+import { FinanceReadGuard } from "../budgets-treasury";
 
 import { careNeedOf } from "./health";
 import type { Parameter } from "../parameters";

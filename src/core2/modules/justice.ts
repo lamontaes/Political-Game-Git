@@ -72,6 +72,7 @@ import {
   endPretrial,
   type PretrialRow,
 } from "../justice-pretrial";
+export { reachParameter } from "../law-reach/group-a-records";
 export { openCrime } from "./crime";
 export { openLawReach } from "../law-reach/host";
 

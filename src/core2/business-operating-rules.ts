@@ -6,7 +6,7 @@
  * (the equipment, monitoring and services it buys).
  */
 import nonattainment from "./data/business/nonattainment.json" with { type: "json" };
-import { limitOutsideSales } from "./residents-economy";
+import { limitOutsideSales } from "./modules/people";
 import type { ModuleTable } from "./module-state";
 import type { CoreAPI, CoreState, Source } from "./types";
 
