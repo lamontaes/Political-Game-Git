@@ -18,7 +18,7 @@ import { parameter } from "../core2/parameters";
  * Congressional Record, federal hearings, White House briefings) are written
  * here word for word; the other corpora supply counts only.
  */
-export const SPEECH_REGISTERS = [
+const SPEECH_REGISTERS = [
   "house-one-minute",
   "house-debate",
   "senate-floor",
@@ -41,10 +41,10 @@ export type SpeechRegister = (typeof SPEECH_REGISTERS)[number];
  * admits the crafted devices; an exchange in public is still turn by turn,
  * and a private room is ordinary talk.
  */
-export type RegisterSetting = "public-address" | "public-exchange" | "private";
+type RegisterSetting = "public-address" | "public-exchange" | "private";
 
 /** The crafted moves a speech can make beyond saying its business. */
-export const SPEECH_DEVICES = [
+const SPEECH_DEVICES = [
   "contrast",
   "three-part-list",
   "disclosure",
@@ -58,7 +58,7 @@ export type SpeechDevice = (typeof SPEECH_DEVICES)[number];
  * A figure from the counted corpus. `basis` says whether it was measured or
  * set by hand, and `source` says from what; the game never draws against it.
  */
-export interface RegisterCheck {
+interface RegisterCheck {
   readonly key: string;
   readonly label: string;
   /** A share from 0 to 1, or a count of words for a median. */
@@ -396,12 +396,12 @@ export function registerAllows(
  * guessed; `unstated` is a real value) and, for a colleague, where they are
  * from as the room says it — a state in Congress, a county in a state house.
  */
-export interface AddressedPerson {
+interface AddressedPerson {
   readonly gender: GenderIdentityKey | null;
   readonly fromLabel?: string;
 }
 
-export type AddressRole = "chair" | "colleague";
+type AddressRole = "chair" | "colleague";
 
 /**
  * How the room addresses the chair or refers to a colleague, from the
@@ -414,7 +414,7 @@ export type AddressRole = "chair" | "colleague";
  * Ohio"), which the Record also uses. Returns null where the register has no
  * such form.
  */
-export function formOfAddress(
+function formOfAddress(
   register: SpeechRegister,
   role: AddressRole,
   person: AddressedPerson,

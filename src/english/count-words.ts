@@ -164,7 +164,7 @@ export function hoursSaid(minutes: number): string {
 }
 
 /** A term of office in years as people say it: "four years". */
-export function termSaid(years: number): string {
+function termSaid(years: number): string {
   const count = Math.max(1, Math.round(years));
   if (count === 1) return data.term.year;
   return data.term.years.replace(
