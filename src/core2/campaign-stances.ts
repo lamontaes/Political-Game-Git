@@ -22,7 +22,8 @@
 import { townLean } from "./modules/campaigns";
 import { votesOf, type VoteRecordRow } from "./modules/record";
 import { electorateSides } from "./modules/voting";
-import { partyName, partySide } from "./appointments";
+import { partyName } from "./modules/executive";
+import { partySide } from "./modules/offices";
 import { leanedScore, weighingKept } from "./trait-decisions";
 import type { CoreAPI, PersonId } from "./types";
 import { PARTIES_MODULE_ID, partiesHere, type TieRow } from "./modules/parties";

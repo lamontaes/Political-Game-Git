@@ -9,7 +9,7 @@
  * vote keeps its parts. A delegation that splits evenly casts no vote.
  */
 import data from "./data/elections/contingent-election.json" with { type: "json" };
-import { caucusSide } from "./appointments";
+import { caucusSide } from "./modules/executive";
 import { leaderOf } from "./modules/leadership";
 import {
   FEDERAL_HOUSE,

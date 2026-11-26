@@ -40,7 +40,7 @@ import {
 import { personLean } from "../campaign-views";
 import { registerStanceListener } from "../stance-listeners";
 import { viewOf, viewOn } from "./views";
-import { makeCase } from "./speech";
+import { makeCase } from "./people";
 import { concerns, meetingParameter } from "./meetings";
 import type { PersonState } from "../types";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -49,8 +49,8 @@ import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 import { groupBPolicy } from "../law-reach/group-b";
 import { businessEnergyCostYear } from "./place-prices";
 import { businessDataPrivacyCostYear } from "./business";
-import { jobsAt } from "../law-reach/group-b-money";
-import { reachParameter } from "../law-reach/group-b-people";
+import { jobsAt } from "../laws-in-force";
+import { reachParameter } from "../laws-in-force";
 import {
   CORRUPTION_MODULE_ID,
   considerBribe,

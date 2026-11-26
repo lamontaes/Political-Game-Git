@@ -19,13 +19,13 @@
  * pool is built.
  */
 import { seededBetween } from "./past-module";
-import { partySide } from "./appointments";
+import { partySide } from "./modules/offices";
 import { officeFamily } from "./elections-calendar";
-import { OFFICIALS_DATA } from "./officials-roster";
+import { OFFICIALS_DATA } from "./modules/executive";
 import rows from "./data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, PersonState } from "./types";
-import type { OfficeInput } from "./offices-local";
+import type { OfficeInput } from "./modules/offices";
 import type { ContestRow } from "./modules/elections";
 import { isOutsideOffice, type TermRow } from "./modules/offices";
 import { holderOf, type OfficialRow } from "./modules/officials";

@@ -112,7 +112,7 @@ import {
   raceScope,
   standingPool,
 } from "../candidate-pool";
-import { workFromHome } from "../coarse-place";
+import { workFromHome } from "../places";
 import { drawStateHome } from "../places";
 import { feelingBetween } from "../closeness";
 import {
@@ -137,7 +137,7 @@ import type { LifeStake } from "../life-stake-rule";
 import { campaignParameter, platformLead, type Stance } from "../campaign-data";
 import { basePlaces, wideElectorate } from "../race-places";
 import { shareValue } from "../shares";
-import { holdoverRule } from "../office-holdover";
+import { holdoverRule } from "./executive";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
   announce,
@@ -181,7 +181,7 @@ import {
   type DoorVisit,
   type PledgeRow,
 } from "./campaigns";
-import { caseWarmthsOf } from "./constituent-cases";
+import { caseWarmthsOf } from "./executive";
 import {
   isOutsideOffice,
   OFFICES_MODULE_ID,
@@ -211,7 +211,7 @@ import {
   termEndAfter,
   termStartAfter,
 } from "../elections-calendar";
-import { drawOfficialIdentity } from "../officials-identity";
+import { drawOfficialIdentity } from "./executive";
 export { candidateIdentity } from "../candidate-identity";
 export { citizenShareOf } from "../electorate-places";
 import {
@@ -222,7 +222,8 @@ import {
   stateParties,
 } from "./parties";
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
-import { caucusSide, nationalParty, partySide } from "../appointments";
+import { caucusSide, nationalParty } from "./executive";
+import { partySide } from "./offices";
 import { promisesOf, recordAppeal, votesOf, type RecordReason } from "./record";
 import {
   candidacyModule,
