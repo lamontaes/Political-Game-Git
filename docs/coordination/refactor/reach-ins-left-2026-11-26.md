@@ -461,3 +461,14 @@
 - `src/english/mined/journal-bank.ts` → `src/director/data/journal-rows.json` [director]
 - `src/english/mined/scene-bank.ts` → `src/director/data/bring-it-up-rows.json` [director]
 - `src/english/mined/scene-bank.ts` → `src/director/data/scene-rows.json` [director]
+
+## Import cycles left (queue item 2; guard baseline 1210 edges in 239 files, `tests/guards/import-cycles-baseline.json`)
+
+The largest cycle holds 218 files (main: 214 at the start of the stack; the stack's own moves raised it to 229, `reach-17` took it down). What is left, by cause:
+
+- **The front doors themselves.** 162 of the cycle's edges are `export ... from` lines in engine entry files (`laws-in-force.ts`, `budgets-treasury.ts`, `modules/people.ts`, `modules/elections.ts` and others). They are the front-door design (item 4): dropping them sends every importer back inside the engine, which is the reach-in count going up. They stay.
+- **`modules/residents.ts` and `residents-economy.ts`** (19 and 9 in-cycle edges through `law-reach/group-b-people.ts`): the 3,000-line module keeps the counted-residents runtime in a module-level map the economy file reads. Cutting it means moving `ResidentsRuntime` (a 120-line interface over eight local types) and its map into a leaf; a cut that size is its own item, not a side cut.
+- **`choice.ts` to `state.ts`** (14): `choice.ts` calls `coreAPI` for each chosen act. It needs the act path split out of the chooser, which is the Talk and decisions engine's call.
+- **`pre-start.ts` to `state.ts`, `electorate-places.ts` to `electorate-century.ts`** (11 each): both are Past and Day One's files, left to that session.
+- **`modules/regional.ts` to `national-events.ts`, `counted-income-fifth.ts` to `modules/laws.ts`, `death-cause.ts` to `modules/laws.ts`** (6, 5, 4): each reads one function from a module that is itself in the cycle; the fix is moving that function to a leaf, one file per cut.
+- **Constants:** only 39 cyclic edges were pure literal constants; 8 are cut (`reach-16`), the rest sit in files `modules/jobs.ts`, `laws.ts` and `campaigns.ts` that the goal says to skip.
