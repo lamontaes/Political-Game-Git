@@ -57,6 +57,9 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+export { FinanceReadGuard } from "./finance-plan";
+export { ACCOUNTS_MODULE } from "./accounts";
+export { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 export { schoolsLineAboveBase } from "./school-budget-line";
 export { transfer, transferSplit } from "./accounts";
 
