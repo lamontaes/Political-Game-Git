@@ -106,8 +106,11 @@ const UNKEPT = [/^event:economy\.state-jobs-report:[A-Z]{2}:\d{4}-\d{2}$/];
  * The live stores a cited record of the present is kept in, by dev Trace's
  * names for them: who and what exists now (people, households, jobs and their
  * terms of work, organizations, places, the counted population), an office, a
- * government, a body's leadership, a law in force or set to take effect, and
- * a bill before a body at its stage now. A term still served, a race still to
+ * government, a body's leadership, a law in force or set to take effect, a
+ * bill before a body at its stage now, a news outlet, someone looking for
+ * work, and what a person thinks now (their lean and their stance on a
+ * question, the views engine's `views:people:<id>` and
+ * `views:stances:<id>:<question>`). A term still served, a race still to
  * come and a government's budget in force are the present too (below); an
  * ended term, a race held and an earlier budget are not. Nothing here is a
  * record of what happened.
@@ -130,6 +133,17 @@ const PRESENT_STORES = new Set([
   "core2-budgets-v1.governments",
   "core2-leadership-v1.organized",
   "core2-legislature-v1.bills",
+  "core2-press-v1.outlets",
+  "views.people",
+  "views.stances",
+  "jobs.seekers",
+]);
+
+/** Engine tables of the present a line names by `<engine>:<table>:<row>`. */
+const NAMED_PRESENT = new Set([
+  "views.people",
+  "views.stances",
+  "jobs.seekers",
 ]);
 
 /** Kept series of measurements, a month at a time (the town's, the outcome web's, the nation's economy): not events. */
@@ -257,6 +271,18 @@ function tally(
       continue;
     }
     if (id.startsWith("data/research/") && existsSync(id.split("#")[0]!)) {
+      row.counts.present += 1;
+      continue;
+    }
+    // An engine's row of the present by name, `<engine>:<table>:<row>`: what a
+    // person thinks now (src/director/view-learned.ts), someone looking for work.
+    const named = /^([a-z0-9-]+):([a-zA-Z]+):(.+)$/.exec(id);
+    if (
+      named &&
+      NAMED_PRESENT.has(`${named[1]}.${named[2]}`) &&
+      core.modules.has(named[1]!) &&
+      coreAPI(core).moduleState(named[1]!).table(named[2]!).get(named[3]!)
+    ) {
       row.counts.present += 1;
       continue;
     }
