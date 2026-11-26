@@ -48,6 +48,10 @@ import {
 export type { SceneTalkStep };
 import type { Director } from "./ledger";
 import { composedLine, type Said } from "./talk-words";
+import { decisionLean } from "../core2/trait-decisions";
+import { movePairFactor, type CalibrationTable } from "../english/calibration";
+import { asksQuestion } from "../english/conversation-words";
+import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 
 const zero = P.zero;
 const one = P.one;
@@ -880,6 +884,122 @@ export function replyMoveOf(kind: string, choice: string): string {
 /** Whether a talk answers a reply that makes this move, so a reply that ends on a question may be offered. */
 export function replyMoveAnswerable(move: string): boolean {
   return HOME.replyMoves.answerable.includes(move);
+}
+
+/**
+ * How far the player's replies reach: above zero for someone who carries a
+ * talk on, below it for someone who keeps it short. The trait engine decides
+ * it (`conversation.reply-reach`); the calibration table reaches each reply's
+ * wording through its voice, so the same traits are not counted twice. The
+ * interview sitting orders its answers by it too.
+ */
+export function replyReach(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+): number {
+  const player = core.people.get(playerId);
+  return player
+    ? decisionLean(
+        core,
+        player,
+        "conversation.reply-reach",
+        "carry-on",
+        "keep-short",
+      )
+    : zero;
+}
+
+/** One reply a home talk may offer, as the menu reads it. */
+export interface MenuRow {
+  key: string;
+  move: string;
+  text: string;
+  raises?: string;
+  tail?: unknown;
+  wording?: { facts: readonly string[] };
+}
+
+/**
+ * The replies a home talk offers for the line before them, from every reply
+ * the bank words: ranked by the player's traits (someone who carries talk on
+ * sees the replies that raise or ask first, someone who keeps it short sees
+ * plain answers and acknowledgments first), then the owner's grade of each
+ * move after the other person's line; four of them, each a different move, a
+ * second wording of a move offered never one of them (owner, Oct 27: "four
+ * replies are four different answers"). Then, in order: one screen names a
+ * record once (a reply that carries the talk on stays before one that only
+ * answers); where someone stands is answered by agreeing, disagreeing or
+ * asking why; and a reply that only takes the line in is not offered.
+ */
+export function shapeMenu<T extends MenuRow>(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  pool: readonly T[],
+  input: {
+    kind: string;
+    previous?: string;
+    table: CalibrationTable;
+    namesOnceKinds: readonly string[] | undefined;
+    facts: Readonly<Record<string, Fact>>;
+  },
+): T[] {
+  const pair = (row: T) =>
+    movePairFactor(
+      input.previous,
+      replyMoveOf(input.kind, row.move),
+      input.table,
+    );
+  const reach = replyReach(core, playerId);
+  const carries = (row: T) => !!row.raises || !!row.tail || asksQuestion(row);
+  const brief = (row: T) => row.move.startsWith("ack:");
+  const place = (row: T) =>
+    reach >= zero
+      ? carries(row)
+        ? zero
+        : brief(row)
+          ? two
+          : one
+      : carries(row)
+        ? two
+        : brief(row)
+          ? one
+          : zero;
+  const ranked = pool
+    .map((row, at) => ({ row, at }))
+    .sort(
+      (a, b) =>
+        pair(b.row) - pair(a.row) || place(a.row) - place(b.row) || a.at - b.at,
+    )
+    .map(({ row }) => row);
+  const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  const moves = new Set<string>();
+  let menu = ranked
+    .filter((row) => {
+      const move = row.move.startsWith("ack:") ? "ack" : row.move;
+      if (moves.has(move)) return false;
+      moves.add(move);
+      return true;
+    })
+    .slice(zero, count);
+  if (input.namesOnceKinds?.includes(input.kind)) {
+    const named = new Set<string>();
+    const kept = new Set<T>();
+    for (const row of [
+      ...menu.filter((choice) => choice.raises),
+      ...menu.filter((choice) => !choice.raises),
+    ]) {
+      const said = (row.wording?.facts ?? [])
+        .map((key) => input.facts[key]?.text)
+        .filter((text): text is string => !!text);
+      if (said.some((text) => named.has(text))) continue;
+      for (const text of said) named.add(text);
+      kept.add(row);
+    }
+    menu = menu.filter((row) => kept.has(row));
+  }
+  if (input.kind === "own-view")
+    menu = menu.filter((row) => ownViewReplies().includes(row.move));
+  return menu.filter((row) => replyMoveOf(input.kind, row.move) !== "note");
 }
 
 /** Where the exchange stands as a branch grows. */

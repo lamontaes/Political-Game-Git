@@ -48,11 +48,7 @@ import {
 } from "./opening-facts";
 import { OPENING_ADDRESS_EVENT, macroMonths } from "./opening-story";
 import { stableHash } from "../core2/kernel/ids";
-import {
-  CALIBRATION,
-  movePairFactor,
-  type CalibrationTable,
-} from "../english/calibration";
+import { CALIBRATION, type CalibrationTable } from "../english/calibration";
 import {
   corePlaceByJurisdictionId,
   coreStateJurisdiction,
@@ -88,7 +84,7 @@ import {
   outletTelling,
   outletsHere,
 } from "../core2/modules/press";
-import { decisionLean, hardshipStress } from "../core2/trait-decisions";
+import { hardshipStress } from "../core2/trait-decisions";
 import { believesClaim } from "../core2/heard-claims";
 import type {
   CoreAPI,
@@ -176,6 +172,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  replyReach,
+  shapeMenu,
   replyMoveAnswerable,
   replyMoveOf,
   asksGiveBack,
@@ -188,7 +186,6 @@ import {
   newsLine,
   newsSaidFacts,
   newsTakesSide,
-  ownViewReplies,
   ownViewTakes,
   ownViewWhy,
 } from "./scene-talk";
@@ -7244,44 +7241,13 @@ function offerChoices(
   }
   // The other person's last line, by the move it made: a question asks.
   const before = conversation.lines.at(-one);
-  conversation.choices = rankChoices(core, playerId, conversation.choices, {
+  conversation.choices = shapeMenu(core, playerId, conversation.choices, {
     kind: last.kind,
     ...(before ? { previous: asksQuestion(before) ? "ask" : before.act } : {}),
     table: data.calibration ?? CALIBRATION,
+    namesOnceKinds: data.namesOnce?.kinds,
+    facts,
   });
-  // One screen names a thing once (lead, Nov 11): of the replies that would
-  // say the same record's words, one stays: a reply that carries the talk on
-  // (turns the question back, asks more) before one that only answers, then
-  // by rank.
-  if (data.namesOnce?.kinds.includes(last.kind)) {
-    const named = new Set<string>();
-    const kept = new Set<ConversationChoice>();
-    const ranked = conversation.choices;
-    for (const choice of [
-      ...ranked.filter((row) => row.raises),
-      ...ranked.filter((row) => !row.raises),
-    ]) {
-      const said = (choice.wording?.facts ?? [])
-        .map((key) => facts[key]?.text)
-        .filter((text): text is string => !!text);
-      if (said.some((text) => named.has(text))) continue;
-      for (const text of said) named.add(text);
-      kept.add(choice);
-    }
-    conversation.choices = ranked.filter((row) => kept.has(row));
-  }
-  // A stand is answered by agreeing, disagreeing or asking why (owner, Nov
-  // 12: "Good to know." is not a reply to a stand).
-  if (last.kind === "own-view")
-    conversation.choices = conversation.choices.filter((row) =>
-      ownViewReplies().includes(row.move),
-    );
-  // A reply that only takes the line in ("Oh, I see.", "Alright.") says
-  // nothing and gets nothing back: it is not offered (owner, Nov 12: "the
-  // just non-replies"). With nothing else to say, the talk ends on their line.
-  conversation.choices = conversation.choices.filter(
-    (row) => replyMoveOf(last.kind, row.move) !== "note",
-  );
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
   if (
@@ -7291,88 +7257,6 @@ function offerChoices(
     !knowsTruth(core, otherId, playerId, last.subject.own)
   )
     conversation.lies = lieChoices(core, conversation, data, turn, facts);
-}
-
-/**
- * How far the player's replies reach: above zero for someone who carries a
- * talk on, below it for someone who keeps it short. The trait engine decides
- * it (`conversation.reply-reach`); the calibration table reaches each reply's
- * wording through its voice (`words`), so the same traits are not counted
- * twice. The sitting orders its answers by it too.
- */
-function replyReach(core: Readonly<CoreState>, playerId: PersonId): number {
-  const player = core.people.get(playerId);
-  return player
-    ? decisionLean(
-        core,
-        player,
-        "conversation.reply-reach",
-        "carry-on",
-        "keep-short",
-      )
-    : zero;
-}
-
-/**
- * The four replies a turn offers, ranked by the player's traits: someone who carries talk on sees
- * the replies that raise or ask first, someone who keeps it short sees plain
- * answers and acknowledgments first. Each is a different move: a second
- * wording of a move offered is never one of them. "Say nothing" is a control beside them
- * (`sayNothing`), never one of the four.
- */
-function rankChoices(
-  core: Readonly<CoreState>,
-  playerId: PersonId,
-  pool: readonly ConversationChoice[],
-  after: { kind: string; previous?: string; table: CalibrationTable },
-): ConversationChoice[] {
-  // The owner's grade of each reply's move after the other person's line
-  // (`movePairs`, "ask>note"): a pair graded unnatural is offered after the
-  // ones that read right, one graded natural before them (owner, Oct 29:
-  // calibration reaches every line). Ungraded, every factor is 1 and the
-  // order is the reach order below.
-  const pair = (row: ConversationChoice) =>
-    movePairFactor(
-      after.previous,
-      replyMoveOf(after.kind, row.move),
-      after.table,
-    );
-  const reach = replyReach(core, playerId);
-  const carries = (row: ConversationChoice) =>
-    !!row.raises || !!row.tail || asksQuestion(row);
-  const brief = (row: ConversationChoice) => row.move.startsWith("ack:");
-  const place = (row: ConversationChoice) =>
-    reach >= zero
-      ? carries(row)
-        ? zero
-        : brief(row)
-          ? P.two
-          : one
-      : carries(row)
-        ? P.two
-        : brief(row)
-          ? one
-          : zero;
-  const ranked = pool
-    .map((row, at) => ({ row, at }))
-    .sort(
-      (a, b) =>
-        pair(b.row) - pair(a.row) || place(a.row) - place(b.row) || a.at - b.at,
-    )
-    .map(({ row }) => row);
-  const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
-  // Four replies are four answers, never one reworded (owner, Oct 27, 4 PM
-  // Eastern: "four replies are four different answers"): a second wording of
-  // a move already offered is not offered.
-  const moves = new Set<string>();
-  return ranked
-    .filter((row) => {
-      const move = row.move.startsWith("ack:") ? "ack" : row.move;
-      if (moves.has(move)) return false;
-      moves.add(move);
-      return true;
-    })
-    .slice(zero, count);
 }
 
 /**
