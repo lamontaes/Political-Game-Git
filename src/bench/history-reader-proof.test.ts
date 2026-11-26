@@ -77,8 +77,9 @@ const UNKEPT = [/^event:economy\.state-jobs-report:[A-Z]{2}:\d{4}-\d{2}$/];
 /**
  * The live stores a cited record of the present is kept in, by dev Trace's
  * names for them: who and what exists now (people, households, jobs,
- * organizations, places, the counted population), an office, and a law in
- * force or set to take effect. Nothing here is a record of what happened.
+ * organizations, places, the counted population), an office, a law in force
+ * or set to take effect, and a bill before a body at its stage now. Nothing
+ * here is a record of what happened.
  */
 const PRESENT_STORES = new Set([
   "core.people",
@@ -94,6 +95,7 @@ const PRESENT_STORES = new Set([
   COUNTED_ENGINE,
   "core2-laws-v1.laws",
   "core2-offices-v1.offices",
+  "core2-legislature-v1.bills",
 ]);
 
 /**

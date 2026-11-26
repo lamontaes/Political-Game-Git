@@ -76,6 +76,17 @@ export interface HistoryAsk {
   readonly from?: "built" | "past" | "played";
 }
 
+/** What a person remembers, as their record keeps it (`remembered`, src/core2/person-life.ts). */
+export interface RememberedRow {
+  readonly id: string;
+  readonly date: IsoDate;
+  readonly life: string;
+  readonly what: string;
+  readonly record: string;
+  readonly withIds: readonly PersonId[];
+  readonly placeId?: PlaceId;
+}
+
 /** One thing that happened, as every reader gets it. */
 export interface HistoryEvent {
   /** The record that says so. */
@@ -693,6 +704,11 @@ export function recordOf(
       readonly record: NonNullable<PersonState["pastFacts"]>[number];
       readonly personId: PersonId;
     }
+  | {
+      readonly from: "remembered";
+      readonly record: RememberedRow;
+      readonly personId: PersonId;
+    }
   | undefined {
   // A fact a person was made with: on the person named, or (an id that names
   // no one, a hash) on whoever holds it.
@@ -714,6 +730,16 @@ export function recordOf(
     const row = source.row?.(core, id);
     if (row) return { from: "source", record: row };
   }
+  // What the person named remembers that no other store keeps (an event the
+  // log keeps only for the player's circle; src/core2/person-life.ts).
+  const remembered = personId
+    ? (
+        core.people.get(personId) as
+          { remembered?: readonly RememberedRow[] } | undefined
+      )?.remembered?.find((row) => row.id === id)
+    : undefined;
+  if (remembered)
+    return { from: "remembered", record: remembered, personId: personId! };
   return undefined;
 }
 
