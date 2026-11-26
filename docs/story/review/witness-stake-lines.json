@@ -1,0 +1,805 @@
+[
+  {
+    "key": "scene-talk.narrate-narrate.a-witness-who-spoke-for-bill-catches-up-with-you-outside-the-hearing",
+    "kind": "spoken",
+    "move": "narrate-narrate",
+    "text": "A witness who spoke for {bill} catches up with you outside the hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-for"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.narrate-narrate.as-you-leave-the-hearing-on-bill-one-of-the-people-who-spoke-against-it-stops-you",
+    "kind": "spoken",
+    "move": "narrate-narrate",
+    "text": "As you leave the hearing on {bill}, one of the people who spoke against it stops you.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "narrate",
+        "move": "narrate",
+        "role": "narrator",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-against"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "narrate",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-work-at-own-workplace-we-d-have-to-follow-bill-there-i-came-to-tell-the-committee-i-think-we-should",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I work at {own-workplace}. We'd have to follow {bill} there. I came to tell the committee I think we should.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["own-workplace", "bill"],
+        "onlyWhen": ["witness-for", "life-works-where-it-binds"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.at-own-workplace-we-d-be-the-ones-working-under-bill-i-want-you-to-hear-my-objection-before-you-vote",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "At {own-workplace}, we'd be the ones working under {bill}. I want you to hear my objection before you vote.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["own-workplace", "bill"],
+        "onlyWhen": ["witness-against", "life-works-where-it-binds"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.my-household-rents-that-s-how-i-read-bill-and-it-s-why-i-spoke-for-it-today",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "My household rents. That's how I read {bill}, and it's why I spoke for it today.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-for", "life-rents", "bill-housing"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-rent-my-home-if-bill-goes-through-i-m-the-one-who-has-to-go-home-and-live-with-it-i-m-asking-you-to-vote-no",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I rent my home. If {bill} goes through, I'm the one who has to go home and live with it. I'm asking you to vote no.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-against", "life-rents", "bill-housing"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.we-have-a-mortgage-to-pay-i-thought-about-that-before-i-came-here-to-speak-for-bill",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "We have a mortgage to pay. I thought about that before I came here to speak for {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-for", "life-owns", "bill-housing"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-still-owe-money-on-my-home-i-looked-at-bill-with-that-in-mind-and-i-don-t-think-it-ought-to-pass",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I still owe money on my home. I looked at {bill} with that in mind, and I don't think it ought to pass.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-against", "life-owns", "bill-housing"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.when-you-take-up-bill-i-d-like-you-to-remember-own-child-that-s-who-i-came-to-speak-for",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "When you take up {bill}, I'd like you to remember {own-child}. That's who I came to speak for.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill", "own-child"],
+        "onlyWhen": ["witness-for", "life-children-at-home", "bill-schools"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall",
+      "witness-compares-two-kinds-of-care"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.i-ve-got-own-child-to-think-about-that-s-why-i-came-down-here-to-speak-against-bill",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I've got {own-child} to think about. That's why I came down here to speak against {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["own-child", "bill"],
+        "onlyWhen": ["witness-against", "life-children-at-home", "bill-schools"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall",
+      "witness-compares-two-kinds-of-care"
+    ]
+  },
+  {
+    "key": "scene-talk.state-tell.i-came-to-speak-for-bill-on-my-own-account-is-there-anything-you-want-to-ask-me-before-i-go",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I came to speak for {bill} on my own account. Is there anything you want to ask me before I go?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-for", "life-believes"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.state-tell.i-meant-what-i-said-in-there-about-bill-i-d-like-you-to-turn-it-down",
+    "kind": "spoken",
+    "move": "state-tell",
+    "text": "I meant what I said in there about {bill}. I'd like you to turn it down.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "state",
+        "move": "tell",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-against", "life-believes"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "tell",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-thank.thanks-for-telling-us-what-this-would-mean-at-own-workplace-i-wanted-the-committee-to-hear-from-somebody-who-d-have-to-do-the-work",
+    "kind": "spoken",
+    "move": "reply-thank",
+    "text": "Thanks for telling us what this would mean at {own-workplace}. I wanted the committee to hear from somebody who'd have to do the work.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "thank",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["own-workplace"],
+        "onlyWhen": ["life-works-where-it-binds"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-thank.thanks-for-telling-us-about-bill-from-the-tenant-s-side-i-m-glad-you-stayed",
+    "kind": "spoken",
+    "move": "reply-thank",
+    "text": "Thanks for telling us about {bill} from the tenant's side. I'm glad you stayed.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "thank",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-rents", "bill-housing"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-thank.i-appreciate-you-bringing-your-own-mortgage-into-the-discussion-of-bill",
+    "kind": "spoken",
+    "move": "reply-thank",
+    "text": "I appreciate you bringing your own mortgage into the discussion of {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "thank",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-owns", "bill-housing"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-thank.thank-you-i-ll-remember-own-child-when-we-take-this-up",
+    "kind": "spoken",
+    "move": "reply-thank",
+    "text": "Thank you. I'll remember {own-child} when we take this up.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "thank",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["own-child"],
+        "onlyWhen": ["life-children-at-home", "bill-schools"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall",
+      "witness-compares-two-kinds-of-care"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-ask.when-i-refer-to-what-you-said-about-bill-may-i-mention-where-you-work",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "When I refer to what you said about {bill}, may I mention where you work?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-works-where-it-binds"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-ask.may-i-tell-the-committee-we-talked-about-bill-as-it-looks-to-a-renter",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "May I tell the committee we talked about {bill} as it looks to a renter?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-rents", "bill-housing"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-ask.is-there-something-from-this-conversation-about-bill-you-d-like-in-my-notes",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Is there something from this conversation about {bill} you'd like in my notes?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-owns", "bill-housing"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-ask.would-you-like-me-to-use-own-child-s-name-when-i-talk-about-bill",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "Would you like me to use {own-child}'s name when I talk about {bill}?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["own-child", "bill"],
+        "onlyWhen": ["life-children-at-home", "bill-schools"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall",
+      "witness-compares-two-kinds-of-care"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-heard-you-ask-us-to-pass-bill-i-can-t-back-it-as-it-stands",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I heard you ask us to pass {bill}. I can't back it as it stands.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-for"]
+      }
+    ],
+    "bearing": "braced",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-disagree.i-see-why-you-wanted-to-speak-i-still-think-bill-should-pass",
+    "kind": "spoken",
+    "move": "reply-disagree",
+    "text": "I see why you wanted to speak. I still think {bill} should pass.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "disagree",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["witness-against"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "disagree",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.follow-answer.you-can-say-i-work-at-own-workplace-it-s-my-view-of-bill-you-re-hearing",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "You can say I work at {own-workplace}. It's my view of {bill} you're hearing.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["own-workplace", "bill"],
+        "onlyWhen": ["life-works-where-it-binds"],
+        "after": "scene-talk.reply-ask.when-i-refer-to-what-you-said-about-bill-may-i-mention-where-you-work"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.follow-answer.sure-tell-them-i-rent-i-d-like-them-to-think-about-bill-from-my-end-of-the-lease",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Sure. Tell them I rent. I'd like them to think about {bill} from my end of the lease.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-rents", "bill-housing"],
+        "after": "scene-talk.reply-ask.may-i-tell-the-committee-we-talked-about-bill-as-it-looks-to-a-renter"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.follow-answer.put-down-that-we-re-still-paying-for-our-home-that-s-what-i-want-you-to-remember-about-my-testimony-on-bill",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Put down that we're still paying for our home. That's what I want you to remember about my testimony on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-owns", "bill-housing"],
+        "after": "scene-talk.reply-ask.is-there-something-from-this-conversation-about-bill-you-d-like-in-my-notes"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.follow-answer.please-leave-own-child-out-of-it-you-can-use-my-testimony-on-bill",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Please leave {own-child} out of it. You can use my testimony on {bill}.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill", "own-child"],
+        "onlyWhen": ["life-children-at-home", "bill-schools"],
+        "after": "scene-talk.reply-ask.would-you-like-me-to-use-own-child-s-name-when-i-talk-about-bill"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": [
+      "pattern-b7-07-the-witness-in-the-hall",
+      "witness-compares-two-kinds-of-care"
+    ]
+  },
+  {
+    "key": "scene-talk.reply-thank.i-m-glad-you-came-to-speak-about-bill-i-can-stay-a-minute-if-there-s-more-you-want-to-say",
+    "kind": "spoken",
+    "move": "reply-thank",
+    "text": "I'm glad you came to speak about {bill}. I can stay a minute if there's more you want to say.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "thank",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-believes"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "thank",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.reply-ask.when-i-bring-up-your-testimony-on-bill-what-would-you-like-me-to-say-about-why-you-came",
+    "kind": "spoken",
+    "move": "reply-ask",
+    "text": "When I bring up your testimony on {bill}, what would you like me to say about why you came?",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "reply",
+        "move": "ask",
+        "role": "asked",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-believes"]
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "ask",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  },
+  {
+    "key": "scene-talk.follow-answer.say-i-came-because-i-care-what-happens-to-bill-that-s-reason-enough-for-me",
+    "kind": "spoken",
+    "move": "follow-answer",
+    "text": "Say I came because I care what happens to {bill}. That's reason enough for me.",
+    "uses": [
+      {
+        "subject": "scene",
+        "step": "follow",
+        "move": "answer",
+        "role": "asker",
+        "purpose": "witness-stake",
+        "key": "honor",
+        "requiresFacts": ["bill"],
+        "onlyWhen": ["life-believes"],
+        "after": "scene-talk.reply-ask.when-i-bring-up-your-testimony-on-bill-what-would-you-like-me-to-say-about-why-you-came"
+      }
+    ],
+    "bearing": "calm",
+    "origin": "authored",
+    "author": "Codex writer B",
+    "date": "2026-11-24",
+    "tag": {
+      "move": "answer",
+      "key": "honor"
+    },
+    "elements": ["pattern-b7-07-the-witness-in-the-hall"]
+  }
+]
