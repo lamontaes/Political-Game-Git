@@ -106,6 +106,9 @@ import {
   resultsKnownTo,
 } from "./bring-it-up";
 import { raceMargin } from "./race-margin";
+import { composedLine } from "./talk-words";
+
+export { composedLine };
 import {
   HEARD_FIGURE,
   HEARD_PREFIX,
@@ -114,7 +117,6 @@ import {
   HEARD_BY,
   hear,
   heardNow,
-  heardOrderFor,
   heardRows,
   withHeard,
 } from "./talk-heard";
@@ -143,13 +145,10 @@ import { lawInForce } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
   asksQuestion,
-  composeConversationLine,
   composedConversationBank,
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
-  SAID_ONCE_FACTS,
-  piecesSaidOnce,
   joinedReply,
   wordConversationMove,
   type ConversationPart,
@@ -4130,87 +4129,10 @@ function pointSubject(
   };
 }
 
-/**
- * A line the English engine composes from parts (opener, core, reason,
- * closer), for a subject whose lines are made that way: the hearer's point of
- * the address and their answer to the player's reply. Null when no core can
- * be said from the facts given.
- */
-export function composedLine(
-  core: Readonly<CoreState>,
-  speakerId: PersonId,
-  subject: string,
-  facts: Facts,
-  stage: string,
-  momentKey: string,
-  recentPartKeys: readonly string[] = [],
-): Said | null {
-  // What is said once in a talk (how long they have held a stand; being
-  // glad to hear the player's voice) is not said again in it (lead, Nov 13;
-  // Words lead, Nov 14).
-  const onceSaid = SAID_ONCE_FACTS.filter((fact) =>
-    recentPartKeys.some((key) => piecesSaidOnce(fact).has(key)),
-  );
-  const line = composeConversationLine({
-    seed: core.seed,
-    subject,
-    speakerId,
-    traits: core.people.get(speakerId)?.traits ?? {},
-    facts: onceSaid.length
-      ? {
-          ...facts,
-          ...Object.fromEntries(
-            onceSaid.map((fact) => [
-              fact,
-              { text: "yes", sourceRecordIds: [speakerId] },
-            ]),
-          ),
-        }
-      : facts,
-    stage,
-    momentKey,
-    // Oldest first: what the player heard on earlier days, then today, then
-    // this talk, so a wording heard longest ago is the one said again.
-    said: [...heardOrderFor(speakerId), ...heardNow, ...recentPartKeys],
-  });
-  if (!line) return null;
-  const { asks, afterPlain, ...said } = line;
-  void asks;
-  void afterPlain;
-  return { ...said, text: sentenceStarts(shortAfterFirst(said.text, facts)) };
-}
-
 /** A question said again once the talk has named it, while it is the only one on the table (said-as questionAgain.it). */
 const QUESTION_AGAIN_WORD: string = (
   saidAsData as unknown as { questionAgain: { it: string } }
 ).questionAgain.it;
-
-/** The short forms of a question's act once the line has named it (said-as questionAgain). */
-const QUESTION_AGAIN = (
-  saidAsData as unknown as {
-    questionAgain: Readonly<Record<"against" | "to", string>>;
-  }
-).questionAgain;
-
-/**
- * A question named once in a line is said short after (lead, Nov 12: "say no
- * to raising the debt limit only with spending cuts to match" right after the
- * opener named it): where the question's own words (`about`) come first, a
- * later act in full (`against`, `to`) becomes its short form.
- */
-function shortAfterFirst(text: string, facts: Facts): string {
-  const about = facts.about?.text;
-  const at = about ? text.indexOf(about) : -one;
-  if (at < zero) return text;
-  const from = at + about!.length;
-  let rest = text.slice(from);
-  for (const key of ["against", "to"] as const) {
-    const full = facts[key]?.text;
-    if (full && rest.includes(full))
-      rest = rest.replace(full, QUESTION_AGAIN[key]);
-  }
-  return text.slice(zero, from) + rest;
-}
 
 /** The parts this speaker said earlier in the talk, so the next composed line says the point in other words. */
 const saidParts = (conversation: Conversation, speakerId: PersonId) =>
