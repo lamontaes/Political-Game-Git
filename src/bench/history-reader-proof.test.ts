@@ -222,6 +222,16 @@ function tally(
     untraced: [],
   };
   for (const { id, owner } of cited) {
+    // A term still served is who holds a seat now, the present, even where
+    // the reader also opens it as the race that seated its holder.
+    const term = findRecord(core, id);
+    if (
+      term?.engine === "core2-offices-v1.terms" &&
+      presentRow(core, term.engine, term.record)
+    ) {
+      row.counts.present += 1;
+      continue;
+    }
     const stored = recordOf(core, id, owner ?? builtOwner(core, id));
     if (core.durableLog.has(id as never) || stored) {
       // An engine's row the reader tells under its own id (a race before day
