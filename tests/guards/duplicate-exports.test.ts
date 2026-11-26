@@ -51,6 +51,28 @@ describe("one exported helper across engine families", () => {
     ]);
   });
 
+  it("ignores multiline formatting but preserves whitespace in regular expressions", () => {
+    const files = [
+      {
+        file: "src/core2/modules/elections.ts",
+        text: "export function helper() { return [/a  b/, 1]; }",
+      },
+      {
+        file: "src/bench/a.ts",
+        text: "export function helper() {\n return [\n/a  b/, \n1\n]\n}",
+      },
+      {
+        file: "src/bench/b.ts",
+        text: "export function helper() { return [/a b/, 1]; }",
+      },
+    ];
+    const copies = duplicateExports(files);
+    expect(copies).toHaveLength(1);
+    expect(copies[0]).toContain(
+      "src/bench/a.ts src/core2/modules/elections.ts",
+    );
+  });
+
   it("does not report different bodies or pairs in the same family", () => {
     expect(
       duplicateExports([

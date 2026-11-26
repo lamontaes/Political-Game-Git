@@ -5,10 +5,34 @@ import path from "node:path";
 import ts from "typescript";
 import { familyOf } from "./family-map";
 
-const printer = ts.createPrinter({ removeComments: true });
 const exported = (node: ts.Node) =>
   ts.canHaveModifiers(node) &&
   ts.getModifiers(node)?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
+
+// Walk the parsed structure instead of printing it. The printer preserves
+// line breaks in array and object literals. Leaf text keeps literal whitespace
+// (including in templates and regular expressions) significant.
+function bodyDigest(body: ts.Node, source: ts.SourceFile): string {
+  const hash = createHash("sha256");
+  const walk = (node: ts.Node) => {
+    const children = node
+      .getChildren(source)
+      .filter((child) => !ts.isJSDoc(child));
+    if (
+      ts.isStatement(node) &&
+      !ts.isEmptyStatement(node) &&
+      children.at(-1)?.kind === ts.SyntaxKind.SemicolonToken
+    )
+      children.pop();
+    hash.update(`(${node.kind}:`);
+    if (children.length) children.forEach(walk);
+    else if (node.kind <= ts.SyntaxKind.LastToken)
+      hash.update(JSON.stringify(node.getText(source)));
+    hash.update(")");
+  };
+  walk(body);
+  return hash.digest("hex");
+}
 
 /** Only function bodies defined here count. Re-exporting an existing function is reuse. */
 export function functionExports(file: string, text: string) {
@@ -51,10 +75,7 @@ export function functionExports(file: string, text: string) {
   return [...names].flatMap(([name, local]) => {
     const body = bodies.get(local);
     if (!body) return [];
-    const printed = printer.printNode(ts.EmitHint.Unspecified, body, source);
-    return [
-      { name, digest: createHash("sha256").update(printed).digest("hex") },
-    ];
+    return [{ name, digest: bodyDigest(body, source) }];
   });
 }
 
