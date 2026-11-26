@@ -7,7 +7,7 @@ import type { BillRow } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
-import { votesOf } from "../core2/modules/people";
+import { votesCast } from "../core2/modules/people";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { changesKnownTo } from "../director/bring-it-up";
 import { reachedBy } from "../core2/law-reach/host";
@@ -207,7 +207,7 @@ export function reachedSteps(
         // The member's record rows for this bill, one per question it
         // spoke to; a ballot citing any of them gives the bill's vote.
         const items = new Set(
-          votesOf(api, personId)
+          votesCast(api.state as CoreState, personId)
             .filter((v) => v.billId === b.id)
             .map((v) => v.id),
         );

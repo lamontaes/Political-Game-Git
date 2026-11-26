@@ -30,6 +30,8 @@ import {
 import {
   keyPeopleOf,
   RECORD_MODULE_ID,
+  VOTE_CAST,
+  voteById,
   type VoteRecordRow,
 } from "../core2/modules/people";
 import type { ContestRow } from "../core2/modules/elections";
@@ -40,7 +42,7 @@ import { capitolPlaceFor } from "./backdrop-places";
 import { calendarItems } from "./calendar";
 import { facePlace, holderFace, homeStateOf } from "./government";
 import { policyNames } from "./words";
-import { pastBillsOf } from "../core2/past-module";
+import { historyOf, PAST_BILL_VOTED } from "../core2/past-module";
 import { chamberChanges } from "./states";
 import {
   headsExecutive,
@@ -214,17 +216,42 @@ function partiesOf(members: readonly { party: string | null }[]) {
  */
 export function recentVotesOf(api: Api, officeId: string) {
   if (!api.state.modules.has(RECORD_MODULE_ID)) return [];
-  const rows = api
-    .moduleState(RECORD_MODULE_ID)
-    .table("votes")
-    .rows() as unknown as VoteRecordRow[];
+  const core = api.state as CoreState;
+  // The body's votes, as the one history reader tells them: those before day
+  // one, then those in play, each in the order the record keeps them (a read
+  // of one source keeps its order, so two bills voted the same day stay in
+  // the order they were taken up).
   const measures = new Map<string, VoteRecordRow[]>();
-  for (const row of rows)
-    if (row.body === officeId)
-      measures.set(row.billId, [...(measures.get(row.billId) ?? []), row]);
+  for (const from of ["past", "played"] as const)
+    for (const event of historyOf(
+      core,
+      { nation: true },
+      { kinds: [VOTE_CAST], about: officeId, from },
+    )) {
+      const row = voteById(api, event.id);
+      if (row?.body === officeId)
+        measures.set(row.billId, [...(measures.get(row.billId) ?? []), row]);
+    }
   // Last term's bills, with the whole roll call the world kept: a body whose
   // members all took their seats since has them here and no member rows.
-  const kept = new Map(pastBillsOf(api, officeId).map((b) => [b.billId, b]));
+  const kept = new Map(
+    historyOf(
+      core,
+      { nation: true },
+      { kinds: [PAST_BILL_VOTED], about: officeId, from: "past" },
+    )
+      .filter((event) => event.facts?.officeId === officeId)
+      .map((event) => [
+        event.facts!.billId!,
+        {
+          question: event.facts!.question!,
+          date: event.date as string,
+          passed: event.facts!.passed === "true",
+          yes: Number(event.facts!.yes),
+          no: Number(event.facts!.no),
+        },
+      ]),
+  );
   for (const id of kept.keys()) if (!measures.has(id)) measures.set(id, []);
   const bills = api.state.modules.has(LEGISLATURE_MODULE_ID)
     ? api.moduleState(LEGISLATURE_MODULE_ID).table("bills")

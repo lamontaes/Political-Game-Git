@@ -219,6 +219,9 @@ export {
 export {
   RECORD_MODULE_ID,
   promisesOf,
+  VOTE_CAST,
+  voteById,
+  votesCast,
   votesOf,
   type VoteRecordRow,
 } from "./record";

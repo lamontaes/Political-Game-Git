@@ -180,6 +180,14 @@ const RAW_PAST_READERS = [
   "pastIdsOf",
   "pastRowsNaming",
   "pastRowsOf",
+  // The engines' own reads of what happened in play: a person's votes, a
+  // race's count, a body's bills before day one, a measure's roll call. A
+  // view reads them through the reader (`votesCast`, the record's
+  // `record.vote`, the past's `past.bill-voted`); the engines keep these.
+  "votesOf",
+  "resultOf",
+  "pastBillsOf",
+  "rollCallOf",
 ];
 /**
  * Helpers that once built a past and now read the one reader, so they are off
@@ -215,6 +223,13 @@ const READ_THROUGH_THE_READER: readonly {
     file: "src/core2/past-school.ts",
     scope: "function",
     reason: "its runs of school years come from schoolsAttended",
+  },
+  {
+    name: "votesCast",
+    file: "src/core2/modules/record.ts",
+    scope: "function",
+    reason:
+      "a person's votes come from historyOf (the record engine's votes, its module's history)",
   },
   {
     name: "pastElections",
