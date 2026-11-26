@@ -34,7 +34,7 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-data";
 import { leanedYes } from "../trait-decisions";
 import { lawChain, lawInForce } from "./laws";
-import { raiseOne } from "../laws-in-force";
+import { raiseOne } from "../wage-floor";
 import { townSeats, type TermRow } from "./offices";
 import { impressionOf, touchImpression } from "./campaigns";
 import { countedLean } from "./views";
