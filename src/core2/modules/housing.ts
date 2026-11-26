@@ -914,6 +914,8 @@ function openMissingHomes(api: CoreAPI): void {
   }
   const jobs = [...c.jobs.values()].filter((row) => !row.endsAt);
   const leases = new Map<string, FinanceContractInput>();
+  // A household already paying for its home, or one whose money no engine
+  // runs, is given no lease or mortgage here.
   const contracted = new Set<string>();
   for (const row of c.finance.contracts.values()) {
     if (!row.householdId || row.endedAt) continue;
@@ -921,6 +923,26 @@ function openMissingHomes(api: CoreAPI): void {
     if (row.id.startsWith("lease:") || row.id.startsWith(MORTGAGE_PREFIX))
       contracted.add(row.householdId);
   }
+  // Someone filled in far from the town with no pay and no cost of living
+  // (a passed-over nominee, a reserve bank's president) has a home on
+  // record, but no money moves for them (SG-WORLD-coarse-place-no-payroll,
+  // kept as the game's answer, owner, Nov 10), so no rent or mortgage is
+  // owed that nothing could pay.
+  const paid = new Set(
+    jobs.filter((row) => row.wageDailyMinor > 0).map((row) => row.personId),
+  );
+  for (const households of missing.values())
+    for (const household of households)
+      if (
+        !household.memberIds.some((id) => {
+          const person = c.people.get(id);
+          return (
+            person?.alive &&
+            (person.livingCostDailyMinor > 0 || paid.has(person.id))
+          );
+        })
+      )
+        contracted.add(household.id);
   for (const [placeId, households] of missing) {
     const place = corePlaceByJurisdictionId(placeId as EntityId);
     const stateKey = placeStateKey(placeId) ?? undefined;
@@ -3117,4 +3139,31 @@ export function dwellingKind(
     store(api).table("dwellings").get(`dwelling:${householdId}`) as
       { kind?: string } | undefined
   )?.kind;
+}
+
+/**
+ * What a household pays a day for its home through the housing engine (its
+ * lease or its mortgage), each living member's share; zero for a household
+ * the housing engine does not charge.
+ */
+export function homePaidDailyMinor(api: CoreAPI, householdId: string): number {
+  const state = api.state as CoreState;
+  const members =
+    state.households
+      .get(householdId)
+      ?.memberIds.filter((id) => state.people.get(id)?.alive).length ?? 0;
+  if (!members) return 0;
+  for (const id of [
+    `lease:${householdId}`,
+    `${MORTGAGE_PREFIX}${householdId}`,
+  ]) {
+    const home = state.finance.contracts.get(id);
+    if (!home || home.endedAt || home.amountMinor <= 0) continue;
+    return (
+      (home.amountMinor / Math.max(home.periodMonths, 1)) *
+      (api.parameter("monthsPerYear") / api.parameter("daysPerMeanYear")) *
+      (1 / members)
+    );
+  }
+  return 0;
 }

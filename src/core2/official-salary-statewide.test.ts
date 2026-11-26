@@ -90,9 +90,13 @@ it(`every seated official is priced and has a pay row in ${place.name} (${place.
   const own = placeStateKey(core.placeMetadata?.placeKey ?? "");
   const federal = (row: OfficialRow) =>
     row.stateKey === "US" ||
-    ["president", "vice-president", "us-senate", "us-house"].some(
-      (k) => row.officeKind === k || row.bodyKind === k,
-    );
+    [
+      "president",
+      "vice-president",
+      "us-senate",
+      "us-house",
+      "cabinet-secretary",
+    ].some((k) => row.officeKind === k || row.bodyKind === k);
   const paidFromStart = seated.filter(
     (row) => federal(row) || row.stateKey === own || keepsWhy(core, row.id),
   );
