@@ -1441,6 +1441,28 @@ export function repeatsOffer(
   return seen.has(reply.text) || (!!reply.piece && seen.has(reply.piece));
 }
 
+/**
+ * Fill the menu: the first pass offers every reply the bank words for the
+ * line (each move said plainly, and carried on to the subject it leads to).
+ * Where the menu is still short of what a turn offers, up to three more passes
+ * say each move again in another wording, so where a move's wordings collided
+ * ("Of course." said twice) another wording stands in for it, never an
+ * acknowledgment. `again` names the pass: empty for the first.
+ */
+export function fillMenu(input: {
+  wanted: number;
+  count: () => number;
+  offerPass: (again: string) => void;
+}): void {
+  input.offerPass("");
+  for (
+    let again = one;
+    again <= two + one && input.count() < input.wanted;
+    again += one
+  )
+    input.offerPass(`:more${again}`);
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;

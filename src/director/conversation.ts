@@ -170,6 +170,7 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  fillMenu,
   replyVerdict,
   repeatsOffer,
   shapeReply,
@@ -7197,16 +7198,11 @@ function offerChoices(
     ))
       add(next.choiceKey, next.group, next.subject, answerBank, again);
   };
-  offer("");
-  // Four replies that each answer the line: where a move's wordings collided
-  // ("Of course." said twice), another wording of a move stands in for it,
-  // never an acknowledgment.
-  for (
-    let again = one;
-    again <= P.two + one && conversation.choices.length < wanted;
-    again += one
-  )
-    offer(`:more${again}`);
+  fillMenu({
+    wanted,
+    count: () => conversation.choices.length,
+    offerPass: offer,
+  });
   // "Okay." and "All right." take in a statement; they are not an answer to a
   // question ("How's Keanu?"), and each reply moves the talk.
   const question = conversation.lines.at(-one);
