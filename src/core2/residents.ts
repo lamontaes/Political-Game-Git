@@ -17,12 +17,12 @@ import {
   outsideMarketAccount,
 } from "./opening-outside-market";
 import type { FinanceContractInput } from "./modules/finance";
-import { FinanceReadGuard } from "./budgets-treasury";
+import { FinanceReadGuard } from "./finance-plan";
 import {
   nextWorkPayrollPeriod,
   workPayPeriodAtIndex,
   type WorkPayrollCalendarInput,
-} from "./macro-model";
+} from "./work-pay-period";
 import type {
   CoreInput,
   HouseholdInput,

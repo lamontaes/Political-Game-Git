@@ -17,7 +17,7 @@ import {
   ssiIncomeByHousehold,
   veteransIncomeByHousehold,
 } from "./modules/laws";
-import type { ClaimRow } from "./macro-model";
+import type { ClaimRow } from "./modules/business";
 import { reachParameter } from "./laws-in-force";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { retirementClaims } from "./modules/retirement-claims";

@@ -19,10 +19,10 @@ import {
   drawSavingsToCover,
   transfer,
   transferSplit,
-} from "../budgets-treasury";
-import { withdrawSavings } from "./budgets";
-import { livingCostParts, outsideCostParts } from "../macro-model";
-import { splitMarketDemand } from "../macro-model";
+  withdrawSavings,
+} from "../accounts";
+import { livingCostParts, outsideCostParts } from "../living-cost-split";
+import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "./work";
 import { coreAPI } from "../state";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -35,8 +35,8 @@ import {
   businessAvailableCredit,
   endRecipientIncomeAtDeath,
 } from "../budgets-treasury";
-import type { WorkPayrollCalendarInput } from "../macro-model";
-import { admitPublicPayAuthority } from "../macro-model";
+import type { WorkPayrollCalendarInput } from "./business";
+import { admitPublicPayAuthority } from "./business";
 import type {
   CoreAPI,
   CoreModule,
