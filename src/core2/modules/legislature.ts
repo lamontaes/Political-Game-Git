@@ -34,7 +34,8 @@ import {
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
-import { policyAuthority, recordHomeRule } from "../policy-authority";
+import { policyAuthority } from "./laws";
+import { recordHomeRule } from "../laws-in-force";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import dischargeData from "../data/legislature/discharge.json" with { type: "json" };
@@ -89,7 +90,7 @@ import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
 import { ownStance } from "./officials";
 import { closenessBetween } from "../closeness";
 import { bribePull, registerBribeScope } from "./corruption";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   BUDGETS_MODULE_ID,
   amendBudget,
@@ -106,7 +107,8 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
-import { partyName, partySide } from "../appointments";
+import { partyName } from "./executive";
+import { partySide } from "./offices";
 import {
   atLarge,
   currentOfficial,
@@ -126,7 +128,7 @@ import {
   leanedTerm,
   leanedYes,
 } from "../trait-decisions";
-import { stateActEffectiveDate } from "../state-effective-date";
+import { stateActEffectiveDate } from "./laws";
 import representation from "../data/offices/federal-representation.json" with { type: "json" };
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
