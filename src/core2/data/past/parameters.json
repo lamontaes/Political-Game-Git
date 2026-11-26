@@ -369,7 +369,7 @@
     "role": "coefficient"
   },
   "pastSessionMinimumPeople": {
-    "value": 60,
+    "value": 30,
     "role": "level",
     "tag": "TUNABLE",
     "citation": "People in the small world that runs the played state's last sitting through the bill engine: the legislators are seated by the century, so the town's own people only fill the world's households. Spread 30 to 200.",

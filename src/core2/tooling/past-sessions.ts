@@ -22,9 +22,10 @@ import {
   type TermRow,
 } from "../modules/offices";
 import { openRecord } from "../modules/record";
+import { OFFICIALS_MODULE, OFFICIALS_MODULE_ID } from "../modules/officials";
 import { openLegislature } from "../modules/legislature";
 import { openWorldLegislating } from "../modules/world-legislating";
-import { coreAPI } from "../state";
+import { coreAPI, registerModule } from "../state";
 import { parameter } from "../parameters";
 import { pastParameter } from "../past-module";
 import { sessionWindows } from "../state-session-calendar";
@@ -58,6 +59,7 @@ export function pastSessionLaws(
   const plan = pastSessionPlan(seed);
   if (!plan) return [];
   const opens = `${plan.sittingYear}-01-01`;
+  // The town's people do no scheduled work here (no payroll, no shifts): only the legislature sits.
   const core = createLifeCore(
     buildPopulation({
       seed,
@@ -65,11 +67,20 @@ export function pastSessionLaws(
       startedAt: opens,
       minimumPeople: pastParameter(null, "pastSessionMinimumPeople"),
     }),
+    { scheduledWork: false },
   );
   openLaws(core);
   // The century's day-one date, not the small world's clock, so the century is read once.
   openOffices(core, seed, startDate);
   openRecord(core);
+  // The legislature seats every official outside the town as a person when it opens (0.9 s). The
+  // sitting needs only this state's legislators, whom the engine makes people of when it first
+  // reads them (`members`), so the eager seating is marked done.
+  registerModule(core, OFFICIALS_MODULE);
+  coreAPI(core)
+    .moduleState(OFFICIALS_MODULE_ID)
+    .table("loaded")
+    .put({ id: "opening", officials: 0 } as never);
   openLegislature(core);
   const api = coreAPI(core);
   // Whoever the century says sat, seated from the first day.
