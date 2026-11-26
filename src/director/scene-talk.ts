@@ -1153,6 +1153,29 @@ export function goodbyeSaid(input: {
   return !(input.hardNews && !input.byPhone);
 }
 
+/**
+ * Whether the other person greets the player when a talk opens. People who
+ * live together don't greet each other at home; a call is the exception, and
+ * opens as a call even to someone in the player's own house: the person
+ * answering says hello first (Words lead, Nov 14).
+ */
+export function greetsFirst(input: {
+  housemates: boolean;
+  byPhone: boolean;
+}): boolean {
+  return !input.housemates || input.byPhone;
+}
+
+/**
+ * Whether a talk that opened has said nothing: hello and goodbye with nothing
+ * between is not a talk (owner, Oct 24: "that should be going to the hi, have
+ * a good day. That makes no sense."), and neither is a hard-news opener with
+ * nothing after it. With nothing on record to say, nothing is said.
+ */
+export function talkSaidNothing(kinds: readonly string[]): boolean {
+  return kinds.every((kind) => kind === "greet" || kind === "family-open");
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;

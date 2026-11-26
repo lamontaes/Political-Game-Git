@@ -172,6 +172,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  greetsFirst,
+  talkSaidNothing,
   goodbyeSaid,
   raiseComposedSubject,
   raiseFacts,
@@ -6164,10 +6166,12 @@ function openConversationNow(
     core.people.get(otherId)?.householdId === player.householdId;
   // A call opens as a call even to someone in the player's own house: the
   // person answering says hello first (Words lead, Nov 14).
-  const greeting =
-    housemate && !options.byPhone
-      ? null
-      : greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone);
+  const greeting = greetsFirst({
+    housemates: housemate,
+    byPhone: !!options.byPhone,
+  })
+    ? greetingLine(core, data, playerId, otherId, !!knows, !!options.byPhone)
+    : null;
   if (greeting) {
     // The hello is its own short turn, as people say it ("Hi." then "Back
     // again?"): a composed greeting's opener is said first, the rest after.
@@ -6317,11 +6321,7 @@ function openConversationNow(
     // "that should be going to the hi, have a good day. That makes no
     // sense."): with nothing on record to say, nothing is said.
     // The same for a hard-news opener with nothing after it.
-    if (
-      conversation.lines.every(
-        (line) => line.kind === "greet" || line.kind === "family-open",
-      )
-    ) {
+    if (talkSaidNothing(conversation.lines.map((line) => line.kind))) {
       conversation.lines = [];
       conversation.choices = [];
       conversation.lies = [];
