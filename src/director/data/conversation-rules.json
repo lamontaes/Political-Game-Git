@@ -104,6 +104,10 @@
       "kind": "own-view",
       "stage": "default"
     },
+    "point-home": {
+      "kind": "point-home",
+      "stage": "default"
+    },
     "victimization": {
       "kind": "victimization-reply",
       "stage": "default"
@@ -181,7 +185,7 @@
     "mutual": ["family"],
     "news": ["own-view", "address"],
     "address": ["news"],
-    "address-point": ["own-view", "address-point", "news"]
+    "address-point": ["own-view", "point-home", "address-point", "news"]
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
@@ -251,6 +255,11 @@
       "disagree": "disagree",
       "hear": "answer",
       "private": "answer"
+    },
+    "point-home": {
+      "worry": "answer",
+      "doubt": "answer",
+      "manage": "answer"
     },
     "news": {
       "react": "react",
