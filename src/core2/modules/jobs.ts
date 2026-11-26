@@ -216,13 +216,6 @@ interface SeekerRow {
 interface EmployerRow {
   id: string;
   openingStaff: number;
-  /**
-   * How many jobs each of its opening job records stood for, on average (one
-   * at the sample size). Its books are kept at one worker per record, so
-   * receipts taken in at the town's weight are read against them divided by
-   * this.
-   */
-  openingScale?: number;
   /** Fractional staffing need carried between reviews: positive hires, negative lays off. */
   need: number;
   /** Sales-supported staff, smoothed as receipts arrive across paydays. */
@@ -819,7 +812,6 @@ function open(api: CoreAPI): void {
     if (book.closedAt) continue;
     const jobs = currentJobs(api, id);
     const heads = staffHeads(c, jobs);
-    const scale = jobs.length ? heads / jobs.length : 1;
     store(api)
       .table("employers")
       .put({
@@ -827,7 +819,6 @@ function open(api: CoreAPI): void {
         isEmployer: true,
         // Its staff and the jobs it has standing open: the work its books call for.
         openingStaff: heads + (posted.get(id) ?? 0),
-        ...(scale !== 1 ? { openingScale: scale } : {}),
         need: 0,
         mix: roleMix(jobs, fullJobs(api, id), (job) => headsOf(c, job)),
       });
@@ -1354,8 +1345,7 @@ function reviewEmployers(api: CoreAPI): void {
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
           (trading.days *
             (book.price / book.anchorPrice || 1) *
-            book.capacityMinor *
-            (row.openingScale ?? 1))
+            book.capacityMinor)
         : projected;
     const previousSalesStaff = row.salesStaff ?? projected;
     const salesStaff =
@@ -5593,20 +5583,12 @@ export function registerEmployer(
   templateFromId?: string,
 ): void {
   if (!store(api).table("state").get("jobs:state")) return;
-  // Its books are sized like its template's (a business of its kind in the same town), at the same scale.
-  const scale = templateFromId
-    ? (
-        store(api).table("employers").get(templateFromId) as
-          EmployerRow | undefined
-      )?.openingScale
-    : undefined;
   store(api)
     .table("employers")
     .put({
       id: organizationId,
       isEmployer: true,
       openingStaff,
-      ...(scale !== undefined ? { openingScale: scale } : {}),
       // It posts its opening staff at its first review, as a new business hires before it opens.
       need: openingStaff,
       hiring: true,
