@@ -170,6 +170,8 @@ import {
   answerInTalk,
   answerLeavesOutTold,
   answerOwnView,
+  nameOnceFacts,
+  youUnlessSaid,
   composedHomeLine,
   greetsFirst,
   talkSaidNothing,
@@ -4340,13 +4342,11 @@ function youIn(
   speakerId: PersonId,
   playerId: PersonId,
 ): { you?: Fact } {
-  const you = calledBy(core, speakerId, playerId);
-  const said = conversation.lines.some(
-    (line) =>
-      line.speakerId === speakerId &&
-      new RegExp(`\\b${you.text}\\b`, "i").test(line.text),
-  );
-  return said ? {} : { you };
+  return youUnlessSaid({
+    lines: conversation.lines,
+    speakerId,
+    you: calledBy(core, speakerId, playerId),
+  });
 }
 
 /**
@@ -4362,11 +4362,11 @@ function nameOnce(
   playerId: PersonId,
   facts: Facts,
 ): Facts {
-  if (!facts.you || youIn(core, conversation, speakerId, playerId).you)
-    return facts;
-  const rest = { ...facts };
-  delete rest.you;
-  return rest;
+  return nameOnceFacts(facts, {
+    lines: conversation.lines,
+    speakerId,
+    you: calledBy(core, speakerId, playerId),
+  });
 }
 
 /** The facts the talk has not said yet: each one whose words and record an earlier line (either speaker) does not carry. */

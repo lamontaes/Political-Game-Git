@@ -1260,6 +1260,44 @@ export function talkSaidNothing(kinds: readonly string[]): boolean {
   return kinds.every((kind) => kind === "greet" || kind === "family-open");
 }
 
+/**
+ * What the speaker calls the player in an answer, left out when an earlier
+ * line of the same talk already said it (rule 105: a name once per talk), so
+ * the answer picks a wording without it. `you` is what the speaker calls them.
+ */
+export function youUnlessSaid(input: {
+  lines: readonly { speakerId: string; text: string }[];
+  speakerId: string;
+  you: Fact;
+}): { you?: Fact } {
+  const said = input.lines.some(
+    (line) =>
+      line.speakerId === input.speakerId &&
+      new RegExp(`\\b${input.you.text}\\b`, "i").test(line.text),
+  );
+  return said ? {} : { you: input.you };
+}
+
+/**
+ * The one rule for a name in a talk (rule 105): facts a line is composed
+ * from, with the speaker's name for the player left out where the speaker
+ * already said it earlier in this talk. Every composer that places the name
+ * asks here, so no bank keeps its own count.
+ */
+export function nameOnceFacts(
+  facts: Readonly<Record<string, Fact>>,
+  input: {
+    lines: readonly { speakerId: string; text: string }[];
+    speakerId: string;
+    you: Fact;
+  },
+): Record<string, Fact> {
+  if (!facts.you || youUnlessSaid(input).you) return { ...facts };
+  const rest = { ...facts };
+  delete rest.you;
+  return rest;
+}
+
 /** One reply a home talk may offer, as the menu reads it. */
 export interface MenuRow {
   key: string;
