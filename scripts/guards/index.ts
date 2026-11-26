@@ -161,6 +161,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/person-card-headings.test.ts"),
   },
   {
+    id: "import-cycles",
+    rule: "One order to load in: source files that import each other in a ring load in an order nobody chose; the imports on a cycle only shrink.",
+    readMore:
+      "tests/guards/import-cycles-baseline.json; tests/guards/import-cycles.test.ts",
+    command: vitest("tests/guards/import-cycles.test.ts"),
+  },
+  {
     id: "ui-tokens",
     rule: "One UI system: a size, a corner or a color is named once in the root of play.css and every rule reads the name; the hand-typed count only shrinks.",
     readMore: "tests/guards/ui-tokens-baseline.json; src/bench/ui/README.md",
