@@ -47,6 +47,7 @@ import {
 
 export type { SceneTalkStep };
 import type { Director } from "./ledger";
+import { composedLine, type Said } from "./talk-words";
 
 const zero = P.zero;
 const one = P.one;
@@ -199,6 +200,34 @@ const RULES = rulesFile as unknown as {
   bluntGreeting: { value: number };
 };
 export type Outcome = "resolved" | "refused" | "open";
+
+/**
+ * The families of a home conversation the engine answers by the arcs file's own
+ * rows (`home` in purpose-arcs.json): what an answer to a reply on a day's own
+ * subject leaves out of what its telling just said.
+ */
+const HOME = (
+  arcsFile as unknown as {
+    home: {
+      dayBack: {
+        omitsTold: { kinds: readonly string[]; figures: readonly string[] };
+      };
+      news: {
+        backSubject: string;
+        standSubject: string;
+        sides: readonly string[];
+        tellsStand: readonly string[];
+      };
+      ownView: {
+        why: string;
+        takes: readonly string[];
+        backSubject: string;
+        takeSubject: string;
+        takeCarries: readonly string[];
+      };
+    };
+  }
+).home;
 
 /** One line of a composed scene, with the features the grading bench records. */
 export interface SceneTalkLine {
@@ -576,6 +605,191 @@ export function answerInTalk(
     pieceKey: best.line.pieceKey,
     closes: !!arc.closes?.includes(input.replyMove),
   };
+}
+
+/** Whether the answer back to a reply on this kind of day subject leaves out the figures its telling just said. */
+export function answerLeavesOutTold(kind: string): boolean {
+  return HOME.dayBack.omitsTold.kinds.includes(kind);
+}
+
+/**
+ * The facts an answer back is composed from: each figure the telling just said
+ * (`told`, the facts its wording used) is left out of them and marked
+ * `told-<fact>`, so the answer says what comes next, never the same figure
+ * again ("I owed about $1,000." "...about $1,000 still doesn't seem real."),
+ * and can still lean on it ("I go in soon.") without saying it.
+ */
+export function factsWithoutTold(
+  kind: string,
+  told: ReadonlySet<string>,
+  facts: Readonly<Record<string, Fact>>,
+): Record<string, Fact> {
+  const omits = answerLeavesOutTold(kind);
+  return Object.fromEntries(
+    Object.entries(facts).map(([key, fact]) =>
+      omits && told.has(key) && HOME.dayBack.omitsTold.figures.includes(key)
+        ? [`told-${key}`, fact]
+        : [key, fact],
+    ),
+  );
+}
+
+/**
+ * The other person's answer to the player's reply on a day's own subject: the
+ * words composed under `<kind>-back` by the reply's move, from the facts the
+ * telling left them (`factsWithoutTold`; `shape` adds what the talk alone
+ * knows, such as whether the speaker already named the player). Null where no
+ * wording fits.
+ */
+export function answerBack(
+  core: Readonly<CoreState>,
+  input: {
+    kind: string;
+    replyMove: string;
+    speakerId: PersonId;
+    momentKey: string;
+    /** The facts the day subject was told from. */
+    facts: Readonly<Record<string, Fact>>;
+    /** The facts the telling just said, which the answer leaves out. */
+    told: ReadonlySet<string>;
+    /** The talk's own additions to the facts, applied after the figures are left out. */
+    shape: (facts: Record<string, Fact>) => Record<string, Fact>;
+    /** The parts this speaker already said in the talk. */
+    saidParts: readonly string[];
+  },
+): Said | null {
+  return composedLine(
+    core,
+    input.speakerId,
+    `${input.kind}-back`,
+    input.shape(factsWithoutTold(input.kind, input.told, input.facts)),
+    input.replyMove,
+    input.momentKey,
+    input.saidParts,
+  );
+}
+
+/** The replies to where someone stands that the talk answers: asking why, and agreeing or disagreeing. */
+export function ownViewReplies(): readonly string[] {
+  return [HOME.ownView.why, ...HOME.ownView.takes];
+}
+
+/** Whether a reply to where someone stands says where the player stands (agree or disagree). */
+export function ownViewTakes(replyMove: string): boolean {
+  return HOME.ownView.takes.includes(replyMove);
+}
+
+/** Whether a reply to where someone stands asks them why. */
+export function ownViewWhy(replyMove: string): boolean {
+  return replyMove === HOME.ownView.why;
+}
+
+/**
+ * The other person's answer to the player's reply on where they stand: asked
+ * why, they answer from the reason on record (their work, or money in their
+ * town), composed under `backSubject`; agreed or disagreed with, they answer
+ * from the same reason under `takeSubject` by the reply's move, carrying the
+ * facts the talk already holds (`takeCarries`: a story that already says how
+ * it came out leaves no reply that waits to see). Null for any other reply
+ * and where no wording fits.
+ */
+export function answerOwnView(
+  core: Readonly<CoreState>,
+  input: {
+    replyMove: string;
+    speakerId: PersonId;
+    momentKey: string;
+    facts: Readonly<Record<string, Fact>>;
+    /** The facts the talk holds that a take carries on (the story's own). */
+    held: Readonly<Record<string, Fact>> | undefined;
+    /** The talk's own additions to the facts (whether the speaker already named the player). */
+    shape: (facts: Record<string, Fact>) => Record<string, Fact>;
+    saidParts: readonly string[];
+  },
+): { subject: string; line: Said } | null {
+  const { why, takes, backSubject, takeSubject, takeCarries } = HOME.ownView;
+  const asked = input.replyMove === why;
+  if (!asked && !takes.includes(input.replyMove)) return null;
+  const subject = asked ? backSubject : takeSubject;
+  const carried = asked
+    ? {}
+    : Object.fromEntries(
+        takeCarries.flatMap((name) =>
+          input.held?.[name] ? [[name, input.held[name]]] : [],
+        ),
+      );
+  const line = composedLine(
+    core,
+    input.speakerId,
+    subject,
+    { ...input.shape({ ...input.facts }), ...carried },
+    asked ? "default" : input.replyMove,
+    input.momentKey,
+    input.saidParts,
+  );
+  return line ? { subject, line } : null;
+}
+
+/** The subject the other person's answer to a reply on news is composed under. */
+export function newsBackSubject(): string {
+  return HOME.news.backSubject;
+}
+
+/** Whether a reply on news takes a side on the story's question (for or against). */
+export function newsTakesSide(replyMove: string): boolean {
+  return HOME.news.sides.includes(replyMove);
+}
+
+/** Whether a reply to a printed story the neighbor asked about is followed by where the neighbor stands. */
+export function newsAnswerTellsStand(replyMove: string): boolean {
+  return HOME.news.tellsStand.includes(replyMove);
+}
+
+/**
+ * The marks an answer on news is composed from: what the reply said (a "who's
+ * behind it?" asked as a why is answered as a who), whether the teller already
+ * said the story's question (the answer then says "it" and gives what else the
+ * story holds), and a stand either way for the answers that fit both.
+ */
+export function newsSaidFacts(input: {
+  replyMove: string;
+  askedWho: boolean;
+  questionTold: boolean;
+  recordId: string;
+}): Record<string, Fact> {
+  const mark = (): Fact => ({ text: "yes", sourceRecordIds: [input.recordId] });
+  return {
+    [`said-${input.askedWho ? "who" : input.replyMove}`]: mark(),
+    [input.questionTold ? "about-said" : "about-unsaid"]: mark(),
+    ...(newsTakesSide(input.replyMove) ? { "said-side": mark() } : {}),
+  };
+}
+
+/**
+ * A line the other person says on news, composed from the facts the talk
+ * gives under the arcs file's own subject for it: `back` (their answer to the
+ * player's reply, or what the story was about) or `stand` (where they stand,
+ * said when the player had not seen it). Null where no wording fits.
+ */
+export function newsLine(
+  core: Readonly<CoreState>,
+  input: {
+    which: "back" | "stand";
+    speakerId: PersonId;
+    facts: Readonly<Record<string, Fact>>;
+    momentKey: string;
+    saidParts: readonly string[];
+  },
+): Said | null {
+  return composedLine(
+    core,
+    input.speakerId,
+    input.which === "back" ? HOME.news.backSubject : HOME.news.standSubject,
+    input.facts,
+    "default",
+    input.momentKey,
+    input.saidParts,
+  );
 }
 
 /** Where the exchange stands as a branch grows. */
