@@ -8069,15 +8069,16 @@ function sayNow(
       otherId,
       choice.move,
     );
-    const back = composedLine(
-      core,
-      otherId,
-      `${last.kind}-back`,
-      last.facts,
-      choice.move,
-      `${eventId}:back`,
-      saidParts(conversation, otherId),
-    );
+    const back = answerBack(core, {
+      kind: last.kind,
+      replyMove: choice.move,
+      speakerId: otherId,
+      momentKey: `${eventId}:back`,
+      facts: last.facts,
+      told: new Set<string>(),
+      shape: (facts) => facts,
+      saidParts: saidParts(conversation, otherId),
+    });
     if (back)
       conversation.lines.push({
         speakerId: otherId,
