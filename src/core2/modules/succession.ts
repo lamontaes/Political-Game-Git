@@ -42,6 +42,7 @@ import {
 import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
+  leanOf,
   memberKey,
   members,
 } from "./legislature";
@@ -148,9 +149,9 @@ function cannotServe(api: CoreAPI, personId: string | null): string | null {
   return null;
 }
 
-/** The party sides of a chamber's members, for a confirmation vote. */
+/** Each of a chamber's members by their own lean, for a confirmation vote (as every confirming body weighs a nominee). */
 const sides = (api: CoreAPI, chamber: string) =>
-  members(api, chamber).map((t) => partySide(t.party));
+  members(api, chamber).map((t) => leanOf(api, memberKey(t)));
 
 /** The lean scale runs from -1 to 1, so no two views sit further apart than this. */
 const LEAN_SPAN = 2;

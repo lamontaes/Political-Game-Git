@@ -462,7 +462,7 @@ function councilSides(api: CoreAPI): number[] {
     BOARD_KINDS.includes(s.office.kind),
   );
   return council
-    ? members(api, council.office.id).map((t) => partySide(t.party))
+    ? members(api, council.office.id).map((t) => leanOf(api, memberKey(t)))
     : [];
 }
 
@@ -1125,7 +1125,7 @@ function appointStateCabinet(
       o.kind === "legislature-upper" || o.kind === "legislature-unicameral",
   );
   const senateSides = senate
-    ? members(api, senate.id).map((t) => partySide(t.party))
+    ? members(api, senate.id).map((t) => leanOf(api, memberKey(t)))
     : [];
   const date = api.state.date;
   for (const spec of posts) {
@@ -1630,7 +1630,9 @@ function stateNominationInput(
       confirmingBody: confirmation
         ? {
             name: senate!.title,
-            sides: members(api, senate!.id).map((t) => partySide(t.party)),
+            sides: members(api, senate!.id).map((t) =>
+              leanOf(api, memberKey(t)),
+            ),
           }
         : null,
       tolerance: campaignParameter("confirmationTolerance"),
