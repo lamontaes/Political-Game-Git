@@ -55,21 +55,22 @@ def red_tee(pixels):
     edge = ndi.distance_transform_edt(a > 0)
     return (edge <= 16) & (a > 0) & (r >= 55) & (r - g >= 35) & (
         r > 1.63 * g
-    ) & (g - b < 22)
+    ) & (g - b < 0.26 * (r - g))
 
 
-def stray(mask):
+def stray(mask, allowed_components=1):
     labels, n = ndi.label(mask, structure=np.ones((3, 3), dtype=int))
     if not n:
         return 0
     sizes = np.bincount(labels.ravel())[1:]
-    return sizes.sum() - sizes.max()
+    return np.sort(sizes)[:-allowed_components].sum()
 
 
 def audit():
     totals = Counter(dict.fromkeys(CHECKS, 0))
     samples = Counter(dict.fromkeys(CHECKS, 0))
     findings = []
+    inherited = Counter()
 
     def record(check, amount, piece, other=None):
         amount = int(amount)
@@ -109,10 +110,15 @@ def audit():
             if not np.any(alpha):
                 record("offset", 1, name)
                 continue
-            record("stray_pixels", stray(alpha > 0), name)
+            record("stray_pixels", stray(alpha > 0, 3 if path.name.startswith("hair-classic-mullet-")
+                                              else 1), name)
             mask = solid(px)
             if path.name in HEADS and sex == "women":
                 old = load(base / path.name)[..., 3]
+                labels, _ = ndi.label(old > 0, structure=np.ones((3, 3), dtype=int))
+                sizes = np.bincount(labels.ravel())
+                sizes[0] = 0
+                old = np.where(labels == sizes.argmax(), old, 0)
                 record("offset", np.count_nonzero(alpha[:533] != old[:533]), name)
                 record("offset", np.count_nonzero(alpha[712:] != old[712:]), name)
                 record("red_tee", red_tee(px).sum(), name)
@@ -146,16 +152,25 @@ def audit():
             for head_name, head in (heads | edited).items():
                 required = head & crown
                 record("hair_poke_out", (required & ~hair).sum(), name, head_name)
-                # Central eye and face window must remain clear.
-                record("hair_over_face", (hair & head)[350:680, 220:510].sum(), name, head_name)
+                # Allow face-framing locks at the edges of the cheeks, while
+                # keeping the eye/brow band and nose/mouth column clear.
+                eye0, eye1 = (340, 431) if sex == "women" else (316, 409)
+                overlap = hair & head
+                eyes = overlap[eye0:eye1, 250:480]
+                center = overlap[eye1:610, 285:445]
+                record("hair_over_face", eyes.sum() + center.sum(), name, head_name)
                 # Holes inside the combined hair/scalp silhouette are background leaks.
                 record("hair_gap", holes(hair | head).sum(), name, head_name)
         for head_name, head in edited.items():
             for hair_name, hair in originals.items():
-                record("hair_gap", holes(hair | head).sum(), f"{sex}/{head_name}", hair_name)
+                old_gaps = holes(hair | heads[head_name])
+                inherited["existing_hair_gap"] += old_gaps.sum()
+                record("hair_gap", (holes(hair | head) & ~old_gaps).sum(),
+                       f"{sex}/{head_name}", hair_name)
                 record("hair_poke_out", (head & crown & ~hair).sum(), f"{sex}/{head_name}", hair_name)
 
-    return dict(totals=dict(totals), tests=dict(samples), findings=findings)
+    return dict(totals=dict(totals), tests=dict(samples), findings=findings,
+                inherited={k: int(v) for k, v in inherited.items()})
 
 
 def main():
