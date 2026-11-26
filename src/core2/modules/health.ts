@@ -77,6 +77,13 @@ import type {
   PersonState,
   Source,
 } from "../types";
+export { openEstates } from "../estates";
+export { openPublicAction } from "./public-action";
+export { collapseToTwoLevels, fullPeople } from "../residents";
+export { representativeSample } from "../representative-sample";
+export { retellingsOf, speechModule } from "./speech";
+export { DEFAULT_DRIVES_DATA, createDrivesModule, withDrives } from "./drives";
+export { TRAIT_CHANGE_MODULE } from "./trait-change";
 
 /**
  * P10 producer, not a health engine: the existing Ruling 29/38/39 mortality

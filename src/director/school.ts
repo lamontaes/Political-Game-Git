@@ -5,7 +5,7 @@
  * (its graduation result, written on the year's last school day for every
  * senior, graduated or not).
  */
-import { SCHOOL_MODULE_ID } from "../core2/school-measures";
+import { SCHOOL_MODULE_ID } from "../core2/modules/people";
 import { attendedSchool, type AttendedRow } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";

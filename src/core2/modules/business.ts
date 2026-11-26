@@ -84,6 +84,7 @@ import {
   premisesTaxYearMinor,
 } from "./budgets";
 import { PLACE_PRICES_MODULE_ID, businessEnergyLawShare } from "./place-prices";
+export { scaleFirmsToCensus } from "../census-firms";
 export { endLivingPlan, setEverydayPurchase } from "../cost-of-living";
 export {
   CREDIT_PARAMETERS,

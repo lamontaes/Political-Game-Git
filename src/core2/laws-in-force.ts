@@ -23,6 +23,7 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import { parameter as p } from "./parameters";
 import { governmentUnit } from "./reference/government-units";
+export { recordHomeRule } from "./policy-authority";
 export {
   DEATH_WEB_REFRESH_DAY,
   deathWebFactor,
