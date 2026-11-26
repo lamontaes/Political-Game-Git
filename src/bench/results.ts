@@ -13,7 +13,8 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import type { CoreAPI, CoreState } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId } from "../core2/types";
+import { historyOf } from "../core2/past";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { backdropFor, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
@@ -70,12 +71,7 @@ const EXIT_POLL_WORDS: Readonly<Record<string, string>> = {
 export function electionResults(core: CoreState, playerId: string) {
   const api = coreAPI(core);
   if (!core.modules.has(ELECTIONS)) return [];
-  const contests = (
-    api
-      .moduleState(ELECTIONS)
-      .table("contests")
-      .rows() as unknown as ContestRow[]
-  )
+  const contests = racesCounted(core)
     .filter((row) => row.electionDate <= core.date)
     .sort((a, b) => b.electionDate.localeCompare(a.electionDate));
   const out = [];
@@ -164,6 +160,31 @@ export function electionResults(core: CoreState, playerId: string) {
   return out.sort((a, b) => b.date.localeCompare(a.date) || rank(a) - rank(b));
 }
 
+/** The record kind of a count that settled a race (src/core2/modules/voting.ts). */
+const ELECTION_RESULT = "election-result";
+
+/**
+ * The races counted so far, by each count's public record as the one history
+ * reader tells it (the nation's, or a person's: the counts that named them),
+ * in the order the log kept them, each race once.
+ */
+function racesCounted(core: CoreState, personId?: string): ContestRow[] {
+  const contests = coreAPI(core).moduleState(ELECTIONS).table("contests");
+  const out = new Map<string, ContestRow>();
+  for (const event of historyOf(
+    core,
+    personId ? { person: personId as PersonId } : { nation: true },
+    { kinds: [ELECTION_RESULT], from: "played" },
+  )) {
+    const id = event.facts?.contestId;
+    const contest = id
+      ? (contests.get(id) as unknown as ContestRow | undefined)
+      : undefined;
+    if (contest && !out.has(contest.id)) out.set(contest.id, contest);
+  }
+  return [...out.values()];
+}
+
 /**
  * The newest race the person ran in that has a result: its seat, whether they
  * won, each side's votes and the public result record every screen cites.
@@ -171,17 +192,13 @@ export function electionResults(core: CoreState, playerId: string) {
 export function ownRace(core: CoreState, personId: string) {
   const api = coreAPI(core);
   if (!core.modules.has(ELECTIONS)) return null;
-  const elections = api.moduleState(ELECTIONS);
   let newest:
     | { contest: ContestRow; result: NonNullable<ReturnType<typeof resultOf>> }
     | undefined;
-  for (const filing of elections
-    .table("filings")
-    .query("byPerson", [personId]) as unknown as FilingRow[]) {
-    const contest = elections
-      .table("contests")
-      .get(filing.contestId) as unknown as ContestRow | undefined;
-    const result = contest && resultOf(api, contest.id);
+  // The counts that named them, as their own history tells them: a count names
+  // everyone who filed for its seat (src/core2/modules/voting.ts).
+  for (const contest of racesCounted(core, personId)) {
+    const result = resultOf(api, contest.id);
     if (!contest || !result || !(personId in result.totals)) continue;
     if (!newest || contest.electionDate > newest.contest.electionDate)
       newest = { contest, result };
