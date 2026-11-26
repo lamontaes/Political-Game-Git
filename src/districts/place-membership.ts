@@ -15,10 +15,10 @@ import estimated from "./place-district-estimates.generated.json" with { type: "
 import type { DistrictChamber } from "./types";
 import { DISTRICT_IDENTITY_VINTAGE } from "./types";
 
-export const SLD_PLACE_RELATION_VINTAGE =
+const SLD_PLACE_RELATION_VINTAGE =
   "census-rel-2024-sld-place20" as const;
 /** 119th Congress districts against 2020 places: a baseline, not permanent truth. */
-export const CD_PLACE_RELATION_VINTAGE =
+const CD_PLACE_RELATION_VINTAGE =
   "census-rel-2020-cd119-place20" as const;
 
 /**
@@ -129,26 +129,12 @@ export type PlaceDistrictJoin =
     }
   | { readonly kind: "unknown" };
 
-/**
- * The relationship vintage a chamber's place join reads. For the U.S. House,
- * give the place and the game date so a state on dated lines names them.
- */
-export function placeRelationVintageFor(
-  chamber: DistrictChamber,
-  placeGeoid?: string | null,
-  asOf?: string | null,
-): string {
-  if (chamber !== "congressional") return SLD_PLACE_RELATION_VINTAGE;
-  return placeGeoid
-    ? congressionalRelationVintageFor(placeGeoid.slice(0, 2), asOf)
-    : CD_PLACE_RELATION_VINTAGE;
-}
 
 /**
  * The latest set that covers a state and has started by a game date, or null.
  * Without a date, or before every set starts, the baseline lines apply.
  */
-export function selectDatedSet<
+function selectDatedSet<
   T extends {
     readonly effectiveFrom: string;
     readonly stateFips: readonly string[];
@@ -168,7 +154,7 @@ export function selectDatedSet<
 }
 
 /** The dated U.S. House set in force for a state on a game date, if any. */
-export function congressionalLinesSetFor(
+function congressionalLinesSetFor(
   stateFips: string,
   asOf?: string | null,
 ): DatedCongressionalSet | null {
@@ -176,7 +162,7 @@ export function congressionalLinesSetFor(
 }
 
 /** The relationship vintage the congressional join reads for a state on a date. */
-export function congressionalRelationVintageFor(
+function congressionalRelationVintageFor(
   stateFips: string,
   asOf?: string | null,
 ): string {
