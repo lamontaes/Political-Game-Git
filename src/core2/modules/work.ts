@@ -29,8 +29,6 @@ import type {
   WorkScheduleSlot,
 } from "../types";
 
-export { DEFAULT_WORK_DATA } from "../work-data";
-
 const remainder = (value: number, period: number) =>
   ((value % period) + period) % period;
 

@@ -174,7 +174,7 @@ export interface AppointmentRow {
   readonly since: string;
 }
 
-export const EXECUTIVE_MODULE: CoreModule = {
+const EXECUTIVE_MODULE: CoreModule = {
   id: EXECUTIVE_MODULE_ID,
   state: {
     schemaVersion: 1,

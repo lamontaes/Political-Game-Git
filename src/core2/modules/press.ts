@@ -167,7 +167,7 @@ import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
-export const DISTRUST = "distrust";
+const DISTRUST = "distrust";
 
 export type LocalKind = "newspaper" | "television" | "radio";
 export type NationalKind = "cable" | "magazine" | "online" | "national-paper";
@@ -412,7 +412,7 @@ export function worldOutletCounts(
   };
 }
 
-export const PRESS_MODULE: CoreModule = {
+const PRESS_MODULE: CoreModule = {
   id: PRESS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -4703,7 +4703,7 @@ function snubbed(
 }
 
 /** The kind of an outlet's invitation to a candidate to sit for an interview. */
-export const INTERVIEW_INVITED_EVENT = "interview-invited";
+const INTERVIEW_INVITED_EVENT = "interview-invited";
 /**
  * The kind of the record that a candidate said yes to an outlet's invitation:
  * the sitting is waiting. It names the candidate and the reporter who will

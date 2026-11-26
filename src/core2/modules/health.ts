@@ -185,7 +185,7 @@ interface Severity {
 }
 
 export const DEFAULT_HEALTH_DATA = healthJson as unknown as HealthData;
-export const HEALTH_MODULE_ID = "core2-health-producer-p10-v1";
+const HEALTH_MODULE_ID = "core2-health-producer-p10-v1";
 const RESULTS_OPENING_GAP_STOPGAP = "SG-HEALTH-results-mode-opening-gap";
 
 export interface HealthCase {

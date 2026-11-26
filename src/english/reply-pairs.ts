@@ -116,7 +116,7 @@ export function scenesOf(
 }
 
 /** The step sets the director asks for after each step: one call is one set, and `fitting` takes the closest fit across it. */
-export const STEP_SETS_AFTER: Readonly<
+const STEP_SETS_AFTER: Readonly<
   Record<string, readonly (readonly string[])[]>
 > = {
   open: [["auto"]],

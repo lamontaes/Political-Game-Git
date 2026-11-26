@@ -254,7 +254,7 @@ export function wholeLine(text: string): string {
  * (`addressKind`), what it is about (`topic`) and its turn of speech
  * (`device`). None of them is a spot field, so `spotsOf` is unchanged.
  */
-export const PART_TAGS = [
+const PART_TAGS = [
   "bearing",
   "voice",
   "addressKind",
@@ -496,7 +496,7 @@ export const judgesSpots = (rule: LineRule): boolean =>
   rule.test.kind === "judged" && rule.judges === "piece-in-context";
 
 /** The key a spot verdict carries beside the piece's key: `spot:` and the use's spot. */
-export const SPOT_KEY = "spot:";
+const SPOT_KEY = "spot:";
 
 export const isSpotKey = (key: string): boolean => key.startsWith(SPOT_KEY);
 

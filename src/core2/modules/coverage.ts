@@ -934,7 +934,7 @@ function payPremiums(api: CoreAPI): void {
   }
 }
 
-export const COVERAGE_MODULE: CoreModule = {
+const COVERAGE_MODULE: CoreModule = {
   id: COVERAGE_MODULE_ID,
   state: {
     schemaVersion: 1,

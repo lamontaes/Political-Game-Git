@@ -148,7 +148,7 @@ export interface DebateRow {
   readonly audience: number;
 }
 
-export const MEETINGS_MODULE: CoreModule = {
+const MEETINGS_MODULE: CoreModule = {
   id: MEETINGS_MODULE_ID,
   state: {
     schemaVersion: 1,

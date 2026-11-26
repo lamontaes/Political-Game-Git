@@ -63,7 +63,7 @@ export interface GradeNote {
   readonly note: string;
 }
 
-export const normalWords = (text: string): string[] =>
+const normalWords = (text: string): string[] =>
   text
     .toLowerCase()
     .replace(/[‘’]/g, "'")

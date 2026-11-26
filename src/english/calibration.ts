@@ -56,7 +56,7 @@ export interface CalibrationTable {
 export const CALIBRATION = tableFile as unknown as CalibrationTable;
 
 /** The middle of the 1 to 5 grade scale; a move pair graded 3 is neither favored nor held down. */
-export const MIDDLE_GRADE = 3;
+const MIDDLE_GRADE = 3;
 
 const parameter = (table: CalibrationTable, key: string): number => {
   const row = table.parameters[key];

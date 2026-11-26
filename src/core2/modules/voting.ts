@@ -471,7 +471,7 @@ export interface CountedBallotRow {
   readonly weight: number;
 }
 
-export const VOTING_MODULE: CoreModule = {
+const VOTING_MODULE: CoreModule = {
   id: VOTING_MODULE_ID,
   state: {
     schemaVersion: 1,

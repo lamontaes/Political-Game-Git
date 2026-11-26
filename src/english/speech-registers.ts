@@ -18,7 +18,7 @@ import { parameter } from "../core2/parameters";
  * Congressional Record, federal hearings, White House briefings) are written
  * here word for word; the other corpora supply counts only.
  */
-export const SPEECH_REGISTERS = [
+const SPEECH_REGISTERS = [
   "house-one-minute",
   "house-debate",
   "senate-floor",
@@ -44,7 +44,7 @@ export type SpeechRegister = (typeof SPEECH_REGISTERS)[number];
 export type RegisterSetting = "public-address" | "public-exchange" | "private";
 
 /** The crafted moves a speech can make beyond saying its business. */
-export const SPEECH_DEVICES = [
+const SPEECH_DEVICES = [
   "contrast",
   "three-part-list",
   "disclosure",

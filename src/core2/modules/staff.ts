@@ -145,7 +145,7 @@ export interface WorkRecord {
   readonly result: Readonly<Record<string, unknown>>;
 }
 
-export const STAFF_MODULE: CoreModule = {
+const STAFF_MODULE: CoreModule = {
   id: STAFF_MODULE_ID,
   state: {
     schemaVersion: 1,

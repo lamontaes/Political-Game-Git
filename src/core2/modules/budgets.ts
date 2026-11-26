@@ -462,7 +462,7 @@ function budgetHistory(
   }
 }
 
-export const BUDGETS_MODULE: PreStartModule = {
+const BUDGETS_MODULE: PreStartModule = {
   id: BUDGETS_MODULE_ID,
   preStart: { phase: "government", run: budgetHistory },
   state: {

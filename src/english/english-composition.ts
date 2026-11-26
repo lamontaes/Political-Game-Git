@@ -56,7 +56,7 @@ import {
  * through him. He approved the last seven, for the story director's moves, on
  * October 8, 2026 (docs/design/story-director.md, answer 2).
  */
-export const SPEECH_ACTS = [
+const SPEECH_ACTS = [
   "greet",
   "ask",
   "answer",
@@ -217,7 +217,7 @@ export function partKey(
 }
 
 /** Tag a saved event with the part keys of the line it records. */
-export const LINE_PARTS_TAG_PREFIX = "english.line-parts.v1:";
+const LINE_PARTS_TAG_PREFIX = "english.line-parts.v1:";
 
 export function linePartsTag(parts: readonly ComposedPart[]): string {
   return `${LINE_PARTS_TAG_PREFIX}${JSON.stringify(parts.map((part) => part.partKey))}`;
@@ -243,8 +243,8 @@ export function linePartsOf(tags: readonly string[]): readonly string[] | null {
  * reason. These are rules of how people talk, not draws: whether a line
  * softens follows the recorded relationship.
  */
-export const REASONED_ACTS: readonly SpeechAct[] = ["decline", "undecided"];
-export const SOFTENED_ACTS: readonly SpeechAct[] = [
+const REASONED_ACTS: readonly SpeechAct[] = ["decline", "undecided"];
+const SOFTENED_ACTS: readonly SpeechAct[] = [
   "decline",
   "undecided",
   "suggest-another-way",
@@ -255,7 +255,7 @@ export const SOFTENED_ACTS: readonly SpeechAct[] = [
  * start lower case after nothing, so the engine capitalizes the first; each
  * leaves the core to follow in lower case.
  */
-export const SLOW_OPENER_BANK: LinePartBank = {
+const SLOW_OPENER_BANK: LinePartBank = {
   variants: [
     { key: "well", kind: "template", text: "well," },
     { key: "oh", kind: "template", text: "oh," },

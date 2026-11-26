@@ -795,8 +795,8 @@ function action(id: string, leaving: boolean): ActionDefinition {
     ],
   };
 }
-export const MOVE_AWAY = action("move-away", true);
-export const STAY_PUT = action("stay-put", false);
+const MOVE_AWAY = action("move-away", true);
+const STAY_PUT = action("stay-put", false);
 
 /** Where they go: a relative living elsewhere, else the state the destination weighing ranks highest, else their own state. */
 function destinationFor(

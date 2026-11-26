@@ -18,7 +18,7 @@ export { chooseAct } from "./choice";
 export { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 export { passPlayerStopsV1, playerClockFrontierV1 } from "./player-stops-v1";
 export { dailyFocusReason, knowsThePlayer } from "./calendar";
-export type { DailyFocusReason } from "./calendar";
+
 import {
   WORK_MODULE,
   discretionaryHours,

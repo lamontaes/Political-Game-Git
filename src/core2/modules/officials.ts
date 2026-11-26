@@ -132,7 +132,7 @@ export interface OfficialRow {
   };
 }
 
-export const OFFICIALS_MODULE: CoreModule = {
+const OFFICIALS_MODULE: CoreModule = {
   id: OFFICIALS_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -2269,7 +2269,6 @@ export {
   expectedIdeal,
   memberSupportAt,
   ownStance,
-  partyKey,
   stanceLean,
 } from "../officials-roster";
 export { PRESIDENT_FACT } from "../officials-president";
