@@ -146,7 +146,13 @@ describe.each([0, 1, 2])("the opening's key people, draw %i", (draw) => {
         "chamber-leader",
       ];
       const firstRank = (reasons: readonly string[]) =>
-        Math.min(...reasons.map((reason) => politicsOrder.indexOf(reason)));
+        Math.min(
+          ...reasons.map((reason) => {
+            const at = politicsOrder.indexOf(reason);
+            // A reason the screen does not list (the governor, another legislator) ranks last.
+            return at < 0 ? politicsOrder.length : at;
+          }),
+        );
       const ranks = governmentView(core, world.playerId!).keyPeople.map((row) =>
         firstRank(row.reasons),
       );
