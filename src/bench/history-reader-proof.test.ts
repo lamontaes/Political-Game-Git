@@ -48,9 +48,10 @@ import { BenchPlayer } from "./player";
 // - the present: kept in one of the live stores named below (as dev Trace
 //   finds it), or a catalog the line reads;
 // - a kept series of measurements (a month of metrics), not an event;
-// - the item a printed story the reader returned was made from (its
-//   `sourceRecordId`), a printed story only;
 // - kept only by its engine, not yet handed to the reader (named below);
+// - the item a printed story the reader returned was made from (its
+//   `sourceRecordId`: a press wire row, or an item made for the story), a
+//   printed story only;
 // - kept by no store, each by its cause (named below).
 //
 // One drawn place on every run; HISTORY_PROOF=full runs the six packet seeds
@@ -72,8 +73,8 @@ const BUCKETS = [
   "past",
   "present",
   "series",
-  "story item",
   "engine only",
+  "story item",
   "unkept",
 ] as const;
 type Bucket = (typeof BUCKETS)[number];
@@ -135,13 +136,13 @@ const SERIES_STORES = new Set([
 
 /**
  * Engine tables of what happened in play that no engine hands to the reader
- * yet: a race held, an interview given, a wire item, an earlier budget. The
- * pages that read these tables are the map's rows still to wire.
+ * yet: a race held, an interview given, an earlier budget. Checked before a
+ * printed story's item, so a story made from a race held does not hide the
+ * race. The pages that read these tables are the map's rows still to wire.
  */
 const ENGINE_ONLY = new Set([
   "core2-elections-v1.contests",
   "core2-press-v1.interviews",
-  "core2-press-v1.wire",
   "core2-budgets-v1.budgets",
 ]);
 
@@ -250,13 +251,13 @@ function tally(
       row.counts.series += 1;
       continue;
     }
-    if (scope.items.has(id)) {
-      row.counts["story item"] += 1;
-      continue;
-    }
     if (found && ENGINE_ONLY.has(found.engine)) {
       row.counts["engine only"] += 1;
       row.engines.set(found.engine, (row.engines.get(found.engine) ?? 0) + 1);
+      continue;
+    }
+    if (scope.items.has(id)) {
+      row.counts["story item"] += 1;
       continue;
     }
     if (UNKEPT.some((form) => form.test(id))) {
