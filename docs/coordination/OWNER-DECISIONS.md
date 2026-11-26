@@ -5,9 +5,9 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 ## 2026-11-26, about 12:15 p.m. ET: row 14, branches, stale PRs (his picks on the CTO's inline questions)
 
 - **Row 14 (the century's laws): "Last few sessions."** The 1925 century keeps its own vote for its early years. The real bill engine runs only the played state's last few sessions, in a pre-day-one pass, so loading stays near today's time. Measured by Past and Day One on Nov 26: the whole century through the engine would add at least 250% to loading (about 58 s on a 12 s build). Built by Past and Day One; it changes the world, so it stays open for his review.
-- **Branches:** "Turn on auto-delete + I run it." He turns on GitHub's "Automatically delete head branches" setting and runs  on the saved manifest of 6,704 merged-PR branches. Auto mode refused the bulk delete for the CTO.
-- **Stale PRs: "Close all 88."** That's 50 based on main and untouched for more than 7 days, plus 38 on bases that can never reach main (, , ). Closed at 12:15 p.m. with a reason on each; their branches stay.
-- **Overnight, Nov 26, about 2:40 a.m.:** "You are me while I'm asleep." The CTO's decisions made in his name are listed in , under "What I decided as you."
+- **Branches:** "Turn on auto-delete + I run it." He turns on GitHub's "Automatically delete head branches" setting and runs `cto-notes/tools/delete_merged_branches.py` on the saved manifest of 6,704 merged-PR branches. Auto mode refused the bulk delete for the CTO.
+- **Stale PRs: "Close all 88."** That's 50 based on main and untouched for more than 7 days, plus 38 on bases that can never reach main (`train/nov17b`, `train/nov18`, `claude/story-cut-before-nov15`). Closed at 12:15 p.m. with a reason on each; their branches stay.
+- **Overnight, Nov 26, about 2:40 a.m.:** "You are me while I'm asleep." The CTO's decisions made in his name are listed in `cto-notes/overnight/2026-11-26-morning.md`, under "What I decided as you."
 
 ## Nov 25, 2026, about 1:28 p.m.: one history, read by everything (owner, verbatim; recorded by the CTO)
 
