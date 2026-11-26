@@ -105,6 +105,9 @@ import {
 import { syncServiceCharges } from "../budgets-service-charges";
 export { chargedServicesOf } from "../budgets-service-charges";
 import { isFeeLevelSeries } from "../fee-levels";
+export { FinanceReadGuard } from "../finance-plan";
+export { ACCOUNTS_MODULE } from "../accounts";
+export { PURCHASE_TAX_MODULE } from "./purchase-tax";
 export { schoolsLineAboveBase } from "../school-budget-line";
 export { transfer, transferSplit } from "../accounts";
 
