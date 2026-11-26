@@ -15,7 +15,7 @@ import type { ModuleTable } from "./module-state";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { lawApplied } from "./law-reach/applied";
-import { countedWeight } from "./laws-in-force";
+import { countedWeight } from "./law-reach/pay-reach";
 
 /** Who a claim's law reached: the person, or for a counted resident the people they stand for. */
 function claimant(
@@ -31,16 +31,16 @@ function claimant(
   };
 }
 import type { LawInForceAnswer } from "./laws-in-force";
-import type { LawRowInput } from "./laws-in-force";
+import type { LawRowInput } from "./laws-starting";
 import { residentFacts, residentsRuntime } from "./modules/residents";
-import { countedPersonOf } from "./modules/health";
+import { countedPersonOf } from "./counted-actor";
 import { countedGroupIdOf } from "./modules/residents";
-import { appraiseEvent } from "./modules/health";
+import { appraiseEvent } from "./emotion";
 import { parameter, parameterValues } from "./parameters";
-import { initialPersonState } from "./modules/health";
+import { initialPersonState } from "./person-state";
 import { hardshipReason, leanedYesWithTerm } from "./trait-decisions";
-import { transferCash } from "./budgets-treasury";
-import { countedPayment } from "./modules/health";
+import { transferCash } from "./world-transfer";
+import { countedPayment } from "./counted-money";
 import type {
   Affect,
   CoreAPI,
