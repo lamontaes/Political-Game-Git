@@ -76,9 +76,6 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "../types";
 
 import { COVERAGE_MODULE_ID } from "../coverage-module-id";
-export { RESTING_STRESS_MODULE } from "./resting-stress";
-export { RENEWAL_MODULE } from "./renewal";
-export { renewalData } from "../births-setup";
 
 export { COVERAGE_MODULE_ID };
 

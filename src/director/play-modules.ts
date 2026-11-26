@@ -4,21 +4,21 @@
  * story director is created separately because the screens read its ledger.
  */
 import { DEFAULT_DATA } from "../core2/data";
-import { corruptionModule } from "../core2/laws-in-force";
+import { corruptionModule } from "../core2/modules/corruption";
 import {
   createDrivesModule,
   DEFAULT_DRIVES_DATA,
   withDrives,
-} from "../core2/modules/health";
+} from "../core2/modules/drives";
 import { HEALTH_MODULE } from "../core2/modules/health";
-import { TRAIT_CHANGE_MODULE } from "../core2/modules/health";
-import { RESTING_STRESS_MODULE } from "../core2/modules/coverage";
+import { TRAIT_CHANGE_MODULE } from "../core2/modules/trait-change";
+import { RESTING_STRESS_MODULE } from "../core2/modules/resting-stress";
 import { movesModule } from "../core2/modules/moves";
 import { partnershipsModule } from "../core2/modules/partnerships";
-import { RENEWAL_MODULE } from "../core2/modules/coverage";
-import { renewalData } from "../core2/modules/coverage";
+import { RENEWAL_MODULE } from "../core2/modules/renewal";
+import { renewalData } from "../core2/births-setup";
 import { newsModule } from "../core2/modules/news";
-import { speechModule } from "../core2/modules/health";
+import { speechModule } from "../core2/modules/speech";
 import { viewsModule } from "../core2/modules/views";
 import type { CoreData, CoreModule } from "../core2/types";
 import { beliefsModule } from "./conversation";

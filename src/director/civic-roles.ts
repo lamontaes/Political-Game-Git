@@ -33,20 +33,19 @@ import {
   votesOn,
   type BillRow as LegislatureBill,
 } from "../core2/modules/legislature";
-import type { BoardMember } from "../core2/modules/executive";
+import type { BoardMember } from "../core2/central-bank-board";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   LEADERSHIP_MODULE_ID,
   presidingOfficer,
-} from "../core2/modules/legislature";
+} from "../core2/modules/leadership";
 import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
 } from "../core2/modules/campaigns";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
-import { filingClerkFor } from "../core2/modules/campaigns";
-import { localClerkFor } from "../core2/modules/candidacy";
+import { filingClerkFor, localClerkFor } from "../core2/modules/filing-clerk";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import {
   EMERGENCY_OFFERED,
@@ -59,8 +58,8 @@ import { lineForPost } from "../core2/budgets-treasury";
 import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
-} from "../core2/modules/elections";
-import { retellingsOf } from "../core2/modules/health";
+} from "../core2/modules/interest-groups";
+import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
 import {

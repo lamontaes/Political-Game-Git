@@ -44,19 +44,14 @@ import { MACRO_PARAMETERS } from "./macro";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
-import {
-  bankYes,
-  lendMortgage,
-  monthlyIncome,
-  mortgageRoom,
-} from "../macro-model";
+import { bankYes, lendMortgage, monthlyIncome, mortgageRoom } from "./business";
 import { BUY_PULL, buyMarket, weighHome } from "../housing-buy";
 import {
   buyCountedHomes,
   type CountedBuyWorld,
   settleCountedNewcomers,
 } from "../housing-counted-buy";
-import { CREDIT_PARAMETERS } from "../macro-model";
+import { CREDIT_PARAMETERS } from "./business";
 import { DEFAULT_DATA } from "../data";
 import {
   MORTGAGE_PREFIX,

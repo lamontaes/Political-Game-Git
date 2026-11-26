@@ -77,38 +77,6 @@ import type {
   PersonState,
   Source,
 } from "../types";
-export { retellingsOf, speechModule } from "./speech";
-export { DEFAULT_DRIVES_DATA, createDrivesModule, withDrives } from "./drives";
-export { TRAIT_CHANGE_MODULE } from "./trait-change";
-export type { TraitMovability, TraitPack, TraitScale } from "../trait-packs";
-export {
-  countedHouseholdSavings,
-  countedPayment,
-  fundBalance,
-} from "../counted-money";
-export {
-  addResidentFlow,
-  businessScaleOf,
-  outputLostPerYear,
-  purchaseShareOf,
-  scaleOutsideSales,
-  shiftPurchaseShare,
-  staffedScale,
-  weightedPayrollMinor,
-} from "../residents-economy";
-export type { OutsideSectorFactor } from "../residents-economy";
-export { countedPersonOf } from "../counted-actor";
-export { appraiseEvent } from "../emotion";
-export { initialPersonState } from "../person-state";
-export type {
-  CashJournalSourceRef,
-  ResolvedCashJournalSource,
-} from "../journal";
-export type {
-  CashJournalPostedMarker,
-  CashJournalSourceProvider,
-  CashJournalSourceSlot,
-} from "../journal-state";
 
 /**
  * P10 producer, not a health engine: the existing Ruling 29/38/39 mortality
