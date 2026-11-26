@@ -22,7 +22,6 @@
 import bankJson from "../../../data/english/parts/conversation.json" with { type: "json" };
 import { admittedParts, directorSlots, type BankPart } from "../bank-parts";
 import rulesJson from "../../director/data/conversation-rules.json" with { type: "json" };
-import arcsJson from "../../director/data/purpose-arcs.json" with { type: "json" };
 import type { ConversationData } from "../../director/conversation";
 import type { ConversationPart, Move } from "../conversation-words";
 
@@ -232,11 +231,6 @@ export function conversationDataFromBank(
     );
   return {
     ...CONVERSATION_RULES,
-    // The menu's tables are rows of the arcs file the exchange engine reads.
-    ...(arcsJson.home.menu as unknown as Pick<
-      ConversationData,
-      "answersTo" | "follows" | "tells" | "namesOnce" | "related"
-    >),
     version: `words-${bank.register}-v2`,
     subjects,
   };

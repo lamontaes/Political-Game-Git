@@ -167,6 +167,7 @@ import {
   bribeRoleOf,
 } from "../core2/modules/justice";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
+import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
 import {
   answerBack,
   answerInTalk,
@@ -337,7 +338,19 @@ export interface ConversationData {
   subjects: Readonly<Record<string, SubjectBank>>;
 }
 /** The mined words, read by default. */
-export const CONVERSATION_DATA: ConversationData = CONVERSATION_WORDS;
+/**
+ * The data a conversation is handed: the mined words, with the replies a home
+ * talk offers (the arcs file's `home.menu`: what answers a question, what a
+ * reply may go on to raise, what is told when the player asks for more, what
+ * is named once on a screen, what a topic leads on to).
+ */
+export const CONVERSATION_DATA: ConversationData = {
+  ...CONVERSATION_WORDS,
+  ...(arcsFile.home.menu as unknown as Pick<
+    ConversationData,
+    "answersTo" | "follows" | "tells" | "namesOnce" | "related"
+  >),
+};
 /** The rules a conversation runs by, holding no sentence text. */
 export const CONVERSATION_RULES = rulesFile as unknown as Omit<
   ConversationData,
