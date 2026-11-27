@@ -158,70 +158,70 @@ Seconds in the profiled run. File and line come from the AFTER tree; a few share
 
 **Top 40 by self time in AFTER (BEFORE value alongside)**
 
-| #   | Function                                                         | BEFORE s | AFTER s | Added s |
-| --- | ---------------------------------------------------------------- | -------: | ------: | ------: |
-| 1   | (garbage collector) :0                                           |      5.4 |    14.6 |    +9.2 |
-| 2   | verify `src/core2/finance-plan.ts:309`                           |      0.0 |    13.5 |   +13.5 |
-| 3   | directRead `src/core2/finance-plan.ts:111`                       |      0.0 |     7.4 |    +7.4 |
-| 4   | chooseAct `src/core2/choice.ts:51`                               |      6.3 |     6.2 |    -0.1 |
-| 5   | availableActs `src/core2/life.ts:146`                            |      7.1 |     6.1 |    -1.0 |
-| 6   | detach `src/core2/finance-plan.ts:393`                           |      0.0 |     4.7 |    +4.7 |
-| 7   | field `src/core2/finance-plan.ts:150`                            |      0.0 |     3.6 |    +3.6 |
-| 8   | payload `src/core2/finance-plan.ts:268`                          |      0.0 |     3.6 |    +3.6 |
-| 9   | (anonymous) `src/core2/state.ts`                                 |      3.2 |     3.2 |    +0.0 |
-| 10  | parameter `src/core2/parameters.ts:37`                           |      3.0 |     3.0 |    -0.0 |
-| 11  | structuredClone (node:internal/worker/js_transferable)           |      0.0 |     2.5 |    +2.5 |
-| 12  | activate `src/core2/life.ts:211`                                 |      1.5 |     1.7 |    +0.2 |
-| 13  | finish `src/core2/finance-plan.ts:614`                           |      0.0 |     1.5 |    +1.5 |
-| 14  | postCashJournal `src/core2/journal-state.ts:1133`                |      0.0 |     1.4 |    +1.4 |
-| 15  | sourceReferences `src/core2/work-cash.ts:367`                    |      0.0 |     1.3 |    +1.3 |
-| 16  | compileSourceTextModule (node:internal/modules/esm/utils)        |      1.3 |     1.2 |    -0.1 |
-| 17  | (anonymous) `src/core2/journal-state.ts`                         |      0.0 |     0.9 |    +0.9 |
-| 18  | seal `src/core2/finance-plan.ts:303`                             |      0.0 |     0.8 |    +0.8 |
-| 19  | mapGet `src/core2/finance-plan.ts:170`                           |      0.0 |     0.8 |    +0.8 |
-| 20  | (anonymous) `src/core2/choice.ts`                                |      0.3 |     0.7 |    +0.4 |
-| 21  | (anonymous) `src/core2/modules/life.ts`                          |      0.5 |     0.6 |    +0.1 |
-| 22  | dateTime `src/core2/emotion.ts:62`                               |      0.3 |     0.6 |    +0.3 |
-| 23  | compareLifePlaceSearchOrder [src/simulation/life-places.ts:726](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-places.ts)  |      0.6 |     0.6 |    -0.0 |
-| 24  | checkMetadata `src/core2/journal-state.ts:1056`                  |      0.0 |     0.6 |    +0.6 |
-| 25  | settleWorkResultJournal `src/core2/work-cash.ts:640`             |      0.0 |     0.5 |    +0.5 |
-| 26  | knownPublicTargets `src/core2/modules/life.ts:46`                |      0.5 |     0.5 |    +0.0 |
-| 27  | projectCashJournal `src/core2/journal.ts:137`                    |      0.0 |     0.5 |    +0.5 |
-| 28  | projectWorkNeeds `src/core2/life.ts:104`                         |      0.2 |     0.5 |    +0.3 |
-| 29  | (anonymous) `src/core2/deep-past.ts` (removed)                   |      0.6 |     0.5 |    -0.1 |
-| 30  | protectJournalObjects `src/core2/journal-state.ts:170`           |      0.0 |     0.5 |    +0.5 |
-| 31  | runScheduledWork `src/core2/modules/work.ts:307`                 |      0.1 |     0.4 |    +0.3 |
-| 32  | discretionaryHours `src/core2/modules/work.ts:264`               |      0.4 |     0.4 |    -0.0 |
+| #   | Function                                                                                                                                                                                            | BEFORE s | AFTER s | Added s |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------: | ------: | ------: |
+| 1   | (garbage collector) :0                                                                                                                                                                              |      5.4 |    14.6 |    +9.2 |
+| 2   | verify `src/core2/finance-plan.ts:309`                                                                                                                                                              |      0.0 |    13.5 |   +13.5 |
+| 3   | directRead `src/core2/finance-plan.ts:111`                                                                                                                                                          |      0.0 |     7.4 |    +7.4 |
+| 4   | chooseAct `src/core2/choice.ts:51`                                                                                                                                                                  |      6.3 |     6.2 |    -0.1 |
+| 5   | availableActs `src/core2/life.ts:146`                                                                                                                                                               |      7.1 |     6.1 |    -1.0 |
+| 6   | detach `src/core2/finance-plan.ts:393`                                                                                                                                                              |      0.0 |     4.7 |    +4.7 |
+| 7   | field `src/core2/finance-plan.ts:150`                                                                                                                                                               |      0.0 |     3.6 |    +3.6 |
+| 8   | payload `src/core2/finance-plan.ts:268`                                                                                                                                                             |      0.0 |     3.6 |    +3.6 |
+| 9   | (anonymous) `src/core2/state.ts`                                                                                                                                                                    |      3.2 |     3.2 |    +0.0 |
+| 10  | parameter `src/core2/parameters.ts:37`                                                                                                                                                              |      3.0 |     3.0 |    -0.0 |
+| 11  | structuredClone (node:internal/worker/js_transferable)                                                                                                                                              |      0.0 |     2.5 |    +2.5 |
+| 12  | activate `src/core2/life.ts:211`                                                                                                                                                                    |      1.5 |     1.7 |    +0.2 |
+| 13  | finish `src/core2/finance-plan.ts:614`                                                                                                                                                              |      0.0 |     1.5 |    +1.5 |
+| 14  | postCashJournal `src/core2/journal-state.ts:1133`                                                                                                                                                   |      0.0 |     1.4 |    +1.4 |
+| 15  | sourceReferences `src/core2/work-cash.ts:367`                                                                                                                                                       |      0.0 |     1.3 |    +1.3 |
+| 16  | compileSourceTextModule (node:internal/modules/esm/utils)                                                                                                                                           |      1.3 |     1.2 |    -0.1 |
+| 17  | (anonymous) `src/core2/journal-state.ts`                                                                                                                                                            |      0.0 |     0.9 |    +0.9 |
+| 18  | seal `src/core2/finance-plan.ts:303`                                                                                                                                                                |      0.0 |     0.8 |    +0.8 |
+| 19  | mapGet `src/core2/finance-plan.ts:170`                                                                                                                                                              |      0.0 |     0.8 |    +0.8 |
+| 20  | (anonymous) `src/core2/choice.ts`                                                                                                                                                                   |      0.3 |     0.7 |    +0.4 |
+| 21  | (anonymous) `src/core2/modules/life.ts`                                                                                                                                                             |      0.5 |     0.6 |    +0.1 |
+| 22  | dateTime `src/core2/emotion.ts:62`                                                                                                                                                                  |      0.3 |     0.6 |    +0.3 |
+| 23  | compareLifePlaceSearchOrder [src/simulation/life-places.ts:726](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/life-places.ts)        |      0.6 |     0.6 |    -0.0 |
+| 24  | checkMetadata `src/core2/journal-state.ts:1056`                                                                                                                                                     |      0.0 |     0.6 |    +0.6 |
+| 25  | settleWorkResultJournal `src/core2/work-cash.ts:640`                                                                                                                                                |      0.0 |     0.5 |    +0.5 |
+| 26  | knownPublicTargets `src/core2/modules/life.ts:46`                                                                                                                                                   |      0.5 |     0.5 |    +0.0 |
+| 27  | projectCashJournal `src/core2/journal.ts:137`                                                                                                                                                       |      0.0 |     0.5 |    +0.5 |
+| 28  | projectWorkNeeds `src/core2/life.ts:104`                                                                                                                                                            |      0.2 |     0.5 |    +0.3 |
+| 29  | (anonymous) `src/core2/deep-past.ts` (removed)                                                                                                                                                      |      0.6 |     0.5 |    -0.1 |
+| 30  | protectJournalObjects `src/core2/journal-state.ts:170`                                                                                                                                              |      0.0 |     0.5 |    +0.5 |
+| 31  | runScheduledWork `src/core2/modules/work.ts:307`                                                                                                                                                    |      0.1 |     0.4 |    +0.3 |
+| 32  | discretionaryHours `src/core2/modules/work.ts:264`                                                                                                                                                  |      0.4 |     0.4 |    -0.0 |
 | 33  | childhoodFamilyContext [src/simulation/people-upbringing.ts:879](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/people-upbringing.ts) |      0.4 |     0.4 |    -0.0 |
-| 34  | (idle) :0                                                        |      0.4 |     0.4 |    +0.0 |
-| 35  | (anonymous) `src/core2/finance-plan.ts`                          |      0.0 |     0.4 |    +0.4 |
-| 36  | makeIsoDate [src/simulation/dates.ts:50](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/dates.ts)                         |      0.2 |     0.4 |    +0.1 |
-| 37  | set TextDecoder :0                                               |      0.2 |     0.4 |    +0.2 |
-| 38  | validateCommittedAct `src/core2/state.ts:561`                    |      0.3 |     0.4 |    +0.1 |
-| 39  | traitScore `src/core2/choice.ts:14`                              |      0.4 |     0.3 |    -0.0 |
-| 40  | observe `src/core2/state.ts:660`                                 |      0.5 |     0.3 |    -0.1 |
+| 34  | (idle) :0                                                                                                                                                                                           |      0.4 |     0.4 |    +0.0 |
+| 35  | (anonymous) `src/core2/finance-plan.ts`                                                                                                                                                             |      0.0 |     0.4 |    +0.4 |
+| 36  | makeIsoDate [src/simulation/dates.ts:50](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/dates.ts)                                     |      0.2 |     0.4 |    +0.1 |
+| 37  | set TextDecoder :0                                                                                                                                                                                  |      0.2 |     0.4 |    +0.2 |
+| 38  | validateCommittedAct `src/core2/state.ts:561`                                                                                                                                                       |      0.3 |     0.4 |    +0.1 |
+| 39  | traitScore `src/core2/choice.ts:14`                                                                                                                                                                 |      0.4 |     0.3 |    -0.0 |
+| 40  | observe `src/core2/state.ts:660`                                                                                                                                                                    |      0.5 |     0.3 |    -0.1 |
 
 **Top 40 by self time in BEFORE that fall out of AFTER's top 40**
 
-| Function                                                             | BEFORE s | AFTER s |
-| -------------------------------------------------------------------- | -------: | ------: |
-| refreshNeeds `src/core2/life.ts:71`                                  |      0.4 |     0.3 |
-| lineLengths (node:internal/source_map/source_map_cache)              |      0.3 |     0.3 |
-| (anonymous) [src/simulation/local-institutions.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/local-institutions.ts)                   |      0.3 |     0.3 |
-| openingTraits `src/core2/population.ts:404`                          |      0.3 |     0.2 |
-| stopgap `src/core2/stopgaps.ts:20`                                   |      0.3 |     0.3 |
-| drawFamilyShape [src/simulation/family-shape.ts:26](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/family-shape.ts)                  |      0.2 |     0.2 |
-| settleWorkResult `src/core2/work-state.ts:236`                       |      0.2 |     0.1 |
-| (anonymous) `src/core2/population.ts`                                |      0.2 |     0.2 |
-| drawCohortGivenName [src/simulation/given-name-cohorts.ts:84](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/given-name-cohorts.ts)        |      0.1 |     0.1 |
-| recordAct `src/core2/state.ts:837`                                   |      0.1 |     0.1 |
-| waitForWorker (node:internal/modules/esm/hooks)                      |      0.1 |     0.1 |
-| recordsByStringField [src/simulation/history-index.ts:226](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/history-index.ts)           |      0.1 |     0.1 |
-| (anonymous) [src/simulation/living-world/town-employment.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/town-employment.ts)         |      0.1 |     0.1 |
-| fork [src/simulation/rng.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/rng.ts)                                         |      0.1 |     0.1 |
-| makeAsyncRequest (node:internal/modules/esm/hooks)                   |      0.1 |     0.1 |
-| (anonymous) `src/districts/place-precinct-population.generated.json` |      0.1 |     0.1 |
-| lookupPublicOrganization `src/core2/state.ts:971`                    |      0.1 |     0.1 |
+| Function                                                                                                                                                                                                   | BEFORE s | AFTER s |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------: | ------: |
+| refreshNeeds `src/core2/life.ts:71`                                                                                                                                                                        |      0.4 |     0.3 |
+| lineLengths (node:internal/source_map/source_map_cache)                                                                                                                                                    |      0.3 |     0.3 |
+| (anonymous) [src/simulation/local-institutions.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/local-institutions.ts)                     |      0.3 |     0.3 |
+| openingTraits `src/core2/population.ts:404`                                                                                                                                                                |      0.3 |     0.2 |
+| stopgap `src/core2/stopgaps.ts:20`                                                                                                                                                                         |      0.3 |     0.3 |
+| drawFamilyShape [src/simulation/family-shape.ts:26](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/family-shape.ts)                          |      0.2 |     0.2 |
+| settleWorkResult `src/core2/work-state.ts:236`                                                                                                                                                             |      0.2 |     0.1 |
+| (anonymous) `src/core2/population.ts`                                                                                                                                                                      |      0.2 |     0.2 |
+| drawCohortGivenName [src/simulation/given-name-cohorts.ts:84](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/given-name-cohorts.ts)          |      0.1 |     0.1 |
+| recordAct `src/core2/state.ts:837`                                                                                                                                                                         |      0.1 |     0.1 |
+| waitForWorker (node:internal/modules/esm/hooks)                                                                                                                                                            |      0.1 |     0.1 |
+| recordsByStringField [src/simulation/history-index.ts:226](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/history-index.ts)                  |      0.1 |     0.1 |
+| (anonymous) [src/simulation/living-world/town-employment.ts](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/town-employment.ts) |      0.1 |     0.1 |
+| fork [src/simulation/rng.ts](https://github.com/lamontaes/Political-Game-Git/blob/bb50e1008b3992420248045518d209a79207db5e/src/simulation/rng.ts)                                                          |      0.1 |     0.1 |
+| makeAsyncRequest (node:internal/modules/esm/hooks)                                                                                                                                                         |      0.1 |     0.1 |
+| (anonymous) `src/districts/place-precinct-population.generated.json`                                                                                                                                       |      0.1 |     0.1 |
+| lookupPublicOrganization `src/core2/state.ts:971`                                                                                                                                                          |      0.1 |     0.1 |
 
 **Top 40 by total (inclusive) time in AFTER (BEFORE value alongside)**
 
@@ -270,24 +270,24 @@ Seconds in the profiled run. File and line come from the AFTER tree; a few share
 
 **Top 40 by total time in BEFORE that fall out of AFTER's top 40**
 
-| Function                                                                   | BEFORE s | AFTER s |
-| -------------------------------------------------------------------------- | -------: | ------: |
-| openingTraits `src/core2/population.ts:404`                                |      2.1 |     2.1 |
-| afterLoad (node:internal/modules/esm/loader)                               |      1.9 |     1.6 |
-| #translate (node:internal/modules/esm/loader)                              |      1.9 |     1.6 |
-| compileSourceTextModule (node:internal/modules/esm/utils)                  |      1.8 |     1.6 |
-| moduleStrategy (node:internal/modules/esm/translators)                     |      1.8 |     1.6 |
-| upbringingFor [src/simulation/people-upbringing.ts:1103](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/people-upbringing.ts)                   |      1.8 |     1.8 |
-| readUpbringing [src/simulation/people-upbringing.ts:1130](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/people-upbringing.ts)                  |      1.8 |     1.8 |
-| knownPublicTargets `src/core2/modules/life.ts:46`                          |      1.6 |     1.5 |
-| discretionaryHours `src/core2/modules/work.ts:264`                         |      1.5 |     1.4 |
-| childhoodFamilyContext [src/simulation/people-upbringing.ts:879](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/people-upbringing.ts)           |      1.5 |     1.5 |
-| refreshNeeds `src/core2/life.ts:71`                                        |      1.2 |     1.1 |
-| selectedPlace `src/core2/population.ts:174`                                |      0.9 |     0.9 |
-| writeWithWorldIntegrityOnce [src/simulation/world.ts:633](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world.ts)                  |      0.8 |     0.8 |
+| Function                                                                                                                                                                                                                 | BEFORE s | AFTER s |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------: | ------: |
+| openingTraits `src/core2/population.ts:404`                                                                                                                                                                              |      2.1 |     2.1 |
+| afterLoad (node:internal/modules/esm/loader)                                                                                                                                                                             |      1.9 |     1.6 |
+| #translate (node:internal/modules/esm/loader)                                                                                                                                                                            |      1.9 |     1.6 |
+| compileSourceTextModule (node:internal/modules/esm/utils)                                                                                                                                                                |      1.8 |     1.6 |
+| moduleStrategy (node:internal/modules/esm/translators)                                                                                                                                                                   |      1.8 |     1.6 |
+| upbringingFor [src/simulation/people-upbringing.ts:1103](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/people-upbringing.ts)                              |      1.8 |     1.8 |
+| readUpbringing [src/simulation/people-upbringing.ts:1130](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/people-upbringing.ts)                             |      1.8 |     1.8 |
+| knownPublicTargets `src/core2/modules/life.ts:46`                                                                                                                                                                        |      1.6 |     1.5 |
+| discretionaryHours `src/core2/modules/work.ts:264`                                                                                                                                                                       |      1.5 |     1.4 |
+| childhoodFamilyContext [src/simulation/people-upbringing.ts:879](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/people-upbringing.ts)                      |      1.5 |     1.5 |
+| refreshNeeds `src/core2/life.ts:71`                                                                                                                                                                                      |      1.2 |     1.1 |
+| selectedPlace `src/core2/population.ts:174`                                                                                                                                                                              |      0.9 |     0.9 |
+| writeWithWorldIntegrityOnce [src/simulation/world.ts:633](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world.ts)                                         |      0.8 |     0.8 |
 | ensureTownEmployment [src/simulation/living-world/town-employment.ts:1230](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/town-employment.ts) |      0.8 |     0.8 |
-| withWorldIntegrityDeferred [src/simulation/world.ts:600](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world.ts)                   |      0.8 |     0.8 |
-| buildDeepPast `src/core2/deep-past.ts:109` (removed)                       |      0.8 |     0.6 |
-| realLocalities `src/core2/places.ts:11`                                    |      0.7 |     0.7 |
+| withWorldIntegrityDeferred [src/simulation/world.ts:600](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/world.ts)                                          |      0.8 |     0.8 |
+| buildDeepPast `src/core2/deep-past.ts:109` (removed)                                                                                                                                                                     |      0.8 |     0.6 |
+| realLocalities `src/core2/places.ts:11`                                                                                                                                                                                  |      0.7 |     0.7 |
 | fillTownJobs [src/simulation/living-world/town-employment.ts:1380](https://github.com/lamontaes/Political-Game-Git/blob/bf81afcfd26a751a1445470926bd75da6f10254b/src/simulation/living-world/town-employment.ts)         |      0.7 |     0.7 |
-| (anonymous) `src/core2/places.ts`                                          |      0.7 |     0.7 |
+| (anonymous) `src/core2/places.ts`                                                                                                                                                                                        |      0.7 |     0.7 |

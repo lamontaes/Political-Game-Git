@@ -805,29 +805,29 @@ means a distinct visual thing a finished version of this game needs.
 
 ### 5.6 Documents, maps, data surfaces
 
-| #    | Requirement                            | State                                             | Category |
-| ---- | -------------------------------------- | ------------------------------------------------- | -------- |
-| D-01 | Working document surface               | **[MAIN-SUBSTRATE]** (`WorkingDocumentWorkspace`) | A        |
-| D-02 | Bill / legislation presentation        | **[MAIN-PLAYABLE]**                               | A        |
-| D-03 | Calendar surface                       | **[MAIN-SUBSTRATE]** (`CalendarWorkspace`)        | A        |
-| D-04 | Dossier on a person                    | **[MAIN-SUBSTRATE]** (`QuickDossier`)             | A        |
-| D-05 | Pin rail / persistent context          | **[MAIN-SUBSTRATE]** (`PinRail`)                  | A        |
-| D-06 | Jurisdiction map                       | **[MISSING]**                                     | C        |
-| D-07 | District map                           | **[MISSING]**                                     | C        |
-| D-08 | Relationship graph                     | **[MISSING]**                                     | C        |
-| D-09 | Timeline of a life                     | **[OPEN-PR #87]** (journal chapters, text)        | C        |
-| D-10 | Player-model / Pennywise visualization | **[MAIN-SUBSTRATE]** (`report:life` markdown)     | C        |
-| D-11 | Civic symbols / seals                  | **[BANKED]** ([src/authoring/civic-symbols.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/civic-symbols.ts))   | C        |
+| #    | Requirement                            | State                                                                                                                                                                         | Category |
+| ---- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| D-01 | Working document surface               | **[MAIN-SUBSTRATE]** (`WorkingDocumentWorkspace`)                                                                                                                             | A        |
+| D-02 | Bill / legislation presentation        | **[MAIN-PLAYABLE]**                                                                                                                                                           | A        |
+| D-03 | Calendar surface                       | **[MAIN-SUBSTRATE]** (`CalendarWorkspace`)                                                                                                                                    | A        |
+| D-04 | Dossier on a person                    | **[MAIN-SUBSTRATE]** (`QuickDossier`)                                                                                                                                         | A        |
+| D-05 | Pin rail / persistent context          | **[MAIN-SUBSTRATE]** (`PinRail`)                                                                                                                                              | A        |
+| D-06 | Jurisdiction map                       | **[MISSING]**                                                                                                                                                                 | C        |
+| D-07 | District map                           | **[MISSING]**                                                                                                                                                                 | C        |
+| D-08 | Relationship graph                     | **[MISSING]**                                                                                                                                                                 | C        |
+| D-09 | Timeline of a life                     | **[OPEN-PR #87]** (journal chapters, text)                                                                                                                                    | C        |
+| D-10 | Player-model / Pennywise visualization | **[MAIN-SUBSTRATE]** (`report:life` markdown)                                                                                                                                 | C        |
+| D-11 | Civic symbols / seals                  | **[BANKED]** ([src/authoring/civic-symbols.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/civic-symbols.ts)) | C        |
 
 ### 5.7 Dynamic surfaces
 
-| #    | Requirement                            | State                                                | Category |
-| ---- | -------------------------------------- | ---------------------------------------------------- | -------- |
-| Y-01 | Dynamic surface authoring              | **[BANKED]** ([src/authoring/dynamic-surfaces.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/dynamic-surfaces.ts))   | E        |
+| #    | Requirement                            | State                                                                                                                                                                                   | Category |
+| ---- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Y-01 | Dynamic surface authoring              | **[BANKED]** ([src/authoring/dynamic-surfaces.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/dynamic-surfaces.ts))     | E        |
 | Y-02 | Dynamic components                     | **[BANKED]** ([src/authoring/dynamic-components.ts](https://github.com/lamontaes/Political-Game-Git/blob/4afd897f4d5467dcb2e5fd324e6828acdb9205fd/src/authoring/dynamic-components.ts)) | E        |
-| Y-03 | Text rendered into a scene surface     | **[MAIN-SUBSTRATE]**                                 | E        |
-| Y-04 | Names/dates/places composed at runtime | **[MAIN-PLAYABLE]**                                  | E        |
-| Y-05 | Nameplates / signage in scenes         | **[MISSING]**                                        | E        |
+| Y-03 | Text rendered into a scene surface     | **[MAIN-SUBSTRATE]**                                                                                                                                                                    | E        |
+| Y-04 | Names/dates/places composed at runtime | **[MAIN-PLAYABLE]**                                                                                                                                                                     | E        |
+| Y-05 | Nameplates / signage in scenes         | **[MISSING]**                                                                                                                                                                           | E        |
 
 ---
 
