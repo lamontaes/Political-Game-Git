@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { recordBackgroundPerson } from "./husk-promoters";
-import { revisePostWage } from "./job-lifecycle";
 import { setSeatElectionYear } from "./modules/offices";
 import { recordPastVote, type VoteRecordRow } from "./modules/record";
-import type { CoreAPI, CoreState, HuskInput, JobInput, Source } from "./types";
+import type { CoreAPI, CoreState, HuskInput, Source } from "./types";
 
 /** The owners' doors for the writes other engines used to make themselves. */
 const source = {
@@ -26,31 +25,6 @@ const apiOver = (table: ReturnType<typeof rowTable>["table"]) =>
   ({ moduleState: () => ({ table: () => table }) }) as unknown as CoreAPI;
 
 describe("an engine writes another's records through the owner's door", () => {
-  it("revises a post's wage and keeps the job, and leaves an ended one alone", () => {
-    const job = (extra: Partial<JobInput>) =>
-      ({
-        id: "job:office:a",
-        wageDailyMinor: 100,
-        source,
-        ...extra,
-      }) as JobInput;
-    const core = {
-      jobs: new Map([
-        ["job:office:a", job({})],
-        ["job:office:b", job({ id: "job:office:b", endsAt: "2025-01-01" })],
-      ]),
-    } as unknown as CoreState;
-    revisePostWage(core, "job:office:a", 250, { ...source, citation: "pay" });
-    revisePostWage(core, "job:office:b", 250, source);
-    revisePostWage(core, "job:office:none", 250, source);
-    expect(core.jobs.get("job:office:a")).toMatchObject({
-      wageDailyMinor: 250,
-      source: { citation: "pay" },
-    });
-    expect(core.jobs.get("job:office:b")!.wageDailyMinor).toBe(100);
-    expect(core.jobs.has("job:office:none")).toBe(false);
-  });
-
   it("records a background person once and never over a person or a husk", () => {
     const husk = (id: string, givenName: string) =>
       ({ id, givenName, familyName: "X", source }) as unknown as HuskInput;

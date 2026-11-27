@@ -25,7 +25,6 @@ import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { notePublicPay, outsideAccountOf } from "../budgets-treasury";
 import { OFFICIALS_MODULE_ID, officialOf, type OfficialRow } from "./officials";
 import { registerHuskIncome } from "../husk-promoters";
-import { revisePostWage } from "../job-lifecycle";
 import {
   addDays,
   daysBetween,
@@ -471,13 +470,14 @@ function resalaried(api: CoreAPI, row: PayRow): PayRow {
     source,
   };
   table(api, "pay").put(next as unknown as ModuleRow);
-  if (row.jobId.startsWith("job:office:"))
-    revisePostWage(
-      api.state as CoreState,
-      row.jobId,
-      Math.round(salary.annualMinor / 365),
+  const core = api.state as CoreState;
+  const job = core.jobs.get(row.jobId);
+  if (job && job.endsAt === undefined && row.jobId.startsWith("job:office:"))
+    core.jobs.set(row.jobId, {
+      ...job,
+      wageDailyMinor: Math.round(salary.annualMinor / 365),
       source,
-    );
+    });
   return next;
 }
 

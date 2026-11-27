@@ -13,7 +13,6 @@ import type {
   CoreAPI,
   CoreState,
   JobInput,
-  Source,
   WorkCommitmentInput,
 } from "./types";
 
@@ -111,22 +110,6 @@ export function workedToday(
     !!person.jobId &&
     core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
   );
-}
-
-/**
- * A salaried post's wage follows the law that sets it (the officials engine's
- * pay): the same job, kept, with its new daily wage and the source that says
- * why. The jobs engine's own write, so no other engine edits a job row.
- */
-export function revisePostWage(
-  core: CoreState,
-  jobId: string,
-  wageDailyMinor: number,
-  source: Source,
-): void {
-  const job = core.jobs.get(jobId);
-  if (!job || job.endsAt !== undefined) return;
-  core.jobs.set(jobId, { ...job, wageDailyMinor, source });
 }
 
 export function endRecordedJob(
