@@ -4,8 +4,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
 import { isSchoolDay, SCHOOL_MODULE_ID } from "./modules/school";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
-import { daysAfterStart } from "./tooling/test-days";
+import { generatedOpening } from "./generated-world";
+import { daysAfterStart } from "../../tests/support/test-days";
 import { gameStartDate } from "./game-start";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

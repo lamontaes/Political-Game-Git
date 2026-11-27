@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { setBookkeeping } from "./bookkeeping";
-import { piecesInput, piecesSource } from "./core-pieces-fixture";
+import {
+  piecesInput,
+  piecesSource,
+} from "../../tests/support/core-pieces-fixture";
 import {
   forgetOldEventIds,
   newestDateIn,

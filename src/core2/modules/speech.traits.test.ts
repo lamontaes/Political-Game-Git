@@ -12,7 +12,11 @@ import { buildPopulation } from "../population";
 import { coreAPI } from "../state";
 import { believesClaim, claimFit } from "../heard-claims";
 import { decisionLean } from "../trait-decisions";
-import { thirdsLogOdds, withTraitWeight, RUN_SEED } from "../trait-test-kit";
+import {
+  thirdsLogOdds,
+  withTraitWeight,
+  RUN_SEED,
+} from "../../../tests/support/trait-test-kit";
 import { drawPlace } from "../../../tests/golden-path/place";
 import { deliverSpeech, speechModule, type Retelling } from "./speech";
 import { viewsModule } from "./views";

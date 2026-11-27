@@ -47,7 +47,7 @@ import {
   townSeats,
 } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
-import { billCatalog } from "../core2/bill-catalog";
+import { billCatalog } from "../core2/modules/meetings";
 import {
   chargedServicesOf,
   governmentOfJurisdiction,

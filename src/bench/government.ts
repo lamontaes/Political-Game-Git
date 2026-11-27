@@ -20,8 +20,8 @@ import {
   termById,
   townSeats,
 } from "../core2/modules/offices";
-import { choosesPresident } from "../core2/electorate-places";
-import { federalOffices } from "../core2/offices-state";
+import { choosesPresident } from "../core2/modules/campaigns";
+import { federalOffices } from "../core2/modules/offices";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { lawChain } from "../core2/modules/laws";
 import { repealFor } from "./legislature";
@@ -51,14 +51,16 @@ import {
 import { platformForContest } from "../core2/modules/candidacy";
 import {
   PARTIES_MODULE_ID,
-  joinParty,
   partiesHere,
+  partyTie,
+} from "../core2/modules/elections";
+import {
+  joinParty,
   nextPartyMeeting,
   partyAgreement,
   partyMemberIds,
   partyStands,
-  partyTie,
-} from "../core2/modules/parties";
+} from "../core2/modules/campaigns";
 import { policyNames, standWords } from "./words";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { ownRace } from "./results";

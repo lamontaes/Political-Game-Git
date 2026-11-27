@@ -8,7 +8,7 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { drawPlace } from "../../scripts/core2-year/place.ts";
-import { devModeOn } from "./dev-setup.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
 
 const runSeed = process.env.BUDGET_SEED ?? crypto.randomUUID();
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;

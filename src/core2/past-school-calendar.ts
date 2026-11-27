@@ -4,7 +4,7 @@
  * after August 24 to the Friday of its fortieth week. Moved from the old
  * engine's `school-calendar.ts`.
  */
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
 import type { IsoDate } from "./kernel/brands";
 
 export const SCHOOL_STAGE_CALENDAR = {
@@ -40,7 +40,7 @@ function termStartsIn(year: number): IsoDate {
   const earliest = makeIsoDate(
     `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
   );
-  const weekday = new Date(`${earliest}T00:00:00Z`).getUTCDay();
+  const weekday = weekdayOf(earliest);
   return addDays(earliest, (8 - weekday) % 7);
 }
 

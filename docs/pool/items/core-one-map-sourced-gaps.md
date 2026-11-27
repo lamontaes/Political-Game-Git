@@ -19,6 +19,6 @@ claimed-at: 2026-11-05T05:39:38.399Z
 
 **Done when.** The place map check reports no calendar or budget gaps and the county-area gaps carry where I looked; the test over every place passes.
 
-**Files.** data/research/government/county-election-schedule-by-state.json, src/core2/data/budgets/local-fiscal-years.json, src/core2/gov-rules/place-slots.ts
+**Files.** data/research/government/county-election-schedule-by-state.json, src/core2/data/budgets/local-fiscal-years.json, scripts/core2/place-slots.ts
 
 **Notes.** TODO

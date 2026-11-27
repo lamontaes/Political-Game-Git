@@ -96,7 +96,7 @@ import { dayParts } from "./day-part";
 import { bodySaid } from "./body-said";
 import { earlierAddressPieces } from "./address-render";
 import { coreStateName } from "../core2/place-lookup";
-import { markWordsStopgap } from "./stopgaps";
+import { markWordsStopgap } from "../core2/stopgaps";
 import { isOutsideMarket, stateInSentence } from "./words";
 import { changeSaid, countSaid } from "../english/count-words";
 import { measureWords } from "../english/area-names";
