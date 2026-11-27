@@ -72,13 +72,13 @@ export function createPlayApi({ root, fork }) {
     });
     return child;
   };
-  /** @param {string} method @param {URL} url */
-  function playApi(method, url) {
+  /** @param {string} method @param {URL} url @param {string} [body] */
+  function playApi(method, url, body = "") {
     host ??= start();
     const id = ++nextId;
     return new Promise((resolve, reject) => {
       pending.set(id, { resolve, reject });
-      host.send({ id, method, url: url.href });
+      host.send({ id, method, url: url.href, body });
     });
   }
   playApi.stop = () => {
