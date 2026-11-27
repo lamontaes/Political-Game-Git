@@ -23,7 +23,7 @@ import { endLivingPlan } from "./business";
 import { servingTerms } from "./offices";
 import { allBusinessOwners } from "../business-reads";
 import { VIEWS_MODULE_ID } from "./views-constants";
-import { ELECTIONS_MODULE_ID } from "./elections";
+import { ELECTIONS_MODULE_ID, contestOf } from "./elections";
 import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {
   countedFundOf,
@@ -106,14 +106,12 @@ export function protectedPeople(api: CoreAPI): Set<PersonId> {
     core.modules.has(CANDIDACY_MODULE_ID) &&
     core.modules.has(ELECTIONS_MODULE_ID)
   ) {
-    const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
     for (const row of api
       .moduleState(CANDIDACY_MODULE_ID)
       .table("decisions")
       .rows() as unknown as CandidacyDecision[]) {
       if (!row.run) continue;
-      const contest = contests.get(row.contestId) as unknown as
-        { electionDate: string } | undefined;
+      const contest = contestOf(api, row.contestId);
       if (contest && contest.electionDate >= core.date) out.add(row.personId);
     }
   }
