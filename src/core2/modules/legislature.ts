@@ -92,7 +92,7 @@ import { viewOn } from "./views";
 import { carriesRevenue, revenueGivenUp } from "../budgets-treasury";
 import { ownStance } from "./officials";
 import { closenessBetween } from "../closeness";
-import { bribePull, registerBribeScope } from "./corruption";
+import { bribePull } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import {
   BUDGETS_MODULE_ID,
@@ -478,6 +478,8 @@ export const LEGISLATURE_MODULE: CoreModule = {
   id: LEGISLATURE_MODULE_ID,
   history: BILLS_HISTORY,
   // What the budgets engine asks of a body: how a council votes its budget, holds its hearing on it, and whether its meeting votes the year's budget instead of the calendar.
+  // Why an official has no say over a bill (corruption asks every carrier).
+  bribeScope: billBribeScope,
   budgetVote: (api, gov, fiscalYear) =>
     councilBudget(api, gov as GovernmentRow, fiscalYear),
   budgetHearing: (api, gov, fiscalYear) =>
@@ -1213,9 +1215,6 @@ export function governingMembers(
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
-  // Registered when the legislature opens, never as the file loads: in an
-  // import cycle the corruption module's list may not exist yet.
-  registerBribeScope(billBribeScope);
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
 }
