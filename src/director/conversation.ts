@@ -7827,6 +7827,21 @@ function sayNow(
     });
     conversation.recorded.push(id);
   };
+  // What the other person says back to the player's reply: their line, the
+  // records it rests on and the record that this reply wrote.
+  const otherTells = (
+    kind: string,
+    line: Pick<ConversationLine, "text" | "sourceRecordIds" | "wording">,
+    recordId: string,
+  ) =>
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: choice.answers,
+      kind,
+      act: "tell",
+      ...line,
+      sourceRecordIds: [...new Set([...line.sourceRecordIds, recordId])],
+    });
   let doubted = false;
   if (choice.lie && choice.claim) {
     const claim = choice.claim;
@@ -7913,17 +7928,7 @@ function sayNow(
       shape: (facts) => facts,
       saidParts: saidParts(conversation, otherId),
     });
-    if (back)
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId: choice.answers,
-        kind: `${last.kind}-back`,
-        act: "tell",
-        ...back,
-        sourceRecordIds: [
-          ...new Set([...back.sourceRecordIds, answered ?? eventId]),
-        ],
-      });
+    if (back) otherTells(`${last.kind}-back`, back, answered ?? eventId);
     conversation.choices = [];
     conversation.lies = [];
     return conversation;
@@ -7986,15 +7991,7 @@ function sayNow(
       }),
       saidParts: saidParts(conversation, otherId),
     });
-    if (back)
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId: choice.answers,
-        kind: back.subject,
-        act: "tell",
-        ...back.line,
-        sourceRecordIds: [...new Set([...back.line.sourceRecordIds, eventId])],
-      });
+    if (back) otherTells(back.subject, back.line, eventId);
     carryOn(core, conversation, data);
     return conversation;
   }
@@ -8036,15 +8033,7 @@ function sayNow(
       }),
       saidParts: saidParts(conversation, otherId),
     });
-    if (back)
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId: choice.answers,
-        kind: back.subject,
-        act: "tell",
-        ...back.line,
-        sourceRecordIds: [...new Set([...back.line.sourceRecordIds, eventId])],
-      });
+    if (back) otherTells(back.subject, back.line, eventId);
     // A story that already says how it came out leaves nothing to wait to
     // see: with no take that fits, the talk carries on with no filler line.
     if (back || conversation.topicFacts?.["story-decided"]) {
@@ -8105,15 +8094,7 @@ function sayNow(
       saidParts: saidParts(conversation, otherId),
     });
     if (last.kind === "here") conversation.nameGiven = true;
-    if (back)
-      conversation.lines.push({
-        speakerId: otherId,
-        subjectId: choice.answers,
-        kind: `${last.kind}-back`,
-        act: "tell",
-        ...back,
-        sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
-      });
+    if (back) otherTells(`${last.kind}-back`, back, eventId);
     // Now they have met, the news they came with is told (Words lead, Nov 14).
     if (last.kind === "here") {
       if (raiseBroughtNews(core, conversation, data)) return conversation;
