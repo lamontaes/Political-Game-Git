@@ -11,16 +11,7 @@
  * short. Social Security paid in town follows the federal line.
  */
 import { publicPayTreasuries } from "./public-work-pay";
-import {
-  lineAdders,
-  linePayers,
-  registerBudgetPassThrough,
-  registerLineAdditions,
-  registerLinePayments,
-  registerTreasuryRule,
-  treasuryRules,
-  type LineAddition,
-} from "./budgets-line-payers";
+import { type LineAddition } from "./budgets-line-payers";
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
 import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
@@ -62,6 +53,7 @@ import {
   storiesHeard,
   type Story,
 } from "./modules/news";
+import { carriersOf, fieldsOf } from "./module-fields";
 import { allCountryStates, allMacroMonths, macroMonthAt } from "./macro-reads";
 export { cutRibbon, ribbonsToCut } from "./modules/projects";
 export { employerArrears, profitTaxArrears } from "./modules/employer-taxes";
@@ -470,12 +462,7 @@ export function lineForPost(
 // The registry of in-town engines that pay a line this month without a payday
 // lives in a leaf module: engines register at import time, and a registry held
 // here was read before it was set when an engine's file was entered first.
-export {
-  registerLineAdditions,
-  registerLinePayments,
-  registerTreasuryRule,
-  type LineAddition,
-};
+export type { LineAddition };
 
 /** The recorded payment of a bill's carried change to a line. */
 const BILL_LINE_PAID = "budget-line-paid";
@@ -486,8 +473,8 @@ function lawsOnLine(
   gov: GovernmentRow,
   line: string,
 ): LineAddition[] {
-  const out = lineAdders
-    .flatMap((a) => a.additions(api, gov))
+  const out = fieldsOf(api.state, "lineAdditions")
+    .flatMap((a) => a.additions(api, gov) as readonly LineAddition[])
     .filter((a) => a.line === line);
   const carried = enactedBudgetChanges(api, gov.id)[line] ?? 0;
   const by = carried > 0 ? carriedMeasureOf(api, gov.id, line) : null;
@@ -509,7 +496,11 @@ function lawsOnLine(
  * moved. This is the same share `grantLineChanges` pays on top of the base aid
  * each month, so the line rises by the dollars that arrive for it.
  */
-registerBudgetPassThrough((api, gov, revenueMinor) => {
+export function grantPassThrough(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  revenueMinor: Readonly<Record<string, number>>,
+): Readonly<Record<string, number>> {
   const flow = DATA.aid.flows.find(
     (f) => f.payer === "federal" && f.payee === gov.level,
   );
@@ -539,7 +530,7 @@ registerBudgetPassThrough((api, gov, revenueMinor) => {
       (out[spentOn] ?? 0) + Math.round((aid * byBills) / baseTotal);
   }
   return out;
-});
+}
 
 /** A law that raised a line, with the share of the line it added. */
 type RaisedBy = LineAddition & { readonly share: number };
@@ -1120,10 +1111,10 @@ export interface ContractAwarder {
     payment: { readonly id: string; readonly amountMinor: number },
   ): void;
 }
-let contractAwarder: ContractAwarder | null = null;
-/** The contracts module registers how a government's body chooses among bids. */
-export function registerContractAwarder(awarder: ContractAwarder): void {
-  contractAwarder = awarder;
+/** How a government's body chooses among bids: the contracts module carries it (`contractAwarder`). */
+function contractAwarderOf(api: CoreAPI): ContractAwarder | undefined {
+  return carriersOf(api.state, "contractAwarder")[0]?.contractAwarder as
+    ContractAwarder | undefined;
 }
 
 /** What this treasury couldn't cover of its opening employers' wages, by the core's own record. */
@@ -1596,7 +1587,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
 
 /** What the close reads once: the parameters, the governments in order, each one's budget, the aid lines and the country tier's withholding. */
 function openClose(api: CoreAPI, source: Source, outside: string) {
-  for (const rule of treasuryRules) rule(api);
+  for (const rule of fieldsOf(api.state, "treasuryRule")) rule(api);
   const accounts = api.accounts();
   const date = api.state.date;
   const months = treasuryParameter("monthsPerYear");
@@ -1782,7 +1773,9 @@ function openRun(c: Close) {
   // The rows the laws that raised a line were recorded on this close, and the
   // keys they could have been recorded under.
   const lineLawRows = new Set<string>();
-  const lineLawKeys = new Set(lineAdders.flatMap((a) => a.keys));
+  const lineLawKeys = new Set(
+    fieldsOf(api.state, "lineAdditions").flatMap((a) => a.keys),
+  );
   const total = (lines: Readonly<Record<string, number>>) =>
     Object.values(lines).reduce((a, b) => a + b, 0);
   return { ...c, providers, aidReceived, lineLawRows, lineLawKeys, total };
@@ -1904,8 +1897,8 @@ function planTreasury(r: Run, gov: Gov, budget: Budget) {
   const chargedSince = sinceClose.charged ?? {};
   table(api, "sinceClose").put({ id: gov.id, lines: {} } as ModuleRow);
   const inTown: Record<string, number> = { ...since };
-  for (const payer of linePayers)
-    for (const [line, minor] of Object.entries(payer(api, gov)))
+  for (const carrier of carriersOf(api.state, "linePayments"))
+    for (const [line, minor] of Object.entries(carrier.linePayments!(api, gov)))
       inTown[line] = (inTown[line] ?? 0) + minor;
   // A line pays its twelfth and whatever it fell short last month.
   const owed =
@@ -1981,9 +1974,10 @@ function planTreasury(r: Run, gov: Gov, budget: Budget) {
       : 0;
     // The body chooses among the town's firms; with no firm, or no
     // contracts engine, the purchase goes to the outside account.
+    const awarder = contractAwarderOf(api);
     const award =
-      bought > 0 && firms.length && contractAwarder
-        ? contractAwarder.award(api, {
+      bought > 0 && firms.length && awarder
+        ? awarder.award(api, {
             gov,
             line,
             monthlyMinor: bought,
@@ -2206,12 +2200,12 @@ function keepTreasuryMonth(r: Run, gov: Gov, budget: Budget, a: Funded): void {
       );
       providersPaid = out.paid;
       if (out.base > 0)
-        contractAwarder?.paid(api, winner.id, {
+        contractAwarderOf(api)?.paid(api, winner.id, {
           id,
           amountMinor: out.base,
         });
       for (const part of out.parts)
-        contractAwarder?.paid(api, winner.id, {
+        contractAwarderOf(api)?.paid(api, winner.id, {
           id: part.id,
           amountMinor: part.paid,
         });

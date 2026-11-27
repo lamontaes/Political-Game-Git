@@ -20,7 +20,10 @@ def find(prefix, start=0):
 
 top = find("export function closeTreasuries(api: CoreAPI, source: Source): void {")
 end = next(i for i in range(top, len(lines)) if lines[i] == "}")
-i_rules = find("  for (const rule of treasuryRules) rule(api);", top)
+# the fiscal rules are read from a list (before the registries became fields) or from the modules that carry them (after)
+i_rules = next(i for i in range(top, len(lines)) if lines[i] in (
+    "  for (const rule of treasuryRules) rule(api);",
+    '  for (const rule of fieldsOf(api.state, "treasuryRule")) rule(api);'))
 i_tierbase = find("  const tierBase = new Map<string, number>();", i_rules)
 i_phase1 = find("  for (const gov of govs) {", i_tierbase)
 i_phase2 = find("  // The taxes with named payers: each installment due last month is paid by", i_phase1)
