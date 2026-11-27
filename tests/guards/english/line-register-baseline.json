@@ -7,7 +7,7 @@
     "campaign-standing": 61,
     "choice-names": 60,
     "conversation": 1339,
-    "headlines": 387,
+    "headlines": 164,
     "journal": 62,
     "meeting": 8,
     "news": 413,
@@ -16,7 +16,7 @@
     "opening-speech": 503,
     "person-history": 293,
     "scene-talk": 1879,
-    "scene-words": 444,
+    "scene-words": 105,
     "speech-stages": 26
   },
   "saysNothing": [],
