@@ -35,7 +35,7 @@
       "asks": {
         "note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise. Asked again: a plea carries them where the favor would at the roll; taking up their price (legislature askPrice: the player's vote on their own bill, or half a section) carries them where the price would, and is offered only where the record holds one; asking them only to stay out of the room carries them where a favor covers half their lean (absenceCarries), and they agree in a decline; pressing holds them only where they lean for it; letting it go wins nothing. On a second ask after their not yet, deferring to them (\"Read it.\", \"Take the time you need.\") keeps the ask open and wins nothing now; it is offered only on a second ask (Words lead, Nov 15).",
         "yes": "agree",
-        "carried": "stall",
+        "carried": "undecided",
         "no": "refuse",
         "relent": ["relent", "agree"],
         "thanks": "thank",
@@ -863,20 +863,13 @@
       "acts": {
         "note": "The replies that say the act in their own words (Account lead, Nov 14): a reply that names the act ends the talk with one closing line from the visitor and signs or vetoes the bill through the desk (Words lead, Nov 14 20:35Z). Any other reply, a no included, leaves it on the desk and the talk goes on.",
         "sign": [
-          "scene-talk.reply-agree.you-ve-made-your-case-bring-the-pen",
-          "scene-talk.reply-agree.it-passed-i-ll-sign-it",
-          "scene-talk.reply-refuse.no-veto-it-gets-my-signature",
-          "scene-talk.reply-relent.fine-i-ll-sign-it-then",
-          "scene-talk.reply-agree.then-it-deserves-a-signature-bring-the-pen",
           "scene-talk.reply-agree.so-it-brings-purpose-and-costs-the-budget-nothing-i-ll-sign-it",
-          "scene-talk.reply-agree.that-settles-it-i-ll-sign"
+          "scene-talk.reply-agree.passed-with-nobody-against-it-and-it-does-i-ll-sign-it",
+          "scene-talk.reply-agree.it-costs-a-year-but-it-does-i-ll-sign-it"
         ],
         "veto": [
-          "scene-talk.reply-agree.i-ll-veto-it",
-          "scene-talk.reply-agree.then-it-gets-a-veto",
-          "scene-talk.reply-refuse.it-goes-back-with-a-veto",
-          "scene-talk.reply-relent.all-right-i-ll-veto-it",
-          "scene-talk.reply-agree.that-settles-it-i-ll-veto-it"
+          "scene-talk.reply-refuse.i-m-vetoing-it-costs-a-year-and-i-can-t-find-the-money-for-it",
+          "scene-talk.reply-refuse.i-ll-veto-the-members-who-voted-no-were-speaking-for-their-voters-and-i-won-t-ignore-that"
         ]
       },
       "state": "request",
@@ -885,7 +878,7 @@
         "agree": ["thank"],
         "bargain": ["accept", "press"],
         "ask": ["answer"],
-        "confront": ["press", "accept"]
+        "refuse": ["press", "accept"]
       },
       "again": {
         "answer": ["agree", "refuse", "bargain", "ask"]
@@ -913,7 +906,7 @@
           "label": "The other way",
           "keeps": "none",
           "when": {
-            "reply": ["refuse", "decline", "confront"]
+            "reply": ["refuse", "decline"]
           }
         },
         {
@@ -1031,7 +1024,7 @@
       "asks": {
         "note": "Where the player is the sponsor and asks the chair of the committee that held the bill: the chair says yes only if their own stand already reaches a hearing, not yet if a favor would carry them, no otherwise, and the no gives the reason the committee record holds. Asked again: a plea carries them where the favor would, pressing holds them where they stood, and letting it go wins nothing.",
         "yes": "agree",
-        "carried": "stall",
+        "carried": "undecided",
         "no": "refuse",
         "relent": ["relent", "agree"],
         "thanks": "thank",
@@ -2519,14 +2512,15 @@
     },
     "job-offer": {
       "state": "request",
-      "replies": ["ask", "agree", "decline"],
+      "replies": ["ask", "agree", "decline", "offer"],
       "follow": {
         "ask": ["answer"],
         "agree": ["thank"],
-        "decline": ["press", "accept"]
+        "decline": ["press", "accept"],
+        "offer": ["accept"]
       },
       "again": {
-        "answer": ["agree", "decline"],
+        "answer": ["agree", "decline", "offer"],
         "press": ["agree", "decline"]
       },
       "endings": [
@@ -2717,7 +2711,7 @@
       "asks": {
         "note": "A door on the player's own canvass: the resident answers from where the knock left them; pressing wins them only where they lean for it already.",
         "yes": "agree",
-        "carried": "deflect",
+        "carried": "undecided",
         "no": "decline",
         "relent": ["agree"],
         "thanks": "thank",
@@ -3368,7 +3362,6 @@
       "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank", "accept"],
-        "promise": ["thank", "press"],
         "ask": ["answer"],
         "decline": ["accept", "press"]
       },
@@ -3382,7 +3375,7 @@
           "label": "You said you would show them around",
           "keeps": "promise",
           "when": {
-            "anyReply": ["agree", "promise"]
+            "anyReply": ["agree"]
           }
         },
         {
@@ -3895,14 +3888,15 @@
     },
     "party-welcome": {
       "state": "request",
-      "replies": ["agree", "ask"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": ["thank"],
-        "ask": ["answer"]
+        "ask": ["answer"],
+        "decline": ["accept"]
       },
       "again": {
         "press": ["agree"],
-        "answer": ["agree"]
+        "answer": ["agree", "decline"]
       },
       "endings": [
         {
@@ -3971,7 +3965,7 @@
       "asks": {
         "note": "The player asks a colleague to sign on to their bill: the colleague answers yes if they already lean for it, not yet if a favor to the player would carry them, no otherwise, and a no says the reason the record holds (publicDeclineReason). Asked again: a plea carries them where the favor would; pressing holds them only where they lean for it; letting it go wins nothing. A yes is thanked, and the colleague closes on it. On a second ask after their not yet, deferring to them (\"Read it.\", \"Take the time you need.\") keeps the ask open and wins nothing now; it is offered only on a second ask (Words lead, Nov 15).",
         "yes": "agree",
-        "carried": "stall",
+        "carried": "undecided",
         "no": "refuse",
         "relent": ["relent", "agree"],
         "thanks": "thank",
