@@ -4,15 +4,26 @@
  * employer it binds, and the count of the town's counted residents it
  * reaches. A repeal ends each record on its date; a monthly review keeps the
  * reach current as ages, incomes and work hours change.
+ *
+ * Why there are two reach stores (group-a-records.ts is the other; host.ts's
+ * `reachOn` reads both): this store keeps the numeric reach, an effect with
+ * its terms and the share each law is credited, plus what a policy did to the
+ * budget so a repeal can undo it. Group A keeps a sentence of what a law means
+ * for the one it reaches, its enforcer and its penalty. A's `what` is prose and
+ * B's `effect` is an id with numbers behind it, so neither is the other under a
+ * different name, and no policy key is in both.
  */
-import { registerModule } from "../state";
+import { coreAPI, registerModule } from "../state";
+import { reachParameter } from "./group-b-people";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addMonths } from "./group-b-dates";
 import {
+  ASSISTANCE_INCOME_ROW,
   REACH_B_MODULE_ID,
   STANDING_BENEFIT_PROGRAMS,
+  VETERANS_INCOME_ROW,
 } from "./group-b-store-constants";
 export { REACH_B_MODULE_ID, STANDING_BENEFIT_PROGRAMS };
 const REVIEW_KIND = "law-reach-b-review";
@@ -104,6 +115,13 @@ const MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => runReview(api, work),
+  // A counted household's public income, a year of the welfare line's
+  // assistance and the veterans line's benefits, both money income in the
+  // poverty measure (the counted households' income reads it a household at a
+  // time).
+  assistanceReader: (core, householdId) =>
+    yearOfIncomeRow(core, ASSISTANCE_INCOME_ROW, householdId) +
+    yearOfIncomeRow(core, VETERANS_INCOME_ROW, householdId),
   // A closed organization is no longer bound or eligible: its open rows end
   // the day it closes, not at the next monthly review.
   eventKinds: ["business.closed"],
@@ -112,6 +130,22 @@ const MODULE: CoreModule = {
     endOrganizationRows(api, event.topic, event.date);
   },
 };
+
+/** What one `taken` income row pays a household a year (a lookup, never the whole map). */
+function yearOfIncomeRow(
+  core: CoreState,
+  rowId: string,
+  householdId: string,
+): number {
+  if (!core.modules.has(REACH_B_MODULE_ID)) return 0;
+  const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
+    coreAPI(core),
+    "taken",
+    rowId,
+  );
+  const monthly = row?.monthlyByHousehold?.[householdId];
+  return monthly === undefined ? 0 : monthly * reachParameter("monthsPerYear");
+}
 
 /** End every open reach row naming an organization, dated the day it closed. */
 export function endOrganizationRows(
