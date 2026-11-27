@@ -60,7 +60,7 @@ import {
   supplierBillsOwed,
 } from "./residents";
 import { foundingLoanLimit, lendForFounding } from "./credit";
-import { registerEmployer, strongestPulls } from "./jobs";
+import { registerEmployer, retirementOnsetYears, strongestPulls } from "./jobs";
 import { transferCash } from "../world-transfer";
 import {
   addRegulatoryCost,
@@ -856,19 +856,47 @@ function reviewClosures(api: CoreAPI): void {
         p("businessCloseAgeYears"),
     };
     if (!outsideFirm) {
+      // A named owner retires the way a worker does (jobs.ts workerOffers: the retire offer's baseline,
+      // years past the onset age and savings); a business has no successor, so a retiring owner closes it.
+      // The owner's own score is the larger of retiring and carrying on through its losses.
+      const past = Math.max(0, age - retirementOnsetYears(api));
+      const person = found!.person;
+      const saved = founderSavings(api, person.id).minor;
+      const dailyCost = person.livingCostDailyMinor;
+      const bufferMonths =
+        dailyCost > 0
+          ? saved /
+            ((dailyCost * p("jobsDaysPerYear")) / p("macroMonthsPerYear"))
+          : 0;
+      const retire = {
+        baseline: p("jobsRetireBaseline"),
+        age: p("jobsRetireAgeWeight") * past,
+        savings:
+          p("jobsMoneyBufferWeight") * Math.log1p(Math.max(0, bufferMonths)),
+      };
+      const retireSum = retire.baseline + retire.age + retire.savings;
+      const lossSum = reasons.baseline + reasons.losses;
+      const decide =
+        past > 0 && retireSum > lossSum
+          ? {
+              baseline: retire.baseline,
+              retiring: retire.age + retire.savings,
+              losses: 0,
+            }
+          : { baseline: reasons.baseline, retiring: 0, losses: reasons.losses };
       const chosen = chooseAct(c, row.ownerId, [
         closeOffer(false, row.id, {}),
-        closeOffer(true, row.id, reasons),
+        closeOffer(true, row.id, decide),
       ]).selected!;
       if (chosen.definition.id === businessData.actions.close.id)
         closeByChoice(
           api,
           row.id,
           row.ownerId,
-          reasons.losses > reasons.age
+          decide.losses > decide.retiring
             ? businessData.reasons.losses
             : businessData.reasons.retiring,
-          reasons,
+          decide,
         );
     } else {
       // Outside firm: causes summed against the stay bar, sliding.
