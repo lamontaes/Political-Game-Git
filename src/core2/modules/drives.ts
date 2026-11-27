@@ -1928,6 +1928,633 @@ function founderOf(api: CoreAPI, groupId: string) {
   return runtimeFor(api.state).groupFounder.get(groupId);
 }
 
+function drivesJournalSourceProviders(
+  data: DrivesData,
+): NonNullable<CoreModule["journalSourceProviders"]> {
+  return {
+    [data.donationJournalSourceKind]: (api, reference) => {
+      const row = runtimeFor(api.state).donations.get(reference.id);
+      return (
+        row && {
+          resolved: row.resolved,
+          marker: row.marker,
+          retainFull: false,
+        }
+      );
+    },
+  };
+}
+
+function drivesReasonProviders(): NonNullable<CoreModule["reasonProviders"]> {
+  return {
+    // What the person gave lately to their causes weighs against giving
+    // more of the same, fading as the days pass: no cap, no cooldown.
+    [CAUSE_GIVEN]: (api, actor, offer, binding) => {
+      const given = runtimeFor(api.state)
+        .given.get(actor.id)
+        ?.get(offer.definition.id);
+      if (!given) return;
+      return {
+        value: -givenNow(api, given, givenFadeDays(api, binding)),
+        ...(offer.driveId ? { sourceIds: [offer.driveId] } : {}),
+      };
+    },
+    // Having just had it out with someone weighs against doing it again,
+    // fading as the days pass: no cooldown, no cutoff.
+    [CONFRONT_RECENCY[0]!.provider]: (api, actor, offer) => {
+      const drive = offer.driveId
+        ? heldFor(api, actor.id)?.get(offer.driveId)
+        : undefined;
+      if (!drive) return;
+      // The latest confrontation among the drive's kept act traces.
+      let last: string | undefined;
+      for (const act of drive.acts)
+        if (
+          act.actionId === offer.definition.id &&
+          act.basis === "scored" &&
+          (!last || act.date > last)
+        )
+          last = act.date;
+      if (!last) return;
+      const days = daysBetweenText(last, api.state.date);
+      return {
+        value: -Math.exp(-days / api.parameter("grudgeConfrontRecencyDays")),
+        sourceIds: [drive.id],
+      };
+    },
+  };
+}
+
+function drivesOnDay(data: DrivesData): NonNullable<CoreModule["onDay"]> {
+  return (api, _decide, refresh) => {
+    const runtime = runtimeFor(api.state);
+    if (api.state.date.endsWith("-01")) {
+      raiseFromCounted(api, data, runtime);
+      spendGroupFunds(api, runtime);
+      // A counted person's faded drives, and those of anyone the counts no
+      // longer hold (died or moved away), are let go.
+      for (const [personId, mine] of runtime.countedByPerson) {
+        if (!countedPersonOf(api.state as CoreState, personId)) {
+          runtime.countedByPerson.delete(personId);
+          continue;
+        }
+        for (const drive of mine.values())
+          if (
+            currentStrength(api, drive) < api.parameter("driveRetireStrength")
+          )
+            mine.delete(drive.id);
+        if (!mine.size) runtime.countedByPerson.delete(personId);
+      }
+      // The groups the dead may have known of: no reader asks about them.
+      for (const personId of runtime.mayKnow.keys())
+        if (!api.state.people.get(personId)?.alive)
+          runtime.mayKnow.delete(personId);
+    }
+    for (const [personId, mine] of runtime.byPerson) {
+      if (!api.state.people.get(personId)?.alive) {
+        runtime.byPerson.delete(personId);
+        runtime.serving.delete(personId);
+        runtime.given.delete(personId);
+        continue;
+      }
+      const actor = api.state.people.get(personId)!;
+      const predicted = runtime.predicted.get(personId);
+      for (const drive of mine.values()) {
+        captureRecordedAct(api, actor, drive, predicted);
+        const strength = currentStrength(api, drive);
+        if (strength < api.parameter("driveRetireStrength")) {
+          // Faded: written once at zero and no longer rewritten daily.
+          writeDrive(api, drive, api.parameter("zero"));
+          mine.delete(drive.id);
+          runtime.serving.delete(personId);
+        } else writeDrive(api, drive, strength);
+      }
+      if (!mine.size) {
+        runtime.byPerson.delete(personId);
+        runtime.serving.delete(personId);
+        runtime.predicted.delete(personId);
+      } else if (bookkeeping() || personId === api.state.playerId)
+        // The scored "why" behind a drive act is kept for the player, and
+        // for everyone only when bookkeeping is on (Keep it simple): a full
+        // choice scored daily for every drive holder grew with the number
+        // of holders, each year slower than the last.
+        runtime.predicted.set(personId, predict(api, actor, refresh));
+      else {
+        // Their needs are still brought up to today, as the scoring did.
+        refresh(actor as PersonState);
+        runtime.predicted.delete(personId);
+      }
+    }
+  };
+}
+
+function drivesOnFillIn(): NonNullable<CoreModule["onFillIn"]> {
+  return (api, { memberIds }) => {
+    const runtime = runtimeFor(api.state);
+    for (const personId of memberIds) {
+      const held = runtime.countedByPerson.get(personId);
+      if (!held || !api.state.people.has(personId)) continue;
+      runtime.countedByPerson.delete(personId);
+      const mine = runtime.byPerson.get(personId) ?? new Map();
+      runtime.byPerson.set(personId, mine);
+      runtime.serving.delete(personId);
+      for (const drive of held.values()) {
+        const strength = currentStrength(api, drive);
+        if (strength < api.parameter("driveRetireStrength")) continue;
+        // They lived through the event that formed it, as the core records
+        // for anyone an event names.
+        api.observe(personId, {
+          key: `event:${drive.sourceEventId}:experienced`,
+          value: drive.sourceEventId,
+          learnedAt: drive.formedAt,
+          sourceId: drive.sourceEventId,
+          access: "perceived",
+        });
+        mine.set(drive.id, drive);
+        runtime.serving.delete(personId);
+        runtime.drives.set(`${personId}|${drive.id}`, drive);
+        writeDrive(api, drive, strength);
+      }
+      if (!mine.size) runtime.byPerson.delete(personId);
+    }
+  };
+}
+
+function drivesOnEvent(data: DrivesData): NonNullable<CoreModule["onEvent"]> {
+  return (api, event, learnedBy) => {
+    const civic = data.civicActEvents.find(
+      (row) => row.eventKind === event.kind,
+    );
+    if (civic) {
+      const [actorId] = event.personIds;
+      const definition = api.state.data.actions.find(
+        (row) => row.id === civic.actionId,
+      );
+      // The drive the life module attached: its first drive goal serving this act.
+      const actor = actorId ? api.state.people.get(actorId) : undefined;
+      const attached =
+        actor && definition
+          ? [...actor.goals.values()].find(
+              (goal) =>
+                goal.sourceDriveId && definition.goalKinds.includes(goal.kind),
+            )?.sourceDriveId
+          : undefined;
+      const drive =
+        actorId && attached ? heldFor(api, actorId)?.get(attached) : undefined;
+      if (drive && definition && actorId) {
+        const override =
+          api.state.data.work?.discretionaryDurationParameters?.[
+            definition.effect
+          ];
+        traceAct(
+          api,
+          actorId,
+          {
+            definition,
+            targetId:
+              event.facts?.[data.factKeys.organization] ?? event.placeId,
+            driveId: drive.id,
+            availableHours: Math.min(
+              api.parameter("hoursPerDay"),
+              discretionaryHours(api, actorId),
+            ),
+            effortHours: api.parameter(override ?? definition.effortParameter),
+          },
+          drive,
+          "reconstructed",
+        );
+      }
+    }
+    // Word of an act, retold by one who saw it (speech.ts, spreadWord): each hearer who
+    // believed it perceives the act itself as a witness of it.
+    if (event.kind === data.eventKinds.wordRetold) {
+      const told = event.facts?.[data.factKeys.wordEvent];
+      const act = told ? (JSON.parse(told) as CoreEventInput) : undefined;
+      if (!act || !data.eventRules.some((rule) => rule.eventKind === act.kind))
+        return;
+      for (const id of event.witnessIds ?? [])
+        respond(
+          api,
+          data,
+          id,
+          {
+            ...act,
+            date: event.date,
+            witnessIds: [id],
+            source: event.source,
+          },
+          event.id,
+        );
+      return;
+    }
+    if (!data.eventRules.some((rule) => rule.eventKind === event.kind)) return;
+    for (const id of learnedBy) respond(api, data, id, event);
+    // The counted people it happened to perceive it as its subjects, by the same rule.
+    for (const id of countedSubjects(api, data, event))
+      respond(api, data, id, { ...event, personIds: [id] });
+    // Counted people the event happened around (the household a counted
+    // death left), each perceiving it with the counted subject as its subject.
+    const subject = event.facts?.[data.factKeys.countedSubject];
+    const around = event.facts?.[data.factKeys.countedPerceivers];
+    if (subject && around)
+      for (const id of JSON.parse(around) as PersonId[])
+        if (
+          !api.state.people.has(id) ||
+          stillCounted(api.state as CoreState, id)
+        )
+          respond(api, data, id, { ...event, personIds: [subject] });
+    // A counted household the event happened to (an eviction): every
+    // member still counted is a subject with the whole household named,
+    // as each member of a full household is.
+    const household = event.facts?.[data.factKeys.countedSubjects];
+    if (household) {
+      const named = JSON.parse(household) as PersonId[];
+      for (const id of named)
+        if (stillCounted(api.state as CoreState, id))
+          respond(api, data, id, { ...event, personIds: named });
+    }
+  };
+}
+
+function drivesOfferProviders(
+  data: DrivesData,
+): NonNullable<CoreModule["offerProviders"]> {
+  return {
+    "drive-confidant": (api, actor, action) => {
+      // Every confidant of one drive scores the same and ties go to the
+      // lowest id, so only that one is offered: the choice is unchanged
+      // and a person with many acquaintances scores one offer, not dozens.
+      const out: ActOffer[] = [];
+      const serving = servingDrives(api, actor, action).filter(
+        (drive) => drive.shareable,
+      );
+      if (!serving.length) return out;
+      // The lowest id among the living relatives and acquaintances not yet
+      // told, in one pass: the first of them in id order, with no copy or sort.
+      for (const drive of serving) {
+        let lowest: PersonId | undefined;
+        for (const ids of [actor.familyIds, actor.knownIds])
+          for (const id of ids)
+            if (
+              (lowest === undefined || id < lowest) &&
+              untold(api, actor, drive, id)
+            )
+              lowest = id;
+        if (
+          bookkeeping() &&
+          lowest !==
+            [...new Set([...actor.familyIds, ...actor.knownIds])]
+              .sort()
+              .find((id) => untold(api, actor, drive, id))
+        )
+          throw new Error("A drive's confidant is not the first in order.");
+        if (lowest) out.push(driveOffer(api, action, lowest, drive));
+      }
+      return out;
+    },
+    "drive-topic": (api, actor, action) =>
+      servingDrives(api, actor, action)
+        .filter((drive) => drive.shareable)
+        .map((drive) => driveOffer(api, action, drive.id, drive)),
+    "known-cause-group": (api, actor, action, round) => {
+      const runtime = runtimeFor(api.state);
+      // The nearby groups the person knows of on each topic, worked out
+      // once a round: joining and giving offer the same groups.
+      let reachable = round?.get(REACHABLE_GROUPS) as
+        Map<string, readonly string[]> | undefined;
+      if (!reachable) {
+        reachable = new Map();
+        round?.set(REACHABLE_GROUPS, reachable);
+      }
+      const out: ActOffer[] = [];
+      for (const drive of servingDrives(api, actor, action)) {
+        let ids = reachable.get(drive.topic);
+        if (!ids) {
+          ids = reachableGroups(api, runtime, actor, drive.topic);
+          reachable.set(drive.topic, ids);
+        } else if (bookkeeping()) {
+          const kept = ids;
+          const fresh = reachableGroups(api, runtime, actor, drive.topic);
+          if (
+            fresh.length !== kept.length ||
+            fresh.some((id, index) => id !== kept[index])
+          )
+            throw new Error("A round's cause groups no longer match.");
+        }
+        for (const id of ids) out.push(driveOffer(api, action, id, drive));
+      }
+      return out;
+    },
+    "volunteer-place": (api, actor, action) => {
+      const serving = servingDrives(api, actor, action);
+      if (!serving.length) return [];
+      const runtime = runtimeFor(api.state);
+      // Known associations in the person's place and county, by direct fact lookup.
+      const associations: string[] = [];
+      for (const placeId of new Set([
+        actor.placeId,
+        ...(actor.countyId ? [actor.countyId] : []),
+      ]))
+        for (const id of api.state.publicOrganizationsByPlace.get(placeId) ??
+          [])
+          if (
+            api.state.publicOrganizations
+              .get(id)
+              ?.affordances?.some((kind) =>
+                data.volunteerAffordances.includes(kind),
+              ) &&
+            api.knows(actor.id, `organization:${id}:public`)
+          )
+            associations.push(id);
+      associations.sort();
+      const out: ActOffer[] = [];
+      for (const drive of serving) {
+        for (const id of memberGroups(api, runtime, actor, drive.topic))
+          out.push(driveOffer(api, action, id, drive));
+        for (const id of associations)
+          out.push(driveOffer(api, action, id, drive));
+      }
+      return out;
+    },
+    "grudge-target": (api, actor, action) =>
+      servingDrives(api, actor, action)
+        .filter(
+          (drive) =>
+            drive.targetId && api.state.people.get(drive.targetId)?.alive,
+        )
+        .map((drive) => ({
+          ...driveOffer(api, action, drive.targetId!, drive),
+          reasonBindings: CONFRONT_RECENCY,
+        })),
+    "known-public-figure": (api, actor, action) => {
+      const out: ActOffer[] = [];
+      for (const drive of servingDrives(api, actor, action))
+        for (const id of [...actor.knownIds].sort())
+          if (
+            api.state.people.get(id)?.alive &&
+            api.knows(actor.id, `person:${id}:public-role`)
+          )
+            out.push(driveOffer(api, action, id, drive));
+      return out;
+    },
+  };
+}
+
+function drivesEligibilityRules(): NonNullable<CoreModule["eligibilityRules"]> {
+  return {
+    // A planned share runs again on later days; the drive's told set stops
+    // the second telling to the same person.
+    "drive-target-untold": (api, actor, offer) => {
+      const drive = offer.driveId
+        ? heldFor(api, actor.id)?.get(offer.driveId)
+        : undefined;
+      return !!drive && !drive.told.has(offer.targetId);
+    },
+    "no-known-group-on-topic": (api, actor, offer) => {
+      const drive = offer.driveId
+        ? heldFor(api, actor.id)?.get(offer.driveId)
+        : undefined;
+      if (!drive) return false;
+      return !knownGroups(api, runtimeFor(api.state), actor.id, drive.topic)
+        .length;
+    },
+    "can-afford-donation": (api, actor, offer) => {
+      const drive = offer.driveId
+        ? heldFor(api, actor.id)?.get(offer.driveId)
+        : undefined;
+      return (
+        !!drive &&
+        giftOf(api, actor, currentStrength(api, drive)) > api.parameter("zero")
+      );
+    },
+  };
+}
+
+function drivesEffectHandlers(
+  data: DrivesData,
+): NonNullable<CoreModule["effectHandlers"]> {
+  return {
+    "share-drive": (api, actorId, offer) => {
+      const drive = drivesOf(api, actorId, offer);
+      traceAct(api, actorId, offer, drive);
+      drive.told.add(offer.targetId);
+      const impulse =
+        currentStrength(api, drive) *
+        api.parameter(offer.definition.effectParameter);
+      const runtime = runtimeFor(api.state);
+      const known = knownGroups(api, runtime, actorId, drive.topic);
+      api.relationship(
+        actorId,
+        offer.targetId,
+        "contact",
+        api.parameter("relationContactGain"),
+      );
+      api.updatePerson(actorId, { lastContactDate: api.state.date });
+      api.updatePerson(offer.targetId, { lastContactDate: api.state.date });
+      // The one told learns of the groups the teller knows of.
+      for (const id of known) noteGroup(runtime, offer.targetId, id);
+      api.emit(
+        actEvent(
+          api,
+          data,
+          data.eventKinds.shared,
+          actorId,
+          drive,
+          offer.targetId,
+          [offer.targetId],
+          {
+            stressImpulse: impulse,
+            moodImpulse: -impulse,
+            facts: Object.fromEntries(
+              known.map((id) => [
+                runtime.causeGroups.get(id)!.knownKey,
+                drive.topic,
+              ]),
+            ),
+          },
+        ),
+      );
+    },
+    "found-cause-group": (api, actorId, offer) => {
+      const drive = drivesOf(api, actorId, offer);
+      const actor = api.state.people.get(actorId)!;
+      traceAct(api, actorId, offer, drive);
+      const id = `organization:${data.causeGroupKind}:${actorId}:${drive.id}`;
+      api.addOrganization({
+        id,
+        placeId: actor.placeId,
+        name: id,
+        kind: data.causeGroupKind,
+        topic: drive.topic,
+        liquidMinor: api.parameter("zero"),
+        source: {
+          tag: "SOURCED",
+          asOf: api.state.date,
+          citation:
+            "Founded in the simulation by a resident acting on a recorded drive; no registration or charter process is modeled.",
+        },
+      });
+      const runtime = runtimeFor(api.state);
+      let set = runtime.groupsByTopic.get(drive.topic);
+      if (!set) runtime.groupsByTopic.set(drive.topic, (set = new Set()));
+      set.add(id);
+      const knownKey = `cause-group:${id}:known`;
+      runtime.causeGroups.set(id, { topic: drive.topic, knownKey });
+      runtime.groupFounder.set(id, actorId);
+      runtime.groupChange.set(id, drive.desiredChange);
+      noteGroup(runtime, actorId, id);
+      api.join(actorId, id, drive.id);
+      api.observe(actorId, {
+        key: knownKey,
+        value: drive.topic,
+        learnedAt: api.state.date,
+        sourceId: id,
+        access: "self",
+      });
+      api.emit(
+        actEvent(api, data, data.eventKinds.founded, actorId, drive, id, []),
+      );
+    },
+    "join-cause-group": (api, actorId, offer) => {
+      const drive = drivesOf(api, actorId, offer);
+      traceAct(api, actorId, offer, drive);
+      noteGroup(runtimeFor(api.state), actorId, offer.targetId);
+      api.join(actorId, offer.targetId, drive.id);
+      const founder = founderOf(api, offer.targetId);
+      if (
+        founder &&
+        founder !== actorId &&
+        api.state.people.get(founder)?.alive
+      )
+        api.relationship(
+          actorId,
+          founder,
+          "group",
+          api.parameter("relationContactGain"),
+        );
+      api.emit(
+        actEvent(
+          api,
+          data,
+          data.eventKinds.joined,
+          actorId,
+          drive,
+          offer.targetId,
+          founder && founder !== actorId ? [founder] : [],
+        ),
+      );
+    },
+    donate: (api, actorId, offer) => {
+      const drive = drivesOf(api, actorId, offer);
+      const actor = api.state.people.get(actorId)!;
+      traceAct(api, actorId, offer, drive);
+      const amount = giftOf(api, actor, currentStrength(api, drive));
+      const paid = payDonation(api, data, actorId, offer.targetId, amount);
+      api.emit(
+        actEvent(
+          api,
+          data,
+          data.eventKinds.donated,
+          actorId,
+          drive,
+          offer.targetId,
+          [],
+          {
+            facts: {
+              [`cause-group:${offer.targetId}:received-minor`]: `${paid}`,
+            },
+          },
+        ),
+      );
+    },
+    volunteer: (api, actorId, offer) => {
+      const drive = drivesOf(api, actorId, offer);
+      traceAct(api, actorId, offer, drive);
+      const founder = founderOf(api, offer.targetId);
+      if (
+        founder &&
+        founder !== actorId &&
+        api.state.people.get(founder)?.alive
+      )
+        api.relationship(
+          actorId,
+          founder,
+          "group",
+          api.parameter("relationContactGain"),
+        );
+      api.emit(
+        actEvent(
+          api,
+          data,
+          data.eventKinds.volunteered,
+          actorId,
+          drive,
+          offer.targetId,
+          founder && founder !== actorId ? [founder] : [],
+        ),
+      );
+    },
+    confront: (api, actorId, offer) => {
+      const drive = drivesOf(api, actorId, offer);
+      traceAct(api, actorId, offer, drive);
+      // A confrontation takes the tie down by a closeness level (its
+      // parameter), written as the strain in hours that level stands for
+      // where the tie is now, as a quarrel's strain is.
+      const { levelBefore, levelAfter, strainHours } = confrontationStrain(
+        api,
+        actorId,
+        offer.targetId,
+        api.parameter(offer.definition.effectParameter),
+      );
+      api.relationship(actorId, offer.targetId, "contact", -strainHours);
+      const event = actEvent(
+        api,
+        data,
+        data.eventKinds.confronted,
+        actorId,
+        drive,
+        offer.targetId,
+        [offer.targetId],
+        {
+          stressImpulse: api.parameter("confrontImpulse"),
+          moodImpulse: -api.parameter("confrontImpulse"),
+        },
+      );
+      api.emit({
+        ...event,
+        facts: {
+          ...event.facts,
+          [`event:${event.id}:${data.factKeys.responsible}`]: actorId,
+          levelBefore: levelBefore.toFixed(4),
+          levelAfter: levelAfter.toFixed(4),
+        },
+      });
+    },
+    "seek-standing": (api, actorId, offer) => {
+      const drive = drivesOf(api, actorId, offer);
+      traceAct(api, actorId, offer, drive);
+      api.relationship(
+        actorId,
+        offer.targetId,
+        "contact",
+        api.parameter(offer.definition.effectParameter),
+      );
+      api.updatePerson(actorId, { lastContactDate: api.state.date });
+      api.emit(
+        actEvent(
+          api,
+          data,
+          data.eventKinds.soughtStanding,
+          actorId,
+          drive,
+          offer.targetId,
+          [offer.targetId],
+        ),
+      );
+    },
+  };
+}
+
 export function createDrivesModule(
   data: DrivesData = DEFAULT_DRIVES_DATA,
 ): CoreModule {
@@ -1936,55 +2563,8 @@ export function createDrivesModule(
     // One row per cause group, replaced each month: what its counted giving was made of.
     state: { schemaVersion: 1, tables: { [COUNTED_GIVING_TABLE]: {} } },
     // A donation is paid through the cash journal from this module's own canonical record.
-    journalSourceProviders: {
-      [data.donationJournalSourceKind]: (api, reference) => {
-        const row = runtimeFor(api.state).donations.get(reference.id);
-        return (
-          row && {
-            resolved: row.resolved,
-            marker: row.marker,
-            retainFull: false,
-          }
-        );
-      },
-    },
-    reasonProviders: {
-      // What the person gave lately to their causes weighs against giving
-      // more of the same, fading as the days pass: no cap, no cooldown.
-      [CAUSE_GIVEN]: (api, actor, offer, binding) => {
-        const given = runtimeFor(api.state)
-          .given.get(actor.id)
-          ?.get(offer.definition.id);
-        if (!given) return;
-        return {
-          value: -givenNow(api, given, givenFadeDays(api, binding)),
-          ...(offer.driveId ? { sourceIds: [offer.driveId] } : {}),
-        };
-      },
-      // Having just had it out with someone weighs against doing it again,
-      // fading as the days pass: no cooldown, no cutoff.
-      [CONFRONT_RECENCY[0]!.provider]: (api, actor, offer) => {
-        const drive = offer.driveId
-          ? heldFor(api, actor.id)?.get(offer.driveId)
-          : undefined;
-        if (!drive) return;
-        // The latest confrontation among the drive's kept act traces.
-        let last: string | undefined;
-        for (const act of drive.acts)
-          if (
-            act.actionId === offer.definition.id &&
-            act.basis === "scored" &&
-            (!last || act.date > last)
-          )
-            last = act.date;
-        if (!last) return;
-        const days = daysBetweenText(last, api.state.date);
-        return {
-          value: -Math.exp(-days / api.parameter("grudgeConfrontRecencyDays")),
-          sourceIds: [drive.id],
-        };
-      },
-    },
+    journalSourceProviders: drivesJournalSourceProviders(data),
+    reasonProviders: drivesReasonProviders(),
     // Only the events a rule answers or a drive act emits reach this module.
     eventKinds: [
       ...new Set([
@@ -1993,565 +2573,13 @@ export function createDrivesModule(
         data.eventKinds.wordRetold,
       ]),
     ],
-    onDay(api, _decide, refresh) {
-      const runtime = runtimeFor(api.state);
-      if (api.state.date.endsWith("-01")) {
-        raiseFromCounted(api, data, runtime);
-        spendGroupFunds(api, runtime);
-        // A counted person's faded drives, and those of anyone the counts no
-        // longer hold (died or moved away), are let go.
-        for (const [personId, mine] of runtime.countedByPerson) {
-          if (!countedPersonOf(api.state as CoreState, personId)) {
-            runtime.countedByPerson.delete(personId);
-            continue;
-          }
-          for (const drive of mine.values())
-            if (
-              currentStrength(api, drive) < api.parameter("driveRetireStrength")
-            )
-              mine.delete(drive.id);
-          if (!mine.size) runtime.countedByPerson.delete(personId);
-        }
-        // The groups the dead may have known of: no reader asks about them.
-        for (const personId of runtime.mayKnow.keys())
-          if (!api.state.people.get(personId)?.alive)
-            runtime.mayKnow.delete(personId);
-      }
-      for (const [personId, mine] of runtime.byPerson) {
-        if (!api.state.people.get(personId)?.alive) {
-          runtime.byPerson.delete(personId);
-          runtime.serving.delete(personId);
-          runtime.given.delete(personId);
-          continue;
-        }
-        const actor = api.state.people.get(personId)!;
-        const predicted = runtime.predicted.get(personId);
-        for (const drive of mine.values()) {
-          captureRecordedAct(api, actor, drive, predicted);
-          const strength = currentStrength(api, drive);
-          if (strength < api.parameter("driveRetireStrength")) {
-            // Faded: written once at zero and no longer rewritten daily.
-            writeDrive(api, drive, api.parameter("zero"));
-            mine.delete(drive.id);
-            runtime.serving.delete(personId);
-          } else writeDrive(api, drive, strength);
-        }
-        if (!mine.size) {
-          runtime.byPerson.delete(personId);
-          runtime.serving.delete(personId);
-          runtime.predicted.delete(personId);
-        } else if (bookkeeping() || personId === api.state.playerId)
-          // The scored "why" behind a drive act is kept for the player, and
-          // for everyone only when bookkeeping is on (Keep it simple): a full
-          // choice scored daily for every drive holder grew with the number
-          // of holders, each year slower than the last.
-          runtime.predicted.set(personId, predict(api, actor, refresh));
-        else {
-          // Their needs are still brought up to today, as the scoring did.
-          refresh(actor as PersonState);
-          runtime.predicted.delete(personId);
-        }
-      }
-    },
+    onDay: drivesOnDay(data),
     // A person filled in from the counts holds the drives they formed there.
-    onFillIn(api, { memberIds }) {
-      const runtime = runtimeFor(api.state);
-      for (const personId of memberIds) {
-        const held = runtime.countedByPerson.get(personId);
-        if (!held || !api.state.people.has(personId)) continue;
-        runtime.countedByPerson.delete(personId);
-        const mine = runtime.byPerson.get(personId) ?? new Map();
-        runtime.byPerson.set(personId, mine);
-        runtime.serving.delete(personId);
-        for (const drive of held.values()) {
-          const strength = currentStrength(api, drive);
-          if (strength < api.parameter("driveRetireStrength")) continue;
-          // They lived through the event that formed it, as the core records
-          // for anyone an event names.
-          api.observe(personId, {
-            key: `event:${drive.sourceEventId}:experienced`,
-            value: drive.sourceEventId,
-            learnedAt: drive.formedAt,
-            sourceId: drive.sourceEventId,
-            access: "perceived",
-          });
-          mine.set(drive.id, drive);
-          runtime.serving.delete(personId);
-          runtime.drives.set(`${personId}|${drive.id}`, drive);
-          writeDrive(api, drive, strength);
-        }
-        if (!mine.size) runtime.byPerson.delete(personId);
-      }
-    },
-    onEvent(api, event, learnedBy) {
-      const civic = data.civicActEvents.find(
-        (row) => row.eventKind === event.kind,
-      );
-      if (civic) {
-        const [actorId] = event.personIds;
-        const definition = api.state.data.actions.find(
-          (row) => row.id === civic.actionId,
-        );
-        // The drive the life module attached: its first drive goal serving this act.
-        const actor = actorId ? api.state.people.get(actorId) : undefined;
-        const attached =
-          actor && definition
-            ? [...actor.goals.values()].find(
-                (goal) =>
-                  goal.sourceDriveId &&
-                  definition.goalKinds.includes(goal.kind),
-              )?.sourceDriveId
-            : undefined;
-        const drive =
-          actorId && attached
-            ? heldFor(api, actorId)?.get(attached)
-            : undefined;
-        if (drive && definition && actorId) {
-          const override =
-            api.state.data.work?.discretionaryDurationParameters?.[
-              definition.effect
-            ];
-          traceAct(
-            api,
-            actorId,
-            {
-              definition,
-              targetId:
-                event.facts?.[data.factKeys.organization] ?? event.placeId,
-              driveId: drive.id,
-              availableHours: Math.min(
-                api.parameter("hoursPerDay"),
-                discretionaryHours(api, actorId),
-              ),
-              effortHours: api.parameter(
-                override ?? definition.effortParameter,
-              ),
-            },
-            drive,
-            "reconstructed",
-          );
-        }
-      }
-      // Word of an act, retold by one who saw it (speech.ts, spreadWord): each hearer who
-      // believed it perceives the act itself as a witness of it.
-      if (event.kind === data.eventKinds.wordRetold) {
-        const told = event.facts?.[data.factKeys.wordEvent];
-        const act = told ? (JSON.parse(told) as CoreEventInput) : undefined;
-        if (
-          !act ||
-          !data.eventRules.some((rule) => rule.eventKind === act.kind)
-        )
-          return;
-        for (const id of event.witnessIds ?? [])
-          respond(
-            api,
-            data,
-            id,
-            {
-              ...act,
-              date: event.date,
-              witnessIds: [id],
-              source: event.source,
-            },
-            event.id,
-          );
-        return;
-      }
-      if (!data.eventRules.some((rule) => rule.eventKind === event.kind))
-        return;
-      for (const id of learnedBy) respond(api, data, id, event);
-      // The counted people it happened to perceive it as its subjects, by the same rule.
-      for (const id of countedSubjects(api, data, event))
-        respond(api, data, id, { ...event, personIds: [id] });
-      // Counted people the event happened around (the household a counted
-      // death left), each perceiving it with the counted subject as its subject.
-      const subject = event.facts?.[data.factKeys.countedSubject];
-      const around = event.facts?.[data.factKeys.countedPerceivers];
-      if (subject && around)
-        for (const id of JSON.parse(around) as PersonId[])
-          if (
-            !api.state.people.has(id) ||
-            stillCounted(api.state as CoreState, id)
-          )
-            respond(api, data, id, { ...event, personIds: [subject] });
-      // A counted household the event happened to (an eviction): every
-      // member still counted is a subject with the whole household named,
-      // as each member of a full household is.
-      const household = event.facts?.[data.factKeys.countedSubjects];
-      if (household) {
-        const named = JSON.parse(household) as PersonId[];
-        for (const id of named)
-          if (stillCounted(api.state as CoreState, id))
-            respond(api, data, id, { ...event, personIds: named });
-      }
-    },
-    offerProviders: {
-      "drive-confidant": (api, actor, action) => {
-        // Every confidant of one drive scores the same and ties go to the
-        // lowest id, so only that one is offered: the choice is unchanged
-        // and a person with many acquaintances scores one offer, not dozens.
-        const out: ActOffer[] = [];
-        const serving = servingDrives(api, actor, action).filter(
-          (drive) => drive.shareable,
-        );
-        if (!serving.length) return out;
-        // The lowest id among the living relatives and acquaintances not yet
-        // told, in one pass: the first of them in id order, with no copy or sort.
-        for (const drive of serving) {
-          let lowest: PersonId | undefined;
-          for (const ids of [actor.familyIds, actor.knownIds])
-            for (const id of ids)
-              if (
-                (lowest === undefined || id < lowest) &&
-                untold(api, actor, drive, id)
-              )
-                lowest = id;
-          if (
-            bookkeeping() &&
-            lowest !==
-              [...new Set([...actor.familyIds, ...actor.knownIds])]
-                .sort()
-                .find((id) => untold(api, actor, drive, id))
-          )
-            throw new Error("A drive's confidant is not the first in order.");
-          if (lowest) out.push(driveOffer(api, action, lowest, drive));
-        }
-        return out;
-      },
-      "drive-topic": (api, actor, action) =>
-        servingDrives(api, actor, action)
-          .filter((drive) => drive.shareable)
-          .map((drive) => driveOffer(api, action, drive.id, drive)),
-      "known-cause-group": (api, actor, action, round) => {
-        const runtime = runtimeFor(api.state);
-        // The nearby groups the person knows of on each topic, worked out
-        // once a round: joining and giving offer the same groups.
-        let reachable = round?.get(REACHABLE_GROUPS) as
-          Map<string, readonly string[]> | undefined;
-        if (!reachable) {
-          reachable = new Map();
-          round?.set(REACHABLE_GROUPS, reachable);
-        }
-        const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action)) {
-          let ids = reachable.get(drive.topic);
-          if (!ids) {
-            ids = reachableGroups(api, runtime, actor, drive.topic);
-            reachable.set(drive.topic, ids);
-          } else if (bookkeeping()) {
-            const kept = ids;
-            const fresh = reachableGroups(api, runtime, actor, drive.topic);
-            if (
-              fresh.length !== kept.length ||
-              fresh.some((id, index) => id !== kept[index])
-            )
-              throw new Error("A round's cause groups no longer match.");
-          }
-          for (const id of ids) out.push(driveOffer(api, action, id, drive));
-        }
-        return out;
-      },
-      "volunteer-place": (api, actor, action) => {
-        const serving = servingDrives(api, actor, action);
-        if (!serving.length) return [];
-        const runtime = runtimeFor(api.state);
-        // Known associations in the person's place and county, by direct fact lookup.
-        const associations: string[] = [];
-        for (const placeId of new Set([
-          actor.placeId,
-          ...(actor.countyId ? [actor.countyId] : []),
-        ]))
-          for (const id of api.state.publicOrganizationsByPlace.get(placeId) ??
-            [])
-            if (
-              api.state.publicOrganizations
-                .get(id)
-                ?.affordances?.some((kind) =>
-                  data.volunteerAffordances.includes(kind),
-                ) &&
-              api.knows(actor.id, `organization:${id}:public`)
-            )
-              associations.push(id);
-        associations.sort();
-        const out: ActOffer[] = [];
-        for (const drive of serving) {
-          for (const id of memberGroups(api, runtime, actor, drive.topic))
-            out.push(driveOffer(api, action, id, drive));
-          for (const id of associations)
-            out.push(driveOffer(api, action, id, drive));
-        }
-        return out;
-      },
-      "grudge-target": (api, actor, action) =>
-        servingDrives(api, actor, action)
-          .filter(
-            (drive) =>
-              drive.targetId && api.state.people.get(drive.targetId)?.alive,
-          )
-          .map((drive) => ({
-            ...driveOffer(api, action, drive.targetId!, drive),
-            reasonBindings: CONFRONT_RECENCY,
-          })),
-      "known-public-figure": (api, actor, action) => {
-        const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action))
-          for (const id of [...actor.knownIds].sort())
-            if (
-              api.state.people.get(id)?.alive &&
-              api.knows(actor.id, `person:${id}:public-role`)
-            )
-              out.push(driveOffer(api, action, id, drive));
-        return out;
-      },
-    },
-    eligibilityRules: {
-      // A planned share runs again on later days; the drive's told set stops
-      // the second telling to the same person.
-      "drive-target-untold": (api, actor, offer) => {
-        const drive = offer.driveId
-          ? heldFor(api, actor.id)?.get(offer.driveId)
-          : undefined;
-        return !!drive && !drive.told.has(offer.targetId);
-      },
-      "no-known-group-on-topic": (api, actor, offer) => {
-        const drive = offer.driveId
-          ? heldFor(api, actor.id)?.get(offer.driveId)
-          : undefined;
-        if (!drive) return false;
-        return !knownGroups(api, runtimeFor(api.state), actor.id, drive.topic)
-          .length;
-      },
-      "can-afford-donation": (api, actor, offer) => {
-        const drive = offer.driveId
-          ? heldFor(api, actor.id)?.get(offer.driveId)
-          : undefined;
-        return (
-          !!drive &&
-          giftOf(api, actor, currentStrength(api, drive)) >
-            api.parameter("zero")
-        );
-      },
-    },
-    effectHandlers: {
-      "share-drive": (api, actorId, offer) => {
-        const drive = drivesOf(api, actorId, offer);
-        traceAct(api, actorId, offer, drive);
-        drive.told.add(offer.targetId);
-        const impulse =
-          currentStrength(api, drive) *
-          api.parameter(offer.definition.effectParameter);
-        const runtime = runtimeFor(api.state);
-        const known = knownGroups(api, runtime, actorId, drive.topic);
-        api.relationship(
-          actorId,
-          offer.targetId,
-          "contact",
-          api.parameter("relationContactGain"),
-        );
-        api.updatePerson(actorId, { lastContactDate: api.state.date });
-        api.updatePerson(offer.targetId, { lastContactDate: api.state.date });
-        // The one told learns of the groups the teller knows of.
-        for (const id of known) noteGroup(runtime, offer.targetId, id);
-        api.emit(
-          actEvent(
-            api,
-            data,
-            data.eventKinds.shared,
-            actorId,
-            drive,
-            offer.targetId,
-            [offer.targetId],
-            {
-              stressImpulse: impulse,
-              moodImpulse: -impulse,
-              facts: Object.fromEntries(
-                known.map((id) => [
-                  runtime.causeGroups.get(id)!.knownKey,
-                  drive.topic,
-                ]),
-              ),
-            },
-          ),
-        );
-      },
-      "found-cause-group": (api, actorId, offer) => {
-        const drive = drivesOf(api, actorId, offer);
-        const actor = api.state.people.get(actorId)!;
-        traceAct(api, actorId, offer, drive);
-        const id = `organization:${data.causeGroupKind}:${actorId}:${drive.id}`;
-        api.addOrganization({
-          id,
-          placeId: actor.placeId,
-          name: id,
-          kind: data.causeGroupKind,
-          topic: drive.topic,
-          liquidMinor: api.parameter("zero"),
-          source: {
-            tag: "SOURCED",
-            asOf: api.state.date,
-            citation:
-              "Founded in the simulation by a resident acting on a recorded drive; no registration or charter process is modeled.",
-          },
-        });
-        const runtime = runtimeFor(api.state);
-        let set = runtime.groupsByTopic.get(drive.topic);
-        if (!set) runtime.groupsByTopic.set(drive.topic, (set = new Set()));
-        set.add(id);
-        const knownKey = `cause-group:${id}:known`;
-        runtime.causeGroups.set(id, { topic: drive.topic, knownKey });
-        runtime.groupFounder.set(id, actorId);
-        runtime.groupChange.set(id, drive.desiredChange);
-        noteGroup(runtime, actorId, id);
-        api.join(actorId, id, drive.id);
-        api.observe(actorId, {
-          key: knownKey,
-          value: drive.topic,
-          learnedAt: api.state.date,
-          sourceId: id,
-          access: "self",
-        });
-        api.emit(
-          actEvent(api, data, data.eventKinds.founded, actorId, drive, id, []),
-        );
-      },
-      "join-cause-group": (api, actorId, offer) => {
-        const drive = drivesOf(api, actorId, offer);
-        traceAct(api, actorId, offer, drive);
-        noteGroup(runtimeFor(api.state), actorId, offer.targetId);
-        api.join(actorId, offer.targetId, drive.id);
-        const founder = founderOf(api, offer.targetId);
-        if (
-          founder &&
-          founder !== actorId &&
-          api.state.people.get(founder)?.alive
-        )
-          api.relationship(
-            actorId,
-            founder,
-            "group",
-            api.parameter("relationContactGain"),
-          );
-        api.emit(
-          actEvent(
-            api,
-            data,
-            data.eventKinds.joined,
-            actorId,
-            drive,
-            offer.targetId,
-            founder && founder !== actorId ? [founder] : [],
-          ),
-        );
-      },
-      donate: (api, actorId, offer) => {
-        const drive = drivesOf(api, actorId, offer);
-        const actor = api.state.people.get(actorId)!;
-        traceAct(api, actorId, offer, drive);
-        const amount = giftOf(api, actor, currentStrength(api, drive));
-        const paid = payDonation(api, data, actorId, offer.targetId, amount);
-        api.emit(
-          actEvent(
-            api,
-            data,
-            data.eventKinds.donated,
-            actorId,
-            drive,
-            offer.targetId,
-            [],
-            {
-              facts: {
-                [`cause-group:${offer.targetId}:received-minor`]: `${paid}`,
-              },
-            },
-          ),
-        );
-      },
-      volunteer: (api, actorId, offer) => {
-        const drive = drivesOf(api, actorId, offer);
-        traceAct(api, actorId, offer, drive);
-        const founder = founderOf(api, offer.targetId);
-        if (
-          founder &&
-          founder !== actorId &&
-          api.state.people.get(founder)?.alive
-        )
-          api.relationship(
-            actorId,
-            founder,
-            "group",
-            api.parameter("relationContactGain"),
-          );
-        api.emit(
-          actEvent(
-            api,
-            data,
-            data.eventKinds.volunteered,
-            actorId,
-            drive,
-            offer.targetId,
-            founder && founder !== actorId ? [founder] : [],
-          ),
-        );
-      },
-      confront: (api, actorId, offer) => {
-        const drive = drivesOf(api, actorId, offer);
-        traceAct(api, actorId, offer, drive);
-        // A confrontation takes the tie down by a closeness level (its
-        // parameter), written as the strain in hours that level stands for
-        // where the tie is now, as a quarrel's strain is.
-        const { levelBefore, levelAfter, strainHours } = confrontationStrain(
-          api,
-          actorId,
-          offer.targetId,
-          api.parameter(offer.definition.effectParameter),
-        );
-        api.relationship(actorId, offer.targetId, "contact", -strainHours);
-        const event = actEvent(
-          api,
-          data,
-          data.eventKinds.confronted,
-          actorId,
-          drive,
-          offer.targetId,
-          [offer.targetId],
-          {
-            stressImpulse: api.parameter("confrontImpulse"),
-            moodImpulse: -api.parameter("confrontImpulse"),
-          },
-        );
-        api.emit({
-          ...event,
-          facts: {
-            ...event.facts,
-            [`event:${event.id}:${data.factKeys.responsible}`]: actorId,
-            levelBefore: levelBefore.toFixed(4),
-            levelAfter: levelAfter.toFixed(4),
-          },
-        });
-      },
-      "seek-standing": (api, actorId, offer) => {
-        const drive = drivesOf(api, actorId, offer);
-        traceAct(api, actorId, offer, drive);
-        api.relationship(
-          actorId,
-          offer.targetId,
-          "contact",
-          api.parameter(offer.definition.effectParameter),
-        );
-        api.updatePerson(actorId, { lastContactDate: api.state.date });
-        api.emit(
-          actEvent(
-            api,
-            data,
-            data.eventKinds.soughtStanding,
-            actorId,
-            drive,
-            offer.targetId,
-            [offer.targetId],
-          ),
-        );
-      },
-    },
+    onFillIn: drivesOnFillIn(),
+    onEvent: drivesOnEvent(data),
+    offerProviders: drivesOfferProviders(data),
+    eligibilityRules: drivesEligibilityRules(),
+    effectHandlers: drivesEffectHandlers(data),
   };
 }
 
