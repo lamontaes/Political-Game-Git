@@ -185,7 +185,7 @@ Its stack is the core's ground floor.
 Then stop.
 ---
 
-## People (proposed Nov 27; waiting for the owner's approval)
+## People (approved by the owner, Nov 27, about 12:04 a.m.)
 
 The audit is people-2026-11-26.md in this folder (rows P1 to P13).
 
