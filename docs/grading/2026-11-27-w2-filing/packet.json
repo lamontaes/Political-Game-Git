@@ -147,7 +147,7 @@
         "narration": "You don't need signatures for the Monroe Board of Aldermen. Your name goes on the ballot for April 7, 2026. Have you run a campaign before?",
         "replies": [
           {
-            "offered": "Good. Then I'm on the ballot for April 7, 2026.",
+            "offered": "I have. I'll bring what you need for the Monroe Board of Aldermen.",
             "move": "agree",
             "then": [
               {
@@ -167,7 +167,7 @@
             ]
           },
           {
-            "offered": "I'll go tell people I'm running for the Monroe Board of Aldermen.",
+            "offered": "No, I haven't, and I want to think about the Monroe Board of Aldermen first. I'll be back.",
             "move": "leave",
             "then": []
           }
@@ -573,7 +573,7 @@
             ]
           },
           {
-            "offered": "I'll start with the people I know in Onenoa.",
+            "offered": "No, I haven't, and I want to think about delegate first. I'll be back.",
             "move": "leave",
             "then": []
           }
