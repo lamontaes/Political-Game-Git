@@ -7073,7 +7073,7 @@ function wordChoice(
           raised,
         )
       : undefined;
-  const shaped = shapeReply({
+  const shaped = shapeReply<WordedLine, Said>({
     answer,
     afterPlain: answer.afterPlain,
     plain,
@@ -7852,7 +7852,7 @@ export function doubtsClaim(
  * talk, the choice, the line it answered, the record the reply writes, who
  * heard it, and whether the listener doubts it.
  */
-interface Said {
+interface PlayerReply {
   core: CoreState;
   conversation: Conversation;
   data: ConversationData;
@@ -7892,7 +7892,7 @@ function sayNow(
     citation: "Recorded conversation: the line the player chose to say.",
     asOf: core.date,
   };
-  const said: Said = {
+  const said: PlayerReply = {
     core,
     conversation,
     data,
@@ -7970,7 +7970,7 @@ function sayNow(
  * answer tells everyone present the fact. Sets `doubted` where the listener
  * doubts the lie.
  */
-function recordAnswer(said: Said, source: Source): void {
+function recordAnswer(said: PlayerReply, source: Source): void {
   const { core, conversation, data, choice, last, eventId, hearers } = said;
   const { playerId, otherId } = conversation;
   const api = coreAPI(core);
@@ -8028,7 +8028,7 @@ function recordAnswer(said: Said, source: Source): void {
 }
 
 /** The player's reply goes into the talk as a line of theirs. */
-function saysAnswer(said: Said): void {
+function saysAnswer(said: PlayerReply): void {
   const { conversation, choice, last } = said;
   conversation.lines.push({
     speakerId: conversation.playerId,
@@ -8046,7 +8046,7 @@ function saysAnswer(said: Said): void {
  * the veto used (veto-talk.ts); the sponsor answers it, and the talk ends
  * there: on their answer, or on the player's leaving.
  */
-function answersVeto(said: Said): boolean {
+function answersVeto(said: PlayerReply): boolean {
   const { core, conversation, choice, last, eventId } = said;
   const { playerId, otherId } = conversation;
   const veto = !choice.lie ? vetoOfRaised(last.subject) : null;
@@ -8069,7 +8069,7 @@ function answersVeto(said: Said): boolean {
 }
 
 /** A listener who doubts the lie says so; the conversation carries on. */
-function doubtsAnswer(said: Said): void {
+function doubtsAnswer(said: PlayerReply): void {
   const { core, conversation, data, choice, eventId } = said;
   if (!said.doubted) return;
   const doubt = words(
@@ -8093,7 +8093,7 @@ function doubtsAnswer(said: Said): void {
 }
 
 /** Talking is time together, recorded through the core's own writer; the listener remembers what the talk was about. */
-function recordContact(said: Said): void {
+function recordContact(said: PlayerReply): void {
   const { core, conversation, data, eventId, hearers } = said;
   const { playerId, otherId } = conversation;
   const api = coreAPI(core);
@@ -8127,7 +8127,7 @@ function recordContact(said: Said): void {
  * the same reason on record, what they will do or expect, never only that the
  * two agree (words composer, Nov 12). The talk carries on after.
  */
-function answersOwnView(said: Said): boolean {
+function answersOwnView(said: PlayerReply): boolean {
   const { core, conversation, data, choice, last, eventId, hearers } = said;
   const { playerId, otherId } = conversation;
   if (last.kind !== "own-view" || choice.lie) return false;
@@ -8180,7 +8180,7 @@ function answersOwnView(said: Said): boolean {
  * A reply to the address's point: the other person keeps what the player said
  * on that question, and answers it in words the engine composes.
  */
-function answersPoint(said: Said): boolean {
+function answersPoint(said: PlayerReply): boolean {
   const { core, conversation, data, choice, last, eventId } = said;
   if (last.kind !== POINT || !last.subject.point || choice.lie) return false;
   said.tell(eventId, {
@@ -8196,7 +8196,7 @@ function answersPoint(said: Said): boolean {
  * heard it (the views engine's stance record), and the other person answers
  * in words the engine composes, from their own stake in it.
  */
-function answersNews(said: Said): boolean {
+function answersNews(said: PlayerReply): boolean {
   const { core, conversation, data, choice, last, eventId, hearers } = said;
   if (
     last.kind !== "news" ||
@@ -8214,7 +8214,7 @@ function answersNews(said: Said): boolean {
  * life the answer back never says again a figure the telling just said (the
  * engine's rule, the arcs file's `home.dayBack`).
  */
-function answersDay(said: Said): boolean {
+function answersDay(said: PlayerReply): boolean {
   const { core, conversation, data, choice, last, eventId } = said;
   const { playerId, otherId } = conversation;
   if (!dayBack(last.kind) || choice.lie) return false;
@@ -8262,7 +8262,7 @@ function answersDay(said: Said): boolean {
 }
 
 /** A choice that asks the other person to say more ("What happened?"): they tell it from their own records, on the same topic. */
-function asksForMore(said: Said): boolean {
+function asksForMore(said: PlayerReply): boolean {
   const { core, conversation, data, choice, last } = said;
   const told = data.tells?.[last.kind]?.[choice.move];
   const theirs =
@@ -8279,7 +8279,7 @@ function asksForMore(said: Said): boolean {
  * of their own, it is told and answered as a raised answer is, after the
  * give-back. True when the give-back was said.
  */
-function givesBackAnswer(said: Said): boolean {
+function givesBackAnswer(said: PlayerReply): boolean {
   const { core, conversation, data, choice, last, eventId } = said;
   return (
     !said.doubted &&
@@ -8304,7 +8304,7 @@ function givesBackAnswer(said: Said): boolean {
  * eviction: where they go), else the talk ends. True when the talk was on
  * such news (and so is answered here).
  */
-function closesOnNews(said: Said): boolean {
+function closesOnNews(said: PlayerReply): boolean {
   const { core, conversation, data } = said;
   if (!isNewsSubject(subjectKindOf(conversation.topics[zero] ?? "")))
     return false;
@@ -8328,7 +8328,7 @@ function closesOnNews(said: Said): boolean {
  * takes their line in ("Oh, okay.") gets none: the talk has no answer to a
  * note.
  */
-function takesIn(said: Said): Conversation {
+function takesIn(said: PlayerReply): Conversation {
   const { core, conversation, data, choice, last, eventId } = said;
   const { playerId, otherId } = conversation;
   const answered = said.doubted
@@ -8393,7 +8393,7 @@ function takesIn(said: Said): Conversation {
  * when nothing is.
  */
 function answersRaised(
-  said: Said,
+  said: PlayerReply,
   raised: Subject,
   gave: boolean,
 ): Conversation {
