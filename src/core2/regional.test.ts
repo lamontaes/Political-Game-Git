@@ -26,7 +26,7 @@ import {
   openingRegionMonths,
   publishedRegionMonths,
   regionMonthFromState,
-  stateFigures,
+  stateOfRegions,
   type RegionMonth,
 } from "./regional-model";
 import type { CoreAPI } from "./types";
@@ -116,8 +116,8 @@ function runYear(start: string, seed = "regional-year") {
   const opening = regionRows(api, openingMonthOf(api));
   const months = regionRows(api, latestMonthOf(api));
   const change = (fips: string) => {
-    const a = stateFigures(opening, fips),
-      b = stateFigures(months, fips);
+    const a = stateOfRegions(opening, fips),
+      b = stateOfRegions(months, fips);
     return {
       jobs: (b.jobsThousands / a.jobsThousands - 1) * 100,
       pay: (b.hourlyEarnings / a.hourlyEarnings - 1) * 100,
@@ -148,7 +148,7 @@ describe("state and metro economies", () => {
       Record<string, number>
     >;
     for (const fips of ["06", "48", "72"]) {
-      const state = stateFigures(opening, fips);
+      const state = stateOfRegions(opening, fips);
       expect(state.unemploymentPct).toBeCloseTo(series[fips]!["2020-12"]!, 1);
     }
   });
@@ -173,7 +173,7 @@ describe("state and metro economies", () => {
     ).toBe(true);
     for (const fips of states)
       expect(
-        stateFigures(opening, fips).unemploymentPct,
+        stateOfRegions(opening, fips).unemploymentPct,
         `state ${fips}`,
       ).toBeCloseTo(series[fips]!["2020-12"]!, 6);
   });
@@ -189,7 +189,7 @@ describe("state and metro economies", () => {
     expect(states.length).toBeGreaterThan(40);
     for (const fips of states) {
       expect(
-        stateFigures(opening, fips).hourlyEarnings,
+        stateOfRegions(opening, fips).hourlyEarnings,
         `state ${fips}`,
       ).toBeCloseTo(series[fips]!["2020-12"]!, 6);
       // Regions whose incomes differ still differ in pay.

@@ -24,7 +24,7 @@
 import { createHash } from "node:crypto";
 import regionsData from "../data/regional/regions.json" with { type: "json" };
 import stats from "../../../data/research/regional/series/stats.json" with { type: "json" };
-import { stateFigures, REGIONS, type RegionMonth } from "../regional-model";
+import { stateOfRegions, REGIONS, type RegionMonth } from "../regional-model";
 import { type MacroMonth } from "../macro-model";
 import { advanceCore } from "../life";
 import { buildPlayedWorld, nextDay, playYear } from "./m1-played-year";
@@ -74,8 +74,8 @@ const [first, second] = [...fipsList].sort((a, b) =>
   rank(a).localeCompare(rank(b)),
 ) as [string, string];
 const change = (fips: string) => {
-  const a = stateFigures(openingRows, fips),
-    b = stateFigures(closingRows, fips);
+  const a = stateOfRegions(openingRows, fips),
+    b = stateOfRegions(closingRows, fips);
   return {
     jobsPct: (b.jobsThousands / a.jobsThousands - 1) * 100,
     payPct: (b.hourlyEarnings / a.hourlyEarnings - 1) * 100,

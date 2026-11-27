@@ -306,7 +306,7 @@ export function earnedPerResident(months: readonly RegionMonth[]): number {
 }
 
 /** A state's figures from its regions: jobs summed, unemployment and pay weighted by population. */
-export function stateFigures(
+export function stateOfRegions(
   months: readonly RegionMonth[],
   stateFips: string,
 ): {

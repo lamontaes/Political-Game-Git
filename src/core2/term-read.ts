@@ -12,15 +12,11 @@
  * are not read, while the town's records settle in).
  */
 import type { CoreAPI, CoreState } from "./types";
+import { countryStateMonth } from "./modules/macro";
 import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
 import areaData from "./data/term-read/areas.json" with { type: "json" };
 import { placeStateKey } from "./place-map";
-import {
-  earnedPerResident,
-  REGIONS,
-  stateFigures,
-  type RegionMonth,
-} from "./regional-model";
+import { earnedPerResident, REGIONS, type RegionMonth } from "./regional-model";
 import type { MacroMonth } from "./macro-model";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 
@@ -239,29 +235,22 @@ interface FigureRow {
 const monthIndexOf = (month: string) =>
   Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7));
 
-/** The row of a state's regions at `month`, as the web's measures (null while the regional module keeps none that month). */
+/** The row of a state at `month`, from the country tier's kept months as the web's measures (null while the tier keeps none that month). */
 function stateRowAt(
   api: CoreAPI,
   stateFips: string,
   month: string,
 ): FigureRow | null {
-  const rows = (
-    api
-      .moduleState(REGIONAL_ID)
-      .table("months")
-      .query("byMonth", [month]) as unknown as RegionMonth[]
-  ).filter((row) => row.stateFips === stateFips);
-  if (!rows.length) return null;
-  const sums = stateFigures(rows, stateFips) as unknown as Record<
-    string,
-    number
-  >;
+  const row = countryStateMonth(api, stateFips, month);
+  if (!row) return null;
+  const sums = row as unknown as Record<string, number>;
   const figures: Record<string, number> = {};
-  for (const [measure, row] of Object.entries(
+  for (const [measure, field] of Object.entries(
     DATA.jurisdictionFigures.measures,
   ))
-    if (Number.isFinite(sums[row.state])) figures[measure] = sums[row.state]!;
-  return { id: rows[0]!.id, month, figures };
+    if (Number.isFinite(sums[field.state]))
+      figures[measure] = sums[field.state]!;
+  return { id: row.id, month, figures };
 }
 
 /** The country's row at `month`, from the macro module's months (real history before the opening, the economy since). */
@@ -309,7 +298,7 @@ function figuredRead(
 ): AreaRead[] {
   const state = jurisdiction === "US" ? null : jurisdiction.slice(3);
   const modules = (api.state as CoreState).modules;
-  if (!modules.has(state ? REGIONAL_ID : MACRO_ID)) return [];
+  if (!modules.has(MACRO_ID)) return [];
   const stateFips = state
     ? REGIONS.find((row) => row.stateUsps === state)?.stateFips
     : undefined;
