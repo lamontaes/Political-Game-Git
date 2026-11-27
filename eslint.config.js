@@ -45,6 +45,7 @@ export default tseslint.config(
       "scripts/cleanup/*.mjs",
       "scripts/guards/no-doc-proof-images*.mjs",
       "scripts/heavy/suite-times.mjs",
+      "scripts/move-tests.node-test.mjs",
     ],
     languageOptions: {
       globals: {
