@@ -24,6 +24,14 @@ describe(`custom world settings in ${place.name} (seed ${seed})`, () => {
         politics: { leanShift: 0.2 },
       },
     });
+    const demandControl = generatedOpening(place, {
+      twoLevel: true,
+      settings: {
+        population: 1500,
+        economy: { wages: 2 },
+        politics: { leanShift: 0.2 },
+      },
+    });
     const counted = (input: typeof base) =>
       input.people.length +
       input.residents!.households.reduce((n, row) => n + row.people.length, 0);
@@ -42,11 +50,20 @@ describe(`custom world settings in ${place.name} (seed ${seed})`, () => {
     const outside = (input: typeof base) =>
       input.residents!.flows.filter((row) => row.kind === "outside-sales");
     const baseOutside = new Map(
-      outside(base).map((row) => [row.id, row.amountMinor]),
+      outside(demandControl).map((row) => [row.id, row.amountMinor]),
     );
-    for (const row of outside(custom))
-      if (baseOutside.has(row.id))
-        expect(row.amountMinor).toBeGreaterThan(baseOutside.get(row.id)!);
+    const customOutside = new Map(
+      outside(custom).map((row) => [row.id, row.amountMinor]),
+    );
+    expect([...customOutside.keys()].sort()).toEqual(
+      [...baseOutside.keys()].sort(),
+    );
+    expect([...baseOutside.values()].some((amount) => amount > 0)).toBe(true);
+    // Zero is a real opening flow for some businesses, not demand to invent.
+    for (const [id, amount] of baseOutside) {
+      expect(customOutside.get(id), id).toBe(Math.round(amount * 1.5));
+      if (amount > 0) expect(customOutside.get(id), id).toBeGreaterThan(amount);
+    }
     // The electorate reads the custom lean (the town's lean shifts by it).
     const politics = (input: typeof base) =>
       customPolitics({
