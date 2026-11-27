@@ -46,7 +46,7 @@ export function sentences(text: string): string[] {
 }
 
 /** The bullets under "## The pull request is the item's thread" in docs/pool/START-A-BUILDER.md. */
-export function threadRules(startPage: string): string[] {
+function threadRules(startPage: string): string[] {
   const at = startPage.indexOf("## The pull request is the item's thread");
   if (at < 0) return [];
   const rest = startPage.slice(at).split("\n").slice(1);

@@ -6,8 +6,11 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { householdDailyCostMinor } from "./household-cost";
 import { considerBribe } from "./modules/corruption";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { OFFICIAL_PAY_MODULE_ID } from "./modules/official-pay";
+import { placeStateKey } from "./place-map";
 import { coreAPI } from "./state";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
@@ -51,13 +54,47 @@ it(`seated officials keep a household and spend it in ${place.name}, seed ${seed
           spent -= posting.deltaMinor;
     return post(entry);
   };
-  const start = core.date;
+  const paidFrom =
+    (
+      api.moduleState(OFFICIAL_PAY_MODULE_ID).table("pay").get(sample.id) as
+        { paidFrom?: string } | undefined
+    )?.paidFrom ?? core.date;
+  // Shelter is paid once (housing-shelter): a home the housing engine
+  // charges for is paid there, and the rest of the living cost goes
+  // outside, never below the everyday basket without a home.
+  const home = [`lease:${sample.householdId}`, `mortgage:${sample.householdId}`]
+    .map((id) => core.finance.contracts.get(id))
+    .find((row) => row && !row.endedAt && row.amountMinor > 0);
+  // The everyday basket without a home, for one person where they live.
+  const basket = householdDailyCostMinor({
+    seed: core.seed,
+    stateKey: placeStateKey(sample.placeId),
+    size: 1,
+    rent: null,
+    parameter: (key) => api.parameter(key),
+  });
+  const daily = home
+    ? Math.max(
+        basket,
+        before -
+          (home.amountMinor / home.periodMonths) *
+            (api.parameter("monthsPerYear") / api.parameter("daysPerMeanYear")),
+      )
+    : before;
   // Two paydays: the 1st of February and of March.
   advanceCore(core, makeIsoDate("2025-03-02"));
-  const days = Math.round(
-    (Date.parse("2025-03-01") - Date.parse(start)) / 86_400_000,
+  const days = (from: string, to: string) =>
+    Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000);
+  // Each payday spends the days it pays for: an official seated as the
+  // world opens is paid from the 1st of the month (official-pay's paidFrom).
+  const paidDays =
+    days(paidFrom, "2025-02-01") + days("2025-02-01", "2025-03-01");
+  expect(spent).toBe(
+    Math.round(daily * days(paidFrom, "2025-02-01")) +
+      Math.round(daily * days("2025-02-01", "2025-03-01")),
   );
-  expect(spent).toBe(before * days);
+  // Never below the everyday basket, whatever the home costs.
+  expect(spent).toBeGreaterThanOrEqual(basket * paidDays);
   // A bribe offered to a seated official reads their cushion.
   const rich = townResidentsByCash(core, coreAPI(core))
     .filter((p) => p.alive && !p.id.startsWith("official:"))

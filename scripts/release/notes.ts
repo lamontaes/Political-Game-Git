@@ -93,11 +93,7 @@ function compareVersions(left: string, right: string): number {
 }
 
 /** Wrap prose at 80 columns, so generated notes read like the hand-written ones. */
-export function wrapProse(
-  text: string,
-  indent: string,
-  firstIndent: string,
-): string {
+function wrapProse(text: string, indent: string, firstIndent: string): string {
   const words = text.split(/\s+/).filter((word) => word !== "");
   const lines: string[] = [];
   let current = firstIndent;

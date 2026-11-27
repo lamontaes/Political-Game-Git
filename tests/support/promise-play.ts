@@ -35,7 +35,7 @@ export type Check = (holds: boolean, message: string) => void;
 export const WAIT_DAYS = 7;
 
 /** The ledger put back as it was, in place (the director keeps its own reference). */
-export function restoreInPlace(target: object, saved: object): void {
+function restoreInPlace(target: object, saved: object): void {
   for (const [key, value] of Object.entries(structuredClone(saved))) {
     const now = (target as Record<string, unknown>)[key];
     if (now instanceof Map && value instanceof Map) {

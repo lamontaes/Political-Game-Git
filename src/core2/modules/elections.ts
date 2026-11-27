@@ -534,6 +534,49 @@ function centuryRows(core: CoreState, kinds?: readonly string[]): HistoryRow[] {
   ];
 }
 
+/** The record kind of a race the elections engine holds (its contests table), as the one history reader tells it. */
+export const CONTEST_HELD = "election.contest";
+
+/**
+ * A race told on its election day: its office, seat and title. A race still to
+ * come is told on the day it will be held, so a read `through` today leaves it
+ * out.
+ */
+function contestHistory(core: CoreState, contest: ContestRow): HistoryRow {
+  return {
+    id: contest.id,
+    date: contest.electionDate as HistoryRow["date"],
+    life: "politics",
+    what: "election",
+    record: CONTEST_HELD,
+    from: contest.electionDate < core.startedAt ? "past" : "played",
+    personIds: [],
+    withIds: [],
+    facts: {
+      contestId: contest.id,
+      officeId: contest.officeId,
+      seatId: contest.seatId,
+      title: contest.title,
+      level: contest.level,
+    },
+    publicRecord: true,
+  };
+}
+
+/** The races the elections engine holds, an office's (by the reader's `about`) or every one. */
+function contestRows(core: CoreState, about?: string): HistoryRow[] {
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return [];
+  const contests = coreAPI(core)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests");
+  const rows = (about
+    ? contests.query("byOffice", [about])
+    : []) as unknown as ContestRow[];
+  return (
+    rows.length ? rows : (contests.rows() as unknown as ContestRow[])
+  ).map((contest) => contestHistory(core, contest));
+}
+
 const centuryIds = new WeakMap<CoreState, Map<string, HistoryRow>>();
 
 /**
@@ -541,15 +584,30 @@ const centuryIds = new WeakMap<CoreState, Map<string, HistoryRow>>();
  * presidency, and by its kind each Congress, each party's stance by year, the
  * parties founded, each seat as the century left it and the races each seat
  * kept, read by the one history reader (src/core2/past-history.ts). A world
- * that opened on today's real record ran no century and has none.
+ * that opened on today's real record ran no century and has none. The races
+ * the elections engine holds are history too (`election.contest`).
  */
 const CENTURY_HISTORY: HistorySource = {
   id: "century",
   rows(core, scope, ask) {
-    if (!("nation" in scope) || historyMode(core.seed) !== "century") return [];
-    return centuryRows(core, ask.kinds);
+    if (!("nation" in scope)) return [];
+    return [
+      ...(ask.kinds?.includes(CONTEST_HELD)
+        ? contestRows(core, ask.about)
+        : []),
+      ...(historyMode(core.seed) === "century"
+        ? centuryRows(core, ask.kinds)
+        : []),
+    ];
   },
   row(core, id) {
+    if (core.modules.has(ELECTIONS_MODULE_ID)) {
+      const contest = coreAPI(core)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(id) as unknown as ContestRow | undefined;
+      if (contest) return contestHistory(core, contest);
+    }
     if (historyMode(core.seed) !== "century") return undefined;
     let ids = centuryIds.get(core);
     if (!ids) {

@@ -1,4 +1,3 @@
-/* global fetch */
 // Dev mode's views from their own files (src/bench/dev-views.ts): each view's page part is a
 // module in src/bench/ui/ that exports `slots`, an object of functions by slot name. A screen that
 // holds a slot calls devViewNodes(slot, context) and adds what comes back; a view draws in a slot
@@ -12,17 +11,9 @@
 //   "person": the end of a person's card in dev mode; context { personId, onDone }.
 // A new slot is one devViewNodes call on its screen and one line here.
 
-async function send(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: input ? "POST" : "GET",
-    ...(input ? { body: JSON.stringify(input) } : {}),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
-
 /** The registered views, asked for once a page load: they are fixed when the bench starts. */
+import { sendDevRequest as send } from "./dev-request.mjs";
+
 let listed = null;
 
 /**

@@ -11,7 +11,6 @@ import { orgPlace } from "./scene";
 import { originShares } from "../core2/opening-origin";
 import {
   colorParts,
-  figureUrl,
   lookKey,
   packFigures,
   packPerson,
@@ -206,14 +205,6 @@ export function bustOf(
     older,
   );
 }
-/** Whether a figure is in the dress someone wears here first, not a fallback. */
-export const dressedForPlace = (
-  core: CoreState,
-  who: FigurePerson,
-  place: string,
-  figure: PackFigure,
-) => figure.dress === dressesFor(core, who, place)[0];
-
 /**
  * The person's figure in a pose: each dress in turn, and in a dress their
  * own look (set once from their seed); among
@@ -326,16 +317,6 @@ export function colorsFor(
       return [part, names[mixed(`${seed}:${part}`) % names.length]!];
     }),
   );
-}
-
-/** The figure's picture in the person's colors. */
-export function drawnUrl(
-  figure: PackFigure,
-  who: FigurePerson,
-  band: AgeBand,
-): string {
-  const person = packPerson(figure.person)!;
-  return figureUrl(figure, colorsFor(who, person, band));
 }
 
 /** A soft contact shadow on the floor, in percent of the picture. */

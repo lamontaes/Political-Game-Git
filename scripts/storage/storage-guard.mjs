@@ -57,7 +57,7 @@ const MiB = 1024 ** 2;
  * private people 3.8 GiB, a full browser run with traces about 1 GiB, and
  * the volume reached ENOSPC twice in one night below 2 GiB free.
  */
-export const DEFAULT_POLICY = Object.freeze({
+const DEFAULT_POLICY = Object.freeze({
   version: 1,
   /** Never let a managed operation take the filesystem below this. */
   freeSpaceReserveBytes: 25 * GiB,
@@ -102,7 +102,7 @@ const HARD_BLOCKERS = new Set([
   "no-approved-manifest",
 ]);
 
-export function defaultStateDir(env = process.env) {
+function defaultStateDir(env = process.env) {
   return env.OCD_STORAGE_STATE_DIR ?? path.join(homedir(), ".ocd-dev");
 }
 
@@ -212,7 +212,7 @@ function isInside(child, parent) {
 }
 
 /** Allocated bytes under a path, never following a symlink out of it. */
-export function measureBytes(target) {
+function measureBytes(target) {
   let total = 0;
   const walk = (current) => {
     let stats;

@@ -48,7 +48,7 @@ function* textFiles(dir: string): Generator<string> {
 }
 
 /** Which of `names` appear as a whole word in a text file under src/, scripts/ or data/. */
-export function namesFound(root: string, names: Set<string>): Set<string> {
+function namesFound(root: string, names: Set<string>): Set<string> {
   const found = new Set<string>();
   if (!names.size) return found;
   for (const d of SEARCH_DIRS)
@@ -71,7 +71,7 @@ const FUNCTION_NAME =
   /^(?:[A-Za-z_$][\w$]*\(\)|[a-z][a-z0-9]*[A-Z][\w$]*|[a-z][a-z0-9]*(?:_[a-z0-9]+)+)$/;
 
 /** Backticked names in an item body: function names, and file names without a folder. */
-export function namesIn(body: string): {
+function namesIn(body: string): {
   functions: string[];
   files: string[];
 } {
@@ -86,7 +86,7 @@ export function namesIn(body: string): {
 }
 
 /** Last commit date of each item file, newest first from one git log. Empty outside a git checkout. */
-export function lastChanges(root: string): Map<string, string> {
+function lastChanges(root: string): Map<string, string> {
   const out = new Map<string, string>();
   if (!existsSync(join(root, ".git"))) return out;
   try {

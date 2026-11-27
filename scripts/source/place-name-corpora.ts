@@ -32,11 +32,10 @@ import { join } from "node:path";
  * keep the national draw until that request is answered.
  */
 
-export const MEASURED_PLACES = ["PR", "GU", "MP", "VI", "AS"] as const;
-export type MeasuredPlace = (typeof MEASURED_PLACES)[number];
+const MEASURED_PLACES = ["PR", "GU", "MP", "VI", "AS"] as const;
 
 /** The fewest distinct honorees a name needs before a life can be given it. */
-export const MINIMUM_HONOREES = 2;
+const MINIMUM_HONOREES = 2;
 
 const TITLES =
   /^(DR|DRA|PROF|PROFA|PROFESORA|PROFESOR|SOR|HON|LCDO|LCDA|MONSENOR|MONS|REV|PADRE|MADRE|SGT|GEN|CAPT|CAPITAN|MAESTRA|MAESTRO|DON|DONA|SR|SRA|MRS|MR|MS|MISS|CHIEF|ADMIRAL|SEN|GOV|JUDGE|FRAY|MT|ST)\.?$/;
