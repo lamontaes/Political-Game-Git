@@ -1,6 +1,7 @@
 [
   "scripts/dialogue-batch/batch-three.test.ts",
   "scripts/law-wiring/check-levels.test.ts",
+  "src/bench/campaign-team.test.ts",
   "src/bench/dev-acceptance.test.ts",
   "src/bench/dev-run-year.test.ts",
   "src/bench/dev-who-named.test.ts",

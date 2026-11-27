@@ -8,7 +8,7 @@ it("loads the production parallel entry points without cycling through work defa
   const program = `
     const base = ${JSON.stringify(base)};
     await Promise.all([
-      "src/core2/population.ts", "src/core2/deep-past.ts",
+      "src/core2/population.ts", "src/core2/past.ts",
       "src/core2/civic-inputs.ts", "src/core2/life.ts",
       "src/core2/kernel/dates.ts", "src/core2/state.ts",
     ].map(path => import(base + path)));

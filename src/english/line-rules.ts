@@ -36,9 +36,9 @@ import { useSpotId } from "./spot-id";
  * (the `waiting` list); a rewrite that passes the rules replaces them (CTO,
  * Nov 10, 2026, on the four journal lines whose first rewrites broke the limit).
  */
-export type RuleStatus = "enforced" | "sample" | "rewrite" | "awaiting-test";
+type RuleStatus = "enforced" | "sample" | "rewrite" | "awaiting-test";
 
-export type RuleTest =
+type RuleTest =
   | { readonly kind: "phrases"; readonly phrases: readonly string[] }
   | {
       readonly kind: "patterns";
@@ -93,14 +93,14 @@ export const RULE_JUDGES: readonly RuleJudges[] = [
  * topic and device, which `usesWithTags` copies onto every use). Each value
  * is a regular expression source tested on the tag (on each entry of a list).
  */
-export interface UseCondition {
+interface UseCondition {
   /** Every named tag holds a value that matches. */
   readonly has?: Readonly<Record<string, string>>;
   /** No named tag holds a value that matches; a tag the use does not have matches nothing. */
   readonly lacks?: Readonly<Record<string, string>>;
 }
 
-export interface RuleApplies {
+interface RuleApplies {
   readonly banks?: readonly string[];
   readonly kinds?: readonly ("spoken" | "written")[];
   /** A regular expression source tested on the piece's move. */
@@ -254,7 +254,7 @@ export function wholeLine(text: string): string {
  * (`addressKind`), what it is about (`topic`) and its turn of speech
  * (`device`). None of them is a spot field, so `spotsOf` is unchanged.
  */
-export const PART_TAGS = [
+const PART_TAGS = [
   "bearing",
   "voice",
   "addressKind",
@@ -287,7 +287,7 @@ function tagMatches(use: PieceUse, tag: string, source: string): boolean {
 }
 
 /** Whether one use meets a use condition. */
-export function useMeets(condition: UseCondition, use: PieceUse): boolean {
+function useMeets(condition: UseCondition, use: PieceUse): boolean {
   return (
     Object.entries(condition.has ?? {}).every(([tag, source]) =>
       tagMatches(use, tag, source),
@@ -496,7 +496,7 @@ export const judgesSpots = (rule: LineRule): boolean =>
   rule.test.kind === "judged" && rule.judges === "piece-in-context";
 
 /** The key a spot verdict carries beside the piece's key: `spot:` and the use's spot. */
-export const SPOT_KEY = "spot:";
+const SPOT_KEY = "spot:";
 
 export const isSpotKey = (key: string): boolean => key.startsWith(SPOT_KEY);
 
@@ -519,10 +519,7 @@ export function spotVerdictId(piece: RulePiece, spot: string): string {
  * The spots of one piece a spot rule judges: each distinct spot of a use the
  * rule's `applies` covers (with `applies.uses`, only the uses that meet it).
  */
-export function pieceSpotSubjects(
-  rule: LineRule,
-  piece: RulePiece,
-): SpotSubject[] {
+function pieceSpotSubjects(rule: LineRule, piece: RulePiece): SpotSubject[] {
   if (!ruleApplies(rule, piece)) return [];
   const entries: readonly RuleApplies[] = !rule.applies
     ? [{}]
@@ -580,7 +577,7 @@ export function spotSubjects(
 }
 
 /** The spots (`useSpotId`) where a reviewer judged the piece "no" for this rule. */
-export function spotsJudgedNo(
+function spotsJudgedNo(
   rule: LineRule,
   piece: RulePiece,
   stores?: JudgedStores,
@@ -691,7 +688,7 @@ export function spotsOf(piece: RulePiece): string[] {
   return [...spots];
 }
 
-export interface RuleCount {
+interface RuleCount {
   /** Pieces that break the rule (any status, held or not, good or not). */
   readonly flagged: number;
   readonly pulled: number;
@@ -704,13 +701,13 @@ export interface RuleCount {
 }
 
 /** For a `judged` rule: lines with a verdict in their current words, of them judged bad, and lines with none. */
-export interface VerdictCount {
+interface VerdictCount {
   readonly judged: number;
   readonly bad: number;
   readonly waiting: number;
 }
 
-export interface RunTotals {
+interface RunTotals {
   readonly pieces: number;
   readonly heldByGrades: number;
   readonly playableBefore: number;

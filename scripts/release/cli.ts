@@ -201,7 +201,7 @@ export function revisionDate(root: string): string {
   );
 }
 
-export function currentPlan(root: string, isoDate: string): ReleasePlan {
+function currentPlan(root: string, isoDate: string): ReleasePlan {
   return planRelease({
     currentVersion: readPackageVersion(root),
     notesText: readFileSync(join(root, NOTES_PATH), "utf8"),

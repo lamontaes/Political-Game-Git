@@ -40,7 +40,7 @@ import { readFileSync } from "node:fs";
 import { readBankPieces } from "../words/run-rules";
 import { type SpokenSpan, strengthOf } from "./spoken-grades";
 
-export interface BatchLine {
+interface BatchLine {
   readonly id: string;
   readonly key: string;
   readonly line: string;
@@ -116,7 +116,7 @@ const ORDINALS: Readonly<Record<string, number>> = {
 };
 
 /** "twenty one", "twenty-one", "21" as a number; undefined when it is none. */
-export function spokenNumber(words: string): number | undefined {
+function spokenNumber(words: string): number | undefined {
   const t = words.trim().toLowerCase().replace(/-/g, " ");
   if (/^\d+$/.test(t)) return Number(t);
   const parts = t.split(/\s+/);
@@ -186,7 +186,7 @@ export function ratingSaid(sentence: string): number | undefined {
 }
 
 /** A rating of 1 to 5 as a strength: three is the sentence fine in the wrong context. */
-export function ratingStrength(rating: number): number {
+function ratingStrength(rating: number): number {
   return Math.max(-1, Math.min(1, (rating - 3) / 2));
 }
 
@@ -271,7 +271,7 @@ function sentencesOf(note: string): string[] {
 }
 
 /** A sentence where he says the line his own way: "It'd be like, ...", "something like, ...". */
-export function rewriteSaid(sentence: string): boolean {
+function rewriteSaid(sentence: string): boolean {
   return /\b(it'?d be like|it would be like|would be like|you'?d be like|you could say|say something like|saying something like|like saying|something like,|it'?d be more like|more like,|that would be more realistic)\b/i.test(
     sentence,
   );
