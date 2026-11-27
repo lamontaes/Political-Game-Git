@@ -1,0 +1,33 @@
+{
+  "id": "a-life-starts-among-the-brothers-and-sisters-already-there",
+  "kind": "moment",
+  "summary": "A life is told from where its person stood among the children: with an older brother or sister already there, as the first of several, or as the only one.",
+  "realLife": "Families vary in how many children they have. In the United States the share of mothers who finish with exactly one child doubled over a generation, so more people start their story as the only child, while most start it with an older brother or sister already in the house or as the oldest of several.",
+  "sources": [
+    "Pew Research Center, Family Size Among Mothers: https://www.pewresearch.org/social-trends/2015/05/07/family-size-among-mothers/",
+    "American Psychological Association, Only children are often misunderstood: https://www.apa.org/monitor/2024/09/only-children"
+  ],
+  "fits": ["journal"],
+  "slots": ["older-sibling", "place"],
+  "gates": ["older-sibling", "first-born", "only-child"],
+  "weights": {
+    "older-sibling": 0.7
+  },
+  "inGame": "the birth chapter's older-sibling, first-born and only-child facts, read from the sibling records by the journal chapter opener (src/director/journal-chapter-open.ts).",
+  "issues": ["none"],
+  "usedBy": [],
+  "turns": [
+    {
+      "turn": "opposite",
+      "what": "The older brother or sister dies young, and the person is raised as the oldest.",
+      "pulledBy": "the older sibling's death record before the person is grown",
+      "writesBack": "a later chapter that says the person was the oldest left at home, and the Journal reads the family differently"
+    },
+    {
+      "turn": "partial",
+      "what": "A brother or sister is born years after the person, so the only child becomes the oldest of two.",
+      "pulledBy": "a sibling's birth record in the same household",
+      "writesBack": "the birth chapter changes from only child to first-born when the later chapters are told looking back"
+    }
+  ]
+}

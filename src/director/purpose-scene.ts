@@ -1877,10 +1877,17 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      // Where the body is named for its members the race is for that member
-      // ("alderman"); else the record's title in a sentence.
+      // The race's office as every scene says it, from the one reader the
+      // door knock uses (`officeSaid`; W6, Nov 24: the interview said "the
+      // race for council member" where the knock said "the Greeley City
+      // Council"); else, with no contest on record, the member's title where
+      // the body is named for its members ("alderman"), else the record's.
       text:
-        raceMemberTitle(core, said.contestId) ?? titleInSentence(said.office),
+        (said.contestId
+          ? officeSaid(core, { contestId: said.contestId })?.text
+          : undefined) ??
+        raceMemberTitle(core, said.contestId) ??
+        titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),

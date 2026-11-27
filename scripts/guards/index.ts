@@ -72,6 +72,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/families.test.ts"),
   },
   {
+    id: "engine-tables",
+    rule: "One engine does not open another engine's records: no new module table opened, row put or removed, state map written or state row edited in place from another family; the counts only shrink.",
+    readMore:
+      "scripts/guards/engine-tables.ts, its header; tests/guards/engine-tables-baseline.json",
+    command: vitest("tests/guards/engine-tables.test.ts"),
+  },
+  {
     id: "duplicate-exports",
     rule: "Two engine families must not define an exported function with the same name and body.",
     readMore: "docs/design/guards.md, One engine per mechanic",
