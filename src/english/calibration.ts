@@ -163,7 +163,6 @@ function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
 
-
 /** Shares an authored weight of 1 is scaled to, so the stable pick stays an integer draw. */
 const WEIGHT_SHARES = 1000;
 

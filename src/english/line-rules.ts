@@ -519,10 +519,7 @@ export function spotVerdictId(piece: RulePiece, spot: string): string {
  * The spots of one piece a spot rule judges: each distinct spot of a use the
  * rule's `applies` covers (with `applies.uses`, only the uses that meet it).
  */
-function pieceSpotSubjects(
-  rule: LineRule,
-  piece: RulePiece,
-): SpotSubject[] {
+function pieceSpotSubjects(rule: LineRule, piece: RulePiece): SpotSubject[] {
   if (!ruleApplies(rule, piece)) return [];
   const entries: readonly RuleApplies[] = !rule.applies
     ? [{}]

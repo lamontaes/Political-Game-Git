@@ -15,11 +15,9 @@ import estimated from "./place-district-estimates.generated.json" with { type: "
 import type { DistrictChamber } from "./types";
 import { DISTRICT_IDENTITY_VINTAGE } from "./types";
 
-const SLD_PLACE_RELATION_VINTAGE =
-  "census-rel-2024-sld-place20" as const;
+const SLD_PLACE_RELATION_VINTAGE = "census-rel-2024-sld-place20" as const;
 /** 119th Congress districts against 2020 places: a baseline, not permanent truth. */
-const CD_PLACE_RELATION_VINTAGE =
-  "census-rel-2020-cd119-place20" as const;
+const CD_PLACE_RELATION_VINTAGE = "census-rel-2020-cd119-place20" as const;
 
 /**
  * U.S. House lines that replace the baseline for some states from a date. The
@@ -128,7 +126,6 @@ export type PlaceDistrictJoin =
       readonly districtGeoid: string;
     }
   | { readonly kind: "unknown" };
-
 
 /**
  * The latest set that covers a state and has started by a game date, or null.

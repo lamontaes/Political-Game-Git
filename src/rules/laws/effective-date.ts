@@ -153,7 +153,6 @@ export function stateStatuteOperativeAt(
   }
 }
 
-
 export interface SessionEndRow {
   readonly adjourned?: Readonly<
     Record<string, { readonly dates: readonly string[] }>

@@ -3,10 +3,7 @@ import type { Plugin } from "vite";
 import { sourceIdentity } from "./identity";
 
 /** Public version fields match VERSION-AUTO1's package/revision contract. */
-function publicBuildIdentity(
-  root: string,
-  identity = sourceIdentity(root),
-) {
+function publicBuildIdentity(root: string, identity = sourceIdentity(root)) {
   const { version } = JSON.parse(readFileSync(`${root}/package.json`, "utf8"));
   if (typeof version !== "string")
     throw new Error("Package version is missing");

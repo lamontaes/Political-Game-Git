@@ -135,7 +135,6 @@ export function lawInForceFromCandidates(input: {
   };
 }
 
-
 function governingRank(law: LawCandidate): number {
   return law.yieldsToLocal
     ? lawLevelRank("local-ordinance") -

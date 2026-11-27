@@ -73,11 +73,7 @@ function formatWrite(root: string, write: PlannedWrite): PlannedWrite {
  * that other lanes have their own opinions about, so the edit is the narrowest
  * one that does the job: the top-level `version` line, and nothing else.
  */
-function bumpPackageVersion(
-  text: string,
-  from: string,
-  to: string,
-): string {
+function bumpPackageVersion(text: string, from: string, to: string): string {
   const pattern = new RegExp(
     `^(\\s*"version"\\s*:\\s*")${from.replace(/\./g, "\\.")}(")`,
     "m",

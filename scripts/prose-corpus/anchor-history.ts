@@ -402,18 +402,14 @@ export function unrecoverableIssuance(
   return { id, site: known.site ?? null, text: known.text ?? null };
 }
 
-function unknownPartsOf(
-  issuance: AnchorIssuance,
-): IssuanceProvenancePart[] {
+function unknownPartsOf(issuance: AnchorIssuance): IssuanceProvenancePart[] {
   const unknown: IssuanceProvenancePart[] = [];
   if (issuance.site === null) unknown.push("site");
   if (issuance.text === null) unknown.push("text");
   return unknown;
 }
 
-function sortIssuances(
-  issuances: Iterable<AnchorIssuance>,
-): AnchorIssuance[] {
+function sortIssuances(issuances: Iterable<AnchorIssuance>): AnchorIssuance[] {
   const byId = new Map<string, AnchorIssuance>();
   for (const issuance of issuances) {
     const seen = byId.get(issuance.id);
@@ -439,10 +435,7 @@ function describeIssuance(issuance: AnchorIssuance): string {
 }
 
 /** True when both records say exactly the same thing about the same id. */
-function sameIssuance(
-  left: AnchorIssuance,
-  right: AnchorIssuance,
-): boolean {
+function sameIssuance(left: AnchorIssuance, right: AnchorIssuance): boolean {
   return (
     left.id === right.id && left.site === right.site && left.text === right.text
   );
@@ -530,9 +523,7 @@ export function parseIndexRanges(spec: string): number[] {
 }
 
 /** The exact indexes issued per symbol, as ranges. */
-function issuedIndexesOf(
-  issued: Iterable<string>,
-): Record<string, string> {
+function issuedIndexesOf(issued: Iterable<string>): Record<string, string> {
   const bySymbol = new Map<string, number[]>();
   for (const id of issued) {
     const index = indexOfId(id);
@@ -1336,9 +1327,7 @@ export function assertMonotonicAdvance(input: {
   }
 }
 
-function describeHistoryProblems(
-  problems: readonly HistoryProblem[],
-): string {
+function describeHistoryProblems(problems: readonly HistoryProblem[]): string {
   return problems
     .map((problem) => `  [${problem.kind}] ${problem.detail}`)
     .join("\n");

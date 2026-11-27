@@ -16,12 +16,7 @@ export const SECTIONS = [
   "Waits on",
   "Files",
 ];
-const CAUSE_KINDS = [
-  "Found in code:",
-  "Measured:",
-  "Design:",
-  "Needs cause.",
-];
+const CAUSE_KINDS = ["Found in code:", "Measured:", "Design:", "Needs cause."];
 /** The Fix an item with no known cause carries (owner, Nov 10: no work unless Fable found the fix). */
 const NO_FIX = "None until the cause is found.";
 

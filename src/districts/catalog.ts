@@ -31,8 +31,7 @@ if (catalog.records.length !== catalog.recordCount) {
   );
 }
 
-const DISTRICT_IDENTITY_CATALOG: readonly DistrictIdentity[] =
-  catalog.records;
+const DISTRICT_IDENTITY_CATALOG: readonly DistrictIdentity[] = catalog.records;
 
 export function districtIdentityCatalog(): readonly DistrictIdentity[] {
   return DISTRICT_IDENTITY_CATALOG;

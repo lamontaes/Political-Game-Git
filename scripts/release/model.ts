@@ -47,8 +47,7 @@ export interface ChangeDeclaration {
 }
 
 /** A `## ` section of `PATCH_NOTES.md`, as parsed. */
-type NotesSectionKind =
-  "intro" | "unreleased" | "candidate" | "accepted";
+type NotesSectionKind = "intro" | "unreleased" | "candidate" | "accepted";
 
 export interface NotesSection {
   readonly kind: NotesSectionKind;

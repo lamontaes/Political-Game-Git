@@ -18,12 +18,7 @@ const DISTRICT_HOME_JOIN_SPLIT =
 const DISTRICT_HOME_JOIN_IDENTITY_MISSING =
   "The relationship file names a district that is not in the accepted Gazetteer identity catalog, so membership stays unknown.";
 
-
-
-function districtRecordId(
-  chamber: DistrictChamber,
-  geoid: string,
-): string {
+function districtRecordId(chamber: DistrictChamber, geoid: string): string {
   return `${chamber}:${geoid}`;
 }
 
@@ -135,7 +130,6 @@ export function districtMembershipFromCanonicalHome(input: {
     identity: resolved.identity,
   };
 }
-
 
 export function resolveDistrictBinding(
   catalog: readonly DistrictIdentity[],

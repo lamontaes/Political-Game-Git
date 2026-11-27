@@ -93,9 +93,7 @@ export function gradeNotesOf(
  * the words a rule keeps from him (`from` and `examples`), or the whole note
  * sits inside one of them.
  */
-function noteMatcher(
-  rules: readonly LineRule[],
-): (note: string) => boolean {
+function noteMatcher(rules: readonly LineRule[]): (note: string) => boolean {
   const sources = rules.flatMap((rule) => [
     ...rule.from.map((entry) => normalWords(entry.words)),
     ...(rule.examples ?? []).map((entry) => normalWords(entry.words)),

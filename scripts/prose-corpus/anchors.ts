@@ -113,9 +113,7 @@ export function siteOf(anchor: ComputedAnchor): string {
 }
 
 /** The live sidecar reduced to what allocation history can be checked against. */
-function liveBindingsOf(
-  anchors: readonly ComputedAnchor[],
-): LiveBinding[] {
+function liveBindingsOf(anchors: readonly ComputedAnchor[]): LiveBinding[] {
   return anchors.map((anchor) => ({
     id: anchor.anchor,
     site: siteOf(anchor),
@@ -286,10 +284,7 @@ export function loadAnchorFile(path: string = ANCHOR_FILE): AnchorFile {
   };
 }
 
-function writeAnchorFile(
-  file: AnchorFile,
-  path: string = ANCHOR_FILE,
-): void {
+function writeAnchorFile(file: AnchorFile, path: string = ANCHOR_FILE): void {
   const ordered = [...file.anchors].sort((left, right) =>
     left.anchor < right.anchor ? -1 : left.anchor > right.anchor ? 1 : 0,
   );
