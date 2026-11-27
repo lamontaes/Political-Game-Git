@@ -13,6 +13,7 @@ import { buildPopulation } from "../population";
 import { coreAPI } from "../state";
 import { RUN_SEED } from "../trait-test-kit";
 import { drawPlace } from "../../../tests/golden-path/place";
+import { deliverSpeech, speechModule } from "./speech";
 import { standingWith, viewOf, viewsModule } from "./views";
 
 const SEED = `${RUN_SEED}:feeling`;
@@ -136,5 +137,72 @@ describe(`how a speech lands in ${place.name} (seed ${SEED})`, () => {
       `shared hours: ${place.name}, seed ${SEED}, ${listener.id} and ${speaker.id}: standing ${strangers.toFixed(4)} as strangers, ${colleagues.toFixed(4)} with 300 shared hours`,
     );
     expect(colleagues).toBeGreaterThan(strangers);
+  });
+
+  it("a speech moves a listener who holds a grudge against the speaker less than the same listener in a twin world without one", () => {
+    // Two worlds from one input, one speech to the same audience; the twin
+    // gives only the grudge holders a grudge against the speaker.
+    const listenAt = (grudgeHolders: ReadonlySet<string>) => {
+      const world = createLifeCore(input, {
+        modules: [viewsModule, speechModule],
+      });
+      const worldApi = coreAPI(world);
+      const speaker = [...world.people.values()]
+        .filter((p) => adults.some((a) => a.id === p.id))
+        .sort((a, b) => a.id.localeCompare(b.id))
+        .map((p) => ({
+          p,
+          ties: adults.filter(
+            (other) =>
+              other.id !== p.id &&
+              closenessBetween(world, other.id, p.id) > 0.1,
+          ),
+        }))
+        .sort((a, b) => b.ties.length - a.ties.length)[0]!;
+      const listeners = speaker.ties.map((t) => t.id);
+      for (const id of grudgeHolders)
+        world.people.get(id)!.drives.set(`grudge:grudge:${speaker.p.id}`, {
+          id: `grudge:grudge:${speaker.p.id}`,
+          kind: "grudge",
+          topic: `grudge:${speaker.p.id}`,
+          desiredChange: "fixture.grudge",
+          strength: 0.8,
+          sourceEventId: "fixture:feeling-read",
+        });
+      const retellings = deliverSpeech(worldApi, {
+        id: "speech:feeling-test",
+        speakerId: speaker.p.id,
+        placeId: speaker.p.placeId,
+        topic: "fixture:park",
+        desiredChange: "build-park",
+        audienceIds: listeners,
+      });
+      return {
+        listeners,
+        moved: new Map(retellings.map((r) => [r.listenerId, r.moved])),
+      };
+    };
+    const control = listenAt(new Set());
+    expect(control.listeners.length).toBeGreaterThan(3);
+    const holders = new Set(
+      control.listeners.slice(0, Math.ceil(control.listeners.length / 2)),
+    );
+    const twin = listenAt(holders);
+    const rows = [...holders]
+      .map((id) => ({
+        id,
+        was: control.moved.get(id) ?? 0,
+        now: twin.moved.get(id) ?? 0,
+      }))
+      .filter((row) => row.was > 0);
+    console.log(
+      `moved: ${place.name}, seed ${SEED}: ${rows.length} grudge holders moved ${rows.reduce((n, r) => n + r.now, 0).toFixed(4)} in all against ${rows.reduce((n, r) => n + r.was, 0).toFixed(4)} without the grudge`,
+    );
+    expect(rows.length).toBeGreaterThan(0);
+    for (const row of rows) expect(row.now, row.id).toBeLessThan(row.was);
+    // Those without a grudge are moved exactly as before.
+    for (const id of control.listeners)
+      if (!holders.has(id))
+        expect(twin.moved.get(id), id).toBe(control.moved.get(id));
   });
 });
