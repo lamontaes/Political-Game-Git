@@ -342,22 +342,16 @@
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes
-/src/core2/modules/finance.ts @lamontaes
 /src/core2/modules/projects.ts @lamontaes
 /src/core2/modules/contracts.ts @lamontaes
 /src/core2/modules/purchase-tax.ts @lamontaes
 /src/core2/modules/employer-taxes.ts @lamontaes
 /src/core2/budget-*.ts @lamontaes
 /src/core2/budgets-*.ts @lamontaes
-/src/core2/finance-*.ts @lamontaes
 /src/core2/tax-*.ts @lamontaes
-/src/core2/accounts.ts @lamontaes
-/src/core2/act-cash.ts @lamontaes
 /src/core2/school-budget-line.ts @lamontaes
-/src/core2/starting-cash.ts @lamontaes
 /src/core2/world-transfer.ts @lamontaes
 /src/core2/modules/outside-budgets.ts @lamontaes
-/src/core2/accounts.test.ts @lamontaes
 /src/core2/bank-deposits.test.ts @lamontaes
 /src/core2/bookkeeping.test.ts @lamontaes
 /src/core2/budgets.test.ts @lamontaes
@@ -393,6 +387,14 @@
 /src/core2/treasury-cut-cash-limited.test.ts @lamontaes
 /src/core2/treasury-government-match.test.ts @lamontaes
 /src/core2/treasury-outside-account.test.ts @lamontaes
+/src/core2/act-cash.ts @lamontaes
+
+# People's and firms' money: accounts, cash and plans (finance)
+/src/core2/modules/finance.ts @lamontaes
+/src/core2/finance-*.ts @lamontaes
+/src/core2/accounts.ts @lamontaes
+/src/core2/starting-cash.ts @lamontaes
+/src/core2/accounts.test.ts @lamontaes
 
 # Laws, justice and their effects (laws)
 /src/core2/modules/laws.ts @lamontaes
@@ -628,13 +630,18 @@
 /src/core2/question-wages.ts @lamontaes
 /src/core2/legacy-wage-counters.ts @lamontaes
 /src/core2/macro-model.ts @lamontaes
+/src/core2/macro-reads.ts @lamontaes
 /src/core2/regional-model.ts @lamontaes
+/src/core2/regional-reads.ts @lamontaes
 /src/core2/credit-deposits.ts @lamontaes
+/src/core2/credit-reads.ts @lamontaes
+/src/core2/prices-reads.ts @lamontaes
 /src/core2/commuting-shares.ts @lamontaes
 /src/core2/cost-of-living.ts @lamontaes
 /src/core2/living-cost-split.ts @lamontaes
 /src/core2/pay-by-quarter.ts @lamontaes
 /src/core2/modules/macro-constants.ts @lamontaes
+/src/core2/economy-reads.test.ts @lamontaes
 /src/core2/away-workers-turnover.test.ts @lamontaes
 /src/core2/cannabis-sales-law.test.ts @lamontaes
 /src/core2/civic-inputs-clerk-staff.test.ts @lamontaes
