@@ -135,8 +135,9 @@ Files: modules/jobs.ts, modules/business.ts, jobs-elsewhere.ts, the jobs, employ
 7. **Part-time legislators hold other work**, and **press owners draw a payroll** (pool items opening-part-time-legislators-hold-other-work and opening-press-owners-draw-a-payroll).
 
 8. **Doors the screens need (adjusted Nov 27):** read-only queries in modules/jobs.ts and the business engine for positions, player applications, seekers and trading, when Screens asks on #10377 (screens-2026-11-27.md, the door list).
+9. **civic-inputs.ts joins your opening files** (elections EL9; adjusted Nov 27): it generates the world's civic institutions on day one. Its write into public organizations is Core item 7's.
 
-**Done when** 1 to 8 are each built as PRs with proof, or listed with why.
+**Done when** 1 to 9 are each built as PRs with proof, or listed with why.
 
 ---
 
@@ -151,12 +152,12 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 **Items, safest first:**
 
 1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8). It starts with the people engine's opens in both directions, measured in people-2026-11-26.md P5 (adjusted Nov 27). The screens' 157 table reads (92 game screens, 53 dev, 12 checks) are in it too (adjusted Nov 27).
-2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27).
+2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27). Also gov-test-clock.ts (elections EL8; adjusted Nov 27).
 3. **One `core` family** in tests/guards/families.json: the shared kernel, plus life.ts (the day loop), the record log, the reader and the cash journal (journal.ts and journal-state.ts, filed under people today; renamed cash-journal*.ts by the move script; people P12, adjusted Nov 27). Give the 11 orphan files (src/districts, src/rules/laws, src/release) their families. Coordinate with Story's #10683, which made `story`.
 4. **The missing date helpers in the kernel** (weekday of a date, the nth weekday of a month, the last day of a month), with every copy pointed at the kernel (K10): elections-calendar.ts, school.ts, voting.ts, finance-state.ts, work-pay-period.ts, and the rest of the 95 files' date sums. Formatting is left as it is. The kernel's `spokenDate` (dates.ts:113) goes to Story's day-words, in step with Story's E2.
 5. **A determinism guard:** no `Math.random`, `randomBytes`, `randomUUID`, `Date.now`, `performance.now` or argument-less `new Date()` in game code outside dev panels, the play server and scripts (K11).
 6. **The record log as one module:** `retainLog` and decision-detail.ts's condense and forget steps (`durableLog.set` :274, `forgetEntry` :411) together, with the reader beside them. pre-start.ts becomes a `module.history` source like every other engine, so the reader imports no engine. `HistorySource` joins `CoreModule` (K3, K4). The reader exposes the history sources' existing `row` (past-history.ts:139-140) as the one way a screen or Story opens a record the history names; no new hook (screens SC2a; adjusted Nov 27).
-7. **Cross-engine writes through the owner's door:** official-pay.ts:476 (jobs), officials.ts:988 (background people), civic-inputs.ts:157 (public organizations) (K8).
+7. **Cross-engine writes through the owner's door:** official-pay.ts:476 (jobs), officials.ts:988 (background people), civic-inputs.ts:157 (public organizations) (K8). Also past-elections.ts:568-576 (offices terms), voting.ts's one write into an executive table and past-laws.ts's write into a people table, from your own guard's baseline (elections EL3; adjusted Nov 27).
 8. **Fill-in out of state.ts:** `fillInPerson`, `fillInIdentity`, `promoteHusk`, `openOpeningPeerTies` and the 16 person-building imports go to the people engine behind a hook (K7). Then choice.ts calls the act path without `coreAPI` (Reach-ins' choice.ts to state.ts cycle, 14 edges).
 9. **One way to start a world:** `newGame` (saves.ts:186) takes the whole recipe (the place draw with `passOver`, the pre-start, the opening warm-up, the player). The screens' `buildBenchWorld` (src/bench/world.ts:434) and the replay both call it. Coordinate the warm-up with Past and Day One (K5). The play server's session operations (start a life, load, save, advance) are Core's doors; the route table itself stays in Screens (screens SC4; adjusted Nov 27).
 10. **The engine list as data:** the modules life.ts installs come from one list, and the direct calls (`affectAt`, `withGrief`, `admitResidents`, `openingWorkCommitments`) go through hooks. Reach-ins' cycle and reach-in items are finished here; the cycle baseline goes down. The people engine's 11 side registries (people P9) move onto the hook shape this item defines, by the People session. Measured for the final review: 74 `register*` functions game-wide (adjusted Nov 27).
@@ -239,6 +240,8 @@ The audit is screens-2026-11-27.md in this folder (rows SC1 to SC8).
 
 **Start** once train #10682 has landed. Branch from main.
 
+**Adjusted Nov 27 (elections map):** your offices door adds the elections map's queries (an office by id, a term by id, open vacancies, a person's terms, a seat's office and an office's seats). The elections door (a contest, its filings, its result, the races open to a person) is the Elections session's; switch your elections reads to it when it lands, instead of adding your own.
+
 **Items, safest first:**
 
 1. **Dev mode in the installed game (SC1),** in its four steps. The packaged-app smoke test is the proof. handler.ts's mount goes now; the CTO's train reconciles it with the Story split.
@@ -267,6 +270,35 @@ The audit is screens-2026-11-27.md in this folder (rows SC1 to SC8).
 - Use the Fable advisor liberally; it doesn't use Fable usage.
 
 **Done when** 1 to 8 are each built, or listed with why.
+
+---
+
+## Elections (decided by the CTO under the owner's full ownership, Nov 27)
+
+The audit is elections-2026-11-27.md in this folder (rows EL1 to EL9).
+
+**Start now.** Branch from train/nov27-a (#10699) until it lands, then main.
+
+**Items, safest first:**
+
+1. **Party identity to its own leaf file (EL1),** with appointments.ts re-exporting. Digest identical.
+2. **The election calendar's rule files to elections' family (EL7),** in Elections' families.json branch.
+3. **The elections door (EL2):** a contest, its filings, its result, and the races open to a person (the already-filed rule moves in). Screens and Story switch over.
+4. **Elections' entries (EL6):** campaign-views.ts, electorate.ts and parties.ts, and outside reads through the entries.
+5. **Reads through the doors (EL2):** its own 76 office reads and news' 15 elections reads, to the doors that exist now and to the missing ones once Screens and item 3 land them.
+6. **The two big files split by concern (EL4),** structure only, after the Story split lands campaigns.ts and voting.ts.
+7. **The side registries onto Core's hook (EL5),** after Core item 10.
+
+**Rules:**
+
+- Structure-only items keep the fixed-seed records digest identical and `npm run typecheck` clean.
+- No new systems and no new registry.
+- Never loosen a check.
+- Never edit bank lines.
+- Wide moves are re-runnable scripts.
+- Use the Fable advisor liberally; it doesn't use Fable usage.
+
+**Done when** 1 to 7 are each built, or listed with why.
 
 ---
 
