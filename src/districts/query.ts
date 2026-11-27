@@ -12,38 +12,15 @@ export const DISTRICT_MEMBERSHIP_REFUSAL =
 export const DISTRICT_HOME_JOIN_UNKNOWN =
   "A recorded home place or jurisdiction is not numbered-district membership. The game will not treat a city, county, or state name as proof that the home lies in a Gazetteer district.";
 
-export const DISTRICT_HOME_JOIN_SPLIT =
+const DISTRICT_HOME_JOIN_SPLIT =
   "The recorded home place is split across more than one district of this chamber. Whole-place membership is not known, and the game will not pick a district.";
 
-export const DISTRICT_HOME_JOIN_IDENTITY_MISSING =
+const DISTRICT_HOME_JOIN_IDENTITY_MISSING =
   "The relationship file names a district that is not in the accepted Gazetteer identity catalog, so membership stays unknown.";
 
-export function gazetteerChamberForOfficeChamberKey(
-  chamberKey: string,
-): DistrictChamber | null {
-  if (chamberKey === "house" || chamberKey === "assembly") return "state-lower";
-  if (chamberKey === "senate" || chamberKey === "legislature") {
-    return "state-upper";
-  }
-  if (chamberKey === "congressional") return "congressional";
-  return null;
-}
 
-export function gazetteerChamberForOfficeFamily(
-  officeFamily:
-    "LOWER_CHAMBER" | "UPPER_CHAMBER" | "UNICAMERAL_CHAMBER" | string,
-): DistrictChamber | null {
-  if (officeFamily === "LOWER_CHAMBER") return "state-lower";
-  if (
-    officeFamily === "UPPER_CHAMBER" ||
-    officeFamily === "UNICAMERAL_CHAMBER"
-  ) {
-    return "state-upper";
-  }
-  return null;
-}
 
-export function districtRecordId(
+function districtRecordId(
   chamber: DistrictChamber,
   geoid: string,
 ): string {
@@ -159,28 +136,6 @@ export function districtMembershipFromCanonicalHome(input: {
   };
 }
 
-/**
- * The districts of one chamber a split Census place crosses, as accepted
- * Gazetteer identities. Empty for a whole place, an unknown place, or a
- * chamber with no relationship file. This lists the districts a resident of
- * the town could be in; it does not say which one any resident is in.
- */
-export function districtsCrossingPlace(
-  catalog: readonly DistrictIdentity[],
-  placeGeoid: string | null,
-  chamber: DistrictChamber,
-): readonly DistrictIdentity[] {
-  if (!placeGeoid) return [];
-  const joined = placeDistrictJoin(placeGeoid, chamber);
-  if (joined.kind !== "split") return [];
-  return (joined.candidateDistrictGeoids ?? []).flatMap((geoid) => {
-    const identity = districtIdentityByRecordId(
-      catalog,
-      districtRecordId(chamber, geoid),
-    );
-    return identity && !identity.isUnassignedResidual ? [identity] : [];
-  });
-}
 
 export function resolveDistrictBinding(
   catalog: readonly DistrictIdentity[],
