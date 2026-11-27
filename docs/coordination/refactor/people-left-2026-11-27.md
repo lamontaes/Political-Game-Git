@@ -1,4 +1,4 @@
-# People: what is built and what is left, with why (Nov 27, 3:15 p.m. ET)
+# People: what is built and what is left, with why (Nov 27)
 
 The People assignment's Done when is "1 to 8 are each built, or listed with why", and Opus's second list (1 to 5, in the goal given at 1:40 p.m.) the same. Each line below is built as an open pull request, or listed with the reason it is not. Nothing is merged; the CTO folds the pull requests. The fold (#10814) has landed in `train/nov27-a`; every People branch below has it merged in.
 
