@@ -55,7 +55,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "person-history.story.school.started.third.w4",
@@ -64,7 +65,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "person-history.story.school.started.they",
@@ -91,7 +93,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "person-history.story.school.started.they.w4",
@@ -100,7 +103,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "person-history.story.school.started.i",
@@ -127,7 +131,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "person-history.story.school.started.i.w4",
@@ -136,7 +141,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["first-day-of-school-in-a-homemade-dress"]
     },
     {
       "key": "person-history.story.school.joined.third",
@@ -601,7 +607,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.third.w2",
@@ -610,7 +617,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.third.w3",
@@ -619,7 +627,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.third.w4",
@@ -628,7 +637,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.they",
@@ -637,7 +647,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.they.w2",
@@ -646,7 +657,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.they.w3",
@@ -655,7 +667,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.they.w4",
@@ -664,7 +677,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.i",
@@ -673,7 +687,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.i.w2",
@@ -682,7 +697,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.i.w3",
@@ -691,7 +707,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met.i.w4",
@@ -700,7 +717,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["partners-met-at-school"]
     },
     {
       "key": "person-history.story.partner.met-you.third",
@@ -898,7 +916,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell.third.w3",
@@ -907,7 +929,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell.third.w4",
@@ -916,7 +942,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell.they",
@@ -934,7 +964,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell.they.w3",
@@ -943,7 +977,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell.they.w4",
@@ -952,7 +990,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell.i",
@@ -970,7 +1012,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell.i.w3",
@@ -979,7 +1025,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell.i.w4",
@@ -988,7 +1038,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "first-pay-told-as-a-weekly-or-hourly-sum",
+        "first-job-taken-to-help-the-family"
+      ]
     },
     {
       "key": "person-history.story.work.spell-again.third",
@@ -1375,7 +1429,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.elected-again.they",
@@ -1384,7 +1439,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.elected-again.i",
@@ -1393,7 +1449,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.appointed.third",
@@ -1403,10 +1460,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a41-your-deputy-files-against-you"]
     },
     {
       "key": "person-history.story.office.appointed.third.w2",
@@ -1416,10 +1470,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a41-your-deputy-files-against-you"]
     },
     {
       "key": "person-history.story.office.appointed.third.w3",
@@ -1429,10 +1480,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a26-a-powerful-officeholder-comes-to-campaign"]
     },
     {
       "key": "person-history.story.office.appointed.third.w4",
@@ -1455,10 +1503,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a26-a-powerful-officeholder-comes-to-campaign"]
     },
     {
       "key": "person-history.story.office.appointed.they.w2",
@@ -1468,10 +1513,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a41-your-deputy-files-against-you"]
     },
     {
       "key": "person-history.story.office.appointed.they.w3",
@@ -1481,10 +1523,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a41-your-deputy-files-against-you"]
     },
     {
       "key": "person-history.story.office.appointed.they.w4",
@@ -1494,10 +1533,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a41-your-deputy-files-against-you"]
     },
     {
       "key": "person-history.story.office.appointed.i",
@@ -1520,10 +1556,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a26-a-powerful-officeholder-comes-to-campaign"]
     },
     {
       "key": "person-history.story.office.appointed.i.w3",
@@ -1533,10 +1566,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "elements": ["pattern-a26-a-powerful-officeholder-comes-to-campaign"]
     },
     {
       "key": "person-history.story.office.appointed.i.w4",
@@ -1545,11 +1575,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": [
-        "pattern-a26-a-powerful-officeholder-comes-to-campaign",
-        "pattern-a41-your-deputy-files-against-you"
-      ]
+      "kind": "written"
     },
     {
       "key": "person-history.story.office.appointed-again.third",
@@ -1628,10 +1654,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.they",
@@ -1706,10 +1729,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-b41-the-oath",
-        "pattern-b44-your-first-vote-is-the-big-one"
-      ]
+      "elements": ["pattern-b41-the-oath"]
     },
     {
       "key": "person-history.story.office.entered.i.w3",
@@ -1744,7 +1764,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.entered-again.they",
@@ -1753,7 +1774,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.entered-again.i",
@@ -1762,7 +1784,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.elected-always.third",
@@ -1771,7 +1794,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.elected-always.they",
@@ -1780,7 +1804,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.elected-always.i",
@@ -1789,7 +1814,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.appointed-always.third",
@@ -1825,7 +1851,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.entered-always.they",
@@ -1834,7 +1861,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.office.entered-always.i",
@@ -1843,7 +1871,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["the-first-loss-comes-before-the-first-win"]
     },
     {
       "key": "person-history.story.partner.moved-in.third",
@@ -1982,8 +2011,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["marriage-is-the-reason-for-the-move"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.partner.engaged.i",
@@ -2431,7 +2459,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "arrest-follows-a-week-of-damaged-cars",
+        "arrests-come-months-after-a-vandalism-spree"
+      ]
     },
     {
       "key": "person-history.story.law.arrested.they",
@@ -2440,7 +2472,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "arrest-follows-a-week-of-damaged-cars",
+        "arrests-come-months-after-a-vandalism-spree"
+      ]
     },
     {
       "key": "person-history.story.law.arrested.i",
@@ -2449,7 +2485,11 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": [
+        "arrest-follows-a-week-of-damaged-cars",
+        "arrests-come-months-after-a-vandalism-spree"
+      ]
     },
     {
       "key": "person-history.story.law.charged.third",
@@ -4549,7 +4589,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-second.third.w2",
@@ -4558,7 +4599,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-second.third.w3",
@@ -4576,7 +4618,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-second.they",
@@ -4585,7 +4628,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-second.they.w2",
@@ -4594,7 +4638,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-second.they.w3",
@@ -4612,7 +4657,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-second.i",
@@ -4621,7 +4667,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-second.i.w2",
@@ -4630,7 +4677,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-second.i.w3",
@@ -4648,7 +4696,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-for-second.third",
@@ -4675,7 +4724,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-for-second.they",
@@ -4702,7 +4752,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.work.out-for-second.i",
@@ -4729,7 +4780,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["laid-off-as-the-hard-times-begin"]
     },
     {
       "key": "person-history.story.moved.home-second.third",
@@ -4828,7 +4880,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.third.w2",
@@ -4837,7 +4890,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.third.w3",
@@ -4846,7 +4900,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.third.w4",
@@ -4855,7 +4910,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.they",
@@ -4864,7 +4920,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.they.w2",
@@ -4873,7 +4930,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.they.w3",
@@ -4882,7 +4940,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.they.w4",
@@ -4891,7 +4950,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.i",
@@ -4900,7 +4960,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.i.w2",
@@ -4909,7 +4970,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.i.w3",
@@ -4918,7 +4980,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.work.spell-second.i.w4",
@@ -4927,7 +4990,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["new-job-at-the-same-pay-after-a-layoff"]
     },
     {
       "key": "person-history.story.school.college.third",
@@ -5315,10 +5379,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a25-the-seat-your-patron-leaves",
-        "pattern-a37-the-seat-and-the-funeral"
-      ]
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "person-history.story.partner.widowed.third.w2",
@@ -5364,10 +5425,7 @@
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
       "kind": "written",
-      "elements": [
-        "pattern-a25-the-seat-your-patron-leaves",
-        "pattern-a37-the-seat-and-the-funeral"
-      ]
+      "elements": ["pattern-a25-the-seat-your-patron-leaves"]
     },
     {
       "key": "person-history.story.partner.widowed.i.w2",
@@ -5732,8 +5790,7 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written",
-      "elements": ["age-of-the-child-when-the-parents-split"]
+      "kind": "written"
     },
     {
       "key": "person-history.story.partner.separated.parent.i",
@@ -6367,7 +6424,8 @@
       "origin": "authored",
       "author": "Story helper, for the Story lead",
       "date": "2026-11-19",
-      "kind": "written"
+      "kind": "written",
+      "elements": ["father-dies-and-a-sibling-becomes-the-earner"]
     },
     {
       "key": "person-history.summary.no-work.none.you",
