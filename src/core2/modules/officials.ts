@@ -30,6 +30,7 @@ import {
   registerHuskIdentity,
   registerHuskPromoter,
   registerUnbuiltHolders,
+  recordBackgroundPerson,
 } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
@@ -984,8 +985,7 @@ function recordHusk(
   identity: Omit<RecordedIdentity, "source">,
   asOf: string,
 ): void {
-  if (core.people.has(identity.id) || core.husks.has(identity.id)) return;
-  core.husks.set(identity.id, {
+  recordBackgroundPerson(core, {
     id: identity.id,
     givenName: identity.givenName,
     familyName: identity.familyName,
@@ -995,7 +995,7 @@ function recordHusk(
     birthDate: identity.birthDate,
     familyIds: [],
     source: source(asOf),
-  } as never);
+  });
 }
 
 /**

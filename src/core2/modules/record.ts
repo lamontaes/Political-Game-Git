@@ -185,6 +185,18 @@ export function voteRecordId(
   return `vote:${billId}:${question}:${personId}`;
 }
 
+/**
+ * A vote the century cast before day one, on the record as it was: its own
+ * date and its own roll, no news (the past is not told as it happens). The
+ * record engine's own write.
+ */
+export function recordPastVote(api: CoreAPI, row: VoteRecordRow): void {
+  api
+    .moduleState(RECORD_MODULE_ID)
+    .table("votes")
+    .put(row as unknown as ModuleRow);
+}
+
 /** A body's vote, on the record: who, on what question, which way. */
 export function recordVote(
   api: CoreAPI,

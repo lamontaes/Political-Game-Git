@@ -113,7 +113,6 @@
         "src/core2/place-leans.ts",
         "src/core2/voting-module-id.ts",
         "src/core2/turnout*.ts",
-        "src/core2/civic-inputs.ts",
         "src/core2/membership-dues.ts",
         "src/core2/gov-test-clock.ts",
         "src/core2/campaign-data.ts",
@@ -312,7 +311,8 @@
         "src/core2/modules/staff.ts",
         "src/core2/government-jurisdictions.ts",
         "src/core2/government-proper-name.ts",
-        "src/core2/offices-executives.ts"
+        "src/core2/offices-executives.ts",
+        "src/core2/civic-inputs.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
@@ -391,7 +391,8 @@
         "src/core2/term-start-true-day.test.ts",
         "src/core2/town-seat-party.test.ts",
         "src/core2/township-board-terms.test.ts",
-        "src/core2/wide-races.test.ts"
+        "src/core2/wide-races.test.ts",
+        "src/core2/civic-inputs.ts"
       ]
     },
     {
@@ -677,7 +678,8 @@
         "src/core2/modules/regional.ts",
         "src/core2/macro-model.ts",
         "src/core2/work-spans-v1.ts",
-        "src/core2/town-labor-pay.ts"
+        "src/core2/town-labor-pay.ts",
+        "src/core2/job-lifecycle.ts"
       ],
       "paths": [
         "src/core2/shared-time.ts",

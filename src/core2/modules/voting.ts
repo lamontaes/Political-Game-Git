@@ -194,6 +194,7 @@ import {
   electedWithGovernorOnTicket,
   unheldVacancyWon,
   type TermRow,
+  setSeatElectionYear,
 } from "./offices";
 import {
   INDEPENDENT,
@@ -8306,13 +8307,12 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
       : {}),
   });
   if (race.special) return;
-  const seatRow = offices.table("seats").get(race.seatId) as unknown as
-    { electionYear?: number } | undefined;
-  if (seatRow && years)
-    offices.table("seats").put({
-      ...seatRow,
-      electionYear: Number(race.date.slice(0, 4)) + years,
-    } as unknown as ModuleRow);
+  if (years)
+    setSeatElectionYear(
+      api,
+      race.seatId,
+      Number(race.date.slice(0, 4)) + years,
+    );
 }
 
 export function racesOf(api: CoreAPI): readonly RaceRow[] {

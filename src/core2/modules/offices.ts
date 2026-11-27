@@ -440,6 +440,29 @@ function table(api: CoreAPI, name: string) {
 }
 
 /**
+ * A term the offices engine seated with no record of its race (the federal
+ * executive's) keeps the race the century held for it, so its share is read
+ * from the term like every other seat's. The offices engine's own write.
+ */
+export function recordTermElection(
+  api: CoreAPI,
+  term: TermRow,
+  elected: { readonly date: string; readonly share: number },
+): void {
+  table(api, "terms").put({ ...term, elected } as unknown as ModuleRow);
+}
+
+/** The year a seat next stands for election, moved on after a race is won. */
+export function setSeatElectionYear(
+  api: CoreAPI,
+  seatId: string,
+  electionYear: number,
+): void {
+  const seat = table(api, "seats").get(seatId);
+  if (seat) table(api, "seats").put({ ...seat, electionYear });
+}
+
+/**
  * Whether an office belongs to another place: its jurisdiction is a state or
  * territory other than the town's own. A federal office (the President, the
  * Vice President, Congress) is never another place's, and neither is a local
