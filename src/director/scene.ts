@@ -204,6 +204,8 @@ function readScene(
 }
 
 type SceneRead = NonNullable<ReturnType<typeof readScene>>;
+type Arrival = ReturnType<typeof arrivalOf>;
+type Lead = ReturnType<typeof leadOf>;
 
 /**
  * The scene's first line: the day, the place and the person the player meets, worded by the
@@ -324,27 +326,19 @@ function arrivalOf(
   return { sentences, opener, talkToId, settingOrg, arrival };
 }
 
-export function composeScene(
+/**
+ * The lead line of the scene: who came and why, worded from the moment's record, and who the
+ * scene has now named so a later line says them by first name. The third step of `composeScene`.
+ */
+function leadOf(
   core: Readonly<CoreState>,
-  director: Director,
   personId: PersonId,
-  entry: ScheduleEntry,
-  words?: SceneWords,
-  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
-  minuteOfDay?: number,
-): Scene | null {
-  const read = readScene(core, director, personId, entry, words);
-  if (!read) return null;
+  read: SceneRead,
+  arrived: Arrival,
+) {
   const { moment, person, binding, named, who, place, fromRecord, render } =
     read;
-
-  const { sentences, opener, talkToId, settingOrg, arrival } = arrivalOf(
-    core,
-    personId,
-    entry,
-    read,
-    minuteOfDay,
-  );
+  const { sentences, talkToId, settingOrg, arrival } = arrived;
   // Said in full once, so later lines call them by their first name.
   if (talkToId && arrival?.usedFactKeys?.includes("name")) named.add(talkToId);
   const wasNamed = talkToId ? named.has(talkToId) : false;
@@ -398,6 +392,24 @@ export function composeScene(
   if (aboutId && !aboutWasNamed && !lead?.usedFactKeys?.includes("about"))
     named.delete(aboutId);
 
+  return { lead };
+}
+
+/**
+ * How the scene opens and what caused it: the opening line (unless the lead already said who
+ * came), the cause line a scene that tells it carries, and the line for how the player heard of
+ * it. The fourth step of `composeScene`; the lines go on the scene's list in their order.
+ */
+function openingOf(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  read: SceneRead,
+  arrived: Arrival,
+  ledFrom: Lead,
+) {
+  const { moment, person, binding, who, place, fromRecord, render } = read;
+  const { sentences, opener, talkToId } = arrived;
+  const { lead } = ledFrom;
   // How the scene opens, from its first move: the one who opens it and
   // what they came to do ("Your mother has something to tell you.").
   const openerId = opener?.personIds.find((id) => id !== personId);
@@ -475,7 +487,25 @@ export function composeScene(
     render(move, facts, `${moment.id}:heard`),
   );
   if (heardHow) sentences.push(heardHow);
+}
 
+export function composeScene(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  entry: ScheduleEntry,
+  words?: SceneWords,
+  /** The minute of the day the scene plays at; without it, the moment's stop or the day's start. */
+  minuteOfDay?: number,
+): Scene | null {
+  const read = readScene(core, director, personId, entry, words);
+  if (!read) return null;
+  const { moment, binding } = read;
+
+  const arrived = arrivalOf(core, personId, entry, read, minuteOfDay);
+  const { sentences, talkToId, arrival } = arrived;
+  const ledFrom = leadOf(core, personId, read, arrived);
+  openingOf(core, personId, read, arrived, ledFrom);
   // The sentences are one paragraph, so the narrator sets the scene before
   // anyone speaks.
   const narration: SceneLine[] = sentences.length
