@@ -27,8 +27,7 @@ import type { CoreAPI } from "./types";
 
 const FEDERAL_KEY =
   "us-federal-positions:labor-commerce.raise-federal-minimum-wage";
-const RAISE_KEY =
-  "us-policy-positions:labor-workforce.raise-minimum-wage";
+const RAISE_KEY = "us-policy-positions:labor-workforce.raise-minimum-wage";
 
 /** The minimum wage recorded at one level today (null where none is). */
 function levelWage(api: CoreAPI, jurisdiction: string): number | null {

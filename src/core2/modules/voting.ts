@@ -476,7 +476,7 @@ export interface CountedBallotRow {
   readonly weight: number;
 }
 
-const VOTING_MODULE: CoreModule = {
+export const VOTING_MODULE: CoreModule = {
   id: VOTING_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -783,7 +783,7 @@ export function lastVotesForOffice(
  * world seats no such office for the town. The rest of the race's electorate
  * (`placeVotes`) is not the town's.
  */
-function lastTownVotesForKind(
+export function lastTownVotesForKind(
   api: CoreAPI,
   officeKind: string,
 ): { readonly votes: number; readonly recordId: string } | undefined {
@@ -1386,7 +1386,7 @@ function relationshipWith(
 }
 
 /** One candidate's appeal to a named voter: the parts every voter weighs, and what only they know. */
-interface NamedAppeal extends CountedAppeal {
+export interface NamedAppeal extends CountedAppeal {
   /** Warmth from what reached them (campaign contacts, retellings). */
   readonly warmth: number;
   /** Their agreement with the platform, where a campaign told it to them. */
@@ -2265,7 +2265,7 @@ export function turnoutReasons(
  * elections their adult years held. It is their history before the start,
  * what they did then, not a figure the count is held to.
  */
-function countedHabit(
+export function countedHabit(
   api: CoreAPI,
   voter: { readonly birthDate?: string },
   date: string,
@@ -4691,7 +4691,7 @@ function mandateLean(
  * November, or an off-cycle date (an odd year, or a spring or summer local
  * election), whose turnout runs far lower.
  */
-function electionCycle(
+export function electionCycle(
   date: string,
 ): "presidential" | "midterm" | "off-cycle" {
   const year = Number(date.slice(0, 4));
@@ -4986,7 +4986,7 @@ export function electorateSample(
 }
 
 /** A count's candidates by votes, most first (ties by id). */
-function rankTotals(
+export function rankTotals(
   totals: Readonly<Record<string, number>>,
 ): [string, number][] {
   return Object.entries(totals).sort(
@@ -5461,7 +5461,7 @@ export function republicanShareOf(result: ResultRow): number | null {
 }
 
 /** One place reporting on election night, and where the race stands after it. */
-interface ReturnsReport {
+export interface ReturnsReport {
   readonly placeId: string;
   readonly name: string;
   readonly cast: number;
@@ -5792,7 +5792,7 @@ export function countedBallotAt(
 }
 
 /** Why one counted resident voted as they did: their ballot and its reasons. */
-function countedBallotOf(
+export function countedBallotOf(
   api: CoreAPI,
   contestId: string,
   voterId: string,
@@ -5896,7 +5896,7 @@ export interface FoldedRace {
 }
 
 /** A seat's folded races: how many, the wins by party, the flips, and each race, oldest first. */
-interface SeatRacePast {
+export interface SeatRacePast {
   readonly races: number;
   readonly wins: Readonly<Record<string, number>>;
   readonly flips: number;
@@ -6478,7 +6478,7 @@ function specialCandidates(
 }
 
 /** The first Tuesday after the second Wednesday in December. */
-function electorsMeet(year: number): string {
+export function electorsMeet(year: number): string {
   let wednesdays = 0;
   for (let day = 1; day <= 31; day += 1) {
     const d = new Date(Date.UTC(year, 11, day));

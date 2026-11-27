@@ -715,10 +715,7 @@ export function recordDraws(
  * Every month a person draws the welfare line goes on their own record, rule
  * in force or not, so a lifetime limit counts months from before the rule.
  */
-function recordWelfareMonths(
-  api: CoreAPI,
-  drawing: Iterable<string>,
-): void {
+function recordWelfareMonths(api: CoreAPI, drawing: Iterable<string>): void {
   const month = api.state.date.slice(0, 7);
   for (const id of drawing) {
     const row = getRow<DrawRow>(api, "taken", `${WELFARE_DRAWS}|${id}`);

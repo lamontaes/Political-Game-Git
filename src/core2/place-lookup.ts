@@ -140,10 +140,7 @@ function countyNamesFor(usps: string): ReadonlySet<string> {
 }
 
 /** The name a resident uses, derived from the Census label rather than a list. */
-function coreResidentPlaceName(
-  censusName: string,
-  usps: string,
-): string {
+function coreResidentPlaceName(censusName: string, usps: string): string {
   const withoutBalance = censusName.replace(/\s*\(balance\)\s*$/, "");
   const withoutUnit = withoutBalance.replace(CENSUS_UNIT_TYPES, "");
   const merged = /^(.*?)[-/](.+)$/.exec(withoutUnit);

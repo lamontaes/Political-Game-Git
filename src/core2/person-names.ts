@@ -41,14 +41,14 @@ function drawUnrestrictedName(
   };
 }
 
-const LEGACY_GIVEN_NAME_GENERATION_VERSION = "given-name-v1";
-const DISTINCT_GIVEN_NAME_GENERATION_VERSION = "given-name-v2";
+export const LEGACY_GIVEN_NAME_GENERATION_VERSION = "given-name-v1";
+export const DISTINCT_GIVEN_NAME_GENERATION_VERSION = "given-name-v2";
 /**
  * v2, and then a generated person's given name follows the year they were
  * born (`given-name-cohorts.ts`). The draw itself is v2's; the cohort is
  * applied once the birth date is known, by the routes that write the person.
  */
-const COHORT_GIVEN_NAME_GENERATION_VERSION = "given-name-v3";
+export const COHORT_GIVEN_NAME_GENERATION_VERSION = "given-name-v3";
 export type GivenNameGenerationVersion =
   | typeof LEGACY_GIVEN_NAME_GENERATION_VERSION
   | typeof DISTINCT_GIVEN_NAME_GENERATION_VERSION

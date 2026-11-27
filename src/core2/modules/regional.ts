@@ -295,7 +295,6 @@ export function regionName(regionId: string): string | undefined {
   return `${state} outside the ${listed} area${metros.length ? "s" : ""}`;
 }
 
-
 /** A metro's first-named city: "Dallas" in "Dallas-Fort Worth-Arlington, TX". */
 function firstCity(region: RegionRow): string {
   return (region.title ?? region.id).split(",")[0]!.split(/[-/]/)[0]!.trim();

@@ -2072,7 +2072,6 @@ export function countedStatePeople(
     ?.people.reduce((a, b) => a + b, 0);
 }
 
-
 /** The moves recorded so far, oldest first. */
 export function countedMoves(api: CoreAPI): readonly MoveRecord[] {
   return (

@@ -155,7 +155,6 @@ function interpolate(cells: Cells, percentile: number): number | null {
   return null;
 }
 
-
 /**
  * The national median annual wage for `occupation` (BLS OEWS, May 2025), or
  * null where BLS publishes none: the average an estimate starts from where a

@@ -856,7 +856,7 @@ addFederalDayPart((api, personId) => {
 });
 
 /** The vice president serving today, if the offices engine seats one. */
-function vicePresidentOf(api: CoreAPI): string | null {
+export function vicePresidentOf(api: CoreAPI): string | null {
   return (
     (
       api
@@ -1018,7 +1018,7 @@ export function travelToTown(
  * played President has no screen over them yet (stopgap
  * SG-NATION-federal-axis-proxy).
  */
-function presidentialOrders(): readonly string[] {
+export function presidentialOrders(): readonly string[] {
   return federalOrderable();
 }
 
@@ -1029,7 +1029,7 @@ function presidentialOrders(): readonly string[] {
  * the state's law, so there is no federal conviction to pardon until it
  * records which sovereign prosecuted.
  */
-function pardonable(api: CoreAPI): readonly string[] {
+export function pardonable(api: CoreAPI): readonly string[] {
   // stopgapId: SG-OFFICE-FED-pardons
   api.stopgap("SG-OFFICE-FED-pardons");
   return [];

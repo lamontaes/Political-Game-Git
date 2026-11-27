@@ -286,7 +286,6 @@ export function hasDailyWorkRefresh(
   );
 }
 
-
 /** Engine-owned continuation state. Root projects client offers; clients never supply these objects. */
 export interface PreparedWorkChoice {
   readonly personId: string;

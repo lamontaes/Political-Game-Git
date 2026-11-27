@@ -35,7 +35,6 @@ function nativeShareOf(usps: string | null): {
   return { share: native / adults, national: !row };
 }
 
-
 /**
  * The past fact for a person's nativity, drawn from the world's seed against
  * their state's share. `qualified` is true for someone the law already

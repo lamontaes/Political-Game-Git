@@ -29,9 +29,9 @@ import type { MindStrength, PersonalityTendencyDefinition } from "./mind-types";
  */
 
 /** Where a trait may be read. Not where a record came from — see the doc. */
-type TraitScope = string;
+export type TraitScope = string;
 
-interface TraitPole {
+export interface TraitPole {
   readonly key: string;
   readonly label: string;
   readonly description: string;
@@ -64,7 +64,7 @@ export interface TraitScale {
  * `TraitMovability` names a resistance for each one and a pack that forgot a
  * strength has to be refused by name.
  */
-const MIND_STRENGTHS: readonly MindStrength[] = [
+export const MIND_STRENGTHS: readonly MindStrength[] = [
   "subtle",
   "moderate",
   "strong",
@@ -72,7 +72,7 @@ const MIND_STRENGTHS: readonly MindStrength[] = [
 ];
 
 /** How a person comes to have this trait at all. */
-type TraitConferral = "seeded" | "conferred-only" | "player";
+export type TraitConferral = "seeded" | "conferred-only" | "player";
 
 export interface TraitDeclaration {
   readonly key: string;
@@ -181,7 +181,7 @@ export interface TraitMovability {
 }
 
 /** One way a trait bears on one option of one decision. */
-interface TraitLeanRow {
+export interface TraitLeanRow {
   readonly option: string;
   /** Qualified: `pack:key`. A bare key is rejected, because two packs may
    * both call something "reliability" and mean different things. */
@@ -240,7 +240,7 @@ export interface DecisionDeclaration {
 }
 
 /** A row that did not load, and why. Never thrown, always reported. */
-interface TraitLoadRejection {
+export interface TraitLoadRejection {
   readonly pack: string;
   /** The row, as a reader of the pack file would find it. */
   readonly where: string;
@@ -255,7 +255,7 @@ interface TraitLoadRejection {
  * repository a request pipeline validated its input for weeks while sending it
  * precisely nowhere, and "it validated" was the claim that hid it.
  */
-interface TraitPackReport {
+export interface TraitPackReport {
   readonly pack: string;
   readonly traitsRegistered: readonly string[];
   readonly leansRegistered: number;
@@ -265,7 +265,7 @@ interface TraitPackReport {
   readonly registeredButUnused: readonly string[];
 }
 
-interface TraitLoadReport {
+export interface TraitLoadReport {
   readonly packs: readonly TraitPackReport[];
   readonly rejections: readonly TraitLoadRejection[];
 }
@@ -289,7 +289,7 @@ export function qualifiedTraitKey(pack: string, key: string): string {
 }
 
 /** The pack that owns a qualified key, or null when it is not one. */
-function packOfQualifiedKey(qualified: string): string | null {
+export function packOfQualifiedKey(qualified: string): string | null {
   const colon = qualified.indexOf(":");
   return colon <= 0 || colon === qualified.length - 1
     ? null
@@ -306,6 +306,14 @@ export function strengthForMagnitude(
   );
 }
 
+/** The magnitude a stored strength decodes to, or null when undeclared. */
+export function magnitudeForStrength(
+  scale: TraitScale,
+  strength: MindStrength,
+): number | null {
+  const steps = scale.steps.filter((step) => step.strength === strength);
+  return steps.length === 1 ? steps[0]!.magnitude : null;
+}
 
 function checkTrait(trait: TraitDeclaration, seen: Set<string>): string | null {
   if (!trait.key.trim()) return "a trait has no key";
@@ -579,8 +587,85 @@ export function loadTraitPacks(
   };
 }
 
+/** The resolved leans for one decision, or none. Pure. */
+export function leansForDecision(
+  registry: TraitRegistry,
+  decisionId: string,
+): readonly TraitLeanRow[] {
+  return registry.leans.get(decisionId) ?? [];
+}
 
+/** A report a person can read, for the load log and for a failing test. */
+export function describeTraitLoad(report: TraitLoadReport): string {
+  const lines: string[] = [];
+  for (const pack of report.packs) {
+    lines.push(
+      `${pack.pack}: ${pack.traitsRegistered.length} trait(s), ${pack.leansRegistered} lean(s) registered`,
+    );
+    for (const key of pack.traitsRegistered) {
+      const consumers = pack.consumedBy[key] ?? [];
+      lines.push(
+        consumers.length === 0
+          ? `  ${key} — registered, read by nothing`
+          : `  ${key} — read by ${consumers.join(", ")}`,
+      );
+    }
+  }
+  for (const rejection of report.rejections) {
+    lines.push(
+      `REJECTED ${rejection.pack} ${rejection.where}: ${rejection.reason}`,
+    );
+  }
+  return lines.join("\n");
+}
 
+/**
+ * The catalog definition a pack declares for one trait.
+ *
+ * This is the whole of the reshaped content check. The old
+ * `assertLifeMindContent` asked whether a definition was one of the built-ins;
+ * it now asks whether a definition matches what the pack owning its stable key
+ * declares. Same tamper guarantee — a save cannot redefine what a stored
+ * expression means — while admitting any trait any loaded pack declares.
+ *
+ * The expression order is low, balanced, high, and the stable key is the
+ * qualified key, because that is what every record written so far already
+ * carries. `people-trait-pack.test.ts` holds that byte-identity to the
+ * definitions this replaces; it is the reason no save needs converting.
+ */
+export function traitDefinitionFromPack(
+  trait: RegisteredTrait,
+): PersonalityTendencyDefinition {
+  // Registered traits are the registry's own objects and never change, and a
+  // definition's id is a hash of its text: computing it once per trait is what
+  // lets a card read a hundred traits without hashing a hundred definitions.
+  const known = definitionsByTrait.get(trait);
+  if (known) return known;
+  const definition = createPersonalityTendencyDefinition(
+    trait.qualifiedKey,
+    trait.label,
+    trait.description,
+    [
+      {
+        key: trait.poles.low.key,
+        label: trait.poles.low.label,
+        description: trait.poles.low.description,
+      },
+      {
+        key: trait.scale.balancedKey,
+        label: trait.scale.balancedLabel,
+        description: trait.scale.balancedDescription,
+      },
+      {
+        key: trait.poles.high.key,
+        label: trait.poles.high.label,
+        description: trait.poles.high.description,
+      },
+    ],
+  );
+  definitionsByTrait.set(trait, definition);
+  return definition;
+}
 
 const definitionsByTrait = new WeakMap<
   RegisteredTrait,

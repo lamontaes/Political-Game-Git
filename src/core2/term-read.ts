@@ -412,7 +412,6 @@ export function countryTermRead(api: CoreAPI, sinceDate: string): AreaRead[] {
   return withFigured(figured, rest);
 }
 
-
 /**
  * The term read of a jurisdiction an office serves, from a date: the country
  * ("US"), a state ("US-NJ", the mean over the places the web keeps inside it)

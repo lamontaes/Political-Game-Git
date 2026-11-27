@@ -66,8 +66,11 @@ export const BALANCED_TRAIT = {
   label: "Neither, much",
 } as const;
 
+export function peopleTraitId(trait: PeopleTrait): EntityId {
+  return peopleTraitDefinition(trait).id;
+}
 
-function peopleTraitDefinition(
+export function peopleTraitDefinition(
   trait: PeopleTrait,
 ): PersonalityTendencyDefinition {
   const shape = TRAIT_SHAPES[trait];
@@ -93,4 +96,8 @@ function peopleTraitDefinition(
       },
     ],
   );
+}
+
+export function peopleTraitDefinitions(): readonly PersonalityTendencyDefinition[] {
+  return PEOPLE_TRAITS.map(peopleTraitDefinition);
 }

@@ -285,7 +285,6 @@ const local = (bill: BillRow) =>
   !bill.bodyOfficeId.includes(":legislature-") &&
   !bill.bodyOfficeId.includes(":us-");
 
-
 /**
  * Sign up to speak on a bill before its vote: public comment at a town or
  * county meeting, testimony at a legislature's hearing. Recorded as said on

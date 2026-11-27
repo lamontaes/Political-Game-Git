@@ -71,8 +71,6 @@ export function logit(p: number): number {
   return detLog(p / (1 - p));
 }
 
-
-
 // Acklam's rational approximation to the inverse normal CDF (relative error
 // below 1.15e-9), which needs only the operations above.
 const A = [

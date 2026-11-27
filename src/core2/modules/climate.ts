@@ -219,7 +219,6 @@ export function climateNow(api: CoreAPI): ClimateMonth | null {
     : null;
 }
 
-
 /** A hazard's level against the recorded history's own (1 before the climate has a month). */
 export function hazardFactor(api: CoreAPI, hazard: Hazard): number {
   return climateNow(api)?.hazard[hazard] ?? 1;

@@ -1039,3 +1039,9 @@ export function takeCampaignDayChoice(
   // rest: no campaign act and no activity record; the day is the player's own.
   return base;
 }
+
+/** Days left before the election, for a screen's header. */
+export function campaignDaysLeft(api: CoreAPI, filingId: string): number {
+  const { contest } = contextOf(api, filingId);
+  return Math.max(0, daysBetween(api.state.date, contest.electionDate));
+}

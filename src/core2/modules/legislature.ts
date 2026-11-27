@@ -2383,7 +2383,6 @@ function amendedTerms(
   return { ...kept, ...shapedKept };
 }
 
-
 /**
  * One section of a bill as the record holds it, for the paper to word: what
  * it changes (the series, question or budget line), the law in force before

@@ -55,7 +55,7 @@ export const facetProudEffects: readonly TraitEffectDeclaration[] = [
   },
 ];
 
-const FACET_PROUD_EFFECTS: TraitPack = {
+export const FACET_PROUD_EFFECTS: TraitPack = {
   pack: "personality-effects-facet-proud",
   traits: [],
   effects: facetProudEffects,

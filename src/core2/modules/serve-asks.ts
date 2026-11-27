@@ -104,8 +104,7 @@ export type ServeReason =
   | "own-job";
 
 /** The terms a yes rests on, as its reason. */
-type ServeYesReason =
-  "trust" | "step-up" | "agree" | "real-race" | "pay";
+type ServeYesReason = "trust" | "step-up" | "agree" | "real-race" | "pay";
 
 /** What the read stood on: kept with the ask, so a change on the record lets the player ask again. */
 export interface ServeGrounds {

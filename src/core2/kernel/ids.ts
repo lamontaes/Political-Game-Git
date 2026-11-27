@@ -52,7 +52,7 @@ export function stableHash(value: string): string {
  * `stableHash("abcd")`. FNV-1a reads one code unit at a time, so the pieces
  * can be cut anywhere and the whole text never has to exist.
  */
-function stableHasher(): {
+export function stableHasher(): {
   update(piece: string): void;
   digest(): string;
 } {
@@ -104,6 +104,26 @@ export function createStableId(kind: EntityKind, stableKey: string): EntityId {
   return `${kind}_${stableHash(`${kind}:v1:${stableKey}`)}` as EntityId;
 }
 
+/**
+ * `createStableId(kind, key)` for a key written out in pieces by `write`, so
+ * a key longer than any string can still name a record.
+ */
+export function createStableIdFromParts(
+  kind: EntityKind,
+  write: (emit: (part: string) => void) => void,
+): EntityId {
+  const hasher = stableHasher();
+  hasher.update(`${kind}:v1:`);
+  let length = 0;
+  write((part) => {
+    length += part.length;
+    hasher.update(part);
+  });
+  if (length === 0) {
+    throw new Error(`Cannot create a ${kind} ID from an empty stable key.`);
+  }
+  return `${kind}_${hasher.digest()}` as EntityId;
+}
 
 /**
  * The id two people share (their relationship): both ids in code-unit order,

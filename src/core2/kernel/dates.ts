@@ -343,9 +343,7 @@ function offsetAtEpochMinute(epochMinute: number, timeZone: string): number {
   return offset;
 }
 
-function makeSimulationMoment(
-  input: SimulationMomentInput,
-): SimulationMoment {
+function makeSimulationMoment(input: SimulationMomentInput): SimulationMoment {
   const date = makeIsoDate(input.date);
   if (
     !Number.isSafeInteger(input.minuteOfDay) ||
@@ -447,7 +445,6 @@ export function simulationMomentAtLocalTime(
   return candidates.sort(compareSimulationMoments)[0]!;
 }
 
-
 function assertSimulationMoment(moment: SimulationMoment): void {
   if (
     EPOCH_MINUTE_CACHE.has(
@@ -492,9 +489,6 @@ function compareSimulationMoments(
 ): number {
   return simulationMomentEpochMinute(left) - simulationMomentEpochMinute(right);
 }
-
-
-
 
 export function yearOf(date: IsoDate): number {
   return Number(date.slice(0, 4));

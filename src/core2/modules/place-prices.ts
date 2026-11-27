@@ -287,9 +287,6 @@ export function setPlacePrice(
   put(api, { ...input, kind: "price", value: input.priceMinor });
 }
 
-
-
-
 /** The share of the place's roads in poor condition, as a budget leaves them. */
 export function setRoadCondition(
   api: CoreAPI,

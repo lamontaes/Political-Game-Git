@@ -265,7 +265,6 @@ export function auditCore2Tripwires(
   };
 }
 
-
 export interface TripwireCliOptions {
   readonly release?: boolean;
   readonly write?: (message: string) => void;

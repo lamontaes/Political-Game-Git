@@ -1,4 +1,3 @@
-
 export type CensusRegion = "northeast" | "midwest" | "south" | "west";
 
 const CENSUS_REGION_ORDER: readonly CensusRegion[] = [

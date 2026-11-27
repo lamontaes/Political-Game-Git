@@ -5,7 +5,6 @@ import { ageOnDate, isoDateFromParts, makeIsoDate } from "../kernel/dates";
 import type { SeededRng } from "../kernel/rng";
 import type { IsoDate } from "./types";
 
-
 interface InventedPersonAgeWindow {
   /**
    * The youngest age, either fixed or counted from the office's legal

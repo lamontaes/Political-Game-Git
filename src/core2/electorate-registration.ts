@@ -74,7 +74,6 @@ function registrationWait(duty: number): number {
   );
 }
 
-
 /** What a counted record stands for in the registration rule: the part that keeps off the rolls and the part the state registers. */
 export interface CountedRegistrationInputs {
   readonly duty: number;

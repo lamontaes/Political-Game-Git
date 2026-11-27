@@ -1179,10 +1179,7 @@ function caucusLeader(api: CoreAPI, office: StateOffice): string | null {
 }
 
 /** The legislature's leaders the governor deals with: each chamber's presiding officer and floor leaders. */
-function legislativeLeaders(
-  api: CoreAPI,
-  stateKey: string,
-): readonly string[] {
+function legislativeLeaders(api: CoreAPI, stateKey: string): readonly string[] {
   if (!api.state.modules.has(LEADERSHIP_MODULE_ID)) return [];
   const chambers = (
     api

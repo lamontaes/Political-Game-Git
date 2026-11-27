@@ -55,7 +55,6 @@ function packCondition(key: string): PackCondition | null {
   return CONDITION_PACK.find((condition) => condition.key === key) ?? null;
 }
 
-
 /**
  * The share (0 to 1) of people of this exact age holding the condition. Each
  * band's figure sits at the band's middle; between middles it slides in a
@@ -313,8 +312,7 @@ interface SeverityGrade {
 }
 
 /** The severity grades a held condition can carry, most severe first. */
-const SEVERITY_GRADES: readonly SeverityGrade[] =
-  pack.severityGrades.grades;
+const SEVERITY_GRADES: readonly SeverityGrade[] = pack.severityGrades.grades;
 const AGE_FACTOR = pack.ageFactor;
 
 /**

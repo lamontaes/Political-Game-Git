@@ -12,7 +12,7 @@ import {
  * per month and never turns it into an individual death date.
  */
 
-const SSA_2023_TABLE_ID = table.tableId;
+export const SSA_2023_TABLE_ID = table.tableId;
 export const SSA_2023_SOURCE = Object.freeze({
   tableId: table.tableId,
   title: table.title,
@@ -30,7 +30,7 @@ export const SSA_2023_SOURCE = Object.freeze({
  */
 export type MortalityCalibrationCategory = "male" | "female" | "equal-mixture";
 
-const MORTALITY_CALIBRATION_CATEGORIES: readonly MortalityCalibrationCategory[] =
+export const MORTALITY_CALIBRATION_CATEGORIES: readonly MortalityCalibrationCategory[] =
   ["male", "female", "equal-mixture"];
 
 /** Last age the source publishes. Older ages reuse it (authored extension). */

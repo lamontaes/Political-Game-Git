@@ -59,7 +59,6 @@ export function setLivingCostSplit(
   register(living, core, key, split);
 }
 
-
 /** A module's part of what a business pays outside the town for its costs. */
 export function setOutsideCostSplit(
   core: CoreState,

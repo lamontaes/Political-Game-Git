@@ -21,11 +21,58 @@ export function countedWeight(core: CoreState, personId: string): number {
   return rt.store.weightOf(rt.store.households[rt.store.household[m]!]!);
 }
 
-interface PayReach {
+export interface PayReach {
   /** `amountMinor`: the daily pay the raise adds for this worker. */
   add(
     job: Pick<JobInput, "id" | "personId" | "organizationId">,
     amountMinor: number,
   ): void;
   flush(): void;
+}
+
+export function payReach(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly engine: string;
+    readonly what: string;
+  },
+): PayReach {
+  const core = api.state as CoreState;
+  const groups = new Map<string, { count: number; amountMinor: number }>();
+  return {
+    add(job, amountMinor) {
+      if (core.jobs.has(job.id))
+        lawApplied(api, {
+          ...input,
+          targetId: job.personId,
+          target: "person",
+          amountMinor,
+        });
+      else {
+        // A raise reaches the jobs the counted job stands for.
+        const weight = countedJobHeads(core, job);
+        const held = groups.get(job.organizationId) ?? {
+          count: 0,
+          amountMinor: 0,
+        };
+        groups.set(job.organizationId, {
+          count: held.count + weight,
+          amountMinor: held.amountMinor + amountMinor * weight,
+        });
+      }
+    },
+    flush() {
+      for (const [organizationId, g] of groups)
+        lawApplied(api, {
+          ...input,
+          targetId: `counted-workers:${organizationId}`,
+          target: "group",
+          count: g.count,
+          amountMinor: g.amountMinor,
+        });
+      groups.clear();
+    },
+  };
 }

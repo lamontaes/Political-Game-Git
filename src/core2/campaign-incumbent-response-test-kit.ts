@@ -58,10 +58,7 @@ export interface DrawnPlace {
 export const seed =
   process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-function* drawnPlaces(
-  purpose: string,
-  count: number,
-): Generator<DrawnPlace> {
+function* drawnPlaces(purpose: string, count: number): Generator<DrawnPlace> {
   for (let at = 0; at < count; at += 1) {
     const drawn = drawPlace(seed, `incumbent-response:${purpose}:${at}`);
     yield {
@@ -82,10 +79,7 @@ function* drawnPlaces(
  */
 const goodPlaces: DrawnPlace[] = [];
 
-function* placesFor(
-  purpose: string,
-  count: number,
-): Generator<DrawnPlace> {
+function* placesFor(purpose: string, count: number): Generator<DrawnPlace> {
   for (const place of [...goodPlaces]) yield place;
   for (const place of drawnPlaces(purpose, count))
     if (!goodPlaces.some((g) => g.key === place.key)) yield place;

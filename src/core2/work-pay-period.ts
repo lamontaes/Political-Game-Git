@@ -1108,7 +1108,6 @@ export function prepareWorkPayrollSettlement(
   return bookkeeping() ? Object.freeze(settled) : settled;
 }
 
-
 /** Exact recorded period query; it creates no attendance, due request or payment. */
 export function workPayPeriodAtIndex(
   r: FinanceReadGuard,

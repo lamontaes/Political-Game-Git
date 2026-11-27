@@ -1867,7 +1867,6 @@ export function residentFacts(
 
 registerCountedPersonSource(residentPerson);
 
-
 /** The id of the counted group a counted person's household stands in today, if any. */
 export function countedGroupIdOf(
   core: CoreState,
@@ -3543,7 +3542,6 @@ export function departCountedHousehold(
   };
 }
 
-
 /** A baby born into a counted household joins its record and its group. */
 export function addCountedPerson(
   core: CoreState,
@@ -3617,7 +3615,6 @@ export function admitCountedHousehold(
       source: rt.input.source,
     });
 }
-
 
 /**
  * A full household returns to the counts (demotion): its people are packed

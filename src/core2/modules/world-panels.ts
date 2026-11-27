@@ -239,6 +239,5 @@ export function metricsPanel(api: CoreAPI, placeId: string) {
     : [];
 }
 
-
 // Re-exported so the bill stage view and the states screen read the legislature's sessions and roll calls through this entry (families guard).
 export { legislativeSessionsOf, rollCallOf } from "./world-legislating";
