@@ -9,8 +9,8 @@
 //   BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/states.browser.mjs [shots dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
-import { devModeOn } from "./dev-setup.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
+import { devModeOn } from "../../tests/support/dev-setup.mjs";
 
 const [shots] = process.argv.slice(2);
 /** Days run before looking, and per dev-mode run (run lengths). */

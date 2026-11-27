@@ -19,6 +19,6 @@ claimed-at: 2026-11-05T22:06:36.806Z
 
 **Done when.** Typecheck of the app project passes
 
-**Files.** src/core2/gov-test-clock.ts
+**Files.** tests/support/gov-test-clock.ts
 
 **Notes.** TODO

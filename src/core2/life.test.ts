@@ -1,6 +1,6 @@
 import { addDays } from "./kernel/dates";
 import { describe, expect, it } from "vitest";
-import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "json" };
+import eventInputs from "../../tests/fixtures/event-inputs.json" with { type: "json" };
 import { DEFAULT_DATA, extendData } from "./data";
 import { scoreOffers } from "./choice";
 import { planFreeTime } from "./free-block";

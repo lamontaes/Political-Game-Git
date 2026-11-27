@@ -31,11 +31,11 @@ branch: claude/pool-core-stopgap-never-hit-audit
 
 **Rules.** Placeholders: a row is never closed by deleting it alone; it closes only because the replacement is built and shown. Replace, never layer: delete the dead fallback in the same change. One rule, all 56 places: the check runs in drawn places, not named ones. Wire to the world: an unreachable fake is shown unreachable by a played year, not by reading.
 
-**Done when.** A second session, not the builder, plays two years in each of three drawn places (places and seeds named) and reads core.stopgapHits: each audited row is shown hit or unreachable by test, and every unreachable row's fake and marker are deleted and the row resolved in its family file under src/core2/data/stopgaps/, proven by the tripwire tests in src/core2/tooling/tripwires.test.ts.
+**Done when.** A second session, not the builder, plays two years in each of three drawn places (places and seeds named) and reads core.stopgapHits: each audited row is shown hit or unreachable by test, and every unreachable row's fake and marker are deleted and the row resolved in its family file under src/core2/data/stopgaps/, proven by the tripwire tests in scripts/core2/tooling/tripwires.test.ts.
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/stopgaps.ts, src/core2/tooling/tripwires.test.ts, src/core2/data/stopgaps
+**Files.** src/core2/stopgaps.ts, scripts/core2/tooling/tripwires.test.ts, src/core2/data/stopgaps
 
 **Notes.** Measured Oct 20 (claude). The list comes from reading core.stopgapHits after 730 days in three drawn places; to rerun it, advance a bench world two years and read the set. Making `stopgap()` record into the core as `api.stopgap` does would remove the blind spot first. Released from idle draft #5196 by the CTO, Oct 26.
 

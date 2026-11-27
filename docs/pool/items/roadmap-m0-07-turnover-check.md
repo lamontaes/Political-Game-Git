@@ -19,7 +19,7 @@ claimed-at: 2026-10-24T18:01:36.913Z
 
 **Done when.** M0-07's command runs the turnover check after its existing test; the check reports the pooled share kept with place, key and full seed and exits nonzero outside the sourced band; the research row cites the study's page; the PR body names the cause of the gap by file and line from a probe; people-circle-turnover-over-years and people-circle-turnover-too-low stay open.
 
-**Files.** src/core2/tooling/m0-07-turnover-check.ts, src/core2/circle-turnover-check.ts, data/research/people/mollenhorst-2014-network-turnover.json, docs/roadmap/features.json
+**Files.** scripts/core2/tooling/m0-07-turnover-check.ts, scripts/core2/circle-turnover-check.ts, data/research/people/mollenhorst-2014-network-turnover.json, docs/roadmap/features.json
 
 **Notes.** TODO
 

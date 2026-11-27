@@ -8,7 +8,7 @@
 // `#talk-choices:has(.reply-facts)`). RACE_SHOTS saves a picture per size.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { playOpening } from "../../tests/support/start-life.mjs";
 
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const seed = process.env.RACE_SEED ?? `race-rows-${Date.now()}`;

@@ -9,7 +9,7 @@
  * people the group stands for as their count.
  */
 import type { ModuleRow } from "../module-data";
-import type { CoreAPI } from "../types";
+import type { CoreAPI, PersonId, PlaceId, Source } from "../types";
 
 export const LAW_APPLIED_TABLE = "applied";
 /** A government's treasury organization: its id is this prefix and the government's id. */
@@ -599,3 +599,44 @@ export function lawReach(
 
 /** Whom a law applies to by its data, before any count (scope.ts): the laws family's face for the screens and the press. */
 export { reachScopeOf } from "./scope";
+
+/**
+ * The one writer of a person's `law.effect-learned` event: they learned, from a
+ * story they heard or a notice they were sent, that a law changed what they
+ * pay or are paid. Every engine that records a felt effect (a price, a benefit,
+ * a rent, an estate tax) calls this; none writes the kind itself, so a change to
+ * what the event carries is one change (the Nov 26 map, row 12).
+ */
+export function emitLawEffectLearned(
+  api: CoreAPI,
+  event: {
+    readonly id: string;
+    readonly personId: PersonId;
+    readonly placeId: PlaceId;
+    readonly topic: string;
+    readonly desiredChange: "enact" | "repeal";
+    readonly moodImpulse?: number;
+    readonly stressImpulse?: number;
+    readonly facts: Readonly<Record<string, string>>;
+    readonly source: Source;
+  },
+): void {
+  api.emit({
+    id: event.id,
+    date: api.state.date,
+    kind: "law.effect-learned",
+    personIds: [event.personId],
+    placeId: event.placeId,
+    topic: event.topic,
+    desiredChange: event.desiredChange,
+    ...(event.moodImpulse === undefined
+      ? {}
+      : { moodImpulse: event.moodImpulse }),
+    ...(event.stressImpulse === undefined
+      ? {}
+      : { stressImpulse: event.stressImpulse }),
+    facts: event.facts,
+    publicRecord: false,
+    source: event.source,
+  });
+}

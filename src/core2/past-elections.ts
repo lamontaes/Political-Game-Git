@@ -29,10 +29,12 @@ import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./modules/campaigns";
 import { leanOf } from "./modules/legislature";
 import {
   CORPUS,
-  OFFICES_MODULE_ID,
   realResult,
   worldWinnerShare,
   type TermRow,
+  recordTermElection,
+  servingTermsOnSeat,
+  officeSeats,
 } from "./modules/offices";
 import { officialOf } from "./modules/officials";
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -77,17 +79,11 @@ const TENURE = (
 ).parameters;
 
 function terms(api: CoreAPI, seatId: string): readonly TermRow[] {
-  return api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[];
+  return servingTermsOnSeat(api, seatId) as unknown as TermRow[];
 }
 
 function seatsOf(api: CoreAPI, officeId: string) {
-  return api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("seats")
-    .query("byOffice", [officeId]) as unknown as {
+  return officeSeats(api, officeId) as unknown as {
     id: string;
     district: string | null;
     coversTown: boolean;
@@ -567,13 +563,7 @@ export function buildPriorElections(
         // federal executive's) keeps this one, so the race's share is read
         // from the term like every other seat's (offices.ts pastElections).
         if (!term.elected)
-          api
-            .moduleState(OFFICES_MODULE_ID)
-            .table("terms")
-            .put({
-              ...term,
-              elected: { date, share: winnerShare },
-            } as unknown as ModuleRow);
+          recordTermElection(api, term, { date, share: winnerShare });
         const candidates: PastCandidate[] = [
           {
             personId: winnerId,

@@ -1,6 +1,6 @@
 import { PAST_WORK_SPELL } from "../past-work";
 import { historyOf } from "../past";
-import { workedToday } from "../job-lifecycle";
+import { workedToday } from "./jobs";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
@@ -24,7 +24,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  *   executive can revoke; it reaches people through the same law effects as a
  *   statute. Only orders an engine can carry are offered.
  */
-import { policyAuthority } from "../policy-authority";
+import { policyAuthority } from "./laws";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
 import relatedWork from "../../../data/research/executive/post-related-work.json" with { type: "json" };
 import { PROFILE_FACT_KINDS } from "../opening-profile";
@@ -59,7 +59,14 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import { answerIn, enactLaw, lawChain, lawInForce } from "./laws";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  officesInJurisdiction,
+  servingTermsOf,
+  termById,
+  termOnSeat,
+  townSeats,
+  type TermRow,
+} from "./offices";
 import {
   appointerWeighing,
   nominateAndConfirm,
@@ -103,6 +110,24 @@ import {
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 import { headsLocalExecutive } from "../offices-executives";
+export { reviewBoardTerms } from "../central-bank-appointments";
+export type { GenderIdentityKey } from "../gov-rules/types";
+export { nominateAndConfirm, partyName } from "../appointments";
+export { inflationLeans } from "../central-bank-board";
+export type {
+  BoardCandidate,
+  BoardMember,
+  BoardVacancy,
+} from "../central-bank-board";
+export type { BoardAppointer } from "../central-bank-appointments";
+export { placeGovernmentOrganizations } from "../gov-rules/local-governments";
+export { inventedPersonBirthDate } from "../gov-rules/invented-person-age";
+export { municipiosForPlace } from "../gov-rules/county-governing-body-rules";
+export { openOfficialPay } from "./official-pay";
+export { openCases } from "./constituent-cases";
+export { giveLivingCost, spendLivingCost } from "../official-living";
+export { isRealOfficeholderName } from "../officials-names";
+export { payPostFromOutside } from "./official-pay";
 export { outsideGovernment } from "../outside-governments";
 export { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 
@@ -157,7 +182,7 @@ export interface AppointmentRow {
   readonly since: string;
 }
 
-export const EXECUTIVE_MODULE: CoreModule = {
+const EXECUTIVE_MODULE: CoreModule = {
   id: EXECUTIVE_MODULE_ID,
   state: {
     schemaVersion: 1,
@@ -1114,15 +1139,7 @@ function appointStateCabinet(
   )?.holder;
   if (!governor) return;
   const side = partySide(governor.party);
-  const senate = (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .query("byJurisdiction", [state]) as unknown as {
-      id: string;
-      kind: string;
-    }[]
-  ).find(
+  const senate = officesInJurisdiction(api, state).find(
     (o) =>
       o.kind === "legislature-upper" || o.kind === "legislature-unicameral",
   );
@@ -1545,7 +1562,6 @@ function stateNominationInput(
   spec: { readonly key: string; readonly confirmedBy: string },
 ) {
   const state = lawChain(api).stateKey;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   // Anyone who holds an appointed post now, in this state or any other
   // government (a federal cabinet officer), this post's own holder among them:
   // naming the person who holds it already is not filling it.
@@ -1567,11 +1583,7 @@ function stateNominationInput(
         // who serves now as a state or federal official, could not take it.
         livesInState(person.placeId, state) &&
         officialOf(api, person.id)?.ended !== null &&
-        !(
-          offices
-            .table("terms")
-            .query("byPerson", [person.id]) as unknown as TermRow[]
-        ).some((t) => t.status === "serving") &&
+        servingTermsOf(api, person.id).length === 0 &&
         !workedToday(api.state as CoreState, person),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -1584,13 +1596,7 @@ function stateNominationInput(
     throw new Error(
       "The nominee must be a living adult who holds no other office.",
     );
-  const senate = (
-    offices.table("offices").query("byJurisdiction", [state]) as unknown as {
-      id: string;
-      kind: string;
-      title: string;
-    }[]
-  ).find(
+  const senate = officesInJurisdiction(api, state).find(
     (o) =>
       o.kind === "legislature-upper" || o.kind === "legislature-unicameral",
   );
@@ -1850,11 +1856,7 @@ export function issueOrder(
     throw new Error(`This office can't order ${input.order} here.`);
   const state = lawChain(api).stateKey;
   const authority = policyAuthority(api, ORDERABLE[input.order]!, "state");
-  const tomorrow = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   const measureId = `order:${state}:${input.order}:${api.state.date}`;
   // stopgapId: SG-GOV-executive-powers-research
   api.stopgap("SG-GOV-executive-powers-research");
@@ -1894,16 +1896,7 @@ const FEDERAL_ORDERS = (
 
 /** The person who holds the president's seat today, if the seat is held. */
 export function sittingPresidentId(api: CoreAPI): string | null {
-  return (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", ["seat:US:president", "serving"]) as unknown as {
-        personId: string;
-      }[]
-    )[0]?.personId ?? null
-  );
+  return termOnSeat(api, "seat:US:president")?.personId ?? null;
 }
 
 /** The federal orders a President may issue that an engine reads (the keys). */
@@ -1930,11 +1923,7 @@ export function issueFederalOrder(
   // Only the person who holds the president's seat issues or revokes a federal order.
   if (input.executiveId !== sittingPresidentId(api))
     throw new Error("Only the sitting President issues a federal order.");
-  const tomorrow = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
   const measureId = `order:US:${input.order}:${api.state.date}`;
   // stopgapId: SG-NATION-federal-axis-proxy
   api.stopgap("SG-NATION-federal-axis-proxy");
@@ -2448,11 +2437,7 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const state = lawChain(api).stateKey;
   const cabinet = appointmentsIn(api, state);
   const before = cabinet[0]
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(cabinet[0].appointedBy.slice("official:".length)) as unknown as
-        TermRow | undefined)
+    ? termById(api, cabinet[0].appointedBy.slice("official:".length))
     : undefined;
   const worldSeed = (
     table(api, "review").get("seed") as unknown as

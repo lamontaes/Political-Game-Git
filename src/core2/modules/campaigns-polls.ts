@@ -4,6 +4,7 @@
  * Split out of campaigns.ts by scripts/elections/split-module.ts (structure only);
  * campaigns.ts re-exports every export of this file by name.
  */
+import { partySide } from "./offices";
 import { residentsRuntime } from "./residents";
 import { registerDerivedCache } from "../snapshot";
 import { keepsWhy } from "../why-kept";
@@ -18,7 +19,6 @@ import {
   ageOn,
   campaignFor,
   elections,
-  partySide,
   table,
   townRow,
 } from "./campaigns-base";

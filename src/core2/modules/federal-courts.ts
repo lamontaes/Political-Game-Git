@@ -21,11 +21,10 @@ import ussc from "../../../data/research/justice/ussc-federal-sentencing-fy2025.
 import groups from "../data/justice/federal-groups.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { lawApplied } from "../law-reach/applied";
-import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { lawInForce } from "./laws";
 
-export const FEDERAL_COURTS_MODULE_ID = "federal-courts";
+const FEDERAL_COURTS_MODULE_ID = "federal-courts";
 const RUN_KIND = "federal-courts";
 const MONTHS_PER_YEAR = 12;
 export const REDUCE_MANDATORY_MINIMUMS =
@@ -260,9 +259,3 @@ export const FEDERAL_COURTS_MODULE: CoreModule = {
     schedule(api);
   },
 };
-
-/** Install the engine in a world (after the laws). */
-export function openFederalCourts(core: CoreState): void {
-  if (!core.modules.has(FEDERAL_COURTS_MODULE_ID))
-    registerModule(core, FEDERAL_COURTS_MODULE);
-}

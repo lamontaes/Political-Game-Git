@@ -7,12 +7,11 @@
  * into something the reader can say (words composer, part 2).
  */
 import { familyFactsOf } from "../core2/closeness";
-import { officialOf } from "../core2/modules/officials";
-import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { kinAddress } from "../english/journal-words";
-import { officeWords, type SaidPerson } from "../english/said-as";
+import type { SaidPerson } from "../english/said-as";
 import type { Telling } from "../english/telling";
+import { officeKindSaid } from "./said-office";
 import { whatTheyAre } from "./who-they-are";
 
 export function saidPersonOf(
@@ -23,14 +22,7 @@ export function saidPersonOf(
   const person = core.people.get(personId);
   const listener = core.people.get(telling.listenerId);
   const speaker = core.people.get(telling.speakerId);
-  const official = officialOf(coreAPI(core as CoreState), personId);
-  // A chamber's presiding officer is said by that role ("Speaker"), when the
-  // words hold one for their body (`<office kind>:presiding`).
-  const officeKind =
-    official?.leadership === "presiding" &&
-    officeWords(`${official.officeKind}:presiding`)
-      ? `${official.officeKind}:presiding`
-      : official?.officeKind;
+  const officeKind = officeKindSaid(core, personId);
   const toListener = familyFactsOf(listener).get(personId)?.relation;
   const toSpeaker = familyFactsOf(speaker).get(personId)?.relation;
   const gender = person?.looks?.gender;

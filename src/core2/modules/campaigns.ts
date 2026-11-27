@@ -2,7 +2,7 @@ import { customPolitics, registerElectorate } from "../electorate";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { townDistrict } from "../offices-state";
+import { townDistrict } from "./offices";
 import { districtLean } from "../campaign-views";
 import { type Stance } from "../campaign-data";
 import { type ContestRow, type FilingRow, worldSwing } from "./elections";
@@ -214,6 +214,37 @@ export type {
   PollRow,
 } from "./campaigns-base";
 
+export {
+  STANCE_LOADINGS,
+  groupStance,
+  personLean,
+  popularity,
+} from "../campaign-views";
+export type { StanceProfile } from "../campaign-views";
+export { filingClerkFor } from "./filing-clerk";
+export { choosesPresident } from "../electorate-places";
+export {
+  joinParty,
+  nextPartyMeeting,
+  openParties,
+  partyAgreement,
+  partyMemberIds,
+  partyStands,
+} from "./parties";
+export { campaignDayChoices } from "../campaign-day";
+export { enrichCivicInputs } from "../civic-inputs";
+export { openInterestGroups } from "./interest-groups";
+export { openBallotMeasures } from "./ballot-measures";
+export { openRecalls } from "./recalls";
+export {
+  NATIONAL_ENGAGEMENT,
+  countedResidents,
+  countedResidentsOf,
+  engagementOf,
+} from "../electorate";
+export { StanceReader, candidateStance } from "../campaign-stances";
+export { publicOffset, questionAxis } from "../campaign-views";
+export { withMembershipDues } from "../membership-dues";
 export { refreshOfficeStaff } from "../civic-inputs";
 export { electionsParameter } from "../elections-calendar";
 
@@ -497,6 +528,3 @@ export type { ContestRow };
 
 /** A party's lean, read by other families through this entry (`campaign-stances.ts`). */
 export { partyLean } from "../campaign-stances";
-
-/** The party a person files under (candidate-pool.ts), the elections family's face for readers outside it. */
-export { partyOf } from "../candidate-pool";
