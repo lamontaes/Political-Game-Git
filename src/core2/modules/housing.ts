@@ -39,11 +39,12 @@ import { bookkeeping } from "../bookkeeping";
 import { depositsHeld, withdrawSavings } from "./budgets";
 import { transferCash } from "../budgets-treasury";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
-import { COUNTED_PLACE_PREFIX, type CountedHousehold } from "../counted-groups";
+import { realPlaceOf, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import { awardYearMinor } from "../household-income";
 import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
+import { latestMacroMonth, macroMonthAt } from "../macro-reads";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
 import type { EntityId } from "../kernel/brands";
@@ -961,6 +962,22 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
   );
 }
 
+/** One household's mortgage as the housing engine keeps it. */
+export interface MortgageRow {
+  readonly id: string;
+  readonly holderId: string;
+  readonly householdId: string;
+  readonly balanceMinor: number;
+  readonly monthsLeft: number;
+  readonly foreclosedAt?: string;
+}
+
+/** Every mortgage the housing engine keeps, named and counted households alike; none before the engine has opened its table. */
+export function allMortgageRows(api: CoreAPI): readonly MortgageRow[] {
+  if (!api.state.modules.has(HOUSING_MODULE_ID)) return [];
+  return store(api).table("mortgages").rows() as unknown as MortgageRow[];
+}
+
 function store(api: CoreAPI) {
   return api.moduleState(HOUSING_MODULE_ID);
 }
@@ -1504,12 +1521,8 @@ function landlordPayout(api: CoreAPI): void {
 /** The economy's consumer price level by month (history and simulated), for prices past the published data. */
 function macroPrices(api: CoreAPI): PriceLevel | undefined {
   if (!(api.state as CoreState).modules.has("macro")) return undefined;
-  const months = api.moduleState("macro").table("months");
   return (date) =>
-    (
-      months.get(`macro-month:${date.slice(0, "YYYY-MM".length)}`) as
-        { priceIndex: number } | undefined
-    )?.priceIndex;
+    macroMonthAt(api, date.slice(0, "YYYY-MM".length))?.priceIndex;
 }
 
 /** Members under 18, from their birth dates. */
@@ -2464,17 +2477,7 @@ function stepPriceLevels(api: CoreAPI): void {
     );
   }
   const month = c.date.slice(0, "YYYY-MM".length);
-  const latest = c.modules.has("macro")
-    ? (
-        api.moduleState("macro").table("state").get("macro:state") as
-          { latestMonth: string } | undefined
-      )?.latestMonth
-    : undefined;
-  const macroMonth = latest
-    ? (api.moduleState("macro").table("months").get(`macro-month:${latest}`) as
-        | { id: string; mortgage30Pct: number; hourlyEarnings: number }
-        | undefined)
-    : undefined;
+  const macroMonth = latestMacroMonth(api);
   const p = (key: string) => api.parameter(key);
   const opened =
     (
@@ -2659,9 +2662,7 @@ function countedCaseWeight(api: CoreAPI, householdId: string): number {
 function payCounsel(api: CoreAPI, caseId: string, caseSite: string) {
   const c = core(api);
   // A counted household's place is the town's counted tier (`counted:<town>`); its case is the town's like a full household's.
-  const placeId = caseSite.startsWith(COUNTED_PLACE_PREFIX)
-    ? caseSite.slice(COUNTED_PLACE_PREFIX.length)
-    : caseSite;
+  const placeId = realPlaceOf(caseSite);
   const row = store(api).table("counsel").get(placeId) as
     { inForce?: boolean; fundedById?: string } | undefined;
   const statute =

@@ -117,7 +117,7 @@
     },
     "person.birthDate": {
       "made": "generation",
-      "by": "src/core2/population.ts from the place's survey sample; invented people in src/core2/gov-rules/invented-person-age.ts fall only on days 1 to 28",
+      "by": "src/core2/population.ts from the place's survey sample; invented people in src/core2/person-invented-age.ts fall only on days 1 to 28",
       "replace": "Any day of the month"
     },
     "person.playerAge.townAdult": {
@@ -303,12 +303,12 @@
       "what": "Given name by birth-year cohort (own stream)",
       "replace": "The world's seeded unit keyed by the record's id"
     },
-    "src/core2/gov-rules/invented-person-age.ts#inventedPersonAge": {
+    "src/core2/person-invented-age.ts#inventedPersonAge": {
       "made": "generation",
       "what": "Age of an invented person, even inside a typed band",
       "replace": "Ages from the office's or role's data"
     },
-    "src/core2/gov-rules/invented-person-age.ts#inventedPersonBirthDate": {
+    "src/core2/person-invented-age.ts#inventedPersonBirthDate": {
       "made": "ad-hoc-draw",
       "what": "Birthday of an invented person: days 1 to 28 only",
       "replace": "Any day of the month, on the world's seeded unit keyed by the record's id"

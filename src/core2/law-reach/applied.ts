@@ -597,6 +597,9 @@ export function lawReach(
   };
 }
 
+/** Whom a law applies to by its data, before any count (scope.ts): the laws family's face for the screens and the press. */
+export { reachScopeOf } from "./scope";
+
 /**
  * The one writer of a person's `law.effect-learned` event: they learned, from a
  * story they heard or a notice they were sent, that a law changed what they

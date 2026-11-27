@@ -3180,6 +3180,7 @@ export {
 export type { OfficeLevel } from "../offices-local";
 /** A government's title as people say it, read through the executive family's entry. */
 export { partySide } from "../appointments";
+export { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 export {
   CORPUS,
   realResult,
