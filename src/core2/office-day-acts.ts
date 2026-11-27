@@ -45,7 +45,7 @@ import {
   requestInterview,
 } from "./modules/press";
 import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
-import { townSeats } from "./modules/offices";
+import { officeById, townSeats } from "./modules/offices";
 import { leanedYesWithTerm } from "./trait-decisions";
 import { lawChain } from "./modules/laws";
 import {
@@ -604,15 +604,9 @@ function addressDue(
     Number(api.state.date.slice(5, 7)) > api.parameter("stateOfCityLastMonth")
   )
     return false;
-  const offices = api.moduleState("core2-offices-v1").table("offices");
   const executive = host
     .officesOf(api, personId)
-    .some((id) =>
-      headsLocalExecutive(
-        (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
-          "",
-      ),
-    );
+    .some((id) => headsLocalExecutive(officeById(api, id)?.kind ?? ""));
   return (
     executive &&
     !host.given(api, personId, "state-of-the-city", api.state.date.slice(0, 4))
@@ -630,14 +624,9 @@ export function budgetProposalDue(
   personId: string,
 ): { governmentId: string; fiscalYearStarts: string } | null {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
-  const offices = api.moduleState("core2-offices-v1").table("offices");
   const kind = host
     .officesOf(api, personId)
-    .map(
-      (id) =>
-        (offices.get(id) as unknown as { kind: string } | undefined)?.kind ??
-        "",
-    )
+    .map((id) => officeById(api, id)?.kind ?? "")
     .find((k) => headsLocalExecutive(k));
   if (!kind) return null;
   const level = executiveRow(kind)!.level;
