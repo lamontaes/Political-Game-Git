@@ -6,6 +6,7 @@
  * (dev-views.ts). It reads the news engine's stories; it writes nothing and spends no time.
  */
 import { coreAPI } from "../../core2/state";
+import { newsStories } from "../../core2/modules/news";
 import type { DevView } from "../dev-views";
 
 /** How many printed stories the panel lists, newest first. Engineering value. */
@@ -32,11 +33,7 @@ const view: DevView = {
   },
   routes: {
     "GET printed-stories": ({ mode }) => {
-      if (!mode.core.modules.has("news")) return [];
-      const rows = coreAPI(mode.core)
-        .moduleState("news")
-        .table("stories")
-        .rows() as unknown as Printed[];
+      const rows = newsStories(coreAPI(mode.core)) as unknown as Printed[];
       return rows
         .filter(
           (row) => row.kind === "press.printed" && row.placeId === mode.placeId,

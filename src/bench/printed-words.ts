@@ -48,6 +48,7 @@ import {
   PRESS_MODULE_ID,
   printedStoryOf,
   type InterviewRow,
+  interviewOf,
 } from "../core2/modules/press";
 import { placeNameSaid, coreStateName } from "../core2/place-lookup";
 import { familyFactsOf, SPEECH_MODULE_ID } from "../core2/modules/people";
@@ -1705,7 +1706,7 @@ const interview: Builder = (read, f) => {
   const topic = read.story.topic ?? "";
   const interviewId = key?.slice("interview:".length, -":candidate".length);
   const row = (interviewId && read.core.modules.has(PRESS_MODULE_ID)
-    ? read.api.moduleState(PRESS_MODULE_ID).table("interviews").get(interviewId)
+    ? interviewOf(read.api, interviewId)
     : undefined) as unknown as InterviewRow | undefined;
   const asked = (question: string) => questionAbout(question);
   // The headline's question is said in the lede with its side; the rest
@@ -1759,7 +1760,7 @@ const interview: Builder = (read, f) => {
 const claimCheck: Builder = (read) => {
   const interviewId = read.sourceId.replace(/^claim:/, "").replace(/:\d+$/, "");
   const row = (read.core.modules.has(PRESS_MODULE_ID)
-    ? read.api.moduleState(PRESS_MODULE_ID).table("interviews").get(interviewId)
+    ? interviewOf(read.api, interviewId)
     : undefined) as unknown as { candidateId?: string } | undefined;
   return story(
     "claim-check",
