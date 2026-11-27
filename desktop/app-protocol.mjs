@@ -101,7 +101,7 @@ export function isPlayApiPath(pathname) {
 }
 
 /**
- * `playApi(method, url)` is the play server's request handler, run in this
+ * `playApi(method, url, body)` is the play server's request handler, run in this
  * process (see scripts/build-play-api.mjs); it is absent for hosts that only
  * serve files.
  */
@@ -109,7 +109,9 @@ export async function serveAppRequest(contentRoot, request, playApi) {
   const url = new URL(request.url);
   if (url.host !== APP_HOST) return new Response("Not found", { status: 404 });
   if (playApi && isPlayApiPath(url.pathname)) {
-    const reply = await playApi(request.method, url);
+    // A POST's body travels with it: dev mode's controls send theirs as JSON.
+    const body = request.method === "POST" ? await request.text() : "";
+    const reply = await playApi(request.method, url, body);
     return new Response(reply.body, {
       status: reply.status,
       headers: reply.headers,

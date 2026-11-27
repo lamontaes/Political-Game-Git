@@ -1,4 +1,4 @@
-/* global console, process, setTimeout, document, URL */
+/* global console, process, setTimeout, document, URL, fetch */
 /**
  * Bounded packaged-client smoke: launch → title menu → Options opens and
  * closes → New game → the play server (run in-process by the shell) builds
@@ -308,6 +308,51 @@ async function launch() {
     art.length > 0 && art.every((width) => width > 0),
     JSON.stringify(art),
   );
+
+  // Dev mode is part of the installed game: Options' setting opens the play server's dev routes.
+  await page.keyboard.press("Escape");
+  await page.getByTestId("sheet").waitFor();
+  const told = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === "/api/devmode",
+  );
+  await page.getByRole("button", { name: "On", exact: true }).last().click();
+  check("dev mode: the setting tells the play server", (await told).ok());
+  const dev = await page.evaluate(async () => {
+    const state = await fetch("/api/dev/state");
+    const views = await fetch("/api/dev/views");
+    return {
+      state: state.status,
+      date: (await state.json()).date,
+      views: views.status,
+      listed: (await views.json()).length,
+    };
+  });
+  check(
+    "dev mode: a dev panel's call answers in the packaged app",
+    dev.state === 200 && /^\d{4}-\d{2}-\d{2}$/.test(dev.date),
+    JSON.stringify(dev),
+  );
+  check(
+    "dev mode: the dev views are in the packaged app",
+    dev.views === 200 && dev.listed > 0,
+    JSON.stringify(dev),
+  );
+  // The Calendar's dev panels draw, their views' page parts loaded from the packaged client.
+  await page.getByTestId("sheet-close").click();
+  await page
+    .locator('[data-tab="calendar"]')
+    .first()
+    .evaluate((e) => e.click());
+  await page.locator('[data-testid="dev-run"]').waitFor({ timeout: 30000 });
+  check("dev mode: the Calendar's dev panels draw in the packaged app", true);
+  await page.keyboard.press("Escape");
+  await page.getByTestId("sheet").waitFor();
+  await page.getByRole("button", { name: "Off", exact: true }).last().click();
+  await page.getByTestId("sheet-close").click();
+  const closed = await page.evaluate(
+    async () => (await fetch("/api/dev/state")).status,
+  );
+  check("dev mode: off again, the routes close", closed === 403, `${closed}`);
 
   // Options from inside play, then Quit to title returns to the title menu.
   await page.keyboard.press("Escape");

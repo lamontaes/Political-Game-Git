@@ -24,5 +24,17 @@
     "addedAt": "2026-11-11",
     "replacement": "A press-engine record of the outlets each household reads, kept steady from week to week (subscriptions by household, set by its own habits and money; followersOf as its start), which News reads to choose the paper in front.",
     "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-dev-days-not-saved",
+    "kind": "partial-model",
+    "file": "src/bench/handler.ts",
+    "line": 0,
+    "whatItFakes": "Dev mode's moves (a day or a year advanced, a law enacted, a scene forced) change the played world but are not recorded in the life's save, as in the bench since dev mode began; a life saved after dev mode moved it loads as it was played without dev mode's moves, and the installed game now has the same.",
+    "why": "The save replays recorded player requests (saves.ts); dev mode's routes write through each engine's own writer with a dev-mode mark and no replayable request. Recording them needs each route's input kept and every dev write replayable, which is not needed for the golden path or for testing in one sitting.",
+    "addedBy": "Screens session, item 1 (dev mode in the installed game)",
+    "addedAt": "2026-11-27",
+    "replacement": "Each dev-mode route that changes the world is recorded in the life's commands with its body and replayed by the same route on load, so a life saved after dev mode moved it loads where it left off.",
+    "status": "open"
   }
 ]
