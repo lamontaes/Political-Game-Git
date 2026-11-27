@@ -34,7 +34,9 @@
     "rival": "A rival in the race by full name, from the filing or message record.",
     "landlord": "The landlord who evicted the household, from the eviction record.",
     "occasion": "the broadcast's occasion as people say it after a possessive ('State of the State address'), from local-address.json heard.occasions",
-    "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a bill by its name); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays."
+    "happened": "What happened, said by the cause record's fact that names it through data/english/happened-words.json (a bill by its name); absent when the cause record names no happening (a tie that grew, a speech heard), and then the plain first line plays.",
+    "speech-giver": "who gave the address the household watched, by full name, from the address's record",
+    "speech-giver-surname": "the President who gave the inaugural the household watched, by family name after the title, from the address's record"
   },
   "maxWords": 10,
   "mining": {
@@ -131,7 +133,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -202,26 +205,6 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-alone.it-s-landing-you-sit-down-at-the-kitchen-table",
-      "move": "arrival-home-alone",
-      "kind": "spoken",
-      "text": "It's {landing}. You sit down at the kitchen table.",
-      "uses": [
-        {
-          "move": "arrival-home-alone",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.arrival-home-alone.it-s-landing-a-stack-of-mail-sits-on-the-counter",
       "move": "arrival-home-alone",
       "kind": "spoken",
@@ -231,27 +214,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-home-alone.it-s-landing-you-hang-your-coat-by-the-door",
-      "move": "arrival-home-alone",
-      "kind": "spoken",
-      "text": "It's {landing}. You hang your coat by the door.",
-      "uses": [
-        {
-          "move": "arrival-home-alone",
-          "subject": "arrival",
-          "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -272,7 +236,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -293,7 +258,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -314,7 +280,8 @@
           "subject": "arrival",
           "role": "home",
           "choice": "alone",
-          "requiresFacts": ["evening"]
+          "requiresFacts": ["evening"],
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -334,7 +301,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -354,7 +322,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -374,7 +343,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -394,7 +364,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -414,7 +385,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -434,7 +406,8 @@
           "move": "arrival-home-alone",
           "subject": "arrival",
           "role": "home",
-          "choice": "alone"
+          "choice": "alone",
+          "excludesFacts": ["speech-giver"]
         }
       ],
       "origin": "authored",
@@ -565,10 +538,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-knock-and-name-opens-the-door",
+      "key": "scene-words.arrival-other-home-other.you-knock-and-name-opens-the-door",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you knock, and {name} opens the door.",
+      "text": "You knock, and {name} opens the door.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -582,13 +555,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-ring-the-bell-and-name-answers",
+      "key": "scene-words.arrival-other-home-other.you-ring-the-bell-and-name-answers",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you ring the bell, and {name} answers.",
+      "text": "You ring the bell, and {name} answers.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -602,13 +576,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-walk-up-the-drive-and-name-waves-you-in",
+      "key": "scene-words.arrival-other-home-other.you-walk-up-the-drive-and-name-waves-you-in",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you walk up the drive, and {name} waves you in.",
+      "text": "You walk up the drive, and {name} waves you in.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -622,13 +597,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-walk-up-to-a-house-and-ring-the-bell",
+      "key": "scene-words.arrival-other-home-alone.you-ring-twice",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you walk up to a house and ring the bell.",
+      "text": "You ring twice.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -642,13 +618,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-climb-a-porch-and-knock",
+      "key": "scene-words.arrival-other-home-alone.you-knock-twice",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you climb a porch and knock.",
+      "text": "You knock twice.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -662,13 +639,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-cross-a-yard-to-a-front-door",
+      "key": "scene-words.arrival-other-home-alone.you-step-up",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you cross a yard to a front door.",
+      "text": "You step up.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -682,13 +660,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["canvasser-knocks-the-frame-and-steps-back"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-and-name-is-on-the-line",
+      "key": "scene-words.arrival-phone-other.the-phone-rings-and-name-is-on-the-line",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, the phone rings, and {name} is on the line.",
+      "text": "The phone rings, and {name} is on the line.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -702,13 +681,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-you-pick-up-and-it-s-name",
+      "key": "scene-words.arrival-phone-other.the-phone-rings-name-is-calling",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, you pick up, and it's {name}.",
+      "text": "The phone rings. {name} is calling.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -722,13 +702,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-name-is-calling",
+      "key": "scene-words.arrival-phone-other.name-calls-and-happened-is-the-subject",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, the phone rings. {name} is calling.",
+      "text": "{name} calls, and {happened} is the subject.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -742,13 +723,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-name-calls-and-happened-is-the-subject",
+      "key": "scene-words.arrival-phone-other.you-pick-up-and-name-starts-in-on-happened",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, {name} calls, and {happened} is the subject.",
+      "text": "You pick up, and {name} starts in on {happened}.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -762,13 +744,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-you-pick-up-and-name-starts-in-on-happened",
+      "key": "scene-words.arrival-phone-other.the-phone-rings-with-name-calling-about-happened",
       "move": "arrival-phone-other",
       "kind": "spoken",
-      "text": "{begins}, you pick up, and {name} starts in on {happened}.",
+      "text": "The phone rings with {name} calling about {happened}.",
       "uses": [
         {
           "move": "arrival-phone-other",
@@ -782,33 +765,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-with-name-calling-about-happened",
-      "move": "arrival-phone-other",
-      "kind": "spoken",
-      "text": "{begins}, the phone rings with {name} calling about {happened}.",
-      "uses": [
-        {
-          "move": "arrival-phone-other",
-          "subject": "arrival",
-          "role": "phone",
-          "choice": "other"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story line writer (Sonnet 5.5), for the Story lead (Fable)",
-      "date": "2026-11-18",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.arrival-phone-alone.begins-the-phone-rings",
+      "key": "scene-words.arrival-phone-alone.the-phone-rings",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "{begins}, the phone rings.",
+      "text": "The phone rings.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -822,13 +786,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-alone.begins-your-phone-buzzes-on-the-table",
+      "key": "scene-words.arrival-phone-alone.your-phone-buzzes",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "{begins}, your phone buzzes on the table.",
+      "text": "Your phone buzzes.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -842,13 +807,14 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
-      "key": "scene-words.arrival-phone-alone.begins-the-phone-starts-to-ring-in-your-hand",
+      "key": "scene-words.arrival-phone-alone.your-phone-rings",
       "move": "arrival-phone-alone",
       "kind": "spoken",
-      "text": "{begins}, the phone starts to ring in your hand.",
+      "text": "Your phone rings.",
       "uses": [
         {
           "move": "arrival-phone-alone",
@@ -862,7 +828,8 @@
       "date": "2026-11-18",
       "tag": {
         "move": "narrate"
-      }
+      },
+      "elements": ["a-gift-comes-with-a-call-about-a-bill"]
     },
     {
       "key": "scene-words.arrival-letter-other.begins-a-letter-from-name-arrives",
@@ -9009,6 +8976,64 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.it-s-the-news-replays-president-s-noon-speech",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "It's {landing}. The news replays President {speech-giver-surname}'s noon speech.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver-surname", "inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
+    },
+    {
+      "key": "scene-words.arrival-home-alone.it-s-the-news-is-still-on-president",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "It's {landing}. The news is still on President {speech-giver-surname}.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver-surname", "inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
+    },
+    {
+      "key": "scene-words.arrival-home-alone.it-s-the-news-is-running-s-speech-to-congress",
+      "move": "arrival-home-alone",
+      "kind": "written",
+      "text": "It's {landing}. The news is running {speech-giver}'s speech to Congress.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone",
+          "requiresFacts": ["speech-giver"],
+          "excludesFacts": ["inaugural-night"]
+        }
+      ],
+      "origin": "authored",
+      "author": "the Story lead",
+      "date": "2026-11-24",
+      "elements": ["a-new-radio-gathers-the-family-for-the-address"]
     }
   ]
 }
