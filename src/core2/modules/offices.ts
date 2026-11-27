@@ -72,7 +72,7 @@ import {
   termStartAfter,
   termStartInYear,
 } from "../elections-calendar";
-import { MOVED_AWAY_EVENT } from "./moves";
+import { MOVED_AWAY_EVENT } from "../moved-away-event";
 import type { OfficialRow } from "./officials";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
 import {
