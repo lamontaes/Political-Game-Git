@@ -345,6 +345,8 @@ async function launch() {
     .evaluate((e) => e.click());
   await page.locator('[data-testid="dev-run"]').waitFor({ timeout: 30000 });
   check("dev mode: the Calendar's dev panels draw in the packaged app", true);
+  await page.getByTestId("sheet-close").click();
+  await page.getByTestId("sheet").waitFor({ state: "hidden" });
   await page.keyboard.press("Escape");
   await page.getByTestId("sheet").waitFor();
   await page.getByRole("button", { name: "Off", exact: true }).last().click();

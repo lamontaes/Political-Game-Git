@@ -8,6 +8,8 @@
  * itself from here, and GET /api/dev/views lists each view's part and labels for the page.
  */
 import { readdir } from "node:fs/promises";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import type { DevMode } from "./dev-mode";
 
 /** What a view's route is given: the bench's DevMode, the query and, for a POST, the body. */
@@ -90,7 +92,6 @@ export function devViewList(): {
     }));
 }
 
-const FOLDER = new URL("./dev-views/", import.meta.url);
 let loading: Promise<void> | undefined;
 
 type ViewModules = Record<string, { default?: DevView } | undefined>;
@@ -109,11 +110,13 @@ async function viewModules(): Promise<ViewModules> {
       },
     ) as ViewModules;
   } catch {
-    const files = await readdir(FOLDER).catch(() => [] as string[]);
+    // Written with join, not a URL beside this file: the packaging script copies whatever such a URL names, tests too.
+    const folder = join(import.meta.dirname, "dev-views");
+    const files = await readdir(folder).catch(() => [] as string[]);
     const found: ViewModules = {};
     for (const file of files.filter((f) => /^[a-z-]+\.ts$/.test(f)))
       found[`./dev-views/${file}`] = (await import(
-        new URL(file, FOLDER).href
+        pathToFileURL(join(folder, file)).href
       )) as { default?: DevView };
     return found;
   }

@@ -9,6 +9,7 @@
  */
 import assert from "node:assert/strict";
 import { fork, spawnSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
 import { existsSync, mkdtempSync, readdirSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -18,17 +19,16 @@ import { fileURLToPath } from "node:url";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const desktop = path.join(here, "..");
 const HOST = path.join(desktop, "play-api-host.mjs");
-const BUNDLE_ROOT = path.join(desktop, "staged", "play-api");
 const VIEWS = path.join(desktop, "..", "src", "bench", "dev-views");
 const UI = path.join(desktop, "..", "src", "bench", "ui");
-// Pinned (pinned-tests): a fixed seed only so the two runs of this test are the same town.
-const SEED = "dev-mode-installed-1";
+// Any town will do: the seed is drawn, named in the title and replayed with DEV_MODE_SEED.
+const SEED = process.env.DEV_MODE_SEED ?? randomBytes(4).toString("hex");
 
-function startHost(saveDir) {
+function startHost(bundleRoot, saveDir) {
   const child = fork(HOST, [], {
     env: {
       ...process.env,
-      OCD_PLAY_API_ROOT: BUNDLE_ROOT,
+      OCD_PLAY_API_ROOT: bundleRoot,
       OCD_SAVE_DIR: saveDir,
     },
     stdio: ["ignore", "ignore", "inherit", "ipc"],
@@ -67,14 +67,19 @@ test(
   `dev mode answers in the packaged play server once the setting is on, seed ${SEED}`,
   { timeout: 180_000 },
   async () => {
+    // Built into its own folder, so packaging's staged copy is never touched.
+    const BUNDLE_ROOT = mkdtempSync(path.join(tmpdir(), "ocd-play-api-"));
     const built = spawnSync(
       process.execPath,
       [path.join(desktop, "scripts", "build-play-api.mjs")],
-      { encoding: "utf8" },
+      {
+        encoding: "utf8",
+        env: { ...process.env, PLAY_API_OUT_DIR: BUNDLE_ROOT },
+      },
     );
     assert.equal(built.status, 0, built.stderr);
     const saveDir = mkdtempSync(path.join(tmpdir(), "ocd-dev-saves-"));
-    const host = startHost(saveDir);
+    const host = startHost(BUNDLE_ROOT, saveDir);
     try {
       // Off until the setting is on: the installed game is a game first.
       const refused = await host.ask("GET", "/api/dev/views");
