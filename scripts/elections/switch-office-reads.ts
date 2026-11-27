@@ -113,6 +113,38 @@ function doorFor(
   return null;
 }
 
+/** The `<api>.moduleState(OFFICES_MODULE_ID)` call a local identifier was declared with, if any. */
+function moduleStateLocal(
+  id: ts.Identifier,
+  sf: ts.SourceFile,
+): ts.CallExpression | null {
+  let scope: ts.Node | undefined = id.parent;
+  while (scope) {
+    if (ts.isBlock(scope) || ts.isSourceFile(scope)) {
+      for (const st of scope.statements) {
+        if (!ts.isVariableStatement(st)) continue;
+        for (const d of st.declarationList.declarations) {
+          if (
+            ts.isIdentifier(d.name) &&
+            d.name.text === id.text &&
+            d.initializer &&
+            ts.isCallExpression(d.initializer) &&
+            ts.isPropertyAccessExpression(d.initializer.expression) &&
+            d.initializer.expression.name.text === "moduleState" &&
+            ts.isIdentifier(d.initializer.expression.expression) &&
+            /^OFFICES_MODULE(_ID)?$/.test(
+              d.initializer.arguments[0]?.getText(sf) ?? "",
+            )
+          )
+            return d.initializer;
+        }
+      }
+    }
+    scope = scope.parent;
+  }
+  return null;
+}
+
 /** `<api>.moduleState(OFFICES_MODULE_ID).table("<t>")` or `offices(<api>).table("<t>")`: the api text and table name. */
 function officesTable(
   e: ts.Node,
@@ -124,7 +156,12 @@ function officesTable(
     return null;
   const arg = e.arguments[0]!;
   if (!ts.isStringLiteral(arg)) return null;
-  const recv = e.expression.expression;
+  let recv = e.expression.expression;
+  // A receiver held in a local: `const offices = <api>.moduleState(OFFICES_MODULE_ID)`.
+  if (ts.isIdentifier(recv)) {
+    const bound = moduleStateLocal(recv, sf);
+    if (bound) recv = bound;
+  }
   if (!ts.isCallExpression(recv)) return null;
   if (
     ts.isPropertyAccessExpression(recv.expression) &&
@@ -261,6 +298,51 @@ function rewrite(
   return { out, doors: [...doors] };
 }
 
+/** Drop `const x = <api>.moduleState(OFFICES_MODULE_ID);` where nothing else names x any more. */
+function dropUnusedAliases(file: string, source: string): string {
+  const sf = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
+  const edits: Edit[] = [];
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isVariableStatement(node) &&
+      node.declarationList.declarations.length === 1
+    ) {
+      const d = node.declarationList.declarations[0]!;
+      if (
+        ts.isIdentifier(d.name) &&
+        d.initializer &&
+        ts.isCallExpression(d.initializer) &&
+        ts.isPropertyAccessExpression(d.initializer.expression) &&
+        d.initializer.expression.name.text === "moduleState" &&
+        /^OFFICES_MODULE(_ID)?$/.test(
+          d.initializer.arguments[0]?.getText(sf) ?? "",
+        )
+      ) {
+        const name = d.name.text;
+        let uses = 0;
+        const scope = node.parent;
+        const count = (n: ts.Node): void => {
+          if (ts.isIdentifier(n) && n.text === name && n !== d.name) uses += 1;
+          ts.forEachChild(n, count);
+        };
+        count(scope);
+        if (uses === 0)
+          edits.push({
+            start: node.getFullStart(),
+            end: node.getEnd(),
+            text: "",
+          });
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  let out = source;
+  for (const e of edits.sort((a, b) => b.start - a.start))
+    out = out.slice(0, e.start) + e.text + out.slice(e.end);
+  return out;
+}
+
 /** Add door names to the offices import (or make one) and drop imports the rewrite left unused. */
 function fixImports(
   file: string,
@@ -360,7 +442,7 @@ for (const file of files) {
   for (let pass = 0; pass < 4; pass += 1) {
     const { out, doors } = rewrite(file, current);
     if (out === current) break;
-    current = fixImports(file, before, out, doors);
+    current = fixImports(file, before, dropUnusedAliases(file, out), doors);
   }
   if (current === before) continue;
   changed += 1;

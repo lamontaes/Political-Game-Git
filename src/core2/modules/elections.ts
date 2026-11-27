@@ -1700,12 +1700,11 @@ export function playerFilingBar(
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
   if (!contest) return "not-your-office";
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const office = offices.table("offices").get(contest.officeId) as
+  const office = officeById(api, contest.officeId) as
     PlayerSeatOffice | undefined;
   if (!playerMayFileForKind(office?.kind ?? "", localKinds))
     return "not-your-office";
-  const seat = offices.table("seats").get(contest.seatId) as
+  const seat = seatById(api, contest.seatId) as
     { coversTown?: boolean; district?: string | null } | undefined;
   if (seat?.coversTown === false) return "not-your-town";
   const takes = (other: ContestRow) =>
@@ -1746,7 +1745,7 @@ export function playerFilingBar(
   // open, and runs against the whole field for all of its seats.
   const atLarge = sameDay
     .filter((other) => {
-      const s = offices.table("seats").get(other.seatId) as
+      const s = seatById(api, other.seatId) as
         { district?: string | null; index?: number } | undefined;
       return !s?.district && takes(other);
     })
@@ -1821,10 +1820,9 @@ export function seatIsAnotherDistrict(
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
   if (!contest) return false;
-  const offices = api.moduleState(OFFICES_MODULE_ID);
-  const office = offices.table("offices").get(contest.officeId) as
+  const office = officeById(api, contest.officeId) as
     PlayerSeatOffice | undefined;
-  const seat = offices.table("seats").get(contest.seatId) as
+  const seat = seatById(api, contest.seatId) as
     { district?: string | null } | undefined;
   if (!office || !seat?.district || !LOCAL_LEVELS.has(office.level ?? ""))
     return false;
