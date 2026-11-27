@@ -25,7 +25,7 @@ const one = P.one;
 
 type Wording = { key: string; text: string; stages?: readonly string[] };
 
-export interface JournalWordRow {
+interface JournalWordRow {
   kindPrefix: string;
   turn: boolean;
   /** A setting (a school, a job) names a chapter; a story is an entry. */
@@ -91,7 +91,7 @@ export interface JournalWordRow {
 }
 
 /** A journal row's structure before the mined bank words it. */
-export interface RowShape {
+interface RowShape {
   kindPrefix: string;
   turn: boolean;
   entry?: "story" | "setting";

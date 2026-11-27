@@ -52,9 +52,9 @@ export interface DirectorData {
   relationshipKinds: readonly string[];
   kinTies: readonly { relation: string; parameter: string }[];
   /** Recorded past facts that are personal moments, with the estimated impact parameter. */
+  /** Who a past moment is with, by the kind of record (its score is the reader's `mattered`). */
   pastFactMoments: readonly {
     kindPrefix: string;
-    parameter: string;
     counterpart?: string;
   }[];
   /**

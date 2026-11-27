@@ -122,7 +122,7 @@ try {
   }
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
-    path: `${process.env.SHOTS ?? "."}/calendar-today.png`,
+    path: `${process.env.SHOTS ?? "test-results/proof/calendar"}/calendar-today.png`,
   });
   // More than birthdays (owner, Nov 1): the town's meetings and the holidays
   // stand with the family's birthdays, each kind named in a key (never a color),
@@ -186,7 +186,7 @@ try {
     "false",
   );
   await page.screenshot({
-    path: `${process.env.SHOTS ?? "."}/calendar-holidays-hidden.png`,
+    path: `${process.env.SHOTS ?? "test-results/proof/calendar"}/calendar-holidays-hidden.png`,
   });
   await page.locator('.calendar-key [data-kind="holiday"]').click();
   assert.equal(
@@ -239,7 +239,7 @@ try {
     "the chosen day's plate lists what its tile marks",
   );
   await page.screenshot({
-    path: `${process.env.SHOTS ?? "."}/calendar-day.png`,
+    path: `${process.env.SHOTS ?? "test-results/proof/calendar"}/calendar-day.png`,
   });
   await page.setViewportSize({ width: 1024, height: 768 });
   const box = await page.locator("#sheet").boundingBox();

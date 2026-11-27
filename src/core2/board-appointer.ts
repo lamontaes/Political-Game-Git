@@ -18,7 +18,12 @@ import {
   type BoardVacancy,
 } from "./central-bank-board";
 import { type BoardAppointer } from "./central-bank-appointments";
-import { FEDERAL_SENATE, members } from "./modules/legislature";
+import {
+  FEDERAL_SENATE,
+  leanOf,
+  memberKey,
+  members,
+} from "./modules/legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import type { MacroParameter } from "./macro-model";
 import type { CoreAPI } from "./types";
@@ -70,7 +75,9 @@ export const boardAppointer: BoardAppointer = (
     appointerSide = partySide(president.party);
     body = {
       name: FEDERAL_SENATE,
-      sides: senate.map((t) => partySide(t.party)),
+      // Each senator weighs the nominee from their own lean, as every
+      // confirming body does.
+      sides: senate.map((t) => leanOf(api, memberKey(t))),
     };
   } else {
     // The sitting governors choose and approve a reserve bank's president.
@@ -81,7 +88,7 @@ export const boardAppointer: BoardAppointer = (
     appointerSide = middle;
     body = {
       name: "board-of-governors",
-      sides: board.map((row) => Math.sign(row.inflationLean)),
+      sides: board.map((row) => row.inflationLean),
     };
   }
   // stopgapId: SG-WORLD-board-career-qualification
