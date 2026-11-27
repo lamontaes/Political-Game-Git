@@ -1,0 +1,30 @@
+{
+  "id": "filing-wrong-county-and-fee",
+  "kind": "detail",
+  "summary": "Where and with whom to file can differ from where the candidate lives, and a fee may come with it.",
+  "realLife": "Illinois guidance notes school board papers go to the county where the school sits, which may not be the candidate's county.",
+  "sources": [
+    "Chalkbeat Chicago, school board candidates file paperwork to appear on election ballots: https://chalkbeat.org/chicago/2024/06/17/school-board-candidates-file-paperwork-to-appear-on-election-ballots",
+    "Texas Secretary of State, filing as a candidate in a local general election: https://www.sos.texas.gov/elections/laws/filing-in-a-local-election.shtml"
+  ],
+  "fits": ["campaign"],
+  "slots": ["place", "office"],
+  "gates": [],
+  "weights": {
+    "filing": 0.5
+  },
+  "inGame": "filingOfficeFor and checkEligibility; needs: a fee mechanic if the place has one",
+  "usedBy": ["filing-petition"],
+  "turns": [
+    {
+      "turn": "The candidate files in the right office first time",
+      "pull": "a clear record",
+      "writes": "no detour"
+    },
+    {
+      "turn": "A fee or paperwork gap sends them away",
+      "pull": "needs a fee mechanic",
+      "writes": "a return visit"
+    }
+  ]
+}
