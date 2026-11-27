@@ -121,7 +121,6 @@ export type {
 } from "../central-bank-board";
 export type { BoardAppointer } from "../central-bank-appointments";
 export { placeGovernmentOrganizations } from "../gov-rules/local-governments";
-export { inventedPersonBirthDate } from "../gov-rules/invented-person-age";
 export { municipiosForPlace } from "../gov-rules/county-governing-body-rules";
 export { openOfficialPay } from "./official-pay";
 export { openCases } from "./constituent-cases";

@@ -38,15 +38,11 @@ import {
   type SittingDay,
 } from "./sitting-closeness";
 import { roomTime } from "./modules/people";
-import {
-  chargeOfficeHours,
-  registerOfficeTime,
-  type OfficeTime,
-} from "./modules/work";
+import { chargeOfficeHours, type OfficeTime } from "./modules/work";
 import { personLean } from "./modules/campaigns";
 import { personStance } from "./modules/elections";
 import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
-import { lineForPost, registerLinePayments } from "./budgets-treasury";
+import { lineForPost } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
 import { stableHash, pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate, weekdayOf } from "./kernel/dates";
@@ -110,6 +106,7 @@ import {
   BUDGETS_MODULE_ID,
   governments,
   setBudgetPriorities,
+  type GovernmentRow,
 } from "./modules/budgets";
 import {
   CASES_MODULE_ID,
@@ -118,10 +115,7 @@ import {
   ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/people";
-import {
-  registerBillIntroduced,
-  registerLeaderRefusalReader,
-} from "./modules/world-legislating";
+import {} from "./modules/world-legislating";
 import { followersOf, outletsHere } from "./modules/press";
 import type { ModuleRow } from "./module-data";
 import type {
@@ -892,6 +886,268 @@ function stateTreasury(api: CoreAPI, stateKey: string): string {
   return outsideGovernment(api, stateKey);
 }
 
+/** What one state-day entry runs with: the world, the entry, its holder, the player's choice if there is one, and the records and reasons the entry adds to. */
+interface EntryRun {
+  readonly api: CoreAPI;
+  readonly entry: StateDayEntry;
+  readonly office: StateOffice;
+  readonly person: PersonState;
+  readonly choice: StateChoice | undefined;
+  readonly recordIds: string[];
+  readonly reasons: Record<string, number | string>;
+}
+
+/** The floor-session, committee, interim-committee, caucus entries of a state day: the choice made (the player's, else the character's own) and what it did. */
+function sittingEntry({
+  api,
+  entry,
+  office,
+  person,
+  choice,
+  recordIds,
+  reasons,
+}: EntryRun): StateChoice {
+  const own = ownAttendance(api, person, stateDayParameter("attendanceDuty"));
+  const chosen: StateChoice = choice ?? { kind: "attend", attend: own.attend };
+  if (!choice) Object.assign(reasons, { duty: own.duty, traits: own.lean });
+  if (chosen.kind !== "attend") throw new Error("Choose to attend or not.");
+  // A member at their committee learns where they sit, and what it heard
+  // that day, from the records that seated and convened it.
+  if (
+    chosen.attend &&
+    (entry.kind === "committee" || entry.kind === "interim-committee")
+  )
+    recordIds.push(...committeeSitting(api, entry, reasons));
+  if (entry.kind === "floor-session")
+    table(api, "attendance").put({
+      id: `${entry.holderId}:${entry.date}`,
+      personId: entry.holderId,
+      stateKey: office.stateKey,
+      date: entry.date,
+      attended: chosen.attend,
+    } as unknown as ModuleRow);
+  if (entry.kind === "caucus") {
+    const leader = caucusLeader(api, office);
+    if (leader) reasons["leader"] = leader;
+  }
+  return chosen;
+}
+
+/** The district-office entry of a state day: the choice made (the player's, else the character's own) and what it did. */
+function districtOfficeEntry({
+  api,
+  entry,
+  person,
+  choice,
+  recordIds,
+  reasons,
+}: EntryRun): StateChoice {
+  const own = ownAttendance(api, person, stateDayParameter("officeHoursDuty"));
+  const chosen: StateChoice = choice ?? {
+    kind: "office-hours",
+    hold: own.attend,
+  };
+  if (!choice) Object.assign(reasons, { duty: own.duty, traits: own.lean });
+  if (chosen.kind !== "office-hours")
+    throw new Error("Choose whether to hold office hours.");
+  if (chosen.hold && api.state.modules.has(CASES_MODULE_ID))
+    for (const row of casesFor(api, entry.holderId)) {
+      if (row.status !== "open") continue;
+      const own = chosen.cases?.[row.id]
+        ? null
+        : ownCaseDecision(api, entry.holderId, row);
+      const done = handleCase(
+        api,
+        row.id,
+        chosen.cases?.[row.id] ?? own!.decision,
+        own?.duty ?? null,
+      );
+      if (done) recordIds.push(done.id);
+    }
+  return chosen;
+}
+
+/** The appointment entry of a state day: the choice made (the player's, else the character's own) and what it did. */
+function appointmentEntry({
+  api,
+  entry,
+  choice,
+  recordIds,
+  reasons,
+}: EntryRun): StateChoice {
+  const chosen: StateChoice = choice ?? { kind: "appointment" };
+  if (chosen.kind !== "appointment")
+    throw new Error("Choose who fills the post.");
+  const row = chosen.leave
+    ? null
+    : appointStatePost(api, {
+        executiveId: entry.holderId,
+        post: entry.subject,
+        ...(chosen.personId ? { personId: chosen.personId } : {}),
+      });
+  if (row) recordIds.push(row.id);
+  reasons["authority"] = "state-cabinet-appointment";
+  return chosen;
+}
+
+/** The executive-order entry of a state day: the choice made (the player's, else the character's own) and what it did. */
+function executiveOrderEntry({
+  api,
+  entry,
+  choice,
+  recordIds,
+  reasons,
+}: EntryRun): StateChoice {
+  const own = pendingGovernorOrders(api, entry.holderId).find(
+    (row) => row.order === entry.subject,
+  );
+  const chosen: StateChoice = choice ?? {
+    kind: "order",
+    revoke: own?.revoke ?? false,
+  };
+  if (chosen.kind !== "order")
+    throw new Error("Choose whether to revoke the order.");
+  if ((choice && chosen.issue !== false) || (!choice && own))
+    recordIds.push(
+      issueOrder(api, {
+        executiveId: entry.holderId,
+        order: entry.subject,
+        revoke: chosen.revoke,
+      }).lawId,
+    );
+  reasons["authority"] = entry.subject;
+  reasons["rule"] = "governor-views-and-law-in-force";
+  return chosen;
+}
+
+/** The clemency entry of a state day: the choice made (the player's, else the character's own) and what it did. */
+function clemencyEntry({
+  api,
+  entry,
+  office,
+  person,
+  choice,
+  recordIds,
+  reasons,
+}: EntryRun): StateChoice {
+  const custody = prisonersServing(api, office.stateKey).find(
+    (row) => row.id === entry.subject,
+  );
+  const served = custody ? servedShare(custody, entry.date) : 0;
+  const lean = decisionLean(
+    api.state,
+    person,
+    CLEMENCY_DECISION,
+    "grant",
+    "deny",
+  );
+  const bar = stateDayParameter("clemencyBar");
+  // The governor weighs how much of the term is served and their own temperament, against the bar.
+  const grant = api.parameter("traitDecisionWeight") * lean + served - bar > 0;
+  const chosen: StateChoice = choice ?? { kind: "clemency", grant };
+  if (chosen.kind !== "clemency")
+    throw new Error("Choose to grant clemency or not.");
+  if (!choice) Object.assign(reasons, { served, lean, bar });
+  if (chosen.grant && custody) {
+    const row = grantClemency(api, {
+      custodyId: custody.id,
+      grantedBy: entry.holderId,
+      stateKey: office.stateKey,
+      reasons: { served, lean, bar },
+    });
+    if (row) recordIds.push(row.id, row.sentenceId);
+  }
+  reasons["authority"] = clemencyAuthority(office.stateKey) ?? "governor-alone";
+  return chosen;
+}
+
+/** The state-of-the-state entry of a state day: the choice made (the player's, else the character's own) and what it did. */
+function stateOfTheStateEntry({
+  api,
+  entry,
+  office,
+  person,
+  choice,
+  recordIds,
+}: EntryRun): StateChoice {
+  const chosen: StateChoice = choice ?? {
+    kind: "address",
+    stances: ownPriorities(api, person),
+  };
+  if (chosen.kind !== "address") throw new Error("Choose what to say.");
+  // Another state's governor keeps only the result (owner, Nov 5, 12:49
+  // p.m. Eastern, OWNER-DECISIONS.md: for a government outside the
+  // player's own chain, simulate from the people there and keep the
+  // result): the address and the stances said stay on this entry's
+  // result row, and no speech is delivered to a full audience. The
+  // player's own state's governor is in the chain and speaks to it.
+  if (office.stateKey === lawChain(api).stateKey)
+    recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
+  return chosen;
+}
+
+/** The budget-proposal entry of a state day: the choice made (the player's, else the character's own) and what it did. */
+function budgetProposalEntry({
+  api,
+  entry,
+  office,
+  choice,
+  recordIds,
+  reasons,
+}: EntryRun): StateChoice {
+  const gov = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governments(api).find(
+        (g) => g.level === "state" && g.id === office.stateKey,
+      )
+    : undefined;
+  // The character proposes by the budgets engine's own rule for an
+  // executive (their lean on each line's direction), which the
+  // legislature reads when no priorities are set; the player writes
+  // their own.
+  const chosen: StateChoice = choice ?? { kind: "budget", changes: {} };
+  if (chosen.kind !== "budget") throw new Error("Choose budget changes.");
+  if (gov && choice && !chosen.byRule) {
+    setBudgetPriorities(api, {
+      governmentId: gov.id,
+      setBy: entry.holderId,
+      changes: chosen.changes,
+    });
+    recordIds.push(`priorities:${gov.id}`);
+  } else if (gov) {
+    reasons["rule"] = "executive-priorities";
+    reasons["lean"] = leanOf(api, entry.holderId);
+    recordIds.push(`priorities:${gov.id}:executive-rule`);
+  }
+  return chosen;
+}
+
+/** The legislative-leaders entry of a state day: the choice made (the player's, else the character's own) and what it did. */
+function legislativeLeadersEntry({
+  api,
+  entry,
+  office,
+  person,
+  choice,
+  recordIds,
+  reasons,
+}: EntryRun): StateChoice {
+  const own = ownAttendance(api, person, stateDayParameter("attendanceDuty"));
+  const chosen: StateChoice = choice ?? { kind: "attend", attend: own.attend };
+  if (!choice) Object.assign(reasons, { duty: own.duty, traits: own.lean });
+  if (chosen.kind !== "attend") throw new Error("Choose to meet or not.");
+  if (chosen.attend)
+    recordIds.push(
+      ...spendTime(
+        api,
+        entry.holderId,
+        office.officeId,
+        legislativeLeaders(api, office.stateKey),
+        `office-day:${entry.id}`,
+      ),
+    );
+  return chosen;
+}
+
 /** Do (the player's choice) or simulate (the character's) one entry. */
 export function actOn(
   api: CoreAPI,
@@ -909,196 +1165,43 @@ export function actOn(
   const recordIds: string[] = [];
   const reasons: Record<string, number | string> = {};
   let chosen: StateChoice;
+  const run: EntryRun = {
+    api,
+    entry,
+    office,
+    person,
+    choice,
+    recordIds,
+    reasons,
+  };
   switch (entry.kind) {
     case "floor-session":
     case "committee":
     case "interim-committee":
-    case "caucus": {
-      const own = ownAttendance(
-        api,
-        person,
-        stateDayParameter("attendanceDuty"),
-      );
-      chosen = choice ?? { kind: "attend", attend: own.attend };
-      if (!choice) Object.assign(reasons, { duty: own.duty, traits: own.lean });
-      if (chosen.kind !== "attend") throw new Error("Choose to attend or not.");
-      // A member at their committee learns where they sit, and what it heard
-      // that day, from the records that seated and convened it.
-      if (
-        chosen.attend &&
-        (entry.kind === "committee" || entry.kind === "interim-committee")
-      )
-        recordIds.push(...committeeSitting(api, entry, reasons));
-      if (entry.kind === "floor-session")
-        table(api, "attendance").put({
-          id: `${entry.holderId}:${entry.date}`,
-          personId: entry.holderId,
-          stateKey: office.stateKey,
-          date: entry.date,
-          attended: chosen.attend,
-        } as unknown as ModuleRow);
-      if (entry.kind === "caucus") {
-        const leader = caucusLeader(api, office);
-        if (leader) reasons["leader"] = leader;
-      }
+    case "caucus":
+      chosen = sittingEntry(run);
       break;
-    }
-    case "district-office": {
-      const own = ownAttendance(
-        api,
-        person,
-        stateDayParameter("officeHoursDuty"),
-      );
-      chosen = choice ?? { kind: "office-hours", hold: own.attend };
-      if (!choice) Object.assign(reasons, { duty: own.duty, traits: own.lean });
-      if (chosen.kind !== "office-hours")
-        throw new Error("Choose whether to hold office hours.");
-      if (chosen.hold && api.state.modules.has(CASES_MODULE_ID))
-        for (const row of casesFor(api, entry.holderId)) {
-          if (row.status !== "open") continue;
-          const own = chosen.cases?.[row.id]
-            ? null
-            : ownCaseDecision(api, entry.holderId, row);
-          const done = handleCase(
-            api,
-            row.id,
-            chosen.cases?.[row.id] ?? own!.decision,
-            own?.duty ?? null,
-          );
-          if (done) recordIds.push(done.id);
-        }
+    case "district-office":
+      chosen = districtOfficeEntry(run);
       break;
-    }
-    case "appointment": {
-      chosen = choice ?? { kind: "appointment" };
-      if (chosen.kind !== "appointment")
-        throw new Error("Choose who fills the post.");
-      const row = chosen.leave
-        ? null
-        : appointStatePost(api, {
-            executiveId: entry.holderId,
-            post: entry.subject,
-            ...(chosen.personId ? { personId: chosen.personId } : {}),
-          });
-      if (row) recordIds.push(row.id);
-      reasons["authority"] = "state-cabinet-appointment";
+    case "appointment":
+      chosen = appointmentEntry(run);
       break;
-    }
-    case "executive-order": {
-      const own = pendingGovernorOrders(api, entry.holderId).find(
-        (row) => row.order === entry.subject,
-      );
-      chosen = choice ?? { kind: "order", revoke: own?.revoke ?? false };
-      if (chosen.kind !== "order")
-        throw new Error("Choose whether to revoke the order.");
-      if ((choice && chosen.issue !== false) || (!choice && own))
-        recordIds.push(
-          issueOrder(api, {
-            executiveId: entry.holderId,
-            order: entry.subject,
-            revoke: chosen.revoke,
-          }).lawId,
-        );
-      reasons["authority"] = entry.subject;
-      reasons["rule"] = "governor-views-and-law-in-force";
+    case "executive-order":
+      chosen = executiveOrderEntry(run);
       break;
-    }
-    case "clemency": {
-      const custody = prisonersServing(api, office.stateKey).find(
-        (row) => row.id === entry.subject,
-      );
-      const served = custody ? servedShare(custody, entry.date) : 0;
-      const lean = decisionLean(
-        api.state,
-        person,
-        CLEMENCY_DECISION,
-        "grant",
-        "deny",
-      );
-      const bar = stateDayParameter("clemencyBar");
-      // The governor weighs how much of the term is served and their own temperament, against the bar.
-      const grant =
-        api.parameter("traitDecisionWeight") * lean + served - bar > 0;
-      chosen = choice ?? { kind: "clemency", grant };
-      if (chosen.kind !== "clemency")
-        throw new Error("Choose to grant clemency or not.");
-      if (!choice) Object.assign(reasons, { served, lean, bar });
-      if (chosen.grant && custody) {
-        const row = grantClemency(api, {
-          custodyId: custody.id,
-          grantedBy: entry.holderId,
-          stateKey: office.stateKey,
-          reasons: { served, lean, bar },
-        });
-        if (row) recordIds.push(row.id, row.sentenceId);
-      }
-      reasons["authority"] =
-        clemencyAuthority(office.stateKey) ?? "governor-alone";
+    case "clemency":
+      chosen = clemencyEntry(run);
       break;
-    }
-    case "state-of-the-state": {
-      chosen = choice ?? {
-        kind: "address",
-        stances: ownPriorities(api, person),
-      };
-      if (chosen.kind !== "address") throw new Error("Choose what to say.");
-      // Another state's governor keeps only the result (owner, Nov 5, 12:49
-      // p.m. Eastern, OWNER-DECISIONS.md: for a government outside the
-      // player's own chain, simulate from the people there and keep the
-      // result): the address and the stances said stay on this entry's
-      // result row, and no speech is delivered to a full audience. The
-      // player's own state's governor is in the chain and speaks to it.
-      if (office.stateKey === lawChain(api).stateKey)
-        recordIds.push(...stateOfTheState(api, office, entry, chosen.stances));
+    case "state-of-the-state":
+      chosen = stateOfTheStateEntry(run);
       break;
-    }
-    case "budget-proposal": {
-      const gov = api.state.modules.has(BUDGETS_MODULE_ID)
-        ? governments(api).find(
-            (g) => g.level === "state" && g.id === office.stateKey,
-          )
-        : undefined;
-      // The character proposes by the budgets engine's own rule for an
-      // executive (their lean on each line's direction), which the
-      // legislature reads when no priorities are set; the player writes
-      // their own.
-      chosen = choice ?? { kind: "budget", changes: {} };
-      if (chosen.kind !== "budget") throw new Error("Choose budget changes.");
-      if (gov && choice && !chosen.byRule) {
-        setBudgetPriorities(api, {
-          governmentId: gov.id,
-          setBy: entry.holderId,
-          changes: chosen.changes,
-        });
-        recordIds.push(`priorities:${gov.id}`);
-      } else if (gov) {
-        reasons["rule"] = "executive-priorities";
-        reasons["lean"] = leanOf(api, entry.holderId);
-        recordIds.push(`priorities:${gov.id}:executive-rule`);
-      }
+    case "budget-proposal":
+      chosen = budgetProposalEntry(run);
       break;
-    }
-    case "legislative-leaders": {
-      const own = ownAttendance(
-        api,
-        person,
-        stateDayParameter("attendanceDuty"),
-      );
-      chosen = choice ?? { kind: "attend", attend: own.attend };
-      if (!choice) Object.assign(reasons, { duty: own.duty, traits: own.lean });
-      if (chosen.kind !== "attend") throw new Error("Choose to meet or not.");
-      if (chosen.attend)
-        recordIds.push(
-          ...spendTime(
-            api,
-            entry.holderId,
-            office.officeId,
-            legislativeLeaders(api, office.stateKey),
-            `office-day:${entry.id}`,
-          ),
-        );
+    case "legislative-leaders":
+      chosen = legislativeLeadersEntry(run);
       break;
-    }
   }
   // The time the entry took, on the holder's day, when they were there
   // (office-hours-never-fill-an-officials-day).
@@ -1800,6 +1903,10 @@ export function voteOnStateFloor(
 
 export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   id: OFFICE_DAY_STATE_MODULE_ID,
+  // The per diem a state legislator is owed, which the treasury pays at its close (`linePayments`).
+  linePayments: perDiemLinePayments,
+  // The hours a state legislator's session, committee and caucus days take from their day.
+  officeTime: stateOfficeHoursToday,
   state: {
     schemaVersion: 1,
     tables: {
@@ -1814,16 +1921,22 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
   },
   // The shared office-day engine drives the lifecycle below; a world governor's address comes on its calendar day.
   onCalendarWork: governorAddressDay,
+  // What the world's legislating asks the office day: a leader's hearing for a new bill, and whether a leader refused one.
+  billIntroduced: leaderHearingAsked,
+  leaderRefusalReader: leaderRefused,
 };
 
 // The treasury pays these obligations after revenue arrives and before residual spending.
-registerLinePayments((api, gov) =>
-  api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
-  gov.level === "state" &&
-  gov.id === lawChain(api).stateKey
+function perDiemLinePayments(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): Record<string, number> {
+  return api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
+    gov.level === "state" &&
+    gov.id === lawChain(api).stateKey
     ? payPerDiem(api)
-    : {},
-);
+    : {};
+}
 
 registerOfficeActs({
   id: "state-calendar",
@@ -1906,7 +2019,6 @@ registerOfficeActs({
 
 export function openOfficeDayState(core: CoreState): void {
   registerSittingCalendar(ROOMS);
-  registerOfficeTime(stateOfficeHoursToday);
   if (!core.modules.has(OFFICE_DAY_STATE_MODULE_ID))
     registerModule(core, OFFICE_DAY_STATE_MODULE);
 }
@@ -2032,7 +2144,7 @@ const LEADER_DECISION = "office-day-state.leader-request";
  * party, their tie to the member and their own traits. Registered with the
  * legislating engine, which calls it as each filed change becomes a bill.
  */
-registerBillIntroduced((api, billId) => {
+function leaderHearingAsked(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return;
   const bill = billOf(api, billId);
   if (!bill || bill.status !== "drafted") return;
@@ -2051,7 +2163,7 @@ registerBillIntroduced((api, billId) => {
   )
     return;
   askLeaderForHearing(api, bill.sponsorId, billId, { schedule: false });
-});
+}
 
 /**
  * How far a bill runs against the person's own position, 0 to 1: the
@@ -2199,15 +2311,16 @@ export function askLeaderForHearing(
 }
 
 // The leader's refused answer keeps the bill off the floor's own order.
-registerLeaderRefusalReader(
-  (api, billId) =>
+function leaderRefused(api: CoreAPI, billId: string): boolean {
+  return (
     api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
     (
       table(api, "leaderRequests").get(
         `leader-request:${billId}`,
       ) as unknown as LeaderRequestRow | undefined
-    )?.granted === false,
-);
+    )?.granted === false
+  );
+}
 
 /**
  * The member has just offered a deal on a bill whose request the leader

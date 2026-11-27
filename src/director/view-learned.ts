@@ -25,7 +25,6 @@ import {
   viewOf,
   viewOn,
 } from "../core2/modules/views";
-import { onStoryHeard } from "../core2/modules/news-listeners";
 import { LETTER, printedStoryOf } from "../core2/modules/press";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -354,7 +353,11 @@ export function learnViewQuestion(
  * who did) learns where that resident stands. The story's facts name the
  * writer and the question; the record cited is the writer's stance row.
  */
-function learnFromStory(api: CoreAPI, personId: PersonId, story: Story): void {
+export function learnFromStory(
+  api: CoreAPI,
+  personId: PersonId,
+  story: Story,
+): void {
   if (personId !== api.state.playerId) return;
   const writerId = story.facts.personId;
   const topic = story.facts.topic;
@@ -376,4 +379,3 @@ function learnFromStory(api: CoreAPI, personId: PersonId, story: Story): void {
     story.id,
   );
 }
-onStoryHeard(learnFromStory);

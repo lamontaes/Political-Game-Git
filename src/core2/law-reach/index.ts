@@ -3,11 +3,17 @@
  * that owns the thing it changes. Each group file registers its policies'
  * handlers with `registerPolicyHandler` (host.ts).
  */
-import { registerStandingLineLaws } from "../modules/budgets";
 import { registerGroupA } from "./group-a";
+import { payRedistrictingCommission } from "./group-a-voting";
 import { POLICIES } from "./group-a-records";
-import { GROUP_B_KEYS, groupBPolicy, registerGroupB } from "./group-b";
-import type { CoreAPI } from "../types";
+import {
+  GROUP_B_KEYS,
+  groupBPolicy,
+  registerGroupB,
+  reviewFiscalRules,
+  runBenefitPrograms,
+} from "./group-b";
+import type { CoreAPI, Source } from "../types";
 import { LAW_REACH_HOST_ID, reassertStandingLaws } from "./host";
 
 /** Mechanics whose law sets a budget line's level, which the treasury reads again each close. */
@@ -40,11 +46,17 @@ export function reassertStandingLineLaws(api: CoreAPI): void {
   reassertStandingLaws(api, standingKeys);
 }
 
+/** The treasury's monthly programs the law reach pays: the redistricting commission, then each benefit program. */
+export function reachMonthlyPrograms(api: CoreAPI, source: Source): void {
+  payRedistrictingCommission(api, source);
+  runBenefitPrograms(api);
+}
+export { reviewFiscalRules };
+
 let registered = false;
 export function registerLawReach(): void {
   if (registered) return;
   registered = true;
   registerGroupA();
   registerGroupB();
-  registerStandingLineLaws(reassertStandingLineLaws);
 }

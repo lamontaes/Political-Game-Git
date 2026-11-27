@@ -49,7 +49,6 @@ import { stateStake } from "../budgets-treasury";
 import {
   COUNTRY_AGE_BANDS,
   countryFlows,
-  registerCountryFlowsReader,
   countryMoney,
   countryPartFigures,
   countryPeople,
@@ -447,8 +446,6 @@ export function countryFlowsNow(api: CoreAPI): {
     flows: countryFlows(tier, lawNow(api), rulesOf(api)),
   };
 }
-
-registerCountryFlowsReader(countryFlowsNow);
 
 /** One state's figures today and at the opening, by FIPS code. */
 export function countryStateNow(api: CoreAPI, fips: string) {
@@ -1179,6 +1176,8 @@ export function linkCreditLineToPrime(
 
 export const MACRO_MODULE: PreStartModule = {
   id: MACRO_MODULE_ID,
+  // Every state's people and this month's movers, as the economy engine reads them (the movers' engine asks for it).
+  countryFlows: countryFlowsNow,
   // History before the start (M1-14): this world's months (the published
   // months moved by its own offsets, the rule its opening month follows),
   // and each change in the policy rate.
