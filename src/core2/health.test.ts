@@ -18,7 +18,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { createRenewalCore } from "./births-setup";
 import { residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
+import { generatedOpening } from "./generated-world";
 
 const startedAt = "2021-01-01";
 const source: Source = {

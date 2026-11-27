@@ -17,8 +17,8 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { coreAPI } from "./state";
-import { townsWithDamage } from "./tooling/disaster-damage-screen";
-import { generatedOpening } from "./tooling/generated-world";
+import { townsWithDamage } from "../../scripts/core2/tooling/disaster-damage-screen";
+import { generatedOpening } from "./generated-world";
 import type { CoreState, PlaceId } from "./types";
 
 // A disaster declared in a town with no builder and no recorded outside

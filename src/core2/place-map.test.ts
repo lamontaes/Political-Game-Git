@@ -9,7 +9,7 @@ import {
   placeState,
   placesUnder,
 } from "./place-map";
-import { placeSlots } from "./gov-rules/place-slots";
+import { placeSlots } from "../../scripts/core2/place-slots";
 import { corePlaceByKey } from "./place-lookup";
 import { placeStateKeys } from "./places";
 

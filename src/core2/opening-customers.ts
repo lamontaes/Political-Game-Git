@@ -281,6 +281,26 @@ export function buildOpeningCustomers(
   input: CoreInput,
   options: OpeningCustomerOptions = {},
 ): { input: CoreInput; receipt: OpeningCustomerBuildReceipt } {
+  const ctx0 = openingCustomersReadOptions(input, options);
+  const ctx1 = openingCustomersDates(ctx0);
+  const ctx2 = openingCustomersIndexInput(ctx1);
+  const ctx3 = openingCustomersProviders(ctx2);
+  const ctx4 = openingCustomersPayrollIndex(ctx3);
+  const ctx5 = openingCustomersQualifications(ctx4);
+  const ctx6 = openingCustomersSuppliers(ctx5);
+  const ctx7 = openingCustomersPlaceContexts(ctx6);
+  const ctx8 = openingCustomersBudgetTools(ctx7);
+  const ctx9 = openingCustomersHouseholdContracts(ctx8);
+  const ctx10 = openingCustomersPublicAccounts(ctx9);
+  const ctx11 = openingCustomersPublicContracts(ctx10);
+  return openingCustomersFinish(ctx11);
+}
+
+/** Reads the options and the parameters the opening customers use. */
+function openingCustomersReadOptions(
+  input: CoreInput,
+  options: OpeningCustomerOptions = {},
+) {
   const data = options.data ?? DEFAULT_OPENING_CUSTOMER_DATA;
   const registry = options.parameters ?? DEFAULT_OPENING_CUSTOMER_PARAMETERS;
   const usedParameters = new Set<string>();
@@ -329,6 +349,27 @@ export function buildOpeningCustomers(
     throw new Error(
       "Opening customer cadence must divide the registered calendar year; that unit convention is not an agreement expiry.",
     );
+  return {
+    input,
+    options,
+    data,
+    registry,
+    usedParameters,
+    p,
+    zero,
+    one,
+    monthsPerYear,
+    at,
+    periodMonths,
+    leadDays,
+  };
+}
+
+/** Works out the opening's dates and builds the checkers every later step uses. */
+function openingCustomersDates(
+  ctx: ReturnType<typeof openingCustomersReadOptions>,
+) {
+  const { at, leadDays, one, periodMonths, monthsPerYear, zero } = ctx;
   const priorAt = addDays(at, -leadDays);
   const [yearText, monthText] = at.split("-");
   const nextMonth = Number(monthText) - one + periodMonths;
@@ -371,6 +412,25 @@ export function buildOpeningCustomers(
     }
     return result;
   };
+  return {
+    ...ctx,
+    priorAt,
+    yearText,
+    monthText,
+    nextMonth,
+    dueAt,
+    minor,
+    sum,
+    sourceValid,
+    index,
+  };
+}
+
+/** Indexes the input's people, households, organizations and contracts and checks them. */
+function openingCustomersIndexInput(
+  ctx: ReturnType<typeof openingCustomersDates>,
+) {
+  const { index, input, data, sum, minor, zero } = ctx;
   const people = index(input.people, "customer person");
   const households = index(input.households, "customer household");
   const organizations = index(input.organizations, "customer organization");
@@ -414,6 +474,25 @@ export function buildOpeningCustomers(
         `Invalid existing customer contract period: ${contract.id}`,
       );
   }
+  return {
+    ...ctx,
+    people,
+    households,
+    organizations,
+    originalContracts,
+    contracts,
+    contractById,
+    ownedPrefix,
+    owned,
+    existingOriginalCashMinor,
+  };
+}
+
+/** Reads the customer providers the places already record. */
+function openingCustomersProviders(
+  ctx: ReturnType<typeof openingCustomersIndexInput>,
+) {
+  const { organizations, sourceValid, input, index, options } = ctx;
   const providerMetadataPrefix = "openingCustomers.provider:";
   const providerSnapshot = (record: RecordedCustomerProvider) => {
     if (
@@ -464,6 +543,20 @@ export function buildOpeningCustomers(
       );
     providerRecords.set(record.id, record);
   }
+  return {
+    ...ctx,
+    providerMetadataPrefix,
+    providerSnapshot,
+    providerRecords,
+    suppliedProviderRecords,
+  };
+}
+
+/** Indexes the jobs by occupation and each organization's payroll. */
+function openingCustomersPayrollIndex(
+  ctx: ReturnType<typeof openingCustomersProviders>,
+) {
+  const { input, people, zero, providerRecords } = ctx;
   const ownedOccupationJobs = new Map<string, CoreInput["jobs"][number][]>();
   for (const job of input.jobs) {
     if (
@@ -493,6 +586,20 @@ export function buildOpeningCustomers(
     rows.push(provider);
     providersByOrganization.set(provider.organizationId, rows);
   }
+  return {
+    ...ctx,
+    ownedOccupationJobs,
+    payrollByOrganization,
+    providersByOrganization,
+  };
+}
+
+/** Reads, checks and keeps every provider qualification the agreements rest on. */
+function openingCustomersQualifications(
+  ctx: ReturnType<typeof openingCustomersPayrollIndex>,
+) {
+  const { index, input, sourceValid, providerRecords, organizations, data } =
+    ctx;
   const providerQualifications = new Map<
     string,
     OpeningCustomerProviderQualification
@@ -685,6 +792,38 @@ export function buildOpeningCustomers(
     usedQualificationRecords.set(record.qualificationId, record);
     return referenceFor(record);
   };
+  return {
+    ...ctx,
+    providerQualifications,
+    qualificationRecords,
+    qualificationReferences,
+    referenceFor,
+    qualificationIds,
+    jobsById,
+    checkQualification,
+    savedAgreementQualifications,
+    inlineScopes,
+    rememberAgreement,
+    usedQualificationRecords,
+    usedInlineQualifications,
+    qualificationFor,
+    saveQualification,
+  };
+}
+
+/** Indexes the suppliers each place offers. */
+function openingCustomersSuppliers(
+  ctx: ReturnType<typeof openingCustomersQualifications>,
+) {
+  const {
+    organizations,
+    qualificationRecords,
+    inlineScopes,
+    sourceValid,
+    providerQualifications,
+    ownedOccupationJobs,
+    providersByOrganization,
+  } = ctx;
   const supplierIndex = new Map<string, OrganizationInput[]>();
   for (const organization of organizations.values()) {
     const key = canonical([organization.placeId, organization.classification]);
@@ -764,6 +903,14 @@ export function buildOpeningCustomers(
       left.id.localeCompare(right.id),
     );
   };
+  return { ...ctx, supplierIndex, suppliers };
+}
+
+/** Reads each place's context and sets the agreement calendar. */
+function openingCustomersPlaceContexts(
+  ctx: ReturnType<typeof openingCustomersSuppliers>,
+) {
+  const { input, data, at, options, sourceValid, zero } = ctx;
   const gaps = new Set<string>();
   for (const organization of input.organizations) {
     const missing =
@@ -884,6 +1031,54 @@ export function buildOpeningCustomers(
       actualSuppliedDate: dateRecord !== undefined,
     };
   };
+  return {
+    ...ctx,
+    gaps,
+    contexts,
+    geography,
+    contextFor,
+    newOrganizationIds,
+    newPastFactIds,
+    newContractIds,
+    newPlaceMetadataKeys,
+    placeMetadata,
+    appendMetadata,
+    agreementCalendar,
+  };
+}
+
+/** Sets up the receipt's accumulators and the budget binder every customer contract uses. */
+function openingCustomersBudgetTools(
+  ctx: ReturnType<typeof openingCustomersPlaceContexts>,
+) {
+  const {
+    priorAt,
+    data,
+    at,
+    contractById,
+    people,
+    organizations,
+    sourceValid,
+    minor,
+    contracts,
+    newContractIds,
+    zero,
+    sum,
+    one,
+    agreementCalendar,
+    dueAt,
+    savedAgreementQualifications,
+    qualificationFor,
+    providerQualifications,
+    providerRecords,
+    appendMetadata,
+    providerMetadataPrefix,
+    saveQualification,
+    qualificationRecords,
+    usedQualificationRecords,
+    usedInlineQualifications,
+    periodMonths,
+  } = ctx;
   const preservedBuilderContractIds: string[] = [];
   const evidence: OpeningCustomerEvidenceRecord[] = [];
   const newStocks: OpeningCustomerStockRecord[] = [];
@@ -1188,6 +1383,57 @@ export function buildOpeningCustomers(
   ) => ({
     providerQualifications: canonical(rows),
   });
+  return {
+    ...ctx,
+    preservedBuilderContractIds,
+    evidence,
+    newStocks,
+    usedProviderRecords,
+    plans,
+    householdBudgets,
+    publicBudgets,
+    generatedSource,
+    countedSources,
+    countedSource,
+    householdContractIds,
+    appendContract,
+    apportion,
+    bindBudget,
+    qualificationBasisIds,
+    qualificationSellerIds,
+    qualificationFacts,
+  };
+}
+
+/** Writes each household's customer contracts. */
+function openingCustomersHouseholdContracts(
+  ctx: ReturnType<typeof openingCustomersBudgetTools>,
+) {
+  const {
+    originalContracts,
+    data,
+    households,
+    people,
+    zero,
+    priorAt,
+    gaps,
+    owned,
+    sum,
+    p,
+    monthsPerYear,
+    contextFor,
+    apportion,
+    suppliers,
+    ownedPrefix,
+    payrollByOrganization,
+    one,
+    householdContractIds,
+    appendContract,
+    periodMonths,
+    dueAt,
+    countedSource,
+    householdBudgets,
+  } = ctx;
   const householdTerms = new Map<string, FinanceContractInput[]>();
   for (const contract of originalContracts) {
     if (!contract.householdId) continue;
@@ -1363,6 +1609,14 @@ export function buildOpeningCustomers(
       unboundServiceMonthlyMinor: Math.min(available, requested) - bound,
     });
   }
+  return { ...ctx, householdTerms, serviceKeys, serviceKinds };
+}
+
+/** Groups each place's government accounts and the residents they stand for. */
+function openingCustomersPublicAccounts(
+  ctx: ReturnType<typeof openingCustomersHouseholdContracts>,
+) {
+  const { input, zero, one, data, gaps, p } = ctx;
   const residentsByPlace = new Map<string, number>();
   for (const person of input.people)
     residentsByPlace.set(
@@ -1471,6 +1725,52 @@ export function buildOpeningCustomers(
     throw new Error(
       "Public customer budget fractions require registered values within zero and one.",
     );
+  return {
+    ...ctx,
+    residentsByPlace,
+    publicRule,
+    governmentAccountsByPlace,
+    cleaningShare,
+    authorityCoverage,
+  };
+}
+
+/** Writes the public purchases each government account makes. */
+function openingCustomersPublicContracts(
+  ctx: ReturnType<typeof openingCustomersPublicAccounts>,
+) {
+  const {
+    governmentAccountsByPlace,
+    residentsByPlace,
+    zero,
+    gaps,
+    contextFor,
+    publicRule,
+    p,
+    cleaningShare,
+    authorityCoverage,
+    monthsPerYear,
+    minor,
+    suppliers,
+    apportion,
+    one,
+    options,
+    organizations,
+    sourceValid,
+    originalContracts,
+    owned,
+    ownedPrefix,
+    generatedSource,
+    bindBudget,
+    data,
+    qualificationSellerIds,
+    periodMonths,
+    qualificationBasisIds,
+    evidence,
+    at,
+    qualificationFacts,
+    publicBudgets,
+  } = ctx;
   for (const [placeId, groups] of governmentAccountsByPlace) {
     const residentCount = residentsByPlace.get(placeId) ?? zero;
     if (residentCount <= zero) {
@@ -1847,6 +2147,41 @@ export function buildOpeningCustomers(
         : {}),
     });
   }
+  return { ...ctx };
+}
+
+/** Resolves the builder's contracts, then returns the enriched input and the receipt. */
+function openingCustomersFinish(
+  ctx: ReturnType<typeof openingCustomersPublicContracts>,
+): { input: CoreInput; receipt: OpeningCustomerBuildReceipt } {
+  const {
+    plans,
+    householdContractIds,
+    originalContracts,
+    owned,
+    gaps,
+    sum,
+    newStocks,
+    input,
+    contracts,
+    people,
+    organizations,
+    newPlaceMetadataKeys,
+    placeMetadata,
+    existingOriginalCashMinor,
+    data,
+    newOrganizationIds,
+    newPastFactIds,
+    newContractIds,
+    preservedBuilderContractIds,
+    usedProviderRecords,
+    evidence,
+    usedQualificationRecords,
+    usedInlineQualifications,
+    householdBudgets,
+    publicBudgets,
+    usedParameters,
+  } = ctx;
   const resolvedBuilderContracts = new Set([
     ...plans.map((plan) => plan.contractId),
     ...householdContractIds,

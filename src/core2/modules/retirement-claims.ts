@@ -15,7 +15,7 @@ import { claimWaitCase, retirementClaimAgeMonths } from "../retirement-claim";
 import {
   startingSocialSecurityAges,
   type SocialSecurityAges,
-} from "../social-security-law";
+} from "../laws-in-force";
 import { lawApplied } from "../law-reach/applied";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";

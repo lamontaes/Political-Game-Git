@@ -95,6 +95,25 @@ export function createOpeningFinance(
   input: CoreInput,
   options: OpeningFinanceOptions = {},
 ): FinanceInput {
+  const ctx0 = openingFinanceIndexInput(input, options);
+  const ctx1 = openingFinanceReadConditions(ctx0);
+  const ctx2 = openingFinanceReadContracts(ctx1);
+  const ctx3 = openingFinanceContractTables(ctx2);
+  const ctx4 = openingFinanceRecordedPay(ctx3);
+  const ctx5 = openingFinanceWorkCommitments(ctx4);
+  const ctx6 = openingFinancePayroll(ctx5);
+  const ctx7 = openingFinanceBusinessBooks(ctx6);
+  const ctx8 = openingFinanceSuppliers(ctx7);
+  const ctx9 = openingFinanceLivingCostRegions(ctx8);
+  const ctx10 = openingFinanceHouseholdContracts(ctx9);
+  return openingFinanceBusinessContracts(ctx10);
+}
+
+/** Reads the options and indexes the input's people, households, organizations and jobs. */
+function openingFinanceIndexInput(
+  input: CoreInput,
+  options: OpeningFinanceOptions = {},
+) {
   const data = options.data ?? DEFAULT_OPENING_FINANCE_DATA;
   const booksOptions: BusinessBooksOptions = {
     ...options.books,
@@ -169,7 +188,48 @@ export function createOpeningFinance(
         );
     }
   }
+  return {
+    input,
+    options,
+    data,
+    booksOptions,
+    bookData,
+    registry,
+    p,
+    zero,
+    one,
+    startedAt,
+    gaps,
+    cexPriorPublishedAfterOpening,
+    minor,
+    sumMinor,
+    validSource,
+    unique,
+    people,
+    households,
+    organizations,
+    jobs,
+    isCurrentOwnedJob,
+  };
+}
 
+/** Reads the market conditions and credit facilities the opening starts with. */
+function openingFinanceReadConditions(
+  ctx: ReturnType<typeof openingFinanceIndexInput>,
+) {
+  const {
+    p,
+    data,
+    zero,
+    unique,
+    input,
+    options,
+    gaps,
+    organizations,
+    people,
+    minor,
+    validSource,
+  } = ctx;
   const periodMonths = p(data.periodMonthsParameter);
   if (!Number.isSafeInteger(periodMonths) || periodMonths <= zero)
     throw new Error(
@@ -259,7 +319,34 @@ export function createOpeningFinance(
     gaps.add(
       "opening-finance:facility-input-has-no-opening-principal-or-existing-interest-arrears-field",
     );
+  return {
+    ...ctx,
+    periodMonths,
+    conditions,
+    facilities,
+    facilityById,
+    facilitiesByBorrower,
+  };
+}
 
+/** Reads the contracts already on record and who owns them. */
+function openingFinanceReadContracts(
+  ctx: ReturnType<typeof openingFinanceReadConditions>,
+) {
+  const {
+    unique,
+    input,
+    options,
+    minor,
+    zero,
+    startedAt,
+    validSource,
+    people,
+    organizations,
+    households,
+    facilityById,
+    one,
+  } = ctx;
   const recordedContractOwners = unique(
     [...(input.finance?.contracts ?? []), ...(options.recordedContracts ?? [])],
     "contract",
@@ -324,6 +411,14 @@ export function createOpeningFinance(
       source: { ...contract.source },
     };
   });
+  return { ...ctx, recordedContractOwners, contracts };
+}
+
+/** Sets the first due dates and indexes the recorded contracts by household and organization. */
+function openingFinanceContractTables(
+  ctx: ReturnType<typeof openingFinanceReadContracts>,
+) {
+  const { startedAt, one, contracts, organizations } = ctx;
   // Businesses restock from the first simulated day; households spend on
   // everyday living monthly from the first of the next month.
   const dueAt = addDays(startedAt, one);
@@ -361,7 +456,24 @@ export function createOpeningFinance(
       }
     }
   }
+  return {
+    ...ctx,
+    dueAt,
+    livingDueAt,
+    contractIds,
+    contractById,
+    appendContract,
+    monthlyEquivalent,
+    recordedByHousehold,
+    costByOrganization,
+  };
+}
 
+/** Reads the annual pay plans the input records. */
+function openingFinanceRecordedPay(
+  ctx: ReturnType<typeof openingFinanceContractTables>,
+) {
+  const { options, jobs, isCurrentOwnedJob, gaps, minor, validSource } = ctx;
   const recordedPlans = new Map<
     string,
     { annualMinor: number; source: Source }
@@ -382,6 +494,23 @@ export function createOpeningFinance(
     validSource(row.source, row.jobId);
     recordedPlans.set(row.jobId, row);
   }
+  return { ...ctx, recordedPlans, seenRecordedPlans };
+}
+
+/** Reads the work commitments each job carries. */
+function openingFinanceWorkCommitments(
+  ctx: ReturnType<typeof openingFinanceRecordedPay>,
+) {
+  const {
+    input,
+    jobs,
+    isCurrentOwnedJob,
+    people,
+    startedAt,
+    zero,
+    p,
+    validSource,
+  } = ctx;
   const activeCommitments = new Map<
     string,
     NonNullable<CoreInput["workCommitments"]>[number]
@@ -458,6 +587,28 @@ export function createOpeningFinance(
     validSource(commitment.paySource, commitment.id);
     activeCommitments.set(commitment.jobId, commitment);
   }
+  return { ...ctx, activeCommitments, jobsWithRecordedCommitments };
+}
+
+/** Sums each employer's payroll and each place's income from the jobs. */
+function openingFinancePayroll(
+  ctx: ReturnType<typeof openingFinanceWorkCommitments>,
+) {
+  const {
+    jobs,
+    people,
+    organizations,
+    isCurrentOwnedJob,
+    gaps,
+    zero,
+    validSource,
+    recordedPlans,
+    activeCommitments,
+    jobsWithRecordedCommitments,
+    p,
+    minor,
+    sumMinor,
+  } = ctx;
   const payrollByOrganization = new Map<string, number>();
   const incomeByPlace = new Map<string, number>();
   const payrollSourcesByOrganization = new Map<string, Set<string>>();
@@ -525,7 +676,39 @@ export function createOpeningFinance(
   gaps.add(
     "opening-finance:opening-income-is-planned-local-job-pay-not-observed-income-or-transfer-receipts",
   );
+  return {
+    ...ctx,
+    payrollByOrganization,
+    incomeByPlace,
+    payrollSourcesByOrganization,
+  };
+}
 
+/** Opens every business's books from its organization. */
+function openingFinanceBusinessBooks(
+  ctx: ReturnType<typeof openingFinancePayroll>,
+) {
+  const {
+    unique,
+    input,
+    organizations,
+    data,
+    gaps,
+    validSource,
+    bookData,
+    zero,
+    contractById,
+    one,
+    options,
+    facilityById,
+    facilitiesByBorrower,
+    costByOrganization,
+    startedAt,
+    payrollByOrganization,
+    payrollSourcesByOrganization,
+    booksOptions,
+    incomeByPlace,
+  } = ctx;
   const businesses: BusinessBooksInput[] = [];
   const businessById = new Map<string, BusinessBooksInput>();
   const existingBooks = unique(
@@ -741,7 +924,14 @@ export function createOpeningFinance(
     businesses.push(business);
     businessById.set(organization.id, business);
   }
+  return { ...ctx, businesses, businessById, existingBooks };
+}
 
+/** Indexes the suppliers a place offers each kind of purchase. */
+function openingFinanceSuppliers(
+  ctx: ReturnType<typeof openingFinanceBusinessBooks>,
+) {
+  const { organizations, businessById, zero, minor, sumMinor, one } = ctx;
   const suppliersByPlaceAndClassification = new Map<
     string,
     Map<string, OrganizationInput[]>
@@ -819,6 +1009,20 @@ export function createOpeningFinance(
       id: row.id,
       weight: businessById.get(row.id)?.capacityMinor ?? zero,
     }));
+  return {
+    ...ctx,
+    suppliersByPlaceAndClassification,
+    eligibleSuppliers,
+    allocate,
+    supplierWeights,
+  };
+}
+
+/** Reads the regions and baskets a household's living costs come from. */
+function openingFinanceLivingCostRegions(
+  ctx: ReturnType<typeof openingFinanceSuppliers>,
+) {
+  const { options, input, gaps, data, startedAt } = ctx;
   const regions = new Map<string, LivingCostsRegion>();
   const baskets = new Map<
     string,
@@ -896,6 +1100,49 @@ export function createOpeningFinance(
     }
     return source;
   };
+  return {
+    ...ctx,
+    regions,
+    baskets,
+    unboundHouseholdMonthlyByPlace,
+    regionFor,
+    categoryByKey,
+    kindKeys,
+    supplierBuyerKeys,
+    livingSources,
+    livingSource,
+  };
+}
+
+/** Writes each household's living-cost contracts. */
+function openingFinanceHouseholdContracts(
+  ctx: ReturnType<typeof openingFinanceLivingCostRegions>,
+) {
+  const {
+    households,
+    people,
+    zero,
+    gaps,
+    recordedByHousehold,
+    sumMinor,
+    p,
+    minor,
+    monthlyEquivalent,
+    regionFor,
+    baskets,
+    input,
+    categoryByKey,
+    cexPriorPublishedAfterOpening,
+    allocate,
+    eligibleSuppliers,
+    supplierWeights,
+    appendContract,
+    periodMonths,
+    livingDueAt,
+    data,
+    livingSource,
+    unboundHouseholdMonthlyByPlace,
+  } = ctx;
   for (const household of households.values()) {
     const members = household.memberIds.map((id) => people.get(id)!);
     const payers = members.filter((row) => row.livingCostDailyMinor > zero);
@@ -1066,7 +1313,37 @@ export function createOpeningFinance(
         `opening-finance:unbound-estimated-household-monthly-minor:${placeId}:${amount}`,
       );
   }
+  return { ...ctx };
+}
 
+/** Writes each business's contracts and returns the opening finance. */
+function openingFinanceBusinessContracts(
+  ctx: ReturnType<typeof openingFinanceHouseholdContracts>,
+): FinanceInput {
+  const {
+    data,
+    businesses,
+    organizations,
+    bookData,
+    costByOrganization,
+    p,
+    monthlyEquivalent,
+    zero,
+    input,
+    one,
+    eligibleSuppliers,
+    allocate,
+    supplierWeights,
+    periodMonths,
+    dueAt,
+    startedAt,
+    appendContract,
+    gaps,
+    contracts,
+    minor,
+    facilities,
+    conditions,
+  } = ctx;
   for (const rule of data.supplierRules) stopgap(rule.stopgapId);
   for (const business of businesses) {
     const organization = organizations.get(business.organizationId)!;

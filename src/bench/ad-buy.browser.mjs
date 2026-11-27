@@ -4,9 +4,9 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { chooseTrailAct } from "./trail-act.mjs";
-import { fileWhenFilingOpens } from "./start-life.mjs";
+import { fileWhenFilingOpens } from "../../tests/support/start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
-import { devModeOn, devDonorsGive } from "./dev-setup.mjs";
+import { devModeOn, devDonorsGive } from "../../tests/support/dev-setup.mjs";
 
 const shots = process.argv[2];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
