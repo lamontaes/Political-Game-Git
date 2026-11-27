@@ -46,7 +46,7 @@ The English engine, the director, scenes and words are one engine, Story. The au
 
 ### Engine items, in order
 
-- **E1. One family.** Merge `director` and `english` into `story` in tests/guards/families.json. Regenerate CODEOWNERS with scripts/guards/codeowners.ts. AGENTS.md and the docs say "Story".
+- **E1. One family.** Merge `director` and `english` into `story` in tests/guards/families.json. Regenerate CODEOWNERS with scripts/guards/codeowners.ts. AGENTS.md and the docs say "Story". Story also takes the screens' word files: src/bench/printed-words.ts, archive-words.ts, race-words.ts, words.ts, guide-terms.ts and budget.ts's `lineName` (screens-2026-11-27.md SC3; adjusted Nov 27).
 - **E2. The pieces** (C1 to C6), in src/english, each shown before and after at three drawn places:
   - a person's name through said-as.ts (`personSlot`, `nameOnceThen`), never an id (scene-talk.ts:1759, card.ts:119);
   - pronouns the person's own (owner: "avoid the pronoun or use the person's own"; journal-words.ts:293, move-fit.ts:24);
@@ -55,7 +55,7 @@ The English engine, the director, scenes and words are one engine, Story. The au
   - one possessive and one capital helper;
   - director/words.ts's word helpers move into src/english.
 - **E3. The guard** that refuses a person's name, pronoun or date built outside src/english. It must go red on today's code first.
-- **E4. Front doors.** The screens (card.ts, printed-words.ts) and every other engine reach Story only through its entries (the composers, said-as, named director entries in families.json). The reach-ins baseline goes down.
+- **E4. Front doors.** The screens (card.ts, printed-words.ts) and every other engine reach Story only through its entries (the composers, said-as, named director entries in families.json). The reach-ins baseline goes down. `raceStanding`'s line choice (campaign.ts:511) and race-words' own list rule come with SC3's files; the list rule folds into C5's one list rule (adjusted Nov 27).
 - **E5. Notes out of the game's data** (C9). The "about" and "why" strings in src/director/data/*.json move to docs (rulings into OWNER-DECISIONS first, word for word). scripts/guards/game-only.ts also checks data files.
 - **E6. Skills, 15 into 3:**
   - `story`: words-engine, scene-producers, scene-pictures and press-desk-reach;
@@ -134,7 +134,9 @@ Files: modules/jobs.ts, modules/business.ts, jobs-elsewhere.ts, the jobs, employ
 6. **Job-loss news:** the size-by-reach `publicRecord` rule plus the story kind row in src/core2/data/press/briefs.json, on one branch. Don't land the flag until Story has the words; post the fields.
 7. **Part-time legislators hold other work**, and **press owners draw a payroll** (pool items opening-part-time-legislators-hold-other-work and opening-press-owners-draw-a-payroll).
 
-**Done when** 1 to 7 are each built as PRs with proof, or listed with why.
+8. **Doors the screens need (adjusted Nov 27):** read-only queries in modules/jobs.ts and the business engine for positions, player applications, seekers and trading, when Screens asks on #10377 (screens-2026-11-27.md, the door list).
+
+**Done when** 1 to 8 are each built as PRs with proof, or listed with why.
 
 ---
 
@@ -148,15 +150,15 @@ The owner: "the core is where engines plug in, and it can also be very friendly 
 
 **Items, safest first:**
 
-1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8). It starts with the people engine's opens in both directions, measured in people-2026-11-26.md P5 (adjusted Nov 27).
-2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures.
+1. **Measure, then guard,** one engine opening another's module table (`moduleState`), and rows edited in place. The guard's baseline may only shrink (K8). It starts with the people engine's opens in both directions, measured in people-2026-11-26.md P5 (adjusted Nov 27). The screens' 157 table reads (92 game screens, 53 dev, 12 checks) are in it too (adjusted Nov 27).
+2. **The workshop out of the core,** by a re-runnable script coordinated with Cleanup's test mover (K9): src/core2/tooling into scripts/, the test kits and fixtures (`*-test-kit.ts`, `*-kit.ts`, `*-fixture.ts`, law-test-start.ts) into tests/support, and bug-report.ts and gov-test-report.ts into scripts/. money-watch.ts and past-sessions.ts go to the screens' dev folder. Also trait-pairs.ts, turnover-check.ts and circle-turnover-check.ts, which no game file imports (people P11; adjusted Nov 27). Widen the game-only guard's test pattern to catch kits and fixtures. The screens' milestone proofs and tools (screens SC6) go with the same script (adjusted Nov 27).
 3. **One `core` family** in tests/guards/families.json: the shared kernel, plus life.ts (the day loop), the record log, the reader and the cash journal (journal.ts and journal-state.ts, filed under people today; renamed cash-journal*.ts by the move script; people P12, adjusted Nov 27). Give the 11 orphan files (src/districts, src/rules/laws, src/release) their families. Coordinate with Story's #10683, which made `story`.
 4. **The missing date helpers in the kernel** (weekday of a date, the nth weekday of a month, the last day of a month), with every copy pointed at the kernel (K10): elections-calendar.ts, school.ts, voting.ts, finance-state.ts, work-pay-period.ts, and the rest of the 95 files' date sums. Formatting is left as it is. The kernel's `spokenDate` (dates.ts:113) goes to Story's day-words, in step with Story's E2.
 5. **A determinism guard:** no `Math.random`, `randomBytes`, `randomUUID`, `Date.now`, `performance.now` or argument-less `new Date()` in game code outside dev panels, the play server and scripts (K11).
-6. **The record log as one module:** `retainLog` and decision-detail.ts's condense and forget steps (`durableLog.set` :274, `forgetEntry` :411) together, with the reader beside them. pre-start.ts becomes a `module.history` source like every other engine, so the reader imports no engine. `HistorySource` joins `CoreModule` (K3, K4).
+6. **The record log as one module:** `retainLog` and decision-detail.ts's condense and forget steps (`durableLog.set` :274, `forgetEntry` :411) together, with the reader beside them. pre-start.ts becomes a `module.history` source like every other engine, so the reader imports no engine. `HistorySource` joins `CoreModule` (K3, K4). The reader exposes the history sources' existing `row` (past-history.ts:139-140) as the one way a screen or Story opens a record the history names; no new hook (screens SC2a; adjusted Nov 27).
 7. **Cross-engine writes through the owner's door:** official-pay.ts:476 (jobs), officials.ts:988 (background people), civic-inputs.ts:157 (public organizations) (K8).
 8. **Fill-in out of state.ts:** `fillInPerson`, `fillInIdentity`, `promoteHusk`, `openOpeningPeerTies` and the 16 person-building imports go to the people engine behind a hook (K7). Then choice.ts calls the act path without `coreAPI` (Reach-ins' choice.ts to state.ts cycle, 14 edges).
-9. **One way to start a world:** `newGame` (saves.ts:186) takes the whole recipe (the place draw with `passOver`, the pre-start, the opening warm-up, the player). The screens' `buildBenchWorld` (src/bench/world.ts:434) and the replay both call it. Coordinate the warm-up with Past and Day One (K5).
+9. **One way to start a world:** `newGame` (saves.ts:186) takes the whole recipe (the place draw with `passOver`, the pre-start, the opening warm-up, the player). The screens' `buildBenchWorld` (src/bench/world.ts:434) and the replay both call it. Coordinate the warm-up with Past and Day One (K5). The play server's session operations (start a life, load, save, advance) are Core's doors; the route table itself stays in Screens (screens SC4; adjusted Nov 27).
 10. **The engine list as data:** the modules life.ts installs come from one list, and the direct calls (`affectAt`, `withGrief`, `admitResidents`, `openingWorkCommitments`) go through hooks. Reach-ins' cycle and reach-in items are finished here; the cycle baseline goes down. The people engine's 11 side registries (people P9) move onto the hook shape this item defines, by the People session. Measured for the final review: 74 `register*` functions game-wide (adjusted Nov 27).
 11. **Last, or the Opus finisher's:**
     - the front door split (K6), where money and work operations move behind the budgets and jobs engines' doors, the cash journal stays core as the one money ledger, `coreAPI`'s builder (state.ts:881) is split by area, and the subject hooks leave `CoreModule`;
@@ -221,6 +223,43 @@ The audit is people-2026-11-26.md in this folder (rows P1 to P13).
 
 - Structure-only items keep the fixed-seed records digest identical and `npm run typecheck` clean.
 - Behavior items carry their proof.
+- No new systems and no new registry.
+- Never loosen a check.
+- Never edit bank lines.
+- Wide moves are re-runnable scripts.
+- Use the Fable advisor liberally; it doesn't use Fable usage.
+
+**Done when** 1 to 8 are each built, or listed with why.
+
+---
+
+## Screens (decided by the CTO under the owner's full ownership, Nov 27, about 12:08 a.m.)
+
+The audit is screens-2026-11-27.md in this folder (rows SC1 to SC8).
+
+**Start** once train #10682 has landed. Branch from main.
+
+**Items, safest first:**
+
+1. **Dev mode in the installed game (SC1),** in its four steps. The packaged-app smoke test is the proof. handler.ts's mount goes now; the CTO's train reconciles it with the Story split.
+2. **Not-game out (SC6),** by a re-runnable script, with Core item 2.
+3. **Families (SC7),** in Screens' own families.json branch.
+4. **The client split (SC5),** structure only, with the browser tests as proof. play.mjs waits for the Story split.
+5. **Routes by screen (SC4),** structure only. handler.ts waits for the Story split. The session routes call Core's doors once Core item 9 lands.
+6. **Imports after Story takes the word files (SC3).**
+7. **Reads through doors (SC2):**
+   - record detail after Core item 6;
+   - live state through each engine's door, from the door list, with one builder per door;
+   - the already-filed rule to elections;
+   - Core item 1's baseline only shrinks.
+8. **The small ones (SC8).**
+
+**Rules:**
+
+- Structure-only items keep the browser tests green and the fixed-seed records digest identical, with `npm run typecheck` clean.
+- Behavior items carry their proof.
+- Dev mode stays in the game.
+- Screens write no sentences.
 - No new systems and no new registry.
 - Never loosen a check.
 - Never edit bank lines.
