@@ -30,7 +30,7 @@ import type { ModuleRow } from "../module-data";
 import { personLean, publicSupport } from "../campaign-views";
 import { campaignParameter } from "../campaign-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
-import type { LawRowInput } from "../laws-starting";
+import type { LawRowInput } from "../laws-in-force";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import {
   OFFICES_MODULE_ID,
@@ -57,6 +57,7 @@ import {
   addMonths,
   ageInYears,
   daysBetweenText as daysBetween,
+  addDaysText as addDays,
 } from "../kernel/dates";
 import { nextElectionForSeat } from "../elections-calendar";
 import { ELECTIONS_MODULE_ID } from "./elections";
@@ -152,11 +153,6 @@ const table = (api: CoreAPI) =>
 
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   ageInYears(p.birthDate, date);
-
-const addDays = (date: string, days: number) =>
-  new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
 
 function adults(api: CoreAPI): readonly Readonly<PersonState>[] {
   const town = lawChain(api).townPlaceId;

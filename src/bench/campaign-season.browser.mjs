@@ -6,7 +6,7 @@
 // with SEASON_SEED to replay the place src/director/campaign-season.test.ts (removed) drew.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { fileWhenFilingOpens } from "./start-life.mjs";
+import { fileWhenFilingOpens } from "../../tests/support/start-life.mjs";
 import { drawPlace } from "../../scripts/core2-year/place.ts";
 
 const runSeed = process.env.SEASON_SEED ?? String(Date.now());

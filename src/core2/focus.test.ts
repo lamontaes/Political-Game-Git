@@ -4,6 +4,7 @@ import { duePeople } from "./calendar";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { P } from "./parameters";
 import { coreAPI } from "./state";
+import { putInFocus, takeOutOfFocus } from "./focus";
 import type { CoreInput, PersonInput, Source } from "./types";
 
 const home = "place:focus-fixture";
@@ -216,6 +217,18 @@ describe("normal play circle and tier scope", () => {
         (row) => row.personId === "town",
       ),
     ).toBe(true);
+  });
+
+  it("puts a person in focus and takes them out through one door", () => {
+    const core = createLifeCore(input());
+    const stranger = "person:focus-stranger";
+    expect(core.focusPersonIds.has(stranger)).toBe(false);
+    expect(putInFocus(core, stranger)).toBe(true);
+    expect(core.focusPersonIds.has(stranger)).toBe(true);
+    expect(putInFocus(core, stranger)).toBe(false);
+    expect(takeOutOfFocus(core, stranger)).toBe(true);
+    expect(takeOutOfFocus(core, stranger)).toBe(false);
+    expect(core.focusPersonIds.has(stranger)).toBe(false);
   });
 
   it("keeps the explicit county-daily exception, and watching changes no one's cadence", () => {

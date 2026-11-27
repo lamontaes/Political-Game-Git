@@ -11,7 +11,11 @@ import { gameStartDate } from "../game-start";
 import { addDays } from "../kernel/dates";
 import { advanceCore } from "../life";
 import { coreAPI } from "../state";
-import { drawnRaceWorld, RUN_SEED, weightOf } from "../trait-test-kit";
+import {
+  drawnRaceWorld,
+  RUN_SEED,
+  weightOf,
+} from "../../../tests/support/trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { setTraitProbe } from "../trait-probe";
 import { personLean } from "../campaign-views";

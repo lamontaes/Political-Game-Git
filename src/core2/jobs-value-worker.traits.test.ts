@@ -12,7 +12,7 @@ import { gameStartDate } from "./game-start";
 import { addDays } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { JOBS_MODULE_ID } from "./modules/jobs";
-import { testPlace } from "./money-traits-kit";
+import { testPlace } from "../../tests/support/money-traits-kit";
 import { coreAPI } from "./state";
 
 interface Change {
