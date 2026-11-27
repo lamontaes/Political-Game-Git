@@ -1058,11 +1058,9 @@
 /src/core2/vote-level.test.ts @lamontaes
 /src/core2/word-spreads-played.test.ts @lamontaes
 
-# The story director (director)
+# The story: the director, the English engine and their words (story)
 /src/director/** @lamontaes
 /src/core2/speech-afterward-pledge.test.ts @lamontaes
-
-# The English engine (english)
 /src/english/** @lamontaes
 /data/english/** @lamontaes
 /src/core2/speech-craft.test.ts @lamontaes

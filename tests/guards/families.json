@@ -1221,16 +1221,16 @@
       ]
     },
     {
-      "id": "director",
-      "name": "The story director",
-      "entry": ["src/director/*.ts"],
-      "paths": ["src/director/**", "src/core2/speech-afterward-pledge.test.ts"]
-    },
-    {
-      "id": "english",
-      "name": "The English engine",
-      "entry": ["src/english/*.ts", "src/english/plain-words.mjs"],
+      "id": "story",
+      "name": "The story: the director, the English engine and their words",
+      "entry": [
+        "src/director/*.ts",
+        "src/english/*.ts",
+        "src/english/plain-words.mjs"
+      ],
       "paths": [
+        "src/director/**",
+        "src/core2/speech-afterward-pledge.test.ts",
         "src/english/**",
         "data/english/**",
         "src/core2/speech-craft.test.ts"

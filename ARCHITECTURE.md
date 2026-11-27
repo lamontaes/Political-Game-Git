@@ -78,6 +78,7 @@ Every shortcut is a row in `src/core2/data/stopgaps.json` (removed) (the directo
 
 ## Around the engine
 
+- **Story is one engine** (one family, `story`, in `tests/guards/families.json`; owner, Nov 26: "It's all just going to be called story now"): the director, the English engine and their data.
 - **`src/director/`: the story director.** It reads the world and decides what the player should notice: scenes, conversations, the journal and the opening. It writes nothing to the world except a stop for the player.
 - **`src/english/` and `data/english/`: the English engine and its word banks.** Every sentence the player reads is composed from bank pieces and the facts of the moment (`grounded-english.ts` returns nothing rather than invent a fact).
   - The handler's `/api/journal`, `/api/scene` and `/api/talk/*` routes call the director, which calls the engine.

@@ -196,10 +196,6 @@
     "src/director/play-modules.ts": 7,
     "src/director/purpose-scene.ts": 2,
     "src/director/school.ts": 1,
-    "src/director/tooling/director-year.ts": 1,
-    "src/english/mined/conversation-bank.ts": 1,
-    "src/english/mined/journal-bank.ts": 1,
-    "src/english/mined/scene-bank.ts": 2,
-    "src/english/speech-registers.ts": 1
+    "src/director/tooling/director-year.ts": 1
   }
 }
