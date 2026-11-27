@@ -33,6 +33,14 @@ const evidenceIds = (e) =>
     : (e.recordIds ??
       [e.contestId, e.targetId, e.personId, e.householdId].filter(Boolean));
 
+/** The suite's specs for a step, each with whether it passes (docs/roadmap/features.json). */
+const specsText = (specs, labels) =>
+  (specs ?? [])
+    .map(
+      (row) => `${row.id} ${row.passes ? labels.specPasses : labels.specNot}`,
+    )
+    .join(" · ");
+
 /** The sections. `labels` is controls.devWatch; `playerId` the player, for the golden path. */
 export async function devWatchSections({ labels, playerId }) {
   const [view, loans, progress] = await Promise.all([
@@ -180,6 +188,9 @@ export async function devWatchSections({ labels, playerId }) {
     el("p", {
       textContent: `${labels.furthest} ${progress.furthestReachedStep ?? labels.none} · ${progress.date}`,
     }),
+    el("p", {
+      textContent: `${labels.wholePath}: ${specsText(progress.wholePathSpecs, labels)}`,
+    }),
     el(
       "div",
       { className: "scroll" },
@@ -188,6 +199,10 @@ export async function devWatchSections({ labels, playerId }) {
           { name: labels.step, value: (r) => r.step },
           { name: labels.label, value: (r) => r.label },
           { name: labels.status, value: (r) => r.status },
+          {
+            name: labels.specs,
+            value: (r) => specsText(r.specs, labels),
+          },
           { name: labels.evidence, value: (r) => r.evidence?.kind },
           {
             name: labels.record,
