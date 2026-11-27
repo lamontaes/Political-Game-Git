@@ -882,6 +882,18 @@ function visitorLodgingRecords(
   relations: Relations,
   inflow: FinanceVisitorLodgingExternalInflow,
 ): VisitorLodgingWitness {
+  const params = { session, row, relations, inflow };
+  const read = { ...params, ...readVisit(params) };
+  checkVisit(read);
+  checkOrigin(read);
+  const sourced = { ...read, ...checkSources(read) };
+  const budgeted = { ...sourced, ...checkBudget(sourced) };
+  return witnessVisit(budgeted);
+}
+
+/** The visit's records read from the saved place metadata: the identity, the visit, the market and the owner. */
+function readVisit(a: VisitParams) {
+  const { session, inflow } = a;
   const r = session.reads,
     cfg = config(session),
     rule = r.field(cfg, "visitorLodging"),
@@ -916,6 +928,45 @@ function visitorLodgingRecords(
   const marketBasis = uniqueIds(market.basisRecordIds, "market basis IDs"),
     visitBasis = uniqueIds(visit.basisRecordIds, "visit basis IDs");
   uniqueIds(identityRecord.basisRecordIds, "independent identity basis IDs");
+  return {
+    r,
+    cfg,
+    rule,
+    ownerId,
+    identityId,
+    visitId,
+    marketId,
+    read,
+    identityRecord,
+    visit,
+    market,
+    owner,
+    facts,
+    identityFacts,
+    marketBasis,
+    visitBasis,
+  };
+}
+
+/** The identity, the visit and the market must agree with their owner and their geography. */
+function checkVisit(a: Read) {
+  const {
+    session,
+    r,
+    rule,
+    ownerId,
+    identityId,
+    visitId,
+    marketId,
+    identityRecord,
+    visit,
+    market,
+    owner,
+    facts,
+    identityFacts,
+    marketBasis,
+    visitBasis,
+  } = a;
   if (
     !owner ||
     identityRecord.id !== identityId ||
@@ -954,6 +1005,11 @@ function visitorLodgingRecords(
     throw new Error(
       "Actual visitor identity, visit and market contradict their owner or geography.",
     );
+}
+
+/** The visitors come from a place the world doesn't live in. */
+function checkOrigin(a: Read) {
+  const { session, r, market } = a;
   // The visitors come from a place the world doesn't live in: not one of the
   // town's own places. Full people elsewhere (officials in their states,
   // residents who moved away) don't make it simulated geography. A world
@@ -971,6 +1027,20 @@ function visitorLodgingRecords(
     throw new Error(
       "Actual outside visitor origin overlaps admitted resident geography.",
     );
+}
+
+/** The sources of the identity, the visit and the market, and the family budget's record id. */
+function checkSources(a: Read) {
+  const {
+    session,
+    r,
+    identityRecord,
+    visit,
+    market,
+    owner,
+    facts,
+    visitBasis,
+  } = a;
   const identitySource = source(
       session,
       identityRecord.source,
@@ -978,7 +1048,7 @@ function visitorLodgingRecords(
     ),
     visitSource = source(session, visit.source, visit.occurredAt),
     marketSource = source(session, market.source, visit.occurredAt);
-  if (!same(identitySource, source(session, r.field(owner, "source"))))
+  if (!same(identitySource, source(session, r.field(owner!, "source"))))
     throw new Error(
       "Actual visitor identity Source differs from its independent owner.",
     );
@@ -988,6 +1058,27 @@ function visitorLodgingRecords(
       "Actual visitor visit lacks its independently owned family budget link.",
     );
   identity(budgetId, "outside family budget record ID");
+  return { identitySource, visitSource, marketSource, budgetId };
+}
+
+/** The owning family's budget: its markets and shares, and the contracts it preserved. */
+function checkBudget(a: Sourced) {
+  const {
+    session,
+    row,
+    relations,
+    r,
+    cfg,
+    rule,
+    ownerId,
+    identityId,
+    marketId,
+    read,
+    visit,
+    market,
+    facts,
+    budgetId,
+  } = a;
   const budget = read(r.field(rule, "ownerBudgetMetadataPrefix"), ownerId),
     budgetMarkets = uniqueIds(budget.marketIds, "family budget market IDs"),
     budgetAmounts = objectRecord(
@@ -1138,6 +1229,33 @@ function visitorLodgingRecords(
         "Actual preserved visitor terms differ from the family envelope allocation.",
       );
   }
+  return { budget, budgetMarkets, budgetAmounts };
+}
+
+/** The budget's source and the product qualifications, the customer's allocation, and the witness the visit comes to. */
+function witnessVisit(a: Budgeted) {
+  const {
+    session,
+    row,
+    relations,
+    r,
+    cfg,
+    rule,
+    ownerId,
+    identityId,
+    visitId,
+    marketId,
+    identityRecord,
+    visit,
+    market,
+    facts,
+    visitBasis,
+    identitySource,
+    visitSource,
+    marketSource,
+    budgetId,
+    budget,
+  } = a;
   const budgetSource = source(
     session,
     budget.source as Source,
@@ -1208,6 +1326,16 @@ function visitorLodgingRecords(
     marketId,
   });
 }
+
+type VisitParams = {
+  session: FinancePlanningSession;
+  row: FinanceContractState;
+  relations: Relations;
+  inflow: FinanceVisitorLodgingExternalInflow;
+};
+type Read = VisitParams & ReturnType<typeof readVisit>;
+type Sourced = Read & ReturnType<typeof checkSources>;
+type Budgeted = Sourced & ReturnType<typeof checkBudget>;
 
 function publicCustomerRecords(
   session: FinancePlanningSession,

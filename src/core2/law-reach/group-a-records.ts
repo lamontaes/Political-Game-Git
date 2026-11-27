@@ -5,6 +5,15 @@
  * matches (from their own records: age, work, household, employer, seat)
  * gets a legal reach record; counted groups get one row
  * with their count. A repeal ends every open row the same day.
+ *
+ * Why there are two reach stores (group-b-store.ts is the other; host.ts's
+ * `reachOn` reads both): this store keeps the legal reach, a sentence of what
+ * the law means for the one it reaches, with who enforces it and the penalty,
+ * chosen from JSON selectors. Group B keeps the numeric reach (an effect, its
+ * terms and the share each law is credited) for the benefits and taxes that
+ * pay or price something. They share no field that means the same thing and no
+ * policy key (measured in a played year at Twin Lakes, California: 4 keys here,
+ * 3 there, none in common), so one store would be a union of two shapes.
  */
 import { ageInYears, addDays, makeIsoDate } from "../kernel/dates";
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
