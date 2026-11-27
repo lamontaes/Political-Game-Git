@@ -14,7 +14,7 @@ import { capitolPlaceFor, hasBackdrop } from "./backdrop-places";
 import { governmentRoom, officeRoom } from "./government-bodies";
 import { backdropFile, homeOf, orgPlace, pictureFor } from "./scene";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, termById } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 
@@ -46,11 +46,7 @@ function billBody(core: CoreState, billId: string): string | undefined {
 function termOffice(core: CoreState, id: string): string | undefined {
   if (!id.startsWith("term:") || !core.modules.has(OFFICES_MODULE_ID))
     return undefined;
-  const term = coreAPI(core)
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(id) as unknown as { officeId?: string } | undefined;
-  return term?.officeId;
+  return termById(coreAPI(core), id)?.officeId;
 }
 
 /** The place a law's government sits: the nation's Capitol, a state's capitol, the town's hall. */
