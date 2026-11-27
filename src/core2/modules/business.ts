@@ -186,6 +186,8 @@ interface Market {
   staff: number;
   /** The incumbents' annual demand, nominal. */
   demandMinor: number;
+  /** What the incumbents can sell in a year at full capacity, nominal. */
+  capacityMinor: number;
 }
 
 function store(api: CoreAPI) {
@@ -1883,6 +1885,7 @@ function marketRoom(api: CoreAPI): Market[] {
       demand: number;
       nominal: number;
       capacity: number;
+      capacityNominal: number;
       incumbents: string[];
       staff: number;
     }
@@ -1897,6 +1900,7 @@ function marketRoom(api: CoreAPI): Market[] {
       demand: 0,
       nominal: 0,
       capacity: 0,
+      capacityNominal: 0,
       incumbents: [],
       staff: 0,
     };
@@ -1904,6 +1908,8 @@ function marketRoom(api: CoreAPI): Market[] {
     row.demand += book.annualDemandMinor / (book.price / book.anchorPrice || 1);
     row.nominal += book.annualDemandMinor;
     row.capacity += book.capacityMinor;
+    row.capacityNominal +=
+      book.capacityMinor * (book.price / book.anchorPrice || 1);
     row.incumbents.push(id);
     row.staff += staffNow(c, id);
     out.set(key, row);
@@ -1915,19 +1921,30 @@ function marketRoom(api: CoreAPI): Market[] {
     incumbents: row.incumbents,
     staff: row.staff,
     demandMinor: row.nominal,
+    capacityMinor: row.capacityNominal,
   }));
 }
 
-/** What an entrant could make a month: an equal share of the market at its kind's margin. */
+/**
+ * What an entrant could make a month: an equal share of the market's demand, up to what a business
+ * of its size can sell, against the costs of running one at that size. A kind's margin is what a
+ * business at full capacity keeps of its sales, so a market with no room (demand at what its
+ * businesses already sell) splits among one more, and the entrant sells less than it is built
+ * for: its costs stay and its margin is gone. With room, it sells at capacity and keeps the margin.
+ */
 function prospectMonthly(api: CoreAPI, market: Market): number {
   const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
     (row) => row.id === market.kindId,
   );
-  if (!kind) return 0;
+  if (!kind || market.incumbents.length === 0) return 0;
+  const margin = worldBookRatio(core(api).seed, kind, "margin", api.parameter);
+  const atCapacity = market.capacityMinor / market.incumbents.length;
+  const sales = Math.min(
+    atCapacity,
+    market.demandMinor / (market.incumbents.length + 1),
+  );
   return (
-    ((market.demandMinor / (market.incumbents.length + 1)) *
-      worldBookRatio(core(api).seed, kind, "margin", api.parameter)) /
-    api.parameter("macroMonthsPerYear")
+    (sales - (1 - margin) * atCapacity) / api.parameter("macroMonthsPerYear")
   );
 }
 
@@ -1996,7 +2013,10 @@ function foundings(api: CoreAPI): void {
     const floor =
       medianPay(row.placeId) * p("businessProspectIncomeFloorShare");
     const income = Math.max(monthlyIncome, floor);
-    return income > 0 ? Math.log((prospectMonthly(api, row) + 1) / income) : 0;
+    // A market whose entrant would lose money has no prospect at all: the score sinks with the income it gives up.
+    return income > 0
+      ? Math.log((Math.max(0, prospectMonthly(api, row)) + 1) / income)
+      : 0;
   };
   const markets = marketRoom(api)
     .filter(
