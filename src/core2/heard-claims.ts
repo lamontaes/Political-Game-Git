@@ -13,14 +13,12 @@
  * doubter still believes a trusted friend and a trusting person can doubt a
  * stranger who argues against them: the case slides, no trait decides alone.
  */
-import { personLean } from "./modules/campaigns";
+import { personLean, townLean } from "./modules/campaigns";
 import { closenessBetween } from "./closeness";
 import { viewOn } from "./modules/views";
 import { parameter } from "./parameters";
 import { leanedYes } from "./trait-decisions";
 import type { CoreAPI, CoreState, PersonState } from "./types";
-
-const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
 
 /** What a hearer knows about one hearing of a claim. */
 export interface HeardClaim {
@@ -68,19 +66,13 @@ export function claimFit(
   const side =
     desiredChange === "enact" ? 1 : desiredChange === "repeal" ? -1 : 0;
   if (!topic || side === 0) return 0;
-  const town = api.state.modules.has(CAMPAIGNS_MODULE_ID)
-    ? (
-        api.moduleState(CAMPAIGNS_MODULE_ID).table("town").get("town") as
-          { lean?: number } | undefined
-      )?.lean
-    : undefined;
   return (
     side *
     viewOn(
       api,
       hearer.id,
       topic,
-      personLean(api.state.people, hearer, town ?? 0),
+      personLean(api.state.people, hearer, townLean(api)),
     )
   );
 }
