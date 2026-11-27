@@ -2,9 +2,9 @@
  * A serving single-seat executive whose office has a "by-request" proposal right gets the
  * same draft menus a member gets, for the body that votes on their government's bills, and
  * sends a bill through `proposeAsExecutive` (the one engine): the member asked answers, and a
- * bill carried names the executive as its requester. Pinned to two named places (draws of the
- * fixed run "8341-pin"): one with a mayor, a county executive and a governor, one with a mayor
- * and a governor. Each kind that place has is proved; nothing here depends on a random draw.
+ * bill carried names the executive as its requester. Pinned to three named places (draws of the
+ * fixed run "8341-pin"). The cases cover a mayor, a county executive and a governor, and
+ * an unincorporated place proves that the governor's menu does not imply a town mayor.
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -12,6 +12,7 @@ import { gameStartDate } from "../core2/game-start";
 import { setBookkeeping } from "./../core2/bookkeeping";
 import { coreAPI } from "../core2/state";
 import { proposalRight, type BillRow } from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import { buildBenchWorld } from "./world";
 import { isByRequest, seatAsk, seatView } from "./legislature";
 
@@ -23,8 +24,13 @@ const PLACES = [
   { purpose: "p6", key: "0164656", kinds: ["mayor", "governor"] },
   // Monserrate, Puerto Rico (7253979): its municipio mayor is a separate elected executive.
   { purpose: "p8", key: "7253979", kinds: ["county-executive", "governor"] },
-  // Brogan, Oregon (4108600): mayor, governor.
-  { purpose: "p0", key: "4108600", kinds: ["mayor", "governor"] },
+  // Brogan, Oregon (4108600) is unincorporated. The county governs it directly.
+  {
+    purpose: "p0",
+    key: "4108600",
+    kinds: ["governor"],
+    absentTownOffice: "mayor",
+  },
 ];
 
 for (const pinned of PLACES) {
@@ -38,6 +44,12 @@ for (const pinned of PLACES) {
       placeKey: place.key,
     });
     const api = coreAPI(core);
+    if (pinned.absentTownOffice) {
+      expect(
+        townSeats(api).map(({ office }) => office.kind),
+        `${where}: no town ${pinned.absentTownOffice} in an unincorporated place`,
+      ).not.toContain(pinned.absentTownOffice);
+    }
     const offices = api.moduleState(OFFICES);
     const terms = offices.table("terms").rows() as unknown as {
       personId?: string;
