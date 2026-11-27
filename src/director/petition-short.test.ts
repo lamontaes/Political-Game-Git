@@ -2,27 +2,29 @@
  * A filed player whose petition is behind is told so, once, by someone who
  * would really say it, and the answer is theirs (owner, Oct 14: "No engine
  * accepts a job, a home, a filing or any choice for the controlled person; the
- * engine offers, the player decides"). Pinned at Sherrodsville, Ohio
- * (3972242, seed "scan-3"): the first council petition needs 10 signatures
- * and a campaign gathers 10 (`signaturesToGather`: the clerk's count plus the signers off the roll, none here; it was 15 under the deleted half-again cushion), and nobody else is walking
- * the player's petition. The record is written on the last turn on which a
- * canvass shift a day (`petitionShiftYield`) can still close the gap; a
- * petition the count has filled never gets one. A yes ("I'll go out and knock
- * on doors") takes the player's canvass day; a no changes nothing, whether the clerk
- * presses once more (PRESS_SEED) or lets it go (SEED).
- * Nov 16 re-pin, Train a2cbd213: the first-bad folds moved who the clerk is and who volunteers
- * (the player's start at 18 or older, #9684; the opening savings, #9645 and #9657). Before it,
- * the clerk at SEED pressed, and scan-25 was the on-pace world; the cushion deletion changed neither
- * (the cushion row set to 0 at f26c10de leaves the clerk pressing at scan-3, 4 and 14).
- * NOT a one-minute test: the town's own days from the start date to the filing
- * window are the only way to a real petition (about 4 minutes each case).
+ * engine offers, the player decides"). The record is written on the last turn
+ * on which a canvass shift a day (`petitionShiftYield`) can still close the gap;
+ * a petition the count has filled never gets one. A yes ("I'll go out and
+ * knock on doors") takes the player's canvass day; a no changes nothing,
+ * whether the clerk presses once more or lets it go.
+ *
+ * Every case finds its world by drawing places from all 56 and waiting
+ * (drawn-place-tests), never by a pinned town or seed: the pins of Nov 16
+ * (Sherrodsville, Ohio, scan-1 to scan-23) moved twice under the world's own
+ * changes (#10032, opening siblings spaced by their own gaps, moved who the
+ * clerk is; #10388, a household that follows its paper and station from day
+ * one, moved who volunteers). A case draws until its premise holds (a clerk
+ * who tells, a clerk who presses, a helper who tells, a petition filled by
+ * play), names every place it passed over on stdout, and fails by name when
+ * none of its draws holds it. GOLDEN_PATH_SEED=<seed> replays a run's draws.
  * PETITION_SHORT_PLAYED=<file> keeps the played talks and the arithmetic.
- * Limits are twice the slower of the test alone and beside another run (Nov 16, Train a2cbd213, alone,
- * seconds): 56, 108, 53, 162, 54, 58, 108 and, for the other worlds' talks, 632 alone / 646 beside
- * the others. Each case plays about 100 days of a town, so the limits are long.
+ * NOT a one-minute test: each world plays the town's days from the start
+ * date to the filing window and on to the petition's due date.
  */
+import { randomBytes } from "node:crypto";
 import { appendFileSync, writeFileSync } from "node:fs";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { fileForOffice, governmentView } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -53,41 +55,56 @@ import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeScene } from "./scene";
 import type { TreeNode } from "./scene-talk";
 
-const PLACE = "3972242";
-const SEED = "scan-3";
-/**
- * A seed of this town where the clerk presses once after the player's no (the clerk's own lean,
- * `leanOf` in scene-talk.ts, picks between a press and letting it go; no dice) and the player
- * says no again. SEED lets it go ("Alright. It's your petition."), and each answer has its own case.
- */
-const PRESS_SEED = "scan-4";
-/** Seeds of this town where the petition runs short and the clerk tells the player, found by a script outside the test (Nov 16, Train a2cbd213: scan-1 to scan-16, one played run each). */
-const CLERK_SEEDS = ["scan-4", "scan-7", "scan-9", "scan-12"];
-/** Seeds where a played yes to an offer of help puts a helper on the campaign who then tells the player, found by a script outside the test (scan-1 to scan-42, Nov 16). */
-const HELPER_SEEDS = ["scan-19", "scan-23"];
-/** A seed of this town where a household member's offer to run the campaign comes and the player's yes puts them on its staff. */
-const HELPER_SEED = "scan-7";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+/** Places a case draws before it fails by name. */
+const DRAWS = 8;
 const OUT = process.env.PETITION_SHORT_PLAYED;
 const write = (text: string) => {
   if (OUT) appendFileSync(OUT, `${text}\n`);
 };
 
-function filer(seed: string = SEED, helped = false) {
+/** A drawn place: its key and the world seed it builds from. */
+interface Drawn {
+  readonly key: string;
+  readonly seed: string;
+  readonly where: string;
+}
+
+/**
+ * Builds the drawn place, waits until its first town race opens for filing,
+ * and files a resident of a household of two or more for the first race open
+ * to them, as the player. Returns why not, in words, when the place has no
+ * such race, no such resident, or a race that asks no petition.
+ */
+function build(drawn: Drawn, helped = false) {
   setBookkeeping(false);
-  const world = buildBenchWorld(seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: PLACE,
-  });
+  let world: ReturnType<typeof buildBenchWorld>;
+  try {
+    world = buildBenchWorld(drawn.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: drawn.key,
+    });
+  } catch (error) {
+    return `no player can live here (${(error as Error).message})`;
+  }
   const { core, director } = world;
   const api = coreAPI(core);
-  const contest = (
+  const local = (
     api
       .moduleState(ELECTIONS_MODULE_ID)
       .table("contests")
       .rows() as unknown as ContestRow[]
   )
-    .filter((c) => /:council:/.test(c.officeId + c.id))
-    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+    .filter((c) => c.level !== "federal" && c.level !== "state")
+    .filter((c) => c.electionDate > core.date)
+    .sort(
+      (a, b) =>
+        Number(!/:council:/.test(a.officeId + a.id)) -
+          Number(!/:council:/.test(b.officeId + b.id)) ||
+        a.id.localeCompare(b.id),
+    );
+  const contest = local[0];
+  if (!contest) return "no town race on the calendar";
   advanceToRaceFiling(core, contest);
   const candidates = [...core.people.values()]
     .filter(
@@ -109,25 +126,124 @@ function filer(seed: string = SEED, helped = false) {
       break;
     }
   }
-  expect(entrant, `${PLACE} ${SEED}: a person with a race open`).toBeDefined();
-  (core as { playerId?: string }).playerId = entrant!;
-  director.watch(core, entrant!);
-  fileForOffice(core, entrant!, contestId);
+  if (!entrant) return `no resident with a race open on ${core.date}`;
+  (core as { playerId?: string }).playerId = entrant;
+  director.watch(core, entrant);
+  fileForOffice(core, entrant, contestId);
   const filing = (
     api
       .moduleState(ELECTIONS_MODULE_ID)
       .table("filings")
       .rows() as unknown as FilingRow[]
-  ).find((f) => f.personId === entrant && f.contestId === contestId)!;
+  ).find((f) => f.personId === entrant && f.contestId === contestId);
+  if (!filing) return `the filing for ${contestId} was not taken`;
+  if (!petitionOf(api, filing.id)?.needed)
+    return `${contestId} asks no petition`;
   return {
     core,
     api,
     director,
-    me: entrant!,
+    me: entrant,
     filing,
     helped,
     filedOn: core.date,
+    drawn,
+    where: drawn.where,
   };
+}
+
+type Case = Exclude<ReturnType<typeof build>, string>;
+
+/** What earlier cases learned of a draw, so a later case skips one that cannot hold it. */
+interface Learned {
+  /** Why the place has no filed petition to play (no race, no resident, no petition). */
+  unbuilt?: string;
+  /** Who told the player, played with no act of the player's: the clerk, a helper, or nobody. */
+  told?: "clerk" | "helper" | "none";
+  /** After the player's first no, whether the clerk pressed once more. */
+  presses?: boolean;
+}
+const learned = new Map<string, Learned>();
+/** The draws a case has already shown, by `helped:key:seed`. */
+const shown = new Set<string>();
+const learn = (world: Case, what: Learned) => {
+  const key = `${world.helped}:${world.drawn.key}:${world.drawn.seed}`;
+  learned.set(key, { ...learned.get(key), ...what });
+};
+
+/**
+ * Draws places until one holds the case (`holds` sets the case up and plays
+ * it, returning why not, or null when it holds), names every place passed
+ * over, and fails by name when none of the draws holds it. Every case walks
+ * the same drawn sequence (one for a player who takes help, one for one who
+ * does not), and `skip` passes over a draw an earlier case already showed
+ * cannot hold this one, without building it again.
+ */
+function findCase(
+  label: string,
+  holds: (world: Case) => string | null,
+  helped = false,
+  skip: (known: Learned, id: string) => string | null = () => null,
+): Case {
+  const passed: string[] = [];
+  for (let draw = 0; draw < DRAWS; draw += 1) {
+    const place = drawPlace(
+      seed,
+      `petition-short:${helped ? "helped" : "alone"}:${draw}`,
+    );
+    const drawn = {
+      key: place.key,
+      seed: place.seed,
+      where: `${place.name} (${place.key}), seed ${place.seed}`,
+    };
+    const id = `${helped}:${drawn.key}:${drawn.seed}`;
+    const known = learned.get(id) ?? {};
+    const already = known.unbuilt ?? skip(known, id);
+    if (already) {
+      passed.push(`${drawn.where}: ${already}`);
+      continue;
+    }
+    const world = build(drawn, helped);
+    if (typeof world === "string") {
+      learned.set(`${helped}:${drawn.key}:${drawn.seed}`, { unbuilt: world });
+      passed.push(`${drawn.where}: ${world}`);
+      continue;
+    }
+    const why = holds(world);
+    if (why === null) {
+      shown.add(id);
+      process.stdout.write(
+        `${label}: ${drawn.where} (run seed ${seed}); passed over ${passed.length ? passed.join("; ") : "none"}\n`,
+      );
+      return world;
+    }
+    passed.push(`${drawn.where}: ${why}`);
+  }
+  throw new Error(
+    `${label}: none of ${DRAWS} drawn places holds the case (run seed ${seed}): ${passed.join("; ")}`,
+  );
+}
+
+/** Skips for a case played with no act of the player's: a draw known never told, or told by the other teller. */
+const needsTold =
+  (kind: "clerk" | "helper", press?: boolean) =>
+  (known: Learned): string | null =>
+    known.told === "none"
+      ? "never told (an earlier case played it)"
+      : known.told && known.told !== kind
+        ? `told by the ${known.told} (an earlier case played it)`
+        : press !== undefined &&
+            known.presses !== undefined &&
+            known.presses !== press
+          ? `the clerk ${known.presses ? "pressed" : "let it go"} (an earlier case played it)`
+          : null;
+
+/** The same world again, from the start: the draw is the seed, so it builds the same. */
+function rebuild(world: Case): Case {
+  const again = build(world.drawn, world.helped);
+  if (typeof again === "string")
+    throw new Error(`${world.where}: did not build again: ${again}`);
+  return again;
 }
 
 const toldId = (filingId: string) => `${PETITION_SHORT_EVENT}:${filingId}`;
@@ -144,8 +260,6 @@ function lines(node: TreeNode | null, path: string[], out: string[]): void {
     lines(reply.next, [...path, `"${reply.line.text}"`], out);
   }
 }
-
-type Case = ReturnType<typeof filer>;
 
 /**
  * Plays days until the record is written, or the deadline passes. A player
@@ -202,19 +316,19 @@ function stagedEntry(world: Case) {
 }
 
 /** Tells the player, writes the arithmetic and the whole talk to the played file, returns the composed scene. */
-function told(world: Case, label: string, seed: string = SEED) {
+function told(world: Case, label: string) {
   const { core, api, director, me, filing } = world;
   const petition = petitionOf(api, filing.id)!;
   const gather = signaturesToGather(api, filing.id);
   const day = playToTold(world);
-  expect(day, `${PLACE} ${seed} ${label}: told as short`).toBeDefined();
+  expect(day, `${world.where} ${label}: told as short`).toBeDefined();
   const record = core.durableLog.get(toldId(filing.id))!;
   const f = record.facts as Readonly<Record<string, string>>;
-  expect(f.tellerKind, `${seed} ${label}: told by`).toBe(
+  expect(f.tellerKind, `${world.where} ${label}: told by`).toBe(
     world.helped ? "helper" : "clerk",
   );
   write(
-    `## ${label}: ${PLACE} ${seed}, needed ${petition.needed}, a campaign gathers ${gather}, due ${petition.due}. A canvass shift adds ${petitionShiftYield()} (${campaignParameter("playerCanvassHours")} hours x ${campaignParameter("doorsPerCanvasserHour")} doors an hour x ${campaignParameter("petitionSignOpenness")} sign).\nTold on ${day} by ${f.tellerKind} ${f.tellerId}: ${f.signed} signed of ${f.gathers}, ${f.daysLeft} days left, the days after the next turn can add ${f.canAddAfterNextTurn} against a gap of ${Number(f.gathers) - Number(f.signed)}.\n`,
+    `## ${label}: ${world.where}, needed ${petition.needed}, a campaign gathers ${gather}, due ${petition.due}. A canvass shift adds ${petitionShiftYield()} (${campaignParameter("playerCanvassHours")} hours x ${campaignParameter("doorsPerCanvasserHour")} doors an hour x ${campaignParameter("petitionSignOpenness")} sign).\nTold on ${day} by ${f.tellerKind} ${f.tellerId}: ${f.signed} signed of ${f.gathers}, ${f.daysLeft} days left, the days after the next turn can add ${f.canAddAfterNextTurn} against a gap of ${Number(f.gathers) - Number(f.signed)}.\n`,
   );
   const entry = stagedEntry(world);
   if (!entry) {
@@ -223,7 +337,7 @@ function told(world: Case, label: string, seed: string = SEED) {
       (e) => book.momentsById.get(e.momentId)?.causeId === toldId(filing.id),
     );
     throw new Error(
-      `${label}: not staged; entries ${JSON.stringify(mine.map((e) => ({ outcome: e.outcome, coverage: e.coverage, closed: e.closed, heldBack: e.heldBack, bindings: e.bindings.map((b) => b.typeKey) })))}; moments ${book.moments.filter((m) => m.causeId === toldId(filing.id)).length}`,
+      `${world.where} ${label}: not staged; entries ${JSON.stringify(mine.map((e) => ({ outcome: e.outcome, coverage: e.coverage, closed: e.closed, heldBack: e.heldBack, bindings: e.bindings.map((b) => b.typeKey) })))}; moments ${book.moments.filter((m) => m.causeId === toldId(filing.id)).length}`,
     );
   }
   const result = purposeScene(core, director, me, entry!, {
@@ -246,30 +360,49 @@ function told(world: Case, label: string, seed: string = SEED) {
 }
 
 /** The Journal's lines about the petition, once the player has answered. */
-function journalAbout(world: Case): string[] {
+function journalLines(world: Case) {
   return composeJournal(world.core, world.director, world.me)
     .flatMap((chapter) => chapter.lines)
-    .filter((line) => line.date >= world.filedOn)
-    .map((line) => `${line.date}: ${line.text}`);
+    .filter((line) => line.date >= world.filedOn);
+}
+const journalAbout = (world: Case): string[] =>
+  journalLines(world).map((line) => `${line.date}: ${line.text}`);
+
+/**
+ * Whether a Journal line tells the record: it names the record among its
+ * sources, or one of its moments was caused by it (the scene it staged).
+ */
+function journalTells(world: Case, recordId: string): boolean {
+  const book = world.director.ledger.people.get(world.me);
+  return journalLines(world).some(
+    (line) =>
+      line.sourceRecordIds.includes(recordId) ||
+      line.momentIds.some(
+        (id) => book?.momentsById.get(id)?.causeId === recordId,
+      ),
+  );
 }
 
 /**
  * Some hours of canvass by hand, as the Campaign tab lets them: some names, not
  * all. `short` is what they must still be below: the count the office requires
  * (what the clerk measures by) or what a campaign gathers (what a helper does).
+ * Returns why the drawn world cannot hold the case, or null.
  */
 function startedByHand(
   world: Case,
   hours: number,
   short: "needed" | "gathers",
-) {
+): string | null {
   const { api, filing } = world;
   takeCampaignDayChoice(api, filing.id, "canvass", { hours });
   const petition = petitionOf(api, filing.id)!;
-  expect(petition.signed).toBeGreaterThan(0);
-  expect(petition.signed).toBeLessThan(
-    short === "needed" ? petition.needed : signaturesToGather(api, filing.id),
-  );
+  const measure =
+    short === "needed" ? petition.needed : signaturesToGather(api, filing.id);
+  if (petition.signed <= 0) return `${hours} hours of canvass signed nobody`;
+  if (petition.signed >= measure)
+    return `${hours} hours of canvass already met the ${short} count (${petition.signed} of ${measure})`;
+  return null;
 }
 
 const doorsOf = (world: Case) =>
@@ -282,13 +415,62 @@ const statusOf = (world: Case) =>
       .get(world.filing.id) as unknown as FilingRow
   ).status;
 
+/** The premise of a case told short: the record is written, by the teller the case is about. */
+function toldBy(kind: "clerk" | "helper", started = false) {
+  return (world: Case): string | null => {
+    const day = playToTold(world);
+    const by = day
+      ? (world.core.durableLog.get(toldId(world.filing.id))?.facts
+          ?.tellerKind as "clerk" | "helper" | undefined)
+      : undefined;
+    if (!started) learn(world, { told: by ?? "none" });
+    if (!day) return "never told: the petition never fell behind";
+    return by === kind ? null : `told by the ${String(by)}, not the ${kind}`;
+  };
+}
+
+/** The talk's answer to the player's first no: whether the teller presses once more. */
+function afterTheNo(world: Case) {
+  const entry = stagedEntry(world);
+  if (!entry) return null;
+  const result = purposeScene(world.core, world.director, world.me, entry, {
+    typeKey: "petition-short",
+  });
+  if (result?.kind !== "composed") return null;
+  const no = result.scene.talk.tree.replies.find(
+    (r) => r.line.move === "deflect",
+  );
+  return no?.next ?? null;
+}
+
+/** A clerk tells, and after the player's no either presses once more or lets it go. */
+function clerkWho(press: boolean) {
+  return (world: Case): string | null => {
+    const why = toldBy("clerk")(world);
+    if (why) return why;
+    const next = afterTheNo(world);
+    if (!next) return "the talk was not staged with a no";
+    const presses = next.replies.some((r) => r.line.move === "deflect");
+    learn(world, { presses });
+    if (presses === press) return null;
+    return press
+      ? "the clerk let it go after the no"
+      : "the clerk pressed after the no";
+  };
+}
+
 it("the clerk tells a filed player on a thin petition once; a yes takes their canvass day and they reach the ballot", () => {
   if (OUT)
     writeFileSync(
       OUT,
-      `# Petition short, played (head ${process.env.PLAYED_SHA ?? "unknown"})\n\n`,
+      `# Petition short, played (head ${process.env.PLAYED_SHA ?? "unknown"}, run seed ${seed})\n\n`,
     );
-  const world = filer();
+  const world = findCase(
+    "clerk-tells",
+    toldBy("clerk"),
+    false,
+    needsTold("clerk"),
+  );
   const { core, api, director, me, filing } = world;
   const { entry, scene, record } = told(world, "Clerk, nothing signed yet");
   expect(record.facts?.tellerKind).toBe("clerk");
@@ -309,23 +491,29 @@ it("the clerk tells a filed player on a thin petition once; a yes takes their ca
   advanceCore(core, addDays(makeIsoDate(petitionOf(api, filing.id)!.due), 1));
   write(`Journal: ${journalAbout(world).join(" | ")}\n`);
   write(`Clerk's check: ${statusOf(world)}.\n`);
-  expect(statusOf(world), `${PLACE} ${SEED}: after the player went out`).toBe(
+  expect(statusOf(world), `${world.where}: after the player went out`).toBe(
     "on-ballot",
   );
-}, 120_000);
+}, 1_800_000);
 
 it("a no changes nothing: no door is walked for the player", () => {
   // The clerk is pressed once and the player says no again; a helper the
-  // player knows by name takes the first no. The Journal names the helper, and
-  // says "the clerk" for a clerk the player has no name for.
+  // player knows by name takes the first no. The Journal tells the record
+  // either way, read by its id (the words are Story's).
   for (const [label, byHelper] of [
     ["Clerk, then a no", false],
     ["Helper, then a no", true],
   ] as const) {
-    const seed = byHelper ? HELPER_SEED : PRESS_SEED;
-    const world = filer(seed, byHelper);
+    const world = byHelper
+      ? findCase("helper-tells", toldBy("helper"), true, needsTold("helper"))
+      : findCase(
+          "clerk-presses",
+          clerkWho(true),
+          false,
+          needsTold("clerk", true),
+        );
     const { core, director, me } = world;
-    const { entry, scene } = told(world, label, seed);
+    const { entry, scene } = told(world, label);
     const no = scene.talk.tree.replies.findIndex(
       (r) => r.line.move === "deflect",
     );
@@ -344,22 +532,25 @@ it("a no changes nothing: no door is walked for the player", () => {
       addDays(makeIsoDate(petitionOf(world.api, world.filing.id)!.due), 1),
     );
     write(`Said no (${label}). Journal: ${journalAbout(world).join(" | ")}\n`);
-    const journal = journalAbout(world).join(" ");
-    expect(journal, "the Journal keeps the no").toMatch(
-      byHelper
-        ? /said my petition was short\. I let it wait\./
-        : /[Tt]he clerk said my .+ petition was short\. I waited\./,
-    );
+    expect(
+      journalTells(world, toldId(world.filing.id)),
+      `${world.where} ${label}: the Journal keeps the no (tells ${toldId(world.filing.id)}): ${journalAbout(world).join(" | ")}`,
+    ).toBe(true);
     expect(statusOf(world), "left alone, the petition falls short").not.toBe(
       "on-ballot",
     );
   }
-}, 220_000);
+}, 3_600_000);
 
 it("a clerk who lets it go after the no says so, offers nothing more, and no door is walked", () => {
-  // The other answer the clerk's own lean can give (see PRESS_SEED): no press, one closing
+  // The other answer the clerk's own lean can give: no press, one closing
   // line, and the player has no second reply to make.
-  const world = filer();
+  const world = findCase(
+    "clerk-lets-go",
+    clerkWho(false),
+    false,
+    needsTold("clerk", false),
+  );
   const { core, director, me } = world;
   const { entry, scene } = told(world, "Clerk who lets it go, then a no");
   const no = scene.talk.tree.replies.findIndex(
@@ -379,19 +570,22 @@ it("a clerk who lets it go after the no says so, offers nothing more, and no doo
   write(
     `Said no, the clerk let it go. Journal: ${journalAbout(world).join(" | ")}\n`,
   );
-  expect(journalAbout(world).join(" "), "the Journal keeps the no").toMatch(
-    /[Tt]he clerk said my .+ petition was short\. I waited\./,
-  );
+  expect(
+    journalTells(world, toldId(world.filing.id)),
+    `${world.where}: the Journal keeps the no (tells ${toldId(world.filing.id)}): ${journalAbout(world).join(" | ")}`,
+  ).toBe(true);
   expect(statusOf(world), "left alone, the petition falls short").not.toBe(
     "on-ballot",
   );
-}, 110_000);
+}, 1_800_000);
 
 it("the clerk's words once some names are on the petition, below what the office requires, and a helper's words in both cases", () => {
-  const started = filer();
-  startedByHand(started, 0.5, "needed");
   const a = told(
-    started,
+    findCase(
+      "clerk-some-names",
+      (world) =>
+        startedByHand(world, 0.5, "needed") ?? toldBy("clerk", true)(world),
+    ),
     "Clerk, some names but fewer than the office requires",
   );
   expect(a.record.facts?.tellerKind).toBe("clerk");
@@ -399,20 +593,33 @@ it("the clerk's words once some names are on the petition, below what the office
   expect(Number(a.record.facts?.signed)).toBeLessThan(
     Number(a.record.facts?.needed),
   );
-  const helped = filer(HELPER_SEED, true);
-  const b = told(helped, "Helper, as the day goes", HELPER_SEED);
+  const b = told(
+    findCase("helper-tells", toldBy("helper"), true, needsTold("helper")),
+    "Helper, as the day goes",
+  );
   expect(b.record.facts?.tellerKind).toBe("helper");
-  const both = filer(HELPER_SEED, true);
-  startedByHand(both, 0.5, "gathers");
-  const c = told(both, "Helper, something signed", HELPER_SEED);
+  const c = told(
+    findCase(
+      "helper-some-names",
+      (world) =>
+        startedByHand(world, 0.5, "gathers") ?? toldBy("helper", true)(world),
+      true,
+    ),
+    "Helper, something signed",
+  );
   expect(c.record.facts?.tellerKind).toBe("helper");
   expect(c.record.facts?.started).toBe("yes");
-}, 330_000);
+}, 3_600_000);
 
 it("a clerk says nothing when the names already meet what the office requires", () => {
-  const world = filer();
+  const world = findCase("names-meet", (w) => {
+    takeCampaignDayChoice(w.api, w.filing.id, "canvass", { hours: 1 });
+    const petition = petitionOf(w.api, w.filing.id)!;
+    return petition.signed >= petition.needed
+      ? null
+      : `an hour of canvass signed ${petition.signed} of the ${petition.needed} required`;
+  });
   const { core, api, filing } = world;
-  takeCampaignDayChoice(api, filing.id, "canvass", { hours: 1 });
   const petition = petitionOf(api, filing.id)!;
   expect(
     petition.signed,
@@ -421,21 +628,39 @@ it("a clerk says nothing when the names already meet what the office requires", 
   expect(playToTold(world), "nothing told").toBeUndefined();
   advanceCore(core, addDays(makeIsoDate(petition.due), 1));
   write(
-    `## Clerk, names meet the requirement: ${PLACE} ${SEED}, ${petition.signed} signed, ${petition.needed} needed, a campaign gathers ${signaturesToGather(api, filing.id)}. No one tells them; the clerk's check: ${statusOf(world)}.\n`,
+    `## Clerk, names meet the requirement: ${world.where}, ${petition.signed} signed, ${petition.needed} needed, a campaign gathers ${signaturesToGather(api, filing.id)}. No one tells them; the clerk's check: ${statusOf(world)}.\n`,
   );
-}, 110_000);
+}, 1_800_000);
 
 /**
- * Seed scan-1 of this town is a world where a volunteer fills the petition on their own
- * (found by a script outside the test: of scan-1 to scan-16, 10 are filled by volunteers and
- * 6 told short on Train a2cbd213, 9 and 7 on f26c10de, 10 and 6 on b6c9feab21, so the rate
- * held and only the seed moved). It was scan-25 until the Train's opening-savings folds moved
- * who volunteers in that world; the petition is on pace by play, with nothing written by the test.
+ * A world where the count fills the petition by play, with no act of the
+ * player's, before it ever falls behind: the town's days are played until it
+ * fills. A world told short first is passed over (it was behind then).
  */
-const ON_PACE_SEED = "scan-1";
+function filledByPlay(world: Case): string | null {
+  const { core, api, filing } = world;
+  const petition = petitionOf(api, filing.id)!;
+  const gather = signaturesToGather(api, filing.id);
+  while (core.date <= petition.due) {
+    if (core.durableLog.has(toldId(filing.id))) {
+      const by = core.durableLog.get(toldId(filing.id))?.facts?.tellerKind;
+      learn(world, { told: by === "helper" ? "helper" : "clerk" });
+      return `told on ${core.date} before the count filled it`;
+    }
+    if (petitionOf(api, filing.id)!.signed >= gather) return null;
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  }
+  return `the count reached ${petitionOf(api, filing.id)!.signed} of ${gather} by the due date`;
+}
+
+/** An on-pace case skips a draw an earlier case saw told short. */
+const onPaceSkip = (known: Learned): string | null =>
+  known.told && known.told !== "none"
+    ? `told by the ${known.told} (an earlier case played it)`
+    : null;
 
 it("a petition the count has filled by play is never told", () => {
-  const world = filer(ON_PACE_SEED);
+  const world = findCase("on-pace", filledByPlay, false, onPaceSkip);
   const { core, api, filing } = world;
   const petition = petitionOf(api, filing.id)!;
   const gather = signaturesToGather(api, filing.id);
@@ -444,76 +669,91 @@ it("a petition the count has filled by play is never told", () => {
   const after = petitionOf(api, filing.id)!;
   expect(
     after.signed,
-    `${PLACE} ${ON_PACE_SEED}: the petition filled with no act of the player's`,
+    `${world.where}: the petition filled with no act of the player's`,
   ).toBeGreaterThanOrEqual(gather);
   expect(campaignFor(api, filing.id).volunteerIds.length).toBeGreaterThan(0);
   expect(core.durableLog.has(toldId(filing.id))).toBe(false);
   write(
-    `## On pace by play: ${PLACE} ${ON_PACE_SEED}, a volunteer filled the petition to ${after.signed} of ${gather} with no act of the player's; no one tells them; the clerk's check: ${statusOf(world)}.\n`,
+    `## On pace by play: ${world.where}, a volunteer filled the petition to ${after.signed} of ${gather} with no act of the player's; no one tells them; the clerk's check: ${statusOf(world)}.\n`,
   );
-}, 120_000);
+}, 1_800_000);
 
 it("dev mode brings on the offer and traces what the engine read", () => {
-  const { core, director, filing } = filer();
-  const dev = new DevMode(core, director, undefined, PLACE);
+  // A world where the clerk tells, played to the telling, then the same world
+  // built again and brought on by dev mode: dev mode reaches the same day and
+  // traces what the engine read that day, from the record's own facts.
+  const played = findCase(
+    "dev-clerk-tells",
+    toldBy("clerk"),
+    false,
+    needsTold("clerk"),
+  );
+  const record = played.core.durableLog.get(toldId(played.filing.id))!;
+  const { core, director, filing } = rebuild(played);
+  const dev = new DevMode(core, director, undefined, played.drawn.key);
   const result = dev.petitionShort(filing.id);
   expect(result.told, "dev mode advanced to the day the engine told them").toBe(
-    "2025-08-03",
+    record.date,
   );
   expect(result.tellerKind).toBe("clerk");
-  expect(result.signed).toBe(0);
-  expect(result.gathers).toBe(10);
-  expect(result.canAddAfterNextTurn).toBe(0);
+  expect(result.signed).toBe(Number(record.facts?.signed));
+  expect(result.gathers).toBe(Number(record.facts?.gathers));
+  expect(result.canAddAfterNextTurn).toBe(
+    Number(record.facts?.canAddAfterNextTurn),
+  );
   expect(core.durableLog.has(toldId(filing.id))).toBe(true);
   const labels = controls.devCampaign;
   write(
-    `## Dev mode, a petition that falls behind: the button "${labels.petitionBehind}" advanced to ${result.told}; the line shown: "${labels.petitionTold}". Told by the ${result.tellerKind}; ${result.signed} of ${result.gathers} signed, ${result.daysLeft} days left.\n`,
+    `## Dev mode, a petition that falls behind: ${played.where}; the button "${labels.petitionBehind}" advanced to ${result.told}; the line shown: "${labels.petitionTold}". Told by the ${result.tellerKind}; ${result.signed} of ${result.gathers} signed, ${result.daysLeft} days left.\n`,
   );
   // A petition on pace by play is never told, and the control says so.
-  const onPace = filer(ON_PACE_SEED);
+  const filled = findCase("dev-on-pace", filledByPlay, false, onPaceSkip);
+  const onPace = rebuild(filled);
   const none = new DevMode(
     onPace.core,
     onPace.director,
     undefined,
-    PLACE,
+    filled.drawn.key,
   ).petitionShort(onPace.filing.id);
-  expect(none.told).toBeNull();
+  expect(none.told, `${filled.where}: on pace by play`).toBeNull();
   write(
-    `## Dev mode, a petition that meets the requirement: the button "${labels.petitionBehind}"; the line shown: "${labels.petitionNotTold}".\n`,
+    `## Dev mode, a petition that meets the requirement: ${filled.where}; the button "${labels.petitionBehind}"; the line shown: "${labels.petitionNotTold}".\n`,
   );
-}, 220_000);
+}, 3_600_000);
 
 /**
- * Other worlds at the same place, so each wording of a line that the world's own pick chooses
- * between is shown: the lead, the opener, the answer and the thank are picked by the record's
- * id, so another player and filing in the same town draws another sibling. Every talk is
- * written whole, in the same layout as the cases above.
+ * Other worlds, so each wording of a line that the world's own pick chooses
+ * between is shown: the lead, the opener, the answer and the thank are picked
+ * by the record's id, so another player and filing draws another sibling.
+ * Every talk is written whole, in the same layout as the cases above.
  */
 it("other worlds show the other wordings of the clerk's and the helper's talk", () => {
-  for (const [byHelper, seeds] of [
-    [false, CLERK_SEEDS],
-    [true, HELPER_SEEDS],
+  for (const [byHelper, count] of [
+    [false, 2],
+    [true, 1],
   ] as const) {
-    for (const seed of seeds) {
+    for (let n = 0; n < count; n += 1) {
       for (const started of [false, true]) {
-        const world = filer(seed, byHelper);
-        if (started) {
-          try {
-            startedByHand(world, 0.5, byHelper ? "gathers" : "needed");
-          } catch {
-            // A town where half an hour already meets the count has nothing short to tell.
-            write(
-              `## ${seed}: half an hour of canvass meets the count; no talk to show.\n`,
-            );
-            continue;
-          }
-        }
+        const who = byHelper ? "helper" : "clerk";
+        const world = findCase(
+          `other-${who}-${n}-${started ? "started" : "unstarted"}`,
+          (w) =>
+            (started
+              ? startedByHand(w, 0.5, byHelper ? "gathers" : "needed")
+              : null) ?? toldBy(who, started)(w),
+          byHelper,
+          (known, id) =>
+            shown.has(id)
+              ? "shown by an earlier case"
+              : started
+                ? null
+                : needsTold(who)(known),
+        );
         told(
           world,
           `${byHelper ? "Helper" : "Clerk"}, ${started ? "something signed" : "nothing signed"}, another world`,
-          seed,
         );
       }
     }
   }
-}, 1_300_000);
+}, 7_200_000);
