@@ -1274,7 +1274,11 @@ export interface CoreModule {
   /** The bills a meeting's agenda holds on a date. */
   meetingAgendaReader?(api: CoreAPI, date: string): readonly string[];
   /** Who testifies on a question: the people its records show are concerned with it. */
-  hearingWitnesses?(api: CoreAPI, bill: unknown): readonly unknown[];
+  hearingWitnesses?(
+    api: CoreAPI,
+    bill: unknown,
+    question: string,
+  ): readonly unknown[];
   /** The leadership engine seats a chamber's committees and their chairs. */
   committeeRoster?(
     api: CoreAPI,
