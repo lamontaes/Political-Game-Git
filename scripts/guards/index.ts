@@ -236,6 +236,12 @@ export const GUARDS: readonly Guard[] = [
     command: ["node", "scripts/guards/reading-line.mjs"],
   },
   {
+    id: "game-only",
+    rule: "The game folder holds only the game: no test file, and no file that imports a test runner, under src, public or art.",
+    readMore: "docs/design/guards.md, game-only; scripts/guards/game-only.ts",
+    command: vitest("tests/guards/game-only.test.ts"),
+  },
+  {
     id: "check-changes",
     rule: "No session edits the checks that judge it: a change adds no expected-failure, skip, only or todo mark, no known-red row, no test pinned to a named town or seed and no larger baseline, and drops no test file, case or assertion, without the CTO's line on the crew issue.",
     readMore:

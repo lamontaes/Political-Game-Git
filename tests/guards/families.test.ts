@@ -33,6 +33,9 @@ const entries = new Map(
 
 const SOURCE =
   /^(?:src\/(?:core2|director|english|bench)\/.*\.(?:ts|tsx|mjs))$/;
+/** A test file sits in the game folder's mirror under tests/src (it once sat beside its source). */
+const TEST_SOURCE =
+  /^(?:tests\/)?src\/(?:core2|director|english|bench)\/.*\.(?:ts|tsx|mjs)$/;
 function sources(): string[] {
   return execFileSync(
     "git",
@@ -66,13 +69,19 @@ export function importsOf(file: string, source: string): string[] {
 function testFiles(): string[] {
   return execFileSync(
     "git",
-    ["ls-files", "src/core2", "src/director", "src/english", "src/bench"],
+    [
+      "ls-files",
+      ...["src", "tests/src"].flatMap((top) =>
+        ["core2", "director", "english", "bench"].map((dir) => `${top}/${dir}`),
+      ),
+    ],
     { cwd: ROOT, encoding: "utf8" },
   )
     .split("\n")
     .filter(
       (file) =>
-        SOURCE.test(file) && /\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
+        TEST_SOURCE.test(file) &&
+        /\.(test|spec|browser)\.(ts|tsx|mjs)$/.test(file),
     );
 }
 
@@ -114,7 +123,10 @@ describe("one engine per mechanic: families and their boundaries", () => {
   });
 
   it("puts every test file in a family, so a red test has an owner", () => {
-    const orphans = testFiles().filter((file) => familyOf(file) === null);
+    const tests = testFiles();
+    // The list is read from where the tests sit; an empty list would pass this check by seeing nothing.
+    expect(tests.length).toBeGreaterThan(0);
+    const orphans = tests.filter((file) => familyOf(file) === null);
     expect(
       orphans,
       "add each test file to the family of the code it tests, in its paths in tests/guards/families.json (CTO, Nov 26: every file gets a family)",

@@ -29,8 +29,10 @@ export function planCadence(changedFiles, options = {}) {
   );
   const release = has(/^docs\/release\//);
   const pool = has(/^docs\/pool\//);
-  const core = has(/^src\/(core2|rules|director|english)\//);
-  const screens = has(/^src\/bench\/(play\.(mjs|css|html)|.*\.browser\.mjs)$/);
+  const core = has(/^(?:tests\/)?src\/(core2|rules|director|english)\//);
+  const screens = has(
+    /^(?:tests\/)?src\/bench\/(play\.(mjs|css|html)|.*\.browser\.mjs)$/,
+  );
   const skillOps = has(
     /^scripts\/skill-ops\/|^\.agents\/|^\.claude\/|^AGENTS\.md$|^CLAUDE\.md$|^\.cursor\/|^\.codex\//,
   );
