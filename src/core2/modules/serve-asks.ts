@@ -75,7 +75,7 @@ import {
   voterLean,
 } from "./voting";
 
-export const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
+const SERVE_ASKS_MODULE_ID = "core2-serve-asks-v1";
 /** The event an ask is played from: the director's `ask-to-serve` cause. */
 export const SERVE_ASKED_EVENT = "serve-asked";
 
@@ -228,7 +228,7 @@ function movedSince(was: ServeStanding, now: ServeStanding): ServeMoved | null {
   return best;
 }
 
-export const SERVE_ASKS_MODULE: CoreModule = {
+const SERVE_ASKS_MODULE: CoreModule = {
   id: SERVE_ASKS_MODULE_ID,
   state: {
     schemaVersion: 1,

@@ -32,7 +32,7 @@ import { keptStateRightShare } from "../place-leans";
 import { viewOn } from "./views";
 import { enactLaw, lawChain } from "./laws";
 import { turnoutOn, VOTING_MODULE_ID } from "./voting";
-import { stateActEffectiveDate } from "../state-effective-date";
+import { stateActEffectiveDate } from "./laws";
 
 export const BALLOT_MEASURES_MODULE_ID = "core2-ballot-measures-v1";
 

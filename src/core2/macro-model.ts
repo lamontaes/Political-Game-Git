@@ -43,7 +43,7 @@ const BY_MONTH = new Map(ROWS.map((row) => [row.month, row]));
 const QUARTERS = new Map(
   history.quarterlyRealOutput.map((row) => [row.quarter, row.realOutput]),
 );
-export const MACRO_BANDS = history.bands;
+const MACRO_BANDS = history.bands;
 export const MACRO_HISTORY_SOURCE = history.source;
 
 export function monthKey(date: string): string {

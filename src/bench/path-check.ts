@@ -18,7 +18,7 @@ import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
-import { campaignDayChoices } from "../core2/campaign-day";
+import { campaignDayChoices } from "../core2/modules/campaigns";
 import {
   CAMPAIGNS_MODULE_ID,
   candidatePlatform,
