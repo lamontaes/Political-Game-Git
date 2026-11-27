@@ -124,6 +124,14 @@
         "src/core2/gov-rules/county-election-calendar.ts",
         "src/core2/gov-rules/town-election-calendar.ts",
         "src/core2/gov-rules/municipal-ballot-rules.ts",
+        "src/core2/campaign-views.ts",
+        "src/core2/electorate.ts",
+        "src/core2/modules/parties.ts",
+        "src/core2/modules/interest-groups.ts",
+        "src/core2/modules/filing-clerk.ts",
+        "src/core2/modules/ballot-measures.ts",
+        "src/core2/modules/recalls.ts",
+        "src/core2/elections-calendar.ts",
         "src/core2/modules/candidacy-constants.ts"
       ],
       "paths": [
