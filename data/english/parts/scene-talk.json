@@ -73883,7 +73883,8 @@
           "step": "reply",
           "move": "agree",
           "role": "asked",
-          "requiresFacts": ["no-petition", "vote-day"]
+          "requiresFacts": ["no-petition", "vote-day"],
+          "excludesFacts": ["first-filing"]
         }
       ],
       "bearing": "glad",
@@ -74044,7 +74045,7 @@
           "move": "leave",
           "role": "asked",
           "requiresFacts": ["due"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "guarded",
@@ -74070,7 +74071,8 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
-          "requiresFacts": ["no-petition", "office"]
+          "requiresFacts": ["no-petition", "office"],
+          "excludesFacts": ["first-filing"]
         }
       ],
       "bearing": "hopeful",
@@ -74097,7 +74099,7 @@
           "move": "leave",
           "role": "asked",
           "requiresFacts": ["due", "place"],
-          "excludesFacts": ["no-petition"]
+          "excludesFacts": ["no-petition", "first-filing"]
         }
       ],
       "bearing": "guarded",
@@ -75001,6 +75003,35 @@
       "elements": [
         "filing-at-the-clerks-counter",
         "no-fee-then-a-petition",
+        "filing-the-first-time-is-new-to-the-clerk"
+      ]
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-not-sure-yet-i-ll-think-about-office-and-come-back",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not sure yet. I'll think about {office} and come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "office"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (W2, the filing counter)",
+      "date": "2026-11-27",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      },
+      "elements": [
+        "filing-at-the-clerks-counter",
         "filing-the-first-time-is-new-to-the-clerk"
       ]
     },
