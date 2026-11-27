@@ -231,11 +231,29 @@ interface Ref {
   >;
 }
 const refsOf: Ref[] = sts.map(() => ({ stmts: new Set(), imports: new Set() }));
+/** writes[i]: top-level statements whose binding statement i assigns (a `let` is only assigned in its own file). */
+const writes: Set<number>[] = sts.map(() => new Set());
 const topOf = (node: ts.Node): ts.Node | undefined => {
   let n: ts.Node | undefined = node;
   while (n && n.parent && n.parent !== programSf) n = n.parent;
   return n && n.parent === programSf ? n : undefined;
 };
+/** Whether an identifier is the target of an assignment or an increment. */
+function isAssignedTo(id: ts.Identifier): boolean {
+  const p = id.parent;
+  if (
+    ts.isBinaryExpression(p) &&
+    p.left === id &&
+    p.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
+    p.operatorToken.kind <= ts.SyntaxKind.LastAssignment
+  )
+    return true;
+  return (
+    (ts.isPrefixUnaryExpression(p) || ts.isPostfixUnaryExpression(p)) &&
+    (p.operator === ts.SyntaxKind.PlusPlusToken ||
+      p.operator === ts.SyntaxKind.MinusMinusToken)
+  );
+}
 function visit(node: ts.Node, index: number): void {
   if (ts.isIdentifier(node)) {
     let symbol = checker.getSymbolAtLocation(node);
@@ -258,6 +276,10 @@ function visit(node: ts.Node, index: number): void {
         refsOf[index]!.imports.add(decl);
       else {
         const top = topOf(decl);
+        if (top && isAssignedTo(node)) {
+          const at = stIndexOf.get(top);
+          if (at !== undefined && at !== index) writes[index]!.add(at);
+        }
         // Only a binding that is itself a top-level declaration counts, never
         // a member of one (a property read off a typed value).
         const direct =
@@ -299,6 +321,14 @@ while (grew) {
     }
   }
 }
+
+// A top-level binding that is assigned stays in the file that assigns it.
+for (let i = 0; i < sts.length; i += 1)
+  for (const j of writes[i]!)
+    if (owner[j] !== owner[i])
+      throw new Error(
+        `${declaredNames(sts[i]!).join(",")} (${owner[i]}) assigns ${declaredNames(sts[j]!).join(",")} (${owner[j]}); keep them in one file`,
+      );
 
 // Which names cross files, so they gain `export`.
 const crossed = new Set<number>();
