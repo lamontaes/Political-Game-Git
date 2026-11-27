@@ -1,4 +1,3 @@
-import type { StanceListener } from "./stance-listeners";
 import type { HistorySource } from "./past-history";
 import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
@@ -25,6 +24,7 @@ import type {
 } from "./work-pay-period";
 import type { WorkCashSourceState } from "./work-cash";
 import type { Parameter } from "./parameters";
+import type { StanceListener } from "./stance-listeners";
 import type { EventAppraisal } from "./emotion";
 import type { BusinessBooksData } from "./business-books";
 import type {
