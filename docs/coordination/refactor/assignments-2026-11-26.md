@@ -407,6 +407,8 @@ The audit is world-2026-11-27.md in this folder (rows WO1 to WO5). No new split.
 **Items, safest first:**
 
 1. **community-events-table.ts (WO4):** agree with Story on #10377 whether it's wired into the calendar or deleted, and do it.
+   **Added 2:16 a.m.:** places and the clock (clock-places: place lookup, the calendar, the player's control and stops, disasters, national events, world metrics, output numbers, the game's start, and the four opening files in the family) are yours too. Count the reach-ins into its non-entry files and route them through its entries, with item 2. press-desk.ts waits for People's #10700. press-money.ts's two writes are Core item 7's.
+
 2. **News doors (WO2),** after #10701 is in the train. Post them, so each consumer switches its own files.
 3. **news' reads switch** to the doors other sessions build, as they land.
 4. **press.ts split by concern and long functions as named steps (WO1),** after the Story split lands its engine half.
