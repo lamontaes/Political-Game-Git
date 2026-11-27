@@ -18,7 +18,7 @@
  * people it serves.
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
-import { payVeterans, veteransIncomeOf } from "./group-b-veterans";
+import { payVeterans } from "./group-b-veterans";
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
 import { povertyLineDollars } from "./poverty-line";
@@ -83,13 +83,11 @@ import {
   payEnergyAssistance,
   payVouchers,
   recordApplied,
-  assistanceIncomeOf,
   residentsOf,
   scalePayroll,
   serviceLevel,
   source,
 } from "./group-b-money";
-import { setAssistanceReader } from "../modules/residents";
 import { equalizeSchoolFunding } from "./group-b-school-aid";
 import { runFoodAid } from "./group-b-food-aid";
 import { lawNoLongerApplies } from "./applied";
@@ -1195,13 +1193,6 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
-  // A counted household's public income: the welfare line's assistance and
-  // the veterans line's benefits, both money income in the poverty measure.
-  setAssistanceReader(
-    (core, householdId) =>
-      assistanceIncomeOf(core, householdId) +
-      veteransIncomeOf(core, householdId),
-  );
   registerMonthlyProgram(runBenefitPrograms);
   registerTreasuryRule(reviewFiscalRules);
   for (const key of TREASURY_RULE_KEYS)

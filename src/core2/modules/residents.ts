@@ -84,6 +84,7 @@ import { commuterRole } from "./jobs";
 import { corePlaceByKey } from "../place-lookup";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { sellHome } from "../housing-sale";
+import { fieldsOf } from "../module-fields";
 import {
   addCountedJob,
   countedJobHeads,
@@ -389,16 +390,14 @@ function householdKeys(
   return out;
 }
 
-/** Reads what the welfare line pays one household a year; law reach sets it when it registers (the Census counts public assistance in income). */
-type AssistanceReader = (core: CoreState, householdId: string) => number;
-let assistanceReader: AssistanceReader | undefined;
-export function setAssistanceReader(reader: AssistanceReader): void {
-  assistanceReader = reader;
-}
-
+/** What the welfare line and the veterans line pay one household a year: the sum of what each installed engine says (the `assistanceReader` field; the Census counts public assistance in income). */
 function assistanceYear(rt: ResidentsRuntime, householdId: string): number {
   const core = coreOfRuntime.get(rt);
-  return core && assistanceReader ? assistanceReader(core, householdId) : 0;
+  if (!core) return 0;
+  let total = 0;
+  for (const read of fieldsOf(core, "assistanceReader"))
+    total += read(core, householdId);
+  return total;
 }
 
 /** A counted household's yearly income: recorded pay, retirement awards, its unplaced workers' pay and the welfare line's cash assistance. */
