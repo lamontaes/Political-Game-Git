@@ -280,6 +280,7 @@ import {
 } from "./promise-talk";
 import { answerVeto, vetoOfRaised, vetoSubject } from "./veto-talk";
 import {
+  learnFromStory,
   learnView,
   learnViewQuestion,
   stanceRecordId,
@@ -8800,6 +8801,11 @@ export function beliefsOf(api: CoreAPI, personId: PersonId): Belief[] {
  */
 export const beliefsModule: CoreModule = {
   id: BELIEFS_MODULE_ID,
+  // A story the person heard in which someone took a public stand tells the
+  // player where that someone stands (view-learned.ts).
+  onStoryHeard(api, personId, story) {
+    learnFromStory(api, personId as PersonId, story as Story);
+  },
   state: {
     schemaVersion: one,
     tables: { beliefs: { indexes: { byHearer: { fields: ["hearerId"] } } } },

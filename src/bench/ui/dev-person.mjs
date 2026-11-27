@@ -1,4 +1,3 @@
-/* global fetch */
 // Dev mode's person controls, a section on a person's card: have them fall seriously ill (the
 // health module's own onset, so the death, the estate, the news and the funeral follow in their own
 // time) and run the world until they die. Control names and record data only.
@@ -7,27 +6,13 @@ import { makeButton } from "./button.mjs";
 import { statusLine } from "./fields.mjs";
 import { stripSection } from "./strips.mjs";
 import { followBar } from "./dev-view.mjs";
-
-async function get(path) {
-  const response = await fetch(`/api/dev/${path}`);
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
-
-async function post(path, input) {
-  const response = await fetch(`/api/dev/${path}`, {
-    method: "POST",
-    body: JSON.stringify(input),
-  });
-  const value = await response.json();
-  if (!response.ok) throw new Error(value.error);
-  return value;
-}
+import { sendDevRequest } from "./dev-request.mjs";
 
 /** The section. `labels` is controls.devPerson; `onDone()` refreshes the game's screens. */
 export async function devPersonSection({ personId, labels, onDone }) {
-  const offered = await get(`offers?personId=${encodeURIComponent(personId)}`);
+  const offered = await sendDevRequest(
+    `offers?personId=${encodeURIComponent(personId)}`,
+  );
   const result = statusLine();
   const button = (label, testid, work) => {
     const node = makeButton({ className: "action small" }, label);
@@ -52,12 +37,16 @@ export async function devPersonSection({ personId, labels, onDone }) {
     // Follow them: from then on each act of theirs keeps every option's reasons. It decides
     // nothing and spends no time; someone in the player's circle is already kept.
     followBar({
-      load: () => get(`following?personId=${encodeURIComponent(personId)}`),
+      load: () =>
+        sendDevRequest(`following?personId=${encodeURIComponent(personId)}`),
       onToggle: async (view, draw) => {
         draw(
-          await post(view.status === "dev-mode" ? "unfollow" : "follow", {
-            personId,
-          }),
+          await sendDevRequest(
+            view.status === "dev-mode" ? "unfollow" : "follow",
+            {
+              personId,
+            },
+          ),
         );
       },
     }),
@@ -65,15 +54,15 @@ export async function devPersonSection({ personId, labels, onDone }) {
       "div",
       { className: "acts" },
       button(labels.fallIll, "dev-ill", async () => {
-        await post("illness", { personId });
+        await sendDevRequest("illness", { personId });
         return labels.ill;
       }),
       button(labels.layOff, "dev-layoff", async () => {
-        await post("layoff", { personId });
+        await sendDevRequest("layoff", { personId });
         return labels.laidOff;
       }),
       button(labels.runUntilDies, "dev-until-dies", async () => {
-        const ran = await post("run-until", {
+        const ran = await sendDevRequest("run-until", {
           event: "death",
           person: personId,
           cap: 366,
@@ -103,7 +92,7 @@ export async function devPersonSection({ personId, labels, onDone }) {
         node.addEventListener("click", async () => {
           node.disabled = true;
           try {
-            await post("choose", { personId, key: offer.key });
+            await sendDevRequest("choose", { personId, key: offer.key });
             for (const other of node.parentNode.querySelectorAll(
               '[data-testid="dev-offer"].on',
             ))
