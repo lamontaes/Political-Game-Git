@@ -27,7 +27,7 @@ import {
   withWorldEconomy,
   worldCoreData,
 } from "../core2/modules/world";
-import { openLaws, openLawReach } from "../core2/modules/laws";
+import { openLaws } from "../core2/modules/laws";
 import {
   applyPastSessionLaws,
   lastSittingBefore,
@@ -61,6 +61,7 @@ import { openContracts } from "../core2/budgets-treasury";
 import { openProjects } from "../core2/budgets-treasury";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
+import { openLawReach } from "../core2/modules/justice";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openServeAsks } from "../core2/modules/serve-asks";

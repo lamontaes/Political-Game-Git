@@ -8,12 +8,12 @@
  */
 import {
   mechanicRow,
-  groupAReachParameter as reachParameter,
   putMechanic,
   reachTable,
   tomorrow,
   type MechanicRow,
 } from "./laws-in-force";
+import { reachParameter } from "./modules/justice";
 import { appliedOn, lawNoLongerApplies } from "./law-reach/applied";
 import {
   enactLaw,

@@ -515,7 +515,6 @@
         "src/core2/congress-federal-position-bills.test.ts",
         "src/core2/consumer-credit-law.test.ts",
         "src/core2/contribution-limit-reach.test.ts",
-        "src/core2/corruption-refusal.test.ts",
         "src/core2/county-body-reads-county-law.test.ts",
         "src/core2/data-privacy-law.test.ts",
         "src/core2/debt-limit-binds.test.ts",
@@ -528,7 +527,6 @@
         "src/core2/executive-head-records.test.ts",
         "src/core2/executive.test.ts",
         "src/core2/family-link-change.test.ts",
-        "src/core2/federal-courts.test.ts",
         "src/core2/federal-data-privacy-law.test.ts",
         "src/core2/federal-deficit-borrowing-cost.test.ts",
         "src/core2/federal-grant-pass-through.test.ts",
@@ -545,7 +543,6 @@
         "src/core2/graduated-repeal-flat-rate.test.ts",
         "src/core2/groundwater-law.test.ts",
         "src/core2/group-quarters-means-reach.test.ts",
-        "src/core2/gun-preemption-flags.test.ts",
         "src/core2/health-web-particulates.test.ts",
         "src/core2/health-web.test.ts",
         "src/core2/hold-record-sponsor.test.ts",
@@ -572,13 +569,11 @@
         "src/core2/law-took-effect-superseded.test.ts",
         "src/core2/law-wiring-borrowing-cost.test.ts",
         "src/core2/law-wiring-college-step.test.ts",
-        "src/core2/law-wiring-crime-web.test.ts",
         "src/core2/law-wiring-government.test.ts",
         "src/core2/law-wiring-grocery.test.ts",
         "src/core2/law-wiring-health-schools.test.ts",
         "src/core2/law-wiring-housing.test.ts",
         "src/core2/law-wiring-immigration.test.ts",
-        "src/core2/law-wiring-justice.test.ts",
         "src/core2/law-wiring-labor-web.test.ts",
         "src/core2/law-wiring-labor.test.ts",
         "src/core2/law-wiring-mortality-web.test.ts",
@@ -600,7 +595,6 @@
         "src/core2/medicare-line-medical-debt.test.ts",
         "src/core2/metrics-labor-force.test.ts",
         "src/core2/minimum-wage-history.test.ts",
-        "src/core2/modules/crime.test.ts",
         "src/core2/modules/public-action-counted.test.ts",
         "src/core2/modules/public-action-movement.test.ts",
         "src/core2/modules/public-action-rally.test.ts",
@@ -611,10 +605,8 @@
         "src/core2/outside-act-not-town-law.test.ts",
         "src/core2/outside-agenda.test.ts",
         "src/core2/paid-leave.test.ts",
-        "src/core2/pending-bribe-not-reported.test.ts",
         "src/core2/pending-law-reversal.test.ts",
         "src/core2/place-prices-learned.test.ts",
-        "src/core2/police-arrests.test.ts",
         "src/core2/polling-place-building.test.ts",
         "src/core2/pr-municipio-budget.test.ts",
         "src/core2/prices-web-environment.test.ts",
@@ -662,7 +654,8 @@
         "src/core2/withholding-nonresident-local.test.ts",
         "src/core2/withholding-outside-governments.test.ts",
         "src/core2/withholding-zero-rate.test.ts",
-        "src/core2/world-legislating.test.ts"
+        "src/core2/world-legislating.test.ts",
+        "src/core2/gun-preemption-flags.test.ts"
       ]
     },
     {
@@ -689,7 +682,14 @@
         "src/core2/justice-*.ts",
         "src/core2/low-level-offenses.ts",
         "src/core2/firearm-ownership.ts",
-        "src/core2/public-safety.ts"
+        "src/core2/public-safety.ts",
+        "src/core2/modules/crime.test.ts",
+        "src/core2/federal-courts.test.ts",
+        "src/core2/police-arrests.test.ts",
+        "src/core2/corruption-refusal.test.ts",
+        "src/core2/pending-bribe-not-reported.test.ts",
+        "src/core2/law-wiring-justice.test.ts",
+        "src/core2/law-wiring-crime-web.test.ts"
       ]
     },
     {
