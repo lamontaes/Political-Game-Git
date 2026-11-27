@@ -13,7 +13,6 @@
   "src/core2/budget-line-schools-staffing.test.ts",
   "src/core2/congress-federal-position-bills.test.ts",
   "src/core2/corruption-calibration.test.ts",
-  "src/core2/disasters-no-market.test.ts",
   "src/core2/federal-courts.test.ts",
   "src/core2/housing-counted-evicted.test.ts",
   "src/core2/justice-player.test.ts",
