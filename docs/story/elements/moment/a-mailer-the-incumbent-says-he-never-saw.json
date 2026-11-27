@@ -1,0 +1,30 @@
+{
+  "id": "a-mailer-the-incumbent-says-he-never-saw",
+  "kind": "moment",
+  "summary": "The person a mailer helps says they knew nothing about it before it went out.",
+  "realLife": "A longtime Fort Worth council incumbent said he had no knowledge of a mailer that listed his past opponents before it was sent.",
+  "sources": [
+    "Fort Worth Star-Telegram via Yahoo, police mailer in Fort Worth council race slighted a Black candidate, the incumbent said he knew nothing of it: https://news.yahoo.com/mistake-not-police-mailer-fort-100400548.html"
+  ],
+  "fits": ["campaign", "news"],
+  "slots": ["opponent", "name"],
+  "gates": [],
+  "weights": {
+    "rival-word": 0.6,
+    "news": 0.5
+  },
+  "inGame": "rival-message record with who sent it; needs: independent groups as a source of a message",
+  "usedBy": ["rival-word"],
+  "turns": [
+    {
+      "turn": "The rival owns the mailer and says why",
+      "pull": "a bold, low-agreeable rival",
+      "writes": "a plain confrontation line"
+    },
+    {
+      "turn": "The rival's friend sent it without asking",
+      "pull": "a loyal friend record",
+      "writes": "an apology from the rival and a Journal note"
+    }
+  ]
+}
