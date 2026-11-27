@@ -74,8 +74,6 @@ import {
 } from "../elections-calendar";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
-
-export { localOfficesForPlace };
 import {
   federalOffices,
   stateOffices,
@@ -579,37 +577,15 @@ function termEnd(
   seat: SeatInput,
   date: string,
 ): string | null {
+  if (!office.termYears) return null;
   const town = table(api, "loaded").get("town") as unknown as
     { stateKey: string; geoid: string } | undefined;
-  return seatTermEnd({
+  const where = {
     office,
-    seat,
     stateKey: office.jurisdiction.startsWith("US-")
       ? office.jurisdiction
       : (town?.stateKey ?? ""),
     placeGeoid: town?.geoid ?? "",
-    date,
-  });
-}
-
-/**
- * A seat's term end at the opening, from the office and its place alone (`termEnd` reads them
- * from the world; the century reads them from the build): the start of the term won at the
- * seat's next regular election on its office's own calendar.
- */
-export function seatTermEnd(input: {
-  readonly office: OfficeInput;
-  readonly seat: { readonly index: number; readonly electionYear?: number };
-  readonly stateKey: string;
-  readonly placeGeoid: string;
-  readonly date: string;
-}): string | null {
-  const { office, seat, date } = input;
-  if (!office.termYears) return null;
-  const where = {
-    office,
-    stateKey: input.stateKey,
-    placeGeoid: input.placeGeoid,
   };
   const year = seat.electionYear ?? office.nextElectionYear;
   const election =
