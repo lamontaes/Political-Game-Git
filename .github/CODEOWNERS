@@ -73,6 +73,7 @@
 /src/core2/modules/parties.ts @lamontaes
 /src/core2/modules/interest-groups.ts @lamontaes
 /src/core2/ballot-order.ts @lamontaes
+/src/core2/modules/voting-*.ts @lamontaes
 /src/core2/party-sides.ts @lamontaes
 /src/core2/gov-rules/county-election-calendar.ts @lamontaes
 /src/core2/gov-rules/town-election-calendar.ts @lamontaes

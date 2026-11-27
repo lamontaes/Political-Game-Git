@@ -149,6 +149,7 @@
         "src/core2/modules/parties.ts",
         "src/core2/modules/interest-groups.ts",
         "src/core2/ballot-order.ts",
+        "src/core2/modules/voting-*.ts",
         "src/core2/party-sides.ts",
         "src/core2/gov-rules/county-election-calendar.ts",
         "src/core2/gov-rules/town-election-calendar.ts",
