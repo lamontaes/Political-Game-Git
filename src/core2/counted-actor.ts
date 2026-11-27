@@ -1,3 +1,4 @@
+import { fieldsOf } from "./module-fields";
 import type { CoreState, PersonId, PersonInput } from "./types";
 
 /**
@@ -12,8 +13,8 @@ export function countedPersonOf(
   core: CoreState,
   personId: PersonId,
 ): PersonInput | undefined {
-  for (const module of core.modules.values()) {
-    const found = module.countedPerson?.(core, personId);
+  for (const read of fieldsOf(core, "countedPerson")) {
+    const found = read(core, personId);
     if (found) return found;
   }
   return undefined;

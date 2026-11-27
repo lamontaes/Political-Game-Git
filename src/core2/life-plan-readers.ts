@@ -5,6 +5,7 @@
  * views). Absent readers mean the plan is not known, read as the nation's
  * average.
  */
+import { fieldsOf } from "./module-fields";
 import type { CoreState } from "./types";
 
 export interface PlanReaders {
@@ -34,7 +35,5 @@ const NO_COVERAGE: PlanReaders = {
 
 /** The plan readers the coverage engine carries as its module's `planReaders`, or readers that know no plan. */
 export function planReaders(core: CoreState): PlanReaders {
-  for (const module of core.modules.values())
-    if (module.planReaders) return module.planReaders;
-  return NO_COVERAGE;
+  return fieldsOf(core, "planReaders")[0] ?? NO_COVERAGE;
 }
