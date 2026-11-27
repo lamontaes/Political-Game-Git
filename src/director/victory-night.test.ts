@@ -15,7 +15,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
-import { advanceToRaceFiling } from "../core2/gov-test-clock";
+import { advanceToRaceFiling } from "../../tests/support/gov-test-clock";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";

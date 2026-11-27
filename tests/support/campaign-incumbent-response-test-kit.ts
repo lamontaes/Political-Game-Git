@@ -35,7 +35,7 @@ import {
   type PledgeRow,
   type PollRow,
 } from "../../src/core2/modules/campaigns";
-import { advanceToFilingOpen } from "../../src/core2/gov-test-clock";
+import { advanceToFilingOpen } from "./gov-test-clock";
 import { townResidentsByCash } from "./resident-adults-test-kit";
 
 export const START = "2026-01-05";

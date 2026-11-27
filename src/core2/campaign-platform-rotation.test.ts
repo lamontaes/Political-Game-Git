@@ -14,7 +14,7 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
-import { advanceToFilingOpen } from "./gov-test-clock";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";

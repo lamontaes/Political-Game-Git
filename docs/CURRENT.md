@@ -410,3 +410,4 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | `src/core2/trait-test-kit.ts` | `tests/support/trait-test-kit.ts` | 2026-11-27 | Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move. |
 | `src/core2/turnover-check.ts` | `scripts/core2/turnover-check.ts` | 2026-11-27 | Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move. |
 | `src/core2/tooling/tsconfig.json` | nothing: no file read it, and its include no longer meant anything | 2026-11-27 | Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move. |
+| `src/core2/gov-test-clock.ts` | `tests/support/gov-test-clock.ts` | 2026-11-27 | Core item 2 (core audit K9): the workshop is out of the game's source; scripts/core/move-workshop.ts made the move. |

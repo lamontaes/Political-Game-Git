@@ -4,16 +4,16 @@
  * to file for that day. A test that needs a contest to file for moves the
  * clock to the first day one opens, as a player there would wait for it.
  */
-import { setBookkeeping } from "./bookkeeping";
-import { advanceCore } from "./life";
-import { coreAPI } from "./state";
+import { setBookkeeping } from "../../src/core2/bookkeeping";
+import { advanceCore } from "../../src/core2/life";
+import { coreAPI } from "../../src/core2/state";
 import {
   openContests,
   ELECTIONS_MODULE_ID,
   type ContestRow,
-} from "./modules/elections";
-import { makeIsoDate } from "./kernel/dates";
-import type { CoreState } from "./types";
+} from "../../src/core2/modules/elections";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
+import type { CoreState } from "../../src/core2/types";
 
 /**
  * The wait runs with the debug bookkeeping off (bookkeeping only throws on a

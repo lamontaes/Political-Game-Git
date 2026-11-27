@@ -8715,7 +8715,7 @@
     "src/core2/gov-rules/municipal-recall-rule.test.ts",
     "src/core2/gov-rules/place-slots.ts",
     "src/core2/gov-rules/types.ts",
-    "src/core2/gov-test-clock.ts",
+    "tests/support/gov-test-clock.ts",
     "scripts/core2/gov-test-report.ts",
     "src/core2/government-level.ts",
     "src/core2/government-proper-name.test.ts",

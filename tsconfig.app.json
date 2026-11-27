@@ -4,11 +4,7 @@
     "tsBuildInfoFile": "./test-results/typecheck/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,9 +18,7 @@
     "allowArbitraryExtensions": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": [
-      "vite/client"
-    ]
+    "types": ["vite/client"]
   },
   "files": [
     "data/research/laws/starting-law-2026/index.ts",
@@ -44,13 +38,10 @@
     "tests/support/test-days.ts",
     "tests/support/trait-test-kit.ts",
     "tests/support/world-with.ts",
-    "tests/golden-path/path-check.ts"
+    "tests/golden-path/path-check.ts",
+    "tests/support/gov-test-clock.ts"
   ],
-  "include": [
-    "src",
-    "scripts/core2/**/*.ts",
-    "scripts/bench/**/*.ts"
-  ],
+  "include": ["src", "scripts/core2/**/*.ts", "scripts/bench/**/*.ts"],
   "exclude": [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",

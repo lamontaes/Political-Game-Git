@@ -29,6 +29,7 @@
     "src/core2/circle-turnover-check.ts": "scripts/core2/circle-turnover-check.ts",
     "src/core2/core-pieces-fixture.ts": "tests/support/core-pieces-fixture.ts",
     "src/core2/counted-moves-balance-kit.ts": "tests/support/counted-moves-balance-kit.ts",
+    "src/core2/gov-test-clock.ts": "tests/support/gov-test-clock.ts",
     "src/core2/gov-test-report.ts": "scripts/core2/gov-test-report.ts",
     "src/core2/housing-sale-buyer-fixture.ts": "tests/support/housing-sale-buyer-fixture.ts",
     "src/core2/law-test-start.ts": "tests/support/law-test-start.ts",
@@ -96,7 +97,5 @@
     "src/core2/trait-test-kit.ts": "tests/support/trait-test-kit.ts",
     "src/core2/turnover-check.ts": "scripts/core2/turnover-check.ts"
   },
-  "deleted": [
-    "src/core2/tooling/tsconfig.json"
-  ]
+  "deleted": ["src/core2/tooling/tsconfig.json"]
 }

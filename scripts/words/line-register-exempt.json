@@ -11,10 +11,7 @@
       "file": "src/english/speech-registers.ts",
       "name": "REGISTER_CARDS",
       "reason": "Each speech register's measured checks and their sources; play reads only a card's setting and devices, which are record values, never its check labels.",
-      "reads": [
-        "setting",
-        "devices"
-      ]
+      "reads": ["setting", "devices"]
     },
     {
       "file": "src/english/speech-registers.ts",

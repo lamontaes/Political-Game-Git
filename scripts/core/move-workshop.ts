@@ -75,7 +75,11 @@ function destination(file: string): string | "delete" | null {
     return `scripts/core2/tooling/${rest}`;
   }
   if (file.startsWith(CORE) && path.posix.dirname(file) === CORE.slice(0, -1)) {
-    if (/(?:-kit|-fixture)\.ts$/.test(base) || base === "law-test-start.ts")
+    if (
+      /(?:-kit|-fixture)\.ts$/.test(base) ||
+      base === "law-test-start.ts" ||
+      base === "gov-test-clock.ts"
+    )
       return `${SUPPORT}${base}`;
     if (
       // Checks no game file imports (the CTO's addition, Nov 27): the kit
@@ -477,6 +481,31 @@ writeFileSync(
     null,
     2,
   ) + "\n",
+);
+
+// The JSON the script rewrote is left the way prettier writes it.
+execFileSync(
+  "npx",
+  [
+    "prettier",
+    "--write",
+    "--log-level",
+    "warn",
+    ...[
+      "tsconfig.app.json",
+      "docs/current.json",
+      "tests/guards/families.json",
+      "scripts/core/move-workshop-moves.json",
+      "scripts/zero-dice-allowlist.json",
+      "scripts/english-check/wording-baseline.json",
+      "scripts/words/line-register-exempt.json",
+      "tests/guards/english/line-register-baseline.json",
+      "tests/guards/english/allowlist.ts",
+      "tests/guards/one-history.test.ts",
+      "tests/guards/no-private-place-lookup.test.ts",
+    ].filter((file) => existsSync(path.join(ROOT, file))),
+  ],
+  { cwd: ROOT, stdio: "inherit" },
 );
 
 console.log(

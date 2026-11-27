@@ -14,7 +14,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { bookkeeping } from "./bookkeeping";
-import { advanceToFilingOpen } from "./gov-test-clock";
+import { advanceToFilingOpen } from "../../tests/support/gov-test-clock";
 import { govReport } from "../../scripts/core2/gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
