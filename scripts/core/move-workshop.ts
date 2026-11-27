@@ -285,6 +285,18 @@ for (const file of deletes) git("rm", "-q", file);
 
 /** Paths written in pieces (`join(root, "src", "core2", "tooling", ...)`), which no search for the whole path finds. */
 const PIECEWISE: [file: string, from: string, to: string][] = [
+  // The engine-tables guard skipped the tooling folder, which held
+  // past-sessions.ts: game code (the screens' world builder runs it at the
+  // start of every world) whose six cross-family reads and writes the guard
+  // never counted. Moving it into src would raise the baseline by six, which
+  // no pull request may do, so the guard keeps skipping that one file until
+  // item 7 gives those reads and writes owners' doors (core-plan-2026-11-27.md,
+  // section 7).
+  [
+    "scripts/guards/engine-tables.ts",
+    `        !file.startsWith("scripts/core2/tooling/"),`,
+    `        file !== "src/core2/past-sessions.ts",`,
+  ],
   // A comment that named the data file without its folder: the pointer guard
   // counts it in whichever area the file now sits, so the move would raise
   // the scripts area's count.
