@@ -127,8 +127,6 @@ Majority verdict (2 or 3 of 3 readers). A reason that cites a repeat in a place 
 - **5.43** "Story: First day for Anti-Discrimination Repeal Act in the U.S. Virgin Islands (Bulwark News Network)": news-comes-from-a-record: news from the Virgin Islands in a Utah town, and "First day" contradicts a law in effect since December
 - **5.45** "paragraph: It is about an end to the ban on discrimination in housing and work.": policy-said-by-people-not-the-catalog: "It is about an end to the ban..." is a catalog description
 
-### Arrival (not in a words batch): 0 lines fail
-
 **Not graded, and why.** The packet script's own notes are not game text: the "Kind: ..." heading of each address (1.8, 3.8, 5.8), the speaker cards with an empty "()" (1.15, 1.21, 5.16) and "nobody in the household has anything to say" (3.16). Eight more fails (1.10, 1.17, 1.22, 5.25, 5.34 to 5.37) rest only on a repeat in one of the mixed-in places, which proves nothing about the three lives, so they are not counted either. The empty "()" is worth one look from Story: if a card shows it as played, a relationship label is missing.
 
 ## Failing reply sets (the three real lives)
